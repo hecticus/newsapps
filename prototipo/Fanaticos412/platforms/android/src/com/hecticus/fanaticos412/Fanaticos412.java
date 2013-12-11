@@ -29,6 +29,10 @@ public class Fanaticos412 extends CordovaActivity
     {
         super.onCreate(savedInstanceState);
         super.init();
+        
+        // Load your application
+     	super.setIntegerProperty("splashscreen", R.drawable.splash);
+     		
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")

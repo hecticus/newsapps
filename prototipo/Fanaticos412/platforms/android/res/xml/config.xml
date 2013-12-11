@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.helloCordova" version="2.0.0" xmlns="http://www.w3.org/ns/widgets">
-    <name>Hello Cordova</name>
+<widget id="com.hecticus.Fanaticos412" version="2.0.0" xmlns="http://www.w3.org/ns/widgets">
+    <name>Fanaticos412</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Fanaticos 412 portal app
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="contact@hecticus.com" href="http://www.hecticus.com">
+        Hecticus Software Inc.
     </author>
     <content src="index.html" />
     <feature name="App">
@@ -43,5 +43,8 @@
     </feature>
     <feature name="VideoPlayer">
         <param name="android-package" value="org.apache.cordova.videoplayer.VideoPlayer" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="SplashScreen" value="org.apache.cordova.SplashScreen"/>
     </feature>
 </widget>

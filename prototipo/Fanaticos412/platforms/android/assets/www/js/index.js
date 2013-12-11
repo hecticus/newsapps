@@ -97,7 +97,7 @@ var arrCategory=[
 	{i:2,status:false,id:'athletics',title:'Atletismo',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:''},
 	{i:0,status:false,id:'golf',title:'Golf',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:''},
 	{i:1,status:false,id:'olympics',title:'Olimpiadas',bgcolor:'#EEEEEE',featured:{highdef:'',headline:''},xml:'',news:''},
-	{i:2,status:false,id:'Other',title:'Más Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:''}];
+	{i:2,status:false,id:'Other',title:'MÃ¡s Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:''}];
 
 
 var upcoming=0;
@@ -121,7 +121,9 @@ var app = {
     onDeviceReady: function() {    	    	    	   
     	document.addEventListener('backbutton', function checkConnection() {
     		$(function() {    			  
-				if ($('#video').hasClass('center')) {										
+    			if(!$('#top').hasClass('closed')){
+    				$('#top').addClass('closed');
+				}else if ($('#video').hasClass('center')) {										
 					$('#video').attr('class','page transition left');	
 					$('video').hide();
 				}else if ($('#datacontent').hasClass('left')){
@@ -129,7 +131,16 @@ var app = {
 				}else if ($('#score').hasClass('right')){
 					$('#score').attr('class','page transition left');
 				}else {
-					//myScrollPage.scrollToPage(0, 0, 0);	
+					if(myScrollPage.currPageX == 0){
+						navigator.app.exitApp();					
+					}else{
+						//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
+						myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+						$('#top').addClass('closed');
+						if (typeof myScrollDatacontentHorizontal != 'undefined') {
+							myScrollDatacontentHorizontal = null;
+						}
+					}					
 				}
 			});
     	}, false);
@@ -372,7 +383,7 @@ var app = {
 						myScrollPage.enable();				
 					}).fail(function() {
 						arrCategory[myScrollPage.currPageX] .status=false;	
-						$('.status').append('<li>No hay conexión</li>');				    
+						$('.status').append('<li>No hay conexiÃ³n</li>');				    
 					});
 			};
 
@@ -385,7 +396,7 @@ var app = {
 						type: 'get',
 						dataType: 'xml',
 						cache: false,
-						async:true,
+						async:false,
 						timeout:60000,
 						beforeSend : function (){
 							//status loading...								
@@ -440,7 +451,7 @@ var app = {
 									$.li+='</div>';					        			
 									$.li+='</div>';								
 						        		
-									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold; ">';							        				
+									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
 									$.li+= $.news.headline;
 									$.li+='</div>';	
 									$.li+='</div>';				        			
@@ -451,7 +462,7 @@ var app = {
 									category.news+=$.li;	
 								} else if (category.id=='baseball_nacional') {
 						    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold;">';							        				
+									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
 									$.li+= $.news.headline;
 									$.li+='</div>';	
 									$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
@@ -812,10 +823,8 @@ var app = {
 				
 			};
 
-
+			//WITH PHP INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
-
-				
 				myXml=$.fGetAjaX('http://02.kraken.hecticus.com/storefront/render/news.php?category='+arrCategory[myScrollPage.currPageX].id,'xml'); 
 				myXml.done(function(xml) {
 					$(xml).find('newsML>category').each(function(i){
@@ -888,7 +897,7 @@ var app = {
 								$.li+='</div>';								
 					
 					        		
-								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold; ">';							        				
+								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
 								$.li+= $.news.headline;
 								$.li+='</div>';	
 								$.li+='</div>';				        			
@@ -900,7 +909,7 @@ var app = {
 								
 					    	} else if ($.category=='#baseball_nacional') {
 					    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold;">';							        				
+								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
 								$.li+= $.news.headline;
 								$.li+='</div>';	
 								$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
@@ -952,7 +961,7 @@ var app = {
 	
 							$.li+='<div	style="position:relative; width:100%; height:auto; ">';
 							$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
-							$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
+							$.li+='<div style="width:98%; color:#000; font-size: normal; text-align:justify; margin-left:1%;">';
 							$.li+=$.news.datacontent;
 							$.li+='</div>';	
 							$.li+='</div>';	
@@ -960,16 +969,204 @@ var app = {
 							$.li+='</div>';				        																						
 							$.li+='</li>';
 														
-							$('#datacontents').append($.li);								
-
+							$('#datacontents').append($.li);
 						});
 						
 						
-					});									
+					});
 					
 				});
 
-    		};				
+    		};//*/
+			
+    		//WITH NEWSML
+			/*$.fgetNews = function(c,section,color) {
+				var start = new Date().getTime();
+				console.log("Parametros: "+c+", "+section+", "+color);
+				var u = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/All/index.xml';
+				if (c) {
+					$('#featured').empty();
+					$('#news-featured-title').empty();					
+					$('#news1').empty();
+					$('#datacontents').empty();
+					u='http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/'+c+'/index.xml';
+				}
+
+				if (!section) {
+					section='Home';
+				};
+				
+				if (!color) {
+					color='#0040FF';
+				};
+
+
+
+				$('#news1').append('<li><div id="section" style="background-color:'+color+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+section+'</div><div style="clear: both; width:100%; height:5px;"></div></li>');
+				
+				console.log("Paso0");
+				$.fGetAjaX(u).done(function(xml) {
+					var end = new Date().getTime();
+					var time = end - start;
+					console.log("Paso1 "+time);
+					$(xml).find('NewsItem>NewsComponent>NewsComponent>NewsItemRef').each(function(i){
+
+						$.fGetAjaX($.fgetUrlNews($(this).attr("NewsItem"))).done(function(xml) {
+							$.news={id:i,headline:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+							$.news.headline=$(xml).find('NewsItem>NewsComponent>NewsLines>HeadLine').text();
+							$.news.datacontent=$('<div>').append($(xml).find('NewsItem>NewsComponent>NewsComponent>ContentItem>DataContent').clone()).remove().html();
+					    	console.log("Headline "+$.news.headline);					    	
+							$(xml).find('NewsItem>NewsComponent>NewsComponent[Duid]>NewsComponent').each(function(i) {
+							
+								
+								if ($(this).find('Role').attr('FormalName') == 'Thumbnail') {										
+									//$.news.thumbnail.push($.fgetUrlNews($(this).find('ContentItem').attr('Href')));
+								}
+								
+								if ($(this).find('Role').attr('FormalName') == 'Caption') {
+									$.news.caption.push($(this).find('ContentItem>DataContent').text());
+								}
+																			
+								if ($(this).find('Role').attr('FormalName') == 'HighDef'){
+									//$.news.highdef.push($.fgetUrlNews($(this).find('ContentItem').attr('Href')));	
+								}
+								
+								if ($(this).find('Role').attr('FormalName') == 'Quicklook'){
+									//$.news.quicklook.push($.fgetUrlNews($(this).find('ContentItem').attr('Href')));	
+								}
+								
+							});
+							
+							$(xml).find('NewsItem>NewsComponent>NewsComponent>ContentItem>DataContent>p>a[class="videoSet"]').each(function(i){									
+								//$.news.video.push({src:$.fgetUrlNews($(this).find('a[title="Mpeg4-640x360"]').attr('href')),poster:$.fgetUrlNews($(this).find('a[title="jpeg"]').attr('href'))});			    				
+							});
+									
+									
+							if ($.category=='#baseball_nacional'){								
+								$.news.highdef.push('img/lvbp.jpg');
+								$.news.quicklook.push('img/lvbp.jpg');
+							}
+										
+							if ($.news.id==0) {
+								
+								$($.category+'-featured').empty;								
+								$($.category+'-featured').append('<img id="featured-image"  src="'+$.news.highdef[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
+																
+								$($.category+'-news-featured-title').attr('content','#news-'+$.news.id);
+								$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
+								$($.category+'-news-featured-title').attr('class','headline');
+	
+								$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
+									$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
+										$.li+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555;">'+$.news.headline+'</h2>';
+									$.li+='</div>';
+								$.li+='</div>';
+
+								$($.category+'-news-featured-title').empty();
+								$($.category+'-news-featured-title').append($.li);
+								
+							} else if ((i>0) && ($.category!='#baseball_nacional')) {
+							
+																		
+								$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
+								$.li+='<div style="margin:5px; float: inherit; ">';
+					
+								if ($.news.video.length==0) _watermark='transp-block-camare';
+								else _watermark='transp-block-video';
+									
+
+								$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0;">';
+								$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
+															
+								$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; "  />';												
+								$.li+='</div>';					        			
+								$.li+='</div>';								
+					
+					        		
+								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold; ">';							        				
+								$.li+= $.news.headline;
+								$.li+='</div>';	
+								$.li+='</div>';				        			
+								$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
+								
+								$.li+='</li>';
+								
+								$($.category +'-news1').append($.li);
+								
+					    	} else if ($.category=='#baseball_nacional') {
+					    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
+								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold;">';							        				
+								$.li+= $.news.headline;
+								$.li+='</div>';	
+								$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
+								$.li+='</li>';
+								$('#news1').append($.li);
+					    	}
+					
+					    	$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent" style="width:100%; height:auto; text-align:center; margin: 0 auto; display:none; background-color:#ffffff;">';				        			
+							$.li+='<div video="news-'+$.news.id+'-video" style="margin:0 auto;">';			        			
+							$.total = $.news.highdef.length+$.news.video.length;				        					
+
+								
+								$.li+='<div id="news-'+$.news.id+'-wrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
+								$.li+='<div video="news-'+$.news.id+'-video" style="display:block; float:left;  width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
+								$.lii='';
+
+									$.news.video.forEach(function(video){
+										$.lii+='<div video="news-'+$.news.id+'-video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';																        									        			
+					    				$.lii+='<video id="news-'+$.news.id+'-video" video="news-'+$.news.id+'-video" poster="'+video.poster+'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px; ">';
+										  $.lii+='<source src="'+video.src+'" type="video/mp4">';											  
+										  $.lii+='Your browser does not support the video tag.';
+										$.lii+='</video>';
+										$.lii+='<img video="news-'+$.news.id+'-video" alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" />';
+					    				$.lii+='<div video="news-'+$.news.id+'-video" style="position:absolute; bottom:0; left:0;">';					        				
+					    				$.lii+='<h2 video="news-'+$.news.id+'-video" style="color: #ffffff; text-shadow: 0px 2px 3px #555; font-size: small;">'+$.news.headline+'</h2>';		        									    							        									        									        									        									        
+					    				$.lii+='</div>';					        				
+					    				$.lii+='</div>';
+									});
+										
+									$.news.highdef.forEach(function(src){
+										
+					    				$.lii+='<div style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';
+					    				$.lii+='<img alt="highdef" src="'+src+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
+					    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
+					    				$.lii+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555; font-size: small;">'+$.news.headline+'</h2>';					    				
+					    				$.lii+='</div>';
+					    				$.lii+='</div>';
+									});
+									
+								$.li+=$.lii;			
+								$.li+='</div>';
+								$.li+='</div>';
+								
+							        	
+							if ($.total>1){
+		    					$.li+='<h3 style="color: #ffffff; text-shadow: 0px 2px 3px #555; text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
+		    				}							        	
+
+							$.li+='<div	style="position:relative; width:100%; height:auto; ">';
+							$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
+							$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
+							$.li+=$.news.datacontent;
+							$.li+='</div>';	
+							$.li+='</div>';	
+							
+							$.li+='</div>';				        																						
+							$.li+='</li>';
+							$('#datacontents').append($.li);
+							
+							var end = new Date().getTime();
+							var time = end - start;
+							console.log("TOTAL "+time);
+			
+						});
+
+					});
+
+				});
+				
+				
+    		};//*/
 
 			
 			$.fgetNews();
