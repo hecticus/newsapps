@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="css/transaction.css">
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+		<title>Fanaticos412</title>
+
+		<style type="text/css" media="all">
+		
+			
+			body {
+				font-size:16px;
+				-webkit-user-select:none;
+			    -webkit-text-size-adjust:none;
+				font-family:helvetica;
+			}
+			
+			body,ul,li {padding:0;
+				margin:0;
+				border:0;
+				list-style:none outside none;
+			}
+
+			#navegate {
+				position:relative; z-index:2;
+				top:0; left:0;
+				width:100%;
+		        height:40px;
+		        line-height:40px;
+		        text-align:left;
+		        font-size: 14px; 
+		        background-color: red;
+		        color:#ffffff;
+				font-weight: bold;
+				padding:5px;
+				background: linear-gradient(to bottom, #790000 0%, #E10000 13%, #8B0000 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+			}			
+			
+			.section {
+				position:relative; z-index:2;
+				top:0; left:0;
+				width:100%;
+		        height:20px;
+		        line-height:20px;
+		        text-align:left;
+		        font-size: medium; 
+		        background-color: red;
+		        color:#ffffff;
+				font-weight: bold;
+				padding:5px;
+				background: linear-gradient(to bottom, #790000 0%, #E10000 13%, #8B0000 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+			}	
+			
+			#content {
+				position:absolute; z-index:0;
+				bottom:0; left:0;
+				width:100%;
+				height:auto;				
+				padding:0;				
+			}			
+			
+			
+			#home, #menu, #datacontent, #video {
+				position:absolute; z-index:1;
+				top:0px; bottom:0; left:0;
+				width:100%;
+				overflow:auto;
+			}		
+			
+			.scroller {
+				position:absolute; z-index:1;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				width:100%;
+				padding:0;
+			}
+			
+			.scroller > ul {
+				list-style:none;
+				padding:0;
+				margin:0;
+				width:100%;
+				text-align:left;
+			}
+			
+			.scroller >li {
+				padding:0 10px;
+				height:0px;
+				line-height:0px;
+				font-size:14px;
+			}
+			
+			.menu {width: auto; height: 20px; line-height: 20px; font-size: medium; font-weight: bold; padding: 5px; text-align: left; background-color:#ffffff; border-bottom: 1px solid #E2E2E2; display: block; min-height: 20px;}
+						
+			
+			#wrapperh {
+				width:300px;
+				height:160px;
+				float:left;
+				position:relative;	
+				z-index:1;
+				overflow:hidden;	
+			}
+			
+			#scrollerh {
+				width:300px;
+				height:100%;
+				float:left;
+				padding:0;
+			}
+			
+			#scrollerh ul {
+				list-style:none;
+				display:block;
+				float:left;
+				width:100%;
+				height:100%;
+				padding:0;
+				margin:0;
+				text-align:left;
+			}
+			
+			#scrollerh li {
+				display:block; float:left;
+				width:300px; height:160px;
+				text-align:center;
+				font-family:georgia;
+				font-size:18px;
+				line-height:140%;
+			}			
+	
+			.pullMenu {
+				padding: 3px;
+				position: absolute;
+				top: 0px;
+				left: 10px;
+				display: none;
+				background: #00387d;
+				
+				border: 3px solid red;
+				border-top: none;
+				box-shadow: 0 2px 5px #777;
+				color: #FFF;
+				cursor: pointer;
+				border-radius: 0 0 3px 3px;
+				
+				
+			}	
+	
+			.hide {
+			    overflow: hidden;
+			    max-height: 0;
+			    padding-top: 0;
+			    padding-bottom: 0;
+			    margin-top: 0;
+			    margin-bottom: 0;
+			    -moz-transition-duration: 0.2s;
+			    -webkit-transition-duration: 0.2s;
+			    -o-transition-duration: 0.2s;
+			    transition-duration: 0.2s;
+			    -moz-transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
+			    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
+			    -o-transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
+			    transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
+			}
+			
+			.show {
+			    -moz-transition-duration: 0.5s;
+			    -webkit-transition-duration: 0.5s;
+			    -o-transition-duration: 0.5s;
+			    transition-duration: 0.5s;
+			    -moz-transition-timing-function: ease-in;
+			    -webkit-transition-timing-function: ease-in;
+			    -o-transition-timing-function: ease-in;
+			    transition-timing-function: ease-in;
+			    max-height: 1000px;
+			    overflow: hidden;
+			}			
+					
+				
+			.news1 li:nth-child(even) { float:left; }
+			.news1 li:nth-child(odd) { float:right; }
+			.iScrollHover {background:#444 !important; color:#eee !important;}
+		
+			.hidden {visibility:hidden;}	
+		
+		
+		/*video{
+			-webkit-transform: rotate(90deg);
+	    	-moz-transform: rotate(90deg);
+	    	-o-transform: rotate(90deg);
+	    	-ms-transform: rotate(90deg);
+	    	transform: rotate(90deg);		  		  
+		}*/
+		
+		.slider {
+			overflow-y: hidden;
+			max-height: 500px; /* approximate max height */
+		
+			transition-property: all;
+			transition-duration: .5s;
+			transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+		}
+		
+		.slider.closed {
+			max-height: 0;
+		}		
+		
+		
+		#wrapperpage {
+			width:100%;
+			min-width:320px;
+			height:150px;
+			background:#ddd;
+			border-top:1px solid #aaa;
+			border-bottom:1px solid #aaa;
+		}
+		
+		.transp-block-camare { background: #000 url(img/camare.png) no-repeat; } 
+		.transp-block-video { background: #000 url(img/playvideo.png) no-repeat; } 
+		img.transparent { opacity:.75; } 
+
+		.metro { opacity:0.6; }
+		.metroHover {opacity:1.0; }
+		
+
+		</style>
+	</head>
+	<body style="position: fixed; overflow: hidden;">
+
+		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 2; top:0; left:0;" >
+			<div id="top" class="slider closed" style="position: relative; width:100%; height:auto; display: block; background-color:#ffffff; " >
+				<div class="section" style="background-color: #0040FF;">Noticias</div>
+				<div id="menu" style="position:absolute; top:35px; left:0;">				
+					<div class="scroller">				
+						<ul>
+							<li category="All" title="Home" class="menu" bgcolor="#0404B4" data-position="0">Home</li>
+							<li category="football" title="Fútbol" class="menu"  bgcolor="#FF4000" data-position="1">Fútbol</li>
+							<li category="baseball_nacional" title="Beisbol Nacional" class="menu" bgcolor="#A4A4A4" data-position="2">Béisbol Nacional</li>
+							<li category="baseball" title="Beisbol Internacional" class="menu" bgcolor="#AEB404" data-position="3">Béisbol Internacional</li>							
+							<li category="basket" title="Baloncesto" class="menu" bgcolor="#FE2E64" data-position="4">Baloncesto</li>
+							<li category="tennis" title="Tenis" class="menu" bgcolor="#0B610B" data-position="5">Tenis</li>
+							<li category="f1" title="F1" class="menu" bgcolor="#CCCCCC" data-position="6">F1</li>				
+							<li category="cycling" title="Ciclismo" class="menu" bgcolor="#AAAAAA" data-position="7">Ciclismo</li>				
+							<li category="athletics" title="Atletismo" class="menu" bgcolor="#BBBBBB" data-position="8">Atletismo</li>
+							<li category="golf" title="Golf" class="menu" bgcolor="#CCCCCC" position="9">Golf</li>
+							<li category="olympics" title="Olimpiadas" class="menu" bgcolor="#EEEEEE" data-position="10">Olimpiadas</li>				
+							<li category="Other" title="Más Deportes" class="menu" bgcolor="#0B3B2E" data-position="11">Más Deportes</li>
+							<li category="score" data-title="Resultados" class="menu" bgcolor="#000000" data-position="12">LVBP Resultados</li>
+							<li category="score" data-title="Tabla de posiciones" class="menu" bgcolor="#000000" data-position="13">LVBP Tabla</li>
+						</ul>
+					</div>
+				</div>	
+			</div>			
+			<div id="menus" style="position: relative; width:100%; height:100px; display: block; " >
+				<span class="pullMenu" style="display:inline;"><img src="img/fanaticos.png" class="arrow" alt="Arrow Down" style="width: 80px; height:70px;"></span>
+			</div>			
+		</div>
+
+		 
+		<div id="spage">
+			<div id="scrollerpage" style="display:block; float:left;">				
+				<div class="pages"  style="position:relative; float:left; display:block;">					
+					<div id="All" class="page" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="All-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #0404B4;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="All-news-featured" class="news-featured">							
+										<li id="All-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="All-news1" class="news1" style="background-color:#ffffff;">										
+									</ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>																		
+				</div>
+
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#FF4000; ">					
+					<div id="football" class="page" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="football-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #FF4000;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="football-news-featured" class="news-featured">							
+										<li id="football-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="football-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>
+		
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#A4A4A4; ">					
+					<div id="baseball_nacional" class="page" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="baseball_nacional-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #A4A4A4;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="baseball_nacional-news-featured" class="news-featured">							
+										<li id="baseball_nacional-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="baseball_nacional-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>
+								
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#AEB404; ">					
+					<div id="baseball" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="baseball-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #000000;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="baseball-news-featured" class="news-featured">							
+										<li id="baseball-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="baseball-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>
+	
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#AEB404; ">					
+					<div id="basket" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="basket-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #AEB404;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="basket-news-featured" class="news-featured">							
+										<li id="basket-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="basket-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>
+			 
+				
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#0B610B; ">					
+					<div id="tennis" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="tennis-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #0B610B;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="tennis-news-featured" class="news-featured">							
+										<li id="tennis-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="tennis-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>				
+				
+				
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#CCCCCC; ">					
+					<div id="f1" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="f1-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #CCCCCC;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="f1-news-featured" class="news-featured">							
+										<li id="f1-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="f1-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>				
+							
+					
+					
+							
+							
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#AAAAAA; ">					
+					<div id="cycling" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="cycling-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #AAAAAA;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="cycling-news-featured" class="news-featured">							
+										<li id="cycling-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="cycling-news1" class="news1" style="background-color:#ffffff;">										
+									</ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>
+				
+				
+				
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#BBBBBB; ">					
+					<div id="athletics" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="athletics-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #BBBBBB;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="athletics-news-featured" class="news-featured">							
+										<li id="athletics-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="athletics-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>		
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#CCCCCC; ">					
+					<div id="golf" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="golf-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #CCCCCC;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="golf-news-featured" class="news-featured">							
+										<li id="golf-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="golf-news1" class="news1" style="background-color:#ffffff;"></ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>
+				
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#EEEEEE; ">					
+					<div id="olympics" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="olympics-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #EEEEEE;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="olympics-news-featured" class="news-featured">							
+										<li id="olympics-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="olympics-news1" class="news1" style="background-color:#ffffff;">
+									</ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>	
+
+							
+				<div class="pages" style="position:relative; float:left; display:block; background-color:#0B3B2E; ">					
+					<div id="Other" class="page hidden" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">	
+						<div id="Other-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #0B3B2E;"></div>
+						<div class="scroller">
+							<ul>
+								<li>						
+									<ul id="Other-news-featured" class="news-featured">							
+										<li id="Other-news-featured-title" class="news-featured-title"></li>
+									</ul>						
+									<ul id="Other-news1" class="news1" style="background-color:#ffffff;">										
+									</ul>
+									<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>											
+								</li>
+							</ul>
+						</div>
+					</div>									
+				</div>					
+
+			</div>
+		</div>						
+
+		<div id="score" class="page" style="z-index: 2; left:-100%; background-color: #ffffff;  ">
+			<div id="score-featured" class="featured" style="position:absolute;  z-index: 0; background-color: #0B3B2E;"></div>		
+			<div class="scroller">
+				<ul>
+					<li>
+					
+						<ul id="score-news-featured" class="news-featured">							
+							<li id="score-news-featured-title" class="news-featured-title"></li>
+						</ul>							
+						<ul id="scores">																			
+							<li><div id="score-section" class="section" style="background-color:#AEB404; width:0px; height:auto;"></div></li>
+							
+							
+							<li id="gamesl" >							
+								<div id="gamesWrapper" style="position:relative; width:auto; height:auto; text-align:left;" >
+									<div id="gamesScroller"  style="display:block; float:left; width:auto; height:auto; background-color:#ffffff; ">
+									</div>
+								</div>
+							</li>
+
+							<li id="standings"></li>
+														
+							</ul>							
+						<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	
+		
+		<div id="datacontent" class="page" style="z-index: 1; left:100%;">
+			<div class="scroller">
+				<ul>
+					<li>
+						<ul id="datacontents"></ul>						
+					</li>
+				</ul>
+			</div>
+		</div>		
+
+		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/SocialSharing.js"></script>
+        <script type="text/javascript" src="js/index_metro.js"></script>
+       	<script type="text/javascript" src="js/video.js"></script>
+       
+        <script type="text/javascript">              
+            app.initialize();
+        </script>
+
+	</body>
+	
+</html>
