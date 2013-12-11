@@ -134,12 +134,14 @@ var app = {
 					if(myScrollPage.currPageX == 0){
 						navigator.app.exitApp();					
 					}else{
-						//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
-						myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
-						$('#top').addClass('closed');
-						if (typeof myScrollDatacontentHorizontal != 'undefined') {
-							myScrollDatacontentHorizontal = null;
-						}
+						if(myScrollPage.enabled){
+							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
+							myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							$('#top').addClass('closed');
+							if (typeof myScrollDatacontentHorizontal != 'undefined') {
+								myScrollDatacontentHorizontal = null;
+							}
+						}						
 					}					
 				}
 			});
