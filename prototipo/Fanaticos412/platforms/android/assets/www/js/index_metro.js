@@ -101,7 +101,7 @@ var arrCategory=[
 	{i:2,status:false,id:'athletics',title:'Atletismo',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
 	{i:0,status:false,id:'golf',title:'Golf',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
 	{i:1,status:false,id:'olympics',title:'Olimpiadas',bgcolor:'#EEEEEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:2,status:false,id:'Other',title:'Más Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:'',view:0}];
+	{i:2,status:false,id:'Other',title:'Mï¿½s Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:'',view:0}];
 
 
 var upcoming=0;
@@ -119,9 +119,9 @@ var vHscroll=false;
 
 var arrLVBP=[{id:'calendar',data:false},{id:'standings',data:false}];
 
-
-
-
+//TODO: Move this vars to config file
+var textShadowLight = "0px 2px 3px #555;";
+var textShadowBlack = "0px 2px 3px #000;";
 
 var app = {
     initialize: function() {this.bindEvents();},
@@ -129,18 +129,32 @@ var app = {
     onDeviceReady: function() { 
   	    	    	   
     	document.addEventListener('backbutton', function checkConnection() {
-    		$(function() {
-    			    			  
-				if ($('#datacontent').hasClass('left')){
+    		$(function() {    			  
+    			if(!$('#top').hasClass('closed')){
+    				$('#top').addClass('closed');
+				}else if ($('#video').hasClass('center')) {										
+					$('#video').attr('class','page transition left');	
+					$('video').hide();
+				}else if ($('#datacontent').hasClass('left')){
 					$('#datacontent').attr('class','page transition right');						
 				}else if ($('#score').hasClass('right')){
 					$('#score').attr('class','page transition left');
 				}else if ($('#metro').hasClass('right')){
 					$('#metro').attr('class','page transition left');					
 				}else {
-					myScrollPage.scrollToPage(0, 0, 0);	
+					if(myScrollPage.currPageX == 0){
+						navigator.app.exitApp();					
+					}else{
+						if(myScrollPage.enabled){
+							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
+							myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							$('#top').addClass('closed');
+							if (typeof myScrollDatacontentHorizontal != 'undefined') {
+								myScrollDatacontentHorizontal = null;
+							}
+						}						
+					}					
 				}
-				
 			});
     	}, false);
     	
@@ -340,7 +354,8 @@ var app = {
     		}).on('touchend','.highdef, .quicklook, .thumbnail, .headline, .caption', function() {
     			if (press) {
 	    			myScrollDatacontent.scrollTo(0,0,0);
-					$('.news-datacontent').hide();									 										
+					$('.news-datacontent').hide();									 					
+					$($(this).attr('content')+'-video').show();
 					$($(this).attr('content')).show();					
 					$('#datacontent').attr('class','page transition left');
 				}   
@@ -401,7 +416,7 @@ var app = {
 						myScrollPage.enable();				
 					}).fail(function() {
 						arrCategory[myScrollPage.currPageX] .status=false;	
-						$('.status').append('<li>No hay conexión</li>');				    
+						$('.status').append('<li>No hay conexiï¿½n</li>');				    
 					});
 			};
 
@@ -414,7 +429,7 @@ var app = {
 						type: 'get',
 						dataType: 'xml',
 						cache: false,
-						async:true,
+						async:false,
 						timeout:60000,
 						beforeSend : function (){
 							//status loading...								
@@ -470,7 +485,7 @@ var app = {
 									$.li+='</div>';					        			
 									$.li+='</div>';								
 						        		
-									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold; ">';							        				
+									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
 									$.li+= $.news.headline;
 									$.li+='</div>';	
 									$.li+='</div>';				        			
@@ -481,7 +496,7 @@ var app = {
 									category.news+=$.li;	
 								} else if (category.id=='baseball_nacional') {
 						    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold;">';							        				
+									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
 									$.li+= $.news.headline;
 									$.li+='</div>';	
 									$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
@@ -500,7 +515,7 @@ var app = {
 								
 								$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
 								$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-								$.li+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555;">'+$.news.headline+'</h2>';
+								$.li+='<h2 style="color: #ffffff; text-shadow:'+textShadowLight+'">'+$.news.headline+'</h2>';
 								$.li+='</div>';
 								$.li+='</div>';
 								
@@ -525,7 +540,7 @@ var app = {
 				
 				$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
 				$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-				$.li+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555;">LVBP 2013-2014</h2>';
+				$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+'">LVBP 2013-2014</h2>';
 				$.li+='</div>';
 				$.li+='</div>';
 
@@ -842,7 +857,7 @@ var app = {
 				
 			};
 
-
+			//WITH PHP INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
 
 				var d=0;
@@ -863,8 +878,11 @@ var app = {
 						$(this).find('news').each(function(i){
 											
 							
-							$.news={id:$(this).attr('duid'),headline:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+							$.news={id:$(this).attr('duid'),headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=$(this).find('headline').text();
+
+							var myDate = $(this).find('DateAndTime').text();
+							$.news.date=new Date($.parseDate(myDate));
 							$.news.datacontent=$('<div>').append($(this).find('datacontent').clone()).remove().html();
 							
 							$(this).find('images[duid]').each(function(i) {
@@ -908,7 +926,7 @@ var app = {
 	
 								$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
 									$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-										$.li+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555;">'+$.news.headline+'</h2>';
+										$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowBlack+'">'+$.news.headline+'</h2>';
 									$.li+='</div>';
 								$.li+='</div>';
 
@@ -925,7 +943,7 @@ var app = {
 									if ($.news.video.length==0) _watermark='transp-block-camare';
 									else _watermark='transp-block-video';
 										
-		
+									//Colocar margin aqui para separar un poco las letras de la imagen
 									$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0;">';
 									$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
 																		
@@ -934,8 +952,10 @@ var app = {
 									$.li+='</div>';								
 						
 						        		
-									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold; ">';							        				
+									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
 									$.li+= $.news.headline;
+									//$.li+= '<p>'+$.news.date+'</p>';
+									$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.formatDate($.news.date)+'</div>';
 									$.li+='</div>';	
 									$.li+='</div>';				        			
 									$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
@@ -951,7 +971,7 @@ var app = {
 														
 									$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
 									$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
-									$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: 0px 2px 3px #555; font-size:small;">'+$.news.headline+'</h2>';
+									$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
 									$.lil+='</div>';
 									
 									if (((d%2)==0) || (d==9)) {
@@ -978,7 +998,7 @@ var app = {
 										$.li+='</div>';
 										
 										$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-										$.li+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555; font-size:medium;">'+$.news.headline+'</h2>';										
+										$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
 										$.li+='</div>';
 										$.li+='</div>';
 										$.li+='</li>';
@@ -996,7 +1016,7 @@ var app = {
 										$.li+='</div>';
 										
 										$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-										$.li+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555; font-size:medium;">'+$.news.headline+'</h2>';										
+										$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
 										$.li+='</div>';
 										
 										$.li+='</div>';
@@ -1013,7 +1033,7 @@ var app = {
 								
 					    	} else if ($.category=='#baseball_nacional') {
 					    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: mediun; font-style:oblique; font-weight: bold;">';							        				
+								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
 								$.li+= $.news.headline;
 								$.li+='</div>';	
 								$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
@@ -1041,7 +1061,7 @@ var app = {
 					    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';												
 					    				$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
 					    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
-					    				$.lii+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555; font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+					    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
 					    				$.lii+='</div>';
 					    				$.lii+='</div>';
 					    				
@@ -1053,7 +1073,7 @@ var app = {
 					    				$.lii+='<div style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';
 					    				$.lii+='<img alt="highdef" src="'+src+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
 					    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
-					    				$.lii+='<h2 style="color: #ffffff; text-shadow: 0px 2px 3px #555; font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+					    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
 					    				$.lii+='</div>';
 					    				$.lii+='</div>';
 									});
@@ -1064,12 +1084,13 @@ var app = {
 								
 							        	
 							if ($.total>1){
-		    					$.li+='<h3 style="color: #ffffff; text-shadow: 0px 2px 3px #555; text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
+		    					$.li+='<h3 style="color: #ffffff; text-shadow: '+textShadowLight+' text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
 		    				}							        	
 	
 							$.li+='<div	style="position:relative; width:100%; height:auto; ">';
 							$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
-							$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
+							//$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
+							$.li+='<div style="width:98%; margin-left:1%; color:#000; font-size: normal; text-align:justify; ">';
 							$.li+=$.news.datacontent;
 							$.li+='</div>';	
 							$.li+='</div>';	
@@ -1090,9 +1111,35 @@ var app = {
     						
 			$.fgetNews();
 			
+			
+			$.parseDate = function(stringDate) {
+				return ""+stringDate.substring(0,4)+" "+stringDate.substring(4,6)+" "+stringDate.substring(6,8)+
+				" "+stringDate.substring(9,11)+":"+stringDate.substring(11,13)+":"+stringDate.substring(13,15);
+			}
+			
+			$.formatDate = function(d) {
+				var dd = d.getDate();
+				if ( dd < 10 ) dd = '0' + dd;
+				//var MM = d.getMonth()+1;
+				//if ( MM < 10 ) mm = '0' + mm
+				var MM = d.getMonth();
+				
+				var hh = d.getHours();
+				var meridian = "a.m.";
+				if ( hh > 12 ){
+					hh = hh-12;
+					meridian = "p.m."
+				}
+				
+				var mm = d.getMinutes();
+				if ( mm < 10 ) mm = '0' + mm;
+				
+				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+				
+				return hh+':'+mm+' '+meridian+', '+months[MM]+', '+dd;
+			}
+
 
 		});
-		      
-
     }
 };

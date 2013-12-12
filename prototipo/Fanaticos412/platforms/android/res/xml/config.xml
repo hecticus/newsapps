@@ -7,7 +7,7 @@
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
     </author>
-    <content src="index.html" />
+    <content src="index_metro.html" />
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />
     </feature>
