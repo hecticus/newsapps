@@ -47,6 +47,50 @@ var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100)};
 var arrPage=[];
 
+//INIT FUNCTIONS
+//Funcion que permite rellenar el menu por codigo
+function setMenuCategories(){
+	$.lil='';
+	
+	for(var i=0; i<arrCategory.length; i++){
+		$.lil+='<li category="'+arrCategory[i].id+'" title="'+arrCategory[i].title+'" class="menu" bgcolor="'+arrCategory[i].bgcolor+'" data-position="'+arrCategory[i].i+'">'+arrCategory[i].title+'</li>\n';
+	}
+	for(var i=0; i<otherCategoriesArray.length; i++){
+		$.lil+='<li category="'+otherCategoriesArray[i].id+'" data-title="'+otherCategoriesArray[i].title+'" class="menu" bgcolor="'+otherCategoriesArray[i].bgcolor+'" data-position="'+otherCategoriesArray[i].i+'">'+otherCategoriesArray[i].title+'</li>\n';
+	}
+	
+	
+	$('#mainMenuList').append($.lil);
+}
+
+//function to set the correct pages with the correct IDs and colors
+function setScrollPages() {
+	$('#scrollerpage').empty();
+	for(var i=0; i<arrCategory.length; i++){
+		console.log("Paso!!! "+arrCategory[i].id);
+		//insertar cada pagina con sus datos correctos
+		$.li='<div class="pages"  style="position:relative; float:left; display:block;background-color:'+arrCategory[i].bgcolor+';">';
+			$.li+='<div id="'+arrCategory[i].id+'" class="page" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">';	
+				$.li+='<div id="'+arrCategory[i].id+'-featured" class="featured" style="position:absolute;  z-index: 0; background-color: '+arrCategory[i].bgcolor+';"></div>';
+				$.li+='<div class="scroller">';
+					$.li+='<ul>';
+						$.li+='<li>';
+							$.li+='<ul id="'+arrCategory[i].id+'-news-featured" class="news-featured">';	
+								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="news-featured-title"></li>';
+							$.li+='</ul>';
+							$.li+='<ul id="'+arrCategory[i].id+'-news1" class="news1" style="background-color:#ffffff;">';										
+							$.li+='</ul>';
+							$.li+='<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>';											
+						$.li+='</li>';
+					$.li+='</ul>';
+				$.li+='</div>';
+			$.li+='</div>';	
+		$.li+='</div>';
+
+		$('#scrollerpage').append($.li);
+	}
+}
+
 function newScroll(scroll) {
 	return new iScroll(scroll,1,{snap:false,hScroll: false, vScroll: true, hScrollbar: false,vScrollbar: false,bounce:true,lockDirection: true,
 		onBeforeScrollStart: function(e){				
@@ -93,17 +137,36 @@ var arrCategory=[
 	{i:0,status:false,id:'All',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',news:'',view:1},
 	{i:1,status:false,id:'football',title:'Futbol',bgcolor:'#FF4000',featured:{highdef:'',headline:''},xml:'',news:'',view:2},
 	{i:2,status:false,id:'baseball_nacional',title:'Beisbol Nacional',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:0,status:false,id:'baseball',title:'Beisbol Internacional',bgcolor:'#AEB404',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:1,status:false,id:'basket',title:'Baloncesto',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:2,status:false,id:'tennis',title:'Tenis',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:0,status:false,id:'f1',title:'F1',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:1,status:false,id:'cycling',title:'Ciclismo',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:2,status:false,id:'athletics',title:'Atletismo',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:0,status:false,id:'golf',title:'Golf',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:1,status:false,id:'olympics',title:'Olimpiadas',bgcolor:'#EEEEEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-	{i:2,status:false,id:'Other',title:'M�s Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:'',view:0}];
-
-
+	{i:3,status:false,id:'baseball',title:'Beisbol Internacional',bgcolor:'#AEB404',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:4,status:false,id:'basket',title:'Baloncesto',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:5,status:false,id:'tennis',title:'Tenis',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:6,status:false,id:'f1',title:'F1',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:7,status:false,id:'cycling',title:'Ciclismo',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:8,status:false,id:'athletics',title:'Atletismo',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:9,status:false,id:'golf',title:'Golf',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:10,status:false,id:'olympics',title:'Olimpiadas',bgcolor:'#EEEEEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+	{i:11,status:false,id:'Other',title:'Más Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+	];
+var otherCategoriesArray=[{i:12,status:false,id:'score',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+             	{i:13,status:false,id:'score',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+                 ];
+//*/
+/*var arrCategory=[
+ 	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',news:'',view:1},
+ 	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},xml:'',news:'',view:2},
+ 	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:7,status:false,id:'latestvideos-utf8.asp',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+ 	];
+var otherCategoriesArray=[{i:12,status:false,id:'score',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+                       	{i:13,status:false,id:'score',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+                           ];
+//*/
 var upcoming=0;
 var press=0;
 var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage;
@@ -147,7 +210,8 @@ var app = {
 					}else{
 						if(myScrollPage.enabled){
 							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
-							myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							myScrollPage.scrollToPage(0, 0, 0);
 							$('#top').addClass('closed');
 							if (typeof myScrollDatacontentHorizontal != 'undefined') {
 								myScrollDatacontentHorizontal = null;
@@ -166,6 +230,9 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
 
+    	//INIT SPECIAL DATA
+		setScrollPages();
+		setMenuCategories();
 
     	myScrollMenu = new iScroll('menu',0,{hScrollbar: false,vScrollbar: false, hScroll: false, vScroll: true,
     		onBeforeScrollStart: function(e){
@@ -212,11 +279,9 @@ var app = {
 				}
 			});
 
-		
-
 
 		$(function() {
-
+			
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
 					
@@ -384,7 +449,6 @@ var app = {
     				}
 				} 
     		});
-    		
 
 			$.fn.exists = function() {
     			return this.length>0;
@@ -415,8 +479,9 @@ var app = {
 						arrCategory[myScrollPage.currPageX] .status=true;
 						myScrollPage.enable();				
 					}).fail(function() {
+						console.log("FAIL!!!");
 						arrCategory[myScrollPage.currPageX] .status=false;	
-						$('.status').append('<li>No hay conexi�n</li>');				    
+						$('.status').append('<li>No hay conexión</li>');				    
 					});
 			};
 
@@ -534,7 +599,6 @@ var app = {
 
 			$.fgetScores = function(position,section) {
 				
-			
 				$('#score-featured').empty();
 				$('#score-featured').append('<img  src="img/lvbp.jpg" onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
 				
@@ -832,7 +896,8 @@ var app = {
 								$.visibility = 'visibility:visible';
 					     	}
 				     					     		
-				     		$('#gamesScroller').append('<div id="game-'+i+'" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#ffffff; '+$.visibility+' ">'+$.div+'</div>');
+				     		//$('#gamesScroller').append('<div id="game-'+i+'" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#ffffff; '+$.visibility+' ">'+$.div+'</div>');
+				        	$('#gamesScroller').append('<div id="game-'+i+'" style="position:relative; float:left; width:'+viewport.width+'px; height:'+(viewport.pHeight+(viewport.pHeight/2))+'px; background-color:#ffffff; '+$.visibility+' ">'+$.div+'</div>');
 				        	g--;
 				        	
 				        }
@@ -870,6 +935,8 @@ var app = {
 						$.category = '#'+$(this).attr('name');
 						window['myScroll'+$(this).attr('name')]=newScroll($(this).attr('name'));
 						arrPage.push('myScroll'+$(this).attr('name'));
+						console.log($.category);
+						console.log('myScroll'+$(this).attr('name'));
 
 						$($.category+'-news1').empty();
 						$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
@@ -1107,7 +1174,253 @@ var app = {
 					
 				});
 
-    		};
+    		};//*/
+    		
+    		
+    		//WITH JSON INSTEAD OF NEWSML
+			/*$.fgetNews = function(c,section,color) {
+				console.log("NEWS JSON!");
+				var d=0;
+				$.lil='';
+				console.log("NEWS JSON! "+'http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
+				myJson=$.fGetAjaX('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp','json');
+				console.log("Paso 1");
+				myJson.done(function(json) {
+					console.log("Paso 2");
+					console.log(json);
+					var itemArray = json["noticias"]["item"];
+					console.log("Array "+itemArray.length);
+					
+					if(itemArray.length > 0){
+						//$.category = '#'+arrCategory[myScrollPage.currPageX].id;
+						//window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
+						//arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
+						$.category = '#All';
+						window['myScroll'+'All']=newScroll('All');
+						arrPage.push('myScroll'+'All');
+						
+						$($.category+'-news1').empty();
+						$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
+						
+						for(var i=0;i<itemArray.length; i++){
+							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+							$.news.headline=itemArray[i]["title"];
+
+							$.news.date=new Date(itemArray[i]["pubdate"]);
+							var dataContent;
+							if(i%2==0){
+								dataContent = '<media media-type="image" style="leftSide"><media-reference data-location="#photo0" mime-type=""/></media>';
+							}else{
+								dataContent = '<media media-type="image" style="rightSide"><media-reference data-location="#photo0" mime-type=""/></media>';
+							}
+							$.news.datacontent=$('<div>').append(dataContent).remove().html();
+							
+							$.news.caption.push(itemArray[i]["imagecaption"]);
+							$.news.thumbnail.push(itemArray[i]["image"]);
+							$.news.highdef.push(itemArray[i]["image"]);	
+							$.news.quicklook.push(itemArray[i]["image"]);
+							
+							if(itemArray[i]["uploadedvideo"] != "0"){													
+								//$.news.video.push({src:$.fgetUrlNews($(this).find('a[title="Mpeg4-640x360"]').attr('href')),poster:$.fgetUrlNews($(this).find('a[title="jpeg"]').attr('href'))});			    				
+							}
+									
+							//TODO: Ali esto es un poco cableado, mejorar	
+							if ($.category=='#baseball_nacional'){								
+								$.news.highdef.push('img/lvbp.jpg');
+								$.news.quicklook.push('img/lvbp.jpg');
+							}
+							
+							if (i==0) {								
+									
+									$($.category+'-featured').empty;								
+									$($.category+'-featured').append('<img id="featured-image"  src="'+$.news.highdef[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
+																	
+									$($.category+'-news-featured-title').attr('content','#news-'+$.news.id);
+									$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
+									$($.category+'-news-featured-title').attr('class','headline');
+		
+									$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
+										$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
+											$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowBlack+'">'+$.news.headline+'</h2>';
+										$.li+='</div>';
+									$.li+='</div>';
+	
+									$($.category+'-news-featured-title').empty();
+									$($.category+'-news-featured-title').append($.li);
+									
+								} else if ((i>0) && ($.category!='#baseball_nacional')) {
+									
+									if (arrCategory[myScrollPage.currPageX].view==0){
+										
+										$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
+										$.li+='<div style="margin:5px; float: inherit; ">';
+							
+										if ($.news.video.length==0) _watermark='transp-block-camare';
+										else _watermark='transp-block-video';
+											
+										//Colocar margin aqui para separar un poco las letras de la imagen
+										$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0;">';
+										$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
+																			
+										$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; "  />';												
+										$.li+='</div>';					        			
+										$.li+='</div>';								
+							
+							        		
+										$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
+										$.li+= $.news.headline;
+										//$.li+= '<p>'+$.news.date+'</p>';
+										$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.formatDate($.news.date)+'</div>';
+										$.li+='</div>';	
+										$.li+='</div>';				        			
+										$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
+										
+										$.li+='</li>';
+										
+										$($.category +'-news1').append($.li);	
+										
+									} else if  (arrCategory[myScrollPage.currPageX].view==1) {
+										
+										
+										if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';	
+															
+										$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
+										$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
+										$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
+										$.lil+='</div>';
+										
+										if (((d%2)==0) || (d==9)) {
+											$.lil+='</li>';
+											$($.category +'-news1').append($.lil);	
+										}	
+	
+										
+									} else if  (arrCategory[myScrollPage.currPageX].view==2) {
+										
+										if ($.news.video.length==0) _watermark='transp-block-camare';
+										else _watermark='transp-block-video';
+										
+									
+										if ($.news.video.length>=1) {
+											
+					
+											$.li='<li class="mymetro" data-src="'+$.news.video[0].src+'" data-type="video"  style="width:100%; height:auto; background-color:#ffffff;">';
+											
+											$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
+											
+											$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%;">';										
+											$.li+='<img src="'+$.news.highdef[0]+'" class="transparent"  onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
+											$.li+='</div>';
+											
+											$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
+											$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
+											$.li+='</div>';
+											$.li+='</div>';
+											$.li+='</li>';
+											
+										} else {
+											
+											
+											
+											$.li='<li class="mymetro" data-content="#news-'+$.news.id+'" style="width:100%; height:auto; background-color:#ffffff;">';
+											
+											$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
+											
+											$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%; ">';										
+											$.li+='<img src="'+$.news.highdef[0]+'" class="transparent" onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
+											$.li+='</div>';
+											
+											$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
+											$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
+											$.li+='</div>';
+											
+											$.li+='</div>';
+											$.li+='</li>';	
+										}
+										
+										
+										
+										$($.category +'-news1').append($.li);	
+									}																		
+										
+																
+						
+									
+						    	} else if ($.category=='#baseball_nacional') {
+						    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
+									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
+									$.li+= $.news.headline;
+									$.li+='</div>';	
+									$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
+									$.li+='</li>';								
+									$($.category +'-news1').append($.li);
+						    	}
+						    	
+								d++;
+	
+								
+	
+						    	$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent" style="width:100%; height:auto; text-align:center; margin: 0 auto; display:none; background-color:#ffffff;">';				        			
+								$.li+='<div video="news-'+$.news.id+'-video" style="margin:0 auto;">';			        			
+								$.total = $.news.highdef.length+$.news.video.length;				        					
+		
+									
+									$.li+='<div id="news-'+$.news.id+'-wrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
+									$.li+='<div video="news-'+$.news.id+'-video" style="display:block; float:left;  width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
+									$.lii='';
+									
+										c=0;
+										$.news.video.forEach(function(video){
+				
+											$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';										
+						    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';												
+						    				$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
+						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
+						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+						    				$.lii+='</div>';
+						    				$.lii+='</div>';
+						    				
+										});
+										
+										c=0;
+										$.news.highdef.forEach(function(src){
+											
+						    				$.lii+='<div style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';
+						    				$.lii+='<img alt="highdef" src="'+src+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
+						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
+						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+						    				$.lii+='</div>';
+						    				$.lii+='</div>';
+										});
+										
+									$.li+=$.lii;			
+									$.li+='</div>';
+									$.li+='</div>';
+									
+								        	
+								if ($.total>1){
+			    					$.li+='<h3 style="color: #ffffff; text-shadow: '+textShadowLight+' text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
+			    				}							        	
+		
+								$.li+='<div	style="position:relative; width:100%; height:auto; ">';
+								$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
+								//$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
+								$.li+='<div style="width:98%; margin-left:1%; color:#000; font-size: normal; text-align:justify; ">';
+								$.li+=$.news.datacontent;
+								$.li+='</div>';	
+								$.li+='</div>';	
+								
+								$.li+='</div>';				        																						
+								$.li+='</li>';
+															
+								$('#datacontents').append($.li);	
+
+						}
+					}
+					
+				});
+
+    		};//*/
     						
 			$.fgetNews();
 			
