@@ -486,8 +486,8 @@ var app = {
 			};
 
 
-			$.fgetAllNews = function() {
-				
+			/*$.fgetAllNews = function() {
+				console.log("PASO POR fgetAllNews");
 				arrCategory.forEach(function(category){
 					myAjax= $.ajax({
 						url: 'http://02.kraken.hecticus.com/storefront/render/news.php?category='+category.id,
@@ -594,7 +594,7 @@ var app = {
 					}); //root
 					
 				});
-			};
+			};*/
 
 
 			$.fgetScores = function(position,section) {
@@ -1192,12 +1192,9 @@ var app = {
 					console.log("Array "+itemArray.length);
 					
 					if(itemArray.length > 0){
-						//$.category = '#'+arrCategory[myScrollPage.currPageX].id;
-						//window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
-						//arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
-						$.category = '#All';
-						window['myScroll'+'All']=newScroll('All');
-						arrPage.push('myScroll'+'All');
+						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
+						window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
+						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
 						
 						$($.category+'-news1').empty();
 						$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
@@ -1206,13 +1203,14 @@ var app = {
 							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=itemArray[i]["title"];
 
-							$.news.date=new Date(itemArray[i]["pubdate"]);
+							$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
 							var dataContent;
 							if(i%2==0){
-								dataContent = '<media media-type="image" style="leftSide"><media-reference data-location="#photo0" mime-type=""/></media>';
+								dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
 							}else{
-								dataContent = '<media media-type="image" style="rightSide"><media-reference data-location="#photo0" mime-type=""/></media>';
+								dataContent = '<media media-type="image" style="rightSide"><media-reference mime-type=""/></media>';
 							}
+							dataContent+=itemArray[i]["description"];
 							$.news.datacontent=$('<div>').append(dataContent).remove().html();
 							
 							$.news.caption.push(itemArray[i]["imagecaption"]);
@@ -1259,10 +1257,10 @@ var app = {
 										else _watermark='transp-block-video';
 											
 										//Colocar margin aqui para separar un poco las letras de la imagen
-										$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0;">';
+										$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0; max-width:20%;">';
 										$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
 																			
-										$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; "  />';												
+										$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; max-width:100%;"  />';												
 										$.li+='</div>';					        			
 										$.li+='</div>';								
 							
@@ -1270,7 +1268,7 @@ var app = {
 										$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
 										$.li+= $.news.headline;
 										//$.li+= '<p>'+$.news.date+'</p>';
-										$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.formatDate($.news.date)+'</div>';
+										$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.news.date+'</div>';
 										$.li+='</div>';	
 										$.li+='</div>';				        			
 										$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
@@ -1450,6 +1448,25 @@ var app = {
 				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 				
 				return hh+':'+mm+' '+meridian+', '+months[MM]+', '+dd;
+			}
+			
+			//MM/dd/yyyy hh:mm:ss t.t.
+			$.formatDateString = function(ds) {
+				console.log(ds);
+				var MM = parseInt(ds.substring(0,2));
+				console.log(MM);
+				
+				var dd = ds.substring(3,5);
+
+				var hh = ds.substring(11,13);
+				
+				var mm = ds.substring(14,16);
+				
+				var meridian = ds.substring(20,23);
+				
+				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+				
+				return hh+':'+mm+' '+meridian+', '+months[MM-1]+', '+dd;
 			}
 
 
