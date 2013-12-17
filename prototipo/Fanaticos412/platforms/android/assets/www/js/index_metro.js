@@ -67,7 +67,6 @@ function setMenuCategories(){
 function setScrollPages() {
 	$('#scrollerpage').empty();
 	for(var i=0; i<arrCategory.length; i++){
-		console.log("Paso!!! "+arrCategory[i].id);
 		//insertar cada pagina con sus datos correctos
 		$.li='<div class="pages"  style="position:relative; float:left; display:block;background-color:'+arrCategory[i].bgcolor+';">';
 			$.li+='<div id="'+arrCategory[i].id+'" class="page" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">';	
@@ -147,8 +146,8 @@ var arrCategory=[
 	{i:10,status:false,id:'olympics',title:'Olimpiadas',bgcolor:'#EEEEEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
 	{i:11,status:false,id:'Other',title:'Más Deportes',bgcolor:'#0B3B2E',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
 	];
-var otherCategoriesArray=[{i:12,status:false,id:'score',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-             	{i:13,status:false,id:'score',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+var otherCategoriesArray=[{i:12,status:false,id:'extra',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:3},
+             	{i:13,status:false,id:'extra',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:4}
                  ];
 //*/
 /*var arrCategory=[
@@ -163,8 +162,8 @@ var otherCategoriesArray=[{i:12,status:false,id:'score',title:'LVBP Resultados',
  	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
  	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
  	];
-var otherCategoriesArray=[{i:12,status:false,id:'score',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-                       	{i:13,status:false,id:'score',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+var otherCategoriesArray=[{i:10,status:false,id:'extra',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+                       	{i:11,status:false,id:'extra',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
                            ];
 //*/
 var upcoming=0;
@@ -179,8 +178,6 @@ var hoverClassRegExAlpha = new RegExp('(^|\\s)metroHover(\\s|$)');
 
 var vScroll=false;
 var vHscroll=false;
-
-var arrLVBP=[{id:'calendar',data:false},{id:'standings',data:false}];
 
 //TODO: Move this vars to config file
 var textShadowLight = "0px 2px 3px #555;";
@@ -200,8 +197,8 @@ var app = {
 					$('video').hide();
 				}else if ($('#datacontent').hasClass('left')){
 					$('#datacontent').attr('class','page transition right');						
-				}else if ($('#score').hasClass('right')){
-					$('#score').attr('class','page transition left');
+				}else if ($('#extra').hasClass('right')){
+					$('#extra').attr('class','page transition left');
 				}else if ($('#metro').hasClass('right')){
 					$('#metro').attr('class','page transition left');					
 				}else {
@@ -265,7 +262,7 @@ var app = {
     	
     	    	        
     	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, onBeforeScrollStart: function(){this.refresh();}});    	        	    			
-		myScrollScore=newScroll('score');
+		myScrollextra=newScroll('extra');
 		
 
 
@@ -285,8 +282,8 @@ var app = {
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
 					
-		 	$('#score').width(viewport.width);
-			$('#score').height(viewport.height);
+		 	$('#extra').width(viewport.width);
+			$('#extra').height(viewport.height);
 			
 			$('#metro').width(viewport.width);
 			$('#metro').height(viewport.height);
@@ -366,14 +363,16 @@ var app = {
 				press=false;
 			}).on('touchend','.menu', function() {
     			if (press) {
-	    			if ($(this).data('position') >= 12) {
-	    				myScrollScore.scrollTo(0,0,0);
+	    			//if ($(this).data('position') >= 12) {
+    				//Si es otro tipo de pantalla diferente a las categorias la creamos como tal
+    				if (otherCategoriesArray.length>0 && $(this).data('position') >= otherCategoriesArray[0].i) {
+	    				myScrollextra.scrollTo(0,0,0);
 	    				$('#top').addClass('closed');    				
-	    				$('#score').attr('class','page transition right');
-	    				$.fgetScores($(this).data('position'),$(this).data('title'));	
+	    				$('#extra').attr('class','page transition right');
+	    				$.fgetextras($(this).data('position'),$(this).data('title'));	
 	    			} else {
 	    			 	myScrollPage.scrollToPage($(this).data('position'), 0, 0);
-	    			 	$('#score').attr('class','page left');
+	    			 	$('#extra').attr('class','page left');
 						$('#datacontent').attr('class','page right');
 						$('#top').addClass('closed');
 						if (typeof myScrollDatacontentHorizontal != 'undefined') {
@@ -456,8 +455,12 @@ var app = {
 
 			$.fgetUrlNews = function(u) {
 				u = u.split('/');
-				u = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/'+u[1]+'/'+u[2];
-				return u;
+				//u = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/'+u[1]+'/'+u[2];
+				var url = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/';
+				for(var i=0; i<u.length; i++){
+					url+="/"+u[i];
+				}
+				return url;
 			};		
 	
 
@@ -479,7 +482,6 @@ var app = {
 						arrCategory[myScrollPage.currPageX] .status=true;
 						myScrollPage.enable();				
 					}).fail(function() {
-						console.log("FAIL!!!");
 						arrCategory[myScrollPage.currPageX] .status=false;	
 						$('.status').append('<li>No hay conexión</li>');				    
 					});
@@ -487,7 +489,6 @@ var app = {
 
 
 			/*$.fgetAllNews = function() {
-				console.log("PASO POR fgetAllNews");
 				arrCategory.forEach(function(category){
 					myAjax= $.ajax({
 						url: 'http://02.kraken.hecticus.com/storefront/render/news.php?category='+category.id,
@@ -597,10 +598,11 @@ var app = {
 			};*/
 
 
-			$.fgetScores = function(position,section) {
-				
-				$('#score-featured').empty();
-				$('#score-featured').append('<img  src="img/lvbp.jpg" onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
+			$.fgetextras = function(position,section) {
+				$('#extra-featured').empty();
+				$('#extra-featured').removeClass('hidden');	
+				//$('#extra-featured').append('<img  src="img/lvbp.jpg" onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
+				$('#extra-featured').append('<img  src="img/lvbp.jpg" onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
 				
 				$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
 				$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
@@ -608,16 +610,25 @@ var app = {
 				$.li+='</div>';
 				$.li+='</div>';
 
-				$('#score-news-featured-title').empty();
-				$('#score-news-featured-title').append($.li);
+				$('#extra-news-featured-title').empty();
+				$('#extra-news-featured-title').append($.li);
 				
 				$('#gamesScroller').empty();
 				$('#standings').empty();
 				
-				$('#score-section').empty();				
-				$('#score-section').append('&nbsp;&nbsp;'+section);
+				$('#extra-section').empty();				
+				$('#extra-section').append('&nbsp;&nbsp;'+section);
 
-				if (position==13) {
+				var currentItem;
+				for(var i=0;i<otherCategoriesArray.length;i++){
+					if(otherCategoriesArray[i].i == position){
+						currentItem = otherCategoriesArray[i];
+					}
+				}
+				
+				//VIEW de tabla de resultados de Baseball
+				//if (position==13) {
+				if (currentItem.view == 4) {
 			
 					
 					myJson=$.fGetAjaX('http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/standings.json','json');				
@@ -680,20 +691,14 @@ var app = {
 					});
 				
 				}
-					
-				
-				
-				if (position==12) {
-					
-						
-					
+
+				//VIEW de juegos de Baseball
+				//if (position==12) {
+				if (currentItem.view == 3) {
 					
 					myJson=$.fGetAjaX('http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/calendar.json','json');									
 					myJson.done(function(json) {
-									
-						
-							
-							
+	
 							
 						var arrDateGame=[];	
 						var dateGame;
@@ -722,113 +727,6 @@ var app = {
 								arrDateGame[totalgame-1].data.push(element);
 							}
 							
-							
-							
-							
-								
-								
-							
-							
-						
-						
-							/*if (formatdate==element.fecha_juego) {
-							
-								$.div = '<table style="width:100%; height:auto; background-color: #ffffff; ">';											
-								
-								$.div += '<tr>';
-			    				$.div += '<th style="width:40%; height:auto; text-align:left"></th>';
-			    				$.div += '<th style="width:5%; height:auto; text-align:center;">C</th>';
-			    				$.div += '<th style="width:5%; height:auto; text-align:center;">H</th>';
-			    				$.div += '<th style="width:5%; height:auto; text-align:center;">E</th>';
-			    				$.div += '<th style="width:45%; height:auto; text-align:center;"></th>';
-			  					$.div += '</tr>';
-	
-								$.div += '<tr>';
-								
-								$.div += '<td style="width:40%; height:auto; text-align:left"></td>';
-								$.div += '<td style="width:5%; height:auto; text-align:center;">C</td>';
-								$.div += '<td style="width:5%; height:auto; text-align:center;">H</td>';
-								$.div += '<td style="width:5%; height:auto; text-align:center;">E</td>';
-								
-								$.div += '<td rowspan="4" style="width:45%; height:auto;  text-align:center; vertical-align:middle;">';
-						
-								
-								if (element.estatus==null) {							
-									$.div += '<p style="color:#999999;">Hora de Inicio</p>';
-									$.div += '<p><b>'+element.hora_ini+'</b></p>';
-								} else {
-									$.div += '<p style="color:#999999; text-transform:capitalize;">'+element.inning_periodo.toLowerCase()+' '+element.inning+'</p>';
-									$.div += '<p><b style="color:#999999; text-transform:capitalize;">'+element.estatus.toLowerCase()+'</b></p>';
-								}
-						
-								
-								$.primera = ((element.primera==null)? '0' : element.primera);
-								$.segunda = ((element.segunda==null)? '0' : element.segunda);
-								$.tercera = ((element.tercera==null)? '0' : element.tercera);
-								$.base = $.primera+$.segunda+$.tercera;
-								
-								
-								$.div += '<img style="width:40%; height:auto; vertical-align:middle;" src="img/lvbp/base/'+ $.base  +'.jpg">';
-								$.div += '<img style="width:30%; height:auto; vertical-align:middle;" src="img/lvbp/out/' + ((element.out==null) ? 0 : element.out) + '.jpg">'
-								
-								$.div += '</td>';
-								
-								$.div += '</tr>';
-								
-								
-								
-								$.div += '<tr>';
-		
-								$.div += '<td style="text-align:left;">';
-								$.div += '<img alt="'+element.nombre_v.toLowerCase()+'" src="img/lvbp/team/'+element.nombre_v.toLowerCase()+'.jpg"  onerror="this.style.display=\'none\'" style="width:30%; height:auto; vertical-align:middle; margin-right:5px;"  />';											
-								$.div += '<span style="text-transform:capitalize;"><b>'+element.nombre_v.toLowerCase()+'</b></span>';
-	
-								$.div += '</td>';
-		
-								
-								$.div += '<td style="text-align:center;">';
-								$.div += ((element.c_v==null)? '0':element.c_v) ;
-								$.div += '</td>';
-								
-								
-								$.div += '<td style="text-align:center;">';
-								$.div += ((element.h_v==null)? '0':element.h_v); 
-								$.div += '</td>';
-								
-								$.div += '<td style="text-align:center;">';
-								$.div += ((element.e_v==null)? '0':element.e_v);
-								$.div += '</td>';
-								
-								
-								
-								$.div += '</tr>';	
-	
-								$.div += '<tr>';
-									
-								$.div += '<td style="text-align:left;">';
-								$.div += '<img alt="'+element.nombre_h.toLowerCase()+'" src="img/lvbp/team/'+element.nombre_h.toLowerCase()+'.jpg"  onerror="this.style.display=\'none\'" style="width:30%; height:auto; vertical-align:middle; margin-right:5px;"  />';											
-								$.div += '<span style="text-transform:capitalize;"><b>'+element.nombre_h.toLowerCase()+'</b></span>';
-								$.div += '</td>';
-		
-								
-								$.div += '<td style="text-align:center;">';
-								$.div += ((element.c_h==null)? '0':element.c_h); 
-								$.div += '</td>';
-															
-								$.div += '<td style="text-align:center;">';
-								$.div += ((element.h_h==null)? '0':element.h_h);
-								$.div += '</td>';
-								
-								$.div += '<td style="text-align:center;">';
-								$.div += ((element.e_h==null)? '0':element.e_h);
-								$.div += '</td>';
-								
-								$.div += '</tr>';	
-								$.div += '</table>';
-					       
-					        	$('#games').append($.div);
-				        	
-				        	}*/
 				        });
 				        
 	
@@ -935,8 +833,6 @@ var app = {
 						$.category = '#'+$(this).attr('name');
 						window['myScroll'+$(this).attr('name')]=newScroll($(this).attr('name'));
 						arrPage.push('myScroll'+$(this).attr('name'));
-						console.log($.category);
-						console.log('myScroll'+$(this).attr('name'));
 
 						$($.category+'-news1').empty();
 						$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
@@ -1179,17 +1075,11 @@ var app = {
     		
     		//WITH JSON INSTEAD OF NEWSML
 			/*$.fgetNews = function(c,section,color) {
-				console.log("NEWS JSON!");
 				var d=0;
 				$.lil='';
-				console.log("NEWS JSON! "+'http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
 				myJson=$.fGetAjaX('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp','json');
-				console.log("Paso 1");
 				myJson.done(function(json) {
-					console.log("Paso 2");
-					console.log(json);
 					var itemArray = json["noticias"]["item"];
-					console.log("Array "+itemArray.length);
 					
 					if(itemArray.length > 0){
 						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
@@ -1452,9 +1342,7 @@ var app = {
 			
 			//MM/dd/yyyy hh:mm:ss t.t.
 			$.formatDateString = function(ds) {
-				console.log(ds);
 				var MM = parseInt(ds.substring(0,2));
-				console.log(MM);
 				
 				var dd = ds.substring(3,5);
 
