@@ -158,12 +158,11 @@ var otherCategoriesArray=[{i:12,status:false,id:'extra',title:'LVBP Resultados',
  	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
  	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
  	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:7,status:false,id:'latestvideos-utf8.asp',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
+ 	{i:7,status:false,id:'latestvideos-utf8.asp',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:2},
  	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:2}
  	];
-var otherCategoriesArray=[{i:10,status:false,id:'extra',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
-                       	{i:11,status:false,id:'extra',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:0}
+var otherCategoriesArray=[
                            ];
 //*/
 var upcoming=0;
@@ -180,8 +179,8 @@ var vScroll=false;
 var vHscroll=false;
 
 //TODO: Move this vars to config file
-var textShadowLight = "0px 2px 3px #555;";
-var textShadowBlack = "0px 2px 3px #000;";
+var textShadowLight = "0px 1px 5px #555;";
+var textShadowBlack = "0px 1px 5px #000;";
 
 var app = {
     initialize: function() {this.bindEvents();},
@@ -369,7 +368,7 @@ var app = {
 	    				myScrollextra.scrollTo(0,0,0);
 	    				$('#top').addClass('closed');    				
 	    				$('#extra').attr('class','page transition right');
-	    				$.fgetextras($(this).data('position'),$(this).data('title'));	
+	    				$.fgetExtras($(this).data('position'),$(this).data('title'));	
 	    			} else {
 	    			 	myScrollPage.scrollToPage($(this).data('position'), 0, 0);
 	    			 	$('#extra').attr('class','page left');
@@ -481,9 +480,35 @@ var app = {
 						$('.status').empty();
 						arrCategory[myScrollPage.currPageX] .status=true;
 						myScrollPage.enable();				
-					}).fail(function() {
+					}).fail(function(xhr, status, error) {
 						arrCategory[myScrollPage.currPageX] .status=false;	
-						$('.status').append('<li>No hay conexión</li>');				    
+						$('.status').append('<li>No hay conexión</li>');
+						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);
+					});
+			};
+			
+			//para noticias TVN es muy importante el dataType y el contentType, sin esto no funcionan
+			$.fGetAjaXJSON = function(u) {			
+				return $.ajax({
+					url: u,
+					type: 'get',
+					dataType: "json",
+					contentType: "application/json; Charset=utf-8",
+					cache: false,
+					async:true,
+					timeout:60000,
+					beforeSend : function (){						
+						myScrollPage.disable();
+						$('.status').empty(); 
+						$('.status').append('<li>cargando...</li>');											
+					}}).always(function() {
+						$('.status').empty();
+						arrCategory[myScrollPage.currPageX] .status=true;
+						myScrollPage.enable();				
+					}).fail(function(xhr, status, error) {
+						arrCategory[myScrollPage.currPageX] .status=false;	
+						$('.status').append('<li>No hay conexión</li>');
+						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);
 					});
 			};
 
@@ -598,10 +623,9 @@ var app = {
 			};*/
 
 
-			$.fgetextras = function(position,section) {
+			$.fgetExtras = function(position,section) {
 				$('#extra-featured').empty();
 				$('#extra-featured').removeClass('hidden');	
-				//$('#extra-featured').append('<img  src="img/lvbp.jpg" onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
 				$('#extra-featured').append('<img  src="img/lvbp.jpg" onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
 				
 				$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
@@ -1077,233 +1101,240 @@ var app = {
 			/*$.fgetNews = function(c,section,color) {
 				var d=0;
 				$.lil='';
-				myJson=$.fGetAjaX('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp','json');
-				myJson.done(function(json) {
-					var itemArray = json["noticias"]["item"];
-					
-					if(itemArray.length > 0){
-						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
-						window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
-						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
-						
-						$($.category+'-news1').empty();
-						$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
-						
-						for(var i=0;i<itemArray.length; i++){
-							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
-							$.news.headline=itemArray[i]["title"];
+				myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
 
-							$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
-							var dataContent;
-							if(i%2==0){
-								dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
-							}else{
-								dataContent = '<media media-type="image" style="rightSide"><media-reference mime-type=""/></media>';
-							}
-							dataContent+=itemArray[i]["description"];
-							$.news.datacontent=$('<div>').append(dataContent).remove().html();
+				$($.category+'-news1').empty();
+				$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
+				
+				myJson.done(function(json) {
+					if(json["noticias"] != null){
+						var itemArray = json["noticias"]["item"];
+						console.log("itemArray "+itemArray.length);
+						if(itemArray.length > 0){
+							$.category = '#'+arrCategory[myScrollPage.currPageX].id;
+							window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
+							arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
 							
-							$.news.caption.push(itemArray[i]["imagecaption"]);
-							$.news.thumbnail.push(itemArray[i]["image"]);
-							$.news.highdef.push(itemArray[i]["image"]);	
-							$.news.quicklook.push(itemArray[i]["image"]);
-							
-							if(itemArray[i]["uploadedvideo"] != "0"){													
-								//$.news.video.push({src:$.fgetUrlNews($(this).find('a[title="Mpeg4-640x360"]').attr('href')),poster:$.fgetUrlNews($(this).find('a[title="jpeg"]').attr('href'))});			    				
-							}
-									
-							//TODO: Ali esto es un poco cableado, mejorar	
-							if ($.category=='#baseball_nacional'){								
-								$.news.highdef.push('img/lvbp.jpg');
-								$.news.quicklook.push('img/lvbp.jpg');
-							}
-							
-							if (i==0) {								
-									
-									$($.category+'-featured').empty;								
-									$($.category+'-featured').append('<img id="featured-image"  src="'+$.news.highdef[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
-																	
-									$($.category+'-news-featured-title').attr('content','#news-'+$.news.id);
-									$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
-									$($.category+'-news-featured-title').attr('class','headline');
-		
-									$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
-										$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-											$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowBlack+'">'+$.news.headline+'</h2>';
-										$.li+='</div>';
-									$.li+='</div>';
+							for(var i=0;i<itemArray.length; i++){
+								$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+								$.news.headline=itemArray[i]["title"];
 	
-									$($.category+'-news-featured-title').empty();
-									$($.category+'-news-featured-title').append($.li);
-									
-								} else if ((i>0) && ($.category!='#baseball_nacional')) {
-									
-									if (arrCategory[myScrollPage.currPageX].view==0){
+								$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
+								var dataContent;
+								if(i%2==0){
+									dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
+								}else{
+									dataContent = '<media media-type="image" style="rightSide"><media-reference mime-type=""/></media>';
+								}
+								dataContent+=itemArray[i]["description"];
+								$.news.datacontent=$('<div>').append(dataContent).remove().html();
+								
+								$.news.caption.push(itemArray[i]["imagecaption"]);
+								$.news.thumbnail.push(itemArray[i]["image"]);
+								$.news.highdef.push(itemArray[i]["image"]);	
+								$.news.quicklook.push(itemArray[i]["image"]);
+								
+								if(itemArray[i]["uploadedvideo"] != "0"){													
+									//$.news.video.push({src:$.fgetUrlNews($(this).find('a[title="Mpeg4-640x360"]').attr('href')),poster:$.fgetUrlNews($(this).find('a[title="jpeg"]').attr('href'))});			    				
+								}
 										
-										$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-										$.li+='<div style="margin:5px; float: inherit; ">';
-							
-										if ($.news.video.length==0) _watermark='transp-block-camare';
-										else _watermark='transp-block-video';
-											
-										//Colocar margin aqui para separar un poco las letras de la imagen
-										$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0; max-width:20%;">';
-										$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
-																			
-										$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; max-width:100%;"  />';												
-										$.li+='</div>';					        			
-										$.li+='</div>';								
-							
-							        		
-										$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
-										$.li+= $.news.headline;
-										//$.li+= '<p>'+$.news.date+'</p>';
-										$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.news.date+'</div>';
-										$.li+='</div>';	
-										$.li+='</div>';				        			
-										$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
+								//TODO: Ali esto es un poco cableado, mejorar	
+								if ($.category=='#baseball_nacional'){								
+									$.news.highdef.push('img/lvbp.jpg');
+									$.news.quicklook.push('img/lvbp.jpg');
+								}
+								
+								if (i==0) {								
 										
-										$.li+='</li>';
-										
-										$($.category +'-news1').append($.li);	
-										
-									} else if  (arrCategory[myScrollPage.currPageX].view==1) {
-										
-										
-										if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';	
-															
-										$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
-										$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
-										$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
-										$.lil+='</div>';
-										
-										if (((d%2)==0) || (d==9)) {
-											$.lil+='</li>';
-											$($.category +'-news1').append($.lil);	
-										}	
-	
-										
-									} else if  (arrCategory[myScrollPage.currPageX].view==2) {
-										
-										if ($.news.video.length==0) _watermark='transp-block-camare';
-										else _watermark='transp-block-video';
-										
-									
-										if ($.news.video.length>=1) {
-											
-					
-											$.li='<li class="mymetro" data-src="'+$.news.video[0].src+'" data-type="video"  style="width:100%; height:auto; background-color:#ffffff;">';
-											
-											$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
-											
-											$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%;">';										
-											$.li+='<img src="'+$.news.highdef[0]+'" class="transparent"  onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
-											$.li+='</div>';
-											
+										$($.category+'-featured').empty;								
+										$($.category+'-featured').append('<img id="featured-image"  src="'+$.news.highdef[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;"  />');
+																		
+										$($.category+'-news-featured-title').attr('content','#news-'+$.news.id);
+										$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
+										$($.category+'-news-featured-title').attr('class','headline');
+			
+										$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
 											$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-											$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
+												$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowBlack+'">'+$.news.headline+'</h2>';
 											$.li+='</div>';
-											$.li+='</div>';
+										$.li+='</div>';
+		
+										$($.category+'-news-featured-title').empty();
+										$($.category+'-news-featured-title').append($.li);
+										
+									} else if ((i>0) && ($.category!='#baseball_nacional')) {
+										
+										if (arrCategory[myScrollPage.currPageX].view==0){
+											
+											$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
+											$.li+='<div style="margin:5px; float: inherit; ">';
+								
+											if ($.news.video.length==0) _watermark='transp-block-camare';
+											else _watermark='transp-block-video';
+												
+											//Colocar margin aqui para separar un poco las letras de la imagen
+											$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0; max-width:20%;">';
+											$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
+																				
+											$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; max-width:100%;"  />';												
+											$.li+='</div>';					        			
+											$.li+='</div>';								
+								
+								        		
+											$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
+											$.li+= $.news.headline;
+											//$.li+= '<p>'+$.news.date+'</p>';
+											$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.news.date+'</div>';
+											$.li+='</div>';	
+											$.li+='</div>';				        			
+											$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
+											
 											$.li+='</li>';
 											
-										} else {
+											$($.category +'-news1').append($.li);	
+											
+										} else if  (arrCategory[myScrollPage.currPageX].view==1) {
 											
 											
-											
-											$.li='<li class="mymetro" data-content="#news-'+$.news.id+'" style="width:100%; height:auto; background-color:#ffffff;">';
-											
-											$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
-											
-											$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%; ">';										
-											$.li+='<img src="'+$.news.highdef[0]+'" class="transparent" onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
-											$.li+='</div>';
-											
-											$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-											$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
-											$.li+='</div>';
-											
-											$.li+='</div>';
-											$.li+='</li>';	
-										}
-										
-										
-										
-										$($.category +'-news1').append($.li);	
-									}																		
-										
+											if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';	
 																
-						
-									
-						    	} else if ($.category=='#baseball_nacional') {
-						    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-									$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
-									$.li+= $.news.headline;
-									$.li+='</div>';	
-									$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
-									$.li+='</li>';								
-									$($.category +'-news1').append($.li);
-						    	}
-						    	
-								d++;
-	
-								
-	
-						    	$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent" style="width:100%; height:auto; text-align:center; margin: 0 auto; display:none; background-color:#ffffff;">';				        			
-								$.li+='<div video="news-'+$.news.id+'-video" style="margin:0 auto;">';			        			
-								$.total = $.news.highdef.length+$.news.video.length;				        					
-		
-									
-									$.li+='<div id="news-'+$.news.id+'-wrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
-									$.li+='<div video="news-'+$.news.id+'-video" style="display:block; float:left;  width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
-									$.lii='';
-									
-										c=0;
-										$.news.video.forEach(function(video){
-				
-											$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';										
-						    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';												
-						    				$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
-						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
-						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
-						    				$.lii+='</div>';
-						    				$.lii+='</div>';
-						    				
-										});
-										
-										c=0;
-										$.news.highdef.forEach(function(src){
+											$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
+											$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
+											$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
+											$.lil+='</div>';
 											
-						    				$.lii+='<div style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';
-						    				$.lii+='<img alt="highdef" src="'+src+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
-						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
-						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
-						    				$.lii+='</div>';
-						    				$.lii+='</div>';
-										});
-										
-									$.li+=$.lii;			
-									$.li+='</div>';
-									$.li+='</div>';
-									
-								        	
-								if ($.total>1){
-			    					$.li+='<h3 style="color: #ffffff; text-shadow: '+textShadowLight+' text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
-			    				}							        	
+											if (((d%2)==0) || (d==itemArray.length-1)) {
+											//if (((d%2)==0)) {
+												$.lil+='</li>';
+												$($.category +'-news1').append($.lil);	
+											}	
 		
-								$.li+='<div	style="position:relative; width:100%; height:auto; ">';
-								$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
-								//$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
-								$.li+='<div style="width:98%; margin-left:1%; color:#000; font-size: normal; text-align:justify; ">';
-								$.li+=$.news.datacontent;
-								$.li+='</div>';	
-								$.li+='</div>';	
-								
-								$.li+='</div>';				        																						
-								$.li+='</li>';
-															
-								$('#datacontents').append($.li);	
-
+											
+										} else if  (arrCategory[myScrollPage.currPageX].view==2) {
+											
+											if ($.news.video.length==0) _watermark='transp-block-camare';
+											else _watermark='transp-block-video';
+											
+										
+											if ($.news.video.length>=1) {
+												
+						
+												$.li='<li class="mymetro" data-src="'+$.news.video[0].src+'" data-type="video"  style="width:100%; height:auto; background-color:#ffffff;">';
+												
+												$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
+												
+												$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%;">';										
+												$.li+='<img src="'+$.news.highdef[0]+'" class="transparent"  onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
+												$.li+='</div>';
+												
+												$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
+												$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
+												$.li+='</div>';
+												$.li+='</div>';
+												$.li+='</li>';
+												
+											} else {
+												
+												
+												
+												$.li='<li class="mymetro" data-content="#news-'+$.news.id+'" style="width:100%; height:auto; background-color:#ffffff;">';
+												
+												$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
+												
+												$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%; ">';										
+												$.li+='<img src="'+$.news.highdef[0]+'" class="transparent" onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
+												$.li+='</div>';
+												
+												$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
+												$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:medium;">'+$.news.headline+'</h2>';										
+												$.li+='</div>';
+												
+												$.li+='</div>';
+												$.li+='</li>';	
+											}
+											
+											
+											
+											$($.category +'-news1').append($.li);	
+										}																		
+											
+																	
+							
+										
+							    	} else if ($.category=='#baseball_nacional') {
+							    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
+										$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold;">';							        				
+										$.li+= $.news.headline;
+										$.li+='</div>';	
+										$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
+										$.li+='</li>';								
+										$($.category +'-news1').append($.li);
+							    	}
+							    	
+									d++;
+		
+									
+		
+							    	$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent" style="width:100%; height:auto; text-align:center; margin: 0 auto; display:none; background-color:#ffffff;">';				        			
+									$.li+='<div video="news-'+$.news.id+'-video" style="margin:0 auto;">';			        			
+									$.total = $.news.highdef.length+$.news.video.length;				        					
+			
+										
+										$.li+='<div id="news-'+$.news.id+'-wrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
+										$.li+='<div video="news-'+$.news.id+'-video" style="display:block; float:left;  width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
+										$.lii='';
+										
+											c=0;
+											$.news.video.forEach(function(video){
+					
+												$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';										
+							    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';												
+							    				$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
+							    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
+							    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+							    				$.lii+='</div>';
+							    				$.lii+='</div>';
+							    				
+											});
+											
+											c=0;
+											$.news.highdef.forEach(function(src){
+												
+							    				$.lii+='<div style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';
+							    				$.lii+='<img alt="highdef" src="'+src+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
+							    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
+							    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+							    				$.lii+='</div>';
+							    				$.lii+='</div>';
+											});
+											
+										$.li+=$.lii;			
+										$.li+='</div>';
+										$.li+='</div>';
+										
+									        	
+									if ($.total>1){
+				    					$.li+='<h3 style="color: #ffffff; text-shadow: '+textShadowLight+' text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
+				    				}							        	
+			
+									$.li+='<div	style="position:relative; width:100%; height:auto; ">';
+									$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
+									//$.li+='<div style="width:100%; color:#000; font-size: normal; text-align:justify; ">';
+									$.li+='<div style="width:98%; margin-left:1%; color:#000; font-size: normal; text-align:justify; ">';
+									$.li+=$.news.datacontent;
+									$.li+='</div>';	
+									$.li+='</div>';	
+									
+									$.li+='</div>';				        																						
+									$.li+='</li>';
+																
+									$('#datacontents').append($.li);	
+	
+							}
 						}
+					}else{
+						var videoArray = json["videos"]["item"];
+						console.log("Videos Size: "+videoArray.length);
 					}
 					
 				});
@@ -1340,21 +1371,21 @@ var app = {
 				return hh+':'+mm+' '+meridian+', '+months[MM]+', '+dd;
 			}
 			
-			//MM/dd/yyyy hh:mm:ss t.t.
+			//MM/dd/yyyy hh:mm:ss t.t. or M/d/yyyy h:m:s t.t.
 			$.formatDateString = function(ds) {
-				var MM = parseInt(ds.substring(0,2));
+				var dateString = ""+ds;
+				var parts = dateString.split(" ");
+				var MDY = parts[0].split("/");
+				var HMS = parts[1].split(":");
+				var meridian = parts[2];
 				
-				var dd = ds.substring(3,5);
-
-				var hh = ds.substring(11,13);
-				
-				var mm = ds.substring(14,16);
-				
-				var meridian = ds.substring(20,23);
+				var monthIndex = parseInt(MDY[0]);
 				
 				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 				
-				return hh+':'+mm+' '+meridian+', '+months[MM-1]+', '+dd;
+				var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian+', '+months[monthIndex-1]+', '+MDY[1];
+
+				return dateStringFinal;
 			}
 
 
