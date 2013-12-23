@@ -930,10 +930,11 @@ var app = {
 									else _watermark='transp-block-video';
 										
 									//Colocar margin aqui para separar un poco las letras de la imagen
-									$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="width:30%; float: inherit; z-index: 0; background:#FFF">';
-									$.li+='<div class="'+_watermark+'" style="display: inline-block; position:relative; width:100%; height:auto;">';
+									$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="width:30%; float: inherit; z-index: 0; background:#FFF;">';
+									$.li+='<div class="'+_watermark+'" style="display: inline-block; position:relative; width:100%; height:auto; vertical-align:middle;">';
 																		
-									$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; "  />';												
+									//$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; width:100%; height:auto; vertical-align:middle;"  />';
+									$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.src=\'img/noimage.png\'" class="transparent" style="float: inherit; width:100%; height:auto; vertical-align:middle;"  />';
 									$.li+='</div>';					        			
 									$.li+='</div>';								
 						
@@ -1191,21 +1192,28 @@ var app = {
 										else _watermark='transp-block-video';
 											
 										//Colocar margin aqui para separar un poco las letras de la imagen
-										$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="float: inherit; z-index: 0; max-width:20%;">';
-										$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:auto;">';
+										$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="width:30%; float: inherit; z-index: 0; background:#FFF;">';
+										$.li+='<div class="'+_watermark+'" style="display: inline-block; position:relative; width:100%; height:auto; vertical-align:middle;">';
 																			
-										$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; max-width:100%;"  />';												
+										//$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; width:100%; height:auto; vertical-align:middle;"  />';
+										$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.src=\'img/noimage.png\'" class="transparent" style="float: inherit; width:100%; height:auto; vertical-align:middle;"  />';
 										$.li+='</div>';					        			
 										$.li+='</div>';								
 							
-							        		
-										$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: medium; font-style:oblique; font-weight: bold; ">';							        				
+							        	
+										var left = 3;
+										if(d%2==0){
+											left = 0;
+										}
+										$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="margin-left:'+left+'%; display: inline-block; font-size: medium; font-style:oblique; font-weight: bold; width:66%; height:100%; background-color:#ffffff;">';							        				
 										$.li+= $.news.headline;
 										//$.li+= '<p>'+$.news.date+'</p>';
 										$.li+= '<br><div style="display: inline; font-size: small; color:#555 ">'+$.news.date+'</div>';
 										$.li+='</div>';	
 										$.li+='</div>';				        			
 										$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
+										
+										$.li+='</li>';				        			
 										
 										$.li+='</li>';
 										
