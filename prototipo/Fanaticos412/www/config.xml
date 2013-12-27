@@ -49,4 +49,9 @@
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="http://127.0.0.1*" />
     <content src="index.html" />
+    
+	<feature name="SocialSharing">
+	  <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+	</feature>     
+    
 </widget>
