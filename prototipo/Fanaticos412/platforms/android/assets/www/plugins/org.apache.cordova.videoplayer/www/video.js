@@ -1,4 +1,4 @@
-var exec = require("cordova/exec");
+cordova.define("org.apache.cordova.videoplayer.VideoPlayer", function(require, exports, module) {var exec = require("cordova/exec");
 
 var VideoPlayer = function () {};
 
@@ -12,4 +12,4 @@ VideoPlayer.prototype.play = function(url) {
 };
 
 var videoPlayer = new VideoPlayer();
-module.exports = videoPlayer;
+module.exports = videoPlayer;});

@@ -4,9 +4,8 @@ var currentVersion = "0.9";
 var FILE_KEY_ONLINE = "APPONLINE";
 
 function initialSetup() {
-	
 	//revisamos como comienza la app
-	//checkConnection();
+	checkConnection();
 	if(window.navigator.onLine){
 		onlineCallback();
 	}else{
@@ -50,8 +49,10 @@ function checkConnection() {
     states[Connection.CELL_4G]  = 'Cell 4G connection';
     states[Connection.CELL]     = 'Cell generic connection';
     states[Connection.NONE]     = 'No network connection';
+    
+    //printToLog("STATUS!!!! "+states[networkState]);
 
-    alert('Connection type: ' + states[networkState]);
+    //alert('Connection type: ' + states[networkState]);
 }
 
 //DEBUG
