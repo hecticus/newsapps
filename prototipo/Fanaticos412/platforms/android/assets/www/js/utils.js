@@ -1,4 +1,4 @@
-var FILE_KEY_VERSION = "APPVERSION";
+var FILE_KEY_VERSION = "APPDATAVERSION";
 var currentVersion = "0.9";
 
 var FILE_KEY_ONLINE = "APPONLINE";
@@ -39,7 +39,7 @@ function onlineCallback(){
 }
 function checkConnection() {
     var networkState = navigator.connection.type;
-    printToLog("networkState "+networkState);
+    //printToLog("networkState "+networkState);
     var states = {};
     states[Connection.UNKNOWN]  = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
