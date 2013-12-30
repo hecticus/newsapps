@@ -194,10 +194,10 @@ var app = {
 				}else if ($('#video').hasClass('center')) {										
 					$('#video').attr('class','page transition left');	
 					$('video').hide();
-				}else if ($('#datacontent').hasClass('left')){
-					$('#datacontent').attr('class','page transition right');						
 				}else if ($('#extra').hasClass('right')){
 					$('#extra').attr('class','page transition left');
+				}else if ($('#datacontent').hasClass('left')){
+					$('#datacontent').attr('class','page transition right');						
 				}else if ($('#metro').hasClass('right')){
 					$('#metro').attr('class','page transition left');					
 				}else {
@@ -846,7 +846,6 @@ var app = {
 
 			//WITH PHP INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
-
 				var d=0;
 				$.lil='';
 				myXml=$.fGetAjaX('http://02.kraken.hecticus.com/storefront/render/news.php?category='+arrCategory[myScrollPage.currPageX].id,'xml');
@@ -869,7 +868,8 @@ var app = {
 							$.news.headline=$(this).find('headline').text();
 
 							var myDate = $(this).find('DateAndTime').text();
-							$.news.date=new Date($.parseDate(myDate));
+							var arrayDate = $.parseDate(myDate)
+							$.news.date=new Date(arrayDate[0],arrayDate[1],arrayDate[2],arrayDate[3],arrayDate[4],arrayDate[5],0);
 							$.news.datacontent=$('<div>').append($(this).find('datacontent').clone()).remove().html();
 							
 							$(this).find('images[duid]').each(function(i) {
@@ -1369,8 +1369,18 @@ var app = {
 			
 			
 			$.parseDate = function(stringDate) {
-				return ""+stringDate.substring(0,4)+" "+stringDate.substring(4,6)+" "+stringDate.substring(6,8)+
-				" "+stringDate.substring(9,11)+":"+stringDate.substring(11,13)+":"+stringDate.substring(13,15);
+				var stringValue = ""+stringDate;
+				var array = new Array();
+				array.push(stringValue.substring(0,4));
+				array.push(stringValue.substring(4,6));
+				array.push(stringValue.substring(6,8));
+				array.push(stringValue.substring(9,11));
+				array.push(stringValue.substring(11,13));
+				array.push(stringValue.substring(13,15));
+				//stringValue = ""+stringValue.substring(0,4)+" "+stringValue.substring(4,6)+" "+stringValue.substring(6,8)+
+				//" "+stringValue.substring(9,11)+":"+stringValue.substring(11,13)+":"+stringValue.substring(13,15);
+																														  
+				return array;
 			}
 			
 			$.formatDate = function(d) {
