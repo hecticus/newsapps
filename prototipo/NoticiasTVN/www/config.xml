@@ -1,29 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.hecticus.noticiastvn" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-
-    <preference name="AllowInlineMediaPlayback" value="false" />
-    <preference name="BackupWebStorage" value="cloud" />
-    <preference name="DisallowOverscroll" value="false" />
-    <preference name="EnableViewportScale" value="false" />
-    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
-    <preference name="MediaPlaybackRequiresUserAction" value="false" />
-    <preference name="SuppressesIncrementalRendering" value="false" />
-    <preference name="TopActivityIndicator" value="gray" />
-    <preference name="GapBetweenPages" value="0" />
-    <preference name="PageLength" value="0" />
-    <preference name="PaginationBreakingMode" value="page" />
-    <preference name="PaginationMode" value="unpaginated" />
-    <feature name="LocalStorage">
-        <param name="ios-package" value="CDVLocalStorage" />
-    </feature>
-    <feature name="SocialSharing">
-        <param name="ios-package" value="SocialSharing" />
-    </feature>
-    <feature name="SplashScreen">
-        <param name="ios-package" value="SplashScreen" />
-    </feature>
     <description>
-        Noticias TVN portal app
+        Fanaticos 412 portal app
     </description>
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />
@@ -47,7 +25,9 @@
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
-    
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
     <name>NoticiasTVN</name>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
