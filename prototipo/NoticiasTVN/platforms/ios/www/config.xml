@@ -24,9 +24,6 @@
 	<feature name="VideoPlayer">
         <param name="ios-package" value="VideoPlayerCommand" />
     </feature>
-    <feature name="VideoPlayer">
-        <param name="ios-package" value="VideoPlayerCommand" />
-    </feature>
     <feature name="Console">
 		<param name="ios-package" value="CDVLogger"/>
 	</feature>

@@ -140,9 +140,9 @@ var arrCategory=[
  	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
  	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
  	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:2},
+ 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:1},
  	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:2}
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:1}
  	];
 var otherCategoriesArray=[
                            ];
@@ -208,7 +208,6 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-    	console.log("PASO2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     	//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
@@ -931,9 +930,10 @@ var app = {
 										$.news.video.forEach(function(video){
 				
 											$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';										
-						    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';												
-						    				$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
-						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
+						    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
+											//TODO: revisar esto bien, comentado porque no tiene sentido usar esto, o esto o el plugin
+						    				/*$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
+						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';*/					        				
 						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
 						    				$.lii+='</div>';
 						    				$.lii+='</div>';

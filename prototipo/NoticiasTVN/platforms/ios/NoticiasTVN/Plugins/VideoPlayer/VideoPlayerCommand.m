@@ -74,10 +74,9 @@
 }
 
 - (void)play:(CDVInvokedUrlCommand*)command {
-	NSLog(@"Paso!!!");
-    if (!NSClassFromString(@"UIActivityViewController")) {
+    /*if (!NSClassFromString(@"UIActivityViewController")) {
 		return;
-    }
+    }*/
     
     NSString *movie = [command.arguments objectAtIndex:0];
     NSString *orient = [command.arguments objectAtIndex:1];
@@ -102,12 +101,12 @@
             player = [[MovieViewController alloc] initWithContentURL:fileURL andOrientation:NO];
         }
     }
+	
     if (player) {
         CDVViewController* cont = (CDVViewController*)[ super viewController ];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MovieDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         [cont presentMoviePlayerViewControllerAnimated:player];
     }
- 
 }
 
 - (void)MovieDidFinish:(NSNotification *)notification {
