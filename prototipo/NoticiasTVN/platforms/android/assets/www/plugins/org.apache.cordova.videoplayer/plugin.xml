@@ -23,4 +23,13 @@ id="org.apache.cordova.videoplayer"
         
         <source-file src="src/android/VideoPlayer.java" target-dir="src/org/apache/cordova/videoplayer" />
      </platform>
+     <platform name="ios">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="VideoPlayer" >
+                <param name="ios-package" value="VideoPlayerCommand"/>
+            </feature>
+        </config-file>
+        
+        <source-file src="/NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.m" target-dir="src/org/apache/cordova/videoplayer" />
+     </platform>
 </plugin>

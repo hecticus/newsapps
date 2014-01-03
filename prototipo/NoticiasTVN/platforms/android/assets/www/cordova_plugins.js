@@ -27,7 +27,8 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "org.apache.cordova.videoplayer": "1.0",
-    "org.apache.cordova.network-information": "0.2.5"
+    "org.apache.cordova.network-information": "0.2.5",
+    "org.apache.cordova.console": "0.2.6"
 }
 // BOTTOM OF METADATA
 });

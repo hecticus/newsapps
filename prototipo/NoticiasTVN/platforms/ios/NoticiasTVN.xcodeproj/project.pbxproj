@@ -5,13 +5,15 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		6F187B89187707AC001876C4 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B86187707AC001876C4 /* MovieViewController.m */; };
+		6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B88187707AC001876C4 /* VideoPlayerCommand.m */; };
+		6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B8C187707C3001876C4 /* CDVLogger.m */; };
 		6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF41875C4B90090B0E8 /* AppDelegate.m */; };
 		6F6DDCF91875C4B90090B0E8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF61875C4B90090B0E8 /* MainViewController.m */; };
 		6F6DDCFA1875C4B90090B0E8 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF71875C4B90090B0E8 /* MainViewController.xib */; };
@@ -47,10 +49,7 @@
 		6F6DDD451875C4F80090B0E8 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2C1875C4F80090B0E8 /* Default~iphone.png */; };
 		6F6DDD471875C5050090B0E8 /* NoticiasTVN-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */; };
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
-		6F6DDD4F1875F4C70090B0E8 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDD4C1875F4C70090B0E8 /* MovieViewController.m */; };
-		6F6DDD501875F4C70090B0E8 /* VideoPlayerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDD4E1875F4C70090B0E8 /* VideoPlayerCommand.m */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
-		6F6DDD55187613D00090B0E8 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDD54187613D00090B0E8 /* CDVLogger.m */; };
 		99BF9F9EB93A46579B404EBF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -79,6 +78,12 @@
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		5AEE5B34173C68D80009041E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		6F187B85187707AC001876C4 /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieViewController.h; path = NoticiasTVN/Plugins/VideoPlayer/MovieViewController.h; sourceTree = SOURCE_ROOT; };
+		6F187B86187707AC001876C4 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieViewController.m; path = NoticiasTVN/Plugins/VideoPlayer/MovieViewController.m; sourceTree = SOURCE_ROOT; };
+		6F187B87187707AC001876C4 /* VideoPlayerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoPlayerCommand.h; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.h; sourceTree = SOURCE_ROOT; };
+		6F187B88187707AC001876C4 /* VideoPlayerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoPlayerCommand.m; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.m; sourceTree = SOURCE_ROOT; };
+		6F187B8B187707C3001876C4 /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = NoticiasTVN/Plugins/org.apache.cordova.console/CDVLogger.h; sourceTree = SOURCE_ROOT; };
+		6F187B8C187707C3001876C4 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = NoticiasTVN/Plugins/org.apache.cordova.console/CDVLogger.m; sourceTree = SOURCE_ROOT; };
 		6F6DDCF31875C4B90090B0E8 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NoticiasTVN/Classes/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		6F6DDCF41875C4B90090B0E8 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NoticiasTVN/Classes/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		6F6DDCF51875C4B90090B0E8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = NoticiasTVN/Classes/MainViewController.h; sourceTree = SOURCE_ROOT; };
@@ -120,13 +125,7 @@
 		6F6DDD2C1875C4F80090B0E8 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "NoticiasTVN-Info.plist"; path = "NoticiasTVN/NoticiasTVN-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6F6DDD481875C51A0090B0E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = NoticiasTVN/config.xml; sourceTree = "<group>"; };
-		6F6DDD4B1875F4C70090B0E8 /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieViewController.h; path = ../../NoticiasTVN/Plugins/VideoPlayer/MovieViewController.h; sourceTree = "<group>"; };
-		6F6DDD4C1875F4C70090B0E8 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieViewController.m; path = ../../NoticiasTVN/Plugins/VideoPlayer/MovieViewController.m; sourceTree = "<group>"; };
-		6F6DDD4D1875F4C70090B0E8 /* VideoPlayerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoPlayerCommand.h; path = ../../NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.h; sourceTree = "<group>"; };
-		6F6DDD4E1875F4C70090B0E8 /* VideoPlayerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoPlayerCommand.m; path = ../../NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.m; sourceTree = "<group>"; };
 		6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		6F6DDD53187613D00090B0E8 /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = NoticiasTVN/Plugins/Debug/CDVLogger.h; sourceTree = SOURCE_ROOT; };
-		6F6DDD54187613D00090B0E8 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = NoticiasTVN/Plugins/Debug/CDVLogger.m; sourceTree = SOURCE_ROOT; };
 		FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -234,12 +233,12 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				6F6DDD53187613D00090B0E8 /* CDVLogger.h */,
-				6F6DDD54187613D00090B0E8 /* CDVLogger.m */,
-				6F6DDD4B1875F4C70090B0E8 /* MovieViewController.h */,
-				6F6DDD4C1875F4C70090B0E8 /* MovieViewController.m */,
-				6F6DDD4D1875F4C70090B0E8 /* VideoPlayerCommand.h */,
-				6F6DDD4E1875F4C70090B0E8 /* VideoPlayerCommand.m */,
+				6F187B8B187707C3001876C4 /* CDVLogger.h */,
+				6F187B8C187707C3001876C4 /* CDVLogger.m */,
+				6F187B85187707AC001876C4 /* MovieViewController.h */,
+				6F187B86187707AC001876C4 /* MovieViewController.m */,
+				6F187B87187707AC001876C4 /* VideoPlayerCommand.h */,
+				6F187B88187707AC001876C4 /* VideoPlayerCommand.m */,
 				6F6DDCFB1875C4D30090B0E8 /* org.apache.cordova.network-information */,
 				6F6DDD001875C4D30090B0E8 /* README */,
 				6F6DDD011875C4D30090B0E8 /* SocialSharing.h */,
@@ -464,12 +463,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F187B89187707AC001876C4 /* MovieViewController.m in Sources */,
 				6F6DDD041875C4D30090B0E8 /* CDVReachability.m in Sources */,
+				6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */,
 				6F6DDCF91875C4B90090B0E8 /* MainViewController.m in Sources */,
-				6F6DDD501875F4C70090B0E8 /* VideoPlayerCommand.m in Sources */,
 				6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */,
-				6F6DDD55187613D00090B0E8 /* CDVLogger.m in Sources */,
-				6F6DDD4F1875F4C70090B0E8 /* MovieViewController.m in Sources */,
+				6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */,
 				6F6DDD031875C4D30090B0E8 /* CDVConnection.m in Sources */,
 				6F6DDD091875C4E40090B0E8 /* main.m in Sources */,
 				6F6DDD061875C4D30090B0E8 /* SocialSharing.m in Sources */,

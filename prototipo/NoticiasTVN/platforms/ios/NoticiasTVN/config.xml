@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.hecticus.noticiastvn" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Hello Cordova</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="DisallowOverscroll" value="false" />
@@ -18,18 +22,9 @@
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
     </feature>
-    <feature name="SplashScreen">
-        <param name="ios-package" value="SplashScreen" />
-    </feature>
-	<feature name="VideoPlayer">
-        <param name="ios-package" value="VideoPlayerCommand" />
-    </feature>
-    <feature name="VideoPlayer">
-        <param name="ios-package" value="VideoPlayerCommand" />
-    </feature>
     <feature name="Console">
-		<param name="ios-package" value="CDVLogger"/>
-	</feature>
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
     <description>
         Noticias TVN portal app
     </description>
@@ -47,15 +42,17 @@
     <access origin="http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/*" />
     <access origin="http://02.kraken.hecticus.com/*" />
     <feature name="VideoPlayer">
+        <param name="ios-package" value="VideoPlayerCommand" />
         <param name="android-package" value="org.apache.cordova.videoplayer.VideoPlayer" />
     </feature>
     <feature name="SplashScreen">
+        <param name="ios-package" value="SplashScreen" />
         <param name="android-package" value="org.apache.cordova.SplashScreen" />
     </feature>
     <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
-    
     <name>NoticiasTVN</name>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.

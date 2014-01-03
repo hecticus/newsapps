@@ -208,7 +208,7 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-    	console.log("PASO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    	console.log("PASO2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     	//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();

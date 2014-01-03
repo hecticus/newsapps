@@ -21,6 +21,9 @@
     <feature name="SplashScreen">
         <param name="ios-package" value="SplashScreen" />
     </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
     <description>
         Noticias TVN portal app
     </description>
@@ -38,6 +41,7 @@
     <access origin="http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/*" />
     <access origin="http://02.kraken.hecticus.com/*" />
     <feature name="VideoPlayer">
+        <param name="ios-package" value="VideoPlayerCommand" />
         <param name="android-package" value="org.apache.cordova.videoplayer.VideoPlayer" />
     </feature>
     <feature name="SplashScreen">
@@ -46,7 +50,6 @@
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
-    
     <name>NoticiasTVN</name>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
