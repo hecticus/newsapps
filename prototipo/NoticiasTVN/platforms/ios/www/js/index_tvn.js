@@ -411,7 +411,7 @@ var app = {
     		}).on('touchend','div[data-type="video"]', function() {
     			if (press) {
 	    			//window.videoPlayer.play($(this).data('src'));
-					window.videoPlayer.play($(this).data('src'), portrait);
+					window.videoPlayer.play($(this).data('src'), "portrait");
 				}   
     		});
 
@@ -422,7 +422,7 @@ var app = {
     			if (press) {    				
     				if ($(this).data('type')=='video') {
     					//window.videoPlayer.play($(this).data('src'));
-						window.videoPlayer.play($(this).data('src'), portrait);
+						window.videoPlayer.play($(this).data('src'), "portrait");
     				} else {
     					myScrollDatacontent.scrollTo(0,0,0);
 						$('.news-datacontent').hide();

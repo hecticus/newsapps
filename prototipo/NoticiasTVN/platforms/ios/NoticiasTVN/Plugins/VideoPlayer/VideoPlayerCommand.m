@@ -110,5 +110,13 @@
  
 }
 
+- (void)MovieDidFinish:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification
+                                                  object:nil];
+    [self writeJavascript:@"videoplayerCallBack('finish');"];
+	
+}
+
 
 @end
