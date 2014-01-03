@@ -837,19 +837,36 @@ var app = {
 										
 									} else if  (arrCategory[myScrollPage.currPageX].view==1) {
 										
-										
-										if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';	
-															
-										$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
-										$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
-										$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
-										$.lil+='</div>';
-										
-										if (((d%2)==0) || (d==itemArray.length-1)) {
-										//if (((d%2)==0)) {
-											$.lil+='</li>';
-											$($.category +'-news1').append($.lil);	
-										}	
+										if ($.news.video.length==0) _watermark='transp-block-camare';
+										else _watermark='transp-block-video';
+							
+										if ($.news.video.length>=1) {
+											if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';
+											
+											$.lil+='<div class="mymetro" data-src="'+$.news.video[0].src+'" data-content="#news-'+$.news.id+'" data-type="video" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';
+											$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';
+											$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
+											$.lil+='</div>';
+											
+											if (((d%2)==0) || (d==itemArray.length-1)) {
+												//if (((d%2)==0)) {
+												$.lil+='</li>';
+												$($.category +'-news1').append($.lil);
+											}
+										}else{
+											if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';
+																
+											$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
+											$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
+											$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:small;">'+$.news.headline+'</h2>';
+											$.lil+='</div>';
+											
+											if (((d%2)==0) || (d==itemArray.length-1)) {
+												//if (((d%2)==0)) {
+												$.lil+='</li>';
+												$($.category +'-news1').append($.lil);	
+											}
+										}
 	
 										
 									} else if  (arrCategory[myScrollPage.currPageX].view==2) {
