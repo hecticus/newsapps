@@ -51,6 +51,8 @@
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
 		99BF9F9EB93A46579B404EBF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		050CF0D6A73B43FFAB8856A6 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF7AF1EFE204DA89B18C5B7 /* AppDelegate+notification.m */; };
+		DC8FC79C9A05451EA245E9DD /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = D30EBD96D16D4BEBA9C9F0CF /* PushPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,10 @@
 		6F6DDD481875C51A0090B0E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = NoticiasTVN/config.xml; sourceTree = "<group>"; };
 		6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7BF7AF1EFE204DA89B18C5B7 /* AppDelegate+notification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		D30EBD96D16D4BEBA9C9F0CF /* PushPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "PushPlugin.m"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		0B89F1C7591D4D05A9FF7901 /* AppDelegate+notification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		3E960E2CFDE442A193514A67 /* PushPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PushPlugin.h"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +249,10 @@
 				6F6DDD001875C4D30090B0E8 /* README */,
 				6F6DDD011875C4D30090B0E8 /* SocialSharing.h */,
 				6F6DDD021875C4D30090B0E8 /* SocialSharing.m */,
+				7BF7AF1EFE204DA89B18C5B7 /* AppDelegate+notification.m */,
+				D30EBD96D16D4BEBA9C9F0CF /* PushPlugin.m */,
+				0B89F1C7591D4D05A9FF7901 /* AppDelegate+notification.h */,
+				3E960E2CFDE442A193514A67 /* PushPlugin.h */,
 			);
 			name = Plugins;
 			path = Fanaticos412/Plugins;
@@ -472,6 +482,8 @@
 				6F6DDD031875C4D30090B0E8 /* CDVConnection.m in Sources */,
 				6F6DDD091875C4E40090B0E8 /* main.m in Sources */,
 				6F6DDD061875C4D30090B0E8 /* SocialSharing.m in Sources */,
+				050CF0D6A73B43FFAB8856A6 /* AppDelegate+notification.m in Sources */,
+				DC8FC79C9A05451EA245E9DD /* PushPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
