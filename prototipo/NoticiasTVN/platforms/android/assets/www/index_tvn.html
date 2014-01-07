@@ -5,42 +5,85 @@
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		
+		
 		<link rel="stylesheet" type="text/css" href="css/transaction.css">
 		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
 		<title>Noticias TVN</title>
 
 		<style type="text/css" media="all">
-		
-			
+
 			body {
-				font-size:16px;
+				font-size: 62.5%;			
 				-webkit-user-select:none;
 			    -webkit-text-size-adjust:none;
 				font-family:helvetica;
 				min-height :100%;
+				position: fixed; 
+				height:100%; 
+				overflow: hidden; 
+				margin:0; 
+				padding:0; 
+				background-color:#FFFFFF
+			} 			
+
+			h1 {font-size: 2em;   /* 2em = 2 x 10px = 20px */}
+			h2 {font-size: 1.6em;   /* 1.6em x 10px = 16px */}
+			p {font-size: 1.4em; /* 1.4em x 10px = 14px */}
+	
+			
+			@media only screen and (min-width: 320px) and (max-height: 480px) and (orientation: portrait) {
+				body {width: 320px;}
+			}
+
+			@media only screen and (min-width: 480px) and (max-height: 800px) and (orientation: portrait) {
+				body {width: 480px;}
+			}
+	
+			@media only screen and (min-width: 480px) and (max-height: 854px) and (orientation: portrait) {
+				body {width: 480px;}
+			}
+						
+			@media only screen and (min-width: 540px) and (max-height: 960px) and (orientation: portrait) {
+				body {width: 540px;} 
 			}
 			
+			@media only screen and (min-width: 640px) and (max-height: 960px) and (orientation: portrait) {
+				body {width: 640px;}
+			}
+			
+			@media only screen and (min-width: 640px) and (max-height: 1136px) and (orientation: portrait) {
+				body {width: 640px;} 
+			}		
+			
+			@media only screen and (min-width: 720px) and (max-height: 720px) and (orientation: portrait) {
+				body {width: 720px;}
+			}
+				
+			@media only screen and (min-width: 720px) and (max-height: 1280px) and (orientation: portrait) {
+				body {width: 720px;}
+			}
+			
+			@media only screen and (min-width: 768px) and (max-height: 1280px) and (orientation: portrait) {
+				body {width: 768px;} 
+			}
+			
+			@media only screen and (min-width: 800px) and (max-height: 1280px)  and (orientation: portrait) {
+				body {width: 800px;}
+			}
+			
+			@media only screen and (min-width: 1080px) and (max-height: 1920px) and (orientation: portrait) {
+				body {width: 1080px;} 
+			}
+
+
 			body,ul,li {padding:0;
 				margin:0;
 				border:0;
 				list-style:none outside none;
 			}
 
-			#navegate {
-				position:relative; z-index:2;
-				top:0; left:0;
-				width:100%;
-		        height:40px;
-		        line-height:40px;
-		        text-align:left;
-		        font-size: 14px; 
-		        background-color: red;
-		        color:#ffffff;
-				font-weight: bold;
-				padding:5px;
-				background: linear-gradient(to bottom, #790000 0%, #E10000 13%, #8B0000 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
-			}			
-			
+						
 			.section {
 				position:relative; z-index:5;
 				top:0; left:0;
@@ -48,7 +91,7 @@
 		        height:20px;
 		        line-height:20px;
 		        text-align:left;
-		        font-size: medium; 
+		        font-size: 1.4em; 
 		        background-color: red;
 		        color:#ffffff;
 				font-weight: bold;
@@ -93,10 +136,10 @@
 				padding:0 10px;
 				height:0px;
 				line-height:0px;
-				font-size:14px;
+				font-size: 1.4em; 
 			}
 			
-			.menu {width: auto; height: 20px; line-height: 20px; font-size: medium; font-weight: bold; padding: 5px; text-align: left; background-color:#ffffff; border-bottom: 1px solid #E2E2E2; display: block; min-height: 20px;}
+			.menu {width: auto; height: 20px; line-height: 20px; font-size: 1.2em; font-weight: bold; padding: 5px; text-align: left; background-color:#ffffff; border-bottom: 1px solid #E2E2E2; display: block; min-height: 20px;}
 						
 			
 			#wrapperh {
@@ -131,7 +174,7 @@
 				width:300px; height:160px;
 				text-align:center;
 				font-family:georgia;
-				font-size:18px;
+				font-size:1.8em;
 				line-height:140%;
 			}			
 	
@@ -241,10 +284,32 @@
 		.metro { opacity:0.6; }
 		.metroHover {opacity:1.0; }
 		
+		.center{
+		    margin: auto;
+		    position: absolute;
+		    top: 0px;
+		    bottom: 0px;
+		    left: 0px; /*Sin esta línea (pero con todas las demás),
+		                   el elemento se pegará al lado izquierdo*/
+		    right: 0px; /*Sin esta línea (pero con todas las demás),
+		                    el elemento se pegará al lado derecho*/
+		}
+				
 
 		</style>
+		
+		
 	</head>
-	<body style="position: fixed; height:100%; overflow: hidden; margin:0; padding:0; background-color:#FFF">
+	<body >
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<!-- Div extra para evitar una linea de mas en la parte superior -->
 		<!--div style="position: relative; width:100%; height:1px; z-index: 3; top:0; left:0; background-color: #000;border-style:solid; border-color:#000000;border-width:1px;margin:0;padding:0" ></div-->
 		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 4; top:0; left:0; margin:0; padding:0;" >
@@ -259,47 +324,16 @@
 				</div>	
 			</div>			
 			<div id="menus" style="position: relative; width:100%; height:100px; display: block; " >
-				<span class="pullMenu" style="display:inline;"><img src="img/fanaticos.png" class="arrow" alt="Arrow Down" style="width: 80px; height:70px;"></span>
+				<span class="pullMenu" style="display:inline;"><img src="img/tvnlarge.png" class="arrow" alt="Arrow Down" style="width: 80px; height:70px;"></span>
 			</div>			
 		</div>
-
-		 
+ 
 		<div id="spage">
 			<div id="scrollerpage" style="display:block; float:left;">				
 				<!-- Its filled in the javascript -->
 			</div>
 		</div>						
 
-		<div id="extra" class="page" style="z-index: 2; left:-100%; background-color: #ffffff;  ">
-			<div id="extra-featured" class="featured hidden" style="position:absolute;  z-index: 0; background-color: #0B3B2E;"></div>		
-			<div class="scroller">
-				<ul>
-					<li>
-					
-						<ul id="extra-news-featured" class="news-featured">							
-							<li id="extra-news-featured-title" class="news-featured-title"></li>
-						</ul>							
-						<ul id="extras">																			
-							<li><div id="extra-section" class="section" style="background-color:#AEB404; width:0px; height:auto;"></div></li>
-							
-							
-							<li id="gamesl" >							
-								<div id="gamesWrapper" style="position:relative; width:auto; height:auto; text-align:left;" >
-									<div id="gamesScroller"  style="display:block; float:left; width:auto; height:auto; background-color:#ffffff; ">
-									</div>
-								</div>
-							</li>
-
-							<li id="standings"></li>
-														
-							</ul>							
-						<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		
 		<div id="datacontent" class="page" style="z-index: 1; left:100%;">
 			<div class="scroller">
 				<ul>
@@ -316,7 +350,7 @@
         <script type="text/javascript" src="js/SocialSharing.js"></script>
         <script type="text/javascript" src="js/index_tvn.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>
-		<script type="text/javascript" src="js/debug/console-via-logger.js"></script>
+		<!--script type="text/javascript" src="js/debug/console-via-logger.js"></script-->
        	<!--script type="text/javascript" src="js/video.js"></script-->
        
         <script type="text/javascript">              
