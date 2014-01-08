@@ -7,7 +7,8 @@ var VideoPlayer = function () {};
  *
  * @param url           The url to play
  */
-VideoPlayer.prototype.play = function(url) {
+VideoPlayer.prototype.play = function(url,orientation) {
+			   console.log("URL TEST: "+url+", Ori: "+orientation);
     exec(null, null, "VideoPlayer", "playVideo", [url]);
 };
 

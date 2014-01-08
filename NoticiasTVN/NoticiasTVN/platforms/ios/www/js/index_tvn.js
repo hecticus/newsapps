@@ -27,8 +27,6 @@ function supports_h264_baseline_video() {
   return v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
 }*/
 
-
-
 var currentTime = new Date();
 var day = currentTime.getDate();
 var month = (currentTime.getMonth()+1);
@@ -203,7 +201,9 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-    	console.log("PASO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    	//inti push data
+		initPush();
+		
     	//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
@@ -700,11 +700,11 @@ var app = {
 										$.news.video.forEach(function(video){
 				
 											$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';										
-						    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
+						    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
 											//TODO: revisar esto bien, comentado porque no tiene sentido usar esto, o esto o el plugin
 						    				/*$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
 						    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';*/					        				
-						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: small;">'+$.news.caption[c++]+'</h2>';					    				
+						    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1.2em;">'+$.news.caption[c++]+'</h2>';					    				
 						    				$.lii+='</div>';
 						    				$.lii+='</div>';
 						    				
