@@ -1,4 +1,4 @@
-var PushNotification = function() {
+cordova.define("com.phonegap.plugins.PushPlugin.PushNotification", function(require, exports, module) {var PushNotification = function() {
 };
 
 
@@ -65,4 +65,4 @@ if (!window.plugins.pushNotification) {
 
 if (module.exports) {
   module.exports = PushNotification;
-}
+}});
