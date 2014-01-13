@@ -1,14 +1,15 @@
-//vars id:$(this).attr('duid'),headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''
-var createNewsQuery = 'CREATE TABLE IF NOT EXISTS NEWS (news_id INTEGER PRIMARY KEY AUTOINCREMENT ,'+
+//La data se almacena en jsons para los campos news_images (json con los siguientes tags por ahora: thumbnail,highdef,quicklook), news_videos (array con videos donde cada uno es un json de la forma: {src:x, poster:y})
+//datacontent es codigo html quizas
+var createNewsQuery = 'CREATE TABLE IF NOT EXISTS NEWS (news_id INTEGER AUTOINCREMENT ,'+
+'news_tvn_id TEXT DEFAULT NULL,'+
+'news_category TEXT DEFAULT NULL,'+
 'news_headline TEXT NOT NULL,'+
-'news_date VARCHAR(30) DEFAULT NULL,'+
-'news_thumbnail_en TEXT DEFAULT NULL,'+
-'news_texts_pt TEXT DEFAULT NULL,'+
-'news_highdef TEXT DEFAULT NULL,'+
-'news_quicklook TEXT DEFAULT NULL,'+
-'news_caption TEXT DEFAULT NULL,'+
-'news_video TEXT DEFAULT NULL,'+
-'news_datacontent TEXT DEFAULT NULL)';
+'news_date TEXT DEFAULT NULL,'+
+'news_images TEXT DEFAULT NULL,'+
+'news_videos TEXT DEFAULT NULL,'+
+'news_datacontent TEXT DEFAULT NULL,'+
+'news_creationtime INTEGER DEFAULT NULL,'+
+'PRIMARY KEY (news_id,news_tvn_id,news_category))';
 
 
 //declaring the constructor
@@ -25,37 +26,8 @@ NewsManager.prototype = {
     	storageManager.queryToDB(this.getAllNewsFromDB,errorCallback, callback, null);
     },
 
-	saveNewsFromWS:function(callback, errorCallback){
-		var instance = this;
-		
-		var lastUpdate = getNewsLastUpdate();
-		var urlComplete = 'http://kraken.hecticus.com/storefront/wsext/mobile_push/visitpanama/getVisitPanamaNews.php?lastupdate='+lastUpdate;
-		printToLog("LASTUPDATE: "+lastUpdate);
-		
-		//var urlComplete = 'http://wedge/kraken/storefront/wsext/mobile_push/visitpanama/getVisitPanamaNews.php?lastupdate='+lastUpdate;
-		
-		$.ajax({
-			url : urlComplete,
-			timeout : 160000,
-			success : function(data, status) {
-				var code = data.error;
-				var results = data.response;
-				//printToLog("NEW: 0-"+code+" results: "+JSON.stringify(results));
-				if(code == 0){
-					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
-					if(results!= null && results.length>0){
-						storageManager.saveToDB(instance.saveAllNewsToDB, errorCallback, callback, null, results);
-					}
-				}else{
-					//ocurrio un error
-					errorCallback();
-				}
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				//printToLog("Error descargando News: xhr:"+JSON.stringify(xhr)+" -AO:"+ajaxOptions+" -TE:"+thrownError);
-				errorCallback();
-			}
-		});
+	saveNewsFromWS:function(results, callback, errorCallback){
+		storageManager.saveToDB(instance.saveAllNewsToDB, errorCallback, callback, null, results);
 	},
 
 	getAllNewsFromDB:function(tx, instanceCaller, errorCallback, callback){
@@ -66,24 +38,6 @@ NewsManager.prototype = {
 	    printToLog("getAllNewsFromDB: "+instanceCaller);
 		tx.executeSql('SELECT * FROM NEWS', [], 
 			function(tx, results){
-				results.news_titles = decodeURIComponent(results.news_titles);
-					  results.news_texts_es = decodeURIComponent(results.news_texts_es);
-					  results.news_texts_en = decodeURIComponent(results.news_texts_en);
-					  results.news_texts_pt = decodeURIComponent(results.news_texts_pt);
-				
-					  try{
-						if(results.news_image_url!=null && results.news_image_url!=""){
-							results.news_image_url = JSON.parse(results.news_image_url);
-						}
-					  }catch(e){
-						results.news_image_url = new Array();
-					  }
-					  //results.news_image_url = decodeURIComponent(results.news_image_url);
-				results.news_videos = decodeURIComponent(results.news_videos);
-				results.news_page = decodeURIComponent(results.news_page);
-					  results.news_publication_date = results.news_publication_date;
-					  results.news_completion_date = results.news_completion_date;
-					  results.news_modification_date = results.news_modification_date;
 				callback(results);
 			}, 
 			function(err){
@@ -114,8 +68,14 @@ NewsManager.prototype = {
 				console.log("Error saveAllNewsToDB: "+e);
 			}
 			
-	    	//var insertStatement = 'INSERT OR REPLACE INTO NEWS(news_id,news_title,news_titles,news_text,news_texts,news_image_url,news_videos,news_page,news_date,news_last_modify)'+
-			var insertStatement = 'INSERT OR REPLACE INTO NEWS(news_id,news_titles,news_texts_es,news_texts_en,news_texts_pt,news_image_url,news_videos,news_page,news_date,news_publication_date,news_completion_date,news_modification_date,news_last_modify)'+
+	    	//'news_headline TEXT NOT NULL,'+
+			'news_date VARCHAR(30) DEFAULT NULL,'+
+			'news_highdef TEXT DEFAULT NULL,'+
+			'news_quicklook TEXT DEFAULT NULL,'+
+			'news_caption TEXT DEFAULT NULL,'+
+			'news_video TEXT DEFAULT NULL,'+
+			'news_datacontent
+			var insertStatement = 'INSERT OR REPLACE INTO NEWS(news_id,news_headline,news_date,news_highdef,news_quicklook,news_caption,news_video,news_datacontent)'+
 			'VALUES ('+insertObj.news_id+','+
 			'"'+encodeURIComponent(titles_array)+'",'+
 			'"'+encodeURIComponent(insertObj.news_texts_es)+'",'+

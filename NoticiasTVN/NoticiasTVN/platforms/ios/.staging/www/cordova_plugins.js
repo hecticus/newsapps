@@ -49,6 +49,13 @@ module.exports = [
         "clobbers": [
             "device"
         ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -58,7 +65,8 @@ module.exports.metadata =
     "org.apache.cordova.videoplayer": "1.0",
     "org.apache.cordova.console": "0.2.6",
     "com.phonegap.plugins.PushPlugin": "2.1.1",
-    "org.apache.cordova.device": "0.2.7"
+    "org.apache.cordova.device": "0.2.7",
+    "nl.x-services.plugins.socialsharing": "3.7"
 }
 // BOTTOM OF METADATA
 });

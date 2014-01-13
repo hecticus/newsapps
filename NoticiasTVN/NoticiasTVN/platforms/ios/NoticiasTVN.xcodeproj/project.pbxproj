@@ -12,6 +12,7 @@
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		6A77F8B5D88D43B88BF6EC79 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6AAC2952BD440F3A7729443 /* Social.framework */; };
 		6F187B89187707AC001876C4 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B86187707AC001876C4 /* MovieViewController.m */; };
 		6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B88187707AC001876C4 /* VideoPlayerCommand.m */; };
 		6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B8C187707C3001876C4 /* CDVLogger.m */; };
@@ -136,6 +137,7 @@
 		6FD3CFDB187C8F0B005E7A40 /* PushPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushPlugin.m; sourceTree = "<group>"; };
 		6FD3CFE1187CA266005E7A40 /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
 		6FD3CFE2187CA266005E7A40 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
+		C6AAC2952BD440F3A7729443 /* Social.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -151,6 +153,7 @@
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
 				99BF9F9EB93A46579B404EBF /* SystemConfiguration.framework in Frameworks */,
+				6A77F8B5D88D43B88BF6EC79 /* Social.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +231,7 @@
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */,
 				FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */,
+				C6AAC2952BD440F3A7729443 /* Social.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

@@ -9,7 +9,7 @@ var VideoPlayer = function () {};
  */
 VideoPlayer.prototype.play = function(url,orientation) {
 			   console.log("URL TEST: "+url+", Ori: "+orientation);
-    exec(null, null, "VideoPlayer", "playVideo", [url]);
+    exec(null, null, "VideoPlayer", "play", [url,orientation]);
 };
 
 var videoPlayer = new VideoPlayer();
