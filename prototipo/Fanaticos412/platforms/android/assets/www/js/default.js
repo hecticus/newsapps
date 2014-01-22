@@ -96,10 +96,7 @@ function setScrollPages() {
 	
 		$.li='<div class="pages"  style="position:relative; float:left; display:block; background-color:#000000;">';
 			$.li+='<div id="'+arrCategory[i].id+'" class="page" style="position:absolute; z-index:1; top:20px; bottom:0; left:0; width:100%; overflow:auto;">';	
-				$.li+='<div id="'+arrCategory[i].id+'-featured" class="featured" style="position:absolute;  z-index: 0; background-color:#000000;"></div>';
-				
-				
-				
+				$.li+='<div id="'+arrCategory[i].id+'-featured" class="featured" style="position:absolute;  z-index: 0; background-color:#000000;"></div>';											
 				$.li+='<div class="scroller">';
 					$.li+='<ul>';
 						$.li+='<li>';
@@ -493,7 +490,7 @@ var app = {
 								
 				$('#extra-section').append($.li);
 
-				
+			
 				if (arrCategory[position].view == 4) {
 			
 					
@@ -558,8 +555,6 @@ var app = {
 				
 				}
 
-				//VIEW de juegos de Baseball
-				//if (position==12) {
 				if (arrCategory[position].view == 3) {
 					
 					myJson=$.fGetAjaX('http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/calendar.json','json');									
