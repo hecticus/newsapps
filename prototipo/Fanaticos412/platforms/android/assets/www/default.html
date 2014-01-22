@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/transaction.css">
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+		
+		<title>Fanaticos412</title>
+
+		<style type="text/css" media="all">
+						
+
+			#navegate {
+				position:relative; z-index:2;
+				top:0; left:0;
+				width:100%;
+		        height:40px;
+		        line-height:40px;
+		        text-align:left;
+		        font-size: 1.4em; 
+		        background-color: red;
+		        color:#ffffff;
+				font-weight: bold;
+				padding:5px;
+				background: linear-gradient(to bottom, #790000 0%, #E10000 13%, #8B0000 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+			}			
+			
+			
+			
+			#content {
+				position:absolute; z-index:0;
+				bottom:0; left:0;
+				width:100%;
+				height:auto;				
+				padding:0;				
+			}			
+			
+			
+		 #menu, #datacontent {
+				position:absolute; z-index:1;
+				top:0px; bottom:0; left:0;
+				width:100%;
+				overflow:auto;
+			}		
+			
+			#datacontent {top:20px;}
+			
+			.scroller {
+				position:absolute; z-index:1;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				width:100%;
+				padding:0;
+			}
+			
+			.scroller > ul {
+				list-style:none;
+				padding:0;
+				margin:0;
+				width:100%;
+				text-align:left;
+			}
+			
+			.scroller >li {
+				padding:0 10px;
+				height:0px;
+				line-height:0px;
+				/*font-size:1.4em;*/
+			}
+			
+			
+						
+			
+			#wrapperh {
+				width:300px;
+				height:160px;
+				float:left;
+				position:relative;	
+				z-index:1;
+				overflow:hidden;	
+			}
+			
+			#scrollerh {
+				width:300px;
+				height:100%;
+				float:left;
+				padding:0;
+			}
+			
+			#scrollerh ul {
+				list-style:none;
+				display:block;
+				float:left;
+				width:100%;
+				height:100%;
+				padding:0;
+				margin:0;
+				text-align:left;
+			}
+			
+			#scrollerh li {
+				display:block; float:left;
+				width:300px; height:160px;
+				text-align:center;
+				font-family:georgia;
+				/*font-size:18px;*/
+				line-height:140%;
+			}			
+	
+			
+	
+		
+		.slider {overflow-y: hidden; max-height: 230px; transition-property: all; transition-duration: .5s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1);}		
+		.slider.closed {max-height: 0; border-style:none; box-shadow: 0 0 0 rgba(0,0,0,0); border-width:0;}		
+
+		
+		.transp-block-camare { background: #000 url(img/camare.png) no-repeat; } 
+		.transp-block-video { background: #000 url(img/playvideo.png) no-repeat;  } 
+		img.transparent { opacity:.75; } 
+	
+ 		li[data-view="thumbnail"] {padding:5px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #9e9e9e;  }
+		li[data-view="thumbnail"] img {float: left; width:40%; height:20%; vertical-align:text-top;}
+		li[data-view="thumbnail"] div {margin-left:41%; width:50%; font-weight:bold;}		
+		li[data-view="thumbnail"] .title {font-size:1.4em; }
+		li[data-view="thumbnail"] .date {font-size:1.2em; color:#9e9e9e;}
+	 	li[data-view="thumbnail"]:last-child {border: 0px;}
+	 	
+	 	
+	 	li[data-view="title"]{padding:5px; color:#fff; text-transform:uppercase; vertical-align:middle; font-size:1.8em; font-weight:bold;}
+		li[data-section="All"]:first-child {background-color:#b6110d;}
+		li[data-section="football"]:first-child {background-color:#067816;}
+		li[data-section="baseball_nacional"]:first-child {background-color:#0720de;}
+		li[data-section="baseball"]:first-child {background-color:#01aab1;}
+		li[data-section="basket"]:first-child {background-color:#ff6000;}
+		li[data-section="tennis"]:first-child {background-color:#de7f07;}
+		li[data-section="f1"]:first-child {background-color:#b52f00;}
+		li[data-section="cycling"]:first-child {background-color:#b7c238;}
+		li[data-section="athletics"]:first-child {background-color:#0a67be;}
+		li[data-section="golf"]:first-child {background-color:#ffc936;}
+		li[data-section="olympics"]:first-child {background-color:#5bb618;}
+		li[data-section="Other"]:first-child {background-color:#bdfd8e;}
+		li[data-section="extrascores"]:first-child {background-color:#0720de;}
+		li[data-section="extrastandings"]:first-child {background-color:#0720de;}
+		
+		
+		
+		.pullMenu {position: absolute; top:0; left: 0; padding-left: 19px; }	
+		.menu {width: auto; height: 40px; line-height: 40px; font-size:1.4em; font-weight: bold; padding-left: 20px; text-align: left; background-color:#ffffff; border-bottom: 1px solid #E2E2E2; display: block; min-height: 40px;}	
+		.iScrollHover {background:#444 !important; color:#eee !important;}
+		.center{margin: auto; position: absolute; top: 0px;bottom: 0px; left: 0px; right: 0px;}
+		
+		@media only screen and (min-width: 320px) and (max-width: 479px) and (orientation: portrait) {html { font-size: 62.5%; }}
+		@media only screen and (min-width: 720px) and (max-width: 767px) and (orientation: portrait) {html { font-size: 120%; }}
+		@media only screen and (min-width:1080px) and (max-width:1199px) and (orientation: portrait) {html { font-size: 200%; }}
+		@media only screen and (min-width:1280px) and (orientation: portrait) {html { font-size: 250%; }}
+	
+		.hidden {visibility:hidden;}
+	
+		</style>
+	</head>
+	<body style="position: fixed; height:100%; overflow: hidden; margin:0; padding:0; background-color:#fff">
+		
+		<div style="position: absolute; width:100%; height:5%; display: block;  z-index: 4; top:0; left:0; margin:0; padding:0; background-color:#d7d7d7; vertical-align: middle;" >
+			<span id="modeset" data-mode="" style="padding:5px; float:right; font-size: 1.4em; font-weight: bold;"></span>
+		</div>
+		
+		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 5; top:0; left:0; margin:0; padding:0;" >
+			
+			<div id="top" class="slider closed" style="position: relative;">
+				
+				<div style="width:100%; height:20px; min-height: 20px; background-color:#b6110d; color:#fff; text-transform:uppercase; padding: 5px; font-size:1.8em; font-weight:bold;">
+					<div id="modetitle" style="margin-left:14px; ">Noticias</div>
+				</div>
+			
+				<div id="menu" style="top:30px; background-color: #ffffff;">
+					
+					<div class="scroller">
+						<ul id="mainMenuList"  >
+							
+						</ul>
+					</div>					
+				</div>
+			</div>
+			
+			<div id="menus" style="position: relative; width:100%; height:auto; display: block; " >
+				<span class="pullMenu" ><img src="img/logo-115x140.png" class="arrow" alt="Menu" style="width:75%; height:auto; "></span>
+			</div>
+						
+		</div>
+		 
+		 
+		
+		 
+		<div id="spage">
+			<div id="scrollerpage" style="display:block; float:left;">				
+				<!-- Its filled in the javascript -->
+			</div>
+		</div>						
+
+		<div id="extra" class="page" style="z-index: 2; left:-100%; background-color: #ffffff;  ">
+			<div id="extra-featured" class="featured hidden" style="position:absolute;  z-index: 0; background-color: #0B3B2E;"></div>		
+			<div class="scroller">
+				<ul>
+					<li>					
+						<ul id="extra-news-featured"  class="featured">							
+							<li id="extra-news-featured-title"  class="featured"></li>
+						</ul>							
+						<ul id="extras">																			
+							<li id="extra-section"></li>
+
+							<li id="gamesl" >							
+								<div id="gamesWrapper" style="position:relative; width:auto; height:auto; text-align:left;" >
+									<div id="gamesScroller"  style="display:block; float:left; width:auto; height:auto; background-color:#ffffff; "></div>
+								</div>
+							</li>
+
+							<li id="standings" style="padding: 5px;  background-color: #ffffff;"></li>
+														
+							</ul>							
+						<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		
+		<div id="datacontent" class="page" style="z-index: 1; left:100%;">
+			<div class="scroller">
+				<ul>
+					<li>
+						<ul id="datacontents"></ul>						
+					</li>
+				</ul>
+			</div>
+		</div>		
+
+		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/SocialSharing.js"></script>
+        <script type="text/javascript" src="js/default.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+       	<script type="text/javascript" src="js/video.js"></script>
+       
+        <script type="text/javascript">              
+            app.initialize();
+        </script>
+
+	</body>
+	
+</html>

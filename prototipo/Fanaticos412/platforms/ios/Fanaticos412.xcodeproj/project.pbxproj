@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -44,6 +43,8 @@
 		99BF9F9EB93A46579B404EBF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
+		F787E1AC1F5A429D94FC63B0 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = C1197E1A96C0491AAD8157C8 /* SocialSharing.m */; };
+		39CF9D1D49F54050AAE3E0C7 /* Social.framework in Resources */ = {isa = PBXBuildFile; fileRef = AEA4C00DD0D24AACA630B124 /* Social.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,9 @@
 		D6F1A05C60004585AB899090 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "org.apache.cordova.network-information/CDVReachability.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Fanaticos412/config.xml; sourceTree = "<group>"; };
 		FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C1197E1A96C0491AAD8157C8 /* SocialSharing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "SocialSharing.m"; path = "Plugins\nl.x-services.plugins.socialsharing\SocialSharing.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		AAE606510C814DAE88203DFC /* SocialSharing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SocialSharing.h"; path = "Plugins\nl.x-services.plugins.socialsharing\SocialSharing.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		AEA4C00DD0D24AACA630B124 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Social.framework"; path = "System/Library/Frameworks/Social.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,7 @@
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
 				99BF9F9EB93A46579B404EBF /* SystemConfiguration.framework in Frameworks */,
+				39CF9D1D49F54050AAE3E0C7 /* Social.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +222,7 @@
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */,
 				FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */,
+				AEA4C00DD0D24AACA630B124 /* Social.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -238,6 +244,8 @@
 				3DC9FA6C06F34A2E9E09FE4C /* CDVReachability.m */,
 				BD270E1F16F54353BB5ECB9C /* CDVConnection.h */,
 				D6F1A05C60004585AB899090 /* CDVReachability.h */,
+				C1197E1A96C0491AAD8157C8 /* SocialSharing.m */,
+				AAE606510C814DAE88203DFC /* SocialSharing.h */,
 			);
 			name = Plugins;
 			path = Fanaticos412/Plugins;
@@ -426,6 +434,7 @@
 				495082077C1D42E5AFC79557 /* CDVConnection.m in Sources */,
 				77A695A7BDA846CBA2A73406 /* CDVReachability.m in Sources */,
 				6FEDBD531872139D00B235E3 /* SocialSharing.m in Sources */,
+				F787E1AC1F5A429D94FC63B0 /* SocialSharing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,7 +1,33 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
-module.exports = [];
-module.exports.metadata = 
-// TOP OF METADATA
-{}
-// BOTTOM OF METADATA
+module.exports = [
+    {
+        "file": "plugins/org.apache.cordova.network-information/www/network.js",
+        "id": "org.apache.cordova.network-information.network",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.network-information/www/Connection.js",
+        "id": "org.apache.cordova.network-information.Connection",
+        "clobbers": [
+            "Connection"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.videoplayer/www/video.js",
+        "id": "org.apache.cordova.videoplayer.VideoPlayer",
+        "clobbers": [
+            "window.videoPlayer"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
+    }
+]
 });
