@@ -149,22 +149,7 @@ var arrCategory=[
 var otherCategoriesArray=[{i:12,status:false,id:'extra',title:'LVBP Resultados',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:3},
              	{i:13,status:false,id:'extra',title:'LVBP Tabla',bgcolor:'#000000',featured:{highdef:'',headline:''},xml:'',news:'',view:4}
                  ];
-//*/
-/*var arrCategory=[
- 	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',news:'',view:1},
- 	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:2},
- 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:2}
- 	];
-var otherCategoriesArray=[
-                           ];
-//*/
+
 var upcoming=0;
 var press=0;
 var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage;
@@ -1365,7 +1350,7 @@ var app = {
 
     		};//*/
     						
-			$.fgetNews();
+			//$.fgetNews();
 			
 			
 			$.parseDate = function(stringDate) {
