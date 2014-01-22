@@ -27,6 +27,12 @@
     <feature name="Console">
 		<param name="ios-package" value="CDVLogger"/>
 	</feature>
+	<feature name="File">
+		<param name="ios-package" value="CDVFile" />
+	</feature>
+	<feature name="FileTransfer">
+		<param name="ios-package" value="CDVFileTransfer" />
+	</feature>
     <description>
         Noticias TVN portal app
     </description>
@@ -57,6 +63,9 @@
     </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
     
     <name>NoticiasTVN</name>

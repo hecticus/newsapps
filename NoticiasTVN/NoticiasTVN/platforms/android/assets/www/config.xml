@@ -27,6 +27,12 @@
     <feature name="Console">
 		<param name="ios-package" value="CDVLogger"/>
 	</feature>
+	<feature name="File">
+		<param name="ios-package" value="CDVFile" />
+	</feature>
+	<feature name="FileTransfer">
+		<param name="ios-package" value="CDVFileTransfer" />
+	</feature>
     <description>
         Noticias TVN portal app
     </description>

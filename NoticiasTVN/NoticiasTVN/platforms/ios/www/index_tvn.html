@@ -6,92 +6,25 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		
-		
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/media.css">		
 		<link rel="stylesheet" type="text/css" href="css/transaction.css">
 		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
 		<title>Noticias TVN</title>
 
 		<style type="text/css" media="all">
+		
 
-			body {
-				font-size: 62.5%;			
-				-webkit-user-select:none;
-			    -webkit-text-size-adjust:none;
-				font-family:helvetica;
-				min-height :100%;
-				position: fixed; 
-				height:100%; 
-				overflow: hidden; 
-				margin:0; 
-				padding:0; 
-				background-color:#FFFFFF
-			} 			
-
-			h1 {font-size: 2em;   /* 2em = 2 x 10px = 20px */}
-			h2 {font-size: 1.6em;   /* 1.6em x 10px = 16px */}
-			p {font-size: 1.4em; /* 1.4em x 10px = 14px */}
-	
-			
-			@media only screen and (min-width: 320px) and (max-height: 480px) and (orientation: portrait) {
-				body {width: 320px;}
-			}
-
-			@media only screen and (min-width: 480px) and (max-height: 800px) and (orientation: portrait) {
-				body {width: 480px;}
-			}
-	
-			@media only screen and (min-width: 480px) and (max-height: 854px) and (orientation: portrait) {
-				body {width: 480px;}
-			}
-						
-			@media only screen and (min-width: 540px) and (max-height: 960px) and (orientation: portrait) {
-				body {width: 540px;} 
-			}
-			
-			@media only screen and (min-width: 640px) and (max-height: 960px) and (orientation: portrait) {
-				body {width: 640px;}
-			}
-			
-			@media only screen and (min-width: 640px) and (max-height: 1136px) and (orientation: portrait) {
-				body {width: 640px;} 
-			}		
-			
-			@media only screen and (min-width: 720px) and (max-height: 720px) and (orientation: portrait) {
-				body {width: 720px;}
-			}
-				
-			@media only screen and (min-width: 720px) and (max-height: 1280px) and (orientation: portrait) {
-				body {width: 720px;}
-			}
-			
-			@media only screen and (min-width: 768px) and (max-height: 1280px) and (orientation: portrait) {
-				body {width: 768px;} 
-			}
-			
-			@media only screen and (min-width: 800px) and (max-height: 1280px)  and (orientation: portrait) {
-				body {width: 800px;}
-			}
-			
-			@media only screen and (min-width: 1080px) and (max-height: 1920px) and (orientation: portrait) {
-				body {width: 1080px;} 
-			}
-
-
-			body,ul,li {padding:0;
-				margin:0;
-				border:0;
-				list-style:none outside none;
-			}
-
-						
+									
 			.section {
-				position:relative; z-index:5;
+				position:relative; 
+				z-index:5;
 				top:0; left:0;
 				width:100%;
 		        height:20px;
 		        line-height:20px;
 		        text-align:left;
-		        font-size: 1.4em; 
+		        /*font-size: 1.4em;*/ 
 		        background-color: red;
 		        color:#ffffff;
 				font-weight: bold;
@@ -111,14 +44,18 @@
 			
 			
 			#home, #menu, #datacontent, #video {
-				position:absolute; z-index:1;
-				top:0px; bottom:0; left:0;
+				position:absolute; 
+				z-index:1;
+				top:0px; 
+				bottom:0; 
+				left:0;
 				width:100%;
 				overflow:auto;
 			}		
 			
 			.scroller {
-				position:absolute; z-index:1;
+				position:absolute; 
+				z-index:1;
 				-webkit-tap-highlight-color:rgba(0,0,0,0);
 				width:100%;
 				padding:0;
@@ -136,10 +73,22 @@
 				padding:0 10px;
 				height:0px;
 				line-height:0px;
-				font-size: 1.4em; 
+				/*font-size: 1.4em;*/ 
 			}
 			
-			.menu {width: auto; height: 20px; line-height: 20px; font-size: 1.2em; font-weight: bold; padding: 5px; text-align: left; background-color:#ffffff; border-bottom: 1px solid #E2E2E2; display: block; min-height: 20px;}
+			.menu {
+				width: auto; 
+				height: 20px; 
+				line-height: 20px; 
+				font-size: 1.2em; 
+				font-weight: bold; 
+				padding: 5px; 
+				text-align: left; 
+				background-color:#ffffff; 
+				border-bottom: 1px solid #E2E2E2; 
+				display: block; 
+				min-height: 20px;
+			}
 						
 			
 			#wrapperh {
@@ -173,8 +122,8 @@
 				display:block; float:left;
 				width:300px; height:160px;
 				text-align:center;
-				font-family:georgia;
-				font-size:1.8em;
+				/*font-family:georgia;*/
+				/*font-size:1.8em;*/
 				line-height:140%;
 			}			
 	
@@ -227,20 +176,8 @@
 			}			
 					
 				
-			.news1 li:nth-child(even) { float:left; }
-			.news1 li:nth-child(odd) { float:right; }
-			.iScrollHover {background:#444 !important; color:#eee !important;}
-		
-			.hidden {visibility:hidden;}	
-		
-		
-		/*video{
-			-webkit-transform: rotate(90deg);
-	    	-moz-transform: rotate(90deg);
-	    	-o-transform: rotate(90deg);
-	    	-ms-transform: rotate(90deg);
-	    	transform: rotate(90deg);		  		  
-		}*/
+			
+
 		
 		.slider {
 			overflow-y: hidden;
@@ -277,42 +214,38 @@
 			border-bottom:1px solid #aaa;
 		}
 		
-		.transp-block-camare { background: #000 url(img/camare.png) no-repeat; } 
-		.transp-block-video { background: #000 url(img/playvideo.png) no-repeat; } 
+		
 		img.transparent { opacity:.75; } 
 
 		.metro { opacity:0.6; }
 		.metroHover {opacity:1.0; }
-		
-		.center{
-		    margin: auto;
-		    position: absolute;
-		    top: 0px;
-		    bottom: 0px;
-		    left: 0px; /*Sin esta línea (pero con todas las demás),
-		                   el elemento se pegará al lado izquierdo*/
-		    right: 0px; /*Sin esta línea (pero con todas las demás),
-		                    el elemento se pegará al lado derecho*/
-		}
-				
 
+		.center{margin: auto; position: absolute; top: 0px;bottom: 0px; left: 0px; right: 0px;}
+							
+		li[data-type="video"] { background: #000 url(img/playvideo.png) no-repeat; }
+		li[data-type="image"] { background: #000 url(img/camare.png) no-repeat; }
+		h1,h2, h3, h4, h5 {color:#ffffff; text-shadow:0px 1px 5px #555; position: absolute; bottom:0; left: 0; }
+
+
+		.news1 li:nth-child(even) { float:left; }		
+		.news1 li:nth-child(odd) { float:right; }		
+		
+		.news1 li:nth-child(even) img {margin-right:25px; }
+		.news1 li:nth-child(odd) img {margin-left:25px; }
+		
+		.iScrollHover {background:#444 !important; color:#eee !important;}
+		.hidden {visibility:hidden;}	
+
+		li {position:relative;}
+
+				
 		</style>
 		
 		
 	</head>
 	<body >
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<!-- Div extra para evitar una linea de mas en la parte superior -->
-		<!--div style="position: relative; width:100%; height:1px; z-index: 3; top:0; left:0; background-color: #000;border-style:solid; border-color:#000000;border-width:1px;margin:0;padding:0" ></div-->
-		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 4; top:0; left:0; margin:0; padding:0;" >
+
+		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 4; top:0; left:0; margin:0; padding:0;" >			
 			<div id="top" class="slider closed" style="position: relative; width:100%; height:auto; display: block; background-color:#ffffff; top:0px; margin:0; padding:0;" >
 				<div class="section" style="background-color: #0040FF;">Noticias</div>
 				<div id="menu" style="position:absolute; top:35px; left:0;">				
@@ -322,11 +255,12 @@
 						</ul>
 					</div>
 				</div>	
-			</div>			
+			</div>
 			<div id="menus" style="position: relative; width:100%; height:100px; display: block; " >
 				<span class="pullMenu" style="display:inline;"><img src="img/tvnlarge.png" class="arrow" alt="Arrow Down" style="width: 80px; height:70px;"></span>
 			</div>			
 		</div>
+ 
  
 		<div id="spage">
 			<div id="scrollerpage" style="display:block; float:left;">				
@@ -347,11 +281,15 @@
 		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/SocialSharing.js"></script>
+        <!--script type="text/javascript" src="js/SocialSharing.js"></script-->
         <script type="text/javascript" src="js/index_tvn.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>
 		<!--script type="text/javascript" src="js/debug/console-via-logger.js"></script-->
        	<!--script type="text/javascript" src="js/video.js"></script-->
+		<script type="text/javascript" src="js/StorageManager/StorageManager.js"></script>
+		<script type="text/javascript" src="js/StorageManager/ImageManager.js"></script>
+		<script type="text/javascript" src="js/imgcache.js"></script>
+		<script type="text/javascript" src="js/News/NewsManager.js"></script>
 		<script type="text/javascript" src="js/Push/PushManager.js"></script>
        
         <script type="text/javascript">              

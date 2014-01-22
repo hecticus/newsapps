@@ -8,7 +8,6 @@ SocialSharing.prototype.available = function (callback) {
 };
 
 SocialSharing.prototype.share = function (message, subject, image, url, successCallback, errorCallback) {
-	console.log("PAAOOAOAOAOAOA "+message+", "+subject+", "+image+", "+url);
   cordova.exec(successCallback, errorCallback, "SocialSharing", "share", [message, subject, image, url]);
 };
 

@@ -57,5 +57,5 @@ function checkConnection() {
 
 //DEBUG
 function printToLog(element){
-	console.log(element);
+	//console.log(element);
 }

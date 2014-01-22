@@ -19,7 +19,8 @@ function VideoPlayer() {
 	
 	console.log('iniciando video players');
 	}
-VideoPlayer.prototype.play = function(url,orientation) { return window.cordova.exec(null, null, "VideoPlayerCommand", "show", [url,orientation]); };
+VideoPlayer.prototype.play = function(url,orientation) {
+	return window.cordova.exec(null, null, "VideoPlayerCommand", "play", [url,orientation]); };
 VideoPlayer.install = function () {
   if (!window.plugins) { window.plugins = {}; }
   window.plugins.VideoPlayer = new VideoPlayer();

@@ -12,10 +12,12 @@
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
-		6A77F8B5D88D43B88BF6EC79 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6AAC2952BD440F3A7729443 /* Social.framework */; };
+		6A77F8B5D88D43B88BF6EC79 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6AAC2952BD440F3A7729443 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6F187B89187707AC001876C4 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B86187707AC001876C4 /* MovieViewController.m */; };
 		6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B88187707AC001876C4 /* VideoPlayerCommand.m */; };
 		6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B8C187707C3001876C4 /* CDVLogger.m */; };
+		6F504BE1188F28B400BFBDEC /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F504BDD188F28B400BFBDEC /* CDVFile.m */; };
+		6F504BE2188F28B400BFBDEC /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F504BE0188F28B400BFBDEC /* CDVFileTransfer.m */; };
 		6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF41875C4B90090B0E8 /* AppDelegate.m */; };
 		6F6DDCF91875C4B90090B0E8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF61875C4B90090B0E8 /* MainViewController.m */; };
 		6F6DDCFA1875C4B90090B0E8 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF71875C4B90090B0E8 /* MainViewController.xib */; };
@@ -89,6 +91,10 @@
 		6F187B88187707AC001876C4 /* VideoPlayerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoPlayerCommand.m; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.m; sourceTree = SOURCE_ROOT; };
 		6F187B8B187707C3001876C4 /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = NoticiasTVN/Plugins/org.apache.cordova.console/CDVLogger.h; sourceTree = SOURCE_ROOT; };
 		6F187B8C187707C3001876C4 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = NoticiasTVN/Plugins/org.apache.cordova.console/CDVLogger.m; sourceTree = SOURCE_ROOT; };
+		6F504BDC188F28B400BFBDEC /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFile.h; sourceTree = "<group>"; };
+		6F504BDD188F28B400BFBDEC /* CDVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVFile.m; sourceTree = "<group>"; };
+		6F504BDF188F28B400BFBDEC /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFileTransfer.h; sourceTree = "<group>"; };
+		6F504BE0188F28B400BFBDEC /* CDVFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVFileTransfer.m; sourceTree = "<group>"; };
 		6F6DDCF31875C4B90090B0E8 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NoticiasTVN/Classes/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		6F6DDCF41875C4B90090B0E8 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NoticiasTVN/Classes/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		6F6DDCF51875C4B90090B0E8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = NoticiasTVN/Classes/MainViewController.h; sourceTree = SOURCE_ROOT; };
@@ -247,6 +253,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6F504BDB188F28B400BFBDEC /* org.apache.cordova.file */,
+				6F504BDE188F28B400BFBDEC /* org.apache.cordova.file-transfer */,
 				6FD3CFE0187CA266005E7A40 /* org.apache.cordova.device */,
 				6FD3CFD7187C8F0B005E7A40 /* com.phonegap.plugins.PushPlugin */,
 				6F187B8B187707C3001876C4 /* CDVLogger.h */,
@@ -262,6 +270,26 @@
 			);
 			name = Plugins;
 			path = Fanaticos412/Plugins;
+			sourceTree = SOURCE_ROOT;
+		};
+		6F504BDB188F28B400BFBDEC /* org.apache.cordova.file */ = {
+			isa = PBXGroup;
+			children = (
+				6F504BDC188F28B400BFBDEC /* CDVFile.h */,
+				6F504BDD188F28B400BFBDEC /* CDVFile.m */,
+			);
+			name = org.apache.cordova.file;
+			path = NoticiasTVN/Plugins/org.apache.cordova.file;
+			sourceTree = SOURCE_ROOT;
+		};
+		6F504BDE188F28B400BFBDEC /* org.apache.cordova.file-transfer */ = {
+			isa = PBXGroup;
+			children = (
+				6F504BDF188F28B400BFBDEC /* CDVFileTransfer.h */,
+				6F504BE0188F28B400BFBDEC /* CDVFileTransfer.m */,
+			);
+			name = "org.apache.cordova.file-transfer";
+			path = "NoticiasTVN/Plugins/org.apache.cordova.file-transfer";
 			sourceTree = SOURCE_ROOT;
 		};
 		6F6DDCFB1875C4D30090B0E8 /* org.apache.cordova.network-information */ = {
@@ -506,8 +534,10 @@
 				6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */,
 				6F6DDCF91875C4B90090B0E8 /* MainViewController.m in Sources */,
 				6FD3CFDD187C8F0B005E7A40 /* PushPlugin.m in Sources */,
+				6F504BE1188F28B400BFBDEC /* CDVFile.m in Sources */,
 				6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */,
 				6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */,
+				6F504BE2188F28B400BFBDEC /* CDVFileTransfer.m in Sources */,
 				6F6DDD031875C4D30090B0E8 /* CDVConnection.m in Sources */,
 				6FD3CFDC187C8F0B005E7A40 /* AppDelegate+notification.m in Sources */,
 				6F6DDD091875C4E40090B0E8 /* main.m in Sources */,
