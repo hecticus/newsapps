@@ -1,7 +1,12 @@
 package nl.xservices.plugins;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.util.Base64;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
@@ -11,13 +16,19 @@ import org.json.JSONException;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 
 public class SocialSharing extends CordovaPlugin {
 
   private static final String ACTION_AVAILABLE_EVENT = "available";
   private static final String ACTION_SHARE_EVENT = "share";
+  private static final String ACTION_SHARE_VIA = "shareVia"; // maybe for a future version?
+  private static final String ACTION_SHARE_VIA_TWITTER_EVENT = "shareViaTwitter";
+  private static final String ACTION_SHARE_VIA_FACEBOOK_EVENT = "shareViaFacebook";
+  // TODO this one has not been tested yet on Android
+  private static final String ACTION_SHARE_VIA_WHATSAPP_EVENT = "shareViaWhatsApp";
 
-  File downloadedFile;
+  private File tempFile;
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -26,13 +37,15 @@ public class SocialSharing extends CordovaPlugin {
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
         return true;
       } else if (ACTION_SHARE_EVENT.equals(action)) {
-        final String message = args.getString(0);
-        final String subject = args.getString(1);
-        final String image = args.getString(2);
-        final String url = args.getString(3);
-        doSendIntent(subject, message, image, url);
-        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
-        return true;
+        return doSendIntent(args.getString(0), args.getString(1), args.getString(2), args.getString(3), null, callbackContext);
+      } else if (ACTION_SHARE_VIA_TWITTER_EVENT.equals(action)) {
+        return doSendIntent(args.getString(0), args.getString(1), args.getString(2), args.getString(3), "twitter", callbackContext);
+      } else if (ACTION_SHARE_VIA_FACEBOOK_EVENT.equals(action)) {
+        return doSendIntent(args.getString(0), args.getString(1), args.getString(2), args.getString(3), "facebook", callbackContext);
+      } else if (ACTION_SHARE_VIA_WHATSAPP_EVENT.equals(action)) {
+        return doSendIntent(args.getString(0), args.getString(1), args.getString(2), args.getString(3), "whatsapp", callbackContext);
+      } else if (ACTION_SHARE_VIA.equals(action)) {
+        return doSendIntent(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), callbackContext);
       } else {
         callbackContext.error("socialSharing." + action + " is not a supported function. Did you mean '" + ACTION_SHARE_EVENT + "'?");
         return false;
@@ -43,7 +56,7 @@ public class SocialSharing extends CordovaPlugin {
     }
   }
 
-  private void doSendIntent(String subject, String message, String image, String url) throws IOException {
+  private boolean doSendIntent(String message, String subject, String image, String url, String appPackageName, CallbackContext callbackContext) throws IOException {
     final Intent sendIntent = new Intent(android.content.Intent.ACTION_SEND);
     final String dir = webView.getContext().getExternalFilesDir(null) + "/socialsharing-downloads";
     createDir(dir);
@@ -58,10 +71,18 @@ public class SocialSharing extends CordovaPlugin {
         final String filename = getFileName(image);
         localImage = "file://" + dir + "/" + filename;
         if (image.startsWith("http")) {
-          downloadFromUrl(new URL(image).openConnection().getInputStream(), dir, filename);
+          saveFile(getBytes(new URL(image).openConnection().getInputStream()), dir, filename);
         } else {
-          downloadFromUrl(webView.getContext().getAssets().open(image), dir, filename);
+          saveFile(getBytes(webView.getContext().getAssets().open(image)), dir, filename);
         }
+      } else if (image.startsWith("data:")) {
+        // image looks like this: data:image/png;base64,R0lGODlhDAA...
+        final String encodedImg = image.substring(image.indexOf(";base64,") + 8);
+        // the filename needs a valid extension, so it renders correctly in target apps
+        final String imgExtension = image.substring(image.indexOf("image/") + 6, image.indexOf(";base64"));
+        final String fileName = "image." + imgExtension;
+        saveFile(Base64.decode(encodedImg, Base64.DEFAULT), dir, fileName);
+        localImage = "file://" + dir + "/" + fileName;
       } else if (!image.startsWith("file://")) {
         throw new IllegalArgumentException("URL_NOT_SUPPORTED");
       }
@@ -82,13 +103,39 @@ public class SocialSharing extends CordovaPlugin {
       sendIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
     }
 
-    this.cordova.startActivityForResult(this, sendIntent, 0);
+    if (appPackageName != null) {
+      final ActivityInfo activity = getActivity(sendIntent, appPackageName);
+      if (activity == null) {
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, "not available"));
+        return false;
+      } else {
+        sendIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        sendIntent.setComponent(new ComponentName(activity.applicationInfo.packageName, activity.name));
+      }
+    }
+
+    this.cordova.startActivityForResult(this, Intent.createChooser(sendIntent, null), 1);
+    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+    return true;
+  }
+
+  private ActivityInfo getActivity(final Intent shareIntent, final String appPackageName) {
+    final PackageManager pm = webView.getContext().getPackageManager();
+    List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+    for (final ResolveInfo app : activityList) {
+      if ((app.activityInfo.name).contains(appPackageName)) {
+        return app.activityInfo;
+      }
+    }
+    // no matching app found
+    return null;
   }
 
   // cleanup after ourselves
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    if (downloadedFile != null) {
-      downloadedFile.delete();
+    if (tempFile != null) {
+      //noinspection ResultOfMethodCallIgnored
+      tempFile.delete();
     }
   }
 
@@ -110,17 +157,21 @@ public class SocialSharing extends CordovaPlugin {
     }
   }
 
-  private void downloadFromUrl(InputStream is, String dirName, String fileName) throws IOException {
-    final File dir = new File(dirName);
-    downloadedFile = new File(dir, fileName);
+  private byte[] getBytes(InputStream is) throws IOException {
     BufferedInputStream bis = new BufferedInputStream(is);
     ByteArrayBuffer baf = new ByteArrayBuffer(5000);
     int current;
     while ((current = bis.read()) != -1) {
       baf.append((byte) current);
     }
-    FileOutputStream fos = new FileOutputStream(downloadedFile);
-    fos.write(baf.toByteArray());
+    return baf.toByteArray();
+  }
+
+  private void saveFile(byte[] bytes, String dirName, String fileName) throws IOException {
+    final File dir = new File(dirName);
+    tempFile = new File(dir, fileName);
+    FileOutputStream fos = new FileOutputStream(tempFile);
+    fos.write(bytes);
     fos.flush();
     fos.close();
   }
