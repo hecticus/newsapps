@@ -106,6 +106,8 @@
                         stringByReplacingOccurrencesOfString:@">" withString:@""]
                        stringByReplacingOccurrencesOfString: @" " withString: @""];
     [results setValue:token forKey:@"deviceToken"];
+	
+	NSLog(@"TOKEN %@",token);
     
     #if !TARGET_IPHONE_SIMULATOR
         // Get Bundle Info for Remote Registration (handy if you have more than one app)

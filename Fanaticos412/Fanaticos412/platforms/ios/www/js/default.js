@@ -224,6 +224,11 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+		//init push data
+		initPush();
+		
+		//Manejador de BD
+		storageManager = new StorageManager();
     	
     	//INIT SPECIAL DATA
 		setScrollPages();
@@ -464,9 +469,11 @@ var app = {
 						arrCategory[myScrollPage.currPageX] .status=true;
 						myScrollPage.enable();				
 					}).fail(function(xhr, status, error) {
-						arrCategory[myScrollPage.currPageX] .status=false;	
+						/*arrCategory[myScrollPage.currPageX] .status=false;
 						$('.status').append('<li>No hay conexión</li>');
-						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);
+						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);*/
+						var manager = new NewsManager();
+						manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsFromBD,noConnectionForNews);
 					});
 			};
 
@@ -675,14 +682,69 @@ var app = {
 
 			//WITH PHP INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
+				myXml=$.fGetAjaX('http://02.kraken.hecticus.com/storefront/render/news.php?category='+arrCategory[myScrollPage.currPageX].id,'xml');
+		  
+				myXml.done(function(xml) {
+						var manager = new NewsManager();
+						$(xml).find('newsML>category').each(function(i){
+							var json = {};
+							json["category"] = arrCategory[myScrollPage.currPageX].id;
+
+							json["data"] = $(this);
+
+							manager.saveNewsFromWS(json,successSaveNews,errorNewsSave);
+						});
+						$.fsetNews(xml,c,section,color);
+				});
+			}
+		  
+		  	function successSaveNews(){
+		  		console.log("SAVE COMPLETE");
+		 	}
+		 	function errorNewsSave(err){
+				console.log("SAVE FAILS");
+			}
+			function successGetNewsFromBD(results){
+				printToLog("successGetNewsFromBD");
+				if(results != null){
+					var len = results.rows.length;
+					printToLog("RESULT len: "+len);
+					if(len > 0){
+						//var newsArray = new Array();
+						//var xml = $('<newsML><variable name="limit"/><category name="'+arrCategory[myScrollPage.currPageX].id+'"> </category></newsML>');
+						var xmlstring = '<newsML><variable name="limit"/><category name="'+arrCategory[myScrollPage.currPageX].id+'">';
+
+						for(var i=0;i<len;i++){
+							var newsItem = results.rows.item(i);
+							newsItem = decodeNews(newsItem);
+							//en vez de agregarlos a un arreglo los agregamos al xml
+							xmlstring = xmlstring+""+newsItem;
+						}
+						var xml = parseXml(''+xmlstring+'</category></newsML>');
+						$.fsetNews(xml, null,null,null);
+						
+					}else{
+						noConnectionForNews();
+					}
+				}else{
+					noConnectionForNews();
+				}
+			}
+			function noConnectionForNews(err){
+				//realmente no hay conexion y no hay nada guardado
+				arrCategory[myScrollPage.currPageX] .status=false;	
+				$('.status').append('<li>No hay conexión</li>');
+			}
+		  
+		  
+			$.fsetNews = function(xml,c,section,color) {
 				var d=0;
 				$.lil='';
-				myXml=$.fGetAjaX('http://02.kraken.hecticus.com/storefront/render/news.php?category='+arrCategory[myScrollPage.currPageX].id,'xml');
-	
-				myXml.done(function(xml) {
+				
 					$(xml).find('newsML>category').each(function(i){
 						
 						$.category = '#'+$(this).attr('name');
+														
 						window['myScroll'+$(this).attr('name')]=newScroll($(this).attr('name'));
 						arrPage.push('myScroll'+$(this).attr('name'));
 
@@ -822,9 +884,7 @@ var app = {
 						});
 						
 						
-					});									
-					
-				});
+					});
 
     		};
     		
