@@ -6,7 +6,7 @@ function initPush(){
     	pushNotification = window.plugins.pushNotification;
     	if (device.platform == 'android' || device.platform == 'Android') {
 			console.log('<li>registering android</li>');
-        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"12345","ecb":"onNotificationGCM"});		// required!
+        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"241781636997","ecb":"onNotificationGCM"});		// required!
 		} else {
 			console.log('<li>registering iOS</li>');
         	pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"false","alert":"true","ecb":"onNotificationAPN"});	// required!
