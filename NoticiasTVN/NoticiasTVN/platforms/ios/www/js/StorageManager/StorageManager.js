@@ -7,36 +7,9 @@ function StorageManager() {
 	    return arguments.callee._singletonInstance;
 	  
 	arguments.callee._singletonInstance = this;
-	//OLD
-	//db = window.openDatabase("Database", "1.0", "VisitPanama_hecticus", 2000000);
-	//Android
-	//deleteOldDBsAndroid(); //mejor no borramos nada, igual no habia mucha data
-	db = window.openDatabase("Database2", "", "VisitPanama_hecticus2", 2000000);
-	//IOS //eliminado de IOS por problemas, se usa el metodo de android
-	//db = window.openDatabase("Database", "", "VisitPanama_hecticus", 2000000);
-	//deleteOldDBsIOS(db);
-	
-}
 
-//For Android
-function deleteOldDBsAndroid(){
-	var tempdb = window.openDatabase("Database", "1.0", "VisitPanama_hecticus", 2000000);
-	tempdb.transaction(function(tx) {
-		deleteAllNewsDB(tx, null);
-		deleteAllEventDB(tx, null);
-	});
+	db = window.openDatabase("Database", "", "NoticiasTVN", 2000000);
 }
-
-//For IOS
-/*function deleteOldDBsIOS(db){
-	if(db.database_version != "1.1"){
-		db.changeVersion(db.version, "1.1",function (t) {
-			 //delete all DB that changed
-			 deleteAllNewsDB(t, null);
-			 deleteAllEventDB(t, null);
-			 }, function (e) {console.log("Error Changing DB "+e.message);});
-	}
-}*/
 
 //declaring instance methods  
 StorageManager.prototype = {  
