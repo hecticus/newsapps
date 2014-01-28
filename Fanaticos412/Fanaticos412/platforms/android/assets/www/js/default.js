@@ -59,7 +59,7 @@ function setScrollPages() {
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle;" >'+arrCategory[i].title+'</span></h1></li>';
+			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:10px;" >'+arrCategory[i].title+'</span></h1></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			
@@ -172,7 +172,21 @@ var textShadowBlack = "0px 1px 5px #000;";
 var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
-    onDeviceReady: function() { 
+    onDeviceReady: function() {
+    	 
+   		
+   		
+    	ImgCache.options.debug = true;
+    	ImgCache.options.localCacheFolder = 'Fanaticos412';
+      	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.init(function(){
+		  //alert('cache created successfully!');
+		}, function(){
+		  //alert('check the log for errors');
+		});  	    	
+		  	    	
+  	    	    
+  	  
   	    	    	   
     	document.addEventListener('backbutton', function checkConnection() {
     		
@@ -216,6 +230,21 @@ var app = {
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
         initialSetup();
+        
+        
+        /*document.addEventListener("offline", function(e) {
+         	e.preventDefault();         	
+         	$('img[data-type="featured"]').each(function() {
+         		alert($(this).attr('src'));         		         	
+         		ImgCache.useCachedFile($(this), function(){
+		    		alert('now using local copy');
+		  		}, function(){
+		    		alert('could not load from cache');
+		  		});       		
+         	});
+
+        }, false);*/	    
+		
         
     },
     // Update DOM on a Received Event
@@ -403,9 +432,13 @@ var app = {
     			if (press) {
     				
     				myScrollDatacontent.scrollTo(0,0,0);
+    				$('.news-datacontent').hide();	
     				$('.back img').addClass('content');
     				$('.back img, .share').removeClass('hidden');
-    				$('.back').addClass('animated fadeInLeft');					
+    				$('.back').addClass('animated fadeInLeft');
+    				
+    				
+    								
 					$($(this).data('news')).show();
 
 										
@@ -451,6 +484,9 @@ var app = {
 				for(var i=0; i<u.length; i++){
 					url+="/"+u[i];
 				}
+				
+				url = url.replace('//../','/');
+
 				return url;
 			};		
 	
@@ -471,7 +507,22 @@ var app = {
 					}}).always(function() {
 						$('.status').empty();
 						arrCategory[myScrollPage.currPageX] .status=true;
-						myScrollPage.enable();				
+						myScrollPage.enable();
+						
+						
+						
+						
+						
+						
+						
+			
+						
+						
+						
+						
+						
+						
+												
 					}).fail(function(xhr, status, error) {
 						/*arrCategory[myScrollPage.currPageX] .status=false;
 						$('.status').append('<li>No hay conexión</li>');
@@ -499,7 +550,7 @@ var app = {
 						});
 						$.fsetNews(xml);
 				});
-			}
+			};
 		  
 		  	function successSaveNews(){
 		  		console.log("SAVE COMPLETE");
@@ -572,7 +623,6 @@ var app = {
 								$.news.thumbnail.push({src:$.fgetUrlNews($(this).find('image[type="Thumbnail"]').text()),width:$(this).find('image[type="Thumbnail"]').attr('width'),height:$(this).find('image[type="Thumbnail"]').attr('height')});
 								$.news.highdef.push({src:$.fgetUrlNews($(this).find('image[type="HighDef"]').text()),width:$(this).find('image[type="HighDef"]').attr('width'),height:$(this).find('image[type="HighDef"]').attr('height')});																						
 								$.news.quicklook.push({src:$.fgetUrlNews($(this).find('image[type="Quicklook"]').text()),width:$(this).find('image[type="Quicklook"]').attr('width'),height:$(this).find('image[type="Quicklook"]').attr('height')});								
-								
 							});
 							
 							$(this).find('datacontent>p>a[class="videoSet"]').each(function(i){							
@@ -588,9 +638,8 @@ var app = {
 
 										
 							if (i==0) {
-								
-									
-								$($.category+'-featured').append('<img src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
+
+								$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
 								
 								$($.category+'-news-featured-title').data('id',$.news.id);
 								$($.category+'-news-featured-title').data('news','#news-'+$.news.id);
@@ -598,32 +647,57 @@ var app = {
 								$($.category+'-news-featured-title').data('content','#news-'+$.news.id);
 								$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
 								
-
-		
 		
 								$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
 								$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:100%; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
 								$.li+='</div>';
-	
-									
-	
+
 								$($.category+'-news-featured-title').empty();
 								$($.category+'-news-featured-title').append($.li);
-								
-								
-								
+
+
+								$('img[data-src="'+$.news.highdef[0].src+'"]').each(function() {                                	
+                                	var target = $(this);
+									ImgCache.isCached(target.attr('src'), function(path, success){
+										if(success){											
+										    ImgCache.useCachedFile(target);
+										} else {
+											ImgCache.cacheFile(target.attr('src'), function(){
+												ImgCache.useCachedFile(target);
+										    });
+										}
+									});                                	
+                        		});
+
 							} else if (i>0) {
 							
 								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" wrapper="news-'+$.news.id+'-wrapper" >';
 								
 																
 								if (($.news.quicklook[0].width/$.news.quicklook[0].height) >= viewport.ar) 
-									$.li+='<img src="'+$.news.quicklook[0].src+'" alt="thumbnail" onerror="this.style.display=\'none\'" style="width:40%; height:'+((viewport.height*15)/100)+'px; " />';
+									$.li+='<img data-src="'+$.news.quicklook[0].src+'" src="'+$.news.quicklook[0].src+'" alt="thumbnail" style="width:40%; height:'+((viewport.height*15)/100)+'px; " />';
 								else
-									$.li+='<img src="'+$.news.quicklook[0].src+'" alt="thumbnail" onerror="this.style.display=\'none\'" style="width:'+((viewport.width*40)/100)+'px; height:15%; " />';
-			
-								$.li+='<div><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';																	
+									$.li+='<img data-src="'+$.news.quicklook[0].src+'" src="'+$.news.quicklook[0].src+'" alt="thumbnail"  style="width:'+((viewport.width*40)/100)+'px; height:15%; " />';
+
+								$.li+='<div><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';	
+								$.li+='</li>';
+																								
 								$($.category +'-news1').append($.li);
+
+								
+								$('img[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
+                                	var target = $(this);
+									ImgCache.isCached(target.attr('src'), function(path, success){
+										if(success){											
+										    ImgCache.useCachedFile(target);
+										} else {
+											ImgCache.cacheFile(target.attr('src'), function(){
+												ImgCache.useCachedFile(target);
+										    });
+										}
+									});                                	
+                        		});
+								
 																
 					    	} 
 					    	
@@ -690,14 +764,13 @@ var app = {
 						});
 						
 						
-					});									
-					
-				
+				});									
 
     		};
     		
 	
 			$.fgetNews();
+			
 			
 			
 			$.parseDate = function(stringDate) {
