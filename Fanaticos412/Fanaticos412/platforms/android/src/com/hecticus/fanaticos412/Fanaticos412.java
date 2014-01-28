@@ -29,7 +29,7 @@ public class Fanaticos412 extends CordovaActivity
     {
         super.onCreate(savedInstanceState);
         super.init();
-        
+        super.clearCache(); 
         // Load your application
      	super.setIntegerProperty("splashscreen", R.drawable.splash);
      		
