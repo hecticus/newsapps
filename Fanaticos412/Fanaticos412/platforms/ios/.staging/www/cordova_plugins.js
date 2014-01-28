@@ -199,6 +199,13 @@ module.exports = [
         "clobbers": [
             "window.videoPlayer"
         ]
+    },
+    {
+        "file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
+        "id": "com.adobe.plugins.GAPlugin.GAPlugin",
+        "clobbers": [
+            "GAPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -211,7 +218,8 @@ module.exports.metadata =
     "org.apache.cordova.console": "0.2.6",
     "nl.x-services.plugins.socialsharing": "3.7",
     "com.phonegap.plugins.PushPlugin": "2.1.1",
-    "org.apache.cordova.videoplayer": "1.0"
+    "org.apache.cordova.videoplayer": "1.0",
+    "com.adobe.plugins.GAPlugin": "2.3.1"
 }
 // BOTTOM OF METADATA
 });

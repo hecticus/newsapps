@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -52,6 +51,10 @@
 		E3DC81869B18422DB2A2C98E /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EF52735F44E31BE12590C /* CDVFile.m */; };
 		EF3940A4B42E4C5EB46E336A /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = E976301E29CA4113ADD435A8 /* PushPlugin.m */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
+		8DEDDC9CD8C64A499E8EC736 /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D846979F264ADB877C4137 /* GAPlugin.m */; };
+		B6D089F327D54333AC578760 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B45E9BE6B6F74B5494F29356 /* GoogleAnalytics.a */; };
+		211EEA06EC054F93BD771519 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F7D53C22F249E185C9F87F /* GoogleAnalytics.a */; };
+		403C5657451C406BAD42AFD8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDCB3AD378E1464BA73A7639 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +139,16 @@
 		F1EA5AE4E4844D929E98AB28 /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVFile.h; path = org.apache.cordova.file/CDVFile.h; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Fanaticos412/config.xml; sourceTree = "<group>"; };
 		FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		03D846979F264ADB877C4137 /* GAPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "GAPlugin.m"; path = "com.adobe.plugins.GAPlugin/GAPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		B45E9BE6B6F74B5494F29356 /* GoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "GoogleAnalytics.a"; path = "com.adobe.plugins.GAPlugin/GoogleAnalytics.a"; sourceTree = "<group>"; fileEncoding = 4; };
+		43F7D53C22F249E185C9F87F /* GoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "GoogleAnalytics.a"; path = "Fanaticos412/Plugins/com.adobe.plugins.GAPlugin/GoogleAnalytics.a"; sourceTree = "<group>"; fileEncoding = 4; };
+		811A061FDD3A4E0588157AA3 /* GAITransactionItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAITransactionItem.h"; path = "com.adobe.plugins.GAPlugin/GAITransactionItem.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		41C81FCE82274866B68F9797 /* GAITransaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAITransaction.h"; path = "com.adobe.plugins.GAPlugin/GAITransaction.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		1A92C93D30FD45CCAB52E61C /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAITracker.h"; path = "com.adobe.plugins.GAPlugin/GAITracker.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		791A452F722E476EB2A9AE63 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAITrackedViewController.h"; path = "com.adobe.plugins.GAPlugin/GAITrackedViewController.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		1D5A9B6334F84FA294B6D94B /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAI.h"; path = "com.adobe.plugins.GAPlugin/GAI.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		BC1A086A8E1D4B24ACED397A /* GAPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAPlugin.h"; path = "com.adobe.plugins.GAPlugin/GAPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		EDCB3AD378E1464BA73A7639 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "CoreData.framework"; path = "System/Library/Frameworks/CoreData.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +164,8 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
+				211EEA06EC054F93BD771519 /* GoogleAnalytics.a in Frameworks */,
+				403C5657451C406BAD42AFD8 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +260,8 @@
 				305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */,
 				FE88B7DDCF94411E85FA8AA7 /* SystemConfiguration.framework */,
 				AEA4C00DD0D24AACA630B124 /* Social.framework */,
+				43F7D53C22F249E185C9F87F /* GoogleAnalytics.a */,
+				EDCB3AD378E1464BA73A7639 /* CoreData.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -280,6 +297,14 @@
 				E976301E29CA4113ADD435A8 /* PushPlugin.m */,
 				406606FA7B1B43C499F00E1D /* AppDelegate+notification.h */,
 				4DAFEEB971444C2E932BC76D /* PushPlugin.h */,
+				03D846979F264ADB877C4137 /* GAPlugin.m */,
+				B45E9BE6B6F74B5494F29356 /* GoogleAnalytics.a */,
+				811A061FDD3A4E0588157AA3 /* GAITransactionItem.h */,
+				41C81FCE82274866B68F9797 /* GAITransaction.h */,
+				1A92C93D30FD45CCAB52E61C /* GAITracker.h */,
+				791A452F722E476EB2A9AE63 /* GAITrackedViewController.h */,
+				1D5A9B6334F84FA294B6D94B /* GAI.h */,
+				BC1A086A8E1D4B24ACED397A /* GAPlugin.h */,
 			);
 			name = Plugins;
 			path = Fanaticos412/Plugins;
@@ -474,6 +499,8 @@
 				6B4AF642882F4DAA83B7065F /* SocialSharing.m in Sources */,
 				552AF86907E1432C88958114 /* AppDelegate+notification.m in Sources */,
 				EF3940A4B42E4C5EB46E336A /* PushPlugin.m in Sources */,
+				8DEDDC9CD8C64A499E8EC736 /* GAPlugin.m in Sources */,
+				B6D089F327D54333AC578760 /* GoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +581,10 @@
 				);
 				PRODUCT_NAME = Fanaticos412;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Fanaticos412/Plugins/com.adobe.plugins.GAPlugin\"",
+				);
 			};
 			name = Debug;
 		};
@@ -585,6 +616,10 @@
 				);
 				PRODUCT_NAME = Fanaticos412;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Fanaticos412/Plugins/com.adobe.plugins.GAPlugin\"",
+				);
 			};
 			name = Release;
 		};

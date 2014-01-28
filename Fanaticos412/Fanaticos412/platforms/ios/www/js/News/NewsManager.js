@@ -72,6 +72,7 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
 	    //for(var i=0; i<itemArray.length; i++){
 		xmlCompleteObj.find('news').each(function(i){
 	    	var insertObj = $(this);
+			var xmlText = new XMLSerializer().serializeToString(this);
 			
 			//console.log("STORE: "+JSON.stringify(insertObj));
 			
@@ -84,11 +85,10 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
 			'"'+encodeURIComponent(insertObj.find('headline').text())+'",'+
 			'"'+encodeURIComponent(insertObj.find('DateAndTime').text())+'",'+
 			//'"'+encodeURIComponent(JSON.stringify(xml2json(this)))+'",'+
-			'"'+encodeURIComponent(nodeTreeToXHTML(this))+'",'+
+			'"'+encodeURIComponent(xmlText)+'",'+
 			''+n+
 			');';
-	    	
-	
+
 	    	tx.executeSql(insertStatement);
 		});
 		

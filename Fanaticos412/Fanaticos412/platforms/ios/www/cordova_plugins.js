@@ -199,6 +199,13 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
+    },
+    {
+        "file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
+        "id": "com.adobe.plugins.GAPlugin.GAPlugin",
+        "clobbers": [
+            "GAPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -211,7 +218,8 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.2.7",
     "nl.x-services.plugins.socialsharing": "3.7",
     "org.apache.cordova.file": "0.2.5",
-    "org.apache.cordova.file-transfer": "0.4.0"
+    "org.apache.cordova.file-transfer": "0.4.0",
+    "com.adobe.plugins.GAPlugin": "2.3.1"
 }
 // BOTTOM OF METADATA
 });

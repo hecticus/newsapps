@@ -17,7 +17,6 @@
  * under the License.
  */
 
-
 var currentTime = new Date();
 var day = currentTime.getDate();
 var month = (currentTime.getMonth()+1);
@@ -229,6 +228,9 @@ var app = {
 		
 		//Manejador de BD
 		storageManager = new StorageManager();
+		
+		//Google Analytics
+		initGA();
     	
     	//INIT SPECIAL DATA
 		setScrollPages();
