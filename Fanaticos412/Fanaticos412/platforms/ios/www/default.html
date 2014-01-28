@@ -13,188 +13,133 @@
 		<title>Fanaticos412</title>
 
 		<style type="text/css" media="all">
-						
-
-			#navegate {
-				position:relative; z-index:2;
-				top:0; left:0;
-				width:100%;
-		        height:40px;
-		        line-height:40px;
-		        text-align:left;
-		        font-size: 1.4em; 
-		        background-color: red;
-		        color:#ffffff;
-				font-weight: bold;
-				padding:5px;
-				background: linear-gradient(to bottom, #790000 0%, #E10000 13%, #8B0000 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
-			}			
-			
-			
-			
-			#content {
-				position:absolute; z-index:0;
-				bottom:0; left:0;
-				width:100%;
-				height:auto;				
-				padding:0;				
-			}			
-			
-			
-		 #menu, #datacontent {
-				position:absolute; z-index:1;
-				top:0px; bottom:0; left:0;
-				width:100%;
-				overflow:auto;
-			}		
-			
-			#datacontent {top:20px;}
-			
-			.scroller {
-				position:absolute; z-index:1;
-				-webkit-tap-highlight-color:rgba(0,0,0,0);
-				width:100%;
-				padding:0;
-			}
-			
-			.scroller > ul {
-				list-style:none;
-				padding:0;
-				margin:0;
-				width:100%;
-				text-align:left;
-			}
-			
-			.scroller >li {
-				padding:0 10px;
-				height:0px;
-				line-height:0px;
-				/*font-size:1.4em;*/
-			}
-			
-			
-						
-			
-			#wrapperh {
-				width:300px;
-				height:160px;
-				float:left;
-				position:relative;	
-				z-index:1;
-				overflow:hidden;	
-			}
-			
-			#scrollerh {
-				width:300px;
-				height:100%;
-				float:left;
-				padding:0;
-			}
-			
-			#scrollerh ul {
-				list-style:none;
-				display:block;
-				float:left;
-				width:100%;
-				height:100%;
-				padding:0;
-				margin:0;
-				text-align:left;
-			}
-			
-			#scrollerh li {
-				display:block; float:left;
-				width:300px; height:160px;
-				text-align:center;
-				font-family:georgia;
-				/*font-size:18px;*/
-				line-height:140%;
-			}			
-	
-			
-	
-		
-		.slider {overflow-y: hidden; max-height: 230px; transition-property: all; transition-duration: .5s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1);}		
-		.slider.closed {max-height: 0; border-style:none; box-shadow: 0 0 0 rgba(0,0,0,0); border-width:0;}		
 
 		
-		.transp-block-camare { background: #000 url(img/camare.png) no-repeat; } 
-		.transp-block-video { background: #000 url(img/playvideo.png) no-repeat;  } 
-		img.transparent { opacity:.75; } 
+			body {position: fixed; width:100%; height:100%; overflow: hidden;}
+			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
+			#menu, #datacontent { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}				
+			#datacontent {top:40px;}
+			
+			.scroller {position:absolute; z-index:1; -webkit-tap-highlight-color:rgba(0,0,0,0); width:100%; padding:0;}
+
+			.scroller > ul {list-style:none; padding:0; margin:0; width:100%; text-align:left;}
+			
+			.scroller > li {padding:0 10px; height:0px; line-height:0;}
+
+			.slider { height:300px; overflow-y: hidden; max-height: 300px; transition-property: all; transition-duration: .5s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1);}		
+			.slider.closed {max-height: 0; border-style:none; box-shadow: 0 0 0 rgba(0,0,0,0); border-width:0;}		
 	
- 		li[data-view="thumbnail"] {padding:5px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #9e9e9e;  }
-		li[data-view="thumbnail"] img {float: left; width:40%; height:20%; vertical-align:text-top;}
-		li[data-view="thumbnail"] div {margin-left:41%; width:50%; font-weight:bold;}		
-		li[data-view="thumbnail"] .title {font-size:1.4em; }
-		li[data-view="thumbnail"] .date {font-size:1.2em; color:#9e9e9e;}
-	 	li[data-view="thumbnail"]:last-child {border: 0px;}
-	 	
-	 	
-	 	li[data-view="title"]{padding:5px; color:#fff; text-transform:uppercase; vertical-align:middle; font-size:1.8em; font-weight:bold;}
-		li[data-section="All"]:first-child {background-color:#b6110d;}
-		li[data-section="football"]:first-child {background-color:#067816;}
-		li[data-section="baseball_nacional"]:first-child {background-color:#0720de;}
-		li[data-section="baseball"]:first-child {background-color:#01aab1;}
-		li[data-section="basket"]:first-child {background-color:#ff6000;}
-		li[data-section="tennis"]:first-child {background-color:#de7f07;}
-		li[data-section="f1"]:first-child {background-color:#b52f00;}
-		li[data-section="cycling"]:first-child {background-color:#b7c238;}
-		li[data-section="athletics"]:first-child {background-color:#0a67be;}
-		li[data-section="golf"]:first-child {background-color:#ffc936;}
-		li[data-section="olympics"]:first-child {background-color:#5bb618;}
-		li[data-section="Other"]:first-child {background-color:#bdfd8e;}
-		li[data-section="extrascores"]:first-child {background-color:#0720de;}
-		li[data-section="extrastandings"]:first-child {background-color:#0720de;}
+			
+			.transp-block-camare { background: #000 url(img/camare.png) no-repeat; } 
+			.transp-block-video { background: #000 url(img/playvideo.png) no-repeat;  } 
+			img.transparent { opacity:.75; } 
 		
-		
-		
-		.pullMenu {position: absolute; top:0; left: 0; padding-left: 19px; }	
-		.menu {width: auto; height: 40px; line-height: 40px; font-size:1.4em; font-weight: bold; padding-left: 20px; text-align: left; background-color:#ffffff; border-bottom: 1px solid #E2E2E2; display: block; min-height: 40px;}	
-		.iScrollHover {background:#444 !important; color:#eee !important;}
-		.center{margin: auto; position: absolute; top: 0px;bottom: 0px; left: 0px; right: 0px;}
-		
-		@media only screen and (min-width: 320px) and (max-width: 479px) and (orientation: portrait) {html { font-size: 62.5%; }}
-		@media only screen and (min-width: 720px) and (max-width: 767px) and (orientation: portrait) {html { font-size: 120%; }}
-		@media only screen and (min-width:1080px) and (max-width:1199px) and (orientation: portrait) {html { font-size: 200%; }}
-		@media only screen and (min-width:1280px) and (orientation: portrait) {html { font-size: 250%; }}
+	 		li[data-view="thumbnail"] {padding:5px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #9e9e9e;  }
+			li[data-view="thumbnail"] img {float: left; width:40%; height:15%; vertical-align:text-top;}
+			li[data-view="thumbnail"] div {margin-left:41%; width:50%; font-weight:bold;}		
+			li[data-view="thumbnail"] .title {font-size:1.4em; }
+			li[data-view="thumbnail"] .date {font-size:1.2em; color:#9e9e9e;}
+		 	li[data-view="thumbnail"]:last-child {border: 0px;}
+		 	
+		 	
+		 	li[data-view="thumbnail"][data-category="baseball_nacional"] img {display:none;}
+		 	li[data-view="thumbnail"][data-category="baseball_nacional"] div {margin-left:0; width:100%; font-weight:bold;}
+		 	li[data-view="thumbnail"][data-category] {background-color:#ffffff;}
+		 	li[data-view="thumbnail"][data-category]:before {content: ""; margin:0;}
+		 	
+		 		 
+			[data-category="All"]{background-color:#b6110d;}
+			[data-category="football"]{background-color:#067816;}
+			[data-category="baseball_nacional"]{background-color:#0720de;}
+			[data-category="baseball"]{background-color:#01aab1;}
+			[data-category="basket"]{background-color:#ff6000;}
+			[data-category="tennis"]{background-color:#de7f07;}
+			[data-category="f1"]{background-color:#b52f00;}
+			[data-category="cycling"]{background-color:#b7c238;}
+			[data-category="athletics"]{background-color:#0a67be;}
+			[data-category="golf"]{background-color:#ffc936;}
+			[data-category="olympics"]{background-color:#5bb618;}
+			[data-category="Other"]{background-color:#bdfd8e;}
+			[data-category="extrascores"]{background-color:#0720de;}
+			[data-category="extrastandings"]{background-color:#0720de;}
+			
+			li[data-category="All"]:before {content: "-"; margin-right:10px; color:#b6110d; background-color:#b6110d;}
+			li[data-category="football"]:before {content: "-"; margin-right:10px; color:#067816; background-color:#067816;}
+			li[data-category="baseball_nacional"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
+			li[data-category="baseball"]:before {content: "-"; margin-right:10px; color:#01aab1; background-color:#01aab1;}
+			li[data-category="basket"]:before {content: "-"; margin-right:10px; color:#ff6000; background-color:#ff6000;}
+			li[data-category="tennis"]:before {content: "-"; margin-right:10px; color:#de7f07; background-color:#de7f07;}
+			li[data-category="f1"]:before {content: "-"; margin-right:10px; color:#b52f00; background-color:#b52f00;}
+			li[data-category="cycling"]:before {content: "-"; margin-right:10px; color:#b7c238; background-color:#b7c238;}
+			li[data-category="athletics"]:before {content: "-"; margin-right:10px; color:#0a67be; background-color:#0a67be;}
+			li[data-category="golf"]:before {content: "-"; margin-right:10px; color:#ffc936; background-color:#ffc936;}
+			li[data-category="olympics"]:before {content: "-"; margin-right:10px; color:#5bb618; background-color:#5bb618;}
+			li[data-category="Other"]:before {content: "-"; margin-right:10px; color:#bdfd8e; background-color:#bdfd8e;}
+			li[data-category="extrascores"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
+			li[data-category="extrastandings"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
 	
-		.hidden {visibility:hidden;}
+			.menu {width: auto; height: 40px; line-height: 40px; font-size:1.4em; font-weight: bold; padding-left: 20px; text-align: left;  border-bottom: 1px solid #E2E2E2; display: block; min-height: 40px;}	
+			.iScrollHover {background:#444 !important; color:#eee !important;}
+			.center{margin: auto; position: absolute; top: 0px;bottom: 0px; left: 0px; right: 0px;}
+			
+			@media only screen and (min-width: 320px) and (max-width: 479px) and (orientation: portrait) {html { font-size: 62.5%; }}
+			@media only screen and (min-width: 720px) and (max-width: 767px) and (orientation: portrait) {html { font-size: 120%; }}
+			@media only screen and (min-width:1080px) and (max-width:1199px) and (orientation: portrait) {html { font-size: 200%; }}
+			@media only screen and (min-width:1280px) and (orientation: portrait) {html { font-size: 250%; }}
+		
+			
 	
+			
+			#header li {display:inline; float:left; line-height:100%; width:50%; height:auto; color:#ffffff; overflow: hidden; }
+			#header li:first-child {width:85%;}
+			#header li:last-child {width:15%;}		
+			
+			#header li .back {text-transform:uppercase;}
+			#header li .back img {vertical-align:middle; display:inline; margin:0 5px; }
+			#header li .back img:not(.content) {visible:hidden; width:0px; width:0px; margin-left:90px;}
+			#header li .back img[class="content"] {width:10px; width:10px;}					
+			#header li .back span {vertical-align:top;}
+			
+			
+			#header li .share { position:relative; width:100%; height:100%;  display:inline; padding: .5em;  float:left;}
+			#header li .share img {vertical-align:middle; width:50%; height:auto; }
+			
+			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 4;width: 100%;height: 100%; background-color: rgba(0,0,0,0.7); }
+			#flag {position:absolute; display:inline; width:100%; height:auto;  margin-left:25px; }
+			#flag img {width:20%; height:auto;}			
+			.hidden {visibility:hidden;}	
+			
+			
+			
 		</style>
 	</head>
-	<body style="position: fixed; height:100%; overflow: hidden; margin:0; padding:0; background-color:#fff">
-		
-		<div style="position: absolute; width:100%; height:5%; display: block;  z-index: 4; top:0; left:0; margin:0; padding:0; background-color:#d7d7d7; vertical-align: middle;" >
-			<span id="modeset" data-mode="" style="padding:5px; float:right; font-size: 1.4em; font-weight: bold;"></span>
-		</div>
-		
+	<body>
+		<div id="screen-block" class="hidden">&nbsp;</div>		
+	
 		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 5; top:0; left:0; margin:0; padding:0;" >
 			
 			<div id="top" class="slider closed" style="position: relative;">
-				
+
 				<div style="width:100%; height:20px; min-height: 20px; background-color:#b6110d; color:#fff; text-transform:uppercase; padding: 5px; font-size:1.8em; font-weight:bold;">
-					<div id="modetitle" style="margin-left:14px; ">Noticias</div>
+					<div id="modetitle" style="margin-left:25px; ">Noticias</div>
 				</div>
 			
-				<div id="menu" style="top:30px; background-color: #ffffff;">
-					
+				<div id="menu" style="top:30px; background-color: #ffffff;">					
 					<div class="scroller">
-						<ul id="mainMenuList"  >
-							
+						<ul id="mainMenuList">
+							&nbsp;
 						</ul>
 					</div>					
 				</div>
 			</div>
 			
-			<div id="menus" style="position: relative; width:100%; height:auto; display: block; " >
-				<span class="pullMenu" ><img src="img/logo-115x140.png" class="arrow" alt="Menu" style="width:75%; height:auto; "></span>
+			<div id="flag">
+				<img src="img/flag.png" alt="Menu" />
 			</div>
 						
 		</div>
 		 
-		 
-		
-		 
+
 		<div id="spage">
 			<div id="scrollerpage" style="display:block; float:left;">				
 				<!-- Its filled in the javascript -->
@@ -228,7 +173,7 @@
 		</div>
 
 		
-		<div id="datacontent" class="page" style="z-index: 1; left:100%;">
+		<div id="datacontent" class="page" style="z-index: 1; left:100%;">							
 			<div class="scroller">
 				<ul>
 					<li>
