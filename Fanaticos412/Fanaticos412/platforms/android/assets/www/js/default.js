@@ -32,6 +32,7 @@ var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
 var scrollPageDisable = false;
+var animated = false; 
 
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
@@ -59,7 +60,7 @@ function setScrollPages() {
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:10px;" >'+arrCategory[i].title+'</span></h1></li>';
+			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h1></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			$.li+='</div>';
@@ -158,8 +159,12 @@ var arrCategory=[
 function fBack() {
 	$('#datacontent').attr('class','page transition right');	
 	$('.back img').removeClass('content');	
-	$('.back').removeClass('fadeInLeft');
-	$('.back').removeClass('animated');					
+	
+	if (animated) {
+		$('.back').removeClass('animated');
+		$('.back').removeClass('fadeInLeft');
+	}					
+	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');			
 }
@@ -186,6 +191,8 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
+    	
+    	if (device.version > 4.1) animated = true;
     	
    		//Google Analytics
 		initGA();
@@ -423,12 +430,12 @@ var app = {
 				
     			if (press) {
     				
-    				myScrollDatacontent.scrollTo(0,0,0);
-    				$('.news-datacontent').hide();	
+					$('.news-datacontent').hide();	
     				$('.back img').addClass('content');
     				$('.back img, .share').removeClass('hidden');
-    				$('.back').addClass('animated fadeInLeft');
-				
+    				if (animated) $('.back').addClass('animated fadeInLeft');    				
+    				myScrollDatacontent.scrollTo(0,0,0);
+    							
 					$($(this).data('news')).show();
 										
 					$('.position').html('1');
