@@ -31,7 +31,7 @@ var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
-
+var scrollPageDisable = false;
 
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
@@ -62,8 +62,6 @@ function setScrollPages() {
 			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:10px;" >'+arrCategory[i].title+'</span></h1></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
-			
-  
 			$.li+='</div>';
 			
 			  
@@ -99,7 +97,11 @@ function newScroll(scroll) {
 			this.hoverTimeout = setTimeout(function () {press=true;}, 2);
 			this.hoverTarget = target;
 			e.preventDefault();		
-		},onScrollMove: function(e){	
+		},onScrollMove: function(e){			
+			if (this.y >= 10) {
+				myScrollPage.disable();
+				scrollPageDisable = true;	
+			}	
 			$('#'+scroll+'-featured').height((this.y>=0) ? viewport.pHeight+this.y : viewport.pHeight);
 			$('#'+scroll+'-featured').width((this.y>=0) ? viewport.width+(this.y*2) : viewport.width);
 			$('#'+scroll+'-featured').css('left',(this.y<=0) ? 0 : -this.y);			
@@ -108,13 +110,23 @@ function newScroll(scroll) {
 				this.target = null;
 				press = false;
 			}  
-			e.preventDefault();					
-		},onBeforeScrollEnd: function(e){
+			e.preventDefault();			
+		},onBeforeScrollEnd: function(e){			
 			if (this.hoverTarget) {
 				clearTimeout(this.hoverTimeout);			
 				this.target = null;
 				press = false;
 			}
+		},onScrollEnd : function(e){
+			
+			if (scrollPageDisable) {
+				myScrollPage.scrollToPage(myScrollPage.currPageX, 0, 0);
+				scrollPageDisable = false;
+			}
+			
+ 			myScrollPage.enable();
+ 			
+ 			 			
 		},onScroll: function(e){
 			$('#'+scroll+'-featured').height((this.y>=0) ? viewport.pHeight+this.y : viewport.pHeight);
 			$('#'+scroll+'-featured').width((this.y>=0) ? viewport.width+(this.y*2) : viewport.width);
@@ -140,8 +152,6 @@ var arrCategory=[
 	{i:9,status:false,id:'golf',title:'Golf',bgcolor:'#ffc936',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
 	{i:10,status:false,id:'olympics',title:'Olimpiadas',bgcolor:'#5bb618',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
 	{i:11,status:false,id:'Other',title:'Más Deportes',bgcolor:'#bdfd8e',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0}
-	/*{i:12,status:false,id:'extrascores',title:'LVBP Resultados',bgcolor:'#0720de',featured:{highdef:'',headline:''},xml:'',news:'',view:3,extra:1,mode:1},
-	{i:13,status:false,id:'extrastandings',title:'LVBP Tabla',bgcolor:'#0720de',featured:{highdef:'',headline:''},xml:'',news:'',view:4,extra:1,mode:1}*/
 ];
 
 
@@ -169,29 +179,25 @@ var vHscroll=false;
 var textShadowLight = "0px 1px 5px #555;";
 var textShadowBlack = "0px 1px 5px #000;";
 
+var hScrollMove = false;
+
+
 var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
-    	 
-   		
-   		
+    	
+   		//Google Analytics
+		initGA();
+		
+		//Image Cache
     	ImgCache.options.debug = true;
     	ImgCache.options.localCacheFolder = 'Fanaticos412';
       	ImgCache.options.usePersistentCache = true;       	        	    	
-		ImgCache.init(function(){
-		  //alert('cache created successfully!');
-		}, function(){
-		  //alert('check the log for errors');
-		});  	    	
-		  	    	
-  	    	    
-  	  
-  	    	    	   
+		ImgCache.init();  	    	
+
     	document.addEventListener('backbutton', function checkConnection() {
-    		
-    		
-    		
+
     		$(function() {    			  
     			if(!$('#top').hasClass('closed')){
     				$('#top').addClass('closed');
@@ -199,12 +205,15 @@ var app = {
 					$('#datacontent').attr('class','page transition right');														
 				}else {
 					if(myScrollPage.currPageX == 0){
+						
 						if (navigator.app) {
-				            navigator.app.exitApp();
+							gaPlugin.exit(successGAHandler, successGAHandler);						
+				            navigator.app.exitApp();				            
+				        } else if (navigator.device) {
+				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
+				            navigator.device.exitApp();				            				          
 				        }
-				        else if (navigator.device) {
-				            navigator.device.exitApp();
-				        }					
+
 					}else{
 						if(myScrollPage.enabled) {
 							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
@@ -218,34 +227,19 @@ var app = {
 					}					
 				}
 				
-				
 				fBack();
-				
-				
-				
+
 			});
     	}, false);
     	
+ 		document.addEventListener("online", onOnline, false);				
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
         initialSetup();
         
-        
-        /*document.addEventListener("offline", function(e) {
-         	e.preventDefault();         	
-         	$('img[data-type="featured"]').each(function() {
-         		alert($(this).attr('src'));         		         	
-         		ImgCache.useCachedFile($(this), function(){
-		    		alert('now using local copy');
-		  		}, function(){
-		    		alert('could not load from cache');
-		  		});       		
-         	});
-
-        }, false);*/	    
-		
-        
+        function onOnline() {ImgCache.clearCache();}
+ 
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -255,8 +249,7 @@ var app = {
 		//Manejador de BD
 		storageManager = new StorageManager();
 		
-		//Google Analytics
-		initGA();
+		
     	
     	//INIT SPECIAL DATA
 		setScrollPages();
@@ -274,9 +267,8 @@ var app = {
 					press=true;							
 				}, 5);				
 				this.hoverTarget = target;	
-				e.preventDefault();
-				  
-    		},onScrollMove: function(e){
+				e.preventDefault();				  
+    		},onScrollMove: function(e){    			
 				if (this.hoverTarget) {		
 					clearTimeout(this.hoverTimeout);
 					this.hoverTarget.className = this.hoverTarget.className.replace(hoverClassRegEx, '');
@@ -297,9 +289,6 @@ var app = {
 		
 
 
-			
-			
-			
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
 					
@@ -345,17 +334,15 @@ var app = {
 						if ((upcomingnext)<arrCategory.length) $('#'+arrCategory[upcomingnext].id).removeClass('hidden');		
 																															
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
-						
-
+												
+						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].id);
+    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "Scroll", "swiped", "section", 1);
+    				
 					}
 					
 					this.lastPageX=this.currPageX;
-				
-					$('header').empty();
-					$('header').data('category',arrCategory[this.currPageX].id);
-					$('header').css('background-color',arrCategory[this.currPageX].bgcolor);
-					$('header').append(arrCategory[this.currPageX].title);	
-						
+								
+					
 				}
 			});
 
@@ -382,6 +369,10 @@ var app = {
 				press=false;
 			}).on('touchend','.menu', function() {
     			if (press) {
+    				
+    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
+    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+
     				$('#screen-block').addClass('hidden');
 	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
 					$('#datacontent').attr('class','page right');
@@ -389,6 +380,7 @@ var app = {
 					if (typeof myScrollDatacontentHorizontal != 'undefined') {
 						myScrollDatacontentHorizontal = null;
 					}
+
     			}   								
     		});
 
@@ -436,11 +428,8 @@ var app = {
     				$('.back img').addClass('content');
     				$('.back img, .share').removeClass('hidden');
     				$('.back').addClass('animated fadeInLeft');
-    				
-    				
-    								
+				
 					$($(this).data('news')).show();
-
 										
 					$('.position').html('1');
 					$('#datacontent').attr('class','page transition left');
@@ -472,27 +461,24 @@ var app = {
 				}   
     		});
 
-
-
 			$.fn.exists = function() {
     			return this.length>0;
 			};
 
 			$.fgetUrlNews = function(u) {
-				u = u.split('/');				
+
+				u = u.split('/');
 				var url = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/';
 				for(var i=0; i<u.length; i++){
 					url+="/"+u[i];
 				}
 				
-				url = url.replace('//../','/');
-
-				return url;
+				return url.replace('//../','/');
 			};		
 	
 
 
-			$.fGetAjaX = function(u,d) {			
+			$.fGetAjaX = function(u,d) {
 				return $.ajax({
 					url: u,
 					type: 'get',
@@ -507,22 +493,7 @@ var app = {
 					}}).always(function() {
 						$('.status').empty();
 						arrCategory[myScrollPage.currPageX] .status=true;
-						myScrollPage.enable();
-						
-						
-						
-						
-						
-						
-						
-			
-						
-						
-						
-						
-						
-						
-												
+						myScrollPage.enable();						
 					}).fail(function(xhr, status, error) {
 						/*arrCategory[myScrollPage.currPageX] .status=false;
 						$('.status').append('<li>No hay conexión</li>');
@@ -639,7 +610,7 @@ var app = {
 										
 							if (i==0) {
 
-								$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
+								$($.category+'-featured').append('<img src="'+$.news.highdef[0].src+'" class="center" onerror="this.style.display=\'none\'" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
 								
 								$($.category+'-news-featured-title').data('id',$.news.id);
 								$($.category+'-news-featured-title').data('news','#news-'+$.news.id);
@@ -655,48 +626,45 @@ var app = {
 								$($.category+'-news-featured-title').empty();
 								$($.category+'-news-featured-title').append($.li);
 
-
-								$('img[data-src="'+$.news.highdef[0].src+'"]').each(function() {                                	
-                                	var target = $(this);
-									ImgCache.isCached(target.attr('src'), function(path, success){
-										if(success){											
-										    ImgCache.useCachedFile(target);
-										} else {
-											ImgCache.cacheFile(target.attr('src'), function(){
-												ImgCache.useCachedFile(target);
-										    });
-										}
-									});                                	
-                        		});
+								if (ImgCache.ready) {								
+									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
+	                                	var target = $(this);
+										ImgCache.isCached(target.attr('src'), function(path, success){
+											if(success){											
+											    ImgCache.useCachedFile(target);
+											} else {
+												ImgCache.cacheFile(target.attr('src'), function(){
+													ImgCache.useOnlineFile(target);
+											    });
+											}
+										});                                	
+	                        		});
+								}
 
 							} else if (i>0) {
 							
 								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" wrapper="news-'+$.news.id+'-wrapper" >';
-								
-																
-								if (($.news.quicklook[0].width/$.news.quicklook[0].height) >= viewport.ar) 
-									$.li+='<img data-src="'+$.news.quicklook[0].src+'" src="'+$.news.quicklook[0].src+'" alt="thumbnail" style="width:40%; height:'+((viewport.height*15)/100)+'px; " />';
-								else
-									$.li+='<img data-src="'+$.news.quicklook[0].src+'" src="'+$.news.quicklook[0].src+'" alt="thumbnail"  style="width:'+((viewport.width*40)/100)+'px; height:15%; " />';
-
-								$.li+='<div><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';	
+								$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
+								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';	
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
 
+								if (ImgCache.ready) {
+									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
+	                                	var target = $(this);
+										ImgCache.isCached(target.data('src'), function(path, success){
+											if(success){											
+											    ImgCache.useCachedBackground(target);
+											} else {
+												ImgCache.cacheBackground(target, function(){
+													ImgCache.useOnlineFile(target);
+											    });
+											}
+										});                                	
+	                        		});	
+								}
 								
-								$('img[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
-                                	var target = $(this);
-									ImgCache.isCached(target.attr('src'), function(path, success){
-										if(success){											
-										    ImgCache.useCachedFile(target);
-										} else {
-											ImgCache.cacheFile(target.attr('src'), function(){
-												ImgCache.useCachedFile(target);
-										    });
-										}
-									});                                	
-                        		});
 								
 																
 					    	} 

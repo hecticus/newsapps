@@ -35,8 +35,10 @@
 			img.transparent { opacity:.75; } 
 		
 	 		li[data-view="thumbnail"] {padding:5px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #9e9e9e;  }
-			li[data-view="thumbnail"] img {float: left; width:40%; height:15%; vertical-align:text-top;}
-			li[data-view="thumbnail"] div {margin-left:41%; width:50%; font-weight:bold;}		
+			li[data-view="thumbnail"] .thumbnail {position:relative; display:block; float: left; width:40%; height:auto; }
+			li[data-view="thumbnail"] .headline {margin-left:41%; width:50%; font-weight:bold;}
+			
+					
 			li[data-view="thumbnail"] .title {font-size:1.4em; }
 			li[data-view="thumbnail"] .date {font-size:1.2em; color:#9e9e9e;}
 		 	li[data-view="thumbnail"]:last-child {border: 0px;}
