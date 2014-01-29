@@ -1,4 +1,4 @@
-//La data se almacena en jsons en el campo news_datacontent, todo lo que se recibe se guarda ahi, para asi soportar mejor cualquier cambio o extra informacion que se añada
+//La data se almacena en jsons en el campo news_datacontent, todo lo que se recibe se guarda ahi, para asi soportar mejor cualquier cambio o extra informacion que se aï¿½ada
 var createNewsQuery = 'CREATE TABLE IF NOT EXISTS NEWS (news_tvn_id INTEGER,'+
 'news_category TEXT DEFAULT NULL,'+
 'news_headline TEXT NOT NULL,'+
@@ -50,7 +50,7 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
     printToLog("getCategoryNewsFromDB 1");
     
     printToLog("getCategoryNewsFromDB: "+selected);
-	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+selected+'"', [],
+	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+selected+'" ORDER BY news_date desc LIMIT 10', [],
 				  function(tx, results){
 					callback(results);
 				  },

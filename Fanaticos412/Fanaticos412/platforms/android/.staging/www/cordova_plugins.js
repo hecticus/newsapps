@@ -185,6 +185,13 @@ module.exports = [
         "clobbers": [
             "GAPlugin"
         ]
+    },
+    {
+        "file": "plugins/com.plugin.sms/www/smsplugin.js",
+        "id": "com.plugin.sms.SMSPlugin",
+        "clobbers": [
+            "window.smsPlugin"
+        ]
     }
 ];
 module.exports.metadata = 

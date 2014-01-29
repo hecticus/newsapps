@@ -87,7 +87,25 @@
 
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-
+	
+	/*SIM CHECK*/
+	/*CTTelephonyNetworkInfo* info = [[CTTelephonyNetworkInfo alloc] init];
+	CTCarrier* carrier = info.subscriberCellularProvider;
+	NSString *mobileCountryCode = carrier.mobileCountryCode;
+	NSString *carrierName = carrier.carrierName;
+	NSString *isoCountryCode = carrier.isoCountryCode;
+	NSString *mobileNetworkCode = carrier.mobileNetworkCode;
+	
+	// Try this to track CTCarrier changes
+	info.subscriberCellularProviderDidUpdateNotifier = ^(CTCarrier* inCTCarrier) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"User did change SIM");
+        });
+	};*/
+	
+	NSUUID* currentID = [UIDevice currentDevice].identifierForVendor;
+	//NSLog(@"SIM INFO %@ %@ %@ %@ -- %@",mobileCountryCode,carrierName,isoCountryCode,mobileNetworkCode,currentID.UUIDString);
+	
     return YES;
 }
 

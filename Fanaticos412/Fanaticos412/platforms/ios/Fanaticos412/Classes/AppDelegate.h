@@ -28,6 +28,9 @@
 #import <UIKit/UIKit.h>
 
 #import <Cordova/CDVViewController.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
+#import <UIKit/UIDevice.h>
 
 @interface AppDelegate : NSObject <UIApplicationDelegate>{}
 

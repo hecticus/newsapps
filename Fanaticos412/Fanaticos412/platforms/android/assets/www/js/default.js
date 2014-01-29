@@ -639,7 +639,26 @@ var app = {
 										
 							if (i==0) {
 
-								$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
+								//$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
+								var width = window.innerWidth;
+								var height = window.innerHeight;
+								var screenwidth = window.innerWidth;
+								var screenheight = window.innerHeight;
+
+								var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
+								var realX = screenwidth;
+								var screenAspect = realX/realY;
+								var imageDiff = (realX/$.news.highdef[0].width);
+								var realImageX = $.news.highdef[0].width*imageDiff;
+								var realImageY = $.news.highdef[0].height*imageDiff;
+								var imageAspect = realImageX/realImageY;
+								
+								if(realImageY < realY){
+									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
+								}else{
+									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
+								}
+								
 								
 								$($.category+'-news-featured-title').data('id',$.news.id);
 								$($.category+'-news-featured-title').data('news','#news-'+$.news.id);
