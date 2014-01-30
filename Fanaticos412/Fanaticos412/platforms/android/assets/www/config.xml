@@ -113,6 +113,12 @@
     <feature name="GAPlugin">
         <param name="ios-package" value="GAPlugin" />
     </feature>
+    <feature name="File">
+        <param name="ios-package" value="CDVFile" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="ios-package" value="CDVFileTransfer" />
+    </feature>
     <feature name="SMSPlugin">
         <param name="ios-package" value="SMSPlugin" />
     </feature>
