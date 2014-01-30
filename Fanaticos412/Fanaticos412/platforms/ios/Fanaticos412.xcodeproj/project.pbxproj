@@ -35,6 +35,7 @@
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
 		6B4AF642882F4DAA83B7065F /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = C3FBFCC1D6A5410C8F6DF576 /* SocialSharing.m */; };
+		6F5C2D79189A9BDE0037C1EA /* SMSPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C2D78189A9BDE0037C1EA /* SMSPlugin.m */; };
 		6FA0D6FC1898123B00869CAB /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA0D6FB1898123B00869CAB /* CoreTelephony.framework */; };
 		6FA0D6FF1898548F00869CAB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA0D6FD18983D7300869CAB /* UIKit.framework */; };
 		6FF2783118907655006269A9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA4C00DD0D24AACA630B124 /* Social.framework */; };
@@ -122,6 +123,8 @@
 		5AEE5B34173C68D80009041E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		6BB0F36CEACC43F5B5408D20 /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVFileTransfer.h; path = "org.apache.cordova.file-transfer/CDVFileTransfer.h"; sourceTree = "<group>"; };
+		6F5C2D77189A9BDE0037C1EA /* SMSPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMSPlugin.h; path = com.plugin.sms/SMSPlugin.h; sourceTree = "<group>"; };
+		6F5C2D78189A9BDE0037C1EA /* SMSPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMSPlugin.m; path = com.plugin.sms/SMSPlugin.m; sourceTree = "<group>"; };
 		6FA0D6FB1898123B00869CAB /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		6FA0D6FD18983D7300869CAB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6FEDBD511872139D00B235E3 /* SocialSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialSharing.h; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6F5C2D77189A9BDE0037C1EA /* SMSPlugin.h */,
+				6F5C2D78189A9BDE0037C1EA /* SMSPlugin.m */,
 				6FEDBD511872139D00B235E3 /* SocialSharing.h */,
 				6FEDBD521872139D00B235E3 /* SocialSharing.m */,
 				EA149A7F94B04BAA92CF052F /* CDVDevice.m */,
@@ -500,6 +505,7 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				A7C8D6FC5CD1494087023099 /* CDVDevice.m in Sources */,
+				6F5C2D79189A9BDE0037C1EA /* SMSPlugin.m in Sources */,
 				5AA356333A7E41A5AD889A98 /* CDVConnection.m in Sources */,
 				A43E0F96A627493B8F9786F8 /* CDVReachability.m in Sources */,
 				E3DC81869B18422DB2A2C98E /* CDVFile.m in Sources */,

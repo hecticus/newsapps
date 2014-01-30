@@ -103,7 +103,7 @@
         });
 	};*/
 	
-	NSUUID* currentID = [UIDevice currentDevice].identifierForVendor;
+	//NSUUID* currentID = [UIDevice currentDevice].identifierForVendor;
 	//NSLog(@"SIM INFO %@ %@ %@ %@ -- %@",mobileCountryCode,carrierName,isoCountryCode,mobileNetworkCode,currentID.UUIDString);
 	
     return YES;
