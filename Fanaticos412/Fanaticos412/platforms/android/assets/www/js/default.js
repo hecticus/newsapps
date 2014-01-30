@@ -32,6 +32,7 @@ var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
 var scrollPageDisable = false;
+var animated = false; 
 
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
@@ -59,7 +60,7 @@ function setScrollPages() {
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:10px;" >'+arrCategory[i].title+'</span></h1></li>';
+			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h1></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			$.li+='</div>';
@@ -158,8 +159,12 @@ var arrCategory=[
 function fBack() {
 	$('#datacontent').attr('class','page transition right');	
 	$('.back img').removeClass('content');	
-	$('.back').removeClass('fadeInLeft');
-	$('.back').removeClass('animated');					
+	
+	if (animated) {
+		$('.back').removeClass('animated');
+		$('.back').removeClass('fadeInLeft');
+	}					
+	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');			
 }
@@ -186,6 +191,8 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
+    	
+    	if (device.version > 4.1) animated = true;
     	
    		//Google Analytics
 		initGA();
@@ -336,8 +343,9 @@ var app = {
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
 												
 						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].id);
-    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "Scroll", "swiped", "section", 1);
-    				
+    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "Scroll", "swype", "section", 1);
+    					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].id);
+    					
 					}
 					
 					this.lastPageX=this.currPageX;
@@ -372,6 +380,7 @@ var app = {
     				
     				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
     				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
 
     				$('#screen-block').addClass('hidden');
 	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
@@ -423,12 +432,14 @@ var app = {
 				
     			if (press) {
     				
-    				myScrollDatacontent.scrollTo(0,0,0);
-    				$('.news-datacontent').hide();	
+
+    				
+					$('.news-datacontent').hide();	
     				$('.back img').addClass('content');
     				$('.back img, .share').removeClass('hidden');
-    				$('.back').addClass('animated fadeInLeft');
-				
+    				if (animated) $('.back').addClass('animated fadeInLeft');    				
+    				myScrollDatacontent.scrollTo(0,0,0);
+    							
 					$($(this).data('news')).show();
 										
 					$('.position').html('1');
@@ -601,9 +612,7 @@ var app = {
 							});
 									
 									
-							if ($.category=='#baseball_nacional') {
-								$.news.thumbnail.push({src:''});
-								$.news.quicklook.push({src:''});							
+							if ($.category=='#baseball_nacional') {						
 								$.news.highdef.push({src:'img/lvbp.jpg'});
 							}
 
@@ -625,9 +634,9 @@ var app = {
 								var imageAspect = realImageX/realImageY;
 								
 								if(realImageY < realY){
-									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
+									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
 								}else{
-									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
+									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
 								}
 								
 								
@@ -639,13 +648,13 @@ var app = {
 								
 		
 								$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
-								$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:100%; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
+								$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
 								$.li+='</div>';
 
 								$($.category+'-news-featured-title').empty();
 								$($.category+'-news-featured-title').append($.li);
 
-								if (ImgCache.ready) {								
+								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {								
 									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.attr('src'), function(path, success){
@@ -658,18 +667,28 @@ var app = {
 											}
 										});                                	
 	                        		});
-								}
+								};
 
 							} else if (i>0) {
 							
 								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" wrapper="news-'+$.news.id+'-wrapper" >';
-								$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
-								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';	
+								
+								
+								
+								if ($.news.quicklook.length >= 1) {
+									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
+								}								
+									
+								
+								
+								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';
+									
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
 
-								if (ImgCache.ready) {
+								if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {
+									
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.data('src'), function(path, success){
@@ -682,7 +701,7 @@ var app = {
 											}
 										});                                	
 	                        		});	
-								}
+								};
 								
 								
 																
@@ -690,7 +709,7 @@ var app = {
 					    	
 					    	if ($("#news-"+$.news.id).length == 0) {
 					    	
-  								$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent" style="display:none; background-color:#ffffff;">';				        			
+  								$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';				        			
 								
 
 								$.total = $.news.highdef.length+$.news.video.length;				        					
