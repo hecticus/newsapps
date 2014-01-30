@@ -343,7 +343,7 @@ var app = {
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
 												
 						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].id);
-    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "Scroll", "swype", "section", 1);
+    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "scroll", "swype", "section", 1);
     					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].id);
     					
 					}
@@ -484,7 +484,7 @@ var app = {
 					url+="/"+u[i];
 				}
 				
-				return url.replace('//../','/');
+				return url;
 			};		
 	
 
