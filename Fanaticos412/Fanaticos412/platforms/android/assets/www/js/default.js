@@ -158,7 +158,7 @@ var arrCategory=[
 
 
 function fBack() {
-	
+	myScrollPage.enable();	
 	$('#datacontent').attr('class','page transition right');		
 	$('.back img').removeClass('content');	
 	
@@ -402,6 +402,7 @@ var app = {
     		}).on('touchend','li[data-content="headline"]', function() {				
     			if (press) {
     				
+    				myScrollPage.disable();
     				newsDatacontent = $(this).data('id');
 					var manager = new NewsManager();
 					manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsDataContentFromBD,noConnectionForNews);
