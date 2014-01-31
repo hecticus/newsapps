@@ -37,7 +37,7 @@ public class VideoPlayer extends CordovaPlugin {
         String result = "";
 
         try {
-            if (action.equals("playVideo")) {
+            if (action.equals("play")) {
                 playVideo(args.getString(0));
             }
             else {
