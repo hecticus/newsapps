@@ -75,7 +75,7 @@ function setScrollPages() {
 					$.li+='<ul>';
 						$.li+='<li>';
 							$.li+='<ul id="'+arrCategory[i].id+'-news-featured" class="featured">';	
-								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="featured" data-content="headline"></li>';
+								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="featured" ></li>';
 							$.li+='</ul>';
 							$.li+='<ul id="'+arrCategory[i].id+'-news1" class="news1" style="background-color:#ffffff;">';										
 							$.li+='</ul>';
@@ -140,19 +140,18 @@ function newScroll(scroll) {
 
 var slidesPages=['pCenter','pRight','pLeft'];
 var arrCategory=[
- 	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0}
+ 	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',video:false},
+ 	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},video:false},
+ 	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},video:false},
+ 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},video:false},
+ 	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},video:false},
+ 	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},video:false},
+ 	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},video:false},
+ 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},video:true},
+ 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},video:false},
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},video:true}
  	];
-var otherCategoriesArray=[
-                           ];
+
 
 
 function fBack() {
@@ -426,22 +425,22 @@ var app = {
     		
     		
     		
-			$(document).on('touchstart','div[data-type="video"]', function(e) {
-				press=false;				
-    		}).on('touchend','div[data-type="video"]', function() {
+			$(document).on('touchstart','div[data-type="video"], li[data-type="video"]', function(e) {
+				press=false;		
+    		}).on('touchend','div[data-type="video"], li[data-type="video"]', function() {
     			if (press) {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
     		});
 
-			$(document).on('touchstart','div[data-type="image"]', function(e) {
+			/*$(document).on('touchstart','div[data-type="image"]', function(e) {
 				press=false;				
     		}).on('touchend','div[data-type="image"]', function() {
     			if (press) {
 	    			if ($(this).find('figcaption').hasClass('hidden')) $(this).find('figcaption').removeClass('hidden');
 					else  $('div[data-type="image"]').find('figcaption').addClass('hidden');
 				}   
-    		});
+    		});*/
 
 			$.fn.exists = function() {
     			return this.length>0;
@@ -605,7 +604,7 @@ var app = {
 						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
 
 						
-
+						
 																		
 						for(var i=0;i<itemArray.length; i++){
 											
@@ -634,8 +633,8 @@ var app = {
 									if(itemArray[i]["uploadedvideo"] != "0"){
 										$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
 									}
-								}else{
-									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
+								}else{									
+									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});																
 								}			    				
 							}
 
@@ -665,9 +664,15 @@ var app = {
 								$($.category+'-news-featured-title').data('id',$.news.id);
 								$($.category+'-news-featured-title').data('news','#news-'+$.news.id);
 								$($.category+'-news-featured-title').data('headline',$.news.headline);																			
-								$($.category+'-news-featured-title').data('content','#news-'+$.news.id);
-								$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
+								$($.category+'-news-featured-title').attr('data-content','headline');
 								
+								if (arrCategory[myScrollPage.currPageX].video) {
+									$($.category+'-news-featured-title').attr('data-content','');
+									$($.category+'-news-featured-title').attr('data-type','video');
+									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
+								}
+								
+		
 		
 								$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
 								$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
@@ -693,14 +698,25 @@ var app = {
 
 							} else if (i>0) {
 							
-								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" wrapper="news-'+$.news.id+'-wrapper" >';
+								
+								if (arrCategory[myScrollPage.currPageX].video) {	
+									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
+								} else {
+									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
+								}
+
 								if ($.news.quicklook.length >= 1) {
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
-								}								
-								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';									
+								}
+																
+								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';
+								
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
+								
+
+								
 								
 								/*if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {									
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	

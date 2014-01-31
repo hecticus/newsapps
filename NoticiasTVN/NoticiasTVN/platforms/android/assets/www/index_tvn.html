@@ -48,37 +48,28 @@
 		 	li[data-view="thumbnail"][data-category="baseball_nacional"] div {margin-left:0; width:100%; font-weight:bold;}
 		 	li[data-view="thumbnail"][data-category] {background-color:#ffffff;}
 		 	li[data-view="thumbnail"][data-category]:before {content: ""; margin:0;}
-		 	
-		 		 
-			[data-category="All"]{background-color:#b6110d;}
-			[data-category="football"]{background-color:#067816;}
-			[data-category="baseball_nacional"]{background-color:#0720de;}
-			[data-category="baseball"]{background-color:#01aab1;}
-			[data-category="basket"]{background-color:#ff6000;}
-			[data-category="tennis"]{background-color:#de7f07;}
-			[data-category="f1"]{background-color:#b52f00;}
-			[data-category="cycling"]{background-color:#b7c238;}
-			[data-category="athletics"]{background-color:#0a67be;}
-			[data-category="golf"]{background-color:#ffc936;}
-			[data-category="olympics"]{background-color:#5bb618;}
-			[data-category="Other"]{background-color:#bdfd8e;}
-			[data-category="extrascores"]{background-color:#0720de;}
-			[data-category="extrastandings"]{background-color:#0720de;}
+		 			 		
+			[data-category="latestnews"]{background-color:#b6110d;}
+			[data-category="latestnews_nacionales"]{background-color:#067816;}
+			[data-category="latestnews_internacionales"]{background-color:#0720de;}
+			[data-category="latestnews_tecnologia"]{background-color:#01aab1;}
+			[data-category="latestnews_salud"]{background-color:#ff6000;}
+			[data-category="latestnews_entretenimiento"]{background-color:#de7f07;}
+			[data-category="latestnews_deportes"]{background-color:#b52f00;}
+			[data-category="latestvideos"]{background-color:#b7c238;}
+			[data-category="latestnews_decision2014"]{background-color:#0a67be;}
+			[data-category="latestvideos_decision2014"]{background-color:#ffc936;}
 			
-			li[data-category="All"]:before {content: "-"; margin-right:10px; color:#b6110d; background-color:#b6110d;}
-			li[data-category="football"]:before {content: "-"; margin-right:10px; color:#067816; background-color:#067816;}
-			li[data-category="baseball_nacional"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
-			li[data-category="baseball"]:before {content: "-"; margin-right:10px; color:#01aab1; background-color:#01aab1;}
-			li[data-category="basket"]:before {content: "-"; margin-right:10px; color:#ff6000; background-color:#ff6000;}
-			li[data-category="tennis"]:before {content: "-"; margin-right:10px; color:#de7f07; background-color:#de7f07;}
-			li[data-category="f1"]:before {content: "-"; margin-right:10px; color:#b52f00; background-color:#b52f00;}
-			li[data-category="cycling"]:before {content: "-"; margin-right:10px; color:#b7c238; background-color:#b7c238;}
-			li[data-category="athletics"]:before {content: "-"; margin-right:10px; color:#0a67be; background-color:#0a67be;}
-			li[data-category="golf"]:before {content: "-"; margin-right:10px; color:#ffc936; background-color:#ffc936;}
-			li[data-category="olympics"]:before {content: "-"; margin-right:10px; color:#5bb618; background-color:#5bb618;}
-			li[data-category="Other"]:before {content: "-"; margin-right:10px; color:#bdfd8e; background-color:#bdfd8e;}
-			li[data-category="extrascores"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
-			li[data-category="extrastandings"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
+			li[data-category="latestnews"]:before {content: "-"; margin-right:10px; color:#b6110d; background-color:#b6110d;}
+			li[data-category="latestnews_nacionales"]:before {content: "-"; margin-right:10px; color:#067816; background-color:#067816;}
+			li[data-category="latestnews_internacionales"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
+			li[data-category="latestnews_tecnologia"]:before {content: "-"; margin-right:10px; color:#01aab1; background-color:#01aab1;}
+			li[data-category="latestnews_salud"]:before {content: "-"; margin-right:10px; color:#ff6000; background-color:#ff6000;}
+			li[data-category="latestnews_entretenimiento"]:before {content: "-"; margin-right:10px; color:#de7f07; background-color:#de7f07;}
+			li[data-category="latestnews_deportes"]:before {content: "-"; margin-right:10px; color:#b52f00; background-color:#b52f00;}
+			li[data-category="latestvideos"]:before {content: "-"; margin-right:10px; color:#b7c238; background-color:#b7c238;}
+			li[data-category="latestnews_decision2014"]:before {content: "-"; margin-right:10px; color:#0a67be; background-color:#0a67be;}
+			li[data-category="latestvideos_decision2014"]:before {content: "-"; margin-right:10px; color:#ffc936; background-color:#ffc936;}
 	
 			.menu {width: auto; height: 40px; line-height: 40px; font-size:1.4em; font-weight: bold; padding-left: 20px; text-align: left;  border-bottom: 1px solid #E2E2E2; display: block; min-height: 40px;}	
 			.iScrollHover {background:#444 !important; color:#eee !important;}
@@ -105,16 +96,22 @@
 			#header li .share img {vertical-align:middle; width:50%; height:auto; }
 			
 			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 4; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
-			#flag {position:absolute; display:inline; width:100%; height:auto;   }
-			#flag img {width:20%; height:auto; margin-left:30px;}			
+			/*#flag {position:absolute; display:inline; width:100%; height:auto;   }
+			#flag img {width:15%; height:auto; margin-left:30px;}*/			
 			.hidden {visibility:hidden;}
-			
-				
 			.news-datacontent {background-color:#ffffff;}
-			/*.news-datacontent .none {display:none;}	
-			.news-datacontent .none .inline {display:inline;}*/
 			
-				
+			#flag {position: absolute; padding: 3px; 
+				top: 0px; left: 10px; background: #ffffff;
+				border: 3px solid black;
+				border-top: none;
+				box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+				color: #FFF;
+				cursor: pointer;
+				border-radius: 0 0 3px 3px;
+			}	
+			
+			
 		</style>
 	</head>
 	<body>
@@ -137,9 +134,11 @@
 				</div>
 			</div>
 			
-			<div id="flag">
-				<img src="img/flag.png" alt="Menu" />
-			</div>
+			
+			<div style="position: absolute; width:30%; height:30%; display: block; " >
+				<span id="flag"><img src="img/flag.png" style="width: 100%; height:auto;"></span>
+			</div>	
+			
 						
 		</div>
 		 
@@ -149,33 +148,7 @@
 				<!-- Its filled in the javascript -->
 			</div>
 		</div>						
-
-		<div id="extra" class="page" style="z-index: 2; left:-100%; background-color: #ffffff;  ">
-			<div id="extra-featured" class="featured hidden" style="position:absolute;  z-index: 0; background-color: #0B3B2E;"></div>		
-			<div class="scroller">
-				<ul>
-					<li>					
-						<ul id="extra-news-featured"  class="featured">							
-							<li id="extra-news-featured-title"  class="featured"></li>
-						</ul>							
-						<ul id="extras">																			
-							<li id="extra-section"></li>
-
-							<li id="gamesl" >							
-								<div id="gamesWrapper" style="position:relative; width:auto; height:auto; text-align:left;" >
-									<div id="gamesScroller"  style="display:block; float:left; width:auto; height:auto; background-color:#ffffff; "></div>
-								</div>
-							</li>
-
-							<li id="standings" style="padding: 5px;  background-color: #ffffff;"></li>
-														
-							</ul>							
-						<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>
-					</li>
-				</ul>
-			</div>
-		</div>
-
+		
 		
 		<div id="datacontent" class="page" style="z-index: 1; left:100%;">							
 			<div class="scroller">
