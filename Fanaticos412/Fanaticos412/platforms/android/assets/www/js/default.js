@@ -256,7 +256,7 @@ var app = {
 		//Manejador de BD
 		storageManager = new StorageManager();
 		
-		
+		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
     	
     	//INIT SPECIAL DATA
 		setScrollPages();

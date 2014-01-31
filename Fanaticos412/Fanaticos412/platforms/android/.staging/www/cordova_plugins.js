@@ -190,7 +190,7 @@ module.exports = [
         "file": "plugins/com.plugin.sms/www/smsplugin.js",
         "id": "com.plugin.sms.SMSPlugin",
         "clobbers": [
-            "window.smsPlugin"
+            "window.plugins.smsPlugin"
         ]
     }
 ];
