@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -38,7 +37,7 @@ public class VideoPlayer extends CordovaPlugin {
         String result = "";
 
         try {
-            if (action.equals("playVideo")) {
+            if (action.equals("play")) {
                 playVideo(args.getString(0));
             }
             else {
@@ -54,7 +53,6 @@ public class VideoPlayer extends CordovaPlugin {
     }
 
     private void playVideo(String url) throws IOException {
-    	Log.v("console_special", "playVIDEO: " + url);
     	if (url.contains("bit.ly/") || url.contains("goo.gl/") || url.contains("tinyurl.com/") || url.contains("youtu.be/")) {
 			//support for google / bitly / tinyurl / youtube shortens
 			URLConnection con = new URL(url).openConnection();
