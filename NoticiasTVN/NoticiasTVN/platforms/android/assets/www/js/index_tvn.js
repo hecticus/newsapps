@@ -187,78 +187,10 @@ var textShadowBlack = "0px 1px 5px #000;";
 var hScrollMove = false;
 
 
-var app = {
-    initialize: function() {this.bindEvents();},
-    bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
-    onDeviceReady: function() {
-    	
-    	if (device.version > 4.1) animated = true;
-    	
-   		//Google Analytics
-		initGA();
-		
-		//Image Cache
-    	ImgCache.options.debug = true;
-    	ImgCache.options.localCacheFolder = 'Fanaticos412';
-      	ImgCache.options.usePersistentCache = true;       	        	    	
-		ImgCache.init();	    	
 
-    	document.addEventListener('backbutton', function checkConnection() {
 
-    		$(function() {    			  
-    			if(!$('#top').hasClass('closed')){
-    				$('#top').addClass('closed');
-				}else if ($('#datacontent').hasClass('left')){
-					$('#datacontent').attr('class','page transition right');														
-				}else {
-					if(myScrollPage.currPageX == 0){
-						
-						if (navigator.app) {
-							gaPlugin.exit(successGAHandler, successGAHandler);						
-				            navigator.app.exitApp();				            
-				        } else if (navigator.device) {
-				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
-				            navigator.device.exitApp();				            				          
-				        }
 
-					}else{
-						if(myScrollPage.enabled) {
-							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
-							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
-							myScrollPage.refresh();
-							myScrollPage.scrollToPage(0, 0, 0);
-							if (typeof myScrollDatacontentHorizontal != 'undefined') {
-								myScrollDatacontentHorizontal = null;
-							}
-						}						
-					}					
-				}
-				
-				fBack();
-
-			});
-    	}, false);
-    	
- 		document.addEventListener("online", onOnline, false);				
-    	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
-    	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
-        app.receivedEvent('deviceready');
-        initialSetup();
-        
-        function onOnline() {ImgCache.clearCache();}
- 
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-		//init push data
-		initPush();
-		
-		//Manejador de BD
-		storageManager = new StorageManager();
-		
-		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
-    	
-    	//INIT SPECIAL DATA
+		//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
 
@@ -432,15 +364,7 @@ var app = {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
     		});
-
-			/*$(document).on('touchstart','div[data-type="image"]', function(e) {
-				press=false;				
-    		}).on('touchend','div[data-type="image"]', function() {
-    			if (press) {
-	    			if ($(this).find('figcaption').hasClass('hidden')) $(this).find('figcaption').removeClass('hidden');
-					else  $('div[data-type="image"]').find('figcaption').addClass('hidden');
-				}   
-    		});*/
+		
 
 			$.fn.exists = function() {
     			return this.length>0;
@@ -516,7 +440,7 @@ var app = {
 
     		//WITH JSON INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
-				
+
 				myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
 
 				myJson.done(function(json) {
@@ -538,7 +462,6 @@ var app = {
 					
 					
 				});
-
     		};
 		  
 		  	function successSaveNews(){
@@ -874,39 +797,7 @@ var app = {
 
     		};    	
     		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-	
-			$.fgetNews();
-			
-			
-			
+
 			$.parseDate = function(stringDate) {
 				var stringValue = ""+stringDate;
 				var array = new Array();
@@ -962,5 +853,87 @@ var app = {
 				}
 				
 			};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var app = {
+    initialize: function() {this.bindEvents();},
+    bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
+    onDeviceReady: function() {
+    	
+    	if (device.version > 4.1) animated = true;
+    	
+   		//Google Analytics
+		initGA();
+		
+		//Image Cache
+    	ImgCache.options.debug = true;
+    	ImgCache.options.localCacheFolder = 'Fanaticos412';
+      	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.init();	    	
+
+    	document.addEventListener('backbutton', function checkConnection() {
+
+    		$(function() {    			  
+    			if(!$('#top').hasClass('closed')){
+    				$('#top').addClass('closed');
+				}else if ($('#datacontent').hasClass('left')){
+					$('#datacontent').attr('class','page transition right');														
+				}else {
+					if(myScrollPage.currPageX == 0){
+						
+						if (navigator.app) {
+							gaPlugin.exit(successGAHandler, successGAHandler);						
+				            navigator.app.exitApp();				            
+				        } else if (navigator.device) {
+				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
+				            navigator.device.exitApp();				            				          
+				        }
+
+					}else{
+						if(myScrollPage.enabled) {
+							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
+							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							myScrollPage.refresh();
+							myScrollPage.scrollToPage(0, 0, 0);
+							if (typeof myScrollDatacontentHorizontal != 'undefined') {
+								myScrollDatacontentHorizontal = null;
+							}
+						}						
+					}					
+				}
+				
+				fBack();
+
+			});
+    	}, false);
+    	
+ 		document.addEventListener("online", onOnline, false);				
+    	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
+    	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
+        app.receivedEvent('deviceready');
+        initialSetup();
+        
+        function onOnline() {ImgCache.clearCache();}
+ 
+    },
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+		//init push data
+		initPush();		
+		//Manejador de BD
+		storageManager = new StorageManager();		
+		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
     }
 };
