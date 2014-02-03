@@ -15,18 +15,9 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <feature name="SocialSharing">
-        <param name="ios-package" value="SocialSharing" />
+    <feature name="SplashScreen">
+        <param name="ios-package" value="SplashScreen" />
     </feature>
-    <feature name="Console">
-        <param name="ios-package" value="CDVLogger" />
-    </feature>
-	<feature name="File">
-		<param name="ios-package" value="CDVFile" />
-	</feature>
-	<feature name="FileTransfer">
-		<param name="ios-package" value="CDVFileTransfer" />
-	</feature>
     <description>
         Noticias TVN portal app
     </description>
@@ -44,16 +35,19 @@
     <access origin="http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/*" />
     <access origin="http://02.kraken.hecticus.com/*" />
     <feature name="VideoPlayer">
-        <param name="ios-package" value="VideoPlayerCommand" />
         <param name="android-package" value="org.apache.cordova.videoplayer.VideoPlayer" />
     </feature>
     <feature name="SplashScreen">
-        <param name="ios-package" value="SplashScreen" />
         <param name="android-package" value="org.apache.cordova.SplashScreen" />
     </feature>
     <feature name="NetworkStatus">
-        <param name="ios-package" value="CDVConnection" />
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
+    <feature name="SMSPlugin">
+        <param name="android-package" value="com.plugin.sms.SMSPlugin" />
     </feature>
     <name>NoticiasTVN</name>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
@@ -101,10 +95,34 @@
     <gap:splash gap:platform="ios" height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <content src="index_tvn.html" />
+    <feature name="Device">
+        <param name="ios-package" value="CDVDevice" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+    </feature>
     <feature name="PushPlugin">
         <param name="ios-package" value="PushPlugin" />
     </feature>
-    <feature name="Device">
-        <param name="ios-package" value="CDVDevice" />
+    <feature name="GAPlugin">
+        <param name="ios-package" value="GAPlugin" />
+    </feature>
+    <feature name="File">
+        <param name="ios-package" value="CDVFile" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="ios-package" value="CDVFileTransfer" />
+    </feature>
+    <feature name="SMSPlugin">
+        <param name="ios-package" value="SMSPlugin" />
+    </feature>
+	<feature name="VideoPlayer">
+        <param name="ios-package" value="VideoPlayer" />
     </feature>
 </widget>

@@ -1,274 +1,156 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		
 		<link rel="stylesheet" type="text/css" href="css/base.css">
-		<link rel="stylesheet" type="text/css" href="css/media.css">		
 		<link rel="stylesheet" type="text/css" href="css/transaction.css">
 		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+		
 		<title>Noticias TVN</title>
 
 		<style type="text/css" media="all">
+
+		
+			body {position: fixed; width:100%; height:100%; overflow: hidden;}
+			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
+			#menu, #datacontent { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}				
+			#datacontent {top:40px;}
+			
+			.scroller {position:absolute; z-index:1; -webkit-tap-highlight-color:rgba(0,0,0,0); width:100%; padding:0;}
+
+			.scroller > ul {list-style:none; padding:0; margin:0; width:100%; text-align:left;}
+			
+			.scroller > li {padding:0 10px; height:0px; line-height:0;}
+
+			.slider { height:300px; overflow-y: hidden; max-height: 300px; transition-property: all; transition-duration: .5s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1);}		
+			.slider.closed {max-height: 0; border-style:none; box-shadow: 0 0 0 rgba(0,0,0,0); border-width:0;}		
+	
+			
+			.transp-block-camare { background: #000 url(img/camare.png) no-repeat; } 
+			.transp-block-video { background: #000 url(img/playvideo.png) no-repeat;  } 
+			img.transparent { opacity:.75; } 
+		
+	 		li[data-view="thumbnail"] {padding:5px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #9e9e9e; display:block; overflow:inherit;  }
+			li[data-view="thumbnail"] .thumbnail {position:relative; display:block; float: left; width:40%; height:auto; }
+			li[data-view="thumbnail"] .headline {margin-left:41%; width:50%; font-weight:bold;}
+			
+					
+			li[data-view="thumbnail"] .title {font-size:1.4em; }
+			li[data-view="thumbnail"] .date {font-size:1.2em; color:#9e9e9e;}
+		 	li[data-view="thumbnail"]:last-child {border: 0px;}
+		 	
+		 	
+		 	li[data-view="thumbnail"][data-category="baseball_nacional"] img {display:none;}
+		 	li[data-view="thumbnail"][data-category="baseball_nacional"] div {margin-left:0; width:100%; font-weight:bold;}
+		 	li[data-view="thumbnail"][data-category] {background-color:#ffffff;}
+		 	li[data-view="thumbnail"][data-category]:before {content: ""; margin:0;}
+		 			 		
+			[data-category="latestnews"]{background-color:#b6110d;}
+			[data-category="latestnews_nacionales"]{background-color:#067816;}
+			[data-category="latestnews_internacionales"]{background-color:#0720de;}
+			[data-category="latestnews_tecnologia"]{background-color:#01aab1;}
+			[data-category="latestnews_salud"]{background-color:#ff6000;}
+			[data-category="latestnews_entretenimiento"]{background-color:#de7f07;}
+			[data-category="latestnews_deportes"]{background-color:#b52f00;}
+			[data-category="latestvideos"]{background-color:#b7c238;}
+			[data-category="latestnews_decision2014"]{background-color:#0a67be;}
+			[data-category="latestvideos_decision2014"]{background-color:#ffc936;}
+			
+			li[data-category="latestnews"]:before {content: "-"; margin-right:10px; color:#b6110d; background-color:#b6110d;}
+			li[data-category="latestnews_nacionales"]:before {content: "-"; margin-right:10px; color:#067816; background-color:#067816;}
+			li[data-category="latestnews_internacionales"]:before {content: "-"; margin-right:10px; color:#0720de; background-color:#0720de;}
+			li[data-category="latestnews_tecnologia"]:before {content: "-"; margin-right:10px; color:#01aab1; background-color:#01aab1;}
+			li[data-category="latestnews_salud"]:before {content: "-"; margin-right:10px; color:#ff6000; background-color:#ff6000;}
+			li[data-category="latestnews_entretenimiento"]:before {content: "-"; margin-right:10px; color:#de7f07; background-color:#de7f07;}
+			li[data-category="latestnews_deportes"]:before {content: "-"; margin-right:10px; color:#b52f00; background-color:#b52f00;}
+			li[data-category="latestvideos"]:before {content: "-"; margin-right:10px; color:#b7c238; background-color:#b7c238;}
+			li[data-category="latestnews_decision2014"]:before {content: "-"; margin-right:10px; color:#0a67be; background-color:#0a67be;}
+			li[data-category="latestvideos_decision2014"]:before {content: "-"; margin-right:10px; color:#ffc936; background-color:#ffc936;}
+	
+			.menu {width: auto; height: 40px; line-height: 40px; font-size:1.4em; font-weight: bold; padding-left: 20px; text-align: left;  border-bottom: 1px solid #E2E2E2; display: block; min-height: 40px;}	
+			.iScrollHover {background:#444 !important; color:#eee !important;}
+			.center{margin: auto; position: absolute; top: 0px;bottom: 0px; left: 0px; right: 0px;}
+			
+			@media only screen and (min-width: 320px) and (max-width: 479px) and (orientation: portrait) {html { font-size: 62.5%; }}
+			@media only screen and (min-width: 720px) and (max-width: 767px) and (orientation: portrait) {html { font-size: 120%; }}
+			@media only screen and (min-width:1080px) and (max-width:1199px) and (orientation: portrait) {html { font-size: 200%; }}
+			@media only screen and (min-width:1280px) and (orientation: portrait) {html { font-size: 250%; }}
 		
 
-									
-			.section {
-				position:relative; 
-				z-index:5;
-				top:0; left:0;
-				width:100%;
-		        height:20px;
-		        line-height:20px;
-		        text-align:left;
-		        /*font-size: 1.4em;*/ 
-		        background-color: red;
-		        color:#ffffff;
-				font-weight: bold;
-				padding:0;
-				padding-bottom:5px;
-				padding-top:5px;
-				background: linear-gradient(to bottom, #790000 0%, #E10000 13%, #8B0000 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
-			}	
+			#header li {display:inline; float:left; line-height:100%; width:50%; height:auto; color:#ffffff; overflow: hidden; }
+			#header li:first-child {width:85%;}
+			#header li:last-child {width:15%;}		
 			
-			#content {
-				position:absolute; z-index:0;
-				bottom:0; left:0;
-				width:100%;
-				height:auto;				
-				padding:0;				
-			}			
+			#header li .back {text-transform:uppercase;}
+			#header li .back img {vertical-align:middle; display:inline; margin:0 0 0 5px;}
+			#header li .back img:not(.content) {visible:hidden; width:0px; width:0px; margin-left:100px;}
+			#header li .back img[class="content"] {width:10px; width:10px;}					
+			#header li .back span {vertical-align:top;}
 			
 			
-			#home, #menu, #datacontent, #video {
-				position:absolute; 
-				z-index:1;
-				top:0px; 
-				bottom:0; 
-				left:0;
-				width:100%;
-				overflow:auto;
-			}		
+			#header li .share { position:relative; width:100%; height:100%;  display:inline; padding: .5em;  float:left;}
+			#header li .share img {vertical-align:middle; width:50%; height:auto; }
 			
-			.scroller {
-				position:absolute; 
-				z-index:1;
-				-webkit-tap-highlight-color:rgba(0,0,0,0);
-				width:100%;
-				padding:0;
-			}
+			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 4; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
+			/*#flag {position:absolute; display:inline; width:100%; height:auto;   }
+			#flag img {width:15%; height:auto; margin-left:30px;}*/			
+			.hidden {visibility:hidden;}
+			.news-datacontent {background-color:#ffffff;}
 			
-			.scroller > ul {
-				list-style:none;
-				padding:0;
-				margin:0;
-				width:100%;
-				text-align:left;
-			}
-			
-			.scroller >li {
-				padding:0 10px;
-				height:0px;
-				line-height:0px;
-				/*font-size: 1.4em;*/ 
-			}
-			
-			.menu {
-				width: auto; 
-				height: 20px; 
-				line-height: 20px; 
-				font-size: 1.2em; 
-				font-weight: bold; 
-				padding: 5px; 
-				text-align: left; 
-				background-color:#ffffff; 
-				border-bottom: 1px solid #E2E2E2; 
-				display: block; 
-				min-height: 20px;
-			}
-						
-			
-			#wrapperh {
-				width:300px;
-				height:160px;
-				float:left;
-				position:relative;	
-				z-index:1;
-				overflow:hidden;	
-			}
-			
-			#scrollerh {
-				width:300px;
-				height:100%;
-				float:left;
-				padding:0;
-			}
-			
-			#scrollerh ul {
-				list-style:none;
-				display:block;
-				float:left;
-				width:100%;
-				height:100%;
-				padding:0;
-				margin:0;
-				text-align:left;
-			}
-			
-			#scrollerh li {
-				display:block; float:left;
-				width:300px; height:160px;
-				text-align:center;
-				/*font-family:georgia;*/
-				/*font-size:1.8em;*/
-				line-height:140%;
-			}			
-	
-			.pullMenu {
-				padding: 3px;
-				position: absolute;
-				top: 0px;
-				left: 10px;
-				display: none;
-				background: #00387d;
-				
+			#flag {position: absolute; padding: 3px; 
+				top: 0px; left: 10px; background: #ffffff;
 				border: 3px solid black;
 				border-top: none;
 				box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 				color: #FFF;
 				cursor: pointer;
 				border-radius: 0 0 3px 3px;
-				
-				
 			}	
-	
-			.hide {
-			    overflow: hidden;
-			    max-height: 0;
-			    padding-top: 0;
-			    padding-bottom: 0;
-			    margin-top: 0;
-			    margin-bottom: 0;
-			    -moz-transition-duration: 0.2s;
-			    -webkit-transition-duration: 0.2s;
-			    -o-transition-duration: 0.2s;
-			    transition-duration: 0.2s;
-			    -moz-transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
-			    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
-			    -o-transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
-			    transition-timing-function: cubic-bezier(0, 1, 0.2, 1);
-			}
 			
-			.show {
-			    -moz-transition-duration: 0.5s;
-			    -webkit-transition-duration: 0.5s;
-			    -o-transition-duration: 0.5s;
-			    transition-duration: 0.5s;
-			    -moz-transition-timing-function: ease-in;
-			    -webkit-transition-timing-function: ease-in;
-			    -o-transition-timing-function: ease-in;
-			    transition-timing-function: ease-in;
-			    max-height: 1000px;
-			    overflow: hidden;
-			}			
-					
-				
 			
-
-		
-		.slider {
-			overflow-y: hidden;
-			max-height: 500px; /* approximate max height */
-			/*max-height: 350px; /* approximate max height TVN*/
-		
-			transition-property: all;
-			transition-duration: .5s;
-			transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-			
-			border-style:solid;
-			border-bottom: medium solid #000000;
-			border-top-style:none;
-			border-left-style:none;
-			border-right-style:none;
-			
-			box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-		}
-		
-		.slider.closed {
-			max-height: 0;
-			border-style:none;
-			box-shadow: 0 0 0 rgba(0,0,0,0);
-			border-width:0;
-		}		
-		
-		
-		#wrapperpage {
-			width:100%;
-			min-width:320px;
-			height:150px;
-			background:#ddd;
-			border-top:1px solid #aaa;
-			border-bottom:1px solid #aaa;
-		}
-		
-		
-		img.transparent { opacity:.75; } 
-
-		.metro { opacity:0.6; }
-		.metroHover {opacity:1.0; }
-
-		.center{margin: auto; position: absolute; top: 0px;bottom: 0px; left: 0px; right: 0px;}
-							
-		li[data-type="video"] { background: #000 url(img/playvideo.png) no-repeat; }
-		li[data-type="image"] { background: #000 url(img/camare.png) no-repeat; }
-		h1,h2, h3, h4, h5 {color:#ffffff; text-shadow:0px 1px 5px #555; position: absolute; bottom:0; left: 0; }
-
-
-		.news1 li:nth-child(even) { float:left; }		
-		.news1 li:nth-child(odd) { float:right; }		
-		
-		.news1 li:nth-child(even) img {margin-right:25px; }
-		.news1 li:nth-child(odd) img {margin-left:25px; }
-		
-		.iScrollHover {background:#444 !important; color:#eee !important;}
-		.hidden {visibility:hidden;}	
-
-		li {position:relative;}
-
-				
 		</style>
-		
-		
 	</head>
-	<body >
+	<body>
+		<div id="screen-block" class="hidden">&nbsp;</div>		
+	
+		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 5; top:0; left:0; margin:0; padding:0;" >
+			
+			<div id="top" class="slider closed" style="position: relative;">
 
-		<div style="position: absolute; width:100%; height:auto; display: block; z-index: 4; top:0; left:0; margin:0; padding:0;" >			
-			<div id="top" class="slider closed" style="position: relative; width:100%; height:auto; display: block; background-color:#ffffff; top:0px; margin:0; padding:0;" >
-				<div class="section" style="background-color: #0040FF;">Noticias</div>
-				<div id="menu" style="position:absolute; top:35px; left:0;">				
-					<div class="scroller">				
+				<div style="width:100%; height:20px; min-height: 20px; background-color:#b6110d; color:#fff; text-transform:uppercase; padding: 5px; font-size:1.8em; font-weight:bold;">
+					<div id="modetitle" style="margin-left:25px; ">Noticias</div>
+				</div>
+			
+				<div id="menu" style="top:30px; background-color: #ffffff;">					
+					<div class="scroller">
 						<ul id="mainMenuList">
-							<!-- Filled in javascript -->
+							&nbsp;
 						</ul>
-					</div>
-				</div>	
+					</div>					
+				</div>
 			</div>
-			<div id="menus" style="position: relative; width:100%; height:100px; display: block; " >
-				<span class="pullMenu" style="display:inline;"><img src="img/tvnlarge.png" class="arrow" alt="Arrow Down" style="width: 80px; height:70px;"></span>
-			</div>			
+			
+			
+			<div style="position: absolute; width:30%; height:30%; display: block; " >
+				<span id="flag"><img src="img/flag.png" style="width: 100%; height:auto;"></span>
+			</div>	
+			
+						
 		</div>
- 
- 
+		 
+
 		<div id="spage">
 			<div id="scrollerpage" style="display:block; float:left;">				
 				<!-- Its filled in the javascript -->
 			</div>
 		</div>						
-
-		<div id="datacontent" class="page" style="z-index: 1; left:100%;">
+		
+		
+		<div id="datacontent" class="page" style="z-index: 1; left:100%;">							
 			<div class="scroller">
 				<ul>
 					<li>
@@ -280,18 +162,22 @@
 
 		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
+
         <script type="text/javascript" src="cordova.js"></script>
-        <!--script type="text/javascript" src="js/SocialSharing.js"></script-->
+        <script type="text/javascript" src="js/SocialSharing.js"></script>
         <script type="text/javascript" src="js/index_tvn.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>
-		<!--script type="text/javascript" src="js/debug/console-via-logger.js"></script-->
-       	<!--script type="text/javascript" src="js/video.js"></script-->
+       	<script type="text/javascript" src="js/video.js"></script>
+		
+		<script type="text/javascript" src="plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js"></script>
+		<script type="text/javascript" src="plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js"></script>
+		
 		<script type="text/javascript" src="js/StorageManager/StorageManager.js"></script>
-		<script type="text/javascript" src="js/StorageManager/ImageManager.js"></script>
-		<script type="text/javascript" src="js/imgcache.js"></script>
 		<script type="text/javascript" src="js/News/NewsManager.js"></script>
 		<script type="text/javascript" src="js/Push/PushManager.js"></script>
-       
+		<script type="text/javascript" src="js/GAManager/GAManager.js"></script>
+        <script type="application/javascript" src="imgcache.js"></script>
+        
         <script type="text/javascript">              
             app.initialize();
         </script>

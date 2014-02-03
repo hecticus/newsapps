@@ -16,19 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/*
-function supports_video() {
-  return !!document.createElement('video').canPlayType;
-}
 
-function supports_h264_baseline_video() {
-  if (!supports_video()) { return false; }
-  var v = document.createElement("video");
-  return v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-}*/
-
-//manejador de BD
-var storageManager;
 
 var currentTime = new Date();
 var day = currentTime.getDate();
@@ -40,38 +28,54 @@ var arrTime=[0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var arrTimeM=['am','am','am','am','am','am','am','am','am','am','am','am','pm','pm','pm','pm','pm','pm','pm','pm','pm','pm','pm','pm'];
 var arrMonth=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
-var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100)};
+
+var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
+var scrollPageDisable = false;
+var animated = false; 
+var newsDatacontent;
 
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
 function setMenuCategories(){
-	$.lil='';
-	
+
+	$.li='';
 	for(var i=0; i<arrCategory.length; i++){
-		$.lil+='<li category="'+arrCategory[i].id+'" data-title="'+arrCategory[i].title+'" class="menu" bgcolor="'+arrCategory[i].bgcolor+'" data-position="'+arrCategory[i].i+'">'+arrCategory[i].title+'</li>\n';
+			$.li+='<li data-category="'+arrCategory[i].id+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:#ffffff;">';			
+			$.li+=arrCategory[i].title;			
+			$.li+='</li>';
 	}
-	for(var i=0; i<otherCategoriesArray.length; i++){
-		$.lil+='<li category="'+otherCategoriesArray[i].id+'" data-title="'+otherCategoriesArray[i].title+'" class="menu" bgcolor="'+otherCategoriesArray[i].bgcolor+'" data-position="'+otherCategoriesArray[i].i+'">'+otherCategoriesArray[i].title+'</li>\n';
-	}
-	
-	
-	$('#mainMenuList').append($.lil);
+		
+	$('#mainMenuList').empty();
+	$('#mainMenuList').append($.li);
+		
 }
 
 //function to set the correct pages with the correct IDs and colors
 function setScrollPages() {
 	$('#scrollerpage').empty();
 	for(var i=0; i<arrCategory.length; i++){
-		//insertar cada pagina con sus datos correctos
-		$.li='<div class="pages"  style="position:relative; float:left; display:block;background-color:'+arrCategory[i].bgcolor+';">';
-			$.li+='<div id="'+arrCategory[i].id+'" class="page" style="position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;">';	
-				$.li+='<div id="'+arrCategory[i].id+'-featured" class="featured" style="position:absolute;  z-index: 0; background-color: '+arrCategory[i].bgcolor+'; text-align:center;"></div>';
+		
+		$.li='<div class="pages"  style="position:relative; float:left; display:block; background-color:#000000;">';
+
+			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
+			
+			$.li+='<ul id="header">';
+			$.li+='<li><h3 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h3></li>';
+			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
+			$.li+='</ul>';
+			$.li+='</div>';
+			
+			  
+   
+			$.li+='<div id="'+arrCategory[i].id+'" class="page" style="position:absolute; z-index:1; top:40px; bottom:0; left:0; width:100%; overflow:auto;">';
+				
+				$.li+='<div id="'+arrCategory[i].id+'-featured" class="featured"  style="position:absolute;  z-index: 0; background-color:#000000;"></div>';											
 				$.li+='<div class="scroller">';
 					$.li+='<ul>';
 						$.li+='<li>';
-							$.li+='<ul id="'+arrCategory[i].id+'-news-featured" class="news-featured">';	
-								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="news-featured-title"></li>';
+							$.li+='<ul id="'+arrCategory[i].id+'-news-featured" class="featured">';	
+								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="featured" ></li>';
 							$.li+='</ul>';
 							$.li+='<ul id="'+arrCategory[i].id+'-news1" class="news1" style="background-color:#ffffff;">';										
 							$.li+='</ul>';
@@ -92,32 +96,39 @@ function newScroll(scroll) {
 			this.refresh();
 			var target = e.target;
 			clearTimeout(this.hoverTimeout);					
-			this.hoverTimeout = setTimeout(function () {
-				$('#metro-img-'+$(target).data('img')).addClass('metroHover');
-				press=true;
-			}, 2);
+			this.hoverTimeout = setTimeout(function () {press=true;}, 2);
 			this.hoverTarget = target;
 			e.preventDefault();		
-		},onScrollMove: function(e){	
+		},onScrollMove: function(e){			
+			if (this.y >= 10) {
+				myScrollPage.disable();
+				scrollPageDisable = true;	
+			}	
 			$('#'+scroll+'-featured').height((this.y>=0) ? viewport.pHeight+this.y : viewport.pHeight);
 			$('#'+scroll+'-featured').width((this.y>=0) ? viewport.width+(this.y*2) : viewport.width);
 			$('#'+scroll+'-featured').css('left',(this.y<=0) ? 0 : -this.y);			
 			if (this.hoverTarget) {
 				clearTimeout(this.hoverTimeout);
-				$('#metro-img-'+$(this.hoverTarget).data('img')).removeClass('metroHover');	
-				//this.hoverTarget.className = this.hoverTarget.className.replace(hoverClassRegEx, '');	
 				this.target = null;
 				press = false;
 			}  
-			e.preventDefault();					
-		},onBeforeScrollEnd: function(e){
+			e.preventDefault();			
+		},onBeforeScrollEnd: function(e){			
 			if (this.hoverTarget) {
-				clearTimeout(this.hoverTimeout);
-				$('#metro-img-'+$(this.hoverTarget).data('img')).removeClass('metroHover');	
-				//this.hoverTarget.className = this.hoverTarget.className.replace(hoverClassRegEx, '');	
+				clearTimeout(this.hoverTimeout);			
 				this.target = null;
 				press = false;
 			}
+		},onScrollEnd : function(e){
+			
+			if (scrollPageDisable) {
+				myScrollPage.scrollToPage(myScrollPage.currPageX, 0, 0);
+				scrollPageDisable = false;
+			}
+			
+ 			myScrollPage.enable();
+ 			
+ 			 			
 		},onScroll: function(e){
 			$('#'+scroll+'-featured').height((this.y>=0) ? viewport.pHeight+this.y : viewport.pHeight);
 			$('#'+scroll+'-featured').width((this.y>=0) ? viewport.width+(this.y*2) : viewport.width);
@@ -129,20 +140,35 @@ function newScroll(scroll) {
 
 var slidesPages=['pCenter','pRight','pLeft'];
 var arrCategory=[
- 	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',news:'',view:1},
- 	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},xml:'',news:'',view:2},
- 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},xml:'',news:'',view:0},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},xml:'',news:'',view:2}
+ 	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',video:false},
+ 	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},video:false},
+ 	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},video:false},
+ 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},video:false},
+ 	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},video:false},
+ 	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},video:false},
+ 	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},video:false},
+ 	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},video:true},
+ 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},video:false},
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},video:true}
  	];
-var otherCategoriesArray=[
-                           ];
-//*/
+
+
+
+function fBack() {
+	
+	$('#datacontent').attr('class','page transition right');		
+	$('.back img').removeClass('content');	
+	
+	if (animated) {
+		$('.back').removeClass('animated');
+		$('.back').removeClass('fadeInLeft');
+	}					
+	
+	$('.share').addClass('hidden');						
+	$('#flag').removeClass('hidden');
+	$('#datacontents').empty();			
+}
+	
 var upcoming=0;
 var press=0;
 var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage;
@@ -151,8 +177,6 @@ var myXml=false;
 
 var hoverClassRegEx = new RegExp('(^|\\s)iScrollHover(\\s|$)');
 
-var hoverClassRegExAlpha = new RegExp('(^|\\s)metroHover(\\s|$)');
-
 var vScroll=false;
 var vHscroll=false;
 
@@ -160,29 +184,45 @@ var vHscroll=false;
 var textShadowLight = "0px 1px 5px #555;";
 var textShadowBlack = "0px 1px 5px #000;";
 
+var hScrollMove = false;
+
+
 var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
-    onDeviceReady: function() { 
-  	    	    	   
+    onDeviceReady: function() {
+    	
+    	if (device.version > 4.1) animated = true;
+    	
+   		//Google Analytics
+		initGA();
+		
+		//Image Cache
+    	ImgCache.options.debug = true;
+    	ImgCache.options.localCacheFolder = 'Fanaticos412';
+      	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.init();	    	
+
     	document.addEventListener('backbutton', function checkConnection() {
+
     		$(function() {    			  
     			if(!$('#top').hasClass('closed')){
     				$('#top').addClass('closed');
-				}else if ($('#video').hasClass('center')) {										
-					$('#video').attr('class','page transition left');	
-					$('video').hide();
-				}else if ($('#extra').hasClass('right')){
-					$('#extra').attr('class','page transition left');
 				}else if ($('#datacontent').hasClass('left')){
-					$('#datacontent').attr('class','page transition right');						
-				}else if ($('#metro').hasClass('right')){
-					$('#metro').attr('class','page transition left');					
+					$('#datacontent').attr('class','page transition right');														
 				}else {
 					if(myScrollPage.currPageX == 0){
-						navigator.app.exitApp();					
+						
+						if (navigator.app) {
+							gaPlugin.exit(successGAHandler, successGAHandler);						
+				            navigator.app.exitApp();				            
+				        } else if (navigator.device) {
+				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
+				            navigator.device.exitApp();				            				          
+				        }
+
 					}else{
-						if(myScrollPage.enabled){
+						if(myScrollPage.enabled) {
 							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
 							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
 							myScrollPage.refresh();
@@ -193,51 +233,49 @@ var app = {
 						}						
 					}					
 				}
+				
+				fBack();
+
 			});
     	}, false);
     	
+ 		document.addEventListener("online", onOnline, false);				
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
         initialSetup();
         
+        function onOnline() {ImgCache.clearCache();}
+ 
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-    	//inti push data
+		//init push data
 		initPush();
-		
-		//INIT IMAGE CACHE
-		// write log to console
-		ImgCache.options.debug = true;
-		// increase allocated space on Chrome to 50MB, default was 10MB
-		ImgCache.options.chromeQuota = 50*1024*1024;
-		/*ImgCache.init(function(){
-			console.log('cache created successfully!');
-		}, function(){
-			console.log('check the log for errors');
-		});*/
 		
 		//Manejador de BD
 		storageManager = new StorageManager();
 		
+		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
+    	
     	//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
 
-    	myScrollMenu = new iScroll('menu',0,{hScrollbar: false,vScrollbar: false, hScroll: false, vScroll: true,
+    	myScrollMenu = new iScroll('menu',0,{hScrollbar: false,vScrollbar: true, hScroll: false, vScroll: true,
     		onBeforeScrollStart: function(e){
-    			this.refresh();    			
+    			this.refresh(); 
+			},onScrollStart: function(e){
 				var target = e.target;
 				clearTimeout(this.hoverTimeout);				
 				while (target.nodeType != 1) target = target.parentNode;
 				this.hoverTimeout = setTimeout(function () {
 					if (!hoverClassRegEx.test(target.className)) target.className = target.className ? target.className + ' iScrollHover' : 'iScrollHover';					
-					press=true;						
-				}, 2);				
-				this.hoverTarget = target;
-				e.preventDefault(); 					
-    		},onScrollMove: function(){
+					press=true;							
+				}, 5);				
+				this.hoverTarget = target;	
+				e.preventDefault();				  
+    		},onScrollMove: function(e){    			
 				if (this.hoverTarget) {		
 					clearTimeout(this.hoverTimeout);
 					this.hoverTarget.className = this.hoverTarget.className.replace(hoverClassRegEx, '');
@@ -254,68 +292,36 @@ var app = {
 			}
 		});
     	
-    	    	        
     	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, onBeforeScrollStart: function(){this.refresh();}});    	        	    			
-		//myScrollextra=newScroll('extra');
 		
 
 
-		/*myScrollGamesWrapper = new iScroll('gamesWrapper',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
-				onScrollEnd:function (e) {					
-					$('#game-'+(this.currPageX-2)).css('visibility','hidden');
-					$('#game-'+(this.currPageX-1)).css('visibility','visible');			
-					$('#game-'+this.currPageX).css('visibility','visible');
-					$('#game-'+(this.currPageX+1)).css('visibility','visible');
-					$('#game-'+(this.currPageX+2)).css('visibility','hidden');
-				}
-			});*/
-
-
-		$(function() {
-			
-			/*$('body').width(viewport.width);
-			$('body').height(viewport.height);*/
+			$('body').width(viewport.width);
+			$('body').height(viewport.height);
 					
-		 	/*$('#extra').width(viewport.width);
-			$('#extra').height(viewport.height);*/
+
+
 			
-			$('#metro').width(viewport.width);
-			$('#metro').height(viewport.height);
-			
-		 	$('#spage').width(viewport.width);
-			$('#spage').height(viewport.height);		 
 		 	$('#scrollerpage').width(viewport.width*arrCategory.length);
 			$('#scrollerpage').height(viewport.height);					
-			$('.section').width(viewport.width);
 			
 		 	$('.pages').width(viewport.width);
 			$('.pages').height(viewport.height);
-			$('#video').width(viewport.width);
-			$('#video').height(viewport.height);
 
-			$('.featured').width(viewport.width);
+			$('.featured').width('100%');
 			$('.featured').height(viewport.pHeight);
+	 		 
+		 
+			$('#gamesWrapper').width(viewport.width);
+			$('#gamesScroller').width(viewport.width);
 			
 			
-			$('.news-featured').width('100%');
-			$('.news-featured').height(viewport.pHeight);		
-			
-			$('.news-featured-title').width('100%');
-			$('.news-featured-title').height(viewport.pHeight);					
-			
-				
-			$('#top').height(viewport.height-100);
-			$('#top').width(viewport.width);		 		 
-		 		 
-		 	$('#menus').addClass('animated bounce');
-
-			/*$('#gamesWrapper').width(viewport.width);
-			$('#gamesScroller').width(viewport.width);*/
 		 
 			myScrollPage = new iScroll('spage',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
-				onScrollEnd:function () {										
+				onScrollEnd:function () {
+															
 					if (this.currPageX!=this.lastPageX) {
-							
+						
 						if (typeof window[arrPage[this.lastPageX]] != 'undefined') {
    							window[arrPage[this.lastPageX]].scrollTo(0,0,0);
 						}
@@ -335,20 +341,35 @@ var app = {
 						if ((upcomingnext)<arrCategory.length) $('#'+arrCategory[upcomingnext].id).removeClass('hidden');		
 																															
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
-
+												
+						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].id);
+    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "scroll", "swype", "section", 1);
+    					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].id);
+    					
 					}
 					
 					this.lastPageX=this.currPageX;
-						
+								
+					
 				}
 			});
 
 
+
+			$(document).on('touchstart','.back', function() { 
+				fBack();
+			});
+
 			
-			$(document).on('touchstart','.pullMenu', function() {
-					myScrollMenu.scrollTo(0,0,0);
-					if ($('div').hasClass('closed')) $('#top').removeClass('closed');
-					else  $('#top').addClass('closed');															
+			$(document).on('touchstart','#flag', function() {
+				myScrollMenu.scrollTo(0,0,0);							
+				if ($('#top').hasClass('closed')) {
+					$('#screen-block').removeClass('hidden');
+					$('#top').removeClass('closed');
+				} else {
+					$('#screen-block').addClass('hidden');					
+					$('#top').addClass('closed');
+				} 															
 			});
 			
 
@@ -356,111 +377,89 @@ var app = {
 				press=false;
 			}).on('touchend','.menu', function() {
     			if (press) {
-	    			//if ($(this).data('position') >= 12) {
-    				//Si es otro tipo de pantalla diferente a las categorias la creamos como tal
-    				if (otherCategoriesArray.length>0 && $(this).data('position') >= otherCategoriesArray[0].i) {
-	    				myScrollextra.scrollTo(0,0,0);
-	    				$('#top').addClass('closed');    				
-	    				//$('#extra').attr('class','page transition right');
-	    				//$.fgetExtras($(this).data('position'),$(this).data('title'));	
-	    			} else {
-	    			 	myScrollPage.scrollToPage($(this).data('position'), 0, 0);
-	    			 	//$('#extra').attr('class','page left');
-						$('#datacontent').attr('class','page right');
-						$('#top').addClass('closed');
-						if (typeof myScrollDatacontentHorizontal != 'undefined') {
-							myScrollDatacontentHorizontal = null;
-						}
-    				}
+    				
+    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
+    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+
+    				$('#screen-block').addClass('hidden');
+	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
+					$('#datacontent').attr('class','page right');
+					$('#top').addClass('closed');
+					if (typeof myScrollDatacontentHorizontal != 'undefined') {
+						myScrollDatacontentHorizontal = null;
+					}
+
     			}   								
     		});
 
      			
-			$(document).on('touchstart','.highdef, .quicklook, .thumbnail, .headline, .caption', function(e) {
-				
-				if ($(this).attr('wrapper')) {
-					myScrollDatacontentHorizontal = new iScroll($(this).attr('wrapper'),0,{snap: true,momentum: false,hScrollbar: false, 
-			    		onBeforeScrollStart: function(e){
-							this.refresh();    			
-							var target = e.target;
-							clearTimeout(this.hoverTimeout);
-							this.hoverTimeout = setTimeout(function () {
-								press=true;						
-							}, 2);				
-							this.hoverTarget = target;
-							e.preventDefault(); 				    					    					    					    				
-			    		},onScrollMove: function () {			
-							if (this.hoverTarget) {		
-								clearTimeout(this.hoverTimeout);
-								this.target = null;
-								press = false;
-							}
-						},onBeforeScrollEnd: function () {			
-							if (this.hoverTarget) {		
-								clearTimeout(this.hoverTimeout);
-								this.target = null;
-								press = false;
-							}
-						},onScrollEnd:function () {	
-							$('.position').html(this.currPageX+1);		
-						}});  	
-				}
-				
-				press=false;
-		
-    		}).on('touchend','.highdef, .quicklook, .thumbnail, .headline, .caption', function() {
+			$(document).on('touchstart','li[data-content="headline"]', function(e) {				
+				press=false;	
+    		}).on('touchend','li[data-content="headline"]', function() {				
     			if (press) {
-	    			myScrollDatacontent.scrollTo(0,0,0);
-					$('.news-datacontent').hide();									 					
-					$($(this).attr('content')+'-video').show();
-					$($(this).attr('content')).show();					
+    				
+    				newsDatacontent = $(this).data('id');
+					var manager = new NewsManager();
+					manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsDataContentFromBD,noConnectionForNews);
+					
+					$('.news-datacontent').hide();	
+    				$('.back img').addClass('content');
+    				$('.back img, .share').removeClass('hidden');
+    				if (animated) $('.back').addClass('animated fadeInLeft');    				
+    				myScrollDatacontent.scrollTo(0,0,0);
+    							
+					$($(this).data('news')).show();
+										
+					$('.position').html('1');
 					$('#datacontent').attr('class','page transition left');
+					$('#flag').addClass('hidden');
+
+    				$('.share').removeClass('hidden');  
+    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
+
+					
+
 				}   
     		});
     		
-			$(document).on('touchstart','div[data-type="video"]', function(e) {
-				press=false;				
-    		}).on('touchend','div[data-type="video"]', function() {
+    		
+    		
+			$(document).on('touchstart','div[data-type="video"], li[data-type="video"]', function(e) {
+				press=false;		
+    		}).on('touchend','div[data-type="video"], li[data-type="video"]', function() {
     			if (press) {
-	    			//window.videoPlayer.play($(this).data('src'));
-					window.videoPlayer.play($(this).data('src'), "portrait");
+	    			window.videoPlayer.play($(this).data('src'));
 				}   
     		});
 
-
-			$(document).on('touchstart','.mymetro', function(e) {
-				press=false;						
-    		}).on('touchend','.mymetro', function() {
-    			if (press) {    				
-    				if ($(this).data('type')=='video') {
-    					//window.videoPlayer.play($(this).data('src'));
-						window.videoPlayer.play($(this).data('src'), "portrait");
-    				} else {
-    					myScrollDatacontent.scrollTo(0,0,0);
-						$('.news-datacontent').hide();
-						$($(this).data('content')).show();										
-						$('#datacontent').attr('class','page transition left');	
-    				}
-				} 
-    		});
+			/*$(document).on('touchstart','div[data-type="image"]', function(e) {
+				press=false;				
+    		}).on('touchend','div[data-type="image"]', function() {
+    			if (press) {
+	    			if ($(this).find('figcaption').hasClass('hidden')) $(this).find('figcaption').removeClass('hidden');
+					else  $('div[data-type="image"]').find('figcaption').addClass('hidden');
+				}   
+    		});*/
 
 			$.fn.exists = function() {
     			return this.length>0;
 			};
 
 			$.fgetUrlNews = function(u) {
+
 				u = u.split('/');
-				//u = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/'+u[1]+'/'+u[2];
 				var url = 'http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/';
 				for(var i=0; i<u.length; i++){
 					url+="/"+u[i];
 				}
-				return url;
+				
+				return url.replace('//../','/');
 			};		
 	
 
 
-			$.fGetAjaX = function(u,d) {			
+			$.fGetAjaX = function(u,d) {
 				return $.ajax({
 					url: u,
 					type: 'get',
@@ -475,11 +474,13 @@ var app = {
 					}}).always(function() {
 						$('.status').empty();
 						arrCategory[myScrollPage.currPageX] .status=true;
-						myScrollPage.enable();				
+						myScrollPage.enable();						
 					}).fail(function(xhr, status, error) {
-						arrCategory[myScrollPage.currPageX] .status=false;	
+						/*arrCategory[myScrollPage.currPageX] .status=false;
 						$('.status').append('<li>No hay conexión</li>');
-						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);
+						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);*/
+						var manager = new NewsManager();
+						manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsFromBD,noConnectionForNews);
 					});
 			};
 			
@@ -517,9 +518,9 @@ var app = {
 			$.fgetNews = function(c,section,color) {
 				
 				myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
-console.log("VA!!!");
+
 				myJson.done(function(json) {
-							console.log("TRAJO ALGO!!!");
+
 					var itemArray = null;
 					if(json["noticias"] != null){
 						itemArray = json["noticias"]["item"];
@@ -530,7 +531,7 @@ console.log("VA!!!");
 					}
 					if(itemArray != null && itemArray.length > 0){
 						var manager = new NewsManager();
-							json["category"] = arrCategory[myScrollPage.currPageX].id;
+						json["category"] = arrCategory[myScrollPage.currPageX].id;
 						manager.saveNewsFromWS(json,successSaveNews,errorNewsSave);
 						$.fsetNews(itemArray, c,section,color);
 					}
@@ -541,10 +542,10 @@ console.log("VA!!!");
     		};
 		  
 		  	function successSaveNews(){
-		  		//console.log("SAVE COMPLETE");
+		  		console.log("SAVE COMPLETE");
 		 	}
 		 	function errorNewsSave(err){
-				//console.log("SAVE FAILS");
+				console.log("SAVE FAILS");
 			}
 			function successGetNewsFromBD(results){
 				printToLog("successGetNewsFromBD");
@@ -558,7 +559,7 @@ console.log("VA!!!");
 							newsItem = decodeNews(newsItem);
 							newsArray.push(newsItem);
 						}
-						$.fsetNews(newsArray, null,null,null);
+						$.fsetNews(newsArray);
 						
 					}else{
 						noConnectionForNews();
@@ -567,259 +568,343 @@ console.log("VA!!!");
 					noConnectionForNews();
 				}
 			}
-			function noConnectionForNews(err){
-				//realmente no hay conexion y no hay nada guardado
-				arrCategory[myScrollPage.currPageX] .status=false;	
-				$('.status').append('<li>No hay conexión</li>');
+			
+			function successGetNewsDataContentFromBD(results){
+					
+				if(results != null){	
+					var len = results.rows.length;				
+					if(len > 0){
+						var newsArray = new Array();
+						for(var i=0;i<len;i++){
+							var newsItem = results.rows.item(i);
+							newsItem = decodeNews(newsItem);
+							newsArray.push(newsItem);
+						}						
+						$.fsetNewsDatacontents(newsArray);
+					}else{
+						noConnectionForNews();
+					}
+				}else{
+					noConnectionForNews();
+				}
 			}
 			
-			//Realmente se hace set de las noticias aqui
-			$.fsetNews = function(itemArray, c,section,color) {
-				//console.log("fsetNews "+arrCategory[myScrollPage.currPageX].id);
-				var d=0;
-				$.lil='';
+			function noConnectionForNews(err){
+				//realmente no hay conexion y no hay nada guardado
+				arrCategory[myScrollPage.currPageX].status=false;	
+				$('.status').append('<li>No hay conexion</li>');
+			}
+		  
+		  
+			$.fsetNews = function(itemArray) {
 				
-				$.category = '#'+arrCategory[myScrollPage.currPageX].id;
-				window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
-				arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
-				
-				$($.category+'-news1').empty();
-				$($.category+'-news1').append('<li><div class="section" style="background-color:'+arrCategory[myScrollPage.currPageX] .bgcolor+'; width:'+viewport.width+'px; height:auto;">&nbsp;&nbsp;'+arrCategory[myScrollPage.currPageX].title+'</div></li>');
-				
-				for(var i=0;i<itemArray.length; i++){
-					$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
-					$.news.headline=itemArray[i]["title"];
-
-					$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
-					var dataContent;
-					if(i%2==0){
-						dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
-					}else{
-						dataContent = '<media media-type="image" style="rightSide"><media-reference mime-type=""/></media>';
-					}
-					dataContent+=itemArray[i]["description"];
-					$.news.datacontent=$('<div>').append(dataContent).remove().html();
-					
-					if(itemArray[i]["imagecaption"] != null){
-						$.news.caption.push(itemArray[i]["imagecaption"]);
-					}
-					
-					$.news.thumbnail.push(itemArray[i]["image"]);
-					$.news.highdef.push(itemArray[i]["image"]);	
-					$.news.quicklook.push(itemArray[i]["image"]);
-					
-					//check if there is a video
-					if(itemArray[i]["videourl"] != null){
-						if(itemArray[i]["uploadedvideo"] != null){
-							if(itemArray[i]["uploadedvideo"] != "0"){
-								$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
-							}
-						}else{
-							$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
-						}			    				
-					}
-							
-					
-					if (i==0) {								
-							
-							$($.category+'-featured').empty;								
-							/*$($.category+'-featured').append('<img id="featured-image"  src="'+$.news.highdef[0]+'"  onerror="this.style.display=\'none\'" class="center" style="width:100%; height:100%; max-width:864px; max-height:486px;"  />');*/
-							$($.category+'-featured').append('<img id="featured-image"  src="'+$.news.highdef[0]+'"  onerror="this.style.display=\'none\'" class="center" style="width:100%; height:100%; max-width:864px; max-height:486px;"  />');
-		  console.log("IMG -"+$.news.highdef[0]);
-		  //setTimeout(function(){loadImageFormStorage("featured-image",$.news.highdef[0]);},200);
-										
-							$($.category+'-news-featured-title').attr('content','#news-'+$.news.id);
-							$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
-							$($.category+'-news-featured-title').attr('class','headline');
-
-							$.li='<div style="position:relative; width:100%; height: '+viewport.pHeight+'px;">';
-								$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-									$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowBlack+'">'+$.news.headline+'</h2>';
-								$.li+='</div>';
-							$.li+='</div>';
-
-							$($.category+'-news-featured-title').empty();
-							$($.category+'-news-featured-title').append($.li);
-							
-						} else if ((i>0) && ($.category!='#baseball_nacional')) {
-							
-							if (arrCategory[myScrollPage.currPageX].view==0){
-								
-								$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-								$.li+='<div style="margin:5px; float: inherit; ">';
-					
-								if ($.news.video.length==0) _watermark='transp-block-camare';
-								else _watermark='transp-block-video';
-									
-								//Colocar margin aqui para separar un poco las letras de la imagen
-								$.li+='<div  content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="thumbnail" style="width:30%; float: inherit; z-index: 0; background:#FFF;">';
-								$.li+='<div class="'+_watermark+'" style="display: inline-block; position:relative; width:100%; height:auto; vertical-align:middle;">';
-																	
-								//$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.style.display=\'none\'" class="transparent" style="float: inherit; width:100%; height:auto; vertical-align:middle;"  />';
-								$.li+='<img src="'+$.news.thumbnail[0]+'" alt="thumbnail" onerror="this.src=\'img/noimage.png\'" class="transparent" style="float: inherit; width:100%; height:auto; vertical-align:middle;"  />';
-								$.li+='</div>';					        			
-								$.li+='</div>';								
-					
-					        	
-								var left = 3;
-								if(d%2==0){
-									left = 0;
-								}
-								$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="margin-left:'+left+'%; display: inline-block; font-size: 1.4em; font-style:oblique; font-weight: bold; width:66%; height:100%; background-color:#ffffff;">';							        				
-								$.li+= $.news.headline;
-								//$.li+= '<p>'+$.news.date+'</p>';
-								$.li+= '<br><div style="display: inline; font-size: 1.2em; color:#555 ">'+$.news.date+'</div>';
-								$.li+='</div>';	
-								$.li+='</div>';				        			
-								$.li+='<div style="clear: both; width:100%; height:5px;"></div>';				        			
-								
-								$.li+='</li>';				        			
-								
-								$.li+='</li>';
-								
-								$($.category +'-news1').append($.li);	
-								
-							} else if  (arrCategory[myScrollPage.currPageX].view==1) {
-								
-								
-								if ((d%2)==1) $.lil='<li style="width:100%; height:auto; background-color:#ffffff;">';	
-													
-								$.lil+='<div class="mymetro" data-content="#news-'+$.news.id+'" style="position:relative; width:'+((viewport.width/2)-4)+'px; height:'+((viewport.height*25)/100)+'px; float:left; border:2px solid #ffffff; ">';									
-								$.lil+='<img id="metro-img-'+$.news.id+'"  data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" class="metro" src="'+$.news.quicklook[0]+'"  onerror="this.style.display=\'none\'" style="width:100%; height:100%;  "  />';								
-								$.lil+='<h2 data-img="'+$.news.id+'" data-content="#news-'+$.news.id+'" style="position:absolute; top: 0; left: 0; color: #ffffff; text-shadow: '+textShadowBlack+' font-size:1.2em;">'+$.news.headline+'</h2>';
-								$.lil+='</div>';
-								
-								if (((d%2)==0) || (d==itemArray.length-1)) {
-								//if (((d%2)==0)) {
-									$.lil+='</li>';
-									$($.category +'-news1').append($.lil);	
-								}	
-
-								
-							} else if  (arrCategory[myScrollPage.currPageX].view==2) {
-								
-								if ($.news.video.length==0) _watermark='transp-block-camare';
-								else _watermark='transp-block-video';
-								
-							
-								if ($.news.video.length>=1) {
-									
-			
-									$.li='<li class="mymetro" data-src="'+$.news.video[0].src+'" data-type="video"  style="width:100%; height:auto; background-color:#ffffff;">';
-									
-									$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
-									
-									$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%;">';										
-									$.li+='<img src="'+$.news.highdef[0]+'" class="transparent"  onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
-									$.li+='</div>';
-									
-									$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-									$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:1.4em;">'+$.news.headline+'</h2>';										
-									$.li+='</div>';
-									$.li+='</div>';
-									$.li+='</li>';
-									
-								} else {
-									
-									
-									
-									$.li='<li class="mymetro" data-content="#news-'+$.news.id+'" style="width:100%; height:auto; background-color:#ffffff;">';
-									
-									$.li+='<div style="position:relative; width:'+viewport.width+'px; height: '+viewport.pHeight+'px; ">';
-									
-									$.li+='<div class="'+_watermark+'" style="position:relative; width:100%; height:height:100%; ">';										
-									$.li+='<img src="'+$.news.highdef[0]+'" class="transparent" onerror="this.style.display=\'none\'" style="width:100%; height:100%; "  />';
-									$.li+='</div>';
-									
-									$.li+='<div style="position:absolute; position: absolute; bottom: 0; left: 0; color:#ffffff;">';
-									$.li+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size:1.4em;">'+$.news.headline+'</h2>';										
-									$.li+='</div>';
-									
-									$.li+='</div>';
-									$.li+='</li>';	
-								}
-								
-								
-								
-								$($.category +'-news1').append($.li);	
-							}																		
-								
+						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
 														
-				
-							
-				    	} else if ($.category=='#baseball_nacional') {
-				    		$.li='<li style="width:100%; height:auto; background-color:#ffffff;">';
-							$.li+='<div content="#news-'+$.news.id+'" wrapper="news-'+$.news.id+'-wrapper" class="headline" style="display: inline; font-size: 1.4em; font-style:oblique; font-weight: bold;">';							        				
-							$.li+= $.news.headline;
-							$.li+='</div>';	
-							$.li+='<div style="clear: both; width:100%; height:10px;"></div>';
-							$.li+='</li>';								
-							$($.category +'-news1').append($.li);
-				    	}
-				    	
-						d++;
+						window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
+						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
 
 						
-
-				    	$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent" style="width:100%; height:auto; text-align:center; margin: 0 auto; display:none; background-color:#ffffff;">';				        			
-						$.li+='<div video="news-'+$.news.id+'-video" style="margin:0 auto;">';			        			
-						$.total = $.news.highdef.length+$.news.video.length;				        					
-
+						
+																		
+						for(var i=0;i<itemArray.length; i++){
+											
 							
-							$.li+='<div id="news-'+$.news.id+'-wrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
-							$.li+='<div video="news-'+$.news.id+'-video" style="display:block; float:left;  width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
+							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+							$.news.headline=itemArray[i]["title"];
+
+							$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
+							
+							var dataContent;
+							dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
+							dataContent+=itemArray[i]["description"];
+							$.news.datacontent=$('<div>').append(dataContent).remove().html();
+							
+							if(itemArray[i]["imagecaption"] != null){
+								$.news.caption.push(itemArray[i]["imagecaption"]);
+							}
+																						
+							$.news.thumbnail.push({src:itemArray[i]["image"],width:864,height:486});
+							$.news.highdef.push({src:itemArray[i]["image"],width:864,height:486});																						
+							$.news.quicklook.push({src:itemArray[i]["image"],width:864,height:486});
+							
+							//check if there is a video
+							if(itemArray[i]["videourl"] != null){
+								if(itemArray[i]["uploadedvideo"] != null){
+									if(itemArray[i]["uploadedvideo"] != "0"){
+										$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
+									}
+								}else{									
+									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});																
+								}			    				
+							}
+
+										
+							if (i==0) {
+
+								//$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
+								var width = window.innerWidth;
+								var height = window.innerHeight;
+								var screenwidth = window.innerWidth;
+								var screenheight = window.innerHeight;
+
+								var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
+								var realX = screenwidth;
+								var screenAspect = realX/realY;
+								var imageDiff = (realX/$.news.highdef[0].width);
+								var realImageX = $.news.highdef[0].width*imageDiff;
+								var realImageY = $.news.highdef[0].height*imageDiff;
+								var imageAspect = realImageX/realImageY;
+								
+								if(realImageY < realY){
+									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
+								}else{
+									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
+								}
+																
+								$($.category+'-news-featured-title').data('id',$.news.id);
+								$($.category+'-news-featured-title').data('news','#news-'+$.news.id);
+								$($.category+'-news-featured-title').data('headline',$.news.headline);																			
+								$($.category+'-news-featured-title').attr('data-content','headline');
+								
+								if (arrCategory[myScrollPage.currPageX].video) {
+									$($.category+'-news-featured-title').attr('data-content','');
+									$($.category+'-news-featured-title').attr('data-type','video');
+									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
+								}
+								
+		
+		
+								$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
+								$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
+								$.li+='</div>';
+
+								$($.category+'-news-featured-title').empty();
+								$($.category+'-news-featured-title').append($.li);
+
+								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {								
+									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
+	                                	var target = $(this);
+										ImgCache.isCached(target.attr('src'), function(path, success){
+											if(success){											
+											    ImgCache.useCachedFile(target);
+											} else {
+												ImgCache.cacheFile(target.attr('src'), function(){
+													ImgCache.useOnlineFile(target);
+											    });
+											}
+										});                                	
+	                        		});
+								};
+
+							} else if (i>0) {
+							
+								
+								if (arrCategory[myScrollPage.currPageX].video) {	
+									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
+								} else {
+									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
+								}
+
+								if ($.news.quicklook.length >= 1) {
+									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
+								}
+																
+								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';
+								
+								$.li+='</li>';
+																								
+								$($.category +'-news1').append($.li);
+								
+
+								
+								
+								if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {									
+									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
+	                                	var target = $(this);
+										ImgCache.isCached(target.data('src'), function(path, success){
+											if(success){											
+											    ImgCache.useCachedBackground(target);
+											} else {
+												ImgCache.cacheBackground(target, function(){
+													ImgCache.useOnlineFile(target);
+											    });
+											}
+										});                                	
+	                        		});	
+								};														
+
+					    	}; 
+
+						};
+														
+
+    		};
+    		
+    		
+    		
+    		
+			$.fsetNewsDatacontents = function(itemArray) {
+				
+				$.category = '#'+arrCategory[myScrollPage.currPageX].id;
+					
+				
+				for(var i=0;i<itemArray.length; i++){
+						if(itemArray[i]["id"] == newsDatacontent){
+
+						$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+						$.news.headline=itemArray[i]["title"];
+
+						$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
+														
+						var dataContent;
+						dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
+						dataContent+=itemArray[i]["description"];
+						$.news.datacontent=$('<div>').append(dataContent).remove().html();
+						
+						if(itemArray[i]["imagecaption"] != null){
+							$.news.caption.push(itemArray[i]["imagecaption"]);
+						}
+																					
+						$.news.thumbnail.push({src:itemArray[i]["image"],width:864,height:486});
+						$.news.highdef.push({src:itemArray[i]["image"],width:864,height:486});																						
+						$.news.quicklook.push({src:itemArray[i]["image"],width:864,height:486});
+						
+						//check if there is a video
+						if(itemArray[i]["videourl"] != null){
+							if(itemArray[i]["uploadedvideo"] != null){
+								if(itemArray[i]["uploadedvideo"] != "0"){
+									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
+								}
+							}else{
+								$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
+							}			    				
+						}
+
+
+						$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';				        			
+						
+
+						$.total = $.news.highdef.length+$.news.video.length;				        					
+						if ($.total==0) $.total=1;
+							
+							$.li+='<div id="hWrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
+							
+							$.li+='<div video="news-'+$.news.id+'-video" style="float:left; width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
 							$.lii='';
 							
-								c=0;
+
 								$.news.video.forEach(function(video){
-		
-									$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';										
-				    				$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  " />';
-									//TODO: revisar esto bien, comentado porque no tiene sentido usar esto, o esto o el plugin
-				    				/*$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
-				    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';*/					        				
-				    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1.2em;">'+$.news.caption[c++]+'</h2>';					    				
-				    				$.lii+='</div>';
-				    				$.lii+='</div>';
-				    				
+									$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    				
+					    			$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; " />';					    					
+					    			$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
+					    			$.lii+='</div>';
 								});
 								
 								c=0;
 								$.news.highdef.forEach(function(src){
 									
-				    				$.lii+='<div style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';
-				    				$.lii+='<img alt="highdef" src="'+src+'" onerror="this.style.display=\'none\'" class="center" style="width:'+viewport.width+'px; height:'+viewport.pHeight+'px;  max-width:864px; max-height:486px; " />';
-				    				$.lii+='<div style="position:absolute; bottom:0; left:0;">';					        				
-				    				$.lii+='<h2 style="color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1.2em;">'+$.news.caption[c++]+'</h2>';					    				
-				    				$.lii+='</div>';
-				    				$.lii+='</div>';
+									if ($.news.caption[c] == 'undefined') $.news.caption[c] = "";
+													
+									$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    										    			
+					    			$.lii+='<figure>';						    													
+									$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+									$.lii+='<figcaption class="hidden" style="position: absolute; bottom: 0; left: 0; background-color: rgba(0,0,0,0.7); width:'+viewport.width+'px; min-height:35px;  color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1em;" >'+$.news.caption[c]+'</figcaption>';										
+									$.lii+='</figure>';						    					    											    			
+					    			$.lii+='</div>';
+					    			c=c+1;
 								});
 								
-							$.li+=$.lii;			
+							$.li+=$.lii;
+										
 							$.li+='</div>';
-							$.li+='</div>';
-							
-						        	
-						if ($.total>1){
-	    					$.li+='<h3 style="color: #ffffff; text-shadow: '+textShadowLight+' text-align:center">&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;</h3>';	
-	    				}							        	
 
-						$.li+='<div	style="position:relative; width:100%; height:auto; ">';
-						$.li+='<div><button onclick="window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g,"")+'\',null,null \'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')">Share</button></div>';				
-						$.li+='<div style="width:98%; margin-left:1%; color:#000; font-size: 1.6em; text-align:justify; ">';
-						$.li+=$.news.datacontent;
-						$.li+='</div>';	
-						$.li+='</div>';	
+							$.li+='</div>';
 						
-						$.li+='</div>';				        																						
+							if ($.total>1){
+								$.li+='<div style="position: relative; bottom: 0px; left: 0; color: #ffffff; text-shadow: '+textShadowLight+' background-color: rgba(92,90,91,0.4); width:100%; height:auto; padding:10px 0; line-height:100%; text-align:center; font-size:1.2em; font-weight:bold; ">';
+								$.li+='&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;';
+								$.li+='</div>';
+							}
+						
+
+						$.li+='<div	style="margin:0 10px;">';
+						$.li+='<p style="text-align:right;">'+$.news.date+'</p>';
+						$.li+='<h2>'+$.news.headline+'</h2>';	
+						$.li+='<p>'+$.news.datacontent+'</p>';	
+						$.li+='</div>';	
+						        																						
 						$.li+='</li>';
-													
-						$('#datacontents').append($.li);	
 						
-				}																										  
-			};
-    						
+																
+						$('#datacontents').append($.li);
+						
+
+						myScrollDatacontentHorizontal = new iScroll('hWrapper',0,{snap: true,momentum: false,hScrollbar: false,bounce: false,  
+				    		onBeforeScrollStart: function(e){				    			
+								this.refresh();    			
+								var target = e.target;
+								clearTimeout(this.hoverTimeout);
+								this.hoverTimeout = setTimeout(function () {
+									press=true;						
+								}, 2);				
+								this.hoverTarget = target;							
+								e.preventDefault(); 				    					    					    					    				
+				    		},onScrollMove: function () {			
+								if (this.hoverTarget) {		
+									clearTimeout(this.hoverTimeout);
+									this.target = null;
+									press = false;
+								}
+							},onBeforeScrollEnd: function () {			
+								if (this.hoverTarget) {		
+									clearTimeout(this.hoverTimeout);
+									this.target = null;
+									press = false;
+								}
+							},onScrollEnd:function () {	
+								$('.position').html(this.currPageX+1);	
+								$('div[data-type="image"]').find('figure figcaption').addClass('hidden');	
+							}
+						});
+						
+						
+						}
+
+				};									
+
+    		};    	
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+	
 			$.fgetNews();
+			
 			
 			
 			$.parseDate = function(stringDate) {
@@ -830,32 +915,28 @@ console.log("VA!!!");
 				array.push(stringValue.substring(6,8));
 				array.push(stringValue.substring(9,11));
 				array.push(stringValue.substring(11,13));
-				array.push(stringValue.substring(13,15));
-				//stringValue = ""+stringValue.substring(0,4)+" "+stringValue.substring(4,6)+" "+stringValue.substring(6,8)+
-				//" "+stringValue.substring(9,11)+":"+stringValue.substring(11,13)+":"+stringValue.substring(13,15);
-																														  
+				array.push(stringValue.substring(13,15));																										  
 				return array;
 			};
 			
 			$.formatDate = function(d) {
 				var dd = d.getDate();
 				if ( dd < 10 ) dd = '0' + dd;
-				//var MM = d.getMonth()+1;
-				//if ( MM < 10 ) mm = '0' + mm
+
 				var MM = d.getMonth();
 				
 				var hh = d.getHours();
 				var meridian = "a.m.";
+				
 				if ( hh > 12 ){
 					hh = hh-12;
-					meridian = "p.m."
+					meridian = "p.m.";
 				}
 				
 				var mm = d.getMinutes();
 				if ( mm < 10 ) mm = '0' + mm;
 				
-				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-				
+				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];				
 				return hh+':'+mm+' '+meridian+', '+months[MM]+', '+dd;
 			};
 			
@@ -881,8 +962,5 @@ console.log("VA!!!");
 				}
 				
 			};
-
-
-		});
     }
 };

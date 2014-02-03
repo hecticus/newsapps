@@ -14,8 +14,13 @@
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
 		6A77F8B5D88D43B88BF6EC79 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6AAC2952BD440F3A7729443 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6F187B89187707AC001876C4 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B86187707AC001876C4 /* MovieViewController.m */; };
-		6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B88187707AC001876C4 /* VideoPlayerCommand.m */; };
+		6F187B8A187707AC001876C4 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B88187707AC001876C4 /* VideoPlayer.m */; };
 		6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F187B8C187707C3001876C4 /* CDVLogger.m */; };
+		6F3C548D18A03F6100557C1A /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C548B18A03F6100557C1A /* GAPlugin.m */; };
+		6F3C548E18A03F6100557C1A /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C548C18A03F6100557C1A /* GoogleAnalytics.a */; };
+		6F3C549118A043F200557C1A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C549018A043F200557C1A /* CoreTelephony.framework */; };
+		6F3C549318A0440000557C1A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C549218A0440000557C1A /* CoreData.framework */; };
+		6F3C549518A0443500557C1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C549418A0443500557C1A /* UIKit.framework */; };
 		6F504BE1188F28B400BFBDEC /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F504BDD188F28B400BFBDEC /* CDVFile.m */; };
 		6F504BE2188F28B400BFBDEC /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F504BE0188F28B400BFBDEC /* CDVFileTransfer.m */; };
 		6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDCF41875C4B90090B0E8 /* AppDelegate.m */; };
@@ -87,10 +92,21 @@
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		6F187B85187707AC001876C4 /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieViewController.h; path = NoticiasTVN/Plugins/VideoPlayer/MovieViewController.h; sourceTree = SOURCE_ROOT; };
 		6F187B86187707AC001876C4 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieViewController.m; path = NoticiasTVN/Plugins/VideoPlayer/MovieViewController.m; sourceTree = SOURCE_ROOT; };
-		6F187B87187707AC001876C4 /* VideoPlayerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoPlayerCommand.h; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.h; sourceTree = SOURCE_ROOT; };
-		6F187B88187707AC001876C4 /* VideoPlayerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoPlayerCommand.m; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayerCommand.m; sourceTree = SOURCE_ROOT; };
+		6F187B87187707AC001876C4 /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoPlayer.h; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayer.h; sourceTree = SOURCE_ROOT; };
+		6F187B88187707AC001876C4 /* VideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoPlayer.m; path = NoticiasTVN/Plugins/VideoPlayer/VideoPlayer.m; sourceTree = SOURCE_ROOT; };
 		6F187B8B187707C3001876C4 /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = NoticiasTVN/Plugins/org.apache.cordova.console/CDVLogger.h; sourceTree = SOURCE_ROOT; };
 		6F187B8C187707C3001876C4 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = NoticiasTVN/Plugins/org.apache.cordova.console/CDVLogger.m; sourceTree = SOURCE_ROOT; };
+		6F3C548518A03F6100557C1A /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		6F3C548618A03F6100557C1A /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		6F3C548718A03F6100557C1A /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		6F3C548818A03F6100557C1A /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
+		6F3C548918A03F6100557C1A /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
+		6F3C548A18A03F6100557C1A /* GAPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAPlugin.h; sourceTree = "<group>"; };
+		6F3C548B18A03F6100557C1A /* GAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAPlugin.m; sourceTree = "<group>"; };
+		6F3C548C18A03F6100557C1A /* GoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = GoogleAnalytics.a; path = NoticiasTVN/Plugins/com.adobe.plugins.GAPlugin/GoogleAnalytics.a; sourceTree = "<group>"; };
+		6F3C549018A043F200557C1A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		6F3C549218A0440000557C1A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6F3C549418A0443500557C1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6F504BDC188F28B400BFBDEC /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFile.h; sourceTree = "<group>"; };
 		6F504BDD188F28B400BFBDEC /* CDVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVFile.m; sourceTree = "<group>"; };
 		6F504BDF188F28B400BFBDEC /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFileTransfer.h; sourceTree = "<group>"; };
@@ -152,14 +168,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F3C549518A0443500557C1A /* UIKit.framework in Frameworks */,
+				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				6F3C549318A0440000557C1A /* CoreData.framework in Frameworks */,
+				6F3C549118A043F200557C1A /* CoreTelephony.framework in Frameworks */,
 				6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */,
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
-				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
 				99BF9F9EB93A46579B404EBF /* SystemConfiguration.framework in Frameworks */,
 				6A77F8B5D88D43B88BF6EC79 /* Social.framework in Frameworks */,
+				6F3C548E18A03F6100557C1A /* GoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +251,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F3C549418A0443500557C1A /* UIKit.framework */,
+				6F3C549218A0440000557C1A /* CoreData.framework */,
+				6F3C549018A043F200557C1A /* CoreTelephony.framework */,
+				6F3C548C18A03F6100557C1A /* GoogleAnalytics.a */,
 				6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */,
 				5AEE5B34173C68D80009041E /* CoreLocation.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
@@ -253,6 +277,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6F3C548418A03F6100557C1A /* com.adobe.plugins.GAPlugin */,
 				6F504BDB188F28B400BFBDEC /* org.apache.cordova.file */,
 				6F504BDE188F28B400BFBDEC /* org.apache.cordova.file-transfer */,
 				6FD3CFE0187CA266005E7A40 /* org.apache.cordova.device */,
@@ -261,8 +286,8 @@
 				6F187B8C187707C3001876C4 /* CDVLogger.m */,
 				6F187B85187707AC001876C4 /* MovieViewController.h */,
 				6F187B86187707AC001876C4 /* MovieViewController.m */,
-				6F187B87187707AC001876C4 /* VideoPlayerCommand.h */,
-				6F187B88187707AC001876C4 /* VideoPlayerCommand.m */,
+				6F187B87187707AC001876C4 /* VideoPlayer.h */,
+				6F187B88187707AC001876C4 /* VideoPlayer.m */,
 				6F6DDCFB1875C4D30090B0E8 /* org.apache.cordova.network-information */,
 				6F6DDD001875C4D30090B0E8 /* README */,
 				6F6DDD011875C4D30090B0E8 /* SocialSharing.h */,
@@ -270,6 +295,21 @@
 			);
 			name = Plugins;
 			path = Fanaticos412/Plugins;
+			sourceTree = SOURCE_ROOT;
+		};
+		6F3C548418A03F6100557C1A /* com.adobe.plugins.GAPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				6F3C548518A03F6100557C1A /* GAI.h */,
+				6F3C548618A03F6100557C1A /* GAITrackedViewController.h */,
+				6F3C548718A03F6100557C1A /* GAITracker.h */,
+				6F3C548818A03F6100557C1A /* GAITransaction.h */,
+				6F3C548918A03F6100557C1A /* GAITransactionItem.h */,
+				6F3C548A18A03F6100557C1A /* GAPlugin.h */,
+				6F3C548B18A03F6100557C1A /* GAPlugin.m */,
+			);
+			name = com.adobe.plugins.GAPlugin;
+			path = NoticiasTVN/Plugins/com.adobe.plugins.GAPlugin;
 			sourceTree = SOURCE_ROOT;
 		};
 		6F504BDB188F28B400BFBDEC /* org.apache.cordova.file */ = {
@@ -530,13 +570,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F187B89187707AC001876C4 /* MovieViewController.m in Sources */,
+				6F3C548D18A03F6100557C1A /* GAPlugin.m in Sources */,
 				6F6DDD041875C4D30090B0E8 /* CDVReachability.m in Sources */,
 				6F187B8D187707C3001876C4 /* CDVLogger.m in Sources */,
 				6F6DDCF91875C4B90090B0E8 /* MainViewController.m in Sources */,
 				6FD3CFDD187C8F0B005E7A40 /* PushPlugin.m in Sources */,
 				6F504BE1188F28B400BFBDEC /* CDVFile.m in Sources */,
 				6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */,
-				6F187B8A187707AC001876C4 /* VideoPlayerCommand.m in Sources */,
+				6F187B8A187707AC001876C4 /* VideoPlayer.m in Sources */,
 				6F504BE2188F28B400BFBDEC /* CDVFileTransfer.m in Sources */,
 				6F6DDD031875C4D30090B0E8 /* CDVConnection.m in Sources */,
 				6FD3CFDC187C8F0B005E7A40 /* AppDelegate+notification.m in Sources */,
@@ -606,6 +647,10 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "NoticiasTVN/NoticiasTVN-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/chrirod/Documents/Projects/NewsApps/NoticiasTVN/NoticiasTVN/platforms/ios/NoticiasTVN/Plugins/com.adobe.plugins.GAPlugin,
+				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -637,6 +682,10 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "NoticiasTVN/NoticiasTVN-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/chrirod/Documents/Projects/NewsApps/NoticiasTVN/NoticiasTVN/platforms/ios/NoticiasTVN/Plugins/com.adobe.plugins.GAPlugin,
+				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,

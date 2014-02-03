@@ -55,6 +55,40 @@ function checkConnection() {
     //alert('Connection type: ' + states[networkState]);
 }
 
+function formatDateStringForSorting(ds) {
+	var YYYY,MM,DD;
+	var hh="00";
+	var mm="00";
+	var ss="00";
+	var dateString = ""+ds;
+	var parts = dateString.split(" ");
+	var MDY = parts[0].split("/");
+	MM = MDY[0];
+	DD = MDY[1];
+	YYYY = MDY[2];
+	if(parts.length > 1){
+		
+		var HMS = parts[1].split(":");
+		var meridian = parts[2];
+		var intH = parseInt(HMS[0]);
+		if(meridian == "p.m." || meridian == "p.m" || meridian == "pm"){
+			intH = intH+12;
+		}
+		if ( intH < 10 ){
+			hh = '0' + intH;
+		}else{
+			hh = intH;
+		}
+		mm = HMS[1];
+		ss = HMS[2];
+		
+	}
+	if ( MM < 10 ) MM = '0' + MM;
+
+	//console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
+	return ""+YYYY+MM+DD+hh+mm+ss;
+};
+
 //DEBUG
 function printToLog(element){
 	//console.log(element);

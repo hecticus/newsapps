@@ -49,7 +49,7 @@
     <feature name="SMSPlugin">
         <param name="android-package" value="com.plugin.sms.SMSPlugin" />
     </feature>
-    <name>Fanaticos412</name>
+    <name>NoticiasTVN</name>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
     </author>
