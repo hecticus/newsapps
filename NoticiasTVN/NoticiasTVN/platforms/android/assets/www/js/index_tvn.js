@@ -332,26 +332,30 @@ var hScrollMove = false;
     			if (press) {
     				
     				newsDatacontent = $(this).data('id');
-					var manager = new NewsManager();
-					manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsDataContentFromBD,noConnectionForNews);
-					
-					$('.news-datacontent').hide();	
-    				$('.back img').addClass('content');
-    				$('.back img, .share').removeClass('hidden');
-    				//if (animated) $('.back').addClass('animated fadeInLeft');    				
-    				$('.back').addClass('animated fadeInLeft');    				
-    				myScrollDatacontent.scrollTo(0,0,0);
-    							
-					$($(this).data('news')).show();
-										
-					$('.position').html('1');
-					$('#datacontent').attr('class','page transition left');
-					$('#flag').addClass('hidden');
+    				goToNewsPage();
 
-    				$('.share').removeClass('hidden');  
-    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
-
+				}   
+    		});
+			
+			function goToNewsPage(){
+				var manager = new NewsManager();
+				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
 				
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden');
+				//if (animated) $('.back').addClass('animated fadeInLeft');    				
+				$('.back').addClass('animated fadeInLeft');     				
+				myScrollDatacontent.scrollTo(0,0,0);
+							
+				$($(this).data('news')).show();
+									
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				$('#flag').addClass('hidden');
+				$('.share').removeClass('hidden');  
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$(this).data('id')+'\')');					
+									
 			}
     		
     		
@@ -940,5 +944,8 @@ var app = {
 		//Manejador de BD
 		storageManager = new StorageManager();		
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
+		
+		//init page
+		$.fgetNews();
     }
 };

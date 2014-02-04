@@ -122,4 +122,7 @@
     <feature name="SMSPlugin">
         <param name="ios-package" value="SMSPlugin" />
     </feature>
+	<feature name="VideoPlayer">
+        <param name="ios-package" value="VideoPlayer" />
+    </feature>
 </widget>

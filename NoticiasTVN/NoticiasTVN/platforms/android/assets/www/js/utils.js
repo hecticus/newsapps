@@ -93,11 +93,3 @@ function formatDateStringForSorting(ds) {
 function printToLog(element){
 	//console.log(element);
 }
-
-function examplegenews(element){
-	//console.log(element);
-	$.fgetNews();
-}
-
-examplegenews();
-

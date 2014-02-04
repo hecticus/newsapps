@@ -61,7 +61,7 @@ function setScrollPages() {
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h3 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h3></li>';
+			$.li+='<li><h2 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h2></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			$.li+='</div>';
@@ -159,10 +159,10 @@ function fBack() {
 	$('#datacontent').attr('class','page transition right');		
 	$('.back img').removeClass('content');	
 	
-	if (animated) {
+	//if (animated) {
 		$('.back').removeClass('animated');
 		$('.back').removeClass('fadeInLeft');
-	}					
+	//}					
 	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');
@@ -187,78 +187,10 @@ var textShadowBlack = "0px 1px 5px #000;";
 var hScrollMove = false;
 
 
-var app = {
-    initialize: function() {this.bindEvents();},
-    bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
-    onDeviceReady: function() {
-    	
-    	if (device.version > 4.1) animated = true;
-    	
-   		//Google Analytics
-		initGA();
-		
-		//Image Cache
-    	ImgCache.options.debug = true;
-    	ImgCache.options.localCacheFolder = 'Fanaticos412';
-      	ImgCache.options.usePersistentCache = true;       	        	    	
-		ImgCache.init();	    	
 
-    	document.addEventListener('backbutton', function checkConnection() {
 
-    		$(function() {    			  
-    			if(!$('#top').hasClass('closed')){
-    				$('#top').addClass('closed');
-				}else if ($('#datacontent').hasClass('left')){
-					$('#datacontent').attr('class','page transition right');														
-				}else {
-					if(myScrollPage.currPageX == 0){
-						
-						if (navigator.app) {
-							gaPlugin.exit(successGAHandler, successGAHandler);						
-				            navigator.app.exitApp();				            
-				        } else if (navigator.device) {
-				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
-				            navigator.device.exitApp();				            				          
-				        }
 
-					}else{
-						if(myScrollPage.enabled) {
-							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
-							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
-							myScrollPage.refresh();
-							myScrollPage.scrollToPage(0, 0, 0);
-							if (typeof myScrollDatacontentHorizontal != 'undefined') {
-								myScrollDatacontentHorizontal = null;
-							}
-						}						
-					}					
-				}
-				
-				fBack();
-
-			});
-    	}, false);
-    	
- 		document.addEventListener("online", onOnline, false);				
-    	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
-    	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
-        app.receivedEvent('deviceready');
-        initialSetup();
-        
-        function onOnline() {ImgCache.clearCache();}
- 
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-		//init push data
-		initPush();
-		
-		//Manejador de BD
-		storageManager = new StorageManager();
-		
-		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
-    	
-    	//INIT SPECIAL DATA
+		//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
 
@@ -400,28 +332,31 @@ var app = {
     			if (press) {
     				
     				newsDatacontent = $(this).data('id');
-					var manager = new NewsManager();
-					manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsDataContentFromBD,noConnectionForNews);
-					
-					$('.news-datacontent').hide();	
-    				$('.back img').addClass('content');
-    				$('.back img, .share').removeClass('hidden');
-    				if (animated) $('.back').addClass('animated fadeInLeft');    				
-    				myScrollDatacontent.scrollTo(0,0,0);
-    							
-					$($(this).data('news')).show();
-										
-					$('.position').html('1');
-					$('#datacontent').attr('class','page transition left');
-					$('#flag').addClass('hidden');
-
-    				$('.share').removeClass('hidden');  
-    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
-
-					
+    				goToNewsPage();
 
 				}   
     		});
+			
+			function goToNewsPage(){
+				var manager = new NewsManager();
+				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
+				
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden');
+				//if (animated) $('.back').addClass('animated fadeInLeft');    				
+				$('.back').addClass('animated fadeInLeft');     				
+				myScrollDatacontent.scrollTo(0,0,0);
+							
+				$($(this).data('news')).show();
+									
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				$('#flag').addClass('hidden');
+				$('.share').removeClass('hidden');  
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$(this).data('id')+'\')');					
+									
+			}
     		
     		
     		
@@ -432,15 +367,7 @@ var app = {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
     		});
-
-			/*$(document).on('touchstart','div[data-type="image"]', function(e) {
-				press=false;				
-    		}).on('touchend','div[data-type="image"]', function() {
-    			if (press) {
-	    			if ($(this).find('figcaption').hasClass('hidden')) $(this).find('figcaption').removeClass('hidden');
-					else  $('div[data-type="image"]').find('figcaption').addClass('hidden');
-				}   
-    		});*/
+		
 
 			$.fn.exists = function() {
     			return this.length>0;
@@ -516,7 +443,7 @@ var app = {
 
     		//WITH JSON INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
-				
+
 				myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
 
 				myJson.done(function(json) {
@@ -538,7 +465,6 @@ var app = {
 					
 					
 				});
-
     		};
 		  
 		  	function successSaveNews(){
@@ -874,39 +800,7 @@ var app = {
 
     		};    	
     		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-	
-			$.fgetNews();
-			
-			
-			
+
 			$.parseDate = function(stringDate) {
 				var stringValue = ""+stringDate;
 				var array = new Array();
@@ -962,5 +856,96 @@ var app = {
 				}
 				
 			};
+
+
+			//PUSH FUNCTIONS
+		    executePushInit = function(extra_params){
+				window.setTimeout(function(){
+					newsDatacontent = extra_params;
+					goToNewsPage();
+				},200);
+			}
+
+
+
+
+
+
+
+
+
+
+
+var app = {
+    initialize: function() {this.bindEvents();},
+    bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
+    onDeviceReady: function() {
+    	
+    	if (device.version > 4.1) animated = true;
+    	
+   		//Google Analytics
+		initGA();
+		
+		//Image Cache
+    	ImgCache.options.debug = true;
+    	ImgCache.options.localCacheFolder = 'Fanaticos412';
+      	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.init();	    	
+
+    	document.addEventListener('backbutton', function checkConnection() {
+
+    		$(function() {    			  
+    			if(!$('#top').hasClass('closed')){
+    				$('#top').addClass('closed');
+				}else if ($('#datacontent').hasClass('left')){
+					$('#datacontent').attr('class','page transition right');														
+				}else {
+					if(myScrollPage.currPageX == 0){
+						
+						if (navigator.app) {
+							gaPlugin.exit(successGAHandler, successGAHandler);						
+				            navigator.app.exitApp();				            
+				        } else if (navigator.device) {
+				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
+				            navigator.device.exitApp();				            				          
+				        }
+
+					}else{
+						if(myScrollPage.enabled) {
+							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
+							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							myScrollPage.refresh();
+							myScrollPage.scrollToPage(0, 0, 0);
+							if (typeof myScrollDatacontentHorizontal != 'undefined') {
+								myScrollDatacontentHorizontal = null;
+							}
+						}						
+					}					
+				}
+				
+				fBack();
+
+			});
+    	}, false);
+    	
+ 		document.addEventListener("online", onOnline, false);				
+    	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
+    	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
+        app.receivedEvent('deviceready');
+        initialSetup();
+        
+        function onOnline() {ImgCache.clearCache();}
+ 
+    },
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+		//init push data
+		initPush();		
+		//Manejador de BD
+		storageManager = new StorageManager();		
+		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
+		
+		//init page
+		$.fgetNews();
     }
 };
