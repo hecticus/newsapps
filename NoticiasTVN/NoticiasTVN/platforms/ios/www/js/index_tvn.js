@@ -353,8 +353,7 @@ var hScrollMove = false;
 				$('.position').html('1');
 				$('#datacontent').attr('class','page transition left');
 				$('#flag').addClass('hidden');
-				$('.share').removeClass('hidden');  
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$(this).data('id')+'\')');					
+				$('.share').removeClass('hidden');  					
 									
 			}
     		
@@ -679,6 +678,10 @@ var hScrollMove = false;
 
 						$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=itemArray[i]["title"];
+						
+						//Share button onclick
+						console.log("HEADLINE "+$.news.headline);
+						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
 
 						$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
 														

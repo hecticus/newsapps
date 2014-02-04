@@ -101,7 +101,7 @@
 			.hidden {visibility:hidden;}
 			.news-datacontent {background-color:#ffffff;}
 			
-			#flag {position: relative; padding: 1px; 
+			#flag {position: absolute; padding: 1px; 
 				top: 0px; left: 0px; background: #ffffff;
 				border: 3px solid black;
 				border-top: none;
@@ -110,7 +110,8 @@
 				cursor: pointer;
 				border-radius: 0 0 3px 3px;
 				margin-left:30px;
-				width: 15%; height:15%;
+				width: 15%;
+				height:auto;
 			}	
 			
 			
@@ -135,13 +136,13 @@
 					</div>					
 				</div>
 			</div>
-			
-			
-			
-			<div id="flag"><img src="img/flag.png" style="width: 100%; height:auto;"></div>
-				
-			
 						
+			<div style="position: relative;">
+				<div id="flag">
+					<img src="img/flag.png" style="width: 100%; height:auto;">
+				</div>	
+			</div>
+		
 		</div>
 		 
 
