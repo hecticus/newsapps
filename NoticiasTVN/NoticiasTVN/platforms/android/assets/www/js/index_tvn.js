@@ -61,7 +61,7 @@ function setScrollPages() {
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h3 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h3></li>';
+			$.li+='<li><h2 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h2></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			$.li+='</div>';
@@ -159,10 +159,10 @@ function fBack() {
 	$('#datacontent').attr('class','page transition right');		
 	$('.back img').removeClass('content');	
 	
-	if (animated) {
+	//if (animated) {
 		$('.back').removeClass('animated');
 		$('.back').removeClass('fadeInLeft');
-	}					
+	//}					
 	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');
@@ -338,7 +338,8 @@ var hScrollMove = false;
 					$('.news-datacontent').hide();	
     				$('.back img').addClass('content');
     				$('.back img, .share').removeClass('hidden');
-    				if (animated) $('.back').addClass('animated fadeInLeft');    				
+    				//if (animated) $('.back').addClass('animated fadeInLeft');    				
+    				$('.back').addClass('animated fadeInLeft');
     				myScrollDatacontent.scrollTo(0,0,0);
     							
 					$($(this).data('news')).show();
@@ -348,7 +349,7 @@ var hScrollMove = false;
 					$('#flag').addClass('hidden');
 
     				$('.share').removeClass('hidden');  
-    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
+    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$(this).data('id')+'\')');					
 
 					
 
