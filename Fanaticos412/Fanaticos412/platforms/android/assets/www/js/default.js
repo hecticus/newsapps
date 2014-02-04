@@ -301,10 +301,7 @@ var app = {
 
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
-					
 
-
-			
 		 	$('#scrollerpage').width(viewport.width*arrCategory.length);
 			$('#scrollerpage').height(viewport.height);					
 			
