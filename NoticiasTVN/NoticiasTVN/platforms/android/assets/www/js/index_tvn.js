@@ -332,28 +332,32 @@ var hScrollMove = false;
     			if (press) {
     				
     				newsDatacontent = $(this).data('id');
-					var manager = new NewsManager();
-					manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsDataContentFromBD,noConnectionForNews);
-					
-					$('.news-datacontent').hide();	
-    				$('.back img').addClass('content');
-    				$('.back img, .share').removeClass('hidden');
-    				if (animated) $('.back').addClass('animated fadeInLeft');    				
-    				myScrollDatacontent.scrollTo(0,0,0);
-    							
-					$($(this).data('news')).show();
-										
-					$('.position').html('1');
-					$('#datacontent').attr('class','page transition left');
-					$('#flag').addClass('hidden');
-
-    				$('.share').removeClass('hidden');  
-    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
-
-					
+    				goToNewsPage();
 
 				}   
     		});
+			
+			function goToNewsPage(){
+				var manager = new NewsManager();
+				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
+				
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden');
+				if (animated) $('.back').addClass('animated fadeInLeft');    				
+				myScrollDatacontent.scrollTo(0,0,0);
+							
+				$($(this).data('news')).show();
+									
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				$('#flag').addClass('hidden');
+
+				$('.share').removeClass('hidden');  
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
+
+				
+			}
     		
     		
     		
@@ -672,7 +676,9 @@ var hScrollMove = false;
 					
 				
 				for(var i=0;i<itemArray.length; i++){
+					console.log("fsetNewsDatacontents "+itemArray[i]["id"]+":"+newsDatacontent);
 						if(itemArray[i]["id"] == newsDatacontent){
+							console.log("ES IGUAL??? "+itemArray[i]["id"]+":"+newsDatacontent);
 
 						$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=itemArray[i]["title"];
@@ -855,7 +861,13 @@ var hScrollMove = false;
 			};
 
 
-
+			//PUSH FUNCTIONS
+		    executePushInit = function(extra_params){
+				window.setTimeout(function(){
+					newsDatacontent = extra_params;
+					goToNewsPage();
+				},200);
+			}
 
 
 

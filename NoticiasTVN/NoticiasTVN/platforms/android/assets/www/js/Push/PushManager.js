@@ -76,7 +76,7 @@ function onNotificationGCM(e) {
 			}
         	console.log('PUSHJS' + JSON.stringify(e.payload));
         	//window.setTimeout(app.errorNewsSave(),4000);
-        	//app.executePushInit(e.payload["extra_params"]);
+        	executePushInit(e.payload["extra_params"]);
 			//console.log('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
 			//console.log('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
         break;
