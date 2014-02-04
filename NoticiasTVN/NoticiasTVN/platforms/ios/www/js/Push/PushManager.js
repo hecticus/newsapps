@@ -22,7 +22,7 @@ function initPush(){
 
 // handle APNS notifications for iOS
 function onNotificationAPN(e) {
-    if (e.alert) {
+    /*if (e.alert) {
          //$("#app-status-ul").append('<li>push-notification: ' + e.alert + '</li>');
          //console.log('push-notification: ' + e.alert);
          navigator.notification.alert(e.alert);
@@ -35,7 +35,10 @@ function onNotificationAPN(e) {
     
     if (e.badge) {
         pushNotification.setApplicationIconBadgeNumber(successPushHandler, e.badge);
-    }
+    }*/
+	if(e["extra_params"] != null && e["extra_params"] != ""){
+		executePushInit(e["extra_params"]);
+	}
 }
 
 // handle GCM notifications for Android
