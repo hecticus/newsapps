@@ -22,9 +22,14 @@ NewsManager.prototype = {
     	storageManager.queryToDB(this.getAllNewsFromDB,errorCallback, callback, null);
     },
 	loadNewsCategoryFromBD: function (category, callback, errorCallback) {
-		printToLog("getAllNewsFromBD");
+		printToLog("loadNewsCategoryFromBD");
 		//buscamos en BD todas las noticias
 		storageManager.querySelectedToDB(this.getCategoryNewsFromDB,errorCallback, callback, category, null);
+	},
+	loadNewsByIDFromBD: function (newsID, callback, errorCallback) {
+		printToLog("loadNewsByIDFromBD");
+		//buscamos en BD la noticia con ID newsID
+		storageManager.querySelectedToDB(this.getNewsByIDFromDB,errorCallback, callback, newsID, null);
 	},
 
 	saveNewsFromWS:function(results, callback, errorCallback){
@@ -55,7 +60,22 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
 					callback(results);
 				  },
 				  function(err){
-					printToLog("getCurrentEventFromDB: ERROR"+err);
+					printToLog("getCategoryNewsFromDB: ERROR"+err);
+					errorCallback(err);
+				  });
+},
+getNewsByIDFromDB:function(tx, instanceCaller, errorCallback, callback, selected){
+	printToLog("getNewsByIDFromDB");
+	tx.executeSql(createNewsQuery);
+    printToLog("getNewsByIDFromDB 1");
+    
+    printToLog("getNewsByIDFromDB: "+selected);
+	tx.executeSql('SELECT * FROM NEWS WHERE news_tvn_id='+selected+' LIMIT 1', [],
+				  function(tx, results){
+					callback(results);
+				  },
+				  function(err){
+					printToLog("getNewsByIDFromDB: ERROR"+err);
 					errorCallback(err);
 				  });
 },

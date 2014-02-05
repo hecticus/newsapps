@@ -10,7 +10,7 @@ id="com.plugin.sms"
     <keywords>cordova,sms</keywords>
 
     <js-module src="www/smsplugin.js" name="SMSPlugin">
-        <clobbers target="window.smsplugin" />
+        <clobbers target="window.plugins.smsPlugin" />
     </js-module>
     
     <!-- android -->

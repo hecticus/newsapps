@@ -32,7 +32,7 @@
             "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /></feature>":1,
             "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>":1,
             "<feature name=\"GAPlugin\"><param name=\"ios-package\" value=\"GAPlugin\" /></feature>":1,
-            "<feature name=\"SMSPlugin\"><param name=\"android-package\" value=\"SMSPlugin\" /></feature>":1
+            "<feature name=\"SMSPlugin\"><param name=\"ios-package\" value=\"SMSPlugin\" /></feature>":1
          }
       }
    },

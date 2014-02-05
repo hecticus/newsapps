@@ -891,7 +891,7 @@ var app = {
 		
 		//Image Cache
     	ImgCache.options.debug = true;
-    	ImgCache.options.localCacheFolder = 'Fanaticos412';
+    	ImgCache.options.localCacheFolder = 'NoticiasTVN';
       	ImgCache.options.usePersistentCache = true;       	        	    	
 		ImgCache.init();	    	
 

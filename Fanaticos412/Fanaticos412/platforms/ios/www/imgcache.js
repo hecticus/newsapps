@@ -61,7 +61,8 @@ var ImgCache = {
                                 if (level == 1) str = 'INFO: ' + str;
                                 if (level == 2) str = 'WARN: ' + str;
                                 if (level == 3) str = 'ERROR: ' + str;
-                                console.log(str);
+                               // console.log(str);
+                                //if (level==3) alert(str);
                                 //alert(str);
                         }
                 }

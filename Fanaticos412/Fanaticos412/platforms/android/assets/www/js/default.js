@@ -61,7 +61,7 @@ function setScrollPages() {
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h1 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h1></li>';
+			$.li+='<li><h2 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h2></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			$.li+='</div>';
@@ -75,7 +75,7 @@ function setScrollPages() {
 					$.li+='<ul>';
 						$.li+='<li>';
 							$.li+='<ul id="'+arrCategory[i].id+'-news-featured" class="featured">';	
-								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="featured" data-content="headline"></li>';
+								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="featured" ></li>';
 							$.li+='</ul>';
 							$.li+='<ul id="'+arrCategory[i].id+'-news1" class="news1" style="background-color:#ffffff;">';										
 							$.li+='</ul>';
@@ -139,8 +139,6 @@ function newScroll(scroll) {
 }
 
 var slidesPages=['pCenter','pRight','pLeft'];
-
-
 var arrCategory=[
 	{i:0,status:false,id:'All',title:'Home',bgcolor:'#b6110d',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
 	{i:1,status:false,id:'football',title:'Futbol',bgcolor:'#067816',featured:{highdef:'',headline:''},xml:'',news:'',view:0,mode:0},
@@ -157,15 +155,16 @@ var arrCategory=[
 ];
 
 
+
 function fBack() {
-	myScrollPage.enable();	
+	
 	$('#datacontent').attr('class','page transition right');		
 	$('.back img').removeClass('content');	
 	
-	if (animated) {
+	//if (animated) {
 		$('.back').removeClass('animated');
 		$('.back').removeClass('fadeInLeft');
-	}					
+	//}					
 	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');
@@ -190,78 +189,10 @@ var textShadowBlack = "0px 1px 5px #000;";
 var hScrollMove = false;
 
 
-var app = {
-    initialize: function() {this.bindEvents();},
-    bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
-    onDeviceReady: function() {
-    	
-    	if (device.version > 4.1) animated = true;
-    	
-   		//Google Analytics
-		initGA();
-		
-		//Image Cache
-    	ImgCache.options.debug = true;
-    	ImgCache.options.localCacheFolder = 'Fanaticos412';
-      	ImgCache.options.usePersistentCache = true;       	        	    	
-		ImgCache.init();  	    	
 
-    	document.addEventListener('backbutton', function checkConnection() {
 
-    		$(function() {    			  
-    			if(!$('#top').hasClass('closed')){
-    				$('#top').addClass('closed');
-				}else if ($('#datacontent').hasClass('left')){
-					$('#datacontent').attr('class','page transition right');														
-				}else {
-					if(myScrollPage.currPageX == 0){
-						
-						if (navigator.app) {
-							gaPlugin.exit(successGAHandler, successGAHandler);						
-				            navigator.app.exitApp();				            
-				        } else if (navigator.device) {
-				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
-				            navigator.device.exitApp();				            				          
-				        }
 
-					}else{
-						if(myScrollPage.enabled) {
-							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
-							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
-							myScrollPage.refresh();
-							myScrollPage.scrollToPage(0, 0, 0);
-							if (typeof myScrollDatacontentHorizontal != 'undefined') {
-								myScrollDatacontentHorizontal = null;
-							}
-						}						
-					}					
-				}
-				
-				fBack();
-
-			});
-    	}, false);
-    	
- 		document.addEventListener("online", onOnline, false);				
-    	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
-    	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
-        app.receivedEvent('deviceready');
-        initialSetup();
-        
-        function onOnline() {ImgCache.clearCache();}
- 
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-		//init push data
-		initPush();
-		
-		//Manejador de BD
-		storageManager = new StorageManager();
-		
-		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
-    	
-    	//INIT SPECIAL DATA
+		//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
 
@@ -301,7 +232,10 @@ var app = {
 
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
+					
 
+
+			
 		 	$('#scrollerpage').width(viewport.width*arrCategory.length);
 			$('#scrollerpage').height(viewport.height);					
 			
@@ -399,49 +333,42 @@ var app = {
     		}).on('touchend','li[data-content="headline"]', function() {				
     			if (press) {
     				
-    				myScrollPage.disable();
     				newsDatacontent = $(this).data('id');
-					var manager = new NewsManager();
-					manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsDataContentFromBD,noConnectionForNews);
-					
-					$('.news-datacontent').hide();	
-    				$('.back img').addClass('content');
-    				$('.back img, .share').removeClass('hidden');
-    				if (animated) $('.back').addClass('animated fadeInLeft');    				
-    				myScrollDatacontent.scrollTo(0,0,0);
-    							
-					$($(this).data('news')).show();
-										
-					$('.position').html('1');
-					$('#datacontent').attr('class','page transition left');
-					$('#flag').addClass('hidden');
-
-    				$('.share').removeClass('hidden');  
-    				$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$(this).data('headline').replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$(this).data('id')+'&cn='+arrCategory[myScrollPage.currPageX].id+'\')');					
-
-					
+    				goToNewsPage();
 
 				}   
     		});
+			
+			function goToNewsPage(){
+				var manager = new NewsManager();
+				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
+				
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden');
+				//if (animated) $('.back').addClass('animated fadeInLeft');    				
+				$('.back').addClass('animated fadeInLeft');     				
+				myScrollDatacontent.scrollTo(0,0,0);
+							
+				$($(this).data('news')).show();
+									
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				$('#flag').addClass('hidden');
+				$('.share').removeClass('hidden');  					
+									
+			}
     		
     		
     		
-			$(document).on('touchstart','div[data-type="video"]', function(e) {
-				press=false;				
-    		}).on('touchend','div[data-type="video"]', function() {
+			$(document).on('touchstart','div[data-type="video"], li[data-type="video"]', function(e) {
+				press=false;		
+    		}).on('touchend','div[data-type="video"], li[data-type="video"]', function() {
     			if (press) {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
     		});
-
-			$(document).on('touchstart','div[data-type="image"]', function(e) {
-				press=false;				
-    		}).on('touchend','div[data-type="image"]', function() {
-    			if (press) {
-	    			if ($(this).find('figcaption').hasClass('hidden')) $(this).find('figcaption').removeClass('hidden');
-					else  $('div[data-type="image"]').find('figcaption').addClass('hidden');
-				}   
-    		});
+		
 
 			$.fn.exists = function() {
     			return this.length>0;
@@ -633,9 +560,15 @@ var app = {
 								$($.category+'-news-featured-title').data('id',$.news.id);
 								$($.category+'-news-featured-title').data('news','#news-'+$.news.id);
 								$($.category+'-news-featured-title').data('headline',$.news.headline);																			
-								$($.category+'-news-featured-title').data('content','#news-'+$.news.id);
-								$($.category+'-news-featured-title').attr('wrapper','news-'+$.news.id+'-wrapper');
+								$($.category+'-news-featured-title').attr('data-content','headline');
 								
+								if (arrCategory[myScrollPage.currPageX].video) {
+									$($.category+'-news-featured-title').attr('data-content','');
+									$($.category+'-news-featured-title').attr('data-type','video');
+									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
+								}
+								
+		
 		
 								$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
 								$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
@@ -661,14 +594,25 @@ var app = {
 
 							} else if (i>0) {
 							
-								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" wrapper="news-'+$.news.id+'-wrapper" >';
+								
+								if (arrCategory[myScrollPage.currPageX].video) {	
+									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
+								} else {
+									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
+								}
+
 								if ($.news.quicklook.length >= 1) {
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
-								}								
-								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.formatDate($.news.date)+'</span></div>';									
+								}
+																
+								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';
+								
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
+								
+
+								
 								
 								if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {									
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
@@ -709,6 +653,10 @@ var app = {
 						$.news={id:$(this).attr('duid'),headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=$(this).find('headline').text();
 
+						//Share button onclick
+						console.log("HEADLINE "+$.news.headline);
+						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\');');
+						
 						var myDate = $(this).find('DateAndTime').text();
 						var arrayDate = $.parseDate(myDate);
 						$.news.date=new Date(arrayDate[0],(arrayDate[1]-1),arrayDate[2],arrayDate[3],arrayDate[4],arrayDate[5],0);
@@ -825,39 +773,7 @@ var app = {
 
     		};    		
     		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-	
-			$.fgetNews();
-			
-			
-			
+
 			$.parseDate = function(stringDate) {
 				var stringValue = ""+stringDate;
 				var array = new Array();
@@ -890,7 +806,119 @@ var app = {
 				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];				
 				return hh+':'+mm+' '+meridian+', '+months[MM]+', '+dd;
 			};
-						
+			
+			//MM/dd/yyyy hh:mm:ss t.t. or M/d/yyyy h:m:s t.t. or just the month/day/year
+			$.formatDateString = function(ds) {
+				var dateString = ""+ds;
+				var parts = dateString.split(" ");
+				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+				var MDY = parts[0].split("/");
+				var monthIndex = parseInt(MDY[0]);
+				if(parts.length > 1){
+					
+					var HMS = parts[1].split(":");
+					var meridian = parts[2];
 
+					var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian+', '+months[monthIndex-1]+', '+MDY[1];
+
+					return dateStringFinal;
+				}else{
+					var dateStringFinal = months[monthIndex-1]+', '+MDY[1]+", "+MDY[2];
+
+					return dateStringFinal;
+				}
+				
+			};
+
+
+			//PUSH FUNCTIONS
+		    executePushInit = function(extra_params){
+				window.setTimeout(function(){
+					newsDatacontent = extra_params;
+					goToNewsPage();
+				},200);
+			}
+
+
+
+
+
+
+
+
+
+
+
+var app = {
+    initialize: function() {this.bindEvents();},
+    bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
+    onDeviceReady: function() {
+    	
+    	if (device.version > 4.1) animated = true;
+    	
+   		//Google Analytics
+		initGA();
+		
+		//Image Cache
+    	ImgCache.options.debug = true;
+    	ImgCache.options.localCacheFolder = 'Fanaticos412';
+      	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.init();	    	
+
+    	document.addEventListener('backbutton', function checkConnection() {
+
+    		$(function() {    			  
+    			if(!$('#top').hasClass('closed')){
+    				$('#top').addClass('closed');
+				}else if ($('#datacontent').hasClass('left')){
+					$('#datacontent').attr('class','page transition right');														
+				}else {
+					if(myScrollPage.currPageX == 0){
+						
+						if (navigator.app) {
+							gaPlugin.exit(successGAHandler, successGAHandler);						
+				            navigator.app.exitApp();				            
+				        } else if (navigator.device) {
+				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
+				            navigator.device.exitApp();				            				          
+				        }
+
+					}else{
+						if(myScrollPage.enabled) {
+							//TODO: revisar si se puede hacer la animacion inversa del scroll por touch
+							//myScrollPage.scrollToPage(myScrollPage.currPageX-1, 0, 0);
+							myScrollPage.refresh();
+							myScrollPage.scrollToPage(0, 0, 0);
+							if (typeof myScrollDatacontentHorizontal != 'undefined') {
+								myScrollDatacontentHorizontal = null;
+							}
+						}						
+					}					
+				}
+				
+				fBack();
+
+			});
+    	}, false);
+    	
+ 		document.addEventListener("online", onOnline, false);				
+    	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
+    	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
+        app.receivedEvent('deviceready');
+        initialSetup();
+        
+        function onOnline() {ImgCache.clearCache();}
+ 
+    },
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+		//init push data
+		initPush();		
+		//Manejador de BD
+		storageManager = new StorageManager();		
+		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
+		
+		//init page
+		$.fgetNews();
     }
 };
