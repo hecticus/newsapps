@@ -950,5 +950,8 @@ var app = {
 		
 		//init page
 		$.fgetNews();
+		
+		//snap de las paginas con un threshold del 15% de la pantalla
+		myScrollPage.options.snapThreshold = window.innerWidth*0.15;
     }
 };
