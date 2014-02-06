@@ -95,6 +95,9 @@ public class VideoPlayer extends CordovaPlugin {
             // Display video player
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "video/*");
+        } else if(url.contains("rtsp://")) {
+        	intent = new Intent(Intent.ACTION_VIEW);
+        	intent.setData(uri);            
         } else {
             // Display video player
             intent = new Intent(Intent.ACTION_VIEW);
