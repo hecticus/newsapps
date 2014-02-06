@@ -15,9 +15,9 @@ function initGA(){
 }
 
 function successGAHandler (result) {
-    console.log('successGAHandler '+ result);
+    //console.log('successGAHandler '+ result);
 }
 
 function errorGAHandler (error) {
-    console.log('errorGAHandler '+ error);
+    //console.log('errorGAHandler '+ error);
 }

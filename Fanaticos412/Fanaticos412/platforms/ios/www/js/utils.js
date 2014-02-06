@@ -36,6 +36,7 @@ function offlineCallback(){
 function onlineCallback(){
 	printToLog("ONLINE!!!!");
 	window.localStorage.setItem(FILE_KEY_ONLINE,"true");
+	ImgCache.clearCache();
 }
 function checkConnection() {
     var networkState = navigator.connection.type;

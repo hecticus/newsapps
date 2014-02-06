@@ -610,8 +610,10 @@ var hScrollMove = false;
 									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.attr('src'), function(path, success){
-											if(success){											
-											    ImgCache.useCachedFile(target);
+											if(success){
+												if(isOffline()){
+													ImgCache.useCachedFile(target);
+												}
 											} else {
 												ImgCache.cacheFile(target.attr('src'), function(){
 													ImgCache.useOnlineFile(target);
@@ -647,8 +649,10 @@ var hScrollMove = false;
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.data('src'), function(path, success){
-											if(success){											
-											    ImgCache.useCachedBackground(target);
+											if(success){
+												if(isOffline()){
+													ImgCache.useCachedBackground(target);
+												}
 											} else {
 												ImgCache.cacheBackground(target, function(){
 													ImgCache.useOnlineFile(target);
@@ -893,6 +897,7 @@ var app = {
     	ImgCache.options.debug = true;
     	ImgCache.options.localCacheFolder = 'NoticiasTVN';
       	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.options.cacheClearSize = 5;
 		ImgCache.init();	    	
 
     	document.addEventListener('backbutton', function checkConnection() {
@@ -931,13 +936,10 @@ var app = {
 			});
     	}, false);
     	
- 		document.addEventListener("online", onOnline, false);				
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
         initialSetup();
-        
-        function onOnline() {ImgCache.clearCache();}
  
     },
     // Update DOM on a Received Event

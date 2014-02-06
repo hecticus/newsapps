@@ -55,7 +55,7 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
     printToLog("getCategoryNewsFromDB 1");
     
     printToLog("getCategoryNewsFromDB: "+selected);
-	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+selected+'" ORDER BY news_date desc LIMIT 10', [],
+	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_date desc LIMIT 10', [],
 				  function(tx, results){
 					callback(results);
 				  },

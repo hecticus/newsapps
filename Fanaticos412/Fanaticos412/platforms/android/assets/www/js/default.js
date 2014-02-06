@@ -577,12 +577,14 @@ var hScrollMove = false;
 								$($.category+'-news-featured-title').empty();
 								$($.category+'-news-featured-title').append($.li);
 
-								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {								
+								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {
 									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.attr('src'), function(path, success){
-											if(success){											
-											    ImgCache.useCachedFile(target);
+											if(success){
+												if(isOffline()){
+													ImgCache.useCachedFile(target);
+												}
 											} else {
 												ImgCache.cacheFile(target.attr('src'), function(){
 													ImgCache.useOnlineFile(target);
@@ -618,8 +620,10 @@ var hScrollMove = false;
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.data('src'), function(path, success){
-											if(success){											
-											    ImgCache.useCachedBackground(target);
+											if(success){
+												if(isOffline()){
+													ImgCache.useCachedBackground(target);
+												}
 											} else {
 												ImgCache.cacheBackground(target, function(){
 													ImgCache.useOnlineFile(target);
@@ -654,7 +658,6 @@ var hScrollMove = false;
 						$.news.headline=$(this).find('headline').text();
 
 						//Share button onclick
-						console.log("HEADLINE "+$.news.headline);
 						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://superkraken.net/fanaticos412/?test&idt=99&idn='+$.news.id+'&cn='+arrCategory[myScrollPage.currPageX].id+'\');');
 						
 						var myDate = $(this).find('DateAndTime').text();
@@ -863,6 +866,7 @@ var app = {
     	ImgCache.options.debug = true;
     	ImgCache.options.localCacheFolder = 'Fanaticos412';
       	ImgCache.options.usePersistentCache = true;       	        	    	
+		ImgCache.options.cacheClearSize = 5;
 		ImgCache.init();	    	
 
     	document.addEventListener('backbutton', function checkConnection() {
@@ -901,13 +905,10 @@ var app = {
 			});
     	}, false);
     	
- 		document.addEventListener("online", onOnline, false);				
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
         initialSetup();
-        
-        function onOnline() {ImgCache.clearCache();}
  
     },
     // Update DOM on a Received Event
