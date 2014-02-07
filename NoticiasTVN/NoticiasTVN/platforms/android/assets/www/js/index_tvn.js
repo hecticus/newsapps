@@ -54,14 +54,14 @@ function setMenuCategories(){
 //function to set the correct pages with the correct IDs and colors
 function setScrollPages() {
 	$('#scrollerpage').empty();
-	for(var i=0; i<arrCategory.length; i++){
+	for(var i=0; i<(arrCategory.length-1); i++){
 		
 		$.li='<div class="pages"  style="position:relative; float:left; display:block; background-color:#000000;">';
 
 			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
-			$.li+='<li><h2 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h2></li>';
+			$.li+='<li><h3 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h3></li>';
 			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
 			$.li+='</ul>';
 			$.li+='</div>';
@@ -149,7 +149,8 @@ var arrCategory=[
  	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},video:false},
  	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},video:true},
  	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},video:false},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},video:true}
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},video:true},
+ 	{i:10,status:false,id:'live_tv',title:'Se&ntilde;al en vivo',bgcolor:'#0404B4',featured:{highdef:'',headline:''},video:true}
  	];
 
 
@@ -234,7 +235,7 @@ var hScrollMove = false;
 
 
 			
-		 	$('#scrollerpage').width(viewport.width*arrCategory.length);
+		 	$('#scrollerpage').width(viewport.width*(arrCategory.length-1));
 			$('#scrollerpage').height(viewport.height);					
 			
 		 	$('.pages').width(viewport.width);
@@ -264,13 +265,13 @@ var hScrollMove = false;
 						upcomingnext = parseInt(this.currPageX+2);
 																
 						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].id).addClass('hidden');																		
-						if ((upcomingnext)<arrCategory.length) $('#'+arrCategory[upcomingnext].id).addClass('hidden');
+						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].id).addClass('hidden');
 						
 						upcomingback = parseInt(this.currPageX-1);									
 						upcomingnext = parseInt(this.currPageX+1);
 												
 						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].id).removeClass('hidden');													
-						if ((upcomingnext)<arrCategory.length) $('#'+arrCategory[upcomingnext].id).removeClass('hidden');		
+						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].id).removeClass('hidden');		
 																															
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
 												
@@ -310,17 +311,22 @@ var hScrollMove = false;
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
-    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
-    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
-					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
-
-    				$('#screen-block').addClass('hidden');
-	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
-					$('#datacontent').attr('class','page right');
-					$('#top').addClass('closed');
-					if (typeof myScrollDatacontentHorizontal != 'undefined') {
-						myScrollDatacontentHorizontal = null;
-					}
+    				if (arrCategory[$(this).data('position')].id == 'live_tv') {    					    					
+    					window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
+    				} else {
+	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
+	    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+						gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+	
+	    				$('#screen-block').addClass('hidden');
+		    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
+						$('#datacontent').attr('class','page right');
+						$('#top').addClass('closed');
+						if (typeof myScrollDatacontentHorizontal != 'undefined') {
+							myScrollDatacontentHorizontal = null;
+						}	
+    				}
+    				
 
     			}   								
     		});
