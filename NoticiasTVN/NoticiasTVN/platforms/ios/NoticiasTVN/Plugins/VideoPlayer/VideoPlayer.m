@@ -83,7 +83,8 @@
 	NSString *orient = @"NO";
 	
 	NSRange range = [movie rangeOfString:@"http"];
-    if(range.length > 0) {
+	NSRange range2 = [movie rangeOfString:@"rtsp"];
+    if(range.length > 0 || range2.length > 0) {
         if ([@"YES" isEqualToString:orient]) {
             player = [[MovieViewController alloc] initWithContentURL:[NSURL URLWithString:movie] andOrientation:YES];
         } else {
