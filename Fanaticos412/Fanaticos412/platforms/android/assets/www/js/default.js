@@ -499,6 +499,10 @@ var hScrollMove = false;
 						
 						$.category = '#'+$(this).attr('name');
 														
+						$($.category +'-news1').empty();	
+						$($.category+'-news-featured-title').empty();
+														
+														
 						window['myScroll'+$(this).attr('name')]=newScroll($(this).attr('name'));
 						arrPage.push('myScroll'+$(this).attr('name'));
 
@@ -840,10 +844,14 @@ var hScrollMove = false;
 					newsDatacontent = extra_params;
 					goToNewsPage();
 				},200);
-			}
+			};
 
 
-
+		setInterval(function(){			
+			$.each(arrCategory, function(key,value) {
+				arrCategory[key].status = false;	  
+			});			 		
+		}, 300000);
 
 
 
