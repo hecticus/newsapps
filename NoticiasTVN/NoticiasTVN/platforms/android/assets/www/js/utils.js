@@ -14,8 +14,15 @@ function initialSetup() {
 	
 	document.addEventListener("offline", offlineCallback, false);
 	document.addEventListener("online", onlineCallback, false);
+	document.addEventListener("resume", onResumeApp, false);
 	
 	window.localStorage.setItem(FILE_KEY_VERSION,currentVersion);
+}
+
+//resume app
+function onResumeApp(){
+	reloadApp();
+	console.log("App resuming");
 }
 
 //Connection

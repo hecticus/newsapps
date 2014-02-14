@@ -1,12 +1,18 @@
 package com.plugin.gcm;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,6 +20,15 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import org.apache.http.message.BasicNameValuePair;
 
 import com.google.android.gcm.*;
 
@@ -27,12 +42,17 @@ public class PushPlugin extends CordovaPlugin {
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
 	public static final String EXIT = "exit";
+	
+	public static final String PROPERTY_REG_ID = "registration_id";
+    private static final String PROPERTY_APP_VERSION = "appVersion";
 
 	private static CordovaWebView gWebView;
 	private static String gECB;
 	private static String gSenderID;
 	private static Bundle gCachedExtras = null;
     private static boolean gForeground = false;
+    
+    public static final String PUSH_PREFS_NAME = "NoticiasTVNPushPrefsFile";
 
 	/**
 	 * Gets the application context from cordova's main activity.
@@ -63,10 +83,39 @@ public class PushPlugin extends CordovaPlugin {
 				gSenderID = (String) jo.get("senderID");
 
 				Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
+				
+				//revisar si todo esta bien configurado
+				GCMRegistrar.checkDevice(getApplicationContext());
+			    GCMRegistrar.checkManifest(getApplicationContext());
+				
+			    final String regId = GCMRegistrar.getRegistrationId(getApplicationContext());
+			    
+			    //Log.v(TAG, "execute: REGID?" + regId);
+			    
+			    // Check if app was updated; if so, it must clear the registration ID
+		        // since the existing regID is not guaranteed to work with the new
+		        // app version.
+			    SharedPreferences settings = getApplicationContext().getSharedPreferences(PUSH_PREFS_NAME, Context.MODE_PRIVATE);
+		        int registeredVersion = settings.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+		        int currentVersion = getAppVersion(getApplicationContext());
 
-				GCMRegistrar.register(getApplicationContext(), gSenderID);
-				result = true;
-				callbackContext.success();
+		        Log.v(TAG, "regId=" + regId);
+				//GCMRegistrar.register(getApplicationContext(), gSenderID);
+				if (regId.equals("") || currentVersion!=registeredVersion) {
+		            // Automatically registers application on startup.
+			    	GCMRegistrar.register(getApplicationContext(), gSenderID);
+		        } else {
+		            // Device is already registered on GCM, check server.
+		            if (GCMRegistrar.isRegisteredOnServer(getApplicationContext())) {
+		                // Skips registration.
+		            	//GCMRegistrar.unregister(getApplicationContext());
+		            } else {
+		                // Try to register again, but not in the UI thread.
+				    	GCMRegistrar.register(getApplicationContext(), gSenderID);
+		            }
+		        }
+			    result = true;
+		    	callbackContext.success();
 			} catch (JSONException e) {
 				Log.e(TAG, "execute: Got JSON Exception " + e.getMessage());
 				result = false;
@@ -241,5 +290,104 @@ public class PushPlugin extends CordovaPlugin {
     public static boolean isActive()
     {
     	return gWebView != null;
+    }
+    
+  //extra functions
+  	public static void registerDeviceOnServer(Context context, String regId) {
+  	    // Create a new HttpClient and Post Header
+  	    HttpClient httpclient = new DefaultHttpClient();
+  	    //HttpPost httppost = new HttpPost("http://visitpanama.hecticus.com/ws/gcm/register.php");
+  	    
+  	    //Log.v(TAG, "REGID: " + regId);
+  	    //HttpPost httppost = new HttpPost("http://kraken.hecticus.com/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php");
+  	    HttpPost httppost = new HttpPost("http://10.0.3.142/kraken/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php");
+
+  	    try {
+  	    	//Get Stored id if exists
+			SharedPreferences settings = context.getSharedPreferences(PUSH_PREFS_NAME, Context.MODE_PRIVATE);
+			String storedRegId = settings.getString(PROPERTY_REG_ID, "");
+			
+			Log.v(TAG, "REGID: " + regId+" OLD: "+storedRegId);
+			
+  	        // Add your data
+  	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+  	        nameValuePairs.add(new BasicNameValuePair("ext_id", regId));
+  	        nameValuePairs.add(new BasicNameValuePair("id_country", "8")); //panama
+  	        nameValuePairs.add(new BasicNameValuePair("command", "ALTA"));
+  	        nameValuePairs.add(new BasicNameValuePair("origin", "ANDROID"));
+  	        nameValuePairs.add(new BasicNameValuePair("service_type", "droid"));
+  	        nameValuePairs.add(new BasicNameValuePair("token", "NOTICIASTVN"));
+  	        if(!storedRegId.equals("") && !storedRegId.equals(regId)){
+  	        	Log.v(TAG, "ENVIANDO OLD");
+  	        	//hay que mandar el regID viejo y eliminarlo
+  	        	nameValuePairs.add(new BasicNameValuePair("old_ext_id", storedRegId));
+  	        }
+  	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+  	        // Execute HTTP Post Request
+  	        HttpResponse response = httpclient.execute(httppost);
+  	        Log.e(TAG, "Response registerDeviceOnServer: "+response.toString());
+  	        try {
+  	        	Log.v(TAG, "OBJETO JSON\n\n");
+	  	        JSONObject obj = new JSONObject(response.toString());
+	  	        Log.v(TAG, obj.toString()+"\n\n");
+	
+	  	        //si todo salio bien en el WS se guarda el nuevo registro
+	  	        int appVersion = getAppVersion(context);
+	  	        SharedPreferences.Editor editor = settings.edit();
+	  	        editor.putString("storedPushId", regId);
+	  	        editor.putInt("applicationVersion", appVersion);
+	  	        editor.commit();
+	  	        
+	  	        //le indicamos al servidor de android que nos queremos registrar para push
+	  	        GCMRegistrar.setRegisteredOnServer(context, true);
+	  	    } catch (Throwable t) {
+	  	        Log.e(TAG, "Could not parse malformed JSON: \"" + response.toString() + "\"");
+	  	    }
+ 
+  	    } catch (ClientProtocolException e) {
+  	    	Log.e(TAG, "Error: "+e);
+  	    } catch (IOException e) {
+  	    	Log.e(TAG, "Error: "+e);
+  	    }
+  	} 
+  	
+  	public static void unregisterDeviceOnServer(Context context, String regId) {
+  	    // Create a new HttpClient and Post Header
+  	    /*HttpClient httpclient = new DefaultHttpClient();
+  	    HttpPost httppost = new HttpPost("http://hecticus.com/ws/gcm/unregister.php");
+
+  	    try {
+  	        // Add your data
+  	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+  	        nameValuePairs.add(new BasicNameValuePair("regId", regId));
+  	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+  	        // Execute HTTP Post Request
+  	        HttpResponse response = httpclient.execute(httppost);
+  	        //Log.e(TAG, "Response unregisterDeviceOnServer: "+response.toString());
+  	        
+  	        GCMRegistrar.setRegisteredOnServer(context, false);
+
+  	    } catch (ClientProtocolException e) {
+  	    	Log.e(TAG, "Error: "+e);
+  	    } catch (IOException e) {
+  	    	Log.e(TAG, "Error: "+e);
+  	    }*/
+  	}
+  	
+  	/**
+     * @return Application's version code from the {@code PackageManager}.
+     */
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (NameNotFoundException e) {
+            // should never happen
+            //throw new RuntimeException("Could not get package name: " + e);
+        	return -1;
+        }
     }
 }

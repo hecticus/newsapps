@@ -513,10 +513,12 @@ var hScrollMove = false;
 						}						
 						$.fsetNewsDatacontents(newsArray);
 					}else{
-						noConnectionForNews();
+						//noConnectionForNews();
+						fBack();
 					}
 				}else{
-					noConnectionForNews();
+					//noConnectionForNews();
+					fBack();
 				}
 			}
 			
@@ -881,7 +883,7 @@ var hScrollMove = false;
 				window.setTimeout(function(){
 					newsDatacontent = extra_params;
 					goToNewsPage();
-				},200);
+				},1000);
 			};
 
 
@@ -892,13 +894,20 @@ var hScrollMove = false;
 		}, 2);	
 
 		setInterval(function(){			
-			$.each(arrCategory, function(key,value) {
-				arrCategory[key].status = false;	  
-			});			 		
+			clearPageStatus();			 		
 		}, 300000);
 
 
+function clearPageStatus(){
+	$.each(arrCategory, function(key,value) {
+		arrCategory[key].status = false;	  
+	});
+}
 
+function reloadApp(){
+	clearPageStatus();
+	$.fgetNews();
+}
 
 var app = {
     initialize: function() {this.bindEvents();},
@@ -972,9 +981,5 @@ var app = {
 		
 		//snap de las paginas con un threshold del 15% de la pantalla
 		myScrollPage.options.snapThreshold = window.innerWidth*0.15;
-		
-
-		
-		
     }
 };
