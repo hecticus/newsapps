@@ -976,6 +976,8 @@ var app = {
 		storageManager = new StorageManager();		
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
 		
+		clearPageStatus();
+		
 		//init page
 		$.fgetNews();
 		
