@@ -530,7 +530,8 @@ var hScrollMove = false;
 		  
 		  
 			$.fsetNews = function(itemArray) {
-						
+						isLoaded = true;
+				
 						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
 						
 						$($.category +'-news1').empty();	
@@ -879,12 +880,23 @@ var hScrollMove = false;
 
 			//PUSH FUNCTIONS
 		    executePushInit = function(extra_params){
-				window.setTimeout(function(){
-					newsDatacontent = extra_params;
-					goToNewsPage();
-				},1000);
+		    	pushInterval = window.setInterval(function(){
+					if(isLoaded){
+						newsDatacontent = extra_params;
+						goToNewsPage();
+						isCommingFromPush = true;
+						stopPushInterval();
+					}
+					
+				},500);
 			};
-
+			
+			function stopPushInterval(){
+				clearInterval(pushInterval);
+			}
+			var isCommingFromPush;
+			var isLoaded;
+			var pushInterval;
 
 
 
@@ -969,6 +981,8 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+    	isCommingFromPush = false;
+    	isLoaded = false;
 		//init push data
 		initPush();		
 		//Manejador de BD
