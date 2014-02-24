@@ -839,18 +839,31 @@ var hScrollMove = false;
 				window.setTimeout(function(){
 					newsDatacontent = extra_params;
 					goToNewsPage();
-				},200);
-			}
+				},1000);
+			};
 
 
 
 
+	   setTimeout(function () {
+			press=true;						
+		}, 2);	
+
+		setInterval(function(){			
+			clearPageStatus();			 		
+		}, 300000);
 
 
+function clearPageStatus(){
+	$.each(arrCategory, function(key,value) {
+		arrCategory[key].status = false;	  
+	});
+}
 
-
-
-
+function reloadApp(){
+	clearPageStatus();
+	$.fgetNews();
+}
 
 var app = {
     initialize: function() {this.bindEvents();},
@@ -918,6 +931,8 @@ var app = {
 		//Manejador de BD
 		storageManager = new StorageManager();		
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
+		
+		clearPageStatus();
 		
 		//init page
 		$.fgetNews();

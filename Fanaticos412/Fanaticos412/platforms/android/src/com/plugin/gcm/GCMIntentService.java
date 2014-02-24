@@ -3,9 +3,14 @@ package com.plugin.gcm;
 import java.util.List;
 
 import com.google.android.gcm.GCMBaseIntentService;
+import com.google.android.gcm.GCMRegistrar;
+import com.hecticus.fanaticos412.R;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.string;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -41,6 +46,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 			json.put("regid", regId);
 
 			Log.v(TAG, "onRegistered: " + json.toString());
+			
+			PushPlugin.registerDeviceOnServer(context, json.getString("regid"));
 
 			// Send this JSON data to the JavaScript application above EVENT should be set to the msg type
 			// In this case this is the registration ID
@@ -56,7 +63,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	public void onUnregistered(Context context, String regId) {
-		Log.d(TAG, "onUnregistered - regId: " + regId);
+		Log.i(TAG, "Device unregistered");
+		if (GCMRegistrar.isRegisteredOnServer(context)) {
+			PushPlugin.unregisterDeviceOnServer(context, regId);
+        } else {
+            // This callback results from the call to unregister made on
+            // PushPlugin when the registration to the server failed.
+            Log.i(TAG, "Ignoring unregister callback");
+        }
+		//Log.d(TAG, "onUnregistered - regId: " + regId);
 	}
 
 	@Override
@@ -77,6 +92,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
                 // Send a notification if there is a message
                 if (extras.getString("message") != null && extras.getString("message").length() != 0) {
+                	if(extras.getString("title")==null){
+                		extras.putString("title", getString(R.string.app_name));
+                	}
                     createNotification(context, extras);
                 }
             }

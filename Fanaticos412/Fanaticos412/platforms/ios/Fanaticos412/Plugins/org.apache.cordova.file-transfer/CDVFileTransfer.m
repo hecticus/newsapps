@@ -525,7 +525,7 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
     BOOL bDirRequest = NO;
     CDVFile* filePlugin;
 
-    NSLog(@"File Transfer Finished with response code %d", self.responseCode);
+    //NSLog(@"File Transfer Finished with response code %d", self.responseCode);
 
     if (self.direction == CDV_TRANSFER_UPLOAD) {
         uploadResponse = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];

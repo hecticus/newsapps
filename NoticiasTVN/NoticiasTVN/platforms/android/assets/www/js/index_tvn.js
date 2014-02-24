@@ -697,7 +697,6 @@ var hScrollMove = false;
 						$.news.headline=itemArray[i]["title"];
 						
 						//Share button onclick
-						console.log("HEADLINE "+$.news.headline);
 						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
 
 						$.news.date=$.formatDateString(itemArray[i]["pubdate"]);

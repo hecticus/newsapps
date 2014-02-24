@@ -107,6 +107,10 @@
                        stringByReplacingOccurrencesOfString: @" " withString: @""];
     [results setValue:token forKey:@"deviceToken"];
 	
+	//obtenemos el token viejo para comparar
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];  //load NSUserDefaults
+	NSString *oldToken = [prefs dataForKey:@"regID"];
+	
 	NSLog(@"TOKEN %@",token);
     
     #if !TARGET_IPHONE_SIMULATOR
@@ -145,6 +149,42 @@
         [results setValue:dev.name forKey:@"deviceName"];
         [results setValue:dev.model forKey:@"deviceModel"];
         [results setValue:dev.systemVersion forKey:@"deviceSystemVersion"];
+	
+	
+		//PUSH REGISTRATION ON SERVER
+		// Prepare the Device Token for Registration (remove spaces and < >)
+		NSString *deviceTokenClean = [[[[deviceToken description]
+									stringByReplacingOccurrencesOfString:@"<"withString:@""]
+								   stringByReplacingOccurrencesOfString:@">" withString:@""]
+								  stringByReplacingOccurrencesOfString: @" " withString: @""];
+	
+		//NSString *host = @"kraken.hecticus.com";
+		NSString *host = @"wedge/kraken";
+		NSString *urlString = @"";
+		if(oldToken != NULL && ![oldToken isEqualToString:@""]){
+			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&old_ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, oldToken, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
+		}else{
+			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
+		}
+	
+		//NSLog(@"Debug data URL to send: %@", urlString);
+	
+		@try{
+			// Register the Device Data
+			// !!! CHANGE "http" TO "https" IF YOU ARE USING HTTPS PROTOCOL
+			NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:host path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+			NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+			NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+			//NSLog(@"Register URL: %@", url);
+			NSLog(@"PUSH REGISTER Return Data: %@", returnData);
+			
+			//si todo salio bien guardamos el nuevo REGID
+			[prefs setObject:token forKey:@"regID"];
+		
+		}@catch (NSException * e){
+			NSLog(@"Exception: %@", e);
+		}
+
 
 		[self successWithMessage:[NSString stringWithFormat:@"%@", token]];
     #endif
