@@ -1,11 +1,11 @@
 //La data se almacena en jsons en el campo news_datacontent, todo lo que se recibe se guarda ahi, para asi soportar mejor cualquier cambio o extra informacion que se a�ada
-var createNewsQuery = 'CREATE TABLE IF NOT EXISTS NEWS (news_tvn_id INTEGER,'+
+var createNewsQuery = 'CREATE TABLE IF NOT EXISTS NEWS (news_id INTEGER,'+
 'news_category TEXT DEFAULT NULL,'+
 'news_headline TEXT NOT NULL,'+
 'news_date TEXT DEFAULT NULL,'+
 'news_datacontent TEXT DEFAULT NULL,'+
 'news_creationtime INTEGER DEFAULT NULL,'+
-'PRIMARY KEY (news_tvn_id,news_category))';
+'PRIMARY KEY (news_id,news_category))';
 
 
 //declaring the constructor
@@ -55,7 +55,7 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
     printToLog("getCategoryNewsFromDB 1");
     
     printToLog("getCategoryNewsFromDB: "+selected);
-	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_date desc LIMIT 10', [],
+	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_creationtime asc LIMIT 10', [],
 				  function(tx, results){
 					callback(results);
 				  },
@@ -70,7 +70,7 @@ getNewsByIDFromDB:function(tx, instanceCaller, errorCallback, callback, selected
     printToLog("getNewsByIDFromDB 1");
     
     printToLog("getNewsByIDFromDB: "+selected);
-	tx.executeSql('SELECT * FROM NEWS WHERE news_tvn_id='+selected+' LIMIT 1', [],
+	tx.executeSql('SELECT * FROM NEWS WHERE news_id='+selected+' LIMIT 1', [],
 				  function(tx, results){
 					callback(results);
 				  },
@@ -99,7 +99,7 @@ getNewsByIDFromDB:function(tx, instanceCaller, errorCallback, callback, selected
 			var d = new Date();
 			var n = d.getTime();
 			
-			var insertStatement = 'INSERT OR REPLACE INTO NEWS(news_tvn_id,news_category,news_headline,news_date,news_datacontent,news_creationtime)'+
+			var insertStatement = 'INSERT OR REPLACE INTO NEWS(news_id,news_category,news_headline,news_date,news_datacontent,news_creationtime)'+
 			'VALUES ('+insertObj.attr('duid')+','+
 			'"'+encodeURIComponent(results["category"])+'",'+
 			'"'+encodeURIComponent(insertObj.find('headline').text())+'",'+
@@ -145,7 +145,9 @@ function deleteAllNewsDB(tx, instanceCaller){
 function limitNewsTableSize(tx){
 	
 	//eliminamos todas las categorias que no existan mas, despues por cada categoria eliminamos los que son viejos por cantidad
-	/*var limitStatement = 'DELETE FROM NEWS WHERE news_id NOT IN (SELECT news_id FROM NEWS WHERE news_id > 0 ORDER BY news_publication_date DESC LIMIT 100);';
-	
-	tx.executeSql(limitStatement);*/
+	for(var i=0; i<arrCategory.length; i++){
+		console.log("Cat: "+arrCategory[i].id);
+		var limitStatement = 'DELETE FROM NEWS WHERE news_id IN (SELECT news_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
+		tx.executeSql(limitStatement);
+	}
 }

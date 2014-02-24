@@ -86,7 +86,7 @@ var preventBehavior = function(e) {
 
 function dump_pic(data) {
     var viewport = document.getElementById('viewport');
-    console.log(data);
+    //console.log(data);
     viewport.style.display = "";
     viewport.style.position = "absolute";
     viewport.style.top = "10px";

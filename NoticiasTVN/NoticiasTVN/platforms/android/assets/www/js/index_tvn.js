@@ -530,7 +530,8 @@ var hScrollMove = false;
 		  
 		  
 			$.fsetNews = function(itemArray) {
-						
+						isLoaded = true;
+				
 						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
 						
 						$($.category +'-news1').empty();	
@@ -697,7 +698,6 @@ var hScrollMove = false;
 						$.news.headline=itemArray[i]["title"];
 						
 						//Share button onclick
-						console.log("HEADLINE "+$.news.headline);
 						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
 
 						$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
@@ -880,12 +880,23 @@ var hScrollMove = false;
 
 			//PUSH FUNCTIONS
 		    executePushInit = function(extra_params){
-				window.setTimeout(function(){
-					newsDatacontent = extra_params;
-					goToNewsPage();
-				},1000);
+		    	pushInterval = window.setInterval(function(){
+					if(isLoaded){
+						newsDatacontent = extra_params;
+						goToNewsPage();
+						isCommingFromPush = true;
+						stopPushInterval();
+					}
+					
+				},500);
 			};
-
+			
+			function stopPushInterval(){
+				clearInterval(pushInterval);
+			}
+			var isCommingFromPush;
+			var isLoaded;
+			var pushInterval;
 
 
 
@@ -970,11 +981,15 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+    	isCommingFromPush = false;
+    	isLoaded = false;
 		//init push data
 		initPush();		
 		//Manejador de BD
 		storageManager = new StorageManager();		
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
+		
+		clearPageStatus();
 		
 		//init page
 		$.fgetNews();
