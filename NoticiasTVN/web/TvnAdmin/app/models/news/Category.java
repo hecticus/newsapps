@@ -5,7 +5,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
+import com.avaje.ebean.Page;
+
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -16,18 +21,38 @@ import java.util.List;
 public class Category extends HecticusModel{
 
 	@Id
-	private Long idCategory;
-	private String name;
+	public Long idCategory;
+	
+	@Constraints.Required
+	public String name;
+       
+    @Constraints.Required
+	@Constraints.Pattern(value = "(@)?(href=')?(HREF=')?(HREF=\")?(href=\")?(http://)?[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?", message="Example: http://www.hecticus.com")
+    public String feedUrl;
+    
+    @Constraints.Required
+    public boolean pushable;
+    
+    public int sort;
+    
+    
+    
     private String shortName;
-	private String feedUrl;
     private String internalUrl; //este valor tiene que ser autogenerado
-    private int sort;
-    private boolean pushable;
     private boolean trending;
 	
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);
 
+	public Category() {}
+	
+	public Category(String name, String feedUrl, Boolean pushable, Integer sort) {
+		this.name = name;
+		this.feedUrl = feedUrl;
+		this.pushable = pushable;
+		this.sort = sort;
+	}
+	
     public Long getIdCategory() {
         return idCategory;
     }
@@ -113,4 +138,23 @@ public class Category extends HecticusModel{
         tr.put("sort",sort);
         return tr;
     }
+    
+    /**
+     * Return a page of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return 
+        	finder.where()
+                .ilike("name", "%" + filter + "%")
+                .orderBy(sortBy + " " + order)
+                .findPagingList(pageSize)
+                .getPage(page);
+    }
+    
 }
