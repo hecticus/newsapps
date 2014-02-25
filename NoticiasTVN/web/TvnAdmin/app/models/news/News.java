@@ -1,31 +1,36 @@
 package models.news;
 
+import models.HecticusModel;
+import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name="news")
-public class News extends Model{
+public class News extends HecticusModel{
 
     @Id
-    public long idNews;
-    public String author;
-    public String pubDate;
-    public String category;
-    //category
-    public String image;
-    public String imageCaption;
-    public String videoUrl;
-    public String title;
-    public boolean topNews;
-    public String uploadedVideo;
-    public String description;
-    public int visits;
-    public String crc;
-    public String insertedTime;
+    private long idNews;
+    private int externalId;
+    private String author;
+    private String pubDate;
+    private String category;
+    private String image;
+    private String imageCaption;
+    private String videoUrl;
+    private String title;
+    private boolean topNews;
+    private String uploadedVideo;
+    private String description;
+    private int visits;
+    private String crc;
+    private String insertedTime;
+    private boolean generated;
 
     public static Model.Finder<Long,News> find =
             new Model.Finder<Long, News>(Long.class, News.class);
@@ -132,5 +137,56 @@ public class News extends Model{
 
     public void setInsertedTime(String insertedTime) {
         this.insertedTime = insertedTime;
+    }
+
+    public long getIdNews() {
+        return idNews;
+    }
+
+    public void setIdNews(long idNews) {
+        this.idNews = idNews;
+    }
+
+    public int getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
+    }
+
+    public boolean isGenerated() {
+        return generated;
+    }
+
+    public void setGenerated(boolean generated) {
+        this.generated = generated;
+    }
+
+    public static List<News> getNews(){
+        return find.all();
+    }
+
+    @Override
+    public ObjectNode toJson() {
+        ObjectNode tr = Json.newObject();
+        tr.put("id",idNews);
+        tr.put("externalId", externalId);
+        tr.put("author", author);
+        tr.put("pubDate", pubDate);
+        tr.put("category", category);
+        tr.put("image",image);
+        tr.put("imageCaption",imageCaption);
+        tr.put("videoUrl",videoUrl);
+        tr.put("title", title);
+        tr.put("topNews", topNews);
+        tr.put("uploadedVideo", uploadedVideo);
+        tr.put("description", description);
+        tr.put("visits", visits);
+        tr.put("crc", crc);
+        tr.put("insertedTime", insertedTime);
+        tr.put("generated", generated);
+
+        return tr;
     }
 }

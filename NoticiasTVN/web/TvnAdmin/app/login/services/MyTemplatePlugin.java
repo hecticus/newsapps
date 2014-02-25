@@ -54,7 +54,7 @@ public class MyTemplatePlugin extends DefaultTemplatesPlugin implements Template
 			Map<String, Object> map = new HashMap<String,Object>();
 		      map.put("success", true);
 		      map.put("message", "Not Authorized");
-			return extjsexception.render(Json.toJson(map).toString());
+			//return extjsexception.render(Json.toJson(map).toString());
 		}
 		return super.getNotAuthorizedPage(arg0);
 		

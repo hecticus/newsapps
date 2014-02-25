@@ -1,6 +1,7 @@
 package controllers.newsapi;
 
 import controllers.HecticusController;
+import models.news.News;
 import play.mvc.Result;
 
 /**
@@ -9,6 +10,14 @@ import play.mvc.Result;
 public class NewsController extends HecticusController {
 
     public static Result get(){
+        try{
+            News toSearch = new News();
+
+
+
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:"+ ex.toString()));
+        }
         return ok(buildBasicResponse(0,"ok"));
     }
 

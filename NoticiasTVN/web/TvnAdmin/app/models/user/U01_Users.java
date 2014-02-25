@@ -20,13 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 
-
-
-
-
-
-
-
+import org.codehaus.jackson.node.ObjectNode;
 import org.mindrot.jbcrypt.BCrypt;
 
 import models.HecticusModel;
@@ -142,4 +136,8 @@ public class U01_Users extends HecticusModel implements Identity {
 		return x;//Option.apply(new PasswordInfo(BCryptPasswordHasher.BCryptHasher(), this.u01_Password, Option.apply((String)null)));
 	}
 
+    @Override
+    public ObjectNode toJson() {
+        return null;
+    }
 }

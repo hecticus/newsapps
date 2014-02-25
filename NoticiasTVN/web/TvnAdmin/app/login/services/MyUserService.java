@@ -66,7 +66,7 @@ public class MyUserService extends BaseUserService {
 		entityUser.u01_Login = users.identityId().userId();
 		entityUser.u01_Password = users.passwordInfo().get().password();
 		
-		controllers.Application.test = entityUser.u01_Login;
+		//controllers.Application.test = entityUser.u01_Login;
 		entityUser.u01_Email = users.email().get();
 		entityUser.u01_AllCountries = true;
 		Finder<Long, U01_Users> finder = new Finder<Long, U01_Users>(Long.class, U01_Users.class);

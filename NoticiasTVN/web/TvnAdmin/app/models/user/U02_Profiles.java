@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.codehaus.jackson.node.ObjectNode;
 import play.data.validation.Constraints.Required;
 import models.HecticusModel;
 
@@ -26,5 +27,9 @@ public class U02_Profiles extends HecticusModel {
 	public Integer u02_Id;
 	@Required
 	public String u02_Name;
-	
+
+    @Override
+    public ObjectNode toJson() {
+        return null;
+    }
 }

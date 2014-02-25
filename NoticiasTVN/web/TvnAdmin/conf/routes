@@ -23,3 +23,17 @@ GET     /reset/:token               securesocial.controllers.Registration.resetP
 POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
 GET     /password                   securesocial.controllers.PasswordChange.page
 POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
+
+
+# Providers entry points
+GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
+POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
+#GET     /not-authorized2            securesocial.controllers.ProviderController.notAuthorized
+#GET	 /not-authorized			 controllers.Application.notAuthorized()
+
+
+
+#RUTAS PARA EL API
+
+GET     /newsapi/categories/get      controllers.newsapi.CategoryController.get()
+GET     /newsapi/news/get            controllers.newsapi.NewsController.get()

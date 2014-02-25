@@ -5,7 +5,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import models.HecticusModel;
+import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import java.util.List;
 
@@ -14,14 +16,14 @@ import java.util.List;
 public class Category extends HecticusModel{
 
 	@Id
-	public Long idCategory;
-	public String name;
-    public String shortName;
-	public String feedUrl;
-    public String internalUrl; //este valor tiene que ser autogenerado
-    public int sort;
-    public boolean pushable;
-    public boolean trending;
+	private Long idCategory;
+	private String name;
+    private String shortName;
+	private String feedUrl;
+    private String internalUrl; //este valor tiene que ser autogenerado
+    private int sort;
+    private boolean pushable;
+    private boolean trending;
 	
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);
@@ -92,5 +94,23 @@ public class Category extends HecticusModel{
 
     public void setTrending(boolean trending) {
         this.trending = trending;
+    }
+
+    public static List<Category> getAllCategories(){
+        return finder.all();
+    }
+
+    @Override
+    public ObjectNode toJson() {
+        ObjectNode tr = Json.newObject();
+        tr.put("id", idCategory);
+        tr.put("name",name);
+        tr.put("shortName",shortName);
+        tr.put("feedUrl", feedUrl);
+        tr.put("internalUrl", internalUrl);
+        tr.put("pushable", pushable);
+        tr.put("trending", trending);
+        tr.put("sort",sort);
+        return tr;
     }
 }
