@@ -9,7 +9,7 @@
     
     <h1>Edit category</h1>
     
-    @form(controllers.tvn.routes.Application.update(id)) {
+    @form(controllers.routes.Tvn.update(id)) {
         
         <fieldset>
         
@@ -27,13 +27,13 @@
         </fieldset>
         
         <div class="actions">
-            <input type="submit" value="Save this computer" onclick="return confirm('Are you sure?');" class="btn primary"> or 
-            <a href="@controllers.tvn.routes.Application.list()" class="btn">Cancel</a> 
+            <input type="submit" value="Save this category" onclick="return confirm('Are you sure?');" class="btn primary"> or 
+            <a href="@controllers.routes.Tvn.list()" class="btn">Cancel</a> 
         </div>
             
     }
     
-    @form(controllers.tvn.routes.Application.delete(id), 'class -> "topRight") {
+    @form(controllers.routes.Tvn.delete(id), 'class -> "topRight") {
 		<input type="submit" value="Delete this category" onclick="return confirm('Are you sure?');" class="btn danger">
     }
        

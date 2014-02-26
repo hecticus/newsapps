@@ -67,14 +67,18 @@
             <div class="fill">
                 <div class="container">
                 	
-                    <a class="brand" href="@controllers.tvn.routes.Application.list()">HOME</a>
+                    <a class="brand" href="@controllers.routes.Tvn.list()">HOME</a>
                     <ul class="nav">
                         <li class="@("active".when(nav == "create"))">
-                            <a href="@controllers.tvn.routes.Application.blank()">Create</a>
+                            <a href="@controllers.routes.Tvn.blank()">Create</a>
                         </li>
                         <li class="@("active".when(nav == "sort"))">
-                            <a href="@controllers.tvn.routes.Application.lsort()">Sort</a>
-                        </li>					
+                            <a href="@controllers.routes.Tvn.lsort()">Sort</a>
+                        </li>		
+                         <li>		 
+                            <a href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a>
+                        </li>	
+                        			
                     </ul>
                 </div>
             </div>

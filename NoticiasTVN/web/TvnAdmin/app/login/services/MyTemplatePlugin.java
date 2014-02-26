@@ -43,7 +43,7 @@ public class MyTemplatePlugin extends DefaultTemplatesPlugin implements Template
 	@Override
 	public <A> Html getNotAuthorizedPage(Request<A> arg0) {
 		//arg0.host();
-		Logger.info("paso por WithProfile");
+		/*Logger.info("paso por WithProfile 2");
 		Logger.info(arg0.host());
 		Logger.info(arg0.path());
 		Logger.info(arg0.rawQueryString());
@@ -55,7 +55,7 @@ public class MyTemplatePlugin extends DefaultTemplatesPlugin implements Template
 		      map.put("success", true);
 		      map.put("message", "Not Authorized");
 			//return extjsexception.render(Json.toJson(map).toString());
-		}
+		}*/
 		return super.getNotAuthorizedPage(arg0);
 		
 	}

@@ -7,7 +7,7 @@
 
 @main(title, nav = "create") {
     
-    @helper.form(action = controllers.tvn.routes.Application.submit) {
+    @helper.form(action = controllers.routes.Tvn.submit) {
         
         <fieldset>
             <legend>Account informations</legend>
@@ -37,7 +37,7 @@
 
         <div class="actions">
             <input type="submit" class="btn primary" value="Create this category">
-            <a href="@controllers.tvn.routes.Application.list()" class="btn">Cancel</a>
+            <a href="@controllers.routes.Tvn.list()" class="btn">Cancel</a>
         </div>
         
     }

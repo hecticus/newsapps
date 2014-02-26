@@ -28,8 +28,8 @@ POST    /password                   securesocial.controllers.PasswordChange.hand
 # Providers entry points
 GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
 POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
-#GET     /not-authorized2           securesocial.controllers.ProviderController.notAuthorized
-#GET	 /not-authorized			controllers.Application.notAuthorized()
+GET     /not-authorized2           	securesocial.controllers.ProviderController.notAuthorized
+#GET	/not-authorized				securesocial.controllers.Application.notAuthorized()
 
 
 
@@ -44,24 +44,23 @@ GET     /newsapi/news/get            controllers.newsapi.NewsController.get()
 #<Tvn>
 
 # Default path will just redirect to the category list
-GET     /tvn					controllers.tvn.Application.index()
-GET     /tvn/					controllers.tvn.Application.index()
+GET     /tvn					controllers.Tvn.index()
 
 # Categories list (look at the default values for pagination parameters)
-GET     /tvn/list				controllers.tvn.Application.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-GET     /tvn/lsort				controllers.tvn.Application.lsort()
+GET     /tvn/list				controllers.Tvn.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /tvn/lsort				controllers.Tvn.lsort()
 
 # Add category
-GET     /tvn/blank				controllers.tvn.Application.blank()
-POST    /tvn					controllers.tvn.Application.submit()
+GET     /tvn/blank				controllers.Tvn.blank()
+POST    /tvn					controllers.Tvn.submit()
 					
 # Edit existing category
-GET     /tvn/:id				controllers.tvn.Application.edit(id:Long)
-POST    /tvn/:id				controllers.tvn.Application.update(id:Long)
-GET     /tvn/sort/:ids			controllers.tvn.Application.sort(ids:String)
+GET     /tvn/:id				controllers.Tvn.edit(id:Long)
+POST    /tvn/:id				controllers.Tvn.update(id:Long)
+GET     /tvn/sort/:ids			controllers.Tvn.sort(ids:String)
 
 # Delete a category
-POST    /tvn/:id/delete			controllers.tvn.Application.delete(id:Long)
+POST    /tvn/:id/delete			controllers.Tvn.delete(id:Long)
 
 #</Tvn>
 
