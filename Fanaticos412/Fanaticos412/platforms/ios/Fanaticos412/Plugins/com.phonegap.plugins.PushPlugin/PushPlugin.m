@@ -162,9 +162,9 @@
 		NSString *host = @"wedge/kraken";
 		NSString *urlString = @"";
 		if(oldToken != NULL && ![oldToken isEqualToString:@""]){
-			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&old_ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, oldToken, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
+			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php?ext_id=%@&old_ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, oldToken, @"16", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
 		}else{
-			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
+			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php?ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, @"16", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
 		}
 	
 		//NSLog(@"Debug data URL to send: %@", urlString);
