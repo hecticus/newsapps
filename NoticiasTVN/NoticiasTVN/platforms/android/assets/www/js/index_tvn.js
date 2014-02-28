@@ -17,12 +17,18 @@
  * under the License.
  */
 
+var arrTrendingTopics;
+var arrTrendingNews;
+
+
+
 
 var currentTime = new Date();
 var day = currentTime.getDate();
 var month = (currentTime.getMonth()+1);
 var year = currentTime.getFullYear();
-var formatdate= ((day<10)? '0'+day:day) +'/'+ ((month<10)? '0'+month:month)  +'/'+year;
+//var formatdate= ((day<10)? '0'+day:day) +'/'+ ((month<10)? '0'+month:month)  +'/'+year;
+var formatdate= ((month<10)? '0'+month:month) +'/'+ ((day<10)? '0'+day:day) +'/'+year;
 
 var arrTime=[0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var arrTimeM=['am','am','am','am','am','am','am','am','am','am','am','am','pm','pm','pm','pm','pm','pm','pm','pm','pm','pm','pm','pm'];
@@ -143,7 +149,7 @@ var arrCategory=[
  	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',video:false},
  	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},video:false},
  	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},video:false},
- 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},video:false},
+ 	{i:3,status:false,id:'latestnews_tecnologia',title:'TecnologÃ­a',bgcolor:'#AEB404',featured:{highdef:'',headline:''},video:false},
  	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},video:false},
  	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},video:false},
  	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},video:false},
@@ -157,7 +163,8 @@ var arrCategory=[
 
 function fBack() {
 	
-	$('#datacontent').attr('class','page transition right');		
+	$('#datacontent').attr('class','page transition right');
+		
 	$('.back img').removeClass('content');	
 	
 	//if (animated) {
@@ -167,12 +174,13 @@ function fBack() {
 	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');
-	$('#datacontents').empty();			
+	$('#datacontents').empty();
+	$('#datats').empty();				
 }
 	
 var upcoming=0;
 var press=0;
-var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage;
+var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage, myScrollTrending;
 var myXml=false;
 
 
@@ -226,7 +234,50 @@ var hScrollMove = false;
 		});
     	
     	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, onBeforeScrollStart: function(){this.refresh();}});    	        	    			
-		
+
+    	
+		myScrollTrending = new iScroll('datatrending',1,{snap:false,hScroll: false, vScroll: true, hScrollbar: false,vScrollbar: false,bounce:true,lockDirection: true,
+				onBeforeScrollStart: function(e){				
+					this.refresh();
+					var target = e.target;
+					clearTimeout(this.hoverTimeout);					
+					this.hoverTimeout = setTimeout(function () {press=true;}, 2);
+					this.hoverTarget = target;
+					e.preventDefault();		
+				},onScrollMove: function(e){			
+					
+					$('#trending-featured').height((this.y>=0) ? viewport.pHeight+this.y : viewport.pHeight);
+					$('#trending-featured').width((this.y>=0) ? viewport.width+(this.y*2) : viewport.width);
+					$('#trending-featured').css('left',(this.y<=0) ? 0 : -this.y);			
+					if (this.hoverTarget) {
+						clearTimeout(this.hoverTimeout);
+						this.target = null;
+						press = false;
+					}  
+					e.preventDefault();			
+				},onBeforeScrollEnd: function(e){			
+					if (this.hoverTarget) {
+						clearTimeout(this.hoverTimeout);			
+						this.target = null;
+						press = false;
+					}			
+				},onScroll: function(e){
+					$('#trending-featured').height((this.y>=0) ? viewport.pHeight+this.y : viewport.pHeight);
+					$('#trending-featured').width((this.y>=0) ? viewport.width+(this.y*2) : viewport.width);
+					$('#trending-featured').css('left',(this.y<=0) ? 0 : -this.y);
+				}
+				
+			});	
+
+
+			$.getJSON('http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp', function( data ) { 				
+				arrTrendingTopics = data.noticiastrendingtopics.item;			
+			});
+			
+			$.getJSON('http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp', function( data ) {
+				arrTrendingNews = data.noticiastrendingnews.item;
+			});
+
 
 
 			$('body').width(viewport.width);
@@ -321,6 +372,7 @@ var hScrollMove = false;
 	    				$('#screen-block').addClass('hidden');
 		    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
 						$('#datacontent').attr('class','page right');
+						$('#datatrending').attr('class','page right');
 						$('#top').addClass('closed');
 						if (typeof myScrollDatacontentHorizontal != 'undefined') {
 							myScrollDatacontentHorizontal = null;
@@ -342,6 +394,47 @@ var hScrollMove = false;
 
 				}   
     		});
+			
+			$(document).on('touchstart','.trending[data-content="trending"]', function(e) {				
+				press=false;
+				$(this).css('color','#034985');	
+    		}).on('touchend','.trending[data-content="trending"]', function() {
+    			$(this).css('color','#999999');				
+    			if (press) {
+    				myScrollTrending.scrollTo(0,0,0);	    				
+    				$.fsetTrendings($(this).data('id'));
+    				$('#datatrending').attr('class','page transition left');
+				}
+				   
+    		});
+    		
+			
+				
+				
+			$(document).on('touchstart','li[data-content="trending"]', function(e) {				
+				press=false;	
+				
+    		}).on('touchend','li[data-content="trending"]', function() {				
+    			if (press) {
+					
+    				$.fsetTrendingNewsDatacontents($(this).data('id'));
+    				$('.news-datacontent').hide();	
+					$('.back img').addClass('content');
+					$('.back img, .share').removeClass('hidden');
+					    				
+					$('.back').addClass('animated fadeInLeft');     				
+					myScrollDatacontent.scrollTo(0,0,0);
+							
+					$($(this).data('news')).show();								
+					$('.position').html('1');
+					$('#datacontent').attr('class','page transition left');
+					$('#flag').addClass('hidden');
+					$('.share').removeClass('hidden');
+    				
+				}   
+    		});				
+				
+								
 			
 			function goToNewsPage(){
 				var manager = new NewsManager();
@@ -409,7 +502,7 @@ var hScrollMove = false;
 						myScrollPage.enable();						
 					}).fail(function(xhr, status, error) {
 						/*arrCategory[myScrollPage.currPageX] .status=false;
-						$('.status').append('<li>No hay conexión</li>');
+						$('.status').append('<li>No hay conexiÃ³n</li>');
 						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);*/
 						var manager = new NewsManager();
 						manager.loadNewsCategoryFromBD(arrCategory[myScrollPage.currPageX].id,successGetNewsFromBD,noConnectionForNews);
@@ -437,7 +530,7 @@ var hScrollMove = false;
 					}).fail(function(xhr, status, error) {
 						/*console.log("Fails!!!");
 						arrCategory[myScrollPage.currPageX] .status=false;	
-						$('.status').append('<li>No hay conexión</li>');
+						$('.status').append('<li>No hay conexiÃ³n</li>');
 						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);*/
 						//revisamos si hay algo en la BD
 						var manager = new NewsManager();
@@ -636,9 +729,22 @@ var hScrollMove = false;
 										});                                	
 	                        		});
 								};
-
+								
+							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {								
+								
+								$.li='<li data-view="trending" >';
+									$.li+='<div style="background-color: #034985; vertical-align:middle; color:#ffffff; padding:5px; font-weight:bold; font-size:1.4em; width:50%; height:auto; ">Tendencias</div>';
+									var t=1;								
+									arrTrendingTopics.forEach(function(trending){																		
+										$.li+='<h'+t+' class="trending" data-content="trending" data-id="'+trending.categoria+'" style="display:inline; margin:0 2px; color:#999999;">#'+trending.titulo+'</h'+t+'>';
+										t++;	
+									});
+								$.li+='</li>';
+																								
+								$($.category +'-news1').append($.li);
+								
 							} else if (i>0) {
-							
+								
 								
 								if (arrCategory[myScrollPage.currPageX].video) {	
 									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
@@ -655,10 +761,7 @@ var hScrollMove = false;
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
-								
-
-								
-								
+	
 								if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {									
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
@@ -682,10 +785,7 @@ var hScrollMove = false;
 														
 
     		};
-    		
-    		
-    		
-    		
+
 			$.fsetNewsDatacontents = function(itemArray) {
 				
 				$.category = '#'+arrCategory[myScrollPage.currPageX].id;
@@ -821,6 +921,200 @@ var hScrollMove = false;
     		};    	
     		
 
+
+
+
+
+			$.fsetTrendings = function(category) {
+    		
+    			var i=0;
+    			
+    			$('#trending-featured').empty();
+    			$('#trending-news-featured-title').empty();
+    			$('#trending-news1').empty();
+    			
+
+				arrTrendingNews.forEach(function(trending){
+					if (trending.categoria==category) {
+					
+						$.news={id:trending.idnews,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+								
+								
+						$.news.headline=trending.titulo;			
+						$.news.date=$.formatDateString(formatdate);		
+																			
+						$.news.thumbnail.push({src:trending.imagen,width:864,height:486});
+						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
+						$.news.quicklook.push({src:trending.imagen,width:864,height:486});
+					
+						$('#trending-news-featured-title').data('id',$.news.id);
+						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
+						$('#trending-news-featured-title').attr('data-content','trending');
+					
+						if (i==0) {
+																	
+							var width = window.innerWidth;
+							var height = window.innerHeight;
+							var screenwidth = window.innerWidth;
+							var screenheight = window.innerHeight;
+		
+							var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
+							var realX = screenwidth;
+							var screenAspect = realX/realY;
+							var imageDiff = (realX/$.news.highdef[0].width);
+							var realImageX = $.news.highdef[0].width*imageDiff;
+							var realImageY = $.news.highdef[0].height*imageDiff;
+							var imageAspect = realImageX/realImageY;
+						
+								
+						
+						
+							if(realImageY < realY){
+								$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
+							}else{
+								$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
+							}
+														
+							$('#trending-news-featured-title').data('id',$.news.id);
+							$('#trending-news-featured-title').data('news','#news-'+$.news.id);
+							$('#trending-news-featured-title').data('headline',$.news.headline);																			
+							$('#trending-news-featured-title').attr('data-content','headline');
+							
+							$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
+							$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
+							$.li+='</div>';
+
+							$('#trending-news-featured-title').append($.li);
+
+						} else if (i>0) {						
+							$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
+							
+							if ($.news.quicklook.length >= 1) {
+								$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
+							}
+																										
+							$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';							
+							$.li+='</li>';
+							$('#trending-news1').append($.li);
+						}
+												
+						i++;
+					};
+				});
+									
+
+    		};
+
+
+
+
+
+
+
+
+			$.fsetTrendingNewsDatacontents = function(id) {
+				
+				arrTrendingNews.forEach(function(trending){
+					if (trending.idnews==id) {
+
+						$.news={id:trending.idnews,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+						$.news.headline=trending.titulo;
+						$.news.date=$.formatDateString(formatdate);
+						
+						$.news.thumbnail.push({src:trending.imagen,width:864,height:486});
+						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
+						$.news.quicklook.push({src:trending.imagen,width:864,height:486});
+						$.news.caption.push("");
+						
+						var dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
+						dataContent+=trending.descripcion;
+						$.news.datacontent=$('<div>').append(dataContent).remove().html();
+
+						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+					
+						$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';
+						
+						
+						
+						$.total = $.news.highdef.length;				        					
+						if ($.total==0) $.total=1;
+							
+						$.li+='<div id="hWrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
+						
+						$.li+='<div video="news-'+$.news.id+'-video" style="float:left; width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
+						$.lii='';
+
+							c=0;
+							$.news.highdef.forEach(function(src){											
+								$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    										    			
+				    			$.lii+='<figure>';						    													
+								$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+								$.lii+='<figcaption class="hidden" style="position: absolute; bottom: 0; left: 0; background-color: rgba(0,0,0,0.7); width:'+viewport.width+'px; min-height:35px;  color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1em;" >'+$.news.caption[c]+'</figcaption>';										
+								$.lii+='</figure>';						    					    											    			
+				    			$.lii+='</div>';
+				    			c=c+1;
+							});
+							
+						$.li+=$.lii;
+									
+						$.li+='</div>';
+
+						$.li+='</div>';
+					
+						if ($.total>1){
+							$.li+='<div style="position: relative; bottom: 0px; left: 0; color: #ffffff; text-shadow: '+textShadowLight+' background-color: rgba(92,90,91,0.4); width:100%; height:auto; padding:10px 0; line-height:100%; text-align:center; font-size:1.2em; font-weight:bold; ">';
+							$.li+='&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;';
+							$.li+='</div>';
+						}
+						
+						
+						
+						$.li+='<div	style="margin:0 10px;">';
+						$.li+='<p style="text-align:right;">'+$.news.date+'</p>';
+						$.li+='<h2>'+$.news.headline+'</h2>';	
+						$.li+='<p>'+$.news.datacontent+'</p>';	
+						$.li+='</div>';	
+						$.li+='</li>';
+																
+						$('#datacontents').append($.li);
+						
+					};
+
+				});				
+
+    		};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			$.parseDate = function(stringDate) {
 				var stringValue = ""+stringDate;
 				var array = new Array();
@@ -944,436 +1238,7 @@ function getTrendingNewsByCategory(category){
 
 //end de funciones de inicializacion de categorias y trendings
 
-//Vars de trending
 
-var arrTrendingTopics=[
-              	{
-				categoria: "17",
-				titulo: "Crisis en Venezuela",
-				imagen: "http://imagenes.tvn-2.com/noticias_img/131650.jpg"
-				},
-				{
-				categoria: "35",
-				titulo: "Renuncia Marta de Martinelli ",
-				imagen: "http://imagenes.tvn-2.com/noticias_img/132249.jpg"
-				},
-				{
-				categoria: "33",
-				titulo: "TE cuestionado",
-				imagen: "http://imagenes.tvn-2.com/noticias_img/132173.jpg"
-				},
-				{
-				categoria: "34",
-				titulo: "TVN/Dichter&Neira",
-				imagen: "http://imagenes.tvn-2.com/noticias_img/132248.jpg"
-				}
-];
-
-var arrTrendingNews=[
-{
-	id: "305",
-	categoria: "33",
-	idnews: "132318",
-	titulo: "Tribunal Electoral rechaza dudas de Martinelli",
-	descripcion: "El Tribunal Electoral aclaró, mediante un comunicado, que ni Cenaturi ni ninguna empresa nacional o extranjera ni intermediario alguno se involucra en la transmisión de los resultados de cada mesa de ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132318.jpg"
-	},
-	{
-	id: "303",
-	categoria: "35",
-	idnews: "132282",
-	titulo: "Linares de Martinelli pide al TE ser imparcial",
-	descripcion: "La candidata a vicepresidenta por el oficialista Cambio Democrático y esposa del presidente Ricardo Martinelli, Marta Linares de Martinelli, afirmó hoy en Noticias AM que ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132282.jpg"
-	},
-	{
-	id: "304",
-	categoria: "35",
-	idnews: "132276",
-	titulo: "Martinelli critica indirectamente a candidatos Solís y Varela",
-	descripcion: "El presidente Ricardo Martinelli afirmó que su esposa, Marta Linares de Martinelli, candidata a la Vicepresidencia de la República por Cambio Democrático, se separó del Despacho de la Primera Dama, pe",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132276.jpg"
-	},
-	{
-	id: "306",
-	categoria: "31",
-	idnews: "132269",
-	titulo: " Chapo Guzmán intenta bloquear posible extradición a EEUU",
-	descripcion: "El narco mexicano Joaquín ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132269.jpg"
-	},
-	{
-	id: "299",
-	categoria: "34",
-	idnews: "132252",
-	titulo: "Fábrega lidera encuesta por Alcaldía de Panamá",
-	descripcion: "La encuesta semanal de TVN y Dichter & Neira registró un cambio en las preferencias de los electores para ser el próximo alcalde de la ciudad de Panamá, aunque igualmente persiste una diferencia mínim",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132252.jpg"
-	},
-	{
-	id: "300",
-	categoria: "34",
-	idnews: "132251",
-	titulo: "Designación de la primera dama no benefició a CD",
-	descripcion: "Luego de publicados los resultados de la encuesta Dichter & Neira, el analista político Ebrahim Asvat, afirmó que la decisión de nombrar a la primera dama Marta de Martinelli como candidata a la vice",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132251.jpg"
-	},
-	{
-	id: "302",
-	categoria: "35",
-	idnews: "132251",
-	titulo: "Designación de la primera dama no benefició a CD",
-	descripcion: "Luego de publicados los resultados de la encuesta Dichter & Neira, el analista político Ebrahim Asvat, afirmó que la decisión de nombrar a la primera dama Marta de Martinelli como candidata a la vice",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132251.jpg"
-	},
-	{
-	id: "301",
-	categoria: "35",
-	idnews: "132249",
-	titulo: "Primera Dama se separa del despacho para hacer campaña",
-	descripcion: "La primera dama de la República, Marta Linares de Martinelli, anunció que se separará del despacho que dirige a fin de participar de lleno en la campaña política, como compañera de fórmula del candida",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132249.jpg"
-	},
-	{
-	id: "297",
-	categoria: "34",
-	idnews: "132248",
-	titulo: "Arias baja tres puntos, se recorta la diferencia con Navarro",
-	descripcion: "El candidato por el Partido Revolucionario Democrático, Juan Carlos Navarro, recortó 3 puntos en la carrera presidencial de Panamá, según refleja los datos de la encuesta TVN y Dichter & Neira, public",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132248.jpg"
-	},
-	{
-	id: "298",
-	categoria: "26",
-	idnews: "132248",
-	titulo: "Arias baja tres puntos, se recorta la diferencia con Navarro",
-	descripcion: "El candidato por el Partido Revolucionario Democrático, Juan Carlos Navarro, recortó 3 puntos en la carrera presidencial de Panamá, según refleja los datos de la encuesta TVN y Dichter & Neira, public",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132248.jpg"
-	},
-	{
-	id: "296",
-	categoria: "33",
-	idnews: "132247",
-	titulo: "Desmeritan denuncia contra magistrados ante Pacto Ético",
-	descripcion: "Una denuncia interpuesta ante los promotores del Pacto Ético Electoral, la Comisión de Justicia y Paz, contra el magistrado presidente del Tribunal Electoral (TE), Erasmo Pinilla, y el también magistr",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132247.jpg"
-	},
-	{
-	id: "307",
-	categoria: "31",
-	idnews: "132211",
-	titulo: "Escuchas y colaboradores llevaron hacia ",
-	descripcion: "Mientras las fuerzas militares mexicanas se abrían paso por el principal escondite de Joaquín ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132211.jpg"
-	},
-	{
-	id: "293",
-	categoria: "33",
-	idnews: "132175",
-	titulo: "Ana Gómez ratificó confianza en el Tribunal Electoral",
-	descripcion: "La exprocuradora de la Nación, Ana Matilde Gómez, ratificó hoy su “confianza plena” con el Tribunal Electoral de Panamá, luego del polémico comunicado emitido por el Secretario de Comunicación de Camb",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132175.jpg"
-	},
-	{
-	id: "294",
-	categoria: "33",
-	idnews: "132173",
-	titulo: "Martinelli pone en duda contrato de informática en el TE",
-	descripcion: "El presidente Ricardo Martinelli evitó comentar el comunicado emitido ayer por el vocero de comunicación del oficialista partido Cambio Democrático, Luis Eduardo Camacho, quien expresó sus dudas sobre",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132173.jpg"
-	},
-	{
-	id: "295",
-	categoria: "33",
-	idnews: "132139",
-	titulo: "Camacho pone en duda imparcialidad del TE ",
-	descripcion: "El secretario de comunicación del oficialista partido Cambio Democrático, Luis Eduardo Camacho, instó este domingo a los miembros del partido a cuidar el voto en las elecciones de mayo próximo, al in",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132139.jpg"
-	},
-	{
-	id: "269",
-	categoria: "31",
-	idnews: "132098",
-	titulo: "Legislador de EEUU pide extradición de ",
-	descripcion: "Un líder clave de la Cámara de Representantes estadounidense exhortó el domingo a las autoridades mexicanas a extraditar a Estados Unidos a Joaquín ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132098.jpg"
-	},
-	{
-	id: "271",
-	categoria: "32",
-	idnews: "132094",
-	titulo: "Tymoshenko dice que no quiere ser primera ministra de Ucrania",
-	descripcion: "La líder de la oposición en Ucrania, Yulia Tymoshenko, liberada el sábado tras la huída de su eterno rival, el presidente Viktor Yanukovich, dijo el domingo que no quería ser considerada para el puest",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132094.jpg"
-	},
-	{
-	id: "272",
-	categoria: "32",
-	idnews: "132092",
-	titulo: "EEUU: Ejército ruso en Ucrania sería un error ",
-	descripcion: "La asesora de Seguridad Nacional del presidente Barack Obama opinó el domingo que sería un ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132092.jpg"
-	},
-	{
-	id: "273",
-	categoria: "32",
-	idnews: "132090",
-	titulo: "Canciller panameño espera que Ucrania defina su futuro en paz",
-	descripcion: "El canciller panameño, Francisco Álvarez de Soto expresó este domingo en su cuenta de Twitter que ante los acontecimientos que reportan los medios sobre Ucrania, “esperamos que ese país defina su fut",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132090.jpg"
-	},
-	{
-	id: "274",
-	categoria: "32",
-	idnews: "132089",
-	titulo: "Los nuevos gobernantes de Ucrania desmantelan poder de Yanukovich",
-	descripcion: "Los nuevos gobernantes de Ucrania, apenas 24 horas después de derrocar al presidente Viktor Yanukovich, comenzaron a desmantelar con rapidez su estructura de poder, designando a un líder provisional y",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132089.jpg"
-	},
-	{
-	id: "275",
-	categoria: "32",
-	idnews: "132087",
-	titulo: "Crisis en Ucrania por falla democrática: Gorbachev ",
-	descripcion: "La actual crisis política en Ucrania se debió al fracaso del gobierno para actuar democráticamente, afirmó el ex gobernante soviético Mijaíl Gorbachev.El premio Nobel de la Paz aseveró lo anterior",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132087.jpg"
-	},
-	{
-	id: "270",
-	categoria: "31",
-	idnews: "132029",
-	titulo: "El Chapo, enemigo número uno de Chicago",
-	descripcion: "La Comisión del Crimen de Chicago nombró Joaquín ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132029.jpg"
-	},
-	{
-	id: "308",
-	categoria: "31",
-	idnews: "132017",
-	titulo: "",
-	descripcion: "Joaquín ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132017.jpg"
-	},
-	{
-	id: "309",
-	categoria: "31",
-	idnews: "132015",
-	titulo: "Funcionario EEUU: El ",
-	descripcion: "El capo del Cártel de Sinaloa del narcotráfico mexicano Joaquín ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132015.jpg"
-	},
-	{
-	id: "276",
-	categoria: "32",
-	idnews: "132013",
-	titulo: "El régimen de Ucrania cede ante la oposición",
-	descripcion: "El parlamento ucraniano aprobó el “acuerdo para resolver la crisis política”, un documento forjado en arduas conversaciones entre el presidente Víctor Yanukóvich y los líderes de la oposición parlamen",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132013.jpg"
-	},
-	{
-	id: "277",
-	categoria: "32",
-	idnews: "132010",
-	titulo: "Ucraniana dio positivo en dopaje en esquí de fondo",
-	descripcion: "SOCHI, Rusia (AP) -- La esquiadora de fondo ucraniana Marina Lisogor dio positivo en un control antidopaje, el tercer caso que se detecta en los Juegos de Sochi.El Comité Olímpico de Ucrania infor",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/132010.jpg"
-	},
-	{
-	id: "266",
-	categoria: "30",
-	idnews: "131930",
-	titulo: "Tránsito establecerá 60 puntos de control para inicio de clases",
-	descripcion: "La Autoridad de Tránsito y Transporte Terrestre en conjunto con la Policía Nacional coordina un operativo para el próximo lunes 24 de febrero, cuando se espera un mayor movimiento vehicular con motivo",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131930.jpg"
-	},
-	{
-	id: "263",
-	categoria: "5",
-	idnews: "131918",
-	titulo: "Pérdidas por atrasos serían de $280 millones: Quijano",
-	descripcion: "El administrador de la Autoridad del Canal de Panamá, Jorge Quijano, manifestó este viernes ante el Consejo de la Concertación Nacional que las pérdidas por los retrasos en la ampliación de la vía int",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131918.jpg"
-	},
-	{
-	id: "264",
-	categoria: "5",
-	idnews: "131915",
-	titulo: "García: Gobierno español dio garantías para continuar ampliación",
-	descripcion: "Olmedo García, del Instituto del Canal de Panamá de la Universidad de Panamá, consideró hoy en Noticias AM que se ha hecho un paso significativo con el acuerdo parcial alcanzado por la Autoridad del",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131915.jpg"
-	},
-	{
-	id: "278",
-	categoria: "32",
-	idnews: "131910",
-	titulo: "Presidente de Ucrania anuncia elecciones anticipadas ",
-	descripcion: "Los líderes de la oposición de Ucrania firmaron el viernes un acuerdo con el presidente y mediadores europeos para que se realicen elecciones anticipadas y de forme un nuevo gobierno con la esperanza ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131910.jpg"
-	},
-	{
-	id: "244",
-	categoria: "30",
-	idnews: "131900",
-	titulo: "Docentes del Louis Martinz decidirán acciones con padres",
-	descripcion: "Los educadores del Instituto Profesional y Técnico Louis Martinz, en Samaria, corregimiento Belisario Porras, del distrito de San Miguelito, recibirán el lunes a los estudiantes pero se reunirán con l",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131900.jpg"
-	},
-	{
-	id: "245",
-	categoria: "30",
-	idnews: "131898",
-	titulo: "UMALI exige al Meduca respetar mesa del diálogo",
-	descripcion: "Humberto Montero, dirigente de la Unidad Magisterial Libre, solicitó hoy al Ministerio de Educación, respetar la mesa del diálogo, donde esperan que el Meduca presente formalmente su propuesta de aum",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131898.jpg"
-	},
-	{
-	id: "243",
-	categoria: "28",
-	idnews: "131881",
-	titulo: "No hay racionamiento, pero embalses van rumbo al mínimo",
-	descripcion: "Pese a que los embalses están peligrosamente cerca de sus niveles mínimos, no han sido anunciadas medidas de racionamiento, como aquellas que se dieron durante la crisis energética del año 2013.Se",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131881.jpg"
-	},
-	{
-	id: "265",
-	categoria: "5",
-	idnews: "131876",
-	titulo: "Quijano: Trabajos de ampliación se reanudaron",
-	descripcion: "A eso de las 4 de la tarde de hoy se reanudaron los trabajos de ampliación del Canal de Panamá tanto en la vertiente Pacífico, como la del Atlántico, así lo informó esta tarde el administrador de la A",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131876.jpg"
-	},
-	{
-	id: "242",
-	categoria: "5",
-	idnews: "131832",
-	titulo: "Nulo inicio de trabajos de ampliación",
-	descripcion: "Los trabajos de ampliación del Canal, al menos en el área de Cocolí, no iniciaron como se pensó.Los trabajadores comenzaron a llegar desde temprano, pero eran devueltos en los mismos buses de Grup",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131832.jpg"
-	},
-	{
-	id: "279",
-	categoria: "32",
-	idnews: "131828",
-	titulo: "Ucrania: Mueren 70 por nuevos enfrentamientos ",
-	descripcion: "Por lo menos 70 personas murieron el jueves en la convulsionada capital de Ucrania cuando los manifestantes de oposición avanzaron sobre la policía arrojando bombas incendiarias y francotiradores del ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131828.jpg"
-	},
-	{
-	id: "239",
-	categoria: "17",
-	idnews: "131816",
-	titulo: "Martinelli pide llamar a Embajador de Panamá en Venezuela",
-	descripcion: "El presidente Ricardo Martinelli avisó en su cuenta de Twitter que ha instruido al canciller Francisco Álvarez De Soto llamar al embajador de Panamá en Venezuela, Pedro Pereira, a consultas.El go",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131816.jpg"
-	},
-	{
-	id: "240",
-	categoria: "17",
-	idnews: "131813",
-	titulo: "Venezuela llama a consultas a su embajadora en Panamá",
-	descripcion: "La Cancillería de Venezuela informó que la embajadora venezolana en Panamá, Elena Salcedo, será llamada a consultas por declaraciones del Ministerio de Relaciones Exteriores de Panamá sobre la situaci",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131813.jpg"
-	},
-	{
-	id: "241",
-	categoria: "17",
-	idnews: "131809",
-	titulo: "Venezolanos realizan vigilia en David, Chiriquí",
-	descripcion: "Un grupo de ciudadanos venezolanos realizó esta mañana una vigilia y luego caminó por los alrededores del parque Cervantes de David, provincia de Chiriquí, en protesta por la represión de las manifes",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131809.jpg"
-	},
-	{
-	id: "235",
-	categoria: "29",
-	idnews: "131798",
-	titulo: "Facebook comprará el servicio de WhatsApp por 19 mil millones",
-	descripcion: "Facebook Inc comprará a la firma de mensajería de móviles WhatsApp por 19 mil millones de dólares en efectivo y acciones en un acuerdo histórico que acerca a la mayor red social del mundo al corazón d",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131798.jpg"
-	},
-	{
-	id: "236",
-	categoria: "5",
-	idnews: "131795",
-	titulo: "Trabajadores de GUPC regresan a su área de trabajo",
-	descripcion: "Los trabajadores del Grupo Unidos por el Canal regresaron con optimismo hoy a las áreas de trabajo, tras quince días de paralización de labores por decisión del consorcio.Los obreros consideraron ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131795.jpg"
-	},
-	{
-	id: "280",
-	categoria: "32",
-	idnews: "131791",
-	titulo: "Esquiadora ucraniana se retira de Sochi",
-	descripcion: "SOCHI, Rusia (AP) -- Una esquiadora ucraniana decidió marcharse de los Juegos de Sochi en respuesta a la violencia en su país.El Comité Olímpico Internacional confirmó el jueves que el retiro de B",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131791.jpg"
-	},
-	{
-	id: "246",
-	categoria: "30",
-	idnews: "131789",
-	titulo: "Docentes del Instituto América dispuestos a colaborar: Cambra",
-	descripcion: "Los docentes José Cambra y María Mojica, expresaron hoy, en Noticias AM, la disposición a colaborar con buena voluntad para resolver la situación imperante en el Instituto América, ante el atraso en l",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131789.jpg"
-	},
-	{
-	id: "238",
-	categoria: "17",
-	idnews: "131788",
-	titulo: "Controversia Rubén Blades y Nicolás Maduro generan revuelo",
-	descripcion: "En tanto, las opiniones del cantautor panameño Rubén Blades sobre la situación en Venezuela y las reacciones airadas del presidente venezolano, Nicolás Maduro, generan revuelo en las redes sociales.",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131788.jpg"
-	},
-	{
-	id: "237",
-	categoria: "17",
-	idnews: "131787",
-	titulo: "Las protestas contra Maduro siguen cobrando vidas en Venezuela",
-	descripcion: "Los muertos por la ola de protestas que sacude a Venezuela suman seis, mientras el dividido país seguía envuelto en disturbios y un dirigente opositor detenido instó a seguir luchando para lograr la ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131787.jpg"
-	},
-	{
-	id: "234",
-	categoria: "5",
-	idnews: "131786",
-	titulo: "Diarios españoles destacan reanudación de trabajos en el Canal",
-	descripcion: "Los diarios españoles, El País, El Mundo y ABC resaltaron en sus últimas ediciones y en internet, el acuerdo parcial alcanzado por la Autoridad del Canal de Panamá y el consorcio Grupo Unidos por el C",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/no_img.jpg"
-	},
-	{
-	id: "232",
-	categoria: "17",
-	idnews: "131785",
-	titulo: "Tribunal ratifica detención de Leopoldo López en Venezuela",
-	descripcion: "Un tribunal de control de Venezuela ratificó el jueves la detención del opositor Leopoldo López, cuya audiencia se realizó en una cárcel militar donde fue recluido desde el martes por su presunta resp",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131785.jpg"
-	},
-	{
-	id: "281",
-	categoria: "32",
-	idnews: "131781",
-	titulo: "Ucrania: 22 muertos por nuevos enfrentamientos ",
-	descripcion: "Duros enfrentamientos entre manifestantes y policías antidisturbios se registraron quebraron la breve tregua en esta capital el jueves, lo que causó la muerte de al menos 22 personas.Se informó qu",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131781.jpg"
-	},
-	{
-	id: "233",
-	categoria: "17",
-	idnews: "131778",
-	titulo: "Nicolás Maduro responde a señalamientos de Rubén Blades",
-	descripcion: "La noche de hoy, miércoles 19 de febrero, el presidente venezolano Nicolás Maduro le respondió a algunos de los artistas que habían increpado a su gobierno sobre los hechos de violencia. El Mandat",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131778.jpg"
-	},
-	{
-	id: "231",
-	categoria: "5",
-	idnews: "131773",
-	titulo: "ACP deberá tomar decisión definitiva hoy",
-	descripcion: "La Autoridad del Canal de Panamá (ACP) deberá dar hoy una respuesta definitiva al conflicto con Grupo Unidos por el Canal (GUPC), que mantiene luego de la paralización de la obra.Directivos de la ",
-	imagen: "http://imagenes.tvn-2.com/noticias_img/131773.jpg"
-	}
-
-       ];
-
-//end vars de trneding
 
 var app = {
     initialize: function() {this.bindEvents();},
@@ -1396,9 +1261,11 @@ var app = {
 
     		$(function() {    			  
     			if(!$('#top').hasClass('closed')){
-    				$('#top').addClass('closed');
+    				$('#top').addClass('closed');    				
 				}else if ($('#datacontent').hasClass('left')){
-					$('#datacontent').attr('class','page transition right');														
+					$('#datacontent').attr('class','page transition right');
+				}else if ($('#datatrending').hasClass('left')){
+					$('#datatrending').attr('class','page transition right');																			
 				}else {
 					if(myScrollPage.currPageX == 0){
 						
