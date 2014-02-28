@@ -920,6 +920,461 @@ function reloadApp(){
 	$.fgetNews();
 }
 
+//funciones que traen las categorias y los trending topics
+function getCategoriesFromWS(){
+	
+}
+
+function loadCategoriesFromBD(){
+	var manager = new CategoryManager();
+	json["category"] = arrCategory[myScrollPage.currPageX].id;
+	manager.saveNewsFromWS(json,successSaveNews,errorNewsSave);
+}
+
+//Obtiene todas las noticias trending de la categoria actual
+function getTrendingNewsByCategory(category){
+	var result = [];
+	for(var i=0;i<arrTrendingTopics.length;i++){
+		if(arrTrendingTopics[i].categoria == category){
+			result.push(arrTrendingTopics[i]);
+		}
+	}
+	return result;
+}
+
+//end de funciones de inicializacion de categorias y trendings
+
+//Vars de trending
+
+var arrTrendingTopics=[
+              	{
+				categoria: "17",
+				titulo: "Crisis en Venezuela",
+				imagen: "http://imagenes.tvn-2.com/noticias_img/131650.jpg"
+				},
+				{
+				categoria: "35",
+				titulo: "Renuncia Marta de Martinelli ",
+				imagen: "http://imagenes.tvn-2.com/noticias_img/132249.jpg"
+				},
+				{
+				categoria: "33",
+				titulo: "TE cuestionado",
+				imagen: "http://imagenes.tvn-2.com/noticias_img/132173.jpg"
+				},
+				{
+				categoria: "34",
+				titulo: "TVN/Dichter&Neira",
+				imagen: "http://imagenes.tvn-2.com/noticias_img/132248.jpg"
+				}
+];
+
+var arrTrendingNews=[
+{
+	id: "305",
+	categoria: "33",
+	idnews: "132318",
+	titulo: "Tribunal Electoral rechaza dudas de Martinelli",
+	descripcion: "El Tribunal Electoral aclaró, mediante un comunicado, que ni Cenaturi ni ninguna empresa nacional o extranjera ni intermediario alguno se involucra en la transmisión de los resultados de cada mesa de ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132318.jpg"
+	},
+	{
+	id: "303",
+	categoria: "35",
+	idnews: "132282",
+	titulo: "Linares de Martinelli pide al TE ser imparcial",
+	descripcion: "La candidata a vicepresidenta por el oficialista Cambio Democrático y esposa del presidente Ricardo Martinelli, Marta Linares de Martinelli, afirmó hoy en Noticias AM que ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132282.jpg"
+	},
+	{
+	id: "304",
+	categoria: "35",
+	idnews: "132276",
+	titulo: "Martinelli critica indirectamente a candidatos Solís y Varela",
+	descripcion: "El presidente Ricardo Martinelli afirmó que su esposa, Marta Linares de Martinelli, candidata a la Vicepresidencia de la República por Cambio Democrático, se separó del Despacho de la Primera Dama, pe",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132276.jpg"
+	},
+	{
+	id: "306",
+	categoria: "31",
+	idnews: "132269",
+	titulo: " Chapo Guzmán intenta bloquear posible extradición a EEUU",
+	descripcion: "El narco mexicano Joaquín ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132269.jpg"
+	},
+	{
+	id: "299",
+	categoria: "34",
+	idnews: "132252",
+	titulo: "Fábrega lidera encuesta por Alcaldía de Panamá",
+	descripcion: "La encuesta semanal de TVN y Dichter & Neira registró un cambio en las preferencias de los electores para ser el próximo alcalde de la ciudad de Panamá, aunque igualmente persiste una diferencia mínim",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132252.jpg"
+	},
+	{
+	id: "300",
+	categoria: "34",
+	idnews: "132251",
+	titulo: "Designación de la primera dama no benefició a CD",
+	descripcion: "Luego de publicados los resultados de la encuesta Dichter & Neira, el analista político Ebrahim Asvat, afirmó que la decisión de nombrar a la primera dama Marta de Martinelli como candidata a la vice",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132251.jpg"
+	},
+	{
+	id: "302",
+	categoria: "35",
+	idnews: "132251",
+	titulo: "Designación de la primera dama no benefició a CD",
+	descripcion: "Luego de publicados los resultados de la encuesta Dichter & Neira, el analista político Ebrahim Asvat, afirmó que la decisión de nombrar a la primera dama Marta de Martinelli como candidata a la vice",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132251.jpg"
+	},
+	{
+	id: "301",
+	categoria: "35",
+	idnews: "132249",
+	titulo: "Primera Dama se separa del despacho para hacer campaña",
+	descripcion: "La primera dama de la República, Marta Linares de Martinelli, anunció que se separará del despacho que dirige a fin de participar de lleno en la campaña política, como compañera de fórmula del candida",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132249.jpg"
+	},
+	{
+	id: "297",
+	categoria: "34",
+	idnews: "132248",
+	titulo: "Arias baja tres puntos, se recorta la diferencia con Navarro",
+	descripcion: "El candidato por el Partido Revolucionario Democrático, Juan Carlos Navarro, recortó 3 puntos en la carrera presidencial de Panamá, según refleja los datos de la encuesta TVN y Dichter & Neira, public",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132248.jpg"
+	},
+	{
+	id: "298",
+	categoria: "26",
+	idnews: "132248",
+	titulo: "Arias baja tres puntos, se recorta la diferencia con Navarro",
+	descripcion: "El candidato por el Partido Revolucionario Democrático, Juan Carlos Navarro, recortó 3 puntos en la carrera presidencial de Panamá, según refleja los datos de la encuesta TVN y Dichter & Neira, public",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132248.jpg"
+	},
+	{
+	id: "296",
+	categoria: "33",
+	idnews: "132247",
+	titulo: "Desmeritan denuncia contra magistrados ante Pacto Ético",
+	descripcion: "Una denuncia interpuesta ante los promotores del Pacto Ético Electoral, la Comisión de Justicia y Paz, contra el magistrado presidente del Tribunal Electoral (TE), Erasmo Pinilla, y el también magistr",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132247.jpg"
+	},
+	{
+	id: "307",
+	categoria: "31",
+	idnews: "132211",
+	titulo: "Escuchas y colaboradores llevaron hacia ",
+	descripcion: "Mientras las fuerzas militares mexicanas se abrían paso por el principal escondite de Joaquín ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132211.jpg"
+	},
+	{
+	id: "293",
+	categoria: "33",
+	idnews: "132175",
+	titulo: "Ana Gómez ratificó confianza en el Tribunal Electoral",
+	descripcion: "La exprocuradora de la Nación, Ana Matilde Gómez, ratificó hoy su “confianza plena” con el Tribunal Electoral de Panamá, luego del polémico comunicado emitido por el Secretario de Comunicación de Camb",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132175.jpg"
+	},
+	{
+	id: "294",
+	categoria: "33",
+	idnews: "132173",
+	titulo: "Martinelli pone en duda contrato de informática en el TE",
+	descripcion: "El presidente Ricardo Martinelli evitó comentar el comunicado emitido ayer por el vocero de comunicación del oficialista partido Cambio Democrático, Luis Eduardo Camacho, quien expresó sus dudas sobre",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132173.jpg"
+	},
+	{
+	id: "295",
+	categoria: "33",
+	idnews: "132139",
+	titulo: "Camacho pone en duda imparcialidad del TE ",
+	descripcion: "El secretario de comunicación del oficialista partido Cambio Democrático, Luis Eduardo Camacho, instó este domingo a los miembros del partido a cuidar el voto en las elecciones de mayo próximo, al in",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132139.jpg"
+	},
+	{
+	id: "269",
+	categoria: "31",
+	idnews: "132098",
+	titulo: "Legislador de EEUU pide extradición de ",
+	descripcion: "Un líder clave de la Cámara de Representantes estadounidense exhortó el domingo a las autoridades mexicanas a extraditar a Estados Unidos a Joaquín ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132098.jpg"
+	},
+	{
+	id: "271",
+	categoria: "32",
+	idnews: "132094",
+	titulo: "Tymoshenko dice que no quiere ser primera ministra de Ucrania",
+	descripcion: "La líder de la oposición en Ucrania, Yulia Tymoshenko, liberada el sábado tras la huída de su eterno rival, el presidente Viktor Yanukovich, dijo el domingo que no quería ser considerada para el puest",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132094.jpg"
+	},
+	{
+	id: "272",
+	categoria: "32",
+	idnews: "132092",
+	titulo: "EEUU: Ejército ruso en Ucrania sería un error ",
+	descripcion: "La asesora de Seguridad Nacional del presidente Barack Obama opinó el domingo que sería un ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132092.jpg"
+	},
+	{
+	id: "273",
+	categoria: "32",
+	idnews: "132090",
+	titulo: "Canciller panameño espera que Ucrania defina su futuro en paz",
+	descripcion: "El canciller panameño, Francisco Álvarez de Soto expresó este domingo en su cuenta de Twitter que ante los acontecimientos que reportan los medios sobre Ucrania, “esperamos que ese país defina su fut",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132090.jpg"
+	},
+	{
+	id: "274",
+	categoria: "32",
+	idnews: "132089",
+	titulo: "Los nuevos gobernantes de Ucrania desmantelan poder de Yanukovich",
+	descripcion: "Los nuevos gobernantes de Ucrania, apenas 24 horas después de derrocar al presidente Viktor Yanukovich, comenzaron a desmantelar con rapidez su estructura de poder, designando a un líder provisional y",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132089.jpg"
+	},
+	{
+	id: "275",
+	categoria: "32",
+	idnews: "132087",
+	titulo: "Crisis en Ucrania por falla democrática: Gorbachev ",
+	descripcion: "La actual crisis política en Ucrania se debió al fracaso del gobierno para actuar democráticamente, afirmó el ex gobernante soviético Mijaíl Gorbachev.El premio Nobel de la Paz aseveró lo anterior",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132087.jpg"
+	},
+	{
+	id: "270",
+	categoria: "31",
+	idnews: "132029",
+	titulo: "El Chapo, enemigo número uno de Chicago",
+	descripcion: "La Comisión del Crimen de Chicago nombró Joaquín ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132029.jpg"
+	},
+	{
+	id: "308",
+	categoria: "31",
+	idnews: "132017",
+	titulo: "",
+	descripcion: "Joaquín ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132017.jpg"
+	},
+	{
+	id: "309",
+	categoria: "31",
+	idnews: "132015",
+	titulo: "Funcionario EEUU: El ",
+	descripcion: "El capo del Cártel de Sinaloa del narcotráfico mexicano Joaquín ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132015.jpg"
+	},
+	{
+	id: "276",
+	categoria: "32",
+	idnews: "132013",
+	titulo: "El régimen de Ucrania cede ante la oposición",
+	descripcion: "El parlamento ucraniano aprobó el “acuerdo para resolver la crisis política”, un documento forjado en arduas conversaciones entre el presidente Víctor Yanukóvich y los líderes de la oposición parlamen",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132013.jpg"
+	},
+	{
+	id: "277",
+	categoria: "32",
+	idnews: "132010",
+	titulo: "Ucraniana dio positivo en dopaje en esquí de fondo",
+	descripcion: "SOCHI, Rusia (AP) -- La esquiadora de fondo ucraniana Marina Lisogor dio positivo en un control antidopaje, el tercer caso que se detecta en los Juegos de Sochi.El Comité Olímpico de Ucrania infor",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/132010.jpg"
+	},
+	{
+	id: "266",
+	categoria: "30",
+	idnews: "131930",
+	titulo: "Tránsito establecerá 60 puntos de control para inicio de clases",
+	descripcion: "La Autoridad de Tránsito y Transporte Terrestre en conjunto con la Policía Nacional coordina un operativo para el próximo lunes 24 de febrero, cuando se espera un mayor movimiento vehicular con motivo",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131930.jpg"
+	},
+	{
+	id: "263",
+	categoria: "5",
+	idnews: "131918",
+	titulo: "Pérdidas por atrasos serían de $280 millones: Quijano",
+	descripcion: "El administrador de la Autoridad del Canal de Panamá, Jorge Quijano, manifestó este viernes ante el Consejo de la Concertación Nacional que las pérdidas por los retrasos en la ampliación de la vía int",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131918.jpg"
+	},
+	{
+	id: "264",
+	categoria: "5",
+	idnews: "131915",
+	titulo: "García: Gobierno español dio garantías para continuar ampliación",
+	descripcion: "Olmedo García, del Instituto del Canal de Panamá de la Universidad de Panamá, consideró hoy en Noticias AM que se ha hecho un paso significativo con el acuerdo parcial alcanzado por la Autoridad del",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131915.jpg"
+	},
+	{
+	id: "278",
+	categoria: "32",
+	idnews: "131910",
+	titulo: "Presidente de Ucrania anuncia elecciones anticipadas ",
+	descripcion: "Los líderes de la oposición de Ucrania firmaron el viernes un acuerdo con el presidente y mediadores europeos para que se realicen elecciones anticipadas y de forme un nuevo gobierno con la esperanza ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131910.jpg"
+	},
+	{
+	id: "244",
+	categoria: "30",
+	idnews: "131900",
+	titulo: "Docentes del Louis Martinz decidirán acciones con padres",
+	descripcion: "Los educadores del Instituto Profesional y Técnico Louis Martinz, en Samaria, corregimiento Belisario Porras, del distrito de San Miguelito, recibirán el lunes a los estudiantes pero se reunirán con l",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131900.jpg"
+	},
+	{
+	id: "245",
+	categoria: "30",
+	idnews: "131898",
+	titulo: "UMALI exige al Meduca respetar mesa del diálogo",
+	descripcion: "Humberto Montero, dirigente de la Unidad Magisterial Libre, solicitó hoy al Ministerio de Educación, respetar la mesa del diálogo, donde esperan que el Meduca presente formalmente su propuesta de aum",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131898.jpg"
+	},
+	{
+	id: "243",
+	categoria: "28",
+	idnews: "131881",
+	titulo: "No hay racionamiento, pero embalses van rumbo al mínimo",
+	descripcion: "Pese a que los embalses están peligrosamente cerca de sus niveles mínimos, no han sido anunciadas medidas de racionamiento, como aquellas que se dieron durante la crisis energética del año 2013.Se",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131881.jpg"
+	},
+	{
+	id: "265",
+	categoria: "5",
+	idnews: "131876",
+	titulo: "Quijano: Trabajos de ampliación se reanudaron",
+	descripcion: "A eso de las 4 de la tarde de hoy se reanudaron los trabajos de ampliación del Canal de Panamá tanto en la vertiente Pacífico, como la del Atlántico, así lo informó esta tarde el administrador de la A",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131876.jpg"
+	},
+	{
+	id: "242",
+	categoria: "5",
+	idnews: "131832",
+	titulo: "Nulo inicio de trabajos de ampliación",
+	descripcion: "Los trabajos de ampliación del Canal, al menos en el área de Cocolí, no iniciaron como se pensó.Los trabajadores comenzaron a llegar desde temprano, pero eran devueltos en los mismos buses de Grup",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131832.jpg"
+	},
+	{
+	id: "279",
+	categoria: "32",
+	idnews: "131828",
+	titulo: "Ucrania: Mueren 70 por nuevos enfrentamientos ",
+	descripcion: "Por lo menos 70 personas murieron el jueves en la convulsionada capital de Ucrania cuando los manifestantes de oposición avanzaron sobre la policía arrojando bombas incendiarias y francotiradores del ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131828.jpg"
+	},
+	{
+	id: "239",
+	categoria: "17",
+	idnews: "131816",
+	titulo: "Martinelli pide llamar a Embajador de Panamá en Venezuela",
+	descripcion: "El presidente Ricardo Martinelli avisó en su cuenta de Twitter que ha instruido al canciller Francisco Álvarez De Soto llamar al embajador de Panamá en Venezuela, Pedro Pereira, a consultas.El go",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131816.jpg"
+	},
+	{
+	id: "240",
+	categoria: "17",
+	idnews: "131813",
+	titulo: "Venezuela llama a consultas a su embajadora en Panamá",
+	descripcion: "La Cancillería de Venezuela informó que la embajadora venezolana en Panamá, Elena Salcedo, será llamada a consultas por declaraciones del Ministerio de Relaciones Exteriores de Panamá sobre la situaci",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131813.jpg"
+	},
+	{
+	id: "241",
+	categoria: "17",
+	idnews: "131809",
+	titulo: "Venezolanos realizan vigilia en David, Chiriquí",
+	descripcion: "Un grupo de ciudadanos venezolanos realizó esta mañana una vigilia y luego caminó por los alrededores del parque Cervantes de David, provincia de Chiriquí, en protesta por la represión de las manifes",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131809.jpg"
+	},
+	{
+	id: "235",
+	categoria: "29",
+	idnews: "131798",
+	titulo: "Facebook comprará el servicio de WhatsApp por 19 mil millones",
+	descripcion: "Facebook Inc comprará a la firma de mensajería de móviles WhatsApp por 19 mil millones de dólares en efectivo y acciones en un acuerdo histórico que acerca a la mayor red social del mundo al corazón d",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131798.jpg"
+	},
+	{
+	id: "236",
+	categoria: "5",
+	idnews: "131795",
+	titulo: "Trabajadores de GUPC regresan a su área de trabajo",
+	descripcion: "Los trabajadores del Grupo Unidos por el Canal regresaron con optimismo hoy a las áreas de trabajo, tras quince días de paralización de labores por decisión del consorcio.Los obreros consideraron ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131795.jpg"
+	},
+	{
+	id: "280",
+	categoria: "32",
+	idnews: "131791",
+	titulo: "Esquiadora ucraniana se retira de Sochi",
+	descripcion: "SOCHI, Rusia (AP) -- Una esquiadora ucraniana decidió marcharse de los Juegos de Sochi en respuesta a la violencia en su país.El Comité Olímpico Internacional confirmó el jueves que el retiro de B",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131791.jpg"
+	},
+	{
+	id: "246",
+	categoria: "30",
+	idnews: "131789",
+	titulo: "Docentes del Instituto América dispuestos a colaborar: Cambra",
+	descripcion: "Los docentes José Cambra y María Mojica, expresaron hoy, en Noticias AM, la disposición a colaborar con buena voluntad para resolver la situación imperante en el Instituto América, ante el atraso en l",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131789.jpg"
+	},
+	{
+	id: "238",
+	categoria: "17",
+	idnews: "131788",
+	titulo: "Controversia Rubén Blades y Nicolás Maduro generan revuelo",
+	descripcion: "En tanto, las opiniones del cantautor panameño Rubén Blades sobre la situación en Venezuela y las reacciones airadas del presidente venezolano, Nicolás Maduro, generan revuelo en las redes sociales.",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131788.jpg"
+	},
+	{
+	id: "237",
+	categoria: "17",
+	idnews: "131787",
+	titulo: "Las protestas contra Maduro siguen cobrando vidas en Venezuela",
+	descripcion: "Los muertos por la ola de protestas que sacude a Venezuela suman seis, mientras el dividido país seguía envuelto en disturbios y un dirigente opositor detenido instó a seguir luchando para lograr la ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131787.jpg"
+	},
+	{
+	id: "234",
+	categoria: "5",
+	idnews: "131786",
+	titulo: "Diarios españoles destacan reanudación de trabajos en el Canal",
+	descripcion: "Los diarios españoles, El País, El Mundo y ABC resaltaron en sus últimas ediciones y en internet, el acuerdo parcial alcanzado por la Autoridad del Canal de Panamá y el consorcio Grupo Unidos por el C",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/no_img.jpg"
+	},
+	{
+	id: "232",
+	categoria: "17",
+	idnews: "131785",
+	titulo: "Tribunal ratifica detención de Leopoldo López en Venezuela",
+	descripcion: "Un tribunal de control de Venezuela ratificó el jueves la detención del opositor Leopoldo López, cuya audiencia se realizó en una cárcel militar donde fue recluido desde el martes por su presunta resp",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131785.jpg"
+	},
+	{
+	id: "281",
+	categoria: "32",
+	idnews: "131781",
+	titulo: "Ucrania: 22 muertos por nuevos enfrentamientos ",
+	descripcion: "Duros enfrentamientos entre manifestantes y policías antidisturbios se registraron quebraron la breve tregua en esta capital el jueves, lo que causó la muerte de al menos 22 personas.Se informó qu",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131781.jpg"
+	},
+	{
+	id: "233",
+	categoria: "17",
+	idnews: "131778",
+	titulo: "Nicolás Maduro responde a señalamientos de Rubén Blades",
+	descripcion: "La noche de hoy, miércoles 19 de febrero, el presidente venezolano Nicolás Maduro le respondió a algunos de los artistas que habían increpado a su gobierno sobre los hechos de violencia. El Mandat",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131778.jpg"
+	},
+	{
+	id: "231",
+	categoria: "5",
+	idnews: "131773",
+	titulo: "ACP deberá tomar decisión definitiva hoy",
+	descripcion: "La Autoridad del Canal de Panamá (ACP) deberá dar hoy una respuesta definitiva al conflicto con Grupo Unidos por el Canal (GUPC), que mantiene luego de la paralización de la obra.Directivos de la ",
+	imagen: "http://imagenes.tvn-2.com/noticias_img/131773.jpg"
+	}
+
+       ];
+
+//end vars de trneding
+
 var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
