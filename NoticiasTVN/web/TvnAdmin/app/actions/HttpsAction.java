@@ -7,6 +7,7 @@ import play.mvc.Http.Request;
 import play.mvc.Result;
 import play.mvc.Http.Context;
 
+
 public class HttpsAction extends Action.Simple {
 	
 	private static final String SSL_HEADER = "x-forwarded-proto";
@@ -17,10 +18,12 @@ public class HttpsAction extends Action.Simple {
 		// TODO Auto-generated method stub
 		Logger.info("paso por HttpsAction");
 		//return delegate.call(ctx);
-		
+	
 		if (!isHttpsRequest(ctx.request())) {
 			Logger.info("paso por HttpsAction !isHttpsRequest");
-            String url = redirectHostHttps(ctx) + ctx.request().uri();
+            String url = redirectHostHttps(ctx) + ctx.request().uri() + "login";
+            
+            Logger.info(url);
             return redirect(url);
         } else {
         	Logger.info("paso por HttpsAction isHttpsRequest");

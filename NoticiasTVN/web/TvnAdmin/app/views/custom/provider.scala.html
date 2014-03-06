@@ -20,6 +20,7 @@
                 <form action = "@securesocial.core.providers.utils.RoutesHelper.authenticateByPost("userpass").absoluteURL(IdentityProvider.sslEnabled)(request)"
                       class="form-horizontal" autocomplete="off" method="POST">
                     <fieldset>
+				
 
                         @if( UsernamePasswordProvider.withUserNameSupport ) {
                             @helper.inputText(

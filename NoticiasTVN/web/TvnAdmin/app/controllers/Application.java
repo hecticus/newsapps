@@ -15,7 +15,7 @@ public class Application extends Controller {
 	@SecuredAction
     public static Result index() {
         //return ok(index.render("Your new application is ready."));
-		return redirect(routes.Tvn.list(0, "sort", "asc", ""));
+		return redirect(routes.Tvn.list(0, "sort", "asc", ""));				
     }
   
 }
