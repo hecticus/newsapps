@@ -1283,8 +1283,8 @@ function successGetTrendingIndexes(results){
 		console.log("RESULT len: "+len);
 		if(len > 0){
 			arrTrendingTopics = results.slice(0);
-			//getTrendingNewsForApp();
-			endOfAppInitialization();
+			getTrendingNewsForApp();
+			//endOfAppInitialization();
 		}else{
 			console.log("Error TrendingIndexes");
 			noConnectionForNews();

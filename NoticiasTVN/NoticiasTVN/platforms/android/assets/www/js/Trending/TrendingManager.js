@@ -114,7 +114,7 @@ TrendingManager.prototype = {
 			'"'+encodeURIComponent(insertObj.categoria)+'",'+
 			''+insertObj.idnews+','+
 			'"'+encodeURIComponent(insertObj.titulo)+'",'+
-			'"'+encodeURIComponent(insertObj.descripcion)+'"'+
+			'"'+encodeURIComponent(insertObj.descripcion)+'",'+
 			'"'+encodeURIComponent(insertObj.imagen)+'"'+
 			');';
 	    	
