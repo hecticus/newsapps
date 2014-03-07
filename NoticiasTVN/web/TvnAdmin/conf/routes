@@ -64,4 +64,17 @@ POST    /tvn/:id/delete			controllers.Tvn.delete(id:Long)
 
 #</Tvn>
 
+#<User>
 
+# Default path will just redirect to the user list
+GET     /user					controllers.User.index()
+
+# Users list (look at the default values for pagination parameters)
+GET     /user/list				controllers.User.list(p:Int ?= 0, s ?= "u01_Id", o ?= "asc", f ?= "")
+
+# Add user
+GET     /user/blank				controllers.User.blank()
+POST    /user					controllers.User.submit()
+
+
+#</User>
