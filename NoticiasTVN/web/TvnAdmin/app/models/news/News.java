@@ -1,6 +1,10 @@
 package models.news;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.SqlUpdate;
 import models.HecticusModel;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -8,6 +12,7 @@ import play.libs.Json;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,10 +21,11 @@ public class News extends HecticusModel{
 
     @Id
     private long idNews;
-    private int externalId;
+    private int externalId; //id de la noticia externo
     private String author;
     private String pubDate;
-    private String category;
+    private String category; //external category
+    private long idCategory; //local id category
     private String image;
     private String imageCaption;
     private String videoUrl;
@@ -32,7 +38,49 @@ public class News extends HecticusModel{
     private String insertedTime;
     private boolean generated;
 
-    public static Model.Finder<Long,News> find =
+    //videos
+    private  String categoryName;
+    private String videoTime;
+
+    //trending
+    private String idTrending;
+
+    public News(JsonNode data) throws Exception {
+        //contruct obj from json
+        if (data.has("")){
+
+        }else {
+            throw new Exception("");
+        }
+        externalId = 0;
+        author = "";
+        pubDate = "";
+        category = "";
+        idCategory = 0;
+        image = "";
+        imageCaption = "";
+        videoUrl = "";
+        title = "";
+        topNews = false;
+        uploadedVideo = "";
+        description = "";
+        visits = 0;
+        //auto generated values
+        generated = false;
+        //videos
+        categoryName ="";
+        videoTime = "";
+        //trending
+        idTrending = "";
+    }
+
+
+    public News(){
+        //por defecto
+    }
+
+
+    public static Model.Finder<Long,News> finder =
             new Model.Finder<Long, News>(Long.class, News.class);
 
     public String getAuthor() {
@@ -163,8 +211,36 @@ public class News extends HecticusModel{
         this.generated = generated;
     }
 
-    public static List<News> getNews(){
-        return find.all();
+    public long getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(long idCategory) {
+        this.idCategory = idCategory;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getVideoTime() {
+        return videoTime;
+    }
+
+    public void setVideoTime(String videoTime) {
+        this.videoTime = videoTime;
+    }
+
+    public String getIdTrending() {
+        return idTrending;
+    }
+
+    public void setIdTrending(String idTrending) {
+        this.idTrending = idTrending;
     }
 
     @Override
@@ -172,6 +248,7 @@ public class News extends HecticusModel{
         ObjectNode tr = Json.newObject();
         tr.put("id",idNews);
         tr.put("externalId", externalId);
+        tr.put("idCategory",idCategory);
         tr.put("author", author);
         tr.put("pubDate", pubDate);
         tr.put("category", category);
@@ -186,7 +263,72 @@ public class News extends HecticusModel{
         tr.put("crc", crc);
         tr.put("insertedTime", insertedTime);
         tr.put("generated", generated);
+        //new fields
+        tr.put("categoryName",categoryName);
+        tr.put("videoTime",videoTime);
+        tr.put("idTrending", idTrending);
 
         return tr;
+    }
+
+    public static News getNews(long idNews){
+        return finder.where().eq("id_news", idNews).findUnique();
+    }
+
+    public static List<News> getNewsByCategory(long idCategory){
+        return finder.where().eq("id_category", idCategory).findList();
+    }
+
+    public static List<News> getNewsByExtId(String id){
+        return finder.where().eq("external_id", id).findList();
+    }
+
+    public static List<News> getNewsListById(ArrayList ids){
+        //get news by ids, return existing
+        return finder.all();
+    }
+
+    public static void insertBatch(ArrayList<News> list){
+        EbeanServer server = Ebean.getServer("default");
+        try {
+            server.beginTransaction();
+            for (int i =0; i < list.size(); i++){
+                server.insert(list.get(i));
+            }
+            server.commitTransaction();
+        }catch (Exception ex){
+            server.rollbackTransaction();
+        }finally {
+            server.endTransaction();
+        }
+
+    }
+
+    public static void updateBatch(ArrayList<News> list){
+        EbeanServer server = Ebean.getServer("default");
+        try {
+            server.beginTransaction();
+            for (int i =0; i < list.size(); i++){
+                server.save(list.get(i));
+            }
+            server.commitTransaction();
+        }catch (Exception ex){
+            server.rollbackTransaction();
+        }finally {
+            server.endTransaction();
+        }
+    }
+
+    public static void cleanInsertedNews(long date) throws Exception {
+        try {
+            String tempSql = "DELETE FROM news where inserted_date < :time";
+            EbeanServer server = Ebean.getServer("default");
+
+            SqlUpdate query = server.createSqlUpdate(tempSql);
+            query.setParameter("time", date);
+            query.execute();
+        }catch (Exception ex){
+
+        }
     }
 }

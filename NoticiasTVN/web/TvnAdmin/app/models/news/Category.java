@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.EbeanServer;
 import models.HecticusModel;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -14,6 +16,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,12 +37,16 @@ public class Category extends HecticusModel{
     public boolean pushable;
     
     public int sort;
-    
-    
-    
+
     private String shortName;
     private String internalUrl; //este valor tiene que ser autogenerado
     private boolean trending;
+
+    @Constraints.Required
+    private int status;
+
+    //type
+    private Boolean hidden;
 	
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);
@@ -93,10 +100,6 @@ public class Category extends HecticusModel{
         this.pushable = pushable;
     }
 
-    public static List<Category> getCategories(String catName){
-        return finder.where().eq("name", catName).findList();
-    }
-
     public String getShortName() {
         return shortName;
     }
@@ -121,8 +124,20 @@ public class Category extends HecticusModel{
         this.trending = trending;
     }
 
-    public static List<Category> getAllCategories(){
-        return finder.all();
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Boolean getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
     }
 
     @Override
@@ -136,6 +151,8 @@ public class Category extends HecticusModel{
         tr.put("pushable", pushable);
         tr.put("trending", trending);
         tr.put("sort",sort);
+        tr.put("status",status);
+        tr.put("hidden",hidden);
         return tr;
     }
     
@@ -156,5 +173,25 @@ public class Category extends HecticusModel{
                 .findPagingList(pageSize)
                 .getPage(page);
     }
-    
+
+    public static List<Category> getAllCategories(){
+        return finder.all();
+    }
+
+    public static List<Category> getActiveCategories(int status){
+        return finder.where().eq("status", status).findList();
+    }
+
+    public static Category getCategoriesByName(String name){
+        return finder.where().eq("name", name).findUnique();
+    }
+
+    public static Category getCategoriesByShortName(String shortName){
+        return finder.where().eq("short_name", shortName).findUnique();
+    }
+
+    public static Category getCategory(long idCategory){
+        return finder.where().eq("id_category", idCategory).findUnique();
+    }
+
 }

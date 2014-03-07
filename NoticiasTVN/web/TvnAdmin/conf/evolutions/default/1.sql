@@ -12,6 +12,8 @@ create table category (
   short_name                varchar(255),
   internal_url              varchar(255),
   trending                  tinyint(1) default 0,
+  status                    integer,
+  hidden                    tinyint(1) default 0,
   constraint pk_category primary key (id_category))
 ;
 
@@ -21,17 +23,21 @@ create table news (
   author                    varchar(255),
   pub_date                  varchar(255),
   category                  varchar(255),
+  id_category               bigint,
   image                     varchar(255),
   image_caption             varchar(255),
   video_url                 varchar(255),
   title                     varchar(255),
   top_news                  tinyint(1) default 0,
   uploaded_video            varchar(255),
-  description               varchar(255),
+  description               text,
   visits                    integer,
   crc                       varchar(255),
   inserted_time             varchar(255),
   generated                 tinyint(1) default 0,
+  category_name             varchar(255),
+  video_time                varchar(255),
+  id_trending               varchar(255),
   constraint pk_news primary key (id_news))
 ;
 

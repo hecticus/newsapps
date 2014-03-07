@@ -7,6 +7,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.codehaus.jackson.node.ObjectNode;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -41,5 +42,23 @@ public class HecticusController extends Controller {
             }
         }
         return jsonInfo;
+    }
+
+    public static ObjectNode hecticusResponse(int code, String description, String parentObj, ArrayList data) {
+        ObjectNode tr = Json.newObject();
+        tr.put("error", code);
+        tr.put("description", description);
+        ObjectNode innerObj = Json.newObject();
+        innerObj.put(parentObj, Json.toJson((data)));
+        tr.put("response",innerObj);
+        return tr;
+    }
+
+    public static ObjectNode tvnResponse(ArrayList data){
+        ObjectNode tr = Json.newObject();
+        ObjectNode innerObj = Json.newObject();
+        innerObj.put("item", Json.toJson((data)));
+        tr.put("noticias",innerObj);
+        return tr;
     }
 }

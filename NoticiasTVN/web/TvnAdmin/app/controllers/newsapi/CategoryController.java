@@ -28,12 +28,32 @@ public class CategoryController extends HecticusController {
                 }
             }
             //build response
-            ObjectNode resp = buildBasicResponse(0,"OK");
-            resp.put("categories", Json.toJson((data)));
-            return ok(resp);
+            ObjectNode response = hecticusResponse(0, "ok", "categories", data);
+            return ok(response);
 
         }catch(Exception ex){
             return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
         }
     }
+
+    public static Result getActive(){
+        try {
+            Category toGet = new Category();
+            List<Category> fullList = toGet.getActiveCategories(1);
+            ArrayList data = new ArrayList();
+            if (fullList != null && !fullList.isEmpty()) {
+                //recorrer lista
+                for (int i = 0; i < fullList.size(); i++) {
+                    data.add(fullList.get(i).toJson());
+                }
+            }
+            //build response
+            ObjectNode response = hecticusResponse(0, "ok", "categories", data);
+            return ok(response);
+
+        }catch(Exception ex){
+            return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
+        }
+    }
+
 }
