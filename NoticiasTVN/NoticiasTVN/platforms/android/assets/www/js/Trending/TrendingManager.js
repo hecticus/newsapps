@@ -21,7 +21,7 @@ TrendingManager.prototype = {
         //buscamos en el ws todas los trending si no hay conexion lo hacemos por BD
     	if(!isOffline()){
     		printToLog("por WS");
-    		this.getTrendingIndexesFromWS(callback,errorCallback);
+    		this.getTrendingsFromWS(callback,errorCallback);
     	}else{
     		//buscamos en BD
     		printToLog("Por BD");
@@ -42,7 +42,7 @@ TrendingManager.prototype = {
 				if(typeof data == "string"){
 					data = JSON.parse(data);
 				}
-				var results = data["noticiastrendingtopics"]["item"];
+				var results = data["noticiastrendingnews"]["item"];
 				//printToLog("NEW: 0-"+code+" results: "+JSON.stringify(results));
 				if(results != null){
 					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
@@ -83,10 +83,10 @@ TrendingManager.prototype = {
 						}
 						callback(trendArray);
 					}else{
-						errorCallback("no TrendingIndex");
+						errorCallback("no TrendingNews");
 					}
 				}else{
-					errorCallback("no TrendingIndex");
+					errorCallback("no TrendingNews");
 				}
 			}, 
 			function(err){
@@ -103,10 +103,11 @@ TrendingManager.prototype = {
 	    printToLog("saveAllTrendingToDB 1 - "+itemArray.length);
 	    
 	    //limpiamos la tabla vieja ya que llego una nueva
-	    clearTrendingIndexTable(tx);
+	    clearTrendingTable(tx);
 	    
 	    for(var i=0; i<itemArray.length; i++){
 	    	var insertObj = itemArray[i];
+	    	console.log("TRENDINGNEWS "+JSON.stringify(insertObj));
 			
 			var insertStatement = 'INSERT OR REPLACE INTO TRENDING(trending_tvn_id,trending_category,trending_idnews,trending_title,trending_description,trending_image)'+
 			'VALUES ('+insertObj.id+','+
@@ -120,9 +121,6 @@ TrendingManager.prototype = {
 	
 	    	tx.executeSql(insertStatement);
 	    }
-		
-		//DELETE OLD TRENDING
-		limitTrendingTableSize(tx);
 		
 	    printToLog("saveAllTrendingToDB 2");
 	}
@@ -151,7 +149,7 @@ function deleteAllTrendingDB(tx, instanceCaller){
     printToLog("deleteAllTrendingDB done");
 }
 
-function clearTrendingIndexTable(tx){
+function clearTrendingTable(tx){
 	
 	var limitStatement = 'DELETE FROM TRENDING WHERE trending_tvn_id >= 0;';
 	tx.executeSql(limitStatement);

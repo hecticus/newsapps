@@ -1293,13 +1293,11 @@ function successGetTrendingIndexes(results){
 		console.log("Error TrendingIndexes 2");
 		noConnectionForNews();
 	}
-	//endOfAppInitialization();
 }
 
 function errorGetTrendingIndexes(){
 	console.log("Error TrendingIndexes real");
 	noConnectionForNews();
-	//endOfAppInitialization();
 }
 
 //trending news
@@ -1324,7 +1322,6 @@ function successGetTrendingNews(results){
 		console.log("Error TrendingNews 2");
 		noConnectionForNews();
 	}
-	//endOfAppInitialization();
 }
 
 function errorGetTrendingNews(){

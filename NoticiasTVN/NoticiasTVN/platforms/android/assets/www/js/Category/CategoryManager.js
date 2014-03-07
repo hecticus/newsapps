@@ -32,8 +32,10 @@ CategoryManager.prototype = {
 	getCompleteCategoriesFromWS:function(callback, errorCallback){
 		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
 		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		var urlComplete = 'http://10.0.3.4:9001/newsapi/categories/get';
+		//var urlComplete = 'http://10.0.3.4:9001/newsapi/categories/get';
 		//var urlComplete = 'http://192.168.1.128/kraken/storefront/wsext/pa-tvn/getTVNCategories.php';
+		
+		var urlComplete = 'http://tvn.news.hecticus.com:9001/newsapi/v1/categories/search';
 		
 		var instance = this;
 		
@@ -46,7 +48,7 @@ CategoryManager.prototype = {
 					data = JSON.parse(data);
 				}
 				var code = data.error;
-				var results = data.categories;
+				var results = data.response.categories;
 				printToLog("TESTNEW: 0-"+code+" results: "+JSON.stringify(results));
 				if(code == 0){
 					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
