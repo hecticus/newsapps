@@ -17,8 +17,14 @@ TrendingIndexManager.prototype = {
 	getTrendingIndexes: function (callback, errorCallback) {
     	printToLog("getTrendingIndexes");
         //buscamos en el ws todos los indices si no hay conexion lo hacemos por BD
-    	//storageManager.queryToDB(this.getAllTrendingIndexFromDB,errorCallback, callback, null);
-    	this.getTrendingIndexesFromWS(callback, errorCallback);
+    	if(!isOffline()){
+    		printToLog("por WS");
+    		this.getTrendingIndexesFromWS(callback,errorCallback);
+    	}else{
+    		//buscamos en BD
+    		printToLog("Por BD");
+        	storageManager.queryToDB(this.getAllTrendingIndexFromDB,errorCallback, callback, null);
+    	}
     },
 
     getTrendingIndexesFromWS:function(callback, errorCallback){
@@ -26,26 +32,35 @@ TrendingIndexManager.prototype = {
 		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
 		var urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp';
 		
+		var instance = this;
+		
 		$.ajax({
 			url : urlComplete,
 			timeout : 160000,
 			success : function(data, status) {
+				if(typeof data == "string"){
+					data = JSON.parse(data);
+				}
 				var results = data["noticiastrendingtopics"]["item"];
 				//printToLog("NEW: 0-"+code+" results: "+JSON.stringify(results));
 				if(results != null){
 					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
 					if(results.length>0){
-						//storageManager.saveToDB(instance.saveAllCategoryToDB, errorCallback, callback, null, results);
-						callback(results);
+						storageManager.saveToDB(instance.saveAllTrendingIndexToDB, errorCallback, callback, null, results);
+						//callback(results);
+					}else{
+						storageManager.queryToDB(instance.getAllTrendingIndexFromDB,errorCallback, callback, null);
 					}
 				}else{
 					//ocurrio un error
-					errorCallback();
+					//errorCallback();
+					storageManager.queryToDB(instance.getAllTrendingIndexFromDB,errorCallback, callback, null);
 				}
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				//printToLog("Error descargando News: xhr:"+JSON.stringify(xhr)+" -AO:"+ajaxOptions+" -TE:"+thrownError);
-				errorCallback();
+				//errorCallback();
+				storageManager.queryToDB(instance.getAllTrendingIndexFromDB,errorCallback, callback, null);
 			}
 		});
 	},
@@ -57,7 +72,23 @@ TrendingIndexManager.prototype = {
 	    
 		tx.executeSql('SELECT * FROM TRENDINGINDEX', [], 
 			function(tx, results){
-				callback(results);
+				//callback(results);
+				if(results != null){
+					var len = results.rows.length;
+					if(len > 0){
+						var trendIndexArray = new Array();
+						for(var i=0;i<len;i++){
+							var trendIndexItem = results.rows.item(i);
+							trendIndexItem = decodeTrendingIndex(trendIndexItem);
+							trendIndexArray.push(trendIndexItem);
+						}
+						callback(trendIndexArray);
+					}else{
+						errorCallback("no TrendingIndex");
+					}
+				}else{
+					errorCallback("no TrendingIndex");
+				}
 			}, 
 			function(err){
 				errorCallback(err);
@@ -69,24 +100,23 @@ TrendingIndexManager.prototype = {
 	    
 	    tx.executeSql(createTrendingIndexQuery);
 	    
-	    var itemArray = results["noticias"]["item"];
-	    printToLog("saveAllTrendingIndexToDB 1 - "+itemArray.length+" -"+results["category"]);
+	    //var itemArray = results["noticias"]["item"];
+	    var itemArray = results;
+	    printToLog("saveAllTrendingIndexToDB 1 - "+itemArray.length);
+	    
+	    //limpiamos la tabla vieja ya que llego una nueva
+	    clearTrendingIndexTable(tx);
 	    
 	    for(var i=0; i<itemArray.length; i++){
 	    	var insertObj = itemArray[i];
 			
 			//console.log("STORE: "+JSON.stringify(insertObj));
 			
-			var d = new Date();
-			var n = d.getTime();
-			
-			var insertStatement = 'INSERT OR REPLACE INTO TRENDINGINDEX(trending_index_tvn_id,trending_index_category,trending_index_headline,trending_index_date,trending_index_datacontent,trending_index_creationtime)'+
-			'VALUES ('+insertObj.id+','+
-			'"'+encodeURIComponent(results["category"])+'",'+
-			'"'+encodeURIComponent(insertObj.title)+'",'+
-			'"'+encodeURIComponent(formatDateStringForSorting(insertObj.pubdate))+'",'+
-			'"'+encodeURIComponent(JSON.stringify(insertObj))+'",'+
-			''+n+
+			var insertStatement = 'INSERT OR REPLACE INTO TRENDINGINDEX(trending_index_tvn_id,trending_index_category,trending_index_title,trending_index_image)'+
+			'VALUES ('+i+','+
+			'"'+encodeURIComponent(insertObj.categoria)+'",'+
+			'"'+encodeURIComponent(insertObj.titulo)+'",'+
+			'"'+encodeURIComponent(insertObj.imagen)+'"'+
 			');';
 	    	
 	
@@ -100,11 +130,9 @@ TrendingIndexManager.prototype = {
 
 function decodeTrendingIndex(encodedResult){
 	var result = {};
-	
-	//Ya que todos los valores de la BD estan contenidos en este campo es el unico que necesitamos, los demas campos son para busqueda en la bd		
-	var jsonString = decodeURIComponent(encodedResult.trending_index_datacontent);
-	result = JSON.parse(jsonString);
-
+	result["categoria"] = encodedResult.trending_index_category;
+	result["titulo"] = decodeURIComponent(encodedResult.trending_index_title);
+	result["imagen"] = decodeURIComponent(encodedResult.trending_index_image);
 	return result;
 }
 
@@ -117,4 +145,10 @@ function deleteAllTrendingIndexDB(tx, instanceCaller){
 	printToLog("deleteAllTrendingIndexDB");
     tx.executeSql('DROP TABLE IF EXISTS TRENDINGINDEX');
     printToLog("deleteAllTrendingIndexDB done");
+}
+
+function clearTrendingIndexTable(tx){
+	
+	var limitStatement = 'DELETE FROM TRENDINGINDEX WHERE trending_index_tvn_id >= 0;';
+	tx.executeSql(limitStatement);
 }

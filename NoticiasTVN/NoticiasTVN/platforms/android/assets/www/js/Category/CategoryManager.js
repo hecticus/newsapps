@@ -16,63 +16,83 @@ function CategoryManager() {
 // declaring instance methods
 CategoryManager.prototype = {
 	
-	loadCategoryFromBD: function (callback, errorCallback) {
-    	printToLog("getAllCategoryFromBD");
-        //buscamos en BD todas las noticias
-    	storageManager.queryToDB(this.getAllCategoryFromDB,errorCallback, callback, null);
+	getCategories: function (callback, errorCallback) {
+    	printToLog("getCategories");
+    	//bscamos en el WS las categorias si hay conexion
+    	if(!isOffline()){
+    		printToLog("por WS");
+    		this.getCompleteCategoriesFromWS(callback,errorCallback);
+    	}else{
+    		//buscamos en BD
+    		printToLog("Por BD");
+        	storageManager.queryToDB(this.getAllCategoryFromDB,errorCallback, callback, null);
+    	}
     },
-	loadCategoryCategoryFromBD: function (category, callback, errorCallback) {
-		printToLog("loadCategoryCategoryFromBD");
-		//buscamos en BD todas las noticias
-		storageManager.querySelectedToDB(this.getCategoryCategoryFromDB,errorCallback, callback, category, null);
-	},
-	loadCategoryByIDFromBD: function (categoryID, callback, errorCallback) {
-		printToLog("loadCategoryByIDFromBD");
-		//buscamos en BD la noticia con ID categoryID
-		storageManager.querySelectedToDB(this.getCategoryByIDFromDB,errorCallback, callback, categoryID, null);
-	},
 	
 	getCompleteCategoriesFromWS:function(callback, errorCallback){
 		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
 		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		var urlComplete = 'http://wedge/kraken/storefront/wsext/pa-tvn/getTVNCategories.php';
+		var urlComplete = 'http://10.0.3.4:9001/newsapi/categories/get';
+		//var urlComplete = 'http://192.168.1.128/kraken/storefront/wsext/pa-tvn/getTVNCategories.php';
+		
+		var instance = this;
 		
 		$.ajax({
 			url : urlComplete,
 			timeout : 160000,
 			success : function(data, status) {
+				printToLog("TESTNEW: 0-"+status+" results: "+data);
+				if(typeof data == "string"){
+					data = JSON.parse(data);
+				}
 				var code = data.error;
-				var results = data.response;
-				//printToLog("NEW: 0-"+code+" results: "+JSON.stringify(results));
+				var results = data.categories;
+				printToLog("TESTNEW: 0-"+code+" results: "+JSON.stringify(results));
 				if(code == 0){
 					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
 					if(results!= null && results.length>0){
+						setAllVars(results);
 						storageManager.saveToDB(instance.saveAllCategoryToDB, errorCallback, callback, null, results);
 					}
 				}else{
 					//ocurrio un error
-					errorCallback();
+					//errorCallback();
+					storageManager.queryToDB(instance.getAllCategoryFromDB,errorCallback, callback, null);
 				}
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				//printToLog("Error descargando News: xhr:"+JSON.stringify(xhr)+" -AO:"+ajaxOptions+" -TE:"+thrownError);
-				errorCallback();
+				//errorCallback();
+				storageManager.queryToDB(instance.getAllCategoryFromDB,errorCallback, callback, null);
 			}
 		});
 	},
-
-	saveCategoryFromWS:function(results, callback, errorCallback){
-		storageManager.saveToDB(this.saveAllCategoryToDB, errorCallback, callback, null, results);
-	},
-
+	
 	getAllCategoryFromDB:function(tx, instanceCaller, errorCallback, callback){
 		printToLog("getAllCategoryFromDB");
 		tx.executeSql(createCategoryQuery);
-	    printToLog("getAllCategoryFromDB 1");
 	    
 		tx.executeSql('SELECT * FROM CATEGORY', [], 
 			function(tx, results){
-				callback(results);
+				if(results != null){
+					var len = results.rows.length;
+					if(len > 0){
+						var catArray = new Array();
+						for(var i=0;i<len;i++){
+							var catItem = results.rows.item(i);
+							catItem = decodeCategory(catItem);
+							//catItem["i"]=i;
+							//catItem["bgcolor"]='#0404B4';
+							catArray.push(catItem);
+						}
+						setAllVars(catArray);
+						callback(catArray);
+					}else{
+						errorCallback("no categories");
+					}
+				}else{
+					errorCallback("no categories");
+				}
 			}, 
 			function(err){
 				errorCallback(err);
@@ -84,8 +104,11 @@ CategoryManager.prototype = {
 	    
 	    tx.executeSql(createCategoryQuery);
 	    
-	    var itemArray = results["categories"];
-	    printToLog("saveAllCategoryToDB 1 - "+itemArray.length+" -"+results["categories"]);
+	    var itemArray = results;
+	    printToLog("saveAllCategoryToDB 1 - "+itemArray.length+" -"+JSON.stringify(results));
+	    
+	    //limpiamos la tabla vieja ya que llego una nueva
+	    clearCategoriesTable(tx);
 	    
 	    for(var i=0; i<itemArray.length; i++){
 	    	var insertObj = itemArray[i];
@@ -110,11 +133,11 @@ CategoryManager.prototype = {
 			'"'+encodeURIComponent(insertObj.shortName)+'",'+
 			'"'+encodeURIComponent(insertObj.feedUrl)+'",'+
 			'"'+encodeURIComponent(insertObj.internalUrl)+'",'+
-			''+insertObj.pushable+','+
-			''+insertObj.trending+
+			''+(insertObj.pushable?1:0)+','+
+			''+(insertObj.trending?1:0)+
 			');';
 	    	
-	
+			printToLog("saveAllCategoryToDB 1.5 "+insertStatement);
 	    	tx.executeSql(insertStatement);
 	    }
 		
@@ -125,15 +148,13 @@ CategoryManager.prototype = {
 
 function decodeCategory(encodedResult){
 	var result = {};
-	
-	result["id"] = encodedResult.id;
-	result["name"] = decodeURIComponent(encodedResult.name);
-	result["shortName"] = decodeURIComponent(encodedResult.shortName);
-	result["feedUrl"] = decodeURIComponent(encodedResult.feedUrl);
-	result["internalUrl"] = decodeURIComponent(encodedResult.internalUrl);
-	result["pushable"] = insertObj.pushable;
-	result["trending"] = insertObj.trending;
-
+	result["id"] = encodedResult.category_tvn_id;
+	result["name"] = decodeURIComponent(encodedResult.category_name);
+	result["shortName"] = decodeURIComponent(encodedResult.category_shortName);
+	result["feedUrl"] = decodeURIComponent(encodedResult.category_feedUrl);
+	result["internalUrl"] = decodeURIComponent(encodedResult.category_internalUrl);
+	result["pushable"] = encodedResult.category_pushable;
+	result["trending"] = encodedResult.category_trending;
 	return result;
 }
 
@@ -146,4 +167,20 @@ function deleteAllCategoryDB(tx, instanceCaller){
 	printToLog("deleteAllCategoryDB");
     tx.executeSql('DROP TABLE IF EXISTS CATEGORY');
     printToLog("deleteAllCategoryDB done");
+}
+
+function clearCategoriesTable(tx){
+	
+	var limitStatement = 'DELETE FROM CATEGORY WHERE category_tvn_id >= 0;'; //offset,limit
+	tx.executeSql(limitStatement);
+}
+
+function setAllVars(results){
+	for(var i=0;i<results.length;i++){
+		results[i]["classId"] = "tvnCategory_"+results[i]["id"];
+		results[i]["i"]=i;
+		results[i]["bgcolor"]='#0404B4';
+		results[i]["title"] = results[i]["name"];
+		results[i]["status"]=false;
+	}
 }

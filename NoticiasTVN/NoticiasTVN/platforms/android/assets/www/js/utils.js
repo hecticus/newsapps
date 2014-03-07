@@ -99,5 +99,5 @@ function formatDateStringForSorting(ds) {
 
 //DEBUG
 function printToLog(element){
-	//console.log(element);
+	console.log(element);
 }

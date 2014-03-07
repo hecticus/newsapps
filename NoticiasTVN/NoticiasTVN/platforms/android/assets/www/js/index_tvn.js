@@ -47,7 +47,7 @@ function setMenuCategories(){
 
 	$.li='';
 	for(var i=0; i<arrCategory.length; i++){
-			$.li+='<li data-category="'+arrCategory[i].id+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:#ffffff;">';			
+			$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:#ffffff;">';			
 			$.li+=arrCategory[i].title;			
 			$.li+='</li>';
 	}
@@ -64,7 +64,7 @@ function setScrollPages() {
 		
 		$.li='<div class="pages"  style="position:relative; float:left; display:block; background-color:#000000;">';
 
-			$.li+='<div data-category="'+arrCategory[i].id+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
+			$.li+='<div data-category="'+arrCategory[i].classId+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
 			
 			$.li+='<ul id="header">';
 			$.li+='<li><h3 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h3></li>';
@@ -74,16 +74,16 @@ function setScrollPages() {
 			
 			  
    
-			$.li+='<div id="'+arrCategory[i].id+'" class="page" style="position:absolute; z-index:1; top:40px; bottom:0; left:0; width:100%; overflow:auto;">';
+			$.li+='<div id="'+arrCategory[i].classId+'" class="page" style="position:absolute; z-index:1; top:40px; bottom:0; left:0; width:100%; overflow:auto;">';
 				
-				$.li+='<div id="'+arrCategory[i].id+'-featured" class="featured"  style="position:absolute;  z-index: 0; background-color:#000000;"></div>';											
+				$.li+='<div id="'+arrCategory[i].classId+'-featured" class="featured"  style="position:absolute;  z-index: 0; background-color:#000000;"></div>';											
 				$.li+='<div class="scroller">';
 					$.li+='<ul>';
 						$.li+='<li>';
-							$.li+='<ul id="'+arrCategory[i].id+'-news-featured" class="featured">';	
-								$.li+='<li id="'+arrCategory[i].id+'-news-featured-title" class="featured" ></li>';
+							$.li+='<ul id="'+arrCategory[i].classId+'-news-featured" class="featured">';	
+								$.li+='<li id="'+arrCategory[i].classId+'-news-featured-title" class="featured" ></li>';
 							$.li+='</ul>';
-							$.li+='<ul id="'+arrCategory[i].id+'-news1" class="news1" style="background-color:#ffffff;">';										
+							$.li+='<ul id="'+arrCategory[i].classId+'-news1" class="news1" style="background-color:#ffffff;">';										
 							$.li+='</ul>';
 							$.li+='<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>';											
 						$.li+='</li>';
@@ -145,19 +145,33 @@ function newScroll(scroll) {
 }
 
 var slidesPages=['pCenter','pRight','pLeft'];
-var arrCategory=[
+/*var arrCategory=[
  	{i:0,status:false,id:'latestnews',title:'Home',bgcolor:'#0404B4',featured:{highdef:'',headline:''},xml:'',video:false},
  	{i:1,status:false,id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',featured:{highdef:'',headline:''},video:false},
  	{i:2,status:false,id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',featured:{highdef:'',headline:''},video:false},
- 	{i:3,status:false,id:'latestnews_tecnologia',title:'TecnologÃ­a',bgcolor:'#AEB404',featured:{highdef:'',headline:''},video:false},
+ 	{i:3,status:false,id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',featured:{highdef:'',headline:''},video:false},
  	{i:4,status:false,id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',featured:{highdef:'',headline:''},video:false},
  	{i:5,status:false,id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',featured:{highdef:'',headline:''},video:false},
  	{i:6,status:false,id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',featured:{highdef:'',headline:''},video:false},
  	{i:7,status:false,id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',featured:{highdef:'',headline:''},video:true},
- 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decision 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},video:false},
- 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decision 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},video:true},
- 	{i:10,status:false,id:'live_tv',title:'Se&ntilde;al en vivo',bgcolor:'#0404B4',featured:{highdef:'',headline:''},video:true}
- 	];
+ 	{i:8,status:false,id:'latestnews_decision2014',title:'Noticias Decisión 2014',bgcolor:'#BABCEE',featured:{highdef:'',headline:''},video:false},
+ 	{i:9,status:false,id:'latestvideos_decision2014',title:'Videos Decisión 2014',bgcolor:'#CCCCCC',featured:{highdef:'',headline:''},video:true},
+ 	{i:10,status:false,id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4',featured:{highdef:'',headline:''},video:true}
+ 	];*/
+
+var arrCategory=[
+  	{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'},
+  	{i:1,status:false,classId:'latestnews_nacionales',id:'latestnews_nacionales',title:'Nacionales',bgcolor:'#FF4000',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_nacionales-utf8.asp'},
+  	{i:2,status:false,classId:'latestnews_internacionales',id:'latestnews_internacionales',title:'Internacionales',bgcolor:'#A4A4A4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_internacionales-utf8.asp'},
+  	{i:3,status:false,classId:'latestnews_tecnologia',id:'latestnews_tecnologia',title:'Tecnología',bgcolor:'#AEB404',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_tecnologia-utf8.asp'},
+  	{i:4,status:false,classId:'latestnews_salud',id:'latestnews_salud',title:'Salud',bgcolor:'#FE2E64',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_salud-utf8.asp'},
+  	{i:5,status:false,classId:'latestnews_entretenimiento',id:'latestnews_entretenimiento',title:'Entretenimiento',bgcolor:'#0B610B',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_entretenimiento-utf8.asp'},
+  	{i:6,status:false,classId:'latestnews_deportes',id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_deportes-utf8.asp'},
+  	{i:7,status:false,classId:'latestvideos',id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestvideos-utf8.asp'},
+  	{i:8,status:false,classId:'latestnews_decision2014',id:'latestnews_decision2014',title:'Noticias Decisión 2014',bgcolor:'#BABCEE',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_decision2014-utf8.asp'},
+  	{i:9,status:false,classId:'latestvideos_decision2014',id:'latestvideos_decision2014',title:'Videos Decisión 2014',bgcolor:'#CCCCCC',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestvideos_decision2014-utf8.asp'},
+  	{i:10,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'}
+  	];
 
 
 
@@ -198,7 +212,7 @@ var hScrollMove = false;
 
 
 
-
+function initBasicApp(){
 		//INIT SPECIAL DATA
 		setScrollPages();
 		setMenuCategories();
@@ -270,13 +284,13 @@ var hScrollMove = false;
 			});	
 
 
-			$.getJSON('http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp', function( data ) { 				
+			/*$.getJSON('http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp', function( data ) { 				
 				arrTrendingTopics = data.noticiastrendingtopics.item;			
 			});
 			
 			$.getJSON('http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp', function( data ) {
 				arrTrendingNews = data.noticiastrendingnews.item;
-			});
+			});*/
 
 
 
@@ -309,26 +323,26 @@ var hScrollMove = false;
 						if (typeof window[arrPage[this.lastPageX]] != 'undefined') {
    							window[arrPage[this.lastPageX]].scrollTo(0,0,0);
 						}
-						$('#'+arrCategory[this.currPageX].id).removeClass('hidden');			
+						$('#'+arrCategory[this.currPageX].classId).removeClass('hidden');			
 						var upcomingback, upcomingnext;
 						
 						upcomingback = parseInt(this.currPageX-2);									
 						upcomingnext = parseInt(this.currPageX+2);
 																
-						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].id).addClass('hidden');																		
-						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].id).addClass('hidden');
+						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].classId).addClass('hidden');																		
+						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].classId).addClass('hidden');
 						
 						upcomingback = parseInt(this.currPageX-1);									
 						upcomingnext = parseInt(this.currPageX+1);
 												
-						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].id).removeClass('hidden');													
-						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].id).removeClass('hidden');		
+						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].classId).removeClass('hidden');													
+						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].classId).removeClass('hidden');		
 																															
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
 												
-						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].id);
+						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].classId);
     					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "scroll", "swype", "section", 1);
-    					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].id);
+    					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].classId);
     					
 					}
 					
@@ -337,6 +351,7 @@ var hScrollMove = false;
 					
 				}
 			});
+
 
 
 
@@ -362,7 +377,7 @@ var hScrollMove = false;
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
-    				if (arrCategory[$(this).data('position')].id == 'live_tv') {    					    					
+    				if (arrCategory[$(this).data('position')].classId == 'live_tv') {    					    					
     					window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
     				} else {
 	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
@@ -434,7 +449,7 @@ var hScrollMove = false;
 				}   
     		});				
 				
-								
+}								
 			
 			function goToNewsPage(){
 				var manager = new NewsManager();
@@ -542,10 +557,9 @@ var hScrollMove = false;
     		//WITH JSON INSTEAD OF NEWSML
 			$.fgetNews = function(c,section,color) {
 
-				myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
-
+				//myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
+				myJson=$.fGetAjaXJSON(arrCategory[myScrollPage.currPageX].internalUrl);
 				myJson.done(function(json) {
-
 					var itemArray = null;
 					if(json["noticias"] != null){
 						itemArray = json["noticias"]["item"];
@@ -624,23 +638,23 @@ var hScrollMove = false;
 		  
 			$.fsetNews = function(itemArray) {
 						isLoaded = true;
-				
-						$.category = '#'+arrCategory[myScrollPage.currPageX].id;
+						console.log("pas1 "+arrCategory[myScrollPage.currPageX].classId);
+						$.category = '#'+arrCategory[myScrollPage.currPageX].classId;
 						
 						$($.category +'-news1').empty();	
 						$($.category+'-news-featured-title').empty();
 						
-						
+						console.log("pas2");
 												
-						window['myScroll'+arrCategory[myScrollPage.currPageX].id]=newScroll(arrCategory[myScrollPage.currPageX].id);
-						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].id);
+						window['myScroll'+arrCategory[myScrollPage.currPageX].classId]=newScroll(arrCategory[myScrollPage.currPageX].classId);
+						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].classId);
 
 						
-						
+						console.log("pas2_1");
 																		
 						for(var i=0;i<itemArray.length; i++){
 											
-							
+							console.log("pas3 "+i);
 							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=itemArray[i]["title"];
 
@@ -660,12 +674,15 @@ var hScrollMove = false;
 							$.news.quicklook.push({src:itemArray[i]["image"],width:864,height:486});
 							
 							//check if there is a video
+							var isVideo = false;
 							if(itemArray[i]["videourl"] != null){
 								if(itemArray[i]["uploadedvideo"] != null){
 									if(itemArray[i]["uploadedvideo"] != "0"){
+										isVideo = true;
 										$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
 									}
-								}else{									
+								}else{		
+									isVideo = true;
 									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});																
 								}			    				
 							}
@@ -698,7 +715,8 @@ var hScrollMove = false;
 								$($.category+'-news-featured-title').data('headline',$.news.headline);																			
 								$($.category+'-news-featured-title').attr('data-content','headline');
 								
-								if (arrCategory[myScrollPage.currPageX].video) {
+								//if (arrCategory[myScrollPage.currPageX].video) {
+								if (isVideo) {
 									$($.category+'-news-featured-title').attr('data-content','');
 									$($.category+'-news-featured-title').attr('data-type','video');
 									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
@@ -746,10 +764,11 @@ var hScrollMove = false;
 							} else if (i>0) {
 								
 								
-								if (arrCategory[myScrollPage.currPageX].video) {	
+								//if (arrCategory[myScrollPage.currPageX].video) {
+								if (isVideo) {
 									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
 								} else {
-									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].id+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
+									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
 								}
 
 								if ($.news.quicklook.length >= 1) {
@@ -782,13 +801,14 @@ var hScrollMove = false;
 					    	}; 
 
 						};
+						console.log("pas4");
 														
 
     		};
 
 			$.fsetNewsDatacontents = function(itemArray) {
 				
-				$.category = '#'+arrCategory[myScrollPage.currPageX].id;
+				$.category = '#'+arrCategory[myScrollPage.currPageX].classId;
 					
 				
 				for(var i=0;i<itemArray.length; i++){
@@ -1215,15 +1235,104 @@ function reloadApp(){
 }
 
 //funciones que traen las categorias y los trending topics
-function getCategoriesFromWS(){
-	
+function getCategoriesForApp(){
+	var manager = new CategoryManager();
+	manager.getCategories(successGetCategories,errorGetCategories);
 }
 
-function loadCategoriesFromBD(){
-	var manager = new CategoryManager();
-	json["category"] = arrCategory[myScrollPage.currPageX].id;
-	manager.saveNewsFromWS(json,successSaveNews,errorNewsSave);
+function successGetCategories(results){
+	console.log("successGetCategories");
+	if(results != null){
+		var len = results.length;
+		console.log("RESULT len: "+len);
+		if(len > 0){
+			//agregamos la señal en vivo
+			console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
+			results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
+			arrCategory = results.slice(0);
+			console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
+			//endOfAppInitialization();
+			getTrendingIndexesForApp();
+		}else{
+			console.log("Error CATEGORIES");
+			noConnectionForNews();
+		}
+	}else{
+		console.log("Error CATEGORIES 2");
+		noConnectionForNews();
+	}
+	//endOfAppInitialization();
 }
+
+function errorGetCategories(){
+	console.log("Error CATEGORIES real");
+	noConnectionForNews();
+	//endOfAppInitialization();
+}
+
+//trending indexes
+function getTrendingIndexesForApp(){
+	var manager = new TrendingIndexManager();
+	manager.getTrendingIndexes(successGetTrendingIndexes,errorGetTrendingIndexes);
+}
+
+function successGetTrendingIndexes(results){
+	console.log("successGetTrendingIndexes");
+	if(results != null){
+		var len = results.length;
+		console.log("RESULT len: "+len);
+		if(len > 0){
+			arrTrendingTopics = results.slice(0);
+			//getTrendingNewsForApp();
+			endOfAppInitialization();
+		}else{
+			console.log("Error TrendingIndexes");
+			noConnectionForNews();
+		}
+	}else{
+		console.log("Error TrendingIndexes 2");
+		noConnectionForNews();
+	}
+	//endOfAppInitialization();
+}
+
+function errorGetTrendingIndexes(){
+	console.log("Error TrendingIndexes real");
+	noConnectionForNews();
+	//endOfAppInitialization();
+}
+
+//trending news
+function getTrendingNewsForApp(){
+	var manager = new TrendingManager();
+	manager.getTrendings(successGetTrendingNews,errorGetTrendingNews);
+}
+
+function successGetTrendingNews(results){
+	console.log("successGetTrendingNews");
+	if(results != null){
+		var len = results.length;
+		console.log("RESULT len: "+len);
+		if(len > 0){
+			arrTrendingNews = results.slice(0);
+			endOfAppInitialization();
+		}else{
+			console.log("Error TrendingNews");
+			noConnectionForNews();
+		}
+	}else{
+		console.log("Error TrendingNews 2");
+		noConnectionForNews();
+	}
+	//endOfAppInitialization();
+}
+
+function errorGetTrendingNews(){
+	console.log("Error TrendingNews real");
+	noConnectionForNews();
+	//endOfAppInitialization();
+}
+
 
 //Obtiene todas las noticias trending de la categoria actual
 function getTrendingNewsByCategory(category){
@@ -1237,6 +1346,18 @@ function getTrendingNewsByCategory(category){
 }
 
 //end de funciones de inicializacion de categorias y trendings
+
+function endOfAppInitialization(){
+	
+	initBasicApp();
+	
+	clearPageStatus();
+	
+	$.fgetNews();
+	
+	//snap de las paginas con un threshold del 15% de la pantalla
+	myScrollPage.options.snapThreshold = window.innerWidth*0.15;
+}
 
 
 
@@ -1298,11 +1419,11 @@ var app = {
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
-        initialSetup();
  
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+    	initialSetup();
     	isCommingFromPush = false;
     	isLoaded = false;
 		//init push data
@@ -1311,12 +1432,15 @@ var app = {
 		storageManager = new StorageManager();		
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
 		
-		clearPageStatus();
+		/*initBasicApp();
+		
+		clearPageStatus();*/
+		
 		
 		//init page
-		$.fgetNews();
+		getCategoriesForApp();
+		//endOfAppInitialization();
+		//$.fgetNews();
 		
-		//snap de las paginas con un threshold del 15% de la pantalla
-		myScrollPage.options.snapThreshold = window.innerWidth*0.15;
     }
 };
