@@ -143,7 +143,6 @@ function limitNewsTableSize(tx){
 	
 	//eliminamos todas las categorias que no existan mas, despues por cada categoria eliminamos los que son viejos por cantidad
 	for(var i=0; i<arrCategory.length; i++){
-		console.log("Cat: "+arrCategory[i].id);
 		var limitStatement = 'DELETE FROM NEWS WHERE news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
 		tx.executeSql(limitStatement);
 	}

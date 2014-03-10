@@ -580,7 +580,7 @@ function initBasicApp(){
     		};
 		  
 		  	function successSaveNews(){
-		  		console.log("SAVE COMPLETE");
+		  		//console.log("SAVE COMPLETE");
 		 	}
 		 	function errorNewsSave(err){
 				console.log("SAVE FAILS");
@@ -638,23 +638,17 @@ function initBasicApp(){
 		  
 			$.fsetNews = function(itemArray) {
 						isLoaded = true;
-						console.log("pas1 "+arrCategory[myScrollPage.currPageX].classId);
 						$.category = '#'+arrCategory[myScrollPage.currPageX].classId;
 						
 						$($.category +'-news1').empty();	
 						$($.category+'-news-featured-title').empty();
-						
-						console.log("pas2");
 												
 						window['myScroll'+arrCategory[myScrollPage.currPageX].classId]=newScroll(arrCategory[myScrollPage.currPageX].classId);
 						arrPage.push('myScroll'+arrCategory[myScrollPage.currPageX].classId);
 
-						
-						console.log("pas2_1");
 																		
 						for(var i=0;i<itemArray.length; i++){
-											
-							console.log("pas3 "+i);
+
 							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=itemArray[i]["title"];
 
@@ -801,7 +795,6 @@ function initBasicApp(){
 					    	}; 
 
 						};
-						console.log("pas4");
 														
 
     		};
@@ -1241,16 +1234,16 @@ function getCategoriesForApp(){
 }
 
 function successGetCategories(results){
-	console.log("successGetCategories");
+	//console.log("successGetCategories");
 	if(results != null){
 		var len = results.length;
-		console.log("RESULT len: "+len);
+		//console.log("RESULT len: "+len);
 		if(len > 0){
 			//agregamos la señal en vivo
-			console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
+			//console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
 			results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
 			arrCategory = results.slice(0);
-			console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
+			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();
 		}else{
@@ -1277,10 +1270,10 @@ function getTrendingIndexesForApp(){
 }
 
 function successGetTrendingIndexes(results){
-	console.log("successGetTrendingIndexes");
+	//console.log("successGetTrendingIndexes");
 	if(results != null){
 		var len = results.length;
-		console.log("RESULT len: "+len);
+		//console.log("RESULT len: "+len);
 		if(len > 0){
 			arrTrendingTopics = results.slice(0);
 			getTrendingNewsForApp();
@@ -1307,10 +1300,10 @@ function getTrendingNewsForApp(){
 }
 
 function successGetTrendingNews(results){
-	console.log("successGetTrendingNews");
+	//console.log("successGetTrendingNews");
 	if(results != null){
 		var len = results.length;
-		console.log("RESULT len: "+len);
+		//console.log("RESULT len: "+len);
 		if(len > 0){
 			arrTrendingNews = results.slice(0);
 			endOfAppInitialization();

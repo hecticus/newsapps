@@ -5,11 +5,11 @@ function initPush(){
 	{ 
     	pushNotification = window.plugins.pushNotification;
     	if (device.platform == 'android' || device.platform == 'Android') {
-			console.log('<li>registering android</li>');
+			//console.log('<li>registering android</li>');
         	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"658773544258","ecb":"onNotificationGCM"});		// required!
 		} else {
-			console.log('<li>registering iOS</li>');
-        	pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"false","alert":"true","ecb":"onNotificationAPN"});	// required!
+			//console.log('<li>registering iOS</li>');
+        	pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"true","alert":"true","ecb":"onNotificationAPN"});	// required!
     	}
     }
 	catch(err) 
@@ -44,7 +44,7 @@ function onNotificationAPN(e) {
 // handle GCM notifications for Android
 function onNotificationGCM(e) {
     //$("#app-status-ul").append('<li>EVENT -> RECEIVED:' + e.event + '</li>');
-    console.log("EVENT -> RECEIVED:" + e.event);
+    //console.log("EVENT -> RECEIVED:" + e.event);
     
     switch( e.event )
     {
@@ -54,7 +54,7 @@ function onNotificationGCM(e) {
 			//console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
 			// Your GCM push server needs to know the regID before it can push to this device
 			// here is where you might want to send it the regID for later use.
-			console.log("regID = " + e.regid);
+			//console.log("regID = " + e.regid);
 		}
         break;
         
@@ -77,7 +77,7 @@ function onNotificationGCM(e) {
 					//console.log('<li>--BACKGROUND NOTIFICATION--' + '</li>');
 				}
 			}
-        	console.log('PUSHJS' + JSON.stringify(e.payload));
+        	//console.log('PUSHJS' + JSON.stringify(e.payload));
         	//window.setTimeout(app.errorNewsSave(),4000);
         	executePushInit(e.payload["extra_params"]);
 			//console.log('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');

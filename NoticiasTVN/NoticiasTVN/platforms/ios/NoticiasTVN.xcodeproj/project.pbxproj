@@ -59,6 +59,7 @@
 		6F6DDD471875C5050090B0E8 /* NoticiasTVN-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */; };
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
+		6FC8D6A918CE05AC00B5D007 /* noticias.aif in Resources */ = {isa = PBXBuildFile; fileRef = 6FC8D6A818CE05AC00B5D007 /* noticias.aif */; };
 		6FD3CFDC187C8F0B005E7A40 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD3CFD9187C8F0B005E7A40 /* AppDelegate+notification.m */; };
 		6FD3CFDD187C8F0B005E7A40 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD3CFDB187C8F0B005E7A40 /* PushPlugin.m */; };
 		6FD3CFE3187CA266005E7A40 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD3CFE2187CA266005E7A40 /* CDVDevice.m */; };
@@ -153,6 +154,7 @@
 		6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "NoticiasTVN-Info.plist"; path = "NoticiasTVN/NoticiasTVN-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6F6DDD481875C51A0090B0E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = NoticiasTVN/config.xml; sourceTree = "<group>"; };
 		6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		6FC8D6A818CE05AC00B5D007 /* noticias.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = noticias.aif; sourceTree = "<group>"; };
 		6FD3CFD8187C8F0B005E7A40 /* AppDelegate+notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+notification.h"; sourceTree = "<group>"; };
 		6FD3CFD9187C8F0B005E7A40 /* AppDelegate+notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+notification.m"; sourceTree = "<group>"; };
 		6FD3CFDA187C8F0B005E7A40 /* PushPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushPlugin.h; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6FC8D6A718CE05AC00B5D007 /* sounds */,
 				6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */,
 				6F6DDD0A1875C4F80090B0E8 /* de.lproj */,
 				6F6DDD0D1875C4F80090B0E8 /* en.lproj */,
@@ -417,6 +420,15 @@
 			path = NoticiasTVN/Resources/splash;
 			sourceTree = SOURCE_ROOT;
 		};
+		6FC8D6A718CE05AC00B5D007 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				6FC8D6A818CE05AC00B5D007 /* noticias.aif */,
+			);
+			name = sounds;
+			path = NoticiasTVN/Resources/sounds;
+			sourceTree = SOURCE_ROOT;
+		};
 		6FD3CFD7187C8F0B005E7A40 /* com.phonegap.plugins.PushPlugin */ = {
 			isa = PBXGroup;
 			children = (
@@ -525,6 +537,7 @@
 				6F6DDD3E1875C4F80090B0E8 /* Localizable.strings in Resources */,
 				6F6DDCFA1875C4B90090B0E8 /* MainViewController.xib in Resources */,
 				6F6DDD3F1875C4F80090B0E8 /* Default-568h@2x~iphone.png in Resources */,
+				6FC8D6A918CE05AC00B5D007 /* noticias.aif in Resources */,
 				6F6DDD3D1875C4F80090B0E8 /* icon@2x.png in Resources */,
 				6F6DDD471875C5050090B0E8 /* NoticiasTVN-Info.plist in Resources */,
 				6F6DDD2E1875C4F80090B0E8 /* Localizable.strings in Resources */,
