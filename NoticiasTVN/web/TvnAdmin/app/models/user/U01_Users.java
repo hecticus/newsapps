@@ -47,7 +47,7 @@ public class U01_Users extends HecticusModel implements Identity {
 	public Long u01_Id;
 	
 	@Constraints.Required
-	@Constraints.MinLength(6)	
+	@Constraints.MinLength(5)	
 	public String u01_Login;
 		
 	@Constraints.Required
