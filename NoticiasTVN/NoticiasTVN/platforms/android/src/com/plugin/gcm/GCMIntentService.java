@@ -18,6 +18,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -111,9 +112,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
+		//.setDefaults(Notification.DEFAULT_ALL)
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(context)
-				.setDefaults(Notification.DEFAULT_ALL)
+				.setDefaults(Notification.DEFAULT_VIBRATE)
 				.setSmallIcon(context.getApplicationInfo().icon)
 				.setWhen(System.currentTimeMillis())
 				.setContentTitle(extras.getString("title"))
@@ -131,6 +133,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if (msgcnt != null) {
 			mBuilder.setNumber(Integer.parseInt(msgcnt));
 		}
+		
+		//añadimos el sonido
+		Uri soundUri = Uri.parse("android.resource://com.hecticus.noticiastvn/" + R.raw.noticias);
+		//Uri soundUri = Uri.parse("android.resource://com.hecticus.noticiastvn/" + R.raw.noticiasmp3);
+		mBuilder.setSound(soundUri);
+		
+		//se puede hacer que solo se alerte la primera vez y si no se ha visto la alerta no vuelva a sonar
+		//mBuilder.setOnlyAlertOnce(true);
 		
 		mNotificationManager.notify((String) appName, NOTIFICATION_ID, mBuilder.build());
 	}

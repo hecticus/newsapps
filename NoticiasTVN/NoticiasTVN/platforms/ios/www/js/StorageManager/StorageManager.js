@@ -20,7 +20,7 @@ StorageManager.prototype = {
         printToLog("StorageManager: saveToDB");
     	db.transaction(function(tx){
     		populateDB(tx, instanceCaller, data);
-    		}
+    	}
     	, function(err){
     		printToLog("err1!!!!: "+JSON.stringify(err));
     		//printToLog("err1!!!!: ");

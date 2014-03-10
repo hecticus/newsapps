@@ -92,7 +92,7 @@ public class Category extends HecticusModel{
         this.sort = sort;
     }
 
-    public boolean isPushable() {
+    public boolean getPushable() {
         return pushable;
     }
 
