@@ -76,5 +76,11 @@ GET     /user/list				controllers.User.list(p:Int ?= 0, s ?= "u01_Id", o ?= "asc
 GET     /user/blank				controllers.User.blank()
 POST    /user					controllers.User.submit()
 
+# Edit existing user
+GET     /user/:id				controllers.User.edit(id:Long)
+POST    /user/:id				controllers.User.update(id:Long)
+
+# Delete a user
+POST    /user/:id/delete		controllers.User.delete(id:Long)
 
 #</User>
