@@ -61,21 +61,38 @@ public class MyUserService extends BaseUserService {
 	public Identity doSave(Identity arg0) {
 		// TODO Auto-generated method stub
 
-		SocialUser users = (SocialUser) arg0;
+		/*SocialUser users = (SocialUser) arg0;
 		U01_Users entityUser = new U01_Users();
 		entityUser.u01_Login = users.identityId().userId();
 		entityUser.u01_Password = users.passwordInfo().get().password();
 		
 		//controllers.Application.test = entityUser.u01_Login;
 		entityUser.u01_Email = users.email().get();
-		entityUser.u01_AllCountries = true;
+		entityUser.u01_All_Countries = true;
 		Finder<Long, U01_Users> finder = new Finder<Long, U01_Users>(Long.class, U01_Users.class);
 		U01_Users bdUsers = finder.where().eq("u01_login", entityUser.u01_Login).findUnique();
 		if(bdUsers == null){
 			entityUser.save();
 		}else if(entityUser.u01_Password != bdUsers.u01_Password
 				||entityUser.u01_Email != bdUsers.u01_Email
-				||entityUser.u01_AllCountries != bdUsers.u01_AllCountries){
+				||entityUser.u01_All_Countries != bdUsers.u01_All_Countries){
+			entityUser.u01_Id = bdUsers.u01_Id;
+			entityUser.update();
+		}
+		return entityUser;*/
+		
+		
+		SocialUser users = (SocialUser) arg0;
+		U01_Users entityUser = new U01_Users();
+		entityUser.u01_Login = users.identityId().userId();
+		entityUser.u01_Password = users.passwordInfo().get().password();		
+		entityUser.u01_Email = users.email().get();
+		Finder<Long, U01_Users> finder = new Finder<Long, U01_Users>(Long.class, U01_Users.class);
+		U01_Users bdUsers = finder.where().eq("u01_login", entityUser.u01_Login).findUnique();
+		if(bdUsers == null){
+			entityUser.save();
+		}else if(entityUser.u01_Password != bdUsers.u01_Password
+				||entityUser.u01_Email != bdUsers.u01_Email){
 			entityUser.u01_Id = bdUsers.u01_Id;
 			entityUser.update();
 		}

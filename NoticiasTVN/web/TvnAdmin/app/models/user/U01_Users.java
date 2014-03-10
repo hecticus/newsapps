@@ -4,30 +4,22 @@ package models.user;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-
-
-
-
-
-
-
-
-
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.codehaus.jackson.node.ObjectNode;
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.avaje.ebean.Page;
+
 import models.HecticusModel;
 import play.Play;
-import play.data.validation.Constraints.Email;
-import play.data.validation.Constraints.Required;
-
+import play.data.validation.*;
+import play.db.ebean.Model;
 import scala.Option;
 import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
@@ -38,6 +30,7 @@ import securesocial.core.PasswordInfo;
 import securesocial.core.providers.utils.BCryptPasswordHasher;
 
 @Entity
+@Table(name="u01_users")
 public class U01_Users extends HecticusModel implements Identity {
 
 	/*
@@ -48,16 +41,68 @@ public class U01_Users extends HecticusModel implements Identity {
 	 *   	http://www.playframework.com/documentation/2.1.x/JavaForms
 	 *   	
 	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	public Integer u01_Id;
-	@Required
-	public String u01_Login;
-	public String u01_Password;
-	@Email
-	public String u01_Email;
-	public Boolean u01_AllCountries;
+	//private static final long serialVersionUID = 1L;
 	
+	@Id
+	public Long u01_Id;
+	
+	@Constraints.Required
+	@Constraints.MinLength(6)	
+	public String u01_Login;
+		
+	@Constraints.Required
+	@Constraints.MinLength(6)
+	public String u01_Password;
+
+	@Constraints.Required
+	@Constraints.Email
+	public String u01_Email;
+
+	
+	public static Model.Finder<Long, U01_Users> finder =
+			  new Model.Finder<Long, U01_Users>(Long.class, U01_Users.class);
+	
+	public U01_Users() {}
+	
+	public U01_Users(String u01_Login, String u01_Password, String u01_Email) {
+		this.u01_Login = u01_Login;
+		this.u01_Password = u01_Password;
+		this.u01_Login = u01_Login;		
+	}		  
+	
+	
+  	public Long getU01_Id() {
+        return u01_Id;
+    }
+
+    public void setU01_Id(Long u01_Id) {
+        this.u01_Id = u01_Id;
+    }
+
+    public String getU01_Login() {
+        return u01_Login;
+    }
+
+    public void setU01_Login(String u01_Login) {
+        this.u01_Login = u01_Login;
+    }
+
+    public String getU01_Password() {
+        return u01_Password;
+    }
+
+    public void setU01_Password(String u01_Password) {
+        this.u01_Password = u01_Password;
+    }
+
+    public String getU01_Email() {
+        return u01_Email;
+    }
+
+    public void setU01_Email(String u01_Email) {
+        this.u01_Email = u01_Email;
+    }
+    		  
 	/*
 	 *  Se usa (fetch=FetchType.EAGER) para desabilitar la evaluacion perezosa de
 	 *  los elementos de la relacion. Esto es necesario para poder cargar la lista
@@ -140,4 +185,35 @@ public class U01_Users extends HecticusModel implements Identity {
     public ObjectNode toJson() {
         return null;
     }
+    
+    
+    
+    public static List<U01_Users> getUsers(String u01_login){
+        return finder.where().eq("u01_login", u01_login).findList();
+    }
+    
+    public static List<U01_Users> getAllUsers(){
+        return finder.all();
+    }
+    
+    
+    /**
+     * Return a page of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<U01_Users> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return 
+        	finder.where()
+                .ilike("u01_login", "%" + filter + "%")
+                .orderBy(sortBy + " " + order)
+                .findPagingList(pageSize)
+                .getPage(page);
+    }
+    
+    
 }

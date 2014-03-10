@@ -1,12 +1,15 @@
 package models.user;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
 import models.HecticusModel;
 
 @Entity
@@ -32,4 +35,16 @@ public class U02_Profiles extends HecticusModel {
     public ObjectNode toJson() {
         return null;
     }
+    
+    
+    /*public static Model.Finder<Long,U02_Profiles> find = new Model.Finder<Long,U02_Profiles>(Long.class, U02_Profiles.class);
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+        for(U02_Profiles c: U02_Profiles.find.orderBy("u02_Name").findList()) {
+            options.put(c.u02_Id.toString(), c.u02_Name);
+        }
+        return options;
+    }*/
+    
 }
