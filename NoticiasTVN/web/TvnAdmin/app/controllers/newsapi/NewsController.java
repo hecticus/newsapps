@@ -127,16 +127,24 @@ public class NewsController extends HecticusController {
         return ok(buildBasicResponse(0,"OK"));
     }
 
-    public static Result markAsGenerated(long idCategory){
+    public static Result markAsGenerated(long idNews){
         try {
             News toUpdate = new News();
-            toUpdate.setIdCategory(idCategory);
+            toUpdate.setIdCategory(idNews);
             toUpdate.setGenerated(true);
             toUpdate.save();
         }catch (Exception ex){
             return  badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.getMessage()));
         }
         return ok(HecticusController.buildBasicResponse(0, "OK"));
+    }
+
+    public static Result getNewsToGenerate(){
+        return badRequest("not implemented");
+    }
+
+    public static Result getNewsCount(){
+        return badRequest("not implemented");
     }
 
 
