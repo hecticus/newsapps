@@ -35,6 +35,15 @@ var arrTimeM=['am','am','am','am','am','am','am','am','am','am','am','am','pm','
 var arrMonth=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 
+var arrMenuColor=['#ffffff','#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+
+
+
+
+
+
+
+
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
 var scrollPageDisable = false;
@@ -47,9 +56,9 @@ function setMenuCategories(){
 
 	$.li='';
 	for(var i=0; i<arrCategory.length; i++){
-			$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:#ffffff;">';			
-			$.li+=arrCategory[i].title;			
-			$.li+='</li>';
+		$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:'+arrMenuColor[(i%10)]+';">';			
+		$.li+=arrCategory[i].title;			
+		$.li+='</li>';
 	}
 		
 	$('#mainMenuList').empty();
@@ -57,24 +66,20 @@ function setMenuCategories(){
 		
 }
 
+
+
+$('header ul li div').css('height',(viewport.height*7)/100 + 'px');
+
+
+
 //function to set the correct pages with the correct IDs and colors
 function setScrollPages() {
 	$('#scrollerpage').empty();
-	for(var i=0; i<(arrCategory.length-1); i++){
+	for(var i=0; i<(arrCategory.length); i++) {
 		
 		$.li='<div class="pages"  style="position:relative; float:left; display:block; background-color:#000000;">';
 
-			$.li+='<div data-category="'+arrCategory[i].classId+'" style="position: absolute; top:0; left:0 color:#ffffff; width:100%; height:40px;">';
-			
-			$.li+='<ul id="header">';
-			$.li+='<li><h3 class="back"><img  src="img/bullet/back.png"/><span style="vertical-align:middle; margin-left:5px;" >'+arrCategory[i].title+'</span></h3></li>';
-			$.li+='<li><div class="share hidden" ><img src="img/bullet/share.png" /><div></li>';			
-			$.li+='</ul>';
-			$.li+='</div>';
-			
-			  
-   
-			$.li+='<div id="'+arrCategory[i].classId+'" class="page" style="position:absolute; z-index:1; top:40px; bottom:0; left:0; width:100%; overflow:auto;">';
+			$.li+='<div id="'+arrCategory[i].classId+'" class="page" style="position:absolute; z-index:1; top:'+((viewport.height*7)/100)+'px; bottom:0; left:0; width:100%; overflow:auto;">';
 				
 				$.li+='<div id="'+arrCategory[i].classId+'-featured" class="featured"  style="position:absolute;  z-index: 0; background-color:#000000;"></div>';											
 				$.li+='<div class="scroller">';
@@ -159,13 +164,18 @@ var slidesPages=['pCenter','pRight','pLeft'];
   	{i:10,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'}
   	];*/
 
-var arrCategory=[
-               	{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'},
-               	{i:1,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'}
-               	];
-
+var arrCategory=[{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'}];
 
 function fBack() {
+	
+	arrCategory
+	
+	$("#header-title").html(arrCategory[0].title);
+	
+
+	$(".icon.logo").removeClass('back');
+	$(".icon.tv").removeClass('share');
+
 	
 	$('#datacontent').attr('class','page transition right');
 		
@@ -290,7 +300,7 @@ function initBasicApp(){
 
 
 			
-		 	$('#scrollerpage').width(viewport.width*(arrCategory.length-1));
+		 	$('#scrollerpage').width(viewport.width*(arrCategory.length));
 			$('#scrollerpage').height(viewport.height);					
 			
 		 	$('.pages').width(viewport.width);
@@ -306,13 +316,19 @@ function initBasicApp(){
 			
 		 
 			myScrollPage = new iScroll('spage',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
-				onScrollEnd:function () {
-															
+				
+				onScrollMove: function(e){										
+					$('#header-title').html(arrCategory[parseInt(this.currPageX + this.dirX)].title);						
+				}, onScrollEnd:function () {
+										
 					if (this.currPageX!=this.lastPageX) {
+						
+						
 						
 						if (typeof window[arrPage[this.lastPageX]] != 'undefined') {
    							window[arrPage[this.lastPageX]].scrollTo(0,0,0);
 						}
+	
 						$('#'+arrCategory[this.currPageX].classId).removeClass('hidden');			
 						var upcomingback, upcomingnext;
 						
@@ -320,13 +336,13 @@ function initBasicApp(){
 						upcomingnext = parseInt(this.currPageX+2);
 																
 						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].classId).addClass('hidden');																		
-						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].classId).addClass('hidden');
+						if ((upcomingnext)<(arrCategory.length)) $('#'+arrCategory[upcomingnext].classId).addClass('hidden');
 						
 						upcomingback = parseInt(this.currPageX-1);									
 						upcomingnext = parseInt(this.currPageX+1);
 												
 						if ((upcomingback)>0) $('#'+arrCategory[upcomingback].classId).removeClass('hidden');													
-						if ((upcomingnext)<(arrCategory.length-1)) $('#'+arrCategory[upcomingnext].classId).removeClass('hidden');		
+						if ((upcomingnext)<(arrCategory.length)) $('#'+arrCategory[upcomingnext].classId).removeClass('hidden');		
 																															
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
 												
@@ -337,8 +353,8 @@ function initBasicApp(){
 					}
 					
 					this.lastPageX=this.currPageX;
-								
 					
+
 				}
 			});
 
@@ -350,40 +366,43 @@ function initBasicApp(){
 			});
 
 			
-			$(document).on('touchstart','#flag', function() {
-				myScrollMenu.scrollTo(0,0,0);							
-				if ($('#top').hasClass('closed')) {
-					$('#screen-block').removeClass('hidden');
-					$('#top').removeClass('closed');
-				} else {
-					$('#screen-block').addClass('hidden');					
-					$('#top').addClass('closed');
-				} 															
+			$(document).on('touchstart','.logo:not(.back)', function() {
+								
+				myScrollMenu.scrollTo(0,0,0);
+				if ($('#menu').hasClass('right')) $('#menu').attr('class','page transition left');	
+				else $('#menu').attr('class','page transition right');
 			});
 			
+			
+			
+			$(document).on('touchend','.tv:not(.share)', function() {
+				window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
+			});
 
 			$(document).on('touchstart','.menu', function() {
 				press=false;
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
-    				if (arrCategory[$(this).data('position')].classId == 'live_tv') {    					    					
-    					window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
-    				} else {
-	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
-	    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
-						gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
-	
-	    				$('#screen-block').addClass('hidden');
-		    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);	    			 	
-						$('#datacontent').attr('class','page right');
-						$('#datatrending').attr('class','page right');
-						$('#top').addClass('closed');
-						if (typeof myScrollDatacontentHorizontal != 'undefined') {
-							myScrollDatacontentHorizontal = null;
-						}	
-    				}
     				
+    				
+    				$('#header-title').html(arrCategory[$(this).data('position')].title);
+    				
+    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
+    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+    				
+	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);
+	    			
+	    			$('#menu').attr('class','page transition left');	    				    			 	
+					$('#datacontent').attr('class','page right');
+					$('#datatrending').attr('class','page right');
+					
+
+					if (typeof myScrollDatacontentHorizontal != 'undefined') {
+						myScrollDatacontentHorizontal = null;
+					}	
+				
 
     			}   								
     		});
@@ -393,6 +412,12 @@ function initBasicApp(){
 				press=false;	
     		}).on('touchend','li[data-content="headline"]', function() {				
     			if (press) {
+    				
+    				
+
+					$(".icon.logo").addClass('back');	
+    				$(".icon.tv").addClass('share');
+    				
     				
     				newsDatacontent = $(this).data('id');
     				goToNewsPage();
@@ -735,12 +760,26 @@ function initBasicApp(){
 							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {								
 								
 								$.li='<li data-view="trending" >';
-									$.li+='<div style="background-color: #034985; vertical-align:middle; color:#ffffff; padding:5px; font-weight:bold; font-size:1.4em; width:50%; height:auto; ">Tendencias</div>';
-									var t=1;								
+								
+								
+									$.li+='<div style="position:relative; background-color: #ffffff; display:block; float: left;  width:30%; height:auto; padding: 0 2px;">';
+									
+									$.li+='<div style="background-color: #034985; padding:2px;">';	
+									$.li+='<p style="color:#ffffff; text-align: center; font-weight:bold;">';
+									$.li+='<span style="font-size:small;">TENDENCIAS</span> <br /> <span style="font-size:large;">DE HOY</span>';
+									$.li+='</p>';
+									$.li+='</div>';
+									
+									$.li+='</div>';									
+									$.li+='<div style="margin-left:30%; width:70%; height:auto;">';																									
 									arrTrendingTopics.forEach(function(trending){																		
-										$.li+='<h'+t+' class="trending" data-content="trending" data-id="'+trending.categoria+'" style="display:inline; margin:0 2px; color:#999999;">#'+trending.titulo+'</h'+t+'>';
-										t++;	
-									});
+										$.li+='<h4 class="trending" data-content="trending" data-id="'+trending.categoria+'" style="display:inline; margin:0 2px; color:#999999;">#'+$.trim(trending.titulo)+'</h4>';									
+									});									
+									$.li+='</div>';
+									
+									
+
+									
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
@@ -758,7 +797,12 @@ function initBasicApp(){
 								if ($.news.quicklook.length >= 1) {
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
 								}
-																
+								
+								$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';
+								//$.li+='<span style="padding-left:4px; font-size:large;"><img src="img/icon/flecha.png" style="width:10px; height:auto;"></span>';
+								$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
+								$.li+='</div>';
+																								
 								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';
 								
 								$.li+='</li>';
@@ -877,7 +921,7 @@ function initBasicApp(){
 						
 
 						$.li+='<div	style="margin:0 10px;">';
-						$.li+='<p style="text-align:right;">'+$.news.date+'</p>';
+						$.li+='<p style="text-align:left;">'+$.news.date+'</p>';
 						$.li+='<h2>'+$.news.headline+'</h2>';	
 						$.li+='<p>'+$.news.datacontent+'</p>';	
 						$.li+='</div>';	
@@ -1153,6 +1197,9 @@ function initBasicApp(){
 			
 			//MM/dd/yyyy hh:mm:ss t.t. or M/d/yyyy h:m:s t.t. or just the month/day/year
 			$.formatDateString = function(ds) {
+				
+				return ds;
+				
 				var dateString = ""+ds;
 				var parts = dateString.split(" ");
 				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -1231,7 +1278,7 @@ function successGetCategories(results){
 		if(len > 0){
 			//agregamos la señal en vivo
 			//console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
-			results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
+			//results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
 			arrCategory = results.slice(0);
 			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
@@ -1360,9 +1407,10 @@ var app = {
 
     	document.addEventListener('backbutton', function checkConnection() {
 
-    		$(function() {    			  
-    			if(!$('#top').hasClass('closed')){
-    				$('#top').addClass('closed');    				
+    		$(function() {
+    			    			  
+    			if($('#menu').hasClass('right')){
+					$('#menu').attr('class','page transition left');	    				    				
 				}else if ($('#datacontent').hasClass('left')){
 					$('#datacontent').attr('class','page transition right');
 				}else if ($('#datatrending').hasClass('left')){
