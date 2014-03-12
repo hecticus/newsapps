@@ -6,7 +6,10 @@ import models.news.Category;
 import models.news.News;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+import play.libs.Json;
 import play.mvc.Result;
+import utils.Utils;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -132,6 +135,7 @@ public class NewsController extends HecticusController {
             News toUpdate = new News();
             toUpdate.setIdCategory(idNews);
             toUpdate.setGenerated(true);
+            toUpdate.setGenerationTime(Utils.currentTimeStampToDate(Utils.APP_TIMEZONE)); //guardamos el dia de generacion para poder comparar
             toUpdate.save();
         }catch (Exception ex){
             return  badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.getMessage()));
@@ -140,11 +144,47 @@ public class NewsController extends HecticusController {
     }
 
     public static Result getNewsToGenerate(){
+        //obtenemos las categorias a las que se les puede hacer push y estan activas
+        List<Category> allCategories = Category.getActivePushableCategories(1);
+
         return badRequest("not implemented");
     }
 
-    public static Result getNewsCount(){
-        return badRequest("not implemented");
+    public static Result getNewsGeneratedCount(){
+        try{
+            //obtenermos el dia actual
+            long currentDay = Utils.currentTimeStampToDate(Utils.APP_TIMEZONE);
+            //obtenemos las categorias a las que se les puede hacer push y estan activas
+            List<Category> allCategories = Category.getActivePushableCategories(1);
+            int count = 0;
+            //obtenemos todas las noticias que pertenecen a estas categorias y que tienen el dia actual
+            /*for (int i = 0; i < allCategories.size(); i++){
+                List<News> fullList = News.getNewsByCategoryAndGenerationDate(allCategories.get(i).getIdCategory(), currentDay);
+                count += fullList.size();
+            }*/
+            //obtenemos todas las noticias que pertenecen a estas categorias y que tienen el dia actual
+            ArrayList categoriesIds = new ArrayList();
+            for (int i = 0; i < allCategories.size(); i++){
+                categoriesIds.add(allCategories.get(i).getIdCategory());
+            }
+            List<News> fullList = News.getNewsByCategoriesAndGenerationDate(categoriesIds, currentDay);
+            count = fullList.size();
+
+            //build response
+            ObjectNode response;
+            ArrayList data = new ArrayList();
+            //count
+            ObjectNode countObj = Json.newObject();
+            countObj.put("newsGenerated", count);
+            data.add(countObj);
+            response = hecticusResponse(0, "ok", "news", data);
+
+            return ok(response);
+
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+        //return badRequest("not implemented");
     }
 
 

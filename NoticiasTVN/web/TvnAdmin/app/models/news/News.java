@@ -37,6 +37,7 @@ public class News extends HecticusModel{
     private String crc;
     private String insertedTime;
     private boolean generated;
+    private long generationTime; //tiempo que se usa para saber cuando se genero el push de la noticia. Formato: YYYYMMDD
 
     //videos
     private  String categoryName;
@@ -72,6 +73,8 @@ public class News extends HecticusModel{
         videoTime = "";
         //trending
         idTrending = "";
+        //0 nunca se ha generado
+        generationTime = 0;
     }
 
 
@@ -243,6 +246,10 @@ public class News extends HecticusModel{
         this.idTrending = idTrending;
     }
 
+    public long getGenerationTime() { return generationTime; }
+
+    public void setGenerationTime(long generationTime) { this.generationTime = generationTime; }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
@@ -267,6 +274,7 @@ public class News extends HecticusModel{
         tr.put("categoryName",categoryName);
         tr.put("videoTime",videoTime);
         tr.put("idTrending", idTrending);
+        tr.put("generationTime", generationTime);
 
         return tr;
     }
@@ -286,6 +294,14 @@ public class News extends HecticusModel{
     public static List<News> getNewsListById(ArrayList ids){
         //get news by ids, return existing
         return finder.all();
+    }
+
+    public static List<News> getNewsByCategoryAndGenerationDate(long idCategory, long generationDate){
+        return finder.where().eq("id_category", idCategory).eq("generationTime", generationDate).findList();
+    }
+
+    public static List<News> getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
+        return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findList();
     }
 
     public static void insertBatch(ArrayList<News> list){
