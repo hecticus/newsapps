@@ -168,7 +168,7 @@ var arrCategory=[{i:0,status:false,classId:'latestnews',id:'latestnews',title:'H
 
 function fBack() {
 	
-	arrCategory
+	//arrCategory
 	
 	$("#header-title").html(arrCategory[0].title);
 	
@@ -772,8 +772,13 @@ function initBasicApp(){
 									
 									$.li+='</div>';									
 									$.li+='<div style="margin-left:30%; width:70%; height:auto;">';																									
-									arrTrendingTopics.forEach(function(trending){																		
-										$.li+='<h4 class="trending" data-content="trending" data-id="'+trending.categoria+'" style="display:inline; margin:0 2px; color:#999999;">#'+$.trim(trending.titulo)+'</h4>';									
+									arrTrendingTopics.forEach(function(trending){		
+										if(trending.isEmpty == true){
+											
+										}else{
+											$.li+='<h4 class="trending" data-content="trending" data-id="'+trending.categoria+'" style="display:inline; margin:0 2px; color:#999999;">#'+$.trim(trending.titulo)+'</h4>';
+										}
+																			
 									});									
 									$.li+='</div>';
 									
@@ -1280,7 +1285,7 @@ function successGetCategories(results){
 			//console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
 			//results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
 			arrCategory = results.slice(0);
-			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
+			console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();
 		}else{
@@ -1365,16 +1370,17 @@ function errorGetTrendingNews(){
 
 //Para borrar los trending topics que no tengan trending news
 function cleanTrendingTopics(){
+	//console.log("cleanTrendingTopics");
 	var arrayToDelete = new Array();
 	for(var i=0; i<arrTrendingTopics.length; i++){
 		var array = getTrendingNewsByCategory(arrTrendingTopics[i].categoria);
 		if(array.length == 0){
 			//delete category
 			//arrayToDelete.push(arrTrendingTopics[i].categoria);
-			arrTrendingTopics[i].empty = true;
+			arrTrendingTopics[i].isEmpty = true;
 		}
 	}
-	
+	successCleanUnusedTrending();
 	//delete all categories that dont have size
 	/*if(arrayToDelete.length>0){
 		removeUnusedTrendingIndex(arrayToDelete,successCleanUnusedTrending,errorCleanUnusedTrending);
@@ -1408,7 +1414,7 @@ function getTrendingNewsByCategory(category){
 //end de funciones de inicializacion de categorias y trendings
 
 function endOfAppInitialization(){
-	
+	console.log("endOfAppInitialization");
 	initBasicApp();
 	
 	clearPageStatus();
