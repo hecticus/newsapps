@@ -653,6 +653,10 @@ function initBasicApp(){
 				arrCategory[myScrollPage.currPageX].status=false;	
 				$('.status').append('<li>No hay conexion</li>');
 			}
+			
+			function noConnectionForNewsInit(err){
+				//aqui se tiene que pintar la pantalla de error que ocurre cuando no hay conexion ni hay nada en la BD para desplegar
+			}
 		  
 		  
 			$.fsetNews = function(itemArray) {
@@ -1309,18 +1313,18 @@ function successGetCategories(results){
 			getTrendingIndexesForApp();
 		}else{
 			console.log("Error CATEGORIES");
-			noConnectionForNews();
+			noConnectionForNewsInit();
 		}
 	}else{
 		console.log("Error CATEGORIES 2");
-		noConnectionForNews();
+		noConnectionForNewsInit();
 	}
 	//endOfAppInitialization();
 }
 
 function errorGetCategories(){
 	console.log("Error CATEGORIES real");
-	noConnectionForNews();
+	noConnectionForNewsInit();
 	//endOfAppInitialization();
 }
 
@@ -1342,17 +1346,17 @@ function successGetTrendingIndexes(results){
 			//endOfAppInitialization();
 		}else{
 			console.log("Error TrendingIndexes");
-			noConnectionForNews();
+			noConnectionForNewsInit();
 		}
 	}else{
 		console.log("Error TrendingIndexes 2");
-		noConnectionForNews();
+		noConnectionForNewsInit();
 	}
 }
 
 function errorGetTrendingIndexes(){
 	console.log("Error TrendingIndexes real");
-	noConnectionForNews();
+	noConnectionForNewsInit();
 }
 
 //trending news
@@ -1373,17 +1377,17 @@ function successGetTrendingNews(results){
 			cleanTrendingTopics();
 		}else{
 			console.log("Error TrendingNews");
-			noConnectionForNews();
+			noConnectionForNewsInit();
 		}
 	}else{
 		console.log("Error TrendingNews 2");
-		noConnectionForNews();
+		noConnectionForNewsInit();
 	}
 }
 
 function errorGetTrendingNews(){
 	console.log("Error TrendingNews real");
-	noConnectionForNews();
+	noConnectionForNewsInit();
 	//endOfAppInitialization();
 }
 
