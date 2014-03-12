@@ -22,7 +22,7 @@ var arrTrendingNews;
 
 
 var trendingview = false;
-
+var Copyright= 'Copyright © Televisora Nacional S.A. 2013';
 var currentTime = new Date();
 var day = currentTime.getDate();
 var month = (currentTime.getMonth()+1);
@@ -170,7 +170,7 @@ var slidesPages=['pCenter','pRight','pLeft'];
 function fBack() {
 	
 
-	if (!trendingview) $("#header-title").html(arrCategory[0].title);
+	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
 	
 
 	$("#header-title").removeClass('back');
@@ -430,7 +430,7 @@ function initBasicApp(){
     			$(this).css('color','#999999');				
     			if (press) {    				
     				trendingview=true;
-    				$("#header-title").html($(this).html());
+    				$("#header-title").html(fTextoCortado($(this).html()));
     				myScrollTrending.scrollTo(0,0,0);	    				
     				$.fsetTrendings($(this).data('id'));
     				$('#datatrending').attr('class','page transition left');
@@ -944,11 +944,14 @@ function initBasicApp(){
 							}
 						
 
-						$.li+='<div	style="margin:0 10px;">';
+						$.li+='<div	class="datacontent">';
 						$.li+='<p style="text-align:left;">'+$.news.date+'</p>';
 						$.li+='<h2>'+$.news.headline+'</h2>';	
 						$.li+='<p>'+$.news.datacontent+'</p>';	
 						$.li+='</div>';	
+						
+						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</div>';        		
+						        		
 						        																						
 						$.li+='</li>';
 						
@@ -1144,12 +1147,12 @@ function initBasicApp(){
 						}
 						
 						
-						
-						$.li+='<div	style="margin:0 10px;">';
+						$.li+='<div	class="datacontent">';					
 						$.li+='<p style="text-align:left;">'+$.news.date+'</p>';
 						$.li+='<h2>'+$.news.headline+'</h2>';	
 						$.li+='<p>'+$.news.datacontent+'</p>';	
 						$.li+='</div>';	
+						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</h5></div>';      
 						$.li+='</li>';
 																
 						$('#datacontents').append($.li);
@@ -1159,33 +1162,6 @@ function initBasicApp(){
 				});				
 
     		};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1226,8 +1202,8 @@ function initBasicApp(){
 			
 			//MM/dd/yyyy hh:mm:ss t.t. or M/d/yyyy h:m:s t.t. or just the month/day/year
 			$.formatDateString = function(ds,full) {
-				
-								
+
+											
 				var dateString = ""+ds;
 				var parts = dateString.split(" ");
 				var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
@@ -1237,12 +1213,14 @@ function initBasicApp(){
 					
 					var HMS = parts[1].split(":");
 					var meridian = parts[2];
-
+					var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian;
 
 					if (full) {						
-						var dateStringFinal = ""+months[monthIndex-1]+' '+MDY[1]+', '+MDY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;											
-					} else {
-						var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian;	
+						dateStringFinal = ""+months[monthIndex-1]+' '+MDY[1]+', '+MDY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;									
+					} else {						
+						if ((parseInt(MDY[2])<parseInt(year)) || (parseInt(MDY[0])<parseInt(month)) || (parseInt(MDY[1])<parseInt(day))) {
+							dateStringFinal = ""+months[monthIndex-1]+' '+MDY[1]+', '+MDY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;
+						}	
 					}
 					
 
@@ -1515,6 +1493,23 @@ function exitApp(){
         navigator.device.exitApp();				            				          
     }
 }
+
+
+function fTextoCortado(texto){
+	
+	var longitud=20; 
+	if(texto.length > longitud){ 
+		
+		
+    	texto=texto.substring(0,longitud);
+    	
+    	indiceUltimoEspacio= texto.lastIndexOf(' ');
+    	texto=texto.substring(0,indiceUltimoEspacio) +' ...';
+	};
+	
+	return texto;  
+};
+
 
 
 
