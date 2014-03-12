@@ -656,8 +656,20 @@ function initBasicApp(){
 			
 			function noConnectionForNewsInit(err){
 				//aqui se tiene que pintar la pantalla de error que ocurre cuando no hay conexion ni hay nada en la BD para desplegar
-			}
+				$('.icon.tv, #header-title').addClass('hidden');
+				$('body').addClass('no-connection');																
+				$('#screen-block').removeClass('hidden');
+				$('#screen-block').append('<h1 style="color:#ffffff;">Sin conexión de red.</h1>');
+				$('#screen-block').append('<h2 style="color:#ffffff;">No se encontró señal  para redes móviles.</h2>');
+				$('#screen-block').append('<h3 style="color:#ffffff;">Presione la pantalla para salir.</h3>');
+				
+			};
 		  
+			$(document).on('touchend','.no-connection', function(e) {				
+				press=false;
+				exitApp();
+    		});
+
 		  
 			$.fsetNews = function(itemArray) {
 						isLoaded = true;
