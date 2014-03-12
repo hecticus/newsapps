@@ -382,7 +382,7 @@ function initBasicApp(){
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
-    				
+    				trendingview=false;
     				
     				$('#header-title').html(arrCategory[$(this).data('position')].title);
     				
@@ -1079,7 +1079,7 @@ function initBasicApp(){
 
 						$.news={id:trending.idnews,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=trending.titulo;
-						$.news.date=$.formatDateString(formatdate,full);
+						$.news.date=$.formatDateString(formatdate,true);
 						
 						$.news.thumbnail.push({src:trending.imagen,width:864,height:486});
 						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
