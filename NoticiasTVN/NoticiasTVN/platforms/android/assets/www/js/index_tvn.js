@@ -1448,6 +1448,16 @@ function endOfAppInitialization(){
 	myScrollPage.options.snapThreshold = window.innerWidth*0.15;
 }
 
+function exitApp(){
+	if (navigator.app) {
+		gaPlugin.exit(successGAHandler, successGAHandler);						
+        navigator.app.exitApp();				            
+    } else if (navigator.device) {
+    	gaPlugin.exit(successGAHandler, successGAHandler);				        	
+        navigator.device.exitApp();				            				          
+    }
+}
+
 
 
 var app = {
@@ -1480,13 +1490,7 @@ var app = {
 				}else {
 					if(myScrollPage.currPageX == 0){
 						
-						if (navigator.app) {
-							gaPlugin.exit(successGAHandler, successGAHandler);						
-				            navigator.app.exitApp();				            
-				        } else if (navigator.device) {
-				        	gaPlugin.exit(successGAHandler, successGAHandler);				        	
-				            navigator.device.exitApp();				            				          
-				        }
+						exitApp();
 
 					}else{
 						if(myScrollPage.enabled) {
