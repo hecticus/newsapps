@@ -1,5 +1,6 @@
 package utils;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -115,5 +116,10 @@ public class Utils {
 
 
         return fechaInicio.toString();
+    }
+
+    public static String createMd5(String message){
+        String tr = DigestUtils.md5Hex(message);
+        return tr;
     }
 }
