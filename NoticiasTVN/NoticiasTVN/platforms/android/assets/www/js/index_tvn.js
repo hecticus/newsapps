@@ -1291,6 +1291,11 @@ function initBasicApp(){
 		setInterval(function(){			
 			clearPageStatus();			 		
 		}, 300000);
+		
+		//refresh de los trending
+		setInterval(function(){			
+			refreshTrendingIndexesForApp();			 		
+		}, 300000);
 
 
 function clearPageStatus(){
@@ -1386,7 +1391,7 @@ function successGetTrendingNews(results){
 			//console.log("TRENDINGNEWS: "+JSON.stringify(results));
 			arrTrendingNews = results.slice(0);
 			//endOfAppInitialization();
-			cleanTrendingTopics();
+			cleanTrendingTopics(true);
 		}else{
 			console.log("Error TrendingNews");
 			noConnectionForNewsInit();
@@ -1404,7 +1409,7 @@ function errorGetTrendingNews(){
 }
 
 //Para borrar los trending topics que no tengan trending news
-function cleanTrendingTopics(){
+function cleanTrendingTopics(isInit){
 	//console.log("cleanTrendingTopics");
 	var arrayToDelete = new Array();
 	for(var i=0; i<arrTrendingTopics.length; i++){
@@ -1415,7 +1420,10 @@ function cleanTrendingTopics(){
 			arrTrendingTopics[i].isEmpty = true;
 		}
 	}
-	successCleanUnusedTrending();
+	if(isInit){
+		successCleanUnusedTrending();
+	}
+	
 	//delete all categories that dont have size
 	/*if(arrayToDelete.length>0){
 		removeUnusedTrendingIndex(arrayToDelete,successCleanUnusedTrending,errorCleanUnusedTrending);
@@ -1431,6 +1439,44 @@ function successCleanUnusedTrending(){
 function errorCleanUnusedTrending(){
 	console.log("error!!!!");
 }
+
+//REFRESH ARRAYS
+function refreshTrendingIndexesForApp(){
+	var managerIndex = new TrendingIndexManager();
+	managerIndex.getTrendingIndexes(successRefreshTrendingIndexes,errorRefresh);
+}
+
+function successRefreshTrendingIndexes(results){
+	//console.log("successRefreshTrendingIndexes");
+	if(results != null){
+		var len = results.length;
+		if(len > 0){
+			arrTrendingTopics = results.slice(0);
+			refreshTrendingNewsForApp();
+		}
+	}
+}
+
+function refreshTrendingNewsForApp(){
+	var managerNews = new TrendingManager();
+	managerNews.getTrendings(successRefreshTrendingNews,errorRefresh);
+}
+
+function successRefreshTrendingNews(results){
+	//console.log("successGetTrendingNews");
+	if(results != null){
+		var len = results.length;
+		if(len > 0){
+			arrTrendingNews = results.slice(0);
+			cleanTrendingTopics(false);
+		}
+	}
+}
+
+function errorRefresh(){
+	console.log("errorRefresh");
+}
+//END REFRESH ARRAYS
 
 
 //Obtiene todas las noticias trending de la categoria actual
