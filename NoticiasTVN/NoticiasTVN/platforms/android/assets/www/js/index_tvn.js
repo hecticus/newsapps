@@ -21,7 +21,7 @@ var arrTrendingTopics;
 var arrTrendingNews;
 
 
-
+var trendingview = false;
 
 var currentTime = new Date();
 var day = currentTime.getDate();
@@ -170,8 +170,7 @@ var slidesPages=['pCenter','pRight','pLeft'];
 function fBack() {
 	
 
-	
-	$("#header-title").html(arrCategory[0].title);
+	if (!trendingview) $("#header-title").html(arrCategory[0].title);
 	
 
 	$("#header-title").removeClass('back');
@@ -430,6 +429,7 @@ function initBasicApp(){
     		}).on('touchend','.trending[data-content="trending"]', function() {
     			$(this).css('color','#999999');				
     			if (press) {    				
+    				trendingview=true;
     				$("#header-title").html($(this).html());
     				myScrollTrending.scrollTo(0,0,0);	    				
     				$.fsetTrendings($(this).data('id'));
@@ -1079,7 +1079,7 @@ function initBasicApp(){
 
 						$.news={id:trending.idnews,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=trending.titulo;
-						$.news.date=$.formatDateString(formatdate);
+						$.news.date=$.formatDateString(formatdate,full);
 						
 						$.news.thumbnail.push({src:trending.imagen,width:864,height:486});
 						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
@@ -1130,7 +1130,7 @@ function initBasicApp(){
 						
 						
 						$.li+='<div	style="margin:0 10px;">';
-						$.li+='<p style="text-align:right;">'+$.news.date+'</p>';
+						$.li+='<p style="text-align:left;">'+$.news.date+'</p>';
 						$.li+='<h2>'+$.news.headline+'</h2>';	
 						$.li+='<p>'+$.news.datacontent+'</p>';	
 						$.li+='</div>';	
@@ -1471,6 +1471,7 @@ var app = {
 				}else if ($('#datacontent').hasClass('left')){
 					$('#datacontent').attr('class','page transition right');
 				}else if ($('#datatrending').hasClass('left')){
+					trendingview = false;
 					$('#datatrending').attr('class','page transition right');																			
 				}else {
 					if(myScrollPage.currPageX == 0){
