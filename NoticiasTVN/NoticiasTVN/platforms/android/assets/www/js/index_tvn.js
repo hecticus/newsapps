@@ -1265,6 +1265,7 @@ function successGetTrendingIndexes(results){
 		var len = results.length;
 		//console.log("RESULT len: "+len);
 		if(len > 0){
+			//console.log("TRENDINGTOPICS: "+JSON.stringify(results));
 			arrTrendingTopics = results.slice(0);
 			getTrendingNewsForApp();
 			//endOfAppInitialization();
@@ -1295,8 +1296,10 @@ function successGetTrendingNews(results){
 		var len = results.length;
 		//console.log("RESULT len: "+len);
 		if(len > 0){
+			//console.log("TRENDINGNEWS: "+JSON.stringify(results));
 			arrTrendingNews = results.slice(0);
-			endOfAppInitialization();
+			//endOfAppInitialization();
+			cleanTrendingTopics();
 		}else{
 			console.log("Error TrendingNews");
 			noConnectionForNews();
@@ -1313,13 +1316,43 @@ function errorGetTrendingNews(){
 	//endOfAppInitialization();
 }
 
+//Para borrar los trending topics que no tengan trending news
+function cleanTrendingTopics(){
+	var arrayToDelete = new Array();
+	for(var i=0; i<arrTrendingTopics.length; i++){
+		var array = getTrendingNewsByCategory(arrTrendingTopics[i].categoria);
+		if(array.length == 0){
+			//delete category
+			//arrayToDelete.push(arrTrendingTopics[i].categoria);
+			arrTrendingTopics[i].empty = true;
+		}
+	}
+	
+	//delete all categories that dont have size
+	/*if(arrayToDelete.length>0){
+		removeUnusedTrendingIndex(arrayToDelete,successCleanUnusedTrending,errorCleanUnusedTrending);
+	}else{
+		successCleanUnusedTrending();
+	}*/
+}
+
+function successCleanUnusedTrending(){
+	endOfAppInitialization();
+}
+
+function errorCleanUnusedTrending(){
+	console.log("error!!!!");
+}
+
 
 //Obtiene todas las noticias trending de la categoria actual
 function getTrendingNewsByCategory(category){
 	var result = [];
-	for(var i=0;i<arrTrendingTopics.length;i++){
-		if(arrTrendingTopics[i].categoria == category){
-			result.push(arrTrendingTopics[i]);
+	//console.log("category "+category);
+	for(var i=0;i<arrTrendingNews.length;i++){
+		//console.log("category2 "+arrTrendingNews[i].categoria);
+		if(arrTrendingNews[i].categoria == category){
+			result.push(arrTrendingNews[i]);
 		}
 	}
 	return result;
