@@ -35,7 +35,7 @@ var arrTimeM=['am','am','am','am','am','am','am','am','am','am','am','am','pm','
 var arrMonth=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 
-var arrMenuColor=['#ffffff','#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+var arrMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
 
 
 
@@ -47,7 +47,7 @@ var arrMenuColor=['#ffffff','#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8'
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
 var scrollPageDisable = false;
-var animated = false; 
+ 
 var newsDatacontent;
 
 //INIT FUNCTIONS
@@ -68,7 +68,9 @@ function setMenuCategories(){
 
 
 
-$('header ul li div').css('height',(viewport.height*7)/100 + 'px');
+$('#menu').css('top',parseInt(((viewport.height*7)/100)+5) + 'px');
+$('#datacontent, #datatrending').css('top',parseInt((viewport.height*7)/100) + 'px');
+$('header ul li div').css('height', parseInt((viewport.height*7)/100) + 'px');
 
 
 
@@ -160,19 +162,19 @@ var slidesPages=['pCenter','pRight','pLeft'];
   	{i:6,status:false,classId:'latestnews_deportes',id:'latestnews_deportes',title:'Deportes',bgcolor:'#0000EE',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_deportes-utf8.asp'},
   	{i:7,status:false,classId:'latestvideos',id:'latestvideos',title:'Videos',bgcolor:'#AAAAAA',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestvideos-utf8.asp'},
   	{i:8,status:false,classId:'latestnews_decision2014',id:'latestnews_decision2014',title:'Noticias Decisión 2014',bgcolor:'#BABCEE',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews_decision2014-utf8.asp'},
-  	{i:9,status:false,classId:'latestvideos_decision2014',id:'latestvideos_decision2014',title:'Videos Decisión 2014',bgcolor:'#CCCCCC',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestvideos_decision2014-utf8.asp'},
-  	{i:10,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'}
-  	];*/
+  	{i:9,status:false,classId:'latestvideos_decision2014',id:'latestvideos_decision2014',title:'Videos Decisión 2014',bgcolor:'#CCCCCC',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestvideos_decision2014-utf8.asp'}
+];*/
 
-var arrCategory=[{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'}];
+/*var arrCategory=[{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'}];*/
 
 function fBack() {
 	
-	arrCategory
+
 	
 	$("#header-title").html(arrCategory[0].title);
 	
 
+	$("#header-title").removeClass('back');
 	$(".icon.logo").removeClass('back');
 	$(".icon.tv").removeClass('share');
 
@@ -181,10 +183,7 @@ function fBack() {
 		
 	$('.back img').removeClass('content');	
 	
-	//if (animated) {
-		$('.back').removeClass('animated');
-		$('.back').removeClass('fadeInLeft');
-	//}					
+			
 	
 	$('.share').addClass('hidden');						
 	$('#flag').removeClass('hidden');
@@ -414,7 +413,7 @@ function initBasicApp(){
     			if (press) {
     				
     				
-
+					$("#header-title").addClass('back');
 					$(".icon.logo").addClass('back');	
     				$(".icon.tv").addClass('share');
     				
@@ -430,7 +429,8 @@ function initBasicApp(){
 				$(this).css('color','#034985');	
     		}).on('touchend','.trending[data-content="trending"]', function() {
     			$(this).css('color','#999999');				
-    			if (press) {
+    			if (press) {    				
+    				$("#header-title").html($(this).html());
     				myScrollTrending.scrollTo(0,0,0);	    				
     				$.fsetTrendings($(this).data('id'));
     				$('#datatrending').attr('class','page transition left');
@@ -452,7 +452,7 @@ function initBasicApp(){
 					$('.back img').addClass('content');
 					$('.back img, .share').removeClass('hidden');
 					    				
-					$('.back').addClass('animated fadeInLeft');     				
+					  				
 					myScrollDatacontent.scrollTo(0,0,0);
 							
 					$($(this).data('news')).show();								
@@ -467,14 +467,15 @@ function initBasicApp(){
 }								
 			
 			function goToNewsPage(){
+				console.log('POR AQUI TODO BIEN goToNewsPage');
 				var manager = new NewsManager();
 				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
 				
 				$('.news-datacontent').hide();	
 				$('.back img').addClass('content');
 				$('.back img, .share').removeClass('hidden');
-				//if (animated) $('.back').addClass('animated fadeInLeft');    				
-				$('.back').addClass('animated fadeInLeft');     				
+ 				
+  				
 				myScrollDatacontent.scrollTo(0,0,0);
 							
 				$($(this).data('news')).show();
@@ -531,6 +532,9 @@ function initBasicApp(){
 						arrCategory[myScrollPage.currPageX].status=true;
 						myScrollPage.enable();						
 					}).fail(function(xhr, status, error) {
+						
+						
+						
 						/*arrCategory[myScrollPage.currPageX] .status=false;
 						$('.status').append('<li>No hay conexiÃ³n</li>');
 						console.log("fGetAjaX ERROR: "+xhr.responseText+" / "+error+" / "+status);*/
@@ -798,8 +802,7 @@ function initBasicApp(){
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
 								}
 								
-								$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';
-								//$.li+='<span style="padding-left:4px; font-size:large;"><img src="img/icon/flecha.png" style="width:10px; height:auto;"></span>';
+								$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';								
 								$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
 								$.li+='</div>';
 																								
@@ -847,7 +850,7 @@ function initBasicApp(){
 						//Share button onclick
 						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
 
-						$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
+						$.news.date=$.formatDateString(itemArray[i]["pubdate"],true);
 														
 						var dataContent;
 						dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
@@ -1039,6 +1042,11 @@ function initBasicApp(){
 							if ($.news.quicklook.length >= 1) {
 								$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
 							}
+									
+							$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';								
+							$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
+							$.li+='</div>';
+									
 																										
 							$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';							
 							$.li+='</li>';
@@ -1196,13 +1204,12 @@ function initBasicApp(){
 			};
 			
 			//MM/dd/yyyy hh:mm:ss t.t. or M/d/yyyy h:m:s t.t. or just the month/day/year
-			$.formatDateString = function(ds) {
+			$.formatDateString = function(ds,full) {
 				
-				return ds;
-				
+								
 				var dateString = ""+ds;
 				var parts = dateString.split(" ");
-				var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+				var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 				var MDY = parts[0].split("/");
 				var monthIndex = parseInt(MDY[0]);
 				if(parts.length > 1){
@@ -1210,7 +1217,15 @@ function initBasicApp(){
 					var HMS = parts[1].split(":");
 					var meridian = parts[2];
 
-					var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian+', '+months[monthIndex-1]+', '+MDY[1];
+
+					if (full) {						
+						var dateStringFinal = ""+months[monthIndex-1]+' '+MDY[1]+', '+MDY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;											
+					} else {
+						var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian;	
+					}
+					
+
+					
 
 					return dateStringFinal;
 				}else{
@@ -1219,7 +1234,11 @@ function initBasicApp(){
 					return dateStringFinal;
 				}
 				
+				
+				
 			};
+
+			
 
 
 			//PUSH FUNCTIONS
@@ -1392,8 +1411,7 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
-    	
-    	if (device.version > 4.1) animated = true;
+  
     	
    		//Google Analytics
 		initGA();
