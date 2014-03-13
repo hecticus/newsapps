@@ -40,6 +40,7 @@ public class News extends HecticusModel{
     private String insertedTime;
     private boolean generated;
     private long generationTime; //tiempo que se usa para saber cuando se genero el push de la noticia. Formato: YYYYMMDD
+    private String pubDateFormated; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
 
     //videos
     private  String categoryName;
@@ -64,6 +65,7 @@ public class News extends HecticusModel{
 
         if (data.has("pubDate")) {
             pubDate = data.get("pubDate").asText();
+            pubDateFormated = Utils.formatDateStringForSorting(pubDate);
         } else {
             throw new NewsException("pubdate faltante");
         }
@@ -337,6 +339,7 @@ public class News extends HecticusModel{
         tr.put("videoTime",videoTime);
         tr.put("idTrending", idTrending);
         tr.put("generationTime", generationTime);
+        tr.put("pubDateFormated", pubDateFormated);
 
         return tr;
     }
@@ -364,6 +367,10 @@ public class News extends HecticusModel{
 
     public static List<News> getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
         return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findList();
+    }
+
+    public static List<News> getNewsByDateAndNotPushed(long idCategory){
+        return finder.where().eq("id_category", idCategory).eq("generationTime", 0).orderBy("pubDateFormated").findList();
     }
 
     public static void insertBatch(ArrayList<News> list){

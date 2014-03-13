@@ -146,8 +146,24 @@ public class NewsController extends HecticusController {
     public static Result getNewsToGenerate(){
         //obtenemos las categorias a las que se les puede hacer push y estan activas
         List<Category> allCategories = Category.getActivePushableCategories(1);
+        for (int i = 0; i < allCategories.size(); i++){
+            List<News> pushableNews = News.getNewsByDateAndNotPushed(allCategories.get(i).getIdCategory());
+            if(pushableNews != null && pushableNews.size() > 0){
+                //build response
+                ObjectNode response;
+                ArrayList data = new ArrayList();
+                data.add(pushableNews.get(0));
+                response = hecticusResponse(0, "ok", "pushNews", data);
 
-        return badRequest("not implemented");
+                return ok(response);
+            }
+        }
+        //build empty response no news to push
+        ObjectNode response;
+        ArrayList data = new ArrayList();
+        response = hecticusResponse(0, "ok", "pushNews", data);
+
+        return ok(response);
     }
 
     public static Result getNewsGeneratedCount(){
@@ -177,7 +193,7 @@ public class NewsController extends HecticusController {
             ObjectNode countObj = Json.newObject();
             countObj.put("newsGenerated", count);
             data.add(countObj);
-            response = hecticusResponse(0, "ok", "news", data);
+            response = hecticusResponseSimple(0, "ok", "newsGenerated", new Integer(count));
 
             return ok(response);
 
