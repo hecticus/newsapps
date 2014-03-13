@@ -112,10 +112,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
+		int soundDefaults = Notification.DEFAULT_ALL;
+		if(extras.get("sound")!=null){
+			soundDefaults = Notification.DEFAULT_VIBRATE;
+		}
+		
 		//.setDefaults(Notification.DEFAULT_ALL)
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(context)
-				.setDefaults(Notification.DEFAULT_VIBRATE)
+				.setDefaults(soundDefaults)
 				.setSmallIcon(context.getApplicationInfo().icon)
 				.setWhen(System.currentTimeMillis())
 				.setContentTitle(extras.getString("title"))

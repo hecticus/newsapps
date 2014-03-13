@@ -182,6 +182,10 @@ public class Category extends HecticusModel{
         return finder.where().eq("status", status).findList();
     }
 
+    public static List<Category> getActivePushableCategories(int status){
+        return finder.where().eq("status", status).eq("pushable", true).findList();
+    }
+
     public static Category getCategoriesByName(String name){
         return finder.where().eq("name", name).findUnique();
     }

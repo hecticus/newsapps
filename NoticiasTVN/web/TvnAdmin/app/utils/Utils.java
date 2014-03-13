@@ -10,6 +10,8 @@ import java.util.TimeZone;
  */
 public class Utils {
 
+    public static final TimeZone APP_TIMEZONE = TimeZone.getTimeZone("America/Panama");
+
     /***
      * Funcion que devuelve el timestamp actual en formato YYYYMMDDHHMMSS
      * @param tz	timezone a consultar
@@ -47,6 +49,31 @@ public class Utils {
         }
         fechaInicio.append(auxSecond);
 
+
+        return Long.parseLong(fechaInicio.toString());
+    }
+
+    /***
+     * Funcion que devuelve el timestamp actual en formato YYYYMMDD sin las horas minutos ni segundos
+     * @param tz	timezone a consultar
+     * @return		fecha en formato YYYYMMDD
+     */
+    public static long currentTimeStampToDate(TimeZone tz) {
+
+        Calendar actualDate = new GregorianCalendar(tz);
+        int auxMonth = actualDate.get(Calendar.MONTH) + 1;
+        int auxDay = actualDate.get(Calendar.DAY_OF_MONTH);
+
+        StringBuffer fechaInicio = new StringBuffer(12);
+        fechaInicio.append(actualDate.get(Calendar.YEAR));
+        if (auxMonth < 10) {
+            fechaInicio.append("0");
+        }
+        fechaInicio.append(auxMonth);
+        if (auxDay < 10) {
+            fechaInicio.append("0");
+        }
+        fechaInicio.append(auxDay);
 
         return Long.parseLong(fechaInicio.toString());
     }

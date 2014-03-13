@@ -17,8 +17,8 @@
 		
 			body {position: fixed; width:100%; height:100%; overflow: hidden;}
 			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
-			#menu, #datacontent, #datatrending { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}				
-			#datacontent, #datatrending {top:40px;}
+			#menu, #datacontent, #datatrending { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
+			#menu, #datacontent, #datatrending {top:100px;}
 			
 			.scroller {position:absolute; z-index:1; -webkit-tap-highlight-color:rgba(0,0,0,0); width:100%; padding:0;}
 
@@ -64,11 +64,11 @@
 
 			
 			
-			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 4; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
+			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 4; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); text-align:center; vertical-align:middle; padding:5px; }
 		
 			.hidden {visibility:hidden;}
 			.news-datacontent {background-color:#ffffff;}
-			
+			.datacontent {margin:0 10px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: #9e9e9e;}
 			
 			
 			
@@ -99,7 +99,7 @@
 		
 		
 		
-		<div id="screen-block" class="hidden">&nbsp;</div>
+		<div id="screen-block" class="hidden" style="padding-top:50%;">&nbsp;</div>
 		
 		 
 		 
@@ -110,7 +110,7 @@
 			</div>
 		</div>	
 		
-		<div id="menu" class="page" style="z-index: 1; left:-100%;">							
+		<div id="menu" class="page" style="z-index: 2; left:-100%;">							
 			<div class="scroller">
 				<ul>
 					<li>

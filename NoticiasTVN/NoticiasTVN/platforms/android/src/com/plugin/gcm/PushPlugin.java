@@ -329,8 +329,8 @@ public class PushPlugin extends CordovaPlugin {
   	        Log.e(TAG, "Response registerDeviceOnServer: "+response.toString());
   	        try {
   	        	Log.v(TAG, "OBJETO JSON\n\n");
-	  	        JSONObject obj = new JSONObject(response.toString());
-	  	        Log.v(TAG, obj.toString()+"\n\n");
+	  	        //JSONObject obj = new JSONObject(response.toString());
+	  	        //Log.v(TAG, obj.toString()+"\n\n");
 	
 	  	        //si todo salio bien en el WS se guarda el nuevo registro
 	  	        int appVersion = getAppVersion(context);
