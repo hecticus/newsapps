@@ -47,7 +47,7 @@ public class NewsController extends HecticusController {
             if (hecticResponse){
                 response = hecticusResponse(0, "ok", "news", data);
             }else {
-                response = tvnResponse(data);
+                response = tvnResponse("noticias",data);
             }
             return ok(response);
 
@@ -74,7 +74,7 @@ public class NewsController extends HecticusController {
             if (hecticResponse){
                 response = hecticusResponse(0, "ok", "news", data);
             }else {
-                response = tvnResponse(data);
+                response = tvnResponse("noticias",data);
             }
             return ok(response);
 

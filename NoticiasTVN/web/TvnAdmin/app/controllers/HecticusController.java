@@ -72,11 +72,11 @@ public class HecticusController extends Controller {
         return tr;
     }
 
-    public static ObjectNode tvnResponse(ArrayList data){
+    public static ObjectNode tvnResponse(String parentObj, ArrayList data){
         ObjectNode tr = Json.newObject();
         ObjectNode innerObj = Json.newObject();
         innerObj.put("item", Json.toJson((data)));
-        tr.put("noticias",innerObj);
+        tr.put(parentObj,innerObj);
         return tr;
     }
 }

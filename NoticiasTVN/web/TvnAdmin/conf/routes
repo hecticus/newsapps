@@ -57,6 +57,10 @@ GET     /newsapi/v1/news/push/getone                    controllers.newsapi.News
 GET     /newsapi/v1/news/search/tvn/name/:categoryName      controllers.newsapi.NewsController.getByCategoryName(categoryName : String, hecticResponse : Boolean = false)
 GET     /newsapi/v1/news/search/tvn/id/:idCategory          controllers.newsapi.NewsController.getByIdCategory(idCategory:Long, hecticResponse : Boolean = false)
 
+#trending topics
+GET     /newsapi/v1/news/trendingtopics/search/         controllers.newsapi.TrendingTopicsController.get()
+POST    /newsapi/v1/news/trendingtopics/insert          controllers.newsapi.TrendingTopicsController.insert()
+
 #<Tvn>
 
 # Default path will just redirect to the category list
