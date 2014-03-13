@@ -2,6 +2,7 @@ package models.news;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlUpdate;
 import exceptions.NewsException;
 import models.HecticusModel;
@@ -49,8 +50,8 @@ public class News extends HecticusModel{
 
     public News(JsonNode data) throws NewsException {
         //contruct obj from json
-        if (data.has("externalId")) {
-            externalId = data.get("externalId").asInt();
+        if (data.has("id")) {
+            externalId = data.get("id").asInt();
         } else {
             throw new NewsException("externalId faltante");
         }
@@ -75,8 +76,6 @@ public class News extends HecticusModel{
 
         if (data.has("idCategory")) {
             idCategory = data.get("idCategory").asLong();
-        } else {
-            throw new NewsException("idCategory faltante");
         }
 
         if (data.has("image")) {
@@ -93,8 +92,6 @@ public class News extends HecticusModel{
 
         if (data.has("videoUrl")) {
             videoUrl = data.get("videoUrl").asText();
-        } else {
-            throw new NewsException("videoUrl faltante");
         }
 
         if (data.has("title")) {
@@ -333,6 +330,12 @@ public class News extends HecticusModel{
         return tr;
     }
 
+    public ObjectNode idToJson(){
+        ObjectNode tr = Json.newObject();
+        tr.put("id", externalId);
+        return tr;
+    }
+
     public static News getNews(long idNews){
         return finder.where().eq("id_news", idNews).findUnique();
     }
@@ -341,8 +344,12 @@ public class News extends HecticusModel{
         return finder.where().eq("id_category", idCategory).findList();
     }
 
-    public static List<News> getNewsByExtId(String id){
-        return finder.where().eq("external_id", id).findList();
+    public static News getNewsByExtId(String id){
+        return finder.where().eq("external_id", id).findUnique();
+    }
+
+    public static News getByCrc(String crc){
+        return finder.where().eq("crc", crc).findUnique();
     }
 
     public static List<News> getNewsListById(ArrayList ids){
@@ -360,6 +367,7 @@ public class News extends HecticusModel{
             server.commitTransaction();
         }catch (Exception ex){
             server.rollbackTransaction();
+            throw ex;
         }finally {
             server.endTransaction();
         }
@@ -376,6 +384,7 @@ public class News extends HecticusModel{
             server.commitTransaction();
         }catch (Exception ex){
             server.rollbackTransaction();
+            throw ex;
         }finally {
             server.endTransaction();
         }
@@ -392,5 +401,17 @@ public class News extends HecticusModel{
         }catch (Exception ex){
 
         }
+    }
+
+    public boolean existInBd(){
+        //check with externalId and crc
+        News result = finder.where().or(
+                Expr.eq("externalId", externalId),
+                Expr.eq("crc", crc)
+        ).findUnique();
+        if (result != null){
+            return true;
+        }
+        return false;
     }
 }
