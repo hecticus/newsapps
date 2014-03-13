@@ -83,8 +83,32 @@ public class NewsController extends HecticusController {
         }
     }
 
-    public static Result getBatch(String list){
-        return badRequest("not implemented");
+    public static Result getBatch(){
+        try {
+            ArrayList<ObjectNode> listToInsert = new ArrayList<>();
+            ObjectNode data = getJson();
+            if (data.has("news")){
+                Iterator it = data.get("news").getElements();
+                while (it.hasNext()){
+                    JsonNode current = (JsonNode)it.next();
+                    try {
+                        //build obj
+                        News received = new News(current);
+                        if (!received.existInBd()){
+                            listToInsert.add(received.idToJson());
+                        }
+                    }catch (Exception ex){
+                        //must continue
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            ObjectNode response = hecticusResponse(0, "ok", "insert", listToInsert);
+            return ok(response);
+
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
     }
 
     public static Result insert(){
@@ -103,13 +127,14 @@ public class NewsController extends HecticusController {
                         toInsert.add(received);
                     }catch (Exception ex){
                         //must continue
+                        ex.printStackTrace();
                     }
                 }
                 //insert
                 News.insertBatch(toInsert);
             }
         }catch (Exception ex){
-            return badRequest("not implemented");
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
         return ok(buildBasicResponse(0,"OK"));
     }

@@ -3,7 +3,6 @@ package controllers.newsapi;
 import controllers.HecticusController;
 import models.news.Category;
 import org.codehaus.jackson.node.ObjectNode;
-import play.libs.Json;
 import play.mvc.Result;
 
 import java.util.ArrayList;
@@ -54,6 +53,10 @@ public class CategoryController extends HecticusController {
         }catch(Exception ex){
             return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
         }
+    }
+
+    public static Result test(){
+        return ok("comm check, comm check, do you read me?");
     }
 
 }
