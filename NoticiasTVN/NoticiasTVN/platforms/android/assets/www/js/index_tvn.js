@@ -22,7 +22,7 @@ var arrTrendingNews;
 
 
 var trendingview = false;
-var Copyright= 'Copyright © Televisora Nacional S.A. 2013';
+
 var currentTime = new Date();
 var day = currentTime.getDate();
 var month = (currentTime.getMonth()+1);
@@ -39,7 +39,7 @@ var arrMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f
 
 
 
-
+var Copyright= 'Copyright © Televisora Nacional S.A. ' + year;
 
 
 
@@ -167,25 +167,20 @@ var slidesPages=['pCenter','pRight','pLeft'];
 
 /*var arrCategory=[{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'}];*/
 
+function fRemoveClassIcon() {
+		
+	$(".icon").removeClass('back');
+	$(".icon").removeClass('share');
+	$(".icon").removeAttr('onclick');
+}
+
 function fBack() {
 	
 
-	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
-	
-
+	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));	
 	$("#header-title").removeClass('back');
-	$(".icon.logo").removeClass('back');
-	$(".icon.tv").removeClass('share');
-
-	
+	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
-		
-	$('.back img').removeClass('content');	
-	
-			
-	
-	$('.share').addClass('hidden');						
-	$('#flag').removeClass('hidden');
 	$('#datacontents').empty();
 	$('#datats').empty();				
 }
@@ -373,7 +368,7 @@ function initBasicApp(){
 			
 			
 			
-			$(document).on('touchend','.tv:not(.share)', function() {
+			$(document).on('touchend','.tv:not(.share)', function() {				
 				window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 			});
 
@@ -442,24 +437,22 @@ function initBasicApp(){
 				
 				
 			$(document).on('touchstart','li[data-content="trending"]', function(e) {				
-				press=false;	
-				
+				press=false;				
     		}).on('touchend','li[data-content="trending"]', function() {				
     			if (press) {
 					
+					$("#header-title").addClass('back');
+					$(".icon.logo").addClass('back');	
+    				$(".icon.tv").addClass('share');
+    				
+					
     				$.fsetTrendingNewsDatacontents($(this).data('id'));
     				$('.news-datacontent').hide();	
-					$('.back img').addClass('content');
-					$('.back img, .share').removeClass('hidden');
-					    				
-					  				
-					myScrollDatacontent.scrollTo(0,0,0);
-							
+					myScrollDatacontent.scrollTo(0,0,0);							
 					$($(this).data('news')).show();								
 					$('.position').html('1');
 					$('#datacontent').attr('class','page transition left');
-					$('#flag').addClass('hidden');
-					$('.share').removeClass('hidden');
+
     				
 				}   
     		});				
@@ -467,23 +460,18 @@ function initBasicApp(){
 }								
 			
 			function goToNewsPage(){
-				console.log('POR AQUI TODO BIEN goToNewsPage');
+
 				var manager = new NewsManager();
 				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
 				
 				$('.news-datacontent').hide();	
 				$('.back img').addClass('content');
-				$('.back img, .share').removeClass('hidden');
- 				
-  				
-				myScrollDatacontent.scrollTo(0,0,0);
-							
-				$($(this).data('news')).show();
-									
+				$('.back img, .share').removeClass('hidden'); 				  			
+				myScrollDatacontent.scrollTo(0,0,0);							
+				$($(this).data('news')).show();								
 				$('.position').html('1');
 				$('#datacontent').attr('class','page transition left');
-				$('#flag').addClass('hidden');
-				$('.share').removeClass('hidden');  					
+					
 									
 			}
     		
@@ -1532,14 +1520,16 @@ var app = {
     	document.addEventListener('backbutton', function checkConnection() {
 
     		$(function() {
-    			    			  
+ 			  
     			if($('#menu').hasClass('right')){
 					$('#menu').attr('class','page transition left');	    				    				
 				}else if ($('#datacontent').hasClass('left')){
+					fRemoveClassIcon();
 					$('#datacontent').attr('class','page transition right');
 				}else if ($('#datatrending').hasClass('left')){
 					trendingview = false;
-					$('#datatrending').attr('class','page transition right');																			
+					$('#datatrending').attr('class','page transition right');
+					fRemoveClassIcon();																			
 				}else {
 					if(myScrollPage.currPageX == 0){
 						
