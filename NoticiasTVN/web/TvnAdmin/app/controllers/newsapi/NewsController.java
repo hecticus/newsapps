@@ -116,7 +116,7 @@ public class NewsController extends HecticusController {
                     JsonNode current = (JsonNode)it.next();
                     try {
                         //build obj
-                        News received = new News(current,false);
+                        News received = new News(current);
                         if (!received.existInBd()){
                             listToInsert.add(received.idToJson());
                         }
@@ -146,7 +146,7 @@ public class NewsController extends HecticusController {
                     JsonNode current = (JsonNode)it.next();
                     try {
                         //build obj
-                        News received = new News(current,false);
+                        News received = new News(current);
                         toInsert.add(received);
                     }catch (Exception ex){
                         //must continue

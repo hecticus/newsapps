@@ -52,51 +52,51 @@ public class News extends HecticusModel{
     //trending
     private int idTrending;
 
-    public News(JsonNode data, boolean isTrending) throws NewsException {
-        if(!isTrending){
-            //contruct obj from json
-            if (data.has("id")) {
-                externalId = data.get("id").asInt();
-            } else {
-                throw new NewsException("externalId faltante");
-            }
+    public News(JsonNode data) throws NewsException {
 
-            if (data.has("author")) {
-                author = data.get("author").asText();
-            } else {
-                throw new NewsException("author faltante");
-            }
+        //contruct obj from json
+        if (data.has("id")) {
+            externalId = data.get("id").asInt();
+        } else {
+            throw new NewsException("externalId faltante");
+        }
 
-            if (data.has("pubDate")) {
-                pubDate = data.get("pubDate").asText();
-                pubDateFormated = Utils.formatDateStringForSorting(pubDate);
-            } else {
-                throw new NewsException("pubdate faltante");
-            }
+        if (data.has("author")) {
+            author = data.get("author").asText();
+        } else {
+            throw new NewsException("author faltante");
+        }
 
-            if (data.has("category")) {
-                category = data.get("category").asText();
-            } else {
-                throw new NewsException("category faltante");
-            }
+        if (data.has("pubDate")) {
+            pubDate = data.get("pubDate").asText();
+            pubDateFormated = Utils.formatDateStringForSorting(pubDate);
+        } else {
+            throw new NewsException("pubdate faltante");
+        }
 
-            if (data.has("idCategory")) {
-                idCategory = data.get("idCategory").asLong();
-            }
+        if (data.has("category")) {
+            category = data.get("category").asText();
+        } else {
+            throw new NewsException("category faltante");
+        }
 
-            if (data.has("image")) {
-                image = data.get("image").asText();
-            } else {
-                throw new NewsException("image faltante");
-            }
+        if (data.has("idCategory")) {
+            idCategory = data.get("idCategory").asLong();
+        }
+
+        if (data.has("image")) {
+            image = data.get("image").asText();
+        } else {
+            throw new NewsException("image faltante");
+        }
 
         if (data.has("imageCaption")) {
             imageCaption = data.get("imageCaption").asText();
         }
 
-            if (data.has("videoUrl")) {
-                videoUrl = data.get("videoUrl").asText();
-            }
+        if (data.has("videoUrl")) {
+            videoUrl = data.get("videoUrl").asText();
+        }
 
         if (data.has("title")) {
             title = data.get("title").asText();
@@ -114,103 +114,105 @@ public class News extends HecticusModel{
             uploadedVideo = data.get("uploadedVideo").asText();
         }
 
-            if (data.has("description")) {
-                description = data.get("description").asText();
-            } else {
-                throw new NewsException("description faltante");
-            }
-
-            if (data.has("visits")) {
-                visits = data.get("visits").asInt();
-            } else {
-                throw new NewsException("visits faltante");
-            }
-
-            //trending
-            idTrending = 0;
-            if (data.has("idnews")) {
-                idTrending = externalId;
-                externalId = data.get("idnews").asInt();
-            }
-
-            //auto generated values
-            generated = false;
-            crc = Utils.createMd5(title);
-            //videos
-            categoryName ="";
-            if (data.has("categoryName")) {
-                videoTime = data.get("categoryName").asText();
-            }
-            videoTime = "";
-            if (data.has("videoTime")) {
-                videoTime = data.get("videoTime").asText();
-            }
-            //0 nunca se ha generado
-            generationTime = 0;
-        }else{
-            //contruct obj from json trendings
-            if (data.has("id")) {
-                idTrending = data.get("id").asInt();
-            } else {
-                throw new NewsException("idTrending faltante");
-            }
-
-            author = "";
-
-            if (data.has("pubdate")) {
-                pubDate = data.get("pubdate").asText();
-                pubDateFormated = Utils.formatDateStringForSorting(pubDate);
-            } else {
-                throw new NewsException("pubdate faltante");
-            }
-
-            if (data.has("categoria")) {
-                category = data.get("categoria").asText();
-            } else {
-                throw new NewsException("categoria faltante");
-            }
-
-            if (data.has("idCategory")) {
-                idCategory = data.get("idCategory").asLong();
-            }
-
-            if (data.has("idnews")) {
-                externalId = data.get("idnews").asInt();
-            } else {
-                throw new NewsException("externalId faltante");
-            }
-
-            if (data.has("titulo")) {
-                title = data.get("titulo").asText();
-            } else {
-                throw new NewsException("titulo faltante");
-            }
-
-            if (data.has("descripcion")) {
-                description = data.get("descripcion").asText();
-            } else {
-                throw new NewsException("descripcion faltante");
-            }
-
-            if (data.has("imagen")) {
-                image = data.get("imagen").asText();
-            } else {
-                throw new NewsException("imagen faltante");
-            }
-
-            imageCaption = "";
-
-            topNews = false;
-
-            //auto generated values
-            generated = false;
-            crc = Utils.createMd5(title);
-            //videos
-            categoryName ="";
-            videoTime = "";
-            //0 nunca se ha generado
-            generationTime = 0;
+        if (data.has("description")) {
+            description = data.get("description").asText();
+        } else {
+            throw new NewsException("description faltante");
         }
+
+        if (data.has("visits")) {
+            visits = data.get("visits").asInt();
+        } else {
+            throw new NewsException("visits faltante");
+        }
+
+        //trending
+        idTrending = 0;
+        if (data.has("idnews")) {
+            idTrending = externalId;
+            externalId = data.get("idnews").asInt();
+        }
+
+        //auto generated values
+        generated = false;
+        crc = Utils.createMd5(title);
+        //videos
+        categoryName = "";
+        if (data.has("categoryName")) {
+            videoTime = data.get("categoryName").asText();
+        }
+        videoTime = "";
+        if (data.has("videoTime")) {
+            videoTime = data.get("videoTime").asText();
+        }
+        //0 nunca se ha generado
+        generationTime = 0l;
+    }
+
+
+    public News(JsonNode data, boolean isTrending) throws NewsException {
+        //contruct obj from json trendings
+        if (data.has("id")) {
+            idTrending = data.get("id").asInt();
+        } else {
+            throw new NewsException("idTrending faltante");
+        }
+
+        author = "";
+
+        if (data.has("pubdate")) {
+            pubDate = data.get("pubdate").asText();
+            pubDateFormated = Utils.formatDateStringForSorting(pubDate);
+        } else {
+            throw new NewsException("pubdate faltante");
+        }
+
+        if (data.has("categoria")) {
+            category = data.get("categoria").asText();
+        } else {
+            throw new NewsException("categoria faltante");
+        }
+
+        if (data.has("idCategory")) {
+            idCategory = data.get("idCategory").asLong();
+        }
+
+        if (data.has("idnews")) {
+            externalId = data.get("idnews").asInt();
+        } else {
+            throw new NewsException("externalId faltante");
+        }
+
+        if (data.has("titulo")) {
+            title = data.get("titulo").asText();
+        } else {
+            throw new NewsException("titulo faltante");
+        }
+
+        if (data.has("descripcion")) {
+            description = data.get("descripcion").asText();
+        } else {
+            throw new NewsException("descripcion faltante");
+        }
+
+        if (data.has("imagen")) {
+            image = data.get("imagen").asText();
+        } else {
+            throw new NewsException("imagen faltante");
+        }
+
+        imageCaption = "";
+
+        topNews = false;
+
+        //auto generated values
+        generated = false;
+        crc = Utils.createMd5(title);
+        //videos
+        categoryName ="";
+        videoTime = "";
+        //0 nunca se ha generado
+        generationTime = 0l;
     }
 
 
