@@ -53,6 +53,7 @@ POST    /newsapi/v1/news/insertTrending                         controllers.news
 #push news
 GET     /newsapi/v1/news/push/count                     controllers.newsapi.NewsController.getNewsGeneratedCount()
 GET     /newsapi/v1/news/push/getone                    controllers.newsapi.NewsController.getNewsToGenerate()
+POST    /newsapi/v1/news/push/generated                 controllers.newsapi.NewsController.markAsGenerated()
 
 #tvn format
 GET     /newsapi/v1/news/search/tvn/name/:categoryName      controllers.newsapi.NewsController.getByCategoryName(categoryName : String, hecticResponse : Boolean = false)

@@ -30,11 +30,13 @@ create table news (
   title                     varchar(255),
   top_news                  tinyint(1) default 0,
   uploaded_video            varchar(255),
-  description               text,
+  description               TEXT,
   visits                    integer,
   crc                       varchar(255),
   inserted_time             varchar(255),
   generated                 tinyint(1) default 0,
+  generation_time           bigint,
+  pub_date_formated         varchar(255),
   category_name             varchar(255),
   video_time                varchar(255),
   id_trending               varchar(255),
@@ -42,11 +44,10 @@ create table news (
 ;
 
 create table u01_users (
-  u01_id                    integer auto_increment not null,
+  u01_id                    bigint auto_increment not null,
   u01_login                 varchar(255),
   u01_password              varchar(255),
   u01_email                 varchar(255),
-  u01_all_countries         tinyint(1) default 0,
   constraint pk_u01_users primary key (u01_id))
 ;
 
@@ -58,7 +59,7 @@ create table u02_profiles (
 
 
 create table u01_users_u02_profiles (
-  u01_users_u01_id               integer not null,
+  u01_users_u01_id               bigint not null,
   u02_profiles_u02_id            integer not null,
   constraint pk_u01_users_u02_profiles primary key (u01_users_u01_id, u02_profiles_u02_id))
 ;

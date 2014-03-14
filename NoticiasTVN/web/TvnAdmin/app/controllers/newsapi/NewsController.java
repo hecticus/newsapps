@@ -2,6 +2,7 @@ package controllers.newsapi;
 
 import controllers.HecticusController;
 import exceptions.CategoryException;
+import exceptions.NewsException;
 import models.news.Category;
 import models.news.News;
 import org.codehaus.jackson.JsonNode;
@@ -204,13 +205,20 @@ public class NewsController extends HecticusController {
         return ok(buildBasicResponse(0,"OK"));
     }
 
-    public static Result markAsGenerated(long idNews){
+    public static Result markAsGenerated(){
         try {
-            News toUpdate = new News();
-            toUpdate.setIdCategory(idNews);
-            toUpdate.setGenerated(true);
-            toUpdate.setGenerationTime(Utils.currentTimeStampToDate(Utils.APP_TIMEZONE)); //guardamos el dia de generacion para poder comparar
-            toUpdate.save();
+            ObjectNode data = getJson();
+            if (data.has("id")){
+                long idNews = data.get("id").asLong();
+                News toUpdate = new News();
+                toUpdate.setIdNews(idNews);
+                toUpdate.setGenerated(true);
+                //guardamos el dia de generacion para poder comparar
+                toUpdate.setGenerationTime(Utils.currentTimeStampToDate(Utils.APP_TIMEZONE));
+                toUpdate.update();
+            }else {
+                throw new NewsException("el valor 'id' es requerido");
+            }
         }catch (Exception ex){
             return  badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.getMessage()));
         }
@@ -248,17 +256,11 @@ public class NewsController extends HecticusController {
             List<Category> allCategories = Category.getActivePushableCategories(1);
             int count = 0;
             //obtenemos todas las noticias que pertenecen a estas categorias y que tienen el dia actual
-            /*for (int i = 0; i < allCategories.size(); i++){
-                List<News> fullList = News.getNewsByCategoryAndGenerationDate(allCategories.get(i).getIdCategory(), currentDay);
-                count += fullList.size();
-            }*/
-            //obtenemos todas las noticias que pertenecen a estas categorias y que tienen el dia actual
             ArrayList categoriesIds = new ArrayList();
             for (int i = 0; i < allCategories.size(); i++){
                 categoriesIds.add(allCategories.get(i).getIdCategory());
             }
-            List<News> fullList = News.getNewsByCategoriesAndGenerationDate(categoriesIds, currentDay);
-            count = fullList.size();
+            count = News.getNewsByCategoriesAndGenerationDate(categoriesIds, currentDay);
 
             //build response
             ObjectNode response;
@@ -274,7 +276,6 @@ public class NewsController extends HecticusController {
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
-        //return badRequest("not implemented");
     }
 
 

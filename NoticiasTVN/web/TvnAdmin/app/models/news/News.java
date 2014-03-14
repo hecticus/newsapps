@@ -12,6 +12,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,24 +24,25 @@ import java.util.List;
 public class News extends HecticusModel{
 
     @Id
-    private long idNews;
-    private int externalId; //id de la noticia externo
+    private Long idNews;
+    private Integer externalId; //id de la noticia externo
     private String author;
     private String pubDate;
     private String category; //external category
-    private long idCategory; //local id category
+    private Long idCategory; //local id category
     private String image;
     private String imageCaption;
     private String videoUrl;
     private String title;
-    private boolean topNews;
+    private Boolean topNews;
     private String uploadedVideo;
+    @Column(columnDefinition = "TEXT")
     private String description;
-    private int visits;
+    private Integer visits;
     private String crc;
     private String insertedTime;
-    private boolean generated;
-    private long generationTime; //tiempo que se usa para saber cuando se genero el push de la noticia. Formato: YYYYMMDD
+    private Boolean generated;
+    private Long generationTime; //tiempo que se usa para saber cuando se genero el push de la noticia. Formato: YYYYMMDD
     private String pubDateFormated; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
 
     //videos
@@ -88,33 +90,29 @@ public class News extends HecticusModel{
                 throw new NewsException("image faltante");
             }
 
-            if (data.has("imageCaption")) {
-                imageCaption = data.get("imageCaption").asText();
-            } else {
-                throw new NewsException("imageCaption faltante");
-            }
+        if (data.has("imageCaption")) {
+            imageCaption = data.get("imageCaption").asText();
+        }
 
             if (data.has("videoUrl")) {
                 videoUrl = data.get("videoUrl").asText();
             }
 
-            if (data.has("title")) {
-                title = data.get("title").asText();
-            } else {
-                throw new NewsException("title faltante");
-            }
-            topNews = false;
-            if (data.has("topNews")) {
-                topNews = data.get("topNews").asBoolean();
-            } else {
-                throw new NewsException("topNews faltante");
-            }
+        if (data.has("title")) {
+            title = data.get("title").asText();
+        } else {
+            throw new NewsException("title faltante");
+        }
 
-            if (data.has("uploadedVideo")) {
-                uploadedVideo = data.get("uploadedVideo").asText();
-            } else {
-                throw new NewsException("uploadedVideo faltante");
-            }
+        if (data.has("topNews")) {
+            topNews = data.get("topNews").asBoolean();
+        } else {
+            throw new NewsException("topNews faltante");
+        }
+
+        if (data.has("uploadedVideo")) {
+            uploadedVideo = data.get("uploadedVideo").asText();
+        }
 
             if (data.has("description")) {
                 description = data.get("description").asText();
@@ -490,8 +488,8 @@ public class News extends HecticusModel{
         return finder.where().eq("id_category", idCategory).eq("generation_time", generationDate).findList();
     }
 
-    public static List<News> getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
-        return finder.where().in("id_category", idCategories).eq("generation_time", generationDate).findList();
+    public static int getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
+        return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findRowCount();
     }
 
     public static List<News> getNewsByDateAndNotPushed(long idCategory){
@@ -515,6 +513,7 @@ public class News extends HecticusModel{
 
     }
 
+    //not needed
     public static void updateBatch(ArrayList<News> list){
         EbeanServer server = Ebean.getServer("default");
         try {
