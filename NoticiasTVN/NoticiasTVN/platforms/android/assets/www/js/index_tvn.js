@@ -17,6 +17,8 @@
  * under the License.
  */
 
+
+
 var arrTrendingTopics;
 var arrTrendingNews;
 
@@ -40,9 +42,7 @@ var arrMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f
 
 
 var Copyright= 'Copyright © Televisora Nacional S.A. ' + year;
-
-
-
+$('#splash-footer').html('Copyright &copy; Televisora Nacional S.A.' + year);
 
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
@@ -182,7 +182,8 @@ function fBack() {
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
 	$('#datacontents').empty();
-	$('#datats').empty();				
+	$('#datats').empty();		
+	$('#screen-block').addClass('hidden');			
 }
 	
 var upcoming=0;
@@ -359,11 +360,18 @@ function initBasicApp(){
 			});
 
 			
-			$(document).on('touchstart','.logo:not(.back)', function() {
-								
+			$(document).on('touchstart','.logo', function() {								
 				myScrollMenu.scrollTo(0,0,0);
-				if ($('#menu').hasClass('right')) $('#menu').attr('class','page transition left');	
-				else $('#menu').attr('class','page transition right');
+				
+				if ($('#menu').hasClass('right')) {
+					$('#menu').attr('class','page transition left');
+					$('#screen-block').addClass('hidden');					
+				} else {
+					$('#menu').attr('class','page transition right');
+					$('#screen-block').removeClass('hidden');					
+				}
+					
+				
 			});
 			
 			
@@ -378,7 +386,7 @@ function initBasicApp(){
     			if (press) {
     				
     				trendingview=false;
-    				
+    				$('#screen-block').addClass('hidden');		
     				$('#header-title').html(arrCategory[$(this).data('position')].title);
     				
     				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
@@ -644,12 +652,12 @@ function initBasicApp(){
 			
 			function noConnectionForNewsInit(err){
 				//aqui se tiene que pintar la pantalla de error que ocurre cuando no hay conexion ni hay nada en la BD para desplegar
-				$('.icon.tv, #header-title').addClass('hidden');
-				$('body').addClass('no-connection');																
-				$('#screen-block').removeClass('hidden');
-				$('#screen-block').append('<h1 style="color:#ffffff;">Sin conexión de red.</h1>');
-				$('#screen-block').append('<h2 style="color:#ffffff;">No se encontró señal  para redes móviles.</h2>');
-				$('#screen-block').append('<h3 style="color:#ffffff;">Presione la pantalla para salir.</h3>');
+				
+
+				$('body').addClass('no-connection');																				
+				$('#splash').addClass('hidden');				
+				$('#splash-no-connection').removeClass('hidden');
+
 				
 			};
 		  
@@ -1470,6 +1478,12 @@ function endOfAppInitialization(){
 	
 	//snap de las paginas con un threshold del 15% de la pantalla
 	myScrollPage.options.snapThreshold = window.innerWidth*0.15;
+	
+	$('#splash').addClass('hidden');
+	
+	
+	
+	
 }
 
 function exitApp(){

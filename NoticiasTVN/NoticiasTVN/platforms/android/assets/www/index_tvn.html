@@ -20,6 +20,7 @@
 			#menu, #datacontent, #datatrending { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
 			#menu, #datacontent, #datatrending {top:100px;}
 			
+			
 			.scroller {position:absolute; z-index:1; -webkit-tap-highlight-color:rgba(0,0,0,0); width:100%; padding:0;}
 
 			.scroller > ul {list-style:none; padding:0; margin:0; width:100%; text-align:left;}
@@ -64,7 +65,7 @@
 
 			
 			
-			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 4; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); text-align:center; vertical-align:middle; padding:5px; }
+			#screen-block {display: block;position: absolute;top: 0;left: 0;z-index: 2; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); text-align:center; vertical-align:middle; padding:5px; }
 		
 			.hidden {visibility:hidden;}
 			.news-datacontent {background-color:#ffffff;}
@@ -85,6 +86,71 @@
 			header li.icon.share div {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
 			header li.icon.back div {background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}
 			
+			
+			
+			
+			
+			#splash-caption {position: absolute; top:65%; margin: 0; padding: 0; width: 100%; height:auto;}
+			#splash-loading { position: absolute;  top:75%; text-align:center; margin: 0; padding: 0; width: 100%; height:auto;}				
+			#splash-footer { position: absolute; bottom:0; margin: 0; padding: 0; width: 100%; height:auto;}
+			
+			#splash-logo {
+				position: absolute;
+			   	top: 50%;
+			   	left: 50%;
+				background-image: url("img/splash/720x1280/logo.png");
+				background-repeat: no-repeat;
+				background-position:left top;
+				background-size: 151px 152px;
+			   	width:151px; 
+			   	height:152px;
+				margin: 0;
+				padding: 0;
+				margin-top: -75px; 
+			   	margin-left: -75px; 
+			}
+			
+			#splash {				
+				display: block;
+				position: absolute;
+				top: 0; 
+				left: 0;
+				z-index: 5; 
+				width: 100%; 
+				height: 100%; 
+				text-align:center; 
+				vertical-align:middle; 
+				background-image:url("img/splash/720x1280/bg.png");
+				background-repeat:no-repeat;
+				background-position:left top;
+				background-size: 720px 1280px;
+			}
+			
+			
+			#splash-no-connection {				
+				display: block;
+				position: absolute;
+				top: 0; 
+				left: 0;
+				z-index: 6; 
+				width: 100%; 
+				height: 100%;  
+				text-align:center; 
+				vertical-align:middle; 
+				background-color:#808080;
+				background-repeat:no-repeat;
+				background-position:left top;
+				background-size: 720px 1280px;
+			}
+			
+	
+			#splash-no-connection-content {
+				display: block;
+				position: absolute;
+				top: 10%; 
+				left: 0;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -97,12 +163,26 @@
 			</ul>
 		</header>
 		
-		
-		
 		<div id="screen-block" class="hidden" style="padding-top:50%;">&nbsp;</div>
 		
-		 
-		 
+		
+		
+		<div id="splash" >
+			<div id="splash-logo" >&nbsp;</div>
+			<div id="splash-caption" ><h1 style="text-align: center; color:#ffffff;">NOTICIAS TVN</h1></div>
+			<div id="splash-loading" ><img src="img/loading.gif" style="width: 25%; height: auto;"  /></div>
+			<div id="splash-footer" ><h5 style="text-align: center;">&nbsp;</h5></div>
+		</div>
+		
+		<div id="splash-no-connection" class="hidden">
+			<div id="splash-no-connection-content">
+				<img src="img/splash/logo-error.png" style="width: 50%; height: auto;">
+				<h1 style="color:#4e4c4c;">Sin conexi&oacute;n de red.</h1>			
+				<h2 style="color:#4e4c4c;">No se encontr&oacute; se&ntilde;al  para redes m&oacute;viles.</h2>
+				<h3 style="color:#4e4c4c;">Presione la pantalla para salir.</h3>
+			</div>
+		</div>
+
 
 		<div id="spage">
 			<div id="scrollerpage" style="display:block; float:left;">				
@@ -110,11 +190,11 @@
 			</div>
 		</div>	
 		
-		<div id="menu" class="page" style="z-index: 2; left:-100%;">							
-			<div class="scroller">
+		<div id="menu" class="page" style="z-index: 2; left:-70%; width:70%;">							
+			<div class="scroller" >
 				<ul>
 					<li>
-						<ul id="mainMenuList"></ul>						
+						<ul id="mainMenuList" ></ul>						
 					</li>
 				</ul>
 			</div>
