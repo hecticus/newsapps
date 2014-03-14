@@ -39,7 +39,11 @@ public class NewsController extends HecticusController {
             if (fullList != null && !fullList.isEmpty()){
                 //i got data
                 for (int i = 0; i < fullList.size(); i++){
-                    data.add(fullList.get(i).toJson());
+                    if (hecticResponse){
+                        data.add(fullList.get(i).toJson());
+                    }else{
+                        data.add(fullList.get(i).toJsonTVN());
+                    }
                 }
             }
             //build response
@@ -47,7 +51,13 @@ public class NewsController extends HecticusController {
             if (hecticResponse){
                 response = hecticusResponse(0, "ok", "news", data);
             }else {
-                response = tvnResponse("noticias",data);
+                if(cat.isVideo()){
+                    response = tvnResponse("videos",data);
+                }else if(cat.isTrending()){
+                    response = tvnResponse("noticiastrendingnews",data);
+                }else{
+                    response = tvnResponse("noticias",data);
+                }
             }
             return ok(response);
 
@@ -66,7 +76,11 @@ public class NewsController extends HecticusController {
             if (fullList != null && !fullList.isEmpty()){
                 //i got data
                 for (int i = 0; i < fullList.size(); i++){
-                    data.add(fullList.get(i).toJson());
+                    if (hecticResponse){
+                        data.add(fullList.get(i).toJson());
+                    }else{
+                        data.add(fullList.get(i).toJsonTVN());
+                    }
                 }
             }
             //build response
@@ -74,7 +88,15 @@ public class NewsController extends HecticusController {
             if (hecticResponse){
                 response = hecticusResponse(0, "ok", "news", data);
             }else {
-                response = tvnResponse("noticias",data);
+                Category cat = null;
+                cat = Category.getCategory(idCategory);
+                if(cat.isVideo()){
+                    response = tvnResponse("videos",data);
+                }else if(cat.isTrending()){
+                    response = tvnResponse("noticiastrendingnews",data);
+                }else{
+                    response = tvnResponse("noticias",data);
+                }
             }
             return ok(response);
 
@@ -93,7 +115,7 @@ public class NewsController extends HecticusController {
                     JsonNode current = (JsonNode)it.next();
                     try {
                         //build obj
-                        News received = new News(current);
+                        News received = new News(current,false);
                         if (!received.existInBd()){
                             listToInsert.add(received.idToJson());
                         }
@@ -123,7 +145,7 @@ public class NewsController extends HecticusController {
                     JsonNode current = (JsonNode)it.next();
                     try {
                         //build obj
-                        News received = new News(current);
+                        News received = new News(current,false);
                         toInsert.add(received);
                     }catch (Exception ex){
                         //must continue
@@ -139,6 +161,33 @@ public class NewsController extends HecticusController {
         return ok(buildBasicResponse(0,"OK"));
     }
 
+    public static Result insertTrending(){
+        try {
+            ArrayList<News> toInsert = new ArrayList<News>();
+            //get data from post
+            ObjectNode data = getJson();
+            //get data from json
+            if (data.has("noticiastrendingnews")){
+                Iterator it = data.get("noticiastrendingnews").get("item").getElements();
+                while (it.hasNext()){
+                    JsonNode current = (JsonNode)it.next();
+                    try {
+                        //build obj
+                        News received = new News(current,true);
+                        toInsert.add(received);
+                    }catch (Exception ex){
+                        //must continue
+                        ex.printStackTrace();
+                    }
+                }
+                //insert
+                News.insertBatch(toInsert);
+            }
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+        return ok(buildBasicResponse(0,"OK"));
+    }
 
 
     public static Result delete(){

@@ -48,95 +48,174 @@ public class News extends HecticusModel{
     private String videoTime;
 
     //trending
-    private String idTrending;
+    private int idTrending;
 
-    public News(JsonNode data) throws NewsException {
-        //contruct obj from json
-        if (data.has("id")) {
-            externalId = data.get("id").asInt();
-        } else {
-            throw new NewsException("externalId faltante");
-        }
+    public News(JsonNode data, boolean isTrending) throws NewsException {
+        if(!isTrending){
+            //contruct obj from json
+            if (data.has("id")) {
+                externalId = data.get("id").asInt();
+            } else {
+                throw new NewsException("externalId faltante");
+            }
 
-        if (data.has("author")) {
-            author = data.get("author").asText();
-        } else {
-            throw new NewsException("author faltante");
-        }
+            if (data.has("author")) {
+                author = data.get("author").asText();
+            } else {
+                throw new NewsException("author faltante");
+            }
 
-        if (data.has("pubDate")) {
-            pubDate = data.get("pubDate").asText();
-            pubDateFormated = Utils.formatDateStringForSorting(pubDate);
-        } else {
-            throw new NewsException("pubdate faltante");
-        }
+            if (data.has("pubDate")) {
+                pubDate = data.get("pubDate").asText();
+                pubDateFormated = Utils.formatDateStringForSorting(pubDate);
+            } else {
+                throw new NewsException("pubdate faltante");
+            }
 
-        if (data.has("category")) {
-            category = data.get("category").asText();
-        } else {
-            throw new NewsException("category faltante");
-        }
+            if (data.has("category")) {
+                category = data.get("category").asText();
+            } else {
+                throw new NewsException("category faltante");
+            }
 
-        if (data.has("idCategory")) {
-            idCategory = data.get("idCategory").asLong();
-        }
+            if (data.has("idCategory")) {
+                idCategory = data.get("idCategory").asLong();
+            }
 
-        if (data.has("image")) {
-            image = data.get("image").asText();
-        } else {
-            throw new NewsException("image faltante");
-        }
+            if (data.has("image")) {
+                image = data.get("image").asText();
+            } else {
+                throw new NewsException("image faltante");
+            }
 
-        if (data.has("imageCaption")) {
-            imageCaption = data.get("imageCaption").asText();
-        } else {
-            throw new NewsException("imageCaption faltante");
-        }
+            if (data.has("imageCaption")) {
+                imageCaption = data.get("imageCaption").asText();
+            } else {
+                throw new NewsException("imageCaption faltante");
+            }
 
-        if (data.has("videoUrl")) {
-            videoUrl = data.get("videoUrl").asText();
-        }
+            if (data.has("videoUrl")) {
+                videoUrl = data.get("videoUrl").asText();
+            }
 
-        if (data.has("title")) {
-            title = data.get("title").asText();
-        } else {
-            throw new NewsException("title faltante");
-        }
-        topNews = false;
-        if (data.has("topNews")) {
-            topNews = data.get("topNews").asBoolean();
-        } else {
-            throw new NewsException("topNews faltante");
-        }
+            if (data.has("title")) {
+                title = data.get("title").asText();
+            } else {
+                throw new NewsException("title faltante");
+            }
+            topNews = false;
+            if (data.has("topNews")) {
+                topNews = data.get("topNews").asBoolean();
+            } else {
+                throw new NewsException("topNews faltante");
+            }
 
-        if (data.has("uploadedVideo")) {
-            uploadedVideo = data.get("uploadedVideo").asText();
-        } else {
-            throw new NewsException("uploadedVideo faltante");
-        }
+            if (data.has("uploadedVideo")) {
+                uploadedVideo = data.get("uploadedVideo").asText();
+            } else {
+                throw new NewsException("uploadedVideo faltante");
+            }
 
-        if (data.has("description")) {
-            description = data.get("description").asText();
-        } else {
-            throw new NewsException("description faltante");
-        }
+            if (data.has("description")) {
+                description = data.get("description").asText();
+            } else {
+                throw new NewsException("description faltante");
+            }
 
-        if (data.has("visits")) {
-            visits = data.get("visits").asInt();
-        } else {
-            throw new NewsException("visits faltante");
+            if (data.has("visits")) {
+                visits = data.get("visits").asInt();
+            } else {
+                throw new NewsException("visits faltante");
+            }
+
+            //trending
+            idTrending = 0;
+            if (data.has("idnews")) {
+                idTrending = externalId;
+                externalId = data.get("idnews").asInt();
+            }
+
+            //auto generated values
+            generated = false;
+            crc = Utils.createMd5(title);
+            //videos
+            categoryName ="";
+            if (data.has("categoryName")) {
+                videoTime = data.get("categoryName").asText();
+            }
+            videoTime = "";
+            if (data.has("videoTime")) {
+                videoTime = data.get("videoTime").asText();
+            }
+            //0 nunca se ha generado
+            generationTime = 0;
+        }else{
+            //contruct obj from json trendings
+            if (data.has("id")) {
+                idTrending = data.get("id").asInt();
+            } else {
+                throw new NewsException("idTrending faltante");
+            }
+
+            author = "";
+
+            if (data.has("pubdate")) {
+                pubDate = data.get("pubdate").asText();
+                pubDateFormated = Utils.formatDateStringForSorting(pubDate);
+            } else {
+                throw new NewsException("pubdate faltante");
+            }
+
+            if (data.has("categoria")) {
+                category = data.get("categoria").asText();
+            } else {
+                throw new NewsException("categoria faltante");
+            }
+
+            if (data.has("idCategory")) {
+                idCategory = data.get("idCategory").asLong();
+            }
+
+            if (data.has("idnews")) {
+                externalId = data.get("idnews").asInt();
+            } else {
+                throw new NewsException("externalId faltante");
+            }
+
+            if (data.has("titulo")) {
+                title = data.get("titulo").asText();
+            } else {
+                throw new NewsException("titulo faltante");
+            }
+
+            if (data.has("descripcion")) {
+                description = data.get("descripcion").asText();
+            } else {
+                throw new NewsException("descripcion faltante");
+            }
+
+            if (data.has("imagen")) {
+                image = data.get("imagen").asText();
+            } else {
+                throw new NewsException("imagen faltante");
+            }
+
+            imageCaption = "";
+
+            topNews = false;
+
+            //auto generated values
+            generated = false;
+            crc = Utils.createMd5(title);
+            //videos
+            categoryName ="";
+            videoTime = "";
+            //0 nunca se ha generado
+            generationTime = 0;
         }
-        //auto generated values
-        generated = false;
-        crc = Utils.createMd5(title);
-        //videos
-        categoryName ="";
-        videoTime = "";
-        //trending
-        idTrending = "";
-        //0 nunca se ha generado
-        generationTime = 0;
     }
+
+
 
 
     public News(){
@@ -299,11 +378,11 @@ public class News extends HecticusModel{
         this.videoTime = videoTime;
     }
 
-    public String getIdTrending() {
+    public int getIdTrending() {
         return idTrending;
     }
 
-    public void setIdTrending(String idTrending) {
+    public void setIdTrending(int idTrending) {
         this.idTrending = idTrending;
     }
 
@@ -341,6 +420,45 @@ public class News extends HecticusModel{
         return tr;
     }
 
+    public ObjectNode toJsonTVN() {
+        ObjectNode tr = Json.newObject();
+        if(idTrending == 0){
+            //normal news
+            tr.put("id",externalId);
+
+            tr.put("id_category",idCategory);
+            tr.put("author", author);
+            tr.put("pubdate", pubDate);
+            tr.put("category", category);
+            tr.put("image",image);
+            tr.put("imagecaption",imageCaption);
+            tr.put("videourl",videoUrl);
+            tr.put("title", title);
+            tr.put("topnews", topNews);
+            tr.put("uploadedvideo", uploadedVideo);
+            tr.put("description", description);
+            tr.put("visits", visits);
+            //new fields
+            tr.put("categoryname",categoryName);
+            tr.put("videotime",videoTime);
+            tr.put("pubdateformated", pubDateFormated);
+        }else{
+            //trending news
+            tr.put("id",idTrending);
+            tr.put("idnews",externalId);
+
+            tr.put("categoria", category);
+            tr.put("titulo", title);
+            tr.put("pubdate", pubDate);
+            tr.put("descripcion", description);
+            tr.put("imagen",image);
+
+            tr.put("pubdateformated", pubDateFormated);
+        }
+
+        return tr;
+    }
+
     public ObjectNode idToJson(){
         ObjectNode tr = Json.newObject();
         tr.put("id", externalId);
@@ -369,15 +487,15 @@ public class News extends HecticusModel{
     }
 
     public static List<News> getNewsByCategoryAndGenerationDate(long idCategory, long generationDate){
-        return finder.where().eq("id_category", idCategory).eq("generationTime", generationDate).findList();
+        return finder.where().eq("id_category", idCategory).eq("generation_time", generationDate).findList();
     }
 
     public static List<News> getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
-        return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findList();
+        return finder.where().in("id_category", idCategories).eq("generation_time", generationDate).findList();
     }
 
     public static List<News> getNewsByDateAndNotPushed(long idCategory){
-        return finder.where().eq("id_category", idCategory).eq("generationTime", 0).orderBy("pubDateFormated").findList();
+        return finder.where().eq("id_category", idCategory).eq("generation_time", 0).orderBy("pub_date_formated").findList();
     }
 
     public static void insertBatch(ArrayList<News> list){

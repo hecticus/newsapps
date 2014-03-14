@@ -41,6 +41,7 @@ public class Category extends HecticusModel{
     private String shortName;
     private String internalUrl; //este valor tiene que ser autogenerado
     private boolean trending;
+    private boolean video; //indica que es una categoria de videos nada mas
 
     @Constraints.Required
     private int status;
@@ -124,6 +125,14 @@ public class Category extends HecticusModel{
         this.trending = trending;
     }
 
+    public boolean isVideo() {
+        return video;
+    }
+
+    public void setVideo(boolean video) {
+        this.video = video;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -150,6 +159,7 @@ public class Category extends HecticusModel{
         tr.put("internalUrl", internalUrl);
         tr.put("pushable", pushable);
         tr.put("trending", trending);
+        tr.put("video", video);
         tr.put("sort",sort);
         tr.put("status",status);
         tr.put("hidden",hidden);
