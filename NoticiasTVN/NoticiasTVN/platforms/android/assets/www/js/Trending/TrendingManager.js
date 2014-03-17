@@ -33,7 +33,13 @@ TrendingManager.prototype = {
 	getTrendingsFromWS:function(callback, errorCallback){
 		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
 		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		var urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp';
+		var urlComplete;
+		if(trendingTopicsCat != null && trendingTopicsCat != ''){
+			urlComplete = trendingTopicsCat;
+		}else{
+			urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp';
+		}
+		
 		var instance = this;
 		
 		$.ajax({

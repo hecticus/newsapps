@@ -166,6 +166,8 @@ var slidesPages=['pCenter','pRight','pLeft'];
 ];*/
 
 /*var arrCategory=[{i:0,status:false,classId:'latestnews',id:'latestnews',title:'Home',bgcolor:'#0404B4',internalUrl:'http://www.tvn-2.com/noticias/_modulos/json/latestnews-utf8.asp'}];*/
+//var arrCategory;
+var trendingTopicsCat;
 
 function fRemoveClassIcon() {
 		
@@ -1282,15 +1284,29 @@ function getCategoriesForApp(){
 }
 
 function successGetCategories(results){
-	//console.log("successGetCategories");
+	console.log("successGetCategories");
 	if(results != null){
 		var len = results.length;
 		//console.log("RESULT len: "+len);
 		if(len > 0){
 			//agregamos la señal en vivo
-			//console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
+			
 			//results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
 			arrCategory = results.slice(0);
+			console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
+			var indexToDelete = -1;
+			for(var i=0;i<arrCategory.length;i++){
+				if(arrCategory[i].trending == 1){
+					console.log("Trending: "+arrCategory[i].internalUrl+" index:"+i);
+					trendingTopicsCat = arrCategory[i].internalUrl;
+					indexToDelete = i;
+				}
+			}
+			
+			if(indexToDelete >= 0){
+				arrCategory.splice(indexToDelete,1);
+			}
+			
 			console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();
@@ -1411,7 +1427,6 @@ function refreshTrendingIndexesForApp(){
 	var managerIndex = new TrendingIndexManager();
 	managerIndex.getTrendingIndexes(successRefreshTrendingIndexes,errorRefresh);
 }
-
 function successRefreshTrendingIndexes(results){
 	//console.log("successRefreshTrendingIndexes");
 	if(results != null){
@@ -1422,12 +1437,10 @@ function successRefreshTrendingIndexes(results){
 		}
 	}
 }
-
 function refreshTrendingNewsForApp(){
 	var managerNews = new TrendingManager();
 	managerNews.getTrendings(successRefreshTrendingNews,errorRefresh);
 }
-
 function successRefreshTrendingNews(results){
 	//console.log("successGetTrendingNews");
 	if(results != null){
@@ -1438,7 +1451,6 @@ function successRefreshTrendingNews(results){
 		}
 	}
 }
-
 function errorRefresh(){
 	console.log("errorRefresh");
 }
