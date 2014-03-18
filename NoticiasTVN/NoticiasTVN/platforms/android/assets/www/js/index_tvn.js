@@ -801,7 +801,7 @@ function initBasicApp(){
 								
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:101px;  float:left; background-color: #034985;   ">';									
+									$.li+='<div style="width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px;  float:left; background-color: #034985;   ">';									
 									$.li+='<p style="color:#ffffff; text-align: center; font-weight:bold;">';
 									$.li+='<span style="font-size:small;">TENDENCIAS</span> <br /> <span style="font-size:large;">DE HOY</span>';
 									$.li+='</p>';
@@ -811,8 +811,8 @@ function initBasicApp(){
 									
 									
 									arrTrendingTopics.forEach(function(trending,i) {
-										$.li+='<div style="width:'+(((viewport.width*35)/100)-2)+'px; height:auto; min-height:50px; max-height:50px; float:left; background-color:#f9f9f9;   border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff;  ">';
-										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: center; font-size:1.2em; font-weight:bold; color:#999999; padding:1px; ">#'+trending.titulo+'</p>';										
+										$.li+='<div style="width:'+(((viewport.width*35)/100)-6)+'px; height:auto; min-height:30px; max-height:30px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; ">';
+										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; font-style:italic; ">#'+trending.titulo+'</p>';										
 										$.li+='</div>';
 									});
 									
