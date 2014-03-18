@@ -1302,19 +1302,7 @@ function successGetCategories(results){
 			//results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
 			arrCategory = results.slice(0);
 			console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
-			var indexToDelete = -1;
-			for(var i=0;i<arrCategory.length;i++){
-				if(arrCategory[i].trending == 1){
-					console.log("Trending: "+arrCategory[i].internalUrl+" index:"+i);
-					trendingTopicsCat = arrCategory[i].internalUrl;
-					indexToDelete = i;
-				}
-			}
-			
-			if(indexToDelete >= 0){
-				arrCategory.splice(indexToDelete,1);
-			}
-			
+			removeInvalidCategories();
 			console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();
@@ -1333,6 +1321,37 @@ function errorGetCategories(){
 	console.log("Error CATEGORIES real");
 	noConnectionForNewsInit();
 	//endOfAppInitialization();
+}
+function removeInvalidCategories(){
+	var indexToDelete = -1;
+	//buscamos la categoria de trendings
+	for(var i=0;i<arrCategory.length;i++){
+		if(arrCategory[i].trending == 1){
+			console.log("Trending: "+arrCategory[i].internalUrl+" index:"+i);
+			trendingTopicsCat = arrCategory[i].internalUrl;
+			indexToDelete = i;
+		}
+	}
+	
+	if(indexToDelete >= 0){
+		arrCategory.splice(indexToDelete,1);
+	}
+	
+	//eliminamos todas las categorias ocultas
+	var noMore = false;
+	while(!noMore){
+		indexToDelete = -1;
+		for(var i=0;i<arrCategory.length;i++){
+			if(arrCategory[i].hidden == 1){
+				indexToDelete = i;
+			}
+		}
+		if(indexToDelete >= 0){
+			arrCategory.splice(indexToDelete,1);
+		}else{
+			noMore = true;
+		}
+	}
 }
 
 //trending indexes

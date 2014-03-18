@@ -80,7 +80,9 @@ function formatDateStringForSorting(ds) {
 		var meridian = parts[2];
 		var intH = parseInt(HMS[0]);
 		if(meridian == "p.m." || meridian == "p.m" || meridian == "pm"){
-			intH = intH+12;
+			if(intH < 12){
+				intH = intH+12;
+			}
 		}
 		if ( intH < 10 ){
 			hh = '0' + intH;

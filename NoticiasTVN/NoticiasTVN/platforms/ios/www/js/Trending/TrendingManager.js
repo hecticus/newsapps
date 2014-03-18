@@ -5,6 +5,7 @@ var createTrendingQuery = 'CREATE TABLE IF NOT EXISTS TRENDING (trending_tvn_id 
 'trending_title TEXT DEFAULT NULL,'+
 'trending_description TEXT DEFAULT NULL,'+
 'trending_image TEXT DEFAULT NULL,'+
+'trending_pubdate TEXT DEFAULT NULL,'+
 'PRIMARY KEY (trending_tvn_id))';
 
 
@@ -32,7 +33,13 @@ TrendingManager.prototype = {
 	getTrendingsFromWS:function(callback, errorCallback){
 		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
 		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		var urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp';
+		var urlComplete;
+		if(trendingTopicsCat != null && trendingTopicsCat != ''){
+			urlComplete = trendingTopicsCat;
+		}else{
+			urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp';
+		}
+		
 		var instance = this;
 		
 		$.ajax({
@@ -109,13 +116,14 @@ TrendingManager.prototype = {
 	    	var insertObj = itemArray[i];
 	    	//console.log("TRENDINGNEWS "+JSON.stringify(insertObj));
 			
-			var insertStatement = 'INSERT OR REPLACE INTO TRENDING(trending_tvn_id,trending_category,trending_idnews,trending_title,trending_description,trending_image)'+
+			var insertStatement = 'INSERT OR REPLACE INTO TRENDING(trending_tvn_id,trending_category,trending_idnews,trending_title,trending_description,trending_image,trending_pubdate)'+
 			'VALUES ('+insertObj.id+','+
 			'"'+encodeURIComponent(insertObj.categoria)+'",'+
 			''+insertObj.idnews+','+
 			'"'+encodeURIComponent(insertObj.titulo)+'",'+
 			'"'+encodeURIComponent(insertObj.descripcion)+'",'+
-			'"'+encodeURIComponent(insertObj.imagen)+'"'+
+			'"'+encodeURIComponent(insertObj.imagen)+'",'+
+			'"'+encodeURIComponent(insertObj.pubdate)+'"'+
 			');';
 	    	
 	
@@ -135,6 +143,7 @@ function decodeTrending(encodedResult){
 	result["titulo"] = decodeURIComponent(encodedResult.trending_title);
 	result["descripcion"] = decodeURIComponent(encodedResult.trending_description);
 	result["imagen"] = decodeURIComponent(encodedResult.trending_image);
+	result["pubdate"] = decodeURIComponent(encodedResult.trending_pubdate);
 	return result;
 }
 

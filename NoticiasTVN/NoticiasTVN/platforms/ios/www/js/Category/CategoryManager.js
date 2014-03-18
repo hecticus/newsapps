@@ -6,6 +6,7 @@ var createCategoryQuery = 'CREATE TABLE IF NOT EXISTS CATEGORY (category_tvn_id 
 'category_internalUrl TEXT DEFAULT NULL,'+
 'category_pushable INTEGER DEFAULT NULL,'+
 'category_trending INTEGER DEFAULT NULL,'+
+'category_hidden INTEGER DEFAULT NULL,'+
 'PRIMARY KEY (category_tvn_id))';
 
 //declaring the constructor
@@ -129,14 +130,15 @@ CategoryManager.prototype = {
 			trending: false,
 			sort: 0*/
 
-			var insertStatement = 'INSERT OR REPLACE INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending)'+
+			var insertStatement = 'INSERT OR REPLACE INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden)'+
 			'VALUES ('+insertObj.id+','+
 			'"'+encodeURIComponent(insertObj.name)+'",'+
 			'"'+encodeURIComponent(insertObj.shortName)+'",'+
 			'"'+encodeURIComponent(insertObj.feedUrl)+'",'+
 			'"'+encodeURIComponent(insertObj.internalUrl)+'",'+
 			''+(insertObj.pushable?1:0)+','+
-			''+(insertObj.trending?1:0)+
+			''+(insertObj.trending?1:0)+','+
+			''+(insertObj.hidden?1:0)+
 			');';
 	    	
 			printToLog("saveAllCategoryToDB 1.5 "+insertStatement);
@@ -157,6 +159,7 @@ function decodeCategory(encodedResult){
 	result["internalUrl"] = decodeURIComponent(encodedResult.category_internalUrl);
 	result["pushable"] = encodedResult.category_pushable;
 	result["trending"] = encodedResult.category_trending;
+	result["hidden"] = encodedResult.category_hidden;
 	return result;
 }
 
