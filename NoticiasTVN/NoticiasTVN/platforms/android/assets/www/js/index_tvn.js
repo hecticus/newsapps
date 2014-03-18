@@ -357,12 +357,12 @@ function initBasicApp(){
 
 
 
-			$(document).on('touchstart','.back', function() { 
+			$(document).on('touchend','.back', function() { 
 				fBack();
 			});
 
 			
-			$(document).on('touchstart','.logo', function() {								
+			$(document).on('touchend','.logo:not(.back)', function() {								
 				myScrollMenu.scrollTo(0,0,0);
 				
 				if ($('#menu').hasClass('right')) {
@@ -370,7 +370,7 @@ function initBasicApp(){
 					$('#screen-block').addClass('hidden');					
 				} else {
 					$('#menu').attr('class','page transition right');
-					$('#screen-block').removeClass('hidden');					
+					$('#screen-block').removeClass('hidden');
 				}
 					
 				
@@ -416,7 +416,7 @@ function initBasicApp(){
     		}).on('touchend','li[data-content="headline"]', function() {				
     			if (press) {
     				
-    				
+		
 					$("#header-title").addClass('back');
 					$(".icon.logo").addClass('back');	
     				$(".icon.tv").addClass('share');
@@ -794,35 +794,98 @@ function initBasicApp(){
 								
 							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {
 								
-								$.li='<li style="background-color: #034985; padding:2px; text-align: center;  ">';									
+								/*$.li='<li style="background-color: #034985; padding:2px; text-align: center;  ">';									
 									$.li+='<h3 style="color:#ffffff; display:inline; ">TENDENCIAS DE HOY</h3>';
-								$.li+='</li>';
+								$.li+='</li>';*/
 								
-								$.li+='<li data-view="trending" >';
+								$.li='<li data-view="trending" >';
 								
+									$.li+='<div style="width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:101px;  float:left; background-color: #034985;   ">';									
+									$.li+='<p style="color:#ffffff; text-align: center; font-weight:bold;">';
+									$.li+='<span style="font-size:small;">TENDENCIAS</span> <br /> <span style="font-size:large;">DE HOY</span>';
+									$.li+='</p>';
+									$.li+='</div>';
+									
+									$.li+='<div style="width:'+((viewport.width*70)/100)+'px; height:auto; float:left;">';
+									
+									
+									arrTrendingTopics.forEach(function(trending,i) {
+										$.li+='<div style="width:'+(((viewport.width*35)/100)-2)+'px; height:auto; min-height:50px; max-height:50px; float:left; background-color:#f9f9f9;   border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff;  ">';
+										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: center; font-size:1.2em; font-weight:bold; color:#999999; padding:1px; ">#'+trending.titulo+'</p>';										
+										$.li+='</div>';
+									});
+									
+									
+									
+									$.li+='</div>';
+						
+								
+								
+								
+								
+								
+									/*
+								
+									$.li+='<table style="width:100%;">';
+									$.li+='<tr>';
+									
+									$.li+='<td style="vertical-align:top;">';
+									
+									$.li+='<div style="background-color: #034985; padding:2px;">';	
+									$.li+='<p style="color:#ffffff; text-align: center; font-weight:bold;">';
+									$.li+='<span style="font-size:small;">TENDENCIAS</span> <br /> <span style="font-size:large;">DE HOY</span>';
+									$.li+='</p>';
+									$.li+='</div>';
+									
+									
+									
+									$.li+='<td style="vertical-align:top;">';
+									
+								
+									
+									$.li+='<table style="width:100%; border:0; padding:0; ">';									
+									arrTrendingTopics.forEach(function(trending,i){
+																																						
+										if ((i%2)==0)  $.li+='<tr style="width:100%; border:0; padding:0; ">';	
+										
+										$.li+='<td style="width:50%; height:auto;  background-color:#f9f9f9; padding:5px;  ">';																													
+										$.li+='<h5 class="trending" data-content="trending" data-id="'+trending.categoria+'"  style="display: inline;  color:#999999;">#'+fTextoCortado(trending.titulo)+'</h5>';										
+										$.li+='</td>';
+																														
+										if ((i%2)==1)  $.li+='</tr>';
 
-								
-									$.li+='<table style="width:100%;">';									
+									});								
+									
+									
 									arrTrendingTopics.forEach(function(trending,i){
 																																						
 										if ((i%2)==0)  $.li+='<tr>';	
 										
-										$.li+='<td style="width:50%; height:auto;  background-color:#f9f9f9;  ">';																													
-										$.li+='<h5 class="trending" data-content="trending" data-id="'+trending.categoria+'"  style="display: inline;  color:#999999;">'+$.trim(trending.titulo)+'</h5>';										
+										$.li+='<td style="width:50%; height:auto;  background-color:#f9f9f9; padding:5px;  ">';																													
+										$.li+='<h5 class="trending" data-content="trending" data-id="'+trending.categoria+'"  style="display: inline;  color:#999999;">#'+fTextoCortado(trending.titulo)+'</h5>';										
 										$.li+='</td>';
 																														
 										if ((i%2)==1)  $.li+='</tr>';
-										
-									});								
+
+									});	
 									
-											
-											
 									
-											
-															
-										
+									
+									
 									if (arrTrendingTopics.length%1) $.li+='</tr>';
-									$.li+='</table>';	
+									$.li+='</table>';
+
+									
+									$.li+='</td>';
+									
+									
+									
+									$.li+='</tr>';
+									$.li+='</table>';*/
+								
+									
+								
+	
 		
 								
 								
