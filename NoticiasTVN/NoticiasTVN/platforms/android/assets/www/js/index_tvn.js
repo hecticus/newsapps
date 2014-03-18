@@ -178,7 +178,7 @@ function fRemoveClassIcon() {
 
 function fBack() {
 	
-
+	$('#menu').attr('class','page transition left');	
 	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));	
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
@@ -381,6 +381,10 @@ function initBasicApp(){
 			$(document).on('touchend','.tv:not(.share)', function() {				
 				window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 			});
+
+			$(document).on('touchend','#screen-block', function() {			
+				fBack();				
+			});		
 
 			$(document).on('touchstart','.menu', function() {
 				press=false;
@@ -671,7 +675,6 @@ function initBasicApp(){
 			
 			function noConnectionForNewsInit(err){
 				//aqui se tiene que pintar la pantalla de error que ocurre cuando no hay conexion ni hay nada en la BD para desplegar
-				
 
 				$('body').addClass('no-connection');																				
 				$('#splash').addClass('hidden');				
@@ -794,9 +797,7 @@ function initBasicApp(){
 								
 							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {
 								
-								/*$.li='<li style="background-color: #034985; padding:2px; text-align: center;  ">';									
-									$.li+='<h3 style="color:#ffffff; display:inline; ">TENDENCIAS DE HOY</h3>';
-								$.li+='</li>';*/
+							
 								
 								$.li='<li data-view="trending" >';
 								
@@ -818,86 +819,10 @@ function initBasicApp(){
 									
 									
 									$.li+='</div>';
-						
-								
-								
-								
-								
-								
-									/*
-								
-									$.li+='<table style="width:100%;">';
-									$.li+='<tr>';
-									
-									$.li+='<td style="vertical-align:top;">';
-									
-									$.li+='<div style="background-color: #034985; padding:2px;">';	
-									$.li+='<p style="color:#ffffff; text-align: center; font-weight:bold;">';
-									$.li+='<span style="font-size:small;">TENDENCIAS</span> <br /> <span style="font-size:large;">DE HOY</span>';
-									$.li+='</p>';
-									$.li+='</div>';
-									
-									
-									
-									$.li+='<td style="vertical-align:top;">';
-									
-								
-									
-									$.li+='<table style="width:100%; border:0; padding:0; ">';									
-									arrTrendingTopics.forEach(function(trending,i){
-																																						
-										if ((i%2)==0)  $.li+='<tr style="width:100%; border:0; padding:0; ">';	
-										
-										$.li+='<td style="width:50%; height:auto;  background-color:#f9f9f9; padding:5px;  ">';																													
-										$.li+='<h5 class="trending" data-content="trending" data-id="'+trending.categoria+'"  style="display: inline;  color:#999999;">#'+fTextoCortado(trending.titulo)+'</h5>';										
-										$.li+='</td>';
-																														
-										if ((i%2)==1)  $.li+='</tr>';
-
-									});								
-									
-									
-									arrTrendingTopics.forEach(function(trending,i){
-																																						
-										if ((i%2)==0)  $.li+='<tr>';	
-										
-										$.li+='<td style="width:50%; height:auto;  background-color:#f9f9f9; padding:5px;  ">';																													
-										$.li+='<h5 class="trending" data-content="trending" data-id="'+trending.categoria+'"  style="display: inline;  color:#999999;">#'+fTextoCortado(trending.titulo)+'</h5>';										
-										$.li+='</td>';
-																														
-										if ((i%2)==1)  $.li+='</tr>';
-
-									});	
-									
-									
-									
-									
-									if (arrTrendingTopics.length%1) $.li+='</tr>';
-									$.li+='</table>';
-
-									
-									$.li+='</td>';
-									
-									
-									
-									$.li+='</tr>';
-									$.li+='</table>';*/
-								
-									
-								
-	
-		
-								
-								
-									
-									
-
 									
 								$.li+='</li>';
 										
-								/*$.li+='<li id="mas" style="background-color: green; padding:2px; text-align: center;  ">';									
-									$.li+='<h3 style="color:#ffffff; display:inline; ">más</h3>';
-								$.li+='</li>';*/
+
 																								
 								$($.category +'-news1').append($.li);
 								
