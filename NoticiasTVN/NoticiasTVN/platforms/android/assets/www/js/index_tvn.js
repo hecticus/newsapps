@@ -796,24 +796,19 @@ function initBasicApp(){
 								};
 								
 							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {
-								
-							
-								
+
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="width:'+(((viewport.width*20)/100))+'px; height:auto; min-height:70px;  float:left; background-color: #034985;  text-align: center; color:#ffffff; font-style:italic;">';
-									
-									
-									$.li+='<br /><br /><span style="font-size:1.0em;">Tendencias</span> <span style="font-size:1.2em; font-weight:bold;">DE HOY</span>';
-									
-
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*20)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
+									$.li+='<div style="position:absolute; top:35%; text-align:center;">';									
+									$.li+='<span style="font-size:1.0em;">Tendencias</span> <span style="font-size:1.2em; font-weight:bold;">DE HOY</span>';
+									$.li+='</div>';
 									$.li+='</div>';
 									
 									$.li+='<div style="width:'+((viewport.width*80)/100)+'px; height:auto; float:left;">';
-									
-									
+
 									arrTrendingTopics.forEach(function(trending,i) {
-										$.li+='<div style="width:'+(((viewport.width*40)/100)-6)+'px; height:auto; min-height:30px; max-height:30px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; ">';
+										$.li+='<div style="width:'+(((viewport.width*40)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
 										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';										
 										$.li+='</div>';
 									});
