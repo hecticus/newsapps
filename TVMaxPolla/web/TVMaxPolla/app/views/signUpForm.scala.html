@@ -1,0 +1,60 @@
+@(personForm: Form[Person],message:String)
+ 
+@import helper._
+@import helper.twitterBootstrap._
+ 
+@title = {
+Sign Up Form in Play2.0
+}
+ 
+@main("Sign Up Form in Play2.0") {
+ 
+<div id="alert-box">@*Update This Div My Making Ajax Call*@</div>
+ 
+@helper.form(action = routes.Application.index) {
+ 
+<fieldset>
+<legend>@message</legend>
+ 
+@inputText(personForm("email"), '_label -> "Email",'onBlur->"isEmailExist()", '_help -> "Enter a valid email address.")
+  
+</fieldset>
+ 
+<div>
+<input type="submit" value="Sign Up" >
+</div>
+ 
+}
+ 
+}
+
+
+
+<script type="text/javascript">
+	var successFn = function(data) {
+			if(data == "true"){			
+				$('#alert-box').html('');
+				$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' + '<strong>Error!</strong>Email Id Already exist ! '+ '</div>');
+			} else{
+				$('#alert-box').html('');
+				$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' +'<strong>Success!</strong>Valid Email Id ! '+ '</div>');
+			}
+						
+			console.debug("Success of Ajax Call");
+			console.debug(data);
+			
+		};
+
+	var errorFn = function(err) {
+		console.debug("Error of ajax Call");
+		console.debug(err);
+	}
+ 
+	ajax1 = {success: successFn,error: errorFn}
+ 
+	function isEmailExist() {
+		var idToGet = $("#email").val(); 
+		jsRoutes.controllers.Application.isEmailExist(idToGet).ajax(ajax1);
+	
+	}
+</script>
