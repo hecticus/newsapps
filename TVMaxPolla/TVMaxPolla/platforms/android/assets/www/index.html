@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--link rel="stylesheet" type="text/css" href="css/base.css"-->
+		
+		<title>TVMax La Polla</title>
+
+		<style type="text/css" media="all">
+
+		
+			body {position: fixed; width:100%; height:100%; overflow: hidden;}
+			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
+			@media only screen and (min-width: 320px) and (max-width: 479px) and (orientation: portrait) {html { font-size: 62.5%; }}
+			@media only screen and (min-width: 720px) and (max-width: 767px) and (orientation: portrait) {html { font-size: 120%; }}
+			@media only screen and (min-width:1080px) and (max-width:1199px) and (orientation: portrait) {html { font-size: 200%; }}
+			@media only screen and (min-width:1280px) and (orientation: portrait) {html { font-size: 250%; }}
+
+		</style>
+	</head>
+	<body>
+		
+		<header>
+			<!--ul>
+				<li class="icon logo"><div>&nbsp;</div></li>
+				<li style="width:60%; height:auto;"><p id="header-title" style="text-transform:uppercase; background-color:white; font-weight: bold; font-size: 1.6em; ">HOME</p></li>
+				<li class="icon tv"><div>&nbsp;</div></li>
+			</ul-->
+		</header>
+		
+		
+		<div id="menu" style="z-index: 2; left:10%; width:70%; height:100%;">							
+			<ul>
+				<li>
+					<label>Login: </label><input type='textbox' id='loginText' ></br>
+    				<label>Password:</label><input type='text' id='passText'></br>
+    				<!--input type='button' value='Connect' id='loginButton'>
+    				<input type='button' value='Connect with Facebook' id='facebookLoginButton'-->
+					<button id="facebookLoginButton">Connect with Facebook</button>					
+				</li>
+			</ul>
+		</div>
+
+
+		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/SocialSharing.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        
+        <!-- cordova facebook plugin -->
+		<script src="cdv-plugin-fb-connect.js"></script>
+	    <!-- facebook js sdk -->
+		<script src="facebook-js-sdk.js"></script>
+		
+		<script type="text/javascript" src="js/facebookManager/facebookManager.js"></script>
+        
+        <script type="text/javascript">              
+            app.initialize();
+        </script>
+
+	</body>
+	
+</html>
