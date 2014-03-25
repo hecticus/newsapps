@@ -28,9 +28,11 @@ CREATE TABLE `client_bet` (
   `id_client_bet` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_client` bigint(20) NOT NULL,
   `id_match` int(11) DEFAULT NULL,
-  `id_winner` int(11) DEFAULT NULL,
+  `id_team_winner` int(11) DEFAULT NULL,
+  `id_team_loser` int(11) DEFAULT NULL,
   `score_winner` int(11) DEFAULT NULL,
   `score_loser` varchar(45) DEFAULT NULL,
+  `draw` int(1) DEFAULT NULL,
   `id_leaderboard` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_client_bet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -207,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-25 17:52:46
+-- Dump completed on 2014-03-25 17:57:29
