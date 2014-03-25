@@ -46,6 +46,55 @@ LOCK TABLES `client_bet` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `group`
+--
+
+DROP TABLE IF EXISTS `group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group` (
+  `id_group` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group`
+--
+
+LOCK TABLES `group` WRITE;
+/*!40000 ALTER TABLE `group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_has_team`
+--
+
+DROP TABLE IF EXISTS `group_has_team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_has_team` (
+  `id_group_has_team` int(11) NOT NULL,
+  `id_group` int(11) DEFAULT NULL,
+  `id_team` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_group_has_team`),
+  KEY `id_group_idx` (`id_group`),
+  KEY `id_team_idx` (`id_team`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_has_team`
+--
+
+LOCK TABLES `group_has_team` WRITE;
+/*!40000 ALTER TABLE `group_has_team` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_has_team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `match`
 --
 
@@ -158,4 +207,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-24 12:17:24
+-- Dump completed on 2014-03-25 17:52:46
