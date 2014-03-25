@@ -178,7 +178,7 @@ function fRemoveClassIcon() {
 
 function fBack() {
 	
-
+	$('#menu').attr('class','page transition left');	
 	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));	
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
@@ -367,26 +367,31 @@ function initBasicApp(){
 			});
 
 			
-			$(document).on('touchstart','.logo', function() {
-				if(!touchingBack){
-					myScrollMenu.scrollTo(0,0,0);
+			$(document).on('touchend','.logo:not(.back)', function() {								
+				myScrollMenu.scrollTo(0,0,0);
 				
-					if ($('#menu').hasClass('right')) {
-						$('#menu').attr('class','page transition left');
-						$('#screen-block').addClass('hidden');
-					} else {
-						$('#menu').attr('class','page transition right');
-						$('#screen-block').removeClass('hidden');
-					}
+				if ($('#menu').hasClass('right')) {
+					$('#menu').attr('class','page transition left');
+					$('#screen-block').addClass('hidden');					
+				} else {
+					$('#menu').attr('class','page transition right');
+					$('#screen-block').removeClass('hidden');
 				}
+					
 				
 			});
 			
 			
 			
 			$(document).on('touchend','.tv:not(.share)', function() {				
-				window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
+				//window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
+				window.videoPlayer.play('http://urtmpkal-f.akamaihd.net/i/19wqj1kgf_1@136614/master.m3u8');
+				//window.videoPlayer.play('http://streaming.tmira.com:1935/tvn/mp4:tvn.stream/playlist.m3u');
+
 			});
+			$(document).on('touchend','#screen-block', function() {			
+				fBack();				
+			});		
 
 			$(document).on('touchstart','.menu', function() {
 				press=false;
@@ -433,6 +438,23 @@ function initBasicApp(){
 
 				}   
     		});
+			
+			
+			
+			$(document).on('touchstart','#mas', function(e) {				
+				press=false;	
+    		}).on('touchend','#mas', function() {
+    			
+				if ($('tr[class^=secondtd]').hasClass('hiddentd')) {
+					$('tr[class^=second]').removeClass('hiddentd');										    		  
+				} else {				    				    
+					$('tr[class^=secondtd]').addClass('hiddentd');	
+				}
+								
+    			
+    		});
+			
+			
 			
 			$(document).on('touchstart','.trending[data-content="trending"]', function(e) {				
 				press=false;
@@ -633,7 +655,8 @@ function initBasicApp(){
 			function successGetNewsDataContentFromBD(results){
 					
 				if(results != null){	
-					var len = results.rows.length;				
+					var len = results.rows.length;
+					console.log("Pass "+len);
 					if(len > 0){
 						var newsArray = new Array();
 						for(var i=0;i<len;i++){
@@ -660,7 +683,6 @@ function initBasicApp(){
 			
 			function noConnectionForNewsInit(err){
 				//aqui se tiene que pintar la pantalla de error que ocurre cuando no hay conexion ni hay nada en la BD para desplegar
-				
 
 				$('body').addClass('no-connection');																				
 				$('#splash').addClass('hidden');				
@@ -781,35 +803,29 @@ function initBasicApp(){
 	                        		});
 								};
 								
-							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {								
-								
+							} else if ((i==1) && (arrCategory[myScrollPage.currPageX].i==0)) {
+
 								$.li='<li data-view="trending" >';
 								
-								
-									$.li+='<div style="position:relative; background-color: #ffffff; display:block; float: left;  width:30%; height:auto; padding: 0 2px;">';
-									
-									$.li+='<div style="background-color: #034985; padding:2px;">';	
-									$.li+='<p style="color:#ffffff; text-align: center; font-weight:bold;">';
-									$.li+='<span style="font-size:small;">TENDENCIAS</span> <br /> <span style="font-size:large;">DE HOY</span>';
-									$.li+='</p>';
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*20)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
+									$.li+='<div style="position:absolute; top:35%; text-align:center;">';									
+									$.li+='<span style="font-size:1.0em;">Tendencias</span> <span style="font-size:1.2em; font-weight:bold;">DE HOY</span>';
+									$.li+='</div>';
 									$.li+='</div>';
 									
-									$.li+='</div>';									
-									$.li+='<div style="margin-left:30%; width:70%; height:auto;">';																									
-									arrTrendingTopics.forEach(function(trending){		
-										if(trending.isEmpty == true){
-											
-										}else{
-											$.li+='<h4 class="trending" data-content="trending" data-id="'+trending.categoria+'" style="display:inline; margin:0 2px; color:#999999;">#'+$.trim(trending.titulo)+'</h4>';
-										}
-																			
-									});									
-									$.li+='</div>';
-									
-									
+									$.li+='<div style="width:'+((viewport.width*80)/100)+'px; height:auto; float:left;">';
 
+									arrTrendingTopics.forEach(function(trending,i) {
+										$.li+='<div style="width:'+(((viewport.width*40)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
+										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';										
+										$.li+='</div>';
+									});
+
+									$.li+='</div>';
 									
 								$.li+='</li>';
+										
+
 																								
 								$($.category +'-news1').append($.li);
 								
@@ -862,7 +878,7 @@ function initBasicApp(){
     		};
 
 			$.fsetNewsDatacontents = function(itemArray) {
-				
+				console.log("fsetNewsDatacontents");
 				$.category = '#'+arrCategory[myScrollPage.currPageX].classId;
 					
 				
@@ -954,12 +970,12 @@ function initBasicApp(){
 						$.li+='<p>'+$.news.datacontent+'</p>';	
 						$.li+='</div>';	
 						
-						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</div>';        		
+						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</h5></div>';
 						        		
 						        																						
 						$.li+='</li>';
 						
-																
+																													 console.log($.li);
 						$('#datacontents').append($.li);
 						
 

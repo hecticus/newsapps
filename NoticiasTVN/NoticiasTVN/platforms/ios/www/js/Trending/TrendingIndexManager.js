@@ -36,7 +36,7 @@ TrendingIndexManager.prototype = {
 		
 		$.ajax({
 			url : urlComplete,
-			timeout : 160000,
+			timeout : 60000,
 			success : function(data, status) {
 				if(typeof data == "string"){
 					data = JSON.parse(data);
