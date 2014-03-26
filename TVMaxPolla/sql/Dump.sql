@@ -42,6 +42,86 @@ INSERT INTO `group` VALUES (1,'A'),(2,'B'),(3,'C'),(4,'D'),(5,'E'),(6,'F'),(7,'G
 UNLOCK TABLES;
 
 --
+-- Table structure for table `client_bet`
+--
+
+DROP TABLE IF EXISTS `client_bet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `client_bet` (
+  `id_client_bet` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_client` bigint(20) NOT NULL,
+  `id_match` int(11) DEFAULT NULL,
+  `id_team_winner` int(11) DEFAULT NULL,
+  `id_team_loser` int(11) DEFAULT NULL,
+  `score_winner` int(11) DEFAULT NULL,
+  `score_loser` varchar(45) DEFAULT NULL,
+  `draw` int(1) DEFAULT NULL,
+  `id_leaderboard` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_client_bet`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `client_bet`
+--
+
+LOCK TABLES `client_bet` WRITE;
+/*!40000 ALTER TABLE `client_bet` DISABLE KEYS */;
+/*!40000 ALTER TABLE `client_bet` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `venue`
+--
+
+DROP TABLE IF EXISTS `venue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `venue` (
+  `id_venue` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_venue`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `venue`
+--
+
+LOCK TABLES `venue` WRITE;
+/*!40000 ALTER TABLE `venue` DISABLE KEYS */;
+INSERT INTO `venue` VALUES (1,'Belo Horizonte'),(2,'Brasilia'),(3,'Cuiaba'),(4,'Curitiba'),(5,'Fortaleza'),(6,'Manaus'),(7,'Natal'),(8,'Porto Alegre'),(9,'Recife'),(10,'Rio De Janeiro'),(11,'Salvador'),(12,'Sao Paulo');
+/*!40000 ALTER TABLE `venue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `match_results`
+--
+
+DROP TABLE IF EXISTS `match_results`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `match_results` (
+  `id_match` int(11) NOT NULL,
+  `score_team_a` int(11) NOT NULL,
+  `score_team_b` int(11) NOT NULL,
+  `penalties_team_a` int(11) DEFAULT NULL,
+  `penalties_team_b` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_match`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `match_results`
+--
+
+LOCK TABLES `match_results` WRITE;
+/*!40000 ALTER TABLE `match_results` DISABLE KEYS */;
+/*!40000 ALTER TABLE `match_results` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `match`
 --
 
@@ -55,7 +135,7 @@ CREATE TABLE `match` (
   `id_team_b` int(11) NOT NULL,
   `id_phase` int(11) NOT NULL,
   `date` bigint(14) DEFAULT NULL,
-  `venue` varchar(45) DEFAULT NULL,
+  `id_venue` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_match`),
   KEY `id_phase_idx` (`id_phase`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
@@ -67,7 +147,7 @@ CREATE TABLE `match` (
 
 LOCK TABLES `match` WRITE;
 /*!40000 ALTER TABLE `match` DISABLE KEYS */;
-INSERT INTO `match` VALUES (1,1,7,14,1,NULL,NULL),(2,1,26,8,1,NULL,NULL),(3,2,16,28,1,NULL,NULL),(4,2,9,4,1,NULL,NULL),(5,3,10,20,1,NULL,NULL),(6,3,12,25,1,NULL,NULL),(7,4,32,13,1,NULL,NULL),(8,4,22,24,1,NULL,NULL),(9,5,31,15,1,NULL,NULL),(10,5,18,21,1,NULL,NULL),(11,6,3,6,1,NULL,NULL),(12,6,23,27,1,NULL,NULL),(13,7,1,29,1,NULL,NULL),(14,7,19,17,1,NULL,NULL),(15,8,5,2,1,NULL,NULL),(16,8,30,11,1,NULL,NULL),(17,1,7,26,1,NULL,NULL),(18,1,8,14,1,NULL,NULL),(19,2,16,9,1,NULL,NULL),(20,2,4,28,1,NULL,NULL),(21,3,10,12,1,NULL,NULL),(22,3,25,20,1,NULL,NULL),(23,4,32,22,1,NULL,NULL),(24,4,24,13,1,NULL,NULL),(25,5,31,18,1,NULL,NULL),(26,5,21,15,1,NULL,NULL),(27,6,3,23,1,NULL,NULL),(28,6,27,6,1,NULL,NULL),(29,7,1,19,1,NULL,NULL),(30,7,17,29,1,NULL,NULL),(31,8,5,30,1,NULL,NULL),(32,8,11,2,1,NULL,NULL),(33,1,8,7,1,NULL,NULL),(34,1,14,26,1,NULL,NULL),(35,2,4,16,1,NULL,NULL),(36,2,28,9,1,NULL,NULL),(37,3,25,10,1,NULL,NULL),(38,3,20,12,1,NULL,NULL),(39,4,24,32,1,NULL,NULL),(40,4,13,22,1,NULL,NULL),(41,5,21,31,1,NULL,NULL),(42,5,15,18,1,NULL,NULL),(43,6,27,3,1,NULL,NULL),(44,6,6,23,1,NULL,NULL),(45,7,17,1,1,NULL,NULL),(46,7,29,19,1,NULL,NULL),(47,8,11,5,1,NULL,NULL),(48,8,2,30,1,NULL,NULL);
+INSERT INTO `match` VALUES (1,1,7,14,1,20140612150000,12),(2,1,26,8,1,20140613110000,7),(3,2,16,28,1,20140613140000,11),(4,2,9,4,1,20140613170000,3),(5,3,10,20,1,20140614110000,1),(6,3,12,25,1,20140614200000,9),(7,4,32,13,1,20140614140000,5),(8,4,22,24,1,20140614170000,6),(9,5,31,15,1,20140615110000,2),(10,5,18,21,1,20140615140000,8),(11,6,3,6,1,20140615170000,10),(12,6,23,27,1,20140616140000,4),(13,7,1,29,1,20140616110000,11),(14,7,19,17,1,20140616170000,7),(15,8,5,2,1,20140617110000,1),(16,8,30,11,1,20140617170000,3),(17,1,7,26,1,20140617140000,5),(18,1,8,14,1,20140618170000,6),(19,2,16,9,1,20140618140000,10),(20,2,4,28,1,20140618110000,8),(21,3,10,12,1,20140619110000,2),(22,3,25,20,1,20140619170000,7),(23,4,32,22,1,20140619140000,12),(24,4,24,13,1,20140620110000,9),(25,5,31,18,1,20140620140000,11),(26,5,21,15,1,20140620170000,4),(27,6,3,23,1,20140621110000,1),(28,6,27,6,1,20140621170000,3),(29,7,1,19,1,20140621140000,5),(30,7,17,29,1,20140622170000,6),(31,8,5,30,1,20140622110000,10),(32,8,11,2,1,20140622140000,8),(33,1,8,7,1,20140623150000,2),(34,1,14,26,1,20140623150000,9),(35,2,4,16,1,20140623110000,4),(36,2,28,9,1,20140623110000,12),(37,3,25,10,1,20140624150000,3),(38,3,20,12,1,20140624150000,5),(39,4,24,32,1,20140624110000,7),(40,4,13,22,1,20140624110000,1),(41,5,21,31,1,20140625150000,6),(42,5,15,18,1,20140625150000,10),(43,6,27,3,1,20140625110000,8),(44,6,6,23,1,20140625110000,11),(45,7,17,1,1,20140626110000,9),(46,7,29,19,1,20140626110000,2),(47,8,11,5,1,20140626150000,12),(48,8,2,30,1,20140626150000,4);
 /*!40000 ALTER TABLE `match` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,62 +204,6 @@ INSERT INTO `phase` VALUES (1,'Fase de grupos',NULL,NULL),(2,'Octavos de final',
 UNLOCK TABLES;
 
 --
--- Table structure for table `client_bet`
---
-
-DROP TABLE IF EXISTS `client_bet`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `client_bet` (
-  `id_client_bet` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_client` bigint(20) NOT NULL,
-  `id_match` int(11) DEFAULT NULL,
-  `id_team_winner` int(11) DEFAULT NULL,
-  `id_team_loser` int(11) DEFAULT NULL,
-  `score_winner` int(11) DEFAULT NULL,
-  `score_loser` varchar(45) DEFAULT NULL,
-  `draw` int(1) DEFAULT NULL,
-  `id_leaderboard` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_client_bet`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `client_bet`
---
-
-LOCK TABLES `client_bet` WRITE;
-/*!40000 ALTER TABLE `client_bet` DISABLE KEYS */;
-/*!40000 ALTER TABLE `client_bet` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `match_results`
---
-
-DROP TABLE IF EXISTS `match_results`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `match_results` (
-  `id_match` int(11) NOT NULL,
-  `score_team_a` int(11) NOT NULL,
-  `score_team_b` int(11) NOT NULL,
-  `penalties_team_a` int(11) DEFAULT NULL,
-  `penalties_team_b` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_match`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `match_results`
---
-
-LOCK TABLES `match_results` WRITE;
-/*!40000 ALTER TABLE `match_results` DISABLE KEYS */;
-/*!40000 ALTER TABLE `match_results` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `group_has_team`
 --
 
@@ -215,4 +239,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-25 18:34:16
+-- Dump completed on 2014-03-26 10:04:38
