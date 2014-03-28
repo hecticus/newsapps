@@ -1,64 +1,225 @@
-@(message: String)
+@(phase: String, persons: List[Person])
 
-@main("Welcome to Play 2.1") {
+@main("La polla de TVMax - FiFA World Cup Brasil 2014") {
     
     @*********************
-	* @play20.welcome(message, style = "Java")
+	* @play20.welcome(phase, style = "Java")
 	*********************@
-
-	<fieldset>
-        <form>
-            <label for="personName">Name:
-            <input type="text" name="personName" id="personName"/>
-            <input type="button" value="Create" id="createPerson"/>
-        </form>
-    </fieldset>
-    <ul id="peopleList">
-
-    <script>
-	    var doc = $ (document);
-	    doc.ready (function() {
-	      // Delete a person
-	      doc.on ('click', '.deletePerson', function(e) {
-	        var target = $(e.target);
-	        var id = target.data('id');
-	        appRoutes.controllers.Application.delete(id).ajax( {
-	          success : function ( data ) {
-	            target.closest('li').remove();
-	          }
-	        });
-	      });
 	
-	      // Create a new person
-	      $('#createPerson').click(function() {
-	        var personNameInput = $('#personName');
-	        var personName = personNameInput.val();
-	        if(personName && personName.length > 0) {
-	          var data = {
-	            'name' : personName
-	          };
-	          appRoutes.controllers.Application.create().ajax({
-	            data : JSON.stringify(data),
-	            contentType : 'application/json',
-	            success : function (person) {
-	              $('#peopleList').append('<li>' + person.name + ' <a href="#" data-id="' + person.id + '" class="deletePerson">Delete</a></li>');
-	                personNameInput.val('');
-	            }
-	          });
-	        }
-	      });
+	<!--h1>@phase</h1>
+
+	<ul>
+	@for(person <- persons) {
+	  <li id="@person.id">@person.name</li>
+	}
+	</ul-->
 	
-	      // Load existing data from the server
-	      appRoutes.controllers.Application.getAll().ajax({
-	        success : function(data) {
-	          var peopleList = $('#peopleList');
-	          $(data).each(function(index, person) {
-	            peopleList.append('<li>' + person.name + ' <a href="#" data-id="' + person.id + '" class="deletePerson">Delete</a></li>');
-	          });
-	        }
-	      });
-	    }) ;
-	    
-    </script>
-    
+	
+	<div class="container">
+		
+		<div class="row">
+			<div class="col-md-12" style="background-color:#173069; color:#FFFFFF; font-weight: bold;">Predicción Grupo B</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-12 col-md-6" style="background-color:#3c4d80; color:#FFFFFF; font-weight: bold; text-align: left">Grupo A</div>
+			<div class="col-xs-12 col-md-6" style="background-color:#3c4d80; color:#FFFFFF; font-weight: bold; text-align: right;">Grupo C</div>
+		</div>
+		
+		<div class="row">
+			
+			<div class="col-xs-6 col-md-4" style="background-color:#eaeaee; padding:5px; text-align: center;">
+				
+				<div class="row" style="text-align: center; padding:5px">
+					
+					<table>
+						<tr>
+							<td style="width:33%; height: auto;" >
+							
+								<figure>
+									<img data-game="1" data-team="a" class="flag off" src="@routes.Assets.at("images/flags/br-lgflag.png")" alt="Brasil" />
+									<figcaption>BRA</figcaption>
+								</figure>
+							</td>
+							<td style="width:33%; height: auto; text-align: center;">
+								
+								<div >
+									<div style="width:15%; height: auto; float:left;" ><img data-game="1" data-team="a" class="arrow off" src="@routes.Assets.at("images/left.png")" /></div>
+									<div style="width:70%; height: auto; float:left;"><h5 data-game="1" class="score" style="display:inline; font-size: x-small; ">SELECCIONE</h5></div>
+									
+									<div style="width:15%; height: auto; float:left;"><img data-game="1" data-team="b" class="arrow off" src="@routes.Assets.at("images/right.png")" /></div>
+									
+								
+								</div>
+								
+																				
+								<!--img src="@routes.Assets.at("images/line.png")" alt="line" style="width:100%; height:1px;" /-->								
+							</td>
+							<td style="width:33%; height: auto;">
+								<figure>
+									<img data-game="1" data-team="b" class="flag off" src="@routes.Assets.at("images/flags/hr-lgflag.png")" alt="Croacia" />
+									<figcaption>CRC</figcaption>
+								</figure>
+							</td>
+						</tr>
+					</table>
+					
+					<!--div class="col-xs-4 col-sm-4 col-md-4">
+						<figure>
+							<img data-game="1" data-team="a" class="flag off" src="@routes.Assets.at("images/flags/br-lgflag.png")" alt="Brasil" />
+							<figcaption>BRA</figcaption>
+						</figure>
+					</div>
+				
+				
+					<div class="col-xs-4 col-sm-4 col-md-4">
+																	
+						<img data-game="1" data-team="a" class="arrow off" src="@routes.Assets.at("images/left.png")" />
+						<h5 data-game="1" class="score" style="display: inline; font-size: x-small;">SELECCIONE</h5>
+						<img data-game="1" data-team="b" class="arrow off" src="@routes.Assets.at("images/right.png")" />												
+						<img src="@routes.Assets.at("images/line.png")" alt="line" style="width:100%; height:1px;" />
+					
+					</div>
+										
+					<div class="col-xs-4 col-sm-4 col-md-4">		
+						<figure>
+							<img data-game="1" data-team="b" class="flag off" src="@routes.Assets.at("images/flags/hr-lgflag.png")" alt="Croacia" />
+							<figcaption>CRC</figcaption>
+						</figure>						
+					</div-->
+					
+				</div>
+				
+				<!--img src="@routes.Assets.at("images/line.png")" alt="line" style="width:75%; height:1px;" />
+				
+				<div class="row"  style="text-align: center; padding:5px ">
+					
+					<div class="col-xs-4 col-sm-4 col-md-4">
+						<figure>
+							<img class="flag off" src="@routes.Assets.at("images/flags/mx-lgflag.png")" alt="México" />
+							<figcaption>MEX</figcaption>
+						</figure>
+					</div>
+					
+					<div class="col-xs-4 col-sm-4 col-md-4">											
+						<img class="arrow off" src="@routes.Assets.at("images/left.png")" />
+						<h5 style="display: inline; font-size: x-small; margin: 0 10px;">GANADOR</h5>
+						<img class="arrow off" src="@routes.Assets.at("images/right.png")" />						
+						<img src="@routes.Assets.at("images/line.png")" alt="line" style="width:100%; height:1px;" />
+						<h5 style="display: inline; font-size: x-small; margin: 0;">EMPATE</h5>
+					</div>
+										
+					<div class="col-xs-4 col-sm-4 col-md-4">	
+						<figure>
+							<img class="flag off" src="@routes.Assets.at("images/flags/cm-lgflag.png")" alt="Camerún" />
+							<figcaption>CAM</figcaption>
+						</figure>						
+					</div>
+					
+				</div-->
+				
+
+			</div>
+			<!--div class="col-xs-6 col-md-4" style="background-color:#e2e2e3; padding:10px">
+				
+				<div class="row"  style="text-align: center; padding:10px">
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/br-lgflag.png")" alt="Brasil" />
+							<figcaption>Brasil</figcaption>
+						</figure>
+					</div>
+						
+					<div class="col-xs-6 col-sm-6 col-md-6">	
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/mx-lgflag.png")" alt="México" />
+							<figcaption>México</figcaption>
+						</figure>
+					</div>
+					
+				</div>
+				
+				
+				<div class="row"  style="text-align: center; padding:10px">
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">		
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/cm-lgflag.png")" alt="Camerún" />
+							<figcaption>Camerún</figcaption>
+						</figure>						
+					</div>
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">		
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/hr-lgflag.png")" alt="Croacia" />
+							<figcaption>Croacia</figcaption>
+						</figure>						
+					</div>
+					
+				</div>
+
+			</div>
+			<div class="col-xs-12 col-md-4" style="background-color:#eaeaee; padding:10px">
+				
+				<div class="row"  style="text-align: center; padding:10px ">
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">		
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/cm-lgflag.png")" alt="Camerún" />
+							<figcaption>Camerún</figcaption>
+						</figure>						
+					</div>
+						
+					<div class="col-xs-6 col-sm-6 col-md-6">	
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/br-lgflag.png")" alt="Brasil" />
+							<figcaption>Brasil</figcaption>
+						</figure>
+					</div>
+					
+				</div>
+				
+				
+				<div class="row"  style="text-align: center; padding:10px ">
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">	
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/hr-lgflag.png")" alt="Croacia" />
+							<figcaption>Croacia</figcaption>
+						</figure>						
+					</div>
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">	
+						<figure>
+							<img class="flag" src="@routes.Assets.at("images/flags/mx-lgflag.png")" alt="México" />
+							<figcaption>México</figcaption>
+						</figure>
+					</div>
+					
+				</div>
+				
+			</div-->
+		</div>
+		
+		
+		
+		
+
+		
+		<div class="row">
+			<div class="col-md-12" style="background-color:#173069; color:#FFFFFF; font-weight: bold;">Predicción por Grupos</div>
+		</div>
+		
+		
+		
+		
+	</div>
+
+
+	<!--img src="@routes.Assets.at("images/flags/ag-lgflag.png")" alt="Argelia" class="img-rounded" />
+	<img src="@routes.Assets.at("images/flags/ar-lgflag.png")" alt="Argentina" class="img-rounded" />
+	<img src="@routes.Assets.at("images/flags/as-lgflag.png")" alt="Australia" class="img-rounded" /-->
+
+	
 }
