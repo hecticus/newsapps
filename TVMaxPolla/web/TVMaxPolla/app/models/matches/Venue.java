@@ -1,6 +1,7 @@
 package models.matches;
 
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -22,6 +23,23 @@ public class Venue {
         //por defecto
     }
 
+    
+    public Integer getIdVenue() {
+        return idVenue;
+    }
+
+    public void setIdVenue(Integer idVenue) {
+        this.idVenue = idVenue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public static Model.Finder<Integer,Venue> finder =
             new Model.Finder<Integer, Venue>(Integer.class, Venue.class);
 

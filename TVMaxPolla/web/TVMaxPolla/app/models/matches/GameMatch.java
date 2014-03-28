@@ -1,13 +1,16 @@
 package models.matches;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,13 @@ public class GameMatch extends HecticusModel{
     private Long date;
     private Integer idVenue;
 
+    
+    public Team objTeamA;
+    public Team objTeamB;    
+    public Venue objVenue;
+  
+    
+    
     public GameMatch(){
         //por defecto
     }
@@ -86,6 +96,32 @@ public class GameMatch extends HecticusModel{
         this.idVenue = idVenue;
     }
 
+    
+    
+    public Team getTeamA() {
+        return objTeamA;
+    }
+
+    public void setTeamA(Team objTeamA) {
+        this.objTeamA = objTeamA;
+    }
+
+    public Team getTeamB() {
+        return objTeamB;
+    }
+
+    public void setTeamB(Team objTeamB) {
+        this.objTeamB = objTeamB;
+    }
+    
+    public Venue getVenue() {
+        return objVenue;
+    }
+
+    public void setVenue(Venue objVenue) {
+        this.objVenue = objVenue;
+    }
+    
     public static Model.Finder<Integer,GameMatch> finder =
             new Model.Finder<Integer, GameMatch>(Integer.class, GameMatch.class);
 
@@ -117,7 +153,7 @@ public class GameMatch extends HecticusModel{
         tr.put("date",date);
         return tr;
     }
-
+    
     public static GameMatch getMatch(int idMatch){
         return finder.where().eq("id_match", idMatch).findUnique();
     }

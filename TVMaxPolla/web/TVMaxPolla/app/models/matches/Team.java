@@ -5,7 +5,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -29,6 +31,39 @@ public class Team extends HecticusModel{
         //por defecto
     }
 
+    public Integer getIdTeam() {
+        return idTeam;
+    }
+
+    public void setIdTeam(Integer idTeam) {
+        this.idTeam = idTeam;
+    }    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getShortName() {
+        return shortname;
+    }
+
+    public void setShortName(String shortname) {
+        this.shortname = shortname;
+    }
+    
+    public String getFlagFile() {
+        return flagFile;
+    }
+
+    public void setFlagFile(String flagFile) {
+        this.flagFile = flagFile;
+    }
+
+    
     public static Model.Finder<Integer,Team> finder =
             new Model.Finder<Integer, Team>(Integer.class, Team.class);
 

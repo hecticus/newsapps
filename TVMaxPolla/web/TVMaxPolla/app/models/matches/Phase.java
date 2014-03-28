@@ -1,7 +1,9 @@
 package models.matches;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
@@ -24,10 +26,12 @@ public class Phase extends HecticusModel {
     private Long dateStart;
     private Long dateEnd;
 
+    public List<MatchGroup> lstMatchGroup;
+    
     public Phase(){
         //por defecto
     }
-
+    
     public Integer getIdPhase() {
         return idPhase;
     }
@@ -60,6 +64,15 @@ public class Phase extends HecticusModel {
         this.dateEnd = dateEnd;
     }
 
+    public List<MatchGroup> getMatchGroup() {
+        return lstMatchGroup;
+    }
+
+    public void setMatchGroup(List<MatchGroup> lstMatchGroup) {
+        this.lstMatchGroup = lstMatchGroup;
+    }
+    
+    
     public static Model.Finder<Integer,Phase> finder =
             new Model.Finder<Integer, Phase>(Integer.class, Phase.class);
 

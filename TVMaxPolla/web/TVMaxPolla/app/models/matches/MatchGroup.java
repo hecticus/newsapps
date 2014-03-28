@@ -1,13 +1,16 @@
 package models.matches;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,10 @@ public class MatchGroup extends HecticusModel{
     private Integer idGroup;
     private Integer idPhase;
     private String name;
-
+    
+    public List<GameMatch> lstGameMatch;
+   
+    
     public MatchGroup(){
         //por defecto
     }
@@ -50,6 +56,15 @@ public class MatchGroup extends HecticusModel{
         this.name = name;
     }
 
+    
+    public List<GameMatch> getGameMatch() {
+        return lstGameMatch;
+    }
+
+    public void setGameMatch(List<GameMatch> lstGameMatch) {
+        this.lstGameMatch = lstGameMatch;
+    }
+    
     public static Model.Finder<Integer,MatchGroup> finder =
             new Model.Finder<Integer, MatchGroup>(Integer.class, MatchGroup.class);
 
