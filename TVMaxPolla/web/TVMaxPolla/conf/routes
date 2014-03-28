@@ -21,3 +21,13 @@ GET 	/javascriptRoutes    		controllers.Application.javascriptRoutes
 GET		/assets/js/routes           controllers.Application.jsRoutes()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+#Teams
+GET     /matchesapi/v1/team/test                   controllers.matchesapi.TeamController.test()
+GET     /matchesapi/v1/team/search/:idTeam         controllers.matchesapi.TeamController.getById(idTeam:Integer, hecticResponse : Boolean = true)
+
+#phases
+GET     /matchesapi/v1/phase/get/allActive          controllers.matchesapi.PhaseController.getActivePhases()
+GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.PhaseController.getCurrentPhase()
+GET     /matchesapi/v1/phase/get/matches/current            controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
+
+
