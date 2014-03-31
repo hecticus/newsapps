@@ -25,10 +25,13 @@
         <style>
         	body{font-family: Arial, Helvetica, sans-serif;}
         	
+        	
 			figcaption{font-size: x-small; font-weight: bold; z-index: 1500;}
 			
 			
 			img.flag {width:50%; height:25%; }
+			
+			
 			img.flag:hover {cursor:pointer; opacity:1.0; filter:alpha(opacity=100); /* For IE8 and earlier */}															
 			.off{opacity:0.4; filter:alpha(opacity=40);}
 			.on{opacity:1.0; filter:alpha(opacity=100);}
@@ -39,6 +42,12 @@
 			.menu.on{color:#ffe85c}
 			
 			.hidden {visibility:hidden;}
+			
+			
+			.content-flag-score {width: 75px; min-height: 43px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold;  }
+			.content-flag-score:last-child{margin-top:5px;}			
+			.content-flag-score.on {background-color:#bababb;  -moz-box-shadow: 3px 3px rgba(226,226,229,0.7); -webkit-box-shadow: 3px 3px rgba(226,226,229,0.7); box-shadow: 3px 3px rgba(226,226,229,0.7); text-align: center;}			
+			.content-flag-score.on img.flag {width:75%;}
 			
         </style>
         
@@ -52,8 +61,6 @@
 					var selectorteamb  = 'img[data-game="'+$(this).data('game')+'"][data-team="b"]';
 					var selectorscore  = '.score[data-game="'+$(this).data('game')+'"]';
 					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';		
-					var completed = $(selectorgroup).attr('data-completed');
-							
 							
 							
 					if ($(this).hasClass('on')) {						
@@ -70,25 +77,20 @@
 						$(selectorscore).html('EMPATE');						
 						$(selectorgroup).attr('data-completed',completed);
 					} else if ($(selectorteama).hasClass('on') || $(selectorteamb).hasClass('on')) {
-						completed = parseInt(completed)+1;
+						
 						$(selectorscore).html('GANADOR');							
 						$(selectorgroup).attr('data-completed',completed);		
 					} else {						
-						completed = parseInt(completed)-1;
+						
 						$(selectorscore).html('SELECCIONE');
 						$(selectorgroup).attr('data-completed',completed);
 					}
-				
-					$('.completed-group').html(parseFloat((completed/6)*100).toFixed(2));
 
 				});		
 
 				$(document).on('click','.menu', function() {
 					
-					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';		
-					var completed = $(selectorgroup).attr('data-completed');					
-					$('.completed-group').html(parseFloat((completed/6)*100).toFixed(2));
-					
+					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';							
 					$('.menu').removeClass('on');
 					$(this).addClass('on');	
 					$('.name-group').html($(this).html());
