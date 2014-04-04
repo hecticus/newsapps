@@ -78,6 +78,12 @@ public class HecticusController extends Controller {
         return tr;
     }
 
+    public static ObjectNode tvmaxResponseSimple(String parentObj, ArrayList data){
+        ObjectNode tr = Json.newObject();
+        tr.put(parentObj,Json.toJson(data));
+        return tr;
+    }
+
     public static ObjectNode tvmaxPhaseResponse(String parentObj, ObjectNode phaseObj, ArrayList groupsArray, ArrayList teamsArray){
         ObjectNode tr = Json.newObject();
         /*ArrayList groupsArrayNew = new ArrayList();

@@ -28,6 +28,7 @@ GET     /matchesapi/v1/team/search/:idTeam         controllers.matchesapi.TeamCo
 #phases
 GET     /matchesapi/v1/phase/get/allActive          controllers.matchesapi.PhaseController.getActivePhases()
 GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.PhaseController.getCurrentPhase()
-GET     /matchesapi/v1/phase/get/matches/current            controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
+GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
+GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.PhaseController.getAllPhasesMatches()
 
 
