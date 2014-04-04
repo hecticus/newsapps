@@ -94,45 +94,6 @@ public class Application extends Controller
         	lstMatchGroup.add(objMatchGroup);
         	objPhase.setMatchGroup(lstMatchGroup);
 
-        	
-        	/*while (iJsonGames.hasNext()) {
-        		
-        		GameMatch objGameMatch = new GameMatch();    		
-            	JsonNode jsonGame = iJsonGames.next();
-            	
-            	objGameMatch.setIdMatch(jsonGame.get("id").asInt());
-            	objGameMatch.setDate(Long.parseLong(jsonGame.get("date").asText()));
-            	
-            	Team objTeamA = new Team();
-            	Team objTeamB = new Team(); 
-            	
-            	JsonNode jsonTeamA = jsonGame.get("team_a");
-            	JsonNode jsonTeamB = jsonGame.get("team_b");
-
-            	objTeamA.setIdTeam(jsonTeamA.get("id").asInt());            	
-            	objTeamA.setName(jsonTeamA.get("name").asText());            	
-            	objTeamA.setShortName(jsonTeamA.get("shortName").asText());
-            	objTeamA.setFlagFile(jsonTeamA.get("flag_file").asText());
-            	
-            	objTeamA.setIdTeam(jsonTeamB.get("id").asInt());            	
-            	objTeamA.setName(jsonTeamB.get("name").asText());            	
-            	objTeamA.setShortName(jsonTeamB.get("shortName").asText());
-            	objTeamA.setFlagFile(jsonTeamB.get("flag_file").asText());
-
-            	objGameMatch.setTeamA(objTeamA);
-            	objGameMatch.setTeamB(objTeamB);
-            	
-            	lstGames.add(objGameMatch);
-            	
-            	objMatchGroup.setMatch(lstGames);
-        	}*/
-        	
-        	
-        	
-        	
-        	
-        	
-        	
     	}
     	
     

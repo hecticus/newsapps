@@ -3,13 +3,19 @@
 
 
 @main("La polla de TVMax - FiFA World Cup Brasil 2014") {
-
-
+	
+	<script>
+		var arrGroup = [];
+		var arrGame	= [];
+		var arrTeamGame = [];
+		var arrTeam	= [];						
+	</script>
+	
 	<div class="container">
 				
 			  
 	    <div class="row">						
-			<div class="col-md-6" style="background-color:#173069; color:#FFFFFF; font-weight: bold; text-align: left;">Predicción Grupo <span class="name-group">A</span></div>
+			<div class="col-md-6" style="background-color:#173069; color:#FFFFFF; font-weight: bold; text-align: left;">Predicción Grupo <span class="name-group">A</span> <span data-group="1" class="calcular">Calcular</span>  </div>
 			<div class="col-md-6" style="background-color:#173069; color:#FFFFFF; font-weight: bold; text-align: right;">Grupos 
 				@for(group <- phase.getMatchGroup()) {
 					 <span data-group="@group.getIdGroup()" class="menu @("on".when(group.getIdGroup() == 1))" >@group.getName()</span>
@@ -21,12 +27,30 @@
 		@for(group <- phase.getMatchGroup()) {
 					
 			
-			
+  		
 			<div data-group="@group.getIdGroup()"  class="row @("hidden".when(group.getIdGroup() != 1)) group ">
 				
 				
 
 				@for((game, index) <- group.getGameMatch().zipWithIndex) {
+		
+		
+		
+					<script>			
+		  				$(function() {
+		  					arrTeamGame.push({id:@game.getTeamA().getIdTeam(),goals:{f:0,a:0},points:0}, {id:@game.getTeamB().getIdTeam(),goals:{f:0,a:0},points:0});
+		  					arrGame.push({id:@game.getIdMatch(),team:arrTeamGame});		  					
+		  					arrTeamGame = [];
+		  					@if(index <= 1) {		  					
+								arrTeam.push({id:@game.getTeamA().getIdTeam(),name:'@game.getTeamA().getName()',shortName:'@game.getTeamA().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())',goals:{f:0,a:0,d:0},points:0});
+								arrTeam.push({id:@game.getTeamB().getIdTeam(),name:'@game.getTeamB().getName()',shortName:'@game.getTeamB().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())',goals:{f:0,a:0,d:0},points:0});
+							}														
+						});
+	  				</script>
+		
+		
+		
+		
 		
 					@if((index%2) == 0) {
 						<div class="col-xs-12 col-sm-4 col-md-4 .col-lg-4" style="background-color:@{if((index == 2) || (index == 3)) "#e2e2e3" else "#eaeaee"}; padding:10px; text-align: center;">
@@ -36,38 +60,75 @@
 						<img src="@routes.Assets.at("images/line.png")" alt="line" style="width:75%; height:1px;" />	
 					}
 					
-					<div class="row" style="text-align: center; padding:5px">
-
-						<table>
-							<tr>
-								<td style="width:33%; height: auto;" >
-								
-									<figure>
-										<img data-group="@group.getIdGroup()" data-game="@game.getIdMatch()" data-team="a" class="flag off" src="@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())" alt="@game.getTeamA().getName()" />
-										<figcaption>@game.getTeamA().getShortName()</figcaption>
-									</figure>
-								</td>
-								<td style="width:33%; height: auto; text-align: center;">
+					
+					<div data-game="@game.getIdMatch()" class="row game" style="text-align: center; padding:5px">
+					
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+							<figure>
+								<img data-index="@game.getIdMatch()@game.getTeamA().getIdTeam()"  class="flag off" src="@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())" alt="@game.getTeamA().getName()" />
+								<figcaption>@game.getTeamA().getShortName()</figcaption>
+							</figure>
+						</div>
 									
-									<div>
-										<div style="width:15%; height: auto; float:left;" ><img data-game="@game.getIdMatch()" data-team="a" class="arrow off" src="@routes.Assets.at("images/left.png")" /></div>
-										<div style="width:70%; height: auto; float:left;"><h5 data-game="@game.getIdMatch()" class="score" style="display:inline; font-size: x-small; ">SELECCIONE</h5></div>									
-										<div style="width:15%; height: auto; float:left;"><img data-game="@game.getIdMatch()" data-team="b" class="arrow off" src="@routes.Assets.at("images/right.png")" /></div>
-									</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
 												
-									<img src="@routes.Assets.at("images/line.png")" alt="line" style="width:100%; height:1px;" />
-																	
-								</td>
-								<td style="width:33%; height: auto;">
-									<figure>
-										<img data-group="@group.getIdGroup()" data-game="@game.getIdMatch()" data-team="b" class="flag off" src="@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())" alt="@game.getTeamB().getName()" />
-										<figcaption>@game.getTeamB().getShortName()</figcaption>
-									</figure>
-								</td>
-							</tr>
-						</table>
+							<div class="row" >
+							
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									
+									<div class="row" >
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
+											<img data-group="@group.getIdGroup()" data-game="@game.getIdMatch()" data-team="@game.getTeamA().getIdTeam()" data-index="@game.getIdMatch()@game.getTeamA().getIdTeam()" class="arrow up" src="@routes.Assets.at("images/up.png")" />
+										</div>
+									</div>
+									<div class="row" >
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal"  data-index="@game.getIdMatch()@game.getTeamA().getIdTeam()"  data-goal="0" data-points="0">
+										-	
+										</div>
+									</div>
+									<div class="row" >
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+											<img data-group="@group.getIdGroup()" data-game="@game.getIdMatch()" data-team="@game.getTeamA().getIdTeam()" data-index="@game.getIdMatch()@game.getTeamA().getIdTeam()" class="arrow  down" src="@routes.Assets.at("images/down.png")" />										
+										</div>
+									</div>	
+									
+									
+								</div>
+	
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								
+									<div class="row" >
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
+											<img data-group="@group.getIdGroup()" data-game="@game.getIdMatch()" data-team="@game.getTeamB().getIdTeam()" data-index="@game.getIdMatch()@game.getTeamB().getIdTeam()" class="arrow up" src="@routes.Assets.at("images/up.png")" />
+										</div>
+									</div>
+									<div class="row" >
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal"  data-index="@game.getIdMatch()@game.getTeamB().getIdTeam()"  data-goal="0" data-points="0">
+										-	
+										</div>
+									</div>
+									<div class="row" >
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+											<img data-group="@group.getIdGroup()" data-game="@game.getIdMatch()" data-team="@game.getTeamB().getIdTeam()" data-index="@game.getIdMatch()@game.getTeamB().getIdTeam()" class="arrow  down" src="@routes.Assets.at("images/down.png")" />										
+										</div>
+									</div>	
+								
+								</div>
+								
+							</div>												
 
+							
+						</div>										
+										
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">													
+							<figure>
+								<img data-index="@game.getIdMatch()@game.getTeamB().getIdTeam()"   class="flag off" src="@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())" alt="@game.getTeamB().getName()" />
+								<figcaption>@game.getTeamB().getShortName()</figcaption>
+							</figure>
+						</div>
+						
 					</div>
+									
 					
 					<div class="row" data-game="@game.getIdMatch()" class="score" style="font-size: x-small; font-weight: bold; padding: 5px; background-color: #ffffff; width:75%; margin: 0 auto;" >							
 						@game.getDate().toString().substring(6, 8)/@game.getDate().toString().substring(4, 6) @game.getDate().toString().substring(8, 10):@game.getDate().toString().substring(11, 13) / @game.getVenue().getName()
@@ -79,6 +140,15 @@
 					
 				}
 			</div>
+
+			<script>			
+				$(function() {
+					arrGroup.push({id:@group.getIdGroup(), name:'@group.getName()',team:arrTeam,game:arrGame});
+					arrGame = [];
+					arrTeam = [];
+				});
+			</script>
+			
 		}
 
 		<div class="row">
@@ -97,30 +167,10 @@
 				
 				
 					<div class="col-xs-6 col-sm-3 col-md-3 col-lg-3" style="background: url(@routes.Assets.at("images/arrows/" + group.getName() + ".png")) no-repeat left; center; " >
-						
-							
-						
-						<div style="padding: 0px; margin-left:10px;">
-							
-								<div class="content-flag-score on hidden">
-									<figure>
-										<img class="flag"  src="@routes.Assets.at("images/flags/br-lgflag.png")" alt="Brasil" />
-										<figcaption>BRA</figcaption>
-									</figure>	
-								</div>
-								<div class="content-flag-score on hidden">
-									<figure>
-										<img class="flag"  src="@routes.Assets.at("images/flags/cm-lgflag.png")" alt="Camerún" />
-										<figcaption>CMR</figcaption>
-									</figure>	
-								</div>
-
-								<div class="content-flag-score">1er PUESTO <br /> @group.getName()1</div>	
-								<div class="content-flag-score">2do PUESTO <br /> @group.getName()2</div>
-	
+						<div style="padding: 0px; margin-left:10px;">							
+							<div data-group="@group.getIdGroup()" data-position="0" data-alt="1er PUESTO <br /> @group.getName()1" class="content-flag-score">1er PUESTO <br /> @group.getName()1</div>	
+							<div data-group="@group.getIdGroup()" data-position="1" data-alt="2do PUESTO <br /> @group.getName()2" class="content-flag-score">2do PUESTO <br /> @group.getName()2</div>	
 						</div>
-							
-																
 					</div>
 				
 				
@@ -131,176 +181,6 @@
 				
 			}
 			
-			<!--div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="background-color:#e2e2e3;">
-				<div class="row" style=" padding: 5px;">
-					
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; background-color:#bababb; text-align: center; ">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<figure>
-											<img class="flag"  src="@routes.Assets.at("images/flags/br-lgflag.png")" alt="Brasil" />
-											<figcaption>BRA</figcaption>
-										</figure>										
-									</div>
-								</div>								
-								<div class="row" style="padding: 5px; margin-top: 5px;  background-color:#bababb;  text-align: center;">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<figure>
-											<img class="flag" src="@routes.Assets.at("images/flags/cm-lgflag.png")" alt="Camerún" />
-											<figcaption>CMR</figcaption>
-										</figure>										
-									</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-					
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">B1</div>
-								</div>								
-								<div class="row" style=" padding: 5px;  margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">B2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-					
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">C1</div>
-								</div>								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">C2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-						
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">D1</div>
-								</div>								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">D2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-										
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="background-color:#e2e2e3;">			
-				<div class="row" style=" padding: 5px;">
-					
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">E1</div>
-								</div>								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">E2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-					
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">F1</div>
-								</div>								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">F2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-					
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">G1</div>
-								</div>								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">G2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-						
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
-						<div class="row" style=" padding: 5px;">
-							
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 arrow-blue" style="padding: 0px;">
-								&nbsp;
-							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">H1</div>
-								</div>								
-								<div class="row" style=" padding: 5px; width: 52px; height: 43px; margin-top: 5px; -moz-box-shadow: 3px 3px rgba(0,0,0,0.7); -webkit-box-shadow: 3px 3px rgba(0,0,0,0.7); box-shadow: 3px 3px rgba(0,0,0,0.7);">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">H2</div>									
-								</div>
-							</div>
-							
-						</div>										
-					</div>
-										
-				</div>
-			</div>	
-		</div>
-		
-		
-
-			
-
 	</div>
 
 }

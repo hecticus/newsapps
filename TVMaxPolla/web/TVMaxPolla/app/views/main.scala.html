@@ -23,80 +23,471 @@
         <script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
         
         <style>
+        
+        	html {font-size:62.5%;} 	
         	body{font-family: Arial, Helvetica, sans-serif;}
         	
         	
 			figcaption{font-size: x-small; font-weight: bold; z-index: 1500;}
 			
 			
-			img.flag {width:50%; height:25%; }
+			img.flag {width:75%; height:25%; }
 			
 			
 			img.flag:hover {cursor:pointer; opacity:1.0; filter:alpha(opacity=100); /* For IE8 and earlier */}															
 			.off{opacity:0.4; filter:alpha(opacity=40);}
 			.on{opacity:1.0; filter:alpha(opacity=100);}
-			img.arrow{width:60%; height:auto; }
+			img.arrow{width:30%; height:auto; cursor: pointer; }
 			
-			.menu{cursor:pointer; }
+			/*.col-xs-6 img.arrow{width:50%; height:auto; }
+			.col-sm-6 img.arrow{width:35%; height:auto; }
+			.col-md-6 img.arrow{width:50%; height:auto; }
+			.col-lg-6 img.arrow{width:100%; height:auto; }*/
+
+			
+			
+			.menu, .calcular{cursor:pointer; }
 			.menu:hover{color:#ffe85c}
 			.menu.on{color:#ffe85c}
 			
 			.hidden {visibility:hidden;}
 			
 			
-			.content-flag-score {width: 75px; min-height: 43px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold;  }
-			.content-flag-score:last-child{margin-top:5px;}			
+			.content-flag-score {width: 75px; min-height: 55px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold;  }
+			.content-flag-score:last-child{margin:5px 0 5px 0;}			
 			.content-flag-score.on {background-color:#bababb;  -moz-box-shadow: 3px 3px rgba(226,226,229,0.7); -webkit-box-shadow: 3px 3px rgba(226,226,229,0.7); box-shadow: 3px 3px rgba(226,226,229,0.7); text-align: center;}			
 			.content-flag-score.on img.flag {width:75%;}
+			
+			.goal {text-align:center;}
 			
         </style>
         
 		<script>
 	  		$(function() {
 				
-				$(document).on('click','.flag', function() {
+			
+				$.fCompare = function(_groupTeams,_eval) {
 					
-					var selector  = 'img[data-game="'+$(this).data('game')+'"][data-team="'+$(this).data('team')+'"]';
-					var selectorteama  = 'img[data-game="'+$(this).data('game')+'"][data-team="a"]';
-					var selectorteamb  = 'img[data-game="'+$(this).data('game')+'"][data-team="b"]';
-					var selectorscore  = '.score[data-game="'+$(this).data('game')+'"]';
-					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';		
+					var aux = 0;
+					var othersTeams= [];
+					var afirts = [];
+					var asecond = [];
+
+					for ( var i = 0; i < 2; i++ ) {
+						
+						$.each(_groupTeams, function(index,team) { if (eval(_eval)>aux) aux = eval(_eval); });						
+						$.each(_groupTeams, function(index,team) {										
+							if (eval(_eval) == aux) {
+								if (i == 0) {
+									afirts.push(team);
+								} else {
+									asecond.push(team);
+								}
+							} else {
+								othersTeams.push(team);
+							}							
+						});
+						
+						aux = 0;
+						_groupTeams = othersTeams;
+						othersTeam = [];
+
+					}
+
+					return {firts:afirts,second:asecond};
+				};
+			
+				
+				$.fUpdateStandingGroup = function(_group) {
+
+					
+					var groupTeams = [];
+					var winners= [];	
+					var firts;
+					var second;
+
+					var points;
+					var condition = ['team.points','team.goals.d','team.goals.f'];
+
+					
+					$.each(arrGroup, function( index, group ) { if (_group == group.id) firts = group.team;});
+					for (var i = 0; i < 2; i++ ) {	
+																
+						for (var c = 0; c < condition.length ; c++ ) {
+					
+							points = $.fCompare(firts,condition[c]);
+							firts = points.firts;
+							second = points.second;
+
+							if (firts.length==1) {								
+								winners.push(points.firts);
+								firts = points.second;
+								c = 3;								
+							} else {
+								firts = points.firts;
+							}
 							
+						}
+					}
+
+
+					if (winners.length == 0) {
+						alert('1 Dos o más equipos siguen empatados en la primera posicion');	
+					
+						
+						
+						var deleteTeam = [];
+						var deleted = true;
+						var gameswinners = [];
+						
+						/*Busco los eliminados*/
+						$.each(arrGroup, function( index, group ) {
+							if (_group== group.id) {
+								$.each(group.team, function( index, team ) {
+																		
+									deleted = true;
+									$.each(firts, function(index,value) {											
+										if (team.id == value.id) {
+											deleted = false;
+										}
+									});
+									
+									if (deleted) {
+										deleteTeam.push(team);
+									}
+									
+								});
+							}
+						});
+											
+						
+						$.each(deleteTeam, function(index,team) {
+							console.log('Eliminados ' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
+						});
+
+						
+						$.each(arrGroup, function( index, group ) {
+							if (_group== group.id) {								
+								$.each(group.game, function( index, game ) {
+									
+									deleted = true;
+									$.each(deleteTeam, function(index,value) {
+										
+										if ((value.id == game.team[0].id) || (value.id == game.team[1].id)) {
+											deleted = false;
+										}
+										
+									});
+									
+									
+									if (deleted) {
+										gameswinners.push(game);
+									}
+																	
+								});
+								
+							}
+						});				
+						
+						
+						
+						
+						$.each(firts, function(index,team) {
+								
+								team.goals.f = 0;
+								team.goals.a = 0;
+								team.points = 0;
+								
+								$.each(gameswinners, function(index,game) {								
+									$.each(game.team, function( index, value ) {										
+										if (team.id == value.id) {
+											team.goals.f += value.goals.f;
+											team.goals.a += value.goals.a;
+											team.goals.d = 	(team.goals.f - team.goals.a);
+											team.points += value.points;
+										};
+									});
+								});
+
+						});
+						
+						
+						
+						$.each(firts, function(index,team) {
+							console.log('Rajuste de tablas' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
+						});
+						
+						
+						
+						
+						
+						
+						for (var i = 0; i < 2; i++ ) {	
+																	
+							for (var c = 0; c < condition.length ; c++ ) {
+						
+								points = $.fCompare(firts,condition[c]);
+								firts = points.firts;
+								second = points.second;
+	
+								if (firts.length==1) {								
+									winners.push(points.firts);
+									firts = points.second;
+									c = 3;								
+								} else {
+									firts = points.firts;
+								}
+								
+							}
+						}
+						
+						if (winners.length == 0) {
+							alert('2 Dos o más equipos siguen empatados en la primera posicion');						
+						} else if (winners.length == 1) {
+							alert('2 Dos o más equipos siguen empatados en la segunda posicion');														
+						} else {
+							alert('2 se resolvio');
+						}
+
+						
+					} else if (winners.length == 1) {												
+						alert('1 Dos o más equipos siguen empatados en la segunda posicion');				
+						
+						
+						
+						var deleteTeam = [];
+						var deleted = true;
+						var gameswinners = [];
+						
+						/*Busco los eliminados*/
+						$.each(arrGroup, function( index, group ) {
+							if (_group== group.id) {
+								$.each(group.team, function( index, team ) {
+																		
+									deleted = true;
+									$.each(firts, function(index,value) {											
+										if (team.id == value.id) {
+											deleted = false;
+										}
+									});
+									
+									if (deleted) {
+										deleteTeam.push(team);
+									}
+									
+								});
+							}
+						});
+											
+						
+						$.each(deleteTeam, function(index,team) {
+							console.log('Eliminados ' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
+						});
+
+						
+						$.each(arrGroup, function( index, group ) {
+							if (_group== group.id) {								
+								$.each(group.game, function( index, game ) {
+									
+									deleted = true;
+									$.each(deleteTeam, function(index,value) {
+										
+										if ((value.id == game.team[0].id) || (value.id == game.team[1].id)) {
+											deleted = false;
+										}
+										
+									});
+									
+									
+									if (deleted) {
+										gameswinners.push(game);
+									}
+																	
+								});
+								
+							}
+						});				
+						
+						
+						
+						
+						$.each(firts, function(index,team) {
+								
+								team.goals.f = 0;
+								team.goals.a = 0;
+								team.points = 0;
+								
+								$.each(gameswinners, function(index,game) {								
+									$.each(game.team, function( index, value ) {										
+										if (team.id == value.id) {
+											team.goals.f += value.goals.f;
+											team.goals.a += value.goals.a;
+											team.goals.d = 	(team.goals.f - team.goals.a);
+											team.points += value.points;
+										};
+									});
+								});
+
+						});
+						
+						
+						
+						$.each(firts, function(index,team) {
+							console.log('Rajuste de tablas' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
+						});
+						
+						
+						
+						
+						
+						
+					
+						for (var i = 0; i < 2; i++ ) {	
+																	
+							for (var c = 0; c < condition.length ; c++ ) {
+						
+								points = $.fCompare(firts,condition[c]);
+								firts = points.firts;
+								second = points.second;
+	
+								if (firts.length==1) {								
+									winners.push(points.firts);
+									firts = points.second;
+									c = 3;								
+								} else {
+									firts = points.firts;
+								}
+								
+							}
+						}
+						
+						if (winners.length == 0) {
+							alert('2 Dos o más equipos siguen empatados en la primera posicion');
 							
-					if ($(this).hasClass('on')) {						
-						$(selector).removeClass('on');
+						$('.content-flag-score[data-group="'+_group+'"][data-position="'+1+'"]').html($('.content-flag-score[data-group="'+_group+'"][data-position="'+1+'"]'));
+						} else if (winners.length == 1) {
+							alert('2 Dos o más equipos siguen empatados en la segunda posicion');							
+							
+						} else {
+							alert('2 se resolvio');
+						}
+						
+						
+						
+					} 
+						
+						
+								
+					$.each(winners, function(index,team) {
+						team = team[0];																		
+						$('.content-flag-score[data-group="'+_group+'"][data-position="'+index+'"]').html('<figure><img class="flag"  src="'+team.flag+'" alt="Camerún" /><figcaption>'+team.shortName+'</figcaption></figure>');					
+					});
+
+		
+				};
+
+				
+				$(document).on('click','.up, .down', function() {
+				
+					var _this = $(this);
+				
+					$('.flag[data-index="'+$(this).data('index')+'"]').addClass('on');		
+					var eGoal = $('.goal[data-index="'+$(this).data('index')+'"]');
+					var iGoal = eGoal.data('goal');	
+					iGoal = parseInt(iGoal);
+					
+					if ($(this).hasClass('up')) {
+						iGoal ++;
 					} else {
-						$(selector).addClass('on');	
-					}
+						if (iGoal>=1) iGoal --;
+					}	
+					
+					eGoal.data('goal',iGoal);
+					eGoal.html(iGoal);
+
+					
+					
+					$.each(arrGroup, function( index, value ) {
+						if (_this.data('group') == value.id) {							
+							$.each(value.game, function( index, value ) {
+								if (_this.data('game') == value.id) {
+									$.each(value.team, function( index, value ) {
+										if (_this.data('team') == value.id) value.goals.f = iGoal;
+									});		
+								};
+							});
+						};						  						
+					});
+
+
+					$.each(arrGroup, function( index, group ) {
+						if (_this.data('group') == group.id) {
+							
+							$.each(group.game, function( index, game ) {
+																																				
+								if (game.team[0].goals.f > game.team[1].goals.f) {																		
+									game.team[0].points = 3;
+									game.team[1].points = 0;																																		
+								} else if (game.team[1].goals.f > game.team[0].goals.f) {									
+									game.team[0].points = 0;									
+									game.team[1].points = 3;		
+								} else {
+									game.team[0].points = 1;
+									game.team[1].points = 1;	
+								};
+								
+								game.team[0].goals.a = game.team[1].goals.f;
+								game.team[1].goals.a = game.team[0].goals.f;
+								
+							});
+							
+							
+							$.each(group.team, function( index, team ) {
+								
+								team.goals.f = 0;
+								team.goals.a = 0;
+								team.points = 0;
+								
+								$.each(group.game, function( index, game ) {									
+									$.each(game.team, function( index, value ) {										
+										if (team.id == value.id) {
+											team.goals.f += value.goals.f;
+											team.goals.a += value.goals.a;
+											team.goals.d = 	(team.goals.f - team.goals.a);
+											team.points += value.points;
+										};
+									});
+								});
+								
+																
+								
+									
+							});
+							
+							
+						};																					  				
+					});
+
+					
 					
 
-					
-
-					if ($(selectorteama).hasClass('on') && $(selectorteamb).hasClass('on')) {
-
-						$(selectorscore).html('EMPATE');						
-						$(selectorgroup).attr('data-completed',completed);
-					} else if ($(selectorteama).hasClass('on') || $(selectorteamb).hasClass('on')) {
-						
-						$(selectorscore).html('GANADOR');							
-						$(selectorgroup).attr('data-completed',completed);		
-					} else {						
-						
-						$(selectorscore).html('SELECCIONE');
-						$(selectorgroup).attr('data-completed',completed);
-					}
-
-				});		
-
+				});
+				
 				$(document).on('click','.menu', function() {
 					
 					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';							
 					$('.menu').removeClass('on');
 					$(this).addClass('on');	
 					$('.name-group').html($(this).html());
+					$('.calcular').data('group',$(this).data('group')); 
 					$('.group[data-group]').addClass('hidden');
 					$(selectorgroup).removeClass('hidden');
 				});
+				
+				$(document).on('click','.calcular', function() {
+					$.fUpdateStandingGroup($(this).data('group'));			
+				});
+
 
 
 	  		});
