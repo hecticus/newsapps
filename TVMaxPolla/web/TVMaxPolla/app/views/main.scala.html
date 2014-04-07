@@ -60,6 +60,10 @@
 			
 			.goal {text-align:center;}
 			
+			ul,li {padding:0; margin:0; border:0; list-style:none outside none; text-align:center;}
+			li[data-phase="6"] {float:left;}
+			
+			
         </style>
         
 		<script>
@@ -97,6 +101,85 @@
 					return {firts:afirts,second:asecond};
 				};
 			
+				$.fUpdateStandingPhase = function(_phase) {
+					
+					var winners= [];
+					var wclassifiedinners= [];		
+					var firts;
+					var second;
+					var points;
+					var condition = ['team.points','team.goals.d','team.goals.f'];
+										
+					$.each(arrGroup, function(index, group ) { 
+						if (_phase == group.phase) {
+							
+							
+					
+							
+							group.classified = [];
+							points = $.fCompare(group.team,condition[0]);
+							firts = points.firts;
+							second = points.second;
+
+								
+
+							if (firts.length==1) {								
+								winners.push(points.firts);
+								firts = points.second;												
+							} else {
+								firts = points.firts;
+							}
+						
+							$.each(winners, function(index,team) {
+								team = team[0];
+								group.classified.push(team);
+							});
+						
+							winners = [];
+							
+						}						
+					});
+					
+					
+					
+					
+					$.each(arrGroup, function( index, group ) {
+						if (_phase == group.phase) {
+							$.each(group.classified, function(index, team) {
+								
+									if (_phase == 4) {
+										group.name = group.name+'W';	
+									} 
+									
+									$.fUpdate(group.name,team.placeholder);
+									
+									if (_phase == 6) {
+										$('[data-index="WIN"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="Camerún" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');	
+									} else {
+										$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="Camerún" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');
+									}
+									
+									
+
+
+								
+							});
+						}
+					});
+					
+					
+
+
+				};
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				$.fUpdateStandingGroup = function(_group) {
 
@@ -109,9 +192,12 @@
 					var points;
 					var condition = ['team.points','team.goals.d','team.goals.f'];
 
-					
 					$.each(arrGroup, function( index, group ) { if (_group == group.id) firts = group.team;});
-					for (var i = 0; i < 2; i++ ) {	
+					
+					
+					
+					
+					for (var i = 0; i < 2; i++ ) {
 																
 						for (var c = 0; c < condition.length ; c++ ) {
 					
@@ -130,10 +216,13 @@
 						}
 					}
 
-
-					if (winners.length == 0) {
-						alert('1 Dos o más equipos siguen empatados en la primera posicion');	
-					
+					if (winners.length <= 1) {
+						
+						if (winners.length == 0) {
+							alert('1 Dos o más equipos siguen empatados en la primera posicion');	
+						} else if (winners.length == 1) {
+							alert('1 Dos o más equipos siguen empatados en la segunda posicion');	
+						}
 						
 						
 						var deleteTeam = [];
@@ -188,10 +277,7 @@
 								
 							}
 						});				
-						
-						
-						
-						
+
 						$.each(firts, function(index,team) {
 								
 								team.goals.f = 0;
@@ -216,10 +302,6 @@
 						$.each(firts, function(index,team) {
 							console.log('Rajuste de tablas' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
 						});
-						
-						
-						
-						
 						
 						
 						for (var i = 0; i < 2; i++ ) {	
@@ -249,142 +331,59 @@
 							alert('2 se resolvio');
 						}
 
-						
-					} else if (winners.length == 1) {												
-						alert('1 Dos o más equipos siguen empatados en la segunda posicion');				
-						
-						
-						
-						var deleteTeam = [];
-						var deleted = true;
-						var gameswinners = [];
-						
-						/*Busco los eliminados*/
-						$.each(arrGroup, function( index, group ) {
-							if (_group== group.id) {
-								$.each(group.team, function( index, team ) {
-																		
-									deleted = true;
-									$.each(firts, function(index,value) {											
-										if (team.id == value.id) {
-											deleted = false;
-										}
-									});
-									
-									if (deleted) {
-										deleteTeam.push(team);
-									}
-									
-								});
-							}
-						});
-											
-						
-						$.each(deleteTeam, function(index,team) {
-							console.log('Eliminados ' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
-						});
+					} else {
+						alert('1 Tenesmo primero y segundo lugar definido');
+					}
 
-						
-						$.each(arrGroup, function( index, group ) {
-							if (_group== group.id) {								
-								$.each(group.game, function( index, game ) {
-									
-									deleted = true;
-									$.each(deleteTeam, function(index,value) {
-										
-										if ((value.id == game.team[0].id) || (value.id == game.team[1].id)) {
-											deleted = false;
-										}
-										
-									});
-									
-									
-									if (deleted) {
-										gameswinners.push(game);
-									}
-																	
-								});
-								
-							}
-						});				
-						
-						
-						
-						
-						$.each(firts, function(index,team) {
-								
-								team.goals.f = 0;
-								team.goals.a = 0;
-								team.points = 0;
-								
-								$.each(gameswinners, function(index,game) {								
-									$.each(game.team, function( index, value ) {										
-										if (team.id == value.id) {
-											team.goals.f += value.goals.f;
-											team.goals.a += value.goals.a;
-											team.goals.d = 	(team.goals.f - team.goals.a);
-											team.points += value.points;
-										};
-									});
-								});
 
-						});
-						
-						
-						
-						$.each(firts, function(index,team) {
-							console.log('Rajuste de tablas' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
-						});
-						
-						
-						
-						
-						
-						
-					
-						for (var i = 0; i < 2; i++ ) {	
-																	
-							for (var c = 0; c < condition.length ; c++ ) {
-						
-								points = $.fCompare(firts,condition[c]);
-								firts = points.firts;
-								second = points.second;
-	
-								if (firts.length==1) {								
-									winners.push(points.firts);
-									firts = points.second;
-									c = 3;								
-								} else {
-									firts = points.firts;
-								}
-								
-							}
-						}
-						
-						if (winners.length == 0) {
-							alert('2 Dos o más equipos siguen empatados en la primera posicion');
-							
-						$('.content-flag-score[data-group="'+_group+'"][data-position="'+1+'"]').html($('.content-flag-score[data-group="'+_group+'"][data-position="'+1+'"]'));
-						} else if (winners.length == 1) {
-							alert('2 Dos o más equipos siguen empatados en la segunda posicion');							
-							
-						} else {
-							alert('2 se resolvio');
-						}
-						
-						
-						
-					} 
-						
-						
+					var classified = [];
 								
 					$.each(winners, function(index,team) {
-						team = team[0];																		
-						$('.content-flag-score[data-group="'+_group+'"][data-position="'+index+'"]').html('<figure><img class="flag"  src="'+team.flag+'" alt="Camerún" /><figcaption>'+team.shortName+'</figcaption></figure>');					
+						team = team[0];						 											
+						$.each(arrGroup, function( index, group ) {
+							if (_group== group.id) {
+								classified.push(team);	
+							}
+						});
+
 					});
 
-		
+					$.each(arrGroup, function( index, group ) {
+						if (_group== group.id) {
+							group.classified = classified;
+							$.each(group.classified, function( index, team ) {
+								console.log('Clasificados ' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
+							});								
+						}
+					});
+
+					$.each(arrGroup, function( index, group ) {
+						if (_group== group.id) {
+							$.each(group.classified, function( index, team ) {
+								$.fUpdate(group.name+(index+1),team);
+								$('[data-index="'+group.name+(index+1)+'"]').html('<figure><img class="flag"  src="'+team.flag+'" alt="Camerún" /><figcaption>'+team.shortName+'</figcaption></figure>');
+							});	
+						}						
+					});
+
+					
+
 				};
+
+
+				$.fUpdate = function(_name,_team) {
+					$.each(arrGroup, function( index, group ) {
+						$.each(group.team, function(index, team ) {
+							if (team.name == _name) {
+								team.placeholder = _team;									
+								console.log('Se setea los clasificados ' + team.name + ' : f ' + team.goals.f + ' : a ' + team.goals.a + ' : d ' + team.goals.d + ' : p ' + team.points);
+								console.log('Se setea los clasificados placeholder ' + team.placeholder.name + ' : f ' + team.placeholder.goals.f + ' : a ' + team.placeholder.goals.a + ' : d ' + team.placeholder.goals.d + ' : p ' + team.placeholder.points);
+								
+							}
+						});	
+					});
+				};
+
 
 				
 				$(document).on('click','.up, .down', function() {
@@ -443,13 +442,13 @@
 							
 							
 							$.each(group.team, function( index, team ) {
-								
+
 								team.goals.f = 0;
 								team.goals.a = 0;
 								team.points = 0;
 								
-								$.each(group.game, function( index, game ) {									
-									$.each(game.team, function( index, value ) {										
+								$.each(group.game, function( index, game ) {
+									$.each(game.team, function( index, value ) {
 										if (team.id == value.id) {
 											team.goals.f += value.goals.f;
 											team.goals.a += value.goals.a;
@@ -458,36 +457,42 @@
 										};
 									});
 								});
-								
-																
-								
-									
+
 							});
-							
-							
-						};																					  				
+
+
+						};
 					});
 
-					
-					
 
 				});
 				
-				$(document).on('click','.menu', function() {
+				
+				$(document).on('click','.menu[data-phase]', function() {
+					var selectorphase  = 'div[data-phase="'+$(this).data('phase')+'"]';
+					$('.phase[data-phase]').addClass('hidden');
+					$(selectorphase).removeClass('hidden');
+				});
+				
+				$(document).on('click','.menu[data-group]', function() {
 					
-					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';							
+					var selectorgroup  = 'div[data-group="'+$(this).data('group')+'"]';
 					$('.menu').removeClass('on');
 					$(this).addClass('on');	
 					$('.name-group').html($(this).html());
 					$('.calcular').data('group',$(this).data('group')); 
 					$('.group[data-group]').addClass('hidden');
 					$(selectorgroup).removeClass('hidden');
-				});
-				
-				$(document).on('click','.calcular', function() {
-					$.fUpdateStandingGroup($(this).data('group'));			
+
 				});
 
+				$(document).on('click','.calcular[data-group]', function() {
+					$.fUpdateStandingGroup($(this).data('group'));
+				});
+
+				$(document).on('click','.calcular[data-phase]', function() {
+					$.fUpdateStandingPhase($(this).data('phase'));
+				});
 
 
 	  		});

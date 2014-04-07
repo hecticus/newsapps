@@ -30,74 +30,94 @@ public class Application extends Controller
 	
     public static Result index()
     {
-
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9000/matchesapi/v1/phase/get/matches/current").get();
+    	
+    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9000/matchesapi/v1/phase/get/matches/all").get();
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
-    	JsonNode jsonPhase = jsonResponse.get("phase");  
+    	JsonNode jsonPhases = jsonResponse.get("phases");  
+    	Iterator<JsonNode> iJsonPhase = jsonPhases.iterator();    	
+    	List<Phase> lstPhase = new ArrayList<Phase>();
+
     	
-    	Phase objPhase = new Phase();
-    	objPhase.setName(jsonPhase.get("name").asText());
-    	objPhase.setDateStart(Long.parseLong(jsonPhase.get("date_start").asText()));
-    	objPhase.setDateEnd(Long.parseLong(jsonPhase.get("date_end").asText()));
-    	
-    	Iterator<JsonNode> iJsonGroup = jsonPhase.get("groups").iterator();
-    	List<MatchGroup> lstMatchGroup = new ArrayList<MatchGroup>();
-    	
-    	
-    	while (iJsonGroup.hasNext()) {
+    	while (iJsonPhase.hasNext()) {
     		
-    		MatchGroup objMatchGroup = new MatchGroup();    		
-        	JsonNode jsonGroup = iJsonGroup.next();        	
-        	objMatchGroup.setIdGroup(jsonGroup.get("id").asInt());
-        	objMatchGroup.setName(jsonGroup.get("name").asText());
-        	Iterator<JsonNode> iJsonGame = jsonGroup.get("games").iterator();	
-        	List<GameMatch> lstGameMatch = new ArrayList<GameMatch>();
+
+    		JsonNode jsonPhase = iJsonPhase.next();   
+    		Phase objPhase = new Phase();
+    		
+    		objPhase.setIdPhase(jsonPhase.get("id").asInt());
+        	objPhase.setName(jsonPhase.get("name").asText());
+        	objPhase.setDateStart(Long.parseLong(jsonPhase.get("date_start").asText()));
+        	objPhase.setDateEnd(Long.parseLong(jsonPhase.get("date_end").asText()));
+
         	
-        	while (iJsonGame.hasNext()) {
+        	Iterator<JsonNode> iJsonGroup = jsonPhase.get("groups").iterator();
+        	List<MatchGroup> lstMatchGroup = new ArrayList<MatchGroup>();
+        	
+        	
+        	while (iJsonGroup.hasNext()) {
         		
-        		GameMatch objGameMatch = new GameMatch();    		
-            	JsonNode jsonGame = iJsonGame.next();            	
-            	objGameMatch.setIdMatch(jsonGame.get("id").asInt());
-            	objGameMatch.setDate(Long.parseLong(jsonGame.get("date").asText()));            	               
+        		MatchGroup objMatchGroup = new MatchGroup();    		
+            	JsonNode jsonGroup = iJsonGroup.next();        	
+            	objMatchGroup.setIdGroup(jsonGroup.get("id").asInt());
+            	objMatchGroup.setName(jsonGroup.get("name").asText());
+            	Iterator<JsonNode> iJsonGame = jsonGroup.get("games").iterator();	
+            	List<GameMatch> lstGameMatch = new ArrayList<GameMatch>();
             	
-            	Team objTeamA = new Team();
-            	Team objTeamB = new Team();
-            	Venue objVenue = new Venue();
-            	
-            	JsonNode jsonTeamA = jsonGame.get("team_a");
-            	JsonNode jsonTeamB = jsonGame.get("team_b");
-            	JsonNode jsonVenue = jsonGame.get("venue");
-            	
-            	objTeamA.setIdTeam(jsonTeamA.get("id").asInt());            	
-            	objTeamA.setName(jsonTeamA.get("name").asText());            	
-            	objTeamA.setShortName(jsonTeamA.get("shortName").asText());
-            	objTeamA.setFlagFile(jsonTeamA.get("flag_file").asText());
-            	
-            	objTeamB.setIdTeam(jsonTeamB.get("id").asInt());            	
-            	objTeamB.setName(jsonTeamB.get("name").asText());            	
-            	objTeamB.setShortName(jsonTeamB.get("shortName").asText());
-            	objTeamB.setFlagFile(jsonTeamB.get("flag_file").asText());
+            	while (iJsonGame.hasNext()) {
+            		
+            		GameMatch objGameMatch = new GameMatch();    		
+                	JsonNode jsonGame = iJsonGame.next();            	
+                	objGameMatch.setIdMatch(jsonGame.get("id").asInt());
+                	objGameMatch.setDate(Long.parseLong(jsonGame.get("date").asText()));            	               
+                	
+                	
+                	
+                		Team objTeamA = new Team();
+                    	Team objTeamB = new Team();
 
-            	objVenue.setIdVenue(jsonVenue.get("id").asInt());
-            	objVenue.setName(jsonVenue.get("name").asText());
+                    	JsonNode jsonTeamA = jsonGame.get("team_a");
+                    	JsonNode jsonTeamB = jsonGame.get("team_b");                    	
+
+                    	objTeamA.setIdTeam(jsonTeamA.get("id").asInt());            	
+                    	objTeamA.setName(jsonTeamA.get("name").asText());            	
+                    	objTeamA.setShortName(jsonTeamA.get("shortName").asText());
+                    	objTeamA.setFlagFile(jsonTeamA.get("flag_file").asText());
+                    	
+                    	objTeamB.setIdTeam(jsonTeamB.get("id").asInt());            	
+                    	objTeamB.setName(jsonTeamB.get("name").asText());            	
+                    	objTeamB.setShortName(jsonTeamB.get("shortName").asText());
+                    	objTeamB.setFlagFile(jsonTeamB.get("flag_file").asText());
+                    	
+                    	objGameMatch.setTeamA(objTeamA);
+                    	objGameMatch.setTeamB(objTeamB);
+                		
+                	
+                	
+                	Venue objVenue = new Venue();
+                	JsonNode jsonVenue = jsonGame.get("venue");
+                	objVenue.setIdVenue(jsonVenue.get("id").asInt());
+                	objVenue.setName(jsonVenue.get("name").asText());
+
+                	objGameMatch.setVenue(objVenue); 
+                	
+                	
+                	lstGameMatch.add(objGameMatch);
+                	
+            	}
             	
-            	objGameMatch.setTeamA(objTeamA);
-            	objGameMatch.setTeamB(objTeamB);
-            	objGameMatch.setVenue(objVenue); 
-            	
-            	
-            	lstGameMatch.add(objGameMatch);
-            	
+            	objMatchGroup.setGameMatch(lstGameMatch);
+            	lstMatchGroup.add(objMatchGroup);
+            	objPhase.setMatchGroup(lstMatchGroup);
+
         	}
-        	
-        	objMatchGroup.setGameMatch(lstGameMatch);
-        	lstMatchGroup.add(objMatchGroup);
-        	objPhase.setMatchGroup(lstMatchGroup);
+    		
 
+        	lstPhase.add(objPhase);
+        	
     	}
-    	
+
     
-    	return ok(index.render(objPhase));
+    	return ok(index.render(lstPhase));
  
   
     }
