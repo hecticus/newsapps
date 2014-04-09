@@ -30,13 +30,13 @@ public class Application extends Controller
 	
     public static Result index()
     {
-    	
+    	int[] myIntArray = new int[3];
     	Promise<WS.Response> wsResponse = WS.url("http://localhost:9000/matchesapi/v1/phase/get/matches/all").get();
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPhases = jsonResponse.get("phases");  
     	Iterator<JsonNode> iJsonPhase = jsonPhases.iterator();    	
-    	List<Phase> lstPhase = new ArrayList<Phase>();
-
+    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+    	 
     	
     	while (iJsonPhase.hasNext()) {
     		
