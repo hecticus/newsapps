@@ -802,8 +802,10 @@ function initBasicApp(){
 									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
 									
 									$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
-										$.li+='<span style="font-size:1.0em;">Tendencias</span> <br />';
-										$.li+='<span style="font-size:1.4em; font-weight:bold;">DE HOY</span>';
+										/*$.li+='<span style="font-size:1.0em;">Tendencias</span> <br />';
+										$.li+='<span style="font-size:1.4em; font-weight:bold;">DE HOY</span>';*/
+										$.li+='<span style="font-size:1.6em;margin-left:-6%;">Tendencias</span> <br />';
+										$.li+='<span style="font-size:1.9em; font-weight:bold;">  DE HOY</span>';
 									$.li+='</div>';
 									
 
