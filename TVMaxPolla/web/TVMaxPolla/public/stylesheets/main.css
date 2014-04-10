@@ -1,0 +1,27 @@
+
+@media (max-width: 767px) { 	
+	#keys {display:none;} 
+	.team-name {display:none;}
+	.date {text-align: center;}	
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 	
+	#keys {display:none;} 
+	.team-name {display:inline;}
+	.date {text-align: center;}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 	
+	#keys {display:block; }
+	.team-name {display:inline;} 	
+	.date {text-align: left;}
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 		
+	#keys {display:block;}	
+	.team-name {display:inline;}
+	.date {text-align: left;}
+}

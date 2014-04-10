@@ -32,18 +32,20 @@
 			
 			
 			/*img.flag {width:75%; height:25%; min-width:75px; max-width:75px; min-height:50px; max-height:50px; }*/
-			img.flag {width:75%; height:25%; }
+			/*img.flag {width:75%; height:25%; }*/			
+			img.flag {width:85px; height:auto; }
+			.content-flag-score img.flag {width:100%; height:auto; }
 			
-			img.flag:hover {cursor:pointer; opacity:1.0; filter:alpha(opacity=100); /* For IE8 and earlier */}															
+			/*img.flag:hover {cursor:pointer; opacity:1.0; filter:alpha(opacity=100);}															
 			.off{opacity:0.4; filter:alpha(opacity=40);}
-			.on{opacity:1.0; filter:alpha(opacity=100);}
-			img.arrow{width:30%; height:auto; min-width:10px; max-width:10px; min-height:10px; max-height:10px; cursor: pointer; }
+			.on{opacity:1.0; filter:alpha(opacity=100);}*/
 			
-			/*.col-xs-6 img.arrow{width:50%; height:auto; }
-			.col-sm-6 img.arrow{width:35%; height:auto; }
-			.col-md-6 img.arrow{width:50%; height:auto; }
-			.col-lg-6 img.arrow{width:100%; height:auto; }*/
+			/*img.arrow{width:30%; height:auto; min-width:15px; max-width:15px; min-height:15px; max-height:15px; cursor: pointer; }*/
+			img.arrow{width:12px; height:auto;  cursor: pointer; }
 
+			
+
+			#keys {background-color: #186198; max-height: 550px;}
 			
 			
 			.menu, .calcular{cursor:pointer; }
@@ -53,7 +55,7 @@
 			.hidden {visibility:hidden;}
 			
 			
-			.content-flag-score {width: 75px; min-height: 55px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold;  }
+			.content-flag-score {width: 75px; min-height: 60px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold;  }
 			.content-flag-score:last-child{margin:5px 0 5px 0;}			
 			.content-flag-score.on {background-color:#bababb;  -moz-box-shadow: 3px 3px rgba(226,226,229,0.7); -webkit-box-shadow: 3px 3px rgba(226,226,229,0.7); box-shadow: 3px 3px rgba(226,226,229,0.7); text-align: center;}			
 			.content-flag-score.on img.flag {width:75%;}
@@ -64,12 +66,13 @@
 			li[data-phase="6"] {float:left;}
 			
 			
+			
+			
         </style>
         
 		<script>
 	  		$(function() {
-	  			
-				
+	  	
 	
 				
 				
@@ -81,8 +84,7 @@
 					$.each(arrPhase, function(index,phase) {
 						
 						if (phase.id !=6 ) {
-						
-						
+
 							var total = 0;
 							var value = parseInt(phase.games);
 							if (phase.id == 1) value = parseInt(phase.games/2);						
@@ -93,8 +95,7 @@
 	
 							if (total == value) {
 								if (index < 5) {
-									$('.menu[data-phase="'+arrPhase[index+1].id+'"]').removeClass('hidden');
-									
+									$('.menu[data-phase="'+arrPhase[index+1].id+'"]').removeClass('hidden');									
 								}
 							} else {
 														
@@ -121,11 +122,8 @@
 								return false;
 							}
 						
-						
-						
 						}
-						
-						
+
 
 					});
 					return _return;
@@ -138,42 +136,132 @@
 					var othersTeams= [];
 					var afirts = [];
 					var asecond = [];
-
+	
 					for ( var i = 0; i < 2; i++ ) {
-						
-						$.each(_groupTeams, function(index,team) { if (eval(_eval)>aux) aux = eval(_eval); });						
-						$.each(_groupTeams, function(index,team) {
-						
-										
-							if (eval(_eval) == aux) {
-								if (i == 0) {
-									afirts.push(team);
+							
+							$.each(_groupTeams, function(index,team) { if (eval(_eval)>aux) aux = eval(_eval); });						
+							$.each(_groupTeams, function(index,team) {
+							
+											
+								if (eval(_eval) == aux) {
+									if (i == 0) {
+										afirts.push(team);
+									} else {
+										asecond.push(team);
+									}
 								} else {
-									asecond.push(team);
-								}
+									othersTeams.push(team);
+								}							
+							});
+							
+							aux = 0;
+							_groupTeams = othersTeams;
+							othersTeam = [];
+	
+					}
+	
+					return {firts:afirts,second:asecond};
+			};
+			
+
+
+
+
+
+
+
+				$.fUpdateStandingPhase22 = function() {
+					
+					var winners= [];
+					var wclassifiedinners= [];		
+					var firts;
+					var second;
+					var points;
+					var condition = ['team.points','team.goals.d','team.goals.f'];
+
+					//var _phase = $.fgetPhaseActive();
+					
+					$.each(arrPhase, function(index, phase) {
+						
+						
+						$.each(phase.group, function(index, group) {
+
+							group.classified = [];
+							points = $.fCompare(group.team,condition[0]);
+							firts = points.firts;
+							second = points.second;	
+										
+							if (firts.length==1) {						
+								winners.push(points.firts);
+								firts = points.second;												
 							} else {
-								othersTeams.push(team);
-							}							
+								firts = points.firts;
+							}
+						
+							$.each(winners, function(index,team) {
+								team = team[0];
+								group.classified.push(team);
+								
+								//console.log('AQUI LOS GANADORES DE LA SIGUIENTE FASE ->' + team.name);
+								
+							});
+						
+							winners = [];					
+	
+							
+							
+							$.each(group.classified, function(index, team) {
+							
+								var phase = (group.phase+1);		
+								if (group.phase == 4) {
+									phase = 6;
+									if (group.name.indexOf('W') < 0) {
+										group.name = group.name+'W';
+									}
+		
+									
+								} 
+	
+	
+								$.fUpdate(group.name,team.placeholder,phase);
+											
+								if (team.placeholder != null) {
+								
+									if (group.phase == 6) {
+										$('[data-index="WIN"]').attr('data-index',group.name);
+										$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');	
+									} else {									
+										$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');
+										//$('[data-index2="'+group.name+'"]').html('-');
+										//console.log('AQUI LOS GANADORES DE LA SIGUIENTE FASE ->' +'[data-index2="'+group.name+'"]' + ' : ' + group.name);
+										
+										
+									}
+									
+								}
+								
+		
+							});
+						
 						});
 						
-						aux = 0;
-						_groupTeams = othersTeams;
-						othersTeam = [];
+					});
+					
 
-					}
-
-					return {firts:afirts,second:asecond};
 				};
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
+
+
+
+
+
+
 			$.fUpdateStandingPhase2 = function() {
 					
 					var winners= [];
@@ -201,6 +289,9 @@
 						$.each(winners, function(index,team) {
 							team = team[0];
 							group.classified.push(team);
+							
+							//console.log('AQUI LOS GANADORES DE LA SIGUIENTE FASE ->' + team.name);
+							
 						});
 					
 						winners = [];					
@@ -208,43 +299,46 @@
 						
 						
 						$.each(group.classified, function(index, team) {
+						
 							var phase = (group.phase+1);		
 							if (group.phase == 4) {
-								group.name = group.name+'W';	
 								phase = 6;
+								if (group.name.indexOf('W') < 0) {
+									group.name = group.name+'W';
+								}
+	
+								
 							} 
-							
-							
-							
+
+
 							$.fUpdate(group.name,team.placeholder,phase);
 										
+							if (team.placeholder != null) {
 							
-							if (group.phase == 6) {
-								$('[data-index="WIN"]').attr('data-index',group.name);
-								$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="Camerún" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');	
-							} else {
-								$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="Camerún" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');
+								if (group.phase == 6) {
+									$('[data-index="WIN"]').attr('data-index',group.name);
+									$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');	
+								} else {								
+									$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');
+									
+									
+									//$('[data-index2="'+group.name+'"]').html('-');
+									//console.log('AQUI LOS GANADORES DE LA SIGUIENTE FASE ->' +'[data-index2="'+group.name+'"]' + ' : ' + group.name);
+									
+									
+								}
+								
 							}
+							
 	
 						});
 						
 					});
 					
-					
-					
-					
-					
-					$.fsetVisibleMenu();
+
 
 				};
-			
-			
-			
-			
-			
-			
-			
-			
+
 			
 				$.fUpdateKeys = function() {
 				
@@ -260,16 +354,15 @@
 	
 					$.each(arrPhase, function( index, phase) {
 						$.each(phase.group, function( index, group) {
+							//console.log('por aqui paso con este nombre ' + group.name);
 						
 							if (group.name.indexOf(name1) >= 0) {
-								$('[data-index="'+group.name+'"]').html(group.name);
-								//$('[data-team="'+group.name+'"]').html('-');
+								$('[data-index="'+group.name+'"]').html($('[data-index="'+group.name+'"]').data('alt'));
 																		
 							}
 							
 							if (group.name.indexOf(name2) >= 0) {
-								$('[data-index="'+group.name+'"]').html(group.name);
-								//$('[data-team="'+group.name+'"]').html('-');
+								$('[data-index="'+group.name+'"]').html($('[data-index="'+group.name+'"]').data('alt'));
 							}
 						
 						
@@ -492,30 +585,11 @@
 					$.each(_group.classified, function( index, team ) {	
 											
 						$.fUpdate(_group.name+(index+1),team,2);
-
 						$('[data-index="'+_group.name+(index+1)+'"]').html('<figure><img class="flag"  src="'+team.flag+'" alt="Camerún" /><figcaption>'+team.shortName+'</figcaption></figure>');
+							
+						
 					});	
 
-					$.fsetVisibleMenu();
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 
 				};
 
@@ -709,13 +783,92 @@
 
 				});
 
-				$(document).on('click','.calcular[data-group]', function() {
-					$.fUpdateStandingGroup2();
+				$(document).on('click','.calcular[data-group]', function() {					
+					$.fUpdateStandingGroup2();					
+					//$.fsetVisibleMenu();
+					$.fEjemplo();
 				});
 
 				$(document).on('click','.calcular[data-phase]', function() {
 					$.fUpdateStandingPhase2();
+					//$.fsetVisibleMenu();
+					
+					$.fEjemplo();
+
 				});
+
+				$.fEjemplo = function() {
+					var _id = 0;
+					var _total=0;
+					$.each(arrPhase, function( index,phase) {
+						
+						if (phase.active) {
+							
+							
+							
+							if (phase.id == 1) {
+								
+								$.each(phase.group, function( index,group) {
+									_total += group.classified.length;
+								});
+								
+								if (_total == 16) {
+									$('.menu[data-phase="'+(phase.id+1)+'"]').removeClass('hidden');		
+								}
+								
+								
+								
+							}
+							
+							if (phase.id == 2) {
+								
+								$.each(phase.group, function( index,group) {
+									_total += group.classified.length;
+								});
+								
+								if (_total == 8) {
+									$('.menu[data-phase="'+(phase.id+1)+'"]').removeClass('hidden');		
+								}
+								
+								
+								
+							}
+							
+							if (phase.id == 3) {
+								
+								$.each(phase.group, function( index,group) {
+									_total += group.classified.length;
+								});
+								
+								if (_total == 4) {
+									$('.menu[data-phase="'+(phase.id+1)+'"]').removeClass('hidden');		
+								}
+								
+								
+								
+							}
+							
+							
+							if (phase.id == 4) {
+								
+								$.each(phase.group, function( index,group) {
+									_total += group.classified.length;
+								});
+								
+								if (_total == 2) {
+									$('.menu[data-phase="'+(phase.id+2)+'"]').removeClass('hidden');		
+								}
+
+							}
+
+						} 
+
+						
+					});	
+					
+					
+								
+				};
 
 
 	  		});
