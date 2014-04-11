@@ -31,4 +31,8 @@ GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.Phase
 GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
 GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.PhaseController.getAllPhasesMatches()
 
+#predictions
+POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
+POST    /matchesapi/v1/prediction/get               controllers.matchesapi.PredictionController.getClientPrediction()
+
 
