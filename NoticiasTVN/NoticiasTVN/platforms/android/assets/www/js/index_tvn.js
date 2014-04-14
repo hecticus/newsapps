@@ -815,7 +815,8 @@ function initBasicApp(){
 									$.li+='<div style="width:'+((viewport.width*70)/100)+'px; height:auto; float:left;">';
 
 									arrTrendingTopics.forEach(function(trending,i) {
-										$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
+										//$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
+										$.li+='<div style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
 										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';										
 										$.li+='</div>';
 									});
