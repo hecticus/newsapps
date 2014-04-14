@@ -74,6 +74,15 @@
 	
 	<div class="container">
 
+		<div class="row">
+			<div class="col-md-12">
+				<div class="btn-group">
+					<button id="hola" type="button" class="btn btn-default">HOLA</button>
+					<button id="save" type="button" class="btn btn-default">SAVE</button>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">	
 			<div class="col-md-12">
 				<div class="btn-group">
@@ -199,7 +208,7 @@
 																</div>
 															</div>
 															<div class="row" >
-																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal" data-goal="0" >0</div>
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal" data-goal="@game.getScoreTeamA()" >@game.getScoreTeamA()</div>
 															</div>
 															<div class="row" >
 																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -215,7 +224,7 @@
 																</div>
 															</div>
 															<div class="row" >
-																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal" data-goal="0"  >0</div>
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal" data-goal="@game.getScoreTeamB()"  >@game.getScoreTeamB()</div>
 															</div>
 															<div class="row" >
 																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >

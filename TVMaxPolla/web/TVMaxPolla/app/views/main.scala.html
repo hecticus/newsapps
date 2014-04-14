@@ -651,20 +651,102 @@
 					return _return;
 					
 				};
+
+				
+				$(document).on('click','#save', function() {
+					
+					var jsonMatches={client:1,matches:[]};
+					$.each(arrPhase, function(index,phase) {
+						$.each(phase.group, function(index,group) {
+							$.each(group.game, function( index, game ) {								
+								jsonMatches.matches.push({"id_match":game.id,"score_team_a":game.team[0].goals.f,"score_team_b":game.team[1].goals.f});
+							});
+						});
+					});
+					
+					$.ajax({
+	            		url: 'http://localhost:8080/TVMaxPolla/tvmaxsaveprediction.php?callback=23',
+	            		type: 'post',	            		
+	            		dataType: 'jsonp',
+	            		contentType: "application/json; charset=utf-8",
+	            		success: function (data) {
+	            			var obj = jQuery.parseJSON(data);
+	                		console.log(obj.description);
+	                		console.log(JSON.stringify(jsonMatches));
+	            		},
+	            		data: jsonMatches
+	        		});
 				
 				
+					
+				});
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
+				$(document).on('click','#hola', function() {
+					
+					$.each(arrPhase, function(index,phase) {
+						if (phase.id==1) {
+							
+							
+							$.each(phase.group, function(index, group) {
+								$.each(group.game, function( index, game ) {						
+									$.each(game.team, function( index, team ) {							
+										team.goals.f = $('.phase[data-phase="1"] .group .game .score .team[data-team="'+team.id+'"] .goal').data('goal');
+									});
+								});	
+							});
+							
+							$.each(phase.group, function(index, group) {
+								$.each(group.game, function( index, game ) {
+
+									if (game.team[0].goals.f > game.team[1].goals.f) {
+										game.team[0].points = 3;
+										game.team[1].points = 0;
+									} else if (game.team[1].goals.f > game.team[0].goals.f) {
+										game.team[0].points = 0;
+										game.team[1].points = 3;
+									} else {
+										game.team[0].points = 1;
+										game.team[1].points = 1;
+									};
+									
+									game.team[0].goals.a = game.team[1].goals.f;
+									game.team[1].goals.a = game.team[0].goals.f;
+							
+								});
+							});
+							
+							
+							$.each(phase.group, function(index, group) {
+								$.each(group.team, function( index, team ) {
+		
+									team.goals.f = 0;
+									team.goals.a = 0;
+									team.points = 0;
+									
+									$.each(group.game, function( index, game ) {
+										$.each(game.team, function( index, value ) {
+											if (team.id == value.id) {
+												team.goals.f += value.goals.f;
+												team.goals.a += value.goals.a;
+												team.goals.d = 	(team.goals.f - team.goals.a);
+												team.points += value.points;
+											};
+										});
+									});
+
+								});
+							});
+							
+
+						}
+					});
+
+					$.fUpdateStandingGroup2();
+
+				});
+
+
 				$(document).on('click','.up, .down', function() {
 					
 
@@ -734,8 +816,7 @@
 						game.team[1].goals.a = game.team[0].goals.f;
 				
 					});
-							
-							
+
 					$.each(group.team, function( index, team ) {
 
 						team.goals.f = 0;
@@ -840,10 +921,6 @@
 					});
 
 				});
-
-
-
-
 
 
 

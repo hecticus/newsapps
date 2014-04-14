@@ -29,6 +29,8 @@ public class GameMatch extends HecticusModel{
     private Long date;
     private Integer idVenue;
 
+    private Integer scoreTeamA;
+    private Integer scoreTeamB;
     
     public Team objTeamA;
     public Team objTeamB;    
@@ -96,6 +98,22 @@ public class GameMatch extends HecticusModel{
         this.idVenue = idVenue;
     }
 
+    
+    public Integer getScoreTeamA() {
+        return scoreTeamA;
+    }
+
+    public void setScoreTeamA(Integer scoreTeamA) {
+        this.scoreTeamA = scoreTeamA;
+    }
+    
+    public Integer getScoreTeamB() {
+        return scoreTeamB;
+    }
+
+    public void setScoreTeamB(Integer scoreTeamB) {
+        this.scoreTeamB = scoreTeamB;
+    }
     
     
     public Team getTeamA() {
