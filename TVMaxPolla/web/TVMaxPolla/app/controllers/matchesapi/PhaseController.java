@@ -140,6 +140,10 @@ public class PhaseController extends HecticusController {
                         if(venue!=null) matchObjJson.put("venue",venue.toJson());
 
                         if(setScores){
+                            matchObjJson.put("score_team_a",0);
+                            matchObjJson.put("score_team_b",0);
+                            matchObjJson.put("penalties_team_a",0);
+                            matchObjJson.put("penalties_team_b",0);
                             if(matchesResults != null){
                                 for(int y=0;y<matchesResults.size();y++){
                                     ObjectNode obj = (ObjectNode) matchesResults.get(y);
