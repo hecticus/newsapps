@@ -1043,11 +1043,11 @@ function initBasicApp(){
 						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
 						$.news.quicklook.push({src:trending.imagen,width:864,height:486});
 					
-						$('#trending-news-featured-title').data('id',$.news.id);
-						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
-						$('#trending-news-featured-title').attr('data-content','trending');
-					
 						if (i==0) {
+							
+							$('#trending-news-featured-title').data('id',$.news.id);
+							$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
+							$('#trending-news-featured-title').attr('data-content','trending');
 																	
 							var width = window.innerWidth;
 							var height = window.innerHeight;
@@ -1070,11 +1070,15 @@ function initBasicApp(){
 							}else{
 								$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
 							}
-														
+			
 							$('#trending-news-featured-title').data('id',$.news.id);
 							$('#trending-news-featured-title').data('news','#news-'+$.news.id);
 							$('#trending-news-featured-title').data('headline',$.news.headline);																			
-							$('#trending-news-featured-title').attr('data-content','headline');
+							$('#trending-news-featured-title').attr('data-content','trending');
+							$('#trending-news-featured-title').attr('data-id',$.news.id);
+							$('#trending-news-featured-title').attr('data-news','#news-'+$.news.id);
+							
+							//$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
 							
 							$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
 							$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								

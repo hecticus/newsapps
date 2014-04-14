@@ -427,7 +427,7 @@ function initBasicApp(){
     		}).on('touchend','li[data-content="headline"]', function() {				
     			if (press) {
     				
-    				
+		
 					$("#header-title").addClass('back');
 					$(".icon.logo").addClass('back');	
     				$(".icon.tv").addClass('share');
@@ -655,8 +655,7 @@ function initBasicApp(){
 			function successGetNewsDataContentFromBD(results){
 					
 				if(results != null){	
-					var len = results.rows.length;
-					console.log("Pass "+len);
+					var len = results.rows.length;				
 					if(len > 0){
 						var newsArray = new Array();
 						for(var i=0;i<len;i++){
@@ -807,16 +806,23 @@ function initBasicApp(){
 
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*20)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
-									$.li+='<div style="position:absolute; top:35%; text-align:center;">';									
-									$.li+='<span style="font-size:1.0em;">Tendencias</span> <span style="font-size:1.2em; font-weight:bold;">DE HOY</span>';
-									$.li+='</div>';
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
+									
+									$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
+										/*$.li+='<span style="font-size:1.0em;">Tendencias</span> <br />';
+										$.li+='<span style="font-size:1.4em; font-weight:bold;">DE HOY</span>';*/
+										$.li+='<span style="font-size:1.6em;margin-left:-6%;">Tendencias</span> <br />';
+										$.li+='<span style="font-size:1.9em; font-weight:bold;">  DE HOY</span>';
 									$.li+='</div>';
 									
-									$.li+='<div style="width:'+((viewport.width*80)/100)+'px; height:auto; float:left;">';
+
+									
+									$.li+='</div>';
+									
+									$.li+='<div style="width:'+((viewport.width*70)/100)+'px; height:auto; float:left;">';
 
 									arrTrendingTopics.forEach(function(trending,i) {
-										$.li+='<div style="width:'+(((viewport.width*40)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
+										$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
 										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';										
 										$.li+='</div>';
 									});
@@ -824,8 +830,11 @@ function initBasicApp(){
 									$.li+='</div>';
 									
 								$.li+='</li>';
-										
-
+								
+								$.li+='<li data-view="banner" >';
+									$.li+='<img src="img/banner/large.jpg" style="width:100%; height:auto; " />';						
+								$.li+='</li>';
+											
 																								
 								$($.category +'-news1').append($.li);
 								
@@ -878,14 +887,16 @@ function initBasicApp(){
     		};
 
 			$.fsetNewsDatacontents = function(itemArray) {
-				console.log("fsetNewsDatacontents");
+				
 				$.category = '#'+arrCategory[myScrollPage.currPageX].classId;
 					
 				
 				for(var i=0;i<itemArray.length; i++){
 						if(itemArray[i]["id"] == newsDatacontent){
 
-						$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+						$('#datacontents').empty();
+							
+						$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};
 						$.news.headline=itemArray[i]["title"];
 						
 						//Share button onclick
@@ -975,7 +986,7 @@ function initBasicApp(){
 						        																						
 						$.li+='</li>';
 						
-																													 console.log($.li);
+																													 
 						$('#datacontents').append($.li);
 						
 
