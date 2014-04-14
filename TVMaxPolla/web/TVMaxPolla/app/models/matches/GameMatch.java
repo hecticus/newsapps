@@ -7,9 +7,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +26,14 @@ public class GameMatch extends HecticusModel{
     private Integer idPhase;
     private Long date;
     private Integer idVenue;
-
-    private Integer scoreTeamA;
-    private Integer scoreTeamB;
     
     public Team objTeamA;
     public Team objTeamB;    
     public Venue objVenue;
-  
+
+    @OneToOne
+    @JoinColumn(name = "id_match")
+    public MatchResults results;
     
     
     public GameMatch(){
@@ -97,24 +95,6 @@ public class GameMatch extends HecticusModel{
     public void setIdVenue(Integer idVenue) {
         this.idVenue = idVenue;
     }
-
-    
-    public Integer getScoreTeamA() {
-        return scoreTeamA;
-    }
-
-    public void setScoreTeamA(Integer scoreTeamA) {
-        this.scoreTeamA = scoreTeamA;
-    }
-    
-    public Integer getScoreTeamB() {
-        return scoreTeamB;
-    }
-
-    public void setScoreTeamB(Integer scoreTeamB) {
-        this.scoreTeamB = scoreTeamB;
-    }
-    
     
     public Team getTeamA() {
         return objTeamA;
@@ -134,6 +114,14 @@ public class GameMatch extends HecticusModel{
     
     public Venue getVenue() {
         return objVenue;
+    }
+
+    public void setResults(MatchResults objResults) {
+        this.results = objResults;
+    }
+
+    public MatchResults getResults() {
+        return results;
     }
 
     public void setVenue(Venue objVenue) {

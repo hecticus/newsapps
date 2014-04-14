@@ -200,18 +200,18 @@ public class Application extends Controller
                     	objVenue.setName(jsonVenue.get("name").asText());
 
                     	objGameMatch.setVenue(objVenue);
-                    	
-                    	objGameMatch.setScoreTeamA(0);
-                    	objGameMatch.setScoreTeamB(0); 
-                    	
+
+                        MatchResults results = new MatchResults(objGameMatch.getIdMatch(),0,0,0,0);
+
                     	if (jsonGame.get("score_team_a") != null ) {
-                    			objGameMatch.setScoreTeamA(jsonGame.get("score_team_a").asInt());	
+                            results.setScoreTeamA(jsonGame.get("score_team_a").asInt());
                     	}
                     	
                     	if (jsonGame.get("score_team_b") != null ) {
-                    		objGameMatch.setScoreTeamB(jsonGame.get("score_team_b").asInt());
+                            results.setScoreTeamB(jsonGame.get("score_team_b").asInt());
                     	}
-                    	
+
+                        objGameMatch.setResults(results);
                     	
                     	lstGameMatch.add(objGameMatch);
                     	
