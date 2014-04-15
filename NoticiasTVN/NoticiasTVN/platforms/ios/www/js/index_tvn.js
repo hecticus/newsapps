@@ -179,7 +179,8 @@ function fRemoveClassIcon() {
 function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
-	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));	
+	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
+	if (!trendingview) $("#header-title").html(arrCategory[0].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
@@ -308,6 +309,8 @@ function initBasicApp(){
 		 
 			$('#gamesWrapper').width(viewport.width);
 			$('#gamesScroller').width(viewport.width);
+			
+			$('#header-title').width(viewport.width/2);
 			
 			
 		 
@@ -463,7 +466,8 @@ function initBasicApp(){
     			$(this).css('color','#999999');				
     			if (press) {    				
     				trendingview=true;
-    				$("#header-title").html(fTextoCortado($(this).html()));
+    				//$("#header-title").html(fTextoCortado($(this).html()));
+    				$("#header-title").html($(this).html());
     				myScrollTrending.scrollTo(0,0,0);	    				
     				$.fsetTrendings($(this).data('id'));
     				$('#datatrending').attr('class','page transition left');
@@ -608,7 +612,7 @@ function initBasicApp(){
 					var itemArray = null;
 					if(json["noticias"] != null){
 						itemArray = json["noticias"]["item"];
-						//console.log("itemArray "+itemArray.length);
+						console.log("itemArray "+itemArray.length);
 					}else{
 						itemArray = json["videos"]["item"];
 						//console.log("Videos Size: "+itemArray.length);
@@ -808,11 +812,12 @@ function initBasicApp(){
 								
 									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
 									
-									$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
+									//$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
+									$.li+='<div align="center" style="position: absolute; height: 100%; width:100%;text-align: center; top:1.6em;">';
 										/*$.li+='<span style="font-size:1.0em;">Tendencias</span> <br />';
 										$.li+='<span style="font-size:1.4em; font-weight:bold;">DE HOY</span>';*/
-										$.li+='<span style="font-size:1.6em;margin-left:-6%;">Tendencias</span> <br />';
-										$.li+='<span style="font-size:1.9em; font-weight:bold;">  DE HOY</span>';
+										$.li+='<span style="font-size:1.6em;">Tendencias</span> <br />';
+										$.li+='<span style="font-size:1.9em; font-weight:bold;">DE HOY</span>';
 									$.li+='</div>';
 									
 
@@ -822,8 +827,10 @@ function initBasicApp(){
 									$.li+='<div style="width:'+((viewport.width*70)/100)+'px; height:auto; float:left;">';
 
 									arrTrendingTopics.forEach(function(trending,i) {
-										$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
-										$.li+='<p class="trending" data-content="trending" data-id="'+trending.categoria+'" style="color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';										
+										//$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
+										//$.li+='<p style="width:100%; height:100%; color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';
+										$.li+='<div class="trending" data-content="trending" data-id="'+trending.categoria+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
+										$.li+='#'+trending.titulo;										
 										$.li+='</div>';
 									});
 
@@ -853,7 +860,7 @@ function initBasicApp(){
 								}
 								
 								$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';								
-								$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
+								//$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
 								$.li+='</div>';
 																								
 								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';
@@ -953,9 +960,10 @@ function initBasicApp(){
 									
 									if ($.news.caption[c] == 'undefined') $.news.caption[c] = "";
 													
-									$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    										    			
+									$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#FFFFFF; ">';						    										    			
 					    			$.lii+='<figure>';						    													
-									$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+									//$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+					    			$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:auto; max-width:100%; max-height:100%; " />';
 									$.lii+='<figcaption class="hidden" style="position: absolute; bottom: 0; left: 0; background-color: rgba(0,0,0,0.7); width:'+viewport.width+'px; min-height:35px;  color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1em;" >'+$.news.caption[c]+'</figcaption>';										
 									$.lii+='</figure>';						    					    											    			
 					    			$.lii+='</div>';
@@ -986,7 +994,7 @@ function initBasicApp(){
 						        																						
 						$.li+='</li>';
 						
-																													 
+																
 						$('#datacontents').append($.li);
 						
 
@@ -1052,11 +1060,11 @@ function initBasicApp(){
 						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
 						$.news.quicklook.push({src:trending.imagen,width:864,height:486});
 					
-						$('#trending-news-featured-title').data('id',$.news.id);
-						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
-						$('#trending-news-featured-title').attr('data-content','trending');
-					
 						if (i==0) {
+							
+							$('#trending-news-featured-title').data('id',$.news.id);
+							$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
+							$('#trending-news-featured-title').attr('data-content','trending');
 																	
 							var width = window.innerWidth;
 							var height = window.innerHeight;
@@ -1079,11 +1087,15 @@ function initBasicApp(){
 							}else{
 								$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
 							}
-														
+			
 							$('#trending-news-featured-title').data('id',$.news.id);
 							$('#trending-news-featured-title').data('news','#news-'+$.news.id);
 							$('#trending-news-featured-title').data('headline',$.news.headline);																			
-							$('#trending-news-featured-title').attr('data-content','headline');
+							$('#trending-news-featured-title').attr('data-content','trending');
+							$('#trending-news-featured-title').attr('data-id',$.news.id);
+							$('#trending-news-featured-title').attr('data-news','#news-'+$.news.id);
+							
+							//$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
 							
 							$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
 							$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
@@ -1099,7 +1111,7 @@ function initBasicApp(){
 							}
 									
 							$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';								
-							$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
+							//$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
 							$.li+='</div>';
 									
 																										
@@ -1158,7 +1170,8 @@ function initBasicApp(){
 							$.news.highdef.forEach(function(src){											
 								$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    										    			
 				    			$.lii+='<figure>';						    													
-								$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+								//$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+				    			$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:auto; max-width:100%; max-height:100%; " />';
 								$.lii+='<figcaption class="hidden" style="position: absolute; bottom: 0; left: 0; background-color: rgba(0,0,0,0.7); width:'+viewport.width+'px; min-height:35px;  color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1em;" >'+$.news.caption[c]+'</figcaption>';										
 								$.lii+='</figure>';						    					    											    			
 				    			$.lii+='</div>';

@@ -42,7 +42,7 @@ CategoryManager.prototype = {
 		
 		$.ajax({
 			url : urlComplete,
-			timeout : 60000,
+			timeout : 120000,
 			success : function(data, status) {
 				printToLog("TESTNEW: 0-"+status+" results: "+data);
 				if(typeof data == "string"){

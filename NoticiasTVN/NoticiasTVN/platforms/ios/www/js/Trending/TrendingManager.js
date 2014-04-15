@@ -44,7 +44,7 @@ TrendingManager.prototype = {
 		
 		$.ajax({
 			url : urlComplete,
-			timeout : 60000,
+			timeout : 120000,
 			success : function(data, status) {
 				if(typeof data == "string"){
 					data = JSON.parse(data);
