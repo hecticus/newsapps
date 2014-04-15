@@ -1,6 +1,6 @@
 
 @media (max-width: 767px) { 	
-	#keys {display:none;} 
+	#brackets {display:none;} 
 	.name {display:none;}
 	.date {text-align: center;}
 	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
@@ -9,7 +9,7 @@
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) { 	
-	#keys {display:none;} 
+	#brackets {display:none;} 
 	.name {display:inline;}
 	.date {text-align: center;}
 	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
@@ -18,7 +18,7 @@
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) { 	
-	#keys {display:block; }
+	#brackets {display:block; }
 	.name {display:inline;} 	
 	.date {text-align: left;}
 	.venue {background-color: #FFFFFF; height: 57px; padding: 5px;}
@@ -27,7 +27,7 @@
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) { 		
-	#keys {display:block;}	
+	#brackets {display:block;}	
 	.name {display:inline;}
 	.date {text-align: left;}
 	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
