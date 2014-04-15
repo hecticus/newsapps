@@ -457,7 +457,7 @@
 							$.each(phase.group, function(index, group) {
 	
 								group.classified = [];
-
+								
 								points = $.fCompare(group.team,condition[0]);
 								firts = points.firts;
 								second = points.second;	
@@ -671,8 +671,9 @@
 	            		contentType: "application/json; charset=utf-8",
 	            		success: function (data) {
 	            			var obj = jQuery.parseJSON(data);
-	                		console.log(obj.description);
-	                		console.log(JSON.stringify(jsonMatches));
+	                		/*console.log(obj.description);
+	                		console.log(JSON.stringify(jsonMatches));*/
+	                		alert('Predicción guardada');
 	            		},
 	            		data: jsonMatches
 	        		});
@@ -682,70 +683,7 @@
 				});
 				
 
-				$(document).on('click','#hola', function() {
-					
-					$.each(arrPhase, function(index,phase) {
-						if (phase.id==1) {
-							
-							
-							$.each(phase.group, function(index, group) {
-								$.each(group.game, function( index, game ) {						
-									$.each(game.team, function( index, team ) {							
-										team.goals.f = $('.phase[data-phase="1"] .group .game .score .team[data-team="'+team.id+'"] .goal').data('goal');
-									});
-								});	
-							});
-							
-							$.each(phase.group, function(index, group) {
-								$.each(group.game, function( index, game ) {
-
-									if (game.team[0].goals.f > game.team[1].goals.f) {
-										game.team[0].points = 3;
-										game.team[1].points = 0;
-									} else if (game.team[1].goals.f > game.team[0].goals.f) {
-										game.team[0].points = 0;
-										game.team[1].points = 3;
-									} else {
-										game.team[0].points = 1;
-										game.team[1].points = 1;
-									};
-									
-									game.team[0].goals.a = game.team[1].goals.f;
-									game.team[1].goals.a = game.team[0].goals.f;
-							
-								});
-							});
-							
-							
-							$.each(phase.group, function(index, group) {
-								$.each(group.team, function( index, team ) {
-		
-									team.goals.f = 0;
-									team.goals.a = 0;
-									team.points = 0;
-									
-									$.each(group.game, function( index, game ) {
-										$.each(game.team, function( index, value ) {
-											if (team.id == value.id) {
-												team.goals.f += value.goals.f;
-												team.goals.a += value.goals.a;
-												team.goals.d = 	(team.goals.f - team.goals.a);
-												team.points += value.points;
-											};
-										});
-									});
-
-								});
-							});
-							
-
-						}
-					});
-
-					$.fUpdateStandingGroup2();
-
-				});
-
+			
 
 				$(document).on('click','.up, .down', function() {
 					
@@ -928,12 +866,114 @@
 
 
 
+			$.fgetUpdate = function() {
+				
+				
+				$.each(arrPhase, function(index,phase) {
+					
+							
+							
+							$.each(phase.group, function(index, group) {
+								
+								
+								group.active = true;
+								$.each(group.game, function( index, game ) {
+															
+									$.each(game.team, function( index, team ) {							
+										team.goals.f = $('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game[data-game="'+game.id+'"] .score .team[data-team="'+team.id+'"] .goal').data('goal');
+									});
+									
+									if (game.team[0].goals.f > game.team[1].goals.f) {
+										game.team[0].points = 3;
+										game.team[1].points = 0;
+									} else if (game.team[1].goals.f > game.team[0].goals.f) {
+										game.team[0].points = 0;
+										game.team[1].points = 3;
+									} else {
+										game.team[0].points = 1;
+										game.team[1].points = 1;
+									};
+									
+									game.team[0].goals.a = game.team[1].goals.f;
+									game.team[1].goals.a = game.team[0].goals.f;
+									
+									
+									
+								});	
+								
+								$.each(group.team, function( index, team ) {
+		
+									team.goals.f = 0;
+									team.goals.a = 0;
+									team.points = 0;
+									
+									$.each(group.game, function( index, game ) {
+										$.each(game.team, function( index, value ) {
+											if (team.id == value.id) {
+												team.goals.f += value.goals.f;
+												team.goals.a += value.goals.a;
+												team.goals.d = 	(team.goals.f - team.goals.a);
+												team.points += value.points;
+											};
+										});
+									});
+
+								});
+								
+								$.fUpdateStandingGroup2();
+								
+							});
+							
+							
+
+						
+							
+						
+						
+						
+						
+						
+					});
+
+					
+				
+				
+			};
 
 
 
 
-
-
+				$( document ).ready(function() {
+					$.fgetUpdate();
+					
+					$.fUpdateStandingPhase22();
+					
+					
+					$.each(arrPhase, function( index,phase) {						
+							var _total = 0;				
+							$.each(phase.group, function( index,group) {
+								_total += group.classified.length;
+							});								
+						
+						alert(_total);
+						if ((phase.id == 1) && (_total == 16)) {
+							$('.menu[data-phase="'+arrPhase[phase.id].id+'"]').removeClass('hidden');																		
+						} else if ((phase.id == 2) && (_total == 8)) {						
+							$('.menu[data-phase="'+arrPhase[phase.id].id+'"]').removeClass('hidden');							
+						} else if ((phase.id == 3) && (_total == 4)) {
+							$('.menu[data-phase="'+arrPhase[phase.id].id+'"]').removeClass('hidden');							
+						} else if ((phase.id == 4) && (_total == 2)) {
+							$('.menu[data-phase="'+arrPhase[phase.id].id+'"]').removeClass('hidden');	
+							
+						}
+						
+					});
+							
+											
+							
+					
+					
+				});
 
 
 

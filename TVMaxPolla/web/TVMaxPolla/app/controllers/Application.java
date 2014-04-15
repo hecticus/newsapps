@@ -126,7 +126,7 @@ public class Application extends Controller
     {
     	
     	int[] myIntArray = new int[3];
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:8080/TVMaxPolla/ejemplo.json").get();
+    	Promise<WS.Response> wsResponse = WS.url("http://localhost:8080/TVMaxPolla/tvmaxgetprediction.php").get();
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPredictions = jsonResponse.get("response").get("prediction");  
     	Iterator<JsonNode> iJsonPredictions = jsonPredictions.iterator();    	
@@ -201,17 +201,17 @@ public class Application extends Controller
 
                     	objGameMatch.setVenue(objVenue);
 
-                        MatchResults results = new MatchResults(objGameMatch.getIdMatch(),0,0,0,0);
+                        MatchResults objResults = new MatchResults(objGameMatch.getIdMatch(),0,0,0,0);
 
                     	if (jsonGame.get("score_team_a") != null ) {
-                            results.setScoreTeamA(jsonGame.get("score_team_a").asInt());
+                    		objResults.setScoreTeamA(jsonGame.get("score_team_a").asInt());
                     	}
                     	
                     	if (jsonGame.get("score_team_b") != null ) {
-                            results.setScoreTeamB(jsonGame.get("score_team_b").asInt());
+                    		objResults.setScoreTeamB(jsonGame.get("score_team_b").asInt());
                     	}
-
-                        objGameMatch.setResults(results);
+                    	
+                        objGameMatch.setResults(objResults);
                     	
                     	lstGameMatch.add(objGameMatch);
                     	
