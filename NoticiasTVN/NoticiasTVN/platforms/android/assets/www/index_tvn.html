@@ -77,8 +77,8 @@
 			
 			
 			
-			header {position: absolute; background-color: #FFFFFF; width: 100%; height:auto; z-index: 5; top:0; left:0; margin:0; padding:0;  border-bottom: 3pt solid #005fb0; padding: 0; margin: 0; }
-			header ul {padding: 0; margin: 0;}
+			header {position: absolute; background-color: #FFFFFF; width: 100%; height:8%; z-index: 5; top:0; left:0; margin:0; padding:0;  border-bottom: 3pt solid #005fb0; padding: 0; margin: 0; }
+			/*header ul {padding: 0; margin: 0;}
 			header ul li {padding: 0; margin: 0;}
 			header li {display: inline; float:left; line-height:100%; width:inherit; height:inherit;}
 
@@ -89,9 +89,12 @@
 			header li.icon.logo div {background:url(img/icon/logo.png) no-repeat center; background-size:100% auto; }
 			header li.icon.tv div {background:url(img/icon/tv.png) no-repeat center; background-size:80% auto;}
 			header li.icon.share div {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
-			header li.icon.back div {background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}
+			header li.icon.back div {background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}*/
 			
-			
+			header div.icon.logo {width:25%; float:left; background:url(img/icon/logo.png) no-repeat left center; background-size:auto 100%; }
+			header div.icon.tv {width:20%; float:right; background:url(img/icon/tv.png) no-repeat center; background-size:auto 80%;}
+			header div.icon.share {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
+			header div.icon.back {width:15%; float:left; background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}
 			
 			
 			
@@ -172,17 +175,28 @@
 	<body>
 		
 		<header>
-			<ul>
+			<div style="position:absolute;display:table; width:100%; height:100%;">
+		   		<div class="icon logo" style="position:relative; display:inline-table; height:100%; margin:0; top:0;">&nbsp;</div>
+		       
+		       	<div style="position: relative; width: 50%; height: 100%; display:inline-table;">
+		       		<div id="header-title" style="position:absolute; top:50%; left:0; height:50%; text-transform:uppercase; 
+		       		color:#000000; font-weight: bold; float:left; font-size: 1.6em; white-space:nowrap;
+		       		text-overflow:ellipsis;overflow:hidden; margin:0;padding:0;margin-top:-0.6em;">HOME</div>
+		       	</div>
+		       
+		       	<div class="icon tv" style="position: relative; display:inline-table; width:20%; height:100%; float: right;">&nbsp;</div>
+		   </div>
+			<!--ul>
 				<li class="icon logo"><div>&nbsp;</div></li>
 				<li style="position: absolute; width:60%; height:100%;">
 					<div style="position: relative; width: 100%; height: 100%; ">
-						<!--div id="header-title" style="background:#Ff0; top:80%; width: 100%; text-transform:uppercase; color:#000000; font-weight: bold; font-size: 1.6em; ">HOME</div-->
+						<!--div id="header-title" style="background:#Ff0; top:80%; width: 100%; text-transform:uppercase; color:#000000; font-weight: bold; font-size: 1.6em; ">HOME</div->
 						<div id="header-title" style="top:115%; width: 100%; text-transform:uppercase; color:#000000; font-weight: bold; font-size: 1.6em; ">HOME</div>
 					</div>
 					
 				</li>
 				<li class="icon tv"><div>&nbsp;</div></li>
-			</ul>
+			</ul-->
 		</header>
 		
 		<div id="screen-block" class="hidden" style="padding-top:50%;">&nbsp;</div>

@@ -179,7 +179,8 @@ function fRemoveClassIcon() {
 function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
-	if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));	
+	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
+	if (!trendingview) $("#header-title").html(arrCategory[0].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
@@ -308,6 +309,8 @@ function initBasicApp(){
 		 
 			$('#gamesWrapper').width(viewport.width);
 			$('#gamesScroller').width(viewport.width);
+			
+			$('#header-title').width(viewport.width/2);
 			
 			
 		 
@@ -456,7 +459,8 @@ function initBasicApp(){
     			$(this).css('color','#999999');				
     			if (press) {    				
     				trendingview=true;
-    				$("#header-title").html(fTextoCortado($(this).html()));
+    				//$("#header-title").html(fTextoCortado($(this).html()));
+    				$("#header-title").html($(this).html());
     				myScrollTrending.scrollTo(0,0,0);	    				
     				$.fsetTrendings($(this).data('id'));
     				$('#datatrending').attr('class','page transition left');
