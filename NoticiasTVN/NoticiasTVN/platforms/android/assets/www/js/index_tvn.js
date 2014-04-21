@@ -180,7 +180,8 @@ function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
 	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
-	if (!trendingview) $("#header-title").html(arrCategory[0].title);
+	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
+	if (!trendingview && myScrollPage.currPageX == 0) $("#header-title").html(arrCategory[0].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
