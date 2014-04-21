@@ -1,60 +1,136 @@
-@(personForm: Form[Person],message:String)
- 
+@(signupForm: Form[models.matches.Client])
+
 @import helper._
 @import helper.twitterBootstrap._
- 
-@title = {
-Sign Up Form in Play2.0
-}
- 
-@main("Sign Up Form in Play2.0") {
- 
-<div id="alert-box">@*Update This Div My Making Ajax Call*@</div>
- 
-@helper.form(action = routes.Application.index) {
- 
-<fieldset>
-<legend>@message</legend>
- 
-@inputText(personForm("email"), '_label -> "Email",'onBlur->"isEmailExist()", '_help -> "Enter a valid email address.")
-  
-</fieldset>
- 
-<div>
-<input type="submit" value="Sign Up" >
-</div>
- 
-}
- 
-}
 
 
+@main("La polla de TVMax - FiFA World Cup Brasil 2014 - Registro") {
 
-<script type="text/javascript">
-	var successFn = function(data) {
-			if(data == "true"){			
-				$('#alert-box').html('');
-				$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' + '<strong>Error!</strong>Email Id Already exist ! '+ '</div>');
-			} else{
-				$('#alert-box').html('');
-				$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' +'<strong>Success!</strong>Valid Email Id ! '+ '</div>');
-			}
-						
-			console.debug("Success of Ajax Call");
-			console.debug(data);
-			
-		};
-
-	var errorFn = function(err) {
-		console.debug("Error of ajax Call");
-		console.debug(err);
-	}
- 
-	ajax1 = {success: successFn,error: errorFn}
- 
-	function isEmailExist() {
-		var idToGet = $("#email").val(); 
-		jsRoutes.controllers.Application.isEmailExist(idToGet).ajax(ajax1);
+	<div class="row title" >
+		<div class="col-md-12" >
+			<span>Regístrate gratis</span>
+		</div>
+	</div>
 	
-	}
-</script>
+	<div class="row" >
+		<div class="col-md-4">
+			
+			@if(flash.containsKey("success")) {
+        		<div class="alert-message warning">
+            		<strong>Done!</strong> @flash.get("success")
+        		</div>
+    		} 
+
+			@if(flash.containsKey("danger")) {
+        		<div class="alert alert-danger">@flash.get("danger")</div>
+    		} 
+
+			@helper.form(action = routes.SignUp.submit, 'role -> "form" ) {
+
+		       
+		          
+		           
+		          	@inputText(
+		                signupForm("email"),
+		                '_label -> "",
+		                'onBlur -> "isEmailExist()",
+		                '_help -> "",
+		                'class -> "form-control",
+			            'placeholder -> "Correo electrónico*"
+		            )
+		            
+		            @inputText(
+		                signupForm("repeatEmail"),                
+		                '_label -> "",
+		                '_help -> "",
+		                '_error -> signupForm.error("email"),
+		                'class -> "form-control",
+			            'placeholder -> "Repetir correo electrónico*"
+		            )
+		          
+		            @inputText(
+		                signupForm("name"), 
+		                '_label -> "", 
+		                '_help -> "",
+		                '_error -> signupForm.globalError,
+		                'class -> "form-control",
+			            'placeholder -> "Nombre*"
+		            )
+		            
+		            @inputText(
+		                signupForm("surname"), 
+		                '_label -> "",
+		                '_help -> "",
+		                '_error -> signupForm.globalError,
+		                'class -> "form-control",
+			            'placeholder -> "Apellido*"
+		            )
+		
+		            @inputPassword(
+		                signupForm("password"), 
+		                '_label -> "",
+		                '_help -> "",
+		                'class -> "form-control",
+			            'placeholder -> "Contraseña*"
+		            )
+		            
+		            @inputPassword(
+		                signupForm("repeatPassword"), 
+		                '_label -> "",
+		                '_help -> "",
+		                '_error -> signupForm.error("password"),
+		                'class -> "form-control",
+			            'placeholder -> "Repetir contraseña*"
+		            )
+		            
+	
+					<input id="socialid" type="hidden" name="socialid" value='' >
+		
+		<br/>
+		  		<button type="submit" class="btn btn-info btn-block">Registrarse</button>
+				 
+				<button type="button" class="btn btn-primary btn-block" onclick="FB.login();">Facebook</button>
+               
+        
+		        <script type="text/javascript">
+		        
+					var successFn = function(data) {						
+						if(data == "true") {								
+							$('#email').parent().find('.help-inline').html('Email already exist!');
+						} else {
+							$('#email').parent().find('.help-inline').html('');
+						}					
+					};
+					var fAjax = {success: successFn};
+				 
+					function isEmailExist() {	
+						jsRoutes.controllers.SignUp.isEmailExist( $("#email").val()).ajax(fAjax);
+					
+					}
+				</script>
+        
+        
+    }
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</div>
+	
+	
+
+    
+  
+    
+    
+    
+}

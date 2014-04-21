@@ -1,13 +1,16 @@
 package models.matches;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -20,7 +23,7 @@ public class ClientPrediction extends HecticusModel {
     private Long idClientPrediction;
     private Long idClient;
     private String prediction;
-
+    
     public ClientPrediction(long idClient, String prediction){
         this.idClient = idClient;
         this. prediction = prediction;

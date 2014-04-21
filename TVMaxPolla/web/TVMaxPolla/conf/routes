@@ -3,22 +3,26 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                          controllers.Application.index()
+GET     /index                          controllers.Application.index()
+GET     /exit                          controllers.Application.exit()
 
-GET     /person       				controllers.Application.getAll()
-DELETE  /person/:id   				controllers.Application.delete(id: Long)
-POST    /person       				controllers.Application.create()
+#GET     /person       				controllers.Application.getAll()
+#DELETE  /person/:id   				controllers.Application.delete(id: Long)
+#POST    /person       				controllers.Application.create()
 
 
-GET    /signUpForm					controllers.Application.signUpForm()
+GET    /signin                  controllers.SignIn.blank()
+POST   /signin                  controllers.SignIn.submit()
 
-GET  	/isEmailExist/:email            controllers.Application.isEmailExist(email: String)
+
+GET     /signup                  controllers.SignUp.blank()
+POST   /signup                  controllers.SignUp.submit()
+GET    /isEmailExist/:email         controllers.SignUp.isEmailExist(email: String)
 
 # Map static resources from the /public folder to the /assets URL path
 
-GET 	/javascriptRoutes    		controllers.Application.javascriptRoutes
-
-GET		/assets/js/routes           controllers.Application.jsRoutes()
+GET		/assets/js/routes           controllers.SignUp.jsRoutes()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 #Teams
