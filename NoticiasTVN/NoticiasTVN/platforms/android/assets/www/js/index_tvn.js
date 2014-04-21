@@ -606,10 +606,10 @@ function initBasicApp(){
 					var itemArray = null;
 					if(json["noticias"] != null){
 						itemArray = json["noticias"]["item"];
-						console.log("itemArray "+itemArray.length);
+						//console.log("itemArray "+itemArray.length);
 					}else{
 						itemArray = json["videos"]["item"];
-						console.log("Videos Size: "+itemArray.length);
+						//console.log("Videos Size: "+itemArray.length);
 					}
 					if(itemArray != null && itemArray.length > 0){
 						var manager = new NewsManager();
@@ -1330,7 +1330,7 @@ function getCategoriesForApp(){
 }
 
 function successGetCategories(results){
-	console.log("successGetCategories");
+	//console.log("successGetCategories");
 	if(results != null){
 		var len = results.length;
 		//console.log("RESULT len: "+len);
@@ -1339,9 +1339,9 @@ function successGetCategories(results){
 			
 			//results.push({i:len,status:false,classId:'live_tv',id:'live_tv',title:'Señal en vivo',bgcolor:'#0404B4'});
 			arrCategory = results.slice(0);
-			console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
+			//console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
 			removeInvalidCategories();
-			console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
+			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();
 		}else{
@@ -1365,7 +1365,7 @@ function removeInvalidCategories(){
 	//buscamos la categoria de trendings
 	for(var i=0;i<arrCategory.length;i++){
 		if(arrCategory[i].trending == 1){
-			console.log("Trending: "+arrCategory[i].internalUrl+" index:"+i);
+			//console.log("Trending: "+arrCategory[i].internalUrl+" index:"+i);
 			trendingTopicsCat = arrCategory[i].internalUrl;
 			indexToDelete = i;
 		}

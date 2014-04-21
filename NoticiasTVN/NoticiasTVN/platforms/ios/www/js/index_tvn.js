@@ -180,7 +180,8 @@ function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
 	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
-	if (!trendingview) $("#header-title").html(arrCategory[0].title);
+	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
+	if (!trendingview && myScrollPage.currPageX == 0) $("#header-title").html(arrCategory[0].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
@@ -612,7 +613,7 @@ function initBasicApp(){
 					var itemArray = null;
 					if(json["noticias"] != null){
 						itemArray = json["noticias"]["item"];
-						console.log("itemArray "+itemArray.length);
+						//console.log("itemArray "+itemArray.length);
 					}else{
 						itemArray = json["videos"]["item"];
 						//console.log("Videos Size: "+itemArray.length);
