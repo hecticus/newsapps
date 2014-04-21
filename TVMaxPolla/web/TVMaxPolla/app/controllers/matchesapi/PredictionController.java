@@ -96,6 +96,14 @@ public class PredictionController extends HecticusController {
                     node.put("matches",Json.toJson(allPhases));
                     data.add(node);
 
+                }else{
+                    prediction = new ClientPrediction(idClient,"{}");
+                    ObjectNode node = prediction.toJson();
+                    node.put("nick","User Nick"); //aqui hay que consultar a social clients cual es el nick
+                    //si no hay prediccion nos traemos todos los partidos y ya
+                    ArrayList allPhases = PhaseController.getAllPhasesMatchesObj(true,null);
+                    node.put("matches",Json.toJson(allPhases));
+                    data.add(node);
                 }
 
                 //build response
