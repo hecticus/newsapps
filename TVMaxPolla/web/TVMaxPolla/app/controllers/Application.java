@@ -12,6 +12,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import play.*;
 import play.libs.WS;
@@ -52,9 +53,12 @@ public class Application extends Controller
     	
     		
 		int[] myIntArray = new int[3];
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:8080/TVMaxPolla/tvmaxgetprediction.php")
-    			.setQueryParameter("idc", connected)
-    			.get();
+		
+		ObjectNode dataJson = Json.newObject();    	
+    	dataJson.put("idClient", connected);
+    										      
+    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9009/matchesapi/v1/prediction/get").post(dataJson);
+
     	
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPredictions = jsonResponse.get("response").get("prediction");  
@@ -160,6 +164,7 @@ public class Application extends Controller
     	}
     
     	return ok(index.render(lstPhase,session("origin")));
+    
 
     }
     

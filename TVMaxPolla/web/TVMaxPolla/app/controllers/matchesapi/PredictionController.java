@@ -22,8 +22,8 @@ public class PredictionController extends HecticusController {
             long idClient;
             String predictionString;
             if(jsonInfo.has("idClient") && jsonInfo.has("clientPrediction")){
-                idClient = jsonInfo.get("idClient").asLong();
-                predictionString = jsonInfo.get("clientPrediction").asText();
+                idClient = jsonInfo.get("idClient").asLong();                              
+                predictionString = jsonInfo.get("clientPrediction").toString();
                 if(predictionString.isEmpty()){
                     //error
                     return badRequest(buildBasicResponse(1,"no hay prediccion"));
