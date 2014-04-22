@@ -15,30 +15,36 @@
        KIND, either express or implied.  See the License for the
        specific language governing permissions and limitations
        under the License.
+*/
+
+package org.apache.cordova.geolocation;
+
+import android.location.LocationManager;
+
+/**
+ * This class handles requests for GPS location services.
+ *
  */
+public class GPSListener extends CordovaLocationListener {
+    public GPSListener(LocationManager locationManager, GeoBroker m) {
+        super(locationManager, m, "[Cordova GPSListener]");
+    }
 
-package com.hecticus.noticiastvn;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.Settings;
-
-import org.apache.cordova.*;
-
-public class NoticiasTVN extends CordovaActivity 
-{
+    /**
+     * Start requesting location updates.
+     *
+     * @param interval
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        super.init();
-        
-        // Load your application
-     	super.setIntegerProperty("splashscreen", R.drawable.splash);
-     		
-        // Set by <content src="index.html" /> in config.xml
-        super.loadUrl(Config.getStartUrl());
-        //super.loadUrl("file:///android_asset/www/index.html")
+    protected void start() {
+        if (!this.running) {
+            if (this.locationManager.getProvider(LocationManager.GPS_PROVIDER) != null) {
+                this.running = true;
+                this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, this);
+            } else {
+                this.fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS provider is not available.");
+            }
+        }
     }
 }
-

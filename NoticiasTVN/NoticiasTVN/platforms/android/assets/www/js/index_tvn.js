@@ -1550,7 +1550,7 @@ function endOfAppInitialization(){
 	
 	$('#splash').addClass('hidden');
 	
-	
+	getCurrentGeoPosition();
 	
 	
 }
@@ -1581,7 +1581,24 @@ function fTextoCortado(texto){
 	return texto;  
 };
 
+//GEOLOCATION
+function getCurrentGeoPosition(){
+	console.log("getCurrentGeoPosition");
+	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler);
+	console.log("end getCurrentGeoPosition");
+}
 
+function successGeolocationHandler (position) {
+	console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
+    //position.coords.latitude;
+    //position.coords.longitude;
+}
+
+function errorGeolocationHandler (error) {
+    console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
+    initGeolocation();
+}
+//END GEOLOCATION
 
 
 var app = {
