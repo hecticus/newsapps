@@ -15,13 +15,9 @@
 	<div class="row" >
 		<div class="col-md-4">
 			
-			@if(flash.containsKey("success")) {
-        		<div class="alert-message warning">
-            		<strong>Done!</strong> @flash.get("success")
-        		</div>
-    		} 
 
 			@if(flash.containsKey("danger")) {
+				 <br />
         		<div class="alert alert-danger">@flash.get("danger")</div>
     		} 
 
