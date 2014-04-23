@@ -17,8 +17,9 @@
 		
 			body {position: fixed; width:100%; height:100%; overflow: hidden;}
 			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
-			#menu, #datacontent, #datatrending { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
+			#menu, #datacontent, #datatrending, #datayoinformo { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
 			#menu, #datacontent, #datatrending {top:100px;}
+			#datayoinformo {top:8%;}
 			
 			
 			.scroller {position:absolute; z-index:1; -webkit-tap-highlight-color:rgba(0,0,0,0); width:100%; padding:0;}
@@ -37,6 +38,9 @@
 		
 		
 			li[data-view="trending"] {padding:0px; padding-top:5px; padding-bottom:5px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: #9e9e9e; display:block; overflow:inherit;  }
+			
+			li[data-view="banner"] {padding:0px;  border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: #9e9e9e; display:block; overflow:inherit;  }
+			
 			
 	 		li[data-view="thumbnail"] {padding:0px; padding-top:5px; padding-bottom:5px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: #666769; display:block; overflow:inherit;  }
 	 		
@@ -74,23 +78,28 @@
 			
 			
 			
-			header {position: absolute; background-color: #FFFFFF; width: 100%; height:auto; z-index: 5; top:0; left:0; margin:0; padding:0;  border-bottom: 3pt solid #005fb0;}
+			header {position: absolute; background-color: #FFFFFF; width: 100%; height:8%; z-index: 5; top:0; left:0; margin:0; padding:0;  border-bottom: 3pt solid #005fb0; padding: 0; margin: 0; }
+			/*header ul {padding: 0; margin: 0;}
+			header ul li {padding: 0; margin: 0;}
 			header li {display: inline; float:left; line-height:100%; width:inherit; height:inherit;}
 
 			header li.icon.logo {width:20%; height:auto;}
 			header li.icon.tv {width:20%; height:auto; float:right;}
 			header li.icon.back {width:10%; height:auto; }
 
-			header li.icon.logo div {background:url(img/icon/logo.png) no-repeat center; background-size:75% auto; }
+			header li.icon.logo div {background:url(img/icon/logo.png) no-repeat center; background-size:100% auto; }
 			header li.icon.tv div {background:url(img/icon/tv.png) no-repeat center; background-size:80% auto;}
 			header li.icon.share div {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
-			header li.icon.back div {background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}
+			header li.icon.back div {background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}*/
+			
+			header div.icon.logo {width:25%; float:left; background:url(img/icon/logo.png) no-repeat left center; background-size:auto 100%; }
+			header div.icon.tv {width:20%; float:right; background:url(img/icon/tv.png) no-repeat center; background-size:auto 80%;}
+			header div.icon.share {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
+			header div.icon.back {width:15%; float:left; background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}
 			
 			
 			
-			
-			
-			#splash-caption {position: absolute; top:65%; margin: 0; padding: 0; width: 100%; height:auto;}
+			#splash-caption {position: absolute; top:65%; margin: 0; padding: 0; width: 100%; height:auto;  }
 			#splash-loading { position: absolute;  top:75%; text-align:center; margin: 0; padding: 0; width: 100%; height:auto;}				
 			#splash-footer { position: absolute; bottom:0; margin: 0; padding: 0; width: 100%; height:auto;}
 			
@@ -151,23 +160,51 @@
 				left: 0;
 			}
 			
+			#header-title {
+			
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				height: 30%;
+				width: 50%;
+				margin: -15% 0 0 -50%;
+			
+			}
+			
 		</style>
 	</head>
 	<body>
 		
 		<header>
-			<ul>
+			<div style="position:absolute;display:table; width:100%; height:100%;">
+		   		<div class="icon logo" style="position:relative; display:inline-table; height:100%; margin:0; top:0;">&nbsp;</div>
+		       
+		       	<div style="position: relative; width: 50%; height: 100%; display:inline-table;">
+		       		<div id="header-title" style="position:absolute; top:50%; left:0; height:50%; text-transform:uppercase; 
+		       		color:#000000; font-weight: bold; float:left; font-size: 1.6em; white-space:nowrap;
+		       		text-overflow:ellipsis;overflow:hidden; margin:0;padding:0;margin-top:-0.6em;">HOME</div>
+		       	</div>
+		       
+		       	<div class="icon tv" style="position: relative; display:inline-table; width:20%; height:100%; float: right;">&nbsp;</div>
+		   </div>
+			<!--ul>
 				<li class="icon logo"><div>&nbsp;</div></li>
-				<li style="width:60%; height:auto;"><p id="header-title" style="text-transform:uppercase; background-color:white; font-weight: bold; font-size: 1.6em; ">HOME</p></li>
+				<li style="position: absolute; width:60%; height:100%;">
+					<div style="position: relative; width: 100%; height: 100%; ">
+						<!--div id="header-title" style="background:#Ff0; top:80%; width: 100%; text-transform:uppercase; color:#000000; font-weight: bold; font-size: 1.6em; ">HOME</div->
+						<div id="header-title" style="top:115%; width: 100%; text-transform:uppercase; color:#000000; font-weight: bold; font-size: 1.6em; ">HOME</div>
+					</div>
+					
+				</li>
 				<li class="icon tv"><div>&nbsp;</div></li>
-			</ul>
+			</ul-->
 		</header>
 		
 		<div id="screen-block" class="hidden" style="padding-top:50%;">&nbsp;</div>
 		
 		
 		
-		<div id="splash" >
+		<div id="splash" class="hidden" >
 			<div id="splash-logo" >&nbsp;</div>
 			<div id="splash-caption" ><h1 style="text-align: center; color:#ffffff;">NOTICIAS TVN</h1></div>
 			<div id="splash-loading" ><img src="img/loading.gif" style="width: 25%; height: auto;"  /></div>
@@ -206,8 +243,9 @@
 				<ul>
 					<li>					
 						<ul id="trending-news-featured" class="featured">
-							<li id="trending-news-featured-title" class="featured" ></li>
+							<li id="trending-news-featured-title" class="featured"></li>
 						</ul>
+						<ul class="status" style="background-color:#ffffff; text-align:center;"></ul>
 						<ul id="trending-news1" class="news1" style="background-color:#ffffff;"></ul>
 					</li>
 				</ul>
@@ -223,6 +261,29 @@
 				</ul>
 			</div>
 		</div>
+		
+		<!-- DIV de la seccion Yo Informo-->
+		<!-- div id="datayoinformo" class="page" style="z-index: 1;">							
+			<div class="scroller">
+				<ul>
+					<li>
+						<div style="margin-left:auto; margin-right:auto; width:70%;">prueba</div>
+												
+					</li>
+					<li>
+						<select>
+						  <option value="volvo">Volvo</option>
+						  <option value="saab">Saab</option>
+						  <option value="mercedes">Mercedes</option>
+						  <option value="audi">Audi</option>
+						</select>
+					</li>
+					<li>
+						prueba	2					
+					</li>
+				</ul>
+			</div>
+		</div-->
 
 		
 
@@ -236,9 +297,6 @@
         <script type="text/javascript" src="js/utils.js"></script>
        	<script type="text/javascript" src="js/video.js"></script>
 		
-		<script type="text/javascript" src="plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js"></script>
-		<script type="text/javascript" src="plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js"></script>
-		
 		<script type="text/javascript" src="js/StorageManager/StorageManager.js"></script>
 		<script type="text/javascript" src="js/News/NewsManager.js"></script>
 		<script type="text/javascript" src="js/Push/PushManager.js"></script>
@@ -247,6 +305,8 @@
 		<script type="text/javascript" src="js/Category/CategoryManager.js"></script>
 		<script type="text/javascript" src="js/Trending/TrendingIndexManager.js"></script>
 		<script type="text/javascript" src="js/Trending/TrendingManager.js"></script>
+		
+		<script type="text/javascript" src="js/Geolocation/GeolocationManager.js"></script>
 		
         <script type="application/javascript" src="imgcache.js"></script>
         

@@ -34,6 +34,9 @@
     <access origin="http://0c05ec810be157e5ab10-7e0250ad12242003d6f6a9d85a0d9417.r19.cf1.rackcdn.com/*" />
     <access origin="http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/*" />
     <access origin="http://02.kraken.hecticus.com/*" />
+    <access origin="http://tvn-2.com/*" />
+    <access origin="http://tvn-cloud-farm-lb.cloudapp.net/*" />
+    <access origin="http://tvn.news.hecticus.com:9001/*" />
     <feature name="VideoPlayer">
         <param name="android-package" value="org.apache.cordova.videoplayer.VideoPlayer" />
     </feature>
@@ -45,9 +48,6 @@
     </feature>
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
-    </feature>
-    <feature name="SMSPlugin">
-        <param name="android-package" value="com.plugin.sms.SMSPlugin" />
     </feature>
     <name>NoticiasTVN</name>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
@@ -118,9 +118,6 @@
     </feature>
     <feature name="FileTransfer">
         <param name="ios-package" value="CDVFileTransfer" />
-    </feature>
-    <feature name="SMSPlugin">
-        <param name="ios-package" value="SMSPlugin" />
     </feature>
 	<feature name="VideoPlayer">
         <param name="ios-package" value="VideoPlayer" />

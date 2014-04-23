@@ -122,7 +122,10 @@
     <feature name="SMSPlugin">
         <param name="ios-package" value="SMSPlugin" />
     </feature>
-	<feature name="VideoPlayer">
+    <feature name="VideoPlayer">
         <param name="ios-package" value="VideoPlayer" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="ios-package" value="CDVLocation" />
     </feature>
 </widget>

@@ -12,19 +12,23 @@ function initFacebookManager(){
 		if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
 
 		FB.Event.subscribe('auth.login', function(response) {
-			alert('auth.login event: '+JSON.stringify(response));
+			console.log('auth.login event: '+JSON.stringify(response));
+			//alert('auth.login event: '+response);
 		});
 
 		FB.Event.subscribe('auth.logout', function(response) {
-			alert('auth.logout event: '+JSON.stringify(response));
+			//alert('auth.logout event: '+JSON.stringify(response));
+			alert('auth.logout event: '+response);
 		});
 
 		FB.Event.subscribe('auth.sessionChange', function(response) {
-			alert('auth.sessionChange event: '+JSON.stringify(response));
+			//alert('auth.sessionChange event: '+JSON.stringify(response));
+			alert('auth.sessionChange event: '+response);
 		});
 
 		FB.Event.subscribe('auth.statusChange', function(response) {
-			alert('auth.statusChange event: '+JSON.stringify(response));
+			//alert('auth.statusChange event: '+JSON.stringify(response));
+			alert('auth.statusChange event: '+response);
 		});
 
 	} catch (e) {

@@ -78,7 +78,8 @@ var m = Math,
 	})(),
 
 	// Helpers
-	translateZ = has3d ? ' translateZ(0)' : '',
+	//translateZ = has3d ? ' translateZ(0)' : '', //modificado por problemas con IOS7 no pasa ni en IOS6 ni IOS7.1
+	translateZ = '',
 
 	// Constructor
 	iScroll = function (el,levelScroller, options) {

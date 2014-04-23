@@ -29,10 +29,10 @@ function onResumeApp(){
 function isOffline(){
 	var online = window.localStorage.getItem(FILE_KEY_ONLINE);
 	if(online!=null && online == "true"){
-		printToLog("isOffline-true "+online);
+		printToLog("isOffline- "+online);
 		return false;
 	}else{
-		printToLog("isOffline-false "+online);
+		printToLog("isOffline- "+online);
 		return true;
 	}
 }
@@ -70,10 +70,10 @@ function formatDateStringForSorting(ds) {
 	var ss="00";
 	var dateString = ""+ds;
 	var parts = dateString.split(" ");
-	var MDY = parts[0].split("/");
-	MM = MDY[0];
-	DD = MDY[1];
-	YYYY = MDY[2];
+	var DMY = parts[0].split("/");
+	DD = DMY[0];
+	MM = DMY[1];
+	YYYY = DMY[2];
 	if(parts.length > 1){
 		
 		var HMS = parts[1].split(":");
@@ -90,7 +90,6 @@ function formatDateStringForSorting(ds) {
 			hh = intH;
 		}
 		mm = HMS[1];
-		ss = HMS[2];
 		
 	}
 	if ( MM < 10 ) MM = '0' + MM;
@@ -98,6 +97,10 @@ function formatDateStringForSorting(ds) {
 	//console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
 	return ""+YYYY+MM+DD+hh+mm+ss;
 };
+
+function cleanExternalURL(url){
+	return url.replace(/ /g,'%20');
+}
 
 //DEBUG
 function printToLog(element){

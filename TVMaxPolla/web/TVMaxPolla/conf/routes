@@ -1,0 +1,42 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                          controllers.Application.index()
+GET     /index                          controllers.Application.index()
+GET     /exit                          controllers.Application.exit()
+
+#GET     /person       				controllers.Application.getAll()
+#DELETE  /person/:id   				controllers.Application.delete(id: Long)
+#POST    /person       				controllers.Application.create()
+
+
+GET    /signin                  controllers.SignIn.blank()
+POST   /signin                  controllers.SignIn.submit()
+
+
+GET     /signup                  controllers.SignUp.blank()
+POST   /signup                  controllers.SignUp.submit()
+GET    /isEmailExist/:email         controllers.SignUp.isEmailExist(email: String)
+
+# Map static resources from the /public folder to the /assets URL path
+
+GET		/assets/js/routes           controllers.SignUp.jsRoutes()
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+#Teams
+GET     /matchesapi/v1/team/test                   controllers.matchesapi.TeamController.test()
+GET     /matchesapi/v1/team/search/:idTeam         controllers.matchesapi.TeamController.getById(idTeam:Integer, hecticResponse : Boolean = true)
+
+#phases
+GET     /matchesapi/v1/phase/get/allActive          controllers.matchesapi.PhaseController.getActivePhases()
+GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.PhaseController.getCurrentPhase()
+GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
+GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.PhaseController.getAllPhasesMatches()
+
+#predictions
+POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
+POST    /matchesapi/v1/prediction/get               controllers.matchesapi.PredictionController.getClientPrediction()
+
+

@@ -19,7 +19,10 @@
 
 package com.hecticus.noticiastvn;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+
 import org.apache.cordova.*;
 
 public class NoticiasTVN extends CordovaActivity 

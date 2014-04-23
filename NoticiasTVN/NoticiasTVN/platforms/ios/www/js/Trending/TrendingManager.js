@@ -1,12 +1,11 @@
-//La data se almacena en jsons en el campo trending_datacontent, todo lo que se recibe se guarda ahi, para asi soportar mejor cualquier cambio o extra informacion que se a�ada
-var createTrendingQuery = 'CREATE TABLE IF NOT EXISTS TRENDING (trending_tvn_id INTEGER,'+
-'trending_category TEXT DEFAULT NULL,'+
-'trending_idnews INTEGER NOT NULL,'+
-'trending_title TEXT DEFAULT NULL,'+
-'trending_description TEXT DEFAULT NULL,'+
-'trending_image TEXT DEFAULT NULL,'+
-'trending_pubdate TEXT DEFAULT NULL,'+
-'PRIMARY KEY (trending_tvn_id))';
+//La data se almacena en jsons en el campo trending_news_datacontent, todo lo que se recibe se guarda ahi, para asi soportar mejor cualquier cambio o extra informacion que se a�ada
+var createTrendingQuery = 'CREATE TABLE IF NOT EXISTS TRENDING (trending_news_tvn_id INTEGER,'+
+'trending_news_category TEXT DEFAULT NULL,'+
+'trending_news_headline TEXT NOT NULL,'+
+'trending_news_date TEXT DEFAULT NULL,'+
+'trending_news_datacontent TEXT DEFAULT NULL,'+
+'trending_news_creationtime INTEGER DEFAULT NULL,'+
+'PRIMARY KEY (trending_news_tvn_id,trending_news_category))';
 
 
 //declaring the constructor
@@ -17,60 +16,26 @@ function TrendingManager() {
 // declaring instance methods
 TrendingManager.prototype = {
 	
-	getTrendings: function (callback, errorCallback) {
-    	printToLog("getTrendings");
-        //buscamos en el ws todas los trending si no hay conexion lo hacemos por BD
-    	if(!isOffline()){
-    		printToLog("por WS");
-    		this.getTrendingsFromWS(callback,errorCallback);
-    	}else{
-    		//buscamos en BD
-    		printToLog("Por BD");
-    		storageManager.queryToDB(this.getAllTrendingFromDB,errorCallback, callback, null);
-    	}
+	loadTrendingFromBD: function (callback, errorCallback) {
+    	printToLog("getAllTrendingFromBD");
+        //buscamos en BD todas las noticias
+    	storageManager.queryToDB(this.getAllTrendingFromDB,errorCallback, callback, null);
     },
-
-	getTrendingsFromWS:function(callback, errorCallback){
-		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
-		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		var urlComplete;
-		if(trendingTopicsCat != null && trendingTopicsCat != ''){
-			urlComplete = trendingTopicsCat;
-		}else{
-			urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingnews-utf8.asp';
-		}
-		
-		var instance = this;
-		
-		$.ajax({
-			url : urlComplete,
-			timeout : 160000,
-			success : function(data, status) {
-				if(typeof data == "string"){
-					data = JSON.parse(data);
-				}
-				var results = data["noticiastrendingnews"]["item"];
-				//printToLog("NEW: 0-"+code+" results: "+JSON.stringify(results));
-				if(results != null){
-					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
-					if(results.length>0){
-						storageManager.saveToDB(instance.saveAllTrendingToDB, errorCallback, callback, null, results);
-						//callback(results);
-					}
-				}else{
-					//ocurrio un error
-					//errorCallback();
-					storageManager.queryToDB(instance.getAllTrendingFromDB,errorCallback, callback, null);
-				}
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				//printToLog("Error descargando News: xhr:"+JSON.stringify(xhr)+" -AO:"+ajaxOptions+" -TE:"+thrownError);
-				//errorCallback();
-				storageManager.queryToDB(instance.getAllTrendingFromDB,errorCallback, callback, null);
-			}
-		});
+	loadTrendingCategoryFromBD: function (category, callback, errorCallback) {
+		printToLog("loadTrendingCategoryFromBD");
+		//buscamos en BD todas las noticias
+		storageManager.querySelectedToDB(this.getCategoryTrendingFromDB,errorCallback, callback, category, null);
 	},
-	
+	loadTrendingByIDFromBD: function (trending_newsID, callback, errorCallback) {
+		printToLog("loadTrendingByIDFromBD");
+		//buscamos en BD la noticia con ID trending_newsID
+		storageManager.querySelectedToDB(this.getTrendingByIDFromDB,errorCallback, callback, trending_newsID, null);
+	},
+
+	saveTrendingFromWS:function(results, callback, errorCallback){
+		storageManager.saveToDB(this.saveAllTrendingToDB, errorCallback, callback, null, results);
+	},
+
 	getAllTrendingFromDB:function(tx, instanceCaller, errorCallback, callback){
 		printToLog("getAllTrendingFromDB");
 		tx.executeSql(createTrendingQuery);
@@ -78,54 +43,71 @@ TrendingManager.prototype = {
 	    
 		tx.executeSql('SELECT * FROM TRENDING', [], 
 			function(tx, results){
-				//callback(results);
-				if(results != null){
-					var len = results.rows.length;
-					if(len > 0){
-						var trendArray = new Array();
-						for(var i=0;i<len;i++){
-							var trendItem = results.rows.item(i);
-							trendItem = decodeTrending(trendItem);
-							trendArray.push(trendItem);
-						}
-						callback(trendArray);
-					}else{
-						errorCallback("no TrendingNews");
-					}
-				}else{
-					errorCallback("no TrendingNews");
-				}
+				callback(results);
 			}, 
 			function(err){
 				errorCallback(err);
 			});
 	},
+getCategoryTrendingFromDB:function(tx, instanceCaller, errorCallback, callback, selected){
+	printToLog("getCategoryTrendingFromDB");
+	tx.executeSql(createTrendingQuery);
+    printToLog("getCategoryTrendingFromDB 1");
+    
+    printToLog("getCategoryTrendingFromDB: "+selected);
+	tx.executeSql('SELECT * FROM TRENDING WHERE trending_news_category="'+encodeURIComponent(selected)+'" ORDER BY trending_news_creationtime asc LIMIT 20', [],
+				  function(tx, results){
+					callback(results);
+				  },
+				  function(err){
+					printToLog("getCategoryTrendingFromDB: ERROR"+err);
+					errorCallback(err);
+				  });
+},
+getTrendingByIDFromDB:function(tx, instanceCaller, errorCallback, callback, selected){
+	printToLog("getTrendingByIDFromDB");
+	tx.executeSql(createTrendingQuery);
+    printToLog("getTrendingByIDFromDB 1");
+    
+    printToLog("getTrendingByIDFromDB: "+selected);
+	tx.executeSql('SELECT * FROM TRENDING WHERE trending_news_tvn_id='+selected+' LIMIT 1', [],
+				  function(tx, results){
+					callback(results);
+				  },
+				  function(err){
+					printToLog("getTrendingByIDFromDB: ERROR"+err);
+					errorCallback(err);
+				  });
+},
 	
 	saveAllTrendingToDB:function(tx, instanceCaller, results){
 		printToLog("saveAllTrendingToDB");
 	    
 	    tx.executeSql(createTrendingQuery);
 	    
-	    var itemArray = results;
-	    printToLog("saveAllTrendingToDB 1 - "+itemArray.length);
+	    //DELETE OLD TRENDING
+		//limitTrendingTableSize(tx);
 	    
-	    //limpiamos la tabla vieja ya que llego una nueva
-	    clearTrendingTable(tx);
+	    var itemArray = results["noticias"];
+	    printToLog("saveAllTrendingToDB 1 - "+itemArray.length+" -"+results["category"]);
 	    
 	    for(var i=0; i<itemArray.length; i++){
 	    	var insertObj = itemArray[i];
-	    	//console.log("TRENDINGNEWS "+JSON.stringify(insertObj));
 			
-			var insertStatement = 'INSERT OR REPLACE INTO TRENDING(trending_tvn_id,trending_category,trending_idnews,trending_title,trending_description,trending_image,trending_pubdate)'+
-			'VALUES ('+insertObj.id+','+
-			'"'+encodeURIComponent(insertObj.categoria)+'",'+
-			''+insertObj.idnews+','+
-			'"'+encodeURIComponent(insertObj.titulo)+'",'+
-			'"'+encodeURIComponent(insertObj.descripcion)+'",'+
-			'"'+encodeURIComponent(insertObj.imagen)+'",'+
-			'"'+encodeURIComponent(insertObj.pubdate)+'"'+
+			//console.log("STORE: "+JSON.stringify(insertObj));
+			
+			var d = new Date();
+			var n = d.getTime();
+			
+			var insertStatement = 'INSERT OR REPLACE INTO TRENDING(trending_news_tvn_id,trending_news_category,trending_news_headline,trending_news_date,trending_news_datacontent,trending_news_creationtime)'+
+			'VALUES ('+insertObj.ID+','+
+			'"'+encodeURIComponent(results["category"])+'",'+
+			'"'+encodeURIComponent(insertObj.Title)+'",'+
+			'"'+encodeURIComponent(formatDateStringForSorting(insertObj.Date))+'",'+
+			'"'+encodeURIComponent(JSON.stringify(insertObj))+'",'+
+			''+n+
 			');';
-	    	
+			//console.log("INSERT: "+insertStatement);
 	
 	    	tx.executeSql(insertStatement);
 	    }
@@ -137,13 +119,11 @@ TrendingManager.prototype = {
 
 function decodeTrending(encodedResult){
 	var result = {};
-	result["id"] = encodedResult.trending_tvn_id;
-	result["categoria"] = encodedResult.trending_category;
-	result["idnews"] = encodedResult.trending_idnews;
-	result["titulo"] = decodeURIComponent(encodedResult.trending_title);
-	result["descripcion"] = decodeURIComponent(encodedResult.trending_description);
-	result["imagen"] = decodeURIComponent(encodedResult.trending_image);
-	result["pubdate"] = decodeURIComponent(encodedResult.trending_pubdate);
+	
+	//Ya que todos los valores de la BD estan contenidos en este campo es el unico que necesitamos, los demas campos son para busqueda en la bd		
+	var jsonString = decodeURIComponent(encodedResult.trending_news_datacontent);
+	result = JSON.parse(jsonString);
+
 	return result;
 }
 
@@ -158,8 +138,25 @@ function deleteAllTrendingDB(tx, instanceCaller){
     printToLog("deleteAllTrendingDB done");
 }
 
-function clearTrendingTable(tx){
+//DELETES ALL BUT THE LAST 100 TRENDING FROM EACH CATEGORY
+function limitTrendingTableSize(tx){
+	var limitStatement;
+	var allTrendigIDs;
+	//eliminamos todas las categorias que no existan mas, despues por cada categoria eliminamos los que son viejos por cantidad
+	for(var i=0; i<arrTrendingTopics.length; i++){
+		limitStatement = 'DELETE FROM TRENDING WHERE trending_news_category = "'+arrTrendingTopics[i].ID+'" AND trending_news_tvn_id IN (SELECT trending_news_tvn_id FROM TRENDING WHERE trending_news_category = "'+arrTrendingTopics[i].ID+'" ORDER BY trending_news_creationtime asc LIMIT 60,200);'; //offset,limit
+		//console.log("delete "+limitStatement);
+		tx.executeSql(limitStatement);
+		console.log("LIMIT: "+limitStatement);
+		if(i>0){
+			allTrendigIDs = allTrendigIDs+",";
+		}
+		allTrendigIDs = allTrendigIDs+""+arrTrendingTopics[i].ID;
+	}
 	
-	var limitStatement = 'DELETE FROM TRENDING WHERE trending_tvn_id >= 0;';
-	tx.executeSql(limitStatement);
+	if(arrTrendingTopics.length > 0){
+		limitStatement = 'DELETE FROM TRENDING WHERE trending_news_category NOT IN "('+allTrendigIDs+')";'; //limpiamos los trneding que no tienen categoria
+		console.log("LIMIT2: "+limitStatement);
+		tx.executeSql(limitStatement);
+	}
 }

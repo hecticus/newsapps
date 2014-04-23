@@ -1,0 +1,132 @@
+@(signupForm: Form[models.matches.Client])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("La polla de TVMax - FiFA World Cup Brasil 2014 - Registro") {
+
+	<div class="row title" >
+		<div class="col-md-12" >
+			<span>Regístrate gratis</span>
+		</div>
+	</div>
+	
+	<div class="row" >
+		<div class="col-md-4">
+			
+
+			@if(flash.containsKey("danger")) {
+				 <br />
+        		<div class="alert alert-danger">@flash.get("danger")</div>
+    		} 
+
+			@helper.form(action = routes.SignUp.submit, 'role -> "form" ) {
+
+		       
+		          
+		           
+		          	@inputText(
+		                signupForm("email"),
+		                '_label -> "",
+		                'onBlur -> "isEmailExist()",
+		                '_help -> "",
+		                'class -> "form-control",
+			            'placeholder -> "Correo electrónico*"
+		            )
+		            
+		            @inputText(
+		                signupForm("repeatEmail"),                
+		                '_label -> "",
+		                '_help -> "",
+		                '_error -> signupForm.error("email"),
+		                'class -> "form-control",
+			            'placeholder -> "Repetir correo electrónico*"
+		            )
+		          
+		            @inputText(
+		                signupForm("name"), 
+		                '_label -> "", 
+		                '_help -> "",
+		                '_error -> signupForm.globalError,
+		                'class -> "form-control",
+			            'placeholder -> "Nombre*"
+		            )
+		            
+		            @inputText(
+		                signupForm("surname"), 
+		                '_label -> "",
+		                '_help -> "",
+		                '_error -> signupForm.globalError,
+		                'class -> "form-control",
+			            'placeholder -> "Apellido*"
+		            )
+		
+		            @inputPassword(
+		                signupForm("password"), 
+		                '_label -> "",
+		                '_help -> "",
+		                'class -> "form-control",
+			            'placeholder -> "Contraseña*"
+		            )
+		            
+		            @inputPassword(
+		                signupForm("repeatPassword"), 
+		                '_label -> "",
+		                '_help -> "",
+		                '_error -> signupForm.error("password"),
+		                'class -> "form-control",
+			            'placeholder -> "Repetir contraseña*"
+		            )
+		            
+	
+					<input id="socialid" type="hidden" name="socialid" value='' >
+		
+		<br/>
+		  		<button type="submit" class="btn btn-info btn-block">Registrarse</button>
+				 
+				<button type="button" class="btn btn-primary btn-block" onclick="FB.login();">Facebook</button>
+               
+        
+		        <script type="text/javascript">
+		        
+					var successFn = function(data) {						
+						if(data == "true") {								
+							$('#email').parent().find('.help-inline').html('Email already exist!');
+						} else {
+							$('#email').parent().find('.help-inline').html('');
+						}					
+					};
+					var fAjax = {success: successFn};
+				 
+					function isEmailExist() {	
+						jsRoutes.controllers.SignUp.isEmailExist( $("#email").val()).ajax(fAjax);
+					
+					}
+				</script>
+        
+        
+    }
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</div>
+	
+	
+
+    
+  
+    
+    
+    
+}

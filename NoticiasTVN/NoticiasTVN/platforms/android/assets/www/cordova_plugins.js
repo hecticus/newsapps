@@ -68,7 +68,6 @@ module.exports = [
         "file": "plugins/org.apache.cordova.file/www/DirectoryReader.js",
         "id": "org.apache.cordova.file.DirectoryReader",
         "clobbers": [
-            "window.DirectoryReader"
         ]
     },
     {
@@ -205,13 +204,6 @@ module.exports = [
         "id": "com.adobe.plugins.GAPlugin.GAPlugin",
         "clobbers": [
             "GAPlugin"
-        ]
-    },
-    {
-        "file": "plugins/com.plugin.sms/www/smsplugin.js",
-        "id": "com.plugin.sms.SMSPlugin",
-        "clobbers": [
-            "window.plugins.smsPlugin"
         ]
     }
 ];

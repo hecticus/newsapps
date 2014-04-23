@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />        
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/transaction.css">
+        <title>La casa de las baterías</title>
+        
+        
+        <style type="text/css">
+        
+			* {-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}			
+			html {-ms-touch-action: none; font-size:62.5%; font-family: helvetica, arial;}
+			body {position: fixed; width:100%; height:100%; overflow: hidden; /* this is important to prevent the whole page to bounce */}
+						
+			body,ul,li { padding: 0; margin: 0; border: 0;}			
+			
+			
+			::-webkit-input-placeholder { color: #6c6969; }/* WebKit browsers */
+			:-moz-placeholder { color: #6c6969; } /* Mozilla Firefox 4 to 18 */ 
+			::-moz-placeholder { color: #6c6969; } /* Mozilla Firefox 19+ */
+			:-ms-input-placeholder { color:  #6c6969; } /* Internet Explorer 10+ */
+			
+			h1 {font-size: 2em; /* 2em = 2 x 10px = 20px */}
+			h2 {font-size: 1.8em; /* 1.8em x 10px = 18px */}
+			h3 {font-size: 1.6em; /* 1.6em x 10px = 16px */}
+			h4 {font-size: 1.4em; /* 1.4em x 10px = 14px */}
+			h5 {font-size: 1.2em; /* 1.4em x 10px = 12px */}	
+			p {font-size: 1.4em; /* 1.4em x 10px = 14px */}
+			p {text-align:left; }
+			
+			
+			
+			header {
+				position: fixed;
+				z-index: 2;
+				top: 0;
+				left: 0;				
+				width: 100%;
+				height: 100px;				
+				line-height: 100px;
+				
+				padding: 5px;
+				color: #eee;
+				font-size: 2em;
+				text-align: center;
+				font-weight: bold;
+				
+				
+				background-color: #004076;
+				/*url(img/logoHeader.png) no-repeat center 75% auto*/
+				
+				
+				
+				
+			}
+			
+			
+			
+			#index, #delivery, #maps {
+				position: absolute;
+				z-index: 1;
+				top: 100px;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				background: #ffffff;
+				overflow: hidden;
+			}
+			
+			.scroller {
+				position: absolute;
+				z-index: 1;
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+				width: 100%;
+				
+				-webkit-transform: translateZ(0);
+				-moz-transform: translateZ(0);
+				-ms-transform: translateZ(0);
+				-o-transform: translateZ(0);
+				transform: translateZ(0);
+				
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				
+				-webkit-text-size-adjust: none;
+				-moz-text-size-adjust: none;
+				-ms-text-size-adjust: none;
+				-o-text-size-adjust: none;
+				text-size-adjust: none;
+			}
+			
+			 #delivery .scroller ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				width: 100%;
+				text-align: left;
+			}
+			
+			 #delivery .scroller li {
+				padding:0;
+				height: auto;
+				/*line-height: 75px;*/
+				border: 10px solid #FFFFFF;				
+			}
+				
+			#index .scroller ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				width: 100%;
+				text-align: left;
+			}				
+						
+			#index .scroller li {
+				padding:0;
+				height: auto;
+				line-height: 75px;
+				border: 10px solid #FFFFFF;				
+			}
+			
+			
+			
+			.option {
+				display: block; 
+				width: 100%; 
+				height: auto; 
+				font-size: 1.8em;  
+				text-align:left; 
+				font-weight: bold;
+				text-transform:uppercase; 				
+				padding: 0 15px; 				
+			}
+			
+			
+			.option {
+				background-color: #E3E3E3;
+				color:#000000;
+			}
+			
+			.option.hover {
+				color:#ffffff;
+    			background-color: #bf311a;
+			}
+			
+			
+			
+		
+					
+					
+			input {
+  				font-family : inherit;
+  				font-size   : 1.8em;
+  				font-weight:bold;
+  				background-color: #e7e8e8;
+  				color:#6c6969;		
+  				width: 90%;
+  				height: 50px;
+  				display: block;
+  				margin: 5px auto;
+  				border: 0;
+  				padding: 5px;
+  				overflow: hidden;
+  				
+			}
+			
+			.btn-send {
+				border :0 ;
+				background-color: #003d79;
+				color:#ffffff;
+				font-family : inherit;
+  				font-size   : 2em;
+  				font-weight:bold;
+  				width: 90%;
+  				height: 75px;
+  				margin: 5px auto;
+  				padding: 5px;
+  				
+			}
+								
+			.btn-photo {
+				border :0 ;
+				background-color: #bf311a;
+				color:#ffffff;
+				font-family : inherit;
+  				font-size   : 2em;
+  				font-weight:bold;
+  				width: 75%;
+  				height: 75px;
+  				margin: 5px auto;
+  				padding: 5px;
+  				
+			}
+			
+			select {
+				font-family : inherit;
+  				font-size   : 1.8em;
+  				font-weight:bold;
+  				color:#6c6969;
+				border :0 ;
+				line-height: 1;
+				background-color: #e7e8e8;
+				width: 90%;
+				height: 50px;
+  				display: block;
+  				margin: 5px auto;
+				overflow: hidden;
+			}
+			
+			
+			
+	  		#map-canvas{ 
+	  			margin: 0 auto;
+                width:90%; 
+                height:400px;
+                background-color: #FAF9F8;                 
+            }
+    
+
+	
+						
+		</style>
+        
+        
+        
+    </head>
+
+    <body>
+    	
+    	<header>    		
+    		<img src="img/logoHeader.png" style="width: 75%; height:auto;">
+    	</header>
+    	
+    	
+  
+    	
+    	
+    	
+    	
+		<div id="index" class="page" style="z-index:1; left:0;">
+			<div class="scroller">
+
+				<ul>
+					<li><div class="option" data-option="1">garantias</div></li>
+					<li><div class="option" data-option="2">encuentra tu bateria</div></li>
+					<li><div class="option" data-option="#delivery">servicio a domicilio</div></li>
+					<li><div class="option" data-option="4">catalogo</div></li>
+					<li><div class="option" data-option="#maps">sucursales</div></li>
+					<li><div class="option" data-option="6">mis compras</div></li>
+					<li><div class="option" data-option="7">mis vehiculos</div></li>					
+				</ul>
+				
+			</div> 		
+		</div>
+		
+
+		<div id="delivery" class="page" style="z-index:2; left:100%;">
+			<div class="scroller">
+				<ul>
+					<li>
+						<a href="tel:8006666"><img src="img/banner.png" style="width: 100%; height:auto;"></a>												
+					</li>
+					
+					<li style="text-align: center;">
+				
+						<h1 style="text-transform:uppercase; color:#6c6996;">servicio a domicilio</h1>
+						<form>
+							
+		  					<input id="name" name="name" type="text"  placeholder="Nombre *"   >
+		  					<input id="phone" name="phone" type="tel" placeholder="Telefono *" >
+		  					<input id="email" name="email" type="email" placeholder="Email *">
+	
+
+		  					<select id="brand-car" name="brand-car">
+		  						<option>&nbsp;Marca del Vehiculo *</option>
+								<option value="Alfa Romeo">Alfa Romeo</option>
+								<option value="Asia">Asia</option>
+								<option value="Audi">Audi</option>
+								<option value="BMW">BMW</option>
+								<option value="Buick">Buick</option>				
+		  					</select>
+		  					
+		  					
+		  					<select id="model-car" name="model-car">
+								<option value="0">&nbsp;Modelo del Vehiculo *</option>
+								<option value="104">104</option>
+								<option value="106">106</option>
+								<option value="120J">120J</option>
+								<option value="123">123</option>
+								<option value="126">126</option>
+								<option value="140/S Class">140/S Class</option>						
+							</select>
+		  					
+		  					
+		  					<select id="year"name="year" >
+							    <option value="0">&nbsp;Año *</option>
+							    <option value="1922">1922</option>
+							    <option value="1937">1937</option>
+							    <option value="1944">1944</option>
+							    <option value="1951">1951</option>
+							    <option value="1952">1952</option>
+							</select>
+		  					
+		  					<select id="combustible" name="combustible" style="width: 45%; display: inline; font-size : 1.4em; text-align: center; ">
+								<option value="0">Combustible *</option>
+								<option value="Diesel">Diesel</option>
+								<option value="Gasolina">Gasolina</option>
+								<option value="Hibrido">Hibrido</option>
+							</select>
+							
+							<select id="type-service" name="type-service" style="width: 45%; display: inline; font-size : 1.4em; text-align: center; ">
+								<option value="0">Tipo de servicio *</option>
+								<option value="Service-1">Service-1</option>
+								<option value="Service-2">Service-2</option>
+							</select>
+								
+		  					<select id="time-living" name="time-living" style="width: 45%; display: inline; font-size : 1.4em; text-align: center; ">
+								<option value="0">Vida de batería *</option> 
+								<option value="1">1 año</option>
+								<option value="2">2 años</option>
+								<option value="3">3 años</option>
+							</select>
+		  					
+		  					<select id="payment-method" name="payment-method" style="width: 45%; display: inline; font-size : 1.4em; text-align: center; ">
+								<option value="0">Método de pago *</option>
+								<option value="1">Efectivo</option>
+								<option value="2">Cheque</option>
+								<option value="3">Debito</option>
+								<option value="4">Credito</option>
+							</select>
+		  					
+		  				
+		  					
+		  					<select id="country" name="country" >
+								<option value="0">&nbsp;País *</option>
+								<option value="1">Panamá</option>
+								<option value="2">Costa Rica</option>
+								<option value="3">Guatemala</option>
+								<option value="4">El Sakvador</option>
+							</select>
+		  					
+		  					<select id="province" name="province" >
+								<option value="0">&nbsp;Provincia *</option>
+								<option value="1">Panamá</option>
+								<option value="2">Costa Rica</option>
+								<option value="3">Guatemala</option>
+								<option value="4">El Sakvador</option>
+							</select>
+		  					
+		  					
+		  					<h5 style="color:#6c6969;">Anexa imágenes de referencia (batería vieja, fotos del vehiculo, referencia de dirección):</h5>		  					
+		  					<button type="button" class="btn-photo">Anexar Fotografia</button>		  							  					
+		  					<button type="button" class="btn-send">Enviar</button>
+		  					
+		  				</form>
+			
+						
+					</li>
+				</ul>
+				
+				
+
+			</div>
+		</div>
+		
+		
+		<div id="maps" class="page" style="z-index:3; left:100%;">
+    		<div class="scroller">
+    			
+    			<h1 style="text-transform:uppercase; color:#6c6996; text-align: center;">sucursales</h1>
+    			
+    			<div>
+					<select id="maps-country">
+						<option>&nbsp;Seleccione</option>				
+					</select>
+    				<select id="maps-sucursal">
+						<option>&nbsp;Seleccione</option>				
+					</select>    				
+    			</div>
+    			
+    			
+    			<div id="map-canvas"></div>
+    			
+			</div>    			
+    	</div>
+		
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
+        <script type="text/javascript" src="js/iscroll-probe.js"></script>              
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+        
+       
+        
+        
+
+    </body>
+</html>

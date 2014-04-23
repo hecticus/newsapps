@@ -1,0 +1,68 @@
+@(signinForm: Form[models.matches.Client])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("La polla de TVMax - FiFA World Cup Brasil 2014 - Registro") {
+	
+	<div class="row title" >
+		<div class="col-md-12"  >
+			<span>Ingresar</span>
+		</div>
+	</div>
+	
+	<div class="row" >
+		<div class="col-md-4">
+			
+			@if(flash.containsKey("danger")) {
+				<br />
+        		<div class="alert alert-danger">@flash.get("danger")</div>
+    		} 
+			
+			 @helper.form(action = routes.SignIn.submit, 'role -> "form" ) {
+			 	
+			 	
+			 	
+			 	
+				
+						 @inputText(
+			                signinForm("email"),
+			                '_label -> "",
+			                '_help -> "",
+			                'class -> "form-control",
+			                'placeholder -> "Correo electrónico*"
+		           		)
+  				
+
+		         
+			           	@inputPassword(
+			                signinForm("password"), 
+			                '_label -> "",
+			                '_help -> "",
+			                'class -> "form-control",
+				           	'placeholder -> "Contraseña*"
+			            )
+		         
+		         
+		            
+
+		 
+					<input id="socialid" type="hidden" name="socialid" value='' >
+				 
+				 	
+		      <br />
+				<button type="submit" class="btn btn-success btn-block">Ingresar</button>
+				<a href="@routes.SignUp.blank" class="btn btn btn-info btn-block">Registrarse</a>		 
+				<button type="button" class="btn btn-primary btn-block" onclick="FB.login();">Facebook</button>
+				
+				
+				
+    		}
+			
+	
+		</div>
+	</div>	
+   
+    
+}

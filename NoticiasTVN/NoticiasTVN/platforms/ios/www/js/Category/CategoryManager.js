@@ -37,12 +37,13 @@ CategoryManager.prototype = {
 		//var urlComplete = 'http://192.168.1.128/kraken/storefront/wsext/pa-tvn/getTVNCategories.php';
 		
 		var urlComplete = 'http://tvn.news.hecticus.com:9001/newsapi/v1/categories/search';
+		//var urlComplete = 'http://localhost:9007/newsapi/v1/categories/search';
 		
 		var instance = this;
 		
 		$.ajax({
 			url : urlComplete,
-			timeout : 160000,
+			timeout : 120000,
 			success : function(data, status) {
 				printToLog("TESTNEW: 0-"+status+" results: "+data);
 				if(typeof data == "string"){

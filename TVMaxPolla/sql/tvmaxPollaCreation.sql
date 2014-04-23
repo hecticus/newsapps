@@ -28,9 +28,11 @@ CREATE TABLE `client_bet` (
   `id_client_bet` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_client` bigint(20) NOT NULL,
   `id_match` int(11) DEFAULT NULL,
-  `id_winner` int(11) DEFAULT NULL,
+  `id_team_winner` int(11) DEFAULT NULL,
+  `id_team_loser` int(11) DEFAULT NULL,
   `score_winner` int(11) DEFAULT NULL,
   `score_loser` varchar(45) DEFAULT NULL,
+  `draw` int(1) DEFAULT NULL,
   `id_leaderboard` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_client_bet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -43,6 +45,55 @@ CREATE TABLE `client_bet` (
 LOCK TABLES `client_bet` WRITE;
 /*!40000 ALTER TABLE `client_bet` DISABLE KEYS */;
 /*!40000 ALTER TABLE `client_bet` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group`
+--
+
+DROP TABLE IF EXISTS `group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group` (
+  `id_group` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group`
+--
+
+LOCK TABLES `group` WRITE;
+/*!40000 ALTER TABLE `group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_has_team`
+--
+
+DROP TABLE IF EXISTS `group_has_team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_has_team` (
+  `id_group_has_team` int(11) NOT NULL,
+  `id_group` int(11) DEFAULT NULL,
+  `id_team` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_group_has_team`),
+  KEY `id_group_idx` (`id_group`),
+  KEY `id_team_idx` (`id_team`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_has_team`
+--
+
+LOCK TABLES `group_has_team` WRITE;
+/*!40000 ALTER TABLE `group_has_team` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_has_team` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -158,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-24 12:17:24
+-- Dump completed on 2014-03-25 17:57:29

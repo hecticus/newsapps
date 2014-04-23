@@ -55,7 +55,7 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
     printToLog("getCategoryNewsFromDB 1");
     
     printToLog("getCategoryNewsFromDB: "+selected);
-	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_creationtime asc LIMIT 26', [],
+	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_creationtime asc LIMIT 20', [],
 				  function(tx, results){
 					callback(results);
 				  },
@@ -85,7 +85,10 @@ getNewsByIDFromDB:function(tx, instanceCaller, errorCallback, callback, selected
 	    
 	    tx.executeSql(createNewsQuery);
 	    
-	    var itemArray = results["noticias"]["item"];
+	    //DELETE OLD NEWS
+		limitNewsTableSize(tx);
+	    
+	    var itemArray = results["noticias"];
 	    printToLog("saveAllNewsToDB 1 - "+itemArray.length+" -"+results["category"]);
 	    
 	    for(var i=0; i<itemArray.length; i++){
@@ -97,20 +100,17 @@ getNewsByIDFromDB:function(tx, instanceCaller, errorCallback, callback, selected
 			var n = d.getTime();
 			
 			var insertStatement = 'INSERT OR REPLACE INTO NEWS(news_tvn_id,news_category,news_headline,news_date,news_datacontent,news_creationtime)'+
-			'VALUES ('+insertObj.id+','+
+			'VALUES ('+insertObj.ID+','+
 			'"'+encodeURIComponent(results["category"])+'",'+
-			'"'+encodeURIComponent(insertObj.title)+'",'+
-			'"'+encodeURIComponent(formatDateStringForSorting(insertObj.pubdate))+'",'+
+			'"'+encodeURIComponent(insertObj.Title)+'",'+
+			'"'+encodeURIComponent(formatDateStringForSorting(insertObj.Date))+'",'+
 			'"'+encodeURIComponent(JSON.stringify(insertObj))+'",'+
 			''+n+
 			');';
-	    	
+			//console.log("INSERT: "+insertStatement);
 	
 	    	tx.executeSql(insertStatement);
 	    }
-		
-		//DELETE OLD NEWS
-		limitNewsTableSize(tx);
 		
 	    printToLog("saveAllNewsToDB 2");
 	}
@@ -143,7 +143,8 @@ function limitNewsTableSize(tx){
 	
 	//eliminamos todas las categorias que no existan mas, despues por cada categoria eliminamos los que son viejos por cantidad
 	for(var i=0; i<arrCategory.length; i++){
-		var limitStatement = 'DELETE FROM NEWS WHERE news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
+		var limitStatement = 'DELETE FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" AND news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
+		//console.log("delete "+limitStatement);
 		tx.executeSql(limitStatement);
 	}
 }
