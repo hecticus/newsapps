@@ -920,7 +920,9 @@ function initBasicApp(){
 				
 				for(var i=0;i<itemArray.length; i++){
 						if(itemArray[i]["ID"] == newsDatacontent){
-
+						
+						$('#datacontents').empty();
+							
 						$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=itemArray[i]["Title"];
 						
@@ -1016,7 +1018,7 @@ function initBasicApp(){
 						$.li+='<p>'+$.news.datacontent+'</p>';	
 						$.li+='</div>';	
 						
-						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</div>';        		
+						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</h5></div>';       		
 						        		
 						        																						
 						$.li+='</li>';
