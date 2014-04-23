@@ -163,4 +163,41 @@ public class Utils {
         //console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
         return ""+YYYY+MM+DD+hh+mm+ss;
     }
+
+    public static long formatDateLongFromString(String dateString) {
+        String YYYY,MM,DD;
+        String hh="00";
+        String mm="00";
+        String ss="00";
+        String[] parts = dateString.split(" ");
+        String[] MDY = parts[0].split("/");
+        MM = MDY[0];
+        DD = MDY[1];
+        YYYY = MDY[2];
+        if(parts.length > 1){
+
+            String[] HMS = parts[1].split(":");
+            String meridian = parts[2];
+            int intH = Integer.parseInt(HMS[0]);
+            if(meridian.equalsIgnoreCase("p.m.") || meridian.equalsIgnoreCase("p.m") || meridian.equalsIgnoreCase("pm")){
+                if(intH < 12){
+                    intH = intH+12;
+                }
+            }
+            if ( intH < 10 ){
+                hh = "0" + intH;
+            }else{
+                hh = ""+intH;
+            }
+            mm = HMS[1];
+            ss = HMS[2];
+
+        }
+        int MMint = Integer.parseInt(MM);
+        if ( MMint < 10 && MM.charAt(0) != '0' ) MM = '0' + MM;
+
+        //console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
+        return Long.parseLong(YYYY+MM+DD+hh+mm+ss);
+    }
+
 }

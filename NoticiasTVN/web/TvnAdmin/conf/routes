@@ -63,6 +63,9 @@ GET     /newsapi/v1/news/search/tvn/id/:idCategory          controllers.newsapi.
 GET     /newsapi/v1/news/trendingtopics/search/         controllers.newsapi.TrendingTopicsController.get()
 POST    /newsapi/v1/news/trendingtopics/insert          controllers.newsapi.TrendingTopicsController.insert()
 
+#banners
+GET     /newsapi/v1/banners/get                         controllers.newsapi.BannerController.getActiveBanner()
+
 #<Tvn>
 
 # Default path will just redirect to the category list

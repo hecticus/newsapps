@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="category")
+@Table(name="categories")
 public class Category extends HecticusModel{
 
 	@Id
@@ -60,6 +60,67 @@ public class Category extends HecticusModel{
 		this.pushable = pushable;
 		this.sort = sort;
 	}
+
+    @Override
+    public ObjectNode toJson() {
+        ObjectNode tr = Json.newObject();
+        tr.put("id", idCategory);
+        tr.put("name",name);
+        tr.put("shortName",shortName);
+        tr.put("feedUrl", feedUrl);
+        tr.put("internalUrl", internalUrl);
+        tr.put("pushable", pushable);
+        tr.put("trending", trending);
+        tr.put("video", video);
+        tr.put("sort",sort);
+        tr.put("status",status);
+        tr.put("hidden",hidden);
+        return tr;
+    }
+
+    /**
+     * Return a page of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                finder.where()
+                        .ilike("name", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .findPagingList(pageSize)
+                        .getPage(page);
+    }
+
+    public static List<Category> getAllCategories(){
+        return finder.all();
+    }
+
+    public static List<Category> getActiveCategories(int status){
+        return finder.where().eq("status", status).findList();
+    }
+
+    public static List<Category> getActivePushableCategories(int status){
+        return finder.where().eq("status", status).eq("pushable", true).findList();
+    }
+
+    public static Category getCategoriesByName(String name){
+        return finder.where().eq("name", name).findUnique();
+    }
+
+    public static Category getCategoriesByShortName(String shortName){
+        return finder.where().eq("short_name", shortName).findUnique();
+    }
+
+    public static Category getCategory(long idCategory){
+        return finder.where().eq("id_category", idCategory).findUnique();
+    }
+
+    /**************** Getters and setters *********************/
 	
     public Long getIdCategory() {
         return idCategory;
@@ -147,65 +208,6 @@ public class Category extends HecticusModel{
 
     public void setHidden(Boolean hidden) {
         this.hidden = hidden;
-    }
-
-    @Override
-    public ObjectNode toJson() {
-        ObjectNode tr = Json.newObject();
-        tr.put("id", idCategory);
-        tr.put("name",name);
-        tr.put("shortName",shortName);
-        tr.put("feedUrl", feedUrl);
-        tr.put("internalUrl", internalUrl);
-        tr.put("pushable", pushable);
-        tr.put("trending", trending);
-        tr.put("video", video);
-        tr.put("sort",sort);
-        tr.put("status",status);
-        tr.put("hidden",hidden);
-        return tr;
-    }
-    
-    /**
-     * Return a page of computer
-     *
-     * @param page Page to display
-     * @param pageSize Number of computers per page
-     * @param sortBy Computer property used for sorting
-     * @param order Sort order (either or asc or desc)
-     * @param filter Filter applied on the name column
-     */
-    public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return 
-        	finder.where()
-                .ilike("name", "%" + filter + "%")
-                .orderBy(sortBy + " " + order)
-                .findPagingList(pageSize)
-                .getPage(page);
-    }
-
-    public static List<Category> getAllCategories(){
-        return finder.all();
-    }
-
-    public static List<Category> getActiveCategories(int status){
-        return finder.where().eq("status", status).findList();
-    }
-
-    public static List<Category> getActivePushableCategories(int status){
-        return finder.where().eq("status", status).eq("pushable", true).findList();
-    }
-
-    public static Category getCategoriesByName(String name){
-        return finder.where().eq("name", name).findUnique();
-    }
-
-    public static Category getCategoriesByShortName(String shortName){
-        return finder.where().eq("short_name", shortName).findUnique();
-    }
-
-    public static Category getCategory(long idCategory){
-        return finder.where().eq("id_category", idCategory).findUnique();
     }
 
 }

@@ -11,6 +11,7 @@ import play.libs.Json;
 import play.mvc.Result;
 import utils.Utils;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,6 @@ public class NewsController extends HecticusController {
             Category cat = null;
             cat = Category.getCategoriesByName(categoryName);
             if (cat == null){
-                System.out.println("shortname");
                 //get by shortName
                 cat = Category.getCategoriesByShortName(categoryName);
                 if (cat == null){
@@ -106,6 +106,10 @@ public class NewsController extends HecticusController {
         }
     }
 
+    /**
+     * devuelve una lista de las noticias que estan en la base de datos
+     * @return
+     */
     public static Result getBatch(){
         try {
             ArrayList<ObjectNode> listToInsert = new ArrayList<>();
@@ -116,8 +120,12 @@ public class NewsController extends HecticusController {
                     JsonNode current = (JsonNode)it.next();
                     try {
                         //build obj
-                        News received = new News(current);
-                        if (!received.existInBd()){
+                        News received = new News();
+                        received.setExternalId(current.get("id").asInt());
+                        received.setTitle(current.get("title").asText());
+                        //crear crc del titulo
+                        received.setCrc(Utils.createMd5(received.getTitle()));
+                        if (received.existInBd()){
                             listToInsert.add(received.idToJson());
                         }
                     }catch (Exception ex){
@@ -139,6 +147,7 @@ public class NewsController extends HecticusController {
             ArrayList<News> toInsert = new ArrayList<News>();
             //get data from post
             ObjectNode data = getJson();
+            System.out.println(data);
             //get data from json
             if (data.has("news")){
                 Iterator it = data.get("news").getElements();
@@ -174,8 +183,8 @@ public class NewsController extends HecticusController {
                     JsonNode current = (JsonNode)it.next();
                     try {
                         //build obj
-                        News received = new News(current,true);
-                        toInsert.add(received);
+                       // News received = new News(current,true);
+                        //toInsert.add(received);
                     }catch (Exception ex){
                         //must continue
                         ex.printStackTrace();
@@ -276,6 +285,10 @@ public class NewsController extends HecticusController {
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
+    }
+
+    public static Result test(){
+        return null;
     }
 
 

@@ -12,10 +12,9 @@ import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,437 +24,206 @@ public class News extends HecticusModel{
 
     @Id
     private Long idNews;
-    private Integer externalId; //id de la noticia externo
-    private String author;
-    private String pubDate;
-    private String category; //external category
-    private Long idCategory; //local id category
-    private String image;
-    private String imageCaption;
-    private String videoUrl;
-    private String title;
-    private Boolean topNews;
-    private String uploadedVideo;
     @Column(columnDefinition = "TEXT")
-    private String description;
-    private Integer visits;
+    private String body;
+    private String categories; //external categories
+    private String pubDate; //date
+    private Boolean featured;
+    private String firstVideo;
+    //hit counter not used
+    private Integer externalId; //id de la noticia externo
+    private String image;
+    private String portalImage;
+    @Column(columnDefinition = "TEXT")
+    private String portalImageDesc;
+    private String pubTime;
+    private Boolean pushNotifications;
+    private String secondVideo;
+    private int size;
+    //private String startDate;
+    private String title;
+    private String url;
+
+    //hecticus fields
+    private Long idCategory; //local id category
+
+    //auto generated
     private String crc;
-    private String insertedTime;
+    private Long insertedTime;
     private Boolean generated;
     private Long generationTime; //tiempo que se usa para saber cuando se genero el push de la noticia. Formato: YYYYMMDD
-    private String pubDateFormated; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
+    private Long pubDateFormated; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
 
-    //videos
-    private  String categoryName;
-    private String videoTime;
+    //hecticus images resources
+    @OneToMany (cascade=CascadeType.ALL)
+    private List<Resource> resources;
 
-    //trending
-    private int idTrending;
-
-    public News(JsonNode data) throws NewsException {
-
+    public News(JsonNode data) throws UnsupportedEncodingException, NewsException {
         //contruct obj from json
-        if (data.has("id")) {
-            externalId = data.get("id").asInt();
+        if (data.has("Body")) {
+            body = data.get("Body").asText();
+        } else {
+            throw new NewsException("body faltante");
+        }
+
+        if (data.has("Categories")) {
+            categories = data.get("categories").asText();
+        } else {
+            throw new NewsException("categories faltante");
+        }
+
+        if (data.has("Date")) {
+            pubDate = data.get("Date").asText();
+            pubDateFormated = Utils.formatDateLongFromString(pubDate);
+        } else {
+            throw new NewsException("Date faltante");
+        }
+
+        if (data.has("Destacada")) {
+            featured = data.get("Destacada").asBoolean();
+        } else {
+            throw new NewsException("Destacada faltante");
+        }
+
+        if (data.has("FirstVideo")) {
+            firstVideo = data.get("FirstVideo").asText();
+        } else {
+            throw new NewsException("FirstVideo faltante");
+        }
+
+        //hitCounter not used
+
+        if (data.has("ID")) {
+            externalId = data.get("ID").asInt();
         } else {
             throw new NewsException("externalId faltante");
         }
 
-        if (data.has("author")) {
-            author = data.get("author").asText();
-        } else {
-            throw new NewsException("author faltante");
-        }
-
-        if (data.has("pubDate")) {
-            pubDate = data.get("pubDate").asText();
-            pubDateFormated = Utils.formatDateStringForSorting(pubDate);
-        } else {
-            throw new NewsException("pubdate faltante");
-        }
-
-        if (data.has("category")) {
-            category = data.get("category").asText();
-        } else {
-            throw new NewsException("category faltante");
-        }
-
-        if (data.has("idCategory")) {
-            idCategory = data.get("idCategory").asLong();
-        }
-
-        if (data.has("image")) {
-            image = data.get("image").asText();
+        if (data.has("Image")) {
+            image = data.get("Image").asText();
         } else {
             throw new NewsException("image faltante");
         }
 
-        if (data.has("imageCaption")) {
-            imageCaption = data.get("imageCaption").asText();
-        }
-
-        if (data.has("videoUrl")) {
-            videoUrl = data.get("videoUrl").asText();
-        }
-
-        if (data.has("title")) {
-            title = data.get("title").asText();
+        if (data.has("PortalImage")) {
+            portalImage = data.get("PortalImage").asText();
         } else {
-            throw new NewsException("title faltante");
+            throw new NewsException("PortalImage faltante");
         }
 
-        if (data.has("topNews")) {
-            topNews = data.get("topNews").asBoolean();
+        if (data.has("PortalImageDescription")) {
+            portalImageDesc = data.get("PortalImageDescription").asText();
         } else {
-            throw new NewsException("topNews faltante");
+            throw new NewsException("PortalImageDescription faltante");
         }
 
-        if (data.has("uploadedVideo")) {
-            uploadedVideo = data.get("uploadedVideo").asText();
-        }
-
-        if (data.has("description")) {
-            description = data.get("description").asText();
+        if (data.has("PublishingDateTime")) {
+            pubTime = data.get("PublishingDateTime").asText();
         } else {
-            throw new NewsException("description faltante");
+            throw new NewsException("PublishingDateTime faltante");
         }
 
-        if (data.has("visits")) {
-            visits = data.get("visits").asInt();
+        if (data.has("PushNotifications")) {
+            pushNotifications = data.get("PushNotifications").asBoolean();
         } else {
-            throw new NewsException("visits faltante");
+            throw new NewsException("PushNotifications faltante");
         }
 
-        //trending
-        idTrending = 0;
-        if (data.has("idnews")) {
-            idTrending = externalId;
-            externalId = data.get("idnews").asInt();
-        }
-
-        //auto generated values
-        generated = false;
-        crc = Utils.createMd5(title);
-        //videos
-        categoryName = "";
-        if (data.has("categoryName")) {
-            videoTime = data.get("categoryName").asText();
-        }
-        videoTime = "";
-        if (data.has("videoTime")) {
-            videoTime = data.get("videoTime").asText();
-        }
-        //0 nunca se ha generado
-        generationTime = 0l;
-    }
-
-
-    public News(JsonNode data, boolean isTrending) throws NewsException {
-        //contruct obj from json trendings
-        if (data.has("id")) {
-            idTrending = data.get("id").asInt();
+        if (data.has("SecondVideo")) {
+            secondVideo = data.get("SecondVideo").asText();
         } else {
-            throw new NewsException("idTrending faltante");
+            throw new NewsException("secondVideo faltante");
         }
 
-        author = "";
+        //size
+        //startDate
 
-        if (data.has("pubdate")) {
-            pubDate = data.get("pubdate").asText();
-            pubDateFormated = Utils.formatDateStringForSorting(pubDate);
+        if (data.has("Title")) {
+            title = data.get("Title").asText();
         } else {
-            throw new NewsException("pubdate faltante");
+            throw new NewsException("Title faltante");
         }
 
-        if (data.has("categoria")) {
-            category = data.get("categoria").asText();
+        if (data.has("URL")) {
+            url = data.get("URL").asText();
         } else {
-            throw new NewsException("categoria faltante");
+            throw new NewsException("URL faltante");
         }
 
         if (data.has("idCategory")) {
             idCategory = data.get("idCategory").asLong();
         }
 
-        if (data.has("idnews")) {
-            externalId = data.get("idnews").asInt();
-        } else {
-            throw new NewsException("externalId faltante");
-        }
-
-        if (data.has("titulo")) {
-            title = data.get("titulo").asText();
-        } else {
-            throw new NewsException("titulo faltante");
-        }
-
-        if (data.has("descripcion")) {
-            description = data.get("descripcion").asText();
-        } else {
-            throw new NewsException("descripcion faltante");
-        }
-
-        if (data.has("imagen")) {
-            image = data.get("imagen").asText();
-        } else {
-            throw new NewsException("imagen faltante");
-        }
-
-        imageCaption = "";
-
-        topNews = false;
-
         //auto generated values
         generated = false;
         crc = Utils.createMd5(title);
-        //videos
-        categoryName ="";
-        videoTime = "";
+        insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         //0 nunca se ha generado
         generationTime = 0l;
     }
-
-
-
 
     public News(){
         //por defecto
     }
 
-
     public static Model.Finder<Long,News> finder =
             new Model.Finder<Long, News>(Long.class, News.class);
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getPubDate() {
-        return pubDate;
-    }
-
-    public void setPubDate(String pubDate) {
-        this.pubDate = pubDate;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getImageCaption() {
-        return imageCaption;
-    }
-
-    public void setImageCaption(String imageCaption) {
-        this.imageCaption = imageCaption;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean isTopNews() {
-        return topNews;
-    }
-
-    public void setTopNews(boolean topNews) {
-        this.topNews = topNews;
-    }
-
-    public String getUploadedVideo() {
-        return uploadedVideo;
-    }
-
-    public void setUploadedVideo(String uploadedVideo) {
-        this.uploadedVideo = uploadedVideo;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getVisits() {
-        return visits;
-    }
-
-    public void setVisits(int visits) {
-        this.visits = visits;
-    }
-
-    public String getCrc() {
-        return crc;
-    }
-
-    public void setCrc(String crc) {
-        this.crc = crc;
-    }
-
-    public String getInsertedTime() {
-        return insertedTime;
-    }
-
-    public void setInsertedTime(String insertedTime) {
-        this.insertedTime = insertedTime;
-    }
-
-    public long getIdNews() {
-        return idNews;
-    }
-
-    public void setIdNews(long idNews) {
-        this.idNews = idNews;
-    }
-
-    public int getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(int externalId) {
-        this.externalId = externalId;
-    }
-
-    public boolean isGenerated() {
-        return generated;
-    }
-
-    public void setGenerated(boolean generated) {
-        this.generated = generated;
-    }
-
-    public long getIdCategory() {
-        return idCategory;
-    }
-
-    public void setIdCategory(long idCategory) {
-        this.idCategory = idCategory;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getVideoTime() {
-        return videoTime;
-    }
-
-    public void setVideoTime(String videoTime) {
-        this.videoTime = videoTime;
-    }
-
-    public int getIdTrending() {
-        return idTrending;
-    }
-
-    public void setIdTrending(int idTrending) {
-        this.idTrending = idTrending;
-    }
-
-    public long getGenerationTime() { return generationTime; }
-
-    public void setGenerationTime(long generationTime) { this.generationTime = generationTime; }
 
     @Override
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
-        tr.put("id",idNews);
-        tr.put("externalId", externalId);
-        tr.put("idCategory",idCategory);
-        tr.put("author", author);
-        tr.put("pubDate", pubDate);
-        tr.put("category", category);
-        tr.put("image",image);
-        tr.put("imageCaption",imageCaption);
-        tr.put("videoUrl",videoUrl);
-        tr.put("title", title);
-        tr.put("topNews", topNews);
-        tr.put("uploadedVideo", uploadedVideo);
-        tr.put("description", description);
-        tr.put("visits", visits);
+        tr.put("id",idNews); //local id
+        tr.put("Body", body);
+        tr.put("Categories",categories);
+        tr.put("Date" , pubDate);
+        tr.put("Destacada", featured);
+        tr.put("FirstVideo", firstVideo);
+        //hit counter
+        tr.put("ID", externalId);
+        tr.put("Image", image);
+        tr.put("PortalImage", portalImage);
+        tr.put("PortalImageDescription", portalImageDesc);
+        tr.put("PublishingDateTime", pubTime);
+        tr.put("PushNotifications", pushNotifications);
+        tr.put("SecondVideo", secondVideo);
+        tr.put("Size", size);
+        //tr.put("StartDate", null);
+        tr.put("Title", title);
+        tr.put("URL", url);
+
+        tr.put("idCategory",idCategory); //local id
         tr.put("crc", crc);
         tr.put("insertedTime", insertedTime);
         tr.put("generated", generated);
-        //new fields
-        tr.put("categoryName",categoryName);
-        tr.put("videoTime",videoTime);
-        tr.put("idTrending", idTrending);
-        tr.put("generationTime", generationTime);
-        tr.put("pubDateFormated", pubDateFormated);
+
+        //images
+
+        //tr.put("hecticus_img",CDN_URL + justImageName());
 
         return tr;
     }
 
     public ObjectNode toJsonTVN() {
         ObjectNode tr = Json.newObject();
-        if(idTrending == 0){
-            //normal news
-            tr.put("id",externalId);
-
-            tr.put("id_category",idCategory);
-            tr.put("author", author);
-            tr.put("pubdate", pubDate);
-            tr.put("category", category);
-            tr.put("image",image);
-            tr.put("imagecaption",imageCaption);
-            tr.put("videourl",videoUrl);
-            tr.put("title", title);
-            tr.put("topnews", topNews);
-            tr.put("uploadedvideo", uploadedVideo);
-            tr.put("description", description);
-            tr.put("visits", visits);
-            //new fields
-            tr.put("categoryname",categoryName);
-            tr.put("videotime",videoTime);
-            tr.put("pubdateformated", pubDateFormated);
-        }else{
-            //trending news
-            tr.put("id",idTrending);
-            tr.put("idnews",externalId);
-
-            tr.put("categoria", category);
-            tr.put("titulo", title);
-            tr.put("pubdate", pubDate);
-            tr.put("descripcion", description);
-            tr.put("imagen",image);
-
-            tr.put("pubdateformated", pubDateFormated);
-        }
-
+        tr.put("id",idNews); //local id
+        tr.put("Body", body);
+        tr.put("Categories",categories);
+        tr.put("Date" , pubDate);
+        tr.put("Destacada", featured);
+        tr.put("FirstVideo", firstVideo);
+        //hit counter
+        tr.put("ID", externalId);
+        tr.put("Image", image);
+        tr.put("PortalImage", portalImage);
+        tr.put("PortalImageDescription", portalImageDesc);
+        tr.put("PublishingDateTime", pubTime);
+        tr.put("PushNotifications", pushNotifications);
+        tr.put("SecondVideo", secondVideo);
+        tr.put("Size", size);
+        //tr.put("StartDate", null);
+        tr.put("Title", title);
+        tr.put("URL", url);
         return tr;
     }
 
@@ -471,19 +239,6 @@ public class News extends HecticusModel{
 
     public static List<News> getNewsByCategory(long idCategory){
         return finder.where().eq("id_category", idCategory).findList();
-    }
-
-    public static News getNewsByExtId(String id){
-        return finder.where().eq("external_id", id).findUnique();
-    }
-
-    public static News getByCrc(String crc){
-        return finder.where().eq("crc", crc).findUnique();
-    }
-
-    public static List<News> getNewsListById(ArrayList ids){
-        //get news by ids, return existing
-        return finder.all();
     }
 
     public static List<News> getNewsByCategoryAndGenerationDate(long idCategory, long generationDate){
@@ -555,5 +310,183 @@ public class News extends HecticusModel{
             return true;
         }
         return false;
+    }
+
+    /**************************** GETTERS AND SETTERS ****************************************************/
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
+    }
+
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public Boolean getFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(Boolean featured) {
+        this.featured = featured;
+    }
+
+    public String getFirstVideo() {
+        return firstVideo;
+    }
+
+    public void setFirstVideo(String firstVideo) {
+        this.firstVideo = firstVideo;
+    }
+
+    public Integer getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(Integer externalId) {
+        this.externalId = externalId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPortalImage() {
+        return portalImage;
+    }
+
+    public void setPortalImage(String portalImage) {
+        this.portalImage = portalImage;
+    }
+
+    public String getPortalImageDesc() {
+        return portalImageDesc;
+    }
+
+    public void setPortalImageDesc(String portalImageDesc) {
+        this.portalImageDesc = portalImageDesc;
+    }
+
+    public String getPubTime() {
+        return pubTime;
+    }
+
+    public void setPubTime(String pubTime) {
+        this.pubTime = pubTime;
+    }
+
+    public Boolean getPushNotifications() {
+        return pushNotifications;
+    }
+
+    public void setPushNotifications(Boolean pushNotifications) {
+        this.pushNotifications = pushNotifications;
+    }
+
+    public String getSecondVideo() {
+        return secondVideo;
+    }
+
+    public void setSecondVideo(String secondVideo) {
+        this.secondVideo = secondVideo;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Long getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(Long idCategory) {
+        this.idCategory = idCategory;
+    }
+
+    public String getCrc() {
+        return crc;
+    }
+
+    public void setCrc(String crc) {
+        this.crc = crc;
+    }
+
+    public Long getInsertedTime() {
+        return insertedTime;
+    }
+
+    public void setInsertedTime(Long insertedTime) {
+        this.insertedTime = insertedTime;
+    }
+
+    public Boolean getGenerated() {
+        return generated;
+    }
+
+    public void setGenerated(Boolean generated) {
+        this.generated = generated;
+    }
+
+    public Long getGenerationTime() {
+        return generationTime;
+    }
+
+    public void setGenerationTime(Long generationTime) {
+        this.generationTime = generationTime;
+    }
+
+    public Long getPubDateFormated() {
+        return pubDateFormated;
+    }
+
+    public void setPubDateFormated(Long pubDateFormated) {
+        this.pubDateFormated = pubDateFormated;
+    }
+
+    public Long getIdNews() {
+        return idNews;
+    }
+
+    public void setIdNews(Long idNews) {
+        this.idNews = idNews;
     }
 }
