@@ -37,6 +37,7 @@ CategoryManager.prototype = {
 		//var urlComplete = 'http://192.168.1.128/kraken/storefront/wsext/pa-tvn/getTVNCategories.php';
 		
 		var urlComplete = 'http://tvn.news.hecticus.com:9001/newsapi/v1/categories/search';
+		//var urlComplete = 'http://localhost:9007/newsapi/v1/categories/search';
 		
 		var instance = this;
 		

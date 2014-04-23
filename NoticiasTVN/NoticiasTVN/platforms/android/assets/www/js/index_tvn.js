@@ -463,7 +463,8 @@ function initBasicApp(){
     				//$("#header-title").html(fTextoCortado($(this).html()));
     				$("#header-title").html($(this).html());
     				myScrollTrending.scrollTo(0,0,0);	    				
-    				$.fsetTrendings($(this).data('id'));
+    				//$.fsetTrendings($(this).data('id'));
+    				$.fgetTrendings($(this).data('id'));
     				$('#datatrending').attr('class','page transition left');
 				}
 				   
@@ -481,8 +482,9 @@ function initBasicApp(){
 					$(".icon.logo").addClass('back');	
     				$(".icon.tv").addClass('share');
     				
-					
-    				$.fsetTrendingNewsDatacontents($(this).data('id'));
+    				var manager = new TrendingManager();
+    				manager.loadTrendingByIDFromBD($(this).data('id'),successGetTrendingDataContentFromBD,noConnectionForTrendingNews);
+    				//$.fsetTrendingNewsDatacontents($(this).data('id'));
     				$('.news-datacontent').hide();	
 					myScrollDatacontent.scrollTo(0,0,0);							
 					$($(this).data('news')).show();								
@@ -546,7 +548,7 @@ function initBasicApp(){
 					dataType: d,
 					cache: false,
 					async:true,
-					timeout:60000,
+					timeout:120000,
 					beforeSend : function (){						
 						myScrollPage.disable();
 						$('.status').empty(); 
@@ -576,7 +578,7 @@ function initBasicApp(){
 					contentType: "application/json; Charset=utf-8",
 					cache: false,
 					async:true,
-					timeout:60000,
+					timeout:120000,
 					beforeSend : function (){						
 						myScrollPage.disable();
 						$('.status').empty(); 
@@ -598,27 +600,22 @@ function initBasicApp(){
 
 
     		//WITH JSON INSTEAD OF NEWSML
-			$.fgetNews = function(c,section,color) {
-
+			$.fgetNews = function() {
 				//myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
 				myJson=$.fGetAjaXJSON(arrCategory[myScrollPage.currPageX].internalUrl);
 				myJson.done(function(json) {
 					var itemArray = null;
 					if(json["noticias"] != null){
-						itemArray = json["noticias"]["item"];
+						itemArray = json["noticias"];
 						//console.log("itemArray "+itemArray.length);
-					}else{
-						itemArray = json["videos"]["item"];
-						//console.log("Videos Size: "+itemArray.length);
 					}
 					if(itemArray != null && itemArray.length > 0){
 						var manager = new NewsManager();
 						json["category"] = arrCategory[myScrollPage.currPageX].id;
 						manager.saveNewsFromWS(json,successSaveNews,errorNewsSave);
-						$.fsetNews(itemArray, c,section,color);
+						$.fsetNews(itemArray);
 					}
-					
-					
+
 				});
     		};
 		  
@@ -650,6 +647,7 @@ function initBasicApp(){
 				}
 			}
 			
+			//get news from bd
 			function successGetNewsDataContentFromBD(results){
 					
 				if(results != null){	
@@ -662,6 +660,28 @@ function initBasicApp(){
 							newsArray.push(newsItem);
 						}						
 						$.fsetNewsDatacontents(newsArray);
+					}else{
+						//noConnectionForNews();
+						fBack();
+					}
+				}else{
+					//noConnectionForNews();
+					fBack();
+				}
+			}
+			//get trending news from bd
+			function successGetTrendingDataContentFromBD(results){
+					
+				if(results != null){	
+					var len = results.rows.length;				
+					if(len > 0){
+						var trendingNewsArray = new Array();
+						for(var i=0;i<len;i++){
+							var trendingNewsItem = results.rows.item(i);
+							trendingNewsItem = decodeTrending(trendingNewsItem);
+							trendingNewsArray.push(trendingNewsItem);
+						}						
+						$.fsetTrendingNewsDatacontents(trendingNewsArray);
 					}else{
 						//noConnectionForNews();
 						fBack();
@@ -707,35 +727,43 @@ function initBasicApp(){
 																		
 						for(var i=0;i<itemArray.length; i++){
 
-							$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
-							$.news.headline=itemArray[i]["title"];
+							$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+							$.news.headline=itemArray[i]["Title"];
 
-							$.news.date=$.formatDateString(itemArray[i]["pubdate"]);
+							$.news.date=$.formatDateString(itemArray[i]["Date"]);
 							
 							var dataContent;
 							dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
-							dataContent+=itemArray[i]["description"];
+							dataContent+=itemArray[i]["Body"];
 							$.news.datacontent=$('<div>').append(dataContent).remove().html();
 							
-							if(itemArray[i]["imagecaption"] != null){
-								$.news.caption.push(itemArray[i]["imagecaption"]);
+							if(itemArray[i]["PortalImageDescription"] != null){
+								$.news.caption.push(itemArray[i]["PortalImageDescription"]);
 							}
+							
+							var imageFile = "";
+							if(itemArray[i]["PortalImage"] != null){
+								imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+itemArray[i]["PortalImage"];
+							}else{
+								imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+itemArray[i]["Image"];
+							}
+							imageFile = cleanExternalURL(imageFile);
 																						
-							$.news.thumbnail.push({src:itemArray[i]["image"],width:864,height:486});
-							$.news.highdef.push({src:itemArray[i]["image"],width:864,height:486});																						
-							$.news.quicklook.push({src:itemArray[i]["image"],width:864,height:486});
+							$.news.thumbnail.push({src:imageFile,width:864,height:486});
+							$.news.highdef.push({src:imageFile,width:864,height:486});																						
+							$.news.quicklook.push({src:imageFile,width:864,height:486});
 							
 							//check if there is a video
 							var isVideo = false;
-							if(itemArray[i]["videourl"] != null){
-								if(itemArray[i]["uploadedvideo"] != null){
-									if(itemArray[i]["uploadedvideo"] != "0"){
-										isVideo = true;
-										$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
-									}
-								}else{		
-									isVideo = true;
-									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});																
+							if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
+								isVideo = true;
+								var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
+								var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
+								var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
+								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
+									videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
+									$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
 								}			    				
 							}
 
@@ -823,8 +851,8 @@ function initBasicApp(){
 									arrTrendingTopics.forEach(function(trending,i) {
 										//$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
 										//$.li+='<p style="width:100%; height:100%; color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';
-										$.li+='<div class="trending" data-content="trending" data-id="'+trending.categoria+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
-										$.li+='#'+trending.titulo;										
+										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
+										$.li+='#'+trending.Title;										
 										$.li+='</div>';
 									});
 
@@ -862,8 +890,7 @@ function initBasicApp(){
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
-	
-								if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {									
+								if ((ImgCache.ready) && ($.news.quicklook.length >= 1)) {
 									$('div[data-src="'+$.news.quicklook[0].src+'"]').each(function() {                                	
 	                                	var target = $(this);
 										ImgCache.isCached(target.data('src'), function(path, success){
@@ -882,8 +909,7 @@ function initBasicApp(){
 
 					    	}; 
 
-						};
-														
+						};							
 
     		};
 
@@ -893,37 +919,46 @@ function initBasicApp(){
 					
 				
 				for(var i=0;i<itemArray.length; i++){
-						if(itemArray[i]["id"] == newsDatacontent){
+						if(itemArray[i]["ID"] == newsDatacontent){
 
-						$.news={id:itemArray[i]["id"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
-						$.news.headline=itemArray[i]["title"];
+						$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+						$.news.headline=itemArray[i]["Title"];
 						
 						//Share button onclick
 						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
 
-						$.news.date=$.formatDateString(itemArray[i]["pubdate"],true);
+						$.news.date=$.formatDateString(itemArray[i]["Date"],true);
 														
 						var dataContent;
 						dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
-						dataContent+=itemArray[i]["description"];
+						dataContent+=itemArray[i]["Body"];
 						$.news.datacontent=$('<div>').append(dataContent).remove().html();
 						
-						if(itemArray[i]["imagecaption"] != null){
-							$.news.caption.push(itemArray[i]["imagecaption"]);
+						if(itemArray[i]["PortalImageDescription"] != null){
+							$.news.caption.push(itemArray[i]["PortalImageDescription"]);
 						}
+						
+						var imageFile = "";
+						if(itemArray[i]["PortalImage"] != null){
+							imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+itemArray[i]["PortalImage"];
+						}else{
+							imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+itemArray[i]["Image"];
+						}
+						imageFile = cleanExternalURL(imageFile);
 																					
-						$.news.thumbnail.push({src:itemArray[i]["image"],width:864,height:486});
-						$.news.highdef.push({src:itemArray[i]["image"],width:864,height:486});																						
-						$.news.quicklook.push({src:itemArray[i]["image"],width:864,height:486});
+						$.news.thumbnail.push({src:imageFile,width:864,height:486});
+						$.news.highdef.push({src:imageFile,width:864,height:486});																						
+						$.news.quicklook.push({src:imageFile,width:864,height:486});
 						
 						//check if there is a video
-						if(itemArray[i]["videourl"] != null){
-							if(itemArray[i]["uploadedvideo"] != null){
-								if(itemArray[i]["uploadedvideo"] != "0"){
-									$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
-								}
-							}else{
-								$.news.video.push({src:itemArray[i]["videourl"],poster:itemArray[i]["image"]});
+						if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
+							var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
+							var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
+							var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
+							$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+							if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
+								videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
+								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
 							}			    				
 						}
 
@@ -1027,175 +1062,248 @@ function initBasicApp(){
     		
 
 
-
-
-
-			$.fsetTrendings = function(category) {
-    		
-    			var i=0;
+    		//TRENDING MANAGE
+    		$.fgetTrendings = function(category) {
+    			$('#trending-featured').empty();
+    			$('#trending-news-featured-title').empty();
+    			$('#trending-news1').empty();
     			
+    			var urlComplete = "http://tvn-cloud-farm-lb.cloudapp.net/_vti_bin/NewsService.svc/GetNewsByTrendingTopic?trendingTopicId="+category+"&siteUrl=Noticias&rowLimit=10";
+				myJson=$.fGetAjaXJSON(urlComplete);
+				myJson.done(function(json) {
+					var itemArray = null;
+					if(json["noticias"] != null){
+						itemArray = json["noticias"];
+						//console.log("itemArray "+itemArray.length);
+					}
+					if(itemArray != null && itemArray.length > 0){
+						var manager = new TrendingManager();
+						json["category"] = category;
+						manager.saveTrendingFromWS(json,successSaveTrendingNews,errorTrendingNewsSave);
+						$.fsetTrendings(itemArray);
+					}
+					
+					
+				});
+    		};
+		  
+		  	function successSaveTrendingNews(){
+		  		//console.log("SAVE COMPLETE");
+		 	}
+		 	function errorTrendingNewsSave(err){
+				console.log("TRENDS SAVE FAILS");
+			}
+			function successGetTrendingNewsFromBD(results){
+				printToLog("successGetNewsFromBD");
+				if(results != null){
+					var len = results.rows.length;
+					printToLog("RESULT len: "+len);
+					if(len > 0){
+						var trendingNewsArray = new Array();
+						for(var i=0;i<len;i++){
+							var trendingNewsItem = results.rows.item(i);
+							trendingNewsItem = decodeTrendingNews(trendingNewsItem);
+							trendingNewsArray.push(trendingNewsItem);
+						}
+						$.fsetTrendings(trendingNewsArray);
+						
+					}else{
+						noConnectionForTrendingNews();
+					}
+				}else{
+					noConnectionForTrendingNews();
+				}
+			}
+			
+			function noConnectionForTrendingNews(err){
+				//realmente no hay conexion y no hay nada guardado
+				arrCategory[myScrollPage.currPageX].status=false;	
+				$('.status').append('<li>No hay conexion</li>');
+			}
+			
+			function noConnectionForTrendingNewsInit(err){
+				//aqui se tiene que pintar la pantalla de error que ocurre cuando no hay conexion ni hay nada en la BD para desplegar
+
+				$('body').addClass('no-connection');																				
+				$('#splash').addClass('hidden');				
+				$('#splash-no-connection').removeClass('hidden');
+
+				
+			};
+    		
+    		
+    		//SET TRENDING LIST PAGE
+			$.fsetTrendings = function(itemArray) {
     			$('#trending-featured').empty();
     			$('#trending-news-featured-title').empty();
     			$('#trending-news1').empty();
     			
 
-				arrTrendingNews.forEach(function(trending){
-					if (trending.categoria==category) {
+				for(var i=0; i<itemArray.length; i++){
+					trending = itemArray[i];
+					$.news={id:trending.ID,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+							
+							
+					$.news.headline=trending.Title;			
+					$.news.date=$.formatDateString(formatdate);	
 					
-						$.news={id:trending.idnews,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
-								
-								
-						$.news.headline=trending.titulo;			
-						$.news.date=$.formatDateString(formatdate);		
-																			
-						$.news.thumbnail.push({src:trending.imagen,width:864,height:486});
-						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
-						$.news.quicklook.push({src:trending.imagen,width:864,height:486});
+					var imageFile = "";
+					if(trending["PortalImage"] != null){
+						imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+trending["PortalImage"];
+					}else{
+						imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+trending["Image"];
+					}
+					imageFile = cleanExternalURL(imageFile);
+																		
+					$.news.thumbnail.push({src:imageFile,width:864,height:486});
+					$.news.highdef.push({src:imageFile,width:864,height:486});																						
+					$.news.quicklook.push({src:imageFile,width:864,height:486});
+				
+					if (i==0) {
+						
+						$('#trending-news-featured-title').data('id',$.news.id);
+						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
+						$('#trending-news-featured-title').attr('data-content','trending');
+																
+						var width = window.innerWidth;
+						var height = window.innerHeight;
+						var screenwidth = window.innerWidth;
+						var screenheight = window.innerHeight;
+	
+						var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
+						var realX = screenwidth;
+						var screenAspect = realX/realY;
+						var imageDiff = (realX/$.news.highdef[0].width);
+						var realImageX = $.news.highdef[0].width*imageDiff;
+						var realImageY = $.news.highdef[0].height*imageDiff;
+						var imageAspect = realImageX/realImageY;
 					
-						if (i==0) {
 							
-							$('#trending-news-featured-title').data('id',$.news.id);
-							$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
-							$('#trending-news-featured-title').attr('data-content','trending');
-																	
-							var width = window.innerWidth;
-							var height = window.innerHeight;
-							var screenwidth = window.innerWidth;
-							var screenheight = window.innerHeight;
-		
-							var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
-							var realX = screenwidth;
-							var screenAspect = realX/realY;
-							var imageDiff = (realX/$.news.highdef[0].width);
-							var realImageX = $.news.highdef[0].width*imageDiff;
-							var realImageY = $.news.highdef[0].height*imageDiff;
-							var imageAspect = realImageX/realImageY;
-						
-								
-						
-						
-							if(realImageY < realY){
-								$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
-							}else{
-								$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
-							}
-			
-							$('#trending-news-featured-title').data('id',$.news.id);
-							$('#trending-news-featured-title').data('news','#news-'+$.news.id);
-							$('#trending-news-featured-title').data('headline',$.news.headline);																			
-							$('#trending-news-featured-title').attr('data-content','trending');
-							$('#trending-news-featured-title').attr('data-id',$.news.id);
-							$('#trending-news-featured-title').attr('data-news','#news-'+$.news.id);
-							
-							//$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
-							
-							$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
-							$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
-							$.li+='</div>';
-
-							$('#trending-news-featured-title').append($.li);
-
-						} else if (i>0) {						
-							$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
-							
-							if ($.news.quicklook.length >= 1) {
-								$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
-							}
-									
-							$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';								
-							//$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
-							$.li+='</div>';
-									
-																										
-							$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';							
-							$.li+='</li>';
-							$('#trending-news1').append($.li);
+					
+					
+						if(realImageY < realY){
+							$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
+						}else{
+							$('#trending-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:auto;"  />');
 						}
+		
+						$('#trending-news-featured-title').data('id',$.news.id);
+						$('#trending-news-featured-title').data('news','#news-'+$.news.id);
+						$('#trending-news-featured-title').data('headline',$.news.headline);																			
+						$('#trending-news-featured-title').attr('data-content','trending');
+						$('#trending-news-featured-title').attr('data-id',$.news.id);
+						$('#trending-news-featured-title').attr('data-news','#news-'+$.news.id);
+						
+						//$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
+						
+						$.li='<div style="position: relative; width:'+viewport.width+'px; height:'+(viewport.pHeight + 20)+'px;  ">';								
+						$.li+='<h3 style="position: absolute; bottom: 0; left: 0; width:'+(viewport.width-10)+'px; height:auto; padding:5px; min-height:35px; background-color: rgba(0,0,0,0.5);  color: #ffffff; text-shadow: 0px 1px 5px #000; " >'+$.news.headline+'</h3>';								
+						$.li+='</div>';
+
+						$('#trending-news-featured-title').append($.li);
+
+					} else if (i>0) {						
+						$.li='<li data-view="thumbnail" data-content="trending" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" >';
+						
+						if ($.news.quicklook.length >= 1) {
+							$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
+						}
+								
+						$.li+='<div style="background-color:#535252; color:#535252; width:5px; height:'+((viewport.height*15)/100)+'px; float:left;" >';								
+						//$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
+						$.li+='</div>';
+								
+																									
+						$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';							
+						$.li+='</li>';
+						$('#trending-news1').append($.li);
+					}
 												
-						i++;
-					};
-				});
+				};
 									
 
     		};
 
 
+    		//SET TRENDING TOPIC NEWS COMPLETE
+			$.fsetTrendingNewsDatacontents = function(itemArray) {
+				//for(var i=0;i<itemArray.length; i++){
+				if(itemArray.length > 0){
+					trending = itemArray[0];
 
+					$.news={id:trending.ID,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
+					$.news.headline=trending.Title;
+					$.news.date=$.formatDateString(trending.Date,true);
+					
+					var imageFile = "";
+					if(trending["PortalImage"] != null){
+						imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+trending["PortalImage"];
+					}else{
+						imageFile = "http://tvn-cloud-farm-lb.cloudapp.net/"+trending["Image"];
+					}
+					imageFile = cleanExternalURL(imageFile);
+					
+					$.news.thumbnail.push({src:imageFile,width:864,height:486});
+					$.news.highdef.push({src:imageFile,width:864,height:486});																						
+					$.news.quicklook.push({src:imageFile,width:864,height:486});
+					if(trending.PortalImageDescription != null){
+						$.news.caption.push(trending.PortalImageDescription);
+					}
+					
+					var dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
+					dataContent+=trending.Body;
+					$.news.datacontent=$('<div>').append(dataContent).remove().html();
 
-
-
-
-
-			$.fsetTrendingNewsDatacontents = function(id) {
+					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
 				
-				arrTrendingNews.forEach(function(trending){
-					if (trending.idnews==id) {
-
-						$.news={id:trending.idnews,headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
-						$.news.headline=trending.titulo;
-						$.news.date=$.formatDateString(formatdate,true);
-						
-						$.news.thumbnail.push({src:trending.imagen,width:864,height:486});
-						$.news.highdef.push({src:trending.imagen,width:864,height:486});																						
-						$.news.quicklook.push({src:trending.imagen,width:864,height:486});
-						$.news.caption.push("");
-						
-						var dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
-						dataContent+=trending.descripcion;
-						$.news.datacontent=$('<div>').append(dataContent).remove().html();
-
-						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+					$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';
 					
-						$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';
-						
-						
-						
-						$.total = $.news.highdef.length;				        					
-						if ($.total==0) $.total=1;
-							
-						$.li+='<div id="hWrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
-						
-						$.li+='<div video="news-'+$.news.id+'-video" style="float:left; width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
-						$.lii='';
-
-							c=0;
-							$.news.highdef.forEach(function(src){											
-								$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    										    			
-				    			$.lii+='<figure>';						    													
-								//$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
-				    			$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:auto; max-width:100%; max-height:100%; " />';
-								$.lii+='<figcaption class="hidden" style="position: absolute; bottom: 0; left: 0; background-color: rgba(0,0,0,0.7); width:'+viewport.width+'px; min-height:35px;  color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1em;" >'+$.news.caption[c]+'</figcaption>';										
-								$.lii+='</figure>';						    					    											    			
-				    			$.lii+='</div>';
-				    			c=c+1;
-							});
-							
-						$.li+=$.lii;
-									
-						$.li+='</div>';
-
-						$.li+='</div>';
 					
-						if ($.total>1){
-							$.li+='<div style="position: relative; bottom: 0px; left: 0; color: #ffffff; text-shadow: '+textShadowLight+' background-color: rgba(92,90,91,0.4); width:100%; height:auto; padding:10px 0; line-height:100%; text-align:center; font-size:1.2em; font-weight:bold; ">';
-							$.li+='&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;';
-							$.li+='</div>';
-						}
+					
+					$.total = $.news.highdef.length;				        					
+					if ($.total==0) $.total=1;
 						
-						
-						$.li+='<div	class="datacontent">';					
-						$.li+='<p style="text-align:left;">'+$.news.date+'</p>';
-						$.li+='<h2>'+$.news.headline+'</h2>';	
-						$.li+='<p>'+$.news.datacontent+'</p>';	
-						$.li+='</div>';	
-						$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</h5></div>';      
-						$.li+='</li>';
-																
-						$('#datacontents').append($.li);
-						
-					};
+					$.li+='<div id="hWrapper" video="news-'+$.news.id+'-video" style="position:relative; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; text-align:left;">';
+					
+					$.li+='<div video="news-'+$.news.id+'-video" style="float:left; width:'+(viewport.width*$.total)+'px; height:'+viewport.pHeight+'px; ">';
+					$.lii='';
 
-				});				
+						c=0;
+						$.news.highdef.forEach(function(src){											
+							$.lii+='<div data-type="image" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#FFFFFF; ">';						    										    			
+			    			$.lii+='<figure>';						    													
+							//$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; max-width:'+src.width+'px; max-height:'+src.height+'px; " />';
+			    			$.lii+='<img alt="highdef" src="'+src.src+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:auto; max-width:100%; max-height:100%; " />';
+							$.lii+='<figcaption class="hidden" style="position: absolute; bottom: 0; left: 0; background-color: rgba(0,0,0,0.7); width:'+viewport.width+'px; min-height:35px;  color: #ffffff; text-shadow: '+textShadowLight+' font-size: 1em;" >'+$.news.caption[c]+'</figcaption>';										
+							$.lii+='</figure>';						    					    											    			
+			    			$.lii+='</div>';
+			    			c=c+1;
+						});
+						
+					$.li+=$.lii;
+								
+					$.li+='</div>';
+
+					$.li+='</div>';
+				
+					if ($.total>1){
+						$.li+='<div style="position: relative; bottom: 0px; left: 0; color: #ffffff; text-shadow: '+textShadowLight+' background-color: rgba(92,90,91,0.4); width:100%; height:auto; padding:10px 0; line-height:100%; text-align:center; font-size:1.2em; font-weight:bold; ">';
+						$.li+='&#8249;&nbsp;&nbsp;&nbsp; <span class="position">1</span> de '+$.total+'&nbsp;&nbsp;&nbsp;&#8250;';
+						$.li+='</div>';
+					}
+					
+					
+					$.li+='<div	class="datacontent">';					
+					$.li+='<p style="text-align:left;">'+$.news.date+'</p>';
+					$.li+='<h2>'+$.news.headline+'</h2>';	
+					$.li+='<p>'+$.news.datacontent+'</p>';	
+					$.li+='</div>';	
+					$.li+='<div style="margin:0 10px 0 10px;"><h5>'+Copyright+'</h5></div>';      
+					$.li+='</li>';
+															
+					$('#datacontents').append($.li);
+
+				};				
 
     		};
 
@@ -1236,15 +1344,15 @@ function initBasicApp(){
 				return hh+':'+mm+' '+meridian+', '+months[MM]+', '+dd;
 			};
 			
-			//MM/dd/yyyy hh:mm:ss t.t. or M/d/yyyy h:m:s t.t. or just the month/day/year
+			//dd/MM/yyyy hh:mm t.t. or d/M/yyyy h:m t.t. or just the month/day/year
 			$.formatDateString = function(ds,full) {
 
 											
 				var dateString = ""+ds;
 				var parts = dateString.split(" ");
 				var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
-				var MDY = parts[0].split("/");
-				var monthIndex = parseInt(MDY[0]);
+				var DMY = parts[0].split("/");
+				var monthIndex = parseInt(DMY[1]);
 				if(parts.length > 1){
 					
 					var HMS = parts[1].split(":");
@@ -1252,10 +1360,10 @@ function initBasicApp(){
 					var dateStringFinal = ""+HMS[0]+':'+HMS[1]+' '+meridian;
 
 					if (full) {						
-						dateStringFinal = ""+months[monthIndex-1]+' '+MDY[1]+', '+MDY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;									
+						dateStringFinal = ""+months[monthIndex-1]+' '+DMY[0]+', '+DMY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;									
 					} else {						
-						if ((parseInt(MDY[2])<parseInt(year)) || (parseInt(MDY[0])<parseInt(month)) || (parseInt(MDY[1])<parseInt(day))) {
-							dateStringFinal = ""+months[monthIndex-1]+' '+MDY[1]+', '+MDY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;
+						if ((parseInt(DMY[2])<parseInt(year)) || (parseInt(DMY[1])<parseInt(month)) || (parseInt(DMY[0])<parseInt(day))) {
+							dateStringFinal = ""+months[monthIndex-1]+' '+DMY[0]+', '+DMY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;
 						}	
 					}
 					
@@ -1264,7 +1372,7 @@ function initBasicApp(){
 
 					return dateStringFinal;
 				}else{
-					var dateStringFinal = months[monthIndex-1]+', '+MDY[1]+", "+MDY[2];
+					var dateStringFinal = months[monthIndex-1]+', '+DMY[0]+", "+DMY[2];
 
 					return dateStringFinal;
 				}
@@ -1406,8 +1514,8 @@ function successGetTrendingIndexes(results){
 		if(len > 0){
 			//console.log("TRENDINGTOPICS: "+JSON.stringify(results));
 			arrTrendingTopics = results.slice(0);
-			getTrendingNewsForApp();
-			//endOfAppInitialization();
+			//getTrendingNewsForApp();
+			endOfAppInitialization();
 		}else{
 			console.log("Error TrendingIndexes");
 			noConnectionForNewsInit();
@@ -1423,70 +1531,6 @@ function errorGetTrendingIndexes(){
 	noConnectionForNewsInit();
 }
 
-//trending news
-function getTrendingNewsForApp(){
-	var manager = new TrendingManager();
-	manager.getTrendings(successGetTrendingNews,errorGetTrendingNews);
-}
-
-function successGetTrendingNews(results){
-	//console.log("successGetTrendingNews");
-	if(results != null){
-		var len = results.length;
-		//console.log("RESULT len: "+len);
-		if(len > 0){
-			//console.log("TRENDINGNEWS: "+JSON.stringify(results));
-			arrTrendingNews = results.slice(0);
-			//endOfAppInitialization();
-			cleanTrendingTopics(true);
-		}else{
-			console.log("Error TrendingNews");
-			noConnectionForNewsInit();
-		}
-	}else{
-		console.log("Error TrendingNews 2");
-		noConnectionForNewsInit();
-	}
-}
-
-function errorGetTrendingNews(){
-	console.log("Error TrendingNews real");
-	noConnectionForNewsInit();
-	//endOfAppInitialization();
-}
-
-//Para borrar los trending topics que no tengan trending news
-function cleanTrendingTopics(isInit){
-	//console.log("cleanTrendingTopics");
-	var arrayToDelete = new Array();
-	for(var i=0; i<arrTrendingTopics.length; i++){
-		var array = getTrendingNewsByCategory(arrTrendingTopics[i].categoria);
-		if(array.length == 0){
-			//delete category
-			//arrayToDelete.push(arrTrendingTopics[i].categoria);
-			arrTrendingTopics[i].isEmpty = true;
-		}
-	}
-	if(isInit){
-		successCleanUnusedTrending();
-	}
-	
-	//delete all categories that dont have size
-	/*if(arrayToDelete.length>0){
-		removeUnusedTrendingIndex(arrayToDelete,successCleanUnusedTrending,errorCleanUnusedTrending);
-	}else{
-		successCleanUnusedTrending();
-	}*/
-}
-
-function successCleanUnusedTrending(){
-	endOfAppInitialization();
-}
-
-function errorCleanUnusedTrending(){
-	console.log("error!!!!");
-}
-
 //REFRESH ARRAYS
 function refreshTrendingIndexesForApp(){
 	var managerIndex = new TrendingIndexManager();
@@ -1498,21 +1542,6 @@ function successRefreshTrendingIndexes(results){
 		var len = results.length;
 		if(len > 0){
 			arrTrendingTopics = results.slice(0);
-			refreshTrendingNewsForApp();
-		}
-	}
-}
-function refreshTrendingNewsForApp(){
-	var managerNews = new TrendingManager();
-	managerNews.getTrendings(successRefreshTrendingNews,errorRefresh);
-}
-function successRefreshTrendingNews(results){
-	//console.log("successGetTrendingNews");
-	if(results != null){
-		var len = results.length;
-		if(len > 0){
-			arrTrendingNews = results.slice(0);
-			cleanTrendingTopics(false);
 		}
 	}
 }
@@ -1520,20 +1549,6 @@ function errorRefresh(){
 	console.log("errorRefresh");
 }
 //END REFRESH ARRAYS
-
-
-//Obtiene todas las noticias trending de la categoria actual
-function getTrendingNewsByCategory(category){
-	var result = [];
-	//console.log("category "+category);
-	for(var i=0;i<arrTrendingNews.length;i++){
-		//console.log("category2 "+arrTrendingNews[i].categoria);
-		if(arrTrendingNews[i].categoria == category){
-			result.push(arrTrendingNews[i]);
-		}
-	}
-	return result;
-}
 
 //end de funciones de inicializacion de categorias y trendings
 

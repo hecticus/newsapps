@@ -30,7 +30,8 @@ TrendingIndexManager.prototype = {
     getTrendingIndexesFromWS:function(callback, errorCallback){
 		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
 		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		var urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp';
+		//var urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp';
+    	var urlComplete = 'http://tvn-cloud-farm-lb.cloudapp.net/_vti_bin/NewsService.svc/GetTrendingTopics?siteUrl=Noticias&rowLimit=4'
 		
 		var instance = this;
 		
@@ -41,7 +42,7 @@ TrendingIndexManager.prototype = {
 				if(typeof data == "string"){
 					data = JSON.parse(data);
 				}
-				var results = data["noticiastrendingtopics"]["item"];
+				var results = data["trends"];
 				//printToLog("NEW: 0-"+code+" results: "+JSON.stringify(results));
 				if(results != null){
 					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
@@ -114,9 +115,9 @@ TrendingIndexManager.prototype = {
 			
 			var insertStatement = 'INSERT OR REPLACE INTO TRENDINGINDEX(trending_index_tvn_id,trending_index_category,trending_index_title,trending_index_image)'+
 			'VALUES ('+i+','+
-			'"'+encodeURIComponent(insertObj.categoria)+'",'+
-			'"'+encodeURIComponent(insertObj.titulo)+'",'+
-			'"'+encodeURIComponent(insertObj.imagen)+'"'+
+			'"'+encodeURIComponent(insertObj.ID)+'",'+
+			'"'+encodeURIComponent(insertObj.Title)+'",'+
+			'"'+encodeURIComponent(insertObj.ImageUrl)+'"'+
 			');';
 	    	
 	
@@ -130,9 +131,9 @@ TrendingIndexManager.prototype = {
 
 function decodeTrendingIndex(encodedResult){
 	var result = {};
-	result["categoria"] = encodedResult.trending_index_category;
-	result["titulo"] = decodeURIComponent(encodedResult.trending_index_title);
-	result["imagen"] = decodeURIComponent(encodedResult.trending_index_image);
+	result["ID"] = encodedResult.trending_index_category;
+	result["Title"] = decodeURIComponent(encodedResult.trending_index_title);
+	result["ImageUrl"] = decodeURIComponent(encodedResult.trending_index_image);
 	return result;
 }
 

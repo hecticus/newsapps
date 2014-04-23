@@ -38,6 +38,7 @@
     <access origin="http://67ba19379ed4c6a20edb-6401e2f1ab65a42d785a1afb10dac52b.r15.cf1.rackcdn.com/*" />
     <access origin="http://02.kraken.hecticus.com/*" />
     <access origin="http://tvn-2.com/*" />
+    <access origin="http://tvn-cloud-farm-lb.cloudapp.net/*" />
     <access origin="http://tvn.news.hecticus.com:9001/*" />
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.SplashScreen" />
