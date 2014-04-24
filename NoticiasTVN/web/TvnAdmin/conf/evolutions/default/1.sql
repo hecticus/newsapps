@@ -71,8 +71,7 @@ create table resources (
   description               varchar(255),
   res                       varchar(255),
   type                      integer,
-  status                    integer,
-  id_news                   bigint)
+  status                    integer)
 ;
 
 create table trendingTopics (

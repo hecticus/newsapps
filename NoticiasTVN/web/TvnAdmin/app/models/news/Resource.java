@@ -22,7 +22,6 @@ public class Resource extends HecticusModel {
     private String res;
     private Integer type;
     private Integer status;
-    private Long idNews;
 
     public Resource(JsonNode data) throws NewsException {
         /*
@@ -34,7 +33,17 @@ public class Resource extends HecticusModel {
         */
     }
 
+    public String generateUrl(){
+        //config url + filename
+        return CDN_URL + filename;
+    }
 
+    @Override
+    public ObjectNode toJson() {
+        return null;
+    }
+
+    /**************************** GETTERS AND SETTERS ****************************************************/
 
     public String getName() {
         return name;
@@ -92,21 +101,4 @@ public class Resource extends HecticusModel {
         this.status = status;
     }
 
-    public Long getIdNews() {
-        return idNews;
-    }
-
-    public void setIdNews(Long idNews) {
-        this.idNews = idNews;
-    }
-
-    public String generateUrl(){
-        //config url + filename
-        return CDN_URL + filename;
-    }
-
-    @Override
-    public ObjectNode toJson() {
-        return null;
-    }
 }
