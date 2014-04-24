@@ -1,0 +1,120 @@
+@(title: Html, nav: String = "")(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Tvn</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery-ui-1.10.4.js")" type="text/javascript"></script>
+        
+		<script>
+	  		$(function() {
+	  			
+	  			$("#alert").click(
+	  				function () {	  					
+	  					$(this).toggle();	  						  					
+	  				}
+	  			);
+
+	  			
+	    		$( "#sortable tbody").sortable();	    		
+	    		$( "#sortable tbody").disableSelection();
+
+	    		$("#ajax").click(
+	    			function () {
+	    				
+	    				var arrC = [];
+	    				var url="";
+	    					    					    			
+	    				$("#sortable tbody tr").each(function (i) {
+	    					arrC.push($(this).data("id"));
+	    				});
+	    					
+						arrC =arrC.join(',');	
+	    				$.ajax({
+  							url: '/tvn/sort/'+ arrC,
+  							success: function(data) {
+  								$('#alert').show();
+  							}
+  						});
+	    				
+                		return false;
+
+		            }
+    			);
+
+
+
+
+
+	  		});
+	  		
+				  		
+	  		
+  		</script>
+		<style>
+			.ui-sortable-helper {width:950px; height:40px;}
+		</style>
+		
+    </head>
+    <body>
+        
+        <div class="topbar">
+            <div class="fill">
+                <div class="container">
+                	
+                    <a class="brand" href="@controllers.routes.Tvn.list()">HOME</a>
+                    <ul class="nav">
+                        <li class="@("active".when(nav == "create"))">
+                            <a href="@controllers.routes.Tvn.blank()">Create</a>
+                        </li>
+                        <li class="@("active".when(nav == "sort"))">
+                            <a href="@controllers.routes.Tvn.lsort()">Sort</a>
+                        </li>		
+                         <li>		 
+                            <a href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a>
+                        </li>	
+                        			
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="content">
+                
+                <div class="page-header">
+                    <!--h1>@title</h1-->
+                    <!--img src="@routes.Assets.at("images/logo-hecticus.jpeg")" style="width: 250px; height:69px" >
+                    <img src="@routes.Assets.at("images/logo-tvn.png")" style="width: 250px; height:69px" -->
+                    
+                    <img src="@routes.Assets.at("images/logo-hecticus.jpeg")" style="width: 15%; height:auto;" />
+           			<img src="@routes.Assets.at("images/logo-apple-store.png")" style="width:5%; height:auto;" />
+            		<img src="@routes.Assets.at("images/logo-google-play.png")" style="width:20%; height:auto;" />        	            	
+            		<img src="@routes.Assets.at("images/logo-tvn.png")" style="width:15%; height:auto;" />
+                    
+                </div>
+
+                <div class="row">
+                    <div class="span14">
+                        @content
+                    </div>
+                </div>
+                
+            </div>
+
+            <footer>				
+                <p>
+                    <a href="http://www.hecticus.com">www.hecticus.com</a>
+                </p>
+            </footer>
+
+        </div>
+        
+    </body>
+</html>

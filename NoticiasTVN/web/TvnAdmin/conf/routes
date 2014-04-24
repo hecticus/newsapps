@@ -1,0 +1,111 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Login page
+GET     /login                      securesocial.controllers.LoginPage.login
+GET     /logout                     securesocial.controllers.LoginPage.logout
+
+# User Registration and password handling (only needed if you are using UsernamePasswordProvider)
+GET     /signup                     securesocial.controllers.Registration.startSignUp
+POST    /signup                     securesocial.controllers.Registration.handleStartSignUp
+GET     /signup/:token              securesocial.controllers.Registration.signUp(token)
+POST    /signup/:token              securesocial.controllers.Registration.handleSignUp(token)
+GET     /reset                      securesocial.controllers.Registration.startResetPassword
+POST    /reset                      securesocial.controllers.Registration.handleStartResetPassword
+GET     /reset/:token               securesocial.controllers.Registration.resetPassword(token)
+POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
+GET     /password                   securesocial.controllers.PasswordChange.page
+POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
+
+
+# Providers entry points
+GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
+POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET     /not-authorized2           	securesocial.controllers.ProviderController.notAuthorized
+#GET	/not-authorized				securesocial.controllers.Application.notAuthorized()
+
+
+
+#RUTAS PARA EL API
+GET     /test                       controllers.newsapi.CategoryController.test()
+#searchs
+GET     /newsapi/v1/categories/search                   controllers.newsapi.CategoryController.getActive()
+GET     /newsapi/v1/categories/search/all               controllers.newsapi.CategoryController.get()
+GET     /newsapi/v1/news/search/name/:categoryName      controllers.newsapi.NewsController.getByCategoryName(categoryName : String, hecticResponse : Boolean = true)
+GET     /newsapi/v1/news/search/id/:idCategory          controllers.newsapi.NewsController.getByIdCategory(idCategory:Long, hecticResponse : Boolean = true)
+#CASO ESPECIAL de busqueda
+POST    /newsapi/v1/news/search/list                    controllers.newsapi.NewsController.getBatch()
+#insert news
+POST    /newsapi/v1/news/insert                         controllers.newsapi.NewsController.insert()
+POST    /newsapi/v1/news/insertTrending                         controllers.newsapi.NewsController.insertTrending()
+
+#update news
+
+#delete news
+
+#push news
+GET     /newsapi/v1/news/push/count                     controllers.newsapi.NewsController.getNewsGeneratedCount()
+GET     /newsapi/v1/news/push/getone                    controllers.newsapi.NewsController.getNewsToGenerate()
+POST    /newsapi/v1/news/push/generated                 controllers.newsapi.NewsController.markAsGenerated()
+
+#tvn format
+GET     /newsapi/v1/news/search/tvn/name/:categoryName      controllers.newsapi.NewsController.getByCategoryName(categoryName : String, hecticResponse : Boolean = false)
+GET     /newsapi/v1/news/search/tvn/id/:idCategory          controllers.newsapi.NewsController.getByIdCategory(idCategory:Long, hecticResponse : Boolean = false)
+
+#trending topics
+GET     /newsapi/v1/news/trendingtopics/search/         controllers.newsapi.TrendingTopicsController.get()
+POST    /newsapi/v1/news/trendingtopics/insert          controllers.newsapi.TrendingTopicsController.insert()
+
+#banners
+GET     /newsapi/v1/banners/get                         controllers.newsapi.BannerController.getActiveBanner()
+
+#<Tvn>
+
+# Default path will just redirect to the category list
+GET     /tvn					controllers.Tvn.index()
+
+# Categories list (look at the default values for pagination parameters)
+GET     /tvn/list				controllers.Tvn.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /tvn/lsort				controllers.Tvn.lsort()
+
+# Add category
+GET     /tvn/blank				controllers.Tvn.blank()
+POST    /tvn					controllers.Tvn.submit()
+					
+# Edit existing category
+GET     /tvn/:id				controllers.Tvn.edit(id:Long)
+POST    /tvn/:id				controllers.Tvn.update(id:Long)
+GET     /tvn/sort/:ids			controllers.Tvn.sort(ids:String)
+
+# Delete a category
+POST    /tvn/:id/delete			controllers.Tvn.delete(id:Long)
+
+#</Tvn>
+
+#<User>
+
+# Default path will just redirect to the user list
+GET     /user					controllers.User.index()
+
+# Users list (look at the default values for pagination parameters)
+GET     /user/list				controllers.User.list(p:Int ?= 0, s ?= "u01_Id", o ?= "asc", f ?= "")
+
+# Add user
+GET     /user/blank				controllers.User.blank()
+POST    /user					controllers.User.submit()
+
+# Edit existing user
+GET     /user/:id				controllers.User.edit(id:Long)
+POST    /user/:id				controllers.User.update(id:Long)
+
+# Delete a user
+POST    /user/:id/delete		controllers.User.delete(id:Long)
+
+#</User>

@@ -1,0 +1,45 @@
+@(categoryForm: Form[models.news.Category])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+    @helper.form(action = controllers.routes.Tvn.submit) {
+        
+        <fieldset>
+            <legend>Account informations</legend>
+            
+            @inputText(
+                categoryForm("name"), 
+                '_label -> "Name", 
+                '_help -> "Please choose a valid name.",
+                '_error -> categoryForm.globalError
+            )
+            
+            @inputText(
+                categoryForm("feedUrl"),
+                '_label -> "Feed",
+                '_help -> "Enter a valid url address."
+            )
+            
+            @select(
+                categoryForm("pushable"), 
+                options("false"-> "No", "true"-> "Si"),
+                '_default -> "--- Pushable ---",
+                '_label -> "Pushable",
+                '_error -> categoryForm("pushable").error.map(_.withMessage("Please select your pushable"))
+            )
+            
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Create this category">
+            <a href="@controllers.routes.Tvn.list()" class="btn">Cancel</a>
+        </div>
+        
+    }
+    
+}

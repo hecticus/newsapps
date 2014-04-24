@@ -1,0 +1,40 @@
+@(id: Long, categoryForm: Form[models.news.Category])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+    <h1>Edit category</h1>
+    
+    @form(controllers.routes.Tvn.update(id)) {
+        
+        <fieldset>
+        
+        	@inputText(categoryForm("name"), '_label -> "Name", '_help -> "Please choose a valid name.", '_error -> categoryForm.globalError)            
+            @inputText(categoryForm("feedUrl"), '_label -> "Feed", '_help -> "Enter a valid url address.")
+            
+            @select(
+                categoryForm("pushable"), 
+                options("false"-> "No", "true"-> "Si"),
+                '_label -> "Pushable",
+                '_error -> categoryForm("pushable").error.map(_.withMessage("Please select your pushable")),
+                'showConstraints -> true
+            )
+
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Save this category" onclick="return confirm('Are you sure?');" class="btn primary"> or 
+            <a href="@controllers.routes.Tvn.list()" class="btn">Cancel</a> 
+        </div>
+            
+    }
+    
+    @form(controllers.routes.Tvn.delete(id), 'class -> "topRight") {
+		<input type="submit" value="Delete this category" onclick="return confirm('Are you sure?');" class="btn danger">
+    }
+       
+}

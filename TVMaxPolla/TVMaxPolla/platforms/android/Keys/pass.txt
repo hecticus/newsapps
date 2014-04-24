@@ -1,0 +1,3 @@
+h3ct1custvm4xp0ll4
+
+keytool -exportcert -alias tvmaxlapolla -keystore Keys/tvmaxlapolla.keystore | openssl sha1 -binary | openssl base64
