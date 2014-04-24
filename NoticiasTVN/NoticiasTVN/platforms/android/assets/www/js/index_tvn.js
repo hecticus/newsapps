@@ -534,7 +534,7 @@ function initBasicApp(){
     		}).on('touchend','#bannerSpecial', function() {
     			if(bannerLink != null && bannerLink != ""){
     				//window.open(bannerLink, '_system');
-    				window.open(bannerLink, '_blank', 'location=no');
+    				window.open(bannerLink, '_system', 'closebuttoncaption=regresar');
     			}		
     			
     		});
@@ -1552,8 +1552,8 @@ function errorGetTrendingIndexes(){
 
 //banner
 function getBannerSpecial(){
-	var urlBanner = 'http://tvn.news.hecticus.com:9001/newsapi/v1/banners/get';
-	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+	//var urlBanner = 'http://tvn.news.hecticus.com:9001/newsapi/v1/banners/get';
+	var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
 	console.log("VA AL Banners");
 	$.ajax({
 		url : urlBanner,
