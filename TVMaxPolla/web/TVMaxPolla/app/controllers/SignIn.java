@@ -31,7 +31,7 @@ public class SignIn extends Controller {
      * Display a blank form.
      */ 
     public static Result blank() {
-        return ok(signinForm.render(form));
+        return ok(signInForm.render(form));
     }
   
     /**
@@ -44,24 +44,18 @@ public class SignIn extends Controller {
                 
         if(filledForm.field("socialid").value().isEmpty()) {
         	if(filledForm.hasErrors()) {
-                return badRequest(signinForm.render(filledForm));
+                return badRequest(signInForm.render(filledForm));
             }   
         }
 
         JsonNode jsonResponse = objClient.getLogin(filledForm);
         if (jsonResponse == null){
         	flash("danger", "La dirección de correo electrónico o la contraseña que has introducido no son correctas.");
-    		return ok(signinForm.render(filledForm));
+    		return ok(signInForm.render(filledForm));
         } else {
-        	 
-        	
         	session("connected", jsonResponse.get("id_social_clients").asText());
-        	session("origin", jsonResponse.get("id_social").asText());
-        	
-        	
-        	//Cache.set("signin.jsonResponse", jsonResponse, 3200);
+        	session("nick", jsonResponse.get("nick").asText());
         	return redirect("/");
-        	
         }
 
     }

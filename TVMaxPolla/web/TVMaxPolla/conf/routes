@@ -21,6 +21,9 @@ POST   /signin                  controllers.SignIn.submit()
 GET     /signup                  controllers.SignUp.blank()
 POST   /signup                  controllers.SignUp.submit()
 GET    /isEmailExist/:email         controllers.SignUp.isEmailExist(email: String)
+GET    /reset                 	controllers.ResetPassword.blank()
+POST   /reset                  	controllers.ResetPassword.submit()
+
 
 # Map static resources from the /public folder to the /assets URL path
 

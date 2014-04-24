@@ -174,7 +174,7 @@ public class Application extends Controller
         	
     	}
     
-    	return ok(index.render(lstPhase,session("origin")));
+    	return ok(index.render(lstPhase));
     
 
     }
