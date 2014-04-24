@@ -22,6 +22,9 @@
 var arrTrendingTopics;
 var arrTrendingNews;
 
+var bannerImages = new Array();
+var bannerLink = "";
+
 
 var trendingview = false;
 
@@ -317,8 +320,10 @@ function initBasicApp(){
 		 
 			myScrollPage = new iScroll('spage',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
 				
-				onScrollMove: function(e){										
-					$('#header-title').html(arrCategory[parseInt(this.currPageX + this.dirX)].title);						
+				onScrollMove: function(e){		
+					if(parseInt(this.currPageX + this.dirX)>=0){
+						$('#header-title').html(arrCategory[parseInt(this.currPageX + this.dirX)].title);	
+					}
 				}, onScrollEnd:function () {
 										
 					if (this.currPageX!=this.lastPageX) {
@@ -521,6 +526,17 @@ function initBasicApp(){
     			if (press) {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
+    		});
+			
+			//Banner touch link
+			$(document).on('touchstart','#bannerSpecial', function(e) {				
+				press=false;	
+    		}).on('touchend','#bannerSpecial', function() {
+    			if(bannerLink != null && bannerLink != ""){
+    				//window.open(bannerLink, '_system');
+    				window.open(bannerLink, '_blank', 'location=no');
+    			}		
+    			
     		});
 		
 
@@ -860,9 +876,12 @@ function initBasicApp(){
 									
 								$.li+='</li>';
 								
-								$.li+='<li data-view="banner" >';
-									$.li+='<img src="img/banner/large.jpg" style="width:100%; height:auto; " />';						
-								$.li+='</li>';
+								//bannerImages.push("https://www.google.com/images/srpr/logo11w.png");
+								if(bannerImages != null && bannerImages.length > 0){
+									$.li+='<li id="bannerSpecial" data-view="banner" >';
+										$.li+='<img src='+bannerImages[0]+' style="width:100%; height:auto; " />';						
+									$.li+='</li>';
+								}
 											
 																								
 								$($.category +'-news1').append($.li);
@@ -1412,13 +1431,11 @@ function initBasicApp(){
 			press=true;						
 		}, 2);	
 
-		setInterval(function(){			
-			clearPageStatus();			 		
-		}, 300000);
-		
-		//refresh de los trending
-		setInterval(function(){			
-			refreshTrendingIndexesForApp();			 		
+		//refresh data
+		setInterval(function(){
+			clearPageStatus();
+			refreshTrendingIndexesForApp();
+			getBannerSpecial();
 		}, 300000);
 
 
@@ -1533,6 +1550,53 @@ function errorGetTrendingIndexes(){
 	noConnectionForNewsInit();
 }
 
+//banner
+function getBannerSpecial(){
+	var urlBanner = 'http://tvn.news.hecticus.com:9001/newsapi/v1/banners/get';
+	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+	console.log("VA AL Banners");
+	$.ajax({
+		url : urlBanner,
+		timeout : 120000,
+		success : function(data, status) {
+			if(typeof data == "string"){
+				data = JSON.parse(data);
+			}
+			console.log("Banners DATA: "+JSON.stringify(data));
+			var error = data["error"];
+			if(error == 0){
+				var results = data["response"]["banners"];
+				console.log("Banners results: "+JSON.stringify(results));
+				if(results != null){
+					if(results.length>0){
+						var banner = results[0];
+						//Guardamos las imagenes del banner y el link
+						bannerImages = new Array();
+						var imagesArray = banner["fileList"];
+						var indexToUse = 0;
+						var minSize = 70000;
+						for(var i=0;i<imagesArray.length;i++){
+							var diff = window.innerWidth - imagesArray[i]["width"];
+							if(diff < 0){
+								diff = diff*(-1);
+							}
+							if(diff < minSize){
+								minSize = diff;
+								indexToUse = i;
+							}
+						}
+						bannerImages.push(imagesArray[indexToUse]["location"]);
+						bannerLink = banner["link"];
+					}
+				}
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("ERROR Banners DATA: "+thrownError);
+		}
+	});
+}
+
 //REFRESH ARRAYS
 function refreshTrendingIndexesForApp(){
 	var managerIndex = new TrendingIndexManager();
@@ -1559,6 +1623,8 @@ function endOfAppInitialization(){
 	initBasicApp();
 	
 	clearPageStatus();
+	
+	getBannerSpecial();
 	
 	$.fgetNews();
 	
