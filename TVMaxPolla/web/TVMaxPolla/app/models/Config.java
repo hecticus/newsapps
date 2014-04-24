@@ -25,7 +25,7 @@ public class Config extends Model{
 	private String description;
 	
 	public static Finder<Long, Config> finder = new
-			Finder<Long, Config>("daemon",Long.class, Config.class);
+			Finder<Long, Config>(Long.class, Config.class);
 	
 	public Long getIdConfig() {
 		return idConfig;

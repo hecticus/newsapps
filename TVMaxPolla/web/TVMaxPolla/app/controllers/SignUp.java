@@ -98,12 +98,12 @@ public class SignUp extends Controller {
   
     
     
-    /*public static Result jsRoutes()
+    public static Result jsRoutes()
     {
         response().setContentType("text/javascript");
         return ok(Routes.javascriptRouter("jsRoutes", //jsRoutes will be the JS object available in our view
         		 							routes.javascript.SignUp.isEmailExist()));
-    }*/
+    }
     
     
     public static Result isEmailExist(String email)
