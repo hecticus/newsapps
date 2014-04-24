@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import javax.persistence.Id;
 
+import models.Config;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -12,6 +13,7 @@ import play.data.validation.Constraints;
 import play.libs.Json;
 import play.libs.WS;
 import play.libs.F.Promise;
+import utils.Utils;
 
 public class Client  {
 
@@ -89,8 +91,8 @@ public class Client  {
     public JsonNode getLogin(Form<Client> filledForm) {
     	
     	ObjectNode dataJson = Json.newObject();    	
-    	dataJson.put("id_country", 8);
-    	dataJson.put("id_business", 17);
+    	dataJson.put("id_country", Config.getIDCountry());
+    	dataJson.put("id_business", Config.getIDBusiness());
     	dataJson.put("app_id", 1);
     	
     	if(filledForm.field("socialid").value().isEmpty()) {
@@ -101,8 +103,8 @@ public class Client  {
     	}   
 
     	try {
-    		
-    		Promise<WS.Response> wsLogin = WS.url("http://localhost:9000/KrakenSocialClients/v1/client/login").post(dataJson);
+            String url = Config.getKrakenHost();
+    		Promise<WS.Response> wsLogin = WS.url(url+"KrakenSocialClients/v1/client/login").post(dataJson);
         	JsonNode jsonLogin = wsLogin.get().asJson();  
         	JsonNode jsonError = jsonLogin.get("error"); 
         	JsonNode jsonDescription = jsonLogin.get("description");
@@ -134,14 +136,14 @@ public class Client  {
     public Boolean getCheckLogin(String email) {
     	        	
     	ObjectNode dataJson = Json.newObject();    	
-    	dataJson.put("id_country", 8);
-    	dataJson.put("id_business", 17);
-    	dataJson.put("app_id", 1);  
+    	dataJson.put("id_country", Config.getIDCountry());
+    	dataJson.put("id_business", Config.getIDBusiness());
+    	dataJson.put("app_id", Config.getIDSocialApp());
     	dataJson.put("userLogin", email);
 
     	try {
-    		
-    		Promise<WS.Response> wsCheckLogin = WS.url("http://localhost:9000/KrakenSocialClients/v1/client/checklogin").post(dataJson);
+    		String url = Config.getKrakenHost();
+    		Promise<WS.Response> wsCheckLogin = WS.url(url+"KrakenSocialClients/v1/client/checklogin").post(dataJson);
         	JsonNode jsonCheckLogin = wsCheckLogin.get().asJson();  
         	JsonNode jsonError = jsonCheckLogin.get("error"); 
         	JsonNode jsonDescription = jsonCheckLogin.get("description");
@@ -165,10 +167,10 @@ public class Client  {
     public JsonNode getLoginPass(Form<Client> filledForm) {
     
       	ObjectNode dataJson = Json.newObject();
-     	dataJson.put("id_country", 8);
-     	dataJson.put("id_carrier", 17);
-     	dataJson.put("id_business", 17);
-     	dataJson.put("app_id", 1);
+     	dataJson.put("id_country", Config.getIDCountry());
+     	dataJson.put("id_carrier", Config.getIDCarrierWeb());
+     	dataJson.put("id_business", Config.getIDBusiness());
+     	dataJson.put("app_id", Config.getIDSocialApp());
      	dataJson.put("origin", "WEB");
      	
      	if(filledForm.field("socialid").value().isEmpty()) {    		    		
@@ -183,8 +185,8 @@ public class Client  {
      	}
      	
      	try {
-     		
-     		Promise<WS.Response> wsLoginPass = WS.url("http://localhost:9000/KrakenSocialClients/v1/client/create/loginpass").post(dataJson);
+            String url = Config.getKrakenHost();
+     		Promise<WS.Response> wsLoginPass = WS.url(url+"KrakenSocialClients/v1/client/create/loginpass").post(dataJson);
          	JsonNode jsonLoginPass = wsLoginPass.get().asJson();    	
          	JsonNode jsonError = jsonLoginPass.get("error"); 
          	JsonNode jsonDescription = jsonLoginPass.get("description");

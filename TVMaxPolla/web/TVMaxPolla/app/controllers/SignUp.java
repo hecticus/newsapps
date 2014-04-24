@@ -30,7 +30,7 @@ public class SignUp extends Controller {
      * Display a blank form.
      */ 
     public static Result blank() {
-        return ok(signupForm.render(form));
+        return ok(signUpForm.render(form));
     }
      
     /**
@@ -78,7 +78,7 @@ public class SignUp extends Controller {
             
             System.out.println("hola!");
         	if(filledForm.hasErrors()) {
-                return badRequest(signupForm.render(filledForm));
+                return badRequest(signUpForm.render(filledForm));
             }
         	
         }
@@ -86,7 +86,7 @@ public class SignUp extends Controller {
     	JsonNode jsonResponse = objClient.getLoginPass(filledForm);
     	if (jsonResponse == null) {
     		flash("danger", "Error");
-    		return ok(signupForm.render(filledForm));
+    		return ok(signUpForm.render(filledForm));
     	} else {
     	  	session("connected", jsonResponse.get("id_social_clients").asText());
         	session("origin", jsonResponse.get("id_social").asText());
@@ -98,12 +98,12 @@ public class SignUp extends Controller {
   
     
     
-    public static Result jsRoutes()
+    /*public static Result jsRoutes()
     {
         response().setContentType("text/javascript");
         return ok(Routes.javascriptRouter("jsRoutes", //jsRoutes will be the JS object available in our view
         		 							routes.javascript.SignUp.isEmailExist()));
-    }
+    }*/
     
     
     public static Result isEmailExist(String email)

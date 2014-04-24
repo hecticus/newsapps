@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import models.Config;
 import models.matches.*;
 
 import org.apache.http.HttpRequest;
@@ -56,8 +57,9 @@ public class Application extends Controller
 		
 		ObjectNode dataJson = Json.newObject();    	
     	dataJson.put("idClient", connected);
-    										      
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9009/matchesapi/v1/prediction/get").post(dataJson);
+
+    	String url = Config.getTVMaxPollaHost();
+    	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
 
     	
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
