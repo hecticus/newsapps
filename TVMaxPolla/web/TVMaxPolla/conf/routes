@@ -7,6 +7,8 @@ GET     /                          controllers.Application.index()
 GET     /index                          controllers.Application.index()
 GET     /exit                          controllers.Application.exit()
 
+GET     /check/*name                controllers.Application.checkFile(name: String)
+
 #GET     /person       				controllers.Application.getAll()
 #DELETE  /person/:id   				controllers.Application.delete(id: Long)
 #POST    /person       				controllers.Application.create()

@@ -2,6 +2,7 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +30,16 @@ import views.html.*;
 
 public class Application extends Controller
 {
-	
-	  
+
+    public static Result checkFile(String name){
+        File file = new File(name);
+        //Logger.info("nameFile "+name+", path "+file.getAbsolutePath());
+        if(file.exists()){
+            return ok("OK");
+        }else{
+            return badRequest("file not found");
+        }
+    }
 	
     public static Result index()
     {
