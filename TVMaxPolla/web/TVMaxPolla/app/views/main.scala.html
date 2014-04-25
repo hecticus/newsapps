@@ -719,16 +719,13 @@
       					btn.button('reset');    				
     				}).done(function(msg) {
 	        			
-	        			if (msg.error==0) {
-	        				$('.alert-success').removeClass('hidden');
-	        				setTimeout(function(){$('.alert-success').fadeOut();}, 2000); 
+	        			if (msg.error==0) {	        			
+	        				$('#myModal').modal('show');
+	        				$('#message').html('<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.');
 	        			} else {
-	        				$('.alert-danger').removeClass('hidden');
-	        				setTimeout(function(){$('.alert-danger').fadeOut();}, 2000);
+	        				$('#message').html('<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
 	        			}
-	        			
-	        				        			
-	        			
+
 					}).fail(function( jqXHR, textStatus ) {  						
   						$('.alert-danger').removeClass('hidden');
   						
@@ -1162,10 +1159,7 @@
 				});
 				
 				
-	  			
-	  			
-	  			
-	  		
+
 			    
 			    
 	  		};
@@ -1208,19 +1202,37 @@
 	
 		<div class="container">
 
-			<div class="row" style="margin: 5px 0 ;">
-				<div class="col-md-12" >
-					<div class="alert alert-success hidden">					
-						<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.
-					</div>
-					<div class="alert alert-danger hidden">					
-						<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.
-					</div>
-				</div>
-			</div>
 
-			@content							
+			@content	
+			
+		
+		
+		
+		
+		<div  id="myModal" class="modal fade">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Guardar</h4>
+		      </div>
+		      <div class="modal-body">
+				<div id="message" >
+		      		
+		      	</div>		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		
+									
 		</div>
+		
+		
 		
 		
     	
