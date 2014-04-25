@@ -43,6 +43,7 @@ public class News extends HecticusModel{
     //private String startDate;
     private String title;
     private String url;
+    private Long idTrending;
 
     //hecticus fields
     private Long idCategory; //local id category
@@ -67,14 +68,14 @@ public class News extends HecticusModel{
         }
 
         if (data.has("Categories")) {
-            categories = data.get("categories").asText();
+            categories = data.get("Categories").asText();
         } else {
             throw new NewsException("categories faltante");
         }
 
         if (data.has("Date")) {
             pubDate = data.get("Date").asText();
-            pubDateFormated = Utils.formatDateLongFromString(pubDate);
+            pubDateFormated = Utils.formatDateLongFromStringNew(pubDate);
         } else {
             throw new NewsException("Date faltante");
         }
@@ -152,6 +153,14 @@ public class News extends HecticusModel{
 
         if (data.has("idCategory")) {
             idCategory = data.get("idCategory").asLong();
+        }
+
+        //if (data.has("resources")){
+
+        //}
+
+        if (data.has("idTrending")){
+            idTrending = data.get("idTrending").asLong();
         }
 
         //auto generated values
@@ -249,6 +258,11 @@ public class News extends HecticusModel{
         return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findRowCount();
     }
 
+    /***
+     *
+     * @param idCategory
+     * @return
+     */
     public static List<News> getNewsByDateAndNotPushed(long idCategory){
         return finder.where().eq("id_category", idCategory).eq("generation_time", 0).orderBy("pub_date_formated").findList();
     }
