@@ -73,7 +73,7 @@
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
-- (void)play:(CDVInvokedUrlCommand*)command {
+- (void)playVideo:(CDVInvokedUrlCommand*)command {
     /*if (!NSClassFromString(@"UIActivityViewController")) {
 		return;
     }*/

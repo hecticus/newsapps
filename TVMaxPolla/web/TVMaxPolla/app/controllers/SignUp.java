@@ -30,7 +30,7 @@ public class SignUp extends Controller {
      * Display a blank form.
      */ 
     public static Result blank() {
-        return ok(signupForm.render(form));
+        return ok(signUpForm.render(form));
     }
      
     /**
@@ -59,11 +59,11 @@ public class SignUp extends Controller {
             if(!filledForm.field("email").valueOr("").isEmpty()) {
             	
                 if(!filledForm.field("email").valueOr("").equals(filledForm.field("repeatEmail").value())) {
-                    filledForm.reject("repeatEmail", "Email don't match");
+                    filledForm.reject("repeatEmail", "El email no coincide");
                 }
             	
             	if (objClient.getCheckLogin(filledForm.field("email").value())) {
-            		filledForm.reject("email", "Email already exist!");
+            		filledForm.reject("email", "El email ya existe");
             	} 
 
             }
@@ -71,14 +71,14 @@ public class SignUp extends Controller {
             // Check repeated password
             if(!filledForm.field("password").valueOr("").isEmpty()) {
                 if(!filledForm.field("password").valueOr("").equals(filledForm.field("repeatPassword").value())) {
-                    filledForm.reject("repeatPassword", "Password don't match");
+                    filledForm.reject("repeatPassword", "La contraseña no coincide");
                 }
             }
 
             
             System.out.println("hola!");
         	if(filledForm.hasErrors()) {
-                return badRequest(signupForm.render(filledForm));
+                return badRequest(signUpForm.render(filledForm));
             }
         	
         }
@@ -86,11 +86,10 @@ public class SignUp extends Controller {
     	JsonNode jsonResponse = objClient.getLoginPass(filledForm);
     	if (jsonResponse == null) {
     		flash("danger", "Error");
-    		return ok(signupForm.render(filledForm));
+    		return ok(signUpForm.render(filledForm));
     	} else {
     	  	session("connected", jsonResponse.get("id_social_clients").asText());
-        	session("origin", jsonResponse.get("id_social").asText());
-    		//Cache.set("signin.jsonResponse", jsonResponse, 3200);
+    	  	session("nick", jsonResponse.get("nick").asText());
         	return redirect("/");	
     	}
 

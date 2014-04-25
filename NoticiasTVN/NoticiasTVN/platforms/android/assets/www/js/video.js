@@ -1,6 +1,6 @@
 function VideoPlayer() { 
 	
-	console.log('iniciando video players');
+	//console.log('iniciando video players');
 	}
 VideoPlayer.prototype.play = function(url) { return window.cordova.exec(null, null, "VideoPlayer", "playVideo", [url]); };
 VideoPlayer.install = function () {

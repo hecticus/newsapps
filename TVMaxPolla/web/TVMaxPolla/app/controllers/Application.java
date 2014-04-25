@@ -2,10 +2,12 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import models.Config;
 import models.matches.*;
 
 import org.apache.http.HttpRequest;
@@ -28,8 +30,16 @@ import views.html.*;
 
 public class Application extends Controller
 {
-	
-	  
+
+    public static Result checkFile(String name){
+        File file = new File(name);
+        //Logger.info("nameFile "+name+", path "+file.getAbsolutePath());
+        if(file.exists()){
+            return ok("OK");
+        }else{
+            return badRequest("file not found");
+        }
+    }
 	
     public static Result index()
     {
@@ -56,8 +66,9 @@ public class Application extends Controller
 		
 		ObjectNode dataJson = Json.newObject();    	
     	dataJson.put("idClient", connected);
-    										      
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9009/matchesapi/v1/prediction/get").post(dataJson);
+
+    	String url = Config.getTVMaxPollaHost();
+    	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
 
     	
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
@@ -163,7 +174,7 @@ public class Application extends Controller
         	
     	}
     
-    	return ok(index.render(lstPhase,session("origin")));
+    	return ok(index.render(lstPhase));
     
 
     }
