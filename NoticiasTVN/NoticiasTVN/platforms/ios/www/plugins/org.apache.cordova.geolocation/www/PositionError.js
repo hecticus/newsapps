@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileSystem", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.geolocation.PositionError", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,22 +19,22 @@ cordova.define("org.apache.cordova.file.FileSystem", function(require, exports, 
  *
 */
 
-var DirectoryEntry = require('./DirectoryEntry');
-
 /**
- * An interface representing a file system
+ * Position error object
  *
  * @constructor
- * {DOMString} name the unique name of the file system (readonly)
- * {DirectoryEntry} root directory of the file system (readonly)
+ * @param code
+ * @param message
  */
-var FileSystem = function(name, root) {
-    this.name = name || null;
-    if (root) {
-        this.root = new DirectoryEntry(root.name, root.fullPath, this);
-    }
+var PositionError = function(code, message) {
+    this.code = code || null;
+    this.message = message || '';
 };
 
-module.exports = FileSystem;
+PositionError.PERMISSION_DENIED = 1;
+PositionError.POSITION_UNAVAILABLE = 2;
+PositionError.TIMEOUT = 3;
+
+module.exports = PositionError;
 
 });

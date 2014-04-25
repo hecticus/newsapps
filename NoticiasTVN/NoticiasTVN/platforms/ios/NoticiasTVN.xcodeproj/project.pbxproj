@@ -61,6 +61,7 @@
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
 		6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */; };
+		6FAE6645190AA3190041A151 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE6644190AA3190041A151 /* CDVInAppBrowser.m */; };
 		6FC8D6AB18CE1EC200B5D007 /* noticias.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 6FC8D6AA18CE1EC200B5D007 /* noticias.aiff */; };
 		6FD3CFDC187C8F0B005E7A40 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD3CFD9187C8F0B005E7A40 /* AppDelegate+notification.m */; };
 		6FD3CFDD187C8F0B005E7A40 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD3CFDB187C8F0B005E7A40 /* PushPlugin.m */; };
@@ -159,6 +160,8 @@
 		6F6DDD481875C51A0090B0E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = NoticiasTVN/config.xml; sourceTree = "<group>"; };
 		6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-iPad@2x.png"; sourceTree = "<group>"; };
+		6FAE6643190AA3190041A151 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVInAppBrowser.h; sourceTree = "<group>"; };
+		6FAE6644190AA3190041A151 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVInAppBrowser.m; sourceTree = "<group>"; };
 		6FC8D6AA18CE1EC200B5D007 /* noticias.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = noticias.aiff; sourceTree = "<group>"; };
 		6FD3CFD8187C8F0B005E7A40 /* AppDelegate+notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+notification.h"; sourceTree = "<group>"; };
 		6FD3CFD9187C8F0B005E7A40 /* AppDelegate+notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+notification.m"; sourceTree = "<group>"; };
@@ -288,6 +291,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6FAE6642190AA3190041A151 /* org.apache.cordova.inappbrowser */,
 				6F65A541190583180049E8C8 /* org.apache.cordova.geolocation */,
 				6F3C548418A03F6100557C1A /* com.adobe.plugins.GAPlugin */,
 				6F504BDB188F28B400BFBDEC /* org.apache.cordova.file */,
@@ -437,6 +441,16 @@
 			);
 			name = splash;
 			path = NoticiasTVN/Resources/splash;
+			sourceTree = SOURCE_ROOT;
+		};
+		6FAE6642190AA3190041A151 /* org.apache.cordova.inappbrowser */ = {
+			isa = PBXGroup;
+			children = (
+				6FAE6643190AA3190041A151 /* CDVInAppBrowser.h */,
+				6FAE6644190AA3190041A151 /* CDVInAppBrowser.m */,
+			);
+			name = org.apache.cordova.inappbrowser;
+			path = NoticiasTVN/Plugins/org.apache.cordova.inappbrowser;
 			sourceTree = SOURCE_ROOT;
 		};
 		6FC8D6A718CE05AC00B5D007 /* sounds */ = {
@@ -612,6 +626,7 @@
 				6FD3CFDD187C8F0B005E7A40 /* PushPlugin.m in Sources */,
 				6F504BE1188F28B400BFBDEC /* CDVFile.m in Sources */,
 				6F6DDCF81875C4B90090B0E8 /* AppDelegate.m in Sources */,
+				6FAE6645190AA3190041A151 /* CDVInAppBrowser.m in Sources */,
 				6F187B8A187707AC001876C4 /* VideoPlayer.m in Sources */,
 				6F504BE2188F28B400BFBDEC /* CDVFileTransfer.m in Sources */,
 				6F6DDD031875C4D30090B0E8 /* CDVConnection.m in Sources */,

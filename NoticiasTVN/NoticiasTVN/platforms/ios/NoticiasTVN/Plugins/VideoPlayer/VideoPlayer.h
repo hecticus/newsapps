@@ -18,6 +18,6 @@
     MovieViewController *player;
 }
 
-- (void)play:(CDVInvokedUrlCommand*)command;
+- (void)playVideo:(CDVInvokedUrlCommand*)command;
 
 @end

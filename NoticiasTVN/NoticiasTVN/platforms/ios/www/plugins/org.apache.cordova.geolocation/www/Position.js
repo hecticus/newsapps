@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileSystem", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.geolocation.Position", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,22 +19,17 @@ cordova.define("org.apache.cordova.file.FileSystem", function(require, exports, 
  *
 */
 
-var DirectoryEntry = require('./DirectoryEntry');
+var Coordinates = require('./Coordinates');
 
-/**
- * An interface representing a file system
- *
- * @constructor
- * {DOMString} name the unique name of the file system (readonly)
- * {DirectoryEntry} root directory of the file system (readonly)
- */
-var FileSystem = function(name, root) {
-    this.name = name || null;
-    if (root) {
-        this.root = new DirectoryEntry(root.name, root.fullPath, this);
+var Position = function(coords, timestamp) {
+    if (coords) {
+        this.coords = new Coordinates(coords.latitude, coords.longitude, coords.altitude, coords.accuracy, coords.heading, coords.velocity, coords.altitudeAccuracy);
+    } else {
+        this.coords = new Coordinates();
     }
+    this.timestamp = (timestamp !== undefined) ? timestamp : new Date();
 };
 
-module.exports = FileSystem;
+module.exports = Position;
 
 });
