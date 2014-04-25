@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javax.persistence.Id;
 
 import models.Config;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -114,7 +115,7 @@ public class Client  {
         	if (jsonResponse.size() == 0) {
 
         		if(!filledForm.field("socialid").value().isEmpty()) {
-        			return this.getLoginPass(filledForm).iterator().next();
+        			return this.getLoginPass(filledForm);
         		}
 
         		return null;	
@@ -179,9 +180,10 @@ public class Client  {
          	dataJson.put("userPass", filledForm.field("password").value());
          	dataJson.put("userNick",filledForm.field("name").value() + " " + filledForm.field("surname").value());    	
          	dataJson.put("email", filledForm.field("email").value());    		
-     	} else {
-     		dataJson.put("email", filledForm.field("email").value()); 
+     	} else {     		
      		dataJson.put("socialId", filledForm.field("socialid").value());
+     		dataJson.put("socialemail", filledForm.field("socialemail").value());
+     		dataJson.put("userNick", filledForm.field("socialname").value());
      	}
      	
      	try {
