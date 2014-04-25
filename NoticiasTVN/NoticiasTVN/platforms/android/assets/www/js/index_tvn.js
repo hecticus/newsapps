@@ -18,7 +18,7 @@
  */
 
 
-
+var info_app = 'Sobre este APP';
 var arrTrendingTopics;
 var arrTrendingNews;
 
@@ -58,11 +58,18 @@ var newsDatacontent;
 function setMenuCategories(){
 
 	$.li='';
+	var a = 0;
 	for(var i=0; i<arrCategory.length; i++){
 		$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:'+arrMenuColor[(i%10)]+';">';			
 		$.li+=arrCategory[i].title;			
 		$.li+='</li>';
+		a = i;
 	}
+	
+	a++;	
+	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+	$.li+=info_app;			
+	$.li+='</li>';		
 		
 	$('#mainMenuList').empty();
 	$('#mainMenuList').append($.li);
@@ -400,24 +407,47 @@ function initBasicApp(){
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
-    				trendingview=false;
-    				$('#screen-block').addClass('hidden');		
-    				$('#header-title').html(arrCategory[$(this).data('position')].title);
+    				if ($(this).data('category') == '?') {
+    					
+    					
+    					$('#screen-block').addClass('hidden');
+    					$('#menu').attr('class','page transition left');
+    					$('#header-title').html(info_app);
+    					$('#datacontents').empty();
+    					$('#datacontents').append('<div class="datacontent">');
+    					$('#datacontents').append('<img src="img/logo_hecticus.png" style="width:50%; height:auto;">');
+    					$('#datacontents').append('<p>Aplicaci&oacute;n con derechos reservados por Televisora Nacional S.A. 2014</p>');
+    					$('#datacontents').append('<p>Para sugerencias o dudas, escriba a <span style="color:blue;">soporte@tvnmedia.com</span></p>');    					
+    					$('#datacontents').append('<p>Aplicaci&oacute;n desarrollada por Hecticus Software Inc.</p>');
+    					$('#datacontents').append('</div>');	
+    					$('#datacontent').attr('class','page left');
+    					
+    				} else {
     				
-    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
-    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
-					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+	    				trendingview=false;
+	    				$('#screen-block').addClass('hidden');		
+	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
+	    				
+	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
+	    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+						gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+	    				
+		    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);
+		    			
+		    			$('#menu').attr('class','page transition left');	    				    			 	
+						$('#datacontent').attr('class','page right');
+						$('#datatrending').attr('class','page right');
+						
+	
+						if (typeof myScrollDatacontentHorizontal != 'undefined') {
+							myScrollDatacontentHorizontal = null;
+						}
     				
-	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);
-	    			
-	    			$('#menu').attr('class','page transition left');	    				    			 	
-					$('#datacontent').attr('class','page right');
-					$('#datatrending').attr('class','page right');
-					
-
-					if (typeof myScrollDatacontentHorizontal != 'undefined') {
-						myScrollDatacontentHorizontal = null;
-					}	
+    					
+    				}
+    				
+    				
+    					
 				
 
     			}   								
