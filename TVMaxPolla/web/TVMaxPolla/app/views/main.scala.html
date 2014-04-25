@@ -439,9 +439,13 @@
 								if (group.name.indexOf(_name) >= 0) {
 									
 
-									if ((_group) || (phase.id > _phase)) {
-										$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team .goal').data('goal',0);
-										$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team .goal').html(0);
+									if ((_group) || (phase.id > _phase)) {									
+										$.each(group.game, function( index, game ) {
+											$.each(game.team, function( index, team ) {
+												$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team[data-team="'+team.id+'"] .goal').data('goal',0);
+												$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team[data-team="'+team.id+'"] .goal').html(0);
+											});
+										});
 									}
 									
 									$.each(group.game, function( index, game ) {
@@ -757,9 +761,7 @@
 
 					var _team =  _this.parents('.team').data('team');
 
-			
-					
-										
+	
 					var group = $.fgetGroupActive2(_this);
 					var _eGoal = _this.parents('.team').find('.goal');
 					var _iGoal = _eGoal.data('goal');
