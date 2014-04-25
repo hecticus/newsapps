@@ -5,6 +5,8 @@
 	.date {text-align: center;}
 	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
 	.game {height:auto; padding:5px}	
+	.row.menu.small, .row.menu.session {display: block}
+	.row.menu.large {display: none}
 }
 
 /* Small devices (tablets, 768px and up) */
@@ -14,6 +16,8 @@
 	.date {text-align: center;}
 	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
 	.game {height:auto; padding:5px}
+	.row.menu.small, .row.menu.session {display: block}
+	.row.menu.large {display: none}
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -23,6 +27,8 @@
 	.date {text-align: left;}
 	.venue {background-color: #FFFFFF; height: 57px; padding: 5px;}
 	.game {height:70px; padding:5px}
+	.row.menu.small, .row.menu.session {display: none}
+	.row.menu.large {display: block}
 }
 
 /* Large devices (large desktops, 1200px and up) */
@@ -32,7 +38,8 @@
 	.date {text-align: left;}
 	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
 	.game {height:70px; padding:5px}
-	
+	.row.menu.small, .row.menu.session {display: none}
+	.row.menu.large {display: block}
 	
 }
 

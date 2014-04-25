@@ -82,11 +82,11 @@
 			.menu.phase[data-phase="4"].on{background-color:#455D86; color:#ffffff;}
 			.menu.phase[data-phase="6"].on{background-color:#314972; color:#ffffff;}
 			
-			#exit {background-color:#d9534f; color:#FFFFFF;}
-			#exit:hover {padding:10px; background-color:#BEC5DF;  color:#FFFFFF;}
+			.btn.btn-default.menu.phase.exit {background-color:#d9534f; color:#FFFFFF;}
+			.btn.btn-default.menu.phase.exit:hover {padding:10px; background-color:#BEC5DF;  color:#FFFFFF;}
 			
-			#save {background-color:#f1e916; color:#999999;}
-			#save:hover{padding:10px; background-color:#BEC5DF; color:#ffffff;}
+			.btn.btn-default.menu.phase.save {background-color:#f1e916; color:#999999;}
+			.btn.btn-default.menu.phase.save:hover{padding:10px; background-color:#BEC5DF; color:#ffffff;}
 
 			.content-flag-score {width: 75px; height: 68px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold; }
 			.content-flag-score:last-child{margin:5px 0 5px 0;}			
@@ -690,7 +690,7 @@
 				};
 
 				
-				$(document).on('click','#save', function() {
+				$(document).on('click','.save', function() {
 					
 					$('.alert').removeAttr('style');
 					$('.alert').addClass('hidden');
@@ -865,6 +865,8 @@
 				
 				var _this = $(this);
 				var _phase = $(this).data('phase');
+				var _position =$(this).data('position');
+
 
 				$('.menu.phase').removeClass('on');				
 				$('.menu.phase[data-phase="'+_phase+'"]').addClass('on');
@@ -898,6 +900,8 @@
 						
 					}
 				});
+				
+				$.fgetPhaseMenuSmall();
 				
 			});
 			
@@ -995,11 +999,59 @@
 				
 				
 			};
+				
+			$.fgetPhaseMenuSmall = function() {
+				
+			
+				
+			
+				var _phase = $('.row.phase:visible').data('phase');
+				var _col = '';
+				
+				
+				
+				
+				
+				
+				if (_phase == 1) {					
+					_col = '<div class="col-md-12" >';
+					_col += '<button data-phase="'+arrPhase[1].id+'" type="button" data-position="1" class="btn btn-default menu phase on small" style="float:right;"  >'+arrPhase[1].name+'</button>';	
+					_col += '</div>';
+				} else if (_phase == 6) {
+					_col = '<div class="col-md-12" >';
+					_col += '<button data-phase="'+arrPhase[3].id+'" type="button" data-position="1" class="btn btn-default menu phase on small"   >'+arrPhase[3].name+'</button>';	
+					_col += '</div>';
+				} else  {
+					
+					
+					_col = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
+					_col += '<button data-phase="'+arrPhase[_phase-2].id+'" type="button" data-position="1" class="btn btn-default menu phase on small"  >'+arrPhase[_phase-2].name+'</button>';	
+					_col += '</div>';	
 
+					_col += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
+					_col += '<button data-phase="'+arrPhase[_phase].id+'" type="button" data-position="0" class="btn btn-default menu phase small" style="float:right;" >'+arrPhase[_phase].name+'</button>';
+					_col += '</div>';
+					
+				}
+				
+				
+			
+				
+				
+					
+				$('.row.menu.small').html(_col);
+				
+			};
 
 
 
 				$( document ).ready(function() {
+					$.fgetPhaseMenuSmall();
+					
+					
+					
+					
+					
 					
 					$.fgetUpdate();					
 					$.fUpdateStandingPhase22();
@@ -1111,6 +1163,9 @@
 				
 				
 	  			
+	  			
+	  			
+	  		
 			    
 			    
 	  		};
