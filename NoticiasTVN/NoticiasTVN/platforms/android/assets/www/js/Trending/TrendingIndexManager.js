@@ -143,7 +143,7 @@ function removeAllStoredTrendingIndex(callback, errorCallback){
 }
 
 function removeUnusedTrendingIndex(toDelete, callback, errorCallback){
-	console.log("removeUnusedTrendingIndex "+JSON.stringify(toDelete));
+	//console.log("removeUnusedTrendingIndex "+JSON.stringify(toDelete));
 	storageManager.deleteFromSelectDB(clearUnusedTrendingIndexTable, errorCallback, callback, null, toDelete);
 }
 
@@ -154,7 +154,7 @@ function deleteAllTrendingIndexDB(tx, instanceCaller){
 }
 
 function clearUnusedTrendingIndexTable(tx, instanceCaller,data){
-	console.log("clearUnusedTrendingIndexTable "+JSON.stringify(data));
+	//console.log("clearUnusedTrendingIndexTable "+JSON.stringify(data));
 	for(var i=0;i<data.length;i++){
 		var limitStatement = 'DELETE FROM TRENDINGINDEX WHERE trending_index_category = "'+data[i]+'";';
 		tx.executeSql(limitStatement);

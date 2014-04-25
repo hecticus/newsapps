@@ -1552,9 +1552,9 @@ function errorGetTrendingIndexes(){
 
 //banner
 function getBannerSpecial(){
-	//var urlBanner = 'http://tvn.news.hecticus.com:9001/newsapi/v1/banners/get';
-	var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
-	console.log("VA AL Banners");
+	var urlBanner = 'http://tvn.news.hecticus.com:9001/newsapi/v1/banners/get';
+	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+	//console.log("VA AL Banners");
 	$.ajax({
 		url : urlBanner,
 		timeout : 120000,
@@ -1562,11 +1562,11 @@ function getBannerSpecial(){
 			if(typeof data == "string"){
 				data = JSON.parse(data);
 			}
-			console.log("Banners DATA: "+JSON.stringify(data));
+			//console.log("Banners DATA: "+JSON.stringify(data));
 			var error = data["error"];
 			if(error == 0){
 				var results = data["response"]["banners"];
-				console.log("Banners results: "+JSON.stringify(results));
+				//console.log("Banners results: "+JSON.stringify(results));
 				if(results != null){
 					if(results.length>0){
 						var banner = results[0];
@@ -1619,7 +1619,7 @@ function errorRefresh(){
 //end de funciones de inicializacion de categorias y trendings
 
 function endOfAppInitialization(){
-	console.log("endOfAppInitialization");
+	//console.log("endOfAppInitialization");
 	initBasicApp();
 	
 	clearPageStatus();
@@ -1666,20 +1666,20 @@ function fTextoCortado(texto){
 
 //GEOLOCATION
 function getCurrentGeoPosition(){
-	console.log("getCurrentGeoPosition");
+	//console.log("getCurrentGeoPosition");
 	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler);
-	console.log("end getCurrentGeoPosition");
+	//console.log("end getCurrentGeoPosition");
 }
 
 function successGeolocationHandler (position) {
-	console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
+	//console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
     //position.coords.latitude;
     //position.coords.longitude;
 }
 
 function errorGeolocationHandler (error) {
-    console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
-    initGeolocation();
+    //console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
+    //initGeolocation();
 }
 //END GEOLOCATION
 

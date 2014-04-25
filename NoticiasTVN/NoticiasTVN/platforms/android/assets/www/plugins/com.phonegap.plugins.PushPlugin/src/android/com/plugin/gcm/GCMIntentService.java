@@ -31,7 +31,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onRegistered(Context context, String regId) {
 
-		Log.v(TAG, "onRegistered: "+ regId);
+		//Log.v(TAG, "onRegistered: "+ regId);
 
 		JSONObject json;
 
@@ -40,7 +40,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			json = new JSONObject().put("event", "registered");
 			json.put("regid", regId);
 
-			Log.v(TAG, "onRegistered: " + json.toString());
+			//Log.v(TAG, "onRegistered: " + json.toString());
 
 			// Send this JSON data to the JavaScript application above EVENT should be set to the msg type
 			// In this case this is the registration ID
@@ -56,12 +56,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	public void onUnregistered(Context context, String regId) {
-		Log.d(TAG, "onUnregistered - regId: " + regId);
+		//Log.d(TAG, "onUnregistered - regId: " + regId);
 	}
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.d(TAG, "onMessage - context: " + context);
+		//Log.d(TAG, "onMessage - context: " + context);
 
 		// Extract the payload from the message
 		Bundle extras = intent.getExtras();
