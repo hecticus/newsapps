@@ -153,8 +153,7 @@
         
 		<script>
 	  		$(function() {
-
-
+	  		
 				$.fCompare = function(_groupTeams,_eval) {
 					
 					var aux = 0;
@@ -417,6 +416,7 @@
 						var _team = $.fgetTeam( _group.name+(index+1));
 						 
 						$('.phase[data-phase="2"] .group .game .team[data-team="'+_team.id+'"] .flag').attr('src',team.flag);
+						$('.phase[data-phase="2"] .group .game .team[data-team="'+_team.id+'"] .flag').removeAttr('style');
 						$('.phase[data-phase="2"] .group .game .team[data-team="'+_team.id+'"] .name').html(team.name);						
 						$('[data-index="'+_group.name+(index+1)+'"]').html('<figure><img class="flag"  src="'+team.flag+'" alt="Camerún" /><figcaption>'+team.shortName+'</figcaption></figure>');
 							
@@ -582,9 +582,8 @@
 											
 											
 											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .flag').attr('src',team.placeholder.flag);
-											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .name').html(team.placeholder.name);
-
-																					
+											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .flag').removeAttr('style');
+											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .name').html(team.placeholder.name);																					
 											$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');
 
 										}
@@ -737,6 +736,7 @@
 
 
 				});
+
 
 
 				$(document).on('click','.up, .down', function() {
