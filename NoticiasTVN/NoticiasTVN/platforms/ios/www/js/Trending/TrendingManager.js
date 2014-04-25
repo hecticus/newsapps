@@ -147,7 +147,7 @@ function limitTrendingTableSize(tx){
 		limitStatement = 'DELETE FROM TRENDING WHERE trending_news_category = "'+arrTrendingTopics[i].ID+'" AND trending_news_tvn_id IN (SELECT trending_news_tvn_id FROM TRENDING WHERE trending_news_category = "'+arrTrendingTopics[i].ID+'" ORDER BY trending_news_creationtime asc LIMIT 60,200);'; //offset,limit
 		//console.log("delete "+limitStatement);
 		tx.executeSql(limitStatement);
-		console.log("LIMIT: "+limitStatement);
+		//console.log("LIMIT: "+limitStatement);
 		if(i>0){
 			allTrendigIDs = allTrendigIDs+",";
 		}
@@ -156,7 +156,7 @@ function limitTrendingTableSize(tx){
 	
 	if(arrTrendingTopics.length > 0){
 		limitStatement = 'DELETE FROM TRENDING WHERE trending_news_category NOT IN "('+allTrendigIDs+')";'; //limpiamos los trneding que no tienen categoria
-		console.log("LIMIT2: "+limitStatement);
+		//console.log("LIMIT2: "+limitStatement);
 		tx.executeSql(limitStatement);
 	}
 }

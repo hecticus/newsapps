@@ -36,7 +36,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onRegistered(Context context, String regId) {
 
-		Log.v(TAG, "onRegistered: "+ regId);
+		//Log.v(TAG, "onRegistered: "+ regId);
 
 		JSONObject json;
 
@@ -45,7 +45,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			json = new JSONObject().put("event", "registered");
 			json.put("regid", regId);
 
-			Log.v(TAG, "onRegistered: " + json.toString());
+			//Log.v(TAG, "onRegistered: " + json.toString());
 			
 			PushPlugin.registerDeviceOnServer(context, json.getString("regid"));
 
@@ -63,20 +63,20 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	public void onUnregistered(Context context, String regId) {
-		Log.i(TAG, "Device unregistered");
+		//Log.i(TAG, "Device unregistered");
 		if (GCMRegistrar.isRegisteredOnServer(context)) {
 			PushPlugin.unregisterDeviceOnServer(context, regId);
         } else {
             // This callback results from the call to unregister made on
             // PushPlugin when the registration to the server failed.
-            Log.i(TAG, "Ignoring unregister callback");
+            //Log.i(TAG, "Ignoring unregister callback");
         }
 		//Log.d(TAG, "onUnregistered - regId: " + regId);
 	}
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.d(TAG, "onMessage - context: " + context);
+		//Log.d(TAG, "onMessage - context: " + context);
 
 		// Extract the payload from the message
 		Bundle extras = intent.getExtras();

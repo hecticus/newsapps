@@ -6,123 +6,121 @@
 
 @main("La polla de TVMax - FiFA World Cup Brasil 2014 - Registro") {
 
+	<div class="row" >
+		<div class="col-md-12 banner"  >
+			&nbsp;
+		</div>
+	</div>
+
 	<div class="row title" >
 		<div class="col-md-12" >
 			<span>Regístrate gratis</span>
 		</div>
 	</div>
+
 	
 	<div class="row" >
-		<div class="col-md-4">
-			
-
-			@if(flash.containsKey("danger")) {
-				 <br />
-        		<div class="alert alert-danger">@flash.get("danger")</div>
-    		} 
-
-			@helper.form(action = routes.SignUp.submit, 'role -> "form" ) {
-
-		       
-		          
-		           
-		          	@inputText(
-		                signupForm("email"),
-		                '_label -> "",
-		                'onBlur -> "isEmailExist()",
-		                '_help -> "",
-		                'class -> "form-control",
-			            'placeholder -> "Correo electrónico*"
-		            )
-		            
-		            @inputText(
-		                signupForm("repeatEmail"),                
-		                '_label -> "",
-		                '_help -> "",
-		                '_error -> signupForm.error("email"),
-		                'class -> "form-control",
-			            'placeholder -> "Repetir correo electrónico*"
-		            )
-		          
-		            @inputText(
-		                signupForm("name"), 
-		                '_label -> "", 
-		                '_help -> "",
-		                '_error -> signupForm.globalError,
-		                'class -> "form-control",
-			            'placeholder -> "Nombre*"
-		            )
-		            
-		            @inputText(
-		                signupForm("surname"), 
-		                '_label -> "",
-		                '_help -> "",
-		                '_error -> signupForm.globalError,
-		                'class -> "form-control",
-			            'placeholder -> "Apellido*"
-		            )
 		
-		            @inputPassword(
-		                signupForm("password"), 
-		                '_label -> "",
-		                '_help -> "",
-		                'class -> "form-control",
-			            'placeholder -> "Contraseña*"
-		            )
-		            
-		            @inputPassword(
-		                signupForm("repeatPassword"), 
-		                '_label -> "",
-		                '_help -> "",
-		                '_error -> signupForm.error("password"),
-		                'class -> "form-control",
-			            'placeholder -> "Repetir contraseña*"
-		            )
-		            
+		@if(flash.containsKey("danger")) {
+			<div class="col-md-12">
+				<div class="alert alert-danger">@flash.get("danger")</div>
+			</div>
+    	}
+
+
+		<div class="col-md-4 bar"  >
+
+			@helper.form(action = routes.SignUp.submit, 'role -> "form", 'autocomplete -> "off") {
+ 
+	          	@inputText(
+	                signupForm("email"),
+	                '_label -> "",
+	                'onBlur -> "isEmailExist()",
+	                '_help -> "",
+	                'class -> "form-control input",
+		            'placeholder -> "Correo electrónico*"
+	            )
+	            
+	            @inputText(
+	                signupForm("repeatEmail"),                
+	                '_label -> "",
+	                '_help -> "",
+	                '_error -> signupForm.error("email"),
+	                'class -> "form-control input",
+		            'placeholder -> "Repetir correo electrónico*"
+	            )
+	          
+	            @inputText(
+	                signupForm("name"), 
+	                '_label -> "", 
+	                '_help -> "",
+	                '_error -> signupForm.globalError,
+	                'class -> "form-control input",
+		            'placeholder -> "Nombre*"
+	            )
+	            
+	            @inputText(
+	                signupForm("surname"), 
+	                '_label -> "",
+	                '_help -> "",
+	                '_error -> signupForm.globalError,
+	                'class -> "form-control input",
+		            'placeholder -> "Apellido*",
+		            'autocomplete -> "off"
+	            )
 	
-					<input id="socialid" type="hidden" name="socialid" value='' >
-		
-		<br/>
-		  		<button type="submit" class="btn btn-info btn-block">Registrarse</button>
-				 
-				<button type="button" class="btn btn-primary btn-block" onclick="FB.login();">Facebook</button>
-               
-        
-		        <script type="text/javascript">
-		        
-					var successFn = function(data) {						
-						if(data == "true") {								
-							$('#email').parent().find('.help-inline').html('Email already exist!');
-						} else {
-							$('#email').parent().find('.help-inline').html('');
-						}					
-					};
-					var fAjax = {success: successFn};
-				 
-					function isEmailExist() {	
-						jsRoutes.controllers.SignUp.isEmailExist( $("#email").val()).ajax(fAjax);
-					
-					}
-				</script>
-        
-        
-    }
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+	            @inputPassword(
+	                signupForm("password"), 
+	                '_label -> "",
+	                '_help -> "",
+	                'class -> "form-control input",
+		            'placeholder -> "Contraseña*",
+		            'autocomplete -> "off"
+	            )
+	            
+	            @inputPassword(
+	                signupForm("repeatPassword"), 
+	                '_label -> "",
+	                '_help -> "",
+	                '_error -> signupForm.error("password"),
+	                'class -> "form-control input",
+		            'placeholder -> "Repetir contraseña*"
+	            )
+		            	
+				<input id="socialid" type="hidden" name="socialid" value='' >		
+				<br/>
+		  		<button type="submit" class="btn btn-block button" >Registrarse</button>
+
+    		}
+
 		</div>
+		
+		<div class="col-md-8" >
+			<br />
+			<p>También puedes ingresar o registrarte a través de:</p>					 
+			<button type="button" class="btn btn-block facebook" onclick="fejemplo();">Facebook</button>
+			<a href="@routes.SignIn.blank"><button type="button" class="btn btn-block button" >Inicio</button></a>		
+		</div>
+		
+		
 	</div>
 	
-	
+	<script type="text/javascript">
+    
+		var successFn = function(data) {						
+			if(data == "true") {								
+				$('#email').parent().find('.help-inline').html('El email ya existe');
+			} else {
+				$('#email').parent().find('.help-inline').html('');
+			}					
+		};
+		var fAjax = {success: successFn};
+	 
+		function isEmailExist() {	
+			jsRoutes.controllers.SignUp.isEmailExist( $("#email").val()).ajax(fAjax);
+		
+		}
+	</script>
 
     
   

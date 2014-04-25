@@ -47,22 +47,22 @@ public class PushPlugin extends CordovaPlugin {
 
 		boolean result = false;
 
-		Log.v(TAG, "execute: action=" + action);
+		//Log.v(TAG, "execute: action=" + action);
 
 		if (REGISTER.equals(action)) {
 
-			Log.v(TAG, "execute: data=" + data.toString());
+			//Log.v(TAG, "execute: data=" + data.toString());
 
 			try {
 				JSONObject jo = data.getJSONObject(0);
 				
 				gWebView = this.webView;
-				Log.v(TAG, "execute: jo=" + jo.toString());
+				//Log.v(TAG, "execute: jo=" + jo.toString());
 
 				gECB = (String) jo.get("ecb");
 				gSenderID = (String) jo.get("senderID");
 
-				Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
+				//Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
 
 				GCMRegistrar.register(getApplicationContext(), gSenderID);
 				result = true;
@@ -74,7 +74,7 @@ public class PushPlugin extends CordovaPlugin {
 			}
 
 			if ( gCachedExtras != null) {
-				Log.v(TAG, "sending cached extras");
+				//Log.v(TAG, "sending cached extras");
 				sendExtras(gCachedExtras);
 				gCachedExtras = null;
 			}
@@ -83,12 +83,12 @@ public class PushPlugin extends CordovaPlugin {
 
 			GCMRegistrar.unregister(getApplicationContext());
 
-			Log.v(TAG, "UNREGISTER");
+			//Log.v(TAG, "UNREGISTER");
 			result = true;
 			callbackContext.success();
 		} else {
 			result = false;
-			Log.e(TAG, "Invalid action : " + action);
+			//Log.e(TAG, "Invalid action : " + action);
 			callbackContext.error("Invalid action : " + action);
 		}
 
@@ -100,7 +100,7 @@ public class PushPlugin extends CordovaPlugin {
 	 */
 	public static void sendJavascript(JSONObject _json) {
 		String _d = "javascript:" + gECB + "(" + _json.toString() + ")";
-		Log.v(TAG, "sendJavascript: " + _d);
+		//Log.v(TAG, "sendJavascript: " + _d);
 
 		if (gECB != null && gWebView != null) {
 			gWebView.sendJavascript(_d); 
@@ -117,7 +117,7 @@ public class PushPlugin extends CordovaPlugin {
 			if (gECB != null && gWebView != null) {
 				sendJavascript(convertBundleToJson(extras));
 			} else {
-				Log.v(TAG, "sendExtras: caching extras to send at a later time.");
+				//Log.v(TAG, "sendExtras: caching extras to send at a later time.");
 				gCachedExtras = extras;
 			}
 		}
@@ -222,7 +222,7 @@ public class PushPlugin extends CordovaPlugin {
 			} // while
 			json.put("payload", jsondata);
         
-			Log.v(TAG, "extrasToJSON: " + json.toString());
+			//Log.v(TAG, "extrasToJSON: " + json.toString());
 
 			return json;
 		}

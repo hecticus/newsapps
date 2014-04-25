@@ -1,0 +1,1676 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workbook>
+  <Worksheet>
+    <Table>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Alajuela</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">200 metros Sur de la Iglesia de la Agonía, en Alajuela centro.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2430-3090 – Fax: (506) 2430-0907</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">alajuela.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">10.015743000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.208811999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">alajuela.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Desamparados</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">250 Sur de la Y griega, Centro Comercial La Paz</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2226-9559 – Fax: (506) 2286-1841</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">desamparados.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.9228050000000003</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.073218999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">desamparados.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Desamparados, San Antonio</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">150 N de la Cruz Roja, en el Cruce de San Antonio de Desamparados</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2250-0200 – Fax: (506) 2259-8243</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">sanantonio.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.9011790000000008</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.061340000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">desamparados-san-antonio.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Escazú</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">350 metros Sur de Multiplaza</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2288-2861 – Fax: (506) 2288-2935</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">escazu.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.9403509999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.150497000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">escazu.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Guápiles</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">De la parada de los Guapileños 150 mts al norte , Guapiles.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2710-6858</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">guapiles.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">10.212367</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-83.789423999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">guapiles.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Liberia</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">200 metros Este de Purdy Motor</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2665-4545 – Fax: (506) 2665-3481</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Liberia.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">10.628183999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-85.441017000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">liberia.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Pérez Zeledón</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Los tribunales de Justicia 300mts sur, frente a las paradas de Tracopa.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2771-1533</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">perezzeledon.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.3728119999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-83.700695999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">perezzeledon.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Rohrmoser</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">75 Oeste de Plaza Mayor, sobre el Boulevar de Rohrmoser</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2231-4646 – Fax: (506) 2231-4638</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">rohrmoser.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.9425699999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.114311000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">rorhmoser.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">San José</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">De la estación de trenes al Pacífico, 200 metros Norte.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2257-9393 – Fax: (506) 2248-0950</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">facturacion.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.9292859999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.079078999999993</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">san-jose.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s22">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <Data ss:Type="String">San Rafael de Escazú</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <Data ss:Type="String">San Rafael de Escazú contiguo a Autopits</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <Data ss:Type="String">(506) 2288-7484</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s22">
+          <Data ss:Type="String">sanrafael.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s22">
+          <Data ss:Type="Number">9.9309770000000004</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s22">
+          <Data ss:Type="Number">-84.131275000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s21">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Costa Rica</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Tibas</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Tibas, La Florida, Ave. Central, Centro Comercial de Perimercados, Local #1</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(506) 2236-1606 – Fax: (506) 2236-9433</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">tibas.cr@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.958717</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-84.078506000000004</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">tibas.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">La Mascota</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Alameda Dr. Manuel Enriquez Araujo Centro comercial La Mascota local 2</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2245-4558 – Fax: (503) 2245-4185</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> lamascota.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.696588999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-89.228320999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">mascota.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Merliot</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:30 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Urbanización Jardines de Merliot #13 del Polígono A, Santa Tecla sobre Calle Chiltiupán.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2278-7511</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> info.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.678639</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-89.269476999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">merliot.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">San Miguel</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">3ª avenida norte y 3ª calle poniente #503, barrio San Francisco, frente a Súper Repuestos, San Miguel.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2661-7871 – Fax: (503) 2661-8039</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> sanmiguel.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.485037999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-88.179113999999998</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">san-miguel.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">San Salvador, Calle 29</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">29 Calle pte y 21 av nte #1209 Colonia Layco</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2235-6944 – Fax: (503) 2235-6943</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> sansalvador.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.714293</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-89.201459</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">la-29.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Santa Ana</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:30 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Barrio San Miguelito de la Ciudad de Santa, sobre la 25 Calle Oriente, Santa Ana.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2440-9880 – Fax: (503) 2440-9819</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> santaana.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.982009</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-89.558015999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">santa-ana.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Sonsonate</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Sonsonate, El Salvador, Blvd Las Palmeras Km 65, entre Ministerio Biblico Bautista y Ministerio de Trabajo.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2451-2583 – Fax: (503) 2451-3775</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> sonsonate.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.722459000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-89.719399999999993</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">sonsonate.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">El Salvador</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Soyapango</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 5:00 p.m. / Sábados: 8:00 a.m. – 12:00 m.d.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Plaza San Miguel, sobre Boulevard del Ejercito, frente a Plaza Mundo</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(503) 2227-0772 – Fax: (503) 2227-1243</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> soyapango.sal@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">13.699685000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-89.149403000000007</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">soyapango.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Guatemala</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Calle Marti</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:30 a.m. – 1:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Calle Marti 7-20 zona 2, Centro Comercial MARTI 7, Local 11A</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(502) 2230-6171</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> callemarti.gt@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">14.651736</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-90.510947999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">marti.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Guatemala</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Calzada Roosevelt</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:30 a.m. – 1:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Plaza Helvetia local 3, 34-79 zona 11</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(502) 2310-7568 – Fax: (502) 2369-2236</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">calzada.gt@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">14.629714</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-90.565023999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">calzada-roosevelt.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Guatemala</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">La Plazuela</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:30 a.m. – 1:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">7ª. Avenida 13-37 Zona 9</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(502) 2360-3353</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> plazuela.gt@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">14.599106000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-90.519007999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">plazuela.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Guatemala</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vista Hermosa</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:30 a.m. – 1:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">2 Calle 14-25 Vista Hermosa Zona 15</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(502) 2312-4292 – Fax: (502) 2369-2236</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> vhermosa.gt@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">14.603648</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-90.500001999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">vista-hermosa.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Guatemala</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Xela</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:30 a.m. – 1:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">3ª. Calle 6-75 Zona 2</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(502) 7761-4113</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String"> xela.gt@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">14.836493000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-91.510304000000005</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">xela.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">24 de Diciembre</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:00 a.m. – 6:00 p.m / Sábados: 7:00 a.m. – 5:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Frente al Centro Comercial La Doña</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 830-6278 – Fax: (507) 830-6279</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">24dediciembre@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.1040039999999998</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.370407</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s24">
+          <Data ss:Type="String">24-dic.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Albrook</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Albrook Canal Plaza, local P-3, a un costado de la estación ESSO</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 232-8141 – Fax: (507) 232-6694</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">albrook@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.9704429999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.562743999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">albrook.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Bethania</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 6:00 a.m. – 10:00 p.m. / Sábados: 6:00 a.m. – 6:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Diagonal al Super 99</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 229-7208 – Fax: (507) 229-5583</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">bethania@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.0112070000000006</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.525588999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">baterias-bethania.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Brisas del Golf</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 6:00 a.m. – 10:00 p.m. / Sábados: 6:00 a.m. – 6:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Brisas del Glof, Ave. Manuel F. Zárate, Sótano del Centro Comercial Las Brisas 507 </Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 322-3371 – Fax: (507) 391-3797</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">brisasdelgolf@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.0505859999999991</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.460059000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">brisas_del_golf.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Changuinola</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Avenida 17 de Abril, Calle principal frente a la Delta.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 758-7976 – Fax: (507) 758-8433</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">changuinola@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.4560259999999996</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-82.518615999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">changuinola.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Chitré</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Ave. Circunvalación, al lado del MOP</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 996-4146 – Fax: (507) 996-3184</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">chitre@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">7.9548519999999998</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-80.433817000000005</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">chitre.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Colón</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Centro Comercial 4 Altos, Colón.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 445-3476 – Fax: (507) 445-3685</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">colon@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.351915</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.899673000000007</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">colon.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Coronado</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Domingo: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Sótano del Coronado Mall</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 240-1639 – Fax: (507) 240-4654</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">coronado@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.5429759999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.912650999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">coronado.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">David Centro</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:00 a.m. – 8:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Entre Calle C Sur y Calle 3ra. en la Vía Rápida, diagonal a Estación Dana.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 774-4826 – Fax: (507) 775-3115</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">david@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.0977300000000003</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-80.977119000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">david-centro.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">David Interamericana</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vía Interamericana Edif. Pistar Holding</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String"> (507) 775-7826 – Fax: (507) 775-1547</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">david2@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.4357389999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-82.439521999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">david.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s22">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <Data ss:Type="String">Juan Díaz</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s23">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s22">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s22">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s22">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s21">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">La Chorrera</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:00 a.m. – 6:00 p.m. / Sábados: 7:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Avenida de las Américas, Barrio Colón, detrás del HSBC</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 253-1277 – Fax: (507) 253-2778</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">chorrera@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.8820979999999992</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.776534999999996</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">la-chorrera.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Los Andes</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:00 a.m. – 6:00 p.m. / Sábados: 7:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Via Simón Bolívar, frente a Los Andes #2, después de Industrias de Buena Voluntad</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 267-6517 – Fax: (507) 267-9168</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">losandes@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.0513539999999999</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.509781000000004</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">los-andes.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Paitilla</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Sotano del Centro Comercial Plaza Paitilla.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 264-3099 – Fax: (507) 264-2688</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">paitilla@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.9778000000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.515784999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">paitilla.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Penonomé</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vía Interamericana, frente a Geoforestal.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 997-1261 – Fax: (507) 997-1184</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">penonome@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.5133709999999994</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-80.359329000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">penonome.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Plaza Carolina</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 6:00 a.m. – 10:00 p.m. / Sábados: 6:00 a.m. – 6:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Frente al Super 99 de Plaza Carolina</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 217-1155 – Fax: (507) 217-3746</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">pcarolina@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.0303299999999993</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.476723000000007</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">plaza-carolina.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Río Abajo</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vía España y Calle 15 Río Abajo</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 224-5010 – Fax: (507) 221-3955</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">rioabajo@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">9.0189240000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.492667999999995</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">rio-abajo.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">San Francisco</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 6:00 a.m. – 10:00 p.m. / Sábados: 6:00 a.m. – 6:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vía Porras y Calle 74, frente al Parque Recreativo Omar</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 226-0721 – Fax: (507) 226-0723</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">sanfrancisco@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.9971370000000004</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.506255999999993</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">san-francisco.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Santiago</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. / Sábados: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Calle Décima, Santiago.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 998-1384 – Fax: (507) 998-1385</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">santiago@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.4290950000000002</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-82.433425999999997</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">santiago.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vía España</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:00 a.m. – 6:00 p.m. / Sábados: 7:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Interseccion de Vía España y Vía Porras</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 264-0904 – Fax: (507) 223-4024</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">viaespana@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.9932750000000006</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.519936000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">via-espana.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">Panamá</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vista Alegre</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Lunes a Viernes: 7:00 a.m. – 6:00 p.m. / Sábados: 7:00 a.m. – 5:00 p.m. y Domingos: 8:00 a.m. – 5:00 p.m.</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">Vía Interamericana a 50mts. de Cochéz</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s20">
+          <Data ss:Type="String">(507) 251-5035 – Fax: (507) 251-1053</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="String">vistaalegre@casabat.com</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">8.9315020000000001</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s19">
+          <Data ss:Type="Number">-79.702202</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+        <Cell ss:StyleID="s18">
+          <Data ss:Type="String">vista-alegre.jpg</Data>
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+        <Cell ss:Index="3" ss:StyleID="s17">
+          <NamedCell ss:Name="_FilterDatabase" />
+        </Cell>
+      </Row>
+    </Table>
+  </Worksheet>
+</Workbook>

@@ -1,6 +1,5 @@
 function SocialSharing() {
 	
-	console.log('SocialSharing comentando');
 }
 
 SocialSharing.prototype.available = function (callback) {

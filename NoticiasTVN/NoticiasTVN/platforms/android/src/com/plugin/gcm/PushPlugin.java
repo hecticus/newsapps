@@ -67,22 +67,22 @@ public class PushPlugin extends CordovaPlugin {
 
 		boolean result = false;
 
-		Log.v(TAG, "execute: action=" + action);
+		//Log.v(TAG, "execute: action=" + action);
 
 		if (REGISTER.equals(action)) {
 
-			Log.v(TAG, "execute: data=" + data.toString());
+			//Log.v(TAG, "execute: data=" + data.toString());
 
 			try {
 				JSONObject jo = data.getJSONObject(0);
 				
 				gWebView = this.webView;
-				Log.v(TAG, "execute: jo=" + jo.toString());
+				//Log.v(TAG, "execute: jo=" + jo.toString());
 
 				gECB = (String) jo.get("ecb");
 				gSenderID = (String) jo.get("senderID");
 
-				Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
+				//Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
 				
 				//revisar si todo esta bien configurado
 				GCMRegistrar.checkDevice(getApplicationContext());
@@ -99,7 +99,7 @@ public class PushPlugin extends CordovaPlugin {
 		        int registeredVersion = settings.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 		        int currentVersion = getAppVersion(getApplicationContext());
 
-		        Log.v(TAG, "regId=" + regId);
+		        //Log.v(TAG, "regId=" + regId);
 				//GCMRegistrar.register(getApplicationContext(), gSenderID);
 				if (regId.equals("") || currentVersion!=registeredVersion) {
 		            // Automatically registers application on startup.
@@ -123,7 +123,7 @@ public class PushPlugin extends CordovaPlugin {
 			}
 
 			if ( gCachedExtras != null) {
-				Log.v(TAG, "sending cached extras");
+				//Log.v(TAG, "sending cached extras");
 				sendExtras(gCachedExtras);
 				gCachedExtras = null;
 			}
@@ -132,12 +132,12 @@ public class PushPlugin extends CordovaPlugin {
 
 			GCMRegistrar.unregister(getApplicationContext());
 
-			Log.v(TAG, "UNREGISTER");
+			//Log.v(TAG, "UNREGISTER");
 			result = true;
 			callbackContext.success();
 		} else {
 			result = false;
-			Log.e(TAG, "Invalid action : " + action);
+			//Log.e(TAG, "Invalid action : " + action);
 			callbackContext.error("Invalid action : " + action);
 		}
 
@@ -149,7 +149,7 @@ public class PushPlugin extends CordovaPlugin {
 	 */
 	public static void sendJavascript(JSONObject _json) {
 		String _d = "javascript:" + gECB + "(" + _json.toString() + ")";
-		Log.v(TAG, "sendJavascript: " + _d);
+		//Log.v(TAG, "sendJavascript: " + _d);
 
 		if (gECB != null && gWebView != null) {
 			gWebView.sendJavascript(_d); 
@@ -166,7 +166,7 @@ public class PushPlugin extends CordovaPlugin {
 			if (gECB != null && gWebView != null) {
 				sendJavascript(convertBundleToJson(extras));
 			} else {
-				Log.v(TAG, "sendExtras: caching extras to send at a later time.");
+				//Log.v(TAG, "sendExtras: caching extras to send at a later time.");
 				gCachedExtras = extras;
 			}
 		}
@@ -271,7 +271,7 @@ public class PushPlugin extends CordovaPlugin {
 			} // while
 			json.put("payload", jsondata);
         
-			Log.v(TAG, "extrasToJSON: " + json.toString());
+			//Log.v(TAG, "extrasToJSON: " + json.toString());
 
 			return json;
 		}
@@ -299,15 +299,15 @@ public class PushPlugin extends CordovaPlugin {
   	    //HttpPost httppost = new HttpPost("http://visitpanama.hecticus.com/ws/gcm/register.php");
   	    
   	    //Log.v(TAG, "REGID: " + regId);
-  	    //HttpPost httppost = new HttpPost("http://kraken.hecticus.com/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
-  	    HttpPost httppost = new HttpPost("http://201.249.204.75:8085/plesse/kraken/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
+  	    HttpPost httppost = new HttpPost("http://kraken.hecticus.com/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
+  	    //HttpPost httppost = new HttpPost("http://201.249.204.75:8085/plesse/kraken/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
 
   	    try {
   	    	//Get Stored id if exists
 			SharedPreferences settings = context.getSharedPreferences(PUSH_PREFS_NAME, Context.MODE_PRIVATE);
 			String storedRegId = settings.getString(PROPERTY_REG_ID, "");
 			
-			Log.v(TAG, "REGID: " + regId+" OLD: "+storedRegId);
+			//Log.v(TAG, "REGID: " + regId+" OLD: "+storedRegId);
 			
   	        // Add your data
   	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -318,7 +318,7 @@ public class PushPlugin extends CordovaPlugin {
   	        nameValuePairs.add(new BasicNameValuePair("service_type", "droid"));
   	        nameValuePairs.add(new BasicNameValuePair("token", "NOTICIASTVN"));
   	        if(!storedRegId.equals("") && !storedRegId.equals(regId)){
-  	        	Log.v(TAG, "ENVIANDO OLD");
+  	        	//Log.v(TAG, "ENVIANDO OLD");
   	        	//hay que mandar el regID viejo y eliminarlo
   	        	nameValuePairs.add(new BasicNameValuePair("old_ext_id", storedRegId));
   	        }
@@ -326,9 +326,9 @@ public class PushPlugin extends CordovaPlugin {
 
   	        // Execute HTTP Post Request
   	        HttpResponse response = httpclient.execute(httppost);
-  	        Log.e(TAG, "Response registerDeviceOnServer: "+response.toString());
+  	        //Log.e(TAG, "Response registerDeviceOnServer: "+response.toString());
   	        try {
-  	        	Log.v(TAG, "OBJETO JSON\n\n");
+  	        	//Log.v(TAG, "OBJETO JSON\n\n");
 	  	        //JSONObject obj = new JSONObject(response.toString());
 	  	        //Log.v(TAG, obj.toString()+"\n\n");
 	

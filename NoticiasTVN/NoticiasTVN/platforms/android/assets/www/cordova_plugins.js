@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/org.apache.cordova.videoplayer/www/video.js",
+        "id": "org.apache.cordova.videoplayer.VideoPlayer",
+        "clobbers": [
+            "window.videoPlayer"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.network-information/www/network.js",
         "id": "org.apache.cordova.network-information.network",
         "clobbers": [
@@ -13,27 +20,6 @@ module.exports = [
         "id": "org.apache.cordova.network-information.Connection",
         "clobbers": [
             "Connection"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.videoplayer/www/video.js",
-        "id": "org.apache.cordova.videoplayer.VideoPlayer",
-        "clobbers": [
-            "window.videoPlayer"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.console/www/console-via-logger.js",
-        "id": "org.apache.cordova.console.console",
-        "clobbers": [
-            "console"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.console/www/logger.js",
-        "id": "org.apache.cordova.console.logger",
-        "clobbers": [
-            "cordova.logger"
         ]
     },
     {
@@ -68,6 +54,7 @@ module.exports = [
         "file": "plugins/org.apache.cordova.file/www/DirectoryReader.js",
         "id": "org.apache.cordova.file.DirectoryReader",
         "clobbers": [
+            "window.DirectoryReader"
         ]
     },
     {
@@ -179,13 +166,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/ios/Entry.js",
-        "id": "org.apache.cordova.file.Entry1",
-        "merges": [
-            "window.Entry"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.file-transfer/www/FileTransferError.js",
         "id": "org.apache.cordova.file-transfer.FileTransferError",
         "clobbers": [
@@ -200,25 +180,61 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
-        "id": "com.adobe.plugins.GAPlugin.GAPlugin",
+        "file": "plugins/org.apache.cordova.geolocation/www/Coordinates.js",
+        "id": "org.apache.cordova.geolocation.Coordinates",
         "clobbers": [
-            "GAPlugin"
+            "Coordinates"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.geolocation/www/PositionError.js",
+        "id": "org.apache.cordova.geolocation.PositionError",
+        "clobbers": [
+            "PositionError"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.geolocation/www/Position.js",
+        "id": "org.apache.cordova.geolocation.Position",
+        "clobbers": [
+            "Position"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.geolocation/www/geolocation.js",
+        "id": "org.apache.cordova.geolocation.geolocation",
+        "clobbers": [
+            "navigator.geolocation"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "clobbers": [
+            "window.open"
+        ]
+    },
+    {
+    	"file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
+    	"id": "com.adobe.plugins.GAPlugin.GAPlugin",
+    	"clobbers": [
+    		"GAPlugin"
+    	]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.network-information": "0.2.5",
     "org.apache.cordova.videoplayer": "1.0",
+    "org.apache.cordova.network-information": "0.2.5",
     "org.apache.cordova.console": "0.2.6",
     "com.phonegap.plugins.PushPlugin": "2.1.1",
     "org.apache.cordova.device": "0.2.7",
     "nl.x-services.plugins.socialsharing": "3.7",
     "org.apache.cordova.file": "0.2.5",
     "org.apache.cordova.file-transfer": "0.4.0",
-    "com.adobe.plugins.GAPlugin": "2.3.1"
+    "org.apache.cordova.geolocation": "0.3.6",
+    "org.apache.cordova.inappbrowser": "0.4.0"
 }
 // BOTTOM OF METADATA
 });

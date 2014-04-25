@@ -1,21 +1,21 @@
 {"pais": [
 
-{"nombre": "Costa Rica" , "sucursal" : 
+{"nombre": "Costa Rica" ,"nombrecorto" : "cr" , "sucursal" : 
 
 
 [
 
 {"nombre": "Liberia" , "latitud" : "10.628184", "longitud" : "-85.441017"},
 {"nombre": "Alajuela" , "latitud" : "10.015743", "longitud" : "-84.208812"},
-{"nombre": "Escazú" , "latitud" : "9.940351", "longitud": "-84.150497"},
+{"nombre": "Escazu" , "latitud" : "9.940351", "longitud": "-84.150497"},
 {"nombre": "Rohrmoser" , "latitud" : "9.94257", "longitud" : "-84.114311"},
-{"nombre": "San José" , "latitud" : "9.929286", "longitud": "-84.079079"},
+{"nombre": "San Jose" , "latitud" : "9.929286", "longitud": "-84.079079"},
 {"nombre": "Tibas" , "latitud" : "9.958717", "longitud": "-84.078506"},
 {"nombre": "Desamparados" , "latitud" : "9.922805", "longitud": "-84.073219"},
 {"nombre": "Desamparados, San Antonio" , "latitud" : "9.901179", "longitud": "-84.06134"},
-{"nombre": "Guápiles" , "latitud" : "10.212367", "longitud": "-83.789424"},
-{"nombre": "Pérez Zeledón" , "latitud" : "9.372812", "longitud": "-83.700696"},
-{"nombre": "San Rafael de Escazú" , "latitud" : "9.930977", "longitud": "-84.131275"}
+{"nombre": "Guapiles" , "latitud" : "10.212367", "longitud": "-83.789424"},
+{"nombre": "Perez Zeledon" , "latitud" : "9.372812", "longitud": "-83.700696"},
+{"nombre": "San Rafael de Escazu" , "latitud" : "9.930977", "longitud": "-84.131275"}
 
 
 ]},
@@ -23,7 +23,7 @@
 
 
 
-{"nombre": "El Salvador", "sucursal" : 
+{"nombre": "El Salvador","nombrecorto" : "es", "sucursal" : 
 
 
 [
@@ -39,7 +39,7 @@
 
 ]},
 
-{"nombre": "Guatemala", "sucursal": [
+{"nombre": "Guatemala","nombrecorto" : "gt", "sucursal": [
 
 
 {"nombre": "Xela", "latitud" : "14.836493", "longitud" : "-91.510304"},
@@ -54,26 +54,26 @@
 
 
 
-{"nombre": "Panamá", "sucursal": [
+{"nombre": "Panama","nombrecorto" : "pty", "sucursal": [
 
 
 {"nombre": "Changuinola", "latitud" : "9.456026", "longitud" : "-82.518616"},
 {"nombre": "David Interamericana", "latitud" : "8.435739", "longitud" : "-82.439522"},
 {"nombre": "Santiago", "latitud" : "8.429095", "longitud" : "-82.433426"},
 {"nombre": "David Centro", "latitud" : "8.09773", "longitud" : "-80.977119"},
-{"nombre": "Chitré", "latitud" : "7.954852", "longitud" : "-80.433817"},
-{"nombre": "Penonomé", "latitud" : "8.513371", "longitud" : "-80.359329"},
+{"nombre": "Chitre", "latitud" : "7.954852", "longitud" : "-80.433817"},
+{"nombre": "Penonome", "latitud" : "8.513371", "longitud" : "-80.359329"},
 {"nombre": "Coronado", "latitud" : "8.542976", "longitud" : "-79.912651"},
-{"nombre": "Colón", "latitud" : "9.351915", "longitud" : "-79.899673"},
+{"nombre": "Colon", "latitud" : "9.351915", "longitud" : "-79.899673"},
 {"nombre": "La Chorrera", "latitud" : "8.882098", "longitud" : "-79.776535"},
 {"nombre": "Vista Alegre", "latitud" : "8.931502", "longitud" : "-79.702202"},
 {"nombre": "Albrook", "latitud" : "8.970443", "longitud" : "-79.562744"},
 {"nombre": "Bethania", "latitud" : "9.011207", "longitud" : "-79.525589"},
-{"nombre": "Vía España", "latitud" : "8.993275", "longitud" : "-79.519936"},
+{"nombre": "Via Espana", "latitud" : "8.993275", "longitud" : "-79.519936"},
 {"nombre": "Paitilla", "latitud" : "8.9778", "longitud" : "-79.515785"},
 {"nombre": "Los Andes", "latitud" : "9.051354", "longitud" : "-79.509781"},
 {"nombre": "San Francisco", "latitud" : "8.997137", "longitud" : "-79.506256"},
-{"nombre": "Río Abajo", "latitud" : "9.018924", "longitud" : "-79.492668"},
+{"nombre": "Rio Abajo", "latitud" : "9.018924", "longitud" : "-79.492668"},
 {"nombre": "Plaza Carolina", "latitud" : "9.03033", "longitud" : "-79.476723"},
 {"nombre": "24 de diciembre", "latitud" : "9.104004", "longitud" : "-79.370407"}
 

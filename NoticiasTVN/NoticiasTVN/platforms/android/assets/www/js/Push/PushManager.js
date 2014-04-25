@@ -101,7 +101,7 @@ function tokenHandler (result) {
 }
 
 function successPushHandler (result) {
-    console.log('<li>success:'+ result +'</li>');
+    //console.log('<li>success:'+ result +'</li>');
 }
 
 function errorPushHandler (error) {

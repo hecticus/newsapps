@@ -29,7 +29,7 @@ public class Client  {
 	public String surname;
     
 	@Constraints.Required(message="Este campo es requerido")
-	@Constraints.Email
+	@Constraints.Email(message="El email no es valido")
     public String email;
     
 	@Constraints.Required(message="Este campo es requerido")

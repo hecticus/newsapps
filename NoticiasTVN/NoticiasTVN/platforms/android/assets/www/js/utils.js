@@ -22,7 +22,7 @@ function initialSetup() {
 //resume app
 function onResumeApp(){
 	reloadApp();
-	console.log("App resuming");
+	//console.log("App resuming");
 }
 
 //Connection

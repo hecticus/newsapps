@@ -28,14 +28,15 @@
         	html {font-size:62.5%;} 	
         	body{font-family: Arial, Helvetica, sans-serif;}
         	
+			* { -webkit-border-radius: 0 !important; -moz-border-radius: 0 !important; border-radius: 0 !important;}
 
-* {
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 0 !important;
-         
-}
-.help-block {display:none !important; }
+
+			
+
+			.bar {background: #FFFFFF url(@routes.Assets.at("images/separadorLogIn.png")) right top repeat-y; margin-top:5px; }
+
+
+			.help-block {display:none !important; }
 			img.flag {width:67px; height:45px; vertical-align: middle;}
 			img.arrow{width:11px; height:8px;  cursor: pointer; }
 			
@@ -81,11 +82,11 @@
 			.menu.phase[data-phase="4"].on{background-color:#455D86; color:#ffffff;}
 			.menu.phase[data-phase="6"].on{background-color:#314972; color:#ffffff;}
 			
-			#exit {background-color:#d9534f; color:#FFFFFF;}
-			#exit:hover {padding:10px; background-color:#BEC5DF;  color:#FFFFFF;}
+			.btn.btn-default.menu.phase.exit {background-color:#d9534f; color:#FFFFFF;}
+			.btn.btn-default.menu.phase.exit:hover {padding:10px; background-color:#BEC5DF;  color:#FFFFFF;}
 			
-			#save {background-color:#f1e916; color:#999999;}
-			#save:hover{padding:10px; background-color:#BEC5DF; color:#ffffff;}
+			.btn.btn-default.menu.phase.save {background-color:#f1e916; color:#999999;}
+			.btn.btn-default.menu.phase.save:hover{padding:10px; background-color:#BEC5DF; color:#ffffff;}
 
 			.content-flag-score {width: 75px; height: 68px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold; }
 			.content-flag-score:last-child{margin:5px 0 5px 0;}			
@@ -112,21 +113,46 @@
 			.btn-group > button.menu.phase {margin-left:2px;} 
 			.btn-group > button.menu.phase:first-child {margin-left:0;}
 			
-			.title {padding: 5px; background-color:#173069; color:#FFFFFF; font-weight: bold; }
+			.title {padding: 10px 5px; background-color:#173069; color:#FFFFFF; font-weight: bold; }
+			
+			.banner { 
+				background-image: url(@routes.Assets.at("images/banner.jpg"));
+				background-size: cover;
+				height: 344px;
+			 }
+
+			.form-control.input {
+				border:0;
+				width: 323px;
+  				background: #EAEDF2 url(@routes.Assets.at("images/campoLogIN.png")) no-repeat left;
+				background-size: cover;		   				
+			}
+			
+			
+			.btn.button {
+				width: 200px;
+				background: #485c89 url(@routes.Assets.at("images/registrate.png")) no-repeat left; 
+				background-size: 150px 32px; 
+				color:#ffffff; font-weight: bold;
+				margin: 5px 0;
+				
+			}
+			
+
+			.btn.facebook {
+				width: 200px;
+				border: 1px solid;
+				background: #dcdcdd url(@routes.Assets.at("images/FB.png")) no-repeat 1% center; 
+				background-size: 30px 30px; color:#999999; 
+				font-weight: bold;	
+			}
+			
+	
+			
         </style>
         
 		<script>
 	  		$(function() {
-	  	
-	
-	
-				
-				
-	
-			
-				
-				
-				
 
 
 				$.fCompare = function(_groupTeams,_eval) {
@@ -618,43 +644,7 @@
 					});	
 				};
 
-				
-
-
-				
-
-				
-				
-				
-				
-				
-				
-			
-				
-			
-				
-				
-
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			
-				
-				
-				
-				
+	
 				
 				$.fgetPhaseActive2 = function(_this) {
 				
@@ -700,13 +690,16 @@
 				};
 
 				
-				$(document).on('click','#save', function() {
+				$(document).on('click','.save', function() {
 					
 					$('.alert').removeAttr('style');
 					$('.alert').addClass('hidden');
 					
+					var btn = $(this);
+    				btn.button('loading');
 					
-					var jsonSave={idClient:"34",clientPrediction:{matches:[]}};
+					
+					var jsonSave={idClient:'@session.get("connected")',clientPrediction:{matches:[]}};
 			
 					$.each(arrPhase, function(index,phase) {
 						$.each(phase.group, function(index,group) {
@@ -722,8 +715,10 @@
 	            		type: 'POST',	            		
 	            		dataType: 'json',
 	            		data: JSON.stringify(jsonSave),
-	            		contentType: "application/json; charset=utf-8"	
-	        		}).done(function(msg) {
+	            		contentType: "application/json; charset=utf-8"
+	            	}).always(function () {
+      					btn.button('reset');    				
+    				}).done(function(msg) {
 	        			
 	        			if (msg.error==0) {
 	        				$('.alert-success').removeClass('hidden');
@@ -870,6 +865,8 @@
 				
 				var _this = $(this);
 				var _phase = $(this).data('phase');
+				var _position =$(this).data('position');
+
 
 				$('.menu.phase').removeClass('on');				
 				$('.menu.phase[data-phase="'+_phase+'"]').addClass('on');
@@ -903,6 +900,8 @@
 						
 					}
 				});
+				
+				$.fgetPhaseMenuSmall();
 				
 			});
 			
@@ -1000,11 +999,59 @@
 				
 				
 			};
+				
+			$.fgetPhaseMenuSmall = function() {
+				
+			
+				
+			
+				var _phase = $('.row.phase:visible').data('phase');
+				var _col = '';
+				
+				
+				
+				
+				
+				
+				if (_phase == 1) {					
+					_col = '<div class="col-md-12" >';
+					_col += '<button data-phase="'+arrPhase[1].id+'" type="button" data-position="1" class="btn btn-default menu phase on small" style="float:right;"  >'+arrPhase[1].name+'</button>';	
+					_col += '</div>';
+				} else if (_phase == 6) {
+					_col = '<div class="col-md-12" >';
+					_col += '<button data-phase="'+arrPhase[3].id+'" type="button" data-position="1" class="btn btn-default menu phase on small"   >'+arrPhase[3].name+'</button>';	
+					_col += '</div>';
+				} else  {
+					
+					
+					_col = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
+					_col += '<button data-phase="'+arrPhase[_phase-2].id+'" type="button" data-position="1" class="btn btn-default menu phase on small"  >'+arrPhase[_phase-2].name+'</button>';	
+					_col += '</div>';	
 
+					_col += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
+					_col += '<button data-phase="'+arrPhase[_phase].id+'" type="button" data-position="0" class="btn btn-default menu phase small" style="float:right;" >'+arrPhase[_phase].name+'</button>';
+					_col += '</div>';
+					
+				}
+				
+				
+			
+				
+				
+					
+				$('.row.menu.small').html(_col);
+				
+			};
 
 
 
 				$( document ).ready(function() {
+					$.fgetPhaseMenuSmall();
+					
+					
+					
+					
+					
 					
 					$.fgetUpdate();					
 					$.fUpdateStandingPhase22();
@@ -1092,6 +1139,38 @@
 				FB.Event.subscribe('auth.login', login_event);
 				FB.Event.subscribe('auth.logout', logout_event);
 			}
+			
+
+			var fejemplo = function() {
+				
+				FB.getLoginStatus(function(response) {
+				  if (response.status === 'connected') {
+
+						FB.api('/me', function(response) {
+					      	document.getElementById("socialid").value = response.id ;			      	
+					      	document.forms[0].submit();
+					    });
+
+				  } else if (response.status === 'not_authorized') {
+				    // the user is logged in to Facebook, 
+				    // but has not authenticated your app
+				    FB.login();
+				  } else {
+				    // the user isn't logged in to Facebook.
+				    FB.login();
+				  }
+				});
+				
+				
+	  			
+	  			
+	  			
+	  		
+			    
+			    
+	  		};
+
+			
   		</script>
         
     </head>
@@ -1112,7 +1191,7 @@
 				  FB.init({
 				    appId      : '647787605309095',
 				    status     : false, // check login status
-				    cookie     : true, // enable cookies to allow the server to access the session
+				    cookie     : false, // enable cookies to allow the server to access the session
 				    xfbml      : true  // parse XFBML
 				  });
 			  }; 
@@ -1128,22 +1207,18 @@
 		</script>
 	
 		<div class="container">
-			
-			
-		
+
 			<div class="row" style="margin: 5px 0 ;">
 				<div class="col-md-12" >
 					<div class="alert alert-success hidden">					
-						<strong>Well done!</strong> You successfully read this important alert message.
+						<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.
 					</div>
 					<div class="alert alert-danger hidden">					
-						<strong>Well done!</strong> You successfully read this important alert message.
+						<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.
 					</div>
 				</div>
 			</div>
-			
-			
-		
+
 			@content							
 		</div>
 		
