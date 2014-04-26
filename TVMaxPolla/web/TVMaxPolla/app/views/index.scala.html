@@ -82,7 +82,7 @@
 		<div class="row" style="background-color:#eaeaea; padding: 10px; " >
 			<div class="col-md-8" style="background: url(@routes.Assets.at("images/usuario.png")) no-repeat 16px top;  background-size:88px 88px; height: 88px;  padding-top:9px;" >
 				<img src="@routes.Assets.at("images/ud.png")" style="width:30px; height:68px; vertical-align: middle;" />
-				<h3 id="nick" style="display: inline; margin-left: 60px; font-weight: bold; font-size: 1.2em;">@session.get("nick")</h3>							
+				<h3 id="nick" style="display: inline; margin-left: 60px; font-weight: bold; font-size: 1.2em; color:#000000;">@session.get("nick")</h3>							
 			</div>
 		</div>
 
@@ -138,25 +138,37 @@
 
 						<div class="row title">
 					
-							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">								
-								<span>Predicción @phase.getName()</span>					
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">								
+								<span class="large">Predicción @phase.getName()</span>	
+								<span class="small">@phase.getName()</span>				
 							</div>
 							
 							@if(phase.getIdPhase() == 1) {
-								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="text-align: right;">
+								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 large" style="text-align: right;">
 									<span>Grupos </span>
 									@if(phase.getIdPhase() == 1) {
 										@for(group <- phase.getMatchGroup()) {
 											<span data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1))" >@group.getName()</span>	
 										}	
-									} else {
-										
 									}				
 								</div>
 							}
 							
+							@if(phase.getIdPhase() == 1) {
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 small" style="text-align: right;">
+									@if(phase.getIdPhase() == 1) {
+										<div class="btn-group">
+											@for(group <- phase.getMatchGroup()) {		
+												<button data-group="@group.getIdGroup()" class="menu group" >@group.getName()</button>			
+											}
+										</div>
+									}
+								</div>
+							}
+							
+								
 
-					</div>
+						</div>
 				
 
 			
@@ -172,7 +184,14 @@
 						
 								<!--<game>-->
 								@for((game, index) <- group.getGameMatch().zipWithIndex) {
-									<div class="row game"  data-game="@game.getIdMatch()" data-set="false"  >
+									
+									
+									@if(game.getResults().getScoreTeamA()==game.getResults().getScoreTeamB()) {
+										<div class="row game"  data-game="@game.getIdMatch()" data-set="false"  >	
+									} else{ 
+										<div class="row game"  data-game="@game.getIdMatch()" data-set="true"  >	
+									}
+									
 
 										<script>			
 							  				$(function() {
@@ -226,7 +245,7 @@
 																	
 													<div class="row" style="text-align: center;" >
 													
-														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" data-team="@game.getTeamA().getIdTeam()" >															
+														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team team-a" data-team="@game.getTeamA().getIdTeam()" >															
 															<div class="row up" >
 																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
 																	<img class="arrow" src="@routes.Assets.at("images/up.png")" />
@@ -244,7 +263,7 @@
 														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style=" padding: 5px;">
 															<div style="background-color:#999999; width:1px; height: 50px; margin: 0 auto; "></div>
 														</div>
-														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" data-team="@game.getTeamB().getIdTeam()">														
+														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team team-b" data-team="@game.getTeamB().getIdTeam()">														
 															<div class="row up" >
 																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
 																	<img class="arrow" src="@routes.Assets.at("images/up.png")" />
