@@ -32,7 +32,12 @@
 
 
 			.bar {background: #FFFFFF url(@routes.Assets.at("images/separadorLogIn.png")) right top repeat-y; margin-top:5px; }
-
+			.shadow {
+				box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
+				-moz-box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
+				-webkit-box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
+			
+			}
 
 			.help-block {display:none !important; }
 			img.flag {width:67px; height:45px; vertical-align: middle;}
@@ -87,6 +92,16 @@
 			.menu.phase[data-phase="4"].on{background-color:#455D86; color:#ffffff;}
 			.menu.phase[data-phase="6"].on{background-color:#314972; color:#ffffff;}
 			
+			button[data-group]{background-color:#E2EBF9; color:#C4C8D3; font-weight: bold; margin:5px; border:0;}
+			
+			button[data-group="1"].on{background-color:#BAC6DD; color:#ffffff;}
+			button[data-group="2"].on{background-color:#8F9FC0; color:#ffffff;}
+			button[data-group="3"].on{background-color:#64789C; color:#ffffff;}
+			button[data-group="4"].on{background-color:#455D86; color:#ffffff;}
+			button[data-group="6"].on{background-color:#314972; color:#ffffff;}
+			button[data-group="7"].on{background-color:#314972; color:#ffffff;}
+			button[data-group="8"].on{background-color:#314972; color:#ffffff;}
+			
 			.btn.btn-default.menu.phase.exit {background-color:#d9534f; color:#FFFFFF;}
 			.btn.btn-default.menu.phase.exit:hover {padding:10px; background-color:#BEC5DF;  color:#FFFFFF;}
 			button {font-size: 0.8em !important}
@@ -127,7 +142,7 @@
 			.phase:not([data-phase="1"]) .group:nth-child(2n) .game{background-color:#e2e2e3}
 			
 			.date {font-size: 0.8em;}
-			.name {font-weight:bold; font-size:0.9em;}
+			.name {font-weight:bold; font-size:0.8em;}
 			
 			.btn-group > button.menu.phase {margin-left:2px;} 
 			.btn-group > button.menu.phase:first-child {margin-left:0;}
@@ -746,11 +761,15 @@
       					btn.button('reset');    				
     				}).done(function(msg) {
 	        			
-	        			if (msg.error==0) {	        			
-	        				$('#myModal').modal('show');
-	        				$('#message').html('<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.');
+	        			if (msg.error==0) {
+	        				        			
+	        				//$('#myModal').modal('show');
+	        				//$('#message').html('<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.');
+	        				
+	        				alert('Bien! Tu pronóstico se ha guardado con éxito.');
 	        			} else {
-	        				$('#message').html('<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
+	        				alert('Error! Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');
+	        				//$('#message').html('<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
 	        			}
 
 					}).fail(function( jqXHR, textStatus ) {  						
@@ -769,6 +788,9 @@
 					var _this = $(this);
 					var _phase = _this.parents('.phase').data('phase');					
 					var _game = _this.parents('.game');
+					
+					$('.phase[data-phase="'+_phase+'"] .group .game').removeClass('shadow');	
+					
 					_game.attr('data-set','true');
 					_game = _game.data('game');
 					
@@ -866,8 +888,7 @@
 						}
 					});
 						
-										
-						
+
 					if ((_phase == 1) && (_total == 16)) {
 						$('.menu[data-phase="'+arrPhase[_phase].id+'"]').removeClass('hidden');																		
 					} else if ((_phase == 2) && (_total == 8)) {						
@@ -879,6 +900,67 @@
 						
 					}
 
+					var _length =0;
+					var _hidden = 0;
+					
+					if (_phase != 6) {
+						 _length = $('.phase[data-phase="'+_phase+'"] .group .game[data-set="true"]').length;
+						 _hidden = $('.menu[data-phase="'+arrPhase[_phase].id+'"]').hasClass('hidden') ;
+					}
+					
+					
+					if ((_phase == 2) && (_length == 8)) {						
+						
+						if (_hidden) {
+							
+							$('.phase[data-phase="'+_phase+'"] .group .game').each(function(index) {
+								var _team_a =  $(this).find('.score .team-a .goal').data('goal');
+								var _team_b =  $(this).find('.score .team-b .goal').data('goal');
+								if (_team_a == _team_b) {
+									$(this).addClass('shadow');	
+								}							  
+							});
+
+						}
+												
+					} else if ((_phase == 3) && (_length == 4)) {
+						
+						if (_hidden) {
+							$('.phase[data-phase="'+_phase+'"] .group .game').each(function(index) {
+								var _team_a =  $(this).find('.score .team-a .goal').data('goal');
+								var _team_b =  $(this).find('.score .team-b .goal').data('goal');
+								if (_team_a == _team_b) {
+									$(this).addClass('shadow');	
+								}							  
+							});
+						}
+											
+					} else if ((_phase == 4) && (_length == 2)) {
+						
+						if (_hidden) {
+							$('.phase[data-phase="'+_phase+'"] .group .game').each(function(index) {
+								var _team_a =  $(this).find('.score .team-a .goal').data('goal');
+								var _team_b =  $(this).find('.score .team-b .goal').data('goal');
+								if (_team_a == _team_b) {
+									$(this).addClass('shadow');	
+								}							  
+							});
+						}
+					} else if (_phase == 6) {
+						
+						
+						$('.phase[data-phase="'+_phase+'"] .group .game').each(function(index) {
+							var _team_a =  $(this).find('.score .team-a .goal').data('goal');
+							var _team_b =  $(this).find('.score .team-b .goal').data('goal');
+							if (_team_a == _team_b) {
+								$(this).addClass('shadow');	
+							}							  
+						});
+
+					}
+
+
+					
 				});				
 
 
@@ -1239,10 +1321,9 @@
 			@content	
 			
 		
+
 		
-		
-		
-		<div  id="myModal" class="modal fade">
+		<!--div  id="myModal" class="modal fade">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -1257,9 +1338,9 @@
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 		      </div>
-		    </div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+		    </div>
+		  </div>
+		</div-->
 		
 		
 									
