@@ -975,8 +975,9 @@ function initBasicApp(){
 						$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=itemArray[i]["Title"];
 						
+						var shareURL = "http://tvn-cloud-farm-lb.cloudapp.net"+itemArray[i]["URL"];
 						//Share button onclick
-						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[i]["URL"]+'\');');
 
 						$.news.date=$.formatDateString(itemArray[i]["Date"],true);
 														
@@ -1305,7 +1306,9 @@ function initBasicApp(){
 					dataContent+=trending.Body;
 					$.news.datacontent=$('<div>').append(dataContent).remove().html();
 
-					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+					var shareURL = "http://tvn-cloud-farm-lb.cloudapp.net"+itemArray[i]["URL"];
+					//Share button onclick
+					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[0]["URL"]+'\');');
 				
 					$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';
 					
