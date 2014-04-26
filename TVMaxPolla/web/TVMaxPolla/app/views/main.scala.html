@@ -98,8 +98,6 @@
 			ul,li {padding:0; margin:0; border:0; list-style:none outside none; text-align:center;}
 			li[data-phase="6"] {float:left;}
 			
-			
-			
 			.phase .group .game {background: url(@routes.Assets.at("images/logoFondo.png")) left repeat-x;}
 			.phase .group .game:nth-child(2n+1) {background-color:#e2e2e3}
 			.phase .group .game:nth-child(2n) {background-color:#eaeaee}
@@ -143,7 +141,7 @@
 				width: 200px;
 				border: 1px solid;
 				background: #dcdcdd url(@routes.Assets.at("images/FB.png")) no-repeat 1% center; 
-				background-size: 30px 30px; color:#999999; 
+				background-size: 30px 28px; color:#999999; 
 				font-weight: bold;	
 			}
 			
@@ -298,12 +296,12 @@
 					if (winners.length <= 1) {
 						
 						if (winners.length == 0) {
-							console.log('1 Dos o más equipos siguen empatados en la primera posicion -> ' + (_group.name+1));
+							//console.log('1 Dos o más equipos siguen empatados en la primera posicion -> ' + (_group.name+1));
 							$('[data-index="'+(_group.name+1)+'"]').html(_group.name+1);
 							$('[data-index="'+(_group.name+2)+'"]').html(_group.name+2);
 							$.fUpdateBrackets(2,_group.name,true);
 						} else if (winners.length == 1) {
-							console.log('1 Dos o más equipos siguen empatados en la segunda posicion -> ' + (_group.name+2));
+							//console.log('1 Dos o más equipos siguen empatados en la segunda posicion -> ' + (_group.name+2));
 							$('[data-index="'+(_group.name+2)+'"]').html(_group.name+2);																					
 							$.fUpdateBrackets(2,_group.name,true);
 						}
@@ -384,20 +382,20 @@
 						}
 						
 						if (winners.length == 0) {
-							console.log('2 Dos o más equipos siguen empatados en la primera posicion -> ' + (_group.name+1));							
+							//console.log('2 Dos o más equipos siguen empatados en la primera posicion -> ' + (_group.name+1));							
 							$('[data-index="'+(_group.name+1)+'"]').html(_group.name+1);
 							$('[data-index="'+(_group.name+2)+'"]').html(_group.name+2);
 							$.fUpdateBrackets(2,_group.name,true);
 						} else if (winners.length == 1) {
-							console.log('2 Dos o más equipos siguen empatados en la segunda posicion -> ' + (_group.name+2));
+							//console.log('2 Dos o más equipos siguen empatados en la segunda posicion -> ' + (_group.name+2));
 							$('[data-index="'+(_group.name+2)+'"]').html(_group.name+2);														
 							$.fUpdateBrackets(2,_group.name,true);
 						} else {
-							console.log('2 se resolvio');
+							//console.log('2 se resolvio');
 						}
 
 					} else {
-						console.log('1 Tenesmo primero y segundo lugar definido');
+						//console.log('1 Tenesmo primero y segundo lugar definido');
 					}
 
 
@@ -439,9 +437,13 @@
 								if (group.name.indexOf(_name) >= 0) {
 									
 
-									if ((_group) || (phase.id > _phase)) {
-										$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team .goal').data('goal',0);
-										$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team .goal').html(0);
+									if ((_group) || (phase.id > _phase)) {									
+										$.each(group.game, function( index, game ) {
+											$.each(game.team, function( index, team ) {
+												$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team[data-team="'+team.id+'"] .goal').data('goal',0);
+												$('.phase[data-phase="'+phase.id+'"] .group[data-group="'+group.id+'"] .game .score .team[data-team="'+team.id+'"] .goal').html(0);
+											});
+										});
 									}
 									
 									$.each(group.game, function( index, game ) {
@@ -719,16 +721,13 @@
       					btn.button('reset');    				
     				}).done(function(msg) {
 	        			
-	        			if (msg.error==0) {
-	        				$('.alert-success').removeClass('hidden');
-	        				setTimeout(function(){$('.alert-success').fadeOut();}, 2000); 
+	        			if (msg.error==0) {	        			
+	        				$('#myModal').modal('show');
+	        				$('#message').html('<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.');
 	        			} else {
-	        				$('.alert-danger').removeClass('hidden');
-	        				setTimeout(function(){$('.alert-danger').fadeOut();}, 2000);
+	        				$('#message').html('<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
 	        			}
-	        			
-	        				        			
-	        			
+
 					}).fail(function( jqXHR, textStatus ) {  						
   						$('.alert-danger').removeClass('hidden');
   						
@@ -760,9 +759,7 @@
 
 					var _team =  _this.parents('.team').data('team');
 
-			
-					
-										
+	
 					var group = $.fgetGroupActive2(_this);
 					var _eGoal = _this.parents('.team').find('.goal');
 					var _iGoal = _eGoal.data('goal');
@@ -1128,9 +1125,9 @@
 			};
 			
 			var logout_event = function(response) {
-			  console.log("logout_event");
-			  console.log(response.status);
-			  console.log(response);
+			  //console.log("logout_event");
+			  //console.log(response.status);
+			  //console.log(response);
 			};
 	  		
 	  		
@@ -1146,9 +1143,11 @@
 				FB.getLoginStatus(function(response) {
 				  if (response.status === 'connected') {
 
-						FB.api('/me', function(response) {
-					      	document.getElementById("socialid").value = response.id ;			      	
-					      	document.forms[0].submit();
+						FB.api('/me', function(response) {							
+					      	document.getElementById("socialid").value = response.id ;					      	
+					      	document.getElementById("socialname").value = response.name;					      	
+					      	document.getElementById("socialemail").value = response.email;
+				      		document.forms[0].submit();
 					    });
 
 				  } else if (response.status === 'not_authorized') {
@@ -1162,10 +1161,7 @@
 				});
 				
 				
-	  			
-	  			
-	  			
-	  		
+
 			    
 			    
 	  		};
@@ -1208,22 +1204,36 @@
 	
 		<div class="container">
 
-			<div class="row" style="margin: 5px 0 ;">
-				<div class="col-md-12" >
-					<div class="alert alert-success hidden">					
-						<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.
-					</div>
-					<div class="alert alert-danger hidden">					
-						<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.
-					</div>
-				</div>
-			</div>
 
-			@content							
+			@content	
+			
+		
+		
+		
+		
+		<div  id="myModal" class="modal fade">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Guardar</h4>
+		      </div>
+		      <div class="modal-body">
+				<div id="message" >
+		      		
+		      	</div>		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		
+									
 		</div>
 		
-		
-    	
-		
+
     </body>
 </html>
