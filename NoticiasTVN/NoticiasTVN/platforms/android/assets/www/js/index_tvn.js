@@ -454,9 +454,9 @@ function initBasicApp(){
     		});
 
      			
-			$(document).on('touchstart','li[data-content="headline"]', function(e) {				
+			$(document).on('touchstart','li[data-content="headline"], li[data-type="video"]', function(e) {				
 				press=false;	
-    		}).on('touchend','li[data-content="headline"]', function() {				
+    		}).on('touchend','li[data-content="headline"], li[data-type="video"]', function() {				
     			if (press) {
     				
 		
@@ -550,9 +550,9 @@ function initBasicApp(){
     		
     		
     		
-			$(document).on('touchstart','div[data-type="video"], li[data-type="video"]', function(e) {
+			$(document).on('touchstart','div[data-type="video"]', function(e) {
 				press=false;		
-    		}).on('touchend','div[data-type="video"], li[data-type="video"]', function() {
+    		}).on('touchend','div[data-type="video"]', function() {
     			if (press) {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
@@ -776,7 +776,7 @@ function initBasicApp(){
 							$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=itemArray[i]["Title"];
 
-							$.news.date=$.formatDateString(itemArray[i]["Date"]);
+							$.news.date=$.formatDateString(itemArray[i]["Date"],false);
 							
 							var dataContent;
 							dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
@@ -800,16 +800,14 @@ function initBasicApp(){
 							$.news.quicklook.push({src:imageFile,width:864,height:486});
 							
 							//check if there is a video
-							var isVideo = false;
 							if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
-								isVideo = true;
 								var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 								var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 								var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								$.news.video.push({src:videoURL,poster:imageFile});
 								if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 									videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-									$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+									$.news.video.push({src:videoURL,poster:imageFile});
 								}			    				
 							}
 
@@ -842,11 +840,11 @@ function initBasicApp(){
 								$($.category+'-news-featured-title').attr('data-content','headline');
 								
 								//if (arrCategory[myScrollPage.currPageX].video) {
-								if (isVideo) {
+								/*if (isVideo) {
 									$($.category+'-news-featured-title').attr('data-content','');
 									$($.category+'-news-featured-title').attr('data-type','video');
 									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
-								}
+								}*/
 								
 		
 		
@@ -920,11 +918,12 @@ function initBasicApp(){
 								
 								
 								//if (arrCategory[myScrollPage.currPageX].video) {
-								if (isVideo) {
+								/*if (isVideo) {
 									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
 								} else {
 									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
-								}
+								}*/
+								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';
 
 								if ($.news.quicklook.length >= 1) {
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
@@ -975,7 +974,6 @@ function initBasicApp(){
 						$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 						$.news.headline=itemArray[i]["Title"];
 						
-						var shareURL = "http://tvn-cloud-farm-lb.cloudapp.net"+itemArray[i]["URL"];
 						//Share button onclick
 						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[i]["URL"]+'\');');
 
@@ -1007,10 +1005,10 @@ function initBasicApp(){
 							var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 							var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 							var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-							$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+							$.news.video.push({src:videoURL,poster:imageFile});
 							if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 								videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								$.news.video.push({src:videoURL,poster:imageFile});
 							}			    				
 						}
 
@@ -1197,7 +1195,7 @@ function initBasicApp(){
 							
 							
 					$.news.headline=trending.Title;			
-					$.news.date=$.formatDateString(formatdate);	
+					$.news.date=$.formatDateString(itemArray[i]["Date"],false);	
 					
 					var imageFile = "";
 					if(trending["PortalImage"] != null){
@@ -1306,7 +1304,6 @@ function initBasicApp(){
 					dataContent+=trending.Body;
 					$.news.datacontent=$('<div>').append(dataContent).remove().html();
 
-					var shareURL = "http://tvn-cloud-farm-lb.cloudapp.net"+itemArray[i]["URL"];
 					//Share button onclick
 					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[0]["URL"]+'\');');
 				
