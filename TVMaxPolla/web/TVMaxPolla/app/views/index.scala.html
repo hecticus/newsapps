@@ -196,7 +196,7 @@
 										<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 											
 											<div class="row">
-												<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 venue" >
+												<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 venue" >
 													<div class="row" >
 														<div class="col-xs-4 col-sm-12 col-md-12 col-lg-12 date" >
 															<span style="color:#173069; ">@game.getDate().toString().substring(6, 8)/@game.getDate().toString().substring(4, 6)</span>
@@ -328,7 +328,7 @@
 
 						
 							
-							<div class="position" style="background: url(@routes.Assets.at("images/arrows/" + group.getName() + ".png")) no-repeat left center; background-size: 20px 80px;">							
+							<div class="position" style="background: url(@routes.Assets.at("images/arrows/" + group.getName().toLowerCase() + ".png")) no-repeat left center; background-size: 20px 80px;">							
 								
 									<div data-group="@group.getIdGroup()" data-position="0" data-index="@group.getName()1" class="content-flag-score" style="display: block; margin: 0 auto;">@group.getName()1</div>	
 									<div data-group="@group.getIdGroup()" data-position="1" data-index="@group.getName()2" class="content-flag-score" style="display: block; margin: 0 auto;">@group.getName()2</div>
