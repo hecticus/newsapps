@@ -855,7 +855,7 @@ function initBasicApp(){
 
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:120px; max-height:120px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
 									
 									//$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
 									$.li+='<div align="center" style="position: absolute; height: 100%; width:100%;text-align: center; top:1.6em;">';
@@ -874,7 +874,7 @@ function initBasicApp(){
 									arrTrendingTopics.forEach(function(trending,i) {
 										//$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
 										//$.li+='<p style="width:100%; height:100%; color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';
-										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
+										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:55px; max-height:55px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
 										$.li+='#'+trending.Title;										
 										$.li+='</div>';
 									});
