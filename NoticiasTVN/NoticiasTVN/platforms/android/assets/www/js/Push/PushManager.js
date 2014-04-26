@@ -1,7 +1,7 @@
 var pushNotification;
 
 function initPush(){
-	try 
+	/*try
 	{ 
     	pushNotification = window.plugins.pushNotification;
     	if (device.platform == 'android' || device.platform == 'Android') {
@@ -17,7 +17,7 @@ function initPush(){
 		txt="There was an error on this page.\n\n"; 
 		txt+="Error description: " + err.message + "\n\n"; 
 		alert(txt); 
-	} 
+	}*/
 }
 
 // handle APNS notifications for iOS
