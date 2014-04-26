@@ -414,11 +414,11 @@ function initBasicApp(){
     					$('#menu').attr('class','page transition left');
     					$('#header-title').html(info_app);
     					$('#datacontents').empty();
-    					$('#datacontents').append('<div class="datacontent">');
-    					$('#datacontents').append('<img src="img/logo_hecticus.png" style="width:50%; height:auto;">');
-    					$('#datacontents').append('<p>Aplicaci&oacute;n con derechos reservados por Televisora Nacional S.A. 2014</p>');
-    					$('#datacontents').append('<p>Para sugerencias o dudas, escriba a <span style="color:blue;">soporte@tvnmedia.com</span></p>');    					
-    					$('#datacontents').append('<p>Aplicaci&oacute;n desarrollada por Hecticus Software Inc.</p>');
+    					$('#datacontents').append('<div style="position:relative; display:inline-block;width:100%; height:100%;margin:0;padding:10%">');
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n con derechos reservados por <b>Televisora Nacional S.A. 2014</b></p>');
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Para sugerencias o dudas, escriba a <span style="color:blue;">md@tvnmedia.com</span></p>');    					
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n desarrollada por <b>Hecticus Software Inc.</b></p>');
+    					$('#datacontents').append('<img src="img/logo_hecticus.png" style="position:relative; width:50%; left:25%; height:auto;">');
     					$('#datacontents').append('</div>');	
     					$('#datacontent').attr('class','page left');
     					
@@ -1747,7 +1747,7 @@ var app = {
 					$('#datatrending').attr('class','page transition right');
 					fRemoveClassIcon();																			
 				}else {
-					if(myScrollPage.currPageX == 0){
+					if(myScrollPage == null || myScrollPage.currPageX == 0){
 						
 						exitApp();
 
