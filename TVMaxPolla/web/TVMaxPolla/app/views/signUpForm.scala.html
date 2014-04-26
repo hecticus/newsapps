@@ -22,13 +22,14 @@
 	<div class="row" >
 		
 		@if(flash.containsKey("danger")) {
+			<br />
 			<div class="col-md-12">
 				<div class="alert alert-danger">@flash.get("danger")</div>
 			</div>
     	}
 
 
-		<div class="col-md-4 bar"  >
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 bar" >
 
 			@helper.form(action = routes.SignUp.submit, 'role -> "form", 'autocomplete -> "off") {
  
@@ -97,7 +98,7 @@
 
 		</div>
 		
-		<div class="col-md-8" >
+		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
 			<br />
 			<p>También puedes ingresar o registrarte a través de:</p>					 
 			<button type="button" class="btn btn-block facebook" onclick="fejemplo();">Facebook</button>

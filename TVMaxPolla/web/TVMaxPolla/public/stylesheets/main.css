@@ -23,7 +23,7 @@
 }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) { 	
+/*@media (min-width: 992px) { 	
 	#brackets {display:block; }
 	.name {display:inline;} 	
 	.date {text-align: left;}
@@ -32,10 +32,10 @@
 	.row.menu.small, .row.menu.session {display: none}
 	.row.menu.large {display: block}
 	.prediction {display: block}
-}
+}*/
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) { 		
+@media (min-width: 800px) { 		
 	#brackets {display:block;}	
 	.name {display:inline;}
 	.date {text-align: left;}
