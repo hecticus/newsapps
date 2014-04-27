@@ -1,0 +1,29 @@
+wedge:android chrirod$ keytool -list -v -keystore Keys/tvncertificate_jks.p12 -storetype PKCS12 -storepass tvnpanama12
+
+Keystore type: PKCS12
+Keystore provider: SunJSSE
+
+Your keystore contains 1 entry
+
+Alias name: 1
+Creation date: Nov 22, 2011
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=TVN Panama, OU=, O=, C=PA
+Issuer: CN=TVN Panama, OU=, O=, C=PA
+Serial number: 34336135656665373a31333363626237303535623a2d38303030
+Valid from: Mon Nov 21 10:08:49 VET 2011 until: Sat Nov 22 10:08:49 VET 2036
+Certificate fingerprints:
+	 MD5:  AE:B7:F8:B5:DE:2F:9E:72:16:85:B2:6A:8C:F3:E1:D0
+	 SHA1: 90:70:34:51:10:55:A9:E0:52:AA:BB:10:FA:2A:AC:94:DE:A5:46:93
+	 SHA256: 5F:1B:F5:E9:5D:69:44:CF:21:A5:16:2C:6D:EC:08:40:69:2D:BA:03:5F:0D:FE:AB:40:97:5F:84:DA:4B:BF:3D
+	 Signature algorithm name: SHA1withRSA
+	 Version: 3
+	 
+	 
+	 
+	 
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -storepass tvnpanama12 -keystore Keys/tvncertificate_jks.p12 UnsignedDist/TVNNoticiasPremium.apk 1
+
+zipalign -v 4 UnsignedDist/TVNNoticiasPremium.apk SignedDist/TVNNoticiasPremium.apk
