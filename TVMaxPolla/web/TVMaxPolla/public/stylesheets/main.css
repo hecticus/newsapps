@@ -5,8 +5,8 @@
 	.date {text-align: center;}
 	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
 	.game {height:auto; padding:5px}	
-	.row.menu.small, .row.menu.session {display: block}
-	.row.menu.large {display: none}
+	.small, .row.menu.session {display: block}
+	.large {display: none}
 	.prediction {display: none}
 	.col-xs-12.bar {background:none;}
 }
@@ -18,8 +18,8 @@
 	.date {text-align: left;}
 	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
 	.game {height:70px; padding:5px}
-	.row.menu.small, .row.menu.session {display: none}
-	.row.menu.large {display: block}
+	.small, .row.menu.session {display: none}
+	.large {display: block}
 	.prediction {display: block}	
 }
 
@@ -42,8 +42,8 @@
 	.date {text-align: left;}
 	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
 	.game {height:70px; padding:5px}
-	.row.menu.small, .row.menu.session {display: none}
-	.row.menu.large {display: block}
+	.small, .row.menu.session {display: none}
+	.large {display: block}
 	.prediction {display: block}	
 	
 }
