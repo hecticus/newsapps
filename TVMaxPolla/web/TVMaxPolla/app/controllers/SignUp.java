@@ -90,7 +90,8 @@ public class SignUp extends Controller {
     	} else {
     	  	session("connected", jsonResponse.get("id_social_clients").asText());
     	  	session("nick", jsonResponse.get("nick").asText());
-        	return redirect("/");	
+        	//return redirect("/");
+        	return redirect(controllers.routes.Application.index()); 
     	}
 
     }

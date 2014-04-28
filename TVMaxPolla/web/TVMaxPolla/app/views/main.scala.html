@@ -32,11 +32,14 @@
 
 
 			.bar {background: #FFFFFF url(@routes.Assets.at("images/separadorLogIn.png")) right top repeat-y; margin-top:5px; }
-			.shadow {
-				box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
-				-moz-box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
-				-webkit-box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
 			
+			.shadow {
+				/*box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
+				-moz-box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;
+				-webkit-box-shadow: 0px 0px 25px 3px rgba(236, 202, 108, 0.83) inset;*/
+				border: 4px solid #f97001;
+				height: 75px;
+				 
 			}
 
 			.help-block {display:none !important; }
@@ -112,23 +115,12 @@
 			.content-flag-score:last-child{margin:5px 0 5px 0;}			
 			.content-flag-score.on {background-color:#bababb;  -moz-box-shadow: 3px 3px rgba(226,226,229,0.7); -webkit-box-shadow: 3px 3px rgba(226,226,229,0.7); box-shadow: 3px 3px rgba(226,226,229,0.7); text-align: center;}			
 			.content-flag-score.on img.flag {width:75%;}
-			
-			
-			
-			
+
 			.content-flag-score {width: 60px; height: 55px; text-align: center; padding: 5px; background-color: #ececef; -moz-box-shadow: 3px 3px rgba(214,214,216,0.7); -webkit-box-shadow: 3px 3px rgba(214,214,216,0.7); box-shadow: 3px 3px rgba(214,214,216,0.7); font-size:xx-small; font-weight:bold; }
-			
-			
-			
 			
 			.position { float:left; padding-left: 20px;  width:10%; margin-right:20px;}
 			.position:last-child {margin-right:0px; }
-			
-			
-			
-			
-			
-			
+
 			.goal {text-align:center;}
 			
 			ul,li {padding:0; margin:0; border:0; list-style:none outside none; text-align:center;}
@@ -151,7 +143,7 @@
 			
 			.banner { 
 				background-image: url(@routes.Assets.at("images/banner.jpg"));
-				background-size: cover;
+				width:100%;
 				height: 344px;
 			 }
 
@@ -730,6 +722,87 @@
 					
 				};
 
+
+				$(document).on('click','.back', function() {
+					
+					/*var _length = 0;
+					var _hidden = false;
+					var _phase = $('.row.phase:visible').data('phase');
+					var _group = $('.row.phase[data-phase="'+_phase+'"] .row.group:visible').data('group');
+					
+					_group = _group - 2;
+	
+
+
+					if ((_phase == 1) && (_group >= 0))  {
+
+
+						$('.menu.group[data-group]').removeClass('on');
+						$('.menu.group[data-group="'+arrPhase[0].group[_group].id+'"]').addClass('on');
+						$('.row.phase[data-phase="'+_phase+'"] .row.group').addClass('hidden');
+						$('.row.phase[data-phase="'+_phase+'"] .row.group[data-group="'+arrPhase[0].group[_group].id+'"]').removeClass('hidden');
+						
+					} else if (_group >= 0){
+						
+						if (_phase == 6) {
+							_phase = _phase - 2;	
+						} else {
+							_phase = _phase -1;	
+						}
+						
+						
+						$('.menu.phase').removeClass('on');
+						$('.menu.phase[data-phase="'+_phase+'"]').addClass('on');
+						$('.row.phase').addClass('hidden');
+						$('.row.phase[data-phase="'+_phase+'"]').removeClass('hidden');
+						$('.row.phase[data-phase="'+_phase+'"] .group').removeClass('hidden');
+						
+						
+						if (_phase == 1) {
+							$('.menu.group[data-group]').removeClass('on');
+							$('.menu.group[data-group="1"]').addClass('on');
+							$('.row.phase[data-phase="1"] .row.group').addClass('hidden');
+							$('.row.phase[data-phase="1"] .row.group[data-group="1"]').removeClass('hidden');	
+						}
+						
+					}
+					
+					$.fgetPhaseMenuSmall();*/
+
+				});
+
+
+				$(document).on('click','.next', function() {
+					
+					/*var _length = 0;
+					var _hidden = false;
+					var _phase = $('.row.phase:visible').data('phase');
+					var _group = $('.row.phase[data-phase="'+_phase+'"] .row.group:visible').data('group');
+					
+					if ((_phase == 1) && (_group <= 7))  {
+						$('.menu.group[data-group]').removeClass('on');
+						$('.menu.group[data-group="'+arrPhase[0].group[_group].id+'"]').addClass('on');
+						$('.menu.group[data-group="'+arrPhase[0].group[_group].id+'"]').removeClass('hidden');
+						$('.row.phase[data-phase="'+_phase+'"] .row.group').addClass('hidden');
+						$('.row.phase[data-phase="'+_phase+'"] .row.group[data-group="'+arrPhase[0].group[_group].id+'"]').removeClass('hidden');							
+					} else if (_phase <= 5) {
+						
+						$('.menu.phase').removeClass('on');
+						$('.menu.phase[data-phase="'+arrPhase[_phase].id+'"]').addClass('on');
+						$('.row.phase').addClass('hidden');
+						$('.row.phase[data-phase="'+arrPhase[_phase].id+'"]').removeClass('hidden');
+						$('.row.phase[data-phase="'+arrPhase[_phase].id+'"] .group').removeClass('hidden');
+										
+					}
+					
+					
+					
+					$.fgetPhaseMenuSmall();*/
+					
+					
+				});
+
+
 				
 				$(document).on('click','.save', function() {
 					
@@ -775,7 +848,7 @@
 					}).fail(function( jqXHR, textStatus ) {  						
   						$('.alert-danger').removeClass('hidden');
   						
-					});
+					})
 
 
 				});
@@ -966,9 +1039,7 @@
 
 
 			$(document).on('click','.menu[data-phase]', function() {
-				
-				
-				
+
 				var _this = $(this);
 				var _phase = $(this).data('phase');
 				var _position =$(this).data('position');
@@ -983,10 +1054,10 @@
 								
 								if ((phase.id == 1) && (group.classified.length <= 1)) {
 									_return = true;									
-									alert('Dos o más siguen empatados en el primero o segundo lugar del grupo ' + group.name);	
+									alert('Dos o más equipos siguen empatados en el primero o segundo lugar del grupo ' + group.name + '. Compruebe que no todos los juegos del grupo estén empatados con la  misma cantidad de goles.');	
 								} else if (group.classified.length < 1) {								
 									_return = true;
-									alert('No se ha definido todos los clasificados de la fase ' + phase.name);
+									alert('No se han definido todos los equipos clasificados en la fase ' + phase.name);
 								}
 								
 								if (_return) return false;
@@ -1000,14 +1071,6 @@
 				}
 
 				if (_return) return false;
-
-
-
-
-
-
-
-
 
 				$('.menu.group[data-group]').removeClass('on');		
 				$('.menu.phase').removeClass('on');				
