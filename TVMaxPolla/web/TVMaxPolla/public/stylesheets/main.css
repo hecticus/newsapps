@@ -20,7 +20,8 @@
 	.game {height:70px; padding:5px}
 	.small, .row.menu.session {display: none}
 	.large {display: block}
-	.prediction {display: block}	
+	.prediction {display: block}
+	min-width:940px !important;	
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -36,7 +37,7 @@
 }*/
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 800px) { 		
+/*@media (min-width: 800px) { 		
 	#brackets {display:block;}	
 	.name {display:inline;}
 	.date {text-align: left;}
@@ -46,5 +47,5 @@
 	.large {display: block}
 	.prediction {display: block}	
 	
-}
+}*/
 
