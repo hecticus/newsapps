@@ -21,7 +21,7 @@
 	.small, .row.menu.session {display: none}
 	.large {display: block}
 	.prediction {display: block}
-	min-width:940px !important;	
+	width:100% !important;	
 }
 
 /* Medium devices (desktops, 992px and up) */
