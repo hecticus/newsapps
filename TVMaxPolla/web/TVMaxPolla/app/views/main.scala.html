@@ -92,12 +92,12 @@
 			.menu.phase[data-phase="4"].on{background-color:#455D86; color:#ffffff;}
 			.menu.phase[data-phase="6"].on{background-color:#314972; color:#ffffff;}
 			
-			button[data-group]{background-color:#E2EBF9; color:#C4C8D3; font-weight: bold; margin:5px; border:0;}
+			button[data-group]{background-color:#64789C; color:#ffffff; font-weight: bold; margin:5px; border:0;}
 			
-			button[data-group="1"].on{background-color:#BAC6DD; color:#ffffff;}
-			button[data-group="2"].on{background-color:#8F9FC0; color:#ffffff;}
-			button[data-group="3"].on{background-color:#64789C; color:#ffffff;}
-			button[data-group="4"].on{background-color:#455D86; color:#ffffff;}
+			button[data-group="1"].on{background-color:#314972; color:#ffffff;}
+			button[data-group="2"].on{background-color:#314972; color:#ffffff;}
+			button[data-group="3"].on{background-color:#314972; color:#ffffff;}
+			button[data-group="4"].on{background-color:#314972; color:#ffffff;}
 			button[data-group="6"].on{background-color:#314972; color:#ffffff;}
 			button[data-group="7"].on{background-color:#314972; color:#ffffff;}
 			button[data-group="8"].on{background-color:#314972; color:#ffffff;}
@@ -798,8 +798,8 @@
 					/*Oculto menu superior*/
 					$.each(arrPhase, function( index,phase) {						
 						if (phase.id > _phase) {													
-							$('.menu[data-phase="'+phase.id+'"]').addClass('hidden');									
-							$('.phase[data-phase="'+phase.id+'"]').addClass('hidden');
+							$('.menu[data-phase="'+phase.id+'"].large').addClass('hidden');									
+							$('.phase[data-phase="'+phase.id+'"].large').addClass('hidden');
 						}
 					});
 					
@@ -890,13 +890,13 @@
 						
 
 					if ((_phase == 1) && (_total == 16)) {
-						$('.menu[data-phase="'+arrPhase[_phase].id+'"]').removeClass('hidden');																		
+						$('.menu[data-phase="'+arrPhase[_phase].id+'"].large').removeClass('hidden');																		
 					} else if ((_phase == 2) && (_total == 8)) {						
-						$('.menu[data-phase="'+arrPhase[_phase].id+'"]').removeClass('hidden');							
+						$('.menu[data-phase="'+arrPhase[_phase].id+'"].large').removeClass('hidden');							
 					} else if ((_phase == 3) && (_total == 4)) {
-						$('.menu[data-phase="'+arrPhase[_phase].id+'"]').removeClass('hidden');							
+						$('.menu[data-phase="'+arrPhase[_phase].id+'"].large').removeClass('hidden');							
 					} else if ((_phase == 4) && (_total == 2)) {
-						$('.menu[data-phase="'+arrPhase[_phase].id+'"]').removeClass('hidden');	
+						$('.menu[data-phase="'+arrPhase[_phase].id+'"].large').removeClass('hidden');	
 						
 					}
 
@@ -967,11 +967,49 @@
 
 			$(document).on('click','.menu[data-phase]', function() {
 				
+				
+				
 				var _this = $(this);
 				var _phase = $(this).data('phase');
 				var _position =$(this).data('position');
+				var _return = false;
+				var _currenPhase = $('.row.phase:visible').data('phase');
+				 
+				if (_phase > _currenPhase) {
+					$.each(arrPhase, function(index,phase) {
+						
+						if (phase.id == _currenPhase) {
+							$.each(phase.group, function(index,group) {
+								
+								if ((phase.id == 1) && (group.classified.length <= 1)) {
+									_return = true;									
+									alert('Dos o más siguen empatados en el primero o segundo lugar del grupo ' + group.name);	
+								} else if (group.classified.length < 1) {								
+									_return = true;
+									alert('No se ha definido todos los clasificados de la fase ' + phase.name);
+								}
+								
+								if (_return) return false;
+								
+							});
+						}
+						
+						if (_return) return false;
+						
+					});
+				}
+
+				if (_return) return false;
 
 
+
+
+
+
+
+
+
+				$('.menu.group[data-group]').removeClass('on');		
 				$('.menu.phase').removeClass('on');				
 				$('.menu.phase[data-phase="'+_phase+'"]').addClass('on');
 				$('.row.phase').addClass('hidden');
