@@ -7,8 +7,8 @@
 @main("La polla de TVMax - FiFA World Cup Brasil 2014 - Registro") {
 
 	<div class="row" >
-		<div class="col-md-12 banner"  >
-			&nbsp;
+		<div>
+			<img src="@routes.Assets.at("images/banner.jpg")" style="width: 100%; height: auto;" >
 		</div>
 	</div>
 
@@ -29,7 +29,7 @@
     	}
 
 
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 bar" >
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 bar" >
 
 			@helper.form(action = routes.SignUp.submit, 'role -> "form", 'autocomplete -> "off") {
  
