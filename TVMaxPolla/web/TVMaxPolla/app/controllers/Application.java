@@ -184,5 +184,14 @@ public class Application extends Controller
     	session().clear();
 		return redirect("/signin");
     }
+        
+    public static String EncodeURL(String url) throws java.io.UnsupportedEncodingException {
+        url = java.net.URLEncoder.encode(url, "UTF-8");
+        return url;
+    }
+
+    public static String EncodeURL(Call call) throws java.io.UnsupportedEncodingException {
+        return EncodeURL(call.toString());
+    }
     
 }
