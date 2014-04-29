@@ -189,9 +189,8 @@ function fRemoveClassIcon() {
 function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
-	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
 	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
-	if (!trendingview && myScrollPage.currPageX == 0) $("#header-title").html(arrCategory[0].title);
+	if (!trendingview && myScrollPage.currPageX >= 0) $("#header-title").html(arrCategory[myScrollPage.currPageX].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
@@ -414,7 +413,7 @@ function initBasicApp(){
     					$('#menu').attr('class','page transition left');
     					$('#header-title').html(info_app);
     					$('#datacontents').empty();
-    					$('#datacontents').append('<div style="position:relative; display:inline-block;width:100%; height:100%;margin:0;padding:10%">');
+    					$('#datacontents').append('<div class="datacontent" style="border-bottom-style: none;position:relative; display:inline-block;width:100%; height:100%;margin:0;padding:10%">');
     					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n con derechos reservados por <b>Televisora Nacional S.A. 2014</b></p>');
     					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Para sugerencias o dudas, escriba a <span style="color:blue;">md@tvnmedia.com</span></p>');    					
     					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n desarrollada por <b>Hecticus Software Inc.</b></p>');

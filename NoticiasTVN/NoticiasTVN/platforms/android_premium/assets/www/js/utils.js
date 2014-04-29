@@ -102,6 +102,21 @@ function cleanExternalURL(url){
 	return url.replace(/ /g,'%20');
 }
 
+//funcion para revisar si el texto tiene formato HTML y si no lo tiene agregarselo
+function checkHTMLText(rawText){
+	if(rawText.indexOf("<p>") > -1){
+		//aparenta tener formato asi que lo retornamos tal cual
+		return rawText;
+	}else{
+		//Agregamos los formatos de html basicos, reemplazar \n por </p><p>
+		var text = rawText;
+		text = text.replace(/\n/g,'</p><p>');
+		text = "<p>"+text+"</p>";
+		//console.log("TEXTO: "+text);
+		return text;
+	}
+}
+
 //DEBUG
 function printToLog(element){
 	//console.log(element);
