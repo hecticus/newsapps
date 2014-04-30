@@ -12,6 +12,9 @@
 	.btn.button {width: 70% !important;}
 	.form-control.input { width: 100% !important; padding: 6px 8% !important;}
 	.btn.facebook { width: 100% !important; }
+	
+	
+	
 }
 
 /* Small devices (tablets, 768px and up) */
@@ -28,20 +31,29 @@
 	.btn.button {width: 35% !important;}
 	.form-control.input { width: 50% !important; padding: 6px 4% !important;}
 	.btn.facebook { width: 50% !important;}
-	
+	.position {float:left; padding-left: 20px;  width:10%; margin-right:20px;}
+	.position:first-child {margin-left:5px; }
+	.position:last-child {margin-right:0px; }
 }
 
 /* Medium devices (desktops, 992px and up) */
-/*@media (min-width: 992px) { 	
-	#brackets {display:block; }
-	.name {display:inline;} 	
+@media (min-width: 940px) { 	
+	#brackets {display:block;}	
+	.name {display:inline;}
 	.date {text-align: left;}
-	.venue {background-color: #FFFFFF; height: 57px; padding: 5px;}
+	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
 	.game {height:70px; padding:5px}
-	.row.menu.small, .row.menu.session {display: none}
-	.row.menu.large {display: block}
+	.small, .row.menu.session {display: none}
+	.large {display: block}
 	.prediction {display: block}
-}*/
+	.container {width:100% !important};	
+	.btn.button {width: 35% !important;}
+	.form-control.input { width: 50% !important; padding: 6px 4% !important;}
+	.btn.facebook { width: 50% !important;}
+	.position {float:left; padding-left: 20px;  width:10%; margin-right:25px;}
+	.position:first-child {margin-left:5px; }
+	.position:last-child {margin-right:0px; }
+}
 
 /* Large devices (large desktops, 1200px and up) */
 /*@media (min-width: 800px) { 		
