@@ -330,16 +330,7 @@ public class News extends HecticusModel{
         return false;
     }
 
-    public String decode(String val){
-        String tr = null;
-        try {
-            tr= URLDecoder.decode(val,"UTF-8");
-        }catch (UnsupportedEncodingException ex){
 
-        }
-        return tr;
-
-    }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
 
