@@ -17,9 +17,9 @@
 		
 			body {position: fixed; width:100%; height:100%; overflow: hidden;}
 			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
-			#menu, #datacontent, #datatrending, #datayoinformo { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
+			#menu, #datacontent, #datatrending { position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
 			#menu, #datacontent, #datatrending {top:100px;}
-			#datayoinformo {top:8%;}
+
 			
 			
 			.scroller {position:absolute; z-index:1; -webkit-tap-highlight-color:rgba(0,0,0,0); width:100%; padding:0;}
@@ -171,6 +171,18 @@
 			
 			}
 			
+			.select {display:block; border: 2px solid #AAAAAA; width:81%; height: 30px; margin: 0 auto;	}
+			input, select, textarea {color:#000000; font-weight: bold;}
+			textarea, input {border: 2px solid #AAAAAA; display: block; margin: 0 auto;} 
+			textarea, input {width:80%;}
+			input, select{ height: 30px;}			
+			select{width:100%; border: 0;}
+			
+		
+			button {padding:10px;  background:#ccc;  border: 2px solid #AAAAAA; width: 50%;  display: block; margin: 0 auto; font-weight:bold }		
+			button:hover {background:#333333; color: #ffffff;}
+		
+			
 		</style>
 	</head>
 	<body>
@@ -262,32 +274,11 @@
 			</div>
 		</div>
 		
-		<!-- DIV de la seccion Yo Informo-->
-		<!-- div id="datayoinformo" class="page" style="z-index: 1;">							
-			<div class="scroller">
-				<ul>
-					<li>
-						<div style="margin-left:auto; margin-right:auto; width:70%;">prueba</div>
-												
-					</li>
-					<li>
-						<select>
-						  <option value="volvo">Volvo</option>
-						  <option value="saab">Saab</option>
-						  <option value="mercedes">Mercedes</option>
-						  <option value="audi">Audi</option>
-						</select>
-					</li>
-					<li>
-						prueba	2					
-					</li>
-				</ul>
-			</div>
-		</div-->
-
+		
 		
 
-
+        <script type="text/javascript" src="js/mimic.js"></script>
+        <script type="text/javascript" src="js/wordpress.js"></script>
 		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
 
