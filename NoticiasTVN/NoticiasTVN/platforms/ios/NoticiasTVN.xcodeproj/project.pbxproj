@@ -20,6 +20,8 @@
 		6F3C549118A043F200557C1A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C549018A043F200557C1A /* CoreTelephony.framework */; };
 		6F3C549318A0440000557C1A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C549218A0440000557C1A /* CoreData.framework */; };
 		6F3C549518A0443500557C1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3C549418A0443500557C1A /* UIKit.framework */; };
+		6F486B12190CA69D00B43633 /* TVNNoticias_develop.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F486B10190CA69D00B43633 /* TVNNoticias_develop.entitlements */; };
+		6F486B13190CA69D00B43633 /* TVNNoticias.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F486B11190CA69D00B43633 /* TVNNoticias.entitlements */; };
 		6F504BE1188F28B400BFBDEC /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F504BDD188F28B400BFBDEC /* CDVFile.m */; };
 		6F504BE2188F28B400BFBDEC /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F504BE0188F28B400BFBDEC /* CDVFileTransfer.m */; };
 		6F65A544190583180049E8C8 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F65A543190583180049E8C8 /* CDVLocation.m */; };
@@ -109,6 +111,8 @@
 		6F3C549018A043F200557C1A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		6F3C549218A0440000557C1A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6F3C549418A0443500557C1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6F486B10190CA69D00B43633 /* TVNNoticias_develop.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVNNoticias_develop.entitlements; path = NoticiasTVN/TVNNoticias_develop.entitlements; sourceTree = "<group>"; };
+		6F486B11190CA69D00B43633 /* TVNNoticias.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVNNoticias.entitlements; path = NoticiasTVN/TVNNoticias.entitlements; sourceTree = "<group>"; };
 		6F504BDC188F28B400BFBDEC /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFile.h; sourceTree = "<group>"; };
 		6F504BDD188F28B400BFBDEC /* CDVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVFile.m; sourceTree = "<group>"; };
 		6F504BDF188F28B400BFBDEC /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFileTransfer.h; sourceTree = "<group>"; };
@@ -222,6 +226,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				6F486B10190CA69D00B43633 /* TVNNoticias_develop.entitlements */,
+				6F486B11190CA69D00B43633 /* TVNNoticias.entitlements */,
 				6F6DDD481875C51A0090B0E8 /* config.xml */,
 				301BF56E109A69640062928A /* www */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
@@ -513,11 +519,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 500;
-				TargetAttributes = {
-					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = J628L7H5ST;
-					};
-				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "NoticiasTVN" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -585,8 +586,10 @@
 				6F6DDD321875C4F80090B0E8 /* icon-50.png in Resources */,
 				6F6DDD491875C51A0090B0E8 /* config.xml in Resources */,
 				6F6DDD391875C4F80090B0E8 /* icon-76@2x.png in Resources */,
+				6F486B13190CA69D00B43633 /* TVNNoticias.entitlements in Resources */,
 				6F6DDD361875C4F80090B0E8 /* icon-72.png in Resources */,
 				6FC8D6AB18CE1EC200B5D007 /* noticias.aiff in Resources */,
+				6F486B12190CA69D00B43633 /* TVNNoticias_develop.entitlements in Resources */,
 				6F6DDD441875C4F80090B0E8 /* Default@2x~iphone.png in Resources */,
 				6F6DDD381875C4F80090B0E8 /* icon-76.png in Resources */,
 				6F6DDD3B1875C4F80090B0E8 /* icon-small@2x.png in Resources */,
@@ -690,6 +693,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = NoticiasTVN/TVNNoticias_develop.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -722,7 +726,8 @@
 				);
 				PRODUCT_NAME = NoticiasTVN;
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -731,8 +736,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = NoticiasTVN/TVNNoticias.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NoticiasTVN/NoticiasTVN-Prefix.pch";
@@ -761,7 +767,8 @@
 				);
 				PRODUCT_NAME = NoticiasTVN;
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};

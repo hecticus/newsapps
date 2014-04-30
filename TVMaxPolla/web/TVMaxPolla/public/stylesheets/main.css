@@ -5,25 +5,34 @@
 	.date {text-align: center;}
 	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
 	.game {height:auto; padding:5px}	
-	.row.menu.small, .row.menu.session {display: block}
-	.row.menu.large {display: none}
+	.small, .row.menu.session {display: block}
+	.large {display: none}
 	.prediction {display: none}
+	.col-xs-12.bar {background:none;}
+	.btn.button {width: 70% !important;}
+	.form-control.input { width: 100% !important; padding: 6px 8% !important;}
+	.btn.facebook { width: 100% !important; }
 }
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) { 	
-	#brackets {display:none;} 
+	#brackets {display:block;}	
 	.name {display:inline;}
-	.date {text-align: center;}
-	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
-	.game {height:auto; padding:5px}
-	.row.menu.small, .row.menu.session {display: block}
-	.row.menu.large {display: none}
-	.prediction {display: none}
+	.date {text-align: left;}
+	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
+	.game {height:70px; padding:5px}
+	.small, .row.menu.session {display: none}
+	.large {display: block}
+	.prediction {display: block}
+	.container {width:100% !important};	
+	.btn.button {width: 35% !important;}
+	.form-control.input { width: 50% !important; padding: 6px 4% !important;}
+	.btn.facebook { width: 50% !important;}
+	
 }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) { 	
+/*@media (min-width: 992px) { 	
 	#brackets {display:block; }
 	.name {display:inline;} 	
 	.date {text-align: left;}
@@ -32,17 +41,23 @@
 	.row.menu.small, .row.menu.session {display: none}
 	.row.menu.large {display: block}
 	.prediction {display: block}
-}
+}*/
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) { 		
+/*@media (min-width: 800px) { 		
 	#brackets {display:block;}	
 	.name {display:inline;}
 	.date {text-align: left;}
 	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
 	.game {height:70px; padding:5px}
-	.row.menu.small, .row.menu.session {display: none}
-	.row.menu.large {display: block}
+	.small, .row.menu.session {display: none}
+	.large {display: block}
 	.prediction {display: block}	
-}
+	
+}*/
+
+
+
+
+
 

@@ -18,10 +18,13 @@
  */
 
 
+var geolocation = {latitud:8.537981,longitud:-80.782127};
+
 var info_app = 'Sobre este APP';
+var yo_informo = 'Yo Informo';
 var arrTrendingTopics;
 var arrTrendingNews;
-
+var categories_yo_informo= '';
 var bannerImages = new Array();
 var bannerLink = "";
 
@@ -69,7 +72,12 @@ function setMenuCategories(){
 	a++;	
 	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
 	$.li+=info_app;			
-	$.li+='</li>';		
+	$.li+='</li>';
+			
+	a++;	
+	$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+	$.li+=yo_informo;			
+	$.li+='</li>';	
 		
 	$('#mainMenuList').empty();
 	$('#mainMenuList').append($.li);
@@ -189,9 +197,8 @@ function fRemoveClassIcon() {
 function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
-	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
 	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
-	if (!trendingview && myScrollPage.currPageX == 0) $("#header-title").html(arrCategory[0].title);
+	if (!trendingview && myScrollPage.currPageX >= 0) $("#header-title").html(arrCategory[myScrollPage.currPageX].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
@@ -217,6 +224,83 @@ var textShadowBlack = "0px 1px 5px #000;";
 
 var hScrollMove = false;
 
+
+
+
+function get_categories_yo_informo(){
+    // url = URL del archivo XML-RPC del proyecto
+    // username y password = Proporcionados por Akora
+    var connection = {
+        url : 'http://yoinformo.tvn-2.com/xmlrpc.php',
+        username : 'userapi',
+        password : 'R85te267o7OxW46'
+    };
+    var wp = new WordPress(connection.url, connection.username, connection.password);
+    var object = wp.api_get_categories();
+    if(object.categories !== false){
+        return object.categories;
+    }
+    return false;
+}
+
+function display_categories_yo_informo() {
+	
+	var categories = get_categories_yo_informo();
+	var _select = '';
+	
+	for ( var x in categories ) {
+		var category_name = categories[x].name;
+		var category_slug = categories[x].slug;		
+		if ( categories[x].parent != 0 ) {
+			_select = _select + '<option value='+ category_slug +'>' + category_name + '</option>';
+		}
+	}
+			
+	//console.log(_select);
+	return _select;
+};
+
+function postReport(postData){
+	
+    var report = {
+        content   : postData.content,
+        address   : postData.address,
+        lng       : postData.longitude,
+        lat       : postData.latitude,
+        origin_id : 5,
+        term_slug : postData.term_slug,
+    };
+    
+    var citizen = {
+        first_name : postData.first_name,
+        last_name  : postData.last_name,
+        email      : postData.email,
+        mobile     : postData.mobile,
+    };
+    
+    /*var assets = {
+        image : postData.phonegap_img,
+        video : postData.video,
+    };*/
+    
+    var connection = {
+        url : "http://yoinformo.tvn-2.com/xmlrpc.php",
+        username : "userapi",
+        password : "R85te267o7OxW46"
+    };
+    
+    var wp = new WordPress(connection.url, connection.username, connection.password);
+    var object = wp.api_new_reports(report, citizen);
+    
+    if(object.report !== false){
+        return object.report;
+    }else{
+       return false;
+    }
+    
+    return false;
+    
+}
 
 
 
@@ -300,7 +384,8 @@ function initBasicApp(){
 				arrTrendingNews = data.noticiastrendingnews.item;
 			});*/
 
-
+	
+			categories_yo_informo = display_categories_yo_informo();
 
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
@@ -370,7 +455,109 @@ function initBasicApp(){
 				}
 			});
 
+			$(document).on('focus','input,textarea', function() {
+				var _index = parseInt($(this).data('index'));						
+				$('li').remove( ".remove" );				
+				for (var i = 0; i < _index; i++) {
+					$('#datacontents').append('<li class="remove" style="height:40px;" >&nbsp;</li>');
+				};
+				
+				_index = _index*2; 	
+				myScrollDatacontent.refresh();				
+				myScrollDatacontent.scrollToPage(1,_index, 100)
+			});	
 
+
+		
+			
+
+
+			
+
+
+			
+			$(document).on('touchend','#send-yo-informo', function() { 
+				
+				var _this = $(this);					
+				var _return = false;
+				var _index = 0;
+				$('.form').each(function() {
+					
+					_index = parseInt($(this).data('index'));	
+					$('li').remove( ".remove" );	
+					
+					if ($(this)[0].nodeName.toLowerCase() == 'textarea') {										
+						if ($.trim($(this).val()).length == 0) {
+							_return = true;
+							alert( $(this).data('error'));
+							$(this).focus();
+						} 
+					} else if ($(this)[0].nodeName.toLowerCase() == 'input') {
+						
+						if ($(this).attr('type') == 'email') {
+							if (!$(this).val().match(/^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$/)) {
+								_return = true;
+								alert( $(this).data('error'));
+								$(this).focus();
+							}
+						} else {
+							if ($.trim($(this).val()).length == 0) {
+								_return = true;
+								alert( $(this).data('error'));
+								$(this).focus();
+							} 	
+						}
+												
+											
+					} else if ($(this)[0].nodeName.toLowerCase() == 'select') {						
+						if ($(this).val() == null) {
+							_return = true;
+							alert( $(this).data('error'));
+						}						
+					}
+
+					if (_return) return false;
+					
+					
+
+				});
+				
+				if (_return) {
+					
+					$('li').remove( ".remove" );
+					
+					for (var i = 0; i < _index; i++) {
+						$('#datacontents').append('<li class="remove" style="height:40px;" >&nbsp;</li>');
+					};
+					
+					_index = _index*2; 	
+					myScrollDatacontent.refresh();				
+					myScrollDatacontent.scrollToPage(1,0, 100);
+					
+					return false;
+					
+				} 
+
+				var postData = {
+                    'content'      : $('#message').val(),
+                    'address'      : $('#address').val(),
+                    'longitude'    : $('#lng').val(),
+                    'latitude'     : $('#lat').val(),
+                    'term_slug'    : $('#term_slug').val(),
+                    'first_name'   : $('#first_name').val(),
+                    'last_name'    : $('#last_name').val(),
+                    'email'        : $('#email').val(),
+                    'mobile'       : $('#mobile').val()                  
+                };
+                
+                var report_new = postReport(postData);
+                //var elem_new = document.getElementById('result_new');
+                //elem_new.innerHTML = JSON.stringify(report_new);
+				alert(JSON.stringify(report_new));
+
+				alert('El reporte se ha enviado con exito.');
+				
+			});
 
 
 			$(document).on('touchend','.back', function() { 
@@ -414,13 +601,76 @@ function initBasicApp(){
     					$('#menu').attr('class','page transition left');
     					$('#header-title').html(info_app);
     					$('#datacontents').empty();
-    					$('#datacontents').append('<div class="datacontent">');
-    					$('#datacontents').append('<img src="img/logo_hecticus.png" style="width:50%; height:auto;">');
-    					$('#datacontents').append('<p>Aplicaci&oacute;n con derechos reservados por Televisora Nacional S.A. 2014</p>');
-    					$('#datacontents').append('<p>Para sugerencias o dudas, escriba a <span style="color:blue;">soporte@tvnmedia.com</span></p>');    					
-    					$('#datacontents').append('<p>Aplicaci&oacute;n desarrollada por Hecticus Software Inc.</p>');
+    					$('#datacontents').append('<div class="datacontent" style="border-bottom-style: none;position:relative; display:inline-block;width:100%; height:100%;margin:0;padding:10%">');
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n con derechos reservados por <b>Televisora Nacional S.A. 2014</b></p>');
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Para sugerencias o dudas, escriba a <span style="color:blue;">md@tvnmedia.com</span></p>');    					
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n desarrollada por <b>Hecticus Software Inc.</b></p>');
+    					$('#datacontents').append('<img src="img/logo_hecticus.png" style="position:relative; width:50%; left:25%; height:auto;">');
     					$('#datacontents').append('</div>');	
     					$('#datacontent').attr('class','page left');
+
+					} else if ($(this).data('category') == 'y'){
+						
+						
+						
+    					myScrollDatacontent.refresh();
+    					
+    					$('#screen-block').addClass('hidden');
+    					$('#menu').attr('class','page transition left');
+    					$('#header-title').html(yo_informo);
+    					$('#datacontents').empty();
+
+    					var _select = '<div class="select">';
+    					_select = _select + '<select data-index="0" data-error="Debe seleccionar una categor&iacute;a valida." id="term_slug" name="term_slug" class="form" >';
+    					_select = _select + '<option value="" selected="selected"  disabled="disabled">Seleccionar categor&iacute;a</option>';
+    					_select = _select + categories_yo_informo;
+    					_select = _select  + '</select>'; 
+    					_select = _select  + '</div><br />'; 
+    					
+    					$('#datacontents').append('<li style="margin-top:25px;">');        																	
+    					$('#datacontents').append(_select);    											       					
+    					$('#datacontents').append('</li>');
+    					
+    					$('#datacontents').append('<li>');
+    					$('#datacontents').append('<textarea data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" ></textarea><br />');
+    					$('#datacontents').append('</li>');
+    					
+    					$('#datacontents').append('<li>');
+    					$('#datacontents').append('<textarea data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" ></textarea><br />');
+    					$('#datacontents').append('</li>');
+    					
+    					$('#datacontents').append('<li>');					
+						$('#datacontents').append('<input class="form" data-index="2" type="text" id="lng" name="lng" disabled value="'+ geolocation.longitud +'" /> <br />');
+						$('#datacontents').append('</li>');
+    					
+    					$('#datacontents').append('<li>');
+    					$('#datacontents').append('<input class="form" data-index="1" type="text" id="lat" name="lat" disabled value="'+ geolocation.latitud +'" /> <br />');
+						$('#datacontents').append('</li>');
+
+						
+						$('#datacontents').append('<li>');
+						$('#datacontents').append('<input class="form" data-index="3" type="text" id="mobile" name="mobile" disabled value="'+ device.model + ' ' + device.version +'" /> <br />');
+						$('#datacontents').append('</li>');
+						
+						$('#datacontents').append('<li>');
+						$('#datacontents').append('<input data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /> <br />');
+						$('#datacontents').append('</li>');
+						
+						$('#datacontents').append('<li>');
+    					$('#datacontents').append('<input data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /> <br />');
+    					$('#datacontents').append('</li>');
+    					
+    					$('#datacontents').append('<li>');
+    					$('#datacontents').append('<input data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /> <br />');
+    					$('#datacontents').append('</li>');
+    					
+    					$('#datacontents').append('<li>');    					
+    					$('#datacontents').append('<button id="send-yo-informo" >Enviar reporte</button></li>');    					  		
+						$('#datacontents').append('</li>');
+						$('#datacontents').append('<li style="height:40px;" >&nbsp;</li>');
+						      					    		
+    					$('#datacontent').attr('class','page left');
+    					
     					
     				} else {
     				
@@ -454,9 +704,9 @@ function initBasicApp(){
     		});
 
      			
-			$(document).on('touchstart','li[data-content="headline"]', function(e) {				
+			$(document).on('touchstart','li[data-content="headline"], li[data-type="video"]', function(e) {				
 				press=false;	
-    		}).on('touchend','li[data-content="headline"]', function() {				
+    		}).on('touchend','li[data-content="headline"], li[data-type="video"]', function() {				
     			if (press) {
     				
 		
@@ -550,9 +800,9 @@ function initBasicApp(){
     		
     		
     		
-			$(document).on('touchstart','div[data-type="video"], li[data-type="video"]', function(e) {
+			$(document).on('touchstart','div[data-type="video"]', function(e) {
 				press=false;		
-    		}).on('touchend','div[data-type="video"], li[data-type="video"]', function() {
+    		}).on('touchend','div[data-type="video"]', function() {
     			if (press) {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
@@ -776,7 +1026,7 @@ function initBasicApp(){
 							$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=itemArray[i]["Title"];
 
-							$.news.date=$.formatDateString(itemArray[i]["Date"]);
+							$.news.date=$.formatDateString(itemArray[i]["Date"],false);
 							
 							var dataContent;
 							dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
@@ -800,16 +1050,14 @@ function initBasicApp(){
 							$.news.quicklook.push({src:imageFile,width:864,height:486});
 							
 							//check if there is a video
-							var isVideo = false;
 							if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
-								isVideo = true;
 								var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 								var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 								var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								$.news.video.push({src:videoURL,poster:imageFile});
 								if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 									videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-									$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+									$.news.video.push({src:videoURL,poster:imageFile});
 								}			    				
 							}
 
@@ -842,11 +1090,11 @@ function initBasicApp(){
 								$($.category+'-news-featured-title').attr('data-content','headline');
 								
 								//if (arrCategory[myScrollPage.currPageX].video) {
-								if (isVideo) {
+								/*if (isVideo) {
 									$($.category+'-news-featured-title').attr('data-content','');
 									$($.category+'-news-featured-title').attr('data-type','video');
 									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
-								}
+								}*/
 								
 		
 		
@@ -920,11 +1168,12 @@ function initBasicApp(){
 								
 								
 								//if (arrCategory[myScrollPage.currPageX].video) {
-								if (isVideo) {
+								/*if (isVideo) {
 									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
 								} else {
 									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
-								}
+								}*/
+								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';
 
 								if ($.news.quicklook.length >= 1) {
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
@@ -976,7 +1225,7 @@ function initBasicApp(){
 						$.news.headline=itemArray[i]["Title"];
 						
 						//Share button onclick
-						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[i]["URL"]+'\');');
 
 						$.news.date=$.formatDateString(itemArray[i]["Date"],true);
 														
@@ -1006,10 +1255,10 @@ function initBasicApp(){
 							var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 							var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 							var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-							$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+							$.news.video.push({src:videoURL,poster:imageFile});
 							if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 								videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								$.news.video.push({src:videoURL,poster:imageFile});
 							}			    				
 						}
 
@@ -1196,7 +1445,7 @@ function initBasicApp(){
 							
 							
 					$.news.headline=trending.Title;			
-					$.news.date=$.formatDateString(formatdate);	
+					$.news.date=$.formatDateString(itemArray[i]["Date"],false);	
 					
 					var imageFile = "";
 					if(trending["PortalImage"] != null){
@@ -1305,7 +1554,8 @@ function initBasicApp(){
 					dataContent+=trending.Body;
 					$.news.datacontent=$('<div>').append(dataContent).remove().html();
 
-					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+					//Share button onclick
+					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[0]["URL"]+'\');');
 				
 					$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';
 					
@@ -1696,20 +1946,22 @@ function fTextoCortado(texto){
 
 //GEOLOCATION
 function getCurrentGeoPosition(){
-	//console.log("getCurrentGeoPosition");
-	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler);
-	//console.log("end getCurrentGeoPosition");
+	console.log("getCurrentGeoPosition");
+	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler, { frequency: 3000 });
+	console.log("end getCurrentGeoPosition");
 }
 
 function successGeolocationHandler (position) {
-	//console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
-    //position.coords.latitude;
-    //position.coords.longitude;
+	alert('funcione!!!');
+	console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
+   	geolocation.latitud =  position.coords.latitude;
+   	geolocation.longitud =  position.coords.longitude;
 }
 
 function errorGeolocationHandler (error) {
-    //console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
-    //initGeolocation();
+    console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
+    initGeolocation();
+    
 }
 //END GEOLOCATION
 
@@ -1744,7 +1996,7 @@ var app = {
 					$('#datatrending').attr('class','page transition right');
 					fRemoveClassIcon();																			
 				}else {
-					if(myScrollPage.currPageX == 0){
+					if(myScrollPage == null || myScrollPage.currPageX == 0){
 						
 						exitApp();
 

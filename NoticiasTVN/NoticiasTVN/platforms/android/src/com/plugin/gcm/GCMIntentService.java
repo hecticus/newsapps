@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
-import com.hecticus.noticiastvn.R;
+import com.tvn.app.mobile.TVNNoticias.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,8 +140,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		
 		//añadimos el sonido
-		Uri soundUri = Uri.parse("android.resource://com.hecticus.noticiastvn/" + R.raw.noticias);
-		//Uri soundUri = Uri.parse("android.resource://com.hecticus.noticiastvn/" + R.raw.noticiasmp3);
+		Uri soundUri = Uri.parse("android.resource://com.tvn.app.mobile.TVNNoticias/" + R.raw.noticias);
+		//Uri soundUri = Uri.parse("android.resource://com.tvn.app.mobile.TVNNoticias/" + R.raw.noticiasmp3);
 		mBuilder.setSound(soundUri);
 		
 		//se puede hacer que solo se alerte la primera vez y si no se ha visto la alerta no vuelva a sonar

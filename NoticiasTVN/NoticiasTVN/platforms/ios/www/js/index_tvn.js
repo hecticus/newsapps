@@ -18,7 +18,7 @@
  */
 
 
-
+var info_app = 'Sobre este APP';
 var arrTrendingTopics;
 var arrTrendingNews;
 
@@ -58,11 +58,18 @@ var newsDatacontent;
 function setMenuCategories(){
 
 	$.li='';
+	var a = 0;
 	for(var i=0; i<arrCategory.length; i++){
 		$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:'+arrMenuColor[(i%10)]+';">';			
 		$.li+=arrCategory[i].title;			
 		$.li+='</li>';
+		a = i;
 	}
+	
+	a++;	
+	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+	$.li+=info_app;			
+	$.li+='</li>';		
 		
 	$('#mainMenuList').empty();
 	$('#mainMenuList').append($.li);
@@ -182,9 +189,8 @@ function fRemoveClassIcon() {
 function fBack() {
 	
 	$('#menu').attr('class','page transition left');	
-	//if (!trendingview) $("#header-title").html(fTextoCortado(arrCategory[0].title));
 	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
-	if (!trendingview && myScrollPage.currPageX == 0) $("#header-title").html(arrCategory[0].title);
+	if (!trendingview && myScrollPage.currPageX >= 0) $("#header-title").html(arrCategory[myScrollPage.currPageX].title);
 	$("#header-title").removeClass('back');
 	fRemoveClassIcon();
 	$('#datacontent').attr('class','page transition right');
@@ -407,33 +413,56 @@ function initBasicApp(){
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
-    				trendingview=false;
-    				$('#screen-block').addClass('hidden');		
-    				$('#header-title').html(arrCategory[$(this).data('position')].title);
+    				if ($(this).data('category') == '?') {
+    					
+    					
+    					$('#screen-block').addClass('hidden');
+    					$('#menu').attr('class','page transition left');
+    					$('#header-title').html(info_app);
+    					$('#datacontents').empty();
+    					$('#datacontents').append('<div class="datacontent" style="border-bottom-style: none;position:relative; display:inline-block;width:100%; height:100%;margin:0;padding:10%">');
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n con derechos reservados por <b>Televisora Nacional S.A. 2014</b></p>');
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Para sugerencias o dudas, escriba a <span style="color:blue;">md@tvnmedia.com</span></p>');    					
+    					$('#datacontents').append('<p style="text-align: center; padding-left:10%;padding-right:10%;">Aplicaci&oacute;n desarrollada por <b>Hecticus Software Inc.</b></p>');
+    					$('#datacontents').append('<img src="img/logo_hecticus.png" style="position:relative; width:50%; left:25%; height:auto;">');
+    					$('#datacontents').append('</div>');	
+    					$('#datacontent').attr('class','page left');
+    					
+    				} else {
     				
-    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
-    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
-					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+	    				trendingview=false;
+	    				$('#screen-block').addClass('hidden');		
+	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
+	    				
+	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
+	    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
+						gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+	    				
+		    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);
+		    			
+		    			$('#menu').attr('class','page transition left');	    				    			 	
+						$('#datacontent').attr('class','page right');
+						$('#datatrending').attr('class','page right');
+						
+	
+						if (typeof myScrollDatacontentHorizontal != 'undefined') {
+							myScrollDatacontentHorizontal = null;
+						}
     				
-	    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);
-	    			
-	    			$('#menu').attr('class','page transition left');	    				    			 	
-					$('#datacontent').attr('class','page right');
-					$('#datatrending').attr('class','page right');
-					
-
-					if (typeof myScrollDatacontentHorizontal != 'undefined') {
-						myScrollDatacontentHorizontal = null;
-					}	
+    					
+    				}
+    				
+    				
+    					
 				
 
     			}   								
     		});
 
      			
-			$(document).on('touchstart','li[data-content="headline"]', function(e) {				
+			$(document).on('touchstart','li[data-content="headline"], li[data-type="video"]', function(e) {				
 				press=false;	
-    		}).on('touchend','li[data-content="headline"]', function() {				
+    		}).on('touchend','li[data-content="headline"], li[data-type="video"]', function() {				
     			if (press) {
     				
 		
@@ -527,9 +556,9 @@ function initBasicApp(){
     		
     		
     		
-			$(document).on('touchstart','div[data-type="video"], li[data-type="video"]', function(e) {
+			$(document).on('touchstart','div[data-type="video"]', function(e) {
 				press=false;		
-    		}).on('touchend','div[data-type="video"], li[data-type="video"]', function() {
+    		}).on('touchend','div[data-type="video"]', function() {
     			if (press) {
 	    			window.videoPlayer.play($(this).data('src'));
 				}   
@@ -753,7 +782,7 @@ function initBasicApp(){
 							$.news={id:itemArray[i]["ID"],headline:'',date:'',thumbnail:[],highdef:[],quicklook:[],caption:[],video:[],datacontent:''};								    	
 							$.news.headline=itemArray[i]["Title"];
 
-							$.news.date=$.formatDateString(itemArray[i]["Date"]);
+							$.news.date=$.formatDateString(itemArray[i]["Date"],false);
 							
 							var dataContent;
 							dataContent = '<media media-type="image" style="leftSide"><media-reference mime-type=""/></media>';
@@ -777,16 +806,14 @@ function initBasicApp(){
 							$.news.quicklook.push({src:imageFile,width:864,height:486});
 							
 							//check if there is a video
-							var isVideo = false;
 							if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
-								isVideo = true;
 								var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 								var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 								var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								$.news.video.push({src:videoURL,poster:imageFile});
 								if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 									videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-									$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+									$.news.video.push({src:videoURL,poster:imageFile});
 								}			    				
 							}
 
@@ -819,11 +846,11 @@ function initBasicApp(){
 								$($.category+'-news-featured-title').attr('data-content','headline');
 								
 								//if (arrCategory[myScrollPage.currPageX].video) {
-								if (isVideo) {
+								/*if (isVideo) {
 									$($.category+'-news-featured-title').attr('data-content','');
 									$($.category+'-news-featured-title').attr('data-type','video');
 									$($.category+'-news-featured-title').attr('data-src',$.news.video[0].src);		
-								}
+								}*/
 								
 		
 		
@@ -855,7 +882,7 @@ function initBasicApp(){
 
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:120px; max-height:120px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
 									
 									//$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
 									$.li+='<div align="center" style="position: absolute; height: 100%; width:100%;text-align: center; top:1.6em;">';
@@ -874,7 +901,7 @@ function initBasicApp(){
 									arrTrendingTopics.forEach(function(trending,i) {
 										//$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
 										//$.li+='<p style="width:100%; height:100%; color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';
-										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
+										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:55px; max-height:55px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
 										$.li+='#'+trending.Title;										
 										$.li+='</div>';
 									});
@@ -897,11 +924,12 @@ function initBasicApp(){
 								
 								
 								//if (arrCategory[myScrollPage.currPageX].video) {
-								if (isVideo) {
+								/*if (isVideo) {
 									$.li='<li data-view="thumbnail" data-type="video"  data-src="'+$.news.video[0].src+'"  >';
 								} else {
 									$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';									
-								}
+								}*/
+								$.li='<li data-view="thumbnail" data-content="headline" data-category="'+arrCategory[myScrollPage.currPageX].classId+'" data-id="'+$.news.id+'" data-news="#news-'+$.news.id+'" data-headline="'+$.news.headline+'" >';
 
 								if ($.news.quicklook.length >= 1) {
 									$.li+='<div data-src="'+$.news.quicklook[0].src+'" class="thumbnail" style="background-image:url('+$.news.quicklook[0].src+'); background-size:cover; height:'+((viewport.height*15)/100)+'px;" >&nbsp;</div>';
@@ -953,7 +981,7 @@ function initBasicApp(){
 						$.news.headline=itemArray[i]["Title"];
 						
 						//Share button onclick
-						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+						$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[i]["URL"]+'\');');
 
 						$.news.date=$.formatDateString(itemArray[i]["Date"],true);
 														
@@ -983,10 +1011,10 @@ function initBasicApp(){
 							var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 							var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 							var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-							$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+							$.news.video.push({src:videoURL,poster:imageFile});
 							if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 								videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:itemArray[i]["image"]});
+								$.news.video.push({src:videoURL,poster:imageFile});
 							}			    				
 						}
 
@@ -1173,7 +1201,7 @@ function initBasicApp(){
 							
 							
 					$.news.headline=trending.Title;			
-					$.news.date=$.formatDateString(formatdate);	
+					$.news.date=$.formatDateString(itemArray[i]["Date"],false);	
 					
 					var imageFile = "";
 					if(trending["PortalImage"] != null){
@@ -1282,7 +1310,8 @@ function initBasicApp(){
 					dataContent+=trending.Body;
 					$.news.datacontent=$('<div>').append(dataContent).remove().html();
 
-					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',null,null,\'http://www.tvn-2.com/noticias/noticias_detalle.asp?id='+$.news.id+'\');');
+					//Share button onclick
+					$('.share').attr('onclick','window.plugins.socialsharing.share(\''+$.news.headline.replace(/["']/g, "")+'\',\'NoticiasTVN\',null,\'http://tvn-cloud-farm-lb.cloudapp.net'+itemArray[0]["URL"]+'\');');
 				
 					$.li='<li id="news-'+$.news.id+'" video="news-'+$.news.id+'-video" class="news-datacontent none" >';
 					
@@ -1721,7 +1750,7 @@ var app = {
 					$('#datatrending').attr('class','page transition right');
 					fRemoveClassIcon();																			
 				}else {
-					if(myScrollPage.currPageX == 0){
+					if(myScrollPage == null || myScrollPage.currPageX == 0){
 						
 						exitApp();
 

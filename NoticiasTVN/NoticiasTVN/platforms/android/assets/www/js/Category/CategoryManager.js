@@ -31,10 +31,6 @@ CategoryManager.prototype = {
     },
 	
 	getCompleteCategoriesFromWS:function(callback, errorCallback){
-		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
-		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		//var urlComplete = 'http://10.0.3.4:9001/newsapi/categories/get';
-		//var urlComplete = 'http://192.168.1.128/kraken/storefront/wsext/pa-tvn/getTVNCategories.php';
 		
 		var urlComplete = 'http://tvn.news.hecticus.com:9001/newsapi/v1/categories/search';
 		//var urlComplete = 'http://localhost:9007/newsapi/v1/categories/search';

@@ -12,7 +12,7 @@
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = dispatchPeriod;
     // Optional: set debug to YES for extra debugging information.
-    [GAI sharedInstance].debug = YES;
+    //[GAI sharedInstance].debug = YES;
     // Create tracker instance.
     [[GAI sharedInstance] trackerWithTrackingId:accountID];
     // Set the appVersion equal to the CFBundleVersion
