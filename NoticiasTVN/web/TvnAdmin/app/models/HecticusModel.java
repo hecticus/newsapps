@@ -6,6 +6,8 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.MappedSuperclass;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * Created by sorcerer on 2/20/14.
@@ -20,4 +22,16 @@ public abstract class HecticusModel extends Model {
     public JsonNode toObjJson() {
         return Json.toJson(this);
     }
+
+    public String decode(String val){
+        String tr = null;
+        try {
+            tr= URLDecoder.decode(val, "UTF-8");
+        }catch (UnsupportedEncodingException ex){
+
+        }
+        return tr;
+
+    }
+
 }
