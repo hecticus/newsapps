@@ -54,6 +54,7 @@ create table news (
   size                      integer,
   title                     varchar(255),
   url                       varchar(255),
+  id_trending               bigint,
   id_category               bigint,
   crc                       varchar(255),
   inserted_time             bigint,

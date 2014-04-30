@@ -74,9 +74,7 @@ public class HecticusController extends Controller {
 
     public static ObjectNode tvnResponse(String parentObj, ArrayList data){
         ObjectNode tr = Json.newObject();
-        ObjectNode innerObj = Json.newObject();
-        innerObj.put("item", Json.toJson((data)));
-        tr.put(parentObj,innerObj);
+        tr.put(parentObj, Json.toJson((data)));
         return tr;
     }
 }

@@ -106,6 +106,33 @@ public class NewsController extends HecticusController {
         }
     }
 
+    public static Result getTrendingNews(Long id, Boolean hecticResponse){
+        try {
+            List<News> fullList = News.getTrendingNewsById(id);
+            ArrayList data = new ArrayList();
+            if (fullList != null && !fullList.isEmpty()){
+                //i got data
+                for (int i = 0; i < fullList.size(); i++){
+                    if (hecticResponse){
+                        data.add(fullList.get(i).toJson());
+                    }else{
+                        data.add(fullList.get(i).toJsonTVN());
+                    }
+                }
+            }
+            //build response
+            ObjectNode response;
+            if (hecticResponse){
+                response = hecticusResponse(0, "ok", "news", data);
+            }else {
+                response = tvnResponse("noticias", data);
+            }
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1,"ocurrio un error:" + ex.toString()));
+        }
+    }
+
     /**
      * devuelve una lista de las noticias que estan en la base de datos
      * @return
@@ -147,7 +174,6 @@ public class NewsController extends HecticusController {
             ArrayList<News> toInsert = new ArrayList<News>();
             //get data from post
             ObjectNode data = getJson();
-            System.out.println(data);
             //get data from json
             if (data.has("news")){
                 Iterator it = data.get("news").getElements();

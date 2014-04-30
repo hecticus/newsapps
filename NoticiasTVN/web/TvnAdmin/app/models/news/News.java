@@ -155,9 +155,9 @@ public class News extends HecticusModel{
             idCategory = data.get("idCategory").asLong();
         }
 
-        //if (data.has("resources")){
+        if (data.has("resources")){
 
-        //}
+        }
 
         if (data.has("idTrending")){
             idTrending = data.get("idTrending").asLong();
@@ -265,6 +265,10 @@ public class News extends HecticusModel{
      */
     public static List<News> getNewsByDateAndNotPushed(long idCategory){
         return finder.where().eq("id_category", idCategory).eq("generation_time", 0).orderBy("pub_date_formated").findList();
+    }
+
+    public static List<News> getTrendingNewsById(long id){
+        return finder.where().eq("id_trending", id ).findList();
     }
 
     public static void insertBatch(ArrayList<News> list){

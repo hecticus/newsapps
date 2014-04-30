@@ -37,6 +37,8 @@ public class BannerFile extends HecticusModel {
         return tr;
     }
 
+    /****************************GETTERS AND SETTERS***********************************************/
+
     public Long getIdBannerFile() {
         return idBannerFile;
     }
@@ -44,9 +46,6 @@ public class BannerFile extends HecticusModel {
     public void setIdBannerFile(Long idBannerFile) {
         this.idBannerFile = idBannerFile;
     }
-
-    /****************************GETTERS AND SETTERS***********************************************/
-
 
     public String getName() {
         return name;
