@@ -223,9 +223,9 @@ public class News extends HecticusModel{
         tr.put("FirstVideo", firstVideo);
         //hit counter
         tr.put("ID", externalId);
-        tr.put("Image", image);
-        tr.put("PortalImage", portalImage);
-        tr.put("PortalImageDescription", portalImageDesc);
+        tr.put("Image", decode(image));
+        tr.put("PortalImage", decode(portalImage));
+        tr.put("PortalImageDescription", decode(portalImageDesc));
         tr.put("PublishingDateTime", pubTime);
         tr.put("PushNotifications", pushNotifications);
         tr.put("SecondVideo", secondVideo);
