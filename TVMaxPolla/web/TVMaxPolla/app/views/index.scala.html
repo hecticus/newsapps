@@ -474,7 +474,10 @@
 				
 			</div>	
 		</div>
-	
+		@if(session.get("social") != "null") {
+			<a href="#" onClick="return fbs_click(400, 300)" target="_blank" title="Compartir en Facebook">Compartir en Facebook</a>	
+		}
+		
 
 
 }
