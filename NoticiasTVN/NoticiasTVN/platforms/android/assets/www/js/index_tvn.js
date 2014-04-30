@@ -1749,8 +1749,8 @@ function successGetCategories(results){
 			//console.log("ARRAY ORIGINAL: "+JSON.stringify(arrCategory));
 			removeInvalidCategories();
 			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
-			endOfAppInitialization();
-			//getTrendingIndexesForApp();
+			//endOfAppInitialization();
+			getTrendingIndexesForApp();
 		}else{
 			console.log("Error CATEGORIES");
 			noConnectionForNewsInit();
