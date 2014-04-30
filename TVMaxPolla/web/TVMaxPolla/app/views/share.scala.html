@@ -1,0 +1,455 @@
+@(phases: List[models.matches.Phase])
+
+	
+@getGamePhase(p:Integer, i: Integer, ga: Integer, gb: Integer) = {
+	
+	@for(phase <- phases) {
+		@if(phase.getIdPhase() == p) {				
+			@for((group,index) <- phase.getMatchGroup().zipWithIndex) {
+				@for(game  <- group.getGameMatch()) {
+
+					@if(p == 6) { 
+						
+						<div class="row">	
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 left">
+								<div class="content-flag-score" data-alt="-" data-index="@game.getTeamA().getName()" style="margin: 0 auto;" >-</div>
+								<!--div class="llave"></div-->																	
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 right">
+								<div class="content-flag-score" data-alt="-" data-index="@game.getTeamB().getName()" style="margin: 0 auto;">-</div>
+								<!--div class="llave"></div-->	
+							</div>        
+						</div>
+						
+					} else {
+					
+					
+						@if(((index%i) == ga) || ((index%i) == gb)) {				 	
+						 	<ul >					 		
+								
+								 @if(p == 2) {
+									<li>
+										<div class="content-flag-score" data-alt="@game.getTeamA().getName()" data-index="@game.getTeamA().getName()" >@game.getTeamA().getName()</div>										
+									</li>
+									<li>
+										<div class="content-flag-score" data-alt="@game.getTeamB().getName()" data-index="@game.getTeamB().getName()" >@game.getTeamB().getName()</div>										
+									</li>									 	
+								} 
+								 
+								@if(p == 3) {								 
+								 	<li >
+								 		<div class="content-flag-score" data-alt="-" data-index="@game.getTeamA().getName()" >-</div>
+								 		<!--div class="llave"></div-->
+								 	</li>
+									<li >
+										<div class="content-flag-score" data-alt="-" data-index="@game.getTeamB().getName()" >-</div>
+										<!--div class="llave"></div-->
+									</li>
+								}
+								
+							 	@if(p == 4) {								 	
+								 	<li>
+								 		<div class="content-flag-score" data-alt="-" data-index="@game.getTeamA().getName()" >-</div>
+								 		<!--div class="llave"></div-->
+									</li>								 		
+									<li>
+										<div class="content-flag-score" data-alt="-" data-index="@game.getTeamB().getName()" >-</div>
+										<!--div class="llave"></div-->
+									</li>
+								}
+
+							</ul>
+						 }
+						
+					}
+
+					 
+					
+				}
+				 
+			}
+		
+		}
+	}
+	
+	    
+}
+
+
+
+@main("La polla de TVMax - FiFA World Cup Brasil 2014") {
+
+		
+
+		<div class="row menu large" style="margin-top:5px; margin-bottom: 5px; padding: 0;">		
+			<div data-type="large" class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style=" padding: 5px;">				
+				<div class="btn-group">
+					@for(phase <- phases) {			
+						@if(phase.getIdPhase() != 5) {
+							<button data-phase="@phase.getIdPhase()"  type="button"  class="btn btn-default menu phase large @("on".when(phase.getIdPhase() == 1)) @("hidden".when(phase.getIdPhase() != 1))" >@phase.getName()</button>			
+							<!--button data-phase="@phase.getIdPhase()"  type="button"  class="btn btn-default menu phase large @("on".when(phase.getIdPhase() == 1))" >@phase.getName()</button-->
+						}			
+					}
+				</div>					
+			</div>
+		</div>
+
+ 		<div class="row menu small" style="background-color: #BAC6DD; padding: 10px 5px;">
+			
+		</div>
+ 	
+ 	
+		<!-- <phase> -->
+		@for(phase <- phases) {
+			
+			
+			
+			
+			@if(phase.getIdPhase() != 5) {
+			
+				<div data-phase="@phase.getIdPhase()"  class="row @("hidden".when(phase.getIdPhase() != 1)) phase" data-games="@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}">
+				
+				
+				
+					<div class="col-md-12">
+				
+
+						<div class="row title">
+					
+							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">								
+								<span class="large">Predicción @phase.getName()</span>	
+								<span class="small" style="font-size: 0.9em">@phase.getName()</span>				
+							</div>
+							
+							@if(phase.getIdPhase() == 1) {
+								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 large" style="text-align: right;">
+									<span>Grupos </span>
+									@if(phase.getIdPhase() == 1) {
+										@for(group <- phase.getMatchGroup()) {
+											<!--span data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1)) @("hidden".when(group.getIdGroup() != 1))" >@group.getName()</span-->
+											<span data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1))" >@group.getName()</span>	
+										}	
+									}				
+								</div>
+							}
+							
+							
+							
+							@if(phase.getIdPhase() == 1) {
+								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 small" style="text-align: right;">
+									@if(phase.getIdPhase() == 1) {
+										<div class="btn-group">
+											@for(group <- phase.getMatchGroup()) {		
+												<!--button data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1)) @("hidden".when(group.getIdGroup() != 1)) " >@group.getName()</button-->
+												<button data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1)) " >@group.getName()</button>			
+											}
+										</div>
+									}
+								</div>
+							}
+							
+								
+
+						</div>
+				
+
+			
+					<!--<group>-->
+					
+					@for(group <- phase.getMatchGroup()) {
+
+						
+						<div class="row group @("hidden".when(group.getIdGroup() != 1))"  data-group="@group.getIdGroup()">
+						
+							<div class="col-md-12">
+						 
+						
+								<!--<game>-->
+								@for((game, index) <- group.getGameMatch().zipWithIndex) {
+									
+									
+									@if(game.getResults().getScoreTeamA()==game.getResults().getScoreTeamB()) {
+										<div class="row game"  data-game="@game.getIdMatch()" data-set="false"  >	
+									} else{ 
+										<div class="row game"  data-game="@game.getIdMatch()" data-set="true"  >	
+									}
+									
+
+										<script>			
+							  				$(function() {
+							  					arrTeamGame.push({id:@game.getTeamA().getIdTeam(),goals:{f:0,a:0},points:0}, {id:@game.getTeamB().getIdTeam(),goals:{f:0,a:0},points:0});
+							  					arrGame.push({id:@game.getIdMatch(),team:arrTeamGame});		  					
+							  					arrTeamGame = [];
+							  					@if(index <= 1) {		  					
+													
+													arrTeam.push({id:@game.getTeamA().getIdTeam(),name:'@game.getTeamA().getName()',shortName:'@game.getTeamA().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())',goals:{f:0,a:0,d:0},points:0});
+													arrTeam.push({id:@game.getTeamB().getIdTeam(),name:'@game.getTeamB().getName()',shortName:'@game.getTeamB().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())',goals:{f:0,a:0,d:0},points:0});
+																										
+													arrDataTeam.push({id:@game.getTeamA().getIdTeam(),name:'@game.getTeamA().getName()',shortName:'@game.getTeamA().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())'});
+													arrDataTeam.push({id:@game.getTeamB().getIdTeam(),name:'@game.getTeamB().getName()',shortName:'@game.getTeamB().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())'});
+													
+												}														
+											});
+							  			</script>
+									
+										
+										
+										<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+											
+											<div class="row">
+												<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 venue" >
+													<div class="row" >
+														<div class="col-xs-4 col-sm-12 col-md-12 col-lg-12 date" >
+															<span style="color:#173069; ">@game.getDate().toString().substring(6, 8)/@game.getDate().toString().substring(4, 6)</span>
+														</div>
+														<div class="col-xs-4 col-sm-12 col-md-12 col-lg-12 date" >
+															<span style="color:#b8b7b7; ">@game.getDate().toString().substring(8, 10):@game.getDate().toString().substring(11, 13)</span>
+														</div>
+														<div class="col-xs-4 col-sm-12 col-md-12 col-lg-12 date" >
+															<span style="color:#b8b7b7; ">@game.getVenue().getName()</span>
+														</div>
+													</div>								
+												</div>
+											</div>
+																		
+										</div>
+
+										<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8"  >
+
+											<div class="row">
+										
+												<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" style="text-align: left; padding: 5px; " data-team="@game.getTeamA().getIdTeam()"   >
+													<img class="flag" onerror="this.style.display='none'" src="@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())" alt="@game.getTeamA().getName()" />
+													<span class="name">@game.getTeamA().getName()</span>
+												</div>
+														
+												<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 score" >
+																	
+													<div class="row" style="text-align: center;" >
+													
+														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team team-a" data-team="@game.getTeamA().getIdTeam()" >															
+															<div class="row up" >
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
+																	<img class="arrow" src="@routes.Assets.at("images/up.png")" />
+																</div>
+															</div>
+															<div class="row" >
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal" data-goal="@game.getResults().getScoreTeamA()" >@game.getResults().getScoreTeamA()</div>
+															</div>
+															<div class="row  down" >
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+																	<img class="arrow" src="@routes.Assets.at("images/down.png")" />										
+																</div>
+															</div>
+														</div>
+														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style=" padding: 5px;">
+															<div style="background-color:#999999; width:1px; height: 50px; margin: 0 auto; "></div>
+														</div>
+														<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team team-b" data-team="@game.getTeamB().getIdTeam()">														
+															<div class="row up" >
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
+																	<img class="arrow" src="@routes.Assets.at("images/up.png")" />
+																</div>
+															</div>
+															<div class="row" >
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 goal" data-goal="@game.getResults().getScoreTeamB()"  >@game.getResults().getScoreTeamB()</div>
+															</div>
+															<div class="row down" >
+																<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+																	<img class="arrow" src="@routes.Assets.at("images/down.png")" />										
+																</div>
+															</div>														
+														</div>
+														
+													</div>												
+					
+												
+												</div>										
+															
+												<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" style="text-align: right; padding: 5px; " data-team="@game.getTeamB().getIdTeam()" >
+													<span class="name">@game.getTeamB().getName()</span>																									
+													<img  class="flag" onerror="this.style.display='none'" src="@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())" alt="@game.getTeamB().getName()"   style="text-align: left;" />																																
+												</div>
+											
+											</div>
+		
+										</div>
+									</div>
+								}
+								<!--<game>-->
+
+							</div>
+							
+							<script>			
+								$(function() {
+									arrGroup.push({id:@group.getIdGroup(), name:'@group.getName()',team:arrTeam,game:arrGame,classified:[], active:@{if(group.getIdGroup() == 1) true else false}});
+									arrGame = [];
+									arrTeam = [];
+								});
+							</script>		
+						
+						</div>
+					}
+					<!--<group>-->
+					
+					
+					<!--div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<button class="btn btn-success back " style="padding:10px; margin:5px; font-weight: bold; ">ANTERIOR</button>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<button class="btn btn-success next" style="float: right; padding:10px; margin:5px; font-weight: bold; ">SIGUIENTE</button>
+						</div>
+					</div-->
+					
+					<div class="row title small" style="font-size: 100%;">
+											
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">							
+							<span class="small" style="font-size: 0.9em"  >@phase.getName()</span>				
+						</div>							
+						
+						@if(phase.getIdPhase() == 1) {
+							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 small" style="text-align: right;">
+								@if(phase.getIdPhase() == 1) {
+									<div class="btn-group">
+										@for(group <- phase.getMatchGroup()) {		
+											<!--button data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1)) @("hidden".when(group.getIdGroup() != 1)) " >@group.getName()</button-->
+											<button data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1))" >@group.getName()</button>			
+										}
+									</div>
+								}
+							</div>
+						}
+							
+					</div>
+					
+					
+								
+			 		<div class="row menu small" style="background-color: #BAC6DD; padding: 10px 5px;">
+						
+					</div>
+					
+					
+	
+				</div>
+			</div>	
+	
+			<script>
+				$(function() {
+					arrPhase.push({id:@phase.getIdPhase(),name:'@phase.getName()',games:@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}, group:arrGroup, active:@{if(phase.getIdPhase() == 1) true else false}});
+					arrGroup = [];
+				});
+			</script>
+			
+			}
+		} 
+		<!-- </phase> -->
+
+
+
+		@for(phase <- phases) {
+			@if(phase.getIdPhase == 1) {
+			
+			
+				<div class="row title prediction" >
+					<div class="col-md-12" >
+						<span>Predicción por Grupos</span>
+					</div>
+				</div>
+				
+				<div class="row prediction" >			
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:5px; background-color:#e2e2e3; overflow: hidden">		
+					@for((group,index) <- phase.getMatchGroup().zipWithIndex) {
+						
+						
+
+						
+							
+							<div class="position" style="background: url(@routes.Assets.at("images/arrows/" + group.getName().toLowerCase() + ".png")) no-repeat left center; background-size: 20px 80px;">							
+								
+									<div data-group="@group.getIdGroup()" data-position="0" data-index="@group.getName()1" class="content-flag-score" style="display: block; margin: 0 auto;">@group.getName()1</div>	
+									<div data-group="@group.getIdGroup()" data-position="1" data-index="@group.getName()2" class="content-flag-score" style="display: block; margin: 0 auto;">@group.getName()2</div>
+							
+								
+									
+							</div>
+							
+						
+					}
+					</div>					
+				</div>		
+				
+			}	
+
+		}
+
+
+	<div id="brackets" class="row">
+		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">			
+			<div class="row left">
+				
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 round-16" >
+					<h4>Octavos</h4>
+					@getGamePhase(2,4,0,1) 		
+				</div>
+
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 quarter-finals">
+					<h4>Cuartos</h4>
+					@getGamePhase(3,4,0,1)
+				</div>
+				
+				
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 semi-finals">
+					<h4>Semifinal</h4>
+					@getGamePhase(4,2,0,0)									
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						
+			<div class="row" >				
+				<div class="col-md-12 final">
+					<h3>Campeón</h3>					
+					<ul>
+						<li>
+							<div class="content-flag-score" data-alt="-" data-index="WIN" style="margin: 0 auto;" >-</div>
+							<!--div class="llave"></div-->
+						</li>
+					</ul>					
+				</div>							
+			</div>
+			
+			<div class="row">				
+				<div class="col-md-12 finalists">
+					@getGamePhase(6,1,0,0)
+				</div>
+			</div>
+						
+		</div>
+		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					
+					
+			<div class="row right">
+
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 semi-finals"   >
+					<h4>Semifinal</h4>
+					@getGamePhase(4,2,1,1)
+				</div>
+				
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 quarter-finals"  >
+					<h4>Cuartos</h4>					
+					@getGamePhase(3,4,2,3)
+				</div>
+				
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 round-16"  >
+					<h4>Octavos</h4>
+					@getGamePhase(2,4,2,3) 	
+				</div>
+				
+				
+			</div>	
+		</div>
+
+}
