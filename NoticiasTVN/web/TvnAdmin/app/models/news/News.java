@@ -216,8 +216,8 @@ public class News extends HecticusModel{
     public ObjectNode toJsonTVN() {
         ObjectNode tr = Json.newObject();
         tr.put("id",idNews); //local id
-        tr.put("Body", body);
-        tr.put("Categories",categories);
+        tr.put("Body", decode(body));
+        tr.put("Categories",decode(categories));
         tr.put("Date" , pubDate);
         tr.put("Destacada", featured);
         tr.put("FirstVideo", firstVideo);
@@ -231,8 +231,8 @@ public class News extends HecticusModel{
         tr.put("SecondVideo", secondVideo);
         tr.put("Size", size);
         //tr.put("StartDate", null);
-        tr.put("Title", title);
-        tr.put("URL", url);
+        tr.put("Title", decode(title));
+        tr.put("URL", decode(url));
         return tr;
     }
 
@@ -328,6 +328,17 @@ public class News extends HecticusModel{
             return true;
         }
         return false;
+    }
+
+    public String decode(String val){
+        String tr = null;
+        try {
+            tr= URLDecoder.decode(val,"UTF-8");
+        }catch (UnsupportedEncodingException ex){
+
+        }
+        return tr;
+
     }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
