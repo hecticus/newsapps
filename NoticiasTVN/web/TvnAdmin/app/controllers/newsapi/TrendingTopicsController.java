@@ -29,7 +29,7 @@ public class TrendingTopicsController extends HecticusController {
                 }
             }
             //build response
-            ObjectNode response = tvnResponse("noticiastrendingtopics", data);
+            ObjectNode response = tvnResponse("trends", data);
             return ok(response);
 
         }catch(Exception ex){
