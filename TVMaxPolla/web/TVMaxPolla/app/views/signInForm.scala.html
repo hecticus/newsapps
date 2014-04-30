@@ -1,76 +1,111 @@
 @(signinForm: Form[models.matches.Client])
-
 @import helper._
 @import helper.twitterBootstrap._
 
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>Polla Mundial | Mundial Brasil 2014</title>        
+        <meta charset="utf-8">
+        <meta property="og:title" content="La Polla Mundial TvMax - Brasil 2014" />
+		<meta property="og:description" content="Ya armé La Polla Mundial TvMax - Brasil 2014, elige al próximo campeón del mundo y a quiénes le tiene que ganar para levantar la copa. Te toca a ti, arma el tuyo y compártelo." />
+		
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    	<meta name="description" content="La Polla Mundial TvMax - Brasil 2014">
+    	<meta name="author" content="Hecticus Software, Inc.">
+    	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/normalize.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animate.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/polla.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>      
+        <script src="@routes.Assets.at("javascripts/facebook.js")" type="text/javascript"></script>        
+       	<script src="@routes.SignUp.jsRoutes()" type="text/javascript"></script>
+       	
+	</head>
+	<body onload="init();">
+		<div class="container" style="max-width: 940px;" >
 
-@main("Polla Mundial | Mundial Brasil 2014") {
-	
-	<div class="row" >
-		<div >
-			<img src="@routes.Assets.at("images/banner.jpg")" style="width: 100%; height: auto;" >
+			<div class="row" >
+				<div >
+					<img src="@routes.Assets.at("images/banner.jpg")" style="width: 100%; height: auto;" >
+				</div>
+			</div>
+			
+			<div class="row title" >
+				<div class="col-md-12"  >
+					<span>Ingresar</span>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div class="row" >
+				
+				@if(flash.containsKey("danger")) {		
+					
+					<br />		
+		        	<div class="col-md-12">
+						<div class="alert alert-danger">@flash.get("danger")</div>
+					</div>			
+		    	} 
+		
+				<div class="col-md-12" style="text-align: center;" >
+					
+					<br />
+					<span style="font-size: 0.9em; font-weight: bold;">¿Necesitas una cuenta?</span>&nbsp;<a href="@routes.SignUp.blank">Registrate aquí</a>					
+					<br /><br />	
+					<button type="button" class="btn btn-block facebook" onclick="fejemplo();">Facebook</button>
+										
+					<span class="or_divide">or</span>
+					
+					 @helper.form(action = routes.SignIn.submit, 'role -> "form" ) {
+		
+						@inputText(
+			                signinForm("email"),
+			                '_label -> "",
+			                '_help -> "",
+			                'class -> "form-control input",
+			                'placeholder -> "Correo electrónico*"
+			       		)
+				
+			
+			     
+			           	@inputPassword(
+			                signinForm("password"), 
+			                '_label -> "",
+			                '_help -> "",
+			                'class -> "form-control input",
+				           	'placeholder -> "Contraseña*"
+			            )
+			     
+			
+						<input id="socialname" type="hidden" name="socialname" value='' >
+				        <input id="socialemail" type="hidden" name="socialemail" value='' >	    	
+						<input id="socialid" type="hidden" name="socialid" value='' >		
+						
+						<br />
+						<button type="submit" class="btn btn-block button" >Ingresar</button>	
+						<!--a href="@routes.ResetPassword.blank">¿Olvidaste tu contraseña?</a-->
+						
+					</div>		 
+				}
+				
+				<!--div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" >
+					<br />
+					<p>También puedes ingresar o registrarte a través de:</p>					 
+					<a href="@routes.SignUp.blank"><button type="button" class="btn btn-block button" >Registrarse</button></a>							
+				</div-->	
+				
+				
+						
+			
+			</div>	
+
 		</div>
-	</div>
-	
-	<div class="row title" >
-		<div class="col-md-12"  >
-			<span>Ingresar</span>
-		</div>
-	</div>
-	
-	<div class="row" >
-		
-		@if(flash.containsKey("danger")) {		
-			<br />	
-        	<div class="col-md-12">
-				<div class="alert alert-danger">@flash.get("danger")</div>
-			</div>			
-    	} 
-
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 bar" >
-			 @helper.form(action = routes.SignIn.submit, 'role -> "form" ) {
-
-				@inputText(
-	                signinForm("email"),
-	                '_label -> "",
-	                '_help -> "",
-	                'class -> "form-control input",
-	                'placeholder -> "Correo electrónico*"
-	       		)
-		
-	
-	     
-	           	@inputPassword(
-	                signinForm("password"), 
-	                '_label -> "",
-	                '_help -> "",
-	                'class -> "form-control input",
-		           	'placeholder -> "Contraseña*"
-	            )
-	     
-	
-				<input id="socialname" type="hidden" name="socialname" value='' >
-		        <input id="socialemail" type="hidden" name="socialemail" value='' >	    	
-				<input id="socialid" type="hidden" name="socialid" value='' >		
-				
-				<br />
-				<button type="submit" class="btn btn-block button" >Ingresar</button>	
-				<!--a href="@routes.ResetPassword.blank">¿Olvidaste tu contraseña?</a-->
-				
-			</div>		 
-		}
-		
-		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" >
-			<br />
-			<p>También puedes ingresar o registrarte a través de:</p>					 
-			<button type="button" class="btn btn-block facebook" onclick="fejemplo();">Facebook</button>
-			<a href="@routes.SignUp.blank"><button type="button" class="btn btn-block button" >Registrarse</button></a>							
-		</div>	
-		
-		
-				
-	
-	</div>	
-   
-    
-}
+	</body>
+</html>
