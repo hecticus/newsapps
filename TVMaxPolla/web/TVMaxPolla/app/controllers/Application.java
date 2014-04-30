@@ -63,24 +63,25 @@ public class Application extends Controller
 		return redirect("/signin");
     }
         
-    public static String EncodeURL(String url) throws java.io.UnsupportedEncodingException {
-        url = java.net.URLEncoder.encode(url, "UTF-8");
-        return url;
-    }
 
-    public static String EncodeURL(Call call) throws java.io.UnsupportedEncodingException {
-        return EncodeURL(call.toString());
-    }
-    
-    
     
     public static Result share(String id)
     {
     	
-    	Client objClient =  new Client();
-    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
-    	lstPhase = objClient.getPrediction(id);    	
-    	return ok(share.render(lstPhase));
+    	String url = Config.getTVMaxPollaHost();
+    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9000/KrakenSocialClients/v1/client/"+id).get();
+    	JsonNode jsonResponse = wsResponse.get().asJson();
+    	
+    	if (jsonResponse.get("error").asLong() == 0) {    		
+    		session("nick",jsonResponse.get("response").get("nick").asText());
+    		Client objClient =  new Client();
+        	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+        	lstPhase = objClient.getPrediction(id);    	
+        	return ok(share.render(lstPhase));	
+    	} else {
+    		return redirect("/signin");
+    	}
+    	    	
 
     }
     
