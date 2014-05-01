@@ -870,7 +870,7 @@ $(function() {
 				var _return = false;
 				var _currenPhase = $('.row.phase:visible').data('phase');
 				 
-				/*if (_phase > _currenPhase) {
+				if (_phase > _currenPhase) {
 					$.each(arrPhase, function(index,phase) {
 						
 						if (phase.id == _currenPhase) {
@@ -894,7 +894,7 @@ $(function() {
 					});
 				}
 
-				if (_return) return false;*/
+				if (_return) return false;
 
 				$('.menu.group[data-group]').removeClass('on');		
 				$('.menu.phase').removeClass('on');				
@@ -1129,6 +1129,6 @@ $(function() {
 	  		});
 	  		
 	  		var fReplace = function() {
-	  			window.location.replace("@routes.Application.exit");
+	  			window.location.replace("/exit");
 	  		};
 	  		

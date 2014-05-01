@@ -81,7 +81,7 @@ button[data-group="7"].on{background-color:#314972; color:#ffffff;}
 button[data-group="8"].on{background-color:#314972; color:#ffffff;}
 
 .btn.btn-default.menu.phase.exit {background-color:#d9534f; color:#FFFFFF;}
-.btn.btn-default.menu.phase.exit:hover {padding:10px; background-color:#BEC5DF;  color:#FFFFFF;}
+.btn.btn-default.menu.phase.exit:hover {padding:10px; background-color:#d9534f !important;  color:#FFFFFF;}
 button {font-size: 0.8em !important}
 .btn.btn-default.menu.phase.save {background-color:#f1e916; color:#999999;  }
 .btn.btn-default.menu.phase.save:hover{padding:10px; background-color:#BEC5DF; color:#ffffff;}
@@ -129,12 +129,24 @@ li[data-phase="6"] {float:left;}
 .btn.button {
 	width: 35%;
 	height: 35px;
-background: #485C88 url(/assets/images/registrate.png) no-repeat top left;
-background-size: 150px 32px;
-color: #ffffff;
-font-weight: bold;
-display: block;
-margin: 0 auto;
+	background: #485C88 url(/assets/images/registrate.png) no-repeat top left;
+	background-size: 150px 32px;
+	color: #ffffff;
+	font-weight: bold;
+	display: block;
+	margin: 0 auto;
+
+}
+
+.btn.button:hover {
+	width: 35%;
+	height: 35px;
+	background: #485C88 url(/assets/images/registrate.png) no-repeat top left;
+	background-size: 150px 32px;
+	color: #ffe85c;
+	font-weight: bold;
+	display: block;
+	margin: 0 auto;
 	
 }
 
@@ -158,6 +170,20 @@ margin: 0 auto;
 	background: #DCDCD8 url(/assets/images/FB.png) no-repeat 1% center;
 	background-size: 38px auto;
 	color: #999999;
+	font-weight: bold;
+	font-size: 1.4em !important;	
+	display: block;
+	margin: 0 auto;
+}
+
+
+.btn.facebook:hover {
+	width: 40%;
+	height: 45px;
+	border: 1px solid;
+	background: #173069 url(/assets/images/FB.png) no-repeat 1% center;
+	background-size: 38px auto;
+	color: #FFFFFF;
 	font-weight: bold;
 	font-size: 1.4em !important;	
 	display: block;

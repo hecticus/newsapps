@@ -14,6 +14,16 @@
 	.btn.facebook { width: 100% !important; }
 	
 	
+	img.arrow {
+		width: 20px;
+		height: 15px;
+		cursor: pointer;
+	}
+	
+	.goal {
+		text-align: center;
+		font-size: 1.2em;
+		font-weight: bold;}
 	
 }
 
@@ -34,6 +44,19 @@
 	.position {float:left; padding-left: 20px;  width:10%; margin-right:20px;}
 	.position:first-child {margin-left:5px; }
 	.position:last-child {margin-right:0px; }
+	
+
+img.arrow {
+		width: 15px;
+		height: 10px;
+		cursor: pointer;
+		}
+	
+	.goal {
+		text-align: center;
+		font-size: 1.0em;
+		font-weight: bold;}
+	
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -53,6 +76,17 @@
 	.position {float:left; padding-left: 20px;  width:10%; margin-right:25px;}
 	.position:first-child {margin-left:5px; }
 	.position:last-child {margin-right:0px; }
+	img.arrow {
+		width: 18px;
+		height: 10px;
+		cursor: pointer;
+		}
+	
+	.goal {
+		text-align: center;
+		font-size: 1.0em;
+		font-weight: bold;}
+	
 }
 
 /* Large devices (large desktops, 1200px and up) */
