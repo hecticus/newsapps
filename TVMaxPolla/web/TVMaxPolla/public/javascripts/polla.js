@@ -628,54 +628,7 @@ $(function() {
 
 
 				
-				$(document).on('click','.save', function() {
-					
-					$('.alert').removeAttr('style');
-					$('.alert').addClass('hidden');
-					
-					var btn = $(this);
-    				btn.button('loading');
-					
-					
-					var jsonSave={idClient:'@session.get("connected")',clientPrediction:{matches:[]}};
-			
-					$.each(arrPhase, function(index,phase) {
-						$.each(phase.group, function(index,group) {
-							$.each(group.game, function( index, game ) {								
-								jsonSave.clientPrediction.matches.push({"id_match":game.id,"score_team_a":game.team[0].goals.f,"score_team_b":game.team[1].goals.f});
-							});
-						});
-					});
-
-					
-					$.ajax({
-	            		url: "@controllers.matchesapi.routes.PredictionController.storeClientPrediction",
-	            		type: 'POST',	            		
-	            		dataType: 'json',
-	            		data: JSON.stringify(jsonSave),
-	            		contentType: "application/json; charset=utf-8"
-	            	}).always(function () {
-      					btn.button('reset');    				
-    				}).done(function(msg) {
-	        			
-	        			if (msg.error==0) {
-	        				        			
-	        				//$('#myModal').modal('show');
-	        				//$('#message').html('<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.');
-	        				
-	        				alert('Bien! Tu pronóstico se ha guardado con éxito.');
-	        			} else {
-	        				alert('Error! Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');
-	        				//$('#message').html('<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
-	        			}
-
-					}).fail(function( jqXHR, textStatus ) {  						
-  						$('.alert-danger').removeClass('hidden');
-  						
-					})
-
-
-				});
+				
 
 
 
