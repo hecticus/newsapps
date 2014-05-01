@@ -155,9 +155,9 @@ public class News extends HecticusModel{
             idCategory = data.get("idCategory").asLong();
         }
 
-        //if (data.has("resources")){
+        if (data.has("resources")){
 
-        //}
+        }
 
         if (data.has("idTrending")){
             idTrending = data.get("idTrending").asLong();
@@ -216,23 +216,23 @@ public class News extends HecticusModel{
     public ObjectNode toJsonTVN() {
         ObjectNode tr = Json.newObject();
         tr.put("id",idNews); //local id
-        tr.put("Body", body);
-        tr.put("Categories",categories);
+        tr.put("Body", decode(body));
+        tr.put("Categories",decode(categories));
         tr.put("Date" , pubDate);
         tr.put("Destacada", featured);
         tr.put("FirstVideo", firstVideo);
         //hit counter
         tr.put("ID", externalId);
-        tr.put("Image", image);
-        tr.put("PortalImage", portalImage);
-        tr.put("PortalImageDescription", portalImageDesc);
+        tr.put("Image", decode(image));
+        tr.put("PortalImage", decode(portalImage));
+        tr.put("PortalImageDescription", decode(portalImageDesc));
         tr.put("PublishingDateTime", pubTime);
         tr.put("PushNotifications", pushNotifications);
         tr.put("SecondVideo", secondVideo);
         tr.put("Size", size);
         //tr.put("StartDate", null);
-        tr.put("Title", title);
-        tr.put("URL", url);
+        tr.put("Title", decode(title));
+        tr.put("URL", decode(url));
         return tr;
     }
 
@@ -265,6 +265,10 @@ public class News extends HecticusModel{
      */
     public static List<News> getNewsByDateAndNotPushed(long idCategory){
         return finder.where().eq("id_category", idCategory).eq("generation_time", 0).orderBy("pub_date_formated").findList();
+    }
+
+    public static List<News> getTrendingNewsById(long id){
+        return finder.where().eq("id_trending", id ).findList();
     }
 
     public static void insertBatch(ArrayList<News> list){
@@ -325,6 +329,8 @@ public class News extends HecticusModel{
         }
         return false;
     }
+
+
 
     /**************************** GETTERS AND SETTERS ****************************************************/
 

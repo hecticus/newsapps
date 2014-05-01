@@ -59,9 +59,9 @@ public class TrendingTopics extends HecticusModel{
     @Override
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
-        tr.put("categoria", category);
-        tr.put("titulo",title);
-        tr.put("imagen",image);
+        tr.put("ID", Long.parseLong(category));
+        tr.put("Title", decode(title));
+        tr.put("ImageUrl",decode(image));
         return tr;
     }
 
