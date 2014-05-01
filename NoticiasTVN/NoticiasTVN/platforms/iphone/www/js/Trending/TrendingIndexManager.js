@@ -28,10 +28,10 @@ TrendingIndexManager.prototype = {
     },
 
     getTrendingIndexesFromWS:function(callback, errorCallback){
-		//var urlComplete = 'http://localhost:9000/newsapi/categories/get';
-		//var urlComplete = 'http://localhost:9001/newsapi/categories/get';
-		//var urlComplete = 'http://tvn-2.com/noticias/_modulos/json/trendingtopics-utf8.asp';
-    	var urlComplete = 'http://tvn-cloud-farm-lb.cloudapp.net/_vti_bin/NewsService.svc/GetTrendingTopics?siteUrl=Noticias&rowLimit=4'
+    	var urlComplete = 'http://tvn.news.hecticus.com/newsapi/v1/news/trendingtopics/search/';
+    	/*if(trendingTopicsCat != null && trendingTopicsCat != ""){
+    		urlComplete = trendingTopicsCat;
+    	}*/
 		
 		var instance = this;
 		

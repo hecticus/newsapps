@@ -32,7 +32,7 @@ CategoryManager.prototype = {
 	
 	getCompleteCategoriesFromWS:function(callback, errorCallback){
 		
-		var urlComplete = 'http://tvn.news.hecticus.com:9001/newsapi/v1/categories/search';
+		var urlComplete = 'http://tvn.news.hecticus.com/newsapi/v1/categories/search';
 		//var urlComplete = 'http://localhost:9007/newsapi/v1/categories/search';
 		
 		var instance = this;
@@ -46,7 +46,7 @@ CategoryManager.prototype = {
 					data = JSON.parse(data);
 				}
 				var code = data.error;
-				var results = data.response.categories;
+				var results = data.response.categories.slice(0);
 				printToLog("TESTNEW: 0-"+code+" results: "+JSON.stringify(results));
 				if(code == 0){
 					//debemos guardar todo lo que se encuentra en el array "results" a BD y cuando eso termine entonces se llamara al callback o error...
@@ -104,7 +104,7 @@ CategoryManager.prototype = {
 	    
 	    tx.executeSql(createCategoryQuery);
 	    
-	    var itemArray = results;
+	    var itemArray = results.slice(0);
 	    printToLog("saveAllCategoryToDB 1 - "+itemArray.length+" -"+JSON.stringify(results));
 	    
 	    //limpiamos la tabla vieja ya que llego una nueva
@@ -127,7 +127,7 @@ CategoryManager.prototype = {
 			trending: false,
 			sort: 0*/
 
-			var insertStatement = 'INSERT OR REPLACE INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden)'+
+			var insertStatement = 'INSERT INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden)'+
 			'VALUES ('+insertObj.id+','+
 			'"'+encodeURIComponent(insertObj.name)+'",'+
 			'"'+encodeURIComponent(insertObj.shortName)+'",'+
@@ -137,7 +137,7 @@ CategoryManager.prototype = {
 			''+(insertObj.trending?1:0)+','+
 			''+(insertObj.hidden?1:0)+
 			');';
-	    	
+	    	//console.log("INSERT: "+insertStatement);
 			printToLog("saveAllCategoryToDB 1.5 "+insertStatement);
 	    	tx.executeSql(insertStatement);
 	    }
@@ -184,5 +184,7 @@ function setAllVars(results){
 		results[i]["bgcolor"]='#0404B4';
 		results[i]["title"] = results[i]["name"];
 		results[i]["status"]=false;
+		
+		//console.log("CAT: "+JSON.stringify(results[i]));
 	}
 }

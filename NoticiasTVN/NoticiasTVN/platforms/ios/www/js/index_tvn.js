@@ -372,8 +372,12 @@ function initBasicApp(){
 
 
 
-
-			$(document).on('touchend','.back', function() { 
+			var touchingBack = false;
+			$(document).on('touchstart','.back', function() {
+				touchingBack = true;
+				//fBack();
+			});
+			$(document).on('touchend','.back', function() {
 				fBack();
 				touchingBack = false;
 			});
@@ -791,10 +795,10 @@ function initBasicApp(){
 							}
 							
 							var imageFile = "";
-							if(itemArray[i]["PortalImage"] != null){
-								imageFile = "http://tvn-2.com/"+itemArray[i]["PortalImage"];
+							if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
+								imageFile = "http://tvn-2.com"+itemArray[i]["PortalImage"];
 							}else{
-								imageFile = "http://tvn-2.com/"+itemArray[i]["Image"];
+								imageFile = "http://tvn-2.com"+itemArray[i]["Image"];
 							}
 							imageFile = cleanExternalURL(imageFile);
 																						
@@ -992,10 +996,10 @@ function initBasicApp(){
 						}
 						
 						var imageFile = "";
-						if(itemArray[i]["PortalImage"] != null){
-							imageFile = "http://tvn-2.com/"+itemArray[i]["PortalImage"];
+						if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
+							imageFile = "http://tvn-2.com"+itemArray[i]["PortalImage"];
 						}else{
-							imageFile = "http://tvn-2.com/"+itemArray[i]["Image"];
+							imageFile = "http://tvn-2.com"+itemArray[i]["Image"];
 						}
 						imageFile = cleanExternalURL(imageFile);
 																					
@@ -1206,10 +1210,10 @@ function initBasicApp(){
 					$.news.date=$.formatDateString(itemArray[i]["Date"],false);	
 					
 					var imageFile = "";
-					if(trending["PortalImage"] != null){
-						imageFile = "http://tvn-2.com/"+trending["PortalImage"];
+					if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
+						imageFile = "http://tvn-2.com"+trending["PortalImage"];
 					}else{
-						imageFile = "http://tvn-2.com/"+trending["Image"];
+						imageFile = "http://tvn-2.com"+trending["Image"];
 					}
 					imageFile = cleanExternalURL(imageFile);
 																		
@@ -1294,10 +1298,10 @@ function initBasicApp(){
 					$.news.date=$.formatDateString(trending.Date,true);
 					
 					var imageFile = "";
-					if(trending["PortalImage"] != null){
-						imageFile = "http://tvn-2.com/"+trending["PortalImage"];
+					if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
+						imageFile = "http://tvn-2.com"+trending["PortalImage"];
 					}else{
-						imageFile = "http://tvn-2.com/"+trending["Image"];
+						imageFile = "http://tvn-2.com"+trending["Image"];
 					}
 					imageFile = cleanExternalURL(imageFile);
 					
@@ -1582,13 +1586,15 @@ function successGetTrendingIndexes(results){
 		}
 	}else{
 		console.log("Error TrendingIndexes 2");
-		noConnectionForNewsInit();
+		//noConnectionForNewsInit();
+		endOfAppInitialization();
 	}
 }
 
 function errorGetTrendingIndexes(){
 	console.log("Error TrendingIndexes real");
-	noConnectionForNewsInit();
+	//noConnectionForNewsInit();
+	endOfAppInitialization();
 }
 
 //banner
