@@ -142,9 +142,11 @@ function deleteAllNewsDB(tx, instanceCaller){
 function limitNewsTableSize(tx){
 	
 	//eliminamos todas las categorias que no existan mas, despues por cada categoria eliminamos los que son viejos por cantidad
-	for(var i=0; i<arrCategory.length; i++){
-		var limitStatement = 'DELETE FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" AND news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
-		//console.log("delete "+limitStatement);
-		tx.executeSql(limitStatement);
+	if(arrCategory!=null){
+		for(var i=0; i<arrCategory.length; i++){
+			var limitStatement = 'DELETE FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" AND news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
+			//console.log("delete "+limitStatement);
+			tx.executeSql(limitStatement);
+		}
 	}
 }

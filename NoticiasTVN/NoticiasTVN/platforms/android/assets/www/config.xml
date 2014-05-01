@@ -36,7 +36,8 @@
     <access origin="http://02.kraken.hecticus.com/*" />
     <access origin="http://tvn-2.com/*" />
     <access origin="http://tvn-cloud-farm-lb.cloudapp.net/*" />
-    <access origin="http://tvn.news.hecticus.com:9001/*" />
+    <access origin="http://tvn-cloud-firewall.cloudapp.net/*" />
+    <access origin="http://tvn.news.hecticus.com/*" />
     <feature name="VideoPlayer">
         <param name="android-package" value="org.apache.cordova.videoplayer.VideoPlayer" />
     </feature>

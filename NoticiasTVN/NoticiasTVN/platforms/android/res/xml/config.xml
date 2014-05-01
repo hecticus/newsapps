@@ -39,7 +39,8 @@
     <access origin="http://02.kraken.hecticus.com/*" />
     <access origin="http://tvn-2.com/*" />
     <access origin="http://tvn-cloud-farm-lb.cloudapp.net/*" />
-    <access origin="http://tvn.news.hecticus.com:9001/*" />
+    <access origin="http://tvn-cloud-firewall.cloudapp.net/*" />
+    <access origin="http://tvn.news.hecticus.com/*" />
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.SplashScreen" />
     </feature>
@@ -112,5 +113,8 @@
     </feature>
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
 </widget>

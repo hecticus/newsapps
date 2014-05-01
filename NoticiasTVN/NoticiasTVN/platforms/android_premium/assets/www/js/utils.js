@@ -6,7 +6,8 @@ var FILE_KEY_ONLINE = "APPONLINE";
 function initialSetup() {
 	//revisamos como comienza la app
 	checkConnection();
-	if(window.navigator.onLine){
+	//if(window.navigator.onLine){
+	if(phonegapIsOnline()){
 		onlineCallback();
 	}else{
 		offlineCallback()
@@ -27,14 +28,16 @@ function onResumeApp(){
 
 //Connection
 function isOffline(){
-	var online = window.localStorage.getItem(FILE_KEY_ONLINE);
+	/*var online = window.localStorage.getItem(FILE_KEY_ONLINE);
 	if(online!=null && online == "true"){
 		printToLog("isOffline- "+online);
 		return false;
 	}else{
 		printToLog("isOffline- "+online);
 		return true;
-	}
+	}*/
+	printToLog("isOffline- "+!phonegapIsOnline());
+	return !phonegapIsOnline();
 }
 function offlineCallback(){
 	printToLog("OFFLINE!!!!");
@@ -61,6 +64,14 @@ function checkConnection() {
     //printToLog("STATUS!!!! "+states[networkState]);
 
     //alert('Connection type: ' + states[networkState]);
+}
+function phonegapIsOnline(){
+	var networkState = navigator.connection.type;
+	if(networkState == Connection.NONE || networkState == Connection.UNKNOWN){
+		return false;
+	}else{
+		return true;
+	}
 }
 
 function formatDateStringForSorting(ds) {

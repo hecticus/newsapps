@@ -19,12 +19,16 @@
 
 package com.tvn.app.mobile.TVNNoticias;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.provider.Settings;
 
 import org.apache.cordova.*;
 
+import com.google.analytics.tracking.android.Log;
 import com.tvn.app.mobile.TVNNoticias.R;
 
 public class NoticiasTVN extends CordovaActivity 
@@ -35,12 +39,22 @@ public class NoticiasTVN extends CordovaActivity
         super.onCreate(savedInstanceState);
         super.init();
         
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
         // Load your application
      	super.setIntegerProperty("splashscreen", R.drawable.splash);
-     		
+     	super.clearCache(); // just add This Line
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
+        
+        Log.e("IS TABLET "+isTablet(this));
+    }
+    
+    public static boolean isTablet(Context context)
+    {
+       return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }
+
 

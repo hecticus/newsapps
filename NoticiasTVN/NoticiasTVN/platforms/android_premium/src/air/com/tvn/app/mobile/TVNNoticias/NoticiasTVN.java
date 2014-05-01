@@ -37,7 +37,7 @@ public class NoticiasTVN extends CordovaActivity
         
         // Load your application
      	super.setIntegerProperty("splashscreen", R.drawable.splash);
-     		
+     	super.clearCache(); // just add This Line
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
