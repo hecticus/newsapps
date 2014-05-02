@@ -436,9 +436,8 @@ $(function() {
 										if (phase.id == 6) {
 											$('[data-index="WIN"]').attr('data-index',group.name);
 											$('[data-index="'+group.name+'"]').html('<figure><img class="flag"  src="'+team.placeholder.flag+'" alt="" /><figcaption>'+team.placeholder.shortName+'</figcaption></figure>');	
-										} else {
-											
-											
+										} else {							
+
 											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .flag').attr('src',team.placeholder.flag);
 											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .flag').removeAttr('style');
 											$('.phase[data-phase="'+arrPhase[phase.id].id+'"] .group .game .team[data-team="'+_team.id+'"] .name').html(team.placeholder.name);																					

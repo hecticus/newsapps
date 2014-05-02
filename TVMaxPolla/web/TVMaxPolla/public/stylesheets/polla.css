@@ -17,7 +17,7 @@ body{font-family: Arial, Helvetica, sans-serif;}
 .help-block {display:none !important; }
 img.flag {width:67px; height:45px; vertical-align: middle;}
 .content-flag-score img.flag {width:100%; height:auto; vertical-align: middle;}
-img.arrow{width:11px; height:8px;  cursor: pointer; }
+img.arrow{cursor: pointer; }
 
 body{padding: 0 !important;}
 /*.container {padding: 0 !important;}*/
@@ -199,5 +199,10 @@ text-indent: -999em;
 margin: 26px 0 10px 0;
 background: url(/assets/images/o.png) no-repeat 50% 0;
 height: 13px;
+}
+
+
+.help-inline {
+	font-size:0.9em !important;
 }
 
