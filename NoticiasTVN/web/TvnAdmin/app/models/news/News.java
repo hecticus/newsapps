@@ -247,7 +247,7 @@ public class News extends HecticusModel{
     }
 
     public static List<News> getNewsByCategory(long idCategory){
-        return finder.where().eq("id_category", idCategory).findList();
+        return finder.where().eq("id_category", idCategory).orderBy("pub_date_formated DESC").findList();
     }
 
     public static List<News> getNewsByCategoryAndGenerationDate(long idCategory, long generationDate){
