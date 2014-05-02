@@ -2090,7 +2090,7 @@ function errorGeolocationHandler (error) {
 
 //Image Selection YO INFORMO
 function pickImageFromGallery(){
-	getPictureFromGallery(successPickImageFromGallery, errorPickImageFromGallery);
+	getPictureFromGallery();
 }
 function successPickImageFromGallery(imageURI){
 	//imageURI hay que guardarlo para enviarlo despues
@@ -2101,12 +2101,34 @@ function successPickImageFromGallery(imageURI){
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
 	
-	//uploadPictureFromGallery(imageURI);
+	uploadPictureFromGallery(imageURI);
 }
 function errorPickImageFromGallery(){
 	//no selecciono ninguna imagen
 }
 //END IMAGE SELECTION
+
+//IMAGE UPLOAD
+function uploadImageToServer(){
+	if(json_yo_informo.photo != null && json_yo_informo.photo != ""){
+		uploadPictureFromGallery(json_yo_informo.photo,successUploadImageToServer,errorUploadImageToServer);
+	}
+}
+function successUploadImageToServer(r){
+	if(r != null && r.response != null){
+		var json = JSON.parse(r.response);
+		if(json != null && json.error == 0){
+			var jsonResponse = json.response;
+			json_yo_informo.photo = jsonResponse.urlimage;
+		}
+	}
+	//alert('OK: ' + r.response);
+    console.log("json_yo_informo = " + json_yo_informo.photo);
+}
+function errorUploadImageToServer(error){
+	alert("No se pudo subir la imagen");
+}
+//END IMAGE UPLOAD
 
 
 var app = {
@@ -2188,6 +2210,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
-		//setTimeout(function () {getPictureFromGallery();}, 1500);
+		//setTimeout(function () {getPictureFromGallery();}, 3000);
     }
 };
