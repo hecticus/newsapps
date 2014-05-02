@@ -252,9 +252,9 @@ function display_categories_yo_informo(selected) {
 		if ( categories_yo_informo[x].parent != 0 ) {
 			
 			if (selected == category_slug) {
-				_select = _select + '<option value='+ category_slug +' selected="selected">' + category_name + '</option>';	
+				_select = _select + '<option value="'+ category_slug +'" selected="selected">' + category_name + '</option>';	
 			} else {
-				_select = _select + '<option value='+ category_slug +'>' + category_name + '</option>';
+				_select = _select + '<option value="'+ category_slug +'">' + category_name + '</option>';
 			}
 			
 			
