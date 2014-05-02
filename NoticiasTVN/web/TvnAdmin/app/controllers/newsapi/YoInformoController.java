@@ -97,10 +97,10 @@ public class YoInformoController extends HecticusController {
     }*/
 
     public static Result getImg(String name){
-        try{
+//        try{
             File file = null;
-            File f2 = new File("/home/playtvn/tvn/tvnadmin-1.0-SNAPSHOT/"+imageDir + name);
-            Utils.printToLog(YoInformoController.class, "", f2.getAbsolutePath(), false, null, "", 3);
+            File f2 = new File(imageDir + name);
+//            Utils.printToLog(YoInformoController.class, "", f2.getAbsolutePath(), false, null, "", 3);
             if(f2.exists()){
                 file = Play.application(play.api.Play.current()).getFile(imageDir + name);
             } else {
@@ -108,9 +108,9 @@ public class YoInformoController extends HecticusController {
                 return badRequest(f2.getAbsolutePath());
             }
             return ok(file);
-        }catch (Exception ex){
-            Utils.printToLog(YoInformoController.class, "", "Error en la imagen", false, ex, "", 3);
-            return badRequest();
-        }
+//        }catch (Exception ex){
+//            Utils.printToLog(YoInformoController.class, "", "Error en la imagen", false, ex, "", 3);
+//            return badRequest();
+//        }
     }
 }
