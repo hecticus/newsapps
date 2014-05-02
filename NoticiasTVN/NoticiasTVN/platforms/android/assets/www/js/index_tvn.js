@@ -490,7 +490,9 @@ function initBasicApp(){
 
 					$('#datacontents').append('<li>');
 					$('#datacontents').append('<h3 style="text-align:center;">Reporta y Denuncia</h3>');
-					$('#datacontents').append('<p style=" display:block; margin: 0 auto;">S&eacute; parte del equipo de TVN Noticias mediante la nueva plataforma de Yo Informo donde podr&aacute;s hacer tus reportes y denuncias comunitarias de una forma f&aacute;cil y sencilla!</p>');					
+					
+					$('#datacontents').append('<p style="padding:10px;">S&eacute; parte del equipo de TVN Noticias mediante la nueva plataforma de Yo Informo donde podr&aacute;s hacer tus reportes y denuncias comunitarias de una forma f&aacute;cil y sencilla!</p>');
+										
 					$('#datacontents').append('</li>');
 					
 					var _select = '<div class="select">';
@@ -536,28 +538,35 @@ function initBasicApp(){
 					$('#datacontents').append('</li>');
 					
 					$('#datacontents').append('<li>');
-					$('#datacontents').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" >'+json_yo_informo.last_name+'</input> <br />');
+					$('#datacontents').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /><br />');
 					$('#datacontents').append('</li>');
 					
 					$('#datacontents').append('<li>');
-					$('#datacontents').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" >'+json_yo_informo.first_name+'</input> <br />');
+					$('#datacontents').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /><br />');
 					$('#datacontents').append('</li>');
 					
 					$('#datacontents').append('<li>');
-					$('#datacontents').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" >'+json_yo_informo.email+'</input> <br />');
+					$('#datacontents').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /><br />');
 					$('#datacontents').append('</li>');
 					
 					$('#datacontents').append('<li>'); 
 					$('#datacontents').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
+					$('#datacontents').append('<br />');											
+					$('#datacontents').append('<button id="get-photo" >Seleccionar foto</button>');   					
 					$('#datacontents').append('<br />');			
-					$('#datacontents').append('<button id="send-yo-informo" data-step="4" >Enviar reporte</button>');   					  		
-					$('#datacontents').append('</li>');
+					$('#datacontents').append('<button id="send-yo-informo" data-step="4" >Enviar reporte</button>');    	
+					$('#datacontents').append('<br />');			
+	
 					
-				}
+				}  
 				      					    		
 				$('#datacontent').attr('class','page left');
 				myScrollDatacontent.refresh();
 			};
+		
+			$(document).on('touchend','#get-photo', function() {
+				pickImageFromGallery();					
+			}); 
 		
 			$(document).on('touchend','#send-yo-informo-back', function() {
 				var _this = $(this);
@@ -569,13 +578,7 @@ function initBasicApp(){
 				var _this = $(this);			
 				var _return = false;
 				var _index = 0;
-				
-				json_yo_informo.term_slug = $('#term_slug').val();
-				json_yo_informo.message = $('#message').val();
-				json_yo_informo.address = $('#address').val();
-				json_yo_informo.first_name = $('#first_name').val();
-				json_yo_informo.last_name = $('#last_name').val();
-				json_yo_informo.email = $('#email').val();
+						
 
 				$('.form').each(function() {
 					
@@ -634,7 +637,7 @@ function initBasicApp(){
 					} else if ($(this)[0].nodeName.toLowerCase() == 'select') {						
 						if ($(this).val() == null) {
 							_return = true;
-							alert( $(this).data('error'));
+							alert($(this).data('error'));
 						} else {
 							json_yo_informo.term_slug = $(this).val();
 						}						
@@ -651,26 +654,34 @@ function initBasicApp(){
 				}
 				
 				if (_this.data('step') == 4) {
-					
-					var postData = {
-	                    'content'      : $('#message').val(),
-	                    'address'      : $('#address').val(),
-	                    'longitude'    : $('#lng').val(),
-	                    'latitude'     : $('#lat').val(),
-	                    'term_slug'    : $('#term_slug').val(),
-	                    'first_name'   : $('#first_name').val(),
-	                    'last_name'    : $('#last_name').val(),
-	                    'email'        : $('#email').val(),
-	                    'mobile'       : $('#mobile').val()                  
-	                };
+				
+					if (json_yo_informo.photo == '') {
+						alert('Debe seleccionar una foto para continuar');
+					} else {
+						
+						var postData = {
+		                    'content'      : $('#message').val(),
+		                    'address'      : $('#address').val(),
+		                    'longitude'    : $('#lng').val(),
+		                    'latitude'     : $('#lat').val(),
+		                    'term_slug'    : $('#term_slug').val(),
+		                    'first_name'   : $('#first_name').val(),
+		                    'last_name'    : $('#last_name').val(),
+		                    'email'        : $('#email').val(),
+		                    'mobile'       : $('#mobile').val()                  
+	                	};
                 
-	                //var report_new = postReport(postData);
-	                //var elem_new = document.getElementById('result_new');
-	                //elem_new.innerHTML = JSON.stringify(report_new);
-					//alert(JSON.stringify(report_new));
-	
-					//alert('El reporte se ha enviado con exito.');
-					
+		                //var report_new = postReport(postData);
+		                //var elem_new = document.getElementById('result_new');
+		                //elem_new.innerHTML = JSON.stringify(report_new);
+						//alert(JSON.stringify(report_new));
+		
+						//alert('El reporte se ha enviado con exito.');
+						alert(json_yo_informo.photo);
+						
+						
+					}
+										
 				} else {
 					
 					fYoInformo(_this.data('step'));	
@@ -2045,8 +2056,10 @@ function successPickImageFromGallery(imageURI){
 	//imageURI hay que guardarlo para enviarlo despues
 	//fileName es el nombre del archivo por si se quiere mostrar
 	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+	json_yo_informo.photo = fileName; 
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
+
 }
 function errorPickImageFromGallery(){
 	//no selecciono ninguna imagen
@@ -2133,6 +2146,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
-		//setTimeout(function () {pickImageFromGallery();}, 3000);
+		//setTimeout(function () {getPictureFromGallery();}, 1500);
     }
 };
