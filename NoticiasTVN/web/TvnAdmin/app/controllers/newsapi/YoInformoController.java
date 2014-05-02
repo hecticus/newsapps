@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import com.hecticus.rackspacecloud.RackspaceCreate;
-import com.hecticus.rackspacecloud.RackspacePublish;
+//import com.hecticus.rackspacecloud.RackspaceCreate;
+//import com.hecticus.rackspacecloud.RackspacePublish;
 import utils.Utils;
 
 
@@ -65,11 +65,11 @@ public class YoInformoController extends HecticusController {
 //        return ok("ok");
     }
 
-    private static boolean uploadAndPublish(File file){
+    /*private static boolean uploadAndPublish(File file){
 
-        /*String username = Config.getRackspaceUser();
-        String apiKey = Config.getRackspaceApiKey();
-        String provider = Config.getRackspaceProvider();*/
+        //String username = Config.getRackspaceUser();
+        //String apiKey = Config.getRackspaceApiKey();
+        //String provider = Config.getRackspaceProvider();
         String username = "hctcsproddfw";
         String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
         String provider = "cloudfiles-us";
@@ -94,7 +94,7 @@ public class YoInformoController extends HecticusController {
             return false;
         }
 //        return true;
-    }
+    }*/
 
     public static Result getImg(String name){
         File file = Play.application(play.api.Play.current()).getFile(imageDir + name);
