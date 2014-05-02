@@ -682,8 +682,7 @@ function initBasicApp(){
 					if (json_yo_informo.photo == '') {
 						alert('Debe seleccionar una foto para continuar');
 					} else {
-						
-						var json_yo_informo = {term_slug:'',:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:''};
+												
 						
 						var postData = {
 		                    'content'      	: json_yo_informo.message,
