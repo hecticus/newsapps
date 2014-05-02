@@ -344,7 +344,21 @@ function initBasicApp(){
 			}
 		});
     	
-    	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, onBeforeScrollStart: function(){this.refresh();}});    	        	    			
+    	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, 
+    		
+    		onBeforeScrollStart: function(e){
+    			//this.refresh();
+
+    			if (e.target.tagName != "SELECT") {
+	                e.preventDefault();
+	                e.stopPropagation();
+	            }
+    			
+    			
+    		}
+    		
+    		
+    	});    	        	    			
 
     	
 		myScrollTrending = new iScroll('datatrending',1,{snap:false,hScroll: false, vScroll: true, hScrollbar: false,vScrollbar: false,bounce:true,lockDirection: true,
@@ -514,7 +528,7 @@ function initBasicApp(){
 				} else if (step == 2) {
 					
 					$('#datacontents').append('<li>');
-					$('#datacontents').append('<h3 style="text-align:center;">Datos de la informaci&oacute;n</h3>');
+					$('#datacontents').append('<h3 style="text-align:center;">Paso 2. Datos de la denuncia</h3>');
 					$('#datacontents').append('</li>');
 					
 					$('#datacontents').append('<li>');
@@ -534,7 +548,7 @@ function initBasicApp(){
 				} else if (step == 3) {
 
 					$('#datacontents').append('<li>');
-					$('#datacontents').append('<h3  style="text-align:center;">Datos personales</h3>');
+					$('#datacontents').append('<h3  style="text-align:center;">Paso 3. Datos personales</h3>');
 					$('#datacontents').append('</li>');
 					
 					$('#datacontents').append('<li>');
@@ -551,14 +565,25 @@ function initBasicApp(){
 					
 					$('#datacontents').append('<li>'); 
 					$('#datacontents').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
-					$('#datacontents').append('<br />');											
-					$('#datacontents').append('<button id="get-photo" >Seleccionar foto</button>');   					
 					$('#datacontents').append('<br />');			
-					$('#datacontents').append('<button id="send-yo-informo" data-step="4" >Enviar reporte</button>');    	
-					$('#datacontents').append('<br />');			
+					$('#datacontents').append('<button id="send-yo-informo" data-step="5" >Siguiente</button>');    		
+					$('#datacontents').append('</li>');
 	
 					
-				}  
+				} else if (step == 4) {
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					 $('#datacontents').append('<button id="get-photo" >Foto</button>');   					
+					$('#datacontents').append('<br />');	
+					$('#datacontents').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
+					$('#datacontents').append('<br />');																
+					$('#datacontents').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');    		
+					$('#datacontents').append('</li>');
+					
+				}
 				      					    		
 				$('#datacontent').attr('class','page left');
 				myScrollDatacontent.refresh();
@@ -653,7 +678,7 @@ function initBasicApp(){
 					return false;					
 				}
 				
-				if (_this.data('step') == 4) {
+				if (_this.data('step') == 5) {
 				
 					if (json_yo_informo.photo == '') {
 						alert('Debe seleccionar una foto para continuar');
@@ -2056,7 +2081,8 @@ function successPickImageFromGallery(imageURI){
 	//imageURI hay que guardarlo para enviarlo despues
 	//fileName es el nombre del archivo por si se quiere mostrar
 	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-	json_yo_informo.photo = fileName; 
+	json_yo_informo.photo = fileName;
+	json_yo_informo.photo = imageURI;  
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
 
