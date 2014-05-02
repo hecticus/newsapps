@@ -70,13 +70,13 @@ function setMenuCategories(){
 	}
 	
 	a++;	
-	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
-	$.li+=info_app;			
-	$.li+='</li>';
-			
-	a++;	
 	$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
 	$.li+=yo_informo;			
+	$.li+='</li>';
+	
+	a++;	
+	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+	$.li+=info_app;			
 	$.li+='</li>';	
 		
 	$('#mainMenuList').empty();
@@ -582,7 +582,9 @@ function initBasicApp(){
 			
 			
 			
-			$(document).on('touchend','.tv:not(.share)', function() {				
+			$(document).on('touchend','.tv:not(.share)', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
 				window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 			});
 
@@ -803,9 +805,11 @@ function initBasicApp(){
     		
 			$(document).on('touchstart','div[data-type="video"]', function(e) {
 				press=false;		
-    		}).on('touchend','div[data-type="video"]', function() {
+    		}).on('touchend','div[data-type="video"]', function(e) {
     			if (press) {
-	    			window.videoPlayer.play($(this).data('src'));
+    				e.preventDefault();
+    				e.stopPropagation();
+	    			window.videoPlayer.play($(this).data('src'));		
 				}   
     		});
 			
@@ -1957,21 +1961,21 @@ function fTextoCortado(texto){
 
 //GEOLOCATION
 function getCurrentGeoPosition(){
-	console.log("getCurrentGeoPosition");
+	//console.log("getCurrentGeoPosition");
 	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler, { frequency: 3000 });
-	console.log("end getCurrentGeoPosition");
+	//console.log("end getCurrentGeoPosition");
 }
 
 function successGeolocationHandler (position) {
-	alert('funcione!!!');
-	console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
+	//alert('funcione!!!');
+	//console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
    	geolocation.latitud =  position.coords.latitude;
    	geolocation.longitud =  position.coords.longitude;
 }
 
 function errorGeolocationHandler (error) {
-    console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
-    initGeolocation();
+    //console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
+    //initGeolocation();
     
 }
 //END GEOLOCATION
