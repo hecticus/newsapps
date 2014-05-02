@@ -102,7 +102,8 @@ public class YoInformoController extends HecticusController {
         if(f2.exists()){
             file = Play.application(play.api.Play.current()).getFile(imageDir + name);
         } else {
-            file = Play.application(play.api.Play.current()).getFile(imageDir + Config.getString("default-img"));
+//            file = Play.application(play.api.Play.current()).getFile(imageDir + Config.getString("default-img"));
+            return badRequest();
         }
         return ok(file);
     }
