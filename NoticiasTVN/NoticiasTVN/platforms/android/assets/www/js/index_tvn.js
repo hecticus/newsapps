@@ -349,7 +349,7 @@ function initBasicApp(){
     		onBeforeScrollStart: function(e){
     			//this.refresh();
 
-    			if (e.target.tagName != "SELECT") {
+    			if (e.target.tagName != 'SELECT' && e.target.tagName != 'INPUT' && e.target.tagName != 'TEXTAREA' && e.target.tagName != 'BUTTOM') {
 	                e.preventDefault();
 	                e.stopPropagation();
 	            }
@@ -566,7 +566,7 @@ function initBasicApp(){
 					$('#datacontents').append('<li>'); 
 					$('#datacontents').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
 					$('#datacontents').append('<br />');			
-					$('#datacontents').append('<button id="send-yo-informo" data-step="5" >Siguiente</button>');    		
+					$('#datacontents').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
 					$('#datacontents').append('</li>');
 	
 					
