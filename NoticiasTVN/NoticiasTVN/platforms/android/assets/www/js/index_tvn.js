@@ -1374,7 +1374,7 @@ function initBasicApp(){
     			$('#trending-news1').empty();
     			
     			//var urlComplete = "http://tvn-cloud-firewall.cloudapp.net/_vti_bin/NewsService.svc/GetNewsByTrendingTopic?trendingTopicId="+category+"&siteUrl=Noticias&rowLimit=20";
-    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/tvn/"+category;
+    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/trending/"+category;
     			/*if(trendingTopicsNews != null && trendingTopicsNews != "" && trendingTopicsNews.indexOf("#REPLACE#")>0){
     	    		urlComplete = trendingTopicsNews;
     	    		urlComplete = urlComplete.replace("#REPLACE#", ""+category);
@@ -1980,6 +1980,22 @@ function errorGeolocationHandler (error) {
 }
 //END GEOLOCATION
 
+//Image Selection YO INFORMO
+function pickImageFromGallery(){
+	getPictureFromGallery(successPickImageFromGallery, errorPickImageFromGallery);
+}
+function successPickImageFromGallery(imageURI){
+	//imageURI hay que guardarlo para enviarlo despues
+	//fileName es el nombre del archivo por si se quiere mostrar
+	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+	//console.log("FILE NAME: "+fileName);
+	//console.log("FILE URI: "+imageURI);
+}
+function errorPickImageFromGallery(){
+	//no selecciono ninguna imagen
+}
+//END IMAGE SELECTION
+
 
 var app = {
     initialize: function() {this.bindEvents();},
@@ -2059,6 +2075,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
-		//setTimeout(function () {getPictureFromGallery();}, 1500);
+		//setTimeout(function () {pickImageFromGallery();}, 3000);
     }
 };
