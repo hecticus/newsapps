@@ -72,6 +72,8 @@ GET     /newsapi/v1/banners/get                         controllers.newsapi.Bann
 #ImageUpload Yo Informo
 POST    /newsapi/v1/yoinformo/uploadimage               controllers.newsapi.YoInformoController.uploadImage()
 
+GET    /newsapi/v1/yoinformo/getImg/*name                    controllers.newsapi.YoInformoController.getImg(name : String)
+
 #<Tvn>
 
 # Default path will just redirect to the category list

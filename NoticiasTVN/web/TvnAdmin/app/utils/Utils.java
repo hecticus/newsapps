@@ -1,6 +1,7 @@
 package utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import play.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -258,6 +259,67 @@ public class Utils {
         }
 
         return sb.toString();
+    }
+
+    public static void printToLog(Object invoker, String title, String description, boolean sendMail, Throwable ex, String supportLevel, int loggerErrorType){
+        //Logger tempLogger = LoggerFactory.getLogger(invoker.getClass());
+        //Logger tempLogger = Logger.getLogger(invoker.getClass());
+        StringBuilder message = new StringBuilder();
+        if(invoker!=null){
+            message.append(invoker);
+        }
+        message.append("{");
+        if(!sendMail && title!=null && !title.isEmpty()){
+            message.append(title);
+            message.append(". ");
+        }
+        message.append(description);
+        message.append("}");
+//        switch(loggerErrorType){
+//            case Config.LOGGER_ERROR:
+                if(ex == null){
+                    Logger.error(message.toString());
+                }else{
+                    Logger.error(message.toString(),ex);
+                }
+//                break;
+//            case Config.LOGGER_INFO:
+//                if(ex == null){
+//                    Logger.info(message.toString());
+//                }else{
+//                    Logger.info(message.toString(),ex);
+//                }
+//                break;
+//            case Config.LOGGER_WARN:
+//                if(ex == null){
+//                    Logger.warn(message.toString());
+//                }else{
+//                    Logger.warn(message.toString(),ex);
+//                }
+//                break;
+//            case Config.LOGGER_DEBUG:
+//                if(ex == null){
+//                    Logger.debug(message.toString());
+//                }else{
+//                    Logger.debug(message.toString(),ex);
+//                }
+//                break;
+//            case Config.LOGGER_TRACE:
+//                if(ex == null){
+//                    Logger.trace(message.toString());
+//                }else{
+//                    Logger.trace(message.toString(),ex);
+//                }
+//                break;
+//        }
+
+//        if(sendMail){
+//            if(ex==null){
+//                Alarm.sendMail(Config.getStringArray(supportLevel, ";"), title, message.toString());
+//            }else{
+//                Alarm.sendMail(Config.getStringArray(supportLevel, ";"), title, message.toString(),ex);
+//            }
+//        }
     }
 
 }
