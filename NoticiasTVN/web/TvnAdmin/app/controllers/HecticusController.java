@@ -1,16 +1,25 @@
 package controllers;
 
+import models.Config;
+import org.apache.commons.codec.digest.DigestUtils;
 import play.mvc.Controller;
 import play.libs.Json;
 
 import javax.persistence.MappedSuperclass;
 
 import org.codehaus.jackson.node.ObjectNode;
+import play.mvc.Http;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+//import com.hecticus.rackspacecloud.RackspaceCreate;
 
 /**
  * Created by sorcerer on 2/20/14.
@@ -42,6 +51,13 @@ public class HecticusController extends Controller {
             }
         }
         return jsonInfo;
+    }
+
+    public static Http.MultipartFormData.FilePart getImage(){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart picture = body.getFile("file");
+
+        return picture;
     }
 
     public static ObjectNode hecticusResponse(int code, String description, String parentObj, ArrayList data) {
@@ -77,4 +93,25 @@ public class HecticusController extends Controller {
         tr.put(parentObj, Json.toJson((data)));
         return tr;
     }
+
+    /*public static boolean uploadFile(RackspaceCreate upload,int retry,String container, File file, String parent, long init) throws InterruptedException{
+        boolean uploaded = false;
+        while(retry > 0 && !uploaded){
+            try {
+                upload.uploadObject(container,file);
+                uploaded = true;
+            } catch (Exception ex) {
+                //Utils.printToLog(this,"Falla subiendo el archivo " + (System.currentTimeMillis() - init) + " ms","Se realizará reintento en 3 minutos",false,ex,"",Config.LOGGER_INFO);
+                Thread.sleep(5000);
+                retry--;
+            }
+        }
+
+        if(!uploaded){
+            //Utils.printToLog(this,"Luego de "+retry+" intentos, el archivo no pudo ser caragado el cloud","-",false,null,"",Config.LOGGER_INFO);
+            return false;
+        }
+
+        return true;
+    }*/
 }

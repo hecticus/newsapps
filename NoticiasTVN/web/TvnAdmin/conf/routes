@@ -69,6 +69,9 @@ POST    /newsapi/v1/news/trendingtopics/insert          controllers.newsapi.Tren
 #banners
 GET     /newsapi/v1/banners/get                         controllers.newsapi.BannerController.getActiveBanner()
 
+#ImageUpload Yo Informo
+POST    /newsapi/v1/yoinformo/uploadimage               controllers.newsapi.YoInformoController.uploadImage()
+
 #<Tvn>
 
 # Default path will just redirect to the category list
