@@ -55,12 +55,12 @@ public class YoInformoController extends HecticusController {
 //                    return ok("no se pudo subir la imagen");
 //                }
             }else{
-                //return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
-                return ok("no hay imagen a subir");
+                return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
+                //return ok("no hay imagen a subir");
             }
         }catch (Exception ex){
-            //return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
-            return ok("ocurrio un error:" + ex.toString());
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            //return ok("ocurrio un error:" + ex.toString());
         }
 //        return ok("ok");
     }
