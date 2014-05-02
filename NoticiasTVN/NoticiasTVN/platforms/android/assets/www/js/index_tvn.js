@@ -1043,12 +1043,13 @@ function initBasicApp(){
 							}
 							
 							var imageFile = "";
-							if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
+							/*if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
 								imageFile = "http://tvn-2.com"+itemArray[i]["PortalImage"];
 							}else{
 								imageFile = "http://tvn-2.com"+itemArray[i]["Image"];
 							}
-							imageFile = cleanExternalURL(imageFile);
+							imageFile = cleanExternalURL(imageFile);*/
+							imageFile = getListImageForNews(itemArray[i],true);
 																						
 							$.news.thumbnail.push({src:imageFile,width:864,height:486});
 							$.news.highdef.push({src:imageFile,width:864,height:486});																						
@@ -1243,7 +1244,7 @@ function initBasicApp(){
 							$.news.caption.push(itemArray[i]["PortalImageDescription"]);
 						}
 						
-						var imageFile = "";
+						/*var imageFile = "";
 						if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
 							imageFile = "http://tvn-2.com"+itemArray[i]["PortalImage"];
 						}else{
@@ -1253,7 +1254,13 @@ function initBasicApp(){
 																					
 						$.news.thumbnail.push({src:imageFile,width:864,height:486});
 						$.news.highdef.push({src:imageFile,width:864,height:486});																						
-						$.news.quicklook.push({src:imageFile,width:864,height:486});
+						$.news.quicklook.push({src:imageFile,width:864,height:486});*/
+						var imageArray = getBigImagesArrayForNews(itemArray[i]);
+						for(var x=0;x<imageArray.length;x++){
+							$.news.thumbnail.push({src:imageArray[x],width:864,height:486});
+							$.news.highdef.push({src:imageArray[x],width:864,height:486});																						
+							$.news.quicklook.push({src:imageArray[x],width:864,height:486});
+						}
 						
 						//check if there is a video
 						if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
@@ -1458,12 +1465,13 @@ function initBasicApp(){
 					$.news.date=$.formatDateString(itemArray[i]["Date"],false);	
 					
 					var imageFile = "";
-					if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
+					/*if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
 						imageFile = "http://tvn-2.com"+trending["PortalImage"];
 					}else{
 						imageFile = "http://tvn-2.com"+trending["Image"];
 					}
-					imageFile = cleanExternalURL(imageFile);
+					imageFile = cleanExternalURL(imageFile);*/
+					imageFile = getListImageForNews(trending,true);
 																		
 					$.news.thumbnail.push({src:imageFile,width:864,height:486});
 					$.news.highdef.push({src:imageFile,width:864,height:486});																						
@@ -1545,7 +1553,7 @@ function initBasicApp(){
 					$.news.headline=trending.Title;
 					$.news.date=$.formatDateString(trending.Date,true);
 					
-					var imageFile = "";
+					/*var imageFile = "";
 					if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
 						imageFile = "http://tvn-2.com"+trending["PortalImage"];
 					}else{
@@ -1555,7 +1563,14 @@ function initBasicApp(){
 					
 					$.news.thumbnail.push({src:imageFile,width:864,height:486});
 					$.news.highdef.push({src:imageFile,width:864,height:486});																						
-					$.news.quicklook.push({src:imageFile,width:864,height:486});
+					$.news.quicklook.push({src:imageFile,width:864,height:486});*/
+					var imageArray = getBigImagesArrayForNews(trending);
+					for(var x=0;x<imageArray.length;x++){
+						$.news.thumbnail.push({src:imageArray[x],width:864,height:486});
+						$.news.highdef.push({src:imageArray[x],width:864,height:486});																						
+						$.news.quicklook.push({src:imageArray[x],width:864,height:486});
+					}
+					
 					if(trending.PortalImageDescription != null){
 						$.news.caption.push(trending.PortalImageDescription);
 					}
@@ -1990,6 +2005,8 @@ function successPickImageFromGallery(imageURI){
 	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
+	
+	//uploadPictureFromGallery(imageURI);
 }
 function errorPickImageFromGallery(){
 	//no selecciono ninguna imagen

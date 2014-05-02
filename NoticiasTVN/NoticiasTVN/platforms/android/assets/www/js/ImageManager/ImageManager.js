@@ -89,7 +89,7 @@ function uploadPictureFromGallery(imageURI) {
 	options.params = params;
 
 	var ft = new FileTransfer();
-	ft.upload(imageURI, encodeURI("http://10.0.3.127:9000/newsapi/v1/yoinformo/uploadimage"), winUploadPictureFromGallery, failUploadPictureFromGallery, options);
+	ft.upload(imageURI, encodeURI("http://10.0.3.142:9007/newsapi/v1/yoinformo/uploadimage"), winUploadPictureFromGallery, failUploadPictureFromGallery, options);
 }
 
 //WITH FILE TRANSFER
