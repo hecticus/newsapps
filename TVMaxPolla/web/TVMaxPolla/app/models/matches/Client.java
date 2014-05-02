@@ -35,8 +35,8 @@ public class Client  {
 	@Constraints.Email(message="El email no es valido")
     public String email;
     
-	@Constraints.Required(message="Este campo es requerido")
-    @Constraints.MinLength(6)
+	@Constraints.Required(message="Este campo es requerido")    
+	@Constraints.MinLength(message="La longitud mínima es de 6 caracteres",value=6)
     public String password;
     
     public Client() {}

@@ -15,11 +15,9 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
+ */    
 
-
-var geolocation = {latitud:8.537981,longitud:-80.782127};
-
+var json_yo_informo = {term_slug:'',message:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:''};
 var info_app = 'Sobre este APP';
 var yo_informo = 'Yo Informo';
 var arrTrendingTopics;
@@ -244,16 +242,22 @@ function get_categories_yo_informo(){
     return false;
 }
 
-function display_categories_yo_informo() {
-	
-	var categories = get_categories_yo_informo();
+function display_categories_yo_informo(selected) {
+
 	var _select = '';
 	
-	for ( var x in categories ) {
-		var category_name = categories[x].name;
-		var category_slug = categories[x].slug;		
-		if ( categories[x].parent != 0 ) {
-			_select = _select + '<option value='+ category_slug +'>' + category_name + '</option>';
+	for ( var x in categories_yo_informo ) {
+		var category_name = categories_yo_informo[x].name;
+		var category_slug = categories_yo_informo[x].slug;		
+		if ( categories_yo_informo[x].parent != 0 ) {
+			
+			if (selected == category_slug) {
+				_select = _select + '<option value='+ category_slug +' selected="selected">' + category_name + '</option>';	
+			} else {
+				_select = _select + '<option value='+ category_slug +'>' + category_name + '</option>';
+			}
+			
+			
 		}
 	}
 			
@@ -340,7 +344,21 @@ function initBasicApp(){
 			}
 		});
     	
-    	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, onBeforeScrollStart: function(){this.refresh();}});    	        	    			
+    	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, 
+    		
+    		onBeforeScrollStart: function(e){
+    			//this.refresh();
+
+    			if (e.target.tagName != 'SELECT' && e.target.tagName != 'INPUT' && e.target.tagName != 'TEXTAREA' && e.target.tagName != 'BUTTOM') {
+	                e.preventDefault();
+	                e.stopPropagation();
+	            }
+    			
+    			
+    		}
+    		
+    		
+    	});    	        	    			
 
     	
 		myScrollTrending = new iScroll('datatrending',1,{snap:false,hScroll: false, vScroll: true, hScrollbar: false,vScrollbar: false,bounce:true,lockDirection: true,
@@ -385,8 +403,8 @@ function initBasicApp(){
 				arrTrendingNews = data.noticiastrendingnews.item;
 			});*/
 
-	
-			categories_yo_informo = display_categories_yo_informo();
+			categories_yo_informo = get_categories_yo_informo();
+			
 
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
@@ -456,32 +474,137 @@ function initBasicApp(){
 				}
 			});
 
-			$(document).on('focus','input,textarea', function() {
-				var _index = parseInt($(this).data('index'));						
-				$('li').remove( ".remove" );				
-				for (var i = 0; i < _index; i++) {
-					$('#datacontents').append('<li class="remove" style="height:40px;" >&nbsp;</li>');
-				};
-				
-				_index = _index*2; 	
-				myScrollDatacontent.refresh();				
-				myScrollDatacontent.scrollToPage(1,_index, 100)
-			});	
-
 
 		
-			
-
-
-			
-
-
-			
-			$(document).on('touchend','#send-yo-informo', function() { 
+			function fYoInformo(step) {
 				
-				var _this = $(this);					
+				
+	
+				
+				$('#screen-block').addClass('hidden');
+				$('#menu').attr('class','page transition left');
+				$('#header-title').html(yo_informo);
+				$('#datacontents').empty();
+			
+				if (step == -1) {
+					json_yo_informo.term_slug = '';
+					json_yo_informo.message = '';
+					json_yo_informo.address = '';
+					json_yo_informo.first_name = '';
+					json_yo_informo.last_name = '';
+					json_yo_informo.email = '';
+					json_yo_informo.photo = '';
+					
+					step = 1;
+				}
+			
+			
+					
+				if (step == 1) {
+
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<h3 style="text-align:center;">Reporta y Denuncia</h3>');
+					
+					$('#datacontents').append('<p style="padding:10px;">S&eacute; parte del equipo de TVN Noticias mediante la nueva plataforma de Yo Informo donde podr&aacute;s hacer tus reportes y denuncias comunitarias de una forma f&aacute;cil y sencilla!</p>');
+										
+					$('#datacontents').append('</li>');
+					
+					var _select = '<div class="select">';
+					_select = _select + '<select data-index="0" data-error="Debe seleccionar una categor&iacute;a valida." id="term_slug" name="term_slug" class="form" >';
+					_select = _select + '<option value="" selected="selected"  disabled="disabled">Seleccionar categor&iacute;a</option>';
+					_select = _select + display_categories_yo_informo(json_yo_informo.term_slug);
+					_select = _select  + '</select>'; 
+					_select = _select  + '</div>';
+					_select = _select  + '<br />';
+
+					$('#datacontents').append('<li style="margin-top:25px;">');        																	
+					$('#datacontents').append(_select);    											       					
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');    					
+					$('#datacontents').append('<button id="send-yo-informo" data-step="2" >Siguiente</button></li>');    					  		
+					$('#datacontents').append('</li>');
+					
+				} else if (step == 2) {
+					
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<h3 style="text-align:center;">Paso 2. Datos de la denuncia</h3>');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<textarea value="'+json_yo_informo.message+'" data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" >'+json_yo_informo.message+'</textarea><br />');
+					$('#datacontents').append('</li>');
+				
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<textarea value="'+json_yo_informo.address+'" data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" >'+json_yo_informo.address+'</textarea><br />');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<button id="send-yo-informo-back" data-step="1" >Anterior</button>');
+					$('#datacontents').append('<br />');	
+					$('#datacontents').append('<button id="send-yo-informo" data-step="3" >Siguiente</button>');    					  		
+					$('#datacontents').append('</li>');
+					
+				} else if (step == 3) {
+
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<h3  style="text-align:center;">Paso 3. Datos personales</h3>');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /><br />');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /><br />');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /><br />');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>'); 
+					$('#datacontents').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
+					$('#datacontents').append('<br />');			
+					$('#datacontents').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
+					$('#datacontents').append('</li>');
+	
+					
+				} else if (step == 4) {
+					$('#datacontents').append('<li>');
+					$('#datacontents').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+					$('#datacontents').append('</li>');
+					
+					$('#datacontents').append('<li>');
+					 $('#datacontents').append('<button id="get-photo" >Foto</button>');   					
+					$('#datacontents').append('<br />');	
+					$('#datacontents').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
+					$('#datacontents').append('<br />');																
+					$('#datacontents').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');    		
+					$('#datacontents').append('</li>');
+					
+				}
+				      					    		
+				$('#datacontent').attr('class','page left');
+				myScrollDatacontent.refresh();
+			};
+		
+			$(document).on('touchend','#get-photo', function() {
+				pickImageFromGallery();					
+			}); 
+		
+			$(document).on('touchend','#send-yo-informo-back', function() {
+				var _this = $(this);
+				fYoInformo(_this.data('step'));
+			}); 
+
+			$(document).on('touchend','#send-yo-informo', function() { 
+	
+				var _this = $(this);			
 				var _return = false;
 				var _index = 0;
+						
+
 				$('.form').each(function() {
 					
 					_index = parseInt($(this).data('index'));	
@@ -492,7 +615,19 @@ function initBasicApp(){
 							_return = true;
 							alert( $(this).data('error'));
 							$(this).focus();
+						} else {
+							
+							if ($(this).attr('id')  == 'message') {
+								json_yo_informo.message = $(this).val();
+							}
+							
+							if ($(this).attr('id')  == 'address') {
+								json_yo_informo.address = $(this).val();
+							}
+							
 						} 
+						
+						
 					} else if ($(this)[0].nodeName.toLowerCase() == 'input') {
 						
 						if ($(this).attr('type') == 'email') {
@@ -500,20 +635,36 @@ function initBasicApp(){
 								_return = true;
 								alert( $(this).data('error'));
 								$(this).focus();
+							} else {
+								
+								json_yo_informo.email = $(this).val();
+								
 							}
 						} else {
 							if ($.trim($(this).val()).length == 0) {
 								_return = true;
 								alert( $(this).data('error'));
 								$(this).focus();
-							} 	
+							} 	else {
+							
+								if ($(this).attr('id')  == 'first_name') {
+									json_yo_informo.first_name = $(this).val();
+								}
+								
+								if ($(this).attr('id')  == 'last_name') {
+									json_yo_informo.last_name = $(this).val();
+								}
+							
+							} 
 						}
 												
 											
 					} else if ($(this)[0].nodeName.toLowerCase() == 'select') {						
 						if ($(this).val() == null) {
 							_return = true;
-							alert( $(this).data('error'));
+							alert($(this).data('error'));
+						} else {
+							json_yo_informo.term_slug = $(this).val();
 						}						
 					}
 
@@ -523,41 +674,44 @@ function initBasicApp(){
 
 				});
 				
-				if (_return) {
-					
-					$('li').remove( ".remove" );
-					
-					for (var i = 0; i < _index; i++) {
-						$('#datacontents').append('<li class="remove" style="height:40px;" >&nbsp;</li>');
-					};
-					
-					_index = _index*2; 	
-					myScrollDatacontent.refresh();				
-					myScrollDatacontent.scrollToPage(1,0, 100);
-					
-					return false;
-					
-				} 
-
-				var postData = {
-                    'content'      : $('#message').val(),
-                    'address'      : $('#address').val(),
-                    'longitude'    : $('#lng').val(),
-                    'latitude'     : $('#lat').val(),
-                    'term_slug'    : $('#term_slug').val(),
-                    'first_name'   : $('#first_name').val(),
-                    'last_name'    : $('#last_name').val(),
-                    'email'        : $('#email').val(),
-                    'mobile'       : $('#mobile').val()                  
-                };
-                
-                var report_new = postReport(postData);
-                //var elem_new = document.getElementById('result_new');
-                //elem_new.innerHTML = JSON.stringify(report_new);
-				alert(JSON.stringify(report_new));
-
-				alert('El reporte se ha enviado con exito.');
+				if (_return) {					
+					return false;					
+				}
 				
+				if (_this.data('step') == 5) {
+				
+					if (json_yo_informo.photo == '') {
+						alert('Debe seleccionar una foto para continuar');
+					} else {
+						
+						var postData = {
+		                    'content'      : $('#message').val(),
+		                    'address'      : $('#address').val(),
+		                    'longitude'    : $('#lng').val(),
+		                    'latitude'     : $('#lat').val(),
+		                    'term_slug'    : $('#term_slug').val(),
+		                    'first_name'   : $('#first_name').val(),
+		                    'last_name'    : $('#last_name').val(),
+		                    'email'        : $('#email').val(),
+		                    'mobile'       : $('#mobile').val()                  
+	                	};
+                
+		                //var report_new = postReport(postData);
+		                //var elem_new = document.getElementById('result_new');
+		                //elem_new.innerHTML = JSON.stringify(report_new);
+						//alert(JSON.stringify(report_new));
+		
+						//alert('El reporte se ha enviado con exito.');
+						alert(json_yo_informo.photo);
+						
+						
+					}
+										
+				} else {
+					
+					fYoInformo(_this.data('step'));	
+				}
+
 			});
 
 
@@ -612,69 +766,8 @@ function initBasicApp(){
     					$('#datacontents').append('</div>');	
     					$('#datacontent').attr('class','page left');
 
-					} else if ($(this).data('category') == 'y'){
-						
-						
-						
-    					myScrollDatacontent.refresh();
-    					
-    					$('#screen-block').addClass('hidden');
-    					$('#menu').attr('class','page transition left');
-    					$('#header-title').html(yo_informo);
-    					$('#datacontents').empty();
-
-    					var _select = '<div class="select">';
-    					_select = _select + '<select data-index="0" data-error="Debe seleccionar una categor&iacute;a valida." id="term_slug" name="term_slug" class="form" >';
-    					_select = _select + '<option value="" selected="selected"  disabled="disabled">Seleccionar categor&iacute;a</option>';
-    					_select = _select + categories_yo_informo;
-    					_select = _select  + '</select>'; 
-    					_select = _select  + '</div><br />'; 
-    					
-    					$('#datacontents').append('<li style="margin-top:25px;">');        																	
-    					$('#datacontents').append(_select);    											       					
-    					$('#datacontents').append('</li>');
-    					
-    					$('#datacontents').append('<li>');
-    					$('#datacontents').append('<textarea data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" ></textarea><br />');
-    					$('#datacontents').append('</li>');
-    					
-    					$('#datacontents').append('<li>');
-    					$('#datacontents').append('<textarea data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" ></textarea><br />');
-    					$('#datacontents').append('</li>');
-    					
-    					$('#datacontents').append('<li>');					
-						$('#datacontents').append('<input class="form" data-index="2" type="text" id="lng" name="lng" disabled value="'+ geolocation.longitud +'" /> <br />');
-						$('#datacontents').append('</li>');
-    					
-    					$('#datacontents').append('<li>');
-    					$('#datacontents').append('<input class="form" data-index="1" type="text" id="lat" name="lat" disabled value="'+ geolocation.latitud +'" /> <br />');
-						$('#datacontents').append('</li>');
-
-						
-						$('#datacontents').append('<li>');
-						$('#datacontents').append('<input class="form" data-index="3" type="text" id="mobile" name="mobile" disabled value="'+ device.model + ' ' + device.version +'" /> <br />');
-						$('#datacontents').append('</li>');
-						
-						$('#datacontents').append('<li>');
-						$('#datacontents').append('<input data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /> <br />');
-						$('#datacontents').append('</li>');
-						
-						$('#datacontents').append('<li>');
-    					$('#datacontents').append('<input data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /> <br />');
-    					$('#datacontents').append('</li>');
-    					
-    					$('#datacontents').append('<li>');
-    					$('#datacontents').append('<input data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /> <br />');
-    					$('#datacontents').append('</li>');
-    					
-    					$('#datacontents').append('<li>');    					
-    					$('#datacontents').append('<button id="send-yo-informo" >Enviar reporte</button></li>');    					  		
-						$('#datacontents').append('</li>');
-						$('#datacontents').append('<li style="height:40px;" >&nbsp;</li>');
-						      					    		
-    					$('#datacontent').attr('class','page left');
-    					
-    					
+					} else if ($(this).data('category') == 'y') {						
+						fYoInformo(-1);
     				} else {
     				
 	    				trendingview=false;
@@ -1984,8 +2077,8 @@ function getCurrentGeoPosition(){
 function successGeolocationHandler (position) {
 	//alert('funcione!!!');
 	//console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
-   	geolocation.latitud =  position.coords.latitude;
-   	geolocation.longitud =  position.coords.longitude;
+   	json_yo_informo.latitude =  position.coords.latitude;
+   	json_yo_informo.longitude =  position.coords.longitude;
 }
 
 function errorGeolocationHandler (error) {
@@ -2003,6 +2096,8 @@ function successPickImageFromGallery(imageURI){
 	//imageURI hay que guardarlo para enviarlo despues
 	//fileName es el nombre del archivo por si se quiere mostrar
 	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+	json_yo_informo.photo = fileName;
+	json_yo_informo.photo = imageURI;  
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
 	
@@ -2069,6 +2164,7 @@ var app = {
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
+        json_yo_informo.device = device.model;
  
     },
     // Update DOM on a Received Event
@@ -2092,6 +2188,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
-		//setTimeout(function () {pickImageFromGallery();}, 3000);
+		//setTimeout(function () {getPictureFromGallery();}, 1500);
     }
 };
