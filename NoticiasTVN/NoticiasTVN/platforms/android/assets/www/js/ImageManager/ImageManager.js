@@ -65,7 +65,7 @@ function onFailGetPictureFromGallery(message) {
     //alert('Failed because: ' + message);
 }*/
 
-function getPictureFromGallery(){
+function getPictureFromGallery(onSuccessGetPictureFromGallery, onFailGetPictureFromGallery){
 	navigator.camera.getPicture(onSuccessGetPictureFromGallery, onFailGetPictureFromGallery, { quality: 100,
 	    destinationType: Camera.DestinationType.NATIVE_URI,
 	    sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
@@ -73,7 +73,8 @@ function getPictureFromGallery(){
 	});
 }
 
-function onSuccessGetPictureFromGallery(imageURI) {
+//funcion para subir una imagen al cloud (NO ESTA LISTA AUN)
+function uploadPictureFromGallery(imageURI) {
 	var options = new FileUploadOptions();
 	options.fileKey="file";
     options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -88,22 +89,18 @@ function onSuccessGetPictureFromGallery(imageURI) {
 	options.params = params;
 
 	var ft = new FileTransfer();
-	ft.upload(imageURI, encodeURI("http://10.0.3.142:9007/newsapi/v1/yoinformo/uploadimage"), win, fail, options);
-}
-
-function onFailGetPictureFromGallery(message) {
-    //alert('Failed because: ' + message);
+	ft.upload(imageURI, encodeURI("http://10.0.3.127:9000/newsapi/v1/yoinformo/uploadimage"), winUploadPictureFromGallery, failUploadPictureFromGallery, options);
 }
 
 //WITH FILE TRANSFER
-var win = function (r) {
+var winUploadPictureFromGallery = function (r) {
 	alert('OK: ' + r.response);
     console.log("Code = " + r.responseCode);
     console.log("Response = " + r.response);
     console.log("Sent = " + r.bytesSent);
 }
 
-var fail = function (error) {
+var failUploadPictureFromGallery = function (error) {
     alert("An error has occurred: Code = " + error.code);
     console.log("upload error source " + error.source);
     console.log("upload error target " + error.target);
