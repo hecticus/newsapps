@@ -700,11 +700,11 @@ function initBasicApp(){
 		                var report_new = postReport(postData);
 		                //var elem_new = document.getElementById('result_new');
 		                //elem_new.innerHTML = JSON.stringify(report_new);
-						alert(JSON.stringify(report_new));		
+						//alert(JSON.stringify(report_new));		
 						alert('El reporte se ha enviado con exito.');
-						alert(json_yo_informo.photo);
-						
-						
+						//$('#send-yo-informo').hide();
+						$('#send-yo-informo').data('step','-1');
+						$('#send-yo-informo').html('Inicio');  
 					}
 										
 				} else {
