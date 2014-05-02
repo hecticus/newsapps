@@ -100,7 +100,7 @@ public class YoInformoController extends HecticusController {
         File file = null;
         File f2 = new File("/home/playtvn/tvn/tvnadmin-1.0-SNAPSHOT/"+imageDir + name);
         if(f2.exists()){
-            file = Play.application(play.api.Play.current()).getFile("/home/playtvn/tvn/tvnadmin-1.0-SNAPSHOT/"+imageDir + name);
+            file = Play.application(play.api.Play.current()).getFile(imageDir + name);
         } else {
 //            file = Play.application(play.api.Play.current()).getFile(imageDir + Config.getString("default-img"));
             return badRequest(f2.getAbsolutePath());
