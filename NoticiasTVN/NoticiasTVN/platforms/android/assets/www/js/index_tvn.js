@@ -283,10 +283,9 @@ function postReport(postData){
         mobile     : postData.mobile,
     };
     
-    /*var assets = {
-        image : postData.phonegap_img,
-        video : postData.video,
-    };*/
+   var assets = {
+        image : postData.phonegap_img   
+    };
     
     var connection = {
         url : "http://yoinformo.tvn-2.com/xmlrpc.php",
@@ -295,7 +294,7 @@ function postReport(postData){
     };
     
     var wp = new WordPress(connection.url, connection.username, connection.password);
-    var object = wp.api_new_reports(report, citizen);
+    var object = wp.api_new_reports(report, citizen,assets);
     
     if(object.report !== false){
         return object.report;
@@ -684,24 +683,26 @@ function initBasicApp(){
 						alert('Debe seleccionar una foto para continuar');
 					} else {
 						
+						var json_yo_informo = {term_slug:'',:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:''};
+						
 						var postData = {
-		                    'content'      : $('#message').val(),
-		                    'address'      : $('#address').val(),
-		                    'longitude'    : $('#lng').val(),
-		                    'latitude'     : $('#lat').val(),
-		                    'term_slug'    : $('#term_slug').val(),
-		                    'first_name'   : $('#first_name').val(),
-		                    'last_name'    : $('#last_name').val(),
-		                    'email'        : $('#email').val(),
-		                    'mobile'       : $('#mobile').val()                  
-	                	};
+		                    'content'      	: json_yo_informo.message,
+		                    'address'      	: json_yo_informo.addres,
+		                    'longitude'    	: json_yo_informo.longitude,
+		                    'latitude'     	: json_yo_informo.latitude,
+		                    'term_slug'    	: json_yo_informo.term_slug,
+		                    'first_name'   	: json_yo_informo.first_name,
+		                    'last_name'    	: json_yo_informo.last_name,
+		                    'email'        	: json_yo_informo.email,
+		                    'mobile'       	: json_yo_informo.mobile,
+		                    'phonegap_img'  : json_yo_informo.photo               
+	                	}; 
                 
-		                //var report_new = postReport(postData);
+		                var report_new = postReport(postData);
 		                //var elem_new = document.getElementById('result_new');
 		                //elem_new.innerHTML = JSON.stringify(report_new);
-						//alert(JSON.stringify(report_new));
-		
-						//alert('El reporte se ha enviado con exito.');
+						alert(JSON.stringify(report_new));		
+						alert('El reporte se ha enviado con exito.');
 						alert(json_yo_informo.photo);
 						
 						
@@ -2097,7 +2098,7 @@ function successPickImageFromGallery(imageURI){
 	//fileName es el nombre del archivo por si se quiere mostrar
 	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
 	json_yo_informo.photo = fileName;
-	json_yo_informo.photo = imageURI;  
+	//json_yo_informo.photo = imageURI;  
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
 	
