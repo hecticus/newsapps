@@ -17,7 +17,7 @@
  * under the License.
  */    
 
-var json_yo_informo = {term_slug:'',message:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:''};
+var json_yo_informo = {term_slug:'',message:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:'',img:''};
 var info_app = 'Sobre este APP';
 var yo_informo = 'Yo Informo';
 var arrTrendingTopics;
@@ -197,6 +197,7 @@ function fRemoveClassIcon() {
 
 function fBack() {
 	
+	$('#datacontent,#datatrending,#spage').show();	
 	$('#menu').attr('class','page transition left');	
 	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
 	if (!trendingview && myScrollPage!= null && myScrollPage.currPageX >= 0) $("#header-title").html(arrCategory[myScrollPage.currPageX].title);
@@ -205,12 +206,13 @@ function fBack() {
 	$('#datacontent').attr('class','page transition right');
 	$('#datacontents').empty();
 	$('#datats').empty();		
-	$('#screen-block').addClass('hidden');			
+	$('#screen-block').addClass('hidden');		
+	$('#datacontent,#datatrending,#spage').show();	
 }
 	
 var upcoming=0;
 var press=0;
-var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage, myScrollTrending;
+var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage, myScrollTrending, myScrollForm;
 var myXml=false;
 
 
@@ -481,7 +483,7 @@ function initBasicApp(){
 				$('#screen-block').addClass('hidden');
 				$('#menu').attr('class','page transition left');
 				$('#header-title').html(yo_informo);
-				$('#datacontents').empty();
+				$('#yoinformo').empty();
 			
 				if (step == -1) {					
 					json_yo_informo.term_slug = '';
@@ -495,108 +497,52 @@ function initBasicApp(){
 				}
 				
 				$('#datacontent,#datatrending,#spage').hide();
-				
-				
-
-
-				
-				//$('#miForm').attr('class','page left');
 				isYoInformo = true;
 				$('#miForm').removeClass('hidden');
-				
-			
-					
-				/*if (step == 1) {
 
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<h3 style="text-align:center;">Reporta y Denuncia</h3>');
-					
-					$('#datacontents').append('<p style="padding:10px;">S&eacute; parte del equipo de TVN Noticias mediante la nueva plataforma de Yo Informo donde podr&aacute;s hacer tus reportes y denuncias comunitarias de una forma f&aacute;cil y sencilla!</p>');
-										
-					$('#datacontents').append('</li>');
-					
-					var _select = '<div class="select">';
-					_select = _select + '<select data-index="0" data-error="Debe seleccionar una categor&iacute;a valida." id="term_slug" name="term_slug" class="form" >';
+				if (step == 1) {
+					$('#yoinformo').append('<h3 style="text-align:center;">Reporta y Denuncia</h3>');				
+					$('#yoinformo').append('<p style="padding:10px;">S&eacute; parte del equipo de TVN Noticias mediante la nueva plataforma de Yo Informo donde podr&aacute;s hacer tus reportes y denuncias comunitarias de una forma f&aacute;cil y sencilla!</p>');																			
+					var _select = '<div class="select">';					
+					_select = _select + '<select data-index="0" data-error="Debe seleccionar una categor&iacute;a valida."  id="term_slug" name="term_slug" class="form">';
 					_select = _select + '<option value="" selected="selected"  disabled="disabled">Seleccionar categor&iacute;a</option>';
 					_select = _select + display_categories_yo_informo(json_yo_informo.term_slug);
-					_select = _select  + '</select>'; 
-					_select = _select  + '</div>';
-					_select = _select  + '<br />';
-
-					$('#datacontents').append('<li style="margin-top:25px;">');        																	
-					$('#datacontents').append(_select);    											       					
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');    					
-					$('#datacontents').append('<button id="send-yo-informo" data-step="2" >Siguiente</button></li>');    					  		
-					$('#datacontents').append('</li>');
-					
+					_select = _select + '</select>'; 
+					_select = _select + '</div>';										
+					$('#yoinformo').append(_select);
+					$('#yoinformo').append('<br />');    											       					
+					$('#yoinformo').append('<button id="send-yo-informo" data-step="2" >Siguiente</button>');    					  							
 				} else if (step == 2) {
-					
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<h3 style="text-align:center;">Paso 2. Datos de la denuncia</h3>');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<textarea value="'+json_yo_informo.message+'" data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" >'+json_yo_informo.message+'</textarea><br />');
-					$('#datacontents').append('</li>');
-				
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<textarea value="'+json_yo_informo.address+'" data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" >'+json_yo_informo.address+'</textarea><br />');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<button id="send-yo-informo-back" data-step="1" >Anterior</button>');
-					$('#datacontents').append('<br />');	
-					$('#datacontents').append('<button id="send-yo-informo" data-step="3" >Siguiente</button>');    					  		
-					$('#datacontents').append('</li>');
-					
+					$('#yoinformo').append('<h3 style="text-align:center;">Paso 2. Datos de la denuncia</h3>');
+					$('#yoinformo').append('<textarea value="'+json_yo_informo.message+'" data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" >'+json_yo_informo.message+'</textarea><br />');
+					$('#yoinformo').append('<textarea value="'+json_yo_informo.address+'" data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" >'+json_yo_informo.address+'</textarea><br />');
+					$('#yoinformo').append('<button id="send-yo-informo-back" data-step="1" >Anterior</button>');
+					$('#yoinformo').append('<br />');	
+					$('#yoinformo').append('<button id="send-yo-informo" data-step="3" >Siguiente</button>');    					  		
 				} else if (step == 3) {
-
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<h3  style="text-align:center;">Paso 3. Datos personales</h3>');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /><br />');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /><br />');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /><br />');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>'); 
-					$('#datacontents').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
-					$('#datacontents').append('<br />');			
-					$('#datacontents').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
-					$('#datacontents').append('</li>');
-	
-					
+					$('#yoinformo').append('<h3  style="text-align:center;">Paso 3. Datos personales</h3>');
+					$('#yoinformo').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /><br />');
+					$('#yoinformo').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /><br />');									
+					$('#yoinformo').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /><br />'); 
+					$('#yoinformo').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
+					$('#yoinformo').append('<br />');			
+					$('#yoinformo').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
 				} else if (step == 4) {
-					$('#datacontents').append('<li>');
-					$('#datacontents').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-					$('#datacontents').append('</li>');
-					
-					$('#datacontents').append('<li>');
-					 $('#datacontents').append('<button id="get-photo" >Foto</button>');   					
-					$('#datacontents').append('<br />');	
-					$('#datacontents').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
-					$('#datacontents').append('<br />');																
-					$('#datacontents').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');    		
-					$('#datacontents').append('</li>');
-					
-				}
-				      					    		
-				$('#datacontent').attr('class','page left');
-				myScrollDatacontent.refresh();*/
+					$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+				 	$('#yoinformo').append('<button id="get-photo" >Foto</button>');   					
+					$('#yoinformo').append('<br />');
+					//$('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
+					//$('#yoinformo').append('<br />');																
+					//$('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');    		
+				} 
+				
 			};
 		
-			$(document).on('touchend','#get-photo', function() {
-				pickImageFromGallery();					
+			$(document).on('touchend','#get-photo', function() {				
+				$('#yoinformo').empty();
+				$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+				$('#yoinformo').append('<button id="get-photo" >Foto</button>');
+				pickImageFromGallery();								
 			}); 
 		
 			$(document).on('touchend','#send-yo-informo-back', function() {
@@ -605,6 +551,8 @@ function initBasicApp(){
 			}); 
 
 			$(document).on('touchend','#send-yo-informo', function() { 
+	
+				
 	
 				var _this = $(this);			
 				var _return = false;
@@ -690,32 +638,41 @@ function initBasicApp(){
 						alert('Debe seleccionar una foto para continuar');
 					} else {
 												
-						
-						var postData = {
-		                    'content'      	: json_yo_informo.message,
-		                    'address'      	: json_yo_informo.addres,
-		                    'longitude'    	: json_yo_informo.longitude,
-		                    'latitude'     	: json_yo_informo.latitude,
-		                    'term_slug'    	: json_yo_informo.term_slug,
-		                    'first_name'   	: json_yo_informo.first_name,
-		                    'last_name'    	: json_yo_informo.last_name,
-		                    'email'        	: json_yo_informo.email,
-		                    'mobile'       	: json_yo_informo.mobile,
-		                    'phonegap_img'  : json_yo_informo.photo               
-	                	}; 
-                
-		                var report_new = postReport(postData);
-		                //var elem_new = document.getElementById('result_new');
-		                //elem_new.innerHTML = JSON.stringify(report_new);
-						//alert(JSON.stringify(report_new));		
-						alert('El reporte se ha enviado con exito.');
-						//$('#send-yo-informo').hide();
-						$('#send-yo-informo').data('step','-1');
-						$('#send-yo-informo').html('Inicio');  
+						$('#yoinformo').empty();
+						$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+						$('#yoinformo').append('<p style="padding:10px; text-align:center;">Espere un momento por favor...</p>'); 
+
+		                setTimeout(function () {
+		                	
+							var postData = {
+			                    'content'      	: json_yo_informo.message,
+			                    'address'      	: json_yo_informo.addres,
+			                    'longitude'    	: json_yo_informo.longitude,
+			                    'latitude'     	: json_yo_informo.latitude,
+			                    'term_slug'    	: json_yo_informo.term_slug,
+			                    'first_name'   	: json_yo_informo.first_name,
+			                    'last_name'    	: json_yo_informo.last_name,
+			                    'email'        	: json_yo_informo.email,
+			                    'mobile'       	: json_yo_informo.mobile,
+			                    'phonegap_img'  : json_yo_informo.photo               
+		                	}; 
+     
+     						$('#yoinformo').empty();
+							var report_new = postReport(postData);		               
+		             		//$('#yoinformo').append(JSON.stringify(report_new));
+		             		$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+		             		if (report_new) {
+		             			$('#yoinformo').append('<p style="padding:10px; text-align:center;">El reporte se ha enviado con &eacute;xito</p>');	
+		             		} else {
+		             			$('#yoinformo').append('<p style="padding:10px; text-align:center;">Error enviando en el reporte, por favor intente m&aacute;s tarde</p>');
+		             		}
+							 		                	
+		                }, 2);
+		                
+
 					}
 										
-				} else {
-					
+				} else {				
 					fYoInformo(_this.data('step'));	
 				}
 
@@ -2107,11 +2064,15 @@ function errorGeolocationHandler (error) {
 function pickImageFromGallery(){
 	getPictureFromGallery();
 }
+
+
+
 function successPickImageFromGallery(imageURI){
 	//imageURI hay que guardarlo para enviarlo despues
 	//fileName es el nombre del archivo por si se quiere mostrar
 	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
 	json_yo_informo.photo = fileName;
+	json_yo_informo.img = imageURI;
 	//json_yo_informo.photo = imageURI;  
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
@@ -2137,12 +2098,25 @@ function successUploadImageToServer(r){
 			json_yo_informo.photo = jsonResponse.urlimage;
 		}
 	}
-	//alert('OK: ' + r.response);
+	//alert('OK: ' + json_yo_informo.photo);
+	jQuery('#yoinformo').empty();
+	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+	jQuery('#yoinformo').append('<button id="get-photo" >Foto</button>');
+	jQuery('#yoinformo').append('<br />'); 	
+	jQuery('#yoinformo').append('<img src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto;" />');
+	jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
+	jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');
     //console.log("json_yo_informo = " + json_yo_informo.photo);
 }
 function errorUploadImageToServer(error){
-	alert("No se pudo subir la imagen");
-	//alert("An error has occurred: " + JSON.stringify(error));
+	//alert("No se pudo subir la imagen");
+	jQuery('#yoinformo').empty();
+	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+	jQuery('#yoinformo').append('<button id="get-photo" >Ok</button>'); 			
+	jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');	
 }
 //END IMAGE UPLOAD
 
@@ -2169,7 +2143,8 @@ var app = {
  			  
     			if(isYoInformo){
     				isYoInformo = false;
-    				$('#miForm').addClass('hidden');
+    				$('#datacontent,#datatrending,#spage').show();	
+    				$('#miForm').addClass('hidden');    				
     			}else if($('#menu').hasClass('right')){
 					$('#menu').attr('class','page transition left');	    				    				
 				}else if ($('#datacontent').hasClass('left')){
