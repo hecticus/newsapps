@@ -44,9 +44,19 @@ public class YoInformoController extends HecticusController {
                 Utils.printToLog(YoInformoController.class, "", "fileName = " + fileName, false, null, "", Config.LOGGER_ERROR);
                 Utils.printToLog(YoInformoController.class, "", "contentType = " + contentType, false, null, "", Config.LOGGER_ERROR);
                 File file = picture.getFile();
+                if(file.exists()){
+                    Utils.printToLog(YoInformoController.class, "", "file EXISTE", false, null, "", Config.LOGGER_ERROR);
+                } else {
+                    Utils.printToLog(YoInformoController.class, "", "file NO EXISTE", false, null, "", Config.LOGGER_ERROR);
+                }
                 Utils.printToLog(YoInformoController.class, "", "file = " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 UUID idFile = UUID.randomUUID();
                 File dest = new File(imageDir+""+idFile+".jpeg");
+                if(dest.exists()){
+                    Utils.printToLog(YoInformoController.class, "", "dest EXISTE", false, null, "", Config.LOGGER_ERROR);
+                } else {
+                    Utils.printToLog(YoInformoController.class, "", "dest NO EXISTE", false, null, "", Config.LOGGER_ERROR);
+                }
                 Utils.printToLog(YoInformoController.class, "", "dest = " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 file.renameTo(dest);
                // if(uploadAndPublish(file)){
@@ -62,13 +72,13 @@ public class YoInformoController extends HecticusController {
 //                }
             }else{
                 Utils.printToLog(YoInformoController.class, "", "no hay imagen a subir", false, null, "", Config.LOGGER_ERROR);
-                return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
-                //return ok("no hay imagen a subir");
+//                return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
+                return ok(buildBasicResponse(-2, "no hay imagen a subir"));
             }
         }catch (Exception ex){
             Utils.printToLog(YoInformoController.class, "", "ocurrio un error:" + ex.toString(), false, null, "", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
-            //return ok("ocurrio un error:" + ex.toString());
+//            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return ok(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
 //        return ok("ok");
     }
