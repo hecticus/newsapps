@@ -1896,8 +1896,8 @@ function errorGetTrendingIndexes(){
 
 //banner
 function getBannerSpecial(){
-	//var urlBanner = 'http://tvn.news.hecticus.com/newsapi/v1/banners/get';
-	var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+	var urlBanner = 'http://tvn.news.hecticus.com/newsapi/v1/banners/get';
+	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
 	//console.log("VA AL Banners");
 	$.ajax({
 		url : urlBanner,
