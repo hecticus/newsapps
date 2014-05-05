@@ -99,18 +99,23 @@ public class YoInformoController extends HecticusController {
     public static Result getImg(String name){
         try{
             File file = null;
-            File route = new File(imageDir);
+            String otherDir = "/home/playtvn/tvn/img/yoinformouploader/";
+//            File route = new File(imageDir);
+            File route = new File(otherDir);
             if(route.exists()){
                 String permits = (route.canRead()?"R":"-")+(route.canWrite()?"W":"-")+(route.canExecute()?"E":"-");
                 Utils.printToLog(YoInformoController.class, "", route.getAbsolutePath() + " " + permits, false, null, "", Config.LOGGER_ERROR);
             } else {
-                Utils.printToLog(YoInformoController.class, "", "NO EXISTE EL DIRECTORIO " + imageDir + " route = " + route.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+//                Utils.printToLog(YoInformoController.class, "", "NO EXISTE EL DIRECTORIO " + imageDir + " route = " + route.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                Utils.printToLog(YoInformoController.class, "", "NO EXISTE EL DIRECTORIO " + otherDir + " route = " + route.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 return badRequest(route.getAbsolutePath());
             }
-            File f2 = new File(imageDir + name);
+//            File f2 = new File(imageDir + name);
+            File f2 = new File(otherDir + name);
             Utils.printToLog(YoInformoController.class, "", f2.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
             if(f2.exists()){
-                file = Play.application(play.api.Play.current()).getFile(imageDir + name);
+//                file = Play.application(play.api.Play.current()).getFile(imageDir + name);
+                file = Play.application(play.api.Play.current()).getFile(otherDir + name);
             } else {
     //            file = Play.application(play.api.Play.current()).getFile(imageDir + Config.getString("default-img"));
                 return badRequest(f2.getAbsolutePath());
