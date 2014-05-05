@@ -44,17 +44,17 @@ public class YoInformoController extends HecticusController {
                 UUID idFile = UUID.randomUUID();
                 File dest = new File(Config.getString("img-Folder-Route")+idFile+".jpeg");
                 file.renameTo(dest);
-
-                if(uploadAndPublish(dest)){
-                    ArrayList data = new ArrayList();
-                    data.add(Config.getString("img-WS-Route")+idFile+".jpeg");
-                    //build answer
-                    ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
-                    return ok(response);
-                }else{
+                boolean useCDN = Config.getInt("use-cdn")==1;
+                if(useCDN && !uploadAndPublish(dest)){
                     return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
-//                    return ok("no se pudo subir la imagen");
                 }
+                ArrayList data = new ArrayList();
+                String urlPrefix = useCDN?Config.getString("rks-CDN-URL"):Config.getString("img-WS-Route");
+                data.add(urlPrefix+idFile+".jpeg");
+//                Utils.printToLog(YoInformoController.class, "", urlPrefix+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
+                if(useCDN) dest.delete();
+                ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
+                return ok(response);
             }else{
                 Utils.printToLog(YoInformoController.class, "", "no hay imagen a subir", false, null, "", Config.LOGGER_ERROR);
                 return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
@@ -86,13 +86,12 @@ public class YoInformoController extends HecticusController {
             uploadFile(upload, retry, containerName, file, "yoinformo", init);
             //publish
             pub.enableCdnContainer(containerName, TTL);
+
             return true;
         }catch (Exception ex){
             Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
-            //String emsg = "error subiendo los archivos a los cloudFiles, el proceso no se completo";
             return false;
         }
-//        return true;
     }
 
     public static Result getImg(String name){
