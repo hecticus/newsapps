@@ -346,16 +346,11 @@ function initBasicApp(){
     	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, 
     		
     		onBeforeScrollStart: function(e){
-    			//this.refresh();
+    			this.refresh();
 
-    			if (e.target.tagName != 'SELECT' && e.target.tagName != 'INPUT' && e.target.tagName != 'TEXTAREA' && e.target.tagName != 'BUTTOM') {
-	                e.preventDefault();
-	                e.stopPropagation();
-	            }
-    			
     			
     		}
-    		
+    	
     		
     	});    	        	    			
 
