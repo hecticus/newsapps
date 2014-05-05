@@ -1962,6 +1962,7 @@ function getBannerSpecial(){
 		url : urlBanner,
 		timeout : 120000,
 		success : function(data, status) {
+			loadFirstPage();
 			if(typeof data == "string"){
 				data = JSON.parse(data);
 			}
@@ -1996,8 +1997,13 @@ function getBannerSpecial(){
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			console.log("ERROR Banners DATA: "+thrownError);
+			loadFirstPage();
 		}
 	});
+}
+
+function loadFirstPage(){
+	$.fgetNews();
 }
 
 //REFRESH ARRAYS
@@ -2029,7 +2035,8 @@ function endOfAppInitialization(){
 	
 	getBannerSpecial();
 	
-	$.fgetNews();
+	//$.fgetNews(); //despues del getBanner se llama a traves de loadFirstPage()
+	if (arrCategory.length > 0) $("#header-title").html(arrCategory[0].title);
 	
 	//snap de las paginas con un threshold del 15% de la pantalla
 	myScrollPage.options.snapThreshold = window.innerWidth*0.15;
