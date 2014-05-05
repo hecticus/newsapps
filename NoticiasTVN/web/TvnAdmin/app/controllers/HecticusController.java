@@ -19,7 +19,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-//import com.hecticus.rackspacecloud.RackspaceCreate;
+import com.hecticus.rackspacecloud.RackspaceCreate;
+import utils.Utils;
 
 /**
  * Created by sorcerer on 2/20/14.
@@ -94,24 +95,24 @@ public class HecticusController extends Controller {
         return tr;
     }
 
-    /*public static boolean uploadFile(RackspaceCreate upload,int retry,String container, File file, String parent, long init) throws InterruptedException{
+    public static boolean uploadFile(RackspaceCreate upload,int retry,String container, File file, String parent, long init) throws InterruptedException{
         boolean uploaded = false;
         while(retry > 0 && !uploaded){
             try {
                 upload.uploadObject(container,file);
                 uploaded = true;
             } catch (Exception ex) {
-                //Utils.printToLog(this,"Falla subiendo el archivo " + (System.currentTimeMillis() - init) + " ms","Se realizará reintento en 3 minutos",false,ex,"",Config.LOGGER_INFO);
+                Utils.printToLog(null, "Falla subiendo el archivo " + (System.currentTimeMillis() - init) + " ms", "Se realizará reintento en 3 minutos", false, ex, "", Config.LOGGER_ERROR);
                 Thread.sleep(5000);
                 retry--;
             }
         }
 
         if(!uploaded){
-            //Utils.printToLog(this,"Luego de "+retry+" intentos, el archivo no pudo ser caragado el cloud","-",false,null,"",Config.LOGGER_INFO);
+            Utils.printToLog(null,"Luego de "+retry+" intentos, el archivo no pudo ser cargado el cloud","-",false,null,"",Config.LOGGER_ERROR);
             return false;
         }
 
         return true;
-    }*/
+    }
 }
