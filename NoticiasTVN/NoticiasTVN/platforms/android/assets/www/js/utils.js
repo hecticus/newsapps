@@ -229,6 +229,28 @@ function getCorrectImageBySize(imageArray,find){
 	}
 }
 
+function getScreenWidth(){
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		return window.innerWidth;
+	}else{
+		//ANDROID
+		return window.outerWidth;
+	}
+	
+}
+function getScreenHeight(){
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		return window.innerHeight;
+	}else{
+		//ANDROID
+		return window.outerHeight;
+	}
+}
+
 //DEBUG
 function printToLog(element){
 	//console.log(element);

@@ -20,9 +20,10 @@ window.onorientationchange = function() {
 
 function getPictureFromGallery(){
 	navigator.camera.getPicture(successPickImageFromGallery, errorPickImageFromGallery, { quality: 100,
-	    destinationType: Camera.DestinationType.NATIVE_URI,
+	    destinationType: Camera.DestinationType.FILE_URI,
 	    sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
-	    encodingType: Camera.EncodingType.JPEG
+	    encodingType: Camera.EncodingType.JPEG,
+	    mediaType: Camera.MediaType.PICTURE
 	});
 }
 
