@@ -26,6 +26,8 @@ var categories_yo_informo= '';
 var bannerImages = new Array();
 var bannerLink = "";
 
+var isYoInformo = false;
+
 
 var trendingview = false;
 
@@ -498,7 +500,9 @@ function initBasicApp(){
 
 
 				
-				$('#miForm').attr('class','page left');
+				//$('#miForm').attr('class','page left');
+				isYoInformo = true;
+				$('#miForm').removeClass('hidden');
 				
 			
 					
@@ -2161,7 +2165,10 @@ var app = {
 
     		$(function() {
  			  
-    			if($('#menu').hasClass('right')){
+    			if(isYoInformo){
+    				isYoInformo = false;
+    				$('#miForm').addClass('hidden');
+    			}else if($('#menu').hasClass('right')){
 					$('#menu').attr('class','page transition left');	    				    				
 				}else if ($('#datacontent').hasClass('left')){
 					fRemoveClassIcon();
