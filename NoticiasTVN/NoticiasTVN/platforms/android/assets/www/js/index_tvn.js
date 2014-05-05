@@ -207,7 +207,8 @@ function fBack() {
 	$('#datacontents').empty();
 	$('#datats').empty();		
 	$('#screen-block').addClass('hidden');		
-	$('#datacontent,#datatrending,#spage').show();	
+	$('#datacontent,#datatrending,#spage').show();
+	$('#miForm').hide();
 }
 	
 var upcoming=0;
@@ -233,80 +234,137 @@ var hScrollMove = false;
 function get_categories_yo_informo(){
     // url = URL del archivo XML-RPC del proyecto
     // username y password = Proporcionados por Akora
-    var connection = {
-        url : 'http://yoinformo.tvn-2.com/xmlrpc.php',
-        username : 'userapi',
-        password : 'R85te267o7OxW46'
-    };
-    var wp = new WordPress(connection.url, connection.username, connection.password);
-    var object = wp.api_get_categories();
-    if(object.categories !== false){
-        return object.categories;
-    }
-    return false;
+    
+	try {
+		
+  		//Run some code here
+  	
+	  	var connection = {
+	        url : 'http://yoinformo.tvn-2.com/xmlrpc.php',
+	        username : 'userapi',
+	        password : 'R85te267o7OxW46'
+	    };
+	    
+	    var wp = new WordPress(connection.url, connection.username, connection.password);
+	    var object = wp.api_get_categories();
+	    if(object.categories !== false){
+	        return object.categories;
+	    }
+	    
+	    return false;
+  	
+  	
+  		
+  	} catch(err) {
+  		//Handle errors here
+  		return false;
+  	}
+    
+    
 }
 
 function display_categories_yo_informo(selected) {
 
-	var _select = '';
+
+		try {
+			
+	  		//Run some code here
+	  	
+		  	var _select = '';
 	
-	for ( var x in categories_yo_informo ) {
-		var category_name = categories_yo_informo[x].name;
-		var category_slug = categories_yo_informo[x].slug;		
-		if ( categories_yo_informo[x].parent != 0 ) {
-			
-			if (selected == category_slug) {
-				_select = _select + '<option value="'+ category_slug +'" selected="selected">' + category_name + '</option>';	
-			} else {
-				_select = _select + '<option value="'+ category_slug +'">' + category_name + '</option>';
+			for ( var x in categories_yo_informo ) {
+				var category_name = categories_yo_informo[x].name;
+				var category_slug = categories_yo_informo[x].slug;		
+				if ( categories_yo_informo[x].parent != 0 ) {
+					
+					if (selected == category_slug) {
+						_select = _select + '<option value="'+ category_slug +'" selected="selected">' + category_name + '</option>';	
+					} else {
+						_select = _select + '<option value="'+ category_slug +'">' + category_name + '</option>';
+					}
+					
+					
+				}
 			}
-			
-			
-		}
-	}
-			
-	//console.log(_select);
-	return _select;
+					
+			//console.log(_select);
+			return _select;
+	  	
+	  	
+	  		
+	  	} catch(err) {
+	  		//Handle errors here
+	  		return '';
+	  	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 };
 
 function postReport(postData){
 	
-    var report = {
-        content   : postData.content,
-        address   : postData.address,
-        lng       : postData.longitude,
-        lat       : postData.latitude,
-        origin_id : 5,
-        term_slug : postData.term_slug,
-    };
+	try {
+		
+  		//Run some code here
+		var report = {
+	        content   : postData.content,
+	        address   : postData.address,
+	        lng       : postData.longitude,
+	        lat       : postData.latitude,
+	        origin_id : 5,
+	        term_slug : postData.term_slug,
+	    };
+	    
+	    var citizen = {
+	        first_name : postData.first_name,
+	        last_name  : postData.last_name,
+	        email      : postData.email,
+	        mobile     : postData.mobile,
+	    };
+	    
+	   var assets = {
+	        image : postData.phonegap_img   
+	    };
+	    
+	    var connection = {
+	        url : "http://yoinformo.tvn-2.com/xmlrpc.php",
+	        username : "userapi",
+	        password : "R85te267o7OxW46"
+	    };
+	    
+	    var wp = new WordPress(connection.url, connection.username, connection.password);
+	    var object = wp.api_new_reports(report, citizen,assets);
+	    
+	    if(object.report !== false){
+	        return object.report;
+	    }else{
+	       return false;
+	    }
+	    
+	    return false;
+	  		
+	  		
+	  		
+	  		
+	  		
+	  		
+	  		
+  	} catch(err) {
+  		//Handle errors here
+  		return false;
+  	}
     
-    var citizen = {
-        first_name : postData.first_name,
-        last_name  : postData.last_name,
-        email      : postData.email,
-        mobile     : postData.mobile,
-    };
-    
-   var assets = {
-        image : postData.phonegap_img   
-    };
-    
-    var connection = {
-        url : "http://yoinformo.tvn-2.com/xmlrpc.php",
-        username : "userapi",
-        password : "R85te267o7OxW46"
-    };
-    
-    var wp = new WordPress(connection.url, connection.username, connection.password);
-    var object = wp.api_new_reports(report, citizen,assets);
-    
-    if(object.report !== false){
-        return object.report;
-    }else{
-       return false;
-    }
-    
-    return false;
     
 }
 
@@ -483,6 +541,7 @@ function initBasicApp(){
 				$('#screen-block').addClass('hidden');
 				$('#menu').attr('class','page transition left');
 				$('#header-title').html(yo_informo);
+				$('#miForm').show();   
 				$('#yoinformo').empty();
 			
 				if (step == -1) {					
@@ -692,6 +751,9 @@ function initBasicApp(){
 			}).on('touchend','.menu', function() {
     			if (press) {
     				
+    				$('#datacontent,#datatrending,#spage').show();
+    				$('#miForm').hide();    				
+    				
     				if ($(this).data('category') == '?') {
     					
     					
@@ -710,7 +772,7 @@ function initBasicApp(){
 					} else if ($(this).data('category') == 'y') {						
 						fYoInformo(-1);
     				} else {
-    				
+    					
 	    				trendingview=false;
 	    				$('#screen-block').addClass('hidden');		
 	    				$('#header-title').html(arrCategory[$(this).data('position')].title);

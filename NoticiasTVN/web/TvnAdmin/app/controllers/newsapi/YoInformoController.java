@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-//import com.hecticus.rackspacecloud.RackspaceCreate;
-//import com.hecticus.rackspacecloud.RackspacePublish;
+import com.hecticus.rackspacecloud.RackspaceCreate;
+import com.hecticus.rackspacecloud.RackspacePublish;
 import utils.Utils;
 
 
@@ -45,17 +45,16 @@ public class YoInformoController extends HecticusController {
                 File dest = new File(Config.getString("img-Folder-Route")+idFile+".jpeg");
                 file.renameTo(dest);
 
-//                if(uploadAndPublish(file)){
+                if(uploadAndPublish(dest)){
                     ArrayList data = new ArrayList();
                     data.add(Config.getString("img-WS-Route")+idFile+".jpeg");
                     //build answer
                     ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
-                    Utils.printToLog(YoInformoController.class, "", "saliendo de uploadImage()", false, null, "", Config.LOGGER_ERROR);
                     return ok(response);
-//                }else{
-//                    //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
+                }else{
+                    return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
 //                    return ok("no se pudo subir la imagen");
-//                }
+                }
             }else{
                 Utils.printToLog(YoInformoController.class, "", "no hay imagen a subir", false, null, "", Config.LOGGER_ERROR);
                 return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
@@ -66,7 +65,7 @@ public class YoInformoController extends HecticusController {
         }
     }
 
-    /*private static boolean uploadAndPublish(File file){
+    private static boolean uploadAndPublish(File file){
 
         //String username = Config.getRackspaceUser();
         //String apiKey = Config.getRackspaceApiKey();
@@ -84,18 +83,17 @@ public class YoInformoController extends HecticusController {
         try {
             upload.createContainer(containerName);
             //resources
-
             uploadFile(upload, retry, containerName, file, "yoinformo", init);
             //publish
             pub.enableCdnContainer(containerName, TTL);
             return true;
         }catch (Exception ex){
-//            Utils.printToLog(null, "FUUUUUUUUUUUUUUUUUUUUUU" + (System.currentTimeMillis() - init) + " ms", "FUUUUUUUUUUUUUUUUU", false, ex, "", 3);
+            Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
             //String emsg = "error subiendo los archivos a los cloudFiles, el proceso no se completo";
             return false;
         }
 //        return true;
-    }*/
+    }
 
     public static Result getImg(String name){
         try{
