@@ -51,7 +51,7 @@ public class YoInformoController extends HecticusController {
                 }
                 Utils.printToLog(YoInformoController.class, "", "file = " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 UUID idFile = UUID.randomUUID();
-                File dest = new File("/home/playtvn/tvn/img/yoinformouploader/"+imageDir+""+idFile+".jpeg");
+                File dest = new File("/home/playtvn/tvn/img/yoinformouploader/"+idFile+".jpeg");
                 if(dest.exists()){
                     Utils.printToLog(YoInformoController.class, "", "dest EXISTE", false, null, "", Config.LOGGER_ERROR);
                 } else {
