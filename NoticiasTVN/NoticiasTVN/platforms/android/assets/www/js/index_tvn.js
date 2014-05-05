@@ -465,6 +465,10 @@ function initBasicApp(){
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
 
+			if (parseInt(device.version) >= 4) {
+				$('body').css('position','fixed');	
+			} 
+
 			$('#miForm').width(viewport.width);
 			$('#miForm').height(viewport.height);
 
@@ -537,7 +541,8 @@ function initBasicApp(){
 
 		
 			function fYoInformo(step) {
-
+				
+				
 				$('#screen-block').addClass('hidden');
 				$('#menu').attr('class','page transition left');
 				$('#header-title').html(yo_informo);
@@ -610,6 +615,12 @@ function initBasicApp(){
 				} 
 				
 			};
+		
+		
+		
+			$(document).on('touchend','#term_slug', function() {
+				$(this).focus();
+			});
 		
 			$(document).on('touchend','#get-photo', function() {				
 				$(this).html('Cargando...');				
@@ -2224,7 +2235,8 @@ var app = {
     			if(isYoInformo){
     				isYoInformo = false;
     				$('#datacontent,#datatrending,#spage').show();	
-    				$('#miForm').addClass('hidden');    				
+    				$('#miForm').addClass('hidden');    
+	
     			}else if($('#menu').hasClass('right')){
 					$('#menu').attr('class','page transition left');	    				    				
 				}else if ($('#datacontent').hasClass('left')){
