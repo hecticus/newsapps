@@ -36,35 +36,16 @@ public class YoInformoController extends HecticusController {
 
     public static Result uploadImage(){
         try {
-            Utils.printToLog(YoInformoController.class, "", "entrando a uploadImage()", false, null, "", Config.LOGGER_ERROR);
             Http.MultipartFormData.FilePart picture = getImage();
             if (picture != null) {
                 String fileName = picture.getFilename();
                 String contentType = picture.getContentType();
-                Utils.printToLog(YoInformoController.class, "", "fileName = " + fileName, false, null, "", Config.LOGGER_ERROR);
-                Utils.printToLog(YoInformoController.class, "", "contentType = " + contentType, false, null, "", Config.LOGGER_ERROR);
                 File file = picture.getFile();
-                if(file.exists()){
-                    Utils.printToLog(YoInformoController.class, "", "file EXISTE", false, null, "", Config.LOGGER_ERROR);
-                } else {
-                    Utils.printToLog(YoInformoController.class, "", "file NO EXISTE", false, null, "", Config.LOGGER_ERROR);
-                }
-                Utils.printToLog(YoInformoController.class, "", "file = " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 UUID idFile = UUID.randomUUID();
-                File dest = new File("/home/playtvn/tvn/img/yoinformouploader/"+idFile+".jpeg");
-                if(dest.exists()){
-                    Utils.printToLog(YoInformoController.class, "", "dest EXISTE", false, null, "", Config.LOGGER_ERROR);
-                } else {
-                    Utils.printToLog(YoInformoController.class, "", "dest NO EXISTE", false, null, "", Config.LOGGER_ERROR);
-                }
-                Utils.printToLog(YoInformoController.class, "", "dest = " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                File dest = new File(Config.getString("img-Folder-Route")+idFile+".jpeg");
                 file.renameTo(dest);
-                if(dest.exists()){
-                    Utils.printToLog(YoInformoController.class, "", "POST dest EXISTE", false, null, "", Config.LOGGER_ERROR);
-                } else {
-                    Utils.printToLog(YoInformoController.class, "", "POST dest NO EXISTE", false, null, "", Config.LOGGER_ERROR);
-                }
-               // if(uploadAndPublish(file)){
+
+//                if(uploadAndPublish(file)){
                     ArrayList data = new ArrayList();
                     data.add(Config.getString("img-WS-Route")+idFile+".jpeg");
                     //build answer
@@ -77,15 +58,12 @@ public class YoInformoController extends HecticusController {
 //                }
             }else{
                 Utils.printToLog(YoInformoController.class, "", "no hay imagen a subir", false, null, "", Config.LOGGER_ERROR);
-//                return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
-                return ok(buildBasicResponse(-2, "no hay imagen a subir"));
+                return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
             }
         }catch (Exception ex){
             Utils.printToLog(YoInformoController.class, "", "ocurrio un error:" + ex.toString(), false, null, "", Config.LOGGER_ERROR);
-//            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
-            return ok(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
-//        return ok("ok");
     }
 
     /*private static boolean uploadAndPublish(File file){
