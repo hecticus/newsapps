@@ -528,23 +528,35 @@ function initBasicApp(){
 					$('#yoinformo').append('<br />');			
 					$('#yoinformo').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
 				} else if (step == 4) {
+					
+					
 					$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+					$('#yoinformo').append('<p id="message-yo-informo" style="padding:10px; display:none;"></p>');
 				 	$('#yoinformo').append('<button id="get-photo" >Foto</button>');   					
 					$('#yoinformo').append('<br />');
-					$('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte sin foto</button>');
-					//$('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
-					//$('#yoinformo').append('<br />');																
-					//$('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');    		
+					$('#yoinformo').append('<div class="yoinformo-photo" style="width:100%; height:auto; display:none;">');
+					$('#yoinformo').append('<img id="preview-yo-informo" src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto; " />');
+					$('#yoinformo').append('</div>');
+					$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button id="send-yo-informo-back" class="yoinformo-photo" data-step="3" style="display:none;" >Anterior</button>');
+					$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button id="send-yo-informo"  class="yoinformo-photo" data-step="5" style="display:none;">Enviar reporte</button>');
+					
+					if (json_yo_informo.img != '') {
+						$('.yoinformo-photo').show();
+					}
+					
+
+					
 				} 
 				
 			};
 		
 			$(document).on('touchend','#get-photo', function() {				
-				$('#yoinformo').empty();
-				$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-				$('#yoinformo').append('<button id="get-photo" >Foto</button>');
-				jQuery('#yoinformo').append('<br />');
-				jQuery('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte sin foto</button>');
+				$(this).html('Cargando...');				
+				$('#preview-yo-informo').attr('src','');
+				$('.yoinformo-photo').hide();
+				$('#message-yo-informo').hide();
 				pickImageFromGallery();								
 			}); 
 		
@@ -2077,24 +2089,18 @@ function successUploadImageToServer(r){
 	}
 	sendYoInformoData();
 	//alert('OK: ' + json_yo_informo.photo);
-	/*jQuery('#yoinformo').empty();
-	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-	jQuery('#yoinformo').append('<button id="get-photo" >Foto</button>');
-	jQuery('#yoinformo').append('<br />'); 	
-	jQuery('#yoinformo').append('<img src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto;" />');
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');*/
+
+	jQuery('#get-photo').html('Foto');
+	jQuery('.yoinformo-photo').show();
+	jQuery('#preview-yo-informo').attr('src',json_yo_informo.img);
+
     //console.log("json_yo_informo = " + json_yo_informo.photo);
 }
 function errorUploadImageToServer(error){
 	//alert("No se pudo subir la imagen");
-	jQuery('#yoinformo').empty();
-	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-	jQuery('#yoinformo').append('<button id="get-photo" >Ok</button>'); 			
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');	
+	jQuery('#get-photo').html('Foto');
+	jQuery('#message-yo-informo').show();
+	jQuery('#message-yo-informo').html('La carga de la imagen no se puedo procesar con &eacute;xito; Por favor, intentelo otra vez.');
 }
 //END IMAGE UPLOAD
 
