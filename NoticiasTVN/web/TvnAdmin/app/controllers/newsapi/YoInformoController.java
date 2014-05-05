@@ -51,7 +51,7 @@ public class YoInformoController extends HecticusController {
                 }
                 Utils.printToLog(YoInformoController.class, "", "file = " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 UUID idFile = UUID.randomUUID();
-                File dest = new File(imageDir+""+idFile+".jpeg");
+                File dest = new File("/home/playtvn/tvn/img/yoinformouploader/"+imageDir+""+idFile+".jpeg");
                 if(dest.exists()){
                     Utils.printToLog(YoInformoController.class, "", "dest EXISTE", false, null, "", Config.LOGGER_ERROR);
                 } else {
@@ -59,6 +59,11 @@ public class YoInformoController extends HecticusController {
                 }
                 Utils.printToLog(YoInformoController.class, "", "dest = " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 file.renameTo(dest);
+                if(dest.exists()){
+                    Utils.printToLog(YoInformoController.class, "", "POST dest EXISTE", false, null, "", Config.LOGGER_ERROR);
+                } else {
+                    Utils.printToLog(YoInformoController.class, "", "POST dest NO EXISTE", false, null, "", Config.LOGGER_ERROR);
+                }
                // if(uploadAndPublish(file)){
                     ArrayList data = new ArrayList();
                     data.add(Config.getString("img-WS-Route")+idFile+".jpeg");
