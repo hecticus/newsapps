@@ -528,20 +528,35 @@ function initBasicApp(){
 					$('#yoinformo').append('<br />');			
 					$('#yoinformo').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
 				} else if (step == 4) {
+					
+					
 					$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+					$('#yoinformo').append('<p id="message-yo-informo" style="padding:10px; display:none;"></p>');
 				 	$('#yoinformo').append('<button id="get-photo" >Foto</button>');   					
 					$('#yoinformo').append('<br />');
-					//$('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
-					//$('#yoinformo').append('<br />');																
-					//$('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');    		
+					$('#yoinformo').append('<div class="yoinformo-photo" style="width:100%; height:auto; display:none;">');
+					$('#yoinformo').append('<img id="preview-yo-informo" src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto; " />');
+					$('#yoinformo').append('</div>');
+					$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button id="send-yo-informo-back" class="yoinformo-photo" data-step="3" >Anterior</button>');
+					$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button id="send-yo-informo"  class="yoinformo-photo" data-step="5">Enviar reporte</button>');
+					
+					if (json_yo_informo.img != '') {
+						$('.yoinformo-photo').show();
+					}
+					
+
+					
 				} 
 				
 			};
 		
 			$(document).on('touchend','#get-photo', function() {				
-				$('#yoinformo').empty();
-				$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-				$('#yoinformo').append('<button id="get-photo" >Foto</button>');
+				$(this).html('Cargando...');				
+				$('#preview-yo-informo').attr('src','');
+				$('.yoinformo-photo').hide();
+				$('#message-yo-informo').hide();
 				pickImageFromGallery();								
 			}); 
 		
@@ -633,45 +648,7 @@ function initBasicApp(){
 				}
 				
 				if (_this.data('step') == 5) {
-				
-					if (json_yo_informo.photo == '') {
-						alert('Debe seleccionar una foto para continuar');
-					} else {
-												
-						$('#yoinformo').empty();
-						$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
-						$('#yoinformo').append('<p style="padding:10px; text-align:center;">Espere un momento por favor...</p>'); 
-
-		                setTimeout(function () {
-		                	
-							var postData = {
-			                    'content'      	: json_yo_informo.message,
-			                    'address'      	: json_yo_informo.addres,
-			                    'longitude'    	: json_yo_informo.longitude,
-			                    'latitude'     	: json_yo_informo.latitude,
-			                    'term_slug'    	: json_yo_informo.term_slug,
-			                    'first_name'   	: json_yo_informo.first_name,
-			                    'last_name'    	: json_yo_informo.last_name,
-			                    'email'        	: json_yo_informo.email,
-			                    'mobile'       	: json_yo_informo.mobile,
-			                    'phonegap_img'  : json_yo_informo.photo               
-		                	}; 
-     
-     						$('#yoinformo').empty();
-							var report_new = postReport(postData);		               
-		             		//$('#yoinformo').append(JSON.stringify(report_new));
-		             		$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
-		             		if (report_new) {
-		             			$('#yoinformo').append('<p style="padding:10px; text-align:center;">El reporte se ha enviado con &eacute;xito</p>');	
-		             		} else {
-		             			$('#yoinformo').append('<p style="padding:10px; text-align:center;">Error enviando en el reporte, por favor intente m&aacute;s tarde</p>');
-		             		}
-							 		                	
-		                }, 2);
-		                
-
-					}
-										
+					uploadImageToServer();					
 				} else {				
 					fYoInformo(_this.data('step'));	
 				}
@@ -2077,7 +2054,17 @@ function successPickImageFromGallery(imageURI){
 	//console.log("FILE NAME: "+fileName);
 	//console.log("FILE URI: "+imageURI);
 	
-	uploadPictureFromGallery(imageURI);
+	//uploadPictureFromGallery(imageURI);
+	
+	jQuery('#yoinformo').empty();
+	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+	jQuery('#yoinformo').append('<button id="get-photo" >Foto</button>');
+	jQuery('#yoinformo').append('<br />'); 	
+	jQuery('#yoinformo').append('<img src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto;" />');
+	jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
+	jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');
 }
 function errorPickImageFromGallery(){
 	//no selecciono ninguna imagen
@@ -2086,8 +2073,10 @@ function errorPickImageFromGallery(){
 
 //IMAGE UPLOAD
 function uploadImageToServer(){
-	if(json_yo_informo.photo != null && json_yo_informo.photo != ""){
-		uploadPictureFromGallery(json_yo_informo.photo,successUploadImageToServer,errorUploadImageToServer);
+	if(json_yo_informo.img != null && json_yo_informo.img != ""){
+		uploadPictureFromGallery(json_yo_informo.img,successUploadImageToServer,errorUploadImageToServer);
+	}else{
+		sendYoInformoData();
 	}
 }
 function successUploadImageToServer(r){
@@ -2098,27 +2087,56 @@ function successUploadImageToServer(r){
 			json_yo_informo.photo = jsonResponse.urlimage;
 		}
 	}
+	sendYoInformoData();
 	//alert('OK: ' + json_yo_informo.photo);
-	jQuery('#yoinformo').empty();
-	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-	jQuery('#yoinformo').append('<button id="get-photo" >Foto</button>');
-	jQuery('#yoinformo').append('<br />'); 	
-	jQuery('#yoinformo').append('<img src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto;" />');
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');
+
+	jQuery('#get-photo').html('Foto');
+	jQuery('.yoinformo-photo').show();
+	jQuery('#preview-yo-informo').attr('src',json_yo_informo.img);
+
     //console.log("json_yo_informo = " + json_yo_informo.photo);
 }
 function errorUploadImageToServer(error){
 	//alert("No se pudo subir la imagen");
-	jQuery('#yoinformo').empty();
-	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
-	jQuery('#yoinformo').append('<button id="get-photo" >Ok</button>'); 			
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');	
+	jQuery('#get-photo').html('Foto');
+	jQuery('#message-yo-informo').show();
+	jQuery('#message-yo-informo').html('La carga de la imagen no se puedo procesar con &eacute;xito; Por favor, intentelo otra vez.');
 }
 //END IMAGE UPLOAD
+
+//SEND YO INFORMO DATA
+function sendYoInformoData(){
+	$('#yoinformo').empty();
+	$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+	$('#yoinformo').append('<p style="padding:10px; text-align:center;">Espere un momento por favor...</p>'); 
+
+    setTimeout(function () {
+    	
+		var postData = {
+            'content'      	: json_yo_informo.message,
+            'address'      	: json_yo_informo.addres,
+            'longitude'    	: json_yo_informo.longitude,
+            'latitude'     	: json_yo_informo.latitude,
+            'term_slug'    	: json_yo_informo.term_slug,
+            'first_name'   	: json_yo_informo.first_name,
+            'last_name'    	: json_yo_informo.last_name,
+            'email'        	: json_yo_informo.email,
+            'mobile'       	: json_yo_informo.mobile,
+            'phonegap_img'  : json_yo_informo.photo               
+    	}; 
+
+		$('#yoinformo').empty();
+		var report_new = postReport(postData);		               
+ 		//$('#yoinformo').append(JSON.stringify(report_new));
+ 		$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+ 		if (report_new) {
+ 			$('#yoinformo').append('<p style="padding:10px; text-align:center;">El reporte se ha enviado con &eacute;xito</p>');	
+ 		} else {
+ 			$('#yoinformo').append('<p style="padding:10px; text-align:center;">Error enviando en el reporte, por favor intente m&aacute;s tarde</p>');
+ 		}
+		 		                	
+    }, 2);
+}
 
 
 var app = {
@@ -2204,6 +2222,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
-		//setTimeout(function () {getPictureFromGallery();}, 3000);
+		//setTimeout(function () {getPictureFromGallery();}, 5000);
     }
 };
