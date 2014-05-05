@@ -538,9 +538,9 @@ function initBasicApp(){
 					$('#yoinformo').append('<img id="preview-yo-informo" src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto; " />');
 					$('#yoinformo').append('</div>');
 					$('#yoinformo').append('<br />');
-					$('#yoinformo').append('<button id="send-yo-informo-back" class="yoinformo-photo" data-step="3" style="display:none;" >Anterior</button>');
+					$('#yoinformo').append('<button id="send-yo-informo-back" class="yoinformo-photo" data-step="3" >Anterior</button>');
 					$('#yoinformo').append('<br />');
-					$('#yoinformo').append('<button id="send-yo-informo"  class="yoinformo-photo" data-step="5" style="display:none;">Enviar reporte</button>');
+					$('#yoinformo').append('<button id="send-yo-informo"  class="yoinformo-photo" data-step="5">Enviar reporte</button>');
 					
 					if (json_yo_informo.img != '') {
 						$('.yoinformo-photo').show();
@@ -2222,6 +2222,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
-		//setTimeout(function () {getPictureFromGallery();}, 3000);
+		//setTimeout(function () {getPictureFromGallery();}, 5000);
     }
 };
