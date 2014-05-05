@@ -402,6 +402,10 @@ function initBasicApp(){
 
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
+
+			$('#miForm').width(viewport.width);
+			$('#miForm').height(viewport.height);
+
 					
 
 
@@ -471,30 +475,34 @@ function initBasicApp(){
 
 		
 			function fYoInformo(step) {
-				
-				
-	
-				
+
 				$('#screen-block').addClass('hidden');
 				$('#menu').attr('class','page transition left');
 				$('#header-title').html(yo_informo);
 				$('#datacontents').empty();
 			
-				if (step == -1) {
+				if (step == -1) {					
 					json_yo_informo.term_slug = '';
 					json_yo_informo.message = '';
 					json_yo_informo.address = '';
 					json_yo_informo.first_name = '';
 					json_yo_informo.last_name = '';
 					json_yo_informo.email = '';
-					json_yo_informo.photo = '';
-					
+					json_yo_informo.photo = '';					
 					step = 1;
 				}
-			
+				
+				$('#datacontent,#datatrending,#spage').hide();
+				
+				
+
+
+				
+				$('#miForm').attr('class','page left');
+				
 			
 					
-				if (step == 1) {
+				/*if (step == 1) {
 
 					$('#datacontents').append('<li>');
 					$('#datacontents').append('<h3 style="text-align:center;">Reporta y Denuncia</h3>');
@@ -580,7 +588,7 @@ function initBasicApp(){
 				}
 				      					    		
 				$('#datacontent').attr('class','page left');
-				myScrollDatacontent.refresh();
+				myScrollDatacontent.refresh();*/
 			};
 		
 			$(document).on('touchend','#get-photo', function() {
