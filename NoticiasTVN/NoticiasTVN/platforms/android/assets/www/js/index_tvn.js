@@ -1171,10 +1171,10 @@ function initBasicApp(){
 							if (i==0) {
 
 								//$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
-								var width = window.innerWidth;
-								var height = window.innerHeight;
-								var screenwidth = window.innerWidth;
-								var screenheight = window.innerHeight;
+								var width = getScreenWidth();
+								var height = getScreenHeight();
+								var screenwidth = getScreenWidth();
+								var screenheight = getScreenHeight();
 
 								var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
 								var realX = screenwidth;
@@ -1583,10 +1583,10 @@ function initBasicApp(){
 						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
 						$('#trending-news-featured-title').attr('data-content','trending');
 																
-						var width = window.innerWidth;
-						var height = window.innerHeight;
-						var screenwidth = window.innerWidth;
-						var screenheight = window.innerHeight;
+						var width = getScreenWidth();
+						var height = getScreenHeight();
+						var screenwidth = getScreenWidth();
+						var screenheight = getScreenHeight();
 	
 						var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
 						var realX = screenwidth;
@@ -1962,8 +1962,8 @@ function errorGetTrendingIndexes(){
 
 //banner
 function getBannerSpecial(){
-	var urlBanner = 'http://tvn.news.hecticus.com/newsapi/v1/banners/get';
-	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+	//var urlBanner = 'http://tvn.news.hecticus.com/newsapi/v1/banners/get';
+	var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
 	//console.log("VA AL Banners");
 	$.ajax({
 		url : urlBanner,
@@ -1987,7 +1987,8 @@ function getBannerSpecial(){
 						var indexToUse = 0;
 						var minSize = 70000;
 						for(var i=0;i<imagesArray.length;i++){
-							var diff = window.innerWidth - imagesArray[i]["width"];
+							var diff = getScreenWidth() - imagesArray[i]["width"];
+							//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
 							if(diff < 0){
 								diff = diff*(-1);
 							}
@@ -2046,7 +2047,7 @@ function endOfAppInitialization(){
 	if (arrCategory.length > 0) $("#header-title").html(arrCategory[0].title);
 	
 	//snap de las paginas con un threshold del 15% de la pantalla
-	myScrollPage.options.snapThreshold = window.innerWidth*0.15;
+	myScrollPage.options.snapThreshold = getScreenWidth()*0.15;
 	
 	$('#splash').addClass('hidden');
 	
@@ -2137,10 +2138,11 @@ function successUploadImageToServer(r){
 		}
 	}
 	//alert('OK: ' + r.response);
-    console.log("json_yo_informo = " + json_yo_informo.photo);
+    //console.log("json_yo_informo = " + json_yo_informo.photo);
 }
 function errorUploadImageToServer(error){
 	alert("No se pudo subir la imagen");
+	//alert("An error has occurred: " + JSON.stringify(error));
 }
 //END IMAGE UPLOAD
 
