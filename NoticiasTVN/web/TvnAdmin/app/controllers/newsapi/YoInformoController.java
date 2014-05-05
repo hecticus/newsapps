@@ -97,14 +97,20 @@ public class YoInformoController extends HecticusController {
     }*/
 
     public static Result getImg(String name){
-        File file = null;
-        File f2 = new File(imageDir + name);
-        if(f2.exists()){
-            file = Play.application(play.api.Play.current()).getFile(imageDir + name);
-        } else {
-//            file = Play.application(play.api.Play.current()).getFile(imageDir + Config.getString("default-img"));
-            return badRequest(f2.getAbsolutePath());
-        }
-        return ok(file);
+//        try{
+            File file = null;
+            File f2 = new File(imageDir + name);
+//            Utils.printToLog(YoInformoController.class, "", f2.getAbsolutePath(), false, null, "", 3);
+            if(f2.exists()){
+                file = Play.application(play.api.Play.current()).getFile(imageDir + name);
+            } else {
+    //            file = Play.application(play.api.Play.current()).getFile(imageDir + Config.getString("default-img"));
+                return badRequest(f2.getAbsolutePath());
+            }
+            return ok(file);
+//        }catch (Exception ex){
+//            Utils.printToLog(YoInformoController.class, "", "Error en la imagen", false, ex, "", 3);
+//            return badRequest();
+//        }
     }
 }
