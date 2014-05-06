@@ -1,5 +1,5 @@
-
-@media (max-width: 767px) { 	
+@media (max-width: 767px) and (orientation : portrait) {
+	
 	#brackets {display:none;} 
 	.name {display:none;}
 	.date {text-align: center;}
@@ -10,10 +10,9 @@
 	.prediction {display: none}
 	.col-xs-12.bar {background:none;}
 	.btn.button {width: 70% !important;}
-	.form-control.input { width: 100% !important; padding: 6px 8% !important;}
+	.form-control.input { width: 100% !important; padding: 6px 12% !important;}
 	.btn.facebook { width: 100% !important; }
-	
-	
+
 	img.arrow {
 			width: 19px;
 		height: 11px;
@@ -24,7 +23,40 @@
 		text-align: center;
 		font-size: 1.2em;
 		font-weight: bold;
+		width: 100%;
+		height: auto;
+		}
+	
+	
+}
+
+
+@media (max-width: 767px) and (orientation : landscape) {
+	
+	#brackets {display:none;} 
+	.name {display:none;}
+	.date {text-align: center;}
+	.venue {background-color: #FFFFFF; height: auto; padding: 5px;}
+	.game {height:auto; padding:5px}	
+	.small, .row.menu.session {display: block}
+	.large {display: none}
+	.prediction {display: none}
+	.col-xs-12.bar {background:none;}
+	.btn.button {width: 70% !important;}
+	.form-control.input { width: 100% !important; padding: 6px 10% !important;}
+	.btn.facebook { width: 100% !important; }
+
+	img.arrow {
 			width: 19px;
+		height: 11px;
+		cursor: pointer;
+	}
+	
+	.goal {
+		text-align: center;
+		font-size: 1.2em;
+		font-weight: bold;
+		width: 100%;
 		height: auto;
 		}
 		
@@ -43,7 +75,7 @@
 	.prediction {display: block}
 	.container {width:100% !important};	
 	.btn.button {width: 35% !important;}
-	.form-control.input { width: 50% !important; padding: 6px 4% !important;}
+	.form-control.input { width: 50% !important; padding: 6px 5% !important;}
 	.btn.facebook { width: 50% !important;}
 	.position {float:left; padding-left: 20px;  width:10%; margin-right:20px;}
 	.position:first-child {margin-left:5px; }
@@ -60,7 +92,7 @@ img.arrow {
 		text-align: center;
 		font-size: 1.0em;
 		font-weight: bold;
-				width: 19px;
+		width: 100%;
 		height: auto;
 		}
 	
@@ -93,26 +125,7 @@ img.arrow {
 		text-align: center;
 		font-size: 1.0em;
 		font-weight: bold;
-				width: 19px;
+		width: 100%;
 		height: auto;}
 	
 }
-
-/* Large devices (large desktops, 1200px and up) */
-/*@media (min-width: 800px) { 		
-	#brackets {display:block;}	
-	.name {display:inline;}
-	.date {text-align: left;}
-	.venue { background-color: #FFFFFF; height: 57px; padding: 5px;}
-	.game {height:70px; padding:5px}
-	.small, .row.menu.session {display: none}
-	.large {display: block}
-	.prediction {display: block}	
-	
-}*/
-
-
-
-
-
-
