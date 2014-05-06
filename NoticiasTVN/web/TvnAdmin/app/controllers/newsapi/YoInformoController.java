@@ -40,26 +40,12 @@ public class YoInformoController extends HecticusController {
                 String fileName = picture.getFilename();
                 String contentType = picture.getContentType();
                 File file = picture.getFile();
-                Thread.sleep(1000);
-                if(file.exists()){
-                    double mb = file.length();
-                    Utils.printToLog(YoInformoController.class, "", "Existe file " + file.getAbsolutePath() + " pesa " + mb + " b", false, null, "", Config.LOGGER_ERROR);
-                } else {
-                    Utils.printToLog(YoInformoController.class, "", "NO Existe file " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
-                }
                 Calendar today = new GregorianCalendar(TimeZone.getDefault());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 sdf.setTimeZone(TimeZone.getDefault());
                 UUID idFile = UUID.randomUUID();
                 File dest = new File(Config.getString("img-Folder-Route")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
                 file.renameTo(dest);
-                Thread.sleep(1000);
-                if(dest.exists()){
-                    double mb = dest.length();
-                    Utils.printToLog(YoInformoController.class, "", "Existe dest " + dest.getAbsolutePath() + " pesa " + mb + " b", false, null, "", Config.LOGGER_ERROR);
-                } else {
-                    Utils.printToLog(YoInformoController.class, "", "NO Existe dest " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
-                }
                 boolean useCDN = Config.getInt("use-cdn")==1;
                 if(useCDN && !uploadAndPublish(dest)){
                     Utils.printToLog(YoInformoController.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
@@ -68,8 +54,8 @@ public class YoInformoController extends HecticusController {
                 ArrayList data = new ArrayList();
                 String urlPrefix = useCDN?Config.getString("rks-CDN-URL"):Config.getString("img-WS-Route");
                 data.add(urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg");
-                Utils.printToLog(YoInformoController.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
-//                if(useCDN) dest.delete();
+//                Utils.printToLog(YoInformoController.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
+                if(useCDN) dest.delete();
                 ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
                 return ok(response);
             }else{
@@ -77,7 +63,7 @@ public class YoInformoController extends HecticusController {
                 return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
             }
         }catch (Exception ex){
-            Utils.printToLog(YoInformoController.class, "", "ocurrio un error:" + ex.toString(), false, null, "", Config.LOGGER_ERROR);
+            Utils.printToLog(YoInformoController.class, "", "ocurrio un error desconocido", false, ex, "", Config.LOGGER_ERROR);
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
@@ -102,7 +88,7 @@ public class YoInformoController extends HecticusController {
             Utils.printToLog(YoInformoController.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_ERROR);
             //resources
             boolean uploaded = uploadFile(upload, retry, containerName, file, "yoinformo", init);
-            Utils.printToLog(YoInformoController.class, "", "Archivo " + (!uploaded?"NO":"") + " subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+            Utils.printToLog(YoInformoController.class, "", "Archivo" + (!uploaded?" NO":"") + " subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
             if(uploaded){
                 //publish
                 pub.enableCdnContainer(containerName, TTL);
