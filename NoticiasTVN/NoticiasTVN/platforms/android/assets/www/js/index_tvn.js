@@ -69,10 +69,17 @@ function setMenuCategories(){
 		a = i;
 	}
 	
-	a++;	
-	$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
-	$.li+=yo_informo;			
-	$.li+='</li>';
+	//Si es android 2.2 no se muestra esta pantalla
+	var platform = device.platform;
+	var version = device.version;
+	if(platform == "Android" && version.lastIndexOf("2.2") == 0){
+		//nada
+	}else{
+		a++;	
+		$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+		$.li+=yo_informo;			
+		$.li+='</li>';
+	}
 	
 	a++;	
 	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
@@ -1477,7 +1484,7 @@ function initBasicApp(){
     			$('#trending-news1').empty();
     			
     			//var urlComplete = "http://tvn-cloud-firewall.cloudapp.net/_vti_bin/NewsService.svc/GetNewsByTrendingTopic?trendingTopicId="+category+"&siteUrl=Noticias&rowLimit=20";
-    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/trending/"+category;
+    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/tvn/trending/"+category;
     			/*if(trendingTopicsNews != null && trendingTopicsNews != "" && trendingTopicsNews.indexOf("#REPLACE#")>0){
     	    		urlComplete = trendingTopicsNews;
     	    		urlComplete = urlComplete.replace("#REPLACE#", ""+category);
@@ -2151,6 +2158,8 @@ function successUploadImageToServer(r){
 	}
 	sendYoInformoData();
 	//alert('OK: ' + json_yo_informo.photo);
+	//window.open(json_yo_informo.photo, '_system', 'closebuttoncaption=regresar');
+	//console.log("IMAGE: "+json_yo_informo.photo);
 
 	jQuery('#get-photo').html('Foto');
 	jQuery('.yoinformo-photo').show();
