@@ -69,7 +69,7 @@ public class Application extends Controller
     {
     	
     	String url = Config.getTVMaxPollaHost();
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9000/KrakenSocialClients/v1/client/"+id).get();
+    	Promise<WS.Response> wsResponse = WS.url(url+"KrakenSocialClients/v1/client/"+id).get();
     	JsonNode jsonResponse = wsResponse.get().asJson();
     	
     	if (jsonResponse.get("error").asLong() == 0) {    		
