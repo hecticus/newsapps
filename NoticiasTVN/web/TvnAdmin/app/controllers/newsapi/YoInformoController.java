@@ -36,6 +36,7 @@ public class YoInformoController extends HecticusController {
 
     public static Result uploadImage(){
         try {
+            Utils.printToLog(YoInformoController.class, "", "entrando a uploadImage()", false, null, "", Config.LOGGER_ERROR);
             Http.MultipartFormData.FilePart picture = getImage();
             if (picture != null) {
                 String fileName = picture.getFilename();
@@ -51,7 +52,7 @@ public class YoInformoController extends HecticusController {
                 ArrayList data = new ArrayList();
                 String urlPrefix = useCDN?Config.getString("rks-CDN-URL"):Config.getString("img-WS-Route");
                 data.add(urlPrefix+idFile+".jpeg");
-//                Utils.printToLog(YoInformoController.class, "", urlPrefix+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
+                Utils.printToLog(YoInformoController.class, "", urlPrefix+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
                 if(useCDN) dest.delete();
                 ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
                 return ok(response);
@@ -82,10 +83,13 @@ public class YoInformoController extends HecticusController {
         }
         try {
             upload.createContainer(containerName);
+            Utils.printToLog(YoInformoController.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_ERROR);
             //resources
             uploadFile(upload, retry, containerName, file, "yoinformo", init);
+            Utils.printToLog(YoInformoController.class, "", "Archivo subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
             //publish
             pub.enableCdnContainer(containerName, TTL);
+            Utils.printToLog(YoInformoController.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_ERROR);
 
             return true;
         }catch (Exception ex){
