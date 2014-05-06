@@ -382,13 +382,11 @@ $(function() {
 					$.each(arrPhase, function(index, phase) {
 						
 						if (phase.id > 1) {
-							
-			
-							
+	
 							$.each(phase.group, function(index, group) {
 	
 								group.classified = [];
-								
+																								
 								points = $.fCompare(group.team,condition[0]);
 								firts = points.firts;
 								second = points.second;	
@@ -401,11 +399,8 @@ $(function() {
 									$.fUpdateBrackets(phase.id, group.name);
 									$('[data-index="'+group.name+'"]').html('-');
 								}
-							
-							
-							
-	
-								$.each(winners, function(index,team) {
+
+								$.each(winners, function(index,team) {									
 									team = team[0];
 									group.classified.push(team);
 								});
@@ -421,13 +416,7 @@ $(function() {
 											group.name = group.name+'W';
 										}
 									} 
-		
-		
-									$.fUpdate(group.name,team.placeholder,phase);
-									var _team = $.fgetTeam(group.name);
-									
-	
-		
+
 									$.fUpdate(group.name,team.placeholder,_phase);
 									var _team = $.fgetTeam(group.name);
 											
@@ -657,9 +646,11 @@ $(function() {
 
 	
 					var group = $.fgetGroupActive2(_this);
-					var _eGoal = _this.parents('.team').find('.goal');
+					var _eGoal = _this.parents('.team[data-team="'+_team+'"]').find('.goal');
 					var _iGoal = _eGoal.data('goal');
+					var _aGoal  = 0;
 
+					
 					_iGoal = parseInt(_iGoal);
 					
 					if ($(this).hasClass('up')) {
@@ -670,46 +661,53 @@ $(function() {
 						}
 					}	
 
+
+
 					_eGoal.data('goal',_iGoal);
 					_eGoal.html(_iGoal);
 
+				
+
 					$.each(group.game, function( index, game ) {
-						if (_game == game.id) {
-							$.each(game.team, function( index, team ) {
+
+						if (_game == game.id) {							
+							$.each(game.team, function( index, team ) {										
 								if (_team == team.id) {
 									team.goals.f = _iGoal;
+								} else {								
+									team.goals.f = $('.phase[data-phase="'+_phase+'"] .group[data-group="'+group.id+'"] .game[data-game="'+game.id+'"] .score .team[data-team="'+team.id+'"] .goal').data('goal');
 								}
 							});
 						};
 						
-					});
 
-					$.each(group.game, function( index, game ) {
-																																
-						if (game.team[0].goals.f > game.team[1].goals.f) {																		
+
+						if (game.team[0].goals.f > game.team[1].goals.f) {
 							game.team[0].points = 3;
-							game.team[1].points = 0;																																		
+							game.team[1].points = 0;																								
 						} else if (game.team[1].goals.f > game.team[0].goals.f) {									
 							game.team[0].points = 0;									
 							game.team[1].points = 3;		
 						} else {
 							game.team[0].points = 1;
-							game.team[1].points = 1;	
+							game.team[1].points = 1;
 						};
 						
 						game.team[0].goals.a = game.team[1].goals.f;
 						game.team[1].goals.a = game.team[0].goals.f;
-				
+
 					});
 
-					$.each(group.team, function( index, team ) {
 
+
+					$.each(group.team, function( a, team ) {
+						
 						team.goals.f = 0;
 						team.goals.a = 0;
-						team.points = 0;
-						
-						$.each(group.game, function( index, game ) {
-							$.each(game.team, function( index, value ) {
+						team.points = 0;	
+
+						$.each(group.game, function( b, game ) {
+							$.each(game.team, function( inbdex, value ) {
 								if (team.id == value.id) {
 									team.goals.f += value.goals.f;
 									team.goals.a += value.goals.a;
@@ -718,6 +716,9 @@ $(function() {
 								};
 							});
 						});
+
+						
+
 
 					});
 					
@@ -1027,22 +1028,13 @@ $(function() {
 
 
 				$( document ).ready(function() {
+					
 					$.fgetPhaseMenuSmall();
-					
-					
-					
-					
-					
-					
 					$.fgetUpdate();					
 					$.fUpdateStandingPhase22();
 				
 					$.each(arrPhase, function( index,phase) {
-						
-							
-						
-						
-												
+		
 						var _total = 0;				
 						$.each(phase.group, function( index,group) {
 							
@@ -1052,9 +1044,7 @@ $(function() {
 									group.active = true;	
 								}						
 							}
-							
-							
-							
+
 							_total += group.classified.length;
 						});								
 						
