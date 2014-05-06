@@ -42,9 +42,19 @@ public class YoInformoController extends HecticusController {
                 String fileName = picture.getFilename();
                 String contentType = picture.getContentType();
                 File file = picture.getFile();
+                if(file.exists()){
+                    Utils.printToLog(YoInformoController.class, "", "Existe file " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                } else {
+                    Utils.printToLog(YoInformoController.class, "", "NO Existe file " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                }
                 UUID idFile = UUID.randomUUID();
                 File dest = new File(Config.getString("img-Folder-Route")+idFile+".jpeg");
                 file.renameTo(dest);
+                if(dest.exists()){
+                    Utils.printToLog(YoInformoController.class, "", "Existe dest " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                } else {
+                    Utils.printToLog(YoInformoController.class, "", "NO Existe dest " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                }
                 boolean useCDN = Config.getInt("use-cdn")==1;
                 if(useCDN && !uploadAndPublish(dest)){
                     return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
@@ -85,13 +95,14 @@ public class YoInformoController extends HecticusController {
             upload.createContainer(containerName);
             Utils.printToLog(YoInformoController.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_ERROR);
             //resources
-            uploadFile(upload, retry, containerName, file, "yoinformo", init);
+            boolean uploaded = uploadFile(upload, retry, containerName, file, "yoinformo", init);
             Utils.printToLog(YoInformoController.class, "", "Archivo subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
-            //publish
-            pub.enableCdnContainer(containerName, TTL);
-            Utils.printToLog(YoInformoController.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_ERROR);
-
-            return true;
+            if(uploaded){
+                //publish
+                pub.enableCdnContainer(containerName, TTL);
+                Utils.printToLog(YoInformoController.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_ERROR);
+            }
+            return uploaded;
         }catch (Exception ex){
             Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
             return false;
