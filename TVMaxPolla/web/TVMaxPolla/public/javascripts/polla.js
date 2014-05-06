@@ -895,26 +895,42 @@ $(function() {
 				var _return = false;
 				var _groupReturn = 0;
 
+				var _set = 0;
+
+				
 
 				$.each(arrPhase[0].group, function(index,group) {
+					
+					if (group.active)  {
 							
-					if (group.classified.length == 0) {
-						_group = group.id;
-						_return = true;
-						alert('Dos o más equipos siguen empatados en el primer lugar del grupo ' + group.name + '. Compruebe que no todos los juegos del grupo estén empatados con la  misma cantidad de goles.');
-					} else if (group.classified.length == 1) {
-						_group = group.id;
-						_return = true;
-						alert('Dos o más equipos siguen empatados en el segundo lugar del grupo ' + group.name + '. Compruebe que no todos los juegos del grupo estén empatados con la  misma cantidad de goles.');
-					}
+						_set = $('.phase[data-phase="1"] .group[data-group="'+group.id+'"] .game[data-set="true"]').length;							
+						
+						if (_set >= 1) {
+							
+							if (group.classified.length == 0) {
+								_group = group.id;
+								_return = true;
+								alert('Dos o más equipos siguen empatados en el primer lugar del grupo ' + group.name + '. Compruebe que no todos los juegos del grupo estén empatados con la  misma cantidad de goles.');		
+							} else if (group.classified.length == 1) {
+								_group = group.id;
+								_return = true;
+								alert('Dos o más equipos siguen empatados en el segundo lugar del grupo ' + group.name + '. Compruebe que no todos los juegos del grupo estén empatados con la  misma cantidad de goles.');	
+							}
+								
+						}
+							
+						
 
+					}
+					
+					
+					
+					
 					if (_return) return false;
-							
+	
 				});
 
-				/* if (_groupReturn != _group) {
-					if (_return) return false; 	
-				 }*/
+				
 
 
 				$('.menu.group').removeClass('on');
