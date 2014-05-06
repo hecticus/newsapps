@@ -14,10 +14,8 @@ import play.mvc.Result;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspacePublish;
@@ -42,17 +40,23 @@ public class YoInformoController extends HecticusController {
                 String fileName = picture.getFilename();
                 String contentType = picture.getContentType();
                 File file = picture.getFile();
+                Thread.sleep(1000);
                 if(file.exists()){
-                    Utils.printToLog(YoInformoController.class, "", "Existe file " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                    double mb = (file.length()/ 1024)/ 1024;
+                    Utils.printToLog(YoInformoController.class, "", "Existe file " + file.getAbsolutePath() + " pesa " + mb + " mb", false, null, "", Config.LOGGER_ERROR);
                 } else {
                     Utils.printToLog(YoInformoController.class, "", "NO Existe file " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 }
+                Calendar today = new GregorianCalendar(TimeZone.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                sdf.setTimeZone(TimeZone.getDefault());
                 UUID idFile = UUID.randomUUID();
-                File dest = new File(Config.getString("img-Folder-Route")+idFile+".jpeg");
+                File dest = new File(Config.getString("img-Folder-Route")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
                 file.renameTo(dest);
                 Thread.sleep(1000);
                 if(dest.exists()){
-                    Utils.printToLog(YoInformoController.class, "", "Existe dest " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                    double mb = (dest.length()/ 1024)/ 1024;
+                    Utils.printToLog(YoInformoController.class, "", "Existe dest " + dest.getAbsolutePath() + " pesa " + mb + " mb", false, null, "", Config.LOGGER_ERROR);
                 } else {
                     Utils.printToLog(YoInformoController.class, "", "NO Existe dest " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 }
@@ -63,8 +67,8 @@ public class YoInformoController extends HecticusController {
                 }
                 ArrayList data = new ArrayList();
                 String urlPrefix = useCDN?Config.getString("rks-CDN-URL"):Config.getString("img-WS-Route");
-                data.add(urlPrefix+idFile+".jpeg");
-                Utils.printToLog(YoInformoController.class, "", urlPrefix+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
+                data.add(urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+                Utils.printToLog(YoInformoController.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_ERROR);
 //                if(useCDN) dest.delete();
                 ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
                 return ok(response);
