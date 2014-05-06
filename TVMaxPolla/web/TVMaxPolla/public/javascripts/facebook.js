@@ -75,8 +75,7 @@ function fbs_click(width, height,id_social) {
 	//Allow for title and status bars.
 	topPosition = (window.screen.height / 2) - ((height / 2) + 50);
 	var windowFeatures = "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no";
-
-	u='http://mundial.tvmax-9.com/share/' + id_social;			
+	u='http://mundial.tvmax-9.com/polla/?page=share&id=' + id_social;
 	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer', windowFeatures);
 	return false;
 }
