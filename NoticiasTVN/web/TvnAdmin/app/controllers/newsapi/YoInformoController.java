@@ -42,8 +42,8 @@ public class YoInformoController extends HecticusController {
                 File file = picture.getFile();
                 Thread.sleep(1000);
                 if(file.exists()){
-                    double mb = (file.length()/ 1024)/ 1024;
-                    Utils.printToLog(YoInformoController.class, "", "Existe file " + file.getAbsolutePath() + " pesa " + mb + " mb", false, null, "", Config.LOGGER_ERROR);
+                    double mb = file.length();
+                    Utils.printToLog(YoInformoController.class, "", "Existe file " + file.getAbsolutePath() + " pesa " + mb + " b", false, null, "", Config.LOGGER_ERROR);
                 } else {
                     Utils.printToLog(YoInformoController.class, "", "NO Existe file " + file.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 }
@@ -55,8 +55,8 @@ public class YoInformoController extends HecticusController {
                 file.renameTo(dest);
                 Thread.sleep(1000);
                 if(dest.exists()){
-                    double mb = (dest.length()/ 1024)/ 1024;
-                    Utils.printToLog(YoInformoController.class, "", "Existe dest " + dest.getAbsolutePath() + " pesa " + mb + " mb", false, null, "", Config.LOGGER_ERROR);
+                    double mb = dest.length();
+                    Utils.printToLog(YoInformoController.class, "", "Existe dest " + dest.getAbsolutePath() + " pesa " + mb + " b", false, null, "", Config.LOGGER_ERROR);
                 } else {
                     Utils.printToLog(YoInformoController.class, "", "NO Existe dest " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
                 }
