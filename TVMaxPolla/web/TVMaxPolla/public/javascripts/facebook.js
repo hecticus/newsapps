@@ -87,7 +87,7 @@ var fejemplo = function() {
 	        FB.ui(obj, callback);
 	}
 
-/*
+
 function fbs_click(width, height,id_social) {
 	var leftPosition, topPosition;
 	//Allow for borders.
@@ -95,7 +95,11 @@ function fbs_click(width, height,id_social) {
 	//Allow for title and status bars.
 	topPosition = (window.screen.height / 2) - ((height / 2) + 50);
 	var windowFeatures = "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no";
-	u='http://mundial.tvmax-9.com/polla/?page=share&id=' + id_social;
-	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer', windowFeatures);
+	var u='http://mundial.tvmax-9.com/polla/?page=share&id=' + id_social;
+	var img = 'http://polla.tvmax-9.com/assets/images/thumbnail_logo.png'; 
+	var t = 'La Polla Mundial TvMax - Brasil 2014';
+	var s = 'Ya armé La Polla Mundial TvMax - Brasil 2014, elige al próximo campeón del mundo y a quiénes le tiene que ganar para levantar la copa. Te toca a ti, arma el tuyo y compártelo.';
+	
+	window.open("http://www.facebook.com/sharer.php?s=100&p[url]="+encodeURIComponent(u)+"&p[images][0]="+encodeURIComponent(img)+"&p[title]="+encodeURIComponent(t)+"&p[summary]="+encodeURIComponent(s),'sharer', windowFeatures);
 	return false;
-}*/
+}
