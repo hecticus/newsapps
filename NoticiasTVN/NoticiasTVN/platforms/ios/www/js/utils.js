@@ -128,6 +128,129 @@ function checkHTMLText(rawText){
 	}
 }
 
+//sacamos las imagenes tanto del tag de hecticus si existe como de los tags de ellos
+/**
+ * hecticus_img:{
+"originalimage":"url",
+"resizedimage":["url_low","url_mid","url_high"],
+"extraimages":["url1","url2",...]
+}
+ */
+function getBigImagesArrayForNews(news){
+	var imageArray = [];
+	try{
+		var imageFile;
+		if(news["hecticus_img"] != null && 
+				news["hecticus_img"]["originalimage"] != null && news["hecticus_img"]["originalimage"] != "null" ){
+			//tenemos imagenes de hecticus
+			imageFile = cleanExternalURL(news["hecticus_img"]["originalimage"]);
+			imageArray.push(imageFile);
+			if(news["hecticus_img"]["extraimages"] != null){
+				for(var i=0;i<news["hecticus_img"]["extraimages"].length;i++){
+					imageFile = cleanExternalURL(news["hecticus_img"]["extraimages"][i]);
+					imageArray.push(imageFile);
+				}
+			}
+			
+		}else{
+			if(news["PortalImage"] != null && news["PortalImage"] != "null"){
+				imageFile = "http://tvn-2.com"+news["PortalImage"];
+			}else{
+				imageFile = "http://tvn-2.com"+news["Image"];
+			}
+			imageFile = cleanExternalURL(imageFile);
+			imageArray.push(imageFile);
+			if(news["Image2"] != null && news["Image2"] != "null"){
+				imageFile = "http://tvn-2.com"+news["Image2"];
+				imageFile = cleanExternalURL(imageFile);
+				imageArray.push(imageFile);
+			}
+			if(news["Image3"] != null && news["Image3"] != "null"){
+				imageFile = "http://tvn-2.com"+news["Image3"];
+				imageFile = cleanExternalURL(imageFile);
+				imageArray.push(imageFile);
+			}
+			if(news["Image4"] != null && news["Image4"] != "null"){
+				imageFile = "http://tvn-2.com"+news["Image4"];
+				imageFile = cleanExternalURL(imageFile);
+				imageArray.push(imageFile);
+			}
+			if(news["Image5"] != null && news["Image5"] != "null"){
+				imageFile = "http://tvn-2.com"+news["Image5"];
+				imageFile = cleanExternalURL(imageFile);
+				imageArray.push(imageFile);
+			}
+		}
+	}catch(e){
+		
+	}
+	return imageArray;
+}
+
+function getListImageForNews(news, isMainImage){
+	var imageFile = "";
+	try{
+		if(news["hecticus_img"] != null && 
+				news["hecticus_img"]["originalimage"] != null && news["hecticus_img"]["originalimage"] != "null" ){
+			//tenemos imagenes de hecticus
+			if(isMainImage){
+				imageFile = cleanExternalURL(news["hecticus_img"]["originalimage"]);
+			}else{
+				var screenwidth = window.innerWidth;
+				if(screenwidth < 320){
+					imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_low.");
+				}else{
+					if(screenwidth < 720){
+						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_mid.");
+					}else{
+						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_high.");
+					}
+				}
+			}
+		}else{
+			if(news["PortalImage"] != null && news["PortalImage"] != "null"){
+				imageFile = "http://tvn-2.com"+news["PortalImage"];
+			}else{
+				imageFile = "http://tvn-2.com"+news["Image"];
+			}
+			imageFile = cleanExternalURL(imageFile);
+		}
+	}catch(e){
+		
+	}
+	return imageFile;
+}
+
+function getCorrectImageBySize(imageArray,find){
+	for(var i=0;i<imageArray.length;i++){
+		if(imageArray[i].indexOf(find)>0){
+			return imageArray[i];
+		}
+	}
+}
+
+function getScreenWidth(){
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		return window.innerWidth;
+	}else{
+		//ANDROID
+		return window.outerWidth;
+	}
+	
+}
+function getScreenHeight(){
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		return window.innerHeight;
+	}else{
+		//ANDROID
+		return window.outerHeight;
+	}
+}
+
 //DEBUG
 function printToLog(element){
 	//console.log(element);

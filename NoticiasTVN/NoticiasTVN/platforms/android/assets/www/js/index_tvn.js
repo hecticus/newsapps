@@ -587,17 +587,17 @@ function initBasicApp(){
 					$('#yoinformo').append('<h3 style="text-align:center;">Paso 2. Datos de la denuncia</h3>');
 					$('#yoinformo').append('<textarea value="'+json_yo_informo.message+'" data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" >'+json_yo_informo.message+'</textarea><br />');
 					$('#yoinformo').append('<textarea value="'+json_yo_informo.address+'" data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" >'+json_yo_informo.address+'</textarea><br />');
-					$('#yoinformo').append('<button id="send-yo-informo-back" data-step="1" >Anterior</button>');
-					$('#yoinformo').append('<br />');	
-					$('#yoinformo').append('<button id="send-yo-informo" data-step="3" >Siguiente</button>');    					  		
+					$('#yoinformo').append('<button class="back_button" id="send-yo-informo-back" data-step="1" >Anterior</button>');
+					//$('#yoinformo').append('<br />');	
+					$('#yoinformo').append('<button class="next_button" id="send-yo-informo" data-step="3" >Siguiente</button>');    					  		
 				} else if (step == 3) {
 					$('#yoinformo').append('<h3  style="text-align:center;">Paso 3. Datos personales</h3>');
 					$('#yoinformo').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /><br />');
 					$('#yoinformo').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /><br />');									
 					$('#yoinformo').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /><br />'); 
-					$('#yoinformo').append('<button id="send-yo-informo-back" data-step="2" >Anterior</button>');
-					$('#yoinformo').append('<br />');			
-					$('#yoinformo').append('<button id="send-yo-informo" data-step="4" >Siguiente</button>');    		
+					$('#yoinformo').append('<button class="back_button" id="send-yo-informo-back" data-step="2" >Anterior</button>');
+					//$('#yoinformo').append('<br />');			
+					$('#yoinformo').append('<button class="next_button" id="send-yo-informo" data-step="4" >Siguiente</button>');    		
 				} else if (step == 4) {
 					
 					
@@ -609,9 +609,9 @@ function initBasicApp(){
 					$('#yoinformo').append('<img id="preview-yo-informo" src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto; " />');
 					$('#yoinformo').append('</div>');
 					$('#yoinformo').append('<br />');
-					$('#yoinformo').append('<button id="send-yo-informo-back" class="yoinformo-photo" data-step="3" >Anterior</button>');
-					$('#yoinformo').append('<br />');
-					$('#yoinformo').append('<button id="send-yo-informo"  class="yoinformo-photo" data-step="5">Enviar reporte</button>');
+					$('#yoinformo').append('<button  class="back_button" id="send-yo-informo-back" class="yoinformo-photo" data-step="3" >Anterior</button>');
+					//$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button class="next_button" id="send-yo-informo"  class="yoinformo-photo" data-step="5">Enviar reporte</button>');
 					
 					if (json_yo_informo.img != '') {
 						$('.yoinformo-photo').show();
@@ -2142,9 +2142,9 @@ function successPickImageFromGallery(imageURI){
 	jQuery('#yoinformo').append('<br />'); 	
 	jQuery('#yoinformo').append('<img src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto;" />');
 	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo-back" data-step="3" >Anterior</button>');
-	jQuery('#yoinformo').append('<br />');
-	jQuery('#yoinformo').append('<button id="send-yo-informo" data-step="5" >Enviar reporte</button>');
+	jQuery('#yoinformo').append('<button class="back_button" id="send-yo-informo-back" data-step="3" >Anterior</button>');
+	//jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button class="next_button" id="send-yo-informo" data-step="5" >Enviar reporte</button>');
 }
 function errorPickImageFromGallery(){
 	//no selecciono ninguna imagen
@@ -2153,6 +2153,9 @@ function errorPickImageFromGallery(){
 
 //IMAGE UPLOAD
 function uploadImageToServer(){
+	$('#yoinformo').empty();
+	$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+	$('#yoinformo').append('<p style="padding:10px; text-align:center;">Espere un momento por favor...</p>'); 
 	if(json_yo_informo.img != null && json_yo_informo.img != ""){
 		uploadPictureFromGallery(json_yo_informo.img,successUploadImageToServer,errorUploadImageToServer);
 	}else{
@@ -2188,10 +2191,6 @@ function errorUploadImageToServer(error){
 
 //SEND YO INFORMO DATA
 function sendYoInformoData(){
-	$('#yoinformo').empty();
-	$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
-	$('#yoinformo').append('<p style="padding:10px; text-align:center;">Espere un momento por favor...</p>'); 
-
     setTimeout(function () {
     	
 		var postData = {

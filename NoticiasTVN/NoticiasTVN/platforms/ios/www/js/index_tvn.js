@@ -15,15 +15,18 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
+ */    
 
-
+var json_yo_informo = {term_slug:'',message:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:'',img:''};
 var info_app = 'Sobre este APP';
+var yo_informo = 'Yo Informo';
 var arrTrendingTopics;
 var arrTrendingNews;
-
+var categories_yo_informo= '';
 var bannerImages = new Array();
 var bannerLink = "";
+
+var isYoInformo = false;
 
 
 var trendingview = false;
@@ -66,10 +69,22 @@ function setMenuCategories(){
 		a = i;
 	}
 	
+	//Si es android 2.2 no se muestra esta pantalla
+	var platform = device.platform;
+	var version = device.version;
+	if(platform == "Android" && version.lastIndexOf("2.2") == 0){
+		//nada
+	}else{
+		a++;	
+		$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+		$.li+=yo_informo;			
+		$.li+='</li>';
+	}
+	
 	a++;	
 	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
 	$.li+=info_app;			
-	$.li+='</li>';		
+	$.li+='</li>';	
 		
 	$('#mainMenuList').empty();
 	$('#mainMenuList').append($.li);
@@ -189,6 +204,7 @@ function fRemoveClassIcon() {
 
 function fBack() {
 	
+	$('#datacontent,#datatrending,#spage').show();	
 	$('#menu').attr('class','page transition left');	
 	//if (!trendingview) $("#header-title").html(arrCategory[0].title);
 	if (!trendingview && myScrollPage!= null && myScrollPage.currPageX >= 0) $("#header-title").html(arrCategory[myScrollPage.currPageX].title);
@@ -197,12 +213,14 @@ function fBack() {
 	$('#datacontent').attr('class','page transition right');
 	$('#datacontents').empty();
 	$('#datats').empty();		
-	$('#screen-block').addClass('hidden');			
+	$('#screen-block').addClass('hidden');		
+	$('#datacontent,#datatrending,#spage').show();
+	$('#miForm').hide();
 }
 	
 var upcoming=0;
 var press=0;
-var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage, myScrollTrending;
+var myScrollMenu, myScrollDatacontent, myScrollDatacontentHorizontal, myScrollPage, myScrollTrending, myScrollForm;
 var myXml=false;
 
 
@@ -217,6 +235,145 @@ var textShadowBlack = "0px 1px 5px #000;";
 
 var hScrollMove = false;
 
+
+
+
+function get_categories_yo_informo(){
+    // url = URL del archivo XML-RPC del proyecto
+    // username y password = Proporcionados por Akora
+    
+	try {
+		
+  		//Run some code here
+  	
+	  	var connection = {
+	        url : 'http://yoinformo.tvn-2.com/xmlrpc.php',
+	        username : 'userapi',
+	        password : 'R85te267o7OxW46'
+	    };
+	    
+	    var wp = new WordPress(connection.url, connection.username, connection.password);
+	    var object = wp.api_get_categories();
+	    if(object.categories !== false){
+	        return object.categories;
+	    }
+	    
+	    return false;
+  	
+  	
+  		
+  	} catch(err) {
+  		//Handle errors here
+  		return false;
+  	}
+    
+    
+}
+
+function display_categories_yo_informo(selected) {
+
+
+		try {
+			
+	  		//Run some code here
+	  	
+		  	var _select = '';
+	
+			for ( var x in categories_yo_informo ) {
+				var category_name = categories_yo_informo[x].name;
+				var category_slug = categories_yo_informo[x].slug;		
+				if ( categories_yo_informo[x].parent != 0 ) {
+					
+					if (selected == category_slug) {
+						_select = _select + '<option value="'+ category_slug +'" selected="selected">' + category_name + '</option>';	
+					} else {
+						_select = _select + '<option value="'+ category_slug +'">' + category_name + '</option>';
+					}
+					
+					
+				}
+			}
+					
+			//console.log(_select);
+			return _select;
+	  	
+	  	
+	  		
+	  	} catch(err) {
+	  		//Handle errors here
+	  		return '';
+	  	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+};
+
+function postReport(postData){
+	
+	try {
+		
+  		//Run some code here
+		var report = {
+	        content   : postData.content,
+	        address   : postData.address,
+	        lng       : postData.longitude,
+	        lat       : postData.latitude,
+	        origin_id : 5,
+	        term_slug : postData.term_slug,
+	    };
+	    
+	    var citizen = {
+	        first_name : postData.first_name,
+	        last_name  : postData.last_name,
+	        email      : postData.email,
+	        mobile     : postData.mobile,
+	    };
+	    
+	   var assets = {
+	        image : postData.phonegap_img   
+	    };
+	    
+	    var connection = {
+	        url : "http://yoinformo.tvn-2.com/xmlrpc.php",
+	        username : "userapi",
+	        password : "R85te267o7OxW46"
+	    };
+	    
+	    var wp = new WordPress(connection.url, connection.username, connection.password);
+	    var object = wp.api_new_reports(report, citizen,assets);
+	    
+	    if(object.report !== false){
+	        return object.report;
+	    }else{
+	       return false;
+	    }
+	    
+	    return false;
+	  		
+	  		
+	  		
+	  		
+	  		
+	  		
+	  		
+  	} catch(err) {
+  		//Handle errors here
+  		return false;
+  	}
+    
+    
+}
 
 
 
@@ -255,7 +412,16 @@ function initBasicApp(){
 			}
 		});
     	
-    	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, onBeforeScrollStart: function(){this.refresh();}});    	        	    			
+    	myScrollDatacontent=new iScroll('datacontent',0,{hScrollbar: false,vScrollbar: false,hScroll: false, vScroll: true, 
+    		
+    		onBeforeScrollStart: function(e){
+    			this.refresh();
+
+    			
+    		}
+    	
+    		
+    	});    	        	    			
 
     	
 		myScrollTrending = new iScroll('datatrending',1,{snap:false,hScroll: false, vScroll: true, hScrollbar: false,vScrollbar: false,bounce:true,lockDirection: true,
@@ -300,10 +466,19 @@ function initBasicApp(){
 				arrTrendingNews = data.noticiastrendingnews.item;
 			});*/
 
-
+			categories_yo_informo = get_categories_yo_informo();
+			
 
 			$('body').width(viewport.width);
 			$('body').height(viewport.height);
+
+			if (parseInt(device.version) >= 4) {
+				$('body').css('position','fixed');	
+			} 
+
+			$('#miForm').width(viewport.width);
+			$('#miForm').height(viewport.height);
+
 					
 
 
@@ -371,13 +546,194 @@ function initBasicApp(){
 			});
 
 
+		
+			function fYoInformo(step) {
+				
+				
+				$('#screen-block').addClass('hidden');
+				$('#menu').attr('class','page transition left');
+				$('#header-title').html(yo_informo);
+				$('#miForm').show();   
+				$('#yoinformo').empty();
+			
+				if (step == -1) {					
+					json_yo_informo.term_slug = '';
+					json_yo_informo.message = '';
+					json_yo_informo.address = '';
+					json_yo_informo.first_name = '';
+					json_yo_informo.last_name = '';
+					json_yo_informo.email = '';
+					json_yo_informo.photo = '';					
+					step = 1;
+				}
+				
+				$('#datacontent,#datatrending,#spage').hide();
+				isYoInformo = true;
+				$('#miForm').removeClass('hidden');
 
-			var touchingBack = false;
-			$(document).on('touchstart','.back', function() {
-				touchingBack = true;
-				//fBack();
+				if (step == 1) {
+					$('#yoinformo').append('<h3 style="text-align:center;">Reporta y Denuncia</h3>');				
+					$('#yoinformo').append('<p style="padding:10px;">S&eacute; parte del equipo de TVN Noticias mediante la nueva plataforma de Yo Informo donde podr&aacute;s hacer tus reportes y denuncias comunitarias de una forma f&aacute;cil y sencilla!</p>');																			
+					var _select = '<div class="select">';					
+					_select = _select + '<select data-index="0" data-error="Debe seleccionar una categor&iacute;a valida."  id="term_slug" name="term_slug" class="form">';
+					_select = _select + '<option value="" selected="selected"  disabled="disabled">Seleccionar categor&iacute;a</option>';
+					_select = _select + display_categories_yo_informo(json_yo_informo.term_slug);
+					_select = _select + '</select>'; 
+					_select = _select + '</div>';										
+					$('#yoinformo').append(_select);
+					$('#yoinformo').append('<br />');    											       					
+					$('#yoinformo').append('<button id="send-yo-informo" data-step="2" >Siguiente</button>');    					  							
+				} else if (step == 2) {
+					$('#yoinformo').append('<h3 style="text-align:center;">Paso 2. Datos de la denuncia</h3>');
+					$('#yoinformo').append('<textarea value="'+json_yo_informo.message+'" data-index="0" data-error="La descripc&oacute;n de la informac&iacute;n es requerida." class="form" id="message" type="textarea" name="message" rows="4" cols="50" placeholder="Ingrese la descripci&oacute;n de la informaci&oacute;n *" >'+json_yo_informo.message+'</textarea><br />');
+					$('#yoinformo').append('<textarea value="'+json_yo_informo.address+'" data-index="0" data-error="La direcci&oacute;n de la informaci&iacute;n es requerida." class="form" id="address"  name="address" type="textarea" rows="4" cols="50"  placeholder="Ingrese la direcci&oacute;n *" >'+json_yo_informo.address+'</textarea><br />');
+					$('#yoinformo').append('<button class="back_button" id="send-yo-informo-back" data-step="1" >Anterior</button>');
+					//$('#yoinformo').append('<br />');	
+					$('#yoinformo').append('<button class="next_button" id="send-yo-informo" data-step="3" >Siguiente</button>');    					  		
+				} else if (step == 3) {
+					$('#yoinformo').append('<h3  style="text-align:center;">Paso 3. Datos personales</h3>');
+					$('#yoinformo').append('<input value="'+json_yo_informo.first_name+'" data-error="El nombre del usuario es requerido." class="form" data-index="4" type="text" id="first_name" name="first_name" placeholder="Ingrese el nombre *" /><br />');
+					$('#yoinformo').append('<input value="'+json_yo_informo.last_name+'" data-error="El apellido del usuario es requerido." class="form" data-index="5" type="text" id="last_name" name="last_name" placeholder="Ingrese el apellido *" /><br />');									
+					$('#yoinformo').append('<input value="'+json_yo_informo.email+'" data-error="El email del usuario no es valido." class="form" data-index="6" type="email" id="email" name="email" placeholder="Ingrese el email *" /><br />'); 
+					$('#yoinformo').append('<button class="back_button" id="send-yo-informo-back" data-step="2" >Anterior</button>');
+					//$('#yoinformo').append('<br />');			
+					$('#yoinformo').append('<button class="next_button" id="send-yo-informo" data-step="4" >Siguiente</button>');    		
+				} else if (step == 4) {
+					
+					
+					$('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+					$('#yoinformo').append('<p id="message-yo-informo" style="padding:10px; display:none;"></p>');
+				 	$('#yoinformo').append('<button id="get-photo" >Foto</button>');   					
+					$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<div class="yoinformo-photo" style="width:100%; height:auto; display:none;">');
+					$('#yoinformo').append('<img id="preview-yo-informo" src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto; " />');
+					$('#yoinformo').append('</div>');
+					$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button  class="back_button" id="send-yo-informo-back" class="yoinformo-photo" data-step="3" >Anterior</button>');
+					//$('#yoinformo').append('<br />');
+					$('#yoinformo').append('<button class="next_button" id="send-yo-informo"  class="yoinformo-photo" data-step="5">Enviar reporte</button>');
+					
+					if (json_yo_informo.img != '') {
+						$('.yoinformo-photo').show();
+					}
+					
+
+					
+				} 
+				
+			};
+		
+		
+		
+			$(document).on('touchend','#term_slug', function() {
+				$(this).focus();
 			});
-			$(document).on('touchend','.back', function() {
+		
+			$(document).on('touchend','#get-photo', function() {				
+				$(this).html('Cargando...');				
+				$('#preview-yo-informo').attr('src','');
+				$('.yoinformo-photo').hide();
+				$('#message-yo-informo').hide();
+				pickImageFromGallery();								
+			}); 
+		
+			$(document).on('touchend','#send-yo-informo-back', function() {
+				var _this = $(this);
+				fYoInformo(_this.data('step'));
+			}); 
+
+			$(document).on('touchend','#send-yo-informo', function() { 
+	
+				
+	
+				var _this = $(this);			
+				var _return = false;
+				var _index = 0;
+						
+
+				$('.form').each(function() {
+					
+					_index = parseInt($(this).data('index'));	
+					$('li').remove( ".remove" );	
+					
+					if ($(this)[0].nodeName.toLowerCase() == 'textarea') {										
+						if ($.trim($(this).val()).length == 0) {
+							_return = true;
+							alert( $(this).data('error'));
+							$(this).focus();
+						} else {
+							
+							if ($(this).attr('id')  == 'message') {
+								json_yo_informo.message = $(this).val();
+							}
+							
+							if ($(this).attr('id')  == 'address') {
+								json_yo_informo.address = $(this).val();
+							}
+							
+						} 
+						
+						
+					} else if ($(this)[0].nodeName.toLowerCase() == 'input') {
+						
+						if ($(this).attr('type') == 'email') {
+							if (!$(this).val().match(/^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$/)) {
+								_return = true;
+								alert( $(this).data('error'));
+								$(this).focus();
+							} else {
+								
+								json_yo_informo.email = $(this).val();
+								
+							}
+						} else {
+							if ($.trim($(this).val()).length == 0) {
+								_return = true;
+								alert( $(this).data('error'));
+								$(this).focus();
+							} 	else {
+							
+								if ($(this).attr('id')  == 'first_name') {
+									json_yo_informo.first_name = $(this).val();
+								}
+								
+								if ($(this).attr('id')  == 'last_name') {
+									json_yo_informo.last_name = $(this).val();
+								}
+							
+							} 
+						}
+												
+											
+					} else if ($(this)[0].nodeName.toLowerCase() == 'select') {						
+						if ($(this).val() == null) {
+							_return = true;
+							alert($(this).data('error'));
+						} else {
+							json_yo_informo.term_slug = $(this).val();
+						}						
+					}
+
+					if (_return) return false;
+					
+					
+
+				});
+				
+				if (_return) {					
+					return false;					
+				}
+				
+				if (_this.data('step') == 5) {
+					uploadImageToServer();					
+				} else {				
+					fYoInformo(_this.data('step'));	
+				}
+
+			});
+
+
+			$(document).on('touchend','.back', function() { 
 				fBack();
 				touchingBack = false;
 			});
@@ -399,7 +755,9 @@ function initBasicApp(){
 			
 			
 			
-			$(document).on('touchend','.tv:not(.share)', function() {				
+			$(document).on('touchend','.tv:not(.share)', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
 				//window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 				window.videoPlayer.play('http://urtmpkal-f.akamaihd.net/i/19wqj1kgf_1@136614/master.m3u8');
 				//window.videoPlayer.play('http://streaming.tmira.com:1935/tvn/mp4:tvn.stream/playlist.m3u');
@@ -413,6 +771,9 @@ function initBasicApp(){
 				press=false;
 			}).on('touchend','.menu', function() {
     			if (press) {
+    				
+    				$('#datacontent,#datatrending,#spage').show();
+    				$('#miForm').hide();    				
     				
     				if ($(this).data('category') == '?') {
     					
@@ -428,9 +789,11 @@ function initBasicApp(){
     					$('#datacontents').append('<img src="img/logo_hecticus.png" style="position:relative; width:50%; left:25%; height:auto;">');
     					$('#datacontents').append('</div>');	
     					$('#datacontent').attr('class','page left');
-    					
+
+					} else if ($(this).data('category') == 'y') {						
+						fYoInformo(-1);
     				} else {
-    				
+    					
 	    				trendingview=false;
 	    				$('#screen-block').addClass('hidden');		
 	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
@@ -559,9 +922,11 @@ function initBasicApp(){
     		
 			$(document).on('touchstart','div[data-type="video"]', function(e) {
 				press=false;		
-    		}).on('touchend','div[data-type="video"]', function() {
+    		}).on('touchend','div[data-type="video"]', function(e) {
     			if (press) {
-	    			window.videoPlayer.play($(this).data('src'));
+    				e.preventDefault();
+    				e.stopPropagation();
+	    			window.videoPlayer.play($(this).data('src'));		
 				}   
     		});
 			
@@ -795,12 +1160,13 @@ function initBasicApp(){
 							}
 							
 							var imageFile = "";
-							if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
+							/*if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
 								imageFile = "http://tvn-2.com"+itemArray[i]["PortalImage"];
 							}else{
 								imageFile = "http://tvn-2.com"+itemArray[i]["Image"];
 							}
-							imageFile = cleanExternalURL(imageFile);
+							imageFile = cleanExternalURL(imageFile);*/
+							imageFile = getListImageForNews(itemArray[i],true);
 																						
 							$.news.thumbnail.push({src:imageFile,width:864,height:486});
 							$.news.highdef.push({src:imageFile,width:864,height:486});																						
@@ -822,10 +1188,10 @@ function initBasicApp(){
 							if (i==0) {
 
 								//$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'"   src="'+$.news.highdef[0].src+'" class="center" style="width:100%; height:100%; max-width:'+$.news.highdef[0].width+'px; max-height:'+$.news.highdef[0].height+'px; "  />');
-								var width = window.innerWidth;
-								var height = window.innerHeight;
-								var screenwidth = window.innerWidth;
-								var screenheight = window.innerHeight;
+								var width = getScreenWidth();
+								var height = getScreenHeight();
+								var screenwidth = getScreenWidth();
+								var screenheight = getScreenHeight();
 
 								var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
 								var realX = screenwidth;
@@ -995,7 +1361,7 @@ function initBasicApp(){
 							$.news.caption.push(itemArray[i]["PortalImageDescription"]);
 						}
 						
-						var imageFile = "";
+						/*var imageFile = "";
 						if(itemArray[i]["PortalImage"] != null && itemArray[i]["PortalImage"] != "null"){
 							imageFile = "http://tvn-2.com"+itemArray[i]["PortalImage"];
 						}else{
@@ -1005,7 +1371,13 @@ function initBasicApp(){
 																					
 						$.news.thumbnail.push({src:imageFile,width:864,height:486});
 						$.news.highdef.push({src:imageFile,width:864,height:486});																						
-						$.news.quicklook.push({src:imageFile,width:864,height:486});
+						$.news.quicklook.push({src:imageFile,width:864,height:486});*/
+						var imageArray = getBigImagesArrayForNews(itemArray[i]);
+						for(var x=0;x<imageArray.length;x++){
+							$.news.thumbnail.push({src:imageArray[x],width:864,height:486});
+							$.news.highdef.push({src:imageArray[x],width:864,height:486});																						
+							$.news.quicklook.push({src:imageArray[x],width:864,height:486});
+						}
 						
 						//check if there is a video
 						if(itemArray[i]["FirstVideo"] != null && itemArray[i]["FirstVideo"] != ""){
@@ -1126,7 +1498,7 @@ function initBasicApp(){
     			$('#trending-news1').empty();
     			
     			//var urlComplete = "http://tvn-cloud-firewall.cloudapp.net/_vti_bin/NewsService.svc/GetNewsByTrendingTopic?trendingTopicId="+category+"&siteUrl=Noticias&rowLimit=20";
-    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/tvn/"+category;
+    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/tvn/trending/"+category;
     			/*if(trendingTopicsNews != null && trendingTopicsNews != "" && trendingTopicsNews.indexOf("#REPLACE#")>0){
     	    		urlComplete = trendingTopicsNews;
     	    		urlComplete = urlComplete.replace("#REPLACE#", ""+category);
@@ -1210,12 +1582,13 @@ function initBasicApp(){
 					$.news.date=$.formatDateString(itemArray[i]["Date"],false);	
 					
 					var imageFile = "";
-					if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
+					/*if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
 						imageFile = "http://tvn-2.com"+trending["PortalImage"];
 					}else{
 						imageFile = "http://tvn-2.com"+trending["Image"];
 					}
-					imageFile = cleanExternalURL(imageFile);
+					imageFile = cleanExternalURL(imageFile);*/
+					imageFile = getListImageForNews(trending,true);
 																		
 					$.news.thumbnail.push({src:imageFile,width:864,height:486});
 					$.news.highdef.push({src:imageFile,width:864,height:486});																						
@@ -1227,10 +1600,10 @@ function initBasicApp(){
 						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
 						$('#trending-news-featured-title').attr('data-content','trending');
 																
-						var width = window.innerWidth;
-						var height = window.innerHeight;
-						var screenwidth = window.innerWidth;
-						var screenheight = window.innerHeight;
+						var width = getScreenWidth();
+						var height = getScreenHeight();
+						var screenwidth = getScreenWidth();
+						var screenheight = getScreenHeight();
 	
 						var realY = screenheight*0.40;//40% del css ?? este numero hay que revisarlo, funciona ahora
 						var realX = screenwidth;
@@ -1297,7 +1670,7 @@ function initBasicApp(){
 					$.news.headline=trending.Title;
 					$.news.date=$.formatDateString(trending.Date,true);
 					
-					var imageFile = "";
+					/*var imageFile = "";
 					if(trending["PortalImage"] != null && trending["PortalImage"] != "null"){
 						imageFile = "http://tvn-2.com"+trending["PortalImage"];
 					}else{
@@ -1307,7 +1680,14 @@ function initBasicApp(){
 					
 					$.news.thumbnail.push({src:imageFile,width:864,height:486});
 					$.news.highdef.push({src:imageFile,width:864,height:486});																						
-					$.news.quicklook.push({src:imageFile,width:864,height:486});
+					$.news.quicklook.push({src:imageFile,width:864,height:486});*/
+					var imageArray = getBigImagesArrayForNews(trending);
+					for(var x=0;x<imageArray.length;x++){
+						$.news.thumbnail.push({src:imageArray[x],width:864,height:486});
+						$.news.highdef.push({src:imageArray[x],width:864,height:486});																						
+						$.news.quicklook.push({src:imageArray[x],width:864,height:486});
+					}
+					
 					if(trending.PortalImageDescription != null){
 						$.news.caption.push(trending.PortalImageDescription);
 					}
@@ -1606,6 +1986,7 @@ function getBannerSpecial(){
 		url : urlBanner,
 		timeout : 120000,
 		success : function(data, status) {
+			loadFirstPage();
 			if(typeof data == "string"){
 				data = JSON.parse(data);
 			}
@@ -1623,7 +2004,8 @@ function getBannerSpecial(){
 						var indexToUse = 0;
 						var minSize = 70000;
 						for(var i=0;i<imagesArray.length;i++){
-							var diff = window.innerWidth - imagesArray[i]["width"];
+							var diff = getScreenWidth() - imagesArray[i]["width"];
+							//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
 							if(diff < 0){
 								diff = diff*(-1);
 							}
@@ -1640,8 +2022,13 @@ function getBannerSpecial(){
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			console.log("ERROR Banners DATA: "+thrownError);
+			loadFirstPage();
 		}
 	});
+}
+
+function loadFirstPage(){
+	$.fgetNews();
 }
 
 //REFRESH ARRAYS
@@ -1673,10 +2060,11 @@ function endOfAppInitialization(){
 	
 	getBannerSpecial();
 	
-	$.fgetNews();
+	//$.fgetNews(); //despues del getBanner se llama a traves de loadFirstPage()
+	if (arrCategory.length > 0) $("#header-title").html(arrCategory[0].title);
 	
 	//snap de las paginas con un threshold del 15% de la pantalla
-	myScrollPage.options.snapThreshold = window.innerWidth*0.15;
+	myScrollPage.options.snapThreshold = getScreenWidth()*0.15;
 	
 	$('#splash').addClass('hidden');
 	
@@ -1714,21 +2102,125 @@ function fTextoCortado(texto){
 //GEOLOCATION
 function getCurrentGeoPosition(){
 	//console.log("getCurrentGeoPosition");
-	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler);
+	navigator.geolocation.getCurrentPosition(successGeolocationHandler, errorGeolocationHandler, { frequency: 3000 });
 	//console.log("end getCurrentGeoPosition");
 }
 
 function successGeolocationHandler (position) {
+	//alert('funcione!!!');
 	//console.log("Lat: "+position.coords.latitude+" Long: "+position.coords.longitude);
-    //position.coords.latitude;
-    //position.coords.longitude;
+   	json_yo_informo.latitude =  position.coords.latitude;
+   	json_yo_informo.longitude =  position.coords.longitude;
 }
 
 function errorGeolocationHandler (error) {
     //console.log('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
     //initGeolocation();
+    
 }
 //END GEOLOCATION
+
+//Image Selection YO INFORMO
+function pickImageFromGallery(){
+	getPictureFromGallery();
+}
+
+
+
+function successPickImageFromGallery(imageURI){
+	//imageURI hay que guardarlo para enviarlo despues
+	//fileName es el nombre del archivo por si se quiere mostrar
+	var fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+	json_yo_informo.photo = fileName;
+	json_yo_informo.img = imageURI;
+	//json_yo_informo.photo = imageURI;  
+	//console.log("FILE NAME: "+fileName);
+	//console.log("FILE URI: "+imageURI);
+	
+	//uploadPictureFromGallery(imageURI);
+	
+	jQuery('#yoinformo').empty();
+	jQuery('#yoinformo').append('<h3  style="text-align:center;">Paso 4. Seleccionar foto</h3>');
+	jQuery('#yoinformo').append('<button id="get-photo" >Foto</button>');
+	jQuery('#yoinformo').append('<br />'); 	
+	jQuery('#yoinformo').append('<img src="'+json_yo_informo.img+'" style="width:25%; height:auto; display:block; margin: 0 auto;" />');
+	jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button class="back_button" id="send-yo-informo-back" data-step="3" >Anterior</button>');
+	//jQuery('#yoinformo').append('<br />');
+	jQuery('#yoinformo').append('<button class="next_button" id="send-yo-informo" data-step="5" >Enviar reporte</button>');
+}
+function errorPickImageFromGallery(){
+	//no selecciono ninguna imagen
+}
+//END IMAGE SELECTION
+
+//IMAGE UPLOAD
+function uploadImageToServer(){
+	$('#yoinformo').empty();
+	$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+	$('#yoinformo').append('<p style="padding:10px; text-align:center;">Espere un momento por favor...</p>'); 
+	if(json_yo_informo.img != null && json_yo_informo.img != ""){
+		uploadPictureFromGallery(json_yo_informo.img,successUploadImageToServer,errorUploadImageToServer);
+	}else{
+		sendYoInformoData();
+	}
+}
+function successUploadImageToServer(r){
+	if(r != null && r.response != null){
+		var json = JSON.parse(r.response);
+		if(json != null && json.error == 0){
+			var jsonResponse = json.response;
+			json_yo_informo.photo = jsonResponse.urlimage;
+		}
+	}
+	sendYoInformoData();
+	//alert('OK: ' + json_yo_informo.photo);
+	//window.open(json_yo_informo.photo, '_system', 'closebuttoncaption=regresar');
+	//console.log("IMAGE: "+json_yo_informo.photo);
+
+	jQuery('#get-photo').html('Foto');
+	jQuery('.yoinformo-photo').show();
+	jQuery('#preview-yo-informo').attr('src',json_yo_informo.img);
+
+    //console.log("json_yo_informo = " + json_yo_informo.photo);
+}
+function errorUploadImageToServer(error){
+	//alert("No se pudo subir la imagen");
+	jQuery('#get-photo').html('Foto');
+	jQuery('#message-yo-informo').show();
+	jQuery('#message-yo-informo').html('La carga de la imagen no se puedo procesar con &eacute;xito; Por favor, intentelo otra vez.');
+}
+//END IMAGE UPLOAD
+
+//SEND YO INFORMO DATA
+function sendYoInformoData(){
+    setTimeout(function () {
+    	
+		var postData = {
+            'content'      	: json_yo_informo.message,
+            'address'      	: json_yo_informo.addres,
+            'longitude'    	: json_yo_informo.longitude,
+            'latitude'     	: json_yo_informo.latitude,
+            'term_slug'    	: json_yo_informo.term_slug,
+            'first_name'   	: json_yo_informo.first_name,
+            'last_name'    	: json_yo_informo.last_name,
+            'email'        	: json_yo_informo.email,
+            'mobile'       	: json_yo_informo.mobile,
+            'phonegap_img'  : json_yo_informo.photo               
+    	}; 
+
+		$('#yoinformo').empty();
+		var report_new = postReport(postData);		               
+ 		//$('#yoinformo').append(JSON.stringify(report_new));
+ 		$('#yoinformo').append('<h3 style="text-align:center;">Paso 5. Enviando de reporte</h3>');
+ 		if (report_new) {
+ 			$('#yoinformo').append('<p style="padding:10px; text-align:center;">El reporte se ha enviado con &eacute;xito</p>');	
+ 		} else {
+ 			$('#yoinformo').append('<p style="padding:10px; text-align:center;">Error enviando en el reporte, por favor intente m&aacute;s tarde</p>');
+ 		}
+		 		                	
+    }, 2);
+}
 
 
 var app = {
@@ -1751,7 +2243,12 @@ var app = {
 
     		$(function() {
  			  
-    			if($('#menu').hasClass('right')){
+    			if(isYoInformo){
+    				isYoInformo = false;
+    				$('#datacontent,#datatrending,#spage').show();	
+    				$('#miForm').addClass('hidden');    
+	
+    			}else if($('#menu').hasClass('right')){
 					$('#menu').attr('class','page transition left');	    				    				
 				}else if ($('#datacontent').hasClass('left')){
 					fRemoveClassIcon();
@@ -1786,6 +2283,7 @@ var app = {
     	document.addEventListener('touchmove', function (e) {e.preventDefault();}, false);    	
     	document.body.addEventListener('touchmove', function(event) {event.preventDefault();}, false);    	 
         app.receivedEvent('deviceready');
+        json_yo_informo.device = device.model;
  
     },
     // Update DOM on a Received Event
@@ -1809,5 +2307,6 @@ var app = {
 		//endOfAppInitialization();
 		//$.fgetNews();
 		
+		//setTimeout(function () {getPictureFromGallery();}, 5000);
     }
 };

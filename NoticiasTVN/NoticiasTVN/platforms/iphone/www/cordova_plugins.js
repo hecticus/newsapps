@@ -1,13 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/org.apache.cordova.videoplayer/www/video.js",
-        "id": "org.apache.cordova.videoplayer.VideoPlayer",
-        "clobbers": [
-            "window.videoPlayer"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.network-information/www/network.js",
         "id": "org.apache.cordova.network-information.network",
         "clobbers": [
@@ -243,12 +236,40 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/org.apache.cordova.camera/www/CameraConstants.js",
+        "id": "org.apache.cordova.camera.Camera",
+        "clobbers": [
+            "Camera"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js",
+        "id": "org.apache.cordova.camera.CameraPopoverOptions",
+        "clobbers": [
+            "CameraPopoverOptions"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/Camera.js",
+        "id": "org.apache.cordova.camera.camera",
+        "clobbers": [
+            "navigator.camera"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/ios/CameraPopoverHandle.js",
+        "id": "org.apache.cordova.camera.CameraPopoverHandle",
+        "clobbers": [
+            "CameraPopoverHandle"
+        ]
+    },
+    {
     	"file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
     	"id": "com.adobe.plugins.GAPlugin.GAPlugin",
     	"clobbers": [
     		"GAPlugin"
     	]
-    }
+	}
 ];
 module.exports.metadata = 
 // TOP OF METADATA
@@ -262,7 +283,8 @@ module.exports.metadata =
     "org.apache.cordova.file": "0.2.5",
     "org.apache.cordova.file-transfer": "0.4.0",
     "org.apache.cordova.geolocation": "0.3.6",
-    "org.apache.cordova.inappbrowser": "0.4.0"
+    "org.apache.cordova.inappbrowser": "0.4.0",
+    "org.apache.cordova.camera": "0.2.9"
 }
 // BOTTOM OF METADATA
 });
