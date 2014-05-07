@@ -56,15 +56,14 @@ public class SignIn extends Controller {
         } else {
         	
         	session("connected", jsonResponse.get("id_social_clients").asText());
-        	session("social", jsonResponse.get("id_social").asText());
-        	session("nick", jsonResponse.get("nick").asText());
-        	//return redirect("/");
-        	//return redirect(controllers.routes.Application.index());
+        	session("id_social", jsonResponse.get("id_social").asText());        	 
+        	session("nick", jsonResponse.get("nick").asText());        	
+        	return redirect(controllers.routes.Application.index());
         	
         	
-        	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+        	/*java.util.List<Phase> lstPhase = new ArrayList<Phase>();
         	lstPhase = objClient.getPrediction(jsonResponse.get("id_social_clients").asText());    	
-        	return ok(index.render(lstPhase));
+        	return ok(index.render(lstPhase));*/
         	
         	
         }

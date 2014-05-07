@@ -60,7 +60,8 @@ public class Application extends Controller
     public static Result exit()
     {
     	session().clear();
-		return redirect("/signin");
+    	return redirect(controllers.routes.SignIn.blank());
+		//return redirect("/signin");
     }
         
 
@@ -79,7 +80,8 @@ public class Application extends Controller
         	lstPhase = objClient.getPrediction(id);    	
         	return ok(share.render(lstPhase));	
     	} else {
-    		return redirect("/signin");
+    		return redirect(controllers.routes.SignIn.blank());
+    		//return redirect("/signin");
     	}
     	    	
 
