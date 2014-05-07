@@ -68,26 +68,6 @@ var fejemplo = function() {
 };
 
 
-	function fbs_click(width, height,id_social) {
-	 	
-	        // calling the API ...
-	    	var obj = {
-		      method: 'feed',
-		      redirect_uri: 'http://mundial.tvmax-9.com/polla/',
-		      link: 'http://mundial.tvmax-9.com/polla/?page=share&id=' + id_social,
-		      picture: 'http://polla.tvmax-9.com/assets/images/thumbnail_logo.png',
-		      name: 'La Polla Mundial TvMax - Brasil 2014',
-		      description: 'Ya armé La Polla Mundial TvMax - Brasil 2014, elige al próximo campeón del mundo y a quiénes le tiene que ganar para levantar la copa. Te toca a ti, arma el tuyo y compártelo.'
-	        };
-	 
-	        function callback(response) {
-	         	alert('La polla se ha publicado con éxito');
-	        }
-	 
-	        FB.ui(obj, callback);
-	}
-
-
 function fbs_click(width, height,id_social) {
 	var leftPosition, topPosition;
 	//Allow for borders.
