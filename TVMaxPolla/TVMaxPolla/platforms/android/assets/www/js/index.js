@@ -31,11 +31,11 @@ var app = {
     onDeviceReady: function() {
     	
 
-    	document.addEventListener('backbutton', function() {
-    			exitApp();
-    	}, false);
-    	
-    	app.receivedEvent('deviceready');
+		document.addEventListener('backbutton', function() {
+			exitApp();
+		}, false);
+		
+		app.receivedEvent('deviceready');
     	
     	
  

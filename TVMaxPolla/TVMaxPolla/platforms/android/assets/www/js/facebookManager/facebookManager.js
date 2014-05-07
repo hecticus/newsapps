@@ -42,11 +42,7 @@ function initFacebookManager(){
  */
 function getLoginStatus() {
 	FB.getLoginStatus(function(response) {
-		if (response.status == 'connected') {
-			alert('logged in');
-		} else {
-			alert('not logged in');
-		}
+		alert(JSON.stringify(response));
 	});
 }
 var friendIDs = [];
@@ -87,11 +83,7 @@ function logout() {
 function login() {
 	FB.login(
 			function(response) {
-				if (response.session) {
-					alert('logged in');
-				} else {
-					alert('not logged in');
-				}
+				alert(JSON.stringify(response));
 			},
 			{ scope: "email" }
 	);

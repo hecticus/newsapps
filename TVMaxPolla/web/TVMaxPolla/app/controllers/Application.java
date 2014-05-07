@@ -60,7 +60,8 @@ public class Application extends Controller
     public static Result exit()
     {
     	session().clear();
-		return redirect("/signin");
+    	return redirect(controllers.routes.SignIn.blank());
+		//return redirect("/signin");
     }
         
 
@@ -68,8 +69,9 @@ public class Application extends Controller
     public static Result share(String id)
     {
     	
-    	String url = Config.getTVMaxPollaHost();
-    	Promise<WS.Response> wsResponse = WS.url("http://localhost:9000/KrakenSocialClients/v1/client/"+id).get();
+    	String url = Config.getKrakenHost();    	
+    	Promise<WS.Response> wsResponse = WS.url(url+"KrakenSocialClients/v1/client/" + id).get();
+    	
     	JsonNode jsonResponse = wsResponse.get().asJson();
     	
     	if (jsonResponse.get("error").asLong() == 0) {    		
@@ -79,9 +81,10 @@ public class Application extends Controller
         	lstPhase = objClient.getPrediction(id);    	
         	return ok(share.render(lstPhase));	
     	} else {
-    		return redirect("/signin");
+    		return redirect(controllers.routes.SignIn.blank());
+    		//return redirect("/signin");
     	}
-    	    	
+    	
 
     }
     

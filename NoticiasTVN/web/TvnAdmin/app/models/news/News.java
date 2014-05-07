@@ -7,6 +7,7 @@ import com.avaje.ebean.SqlUpdate;
 import exceptions.NewsException;
 import models.HecticusModel;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -16,6 +17,7 @@ import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -33,6 +35,10 @@ public class News extends HecticusModel{
     //hit counter not used
     private Integer externalId; //id de la noticia externo
     private String image;
+    private String image2;
+    private String image3;
+    private String image4;
+    private String image5;
     private String portalImage;
     @Column(columnDefinition = "TEXT")
     private String portalImageDesc;
@@ -155,12 +161,46 @@ public class News extends HecticusModel{
             idCategory = data.get("idCategory").asLong();
         }
 
-        if (data.has("resources")){
+        if (data.has("hecticus_img")){
+            JsonNode myData =  data.get("hecticus_img");
+            resources = new ArrayList<>();
+            if (myData.has("originalimage")){
+                Resource org = new Resource(myData.get("originalimage"));
+                resources.add(org);
+            }
 
+            if (myData.has("resizedimage")){
+                ArrayNode values =  (ArrayNode)myData.get("resizedimage");
+                for (int j = 0; j < values.size(); j++){
+                    Resource reOrg = new Resource(values.get(j));
+                    resources.add(reOrg);
+                }
+            }
+
+            if (myData.has("extraimages")){
+                ArrayNode values =  (ArrayNode)myData.get("extraimages");
+                for (int j = 0; j < values.size(); j++){
+                    Resource reOrg = new Resource(values.get(j));
+                    resources.add(reOrg);
+                }
+            }
         }
 
         if (data.has("idTrending")){
             idTrending = data.get("idTrending").asLong();
+        }
+
+        if (data.has("Image2")) {
+            image = data.get("Image").asText();
+        }
+        if (data.has("Image3")) {
+            image = data.get("Image").asText();
+        }
+        if (data.has("Image4")) {
+            image = data.get("Image").asText();
+        }
+        if (data.has("Image5")) {
+            image = data.get("Image").asText();
         }
 
         //auto generated values
@@ -182,29 +222,28 @@ public class News extends HecticusModel{
     @Override
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
-        tr.put("id",idNews); //local id
-        tr.put("Body", body);
-        tr.put("Categories",categories);
+        tr.put("idNews",idNews); //local id
+        tr.put("Body", decode(body));
+        tr.put("Categories",decode(categories));
         tr.put("Date" , pubDate);
         tr.put("Destacada", featured);
         tr.put("FirstVideo", firstVideo);
         //hit counter
         tr.put("ID", externalId);
-        tr.put("Image", image);
-        tr.put("PortalImage", portalImage);
-        tr.put("PortalImageDescription", portalImageDesc);
+        tr.put("Image", decode(image));
+        tr.put("Image2", decode(image2));
+        tr.put("Image3", decode(image3));
+        tr.put("Image4", decode(image4));
+        tr.put("Image5", decode(image5));
+        tr.put("PortalImage", decode(portalImage));
+        tr.put("PortalImageDescription", decode(portalImageDesc));
         tr.put("PublishingDateTime", pubTime);
         tr.put("PushNotifications", pushNotifications);
         tr.put("SecondVideo", secondVideo);
         tr.put("Size", size);
         //tr.put("StartDate", null);
-        tr.put("Title", title);
-        tr.put("URL", url);
-
-        tr.put("idCategory",idCategory); //local id
-        tr.put("crc", crc);
-        tr.put("insertedTime", insertedTime);
-        tr.put("generated", generated);
+        tr.put("Title", decode(title));
+        tr.put("URL", decode(url));
 
         //images
 
@@ -215,7 +254,7 @@ public class News extends HecticusModel{
 
     public ObjectNode toJsonTVN() {
         ObjectNode tr = Json.newObject();
-        tr.put("id",idNews); //local id
+        tr.put("idNews",idNews); //local id
         tr.put("Body", decode(body));
         tr.put("Categories",decode(categories));
         tr.put("Date" , pubDate);
@@ -224,6 +263,10 @@ public class News extends HecticusModel{
         //hit counter
         tr.put("ID", externalId);
         tr.put("Image", decode(image));
+        tr.put("Image2", decode(image2));
+        tr.put("Image3", decode(image3));
+        tr.put("Image4", decode(image4));
+        tr.put("Image5", decode(image5));
         tr.put("PortalImage", decode(portalImage));
         tr.put("PortalImageDescription", decode(portalImageDesc));
         tr.put("PublishingDateTime", pubTime);
@@ -233,6 +276,30 @@ public class News extends HecticusModel{
         //tr.put("StartDate", null);
         tr.put("Title", decode(title));
         tr.put("URL", decode(url));
+        //resources
+        if (resources.size()> 0){
+            ObjectNode hec = Json.newObject();
+            ArrayList<String> resized = new ArrayList<>();
+            ArrayList<String> extra = new ArrayList<>();
+            //tr.put("fullImageList", Json.toJson((resources)));
+            for (int i = 0; i < resources.size(); i++){
+                Resource temp = resources.get(i);
+                if (temp.getType() == 1){
+                    //noting
+                    hec.put("originalimage", resources.get(i).generateUrl());
+                }else if (temp.getType() == 2){
+                    resized.add(resources.get(i).generateUrl());
+                }else{
+                    extra.add(resources.get(i).generateUrl());
+                }
+            }
+            //hec.put("originalimage", resources.get(0).generateUrl());
+            hec.put("resizedimage", Json.toJson((resized)));
+            hec.put("extraimages", Json.toJson((extra)));
+            tr.put("hecticus_img", hec);
+        }
+
+
         return tr;
     }
 
@@ -247,11 +314,11 @@ public class News extends HecticusModel{
     }
 
     public static List<News> getNewsByCategory(long idCategory){
-        return finder.where().eq("id_category", idCategory).orderBy("pub_date_formated DESC").findList();
+        return getNewsByCategory(idCategory, MAX_SIZE);
     }
 
-    public static List<News> getNewsByCategoryAndGenerationDate(long idCategory, long generationDate){
-        return finder.where().eq("id_category", idCategory).eq("generation_time", generationDate).findList();
+    public static List<News> getNewsByCategory(long idCategory, int limit){
+        return finder.where().eq("id_category", idCategory).orderBy("pub_date_formated DESC").setMaxRows(limit).findList();
     }
 
     public static int getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
@@ -268,8 +335,13 @@ public class News extends HecticusModel{
     }
 
     public static List<News> getTrendingNewsById(long id){
-        return finder.where().eq("id_trending", id ).findList();
+        return getTrendingNewsById(id, MAX_SIZE);
     }
+
+    public static List<News> getTrendingNewsById(long id, int limit){
+        return finder.where().eq("id_trending", id ).orderBy("pub_date_formated DESC").setMaxRows(limit).findList();
+    }
+
 
     public static void insertBatch(ArrayList<News> list){
         EbeanServer server = Ebean.getServer("default");
@@ -330,6 +402,13 @@ public class News extends HecticusModel{
         return false;
     }
 
+    public static News getNewsByDateAndNotPushed(){
+        return finder.where().eq("push_notifications", true).eq("generation_time", 0).orderBy("pub_date_formated desc").setMaxRows(1).findUnique();
+    }
+
+    public static int getNewsByDateAndNotPushedCount(long generationDate){
+        return finder.where().eq("push_notifications", true).eq("generation_time", generationDate).orderBy("pub_date_formated").setMaxRows(1).findRowCount();
+    }
 
 
     /**************************** GETTERS AND SETTERS ****************************************************/
@@ -508,5 +587,53 @@ public class News extends HecticusModel{
 
     public void setIdNews(Long idNews) {
         this.idNews = idNews;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
+
+    public String getImage3() {
+        return image3;
+    }
+
+    public void setImage3(String image3) {
+        this.image3 = image3;
+    }
+
+    public String getImage4() {
+        return image4;
+    }
+
+    public void setImage4(String image4) {
+        this.image4 = image4;
+    }
+
+    public String getImage5() {
+        return image5;
+    }
+
+    public void setImage5(String image5) {
+        this.image5 = image5;
+    }
+
+    public Long getIdTrending() {
+        return idTrending;
+    }
+
+    public void setIdTrending(Long idTrending) {
+        this.idTrending = idTrending;
+    }
+
+    public List<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<Resource> resources) {
+        this.resources = resources;
     }
 }
