@@ -20,6 +20,8 @@
 package com.hecticus.tvmaxpolla;
 
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import org.apache.cordova.*;
 
 public class TVMaxPolla extends CordovaActivity 

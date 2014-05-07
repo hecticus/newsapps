@@ -6,28 +6,34 @@
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<!--link rel="stylesheet" type="text/css" href="css/base.css"-->
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/transition.css">
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+		<link rel="stylesheet" type="text/css" href="css/media.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 		
 		<title>TVMax La Polla</title>
-
-		<style type="text/css" media="all">
-		
-			body {width:100%; height:100%; overflow: hidden;}
-			#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}					
-			@media only screen and (min-width: 320px) and (max-width: 479px) and (orientation: portrait) {html { font-size: 62.5%; }}
-			@media only screen and (min-width: 720px) and (max-width: 767px) and (orientation: portrait) {html { font-size: 120%; }}
-			@media only screen and (min-width:1080px) and (max-width:1199px) and (orientation: portrait) {html { font-size: 200%; }}
-			@media only screen and (min-width:1280px) and (orientation: portrait) {html { font-size: 250%; }}
-
-		</style>
 	</head>
 	<body>
+	
+		<header>
+			<div style="position:absolute;display:table; width:100%; height:100%;">
+		   		<div class="icon logo" style="position:relative; display:inline-table; height:100%; margin:0; top:0;">&nbsp;</div>
+		       
+		       	<div style="position: relative; width: 50%; height: 100%; display:inline-table;">
+		       		<div id="header-title" style="position:absolute; top:50%; left:0; height:50%; text-transform:uppercase; 
+		       		color:#000000; font-weight: bold; float:left; font-size: 1.6em; white-space:nowrap;
+		       		text-overflow:ellipsis;overflow:hidden; margin:0;padding:0;margin-top:-0.6em;">TVMax login</div>
+		       	</div>
+		   </div>
+		</header>
 		
-				
-		<button id="facebookLoginButton">Connect with Facebook</button>
+		<div id="logincontent">
+			<button id="facebookLoginButton" style="top:5%;">Connect with Facebook</button>
+		</div>
 			
 
-		<script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+		<script type="text/javascript" src="jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/SocialSharing.js"></script>
         <script type="text/javascript" src="js/index.js"></script>

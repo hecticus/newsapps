@@ -43,11 +43,15 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
     	//init things
-    	$('#facebookLoginButton').click(function(){
-            //alert("JQuery Running!");
-    		login();
-		});
-    	
-    	initFacebookManager();
+    	initPage();
     }
 };
+
+function initPage(){
+	$('#facebookLoginButton').click(function(){
+        //alert("JQuery Running!");
+		login();
+	});
+	
+	initFacebookManager();
+}
