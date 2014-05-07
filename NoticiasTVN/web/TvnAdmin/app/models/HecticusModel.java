@@ -17,6 +17,8 @@ public abstract class HecticusModel extends Model {
 
     public static final String CDN_URL = "http://9412fdf6c01bc9771bc2-f7308435bd9ae7a6ffc150d7e895a463.r87.cf1.rackcdn.com/img/";
 
+    public static final int MAX_SIZE = 20;
+
     public abstract ObjectNode toJson();
 
     public JsonNode toObjJson() {
@@ -28,6 +30,8 @@ public abstract class HecticusModel extends Model {
         try {
             tr= URLDecoder.decode(val, "UTF-8");
         }catch (UnsupportedEncodingException ex){
+
+        }catch (Exception ex){
 
         }
         return tr;

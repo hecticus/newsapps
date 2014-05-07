@@ -233,7 +233,14 @@ public class Utils {
             }else{
                 hh = ""+intH;
             }
-            mm = HMS[1];
+
+            //mm = HMS[1];
+            int minutesS = Integer.parseInt(HMS[1]);
+            if (minutesS < 10){
+                mm = "0"+ minutesS;
+            }else {
+                mm = ""+ minutesS;
+            }
             ss = "00";
 
         }

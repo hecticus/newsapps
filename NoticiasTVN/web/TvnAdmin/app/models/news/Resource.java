@@ -6,6 +6,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -15,22 +16,27 @@ import javax.persistence.Table;
 @Table(name="resources")
 public class Resource extends HecticusModel {
 
+    @Id
+    private long idResource;
     private String name;
     private String filename;
     private String genericName;
     private String description;
     private String res;
-    private Integer type;
+    private Integer type; //1 principal, 2 principal reducido, 3 secundaria
     private Integer status;
 
     public Resource(JsonNode data) throws NewsException {
-        /*
-        if (data.has("id")) {
-            //externalId = data.get("id").asInt();
-        } else {
-            throw new NewsException("externalId faltante");
+
+        if (data.has("filename")) {
+            filename = data.get("filename").asText();
         }
-        */
+
+        if (data.has("type")){
+            type = data.get("type").asInt();
+        }
+
+        status = 1;
     }
 
     public String generateUrl(){
@@ -101,4 +107,11 @@ public class Resource extends HecticusModel {
         this.status = status;
     }
 
+    public long getIdResource() {
+        return idResource;
+    }
+
+    public void setIdResource(long idResource) {
+        this.idResource = idResource;
+    }
 }

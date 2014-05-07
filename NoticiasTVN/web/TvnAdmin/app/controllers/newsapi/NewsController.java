@@ -11,7 +11,6 @@ import play.libs.Json;
 import play.mvc.Result;
 import utils.Utils;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -197,35 +196,6 @@ public class NewsController extends HecticusController {
         return ok(buildBasicResponse(0,"OK"));
     }
 
-    public static Result insertTrending(){
-        try {
-            ArrayList<News> toInsert = new ArrayList<News>();
-            //get data from post
-            ObjectNode data = getJson();
-            //get data from json
-            if (data.has("noticiastrendingnews")){
-                Iterator it = data.get("noticiastrendingnews").get("item").getElements();
-                while (it.hasNext()){
-                    JsonNode current = (JsonNode)it.next();
-                    try {
-                        //build obj
-                       // News received = new News(current,true);
-                        //toInsert.add(received);
-                    }catch (Exception ex){
-                        //must continue
-                        ex.printStackTrace();
-                    }
-                }
-                //insert
-                News.insertBatch(toInsert);
-            }
-        }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
-        }
-        return ok(buildBasicResponse(0,"OK"));
-    }
-
-
     public static Result delete(){
         try{
             //get date from json
@@ -261,20 +231,17 @@ public class NewsController extends HecticusController {
     }
 
     public static Result getNewsToGenerate(){
-        //obtenemos las categorias a las que se les puede hacer push y estan activas
-        List<Category> allCategories = Category.getActivePushableCategories(1);
-        for (int i = 0; i < allCategories.size(); i++){
-            List<News> pushableNews = News.getNewsByDateAndNotPushed(allCategories.get(i).getIdCategory());
-            if(pushableNews != null && pushableNews.size() > 0){
-                //build response
-                ObjectNode response;
-                ArrayList data = new ArrayList();
-                data.add(pushableNews.get(0));
-                response = hecticusResponse(0, "ok", "pushNews", data);
-
-                return ok(response);
-            }
+        //obtenemos una noticia activa a la cual se le puede hacer push
+        News pushableNews = News.getNewsByDateAndNotPushed();
+        if(pushableNews != null){
+            //build response
+            ObjectNode response;
+            ArrayList data = new ArrayList();
+            data.add(pushableNews.toJsonTVN());
+            response = hecticusResponse(0, "ok", "pushNews", data);
+            return ok(response);
         }
+
         //build empty response no news to push
         ObjectNode response;
         ArrayList data = new ArrayList();
@@ -288,14 +255,8 @@ public class NewsController extends HecticusController {
             //obtenermos el dia actual
             long currentDay = Utils.currentTimeStampToDate(Utils.APP_TIMEZONE);
             //obtenemos las categorias a las que se les puede hacer push y estan activas
-            List<Category> allCategories = Category.getActivePushableCategories(1);
             int count = 0;
-            //obtenemos todas las noticias que pertenecen a estas categorias y que tienen el dia actual
-            ArrayList categoriesIds = new ArrayList();
-            for (int i = 0; i < allCategories.size(); i++){
-                categoriesIds.add(allCategories.get(i).getIdCategory());
-            }
-            count = News.getNewsByCategoriesAndGenerationDate(categoriesIds, currentDay);
+            count = News.getNewsByDateAndNotPushedCount(currentDay);
 
             //build response
             ObjectNode response;
@@ -312,10 +273,4 @@ public class NewsController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
-
-    public static Result test(){
-        return null;
-    }
-
-
 }
