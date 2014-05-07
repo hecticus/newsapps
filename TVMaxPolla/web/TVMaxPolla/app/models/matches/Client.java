@@ -184,7 +184,11 @@ public class Client  {
          	dataJson.put("email", filledForm.field("email").value());    		
      	} else {     		
      		dataJson.put("socialId", filledForm.field("socialid").value());
-     		dataJson.put("socialemail", filledForm.field("socialemail").value());
+     		
+     		if (filledForm.field("socialemail").value() != "undefined") {
+     			dataJson.put("email", filledForm.field("socialemail").value());	
+     		}
+     		
      		dataJson.put("userNick", filledForm.field("socialname").value());
      	}
      	
