@@ -69,8 +69,9 @@ public class Application extends Controller
     public static Result share(String id)
     {
     	
-    	String url = Config.getTVMaxPollaHost();
-    	Promise<WS.Response> wsResponse = WS.url(url+"KrakenSocialClients/v1/client/"+id).get();
+    	String url = Config.getKrakenHost();    	
+    	Promise<WS.Response> wsResponse = WS.url(url+"KrakenSocialClients/v1/client/" + id).get();
+    	
     	JsonNode jsonResponse = wsResponse.get().asJson();
     	
     	if (jsonResponse.get("error").asLong() == 0) {    		
@@ -83,7 +84,7 @@ public class Application extends Controller
     		return redirect(controllers.routes.SignIn.blank());
     		//return redirect("/signin");
     	}
-    	    	
+    	
 
     }
     
