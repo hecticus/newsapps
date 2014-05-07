@@ -399,7 +399,7 @@
 		
 			<div style="display: block; position: relative;  margin: 0 auto; width:100%; height: 40px; top:80%;">
 				@if(session.get("id_social") != "null") {
-					<a href="#" onClick="return fbs_click(600, 400,@session.get("connected"))" target="_blank" title="Compartir en Facebook">
+					<a  onClick="return fbs_click(600, 400,@session.get("connected"))" target="_blank" title="Compartir en Facebook" style="cursor: pointer;">
 						<img src="@routes.Assets.at("images/compartirFB.png")" style="width:174px; height: 40px;">
 					</a>
 				}
