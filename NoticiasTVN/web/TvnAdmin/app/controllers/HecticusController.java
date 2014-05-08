@@ -98,7 +98,7 @@ public class HecticusController extends Controller {
     public static boolean uploadFile(RackspaceCreate upload,int retry,String container, File file, String parent, long init) throws InterruptedException{
         boolean uploaded = false;
         while(retry > 0 && !uploaded){
-            Utils.printToLog(HecticusController.class, "", "Subiendo el archivo " + file.getName() + " intento " + retry, false, null, "", Config.LOGGER_ERROR);
+            Utils.printToLog(HecticusController.class, "", "Subiendo el archivo " + file.getName() + " intento " + retry, false, null, "", Config.LOGGER_INFO);
             try {
                 upload.uploadObject(container,file);
                 uploaded = true;

@@ -46,7 +46,7 @@ GET     /newsapi/v1/news/search/trending/:id            controllers.newsapi.News
 POST    /newsapi/v1/news/search/list                    controllers.newsapi.NewsController.getBatch()
 #insert news
 POST    /newsapi/v1/news/insert                         controllers.newsapi.NewsController.insert()
-POST    /newsapi/v1/news/insertTrending                         controllers.newsapi.NewsController.insertTrending()
+#POST    /newsapi/v1/news/insertTrending                         controllers.newsapi.NewsController.insertTrending()
 
 #update news
 
