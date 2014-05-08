@@ -28,7 +28,7 @@ import utils.Utils;
 public class YoInformoController extends HecticusController {
     public static final String imageDir = "files/yoinformouploader/";
 
-    private static final String containerName = "noticiastvn";
+    private static final String containerName = "tvn_yoinformo_upload";
 
     private static final int TTL = 900;
 
