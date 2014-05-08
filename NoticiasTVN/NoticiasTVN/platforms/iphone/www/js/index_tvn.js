@@ -339,17 +339,18 @@ function postReport(postData){
 	        email      : postData.email,
 	        mobile     : postData.mobile,
 	    };
-	    
-	   var assets = {
-	        image : postData.phonegap_img   
-	    };
+	    var assets = {};
+	    if(postData.phonegap_img!=null && postData.phonegap_img.length>0){
+	    	assets = {
+	    	        image : postData.phonegap_img[0]   
+	    	    };
+	    }
 	    
 	    var connection = {
 	        url : "http://yoinformo.tvn-2.com/xmlrpc.php",
 	        username : "userapi",
 	        password : "R85te267o7OxW46"
 	    };
-	    
 	    var wp = new WordPress(connection.url, connection.username, connection.password);
 	    var object = wp.api_new_reports(report, citizen,assets);
 	    
