@@ -20,6 +20,8 @@
  /*HEADER*/
 header {position: absolute; background-color: #FFFFFF; width: 100%; height:8%; z-index: 5; top:0; left:0; margin:0; padding:0;  border-bottom: 3pt solid #005fb0; padding: 0; margin: 0; }
 header div.icon.logo {width:25%; float:left; background:url(../img/icon/logo.png) no-repeat left center; background-size:auto 100%; }			
+header div.icon.tv {width:20%; float:right; background:url(../img/icon/tv.png) no-repeat center; background-size:auto 80%;}
+header div.icon.share {background:url(../img/icon/share.png) no-repeat center; background-size:100% auto;}
 header div.icon.back {width:15%; float:left; background:url(../img/icon/back.png) no-repeat center; background-size:100% auto;}
 #header-title {
 			
