@@ -132,7 +132,7 @@ function checkHTMLText(rawText){
 /**
  * hecticus_img:{
 "originalimage":"url",
-"resizedimage":["url_low","url_mid","url_high"],
+"resizedimage":["url_low","url_med","url_high"],
 "extraimages":["url1","url2",...]
 }
  */
@@ -142,6 +142,7 @@ function getBigImagesArrayForNews(news){
 		var imageFile;
 		if(news["hecticus_img"] != null && 
 				news["hecticus_img"]["originalimage"] != null && news["hecticus_img"]["originalimage"] != "null" ){
+			//console.log("NEWIMG ALL");
 			//tenemos imagenes de hecticus
 			imageFile = cleanExternalURL(news["hecticus_img"]["originalimage"]);
 			imageArray.push(imageFile);
@@ -153,6 +154,7 @@ function getBigImagesArrayForNews(news){
 			}
 			
 		}else{
+			//console.log("OLDIMG ALL");
 			if(news["PortalImage"] != null && news["PortalImage"] != "null"){
 				imageFile = "http://tvn-2.com"+news["PortalImage"];
 			}else{
@@ -190,24 +192,32 @@ function getBigImagesArrayForNews(news){
 function getListImageForNews(news, isMainImage){
 	var imageFile = "";
 	try{
+		//console.log("NEWS: "+JSON.stringify(news));
 		if(news["hecticus_img"] != null && 
 				news["hecticus_img"]["originalimage"] != null && news["hecticus_img"]["originalimage"] != "null" ){
+			//console.log("NEWIMG");
 			//tenemos imagenes de hecticus
 			if(isMainImage){
 				imageFile = cleanExternalURL(news["hecticus_img"]["originalimage"]);
+				//console.log("ORIGINAL "+imageFile);
 			}else{
-				var screenwidth = window.innerWidth;
-				if(screenwidth < 320){
+				var screenwidth = getScreenWidth();
+				//console.log("SCREEN: "+screenwidth);
+				if(screenwidth <= 480){
 					imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_low.");
+					//console.log("LOW "+imageFile);
 				}else{
-					if(screenwidth < 720){
-						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_mid.");
+					if(screenwidth <= 720){
+						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_med.");
+						//console.log("MED "+imageFile);
 					}else{
 						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_high.");
+						//console.log("HIGH "+imageFile);
 					}
 				}
 			}
 		}else{
+			//console.log("OLDIMG");
 			if(news["PortalImage"] != null && news["PortalImage"] != "null"){
 				imageFile = "http://tvn-2.com"+news["PortalImage"];
 			}else{

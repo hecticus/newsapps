@@ -49,7 +49,7 @@ function uploadPictureFromGallery(imageURI) {
 	options.params = params;
 
 	var ft = new FileTransfer();
-	ft.upload(imageURI, encodeURI("http://tvn.news.hecticus.com/newsapi/v1/yoinformo/uploadimage"), successUploadImageToServer, errorUploadImageToServer, options);
+	ft.upload(imageURI, encodeURI(urlServices+"/newsapi/v1/yoinformo/uploadimage"), successUploadImageToServer, errorUploadImageToServer, options);
 	//ft.upload(imageURI, encodeURI("http://10.0.3.127:9000/newsapi/v1/yoinformo/uploadimage"), successUploadImageToServer, errorUploadImageToServer, options);
 }
 
