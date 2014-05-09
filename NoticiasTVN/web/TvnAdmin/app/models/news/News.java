@@ -284,16 +284,18 @@ public class News extends HecticusModel{
             //tr.put("fullImageList", Json.toJson((resources)));
             for (int i = 0; i < resources.size(); i++){
                 Resource temp = resources.get(i);
-                if (temp.getType() == 1){
-                    //noting
-                    hec.put("originalimage", resources.get(i).generateUrl());
-                }else if (temp.getType() == 2){
-                    resized.add(resources.get(i).generateUrl());
-                }else{
-                    extra.add(resources.get(i).generateUrl());
+                if (temp.getType() != null){
+                    if (temp.getType() == 1){
+                        //noting
+                        hec.put("originalimage", resources.get(i).generateUrl());
+                    }else if (temp.getType() == 2){
+                        resized.add(resources.get(i).generateUrl());
+                    }else{
+                        extra.add(resources.get(i).generateUrl());
+                    }
                 }
             }
-            //hec.put("originalimage", resources.get(0).generateUrl());
+
             hec.put("resizedimage", Json.toJson((resized)));
             hec.put("extraimages", Json.toJson((extra)));
             tr.put("hecticus_img", hec);
