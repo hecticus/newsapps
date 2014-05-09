@@ -48,10 +48,23 @@ var app = {
 };
 
 function initPage(){
+	touchFunctions();
+
+	initFacebookManager();
+}
+
+function touchFunctions(){
+	//facebook login
 	$('#facebookLoginButton').click(function(){
         //alert("JQuery Running!");
 		login();
 	});
 	
-	initFacebookManager();
+	//video stream button
+	$(document).on('touchend','.tv:not(.share)', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		console.log("PASO");
+		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
+	});
 }
