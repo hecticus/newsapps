@@ -111,7 +111,7 @@
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];  //load NSUserDefaults
 	NSString *oldToken = [prefs dataForKey:@"regID"];
 	
-	NSLog(@"TOKEN %@",token);
+	//NSLog(@"TOKEN %@",token);
     
     #if !TARGET_IPHONE_SIMULATOR
         // Get Bundle Info for Remote Registration (handy if you have more than one app)
@@ -158,8 +158,9 @@
 								   stringByReplacingOccurrencesOfString:@">" withString:@""]
 								  stringByReplacingOccurrencesOfString: @" " withString: @""];
 	
-		//NSString *host = @"kraken.hecticus.com";
-		NSString *host = @"wedge/kraken";
+		NSString *host = @"kraken.hecticus.com";
+		//NSString *host = @"wedge/kraken";
+		//NSString *host = @"10.0.3.142/kraken";
 		NSString *urlString = @"";
 		if(oldToken != NULL && ![oldToken isEqualToString:@""]){
 			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&old_ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, oldToken, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];

@@ -59,7 +59,6 @@
 		6F6DDD431875C4F80090B0E8 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2A1875C4F80090B0E8 /* Default-Portrait~ipad.png */; };
 		6F6DDD441875C4F80090B0E8 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2B1875C4F80090B0E8 /* Default@2x~iphone.png */; };
 		6F6DDD451875C4F80090B0E8 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2C1875C4F80090B0E8 /* Default~iphone.png */; };
-		6F6DDD471875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD461875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist */; };
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
 		6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */; };
@@ -543,7 +542,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 500;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "NoticiasTVN_iPhone" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -602,7 +601,6 @@
 				6F6DDCFA1875C4B90090B0E8 /* MainViewController.xib in Resources */,
 				6F6DDD3F1875C4F80090B0E8 /* Default-568h@2x~iphone.png in Resources */,
 				6F6DDD3D1875C4F80090B0E8 /* icon@2x.png in Resources */,
-				6F6DDD471875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist in Resources */,
 				6F6DDD2E1875C4F80090B0E8 /* Localizable.strings in Resources */,
 				6F6DDD311875C4F80090B0E8 /* icon-40@2x.png in Resources */,
 				6F6DDD341875C4F80090B0E8 /* icon-60.png in Resources */,

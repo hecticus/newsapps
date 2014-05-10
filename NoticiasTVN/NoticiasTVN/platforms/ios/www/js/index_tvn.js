@@ -56,6 +56,9 @@ var scrollPageDisable = false;
  
 var newsDatacontent;
 
+var urlServices = "http://tvn.news.hecticus.com";
+//var urlServices = "http://10.0.3.148:9000";
+
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
 function setMenuCategories(){
@@ -1021,6 +1024,7 @@ function initBasicApp(){
     		//WITH JSON INSTEAD OF NEWSML
 			$.fgetNews = function() {
 				//myJson=$.fGetAjaXJSON('http://www.tvn-2.com/noticias/_modulos/json/'+arrCategory[myScrollPage.currPageX].id+'-utf8.asp');
+				//console.log("INTERNAL "+arrCategory[myScrollPage.currPageX].internalUrl);
 				myJson=$.fGetAjaXJSON(arrCategory[myScrollPage.currPageX].internalUrl);
 				myJson.done(function(json) {
 					var itemArray = null;
@@ -1167,7 +1171,11 @@ function initBasicApp(){
 								imageFile = "http://tvn-2.com"+itemArray[i]["Image"];
 							}
 							imageFile = cleanExternalURL(imageFile);*/
-							imageFile = getListImageForNews(itemArray[i],true);
+							if(i==0){
+								imageFile = getListImageForNews(itemArray[i],true);
+							}else{
+								imageFile = getListImageForNews(itemArray[i],false);
+							}
 																						
 							$.news.thumbnail.push({src:imageFile,width:864,height:486});
 							$.news.highdef.push({src:imageFile,width:864,height:486});																						
@@ -1385,10 +1393,18 @@ function initBasicApp(){
 							var videoURLIni = "http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/";
 							var videoURLEnd = "/format/url/flavorParamId/0/video.mp4";
 							var videoURL = videoURLIni+""+itemArray[i]["FirstVideo"]+""+videoURLEnd;
-							$.news.video.push({src:videoURL,poster:imageFile});
+							if(imageArray!=null && imageArray.length>0){
+								$.news.video.push({src:videoURL,poster:imageArray[0]});
+							}
 							if(itemArray[i]["SecondVideo"] != null && itemArray[i]["SecondVideo"] != ""){
 								videoURL = videoURLIni+""+itemArray[i]["SecondVideo"]+""+videoURLEnd;
-								$.news.video.push({src:videoURL,poster:imageFile});
+								if(imageArray!=null && imageArray.length>0){
+									if(imageArray.length>1){
+										$.news.video.push({src:videoURL,poster:imageArray[1]});
+									}else{
+										$.news.video.push({src:videoURL,poster:imageArray[0]});
+									}
+								}
 							}			    				
 						}
 
@@ -1499,7 +1515,7 @@ function initBasicApp(){
     			$('#trending-news1').empty();
     			
     			//var urlComplete = "http://tvn-cloud-firewall.cloudapp.net/_vti_bin/NewsService.svc/GetNewsByTrendingTopic?trendingTopicId="+category+"&siteUrl=Noticias&rowLimit=20";
-    			var urlComplete = "http://tvn.news.hecticus.com/newsapi/v1/news/search/tvn/trending/"+category;
+    			var urlComplete = urlServices+"/newsapi/v1/news/search/tvn/trending/"+category;
     			/*if(trendingTopicsNews != null && trendingTopicsNews != "" && trendingTopicsNews.indexOf("#REPLACE#")>0){
     	    		urlComplete = trendingTopicsNews;
     	    		urlComplete = urlComplete.replace("#REPLACE#", ""+category);
@@ -1589,7 +1605,11 @@ function initBasicApp(){
 						imageFile = "http://tvn-2.com"+trending["Image"];
 					}
 					imageFile = cleanExternalURL(imageFile);*/
-					imageFile = getListImageForNews(trending,true);
+					if(i==0){
+						imageFile = getListImageForNews(trending,true);
+					}else{
+						imageFile = getListImageForNews(trending,false);
+					}
 																		
 					$.news.thumbnail.push({src:imageFile,width:864,height:486});
 					$.news.highdef.push({src:imageFile,width:864,height:486});																						
@@ -1980,7 +2000,7 @@ function errorGetTrendingIndexes(){
 
 //banner
 function getBannerSpecial(){
-	var urlBanner = 'http://tvn.news.hecticus.com/newsapi/v1/banners/get';
+	var urlBanner = urlServices+'/newsapi/v1/banners/get';
 	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
 	//console.log("VA AL Banners");
 	$.ajax({
@@ -2186,7 +2206,7 @@ function successUploadImageToServer(r){
     //console.log("json_yo_informo = " + json_yo_informo.photo);
 }
 function errorUploadImageToServer(error){
-	//alert("No se pudo subir la imagen");
+	alert("No se pudo subir la imagen");
 	jQuery('#get-photo').html('Foto');
 	jQuery('#message-yo-informo').show();
 	jQuery('#message-yo-informo').html('La carga de la imagen no se puedo procesar con &eacute;xito; Por favor, intentelo otra vez.');

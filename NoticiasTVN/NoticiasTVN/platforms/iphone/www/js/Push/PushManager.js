@@ -1,12 +1,12 @@
 var pushNotification;
 
 function initPush(){
-	/*try
+	try
 	{ 
     	pushNotification = window.plugins.pushNotification;
     	if (device.platform == 'android' || device.platform == 'Android') {
 			//console.log('<li>registering android</li>');
-        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"658773544258","ecb":"onNotificationGCM"});		// required!
+        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"586770374430","ecb":"onNotificationGCM"});		// required!
 		} else {
 			//console.log('<li>registering iOS</li>');
         	pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"true","alert":"true","ecb":"onNotificationAPN"});	// required!
@@ -17,7 +17,7 @@ function initPush(){
 		txt="There was an error on this page.\n\n"; 
 		txt+="Error description: " + err.message + "\n\n"; 
 		alert(txt); 
-	}*/
+	}
 }
 
 // handle APNS notifications for iOS

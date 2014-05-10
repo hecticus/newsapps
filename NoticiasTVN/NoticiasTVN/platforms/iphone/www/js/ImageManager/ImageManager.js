@@ -1,18 +1,18 @@
 /**
  * IOS
  */
-var cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
+/*var cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
 		{ 
 	destinationType: Camera.DestinationType.FILE_URI,
 	sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-	popoverOptions: new CameraPopoverOptions(700, 700, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY)
+	popoverOptions: new CameraPopoverOptions(300, 300, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY)
 		});
 
 //Reposition the popover if the orientation changes.
 window.onorientationchange = function() {
 	var cameraPopoverOptions = new CameraPopoverOptions(0, 0, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
 	cameraPopoverHandle.setPosition(cameraPopoverOptions);
-}
+}*/
 
 /**
  * Android
@@ -49,7 +49,7 @@ function uploadPictureFromGallery(imageURI) {
 	options.params = params;
 
 	var ft = new FileTransfer();
-	ft.upload(imageURI, encodeURI("http://tvn.news.hecticus.com/newsapi/v1/yoinformo/uploadimage"), successUploadImageToServer, errorUploadImageToServer, options);
+	ft.upload(imageURI, encodeURI(urlServices+"/newsapi/v1/yoinformo/uploadimage"), successUploadImageToServer, errorUploadImageToServer, options);
 	//ft.upload(imageURI, encodeURI("http://10.0.3.127:9000/newsapi/v1/yoinformo/uploadimage"), successUploadImageToServer, errorUploadImageToServer, options);
 }
 
