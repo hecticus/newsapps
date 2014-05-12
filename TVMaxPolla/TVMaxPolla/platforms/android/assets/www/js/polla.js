@@ -9,18 +9,24 @@ var arrDataTeam = [];
 	$( document ).ready(function() {
 					
 					var _fGetFlag = function(team){ 
-						var _html = '<figure>';					     		
-						_html += '<img class="flag"  onerror="this.style.display=\'none\'" src="img/flags/'+team.flag_file+'" alt="'+team.name+'" />';
-						_html += '<figcaption>'+team.name+'</figcaption>';
+						var _html = '<figure class="flag">';					     		
+						_html += '<img onerror="this.style.display=\'none\'" src="img/flags/'+team.flag_file+'" alt="'+team.name+'" />';
+						_html += '<figcaption>'+team.shortName+'</figcaption>';
 						_html += '</figure>';
 						return _html;
 					};
 					
 					
 					var _fGetGoal = function(team){						
-						var _html = '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team team-a" data-team="'+team.id+'" >';
+						var _html = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 team '+ team.class +'" data-team="'+team.id+'" >';
 			     		_html += '<div class="row" >';
-						_html += '<div class="goal" data-goal="'+team.score+'" >'+team.score+'</div>';
+			     		
+						_html += '<div class="goal" data-goal="'+team.score+'" >';
+						_html += '<div class="add hidden" >+</div>';
+						_html += '<div class="score">' + team.score + '</div>';
+						_html += '<div class="sub hidden" >-</div>';						
+						_html += '</div>';
+												
 						_html += '</div>';						
 			     		_html += '</div>';
 			     		
@@ -32,90 +38,102 @@ var arrDataTeam = [];
 
 						$.each(jPrediction, function(index,phase) {	
 	
-					    if (phase.id != 5) {
+					    	if (phase.id != 5) {
 					    	
-							var _display =  (phase.id == 1) ? 'display:block;' : 'display:none;';
+								var _hidden;
+								if (phase.id != 1) { _hidden = ' hidden ';}
+							
 					    	
-					    	var _html = '<!-- <phase> -->';
-						   	_html += '<div class="row phase" data-phase="'+phase.id+'" style="'+_display+'" >';
-						    
-					    	_html += '<div class="col-md-12">';
-							_html += '<h3>' + phase.name + '</h3>';
-							_html += '</div>';
-
-							_html += '<div class="col-md-12">';
+						    	var _html = '<!-- <phase> -->';
+							   	_html += '<div class="row phase ' + _hidden + '" data-phase="'+phase.id+'" >';
+							    
+						    	_html += '<div class="col-md-12" style="background-color:brown;">';
+								_html += '<h3>' + phase.name + '</h3>';
+								_html += '</div>';
+	
+								_html += '<div class="col-md-12">';
 						
 
-						 $.each(phase.groups, function(index, group) {
-						 	
-						 	_display =  (group.id == 1) ? 'display:block;' : 'display:none;';
-						 	
-					     	_html += '<!-- <group> -->';
-					     	_html += '<div class="row group" data-group="'+group.id+'" style="'+_display+'">';
+								 $.each(phase.groups, function(index, group) {
+								 	
+								 	_hidden =  '';
+								 	if (group.id != 1) { _hidden = ' hidden ';}
+								 	
+							     	_html += '<!-- <group> -->';
+							     	_html += '<div class="row group ' + _hidden + '" data-group="'+group.id+'" >';
+		
+							     	_html += '<div class="col-md-12" style="background-color:yellow;">';
+									_html += '<h3>GRUPO ' + group.name + '</h3>';
+									_html += '</div>';
+																
+									_html += '<div class="col-md-12">';
+							     	
+							     	
+							     	$.each(group.games, function(index, game) {
+		
+										var _oRenderGame = new _cRenderGame(game);
+		
+							     		_html += '<!-- <game> -->';
+							     		_html += '<div class="row game" data-game="'+game.id+'">';
+							     							     						     		
+							     		_html += '<div class="col-md-12">';
+							     		_html += _oRenderGame.fGetAvenue(game);
+							     		_html += '</div>';
+							     							     		
+							     		_html += '<div class="col-md-12">';						     		
+							     		_html += _oRenderGame.fGetGame(game);				     							     		
+							     		_html += '</div>';
+		
+							     		_html += '</div>';
+							     		_html += '<!-- </game> -->';
+		
+							     	});
+							     	
+							     	_html += '</div>';	
+		
 
-					     	_html += '<div class="col-md-12">';
-							_html += '<h3>' + group.name + '</h3>';
-							_html += '</div>';
-					     	
-							_html += '<div class="col-md-12">';
-					     	
-					     	
-					     	$.each(group.games, function(index, game) {
-
-								var _oRenderGame = new _cRenderGame(game);
-
-					     		_html += '<!-- <game> -->';
-					     		_html += '<div class="row game" data-game="'+game.id+'">';
-					     							     						     		
-					     		_html += '<div class="col-md-12">';
-					     		_html += _oRenderGame.fGetAvenue(game);
-					     		_html += '</div>';
-					     							     		
-					     		_html += '<div class="col-md-12">';						     		
-					     		_html += _oRenderGame.fGetGame(game);				     							     		
-					     		_html += '</div>';
-
-					     		_html += '</div>';
-					     		_html += '<!-- </game> -->';
-
-					     	});
-					     	
-					     	_html += '</div>';	
-
-					     	_html += '</div>';
-							_html += '<!-- </group> -->';
-					     	
-
-					     });
+						    		var _class = 'next';
+						    		var _caption = 'CONTINUAR';
+						    		if ((phase.groups.length-1) == index) {
+						    			_caption = 'GUARDAR';
+						    			_class = 'save';	
+						    		}						    		 
+						    		
+									_html += '<div id=""  class="col-md-12 '+ _class +'" style="background:white;">';
+						    		_html += '<h2 style="padding:5px; text-align:center;">' + _caption + '</h2>';	
+						    		_html += '</div>';					    	
+						    		
+		
+							     	_html += '</div>';
+									_html += '<!-- </group> -->';
+							     	
+							     	
+							     	
+							    	
+							    	
+							     	
+		
+							     });
 					     
 						
-						_html += '</div>';
+								_html += '</div>';
+		
+							    _html += '</div>';
+							    _html += '<!-- </phase> -->';
+							    
+							    
+							   
+						     	
+		
+						
+						    	_html += '</div>';
+						
+						    
+						     	$('#container').append(_html);
+					    		myScroll.scrollTo(0,0,0);
 
-					    _html += '</div>';
-					    _html += '<!-- </phase> -->';
-					    
-					    
-				     	_html += '<div class="row >';
-				    	_html += '<div class="col-md-12">';
-				    	
-
-
-				    	_html += '</div>';					    	
-				    	_html += '</div>';
-
-				
-				    	_html += '</div>';
-				
-				    
-				     	$('#container').append(_html);
-				    	myScroll.scrollTo(0,0,0);
-					    	
-					    	
-					    	
-					    }
-					    
-					   
-
+					    	}
+	
 					});
 					
 					
@@ -130,17 +148,14 @@ var arrDataTeam = [];
 				        var _date = String(this.game.date);
 						var _html = '<!-- <venue> -->';
 						
-			     		_html += '<div class="row venue" data-venue="'+this.game.venue.id+'">';
+			     		_html += '<div class="row venue" data-venue="'+this.game.venue.id+'" >';
 			     							     		
-			     		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">';					     		
-			   	 		_html += '<span>' + _date.substring(6, 8) +' / ' + _date.substring(4, 6) + '</span>';
-			   	 		_html += '</div>';
-		
-			   	 		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">';
-			   	 		_html += '<span>' + _date.substring(8,10) +':' + _date.substring(11, 13) + '</span>';
+			     		_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';					     		
+			   	 		_html += '<span>' + _date.substring(6, 8) +'/' + _date.substring(4, 6) + '</span> ';
+			   	 		_html += '<span>' + _date.substring(8,10) +':' + _date.substring(11, 13) + '</span> ';
 			   	 		_html += '</div>';
 			   	 		
-						_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">';
+						_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
 						_html += '<span>'+this.game.venue.name+'</span>';
 			   	 		_html += '</div>';
 			   	 		
@@ -162,8 +177,8 @@ var arrDataTeam = [];
 			     		
 			     		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 score"  >';
 				     		_html += '<div class="row">';
-				     			_html += _fGetGoal({id:this.game.team_a.id,score:this.game.score_team_a}); 			     	
-				     			_html += _fGetGoal({id:this.game.team_b.id,score:this.game.score_team_b}); 			
+				     			_html += _fGetGoal({id:this.game.team_a.id,score:this.game.score_team_a, class:'team-a'}); 			     	
+				     			_html += _fGetGoal({id:this.game.team_b.id,score:this.game.score_team_b, class:'team-b'}); 			
 				     		_html += '</div>';			     		
 			     		_html += '</div>';
 			     		
@@ -182,6 +197,63 @@ var arrDataTeam = [];
 				};
 				
 				
+				$(document).on('touchend','.back', function(e) {	
+														
+					var _group = $('.group:visible').data('group');
+																				
+					if (_group >= 2) {
+						$('.group').addClass('hidden');
+						$('.group[data-group="'+_group+'"]').prev().removeClass('hidden');	
+					}
+					
+					_group = $('.group:visible').data('group');						
+					if (_group == 1) $('.back').addClass('hidden');																
+					myScroll.scrollTo(0,0,0);
+									
+				});
+				
+				$(document).on('touchend','.next', function(e) {										
+					var _group = $('.group:visible').data('group');									
+					$('.group').addClass('hidden');
+					$('.group[data-group="'+_group+'"]').next().removeClass('hidden');					
+					$('.back').removeClass('hidden');						
+					myScroll.scrollTo(0,0,0);				
+				});
+								
+				$(document).on('touchend','.save', function(e) {										
+					alert('La predicción se ha guardado con éxito');						
+				});
+				
+				$(document).on('touchend','.add', function(e) {
+					var _tGoal = $(this).parent().data('goal');
+					_tGoal = parseInt(_tGoal + 1);
+					$(this).parent().data('goal',_tGoal);
+					$(this).parent().find('.score').html(_tGoal);
+				});
+				
+				$(document).on('touchend','.sub', function(e) {
+					var _tGoal = $(this).parent().data('goal');
+					_tGoal = parseInt(_tGoal - 1);					
+					if (_tGoal <= 0)  _tGoal = 0;					
+					$(this).parent().data('goal',_tGoal);
+					$(this).parent().find('.score').html(_tGoal);
+				});	
+			
+			
+				$(document).on('touchend','.flag', function(e) {
+									
+					$('.goal').removeClass('gol');
+					$('.add, .sub').addClass('hidden');
+					
+					var _team = $(this).parent().data('team');
+					var _game = $(this).parents('.row.game').data('game');
+					var _goal = $('.game[data-game="'+_game+'"] .score .team[data-team="'+_team+'"] .goal').data('goal');
+					
+					$('.game[data-game="'+_game+'"] .score .team[data-team="'+_team+'"] .goal .add').removeClass('hidden');
+					$('.game[data-game="'+_game+'"] .score .team[data-team="'+_team+'"] .goal .sub').removeClass('hidden');
+					$('.game[data-game="'+_game+'"] .score .team[data-team="'+_team+'"] .goal').addClass('gol');
+	
+				});
 			
 
 				
@@ -193,41 +265,11 @@ var arrDataTeam = [];
             	}).always(function () {
 				}).done(function(json) {
 
-					$.each(json.response.prediction[0].matches, function(index,phase) {
-						
-						if (phase.id != 5) jPrediction.push(phase);	
+					//alert(JSON.stringify(json));
 
-						$.each(phase.groups, function(index,group) {
-							$.each(group.games, function(index, game) {
-								
-								arrTeamGame.push({id:game.team_a.id,goals:{f:0,a:0},points:0},{id:game.team_b.id,goals:{f:0,a:0},points:0});
-			  					arrGame.push({id:game.id,team:arrTeamGame});		
-								arrTeamGame = [];
-								
-								if (index == 0) {
-									
-									arrTeam.push({id:game.team_a.id, name:game.team_a.name, shortName: game.team_a.shortname, flag:game.team_a.flag, goals:{f:0,a:0,d:0},points:0});								
-									arrTeam.push({id:game.team_b.id, name:game.team_b.name, shortName: game.team_b.shortname, flag:game.team_b.flag, goals:{f:0,a:0,d:0},points:0});
-									
-																																			
-									arrDataTeam.push({id:game.team_a.id, name:game.team_a.name, shortName: game.team_a.shortname, flag:game.team_a.flag});
-									arrDataTeam.push({id:game.team_b.id, name:game.team_b.name, shortName: game.team_b.shortname, flag:game.team_b.flag});
-									
-								}
-
-							});
-							
-							arrGroup.push({id:group.id, name:group.name,team:arrTeam,game:arrGame,classified:[], active:false});
-							arrGame = [];
-							arrTeam = [];
-							
-						});
-
-						arrPhase.push({id:phase.id,name:phase.name,group:arrGroup, active:false});
-						arrGroup = [];
-						
+					$.each(json.response.prediction[0].matches, function(index,phase) {						
+						if (phase.id != 5) jPrediction.push(phase);			
 					});	
-
 					
 					_fRenderPrediction();
 					
