@@ -38,8 +38,11 @@ GET     /matchesapi/v1/team/search/:idTeam         controllers.matchesapi.TeamCo
 #phases
 GET     /matchesapi/v1/phase/get/allActive          controllers.matchesapi.PhaseController.getActivePhases()
 GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.PhaseController.getCurrentPhase()
-GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
+#GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches(clientScores:Object?=null)
 GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.PhaseController.getAllPhasesMatches()
+
+#client bet phases
+POST    /matchesapi/v1/phase/get/client/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatchesWithClientBet()
 
 #predictions
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
