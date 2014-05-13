@@ -1,0 +1,61 @@
+
+h1
+{
+color:orange;
+text-align:center;
+}
+p
+{
+	font-size:12px;
+	/*color: #CC0000;*/
+	display: block;
+}
+
+block
+{
+/*color: #CC00CC;*/
+display: block;
+}
+
+
+
+dt
+{
+	/*color: #00FF00;*/
+font-size:20px;
+	display: block;
+}
+
+hl2
+{
+	/*color: #000000;*/
+	font-size:20px;
+display: block;
+}
+
+ul
+{
+	/*color: #C0C0C0;*/
+	font-size:20px;
+display: block;
+}
+
+li
+{
+	/*color: #0000FF;*/
+	font-size:20px;
+	display: block;
+}
+
+li:before {
+	/*content: "-";*/
+	margin-right:20px;
+}
+li[id="ali"]:before {margin:0;content: "";
+	margin-right:20px;}
+	
+
+dl {
+	/*content: "-";*/
+	margin-right:20px;
+}
