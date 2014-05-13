@@ -103,7 +103,7 @@ public class PushPlugin extends CordovaPlugin {
 		        int currentVersion = getAppVersion(getApplicationContext());
 
 		        //Log.v(TAG, "regId=" + regId);
-				GCMRegistrar.register(getApplicationContext(), gSenderID);
+				//GCMRegistrar.register(getApplicationContext(), gSenderID);
 				if (regId.equals("") || currentVersion!=registeredVersion) {
 		            // Automatically registers application on startup.
 			    	GCMRegistrar.register(getApplicationContext(), gSenderID);
