@@ -118,4 +118,41 @@ public class PredictionController extends HecticusController {
             return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
         }
     }
+
+    public static Result convertClientPredictionToBet(){
+        try {
+            ArrayList data = new ArrayList();
+            ObjectNode jsonInfo = getJson();
+            long idClient = -1;
+            long idClientPrediction = -1;
+            if(jsonInfo.has("idClient") || jsonInfo.has("idPrediction")){
+                if(jsonInfo.has("idClient"))idClient = jsonInfo.get("idClient").asLong();
+                if(jsonInfo.has("idPrediction"))idClientPrediction = jsonInfo.get("idPrediction").asLong();
+                if(idClient == -1 && idClientPrediction == -1){
+                    //error
+                    return badRequest(buildBasicResponse(1,"no hay criterio de busqueda"));
+                }
+                ClientPrediction prediction = null;
+                if(idClient != -1){
+                    prediction = ClientPrediction.getClientPrediction(idClient);
+                }else{
+                    prediction = ClientPrediction.getPrediction(idClientPrediction);
+                }
+
+                if(prediction != null){
+                    
+                }
+
+                //build response
+                ObjectNode response = hecticusResponse(0, "ok", "client_bets", data);
+                return ok(response);
+            }else{
+                return badRequest(buildBasicResponse(1,"parametros incorrectos para la convertir la prediccion a apuesta del cliente"));
+            }
+
+
+        }catch(Exception ex){
+            return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
+        }
+    }
 }
