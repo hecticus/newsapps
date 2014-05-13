@@ -43,57 +43,30 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
     	//init things
-    	initPage();
+    	//initPage();
     }
 };
 
-/*function initPage(id){
-	$(document).ready(function(){
-	  $("#dvContent").append("<ul></ul>");
-	  $.ajax({
-		type: "GET",
-		url: "img/players/xml/wc2014-bio-"+id+"-es.xml",
-		dataType: "xml",
-		success: function(xml){
-		$(xml).find('NewsItem > NewsComponent > NewsComponent:first').each(function(){
-			var sTitle = $(this).find('ContentItem > DataContent').text();
-			$("#playerInfo").append(sTitle);
-		});
-		
-	  },
-	  error: function() {
-		alert("An error occurred while processing XML file.");
-	  }
-	  });
-	});
 
-	
-	
-	
-	//$("#playerInfo").append(bioTest);
-	
-	
-	
-	/*$('#facebookLoginButton').click(function(){
-        //alert("JQuery Running!");
-		login();
-	});
-	
-	initFacebookManager();*
-}*/
 
+function goBack(){
+	$('#scroller').addClass('hidden'); 
+	$('#returnButton').addClass('hidden');
+	$('#players').removeClass('hidden');
+}
 
 function initPage(id){
+	$('#players').addClass('hidden'); 
+	$('#returnButton').removeClass('hidden');
+	$('#scroller').removeClass('hidden');
+	document.getElementById("playerPic").src='img/players/bio/'+id+'.jpg';
   $.ajax({
   	url: 'img/players/xml/wc2014-bio-'+id+'-es.xml',
     type: 'GET',               
     dataType: 'xml',                      
     }).done(function(xml) {
 		$(xml).find('NewsItem > NewsComponent > NewsComponent:first').each(function(){
-      		var player = $(this).find('ContentItem > DataContent').clone();//.replaceAll("<block>", "<div>");
-		//	player = player.replaceAll("</block>", "</div>");
-		//	$('#playerInfo').append(player).html();
-		//alert(player.text());
+      		var player = $(this).find('ContentItem > DataContent').clone();
 		
 		$("#playerInfo").html(player);
 		

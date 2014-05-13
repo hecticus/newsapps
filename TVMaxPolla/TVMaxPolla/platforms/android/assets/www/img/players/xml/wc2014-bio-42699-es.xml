@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115315+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115315.bio-42699</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="30">31</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115315.wc2014-bio-42699:31</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-42699</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115315Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115315Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Geoffrey Hurst</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Hurst</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Geoffrey</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Inglaterra</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">08-12-1941</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Ashton</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">180 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">82.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>delantero-centro</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - West Ham (1959-72)</p><p> - Stoke City (1972-74)</p><p> - West Bromwich Albion (1974-75)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>49 (1966-1972)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>24</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>23/02/1966, Inglaterra-RFA (1-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>29/04/1972, RFA-Inglaterra (3-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>02/04/1966, Escocia-Inglaterra (3-4)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>01/12/1971, Grecia-Inglaterra (0-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - 1 Copa del Mundo (1966), cuartos de final (1970), 2 participaciones (1966, 1970), 6 partidos, 5 goles</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Recopa (1965)</p>
+									<p> - 1 Copa de Inglaterra (1964)</p>
+								</li>
+							</ul>
+							<hl2>Carrera como entrenador</hl2>
+							<ul>
+								<p>Clubes : Telford United (jugador-entrenador/1976-77), Chelsea (1979-81)</p>
+							</ul>
+							<hl2>Carrera como seleccionador</hl2>
+							<ul>
+								<p>País : Inglaterra (adjunto al seleccionador/1977-82)</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>El récordman de la final</hl2>
+							<p>El atacante inglés Geoff Hurst entró en la historia al marcar tres de los cuatro goles de Inglaterra en la final de la Copa del Mundo de 1966 en Wembley contra Alemania Federal. Una hazaña única que además no estuvo exenta de polémica.</p>
+							<p>Después de que los alemanes lograsen empatar a dos y llevar el partido a la prórroga, Hurst, que ya había marcado uno de los goles, recibió un pase de Alan Ball y remató: el balón tocó el travesaño y rebotó en el suelo. Según los ingleses, dentro del arco. Los alemanes clamaban que había sido fuera.</p>
+							<p>Tras unos minutos de incertidumbre, el árbitro, inseguro, consultó con el juez de línea y finalmente dio por válido el gol. El primer "gol fantasma" de la historia de los Mundiales. Entonces, los alemanes se vinieron abajo.</p>
+							<p>Unos minutos después, Hurst recogió un pase largo de Bobby Moore en el centro del campo y marcó de nuevo gracias a un gran zurdazo, decretando el 4-2 final.</p>
+							<p>Inglaterra ganó en casa y el capitán, Bobby Moore, recogió la Copa Jules Rimet de manos de la Reina Isabel II. Wembley deliraba y los hinchas ingleses tenían un nuevo héroe.</p>
+							<hl2>Suplente de lujo</hl2>
+							<p>Y eso que no estaba previsto que Hurst fuera titular, pero una lesión de su compañero Jimmy Greaves en la primera fase le permitió darse a conocer en cuartos de final, contra Argentina, donde marcó el único tanto del encuentro (1-0). Ya en semifinales, contra Portugal, un pase suyo sirvió para que Bobby Charlton anotara (2-1).</p>
+							<p>Cuatro años más tarde, en México, Hurst seguía ahí. Pero Alemania Federal se vengó y eliminó a Inglaterra en la prórroga (3-2) en cuartos de final. Fue su última aparición en el equipo nacional. El héroe de la Copa del Mundo de 1966 decía adiós.</p>
+							<p>A nivel nacional, Hurst fue fiel durante casi toda su carrera al West Ham, con el que jugó más de 400 partidos de liga y marcó 180 goles.</p>
+							<p>Al final de su trayectoria, Hurst entrenó brevemente al Chelsea y al Telford United y fue adjunto de Ron Greenwood en el equipo nacional. Después, se pasó a los seguros. Recibió un título de nobleza de la reina en 1998 y desde entonces lleva el título de "Sir".</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>England's national soccer team captain Bobby Moore is carried by his teammates, Geoff Hurst (L) - who scored three goals - and Ray Wilson, as he holds aloft the Jules Rimet trophy following England's victory over Germany</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/hurst-moore-cup66.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="841" />
+							<Property FormalName="Height" Value="1555" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/hurst-moore-cup66.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="80" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/hurst-moore-cup66.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="276" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="EPA/DPA FILES" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German Wolgang Weber, English forward Roger Hunt and West German goalkeeper Hans Tilkowski (from L) watch the ball shot by Geoff Hurst (not pictured) bounce off the crossbar during the 1966 Soccer World Cup final between England and Germany 30 July 1966 at Wembley stadium in London. The referee validated the goal, giving England a 3-2 lead in extra-time, as England went on to win 4-2.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/hurst-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1388" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/hurst-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="101" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/hurst-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="347" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Queen Elizabeth of England presents the Jules Rimet Cup to Bobby Moore, captain of England's national soccer team, as her husband Prince Philip (C) and forward Geoff Hurst (R) look on after England beat West Germany 4-2 in extra time in the World Cup final 30 July 1966 at Wembley stadium in London. Hurst scored three goals, two of them in extra time, to help England win its first World title. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/hurst-moore-queen-cup66.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1484" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/hurst-moore-queen-cup66.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="108" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/hurst-moore-queen-cup66.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="371" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>
