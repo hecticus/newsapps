@@ -16,6 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var _date = new Date();
+var _day = _date.getDate();
+var _month = (_date.getMonth()+1);
+var _year = _date.getFullYear();
+var _copyright= 'Copyright &copy; Televisora Nacional S.A. ' + _year;
+
+var _jGet = [];	
+var _oAjax;
+
+
  
 function exitApp(){
 	if (navigator.app) {						
@@ -53,10 +64,21 @@ var app = {
 
 function initPage(){
 
-	$('body').addClass('polla');
-	$('main').load('polla.html');
-	//$('main').load('noticias.html');
+	//$('body').addClass('polla');
+	//$('main').load('polla.html');
+	
+	$('body').addClass('noticias');
+	$('main').load('noticias.html');
 
+	//$('body').addClass('goles');
+	//$('main').load('goles.html');
+
+	//$('body').addClass('pronosticos');
+	//$('main').load('pronosticos.html');
+
+	//$('body').addClass('polemicas');
+	//$('main').load('polemicas.html');
+	
 
 	//touchFunctions();
 	//initFacebookManager();
@@ -77,3 +99,13 @@ function touchFunctions(){
 		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 	});
 }
+
+
+
+
+
+
+
+
+
+
