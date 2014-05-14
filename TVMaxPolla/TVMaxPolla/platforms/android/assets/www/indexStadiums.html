@@ -30,7 +30,7 @@
 		</header>
 		
 		<div id="logincontent">
-			<button onclick="goBack()" class="hidden" id="returnButton" style="top:5%;">volver</button>
+			<button onclick="goBackStadiums()" class="hidden" id="returnButton" style="top:5%;">volver</button>
             
             <div class="mapInfoContainerDiv" style="background: #ffffff;color:#717174;">
             <!--div style="width:100%; height:10%; position: absolute;">			
@@ -46,44 +46,25 @@
 			
 			<div id="wrapper">
 	        	<div id="scroller" class="hidden" style="position:absolute;top:10%;left:5%;width:88%;height:90%;overflow: auto;">
-					<img  id="playerPic" style="width:30%; height: 30%; float:left;  margin: 0 35px 0 0;-webkit-box-shadow: 3px 3px 3px #7C7C7C; box-shadow: 3px 3px 3px #7C7C7C;">
-                   	<div id="playerInfo">
+					<img  id="stadiumPic" style="width:50%; float:left;  margin: 0 35px 0 0;-webkit-box-shadow: 3px 3px 3px #7C7C7C; box-shadow: 3px 3px 3px #7C7C7C;">
+                   	<div id="stadiumInfo">
                     </div>
                     <br /><br /><br /><br /><br /><br />
 		     	</div>
-                <div id="players" style="position:absolute;top:10%;left:5%;width:88%;height:90%;overflow: auto;">
+                <div id="stadiums" style="position:absolute;top:10%;left:5%;width:88%;height:90%;overflow: auto;">
                     <ul>
-                        <li onclick="initPage(this.id)" id="7001">Jürgen Klinsmann</li>
-                        <li onclick="initPage(this.id)" id="11186">Ferenc Puskas</li>
-                        <li onclick="initPage(this.id)" id="15350">Lev Yachín</li>
-                        <li onclick="initPage(this.id)" id="16558">Ronaldo</li>
-                        <li onclick="initPage(this.id)" id="17338">Zinedine Zidane</li>
-                        <li onclick="initPage(this.id)" id="17353">Lothar Matthäus</li>
-                        <li onclick="initPage(this.id)" id="20225">Franz Beckenbauer</li>
-                        <li onclick="initPage(this.id)" id="20228">Paul Breitner</li>
-                        <li onclick="initPage(this.id)" id="20239">Michel Platini</li>
-                        <li onclick="initPage(this.id)" id="20246">Dino Zoff</li>
-                        <li onclick="initPage(this.id)" id="20599">Franco Baresi</li>
-                        <li onclick="initPage(this.id)" id="20917">Gordon Banks</li>
-                        <li onclick="initPage(this.id)" id="20924">Bobby Charlton</li>
-                        <li onclick="initPage(this.id)" id="20990">Sepp Maier</li>
-                        <li onclick="initPage(this.id)" id="20996">Gerd Müller</li>
-                        <li onclick="initPage(this.id)" id="41249">José Leandro Andrade</li>
-                        <li onclick="initPage(this.id)" id="41314">Giuseppe Meazza</li>
-                        <li onclick="initPage(this.id)" id="41880">Juan Alberto Schiaffino</li>
-                        <li onclick="initPage(this.id)" id="41920">Didí</li>
-                        <li onclick="initPage(this.id)" id="42175">Just Fontaine</li>
-                        <li onclick="initPage(this.id)" id="42279">Mario Zagallo</li>
-                        <li onclick="initPage(this.id)" id="42290">Vavá</li>
-                        <li onclick="initPage(this.id)" id="42296">Garrincha</li>
-                        <li onclick="initPage(this.id)" id="42297">Pelé</li>
-                        <li onclick="initPage(this.id)" id="42622">Eusebio</li>
-                        <li onclick="initPage(this.id)" id="42629">Geoffrey Hurst</li>
-                        <li onclick="initPage(this.id)" id="43033">Johan Cruyff</li>
-                        <li onclick="initPage(this.id)" id="43106">Mario Kempes</li>
-                        <li onclick="initPage(this.id)" id="43170">Paolo Rossi</li>
-                        <li onclick="initPage(this.id)" id="43400">Roger Milla</li>
-                        <li onclick="initPage(this.id)" id="43467">Diego Armando Maradona</li>
+                        <li onclick="initStadium(this.id)" id="173">Belo Horizonte</li>
+                        <li onclick="initStadium(this.id)" id="29027">Curitiba</li>
+                        <li onclick="initStadium(this.id)" id="4502">Salvador de Bahia</li>
+                        <li onclick="initStadium(this.id)" id="29024">Manaus</li>
+                        <li onclick="initStadium(this.id)" id="172">Rio de Janeiro</li>
+                        <li onclick="initStadium(this.id)" id="4499">Brasilia</li>
+                        <li onclick="initStadium(this.id)" id="29022">Natal</li>
+                        <li onclick="initStadium(this.id)" id="4500">Recife</li>
+                        <li onclick="initStadium(this.id)" id="4501">Fortaleza</li>
+                        <li onclick="initStadium(this.id)" id="1969">Porto Alegre</li>
+                        <li onclick="initStadium(this.id)" id="29023">Cuiaba</li>
+                        <li onclick="initStadium(this.id)" id="29026">Sao Paulo</li>
                     </ul>
 				</div>
 			</div>

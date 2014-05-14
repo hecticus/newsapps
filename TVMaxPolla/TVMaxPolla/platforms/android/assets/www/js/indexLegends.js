@@ -53,9 +53,11 @@ function goBack(){
 	$('#scroller').addClass('hidden'); 
 	$('#returnButton').addClass('hidden');
 	$('#players').removeClass('hidden');
+	$("#players").scrollTop(0);
 }
 
 function initPage(id){
+	$("#scroller").scrollTop(0);
 	$('#players').addClass('hidden'); 
 	$('#returnButton').removeClass('hidden');
 	$('#scroller').removeClass('hidden');
@@ -70,12 +72,62 @@ function initPage(id){
 		
 		$("#playerInfo").html(player);
 		
-		console.log(document.getElementById('#playerInfo').innerHTML());
-	 	});
+		});
     });
-	
-	
-	
 }
 
+function goBackStadiums(){
+	$('#scroller').addClass('hidden'); 
+	$('#returnButton').addClass('hidden');
+	$('#stadiums').removeClass('hidden');
+	$("#stadiums").scrollTop(0);
+}
+
+function initStadium(id){
+	$("#scroller").scrollTop(0);
+	$('#stadiums').addClass('hidden'); 
+	$('#returnButton').removeClass('hidden');
+	$('#scroller').removeClass('hidden');
+	document.getElementById("stadiumPic").src='img/stadiums/main/'+id+'-in.jpg';
+  $.ajax({
+  	url: 'img/stadiums/xml/wc2014-direct-sites-'+id+'-es.xml',
+    type: 'GET',               
+    dataType: 'xml',                      
+    }).done(function(xml) {
+		$(xml).find('NewsItem > NewsComponent > NewsComponent:first').each(function(){
+      		var player = $(this).find('ContentItem > DataContent').clone();
+		
+		$("#stadiumInfo").html(player);
+		
+		});
+    });
+}
+
+function goBackHist(){
+	$('#scroller').addClass('hidden'); 
+	$('#returnButton').addClass('hidden');
+	$('#hists').removeClass('hidden');
+	$("#hists").scrollTop(0);
+}
+
+function initHist(id){
+	$("#scroller").scrollTop(0);
+	$('#hists').addClass('hidden'); 
+	$('#returnButton').removeClass('hidden');
+	$('#scroller').removeClass('hidden');
+	document.getElementById("histPic1").src='img/history/main/'+id+'-1.jpg';
+	document.getElementById("histPic2").src='img/history/main/'+id+'-2.jpg';
+  $.ajax({
+  	url: 'img/history/xml/wc2014-histo-'+id+'-resume-es.xml',
+    type: 'GET',               
+    dataType: 'xml',                      
+    }).done(function(xml) {
+		$(xml).find('NewsItem > NewsComponent > NewsComponent:first').each(function(){
+      		var player = $(this).find('ContentItem > DataContent').clone();
+		
+		$("#histInfo").html(player);
+		
+		});
+    });
+}
 

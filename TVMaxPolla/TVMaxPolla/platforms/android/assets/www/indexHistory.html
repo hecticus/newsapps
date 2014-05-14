@@ -30,7 +30,7 @@
 		</header>
 		
 		<div id="logincontent">
-			<button onclick="goBack()" class="hidden" id="returnButton" style="top:5%;">volver</button>
+			<button onclick="goBackHist()" class="hidden" id="returnButton" style="top:5%;">volver</button>
             
             <div class="mapInfoContainerDiv" style="background: #ffffff;color:#717174;">
             <!--div style="width:100%; height:10%; position: absolute;">			
@@ -46,44 +46,37 @@
 			
 			<div id="wrapper">
 	        	<div id="scroller" class="hidden" style="position:absolute;top:10%;left:5%;width:88%;height:90%;overflow: auto;">
-					<img  id="playerPic" style="width:30%; height: 30%; float:left;  margin: 0 35px 0 0;-webkit-box-shadow: 3px 3px 3px #7C7C7C; box-shadow: 3px 3px 3px #7C7C7C;">
-                   	<div id="playerInfo">
+					<img  id="histPic1" style="width:30%; min-height:20%; float:left;  margin: 0 35px 0 0;-webkit-box-shadow: 3px 3px 3px #7C7C7C; box-shadow: 3px 3px 3px #7C7C7C;">
+                   	<div id="histInfo">
                     </div>
+         
+                    <img id="histPic2" style="width:50%; float:right; max-width: 256px; max-height:160px; margin: 0 5px 0 35px;-webkit-box-shadow: 3px 3px 3px #7C7C7C;
+		    box-shadow: 3px 3px 3px #7C7C7C;">
                     <br /><br /><br /><br /><br /><br />
+                    
+                    
 		     	</div>
-                <div id="players" style="position:absolute;top:10%;left:5%;width:88%;height:90%;overflow: auto;">
+                <div id="hists" style="position:absolute;top:10%;left:5%;width:88%;height:90%;overflow: auto;">
                     <ul>
-                        <li onclick="initPage(this.id)" id="7001">Jürgen Klinsmann</li>
-                        <li onclick="initPage(this.id)" id="11186">Ferenc Puskas</li>
-                        <li onclick="initPage(this.id)" id="15350">Lev Yachín</li>
-                        <li onclick="initPage(this.id)" id="16558">Ronaldo</li>
-                        <li onclick="initPage(this.id)" id="17338">Zinedine Zidane</li>
-                        <li onclick="initPage(this.id)" id="17353">Lothar Matthäus</li>
-                        <li onclick="initPage(this.id)" id="20225">Franz Beckenbauer</li>
-                        <li onclick="initPage(this.id)" id="20228">Paul Breitner</li>
-                        <li onclick="initPage(this.id)" id="20239">Michel Platini</li>
-                        <li onclick="initPage(this.id)" id="20246">Dino Zoff</li>
-                        <li onclick="initPage(this.id)" id="20599">Franco Baresi</li>
-                        <li onclick="initPage(this.id)" id="20917">Gordon Banks</li>
-                        <li onclick="initPage(this.id)" id="20924">Bobby Charlton</li>
-                        <li onclick="initPage(this.id)" id="20990">Sepp Maier</li>
-                        <li onclick="initPage(this.id)" id="20996">Gerd Müller</li>
-                        <li onclick="initPage(this.id)" id="41249">José Leandro Andrade</li>
-                        <li onclick="initPage(this.id)" id="41314">Giuseppe Meazza</li>
-                        <li onclick="initPage(this.id)" id="41880">Juan Alberto Schiaffino</li>
-                        <li onclick="initPage(this.id)" id="41920">Didí</li>
-                        <li onclick="initPage(this.id)" id="42175">Just Fontaine</li>
-                        <li onclick="initPage(this.id)" id="42279">Mario Zagallo</li>
-                        <li onclick="initPage(this.id)" id="42290">Vavá</li>
-                        <li onclick="initPage(this.id)" id="42296">Garrincha</li>
-                        <li onclick="initPage(this.id)" id="42297">Pelé</li>
-                        <li onclick="initPage(this.id)" id="42622">Eusebio</li>
-                        <li onclick="initPage(this.id)" id="42629">Geoffrey Hurst</li>
-                        <li onclick="initPage(this.id)" id="43033">Johan Cruyff</li>
-                        <li onclick="initPage(this.id)" id="43106">Mario Kempes</li>
-                        <li onclick="initPage(this.id)" id="43170">Paolo Rossi</li>
-                        <li onclick="initPage(this.id)" id="43400">Roger Milla</li>
-                        <li onclick="initPage(this.id)" id="43467">Diego Armando Maradona</li>
+                        <li onclick="initHist(this.id)" id="1930">Uruguay 1930</li>
+                        <li onclick="initHist(this.id)" id="1934">Italia 1934</li>
+                        <li onclick="initHist(this.id)" id="1938">Francia 1938</li>
+                        <li onclick="initHist(this.id)" id="1950">Brasil 1950</li>
+                        <li onclick="initHist(this.id)" id="1954">Suiza 1954</li>
+                        <li onclick="initHist(this.id)" id="1958">Suecia 1958</li>
+                        <li onclick="initHist(this.id)" id="1962">Chile 1962</li>
+                        <li onclick="initHist(this.id)" id="1966">Inglaterra 1966</li>
+                        <li onclick="initHist(this.id)" id="1970">Mexico 1970</li>
+                        <li onclick="initHist(this.id)" id="1974">Alemania 1974</li>
+                        <li onclick="initHist(this.id)" id="1978">Argentina 1978</li>
+                        <li onclick="initHist(this.id)" id="1982">España 1982</li>
+                        <li onclick="initHist(this.id)" id="1986">Mexico 1986</li>
+                        <li onclick="initHist(this.id)" id="1990">Italia 1990</li>
+                        <li onclick="initHist(this.id)" id="1994">Estados Unidos 1994</li>
+                        <li onclick="initHist(this.id)" id="1998">Francia 1998</li>
+                        <li onclick="initHist(this.id)" id="2002">Corea Japon 2002</li>
+                        <li onclick="initHist(this.id)" id="2006">Alemania 2006</li>
+                        <li onclick="initHist(this.id)" id="2010">Surafrica 2010</li>
                     </ul>
 				</div>
 			</div>
