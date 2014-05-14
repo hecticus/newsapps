@@ -32,12 +32,16 @@ var app = {
     	
 
 		document.addEventListener('backbutton', function() {
-			exitApp();
+			//exitApp();
+			
+			$('#wrapper2 .scroller .container').empty();			
+			$('#wrapper2').attr('class','page transition right');
+			
 		}, false);
 		
 		app.receivedEvent('deviceready');
     	
-    	
+    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
  
     },
     // Update DOM on a Received Event
@@ -48,9 +52,14 @@ var app = {
 };
 
 function initPage(){
-	touchFunctions();
 
-	initFacebookManager();
+	$('body').addClass('polla');
+	$('main').load('polla.html');
+	//$('main').load('noticias.html');
+
+
+	//touchFunctions();
+	//initFacebookManager();
 }
 
 function touchFunctions(){
