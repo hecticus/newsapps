@@ -24,11 +24,17 @@
 
 	};
 
-
-	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/goles_mundial.php');	
-	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			_jGet = _json.goles_mundial;		
-			_fRenderInit();
-		});
+	if (_jGet) {
+		_fRenderInit();
+	} else {
+	
+		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/goles_mundial.php');	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				_jGet = _json.goles_mundial;		
+				_fRenderInit();
+			});
+		}
+	 
 	}
+

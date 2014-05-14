@@ -5,10 +5,24 @@
 	body { overflow: hidden; /* this is important to prevent the whole page to bounce */}
 		
 	
+	
+	
 		
-	#wrapper, #wrapper2 { 
+	#wrapper, #wrapper2, #wrapperM { 
 		position: absolute;z-index: 1; top: 45px; bottom: 0; left: 0; width: 100%; background: #fff;
 	}
+	
+	
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		text-align: left;
+	}
+
+
+	
 	
 	header {	
 		position: absolute; z-index: 2; top: 0; left: 0; 

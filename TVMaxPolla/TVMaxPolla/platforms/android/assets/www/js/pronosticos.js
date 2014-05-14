@@ -31,6 +31,9 @@
 				_html += '<div class="col-md-12" >';
 				_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
 				_html += '</div>';
+				
+				$('.share').removeClass('hidden');		
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'NoticiasTVN\',null,\'http://mundial.tvmax-9.com\');');
 
 			}
 			
@@ -68,11 +71,18 @@
 		_fRenderDataContent($(this).data('item'));
 	});
 
-	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/pronosticos_mundial.php');	
-	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			_jGet = _json.pronosticos_mundial;		
-			_fRenderInit();
-		});
-	}
+
+	var _iIndex = $('main').data('index');
+	_jGet = _jMenu[_iIndex].json;
 	
+	if (_jGet) {
+		_fRenderInit();
+	} else {
+		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/pronosticos_mundial.php');	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				_jGet = _json.pronosticos_mundial;		
+				_fRenderInit();
+			});
+		}
+	}

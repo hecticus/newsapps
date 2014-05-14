@@ -36,11 +36,15 @@
 				_html += '<div class="col-md-12" >';
 				_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
 				_html += '</div>';
-
+				
+				$('.share').removeClass('hidden');		
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'NoticiasTVN\',null,\'http://mundial.tvmax-9.com\');');
+				
 			}
 		});
 			
 		_html += '</div>';
+		
 		
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
@@ -72,11 +76,25 @@
 	});
 
 
-	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php');	
-	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			_jGet = _json.noticias_mundial;		
-			_fRenderInit();
-		});
+	var _iIndex = $('main').data('index');
+	_jGet = _jMenu[_iIndex].json;
+	
+	if (_jGet) {
+		_fRenderInit();
+	} else {
+	
+		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php');	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				_jMenu[_iIndex].json = _json.noticias_mundial;	
+				_jGet = _json.noticias_mundial;		
+				_fRenderInit();
+			});
+		}
+	
 	}
+	
+	
+
+	
 

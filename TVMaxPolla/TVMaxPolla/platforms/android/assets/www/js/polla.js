@@ -248,7 +248,8 @@
 		$('.group').addClass('hidden');
 		$('.group[data-group="'+_group+'"]').next().removeClass('hidden');					
 		$('.back').removeClass('hidden');						
-		myScroll.scrollTo(0,0,0);				
+		myScroll.scrollTo(0,0,0);	
+		e.preventDefault();
 	});
 	
 	$(document).on('touchend','.add', function(e) {
@@ -298,6 +299,8 @@
 
 	});
 
+
+	
 	_oAjax = $.fPostAjaXJSON('http://10.0.1.125:9009/matchesapi/v1/phase/get/client/matches/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
