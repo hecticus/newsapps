@@ -13,29 +13,13 @@
 				</div>	
 			</div>
 		</div>	
-
-
-		<div id="wrapper2" class="page" style="left: 100%;">
-			<div class="scroller">							
-				<div class="container" >
-				</div>
-			</div>			
-		</div>
 		
 		
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper', {tap: true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();		
-			});	
-			
-			
-			
-			var myScroll2 = new IScroll('#wrapper2');
-			myScroll2.on('beforeScrollStart', function () { 
-				this.refresh();		
-			});	
-				
+			});					
 		</script>
 		
 		<script type="text/javascript" src="js/goles.js"></script>  

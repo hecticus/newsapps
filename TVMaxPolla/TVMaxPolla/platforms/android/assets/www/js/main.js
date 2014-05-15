@@ -1,3 +1,16 @@
+var _fGetLoading = function() {
+	
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1.2em; font-weight:bold; text-align:center; ">';
+		_html += '<span>Loading...</span>';
+		_html += '</div>';
+		_html += '</div>';
+		
+	$('#wrapper .scroller .container').empty();
+	$('#wrapper .scroller .container').append(_html);
+	
+};
+
 $.fGetAjaXJSON = function(_url) {
 	
 	try {				
@@ -6,7 +19,7 @@ $.fGetAjaXJSON = function(_url) {
 			type: 'GET',	            		
 			dataType: 'json',
 			beforeSend : function () {				
-				//loading...						
+				_fGetLoading();					
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
@@ -32,8 +45,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 			data: _data,	
 			type: 'POST',	            		
 			dataType: 'json',
-			beforeSend : function () {				
-				//loading...						
+			beforeSend : function () {
+				_fGetLoading();
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		

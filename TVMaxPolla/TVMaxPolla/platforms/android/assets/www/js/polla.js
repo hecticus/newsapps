@@ -114,7 +114,7 @@
 
 		    	_html += '</div>';
 		
-		    
+		    	$('#wrapper .scroller .container').empty();
 		     	$('#wrapper .scroller .container').append(_html);
 	    		myScroll.scrollTo(0,0,0);
 	

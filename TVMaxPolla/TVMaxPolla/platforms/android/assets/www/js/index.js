@@ -64,8 +64,8 @@ var app = {
 		}, false);
 		
 		app.receivedEvent('deviceready');    	
-    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
- 
+    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 		
+ 		
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -76,6 +76,8 @@ var app = {
 
 function initPage(){
 
+	
+
 	var _html = '<div class="row">';	
 	$(_jMenu).each(function(_index,_menu) {
 		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" data-class="' + _menu.class + '" data-load="' +  _menu.load + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
@@ -84,13 +86,19 @@ function initPage(){
 		_html += '</div>';
 	});         	
 	_html += '</div>';
-
+	
+	$('#wrapperM .scroller .container').height($(window).height());
 	$('#wrapperM .scroller .container').append(_html);
+	
+	
+	
+
 	
 	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
 	$('main').load(_jMenu[0].load);
+	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
 
 	//touchFunctions();
 	//initFacebookManager();
@@ -99,12 +107,20 @@ function initPage(){
 		$('#wrapperM').attr('class','page transition right');
 	});
 
-	$(document).on('tap','.load', function(e) {	
+	$(document).on('tap','.load', function(e) {
+		
+		var _this = $(this);
+		
 		$('body').removeClass();
-		$('body').addClass($(this).data('class'));
-		$('main').data('index',$(this).data('index'));		
-		$('main').load($(this).data('load'));
-		$('#wrapperM').attr('class','page transition left');	
+		$('body').addClass(_this.data('class'));
+		$('main').data('index',_this.data('index'));		
+					
+		$('main').load(_this.data('load'), function(){
+        	$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');        	
+        });
+
+		$('#wrapperM').attr('class','page transition left');
+		
 	});
 		
 }

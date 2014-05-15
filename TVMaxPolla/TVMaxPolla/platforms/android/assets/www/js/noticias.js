@@ -1,5 +1,3 @@
-	
-
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
