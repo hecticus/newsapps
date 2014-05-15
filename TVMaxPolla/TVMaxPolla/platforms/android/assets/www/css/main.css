@@ -1,41 +1,120 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
- 
- /*HEADER*/
-header {position: absolute; background-color: #FFFFFF; width: 100%; height:8%; z-index: 5; top:0; left:0; margin:0; padding:0;  border-bottom: 3pt solid #005fb0; padding: 0; margin: 0; }
-header div.icon.logo {width:25%; float:left; background:url(../img/icon/logo.png) no-repeat left center; background-size:auto 100%; }			
-header div.icon.tv {width:20%; float:right; background:url(../img/icon/tv.png) no-repeat center; background-size:auto 80%;}
-header div.icon.share {background:url(../img/icon/share.png) no-repeat center; background-size:100% auto;}
-header div.icon.back {width:15%; float:left; background:url(../img/icon/back.png) no-repeat center; background-size:100% auto;}
-#header-title {
-			
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				height: 30%;
-				width: 50%;
-				margin: -15% 0 0 -50%;
-			
-			}
-			
-#menu, #datacontent, #logincontent { position:absolute; z-index:1; top:8%; bottom:0; left:0; width:100%; overflow:auto;}
 
-#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}
+	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+	html { -ms-touch-action: none; }			
+	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
+	body { overflow: hidden; /* this is important to prevent the whole page to bounce */}
+		
+	
+	
+	
+		
+	#wrapper, #wrapper2, #wrapperM { 
+		position: absolute;z-index: 1; top: 45px; bottom: 0; left: 0; width: 100%; background: #fff;
+	}
+	
+	
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		text-align: left;
+	}
+
+
+	
+	
+	header {	
+		position: absolute; z-index: 2; top: 0; left: 0; 
+		width: 100%; height: 45px;
+		line-height: 45px;
+		background: #CD235C;
+		padding: 0;
+		color: #eee;
+		font-size: 20px;
+		text-align: center;
+		font-weight: bold;
+	}
 			
-button {position:relative; padding:10px;  background:#ccc;  border: 2px solid #AAAAAA; width: 37%;  display: block; margin: 0 auto; font-weight:bold }
+	
+	/*noticias*/
+	body.noticias figure { width: 100%; height: auto;}
+	body.noticias figure img { width: 100%;  height: auto;}			
+	body.noticias figcaption {
+		font-size : 1.2em;			
+		padding: 5px; 
+		width:100%; 
+		line-height:20px;				 
+		color:#ffffff; 
+		text-align: left;
+	    background-color:rgba(0,0,0,0.5);
+	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+	}
+
+	/*polla*/
+	body.polla .hidden {display:none;}
+	body.polla figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.polla figure img {width: 67px; height: 45px;}
+	body.polla figcaption {text-align: center; line-height:20px;}
+	
+	body.polla .goal {text-align: center; line-height:75px;  font-size: 1.4em; font-weight: bold;}
+	body.polla .row.venue div { background:#ffffff; text-align:center; }
+	body.polla span {font-size: 0.9em;}
+
+	body.polla h3 {text-align: center; font-size: 1.6em; padding: 0; margin: 0; text-transform: uppercase;}
+	body.polla .gol {position: absolute;  width:100%; top:-20px; background-color: yellow; z-index: 10; overflow-y: visible; }
+	body.polla .add, .sub { display: block; line-height:30px; font-size:1.6em; font-weight: bold;   }
+	body.polla .add { color: green;  }
+	body.polla .sub { color: blue; }
+	
+	/*pronosticos*/
+	body.pronosticos figure { width: 100%; height: auto;}
+	body.pronosticos figure img { width: 100%;  height: auto;}			
+	body.pronosticos figcaption {
+		font-size : 1.2em;			
+		padding: 5px; 
+		width:100%; 
+		line-height:20px;				 
+		color:#ffffff; 
+		text-align: left;
+	    background-color:rgba(0,0,0,0.5);
+	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+	}
+	
+	/*goles*/
+	body.goles figure { width: 100%; height: auto;}
+	body.goles figure img { width: 100%;  height: auto;}			
+	body.goles figcaption {
+		font-size : 1.2em;			
+		padding: 5px; 
+		width:100%; 
+		line-height:20px;				 
+		color:#ffffff; 
+		text-align: left;
+	    background-color:rgba(0,0,0,0.5);
+	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+	}
+	
+	/*polemicas*/
+	body.polemicas figure { width: 100%; height: auto;}
+	body.polemicas figure img { width: 100%;  height: auto;}			
+	body.polemicas figcaption {
+		font-size : 1.2em;			
+		padding: 5px; 
+		width:100%; 
+		line-height:20px;				 
+		color:#ffffff; 
+		text-align: left;
+	    background-color:rgba(0,0,0,0.5);
+	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+	}
+
+
+
+
+
+
+
+
+
+

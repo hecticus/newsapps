@@ -16,6 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var _date = new Date();
+var _day = _date.getDate();
+var _month = (_date.getMonth()+1);
+var _year = _date.getFullYear();
+var _copyright= 'Copyright &copy; Televisora Nacional S.A. ' + _year;
+
+var _jGet = false;	
+var _oAjax;
+var _jMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+
+var _jMenu=[
+	{index:0,class:'noticias',title:'Home',bgcolor:'#0404B4',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
+  	{index:1,class:'polla',title:'Polla',bgcolor:'#0404B4',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
+  	{index:2,class:'noticias',title:'Noticias',bgcolor:'#FF4000',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
+  	{index:3,class:'goles',title:'Goles',bgcolor:'#A4A4A4',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
+  	{index:4,class:'pronosticos',title:'Pronosticos',bgcolor:'#AEB404',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
+  	{index:5,class:'polemicas',title:'Polemicas',bgcolor:'#FE2E64',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false}  	
+];
+
+
  
 function exitApp(){
 	if (navigator.app) {						
@@ -30,19 +51,21 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-
 		document.addEventListener('backbutton', function() {
 			//exitApp();
+						
+			$('.share').addClass('hidden');
+			$('.share').removeAttr('onclick');
 			
+			$('#wrapperM').attr('class','page transition left');	
 			$('#wrapper2 .scroller .container').empty();			
 			$('#wrapper2').attr('class','page transition right');
-			
+						
 		}, false);
 		
-		app.receivedEvent('deviceready');
-    	
-    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
- 
+		app.receivedEvent('deviceready');    	
+    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 		
+ 		
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -53,13 +76,53 @@ var app = {
 
 function initPage(){
 
-	$('body').addClass('polla');
-	$('main').load('polla.html');
-	//$('main').load('noticias.html');
+	
 
+	var _html = '<div class="row">';	
+	$(_jMenu).each(function(_index,_menu) {
+		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" data-class="' + _menu.class + '" data-load="' +  _menu.load + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
+		_html += '<span class="' + _menu.glyphicon + '"></span>';
+		_html += '<span style="margin-left:5px; font-size:1.4em; font-weight:bold;" >' + _menu.title + '</span>';
+		_html += '</div>';
+	});         	
+	_html += '</div>';
+	
+	$('#wrapperM .scroller .container').height($(window).height());
+	$('#wrapperM .scroller .container').append(_html);
+	
+	
+	
+
+	
+	$('body').removeClass();
+	$('body').addClass(_jMenu[0].class);
+	$('main').data('index',0);		
+	$('main').load(_jMenu[0].load);
+	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
 
 	//touchFunctions();
 	//initFacebookManager();
+
+	$(document).on('touchend','.menu', function(e) {
+		$('#wrapperM').attr('class','page transition right');
+	});
+
+	$(document).on('tap','.load', function(e) {
+		
+		var _this = $(this);
+		
+		$('body').removeClass();
+		$('body').addClass(_this.data('class'));
+		$('main').data('index',_this.data('index'));		
+					
+		$('main').load(_this.data('load'), function(){
+        	$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');        	
+        });
+
+		$('#wrapperM').attr('class','page transition left');
+		
+	});
+		
 }
 
 function touchFunctions(){
@@ -77,3 +140,13 @@ function touchFunctions(){
 		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 	});
 }
+
+
+
+
+
+
+
+
+
+

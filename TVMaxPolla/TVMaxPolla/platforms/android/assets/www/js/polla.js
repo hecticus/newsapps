@@ -114,7 +114,7 @@
 
 		    	_html += '</div>';
 		
-		    
+		    	$('#wrapper .scroller .container').empty();
 		     	$('#wrapper .scroller .container').append(_html);
 	    		myScroll.scrollTo(0,0,0);
 	
@@ -196,32 +196,34 @@
 			_jSave.clientPrediction.matches.push({'id_match': _game ,'score_team_a': _goal.team_a,'score_team_b': _goal.team_b});			
 		});
 
-		try {
-		   		   
-		   $.ajax({
-	    		url: 'http://10.0.1.125:9009/matchesapi/v1/prediction/save',
-	    		type: 'POST',	            		
-	    		dataType: 'json',
-	    		data: JSON.stringify(_jSave),
-	    		contentType: 'application/json; charset=utf-8'
-	    	}).always(function () {	    		
-	    		_this.html(_fGetButton('GUARDAR'));		    					    	
-			}).done(function(msg) {			
-				if (msg.error==0) {
+
+		alert(JSON.stringify(_jSave));
+		
+		_oAjax = $.fPostAjaXJSON('http://10.0.1.125:9009/matchesapi/v1/prediction/save',JSON.stringify(_jSave));	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {
+				_this.html(_fGetButton('GUARDAR'));	
+			});	
+		
+			_oAjax.done(function(_msg) {
+				if (_msg.error==0) {
 					alert('Bien! Tu pronostico se ha guardado con exito.');
 				} else {
 					alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
 				}
-			}).fail(function(jqXHR, textStatus, errorThrown) {		
+			});
+			
+			_oAjax.fail(function() {
 				_this.html(_fGetButton('ERROR'));
-			});		
-			   
-		} catch (e) {
-		   // statements to handle any exceptions
-		   alert(e); // pass exception object to error handler
-		  _this.html(_fGetButton('GUARDAR'));
+			});	
+			
+		} else {
+			_this.html(_fGetButton('GUARDAR'));
 		}
+		
 
+	
 
 	});
 	
@@ -246,7 +248,8 @@
 		$('.group').addClass('hidden');
 		$('.group[data-group="'+_group+'"]').next().removeClass('hidden');					
 		$('.back').removeClass('hidden');						
-		myScroll.scrollTo(0,0,0);				
+		myScroll.scrollTo(0,0,0);	
+		e.preventDefault();
 	});
 	
 	$(document).on('touchend','.add', function(e) {
@@ -296,31 +299,14 @@
 
 	});
 
-		
-	try {
-				
-	  	$.ajax({
-			url: 'http://10.0.1.125:9009/matchesapi/v1/phase/get/client/matches/current',			
-			type: 'POST',	            		
-			dataType: 'json',
-			data: {idClient:_iClient},
-		}).always(function () {
-		}).done(function(json) {
-			JSON.stringify(json);		
-			_jPrediction = json;
 
-			/*$.each(json.phase, function(index,phase) {						
-				if (phase.id != 5) _jPrediction.push(phase);			
-			});*/	
-			
+	
+	_oAjax = $.fPostAjaXJSON('http://10.0.1.125:9009/matchesapi/v1/phase/get/client/matches/current',{idClient:_iClient});	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {
+			_jPrediction = _json;		
 			_fRenderPrediction();
-			
-		}).fail(function(jqXHR, textStatus, errorThrown) {		
-			alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
 		});
-		   
-	} catch (e) {
-		// statements to handle any exceptions
-		alert(e); // pass exception object to error handler
 	}
 
+	

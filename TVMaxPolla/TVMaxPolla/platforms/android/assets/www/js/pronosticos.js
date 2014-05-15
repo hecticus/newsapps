@@ -1,5 +1,8 @@
-
-	var _fGetImage = function(_image) {
+	
+	
+	
+	
+	var _fGetImage = function(_image){ 
 		var _html = '<figure>';					     		
 		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
 		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
@@ -12,10 +15,11 @@
 		var _html = '<div class="row" >';
 		
 		$.each(_jGet.item, function(_index,_item) {
-			if (_item.id == _id) {
+		
+			if (_item.id_pronostico == _id) {
 			
 				_html += '<div class="col-md-12">';
-				_html += _fGetImage({src:_item.imagen,caption:false});
+				_html += _fGetImage({src:_item.imagen_kaltura,caption:false});
 				_html += '</div>';
 
 				_html += '<div class="col-md-12" >';
@@ -24,12 +28,8 @@
 				_html += '</div>';
 			
 				_html += '<div class="col-md-12" >';
-				_html += '<p style="color:#BDBDBD;">' + _item.descripcion + '</p>'; 
-				_html += '</div>';
-				
-				_html += '<div class="col-md-12" >';
-				_html += '<p>' + _item.fullstory + '</p>'; 
-				_html += '</div>';
+				_html += '<p>' + _item.descripcion + '</p>'; 
+				_html += '</div>';							
 				
 				_html += '<div class="col-md-12" >';
 				_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
@@ -37,12 +37,12 @@
 				
 				$('.share').removeClass('hidden');		
 				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'NoticiasTVN\',null,\'http://mundial.tvmax-9.com\');');
-				
+
 			}
+			
 		});
 			
 		_html += '</div>';
-		
 		
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
@@ -50,14 +50,15 @@
 
 	};
 
+
 	var _fRenderInit = function() {
 	
 		var _html = '<div class="row" >';
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	if (_index <= 10) {		 	
-				_html += '<div class="col-md-12 item" data-item="'+_item.id+'"  >';
-				_html += _fGetImage({src:_item.imagen,caption:_item.titulo});
+				_html += '<div class="col-md-12 item" data-item="'+_item.id_pronostico+'"  >';
+				_html += _fGetImage({src:_item.imagen_kaltura,caption:_item.titulo});
 				_html += '</div>';
 			}		 			
 		});
@@ -80,19 +81,11 @@
 	if (_jGet) {
 		_fRenderInit();
 	} else {
-	
-		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php');	
+		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/pronosticos_mundial.php');	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
-				_jMenu[_iIndex].json = _json.noticias_mundial;	
-				_jGet = _json.noticias_mundial;		
+				_jGet = _json.pronosticos_mundial;		
 				_fRenderInit();
 			});
 		}
-	
 	}
-	
-	
-
-	
-
