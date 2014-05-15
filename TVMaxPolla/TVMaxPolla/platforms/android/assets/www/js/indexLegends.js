@@ -131,3 +131,50 @@ function initHist(id){
     });
 }
 
+function goBackTeam(){
+	$('#scroller').addClass('hidden'); 
+	$('#returnButton').addClass('hidden');
+	$('#teams').removeClass('hidden');
+	$("#teams").scrollTop(0);
+}
+
+function initTeam(id){
+	$("#scroller").scrollTop(0);
+	$('#teams').addClass('hidden'); 
+	$('#returnButton').removeClass('hidden');
+	$('#scroller').removeClass('hidden');
+	//document.getElementById("histPic1").src='img/history/main/1958-1.jpg';
+//	$("#teamName").html('<ul><li>'+id+'</li></ul>');
+  $.ajax({
+  	url: 'img/teams/xml/wc2014-team-'+id+'-fiche-es.xml',
+    type: 'GET',               
+    dataType: 'xml',                      
+    }).done(function(xml) {
+		$(xml).find('NewsItem > NewsComponent > NewsLines:first').each(function(){
+      		var countryName = $(this).find('ul').clone();
+			$("#teamName").html(countryName);
+		});
+		
+		$(xml).find('NewsItem > NewsComponent > NewsComponent:first').each(function(){
+      		var player = $(this).find('ContentItem > DataContent').clone();
+			$("#teamInfo").html(player);
+		});
+    });
+	
+	$.ajax({
+  	url: 'img/teams/xml/wc2014-team-'+id+'-gene-es.xml',
+    type: 'GET',               
+    dataType: 'xml',                      
+    }).done(function(xml) {
+		$(xml).find('NewsItem > NewsComponent > NewsComponent:first').each(function(){
+      		var player = $(this).find('ContentItem > DataContent').clone();
+		
+			$("#teamText").html(player);
+		
+		});
+    });
+}
+
+function replaceAll(find, replace, str) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}

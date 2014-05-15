@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141527+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141527.team-2207-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="3">4</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141527.wc2014-team-2207-fiche:4</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2207-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141527Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141527Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Rusia</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>142 500 000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>17 098 240 km2</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Moscú</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Rublo</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Federación rusa de fútbol, creada y afiliada a la FIFA en 1912, (URSS afiliada la FIFA en 1946) de nuevo en 1992, afiliada a la UEFA en 1954 (como la URSS)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>846 736</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>Camiseta, pantalón y medias rojas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>10: 7 como la URSS (1958, 1962, 1966, 1970, 1982, 1986, 1990) y 3 como Rusia (1994, 2002, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>4ª (1966), cuartos de final (1958, 1962, 1970), octavos de final (1986), 2ª ronda (1982), 1ª ronda (1990, 1994, 2002)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>11: 6 como  la URSS (1960, 1964, 1968, 1972, 1976, 1988), 1 como Comunidad de Estados Independientes (1992) y 4 como Rusia (1996, 2004, 2008, 2012)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>Vencedor (1960), finalista (1964, 1972, 1988), 4º (1968), semifinalista (2008), cuartos de final (1976), 1ª ronda (1992, 1996, 2004, 2012)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>1º de la llave F de la zona Europa con 22 puntos, delante de Portugal (21), Israel (14), Azerbaiyán (9), Irlande del Norte (7) y Luxemburgo (6), 7 victorias, 1 empate, 2 derrotas; 20 goles anotados, 5 encajados</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>Spartak de Moscú, Lokomotiv de Moscú, CSKA Moscú, Zenit de San Petersburgo, Dinamo de Moscú</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Igor Akinfeev, Roman Shirokov, Alexander Kerzhakov</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Fabio Capello (Ita/ desde julio de 2012)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

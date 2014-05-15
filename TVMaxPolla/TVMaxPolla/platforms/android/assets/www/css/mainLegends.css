@@ -62,3 +62,14 @@ dl {
 
 
 .hidden {visibility:hidden;}
+
+HeadLine{
+	color: #0000FF;
+	font-size:20px;
+	display: block;
+}
+
+#teamName {
+    width: 50%;
+    margin: 0 auto;
+}
