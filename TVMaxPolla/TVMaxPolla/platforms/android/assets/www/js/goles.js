@@ -1,4 +1,4 @@
-
+		
 	var _fRenderInit = function() {
 	
 		var _html = '<div class="row" >';
@@ -28,8 +28,11 @@
 
 	};
 
-	$(document).on('tap','.video', function(e) {
-		window.videoPlayer.play($(this).data('src'));	
+	$(document).on('tap','.item', function(e) {	
+		if (_tap) _fRenderDataContent($(this).data('item'));
+		setTimeout(function(){
+			_tap = true;
+		}, 200);		
 	});
 
 

@@ -1,4 +1,5 @@
 
+
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
 		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
@@ -69,8 +70,12 @@
 
 	};
 
-	$(document).on('tap','.item', function(e) {
-		_fRenderDataContent($(this).data('item'));
+
+	$(document).on('tap','.item', function(e) {	
+		if (_tap) _fRenderDataContent($(this).data('item'));
+		setTimeout(function(){
+			_tap = true;
+		}, 200);		
 	});
 
 

@@ -17,6 +17,7 @@
  * under the License.
  */
 
+
 var _date = new Date();
 var _day = _date.getDate();
 var _month = (_date.getMonth()+1);
@@ -26,14 +27,17 @@ var _copyright= 'Copyright &copy; Televisora Nacional S.A. ' + _year;
 var _jGet = false;	
 var _oAjax;
 var _jMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+var _tap = false;
+
 
 var _jMenu=[
-	{index:0,class:'noticias',title:'Home',bgcolor:'#0404B4',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
-  	{index:1,class:'polla',title:'Polla',bgcolor:'#0404B4',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
-  	{index:2,class:'noticias',title:'Noticias',bgcolor:'#FF4000',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
-  	{index:3,class:'goles',title:'Goles',bgcolor:'#A4A4A4',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
-  	{index:4,class:'pronosticos',title:'Pronosticos',bgcolor:'#AEB404',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
-  	{index:5,class:'polemicas',title:'Polemicas',bgcolor:'#FE2E64',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false}  	
+	{index:0,class:'noticias',title:'Home',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
+  	{index:1,class:'polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
+  	{index:2,class:'noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
+  	{index:3,class:'goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
+  	{index:4,class:'pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
+  	{index:5,class:'polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
+  	{index:6,class:'calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false}  	
 ];
 
 
@@ -53,19 +57,12 @@ var app = {
     	
 		document.addEventListener('backbutton', function() {
 			//exitApp();
-						
-			$('.share').addClass('hidden');
-			$('.share').removeAttr('onclick');
-			
-			$('#wrapperM').attr('class','page transition left');	
-			$('#wrapper2 .scroller .container').empty();			
-			$('#wrapper2').attr('class','page transition right');
-						
+			_fSetBack();						
 		}, false);
 		
 		app.receivedEvent('deviceready');    	
     	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 		
- 		
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -87,11 +84,10 @@ function initPage(){
 	});         	
 	_html += '</div>';
 	
+	$('#wrapperM').height($(window).height());
+	$('#wrapperM .scroller').height($(window).height());
 	$('#wrapperM .scroller .container').height($(window).height());
 	$('#wrapperM .scroller .container').append(_html);
-	
-	
-	
 
 	
 	$('body').removeClass();
@@ -104,23 +100,29 @@ function initPage(){
 	//initFacebookManager();
 
 	$(document).on('touchend','.menu', function(e) {
-		$('#wrapperM').attr('class','page transition right');
+		_tap = false;
+		myScrollM.scrollTo(0,0,0);
+		$('#wrapperM').attr('class','page transition right');		
 	});
 
 	$(document).on('tap','.load', function(e) {
-		
+	
+		$(document).off('tap','.item');	
+	
+		_fSetBack();
 		var _this = $(this);
 		
 		$('body').removeClass();
 		$('body').addClass(_this.data('class'));
-		$('main').data('index',_this.data('index'));		
-					
-		$('main').load(_this.data('load'), function(){
-        	$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');        	
-        });
-
+		$('main').empty();
+		$('main').data('index',_this.data('index'));	
+								
+		$('main').load(_this.data('load'), function(){			
+	    	$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');
+	    });
+	
 		$('#wrapperM').attr('class','page transition left');
-		
+				
 	});
 		
 }

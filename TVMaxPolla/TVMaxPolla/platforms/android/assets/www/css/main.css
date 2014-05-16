@@ -12,6 +12,7 @@
 		position: absolute;z-index: 1; top: 45px; bottom: 0; left: 0; width: 100%; background: #fff;
 	}
 	
+	.scroller {background-color: #ffffff;}
 	
 	ul {
 		list-style: none;
@@ -28,9 +29,9 @@
 		position: absolute; z-index: 2; top: 0; left: 0; 
 		width: 100%; height: 45px;
 		line-height: 45px;
-		background: #CD235C;
+		background: #003f00;
 		padding: 0;
-		color: #eee;
+		color: #FFC600;
 		font-size: 20px;
 		text-align: center;
 		font-weight: bold;
@@ -51,11 +52,26 @@
 	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
 	}
 
+	figure { width: 100%; height: auto; position:relative; margin: 2px 0; }
+	figure img { width: 100%;  height: auto;  position:relative; left:0; top:0; }			
+	figcaption  {
+		position: absolute;		
+		z-index:100;
+		bottom: 20%;
+		font-size : 1.2em;			
+		padding: 5px; 		
+		line-height:20px;				 
+		color:#ffffff; 
+		text-align: left;
+	    background-color:rgba(0,0,0,0.5);
+	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+	}
+
 	/*polla*/
 	body.polla .hidden {display:none;}
 	body.polla figure {text-align: center; margin: 0 auto; padding: 5px;}
 	body.polla figure img {width: 67px; height: 45px;}
-	body.polla figcaption {text-align: center; line-height:20px;}
+	body.polla figcaption {text-align: center; line-height:20px; position:relative;	}
 	
 	body.polla .goal {text-align: center; line-height:75px;  font-size: 1.4em; font-weight: bold;}
 	body.polla .row.venue div { background:#ffffff; text-align:center; }
@@ -68,50 +84,41 @@
 	body.polla .sub { color: blue; }
 	
 	/*pronosticos*/
-	body.pronosticos figure { width: 100%; height: auto;}
-	body.pronosticos figure img { width: 100%;  height: auto;}			
-	body.pronosticos figcaption {
-		font-size : 1.2em;			
-		padding: 5px; 
-		width:100%; 
-		line-height:20px;				 
-		color:#ffffff; 
-		text-align: left;
-	    background-color:rgba(0,0,0,0.5);
-	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
-	}
+	/*body.pronosticos |class|element|id| { |property| }*/
+	
 	
 	/*goles*/
-	body.goles figure { width: 100%; height: auto;}
-	body.goles figure img { width: 100%;  height: auto;}			
-	body.goles figcaption {
-		font-size : 1.2em;			
-		padding: 5px; 
-		width:100%; 
-		line-height:20px;				 
-		color:#ffffff; 
-		text-align: left;
-	    background-color:rgba(0,0,0,0.5);
-	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
-	}
+	/*body.goles |class|element|id| {|property|}*/
 	
+	 
 	/*polemicas*/
-	body.polemicas figure { width: 100%; height: auto;}
-	body.polemicas figure img { width: 100%;  height: auto;}			
-	body.polemicas figcaption {
-		font-size : 1.2em;			
-		padding: 5px; 
-		width:100%; 
-		line-height:20px;				 
-		color:#ffffff; 
-		text-align: left;
-	    background-color:rgba(0,0,0,0.5);
-	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+	/*body.polemicas |class|element|id| { |property | }*/
+	
+	/*calendario*/
+	body.calendario #wrapper,
+	body.calendario #wrapper2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 100px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
 	}
 
-
-
-
+	body.calendario figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.calendario figure img {width: 67px; height: 45px;}
+	body.calendario figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
 
 
 

@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
- 
-	<head>
-		<title>Noticias</title>			
-	</head>
-
 	<body>
 	
-		<div id="wrapper" class="page" >
+		<div id="wrapper" >
 			<div class="scroller">				
 				<div class="container" >
 				</div>	
@@ -25,21 +20,19 @@
 		
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper', {tap: true});
-			myScroll.on('beforeScrollStart', function () { 
-				this.refresh();		
-			});	
-			
-			
-			
-			var myScroll2 = new IScroll('#wrapper2');
-			myScroll2.on('beforeScrollStart', function () { 
-				this.refresh();		
-			});	
+			myScroll.on('beforeScrollStart', function (e) {					
+				this.refresh();
+				e.preventDefault();	
+			});
 				
+			var myScroll2 = new IScroll('#wrapper2');
+			myScroll2.on('beforeScrollStart', function (e) { 
+				this.refresh();
+				e.preventDefault();	
+			});	
 		</script>
 		
 		<script type="text/javascript" src="js/pronosticos.js"></script>  
 
-	</body>
-	
+	</body>	
 </html>

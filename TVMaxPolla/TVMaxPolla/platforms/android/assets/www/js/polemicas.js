@@ -68,7 +68,10 @@
 	};
 
 	$(document).on('tap','.item', function(e) {
-		_fRenderDataContent($(this).data('item'));
+		if (_tap) _fRenderDataContent($(this).data('item'));
+		setTimeout(function(){
+			_tap = true;
+		}, 200);	
 	});
 
 	var _iIndex = $('main').data('index');

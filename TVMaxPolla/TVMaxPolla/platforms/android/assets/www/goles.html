@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
- 
-	<head>
-		<title>Goles</title>			
-	</head>
-
 	<body>
 	
-		<div id="wrapper" class="page" >
+		<div id="wrapper">
 			<div class="scroller">				
 				<div class="container" >
 				</div>	
@@ -18,7 +13,8 @@
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper', {tap: true});
 			myScroll.on('beforeScrollStart', function () { 
-				this.refresh();		
+				this.refresh();	
+				e.preventDefault();	
 			});					
 		</script>
 		
