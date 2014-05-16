@@ -61,7 +61,9 @@ function initPage(id){
 	$('#players').addClass('hidden'); 
 	$('#returnButton').removeClass('hidden');
 	$('#scroller').removeClass('hidden');
-	document.getElementById("playerPic").src='img/players/bio/'+id+'.jpg';
+//	document.getElementById("playerPic").src='img/players/bio/'+id+'.jpg';
+	document.getElementById("playerPic").src=cdnUrl+'/'+id+'.jpg';
+	
   $.ajax({
   	url: 'img/players/xml/wc2014-bio-'+id+'-es.xml',
     type: 'GET',               
@@ -88,7 +90,8 @@ function initStadium(id){
 	$('#stadiums').addClass('hidden'); 
 	$('#returnButton').removeClass('hidden');
 	$('#scroller').removeClass('hidden');
-	document.getElementById("stadiumPic").src='img/stadiums/main/'+id+'-in.jpg';
+	//document.getElementById("stadiumPic").src='img/stadiums/main/'+id+'-in.jpg';
+	document.getElementById("stadiumPic").src=cdnUrl+'/'+id+'-in.jpg';
   $.ajax({
   	url: 'img/stadiums/xml/wc2014-direct-sites-'+id+'-es.xml',
     type: 'GET',               
@@ -115,8 +118,11 @@ function initHist(id){
 	$('#hists').addClass('hidden'); 
 	$('#returnButton').removeClass('hidden');
 	$('#scroller').removeClass('hidden');
-	document.getElementById("histPic1").src='img/history/main/'+id+'-1.jpg';
-	document.getElementById("histPic2").src='img/history/main/'+id+'-2.jpg';
+//	document.getElementById("histPic1").src='img/history/main/'+id+'-1.jpg';
+//	document.getElementById("histPic2").src='img/history/main/'+id+'-2.jpg';
+	document.getElementById("histPic1").src=cdnUrl+'/'+id+'-1.jpg';
+	document.getElementById("histPic2").src=cdnUrl+'/'+id+'-2.jpg';
+	
   $.ajax({
   	url: 'img/history/xml/wc2014-histo-'+id+'-resume-es.xml',
     type: 'GET',               
@@ -178,3 +184,4 @@ function initTeam(id){
 function replaceAll(find, replace, str) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
+var cdnUrl = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
