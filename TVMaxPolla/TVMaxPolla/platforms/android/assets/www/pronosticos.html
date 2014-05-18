@@ -21,14 +21,12 @@
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper', {tap: true});
 			myScroll.on('beforeScrollStart', function (e) {					
-				this.refresh();
-				e.preventDefault();	
+				this.refresh();	
 			});
 				
 			var myScroll2 = new IScroll('#wrapper2');
 			myScroll2.on('beforeScrollStart', function (e) { 
 				this.refresh();
-				e.preventDefault();	
 			});	
 		</script>
 		

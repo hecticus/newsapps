@@ -17,7 +17,7 @@
  * under the License.
  */
 
-
+var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
 var _day = _date.getDate();
 var _month = (_date.getMonth()+1);
@@ -37,7 +37,12 @@ var _jMenu=[
   	{index:3,class:'goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
   	{index:4,class:'pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
   	{index:5,class:'polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
-  	{index:6,class:'calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false}  	
+  	{index:6,class:'calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false},
+  	{index:7,class:'stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'glyphicon glyphicon-inbox', json:false},
+  	{index:8,class:'history',title:'Historia',load:'history.html', glyphicon:'glyphicon glyphicon-plane', json:false},
+  	{index:9,class:'players',title:'Biografias',load:'players.html', glyphicon:'glyphicon glyphicon-user', json:false},
+  	{index:10,class:'teams',title:'Equipos',load:'teams.html', glyphicon:'glyphicon glyphicon-flag', json:false}
+  	    	
 ];
 
 
@@ -61,8 +66,8 @@ var app = {
 		}, false);
 		
 		app.receivedEvent('deviceready');    	
-    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 		
-
+    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+ 		
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -71,10 +76,9 @@ var app = {
     }
 };
 
+
 function initPage(){
-
 	
-
 	var _html = '<div class="row">';	
 	$(_jMenu).each(function(_index,_menu) {
 		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" data-class="' + _menu.class + '" data-load="' +  _menu.load + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
@@ -90,10 +94,10 @@ function initPage(){
 	$('#wrapperM .scroller .container').append(_html);
 
 	
-	$('body').removeClass();
+	/*$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
-	$('main').load(_jMenu[0].load);
+	$('main').load(_jMenu[0].load);*/
 	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
 
 	//touchFunctions();
@@ -142,10 +146,6 @@ function touchFunctions(){
 		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 	});
 }
-
-
-
-
 
 
 

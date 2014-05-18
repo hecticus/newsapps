@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115323+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115323.bio-43170</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="27">28</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115323.wc2014-bio-43170:28</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-43170</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115323Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115323Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Paolo Rossi</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Rossi</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Paolo</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Italia</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">23-09-1956</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Prato</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">178 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">66.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>delantero</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Como (1975-76)</p><p> - Vicence (1976-1977)</p><p> - Perugia (1978-81)</p><p> - Juventus de Turín (1981-85)</p><p> - Milán AC (1985-86)</p><p> - Verona (1986-87)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>48 (1977-1986)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>20</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>21/12/1977, Bélgica-Italia (0-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>11/05/1986, Italia-China (2-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>02/06/1978, Italia-Francia (2-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>03/04/1985, Italia-Portugal (2-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - 1 Copa del Mundo (1982), 4º puesto (1978), octavos de final (1986), 3 participaciones (1978, 1982, 1986), 14 partidos, 9 goles, máximo goleador (1982, 6 goles)</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Copa de Europa de Clubes (1985)</p>
+									<p> - 1 Recopa (1984)</p>
+									<p> - 1 Copa Intercontinental (1985)</p>
+									<p> - 1 Supercopa de Europa (1984)</p>
+									<p> - 2 Campeonato de Italia (1982, 1984), máximo goleador (1978/24 goles)</p>
+									<p> - 1 Copa de Italia (1983)</p>
+								</li>
+								<li>Distinciones</li>
+								<li>
+									<p> - Balón de Oro Europeo (1982)</p>
+								</li>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Dinamita contra Brasil</hl2>
+							<p>Tres goles contra Brasil: ese éxito firmado por Paolo Rossi acabó dándole el Mundial a Italia en España-1982. Un torneo al que el cañonero de la Juventus de Turín estuvo a punto de no acudir....</p>
+							<p>Autor de 3 goles en el Mundial de 1978 y máximo goleador del Campeonato de Italia, Rossi veía el futuro de color de rosa con su equipo y con la selección. Entonces llegó el escándalo de "Totonero" que a punto estuvo de acabar con el Calcio.</p>
+							<p>Rossi fue acusado entonces de amañar el partido con el Avellino (2-2) y suspendido durante dos años. Brutal mazazo para este delantero de 22 años, con aire modesto pero explosivo en sus arranques.</p>
+							<p>Su travesía por el desierto acabó el 29 de abril de 1982. No le quedaba más que un mes para recuperar el ritmo de competición con la Juventus, equipo al que había llegado entretanto. Pero el seleccionador Enzo Bearzot confió en él y lo llevó a España. La Squadra Azzurra empató los primeros tres partidos, con sólo dos goles a favor. Rossi, titular, parecía transparente.</p>
+							<hl2>Memorable Mundial-82</hl2>
+							<p>Italia se encontró entonces en la segunda fase en el "grupo de la muerte" con Argentina y Brasil. El primer encuentro se saldó con una díficil victoria ante la albiceleste por 2-1. Rossi seguía sin marcar. Entonces llegó Brasil.</p>
+							<p>A los cinco minutos Rossi abrió el marcador, igualado unos instantes después por Socrates. Paolo volvió a anotar pero esta vez Falcao dejó el encuentro en tablas. A falta de 15 minutos para el final el turinés consiguió su hat-trick y la victoria definitiva para su país.</p>
+							<p>Lleno de confianza, el nuevo héroe nacional también marcó los dos goles de la victoria 2-0 contra Polonia en las semifinales y el primer tanto en la final ante Alemania Federal (3-1). Con 6 tantos, Rossi era el máximo goleador del Mundial de España-1982.</p>
+							<p>Campeón de Italia y Balón de Oro de Europa, Paolo Rossi acabó de manera lamentable ese 1982: fue suspendido durante otros tres meses. Entonces, llegó la época de los éxitos en sucesión: Recopa de 1984, Liga de Campeones en 1985 (en la trágica final de Heysel), Copa de Italia en 1983 y Scudetto en 1984, todos con la Juventus.</p>
+							<p>Rossi fichó por el AC Milán cuando su declive empezaba a ser evidente. Suplente en el Mundial de México-1986, decidió retirarse una temporada después. Con 31 años y en el Verona, dijo adiós.</p>
+							<p>Tras su periplo futbolístico probó suerte como empresario (en el sector de la construcción y de las inmobiliarias). Crítico con la falta de fantasía y talento del fútbol actual, ahora se dedica a su gran pasión: el buceo.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="DPA" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Italian forward Paolo Rossi (C) scores his third goal past Brazilian goalkeeper Waldir Peres during their World Cup second round soccer match 05 July 1982 in Barcelona. Italy beat Brazil 3-2 to advance to the semifinals.  AFP PHOTO/DPA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1982-ita-bre-rossi.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1345" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1982-ita-bre-rossi.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="97" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1982-ita-bre-rossi.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="336" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="ANSA/DPA" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Forward Paolo Rossi (C, on ground) scores Italy's first goal past West German goalkeeper Harald Schumacher as midfielder Antonio Cabrini exults during the World Cup final 11 July 1982 in Madrid. Italy went on to beat West Germany 3-1.  AFP PHOTO/ANSA/DPA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1982-ita-all-rossi-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1362" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1982-ita-all-rossi-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="99" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1982-ita-all-rossi-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="340" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="DPA" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Italian forward Paolo Rossi jubilates after scoring the first goal for his team during the World Cup semifinal soccer match against Poland 08 July 1982 in Barcelona. Rossi scored another goal as Italy defeated Poland 2-0 to advance to the final.  AFP PHOTO/DPA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1982-ita-pol-rossi.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1402" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1982-ita-pol-rossi.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="102" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1982-ita-pol-rossi.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="350" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

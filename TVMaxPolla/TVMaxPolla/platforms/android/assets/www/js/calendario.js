@@ -1,7 +1,7 @@
 
 
 
-	//var _jPhase = ['Grupo A','Grupo B','Grupo C','Grupo D','Grupo E','Grupo F','Grupo G','Grupo H','Octavos','Cuartos','Semifinales','3er Lugar','Final'];
+
 	
 	var _jPhase = [];
 	
@@ -230,7 +230,8 @@
 	};
 	
 	var _fRenderCountry = function() {
-		var _html = '<div class="row" >';	
+		var _html = '<div class="row" >';
+		_jCountry.sort();	
 		$.each(_jCountry, function(_index) {			
 			_html += '<div class="col-md-12 match" data-country="' + _jCountry[_index] + '" >';
 			_html += '<span>' + _jCountry[_index].toString()  + '</span>';

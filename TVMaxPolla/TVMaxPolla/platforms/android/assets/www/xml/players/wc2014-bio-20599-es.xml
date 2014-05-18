@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115310+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115310.bio-20599</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="25">26</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115310.wc2014-bio-20599:26</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-20599</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115310Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115310Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Franco Baresi</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Baresi</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Franco</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Italia</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">08-05-1960</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Travagliato</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">176 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">70.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>Defensa (líbero)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Club</dt>
+								<dd>
+									<block>
+										<p> - AC Milán (1978-1997)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>81 (1982-1994 - 31 veces capitán)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>1</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>4/12/82, Italia-Rumania (0-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>7/09/94, Eslovenia-Italia (1-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>1 (de penalti)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Único gol con la selección</dt>
+								<dd>
+									<block>
+										<p>26/2/1988, Italia-URSS (4-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - 1 Copa del Mundo (1982), finalista (1994), tercero (1990), 4 participaciones (1982, 1986, 1990, 1994), 13 partidos, 0 goles</p>
+								</li>
+								<li>En club</li>
+								<li>
+									<p> - 3 Copas de Europa (1989, 1990, 1994), 2 finales (1993, 1995)</p>
+									<p> - 2 Copas Intercontinentales (1989, 1990)</p>
+									<p> - 3 Supercopas de Europa (1990, 1991, 1994)</p>
+									<p> - 6 Campeonatos de Italia (1979, 1988, 1992, 1993, 1994, 1996)</p>
+								</li>
+							</ul>
+							<hl2>Carrera como entrenador</hl2>
+							<ul>
+								<p>Clubes : Fulham (Ing/director deportivo/jul.-sept. 2002), Milán AC (entrenador del equipo juvenil/desde sept. 2002)</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Una fidelidad negra y roja</hl2>
+							<media media-type="image" style="leftSide">
+								<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo1" />
+							</media>
+							<p>Considerado uno de los mejores líberos de la historia junto a Franz Beckenbauer y Gaetano Scirea, Franco Baresi destacó por su fidelidad con el AC Milán, club que le vio nacer y con el que disputó 713 partidos. Un palmarés extraordinario para este jugador que en 1974, con apenas 14 años, era considerado demasidado delgado y frágil por los responsables del Atalanta y del Inter.</p>
+							<media media-type="image" style="rightSide">
+								<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo2" />
+							</media>
+							<p>Llegó a Milanello, centro de formación de su futuro club, y los dirigentes reconocieron las cualidades de gran defensor del joven Baresi. En julio de 1977, tras pasar por todas las categorías inferiores del club, el entrenador sueco Niels Liedholm decidió subirlo al primer equipo, donde se codeó con "monstruos" como Gianni Rivera, Enrico Albertini o Fabio Capello, que más tarde lo dirigió.</p>
+							<p>Tardó casi un año en ser titular: debutó el 23 de abril de 1978, 2-1 contra el Verona. Después, veinte años de carrera en los que vivió únicamente por y para el AC Milán, donde conoció la gloria y todos los honores (3 Copas de Europa, 2 Copas Intercontinentales, 3 Supercopas de Europa y 6 Ligas).</p>
+							<hl2>Maldito penal</hl2>
+							<media media-type="image" style="leftSide">
+								<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo3" />
+							</media>
+							<p>Durante "su" Copa del Mundo, en 1990, Baresi disputó 7 partidos, pero no la final. En semifinales se las vio con los argentinos comandados por Diego Armando Maradona. Tras acabar en empate el partido y la prórroga (1-1), se llegó a la serie de penales. Baresi marcó el suyo, pero fallaron Donadoni y Serena. Italia terminó tercera.</p>
+							<media media-type="image" style="rightSide">
+								<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo4" />
+							</media>
+							<p>Campeón del Mundo en 1982 en España, no disputó ni un sólo minuto en la competición. Por eso, el penal fallado contra Brasil en la final de Estados Unidos-1994 le pesó como una losa a lo largo de toda su carrera.</p>
+							<p>Tanto en 1995 como en 1996, el gran defensor italiano quiso poner fin a su carrera, pero ante la presión del presidente del AC Milán, el todopoderoso Silvio Berlusconi, siguió adelante.</p>
+							<p>Hasta el mes de junio de 1997, cuando tras rechazar importantes ofertas del Real Madrid, Manchester United y del New York-New Jersey MetroStars, puso fin a veinte años de fieles y leales servicios  al único club de su vida, que, como homenaje, retiró para siempre su camiseta con el número seis.</p>
+							<p>En julio de 2002 cruzó el Canal de la Mancha para ocuparse de la dirección deportiva del Fulham de Inglaterra, propiedad de Mohammed Al-Fayed. Enfrentado con el mánager francés Jean Tigana, dimitió tres meses más tarde para volver a ocuparse de los equipos juveniles del AC Milán, club del que es vicepresidente de honor.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="KAZUHIRO NOGI" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>A.C Milan captain and defender Franco Baresi intercepts the ball in front of a player from  Nacional Medellin (Chile) during the Toyota Cup 17 December 1989 in Tokyo. Milan won 1-0 in the extra time in the matchup between the winners of the European Cup and the South American Cup.    AFP PHOTO/KAZUHIRO NOGI</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/baresi-action89.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="842" />
+							<Property FormalName="Height" Value="1392" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/baresi-action89.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="90" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/baresi-action89.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="309" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="KAZUHIRO NOGI" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>A.C Milan captain and defender Franco Baresi celebrates as he holds the trophy aloft after his team beat Nacional Medellin (Chile) 1-0 in extra time in the Toyota Cup 17 December 1989 in Tokyo. The Toyota Cup matches up the winners of the European Cup and the South American Cup.    AFP PHOTO/KAZUHIRO NOGI</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/baresi-cup89.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1335" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/baresi-cup89.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="97" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/baresi-cup89.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="333" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian forward Claudio Caniggia (C) scores on a header as Italian goalkeeper Walter Zenga comes up short (R) 03 July 1990 in Naples during the World Cup semifinal soccer match between the two countries. Argentina advanced to the final 4-3 on penalty kicks at the end of extra time (1-1 at the end of regulation time). At right, defender Franco Baresi and midfielder Diego Maradona.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1990-arg-ita.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1315" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1990-arg-ita.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="95" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1990-arg-ita.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="328" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="DANIEL GARCIA" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Italian Roberto Baggio (top) comforts teammate and captain Franco Baresi after Italy was defeated by Brazil 17 July 1994 at the Rose Bowl in Pasadena during the World Cup soccer final. Brazil won 3-2 in the shoot-out (0-0 at the end of extra time) after Roberto Baggio missed his penalty kick. Brazil became the first nation to win the World Cup title four times (1958, 1962, 1970, 1994).  AFP PHOTO/DANIEL GARCIA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1994-bra-ita-baresi-decu.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1375" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1994-bra-ita-baresi-decu.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="99" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1994-bra-ita-baresi-decu.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="343" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>
