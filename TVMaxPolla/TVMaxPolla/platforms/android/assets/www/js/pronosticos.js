@@ -82,7 +82,7 @@
 	if (_jGet) {
 		_fRenderInit();
 	} else {
-		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/pronosticos_mundial.php');	
+		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/pronosticos_mundial.php',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jGet = _json.pronosticos_mundial;		

@@ -111,7 +111,10 @@ function initPage(){
 
 	$(document).on('tap','.load', function(e) {
 	
-		$(document).off('tap','.item');	
+		if(_oAjax && _oAjax.readystate != 4) {
+            _oAjax.abort();
+        }
+
 	
 		_fSetBack();
 		var _this = $(this);
@@ -120,10 +123,8 @@ function initPage(){
 		$('body').addClass(_this.data('class'));
 		$('main').empty();
 		$('main').data('index',_this.data('index'));	
-								
-		$('main').load(_this.data('load'), function(){			
-	    	$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');
-	    });
+		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+		$('main').load(_this.data('load'));
 	
 		$('#wrapperM').attr('class','page transition left');
 				

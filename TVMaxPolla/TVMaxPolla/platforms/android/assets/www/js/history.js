@@ -10,30 +10,31 @@
 	var _fRenderInitH = function() {
 	
 		var _html = '<div class="row" >';
+		
+		$.each(_jHistory, function(_index,_history) {	
+			_oAjax = $.fGetAjaXJSON(_history.url, 'xml', 'text/xml charset=utf-8', false);
+			if (_oAjax) {
+				_oAjax.done(function(_xml) {
+					
+					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
+			    	var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+			    		_data = $('<div>').append(_data).remove().html();
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+						_id = _id.split('-');
+						_id = _id[1];
+	
+					_html += '<div class="col-md-12">';
+		    		_html += _fGetImage({src:_urlCloud + '/' + _id +'-1.jpg',  caption: _title});		    		
+				 	//_html += _data;
+				 	_html += '</div>';
+					
+					
+				});
+			}		
+		});
 				
 		
-		$.each(_jHistory, function(_index,_history) {				
-			$.ajax({
-		  		url: _history.url,
-		  		async: false,
-		    	type: 'GET',               
-		    	dataType: 'xml',                      
-		    }).done(function(xml) {
-		    	
-				var _title = $(xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-		    	var _data = $(xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-		    		_data = $('<div>').append(_data).remove().html();
-				var _id = $(xml).find('NewsItem > Identification > NameLabel').text();
-					_id = _id.split('-');
-					_id = _id[1];
-
-				_html += '<div class="col-md-12">';
-	    		_html += _fGetImage({src:_urlCloud + '/' + _id +'-1.jpg',  caption: _title});		    		
-			 	//_html += _data;
-			 	_html += '</div>';	
-			 														
-			});		
-		});
+		
 
 
 		_html += '</div>';

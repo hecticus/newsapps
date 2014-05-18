@@ -86,7 +86,7 @@
 		_fRenderInit();
 	} else {
 	
-		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php');	
+		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[_iIndex].json = _json.noticias_mundial;	

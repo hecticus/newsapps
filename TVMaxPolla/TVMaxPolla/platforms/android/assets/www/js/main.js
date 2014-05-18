@@ -3,7 +3,7 @@ var _fSetBack = function() {
 	$('.share').removeAttr('onclick');			
 	$('#wrapperM').attr('class','page transition left');	
 	$('#wrapper2 .scroller .container').empty();			
-	$('#wrapper2').attr('class','page transition right');	
+	$('#wrapper2').attr('class','page transition right');
 };
 
 
@@ -34,14 +34,17 @@ var _fGetLoadingError = function() {
 	
 };
 
-$.fGetAjaXJSON = function(_url) {
-	
-	try {				
+$.fGetAjaXJSON = function(_url, _dataType, _contentType, _async) {
+
+	try {	
+		
+			
 	  	return $.ajax({
 			url: _url,			
-			type: 'GET',	            		
-			dataType: 'json',
-			contentType: "application/json; Charset=utf-8",
+			type: 'GET',	
+			async: (_async) ? _async : false,            		
+			dataType: (_dataType) ? _dataType : 'json',
+			contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
 			beforeSend : function () {				
 				_fGetLoading();					
 		}}).always(function () {

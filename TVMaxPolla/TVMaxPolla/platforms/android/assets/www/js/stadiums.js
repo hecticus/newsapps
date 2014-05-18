@@ -10,29 +10,27 @@
 	var _fRenderInitE = function() {
 	
 		var _html = '<div class="row" >';
-				
 		
-		$.each(_jStadiums, function(_index,_stadium) {				
-			$.ajax({
-			  	url: _stadium.url,
-			  	async: false,
-			    type: 'GET',               
-			    dataType: 'xml',                      
-			    }).done(function(xml) {
-			    	
-			    	var _data = $(xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > dl').clone();
+		$.each(_jStadiums, function(_index,_stadium) {
+			_oAjax = $.fGetAjaXJSON(_stadium.url, 'xml', 'text/xml charset=utf-8', false);
+			if (_oAjax) {
+				_oAjax.done(function(_xml) {
+					
+					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > dl').clone();
 			    		_data = $('<div>').append(_data).remove().html();
-			    	var _title = $(xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > hl2').text();	
-					var _id = $(xml).find('NewsItem > Identification > NameLabel').text();
+			    	var _title = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > hl2').text();	
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
 						_id = _id.split('-');
 						_id = _id[2];
 
 					_html += '<div class="col-md-12">';
 		    		_html += _fGetImage({src:_urlCloud + '/' + _id +'-in.jpg',  caption: _title});		    		
 				 	//_html += _data';
-				 	_html += '</div>';	
-				 														
-				});		
+				 	_html += '</div>';
+					
+					
+				});
+			}		
 		});
 
 

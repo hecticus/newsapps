@@ -234,7 +234,7 @@
 		_jCountry.sort();	
 		$.each(_jCountry, function(_index) {			
 			_html += '<div class="col-md-12 match" data-country="' + _jCountry[_index] + '" >';
-			_html += '<span>' + _jCountry[_index].toString()  + '</span>';
+			_html += '<h3>' + _jCountry[_index].toString()  + '</h3>';
 			_html += '</div>';
 		});
 		_html += '</div>';
@@ -249,7 +249,7 @@
 		var _html = '<div class="row" >';	
 		$.each(_jPhase, function(_index) {			
 			_html += '<div class="col-md-12 match" data-phase="' + _jPhase[_index] + '" >';
-			_html += '<span>' + _jPhase[_index] + '</span>';
+			_html += '<h3>' + _jPhase[_index] + '</h3>';
 			_html += '</div>';
 		});
 		_html += '</div>';
@@ -320,7 +320,7 @@
 
 	});
 
-	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/partidos_mundial.php');	
+	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/partidos_mundial.php',false,false,true);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			
