@@ -31,17 +31,17 @@ var _tap = false;
 
 
 var _jMenu=[
-	{index:0,class:'noticias',title:'Home',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
-  	{index:1,class:'polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
-  	{index:2,class:'noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
-  	{index:3,class:'goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
-  	{index:4,class:'pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
-  	{index:5,class:'polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
-  	{index:6,class:'calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false},
-  	{index:7,class:'stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'glyphicon glyphicon-inbox', json:false},
-  	{index:8,class:'history',title:'Historia',load:'history.html', glyphicon:'glyphicon glyphicon-plane', json:false},
-  	{index:9,class:'players',title:'Biografias',load:'players.html', glyphicon:'glyphicon glyphicon-user', json:false},
-  	{index:10,class:'teams',title:'Equipos',load:'teams.html', glyphicon:'glyphicon glyphicon-flag', json:false}
+	{index:0,class:'content-noticias',title:'Home',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
+  	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
+  	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
+  	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
+  	{index:4,class:'content-pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
+  	{index:5,class:'content-polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
+  	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false},
+  	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'glyphicon glyphicon-inbox', json:false},
+  	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'glyphicon glyphicon-plane', json:false},
+  	{index:9,class:'content-players',title:'Biografias',load:'players.html', glyphicon:'glyphicon glyphicon-user', json:false},
+  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'glyphicon glyphicon-flag', json:false}
   	    	
 ];
 

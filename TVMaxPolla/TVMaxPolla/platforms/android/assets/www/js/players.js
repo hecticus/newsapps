@@ -7,7 +7,6 @@
 		return _html;
 	};
 	
-
 	var _fRenderDataContent = function(_url) {
 	
 		var _html = '<div class="row" >';
@@ -25,7 +24,6 @@
 		_html += '</div>';
 	
 		_html += '</div>';
-
 
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
