@@ -8,14 +8,13 @@
 	};
 	
 	var _fRenderDataContent = function(_url) {
-	
+
 		var _html = '<div class="row" >';
 
-
 		$.each(_jHistory, function(_index,_history) {
-			if (_history.url == _url) {							
+			if (_history.url == _url) {
 				_html += '<div class="col-md-12" >';				    
-			 	_html += _history.datacontent;	
+			 	_html += _history.datacontent;
 			 	_html += '</div>';			
 			}
 		});
@@ -29,7 +28,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
-
+		myScroll2.scrollTo(0,0,0);
 	};		
 	
 	
@@ -51,9 +50,10 @@
 						_id = _id[1];
 						
 					_history.datacontent = _fGetImage({src:_urlCloud + '/' + _id +'-1.jpg',  caption: _title});		    		
-					//_history.datacontent = _data;
+					_history.datacontent += _data;
 					
-					_html += '<div class="col-md-12 history" data-url="' + encodeURI(_history.url) + '">';
+					
+					_html += '<div class="col-md-12 history" data-url="' + encodeURI(_history.url) + '" >';
 		    		_html += _fGetImage({src:_urlCloud + '/' + _id +'-1.jpg',  caption: _title});		    		
 				 	_html += '</div>';
 					
@@ -70,8 +70,7 @@
 
 	};
 
-
-	$(document).on('tap','.history', function(e) {	
+	$(document).on('tap','.history', function(e) {					
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 			
