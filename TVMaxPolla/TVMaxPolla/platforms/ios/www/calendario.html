@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+	<body>
+		
+		<div class="container" style="position: absolute; top:45px; left:0; line-height:45px; z-index: 2; width: 100%; height: 45px; font-size: 1.6em; background: red; ">
+			<div class="row" >			
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderCalendar();" style="text-align: center; line-height:40px; padding:5px; color: blue;">
+				 	<span class="glyphicon glyphicon-calendar"></span>
+				 </div>			
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderCountry();" style="text-align: center; line-height:40px; padding:5px;">
+				 	<span class="glyphicon glyphicon-globe"></span>
+				 </div>			
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderPhase();" style="text-align: center; line-height:40px; padding:5px;">
+				 	<span class="glyphicon glyphicon-signal"></span>
+				 </div>		 		 
+			 </div>
+		</div>
+		
+
+
+		<div id="wrapper" >
+			<div class="scroller">				
+				<div class="container" >
+				</div>	
+			</div>
+		</div>	
+
+
+		<div id="wrapper2" class="page" style="left: 100%;">
+			<div class="scroller">							
+				<div class="container" >
+				</div>
+			</div>			
+		</div>
+		
+		
+		<script type="text/javascript">		
+			var myScroll = new IScroll('#wrapper', {tap: true});
+			myScroll.on('beforeScrollStart', function (e) {					
+				this.refresh();	
+			});
+				
+			var myScroll2 = new IScroll('#wrapper2');
+			myScroll2.on('beforeScrollStart', function (e) { 
+				this.refresh();
+			});	
+		</script>
+		
+		<script type="text/javascript" src="js/calendario.js"></script>  
+
+	</body>
+	
+</html>

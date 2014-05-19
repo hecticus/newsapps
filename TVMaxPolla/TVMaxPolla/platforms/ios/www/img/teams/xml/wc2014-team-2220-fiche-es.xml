@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141529+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141529.team-2220-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="8">9</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141529.wc2014-team-2220-fiche:9</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2220-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141529Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141529Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Suiza</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>8 100 000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>41 284 km2</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Berna</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Franco suizo</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Asociación Suiza de Fútbol (ASF) fundada en abril de 1895 y afiliada a la FIFA en 1904</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>233 000</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>camiseta roja y blanca, pantalón blanco y medias rojas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>10 (1934, 1938, 1950, 1954, 1962, 1966, 1994, 2006, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>Cuartos de final (1934, 1938, 1954), octavos de final (1994, 2006), primera ronda (1950, 1962, 1966, 2010)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>3 (1996, 2004, 2008)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>primera ronda (1996, 2004, 2008)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>1º del grupo E de la zona Europa con 24 puntos, delante de Islandia (17), Eslovenia (15), Noruega (12), Albania (11) y Chipre (5), 7 victorias, 3 empates, 0 derrotas, 17 goles marcados, 6 encajados.</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>Basilea, Grasshoppers de Zúrich, Servette de Ginebra, Young Boys</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Steve Von Bergen, Gökhan Inler, Valon Behrami, Xherdan Shaqiri</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Ottmar Hitzfeld (Ale/desde el 01/07/2008)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

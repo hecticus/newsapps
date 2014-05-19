@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141455+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141455.team-2075-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="18">19</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141455.wc2014-team-2075-fiche:19</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2075-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141455Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141455Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Australia</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>21.000.000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>7.703.581 km²</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Canberra</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Dólar australiano</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Federación de Fútbol de Australia, fundada en 1961 y afiliada a la FIFA desde 1963</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>436.000</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>Camiseta amarilla, pantalón verde y medias amarillas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>4 (1974, 2006, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>octavos de final (2006), primera fase (1974, 2010)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Copa de Oceanía de Naciones</dt>
+							<dd>
+								<block>
+									<p>ganador (1980, 1996, 2000, 2004), finalista (1998, 2002)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Copa de Asia de Naciones</dt>
+							<dd>
+								<block>
+									<p>finalista (2011), cuartos de final (2007)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>Exenta de las dos primeras fases -  Tercera ronda: 1º de la llave D con 15 puntos delante de Omán (8), Arabia Saudí (6) y Tailandia (4), 5 victorias, 0 empates y 1 derrota, 13 goles a favor y 5 en contra - Cuarta ronda: 2º del grupo B con 13 puntos detrás de Japón (17), delante de Jordania (10) Omán (9), e Irak (5), 3 victorias, 4 empates y 1 derrota, 12 goles marcados y 7 encajados.</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>Sydney FC, Melbourne Victory, Perth Glory</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Lucas Neill, Brett Holman, Luke Wilkshire, Tim Cahill</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Ange Postecoglou (desde 23/10/2013)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

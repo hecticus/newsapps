@@ -301,9 +301,9 @@ public class PushPlugin extends CordovaPlugin {
   	    HttpClient httpclient = new DefaultHttpClient();
   	    //HttpPost httppost = new HttpPost("http://visitpanama.hecticus.com/ws/gcm/register.php");
   	    
-  	    Log.v(TAG, "REGID: " + regId);
-  	    //HttpPost httppost = new HttpPost("http://kraken.hecticus.com/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
-  	    HttpPost httppost = new HttpPost("http://10.0.3.148/kraken/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
+  	    //Log.v(TAG, "REGID: " + regId);
+  	    HttpPost httppost = new HttpPost("http://kraken.hecticus.com/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
+  	    //HttpPost httppost = new HttpPost("http://10.0.3.148/kraken/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
 
   	    try {
   	    	//Get Stored id if exists

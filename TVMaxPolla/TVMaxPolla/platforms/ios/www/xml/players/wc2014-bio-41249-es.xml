@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115310+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115310.bio-41249</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="57">58</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115310.wc2014-bio-41249:58</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-41249</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115310Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115310Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>José Leandro Andrade</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Andrade</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>José Leandro</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Uruguay</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">20-11-1901</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Salto</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Muerto el</dt>
+								<dd>
+									<block>
+										<p class="date">05-10-1957</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">179 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">77.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>Mediocampista derecho o delantero</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Miramar Misiones (1921-23)</p><p> - Reformers (1923)</p><p> - Bella Vista (1923-25)</p><p> - Nacional de Montevideo (1925-30)</p><p> - Peñarol (1931-32)</p><p> - Montevideo Wanderers (1933)</p><p> - Atlanta de Buenos Aires (Arg/1934-35)</p><p> - Argentinos Talleres (Arg/1935-36)</p><p> - Montevideo Wanderers (1937)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>33 (1923-1930)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>1</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer (y único) gol con la selección</dt>
+								<dd>
+									<block>
+										<p>29/05/1924, Uruguay-EEUU (3-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>24/06/1923, Argentina-Uruguay (0-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>30/07/1930, Uruguay-Argentina (4-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con su selección</li>
+								<li>
+									<p> - 1 Copa del Mundo (1930), 1 participación, 4 partidos, 0 goles</p>
+									<p> - 3 Copas América (1923,1924,1926)</p>
+									<p> - 2 Medallas de Oro en los Juegos Olímpicos (1924,1928)</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Campeonato de Uruguay (1932 con Peñarol)</p>
+								</li>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>El primer virtuoso</hl2>
+							<p>José Leandro Andrade fue la primera gran estrella del fútbol a nivel mundial. Jugador elegante y técnico, este mediocampista derecho llevó a su selección a convertirse en la primera campeona del mundo en 1930 después de conseguir dos títulos en Juegos Olímpicos (1924, 1928).</p>
+							<p>Precisamente en 1924, 50.000 espectadores se amontonaron en el estadio parisino de Colombes para asistir al encuentro que enfrentó a Uruguay con Suiza (3-0 para la celeste). Con la participación de equipos venidos de todo el mundo, el fútbol adquirió una dimensión universal. La prensa francesa estaba impresionada con "la maravilla negra". Había nacido una estrella.</p>
+							<p>Cuatro años más tarde, en los Juegos de Ámsterdam, Andrade y los suyos empataron en la final con Argentina (1-1). El partido se volvió a jugar y Uruguay ganó por 2 a 1.</p>
+							<p>La supremacía del equipo nacional uruguayo se vio refrendada en Sudamérica con victorias en Copa América de 1923, 1924 y 1926.</p>
+							<hl2>Estrella 'celeste'</hl2>
+							<p>Andrade ya era una estrella. Pero sus comienzos no fueron sencillos, debido sobre todo al férreo marcaje al que le sometía su padre, que quería que siguiera los pasos de su hermano Nicasio y se transformara en empleado bancario. Pero José era diferente. Había aprendido el arte del fútbol en la calle desde niño y no le interesaban para nada los números. Más bien la música y la danza, a las que se dedicaría una vez retirado.</p>
+							<p>1930. Primera Copa del Mundo. Trece selecciones (4 europeas, 8 sudamericanas y Estados Unidos) llegaron a Montevideo en el momento del centenario de la independencia uruguaya. Los anfitriones jugaron en primera ronda contra Perú (1-0) y Rumanía (4-0). En semifinales se toparon con Yugoslavia, considerada por entonces como el mejor equipo de Europa. El resultado, contundente 6-1 para la celeste.</p>
+							<p>Uruguay se enfrentó a Argentina en la final soñada por todos el 30 de julio delante de casi 100.000 espectadores. Tras una primera parte catastrófica - Uruguay perdía 2-1- Andrade, el único negro de la selección, le dio la vuelta al equipo en los vestuarios con frases como "no tenemos derecho a perder, solamente son argentinos y nosotros somos uruguayos". La celeste terminó ganando 4-2.</p>
+							<p>Andrade se retiró de la selección con 33 internacionalidades y sólo tres derrotas. Se convirtió en músico y vivió el resto de su vida en la miseria. Su llama se apagó definitivamente en 1957.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="HO" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Uruguayan defender Jose Leandro Andrade who played in the Uruguay's Footbal National Team during the 1920s. He won with his country two Gold medals at the Olympic Games of Amsterdam in 1924, Colombes in 1928 and the first World Football Cup in 1930 in Montevideo.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/andrade-jose.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1329" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/andrade-jose.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="96" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/andrade-jose.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="332" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+					<Source>
+						<Party FormalName="OFF" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Uruguayan national soccer team players pose for a group picture, 30 July 1930 in Montevideo, after their victory over Argentina (4-2) in the first-ever World Cup final.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1930-uruguay-team.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1302" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1930-uruguay-team.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="94" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1930-uruguay-team.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="325" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

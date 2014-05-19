@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141530+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141530.direct-sites-29022</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="2">3</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141530.wc2014-direct-sites-29022:3</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>direct-sites-29022</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141530Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141530Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine />
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-direct</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-direct" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<hl2>Arena das Dunas</hl2>
+						<media media-type="image" style="rightSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo1" />
+						</media>
+						<dl>
+							<dt>Ciudad</dt>
+							<dd>
+								<block>
+									<p>Natal</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capacidad</dt>
+							<dd>
+								<block>
+									<p>42 086 espectadores</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Club que lo utiliza</dt>
+							<dd>
+								<block>
+									<p>Ninguno</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Programa</dt>
+							<dd>
+								<block>
+									<p>4 partidos de la primera fase</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="CHRISTOPHE SIMON" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>The Arenas das Dunas stadium in Natal, northeastern Brazil, on December 8, 2013. The Arenas das Dunas will host some of the FIFA WC Brazil 2014 football matches. AFP PHOTO/CRISTOPHE SIMON</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/natal-in.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1363" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/natal-in.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="99" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/natal-in.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="340" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

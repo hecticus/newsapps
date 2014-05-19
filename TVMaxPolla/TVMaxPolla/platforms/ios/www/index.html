@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<html lang="es">
+	
+	<head>	
+		<title>TVMax</title>
+		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8" -->
+		
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" >	
+	
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">	
+		<link rel="stylesheet" href="css/bootstrap.min.css">	
+		<link rel="stylesheet" href="css/transition.css">
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+	
+	<body style="position: fixed;">
+	
+		<header>
+			<div class="container">
+				<div class="row">
+														
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 menu" style="text-align: left;">
+						<span class="glyphicon glyphicon-list"></span>
+					</div>
+
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: center;">
+						
+					</div>
+					
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 share hidden" style="text-align: right;">
+						<span class="glyphicon glyphicon-share"></span>
+					</div>
+
+				</div>				 
+			</div>			
+		</header>
+
+		<main>&nbsp;</main>
+
+		<div id="wrapperM" class="page"  style="z-index: 10; left: -100%;" >
+			<div class="scroller">				
+				<div class="container">
+				</div>	
+			</div>
+		</div>	
+		
+		<footer>&nbsp;</footer>
+
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/SocialSharing.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>                         
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <!-- cordova facebook plugin -->
+		<script src="cdv-plugin-fb-connect.js"></script>
+	    <!-- facebook js sdk -->
+		<script src="facebook-js-sdk.js"></script>		
+		<script type="text/javascript" src="js/facebookManager/facebookManager.js"></script>
+        
+        <script type="text/javascript">              
+            app.initialize();
+        </script>
+
+		<script type="text/javascript">		
+			var myScrollM = new IScroll('#wrapperM', {tap: true});
+			myScrollM.on('beforeScrollStart', function () { 
+				this.refresh();		
+			});									
+		</script>
+
+
+	</body>
+	
+</html>
