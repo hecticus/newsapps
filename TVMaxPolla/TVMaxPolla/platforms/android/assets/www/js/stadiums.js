@@ -71,7 +71,7 @@
 
 	};
 
-	$(document).on('tap','.stadium', function(e) {	
+	$(document).on('tap','.stadium', function(e) {
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 
