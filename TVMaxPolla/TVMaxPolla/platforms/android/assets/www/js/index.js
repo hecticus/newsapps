@@ -31,7 +31,7 @@ var _tap = false;
 
 
 var _jMenu=[
-	{index:0,class:'content-noticias',title:'Home',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
+	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'glyphicon glyphicon-home', json:false},
   	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
   	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
   	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
@@ -94,10 +94,10 @@ function initPage(){
 	$('#wrapperM .scroller .container').append(_html);
 
 	
-	/*$('body').removeClass();
+	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
-	$('main').load(_jMenu[0].load);*/
+	$('main').load(_jMenu[0].load);
 	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
 
 	//touchFunctions();

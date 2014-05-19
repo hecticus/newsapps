@@ -28,7 +28,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
-
+		myScroll2.scrollTo(0,0,0);
 	};		
 	
 	
