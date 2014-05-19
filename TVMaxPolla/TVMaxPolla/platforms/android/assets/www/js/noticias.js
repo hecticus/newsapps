@@ -57,7 +57,7 @@
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	if (_index <= 10) {		 	
-				_html += '<div class="col-md-12 item" data-item="'+_item.id+'"  >';
+				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
 				_html += _fGetImage({src:_item.imagen,caption:_item.titulo});
 				_html += '</div>';
 			}		 			
@@ -71,7 +71,7 @@
 	};
 
 
-	$(document).on('tap','.item', function(e) {	
+	$(document).on('tap','.news', function(e) {	
 		if (_tap) _fRenderDataContent($(this).data('item'));
 		setTimeout(function(){
 			_tap = true;

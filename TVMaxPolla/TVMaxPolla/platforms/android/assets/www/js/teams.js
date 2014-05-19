@@ -13,20 +13,13 @@
 	
 		var _html = '<div class="row" >';
 
-		_oAjax = $.fGetAjaXJSON(_url, 'xml', 'text/xml charset=utf-8', false);
-		if (_oAjax) {
-			_oAjax.done(function(_xml) {
-				
-				var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-		    	var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-					_data = $('<div>').append(_data).remove().html();
-				_html += '<div class="col-md-12 team" >';				    
-			 	_html += _data;
-			 	_html += '</div>';
-				
-				
-			});
-		}
+		$.each(_jTeams, function(_index,_team) {			
+			if (_team.gene == _url) {							
+				_html += '<div class="col-md-12" >';				    
+			 	_html += _team.datacontent;
+			 	_html += '</div>';			
+			}
+		});
 
 		_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
@@ -52,15 +45,21 @@
 				_oAjax.done(function(_xml) {
 					
 					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > ul').text();
+						_title = _title.split('-');
+						_title =  _title[1].toString().trim();
+					
 		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
 						_data = $('<div>').append(_data).remove().html();
+						
+					_team.datacontent = _title;
+					_team.datacontent += _data;
+				
 				
 					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
 						_id = _id.split('-');
 						_id = _id[1];
 					
-					_title = _title.split('-');
-					_title =  _title[1].toString().trim();
+					
 					
 					_html += '<div class="col-md-12 team" data-gene="' + encodeURI(_team.gene) + '" >';				    
 				 	_html += '<h3>' + _title + '</h3>';

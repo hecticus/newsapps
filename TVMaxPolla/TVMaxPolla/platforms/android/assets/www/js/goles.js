@@ -5,8 +5,8 @@
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	if (_index <= 10) {
-		 	
-		 		if (_item.activo.toLowerCase() == 'si') {		 		
+		 				 	
+		 		if (_item.activo.toLowerCase() == 'si') {
 		 			var _src = 'http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/' + _item.id_video_kaltura + '/format/url/flavorParamId/0/video.mp4';		 				 		
 		 			_html += '<div class="col-md-12 video" data-src="' + _src + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
 		 			_html += '<p>';
@@ -16,8 +16,8 @@
 			 		_html += '</p>'; 										
 		 			_html += '</div>';
 		 		}
-		 		
-			}		 			
+
+			}
 		});
 
 		 
@@ -27,14 +27,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-	$(document).on('tap','.item', function(e) {	
-		if (_tap) _fRenderDataContent($(this).data('item'));
-		setTimeout(function(){
-			_tap = true;
-		}, 200);		
-	});
-
 
 	var _iIndex = $('main').data('index');
 	_jGet = _jMenu[_iIndex].json;

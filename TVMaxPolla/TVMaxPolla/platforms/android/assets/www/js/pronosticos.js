@@ -55,7 +55,7 @@
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	if (_index <= 10) {		 	
-				_html += '<div class="col-md-12 item" data-item="'+_item.id_pronostico+'"  >';
+				_html += '<div class="col-md-12 forecast" data-item="'+_item.id_pronostico+'"  >';
 				_html += _fGetImage({src:_item.imagen_kaltura,caption:_item.titulo});
 				_html += '</div>';
 			}		 			
@@ -68,7 +68,7 @@
 
 	};
 
-	$(document).on('tap','.item', function(e) {
+	$(document).on('tap','.forecast', function(e) {
 		if (_tap) _fRenderDataContent($(this).data('item'));
 		setTimeout(function(){
 			_tap = true;
