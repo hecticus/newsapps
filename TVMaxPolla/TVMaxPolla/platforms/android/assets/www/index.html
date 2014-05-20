@@ -74,7 +74,7 @@
 
 		<script type="text/javascript">		
 			var myScrollM = new IScroll('#wrapperM', {tap: true});
-			myScrollM.on('beforeScrollStart', function () { 
+			myScrollM.on('beforeScrollStart', function (event) { 
 				this.refresh();		
 			});									
 		</script>

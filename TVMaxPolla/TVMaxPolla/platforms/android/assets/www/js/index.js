@@ -81,7 +81,7 @@ function initPage(){
 	
 	var _html = '<div class="row">';	
 	$(_jMenu).each(function(_index,_menu) {
-		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" data-class="' + _menu.class + '" data-load="' +  _menu.load + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
+		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
 		_html += '<span class="' + _menu.glyphicon + '"></span>';
 		_html += '<span style="margin-left:5px; font-size:1.4em; font-weight:bold;" >' + _menu.title + '</span>';
 		_html += '</div>';
@@ -103,14 +103,16 @@ function initPage(){
 	//touchFunctions();
 	//initFacebookManager();
 
-	$(document).on('touchend','.menu', function(e) {
+	$(document).on('tap','.menu', function(e) {
+		e.preventDefault();
 		_tap = false;
 		myScrollM.scrollTo(0,0,0);
 		$('#wrapperM').attr('class','page transition right');		
 	});
 
 	$(document).on('tap','.load', function(e) {
-	
+	 	e.preventDefault();
+	 
 		if(_oAjax && _oAjax.readystate != 4) {
             _oAjax.abort();
         }
@@ -120,11 +122,11 @@ function initPage(){
 		var _this = $(this);
 		
 		$('body').removeClass();
-		$('body').addClass(_this.data('class'));
+		$('body').addClass(_jMenu[_this.data('index')].class);
 		$('main').empty();
 		$('main').data('index',_this.data('index'));	
 		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_this.data('load'));
+		$('main').load(_jMenu[_this.data('index')].load);
 	
 		$('#wrapperM').attr('class','page transition left');
 				
