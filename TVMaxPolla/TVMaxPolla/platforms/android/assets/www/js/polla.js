@@ -1,5 +1,9 @@
+	var basePollaURL = "http://10.0.1.125:9009";
+	//var basePollaURL = "http://10.0.3.142:9002";
+
 	var _jPrediction = [];
 	var _iClient = 22;
+	//var _iClient = 3;
 
 	var _fGetFlag = function(_team){ 
 		var _html = '<figure class="flag">';					     		
@@ -185,7 +189,7 @@
 			
 		 
 		var _this = $(this).html(_fGetButton('LOADING...'));
-		var _jSave = {idClient:_iClient,clientPrediction:{matches:[]}};
+		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
 		var _phase = $('.phase:visible').data('phase');
 
 		$('.row.phase:visible .group .game').each(function(index) {	
@@ -193,13 +197,25 @@
 			_goal.team_a = $(this).find('.score .team.team-a .goal').data('goal');
 			_goal.team_b = $(this).find('.score .team.team-b .goal').data('goal');	
 			var _game =  $(this).data('game');
-			_jSave.clientPrediction.matches.push({'id_match': _game ,'score_team_a': _goal.team_a,'score_team_b': _goal.team_b});			
+			//revisamos quien fue el ganador y ajustar los datos
+			var draw = false;
+			var team_a_id = $(this).find('.score .team.team-a').data('team');
+			var team_b_id = $(this).find('.score .team.team-b').data('team');
+			if(_goal.team_a == _goal.team_b && _phase == 1){
+				draw=true;
+			}
+			if(_goal.team_a < _goal.team_b){
+				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_b_id, 'id_team_loser':team_a_id, 'score_winner': _goal.team_b,'score_loser': _goal.team_a, 'draw':draw});
+			}else{
+				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_a_id, 'id_team_loser':team_b_id, 'score_winner': _goal.team_a,'score_loser': _goal.team_b, 'draw':draw});
+			}			
 		});
 
 
-		alert(JSON.stringify(_jSave));
+		//alert(JSON.stringify(_jSave));
+		//console.log(JSON.stringify(_jSave));
 		
-		_oAjax = $.fPostAjaXJSON('http://10.0.1.125:9009/matchesapi/v1/prediction/save',JSON.stringify(_jSave));	
+		_oAjax = $.fPostAjaXJSON(basePollaURL+'/matchesapi/v1/clientbet/save',JSON.stringify(_jSave));	
 		if (_oAjax) {
 		
 			_oAjax.always(function () {
@@ -304,9 +320,10 @@
 	});
 
 	
-	_oAjax = $.fPostAjaXJSON('http://10.0.1.125:9009/matchesapi/v1/phase/get/client/matches/current',{idClient:_iClient});	
+	_oAjax = $.fPostAjaXJSON(basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
+			console.log("HTTP Complete");
 			_jPrediction = _json;		
 			_fRenderPrediction();
 		});

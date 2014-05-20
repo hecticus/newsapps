@@ -42,7 +42,11 @@ GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.Phase
 GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.PhaseController.getAllPhasesMatches()
 
 #client bet phases
-POST    /matchesapi/v1/phase/get/client/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatchesWithClientBet()
+POST    /matchesapi/v1/clientbet/get/current    controllers.matchesapi.ClientBetController.getClientBetForCurrentPhase()
+POST    /matchesapi/v1/clientbet/save                      controllers.matchesapi.ClientBetController.storeClientBet()
+
+#TEMPORAL TO FIX OLD
+POST    /matchesapi/v1/predictions/convert/one      controllers.matchesapi.PredictionController.convertOldDataToNewOne()
 
 #predictions
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()

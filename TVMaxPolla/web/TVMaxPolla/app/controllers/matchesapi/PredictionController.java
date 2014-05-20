@@ -1,13 +1,13 @@
 package controllers.matchesapi;
 
 import controllers.HecticusController;
-import models.matches.ClientPrediction;
-import models.matches.Phase;
+import models.matches.*;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
 import play.mvc.Result;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import java.util.List;
  * Created by chrirod on 4/11/14.
  */
 public class PredictionController extends HecticusController {
+
     public static Result storeClientPrediction(){
         try {
             ArrayList data = new ArrayList();
@@ -44,10 +45,12 @@ public class PredictionController extends HecticusController {
                 if(prediction == null){
                     //creamos una nueva
                     prediction = new ClientPrediction(idClient,predictionString);
+                    convertClientPredictionToBet(prediction);
                     prediction.save();
                 }else{
                     //modificamos la existente
                     prediction.setPrediction(predictionString);
+                    convertClientPredictionToBet(prediction);
                     prediction.update();
                 }
                 data.add(prediction.toJson());
@@ -119,40 +122,57 @@ public class PredictionController extends HecticusController {
         }
     }
 
-    public static Result convertClientPredictionToBet(){
+    public static Result convertOldDataToNewOne(){
         try {
             ArrayList data = new ArrayList();
             ObjectNode jsonInfo = getJson();
             long idClient = -1;
             long idClientPrediction = -1;
-            if(jsonInfo.has("idClient") || jsonInfo.has("idPrediction")){
-                if(jsonInfo.has("idClient"))idClient = jsonInfo.get("idClient").asLong();
-                if(jsonInfo.has("idPrediction"))idClientPrediction = jsonInfo.get("idPrediction").asLong();
-                if(idClient == -1 && idClientPrediction == -1){
-                    //error
-                    return badRequest(buildBasicResponse(1,"no hay criterio de busqueda"));
-                }
+            if(jsonInfo.has("idClient"))idClient = jsonInfo.get("idClient").asLong();
+            if(jsonInfo.has("idPrediction"))idClientPrediction = jsonInfo.get("idPrediction").asLong();
+            if(idClient != -1 || idClientPrediction != -1){
                 ClientPrediction prediction = null;
                 if(idClient != -1){
                     prediction = ClientPrediction.getClientPrediction(idClient);
                 }else{
                     prediction = ClientPrediction.getPrediction(idClientPrediction);
                 }
-
-                if(prediction != null){
-                    
-                }
-
+                convertClientPredictionToBet(prediction);
                 //build response
-                ObjectNode response = hecticusResponse(0, "ok", "client_bets", data);
+                ObjectNode response = buildBasicResponse(0, "ok");
                 return ok(response);
             }else{
-                return badRequest(buildBasicResponse(1,"parametros incorrectos para la convertir la prediccion a apuesta del cliente"));
-            }
-
-
+                return badRequest(buildBasicResponse(1, "parametros incorrectos para la conversion"));
+            } 
         }catch(Exception ex){
             return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
+        }
+    }
+
+    public static void convertClientPredictionToBet(ClientPrediction prediction) throws UnsupportedEncodingException {
+        if(prediction != null){
+            long idClient = prediction.getIdClient();
+            String predictionString = prediction.getPrediction();
+            ObjectNode predictionObj = (ObjectNode) Json.parse(predictionString);
+            ArrayNode matchesResults = (ArrayNode)predictionObj.get("matches");
+
+            if(matchesResults != null){
+                for(int y=0;y<matchesResults.size();y++){
+                    ObjectNode obj = (ObjectNode) matchesResults.get(y);
+                    int matchID = obj.get("id_match").asInt();
+                    GameMatch match = GameMatch.getMatch(matchID);
+                    if(match.getIdGroup()<9){
+                        ClientBet clientBet = ClientBet.getClientBetForMatch(idClient,matchID);
+                        if(clientBet != null){
+                            clientBet.initClientBetData(idClient,1,obj);
+                            clientBet.update();
+                        }else{
+                            clientBet = new ClientBet(idClient,1,obj);
+                            clientBet.save();
+                        }
+                    }
+                }
+            }
         }
     }
 }
