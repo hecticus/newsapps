@@ -28,35 +28,28 @@
 		width: 100%; 
 		height: 50px;
 		line-height: 50px;
-		background: #3E79C4;
+		background: #FFFFFF;
 		padding: 0;
-		color: #ffffff;
+		color: #1E5733;
 		font-size: 20px;
 		text-align: center;
 		font-weight: bold;
 		display: none;
+		border-bottom: solid #4D4D4D;
 	}
 			
+	header .glyphicon  {
+		color: #3E79C4;
+	}			
+	
+	
+	
 	
 	body:not(.content-home) header {
 		display: block;
 	}
 	
-	/*noticias*/
-	body.content-noticias figure { width: 100%; height: auto;}
-	body.content-noticias figure img { width: 100%;  height: auto;}			
-	body.content-noticias figcaption {
-		font-size : 1.2em;			
-		padding: 5px; 
-		width:100%; 
-		line-height:20px;				 
-		color:#ffffff; 
-		text-align: left;
-	    background-color:rgba(0,0,0,0.5);
-	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
-	}
-
-	/*figure { width: 100%; height: auto; position:relative; margin: 2px 0; }
+	figure { width: 100%; height: auto; position:relative; margin: 2px 0; }
 	figure img { width: 100%;  height: auto;  position:relative; left:0; top:0; }			
 	figcaption  {
 		position: absolute;		
@@ -67,9 +60,91 @@
 		line-height:20px;				 
 		color:#ffffff; 
 		text-align: left;
-	    background-color:rgba(0,0,0,0.5);
-	    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
-	}*/
+	}
+
+	
+	
+	/*noticias*/
+	body.content-noticias #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-noticias #wrapper .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-noticias #wrapper .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-noticias #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-noticias #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-noticias #wrapper .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#ffffff; 
+		text-align: left;	   
+	    background-color:#3E79C4;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	    
+	}
+
+
+	body.content-noticias #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-noticias #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-noticias #wrapper2 .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-noticias #wrapper2 .scroller .container p.title {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background:#E6E6E6; 
+		font-size:1.2em; 
+		font-weight:bold; 
+		color:#3E79C4; 
+		
+	}
+	 
+	body.content-noticias #wrapper2 .scroller .container p.date {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background: #3E79C4;		
+		text-align: right;
+		font-size:0.9em; 
+		color:#FFD455; 		
+	}
+	
+	body.content-noticias #wrapper2 .scroller .container p.description {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background: #E6E6E6; 
+		font-size:1em; 
+		color:#1E5733; 
+		font-style:italic;
+	}
+	
+	body.content-noticias #wrapper2 .scroller .container p.fullstory {
+		position:relative;
+		margin: 0; 
+		padding:10px;
+		font-size:1.2em;  
+		color:#4D4D4D; 
+		font-style:italic; 	
+	}
+	
+	
+	
+	body.content-noticias #wrapper2 .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-noticias #wrapper2 .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-noticias #wrapper2 .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#ffffff; 
+		text-align: left;	   
+	    background-color:#3E79C4;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	}
+	/*noticias*/
 
 	/*polla*/
 	body.content-polla .hidden {display:none;}
@@ -88,7 +163,88 @@
 	body.content-polla .sub { color: blue; }
 	
 	/*pronosticos*/
-	/*body.content-pronosticos |class|element|id| { |property| }*/
+	body.content-pronosticos #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-pronosticos #wrapper .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-pronosticos #wrapper .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-pronosticos #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-pronosticos #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-pronosticos #wrapper .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#ffffff; 
+		text-align: left;	   
+	    background-color:#3E79C4;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	    
+	}
+
+
+	body.content-pronosticos #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-pronosticos #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-pronosticos #wrapper2 .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-pronosticos #wrapper2 .scroller .container p.title {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background:#E6E6E6; 
+		font-size:1.2em; 
+		font-weight:bold; 
+		color:#3E79C4; 
+		
+	}
+	 
+	body.content-pronosticos #wrapper2 .scroller .container p.date {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background: #3E79C4;		
+		text-align: right;
+		font-size:0.9em; 
+		color:#FFD455; 		
+	}
+	
+	body.content-pronosticos #wrapper2 .scroller .container p.description {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background: #E6E6E6; 
+		font-size:1em; 
+		color:#1E5733; 
+		font-style:italic;
+	}
+	
+	body.content-pronosticos #wrapper2 .scroller .container p.fullstory {
+		position:relative;
+		margin: 0; 
+		padding:10px;
+		font-size:1.2em;  
+		color:#4D4D4D; 
+		font-style:italic; 	
+	}
+	
+	
+	
+	body.content-pronosticos #wrapper2 .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-pronosticos #wrapper2 .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-pronosticos #wrapper2 .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#ffffff; 
+		text-align: left;	   
+	    background-color:#3E79C4;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	}
+	/*pronosticos*/
+	
+	
 	
 	
 	/*goles*/
@@ -96,8 +252,87 @@
 	
 	 
 	/*polemicas*/
-	/*body.content-polemicas |class|element|id| { |property | }*/
+	body.content-polemicas #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-polemicas #wrapper .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-polemicas #wrapper .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
 	
+	body.content-polemicas #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-polemicas #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-polemicas #wrapper .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#ffffff; 
+		text-align: left;	   
+	    background-color:#3E79C4;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	    
+	}
+
+
+	body.content-polemicas #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-polemicas #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-polemicas #wrapper2 .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-polemicas #wrapper2 .scroller .container p.title {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background:#E6E6E6; 
+		font-size:1.2em; 
+		font-weight:bold; 
+		color:#3E79C4; 
+		
+	}
+	 
+	body.content-polemicas #wrapper2 .scroller .container p.date {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background: #3E79C4;		
+		text-align: right;
+		font-size:0.9em; 
+		color:#FFD455; 		
+	}
+	
+	body.content-polemicas #wrapper2 .scroller .container p.description {
+		position:relative;
+		margin: 0; 
+		padding:5px;
+		background: #E6E6E6; 
+		font-size:1em; 
+		color:#1E5733; 
+		font-style:italic;
+	}
+	
+	body.content-polemicas #wrapper2 .scroller .container p.fullstory {
+		position:relative;
+		margin: 0; 
+		padding:10px;
+		font-size:1.2em;  
+		color:#4D4D4D; 
+		font-style:italic; 	
+	}
+	
+	
+	
+	body.content-polemicas #wrapper2 .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-polemicas #wrapper2 .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-polemicas #wrapper2 .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#ffffff; 
+		text-align: left;	   
+	    background-color:#3E79C4;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	}
+	/*polemicas*/
+		
 	/*calendario*/
 	body.content-calendario #wrapper,
 	body.content-calendario #wrapper2 { 
@@ -144,19 +379,21 @@
 		background: #fff;
 	}
 
-	body.content-home figure { width: 100%; height: auto;}
-	body.content-home figure img { width: 100%;  height: auto; padding: 0; margin: 0;}			
+	body.content-home figure {position:relative; width: 100%; height: auto;}
+	body.content-home figure img { width: 100%;  height: auto;}			
 	body.content-home figcaption {
-		margin: 0;
-		font-size : 1.2em;			
+		font-size : 1em;			
 		padding: 5px; 
 		width:100%; 
 		line-height:20px;				 
 		color:#ffffff; 
 		text-align: left;
 	    background-color:#3E79C4;
-	    
+	    position: absolute;	
+	    bottom: 0;	
 	}
+
+	
 
 
 

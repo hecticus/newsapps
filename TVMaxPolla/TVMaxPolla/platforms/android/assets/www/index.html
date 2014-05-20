@@ -26,7 +26,7 @@
 				<div class="row">
 														
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 menu" style="text-align: left;">
-						<span class="glyphicon glyphicon-list"></span>
+						<span class="glyphicon glyphicon-align-justify"></span>
 					</div>
 
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: center;">
@@ -72,11 +72,12 @@
             app.initialize();
         </script>
 
-		<script type="text/javascript">		
-			var myScrollM = new IScroll('#wrapperM', {tap: true});
-			myScrollM.on('beforeScrollStart', function (event) { 
-				this.refresh();		
-			});									
+		<script type="text/javascript">				
+			var myScrollM = new IScroll('#wrapperM',{preventDefault:true});			
+			myScrollM.on('beforeScrollStart', function () {				 
+				this.refresh();
+				_tap = true;
+			});
 		</script>
 
 

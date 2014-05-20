@@ -1,9 +1,15 @@
 var _fSetBack = function() {	
+	
+	
+	
 	$('.share').addClass('hidden');
-	$('.share').removeAttr('onclick');			
+	$('.share').removeAttr('onclick');
+				
 	$('#wrapperM').attr('class','page transition left');	
 	$('#wrapper2 .scroller .container').empty();			
 	$('#wrapper2').attr('class','page transition right');
+		
+
 };
 
 

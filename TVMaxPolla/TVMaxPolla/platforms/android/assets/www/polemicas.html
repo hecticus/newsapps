@@ -18,17 +18,16 @@
 		</div>
 		
 		
-		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {tap: true});
+		<script type="text/javascript">
+				
+			var myScroll = new IScroll('#wrapper');
 			myScroll.on('beforeScrollStart', function () { 
-				this.refresh();
-				e.preventDefault();	
+				this.refresh();	
 			});	
 
 			var myScroll2 = new IScroll('#wrapper2');
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();
-				e.preventDefault();	
 			});	
 				
 		</script>

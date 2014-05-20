@@ -10,11 +10,13 @@
 		</div>	
 
 
-		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {tap: true});
-			myScroll.on('beforeScrollStart', function (e) { 
+		<script type="text/javascript">
+				
+			var myScroll = new IScroll('#wrapper', {tap: true, preventDefault:true});
+			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();		
 			});	
+			
 		</script>
 		
 		<script type="text/javascript" src="js/jsons.js"></script>  

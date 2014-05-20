@@ -3,7 +3,23 @@
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
 		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
-		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
+		
+		if (_image.caption) {
+			
+			_html += '<figcaption>';
+			
+			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; ">';
+			_html += '<span>'+_image.caption+'</span>';
+			_html += '</div>';
+			
+			_html += '<div style="width:20%;  height: 40px; line-height: 20px; float:right; text-align: right; font-size:1.4em;">';
+			_html += '<span class="glyphicon glyphicon-search"></span>';
+			_html += '</div>';
+						
+			_html += '</figcaption>';		
+
+		}
+		
 		_html += '</figure>';
 		return _html;
 	};
@@ -16,25 +32,24 @@
 			if (_item.id == _id) {
 			
 				_html += '<div class="col-md-12">';
+				_html += '<p class="title">' + _item.titulo + '</p>';				
+				_html += '</div>';
+			 
+				_html += '<div class="col-md-12">';
 				_html += _fGetImage({src:_item.imagen,caption:false});
 				_html += '</div>';
 
-				_html += '<div class="col-md-12" >';
-				_html += '<h4>' + _item.titulo + '</h4>';
-				_html += '<h5>' + _item.fecha + '</h5>'; 
+				_html += '<div class="col-md-12" >';				
+				_html += '<p class="date">' + _item.fecha + '</p>'; 
 				_html += '</div>';
-			
-				_html += '<div class="col-md-12" >';
-				_html += '<p style="color:#BDBDBD;">' + _item.descripcion + '</p>'; 
+						
+				_html += '<div class="col-md-12" style="" >';
+				_html += '<p class="description" >' + _item.descripcion + '</p>';
 				_html += '</div>';
-				
+										
 				_html += '<div class="col-md-12" >';
-				_html += '<p>' + _item.fullstory + '</p>'; 
-				_html += '</div>';
-				
-				_html += '<div class="col-md-12" >';
-				_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-				_html += '</div>';
+				_html += '<p class="fullstory">' + _item.fullstory + '</p>'; 
+				_html += '</div>';				
 				
 				$('.share').removeClass('hidden');		
 				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'NoticiasTVN\',null,\'http://mundial.tvmax-9.com\');');

@@ -19,7 +19,8 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {tap: true});
+		
+			var myScroll = new IScroll('#wrapper');
 			myScroll.on('beforeScrollStart', function (e) {					
 				this.refresh();	
 			});
@@ -28,6 +29,7 @@
 			myScroll2.on('beforeScrollStart', function (e) { 
 				this.refresh();
 			});	
+			
 		</script>
 		
 		<script type="text/javascript" src="js/pronosticos.js"></script>  

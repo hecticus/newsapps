@@ -11,11 +11,10 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {tap: true});
+			var myScroll = new IScroll('#wrapper');
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();	
-				e.preventDefault();	
-			});					
+				});					
 		</script>
 		
 		<script type="text/javascript" src="js/goles.js"></script>  

@@ -29,7 +29,6 @@ var _oAjax;
 var _jMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
 var _tap = false;
 
-
 var _jMenu=[
 	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'glyphicon glyphicon-home', json:false},
   	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
@@ -60,9 +59,9 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-		document.addEventListener('backbutton', function() {
+		document.addEventListener('backbutton', function(e) {
 			//exitApp();
-			_fSetBack();						
+			_fSetBack(e);						
 		}, false);
 		
 		app.receivedEvent('deviceready');    	
@@ -103,36 +102,48 @@ function initPage(){
 	//touchFunctions();
 	//initFacebookManager();
 
-	$(document).on('tap','.menu', function(e) {
-		e.preventDefault();
-		_tap = false;
-		myScrollM.scrollTo(0,0,0);
-		$('#wrapperM').attr('class','page transition right');		
+	$(document).on('touchend','header .menu', function(e) {
+		$('#wrapperM').attr('class','page transition right');
 	});
 
-	$(document).on('tap','.load', function(e) {
-	 	e.preventDefault();
-	 
-		if(_oAjax && _oAjax.readystate != 4) {
-            _oAjax.abort();
-        }
+	$(document).on('click','.menu', function(e) {
+	   	$('#wrapperM').attr('class','page transition right');  	
+	});
+
+	$(document).on('click','.load', function(e) {			
 
 	
-		_fSetBack();
-		var _this = $(this);
-		
-		$('body').removeClass();
-		$('body').addClass(_jMenu[_this.data('index')].class);
-		$('main').empty();
-		$('main').data('index',_this.data('index'));	
-		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_jMenu[_this.data('index')].load);
+			
+			if(_oAjax && _oAjax.readystate != 4) {
+				_oAjax.abort();
+	    	}
 	
-		$('#wrapperM').attr('class','page transition left');
-				
+			_fSetBack();
+			var _this = $(this);
+			
+			$('body').removeClass();
+			$('body').addClass(_jMenu[_this.data('index')].class);
+			$('main').empty();
+			$('main').data('index',_this.data('index'));	
+			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+			$('main').load(_jMenu[_this.data('index')].load);
+		
+			$('#wrapperM').attr('class','page transition left');
+			
+	
+
+		
+		
+	
+			
 	});
 		
 }
+function _fRenderLoad(){
+	
+	
+};
+
 
 function touchFunctions(){
 	//facebook login
