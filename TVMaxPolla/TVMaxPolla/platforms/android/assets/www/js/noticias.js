@@ -86,7 +86,7 @@
 	};
 
 
-	$(document).on('tap','.news', function(e) {	
+	$(document).on('click','.news', function(e) {	
 		if (_tap) _fRenderDataContent($(this).data('item'));
 		setTimeout(function(){
 			_tap = true;
