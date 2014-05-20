@@ -42,7 +42,7 @@
 				_html += '</div>';
 
 				_html += '<div class="col-md-12" >';				
-				_html += '<p class="date">' + _item.fecha + '</p>'; 
+				_html += '<p class="date">' +  _fGetFormatDate(_item.fecha)  + '</p>'; 
 				_html += '</div>';
 						
 				_html += '<div class="col-md-12" style="" >';

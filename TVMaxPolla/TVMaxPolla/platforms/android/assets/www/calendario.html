@@ -36,12 +36,12 @@
 		
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper', {tap: true});
-			myScroll.on('beforeScrollStart', function (e) {					
+			myScroll.on('beforeScrollStart', function () {					
 				this.refresh();	
 			});
 				
 			var myScroll2 = new IScroll('#wrapper2');
-			myScroll2.on('beforeScrollStart', function (e) { 
+			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();
 			});	
 		</script>

@@ -24,7 +24,10 @@
 	
 	
 	header {	
-		position: absolute; z-index: 2; top: 0; left: 0; 
+		position: absolute; 
+		z-index: 2; 
+		top: 0; 
+		left: 0; 
 		width: 100%; 
 		height: 50px;
 		line-height: 50px;
@@ -41,11 +44,10 @@
 	header .glyphicon  {
 		color: #3E79C4;
 	}			
-	
-	
-	
-	
-	body:not(.content-home) header {
+
+
+
+	body header:not(.content-home) {
 		display: block;
 	}
 	
@@ -362,10 +364,12 @@
 
 	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
 
-
-	body.content-home .container { padding:  0 !important; margin: 0 !important;}
-	body.content-home .container .row { padding: 2px !important; margin: 0 !important;}
-	body.content-home .container .row .metro { padding: 2px !important; margin: 0 !important;}
+	/*Home*/
+	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
+	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
+	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
+	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important;margin: 0 !important;}
+	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
 	
 			
 	body.content-home header {display: none;}
@@ -378,11 +382,12 @@
 		width: 100%; 
 		background: #fff;
 	}
-
-	body.content-home figure {position:relative; width: 100%; height: auto;}
-	body.content-home figure img { width: 100%;  height: auto;}			
-	body.content-home figcaption {
-		font-size : 1em;			
+	
+	body.content-home #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; margin: 0; }
+	body.content-home #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-home #wrapper .scroller .container figcaption {
+		font-size : 1em;
+		margin: 0;			
 		padding: 5px; 
 		width:100%; 
 		line-height:20px;				 
@@ -392,8 +397,7 @@
 	    position: absolute;	
 	    bottom: 0;	
 	}
-
-	
+	/*Home*/
 
 
 
