@@ -14,6 +14,7 @@
 		$.each(_jPlayers, function(_index,_player) {				
 			if (_player.url == _url) {				
 				_html += '<div class="col-md-12" >';
+				_html += _fGetImage({src:_player.image,  caption: _player.title});
 				_html += _player.datacontent;
 		 		_html += '</div>';								
 			}
@@ -36,8 +37,14 @@
 	
 		var _html = '<div class="row" >';
 				
-		$.each(_jPlayers, function(_index,_player) {	
-			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
+		$.each(_jPlayers, function(_index,_player) {
+			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';
+			//_html += _fGetImage({src:_history.image,  caption: _history.title});
+			_html += '<h3>' +  _player.title + '</h3>';
+		 	_html += '</div>';
+			
+				
+			/*_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
 			if (_oAjax) {
 				_oAjax.done(function(_xml) {
 					
@@ -49,16 +56,16 @@
 					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
 	    				_data = $('<div>').append(_data).remove().html();
 	    		
-					_player.datacontent = _fGetImage({src:_urlCloud + '/' + _id +'.jpg',  caption: _title});
+					_player.datacontent = _fGetImage({src:_urlCloud + '/legends/' + _id +'.jpg',  caption: _title});
 					_player.datacontent +=  _data;
 							
 					_html += '<div class="col-md-12 player" data-url="' + _player.url + '">';
-		    		_html += _fGetImage({src:_urlCloud + '/' + _id +'.jpg',  caption: _title});		    		
+		    		_html += _fGetImage({src:_urlCloud + '/legends/' + _id +'.jpg',  caption: _title});		    		
 				 	_html += '</div>';
 					
 					
 				});
-			}		
+			}*/		
 		});
 		
 		

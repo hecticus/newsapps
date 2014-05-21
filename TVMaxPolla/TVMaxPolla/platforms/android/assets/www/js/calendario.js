@@ -1,56 +1,6 @@
-
-
-
-
 	
 	var _jPhase = [];
-	
-	/*var _jCountries = [
-		{name:'Alemania', shortname: 'GER', flag:'gm-lgflag.png'},
-		{name:'Argelia', shortname: 'ALG', flag:'ag-lgflag.png'},
-		{name:'Argentina', shortname: 'ARG', flag:'ar-lgflag.png'},
-		{name:'Australia', shortname: 'AUS', flag:'as-lgflag.png'},
-		{name:'Bélgica', shortname: 'BEL', flag:'be-lgflag.png'},
-		{name:'Bosnia', shortname: 'BIH', flag:'bk-lgflag.png'},
-		{name:'Brasil', shortname: 'BRA', flag:'br-lgflag.png'},
-		{name:'Camerún', shortname: 'CMR', flag:'cm-lgflag.png'},
-		{name:'Chile', shortname: 'CHI', flag:'ci-lgflag.png'},
-		{name:'Colombia', shortname: 'COL', flag:'co-lgflag.png'},
-		{name:'Corea del Sur', shortname: 'KOR', flag:'ks-lgflag.png'},
-		{name:'Costa de Marfil', shortname: 'CIV', flag:'iv-lgflag.png'},				
-		{name:'Costa Rica', shortname: 'CRC', flag:'cs-lgflag.png'},
-		{name:'Croacia', shortname: 'CRO', flag:'hr-lgflag.png'},		
-		{name:'Ecuador', shortname: 'ECU', flag:'ec-lgflag.png'},
-		{name:'Estados Unidos', shortname: 'USA', flag:'us-lgflag.png'},
-		{name:'España', shortname: 'ESP', flag:'sp-lgflag.png'},
-		{name:'Francia', shortname: 'FRA', flag:'fr-lgflag.png'},
-		{name:'Ghana', shortname: 'GHA', flag:'gh-lgflag.png'},
-		{name:'Grecia', shortname: 'GRE', flag:'gr-lgflag.png'},		
-		{name:'Holanda', shortname: 'NED', flag:'nl-lgflag.png'},
-		{name:'Honduras', shortname: 'HON', flag:'ho-lgflag.png'},
-		{name:'Inglaterra', shortname: 'ENG', flag:'en-lgflag.png'},
-		{name:'Irán', shortname: 'IRN', flag:'ir-lgflag.png'},
-		{name:'Italia', shortname: 'ITA', flag:'it-lgflag.png'},
-		{name:'Japón', shortname: 'JPN', flag:'ja-lgflag.png'},		
-		{name:'México', shortname: 'MEX', flag:'mx-lgflag.png'},
-		{name:'Nigeria', shortname: 'NGA', flag:'ni-lgflag.png'},
-		{name:'Portugal', shortname: 'POR', flag:'po-lgflag.png'},
-		{name:'Rusia', shortname: 'RUS', flag:'rs-lgflag.png'},
-		{name:'Suiza', shortname: 'SUI', flag:'sz-lgflag.png'},
-		{name:'Uruguay', shortname: 'URU', flag:'uy-lgflag.png'}							
-	];*/
-	
-
-	 
-	//var _jCountry = ['Alemania','Argelia','Argentina','Australia','Bélgica','Bosnia','Brasil','Camerún','Chile','Colombia','Corea del Sur','Costa de Marfil','Costa Rica','Croacia','Ecuador','Estados Unidos','España','Francia','Ghana','Grecia','Holanda','Honduras','Inglaterra','Irán','Italia','Japón','México','Nigeria','Portugal','Rusia','Suiza','Uruguay'];
 	var _jCountry = [];
-	var _jFlag = ['gm-lgflag.png','ag-lgflag.png'
-	,'ar-lgflag.png','as-lgflag.png','be-lgflag.png','bk-lgflag.png','br-lgflag.png','cm-lgflag.png'
-	,'ci-lgflag.png','co-lgflag.png','ks-lgflag.png','iv-lgflag.png','cs-lgflag.png','hr-lgflag.png'
-	,'ec-lgflag.png','us-lgflag.png','sp-lgflag.png','fr-lgflag.png','gh-lgflag.png','gr-lgflag.png'
-	,'nl-lgflag.png','ho-lgflag.png','en-lgflag.png','ir-lgflag.png','it-lgflag.png','ja-lgflag.png'
-	,'mx-lgflag.png','ni-lgflag.png','po-lgflag.png','rs-lgflag.png','sz-lgflag.png','uy-lgflag.png'];
-
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
@@ -61,7 +11,7 @@
 	};
 
 	var _fGetCountry = function(_name) {
-		
+				
 		var _return  = false;		
 		$.each(_jCountries, function(_index,_country) {
 			
@@ -149,12 +99,12 @@
 		var _day = 0;
 		
 		if (_month == 'jun') {			
-			_html +='<tr><td colspan="7">Junio</td></tr>';		  		
+			_html +='<tr><td class="name-month" colspan="7">Junio</td></tr>';		  		
 			_day = new Date('June 01, 2014').getDay();
 		} 
 
 		if (_month == 'jul') {
-			_html +='<tr><td colspan="7">Julio</td></tr>';
+			_html +='<tr><td class="name-month" colspan="7">Julio</td></tr>';
 			_day = new Date('July 01, 2014').getDay();	
 		}	
 		
@@ -234,7 +184,7 @@
 		_jCountry.sort();	
 		$.each(_jCountry, function(_index) {			
 			_html += '<div class="col-md-12 match" data-country="' + _jCountry[_index] + '" >';
-			_html += '<h3>' + _jCountry[_index].toString()  + '</h3>';
+			_html += '<span>' + _jCountry[_index].toString()  + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';
@@ -249,7 +199,7 @@
 		var _html = '<div class="row" >';	
 		$.each(_jPhase, function(_index) {			
 			_html += '<div class="col-md-12 match" data-phase="' + _jPhase[_index] + '" >';
-			_html += '<h3>' + _jPhase[_index] + '</h3>';
+			_html += '<span>' + _jPhase[_index] + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';
@@ -264,8 +214,9 @@
 		var _html = '<div class="row" >';
 		_html += '<div class="col-md-12">';
 
-		_html += '<div class="table-responsive">';
-		_html += '<table class="table">';
+		_html += '<div class="table-responsive" style="border:0;">';
+		
+		_html += '<table class="table table-striped">';
 				
 		_html += '<thead>';
 		_html += '<tr>';           
@@ -295,17 +246,17 @@
 	};
 
 
-	$(document).on('touchend','.calendar', function(e) {						
+	$(document).on('click','.calendar', function(e) {						
 		eval($(this).data('function'));		
-		$('.calendar').css('color','#000');
-		$(this).css('color','blue');
+		$('.calendar').removeClass('active');	
+		$(this).addClass('active');
 		$('#wrapper2').attr('class','page transition right');
 		myScroll.scrollTo(0,0,0);
 		myScroll2.scrollTo(0,0,0);		
 	});
 
 
-	$(document).on('tap','.match', function(e) {	
+	$(document).on('click','.match', function(e) {	
 		
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		

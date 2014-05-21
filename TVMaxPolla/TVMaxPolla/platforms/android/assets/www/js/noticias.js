@@ -9,11 +9,11 @@
 			_html += '<figcaption>';
 			
 			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; ">';
-			_html += '<span>'+_image.caption+'</span>';
+				_html += '<span>'+_image.caption+'</span>';
 			_html += '</div>';
 			
-			_html += '<div style="width:20%;  height: 40px; line-height: 20px; float:right; text-align: right; font-size:1.4em;">';
-			_html += '<span class="glyphicon glyphicon-search"></span>';
+			_html += '<div style="width:20%;  height: 40px; line-height: 40px; float:right; text-align: right; font-size:1.6em; font-weight:bold;">';
+				_html += '<span class="icon-lupa"></span>';
 			_html += '</div>';
 						
 			_html += '</figcaption>';		
