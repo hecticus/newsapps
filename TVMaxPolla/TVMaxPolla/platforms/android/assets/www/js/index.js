@@ -16,6 +16,39 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
+var _jImageFeatured = false;
+
+
+var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
+var _date = new Date();
+var _day = _date.getDate();
+var _month = (_date.getMonth()+1);
+var _year = _date.getFullYear();
+var _copyright= 'Copyright &copy; Televisora Nacional S.A. ' + _year;
+
+var _jGet = false;	
+var _oAjax;
+var _jMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+var _tap = false;
+
+var _jMenu=[
+	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'glyphicon glyphicon-home', json:false},
+  	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
+  	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
+  	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
+  	{index:4,class:'content-pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
+  	{index:5,class:'content-polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
+  	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false},
+  	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'glyphicon glyphicon-inbox', json:false},
+  	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'glyphicon glyphicon-plane', json:false},
+  	{index:9,class:'content-players',title:'Biografias',load:'players.html', glyphicon:'glyphicon glyphicon-user', json:false},
+  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'glyphicon glyphicon-flag', json:false}
+  	    	
+];
+
+
  
 function exitApp(){
 	if (navigator.app) {						
@@ -30,15 +63,26 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-
-		document.addEventListener('backbutton', function() {
-			exitApp();
+    	
+    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {					
+				_jMenu[0].json = _json.noticias_mundial;						
+				$.each(_json.noticias_mundial.item, function(_index,_item) {
+					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+					return false;
+				});				
+			});
+		}
+    	
+		document.addEventListener('backbutton', function(e) {
+			//exitApp();
+			_fSetBack(e);						
 		}, false);
 		
-		app.receivedEvent('deviceready');
-    	
-    	
- 
+		app.receivedEvent('deviceready');    	
+    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+ 		
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -47,11 +91,73 @@ var app = {
     }
 };
 
-function initPage(){
-	touchFunctions();
 
-	initFacebookManager();
+function initPage(){
+	
+	var _html = '<div class="row">';	
+	$(_jMenu).each(function(_index,_menu) {
+		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
+		_html += '<span class="' + _menu.glyphicon + '"></span>';
+		_html += '<span style="margin-left:5px; font-size:1.4em; font-weight:bold;" >' + _menu.title + '</span>';
+		_html += '</div>';
+	});         	
+	_html += '</div>';
+	
+	$('#wrapperM').height($(window).height());
+	$('#wrapperM .scroller').height($(window).height());
+	$('#wrapperM .scroller .container').height($(window).height());
+	$('#wrapperM .scroller .container').append(_html);
+
+	
+	$('body').removeClass();
+	$('body').addClass(_jMenu[0].class);
+	$('main').data('index',0);		
+	$('main').load(_jMenu[0].load);
+	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+
+	//touchFunctions();
+	//initFacebookManager();
+
+	$(document).on('touchend','header .menu', function(e) {
+		$('#wrapperM').attr('class','page transition right');
+	});
+
+	$(document).on('click','.menu', function(e) {
+	   	$('#wrapperM').attr('class','page transition right');  	
+	});
+
+	$(document).on('click','.load', function(e) {			
+			
+		if(_oAjax && _oAjax.readystate != 4) {
+			_oAjax.abort();
+    	}
+
+		_fSetBack();
+		var _this = $(this);
+		
+		$('body').removeClass();
+		$('body').addClass(_jMenu[_this.data('index')].class);
+		$('main').empty();
+		$('main').data('index',_this.data('index'));	
+		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+		$('main').load(_jMenu[_this.data('index')].load);
+	
+		$('#wrapperM').attr('class','page transition left');
+			
+	
+
+		
+		
+	
+			
+	});
+		
 }
+function _fRenderLoad(){
+	
+	
+};
+
 
 function touchFunctions(){
 	//facebook login
@@ -68,3 +174,9 @@ function touchFunctions(){
 		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 	});
 }
+
+
+
+
+
+

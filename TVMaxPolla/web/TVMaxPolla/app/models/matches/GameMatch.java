@@ -164,6 +164,22 @@ public class GameMatch extends HecticusModel{
         return finder.where().eq("id_match", idMatch).findUnique();
     }
 
+    public static GameMatch getMatchIfActiveForBet(int idMatch){
+        GameMatch match = finder.where().eq("id_match", idMatch).findUnique();
+        List<Phase> activePhases = Phase.getAllActivePhases();
+        boolean found = false;
+        for(int i=0;i<activePhases.size();i++){
+            if(match.getIdPhase() == activePhases.get(i).getIdPhase()){
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            match = null;
+        }
+        return match;
+    }
+
     public static List<GameMatch> getMatchesWithIDs(ArrayList<Integer> idMatches){
         return finder.where().idIn(idMatches).findList();
     }

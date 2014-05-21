@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141452+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141452.team-2067-gene</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="15">16</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141452.wc2014-team-2067-gene:16</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2067-gene</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141452Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141452Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Perfil de Argelia</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<hl2>Los 'Zorros', del desierto a la Amazonia</hl2>
+						<media media-type="image" style="leftSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo1" />
+						</media>
+						<media media-type="image" style="rightSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo2" />
+						</media>
+						<p>Argelia precisó de un decisivo gol de Madjid Bougherra y del apoyo de una hinchada enfervorizada para sellar su billete hacia el Mundial ante Burkina Faso.</p>
+						<p>Luego de caer 3-2 en Ouagadougou, los 'Zorros del Desierto' remontaron la desventaja al imponerse 1-0 en la vuelta en Blida, con un estadio a rebosar desde seis horas antes del partido.</p>
+						<p>Dirigida desde junio de 2011 por el autoritario técnico bosnio Vahid Halilhodzic, la selección argelina es un bloque disciplinado, sólido en defensa y ordenado tácticamente. Disputará su cuarto Mundial, el segundo consecutivo, cuatro años después de que lo hiciera el combinado dirigido por Rabah Saâdane.</p>
+						<media media-type="image" style="leftSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo3" />
+						</media>
+						<p>Si los jugadores de Halilhodzic fracasaron en su primera gran cita, la Copa de África 2013, donde fueron eliminados en primera ronda, los resultados en las eliminatorias mundialistas han hecho renacer las esperanzas.</p>
+						<media media-type="image" style="rightSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo4" />
+						</media>
+						<p>El antiguo técnico del París Saint-Germain y de Costa de Marfil no carece de jóvenes talentos, desde el delantero del Sporting de Lisboa Islam Slimani (25 años, 5 goles en la clasificación), hasta los medios Sofiane Feghouli (24 años, Valencia) y Saphir Taïder (22 años, Inter de Milán). Ishak Belfodil (21 años, Inter) y Nabil Ghilas (23 años, Oporto) ya llaman a la puerta.</p>
+						<p>Madjid Bouguerra (31 años) en defensa y Carl Medjani (29 años) en la medular aportan su experiencia a este joven equipo con pocos treintañeros.</p>
+						<hl2>El escándalo de 1982</hl2>
+						<p>En la fase de clasificación, Argelia lógicamente superó su grupo, concediendo una sola derrota ante Mali, con 13 goles a favor y 4 en contra.</p>
+						<p>Después afrontó el complicado duelo en Burkina Faso y la vuelta de infarto en la caldera de Blida.</p>
+						<media media-type="image" style="leftSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo5" />
+						</media>
+						<p>En el Mundial de Sudáfrica los hombres de Saâdane fueron enviados a casa en la primera fase tras caer 1-0 ante Eslovenia y Estados Unidos, y empatar a cero con Inglaterra.</p>
+						<p>Eliminado en primera ronda en 1982 y 1986, Argelia guarda un recuerdo particularmente amargo del Mundial-82. Después de vencer 2-1 a la RFA, futura finalista, fue eliminada al finalizar un RFA-Austria (1-0), resultado pactado que clasificaba a los dos equipos.</p>
+						<p>En el Mundial-1986, nuevo desengaño para Rabah Madjer, Lakhar Belloumi y sus compañeros, con un empate ante Irlanda del Norte (1-1), derrota por la mínima ante Brasil (1-0), y abultado revés ante España (3-0).</p>
+						<media media-type="image" style="rightSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo6" />
+						</media>
+						<media media-type="image" style="leftSide">
+							<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo7" />
+						</media>
+						<p>La única gran alegría se produjo en la CAN-1990, en la que por primera vez Argelia derrotó al país anfitrión, Nigeria, en la final. Desde entonces, nada.</p>
+						<p>Los aficionados de los 'Zorros del Desierto' sueñan con superar al fin la primera fase del torneo, en Brasil, para poder entonar su célebre grito de ánimo: "One, two, three, viva l'Algerie" ("Uno, dos, tres, viva Argelia").</p>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STRINGER" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Algeria's national football team poses for photo before the 2014 FIFA World Cup qualifying football match Benin vs Algeria on June 9, 2013 at the Charles de Gaulle stadium in Porto-Novo, Benin. AFP PHOTO / STRINGER</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/algeria-team-benin13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1365" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/algeria-team-benin13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="99" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/algeria-team-benin13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="341" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STEPHANE DE SAKUTIN" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Algeria's coach Halilhodzic Vahid reacts during the 2013 Africa Cup of Nations football match against Tunisia at Royal Bafokeng Stadium in Rustenburg on January 22, 2013. AFP PHOTO / STEPHANE DE SAKUTIN</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/halilhodzic-tunisia13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1512" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/halilhodzic-tunisia13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="110" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/halilhodzic-tunisia13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="378" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STEPHANE DE SAKUTIN" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Algeria's forward Islam Slimani (L) fights for the ball with Tunisia's defender Aymen Abdennour (R) during their 2013 Africa Cup of Nations football match at Royal Bafokeng Stadium in Rustenburg on January 22, 2013. AFP PHOTO / STEPHANE DE SAKUTIN</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/slimani-tunisia13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1866" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/slimani-tunisia13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="135" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/slimani-tunisia13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="466" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="FAROUK BATICHE" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Madjid Bougherra  (#2 in white) of Algeria scores a goal against Burkina Faso during their  World Cup qualifying match on November 19, 2013 in Blida, Algeria.  Algeria sealed the fifth and final African zone World Cup qualifying berth, edging their play-off with Burkina Faso on away goals.  Algeria got the goal they needed in the 49th minute through skipper Madjid Bougherra off a goal mouth scramble caused by a free-kick.  AFP PHOTO/ Farouk BATICHE</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/bougherra-but-burkina13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1388" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/bougherra-but-burkina13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="101" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/bougherra-but-burkina13.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="347" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo5">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="VALERY HACHE" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Algeria's goalkeeper Fawzi Chouachi (R) leaps to make a save but misses, conceding a goal to Slovenia's midfielder Robert Koren (unseen), as Slovenia's striker Zlatan Ljubijankic (L) celebrates during their Group C first round 2010 World Cup football match on June 13, 2010 at Peter Mokaba stadium in Polokwane. NO PUSH TO MOBILE / MOBILE USE SOLELY WITHIN EDITORIAL ARTICLE -  AFP PHOTO / VALERY HACHE</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/algeria-slovenia-goal-wcup10.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1289" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/algeria-slovenia-goal-wcup10.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="94" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/algeria-slovenia-goal-wcup10.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="322" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo6">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German defender Paul Breitner (R) tries to control the ball under pressure from Algerian midfiedler Mustapha Dahleb during the World Cup first round soccer match between West Germany and Algeria 16 June 1982 in Gijon. Algeria upset West Germany 2-1. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/alg-all82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1383" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/alg-all82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="101" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/alg-all82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="345" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo7">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="RUDI SCHRADER" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazil's Careca (L) scores a goal 06 June 1986 at Jalisco Stadium in Guadalajara, in the second period of the Brazil-Algeria World Cup game. Brazil won 1-0. AFP PHOTO RUDI SCHRADER</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/alg-bra-but86.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1931" />
+							<Property FormalName="Height" Value="1452" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/alg-bra-but86.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="112" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/alg-bra-but86.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="384" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

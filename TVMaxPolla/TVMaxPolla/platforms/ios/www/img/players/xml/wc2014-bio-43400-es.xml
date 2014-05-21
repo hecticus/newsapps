@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115319+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115319.bio-43400</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="28">29</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115319.wc2014-bio-43400:29</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-43400</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115319Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115319Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Roger Milla</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Milla</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Roger</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Camerún</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">20-05-1952</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Yaundé</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">176 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">72.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>delantero-centro</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Relámpago de Duala (1965-70)</p><p> - Leopardos de Duala (1970-72)</p><p> - Trueno de Yaundé (1972/77)</p><p> - Valenciennes (Fra/1977-79)</p><p> - Mónaco (Fra/1979-80)</p><p> - Bastia (Fra/1980-84)</p><p> - Saint Etienne (Fra/1984-86)</p><p> - Montpellier (Fra/1986-89)</p><p> - Saint Pierre de la Reunión (1989-90)</p><p> - Trueno de Yaundé (1993-94)</p><p> - Pelita Jaya (Indonesia/dic. 1994 - 1996)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>28/06/1994, Rusia-Camerún (6-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>28/06/1994, Rusia-Camerún (6-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - Copa del Mundo: cuartos de final (1990), 3 participaciones (1982, 1990, 1994), 10 partidos, 5 goles</p>
+									<p> - 2 Copas de África de Naciones (1984, 1988), finalista (1986)</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Supercopa de África (1976)</p>
+									<p> - 2 Campeonatos de Camerún (1971, 1972)</p>
+									<p> - 1 Copa de Camerún (1974)</p>
+									<p> - 2 Copas de Francia (1980, 1981)</p>
+								</li>
+								<li>Distinciones</li>
+								<li>
+									<p> - 2 Balones de Oro de África (1976, 1990)</p>
+									<p> - 2 veces mejor jugador camerunés del año (1975, 1976)</p>
+								</li>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Mito viviente</hl2>
+							<p>En África, Roger Milla es un mito viviente. El camerunés se convirtió, en junio de 1994, en el jugador y goleador de mayor edad en la historia de la Copa del Mundo con 42 años y 39 días.</p>
+							<p>Formado en el Eclair de Douala, Roger Milla, cuyo verdadero nombre es Albert Miller, fichó por el mejor equipo de su país, el Tonnerre de Yaoundé, con 20 años.</p>
+							<p>Ganador del Balón de Oro de Camerún en 1975-1976 y de África en 1976, ese mismo año se llevó la Copa de África de Naciones. Debutó con la selección de su país en 1972 y, a partir de ahí, su fama atravesó el Mediterráneo.</p>
+							<p>En verano de 1977 dio el salto al fútbol europeo de la mano del Valenciennes francés, en la segunda división. Tras dos temporadas fichó por el Mónaco, donde empezó a hacerse un nombre. Levantó dos Copas del país galo en 1980 y 1981 con el Mónaco y con el Bastia.</p>
+							<p>En 1982 Milla jugó su primera Copa del Mundo. Camerún cayó en primera ronda...a pesar de no perder ningún partido y por culpa de numerosos errores arbitrales.</p>
+							<hl2>Futbolista africano del siglo</hl2>
+							<p>En 1987 intentó dar el adiós al fútbol ante 60.000 espectadores que asistieron a un partido de homenaje y despedida...que terminó por no ser tal.</p>
+							<p>En 1990 recibió la llamada de su seleccionador y con 38 años hizo las maletas y jugó  el Mundial de Italia. El "rey león" había vuelto y mejor que nunca.</p>
+							<p>Camerún fue la revelación del torneo. En el partido inaugual del torneo venció a la todopoderosa Argentina de Diego Armando Maradona por 1-0. En su siguiente encuentro, Milla marcó dos goles a Rumania, certificando el pase del equipo a octavos de final (primera vez para un país africano).</p>
+							<p>La épica llegó también en la siguiente fase. En octavos esperaba Colombia, la otra sensación del campeonato. Tras una prórroga Camerún venció 2-1 con un doblete de Milla. Ya en cuartos y con el mundo rendido a sus pies el sueño acabó. Inglaterra les bajó a la tierra al vencerles por 3-2 tras 120 minutos.</p>
+							<p>En 1990 recibió el segundo Balón de Oro de su continente.</p>
+							<p>De regreso al Tonnerre de Yaoundé, Roger se mantuvo en forma para que en 1994 y por aclamación popular fuera convocado por su seleccionador, el francés Henri Michel, para el Mundial de Estados Unidos.</p>
+							<p>Pero los leones ya no eran tan fieros. Cayeron contra Brasil primero (3-0) y frente a Rusia después (6-1). Este partido fue doblemente histórico ya que por un lado Oleg Salenko marcó 5 goles (récord de la competición) y por otro Milla se convirtió en el jugador de más edad en marcar un gol en un Mundial (42 años y 39 días). También se convirtió en el único jugador africano en disputar tres Copas del Mundo.</p>
+							<p>Auténtico mito en Camerún, decidió colgar las botas ese mismo año, pasando a ser embajador itinerante del presidente Paul Biya.</p>
+							<p>En noviembre de 2000, la revista African Soccer le distinguió como "mejor futbolista africano del siglo".</p>
+							<p>Hoy en día es embajador del programa de las Naciones Unidas de lucha contra el Sida.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ANTONIO SCORZA" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Cameroon's forward Roger Milla celebrates after scoring a goal against Russia 28 June 1994 at Stanford stadium in San Francisco during their Soccer World Cup match. At age 42, Roger Milla became the oldest player ever to score a goal in World Cup history, but could not help his team as Russia won 6-1 with forward Oleg Salenko, scoring a record 5 goals. AFP PHOTO/ANTONIO SCORZA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1994-milla-joie.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1337" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1994-milla-joie.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="97" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1994-milla-joie.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="334" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Forward Roger Milla from Cameroon runs past Colombian goalkeeper Jose Higuita (R) after stealing the ball from him on his way to score a goal 23 June 1990 in Naples during the World Cup second round soccer match between Cameroon and Colombia. Milla scored two goals in extra time to help Cameroon defeat Colombia 2-1 (0-0 at the end of regulation time). AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1990-cam-col-milla.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1400" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1990-cam-col-milla.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="102" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1990-cam-col-milla.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="350" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ISSOUF SANOGO" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Cameroon's former soccer star Roger Milla (C) smiles 21 January 2000 in Accra (Ghana) as he receives his   "best player of the century" trophy, voted by "African soccer" magazine readers, from FIFA president Joseph Sepp Blatter (L) from Switzerland and Issa Hayatou, member of the African soccer confederation.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/milla-afrique-siecle.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1024" />
+							<Property FormalName="Height" Value="782" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/milla-afrique-siecle.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="113" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/milla-afrique-siecle.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="391" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

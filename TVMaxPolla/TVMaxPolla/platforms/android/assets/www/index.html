@@ -1,45 +1,62 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+	<html lang="es">
+	
+	<head>	
+		<title>TVMax</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" >	
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="stylesheet" type="text/css" href="css/base.css">
-		<link rel="stylesheet" type="text/css" href="css/transition.css">
-		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
-		<link rel="stylesheet" type="text/css" href="css/media.css">
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-		
-		<title>TVMax La Polla</title>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">	
+		<link rel="stylesheet" href="css/bootstrap.min.css">			
+		<link rel="stylesheet" href="css/transition.css">
+		<link rel="stylesheet" href="css/main.css">
 	</head>
-	<body>
+	
+	<body style="position: fixed;">
 	
 		<header>
-			<div style="position:absolute;display:table; width:100%; height:100%;">
-		   		<div class="icon logo" style="position:relative; display:inline-table; height:100%; margin:0; top:0;">&nbsp;</div>
-		       
-		       	<div style="position: relative; width: 50%; height: 100%; display:inline-table;">
-		       		<div id="header-title" style="position:absolute; top:50%; left:0; height:50%; text-transform:uppercase; 
-		       		color:#000000; font-weight: bold; float:left; font-size: 1.6em; white-space:nowrap;
-		       		text-overflow:ellipsis;overflow:hidden; margin:0;padding:0;margin-top:-0.6em;">TVMax login</div>
-		       	</div>
-		       	
-		       	<div class="icon tv" style="position: relative; display:inline-table; width:20%; height:100%; float: right;">&nbsp;</div>
-		   </div>
-		</header>
-		
-		<div id="logincontent">
-			<button id="facebookLoginButton" style="top:5%;">Connect with Facebook</button>
-		</div>
-			
+			<div class="container">
+				<div class="row">
+														
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 menu" style="text-align: left;">
+						<span class="glyphicon glyphicon-align-justify"></span>
+					</div>
 
-		<script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: center;">
+						
+					</div>
+					
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 share hidden" style="text-align: right;">
+						<span class="glyphicon glyphicon-share"></span>
+					</div>
+
+				</div>				 
+			</div>			
+		</header>
+
+		<main>&nbsp;</main>
+
+		<div id="wrapperM" class="page" style="z-index: 10; left: -100%;" >
+			<div class="scroller">				
+				<div class="container">
+				</div>	
+			</div>
+		</div>	
+		
+		<footer>&nbsp;</footer>
+
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/SocialSharing.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/utils.js"></script>        
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>                         
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
         <!-- cordova facebook plugin -->
 		<script src="cdv-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
@@ -49,6 +66,15 @@
         <script type="text/javascript">              
             app.initialize();
         </script>
+
+		<script type="text/javascript">				
+			var myScrollM = new IScroll('#wrapperM',{preventDefault:true});			
+			myScrollM.on('beforeScrollStart', function () {				 
+				this.refresh();
+				_tap = true;
+			});
+		</script>
+
 
 	</body>
 	

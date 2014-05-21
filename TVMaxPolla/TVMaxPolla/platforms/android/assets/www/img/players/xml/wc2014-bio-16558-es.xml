@@ -1,0 +1,588 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115323+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115323.bio-16558</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="103">104</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115323.wc2014-bio-16558:104</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-16558</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115323Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115323Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Ronaldo</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Conocido como</dt>
+								<dd>
+									<block>
+										<p>Ronaldo</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Nazário de Lima</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Ronaldo Luiz</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Brasil</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">22-09-1976</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Rio de Janeiro</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">183 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">82.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>Delantero</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Cruzeiro (1993-94)</p><p> - PSV Eindhoven (Hol/1994-96)</p><p> -  Barcelona (Esp/1996-97)</p><p> -  Inter de Milán (Ita/1997-2002)</p><p> -  Real Madrid (Esp/2002 - ene. 2007)</p><p> -  AC de Milán (ene. 2007-junio 2008)</p><p> -  Corinthians (Bra/dic. 2008-feb. 2011)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>98</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>62</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>23/03/1994, Brasil-Argentina (2-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>07/06/2011, Brasil-Rumania (1-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>04/05/1994, Brasil-Islandia (3-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>27/06/2006, Brasil-Ghana (3-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - 2 Copas del Mundo (1994, 2002), finalista (1998), cuartos de final (2006), 4 participaciones (1994, 1998, 2002, 2006), 19 partidos, mejor jugador (1998), máximo goleador (2002/8 goles), máximo goleador de la historia de la Copa del Mundo (15 goles)</p>
+									<p> - 2 Copas América (1997, 1999), finalista (1995), 3 participaciones (1995, 1997, 1999), 13 partidos, 10 goles</p>
+									<p> - 1 Copa Confederaciones (1997), 4 goles</p>
+									<p> - 1 medalla de bronce en los Juegos Olímpicos</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Mundial de Clubes (2007)</p>
+									<p> - 1 Copa de la UEFA (1998)</p>
+									<p> - 1 Copa Intercontinental (2002)</p>
+									<p> - 3 Supercopas de Europa (1997, 2002, 2007)</p>
+									<p> - 2 Copas de Brasil (1993, 2009)</p>
+									<p> - 1 Campeonato de Río (2009)</p>
+									<p> - 1 Campeonato del Estado de Minas Gerais (1994)</p>
+									<p> - 1 Copa de Holanda (1996)</p>
+									<p> - 2 Campeonatos de España (2003, 2007), máximo goleador (1997/34 goles, 2004/24)</p>
+									<p> - 1 Copa de España (1997)</p>
+									<p> - 1 Supercopa de España (2003)</p>
+								</li>
+								<li>Distinciones</li>
+								<li>
+									<p> - 2 Balones de Oro de Europa (1997, 2002)</p>
+									<p> - FIFA world player (1996, 1997, 2002)</p>
+								</li>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Luces y sombras de un fenómeno</hl2>
+							<p>Cuatro años después del fracaso en la final del Mundial de Francia-1998, Ronaldo se transformó en el goleador de la edición de 2002, con ocho tantos que contribuyeron sobremanera al pentacampeonato auriverde.</p>
+							<p>Nacido en una humilde familia carioca, Ronaldo ya era futbolista profesional a los 16 años cuando fichó por el Cruzeiro (Belo Horizonte), donde marcó 58 goles en 60 partidos.</p>
+							<p>Contratado por el PSV Eindhoven en 1994, asombró a los holandeses con 30 goles en 33 partidos, aunque en la temporada siguiente una serie de pequeñas lesiones hicieron que fuera menos prolífico.</p>
+							<p>Del PSV pasó al FC Barcelona de España. Gracias a su contundencia, el Barça ganó en la temporada 1996-1997 la Recopa de Europa y la Copa del Rey. Ronaldo, imparable, aterrorizaba a los defensas con su endiablado arranque y sus mortíferos disparos. Acabó como máximo goleador con 34 tantos.</p>
+							<hl2>Misterio y lesiones alimentan la leyenda</hl2>
+							<p>Mejor jugador FIFA en 1996, 1997 y 2002, el Inter de Milán le ofreció más millones y Ronaldo se marchó a Italia, tras una sola temporada en el Barça.</p>
+							<p>Con la "Seleçao", formó parte del plantel en el Mundial de EEUU-1994 que ganó Brasil, pero no disputó ni un sólo partido. "Mira y aprende", le decía en el banquillo Mario Lobo Zagallo, asistente técnico auriverde. Y así lo hizo.</p>
+							<p>En Francia-1998, su actuación se vio ensombrecida por  una lipotimia justo antes de la final contra los anfitriones. Ronaldo no existió en ese partido, que algunos creen que no debió jugar, y Brasil perdió 3-0. Pero en el año 1999 se resarció con una segunda Copa América en Paragauy, tras la ganada dos años antes en Bolivia.</p>
+							<p>Después, llegaron los problemas físicos "de verdad". El 21 de noviembre de 1999, en el estadio milanés de San Siro, sufrió una rotura total del tendón rotuliano de su pierna derecha, lo que le obligó a una delicada operación en París.</p>
+							<hl2>La vuelta a la vida</hl2>
+							<p>Pero cuatro meses después de esa intervención, que posteriormente demandó un intenso período de rehabilitación, su rodilla sólo resistió 6 minutos en un partido ante el Lazio de Roma. Todo el planeta vio a Ronaldo tendido en el césped gritando y llorando de dolor.</p>
+							<p>Nuevamente el tendón rotuliano, otra vez quirófano y más rehabilitación.  El jugador fue declarado en marzo de 2001 "clínicamente curado". Ausente de las competiciones durante 2 años y 18 días, Ronaldo volvió a jugar y marcó su primer gol el 9 de diciembre de 2001 con la mirada puesta en el Mundial asiático.</p>
+							<p>En Corea del Sur y Japón recuperó su eficacia y marcó ocho goles que permitieron a su selección obtener el pentacampeonato.</p>
+							<p>En septiembre se anunció su traspaso al Real Madrid de los "galácticos", con el que ganaría varias ligas, una Supercopa de España, una de Europa y una Copa Intercontinental. Además, fue elegido Balón de Oro por tercera vez y marcó más de 20 goles por temporada...pero no ganó la Liga de Campeones, el único gran título que le falta.</p>
+							<p>En 2006, en la Copa del Mundo de Alemania, Brasil cayó eliminada en cuartos por Francia (1-0) pero Ronaldo se convirtió en el máximo goleador de la historia de la competición con 15 goles.</p>
+							<p>Tras desavenencias con el entrenador Fabio Capello en el Real Madrid, abandonó el equipo rumbo a Milán, donde se lesionó la rodilla gravemente otra vez. Se marchó al Corinthians donde se ha vuelto a sentir jugador.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="PATRICK HERTZOG" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazil's forward Ronaldo scores the first goal against Germany's team captain and goalkeeper Oliver Kahn during the final match of the FIFA 2002 World Cup Korea Japan at International Stadium Yokohama 30 June, 2002, in Yokohama, Japan. Brazil won the final 2-0. AFP PHOTO/PATRICK HERTZOG</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-but1-ger02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1802" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-but1-ger02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="140" />
+							<Property FormalName="Height" Value="122" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-but1-ger02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="450" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="ANP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+					<Source>
+						<Party FormalName="" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>FC Barcelona's Brazilian forward Ronaldo who scored the winning goal on a penalty kick, holds the Cup Winners Cup, 14 May 1997, after his team defeated French Paris Saint-Germain team (1-0) in the final at the Feyenoord stadium "De Kuip" in Rotterdam.  (ELECTRONIC IMAGE)</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-cupwinners97.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1325" />
+							<Property FormalName="Height" Value="1749" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-cupwinners97.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="113" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-cupwinners97.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="387" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="PATRICK HERTZOG" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>French Franck Leboeuf tackles Brazilian forward Ronaldo 12 July at Stade de France in Saint-Denis, north of Paris, during the final of the 1998 World Cup between Brazil and France. Defending champion Brazil was defeated 0-3 and host France won the 1998 FIFA trophy. (ELECTRONIC IMAGE)  AFP PHOTO  PATRICK HERTZOG</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-leboeuf98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1554" />
+							<Property FormalName="Height" Value="1600" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-leboeuf98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="130" />
+							<Property FormalName="Height" Value="135" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-leboeuf98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="497" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="JACK DABAGHIAN" />
+					</Creator>
+					<Source>
+						<Party FormalName="POOL" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>l'avant-centre brésilien du club italien de l'Inter de Milan Ronaldo marche dans les couloirs de l'hôpital de la Pitié-Salpêtrière le 03 décembre 1999 à Paris après avoir été opéré du genou droit le 30 novembre 1999 par le professeur Gérard Saillant.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-salpetriere99.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1305" />
+							<Property FormalName="Height" Value="2006" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-salpetriere99.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="96" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-salpetriere99.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="333" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo5">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="GABRIEL BOUYS" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazil's forward Ronaldo hoists the World Cup trophy during the award ceremony at the International Stadium Yokohama, Japan, 30 June, 2002 following Brazil's 2-0 victory against Germany in match 64 of the 2002 FIFA World Cup Korea Japan final. Ronaldo scored the two winning goals, giving Brazil its fifth World Cup title. Brazil previously was a FIFA World Cup winner in 1958, 1962, 1970 and 1994. AFP PHOTO GABRIEL BOUYS</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-wcup-trophy02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1339" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-wcup-trophy02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="97" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-wcup-trophy02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="334" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo6">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="JAVIER SORIANO" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Real Madrid's Brazilian Ronaldo poses with his trophies, the Golden Ball and The Best Player Fifa before Real Madrid's Centennial match against a FIFA world side in Santiago Bernabeu Stadium of Madrid 18 December, 2002.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-or-fifa02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1824" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-or-fifa02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="124" />
+							<Property FormalName="Height" Value="140" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-or-fifa02.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="456" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo7">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="JAVIER SORIANO" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Real Madrid's Brazilian Ronaldo (up) celebrates with French teammate Zinedine Zidane after scoring their team's second goal during their Champions League match group C  in Santiago Bernabeu stadium of Madrid, 18 February 2003. Real Madrid won 2-1.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/ronaldo-zidane-joy03.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1800" />
+							<Property FormalName="Height" Value="1653" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/ronaldo-zidane-joy03.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="135" />
+							<Property FormalName="Height" Value="123" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/ronaldo-zidane-joy03.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="470" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

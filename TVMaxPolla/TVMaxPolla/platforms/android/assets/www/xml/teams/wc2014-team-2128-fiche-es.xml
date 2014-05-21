@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141451+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141451.team-2128-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="14">15</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141451.wc2014-team-2128-fiche:15</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2128-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141451Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141451Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Alemania</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>82.600.000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>357.022 km²</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Berlín</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Euro</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Deutscher Fussball Bund, creada el 7 de abril de 1919, fundadora de la FIFA en 1904</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>6.308.946</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>camiseta blanca, pantalón negro, medias blancas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>18 (1934, 1938, 1954, 1958, 1962, 1966, 1970, 1974, 1978, 1982, 1986, 1990, 1994, 1998, 2002, 2006, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>Ganador (1954, 1974, 1990), finalista (1966, 1982, 1986, 2002), tercero (1934, 1970, 2006, 2010), semifinalista (1958), cuartos de final (1962, 1994), octavos de final (1938, 1998), segunda ronda (1978)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>11 (1972, 1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>Ganador (1972, 1980, 1996), finalista (1976, 1992, 2008), semifinalista (1988, 2012), primera ronda (1984, 2000, 2004)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>1º del Grupo C con 28 puntos, delante de Suecia (20), Austria (17), Irlanda (14), Kazajistán (5) e Islas Feroe (1). 9 victorias, 1 empate y ninguna derrota con 38 goles a favor y 10 en contra.</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>Bayern de Múnich, Werder Bremen, Borussia de Dortmund y Schalke 04</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Manuel Neuer, Philipp Lahm, Miroslav Klose, Bastian Schweinsteiger, Mesut Özil</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Joachim Löw (desde el 12 de julio de 2006)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

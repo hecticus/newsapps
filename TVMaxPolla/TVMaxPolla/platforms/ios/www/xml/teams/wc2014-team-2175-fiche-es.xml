@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141524+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141524.team-2175-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="6">7</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141524.wc2014-team-2175-fiche:7</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2175-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141524Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141524Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - México</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>118 000 000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>1 959 247 km2</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>México D.F.</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Peso mexicano</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Federación Mexicana de Fútbol, creada en 1927 y afiliada a la FIFA en 1929</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>325 000</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>camiseta verde, pantalón blanco, medias rojas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>15 (1930, 1950, 1954, 1958, 1962, 1966, 1970, 1978, 1986, 1994, 1998, 2002, 2006, 2010, 2012)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>Cuartos de final (1970, 1986), octavos de final (1994, 1998, 2002, 2006, 2012), primera ronda (1930, 1950, 1954, 1958, 1962, 1966, 1978)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Copa Oro</dt>
+							<dd>
+								<block>
+									<p>Ganador (1965, 1971, 1977, 1993, 1996, 1998, 2003, 2009, 2011), finalista (1967, 2007), tercero (1973, 1981, 1991), cuarto (1969)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Copa América</dt>
+							<dd>
+								<block>
+									<p>Finalista (1993, 2001), tercero (1997, 1999, 2007)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>Zona CONCACAF - Exento de las 2 primeras rondas - 3ª ronda : 1º del grupo B con 18 puntos, delante de Costa Rica (10), El Salvador (5) y Guayana (1), 6 victorias, 0 empates, 0 derrotas, 15 goles anotados, 2 encajados - 4º de la ronda final con 11 puntos, detrás de Estados Unidos (22), Costa Rica (18) y Honduras (15), delante de Panamá (8) Jamaica (5), 5 victorias, 3 empates, 2 derrotas, 7 goles marcados, 9 encajados - Eliminó a Nueva Zelanda en el repechaje, 5-1 en la ida en México, 4-2 en la vuelta en Wellington</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>América, Cruz Azul, Guadalajara, Pumas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Guillermo Ochoa, Rafael Márquez, Giovani Dos Santos, Javier Hernández, Oribe Peralta</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Miguel Herrera (desde octubre de 2013)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

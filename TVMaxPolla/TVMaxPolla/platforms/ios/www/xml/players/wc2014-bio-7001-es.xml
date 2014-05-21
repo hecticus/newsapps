@@ -1,0 +1,658 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115317+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115317.bio-7001</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="281">282</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115317.wc2014-bio-7001:282</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-7001</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115317Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115317Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Jürgen Klinsmann</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Klinsmann</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Jürgen</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Alemania</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">30-07-1964</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Goeppingen</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">182 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">73.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>Delantero</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Stuttgart Kickers (1981-1984)</p><p> -  VfB Stuttgart (1984-1989)</p><p> -   Inter de  Milán (Italia/1989-1992)</p><p> -   Mónaco (Fra/1992-1994)</p><p> -   Tottenham (Ing/1994-1995)</p><p> -   Bayern de Múnich (1995-1997)</p><p> -   Sampdoria (Ita/julio-diciembre 1997)</p><p> -   Tottenham (Ing/enero-junio 1998)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias con la selección</dt>
+								<dd>
+									<block>
+										<p>108 (1987-98)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>47</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>12/12/1987, Brasil-RFA (1-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>04/07/1998, Croacia-Alemania (3-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>27/04/1988, RFA-Suiza (1-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>29/06/1998, Alemania-México (2-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li id="ali">Con su selección:</li>
+								<li>
+									<p> - Mundial: Campeón (1990), cuartos de final (1994, 1998), 17 partidos, 11 goles</p>
+									<p> - Eurocopa: Campeón (1996), finalista (1992), semifinalista (1988), 13 partidos, 5 goles</p>
+								</li>
+								<li id="ali">Con sus clubes:</li>
+								<li>
+									<p> - 2 Copas de la UEFA (1991, 1996), finalista (1989)</p>
+								</li>
+								<p> - 1 Campeonato de Alemania (1997),  máximo goleador en la RFA (1988/19 goles), 221 partidos, 110 goles</p>
+								<li>Distinciones:</li>
+								<li id="ali">
+									<p> - Futbolista Alemán del Año (1988, 1994)</p>
+									<p> - Futbolista del Año en Inglaterra (1995)</p>
+								</li>
+							</ul>
+							<hl2>Otros</hl2>
+							<ul>
+								<p> - Juegos Olímpicos: Medalla de bronce (1988)</p>
+							</ul>
+							<hl2>Carrera como seleccionador</hl2>
+							<dl>
+								<dt>País</dt>
+								<dd>
+									<block>
+										<p> - Alemania (25/07/2004-12/07/2006), 34 partidos, 20 victorias,  8 empates, 6 derrotas, 81 goles a favor, 43 en contra</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País</dt>
+								<dd>
+									<block>
+										<p> - EEUU (desde 29/07/2011-05/03/2014), 44 partidos, 26 victorias, 7 empates, 11 derrotas, 79 goles a favor, 45 en contra</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como seleccionador</hl2>
+							<ul>
+								<p> - Mundial: Tercero (2006)</p>
+								<p> - 1 Copa de Oro (2013)</p>
+							</ul>
+							<hl2>Carrera como entrenador</hl2>
+							<ul>
+								<p> - Equipo: Bayern de Múnich (julio 2008 - abril 2009)</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Un hombre de selección</hl2>
+							<p>Con un Mundial y una Eurocopa en su haber como jugador, Jürgen Klinsmann era el candidato ideal para el puesto de seleccionador de Alemania.</p>
+							<p>Políglota, humanista y miembro de Greenpeace, Jürgen Klinsmann siempre fue imprevisible, dentro y fuera del terreno de juego. Tras su debut en primera división en el Stuttgart, aprovechó la Eurocopa de Alemania, en 1988, a los 24 años, para darse a conocer a nivel internacional. Pero, su selección cayó en semifinales ante la Holanda de Ruud Gullit y Marco Van Basten.</p>
+							<p>En 1989, Klinsmann se fue a jugar al prestigioso Inter de Milán. Y, en 1990, llegó su consagración con el Mundial, precisamente en Italia, contribuyendo a la victoria en la final sobre Argentina por 1-0, con Franz Beckenbauer en el banquillo. Un año más tarde, logró el título de la Copa de la UEFA con su club ante la Roma.</p>
+							<p>En 1992, comenzó la Eurocopa en Suecia como reserva y la terminó como titular en la final perdida frente a la sorprendente Dinamarca por 2-0.</p>
+							<hl2>Gran goleador</hl2>
+							<p>En el Mundial de Estados Unidos-1994 fue el mejor jugador de una selección que decepcionó, aunque él marcó, cinco goles.</p>
+							<p>En la Eurocopa de Inglaterra-1996, una lesión le privó de varios partidos, aunque no de la final en Wembley, coronada con un nuevo título.</p>
+							<p>Debido a la ausencia de Lothar Matthäus, recibió como capitán el trofeo de las manos de la Reina Isabel II después de que la República Checa cayera derrotada con un gol de oro en la prórroga (2-1).</p>
+							<p>El apodado 'Klinsi' disputó , asimismo, el Mundial de Francia-1998, donde Alemania fue humillada por Bulgaria en cuartos de final. Con este triste recuerdo se despidió de la selección después de haber acumulado 47 goles en 108 duelos internacionales, 11 de ellos en Mundiales.</p>
+							<hl2>Métodos poco ortodoxos</hl2>
+							<p>A nivel de clubes, Klinsmann también jugó en el Mónaco, de la Liga francesa, tuvo dos épocas en el Tottenham inglés y también pasó por el Bayern Múnich y la Sampdoria italiana. Tras esta peregrinación continental, colgó las botas en 1998 con el título de mejor jugador del campeonato inglés.</p>
+							<p>El 25 de julio de 2004, dos años antes de la cita mundialista de Alemania, fue nombrado seleccionador en sustitución de su ex compañero Rudi Völler. Klinsmann no había entrenado nunca, ni en club ni en selección.</p>
+							<p>A tres meses del Mundial-2006, la selección perdió un amistoso contra Italia por 4-1, y hasta las autoridades germanas se vieron obligadas a actuar. Pero, con un equipo muy rejuvenecido, Klinsmann logró salir del paso y llegar hasta semifinales de esa cita. Tras el torneo, dimitió y fichó por el Bayern de Múnich, club en el que se quedó sólo un año al no lograr ningún título.</p>
+							<p>En julio de 2011, la federación de fútbol de Estados Unidos le llamó para que se hiciera cargo de la selección. Bajo su dirección, los estadounidenses se alzaron con la Copa de Oro 2013, y se clasificaron para el Mundial de Brasil. Ocho años después de haber clasificado a Alemania para semifinales, 'Klinsi' se prepara para un nuevo desfío.</p>
+						</block>
+						<block class="Biography">
+							<hl2>El matador alemán</hl2><p>Con su melena rubia ondeando por el mundo Juergen Klinsmann probó de manera fehaciente sus dotes de "matador" en las áreas rivales. Conocido como el "goleador de oro", coleccionó gloria y triunfos, y reconocido como modelo de "fair play".</p><p>¿Un ejemplo?: partido de Bundesliga, su equipo, el Stuttgart, frente al poderoso Bayern de Múnich. En una jugada, Klinsi le entró con fuerza a Nachtweih, que se dio la vuelta y le propinó una patada. El árbitro lo vio y le mostró la tarjeta roja. Klinsman se acercó al colegiado y le pidió que no lo expulsara ya que el culpable de la jugada era él. El árbitro cambió de tarjeta y le mostró la amarilla. Ese día Klinsman no convirtió ningún gol, pero fue la estrella del encuentro.</p>
+							<p>Políglota, humanista, ecologista (es miembro de Greenpeace), y ávido de descubrimientos, el capitán de la Mannschaft fue, antes del decreto Bosman, un precursor del viajero futbolístico en el Viejo Continente.</p>
+							<hl2>Verdadero trotamundos</hl2>
+							<p>Tras cinco años en el Stuttgart, va al Inter de Milan en 1989, antes del Mundial italiano. Dos temporadas en el club milanés, dos más en el Mónaco, una en el Tottenham, dos en el Bayern, un breve pasaje por la Sampdoria y vuelta al Tottenham...sólo le faltó España.</p><p>En Inglaterra logró el título de mejor jugador del campeonato, pero fue en Alemania donde más se abultó su palmarés: Copa de la UEFA en 1996 y 15 goles (récord de la competicion) y el campeonato en 1997.</p>
+							<p>Su participación en tres Mundiales (1990, 1994 y 1994), con 17 encuentros disputados y 11 goles, lo ubican en segundo lugar, junto a otro notable goleador alemán, el actual seleccionador Rudi Voller.</p>
+							<p>Un poco más de 10 años después de su primera selección (contra Brasil 1-1, el 12/12/87), Klinsmann abandonó al equipo luego de la derrota de Alemania en cuartos de final del Mundila 98 ante Croacia (3-0).</p>
+							<hl2>Un dúo intratable</hl2><p>Durante varios años, Klinsmann constituyó con Rudi Völler un dúo de atacantes único en el mundo. Dotado atléticamente con cualidades poco comunes y con una combatividad increíble, probó que era un jugador de excepción en los grandes torneos.</p>
+							<p>En 1988, fue la revelación de la Eurocopa de Naciones, disputada en su país. En 1990 fue campeón del mundo bajo la dirección de Franz Beckenbauer. En 1992 comenzó la Eurocopa de Suecia como suplente y la terminó como titular indiscutible. Durante el Mundial 1994, logró marcar 5 goles a pesar de una Mannschaft decepcionante. Y en la Euro 96, una lesión en la  pantorrilla lo privó de varios partidos, pero no de la final, ganada a la República Checca, y del honor de recibir el trofeo de manos de la reina Isabel II.</p>
+							<p>En el Mundial de Francia 98 nuevamente se ilustró con 5 conquistas, pero no pudo evitar la catástrofe contra Croacia en cuartos de final.</p>
+							<p>En mayo 1999, fue nombrado embajador por Federación alemana de fútbol (DFB) para promover, y con éxito, la candidatura de Alemania para la organización del Mundial 2006.</p>
+						</block>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="PATRIK STOLLARZ" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>German head coach Juergen Klinsmann celebrates during the awarding ceremony for the third place after the World Cup 2006 third place play-off football game Germany vs. Portugual, 08 July 2006 in Stuttgart. Germany won 3-1. AFP PHOTO / PATRIK STOLLARZ</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-bronze06.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1311" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-bronze06.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="95" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-bronze06.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="327" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ANDREW WINNING" />
+					</Creator>
+					<Source>
+						<Party FormalName="" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Tottenham Hotspurs star German striker Juergen Klinsmann (R) is in full flight as he lunges for the ball during his last match for Spurs against Leeds United 14 May in Blackburn, Great Britain. The game ended in a 1-1 draw. Klinsmann is to sign for German team Bayern Munich next season.     AFP PHOTO                                                                                   c</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-tottenham95.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="917" />
+							<Property FormalName="Height" Value="719" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-tottenham95.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="113" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-tottenham95.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="401" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="EUGENE GARCIA" />
+					</Creator>
+					<Source>
+						<Party FormalName="AFP FILES" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>(FILES) - German forward Juergen Klinsman dribbles past Belgian goalkeeper Michel Prud'homme as defender Georges Grun watches, 02 July 1994 at Soldier Field in Chicago, during the World Soccer Cup match between Germany and Belgium. Klinsmann failed to score but Germany won 3-2.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-bel94.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1631" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-bel94.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="114" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-bel94.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="407" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="BORIS HORVAT" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>German team captain Juergen Klinsmann celebrates with the trophy as British Queen Elizabeth II applauds after Germany defeated the Czech Republic 2-1 with a golden goal in extra time in the Euro 96 final at London's Wembley stadium, 30 June.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-queen96.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="822" />
+							<Property FormalName="Height" Value="1024" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-queen96.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="116" />
+							<Property FormalName="Height" Value="145" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-queen96.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="411" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo5">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="PATRIK STOLLARZ" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>German national team coach Jurgen Klinsmann gestures during the Confederations cup semi-final football match Germany vs Brazil, 25 June 2005 at the Franken stadium in Nuremberg. AFP PHOTO PATRIK STOLLARZ</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-confed05.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1101" />
+							<Property FormalName="Height" Value="1589" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-confed05.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="103" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-confed05.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="354" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo6">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="SEBASTIAN WILLNOW" />
+					</Creator>
+					<Source>
+						<Party FormalName="DDP" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Thousands of supporters of the German team watch the beginning of the Fifa World Cup quarter-final match Germany vs Argentina on a giant screen at the Brandenburg Gate in Berlin. AFP PHOTO / DDP / SEBASTIAN WILLNOW</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-arg-fans-outside06.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1565" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-arg-fans-outside06.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="114" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-arg-fans-outside06.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="391" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo7">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="(c) AFP" />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Tottenham Hotspurs star German striker Juergen Klinsmann (R) is in full flight as he lunges for the ball during his last match for Spurs against Leeds United 14 May in Blackburn, Great Britain. The game ended in a 1-1 draw. Klinsmann is to sign for German team Bayern Munich next season.     AFP PHOTO                                                                                   c</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-tottenham95.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="917" />
+							<Property FormalName="Height" Value="719" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-tottenham95.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="113" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-tottenham95.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="401" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo8">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="BORIS HORVAT" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>German team captain Juergen Klinsmann celebrates with the trophy as British Queen Elizabeth II applauds after Germany defeated the Czech Republic 2-1 with a golden goal in extra time in the Euro 96 final at London's Wembley stadium, 30 June.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/klinsmann-queen96.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="822" />
+							<Property FormalName="Height" Value="1024" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/klinsmann-queen96.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="116" />
+							<Property FormalName="Height" Value="145" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/klinsmann-queen96.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="411" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

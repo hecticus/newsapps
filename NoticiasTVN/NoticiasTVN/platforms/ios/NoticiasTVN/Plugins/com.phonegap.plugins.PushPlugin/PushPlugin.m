@@ -109,9 +109,7 @@
 	
 	//obtenemos el token viejo para comparar
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];  //load NSUserDefaults
-	NSString *oldToken = [prefs dataForKey:@"regID"];
-	
-	NSLog(@"TOKEN %@",token);
+	NSString *oldToken = [prefs objectForKey:@"regID"];
     
     #if !TARGET_IPHONE_SIMULATOR
         // Get Bundle Info for Remote Registration (handy if you have more than one app)
@@ -150,7 +148,7 @@
         [results setValue:dev.model forKey:@"deviceModel"];
         [results setValue:dev.systemVersion forKey:@"deviceSystemVersion"];
 	
-	
+		//NSLog(@"%@",token);
 		//PUSH REGISTRATION ON SERVER
 		// Prepare the Device Token for Registration (remove spaces and < >)
 		NSString *deviceTokenClean = [[[[deviceToken description]
@@ -158,31 +156,45 @@
 								   stringByReplacingOccurrencesOfString:@">" withString:@""]
 								  stringByReplacingOccurrencesOfString: @" " withString: @""];
 	
-		//NSString *host = @"kraken.hecticus.com";
-		NSString *host = @"wedge/kraken";
+		NSString *host = @"kraken.hecticus.com";
+		//NSString *host = @"10.0.3.142/kraken";
+		//NSString *host = @"10.0.3.148/kraken";
 		NSString *urlString = @"";
-		if(oldToken != NULL && ![oldToken isEqualToString:@""]){
-			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&old_ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, oldToken, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
+		if(oldToken != nil && ![oldToken isEqualToString:@""]){
+			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php?ext_id=%@&old_ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, oldToken, @"16", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
 		}else{
-			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiasTVN/activatePushClient.php?ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, @"12", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
+			urlString = [NSString stringWithFormat:@"/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php?ext_id=%@&id_business=%@&service_type=%@&id_country=%@&command=%@&origin=%@&token=%@", deviceTokenClean, @"16", @"ios", @"8", @"ALTA", @"IOS", @"NOTICIASTVN"];
 		}
 	
 		//NSLog(@"Debug data URL to send: %@", urlString);
-	
-		@try{
-			// Register the Device Data
-			// !!! CHANGE "http" TO "https" IF YOU ARE USING HTTPS PROTOCOL
-			NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:host path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-			NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-			//NSLog(@"Register URL: %@", url);
-			NSLog(@"PUSH REGISTER Return Data: %@", returnData);
-			
-			//si todo salio bien guardamos el nuevo REGID
-			[prefs setObject:token forKey:@"regID"];
+		if(oldToken==nil || ![oldToken isEqualToString:token]){
+			@try{
+				// Register the Device Data
+				// !!! CHANGE "http" TO "https" IF YOU ARE USING HTTPS PROTOCOL
+				NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:host path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+				NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+				NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+				NSString *str = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+				
+				NSDictionary *JSON =
+				[NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding:NSUTF8StringEncoding]
+												options: NSJSONReadingMutableContainers
+												  error: nil];
+
+				NSInteger error = [[JSON objectForKey:@"error"] integerValue];
+				if(error == 0){
+					//NSLog(@"TODO OK LLAMANDO WS");
+					//si todo salio bien guardamos el nuevo REGID
+					[prefs setObject:token forKey:@"regID"];
+				}else{
+					//NSLog(@"ERROR LLAMANDO WS");
+				}
 		
-		}@catch (NSException * e){
-			NSLog(@"Exception: %@", e);
+			}@catch (NSException * e){
+				NSLog(@"Exception: %@", e);
+			}
+		}else{
+			//NSLog(@"NO HAY QUE LLAMAR WS");
 		}
 
 
@@ -214,7 +226,7 @@
         
         [jsonStr appendString:@"}"];
 
-        NSLog(@"Msg: %@", jsonStr);
+        //NSLog(@"Msg: %@", jsonStr);
 
         NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
         [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];

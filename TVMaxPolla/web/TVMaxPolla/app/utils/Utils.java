@@ -52,6 +52,7 @@ public class Utils {
 
 
         return Long.parseLong(fechaInicio.toString());
+        //return Long.parseLong("20150612000000");
     }
 
     /***

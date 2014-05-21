@@ -1,6 +1,9 @@
 package com.plugin.gcm;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -300,7 +303,7 @@ public class PushPlugin extends CordovaPlugin {
   	    
   	    //Log.v(TAG, "REGID: " + regId);
   	    HttpPost httppost = new HttpPost("http://kraken.hecticus.com/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
-  	    //HttpPost httppost = new HttpPost("http://201.249.204.75:8085/plesse/kraken/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
+  	    //HttpPost httppost = new HttpPost("http://10.0.3.148/kraken/storefront/wsext/mobile_push/noticiastvn/activatePushClient.php");
 
   	    try {
   	    	//Get Stored id if exists
@@ -317,10 +320,15 @@ public class PushPlugin extends CordovaPlugin {
   	        nameValuePairs.add(new BasicNameValuePair("origin", "ANDROID"));
   	        nameValuePairs.add(new BasicNameValuePair("service_type", "droid"));
   	        nameValuePairs.add(new BasicNameValuePair("token", "NOTICIASTVN"));
-  	        if(!storedRegId.equals("") && !storedRegId.equals(regId)){
+  	        if(storedRegId != null && !storedRegId.equals("") && !storedRegId.equals(regId)){
   	        	//Log.v(TAG, "ENVIANDO OLD");
   	        	//hay que mandar el regID viejo y eliminarlo
   	        	nameValuePairs.add(new BasicNameValuePair("old_ext_id", storedRegId));
+  	        }else{
+  	        	if(storedRegId != null && !storedRegId.equals("") && storedRegId.equals(regId)){
+  	        		//no hay cambio por lo tanto no hay que llamar al WS
+  	        		return;
+  	        	}
   	        }
   	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -328,19 +336,23 @@ public class PushPlugin extends CordovaPlugin {
   	        HttpResponse response = httpclient.execute(httppost);
   	        //Log.e(TAG, "Response registerDeviceOnServer: "+response.toString());
   	        try {
-  	        	//Log.v(TAG, "OBJETO JSON\n\n");
-	  	        //JSONObject obj = new JSONObject(response.toString());
+  	        	//Log.v(TAG, "OBJETO JSON\n\n"+response.toString());
+	  	        JSONObject obj = new JSONObject(GetText(response.getEntity().getContent()));
 	  	        //Log.v(TAG, obj.toString()+"\n\n");
-	
-	  	        //si todo salio bien en el WS se guarda el nuevo registro
-	  	        int appVersion = getAppVersion(context);
-	  	        SharedPreferences.Editor editor = settings.edit();
-	  	        editor.putString("storedPushId", regId);
-	  	        editor.putInt("applicationVersion", appVersion);
-	  	        editor.commit();
+	  	        if(obj!=null && obj.getInt("error")==0){
+	  	        	//Log.v(TAG, "TODO SALIO BIEN");
+	  	        	//si todo salio bien en el WS se guarda el nuevo registro
+	  	        	int appVersion = getAppVersion(context);
+	  	        	SharedPreferences.Editor editor = settings.edit();
+	  	        	editor.putString(PROPERTY_REG_ID, regId);
+	  	        	editor.putInt(PROPERTY_APP_VERSION, appVersion);
+	  	        	editor.commit();
 	  	        
-	  	        //le indicamos al servidor de android que nos queremos registrar para push
-	  	        GCMRegistrar.setRegisteredOnServer(context, true);
+	  	        	//le indicamos al servidor de android que nos queremos registrar para push
+	  	        	GCMRegistrar.setRegisteredOnServer(context, true);
+	  	        }else{
+	  	        	//Log.v(TAG, "ERROR");
+	  	        }
 	  	    } catch (Throwable t) {
 	  	        Log.e(TAG, "Could not parse malformed JSON: \"" + response.toString() + "\"");
 	  	    }
@@ -389,5 +401,27 @@ public class PushPlugin extends CordovaPlugin {
             //throw new RuntimeException("Could not get package name: " + e);
         	return -1;
         }
+    }
+    
+    public static String GetText(InputStream in) {
+    	String text = "";
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    	StringBuilder sb = new StringBuilder();
+    	String line = null;
+    	try {
+    		while ((line = reader.readLine()) != null) {
+    			sb.append(line + "\n");
+    		}
+    		text = sb.toString();
+    	} catch (Exception ex) {
+
+    	} finally {
+    		try {
+
+    			in.close();
+    		} catch (Exception ex) {
+    		}
+    	}
+    	return text;
     }
 }

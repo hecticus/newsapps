@@ -36,8 +36,6 @@
 		6F6DDD051875C4D30090B0E8 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD001875C4D30090B0E8 /* README */; };
 		6F6DDD061875C4D30090B0E8 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDD021875C4D30090B0E8 /* SocialSharing.m */; };
 		6F6DDD091875C4E40090B0E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DDD071875C4E40090B0E8 /* main.m */; };
-		6F6DDD2D1875C4F80090B0E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD0B1875C4F80090B0E8 /* Localizable.strings */; };
-		6F6DDD2E1875C4F80090B0E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD0E1875C4F80090B0E8 /* Localizable.strings */; };
 		6F6DDD2F1875C4F80090B0E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD111875C4F80090B0E8 /* Localizable.strings */; };
 		6F6DDD301875C4F80090B0E8 /* icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD141875C4F80090B0E8 /* icon-40.png */; };
 		6F6DDD311875C4F80090B0E8 /* icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD151875C4F80090B0E8 /* icon-40@2x.png */; };
@@ -53,13 +51,11 @@
 		6F6DDD3B1875C4F80090B0E8 /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD1F1875C4F80090B0E8 /* icon-small@2x.png */; };
 		6F6DDD3C1875C4F80090B0E8 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD201875C4F80090B0E8 /* icon.png */; };
 		6F6DDD3D1875C4F80090B0E8 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD211875C4F80090B0E8 /* icon@2x.png */; };
-		6F6DDD3E1875C4F80090B0E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD231875C4F80090B0E8 /* Localizable.strings */; };
 		6F6DDD3F1875C4F80090B0E8 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD261875C4F80090B0E8 /* Default-568h@2x~iphone.png */; };
 		6F6DDD421875C4F80090B0E8 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD291875C4F80090B0E8 /* Default-Portrait@2x~ipad.png */; };
 		6F6DDD431875C4F80090B0E8 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2A1875C4F80090B0E8 /* Default-Portrait~ipad.png */; };
 		6F6DDD441875C4F80090B0E8 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2B1875C4F80090B0E8 /* Default@2x~iphone.png */; };
 		6F6DDD451875C4F80090B0E8 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD2C1875C4F80090B0E8 /* Default~iphone.png */; };
-		6F6DDD471875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD461875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist */; };
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
 		6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */; };
@@ -140,8 +136,6 @@
 		6F6DDD021875C4D30090B0E8 /* SocialSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialSharing.m; path = NoticiasTVN/Plugins/SocialSharing.m; sourceTree = SOURCE_ROOT; };
 		6F6DDD071875C4E40090B0E8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NoticiasTVN/main.m; sourceTree = SOURCE_ROOT; };
 		6F6DDD081875C4E40090B0E8 /* NoticiasTVN_iPhone-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NoticiasTVN_iPhone-Prefix.pch"; path = "NoticiasTVN/NoticiasTVN_iPhone-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		6F6DDD0C1875C4F80090B0E8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
-		6F6DDD0F1875C4F80090B0E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		6F6DDD121875C4F80090B0E8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		6F6DDD141875C4F80090B0E8 /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40.png"; sourceTree = "<group>"; };
 		6F6DDD151875C4F80090B0E8 /* icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40@2x.png"; sourceTree = "<group>"; };
@@ -157,7 +151,6 @@
 		6F6DDD1F1875C4F80090B0E8 /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
 		6F6DDD201875C4F80090B0E8 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		6F6DDD211875C4F80090B0E8 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		6F6DDD241875C4F80090B0E8 /* se */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = se; path = Localizable.strings; sourceTree = "<group>"; };
 		6F6DDD261875C4F80090B0E8 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		6F6DDD291875C4F80090B0E8 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		6F6DDD2A1875C4F80090B0E8 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
@@ -266,11 +259,8 @@
 			children = (
 				6FC8D6A718CE05AC00B5D007 /* sounds */,
 				6F6DDD461875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist */,
-				6F6DDD0A1875C4F80090B0E8 /* de.lproj */,
-				6F6DDD0D1875C4F80090B0E8 /* en.lproj */,
 				6F6DDD101875C4F80090B0E8 /* es.lproj */,
 				6F6DDD131875C4F80090B0E8 /* icons */,
-				6F6DDD221875C4F80090B0E8 /* se.lproj */,
 				6F6DDD251875C4F80090B0E8 /* splash */,
 			);
 			name = Resources;
@@ -389,24 +379,6 @@
 			path = "NoticiasTVN/Plugins/org.apache.cordova.network-information";
 			sourceTree = SOURCE_ROOT;
 		};
-		6F6DDD0A1875C4F80090B0E8 /* de.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6F6DDD0B1875C4F80090B0E8 /* Localizable.strings */,
-			);
-			name = de.lproj;
-			path = NoticiasTVN/Resources/de.lproj;
-			sourceTree = SOURCE_ROOT;
-		};
-		6F6DDD0D1875C4F80090B0E8 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6F6DDD0E1875C4F80090B0E8 /* Localizable.strings */,
-			);
-			name = en.lproj;
-			path = NoticiasTVN/Resources/en.lproj;
-			sourceTree = SOURCE_ROOT;
-		};
 		6F6DDD101875C4F80090B0E8 /* es.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,15 +409,6 @@
 			);
 			name = icons;
 			path = NoticiasTVN/Resources/icons;
-			sourceTree = SOURCE_ROOT;
-		};
-		6F6DDD221875C4F80090B0E8 /* se.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6F6DDD231875C4F80090B0E8 /* Localizable.strings */,
-			);
-			name = se.lproj;
-			path = NoticiasTVN/Resources/se.lproj;
 			sourceTree = SOURCE_ROOT;
 		};
 		6F6DDD251875C4F80090B0E8 /* splash */ = {
@@ -543,7 +506,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 500;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "NoticiasTVN_iPhone" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -590,7 +553,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F6DDD051875C4D30090B0E8 /* README in Resources */,
-				6F6DDD2D1875C4F80090B0E8 /* Localizable.strings in Resources */,
 				6F6DDD371875C4F80090B0E8 /* icon-72@2x.png in Resources */,
 				6F6DDD3C1875C4F80090B0E8 /* icon.png in Resources */,
 				6F6DDD431875C4F80090B0E8 /* Default-Portrait~ipad.png in Resources */,
@@ -598,12 +560,9 @@
 				6F6DDD421875C4F80090B0E8 /* Default-Portrait@2x~ipad.png in Resources */,
 				6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */,
 				6F6DDD301875C4F80090B0E8 /* icon-40.png in Resources */,
-				6F6DDD3E1875C4F80090B0E8 /* Localizable.strings in Resources */,
 				6F6DDCFA1875C4B90090B0E8 /* MainViewController.xib in Resources */,
 				6F6DDD3F1875C4F80090B0E8 /* Default-568h@2x~iphone.png in Resources */,
 				6F6DDD3D1875C4F80090B0E8 /* icon@2x.png in Resources */,
-				6F6DDD471875C5050090B0E8 /* NoticiasTVN_iPhone-Info.plist in Resources */,
-				6F6DDD2E1875C4F80090B0E8 /* Localizable.strings in Resources */,
 				6F6DDD311875C4F80090B0E8 /* icon-40@2x.png in Resources */,
 				6F6DDD341875C4F80090B0E8 /* icon-60.png in Resources */,
 				6F6DDD2F1875C4F80090B0E8 /* Localizable.strings in Resources */,
@@ -680,34 +639,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6F6DDD0B1875C4F80090B0E8 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6F6DDD0C1875C4F80090B0E8 /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6F6DDD0E1875C4F80090B0E8 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6F6DDD0F1875C4F80090B0E8 /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		6F6DDD111875C4F80090B0E8 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				6F6DDD121875C4F80090B0E8 /* es */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6F6DDD231875C4F80090B0E8 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6F6DDD241875C4F80090B0E8 /* se */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

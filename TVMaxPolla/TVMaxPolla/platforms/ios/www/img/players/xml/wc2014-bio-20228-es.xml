@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115312+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115312.bio-20228</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="84">85</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115312.wc2014-bio-20228:85</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-20228</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115312Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115312Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Paul Breitner</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Breitner</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Paul</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>RFA</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">05-09-1951</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Kolbermoor</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">176 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">73.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>Defensa y centrocampista</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Kolbermoor (1957-1961)</p><p> - Freilassing (1961-1970)</p><p> - Bayern Múnich (1970-1974)</p><p> - Real Madrid (Esp/1974-1977)</p><p> - Eintracht Brunswick (1977-1978)</p><p> - Bayern Múnich (1978-marzo 1983)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias con la selección</dt>
+								<dd>
+									<block>
+										<p>48 (1971-82)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>10</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>22/06/71, Noruega-RFA (1-7)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>11/07/82, Italia-RFA (3-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>29/3/1972, Hungría-RFA (0-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>11/07/82, Italia-RFA (3-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con su selección:</li>
+								<li>
+									<p> - Mundial: Campeón (1974), finalista (1982), 14 partidos, 4 goles</p>
+									<p> - Eurocopa: Campeón (1972), 2 partidos</p>
+								</li>
+								<li>Con sus clubes:</li>
+								<li>
+									<p> - 1 Copa de Europa (1974), finalista (1982)</p>
+									<p> - 5 Campeonatos de la RFA (1972, 1973, 1974, 1980, 1981)</p>
+									<p> - 2 Copas de la RFA (1971, 1982)</p>
+									<p> - 2 Campeonatos de España (1975, 1976)</p>
+									<p> - 1 Copa del Rey (1975)</p>
+								</li>
+								<li>Distinciones:</li>
+								<li>
+									<p> - Futbolista del año en la RFA (1981)</p>
+								</li>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>El alemán rebelde</hl2>
+							<p>Con su peinado afro, su característico bigote y su mal genio, a Paul Breitner se le conoció como el rebelde del fútbol de la República Federal de Alemania (RFA). En cualquier caso, posee una Eurocopa, una Copa de Europa, un Mundial y varias ligas en la RFA y España.</p>
+							<p>Después de militar en equipos menores germanos, como el Kolbermoor, el de su ciudad natal, y el Freilassing, Breitner llegó al Bayern Múnich a los 19 años. En seguida, fue convocado con la selección para jugar de lateral, y debutó como internacional con sólo 20 primaveras. Su rapidez y la fuerza de sus disparos lo convirtieron en un defensa goleador que consiguió marcar 93 tantos en 285 partidos en la Bundesliga.</p>
+							<p>En su segundo año en el Bayern, en 1972, empezó a curtir su palmarés con un título de campeón nacional y el de la Eurocopa disputada en Bélgica. En 1973 y 1974 se hizo con dos nuevos títulos de la Bundesliga. Su equipo, además, ganó la Copa de Europa en una final a dos partidos ante el Atlético de Madrid, aplastado en el duelo de desempate por 4-0.</p>
+							<p>Dos meses más tarde de aquel éxito, en el Mundial disputado en casa, este defensa, capaz de jugar de centrocampista, demostró su poderío al marcar el tanto del empate en la final contra Holanda, de penal. Luego, Alemania ganó por 2-1, gracias al tanto del 'bombardero' Gerd Müller.</p>
+							<p>Con tan sólo 23 años, Breitner ya había conseguido el Mundial, la Eurocopa y la Copa de Europa de clubes, lo máximo a lo que puede aspirar un jugador.</p>
+							<hl2>Goleador de finales</hl2>
+							<p>La fuerte personalidad del bávaro, sin embargo, provocó un conflicto con el capitán del Bayern y de la 'Mannschaft', Franz Beckenbauer. Además, recibió muchas críticas por su espíritu provocador, por lo que decidió probar suerte en el Real Madrid.</p>
+							<p>En España, hizo de centrocampista, pero no logró dar ningún título europeo a su nuevo club, que lo fichó en parte para ello. En 1976, perdió en semifinales de la Copa de Europa precisamente frente al Bayern Múnich. Aunque ganó dos Ligas y una Copa en España, estuvo media década fuera del equipo nacional. En 1977 y después de un año en el Brunswick, volvió a un Bayern que acababa de decir adiós a Beckenbauer. Director en la sombra del equipo, condujo a los muniqueses a imponerse en las ligas de 1980 y 1981. De ese modo, se le abrieron de nuevo las puertas del equipo nacional para el Mundial de 1982.</p>
+							<p>En la cita española y a pesar de perder el primer partido ante Argelia, la RFA se plantó en la final, pero se vio desbordada por la Italia de Paolo Rossi (3-1). Breitner se contentó con marcar el gol del honor de penal, y se convirtió en el único jugador, junto a Vavá y Pelé, en haber anotado en más de una final del Mundial. Posteriormente, se unió a ese grupo el francés Zinedine Zidane al anotar en las finales de Francia-1998 y Alemania-2006.</p>
+							<p>Tras una temporada más en el Bayern Múnich, Breitner se retiró en 1983 con un palmarés envidiable.</p>
+							<p>Durante unas horas en 1998, pudo haberse convertido en el nuevo seleccionador alemán pero el presidente de la federación alemana, Egidius Braun, cambió su decisión. Así, Breitner pasó a ser comentarista de televisión, aunque ocupa las funciones de consejero y ojeador del Bayern Múnich desde 2007.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German defender Paul Breitner ties the score at 1 on a penalty kick as he beats Dutch goalkeeper Jan Jongbloed, 07 July 1974 in Munich, during the World Cup soccer final. Host West Germany beat The Netherlands 2-1 to earn its second World Cup title, twenty years after its first win over Hungary (3-2), 04 July 1954 in Bern.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/breitner-penalty74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2035" />
+							<Property FormalName="Height" Value="1435" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/breitner-penalty74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="105" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/breitner-penalty74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="361" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Italian forward Marco Tardelli (L) and West German defender Paul Breitner run after the ball during the World Cup final between Italy and West Germany 11 July 1982 in Madrid. Italy beat West Germany 3-1, with Tardelli scoring one goal, to earn its third World title after 1934 and 1938.   AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/breitner-tardelli82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1933" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/breitner-tardelli82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="135" />
+							<Property FormalName="Height" Value="126" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/breitner-tardelli82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="483" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German defender Paul Breitner (R) tries to control the ball under pressure from Algerian midfiedler Mustapha Dahleb during the World Cup first round soccer match between West Germany and Algeria 16 June 1982 in Gijon. Algeria upset West Germany 2-1. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/breitner-algerie82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1383" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/breitner-algerie82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="101" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/breitner-algerie82.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="345" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

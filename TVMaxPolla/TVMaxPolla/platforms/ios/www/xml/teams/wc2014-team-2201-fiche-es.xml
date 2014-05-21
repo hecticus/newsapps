@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141526+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141526.team-2201-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="7">8</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141526.wc2014-team-2201-fiche:8</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2201-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141526Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141526Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Portugal</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>11 000 000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>92 090 km²</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Lisboa</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Euro</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Federaçao Portuguesa de Futebol, fundada en 1914, afiliada a la FIFA en 1923</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>133 000</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>camiseta, pantalón y medias granates</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>6 (1966, 1986, 2002, 2006, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>tercero (1966), cuarto (2006), primera ronda (1986, 2002)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>5 (1984, 2000, 2004, 2008, 2012)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>Finalista (2004), semifinalista (1984, 2000, 2012), cuartos de final (1996, 2008)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>2º del grupo F de la zona Europa con 21 puntos, detrás de Rusia (22), delante de Israel (14), Azerbaiyán (9), Irlanda del Norte (7) y Luxemburgo (6), con 6 victorias, 3 empates, 1 derrota, 20 goles anotados, 9 encajados - Eliminó a Suecia en la repesca, 1-0 en la ida en Lisboa, 3-2 en la vuelta en Estocolmo</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>FC Oporto, Benfica, Sporting de Portugal</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Cristiano Ronaldo, Pepe, Nani, Joao Moutinho</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Paulo Bento (desde el 20/09/2010)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

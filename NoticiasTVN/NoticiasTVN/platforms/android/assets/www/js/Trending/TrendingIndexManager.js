@@ -28,7 +28,7 @@ TrendingIndexManager.prototype = {
     },
 
     getTrendingIndexesFromWS:function(callback, errorCallback){
-    	var urlComplete = 'http://tvn.news.hecticus.com/newsapi/v1/news/trendingtopics/search/';
+    	var urlComplete = urlServices+'/newsapi/v1/news/trendingtopics/search/';
     	/*if(trendingTopicsCat != null && trendingTopicsCat != ""){
     		urlComplete = trendingTopicsCat;
     	}*/
