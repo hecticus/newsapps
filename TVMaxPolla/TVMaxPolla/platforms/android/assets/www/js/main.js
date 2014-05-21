@@ -1,7 +1,27 @@
+
+
+var _fGetFormatDate = function(_date) {
+	
+	_date = _date.toString().split(' ');
+	var _year = _date[0].toString();
+	var _time = '00:00:00';
+	
+	if (_date[1]) {
+		_time = _date[1].toString();	
+	}
+	
+	_time = _time.toString().trim();			
+	_time = _time.toString().split(':');
+	_time[0] = _aTime[_time[0] * 1];
+	
+	
+	
+	return _year + ' ' + _time[0] + ':' + _time[1] + ((_time[0] > 12) ? ' pm' : ' am');
+};
+
+
 var _fSetBack = function() {	
-	
-	
-	
+
 	$('.share').addClass('hidden');
 	$('.share').removeAttr('onclick');
 				

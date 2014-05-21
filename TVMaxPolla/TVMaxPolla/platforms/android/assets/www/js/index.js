@@ -17,6 +17,10 @@
  * under the License.
  */
 
+var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
+var _jImageFeatured = false;
+
+
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
 var _day = _date.getDate();
@@ -58,6 +62,18 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
+    	
+    	
+    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {					
+				_jMenu[0].json = _json.noticias_mundial;						
+				$.each(_json.noticias_mundial.item, function(_index,_item) {
+					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+					return false;
+				});				
+			});
+		}
     	
 		document.addEventListener('backbutton', function(e) {
 			//exitApp();
@@ -111,24 +127,22 @@ function initPage(){
 	});
 
 	$(document).on('click','.load', function(e) {			
+			
+		if(_oAjax && _oAjax.readystate != 4) {
+			_oAjax.abort();
+    	}
 
-	
-			
-			if(_oAjax && _oAjax.readystate != 4) {
-				_oAjax.abort();
-	    	}
-	
-			_fSetBack();
-			var _this = $(this);
-			
-			$('body').removeClass();
-			$('body').addClass(_jMenu[_this.data('index')].class);
-			$('main').empty();
-			$('main').data('index',_this.data('index'));	
-			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-			$('main').load(_jMenu[_this.data('index')].load);
+		_fSetBack();
+		var _this = $(this);
 		
-			$('#wrapperM').attr('class','page transition left');
+		$('body').removeClass();
+		$('body').addClass(_jMenu[_this.data('index')].class);
+		$('main').empty();
+		$('main').data('index',_this.data('index'));	
+		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+		$('main').load(_jMenu[_this.data('index')].load);
+	
+		$('#wrapperM').attr('class','page transition left');
 			
 	
 
