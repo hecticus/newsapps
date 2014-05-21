@@ -81,6 +81,8 @@ public class News extends HecticusModel{
 
         if (data.has("Date")) {
             pubDate = data.get("Date").asText();
+            //Limpiamos el datestring por si tiene doble espacio:
+            pubDate = pubDate.replace("  "," ");
             pubDateFormated = Utils.formatDateLongFromStringNew(pubDate);
         } else {
             throw new NewsException("Date faltante");
@@ -126,6 +128,8 @@ public class News extends HecticusModel{
 
         if (data.has("PublishingDateTime")) {
             pubTime = data.get("PublishingDateTime").asText();
+            //Limpiamos el datestring por si tiene doble espacio:
+            pubTime = pubTime.replace("  "," ");
         } else {
             throw new NewsException("PublishingDateTime faltante");
         }
