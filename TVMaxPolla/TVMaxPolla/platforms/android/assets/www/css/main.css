@@ -84,7 +84,14 @@
 		text-align: left;
 	}
 
-	
+
+	figcaption div:first-child {
+		overflow:hidden; 
+		display: -webkit-box; 
+		-webkit-line-clamp: 2; 
+		-webkit-box-orient: vertical;	
+	}
+	 
 	
 	/*noticias*/
 	body.content-noticias #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}

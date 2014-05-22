@@ -50,7 +50,7 @@
 				_html += '<figure>';					     		
 					_html += '<img onerror="this.style.display=\'none\'" src="' + _jImageFeatured.src + '" alt="' +_jImageFeatured.src + '"  />';		
 					_html += '<figcaption>';			
-						_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; ">';
+						_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left;">';
 							_html += '<span>'+_jImageFeatured.caption+'</span>';
 
 						_html += '</div>';				
