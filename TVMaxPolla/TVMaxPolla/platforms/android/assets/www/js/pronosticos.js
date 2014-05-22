@@ -13,7 +13,7 @@
 			_html += '</div>';
 			
 			_html += '<div style="width:20%;  height: 40px; line-height: 40px; float:right; text-align: right; font-size:1.6em; font-weight:bold;">';
-				_html += '<span class="icon-lupa"></span>';
+				_html += '<span class="glyphicon glyphicon-facetime-video"></span>';
 			_html += '</div>';
 						
 			_html += '</figcaption>';		
@@ -24,75 +24,18 @@
 		return _html;
 	};
 
-	var _fRenderDataContent = function(_id) {
 	
-		var _html = '<div class="row" >';
-		
-		$.each(_jGet.item, function(_index,_item) {
-		
-			if (_item.id_pronostico == _id) {
-			
-			
-				_html += '<div class="col-md-12">';
-				_html += '<p class="title">' + _item.titulo + '</p>';				
-				_html += '</div>';
-			 
-				_html += '<div class="col-md-12">';
-				_html += _fGetImage({src:_item.imagen_kaltura,caption:false});
-				_html += '</div>';
-
-				_html += '<div class="col-md-12" >';				
-				_html += '<p class="date">' +  _fGetFormatDate(_item.fecha)  + '</p>'; 
-				_html += '</div>';
-						
-				_html += '<div class="col-md-12" style="" >';
-				_html += '<p class="fullstory" >' + _item.descripcion + '</p>';
-				_html += '</div>';
-		
-			
-			
-				/*_html += '<div class="col-md-12">';
-				_html += _fGetImage({src:_item.imagen_kaltura,caption:false});
-				_html += '</div>';
-
-				_html += '<div class="col-md-12" >';
-				_html += '<h4>' + _item.titulo + '</h4>';
-				_html += '<h5>' + _item.fecha + '</h5>'; 
-				_html += '</div>';
-			
-				_html += '<div class="col-md-12" >';
-				_html += '<p>' + _item.descripcion + '</p>'; 
-				_html += '</div>';							
-				
-				_html += '<div class="col-md-12" >';
-				_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-				_html += '</div>';*/
-				
-				$('.share').removeClass('hidden');		
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'NoticiasTVN\',null,\'http://mundial.tvmax-9.com\');');
-
-			}
-			
-		});
-			
-		_html += '</div>';
-		
-		$('#wrapper2 .scroller .container').empty();
-		$('#wrapper2 .scroller .container').append(_html);
-		$('#wrapper2').attr('class','page transition left');
-
-	};
-
-
 	var _fRenderInit = function() {
 	
 		var _html = '<div class="row" >';
 
 		$.each(_jGet.item, function(_index,_item) {				
-		 	if (_index <= 10) {		 	
-				_html += '<div class="col-md-12 forecast" data-item="'+_item.id_pronostico+'"  >';
+		 	if (_index <= 10) {
+		 		var _src = 'http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/' + _item.id_video_kaltura + '/format/url/flavorParamId/0/video.mp4';
+				_html += '<div class="col-md-12 video" data-src="' + _src + '"  >';
 				_html += _fGetImage({src:_item.imagen_kaltura,caption:_item.titulo});
 				_html += '</div>';
+				
 			}		 			
 		});
 		 
@@ -102,13 +45,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-	$(document).on('click','.forecast', function(e) {
-		if (_tap) _fRenderDataContent($(this).data('item'));
-		setTimeout(function(){
-			_tap = true;
-		}, 200);	
-	});
 
 
 	var _iIndex = $('main').data('index');

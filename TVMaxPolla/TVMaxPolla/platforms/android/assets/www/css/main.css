@@ -12,20 +12,21 @@
 	table thead {border-bottom: solid #FFD455; }
 	
 	thead {
-
 		background:#3E79C4;  
 		color:#FFD455;
 		font-size: 1.2em;
 		font-weight: bold;
-
+		
 	}
 	
-	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.4em;}
-	.content-menu span:last-child { margin-left:  5px;}		
+	th, tr,td {text-align: center;}
+	
+	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.6em;}
+	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}		
 	
 	
-	.content-menu:nth-child(even) {background:#E6E6E6; color:#1E5733; }
-	.content-menu:nth-child(odd) {background:#FFFFFF;  color:#3E79C4; }
+	.content-menu:nth-child(even) {background:#E6E6E6;}
+	.content-menu:nth-child(odd) {background:#FFFFFF;}
 	.content-menu:last-child {border-bottom: solid #FFD455; }
 
 
@@ -155,7 +156,8 @@
 		padding:10px;
 		font-size:1.2em;  
 		color:#4D4D4D; 
-		font-style:italic; 	
+		font-style:italic;
+		 	
 	}
 	
 	
@@ -363,11 +365,15 @@
 	/*polemicas*/
 		
 	/*calendario*/
+	
+	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+
 	body.content-calendario #wrapper,
 	body.content-calendario #wrapper2 { 
 		position: absolute;
 		z-index: 1; 
-		top: 100px; 
+		top: 92px; 
 		bottom: 0; 
 		left: 0; 
 		width: 100%; 
@@ -387,7 +393,7 @@
 	    background:none;
 	    text-shadow: none;
 	}
-
+	/*calendario*/
 
 	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
 
@@ -481,16 +487,22 @@
 	}
 	
 	
+	body.content-calendario .row.data-match:nth-child(even), 
 	body.content-calendario .row div[data-country]:nth-child(even), 
 	body.content-calendario .row div[data-phase]:nth-child(even) 
 	{ 
 		background:#E6E6E6; 
 	}	
 
+	body.content-calendario .row.data-match:nth-child(odd),
 	body.content-calendario .row div[data-country]:nth-child(odd), 
 	body.content-calendario .row div[data-phase]:nth-child(odd) {
 		background:#FFFFFF; 
 	}
+	
+	
+	
+	
 	
 	
 	/*calendario*/

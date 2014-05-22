@@ -35,7 +35,7 @@ var _tap = false;
 
 var _jMenu=[
 
-	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-menuhome', json:false},
+	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
   	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
   	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	
   	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
@@ -176,7 +176,7 @@ var app = {
 
 		document.addEventListener('backbutton', function(e) {
 			
-			if ($('#wrapper2').hasClass('right')) {			
+			if ($('#wrapper2').hasClass('left')) {			
 				_fSetBack();							
 			} else {
 				
@@ -244,8 +244,17 @@ function initPage(){
 		} 	
 	});
 
-	$(document).on('click','.load', function(e) {			
-			
+	$(document).on('click','.load', function(e) {
+		
+	/*	$(document).unbind('click');
+  		$(document).bind('click'); 
+		$(document).off('click');
+		$(document).on('click');*/
+
+		
+		
+		clearTimeout(_mTimeout);			
+		
 		if(_oAjax && _oAjax.readystate != 4) {
 			_oAjax.abort();
     	}
@@ -261,15 +270,13 @@ function initPage(){
 		$('main').load(_jMenu[_this.data('index')].load);
 	
 		$('#wrapperM').attr('class','page transition left');
-			
 	
-
-		
-		
-	
-			
 	});
-		
+	
+	$(document).on('click','.video', function(e) {
+		window.videoPlayer.play($(this).data('src'));
+	});
+
 }
 function _fRenderLoad(){
 	

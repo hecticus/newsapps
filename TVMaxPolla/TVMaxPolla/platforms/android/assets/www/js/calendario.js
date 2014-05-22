@@ -37,39 +37,36 @@
 			
 			if (eval(_expression)) {
 
+				_html += '<div class="row data-match" >';
+				
+				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
+				_html += '<span style="font-size:1em; font-style:italic;  ">' +  _item.fecha_de_partido + '</span>';
+				_html += '</div>';
+								
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
+				_html += '<span style="font-size:1.4em; font-weight:bold; ">' +  _item.fase + '</span>';
+				_html += '</div>';
+				
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
+				_html += '<span>' +  _item.sede + ', </span>';
+				_html += '</div>';
 
-				_html += '<div class="row" >';
-				_html += '<div class="col-md-12" style="text-align:center; font-weight:bold;">';
-				_html += '<span>' +  _item.fecha_de_partido + '</span>';
-				_html += '</div>';
-				_html += '</div>';
-				
-				_html += '<div class="row" >';
-				
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; line-height:40px; padding:5px;">';
-				_html += '<span>' +  _item.equipo_local + '</span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:20px; padding:5px;">';
+				_html += '<span style="margin-left:15px; font-weight:bold; text-align: center; ">' +  _item.equipo_local + '</span>';
 				_html += '</div>';
 			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; line-height:40px; padding:5px;">';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:40px; padding:5px;">';
 				_html += '<span> - </span>';
 				_html += '</div>';
 				
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; line-height:40px; padding:5px;">';
-				
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:20px; padding:5px;">';												
+				_html += '<span style="margin-right:15px; font-weight:bold; text-align: center; ">' + _item.equipo_visitante + '</span>';
+				_html += '</div>';		
 								
-				_html += '<span>' + _item.equipo_visitante + '</span>';
 				_html += '</div>';
+
 				
-				_html += '</div>';
 				
-				_html += '<div class="row" >';
-				_html += '<div class="col-md-12" style="text-align:center; font-weight:bold;">';
-				_html += '<span>' +  _item.sede + '</span>';
-				_html += '</div>';
-				_html += '<div class="col-md-12" style="text-align:center; font-weight:bold;">';
-				_html += '<span>' +  _item.fase + '</span>';
-				_html += '</div>';				
-				_html += '</div>';
 
 			}			
 		});
@@ -184,7 +181,7 @@
 		_jCountry.sort();	
 		$.each(_jCountry, function(_index) {			
 			_html += '<div class="col-md-12 match" data-country="' + _jCountry[_index] + '" >';
-			_html += '<span>' + _jCountry[_index].toString()  + '</span>';
+			_html += '<span style="margin-left:15px;">' + _jCountry[_index].toString()  + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';
@@ -199,7 +196,7 @@
 		var _html = '<div class="row" >';	
 		$.each(_jPhase, function(_index) {			
 			_html += '<div class="col-md-12 match" data-phase="' + _jPhase[_index] + '" >';
-			_html += '<span>' + _jPhase[_index] + '</span>';
+			_html += '<span style="margin-left:15px;">' + _jPhase[_index] + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';
