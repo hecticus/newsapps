@@ -20,9 +20,9 @@
 			}
 		});
 
-		_html += '<div class="col-md-12" >';
+		/*_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';
+		_html += '</div>';*/
 	
 		_html += '</div>';
 		
@@ -39,7 +39,6 @@
 		
 		$.each(_jHistory, function(_index,_history) {
 			_html += '<div class="col-md-12 history" data-url="' + encodeURI(_history.url) + '">';
-			//_html += _fGetImage({src:_history.image,  caption: _history.title});
 			
 			var a = _history.title.lastIndexOf('(');
 			var b = _history.title.lastIndexOf(')');
@@ -47,8 +46,9 @@
 			var _date = _history.title.substring((a+1), b);
 			var _title =  _history.title.substring(0, a);
 			
-			_html += '<h4>' + _title + '</h4>';
-			_html += '<span style="font-style:italic; color:#4D4D4D; ">' + _date + '</span>';
+			_html += '<span class="glyphicon glyphicon-plane"></span>';
+			_html += '<span>' + _title + '</span>';
+			//_html += '<span style="font-style:italic; color:#4D4D4D; ">' + _date + '</span>';
 		 	_html += '</div>';
 		});
 				
@@ -60,7 +60,7 @@
 
 	};
 
-	$(document).on('tap','.history', function(e) {					
+	$(document).on('click','.history', function(e) {					
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 			

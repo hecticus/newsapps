@@ -13,16 +13,16 @@
 
 		$.each(_jStadiums, function(_index,_stadium) {			
 			if (_stadium.url == _url) {							
-				_html += '<div class="col-md-12 team" >';
+				_html += '<div class="col-md-12" >';
 				_html += _fGetImage({src:_stadium.image,  caption: _stadium.title});					    
 			 	_html += _stadium.datacontent;
 			 	_html += '</div>';			
 			}
 		});
 
-		_html += '<div class="col-md-12" >';
+		/*_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';
+		_html += '</div>';*/
 	
 		_html += '</div>';
 		
@@ -41,8 +41,8 @@
 		
 		$.each(_jStadiums, function(_index,_stadium) {	
 			_html += '<div class="col-md-12 stadium" data-url="' + encodeURI(_stadium.url) + '">';
-			//_html += _fGetImage({src:_stadium.image,  caption: _stadium.title});
-			_html += '<h3>' + _stadium.title + '</h3>';				    		
+			_html += '<span class="glyphicon glyphicon-inbox"></span>';
+			_html += '<span>' + _stadium.title + '</span>';				    		
 		 	_html += '</div>';		
 		});
 
@@ -54,7 +54,7 @@
 
 	};
 
-	$(document).on('tap','.stadium', function(e) {
+	$(document).on('click','.stadium', function(e) {
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 

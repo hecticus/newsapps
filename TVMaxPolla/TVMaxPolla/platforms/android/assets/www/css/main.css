@@ -19,15 +19,8 @@
 
 	}
 	
-	.content-menu {		
-		background:#fffff;
-		height; 40px; 
-		line-height:40px;
-		font-size: 1.2em;
-	}
-	.content-menu span:last-child {
-		margin-left:  5px;
-	}		
+	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.2em;}
+	.content-menu span:last-child { margin-left:  5px;}		
 
 	
 	.content-menu:nth-child(even) {background:#E6E6E6; color:#1E5733; }
@@ -50,10 +43,6 @@
 	}
 
 
-	
-	
-	
-	
 	header {	
 		position: absolute; 
 		z-index: 2; 
@@ -73,17 +62,13 @@
 		text-transform: uppercase;
 	}
 			
-	header .glyphicon  {
-		color: #3E79C4;
-	}			
-
-	body.content-init header {
-		display: none;
-	}
-
-	body header:not(.content-home) {
+	header .glyphicon { color: #3E79C4;}
+				
+	body:not(.content-home) header, 
+	body:not(.content-init) header {
 		display: block;
 	}
+	
 	
 	figure { width: 100%; height: auto; position:relative; margin: 2px 0; }
 	figure img { width: 100%;  height: auto;  position:relative; left:0; top:0; }			
@@ -406,7 +391,7 @@
 	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
 	
 			
-	/*body.content-home header {display: none;}
+	body.content-home header {display: none;}
 	body.content-home #wrapper, body.content-home #wrapperM { 
 		position: absolute;
 		z-index: 1; 
@@ -415,7 +400,7 @@
 		left: 0; 
 		width: 100%; 
 		background: #fff;
-	}*/
+	}
 	
 	body.content-home #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; margin: 0; }
 	body.content-home #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
@@ -439,7 +424,7 @@
 	/*calendario*/
 	body.content-calendario .calendario-menu.container {
 		position: absolute; 
-		top:45px; 
+		top:50px; 
 		left:0; 		
 		width: 100%; 
 		height: 45px;
@@ -464,23 +449,63 @@
 		text-transform: uppercase;
 	}
 	
-	body.content-calendario .row div[data-country] {
+	body.content-calendario .row div[data-country],
+	body.content-calendario .row div[data-phase] {
 		height: 40px;
 		line-height: 40px;
 		font-size: 1.2em;
 		color:#4D4D4D;  
 	}
-	body.content-calendario .row div[data-phase] {
-		height: 40px;
-		line-height: 40px;
-		font-size: 1.2em;	
-		color:#4D4D4D; 	
+	
+	
+	body.content-calendario .row div[data-country]:nth-child(even), 
+	body.content-calendario .row div[data-phase]:nth-child(even) 
+	{ 
+		background:#E6E6E6; 
+	}	
+
+	body.content-calendario .row div[data-country]:nth-child(odd), 
+	body.content-calendario .row div[data-phase]:nth-child(odd) {
+		background:#FFFFFF; 
 	}
 	
-	body.content-calendario .row div[data-country]:nth-child(even) { background:#E6E6E6; }	
-	body.content-calendario .row div[data-country]:nth-child(odd) {background:#FFFFFF; }
-	
-	body.content-calendario .row div[data-phase]:nth-child(even) { background:#E6E6E6;}	
-	body.content-calendario .row div[data-phase]:nth-child(odd) {background:#FFFFFF;}
 	
 	/*calendario*/
+	
+
+	body.content-stadiums .row div.stadium,
+	body.content-history .row div.history,
+	body.content-players .row div.player, 	 
+	body.content-teams .row div.team {
+		height: 40px; 
+		line-height: 40px; 
+		font-size: 1.2em; 
+		color:#4D4D4D;
+	}
+
+	body.content-stadiums .row div.stadium:nth-child(even),
+	body.content-history .row div.history:nth-child(even), 
+	body.content-players .row div.player:nth-child(even), 
+	body.content-teams .row div.team:nth-child(even) { 
+		background:#E6E6E6; 
+	}
+	
+	body.content-stadiums .row div.stadium:nth-child(odd),
+	body.content-history .row div.history:nth-child(odd),   
+	body.content-players .row div.player:nth-child(odd),
+	body.content-teams .row div.team:nth-child(odd) {
+		background:#FFFFFF; 
+	}
+
+	body.content-stadiums .row div.stadium span:last-child,
+	body.content-history .row div.history span:last-child,
+	body.content-players .row div.player span:last-child,
+	body.content-teams .row div.team span:last-child {
+		margin-left: 5px;
+	}
+
+
+
+
+
+

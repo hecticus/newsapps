@@ -38,40 +38,11 @@
 		var _html = '<div class="row" >';
 				
 		$.each(_jPlayers, function(_index,_player) {
-			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';
-			//_html += _fGetImage({src:_history.image,  caption: _history.title});
-			_html += '<h3>' +  _player.title + '</h3>';
+			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';					
+			_html += '<span class="glyphicon glyphicon-user"></span>';
+			_html += '<span>' +  _player.title + '</span>';
 		 	_html += '</div>';
-			
-				
-			/*_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-						
-					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-	    				_data = $('<div>').append(_data).remove().html();
-	    		
-					_player.datacontent = _fGetImage({src:_urlCloud + '/legends/' + _id +'.jpg',  caption: _title});
-					_player.datacontent +=  _data;
-							
-					_html += '<div class="col-md-12 player" data-url="' + _player.url + '">';
-		    		_html += _fGetImage({src:_urlCloud + '/legends/' + _id +'.jpg',  caption: _title});		    		
-				 	_html += '</div>';
-					
-					
-				});
-			}*/		
 		});
-		
-		
-		
-	
-
 
 		_html += '</div>';
 		
@@ -80,7 +51,7 @@
 
 	};
 
-	$(document).on('tap','.player', function(e) {	
+	$(document).on('click','.player', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 

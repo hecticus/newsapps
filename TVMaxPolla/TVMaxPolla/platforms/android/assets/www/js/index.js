@@ -138,7 +138,7 @@ var app = {
 		});
 
 
-		/*$.each(_jTeams, function(_index,_team) {
+		$.each(_jTeams, function(_index,_team) {
 			
 			_oAjax = $.fGetAjaXJSON(_team.fiche, 'xml', 'text/xml charset=utf-8', false);
 			if (_oAjax) {
@@ -152,14 +152,14 @@ var app = {
 						_data = $('<div>').append(_data).remove().html();
 												
 					_team.title = _title;
-	    			_team.xml.fiche = _xml;  							
+	    			//_team.xml.fiche = _xml;
 					_team.datacontent.fiche = _data;							
 
 	
 				});
 			}
 
-		});*/
+		});
 
 
 
