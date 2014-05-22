@@ -176,14 +176,24 @@ var app = {
 
 		document.addEventListener('backbutton', function(e) {
 			
-			if ($('#wrapperM').hasClass('right')) {
-			 	_fSetBack();
-			} else if ($('body').hasClass('content-home')) {							
-				exitApp();				
+			if ($('#wrapper2').hasClass('right')) {			
+				_fSetBack();							
 			} else {
-				_fSetBack();	
-			}	
-							
+				
+				if ($('#wrapperM').hasClass('right')) {
+			 		_fSetBack();
+				} else if ($('body').hasClass('content-home')) {							
+					exitApp();				
+				} else {
+					$('body').removeClass();
+					$('body').addClass(_jMenu[0].class);
+					$('main').data('index',0);		
+					$('main').load(_jMenu[0].load);
+					$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+				}
+				
+			}
+										
 		}, false);
 		
 		app.receivedEvent('deviceready');    	
