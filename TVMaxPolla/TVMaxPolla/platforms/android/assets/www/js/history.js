@@ -46,7 +46,7 @@
 			var _date = _history.title.substring((a+1), b);
 			var _title =  _history.title.substring(0, a);
 			
-			_html += '<span class="glyphicon glyphicon-plane"></span>';
+			_html += '<span class="icon-historia_menu"></span>';
 			_html += '<span>' + _title + '</span>';
 			//_html += '<span style="font-style:italic; color:#4D4D4D; ">' + _date + '</span>';
 		 	_html += '</div>';

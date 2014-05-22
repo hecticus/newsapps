@@ -41,7 +41,7 @@
 		
 		$.each(_jStadiums, function(_index,_stadium) {	
 			_html += '<div class="col-md-12 stadium" data-url="' + encodeURI(_stadium.url) + '">';
-			_html += '<span class="glyphicon glyphicon-inbox"></span>';
+			_html += '<span class="icon-estadios_menu"></span>';
 			_html += '<span>' + _stadium.title + '</span>';				    		
 		 	_html += '</div>';		
 		});

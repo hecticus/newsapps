@@ -8,7 +8,7 @@
 			
 			_html += '<figcaption>';
 			
-			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; ">';
+			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;">';
 				_html += '<span>'+_image.caption+'</span>';
 			_html += '</div>';
 			
@@ -19,7 +19,7 @@
 			_html += '</figcaption>';		
 
 		}
-		
+	
 		_html += '</figure>';
 		return _html;
 	};

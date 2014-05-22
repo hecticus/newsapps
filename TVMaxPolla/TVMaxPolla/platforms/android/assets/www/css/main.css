@@ -9,6 +9,7 @@
 	table tbody tr {border: 0 !important; }	
 	table thead tr td {border: 0 !important; }
 	table tbody tr td {border: 0 !important; }
+	table thead {border-bottom: solid #FFD455; }
 	
 	thead {
 
@@ -19,9 +20,9 @@
 
 	}
 	
-	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.2em;}
+	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.4em;}
 	.content-menu span:last-child { margin-left:  5px;}		
-
+	
 	
 	.content-menu:nth-child(even) {background:#E6E6E6; color:#1E5733; }
 	.content-menu:nth-child(odd) {background:#FFFFFF;  color:#3E79C4; }
@@ -390,6 +391,14 @@
 	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important;margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
 	
+	
+	.caption-icon {
+		font-size:1.2em; 
+		font-weight:bold; 
+		color:#ffffff;
+	}
+	
+	
 			
 	body.content-home header {display: none;}
 	body.content-home #wrapper, body.content-home #wrapperM { 
@@ -440,6 +449,13 @@
 		color:#3E79C4;
 	}
 	
+	body.content-calendario .calendario-menu.container .calendar {
+		text-align: center; 
+		line-height:40px; 
+		padding:5px;
+		font-size: 1.6em; 
+	}
+	
 	body.content-calendario .name-month {
 		text-align: center;
 		font-size: 1.4em;
@@ -472,7 +488,7 @@
 	
 	/*calendario*/
 	
-
+	body.content-goles .row div.video,
 	body.content-stadiums .row div.stadium,
 	body.content-history .row div.history,
 	body.content-players .row div.player, 	 
@@ -482,7 +498,8 @@
 		font-size: 1.2em; 
 		color:#4D4D4D;
 	}
-
+	
+	body.content-goles .row div.video:nth-child(even),
 	body.content-stadiums .row div.stadium:nth-child(even),
 	body.content-history .row div.history:nth-child(even), 
 	body.content-players .row div.player:nth-child(even), 
@@ -490,13 +507,15 @@
 		background:#E6E6E6; 
 	}
 	
+	body.content-goles .row div.video:nth-child(odd),
 	body.content-stadiums .row div.stadium:nth-child(odd),
 	body.content-history .row div.history:nth-child(odd),   
 	body.content-players .row div.player:nth-child(odd),
 	body.content-teams .row div.team:nth-child(odd) {
 		background:#FFFFFF; 
 	}
-
+	
+	body.content-goles .row div.video span:last-child,
 	body.content-stadiums .row div.stadium span:last-child,
 	body.content-history .row div.history span:last-child,
 	body.content-players .row div.player span:last-child,

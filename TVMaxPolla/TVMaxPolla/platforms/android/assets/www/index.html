@@ -22,7 +22,7 @@
 				<div class="row">
 														
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 menu" style="text-align: left;">
-						<span class="glyphicon glyphicon-align-justify"></span>
+						<span class="icon-menuhome"></span>
 					</div>
 
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: left;">
@@ -70,7 +70,7 @@
         </script>
 
 		<script type="text/javascript">				
-			var myScrollM = new IScroll('#wrapperM',{preventDefault:true});			
+			var myScrollM = new IScroll('#wrapperM', { click:true });			
 			myScrollM.on('beforeScrollStart', function () {				 
 				this.refresh();
 				_tap = true;

@@ -39,7 +39,7 @@
 				
 		$.each(_jPlayers, function(_index,_player) {
 			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';					
-			_html += '<span class="glyphicon glyphicon-user"></span>';
+			_html += '<span class="icon-biografia_menu"></span>';
 			_html += '<span>' +  _player.title + '</span>';
 		 	_html += '</div>';
 		});

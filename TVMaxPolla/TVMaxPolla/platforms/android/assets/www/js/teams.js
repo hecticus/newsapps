@@ -43,7 +43,7 @@
 	
 		$.each(_jTeams, function(_index,_team) {	
 			_html += '<div class="col-md-12 team" data-gene="' + encodeURI(_team.gene) + '" >';	
-			_html += '<span class="glyphicon glyphicon-flag"></span>';
+			_html += '<span class="icon-equipos_menu"></span>';
 			_html += '<span>' + _team.title + '</span>';				    		
 		 	_html += '</div>';		
 		});

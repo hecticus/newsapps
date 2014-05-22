@@ -19,7 +19,7 @@
 			_html += '<div style="background: #3E79C4; height:' + _height + 'px;  text-align:center;">';
 				_html += '<span class="icon-menuhome" style="font-size:4em; color:#ffffff;"></span>';
 				_html += '<br />';
-				_html += '<span style="font-size:1em; font-weight:bold; color:#ffffff;">Men&uacute;</span>';
+				_html += '<span class="caption-icon" >Men&uacute;</span>';
 			_html += '</div>';
 		_html += '</div>';
 
@@ -50,8 +50,9 @@
 				_html += '<figure>';					     		
 					_html += '<img onerror="this.style.display=\'none\'" src="' + _jImageFeatured.src + '" alt="' +_jImageFeatured.src + '"  />';		
 					_html += '<figcaption>';			
-						_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; ">';
+						_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; ">';
 							_html += '<span>'+_jImageFeatured.caption+'</span>';
+
 						_html += '</div>';				
 						_html += '<div style="width:20%;  height: 40px; line-height: 40px; float:right; text-align: right; font-size:1.6em; font-weight:bold;">';
 							_html += '<span class="icon-noticias"></span>';
@@ -86,7 +87,7 @@
 			
 		_html += '<figcaption>';			
 		_html += '<div style="width:100%;  height: 20px; line-height: 20px; ">';
-			_html += '<span class="icon-estrellas" style="font-size:1.2em; font-weight:bold;"></span> <span style="font-size:1em;  font-weight:bold;">Estrellas</span>';
+			_html += '<span class="icon-estrellas" style="font-size:1.2em; font-weight:bold;"></span> <span class="caption-icon">Estrellas</span>';
 		_html += '</div>';						
 		_html += '</figcaption>';		
 		
@@ -99,7 +100,7 @@
 		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="6">';
 			_html += '<div style="background: #1E5733;  height:' + _height + 'px; text-align:center;" >';			
 				_html += '<span class="icon-calendario" style="font-size:4em; color:#ffffff;"></span>';
-				_html += '<span style="font-size:1em;  font-weight:bold; color:#ffffff;">Calendario</span>';								
+				_html += '<span class="caption-icon" >Calendario</span>';								
 			_html += '</div>';	
 		_html += '</div>';
 
@@ -115,7 +116,7 @@
 			_html += '<div style="background: #1E5733;  height:' + _height + 'px;  text-align:center;" >';
 				_html += '<span class="icon-alertas" style="font-size:4em; color:#ffffff;"></span>';
 				_html += '<br />';
-				_html += '<span style="font-size:1em; font-weight:bold; color:#ffffff;">Alertas</span>';	
+				_html += '<span class="caption-icon">Alertas</span>';	
 			_html += '</div>';	
 		_html += '</div>';
 		
@@ -123,7 +124,7 @@
 			_html += '<div style="background: #d9534f;  height:' + _height + 'px; text-align:center;" >';
 				_html += '<span class="icon-equipo" style="font-size:4em; color:#ffffff;"></span>';	
 				_html += '<br />';
-				_html += '<span style="font-size:1em; font-weight:bold; color:#ffffff;">Equipos</span>';	
+				_html += '<span class="caption-icon" >Equipos</span>';	
 			_html += '</div>';	
 		_html += '</div>';
 
@@ -131,7 +132,7 @@
 			_html += '<div style="background: #1E5733;  height:' + _height + 'px; text-align:center;" >';
 				_html += '<span class="icon-tvenvivo" style="font-size:4em; color:#ffffff;"></span>';
 				_html += '<br />';
-				_html += '<span style="font-size:1em; font-weight:bold; color:#ffffff;">TV en Vivo</span>';	
+				_html += '<span class="caption-icon">TV en Vivo</span>';	
 			_html += '</div>';	
 		_html += '</div>';
 						

@@ -35,19 +35,7 @@ var _tap = false;
 
 var _jMenu=[
 
-	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'glyphicon glyphicon-home', json:false},
-  	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
-  	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
-  	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
-  	{index:4,class:'content-pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
-  	{index:5,class:'content-polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
-  	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false},
-  	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'glyphicon glyphicon-inbox', json:false},
-  	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'glyphicon glyphicon-plane', json:false},
-  	{index:9,class:'content-players',title:'Biografias',load:'players.html', glyphicon:'glyphicon glyphicon-user', json:false},
-  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'glyphicon glyphicon-flag', json:false}
-
-	/*{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
+	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-menuhome', json:false},
   	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
   	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	
   	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
@@ -57,7 +45,7 @@ var _jMenu=[
   	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},  	
   	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
   	{index:9,class:'content-players',title:'Biograf&iacute;as',load:'players.html', glyphicon:'icon-biografia_menu', json:false},
-  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false}*/
+  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false}
   	    	
 ];
 
