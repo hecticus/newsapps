@@ -1728,7 +1728,8 @@ Indicator.prototype = {
 			this.scroller._execEvent('scrollStart');
 		}
 
-		this.moved = true;
+		//this.moved = true;
+		this.moved = this.isInTransition === true ? true : false;		
 
 		deltaX = point.pageX - this.lastPointX;
 		this.lastPointX = point.pageX;

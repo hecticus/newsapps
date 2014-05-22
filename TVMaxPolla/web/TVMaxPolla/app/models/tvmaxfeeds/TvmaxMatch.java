@@ -4,6 +4,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import exceptions.TvmaxFeedException;
 import models.HecticusModel;
+import models.matches.GameMatch;
+import models.matches.Team;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
@@ -87,6 +89,13 @@ public class TvmaxMatch extends HecticusModel {
         tr.put("estado_del_partido", decode(matchStatus));
         tr.put("descripcion_del_partido", decode(matchDescription));
         tr.put("transmision_por_TVMAX", tvmaxBroadcast);
+
+        //obtenemos data adicional como los id_ext de los equipos
+        GameMatch match = GameMatch.getMatch(matchNumber);
+        Team teamLocal = Team.getTeam(match.getIdTeamA());
+        Team teamVisitante = Team.getTeam(match.getIdTeamB());
+        tr.put("equipo_local_ext_id",teamLocal.getAfp_id());
+        tr.put("equipo_visitante_ext_id",teamVisitante.getAfp_id());
 
         return tr;
     }

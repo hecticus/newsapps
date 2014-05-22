@@ -26,6 +26,7 @@ public class Team extends HecticusModel{
     private String name;
     private String shortname;
     private String flagFile;
+    private Long afpId;
 
     public Team(){
         //por defecto
@@ -63,7 +64,14 @@ public class Team extends HecticusModel{
         this.flagFile = flagFile;
     }
 
-    
+    public Long getAfp_id() {
+        return afpId;
+    }
+
+    public void setAfp_id(Long afp_id) {
+        this.afpId = afp_id;
+    }
+
     public static Model.Finder<Integer,Team> finder =
             new Model.Finder<Integer, Team>(Integer.class, Team.class);
 
@@ -73,6 +81,7 @@ public class Team extends HecticusModel{
         tr.put("name",name);
         tr.put("shortName",shortname);
         tr.put("flag_file",flagFile);
+        tr.put("afp_id",afpId);
         return tr;
     }
 

@@ -17,6 +17,10 @@
  * under the License.
  */
 
+var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
+var _jImageFeatured = false;
+
+				 
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
 var _day = _date.getDate();
@@ -26,22 +30,22 @@ var _copyright= 'Copyright &copy; Televisora Nacional S.A. ' + _year;
 
 var _jGet = false;	
 var _oAjax;
-var _jMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+
 var _tap = false;
 
-
 var _jMenu=[
-	{index:0,class:'noticias',title:'Home',load:'noticias.html', glyphicon:'glyphicon glyphicon-home', json:false},
-  	{index:1,class:'polla',title:'Polla',load:'polla.html', glyphicon:'glyphicon glyphicon-tower', json:false},
-  	{index:2,class:'noticias',title:'Noticias',load:'noticias.html', glyphicon:'glyphicon glyphicon-star', json:false},
-  	{index:3,class:'goles',title:'Goles',load:'goles.html', glyphicon:'glyphicon glyphicon-facetime-video', json:false},
-  	{index:4,class:'pronosticos',title:'Pronosticos',load:'pronosticos.html', glyphicon:'glyphicon glyphicon-heart', json:false},
-  	{index:5,class:'polemicas',title:'Polemicas',load:'polemicas.html', glyphicon:'glyphicon glyphicon-bookmark', json:false},
-  	{index:6,class:'calendario',title:'Calendario',load:'calendario.html', glyphicon:'glyphicon glyphicon-calendar', json:false},
-  	{index:7,class:'stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'glyphicon glyphicon-inbox', json:false},
-  	{index:8,class:'history',title:'Historia',load:'history.html', glyphicon:'glyphicon glyphicon-plane', json:false},
-  	{index:9,class:'players',title:'Biografias',load:'players.html', glyphicon:'glyphicon glyphicon-user', json:false},
-  	{index:10,class:'teams',title:'Equipos',load:'teams.html', glyphicon:'glyphicon glyphicon-flag', json:false}
+
+	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-menuhome', json:false},
+  	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
+  	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	
+  	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
+  	{index:4,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	
+  	{index:5,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},  	
+  	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
+  	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},  	
+  	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
+  	{index:9,class:'content-players',title:'Biograf&iacute;as',load:'players.html', glyphicon:'icon-biografia_menu', json:false},
+  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false}
   	    	
 ];
 
@@ -60,9 +64,136 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-		document.addEventListener('backbutton', function() {
-			//exitApp();
-			_fSetBack();						
+    	
+    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {					
+				_jMenu[0].json = _json.noticias_mundial;						
+				$.each(_json.noticias_mundial.item, function(_index,_item) {
+					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+					return false;
+				});				
+			});
+		}
+    	    	
+    	$.each(_jPlayers, function(_index,_player) {
+			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
+			if (_oAjax) {
+				_oAjax.done(function(_xml) {
+														
+					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
+					
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+						_id = _id.split('-');
+						_id = _id[1];
+						
+					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+	    				_data = $('<div>').append(_data).remove().html();
+
+	    			_player.title = _title;
+	    			//_player.xml = _xml;
+	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
+					_player.datacontent =  _data;
+					
+				});
+			}
+		});	
+
+
+
+		$.each(_jStadiums, function(_index,_stadium) {
+			_oAjax = $.fGetAjaXJSON(_stadium.url, 'xml', 'text/xml charset=utf-8', false);
+			if (_oAjax) {
+				_oAjax.done(function(_xml) {
+					
+					var _title = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > hl2').text();
+					
+					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > dl').clone();
+			    		_data = $('<div>').append(_data).remove().html();
+			    		
+			    		
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+						_id = _id.split('-');
+						_id = _id[2];
+						
+					_stadium.title = _title;
+	    			//_stadium.xml = _xml;
+	    			_stadium.image = _urlCloud + '/stdmain/' + _id +'-in.jpg';	    								
+					_stadium.datacontent =  _data;						
+						
+				});
+			}		
+		});
+
+
+		$.each(_jTeams, function(_index,_team) {
+			
+			_oAjax = $.fGetAjaXJSON(_team.fiche, 'xml', 'text/xml charset=utf-8', false);
+			if (_oAjax) {
+				_oAjax.done(function(_xml) {
+					
+					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > ul').text();
+						_title = _title.split('-');
+						_title =  _title[1].toString().trim();
+					
+		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+						_data = $('<div>').append(_data).remove().html();
+												
+					_team.title = _title;
+	    			//_team.xml.fiche = _xml;
+					_team.datacontent.fiche = _data;							
+
+	
+				});
+			}
+
+		});
+
+
+
+		$.each(_jHistory, function(_index,_history) {	
+			_oAjax = $.fGetAjaXJSON(_history.url, 'xml', 'text/xml charset=utf-8', false);
+			if (_oAjax) {
+				_oAjax.done(function(_xml) {
+					
+					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
+			    	var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+			    		_data = $('<div>').append(_data).remove().html();
+			    		
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+						_id = _id.split('-');
+						_id = _id[1];
+						
+					_history.title = _title;
+	    			//_history.xml = _xml;
+	    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
+					_history.datacontent =  _data;							
+		
+				});
+			}		
+		});
+
+
+		document.addEventListener('backbutton', function(e) {
+			
+			if ($('#wrapper2').hasClass('right')) {			
+				_fSetBack();							
+			} else {
+				
+				if ($('#wrapperM').hasClass('right')) {
+			 		_fSetBack();
+				} else if ($('body').hasClass('content-home')) {							
+					exitApp();				
+				} else {
+					$('body').removeClass();
+					$('body').addClass(_jMenu[0].class);
+					$('main').data('index',0);		
+					$('main').load(_jMenu[0].load);
+					$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+				}
+				
+			}
+										
 		}, false);
 		
 		app.receivedEvent('deviceready');    	
@@ -81,9 +212,9 @@ function initPage(){
 	
 	var _html = '<div class="row">';	
 	$(_jMenu).each(function(_index,_menu) {
-		_html += '<div class="col-md-12 load" data-index="' +  _menu.index + '" data-class="' + _menu.class + '" data-load="' +  _menu.load + '" style="background:'+ _jMenuColor[(_index%10)] + '; line-height:40px; " >';
+		_html += '<div class="col-md-12 content-menu load" data-index="' +  _menu.index + '" >';
 		_html += '<span class="' + _menu.glyphicon + '"></span>';
-		_html += '<span style="margin-left:5px; font-size:1.4em; font-weight:bold;" >' + _menu.title + '</span>';
+		_html += '<span>' + _menu.title + '</span>';
 		_html += '</div>';
 	});         	
 	_html += '</div>';
@@ -94,43 +225,57 @@ function initPage(){
 	$('#wrapperM .scroller .container').append(_html);
 
 	
-	/*$('body').removeClass();
+	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
-	$('main').load(_jMenu[0].load);*/
+	$('main').load(_jMenu[0].load);
 	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
 
 	//touchFunctions();
 	//initFacebookManager();
 
-	$(document).on('touchend','.menu', function(e) {
-		_tap = false;
-		myScrollM.scrollTo(0,0,0);
-		$('#wrapperM').attr('class','page transition right');		
+	
+
+	$(document).on('click','.menu', function(e) {	
+	   	if ($('#wrapperM').hasClass('right')) {
+			$('#wrapperM').attr('class','page transition left');	
+		} else {
+			$('#wrapperM').attr('class','page transition right');
+		} 	
 	});
 
-	$(document).on('tap','.load', function(e) {
-	
+	$(document).on('click','.load', function(e) {			
+			
 		if(_oAjax && _oAjax.readystate != 4) {
-            _oAjax.abort();
-        }
+			_oAjax.abort();
+    	}
 
-	
 		_fSetBack();
 		var _this = $(this);
 		
 		$('body').removeClass();
-		$('body').addClass(_this.data('class'));
+		$('body').addClass(_jMenu[_this.data('index')].class);
 		$('main').empty();
 		$('main').data('index',_this.data('index'));	
 		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_this.data('load'));
+		$('main').load(_jMenu[_this.data('index')].load);
 	
 		$('#wrapperM').attr('class','page transition left');
-				
+			
+	
+
+		
+		
+	
+			
 	});
 		
 }
+function _fRenderLoad(){
+	
+	
+};
+
 
 function touchFunctions(){
 	//facebook login

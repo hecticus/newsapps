@@ -269,6 +269,13 @@ function initPage(){
 	
 			
 	});
+	
+	//video stream button
+	$(document).on('click','.livetv', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		window.videoPlayer.play('http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8');
+	});
 		
 }
 function _fRenderLoad(){
@@ -284,13 +291,7 @@ function touchFunctions(){
 		login();
 	});
 	
-	//video stream button
-	$(document).on('touchend','.tv:not(.share)', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log("PASO");
-		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
-	});
+	
 }
 
 

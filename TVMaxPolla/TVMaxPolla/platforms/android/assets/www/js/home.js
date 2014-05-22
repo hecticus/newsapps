@@ -128,7 +128,7 @@
 			_html += '</div>';	
 		_html += '</div>';
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro">';
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 livetv metro">';
 			_html += '<div style="background: #1E5733;  height:' + _height + 'px; text-align:center;" >';
 				_html += '<span class="icon-tvenvivo" style="font-size:4em; color:#ffffff;"></span>';
 				_html += '<br />';

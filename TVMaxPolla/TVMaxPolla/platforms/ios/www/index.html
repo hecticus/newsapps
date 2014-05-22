@@ -5,31 +5,27 @@
 	
 	<head>	
 		<title>TVMax</title>
-		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8" -->
-		
-		
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" >	
-	
-		
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">	
-		<link rel="stylesheet" href="css/bootstrap.min.css">	
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="fonts/iconvault/iconvault-preview.css">				
 		<link rel="stylesheet" href="css/transition.css">
 		<link rel="stylesheet" href="css/main.css">
 	</head>
 	
-	<body style="position: fixed;">
+	<body class="content-init" style="position: fixed;">
 	
 		<header>
 			<div class="container">
 				<div class="row">
 														
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 menu" style="text-align: left;">
-						<span class="glyphicon glyphicon-list"></span>
+						<span class="icon-menuhome"></span>
 					</div>
 
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: center;">
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: left;">
 						
 					</div>
 					
@@ -43,7 +39,7 @@
 
 		<main>&nbsp;</main>
 
-		<div id="wrapperM" class="page"  style="z-index: 10; left: -100%;" >
+		<div id="wrapperM" class="page" style="z-index: 10; left: -100%;" >
 			<div class="scroller">				
 				<div class="container">
 				</div>	
@@ -58,6 +54,7 @@
 		<script type="text/javascript" src="js/iscroll.js"></script>
 		
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		 <script type="text/javascript" src="js/jsons.js"></script>
         <script type="text/javascript" src="js/index.js"></script>                         
         <script type="text/javascript" src="js/utils.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
@@ -72,11 +69,12 @@
             app.initialize();
         </script>
 
-		<script type="text/javascript">		
-			var myScrollM = new IScroll('#wrapperM', {tap: true});
-			myScrollM.on('beforeScrollStart', function () { 
-				this.refresh();		
-			});									
+		<script type="text/javascript">				
+			var myScrollM = new IScroll('#wrapperM', {click:true,preventDefault:true});			
+			myScrollM.on('beforeScrollStart', function () {				 
+				this.refresh();
+				_tap = true;
+			});
 		</script>
 
 
