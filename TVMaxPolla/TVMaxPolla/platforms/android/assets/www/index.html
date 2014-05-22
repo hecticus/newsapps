@@ -70,7 +70,7 @@
         </script>
 
 		<script type="text/javascript">				
-			var myScrollM = new IScroll('#wrapperM', { click:true });			
+			var myScrollM = new IScroll('#wrapperM', {click:true,preventDefault:true});			
 			myScrollM.on('beforeScrollStart', function () {				 
 				this.refresh();
 				_tap = true;
