@@ -17,14 +17,14 @@
        under the License.
  */
 
-package com.hecticus.tvmaxpolla;
+package com.tvn.tvmax;
 
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import org.apache.cordova.*;
 
-public class TVMaxPolla extends CordovaActivity 
+public class TVMaxDeportes extends CordovaActivity 
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
