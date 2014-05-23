@@ -2,16 +2,16 @@
 <html lang="es">
 	<body>
 		
-		<div class="container" style="position: absolute; top:45px; left:0; line-height:45px; z-index: 2; width: 100%; height: 45px; font-size: 1.6em; background: red; ">
+		<div class="container calendario-menu" >
 			<div class="row" >			
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderCalendar();" style="text-align: center; line-height:40px; padding:5px; color: blue;">
-				 	<span class="glyphicon glyphicon-calendar"></span>
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar active" data-function="_fRenderCalendar();">
+				 	<span class="icon-calendario"></span>
 				 </div>			
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderCountry();" style="text-align: center; line-height:40px; padding:5px;">
-				 	<span class="glyphicon glyphicon-globe"></span>
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderCountry();">
+				 	<span class="icon-paises"></span>
 				 </div>			
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderPhase();" style="text-align: center; line-height:40px; padding:5px;">
-				 	<span class="glyphicon glyphicon-signal"></span>
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderPhase();">
+				 	<span class="icon-fases"></span>
 				 </div>		 		 
 			 </div>
 		</div>
@@ -35,12 +35,12 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {tap: true});
+			var myScroll = new IScroll('#wrapper', {click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () {					
 				this.refresh();	
 			});
 				
-			var myScroll2 = new IScroll('#wrapper2');
+			var myScroll2 = new IScroll('#wrapper2', {click:true,preventDefault:true});
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();
 			});	

@@ -36,6 +36,7 @@ import java.util.*;
  * Provides a Fragment that displays a list of a user's friends and allows one or more of the
  * friends to be selected.
  */
+@SuppressLint("ValidFragment")
 public class FriendPickerFragment extends PickerFragment<GraphUser> {
     /**
      * The key for a String parameter in the fragment's Intent bundle to indicate what user's

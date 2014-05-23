@@ -1,27 +1,22 @@
-
-	var _fGetImage = function(_image) {
-		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
-		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
-		_html += '</figure>';
-		return _html;
-	};
 	
 	var _fRenderDataContent = function(_url) {
 	
-		var _html = '<div class="row" >';
+		var _html = '<div class="row">';
 	
 		$.each(_jPlayers, function(_index,_player) {				
 			if (_player.url == _url) {				
-				_html += '<div class="col-md-12" >';
+				_html += '<div class="col-md-12" >';				
+				//_html += _fGetImage({src:_player.image,  caption: _player.title});				
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _player.image + '" alt="' +_player.image + '" style="width:50%; height: auto; float:left; padding:5px;"  />';
+				
 				_html += _player.datacontent;
 		 		_html += '</div>';								
 			}
 		});
 		
-		_html += '<div class="col-md-12" >';
+		/*_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';
+		_html += '</div>';*/
 	
 		_html += '</div>';
 
@@ -36,35 +31,11 @@
 	
 		var _html = '<div class="row" >';
 				
-		$.each(_jPlayers, function(_index,_player) {	
-			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-						
-					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-	    				_data = $('<div>').append(_data).remove().html();
-	    		
-					_player.datacontent = _fGetImage({src:_urlCloud + '/' + _id +'.jpg',  caption: _title});
-					_player.datacontent +=  _data;
-							
-					_html += '<div class="col-md-12 player" data-url="' + _player.url + '">';
-		    		_html += _fGetImage({src:_urlCloud + '/' + _id +'.jpg',  caption: _title});		    		
-				 	_html += '</div>';
-					
-					
-				});
-			}		
+		$.each(_jPlayers, function(_index,_player) {
+			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';					
+			_html += '<span>' +  _player.title + '</span>';
+		 	_html += '</div>';
 		});
-		
-		
-		
-	
-
 
 		_html += '</div>';
 		
@@ -73,7 +44,7 @@
 
 	};
 
-	$(document).on('tap','.player', function(e) {	
+	$(document).on('click','.player', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 

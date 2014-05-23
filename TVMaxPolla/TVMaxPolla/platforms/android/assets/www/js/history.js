@@ -13,15 +13,17 @@
 
 		$.each(_jHistory, function(_index,_history) {
 			if (_history.url == _url) {
-				_html += '<div class="col-md-12" >';				    
+				_html += '<div class="col-md-12" >';
+				_html += '<h2>' + _history.title + '</h2>';
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _history.image + '" alt="' +_history.image + '" style="width:auto; height:25%;" />';			    
 			 	_html += _history.datacontent;
 			 	_html += '</div>';			
 			}
 		});
 
-		_html += '<div class="col-md-12" >';
+		/*_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';
+		_html += '</div>';*/
 	
 		_html += '</div>';
 		
@@ -36,30 +38,18 @@
 	
 		var _html = '<div class="row" >';
 		
-		$.each(_jHistory, function(_index,_history) {	
-			_oAjax = $.fGetAjaXJSON(_history.url, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-			    	var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-			    		_data = $('<div>').append(_data).remove().html();
-			    		
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-						
-					_history.datacontent = _fGetImage({src:_urlCloud + '/' + _id +'-1.jpg',  caption: _title});		    		
-					_history.datacontent += _data;
-					
-					
-					_html += '<div class="col-md-12 history" data-url="' + encodeURI(_history.url) + '" >';
-		    		_html += _fGetImage({src:_urlCloud + '/' + _id +'-1.jpg',  caption: _title});		    		
-				 	_html += '</div>';
-					
-					
-				});
-			}		
+		$.each(_jHistory, function(_index,_history) {
+			_html += '<div class="col-md-12 history" data-url="' + encodeURI(_history.url) + '">';
+			
+			var a = _history.title.lastIndexOf('(');
+			var b = _history.title.lastIndexOf(')');
+			
+			var _date = _history.title.substring((a+1), b);
+			var _title =  _history.title.substring(0, a);
+			
+			_html += '<span>' + _title + '</span>';
+			//_html += '<span style="font-style:italic; color:#4D4D4D; ">' + _date + '</span>';
+		 	_html += '</div>';
 		});
 				
 
@@ -70,7 +60,7 @@
 
 	};
 
-	$(document).on('tap','.history', function(e) {					
+	$(document).on('click','.history', function(e) {					
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 			

@@ -19,18 +19,17 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {tap: true});
+			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function (e) { 
 				this.refresh();		
 			});	
 
-			var myScroll2 = new IScroll('#wrapper2');
+			var myScroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
 			myScroll2.on('beforeScrollStart', function (e) { 
 				this.refresh();			
 			});
 		</script>
 		
-		<script type="text/javascript" src="js/jsons.js"></script> 
 		<script type="text/javascript" src="js/teams.js"></script>  
 
 	</body>

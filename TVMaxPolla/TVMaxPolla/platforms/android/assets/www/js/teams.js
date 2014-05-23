@@ -15,15 +15,16 @@
 
 		$.each(_jTeams, function(_index,_team) {			
 			if (_team.gene == _url) {							
-				_html += '<div class="col-md-12" >';				    
-			 	_html += _team.datacontent;
-			 	_html += '</div>';			
+				_html += '<div class="col-md-12" >';
+				_html += '<h2>' + _team.title + '</h2>';
+			 	_html += _team.datacontent.fiche;
+			 	_html += '</div>';
 			}
 		});
 
-		_html += '<div class="col-md-12" >';
+		/*_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';
+		_html += '</div>';*/
 	
 		_html += '</div>';
 		
@@ -39,39 +40,12 @@
 
 		var _html = '<div class="row" >';
 
-		$.each(_jTeams, function(_index,_team) {
-			
-			_oAjax = $.fGetAjaXJSON(_team.fiche, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > ul').text();
-						_title = _title.split('-');
-						_title =  _title[1].toString().trim();
-					
-		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-						_data = $('<div>').append(_data).remove().html();
-						
-					_team.datacontent = _title;
-					_team.datacontent += _data;
-				
-				
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-					
-					
-					
-					_html += '<div class="col-md-12 team" data-gene="' + encodeURI(_team.gene) + '" >';				    
-				 	_html += '<h3>' + _title + '</h3>';
-				 	_html += '</div>';
-					
-					
-				});
-			}
-
+	
+		$.each(_jTeams, function(_index,_team) {	
+			_html += '<div class="col-md-12 team" data-gene="' + encodeURI(_team.gene) + '" >';	
+			_html += '<span>' + _team.title + '</span>';				    		
+		 	_html += '</div>';		
 		});
-
 
 		_html += '</div>';
 
@@ -81,7 +55,7 @@
 	};
 
 
-	$(document).on('tap','.team', function(e) {	
+	$(document).on('click','.team', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
 	});
 	
