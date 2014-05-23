@@ -35,6 +35,16 @@ var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER",
                           {"id_tvmax":"31","name":"Suiza","shortname":"SUI","flag":"sz-lgflag.png","ext_id":"408"},
                           {"id_tvmax":"32","name":"Uruguay","shortname":"URU","flag":"uy-lgflag.png","ext_id":"3024"}]};
 
+
+var _fGetFlag = function(_id) {		
+	var _return = false;	
+	$.each(_jAfpTeamsIds.teams, function(_index,_team) {		
+		if (_team.ext_id == _id) _return = _team;
+		if (_return) return true;		
+	});	
+	return _return;	
+};
+
 var _fGetFormatDate = function(_date) {
 	
 	_date = _date.toString().split(' ');
