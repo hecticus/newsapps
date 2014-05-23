@@ -181,7 +181,7 @@ public class ClientBet  extends HecticusModel {
             case 6: winner = 12; goals = 12; break;
             default: break;
         }
-        System.out.println("bet " + teamWinner.getAfpId() + "," + this.scoreWinner + "," + this.scoreLoser);
+       // System.out.println("bet " + teamWinner.getAfpId() + "," + this.scoreWinner + "," + this.scoreLoser);
         if(scoreWinner.equals(scoreLoser) && this.scoreWinner.equals(this.scoreLoser)){
             points+=draw;
         }

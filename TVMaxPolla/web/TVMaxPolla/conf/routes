@@ -54,8 +54,8 @@ POST    /matchesapi/v1/prediction/get               controllers.matchesapi.Predi
 
 
 #bets
-POST    /matchesapi/v1/bet/calculate                controllers.matchesapi.BetController.calculateBets()
-GET     /matchesapi/v1/bet/test                     controllers.matchesapi.BetController.callTest()
+POST    /matchesapi/v1/bet/calculate                controllers.matchesapi.ClientBetController.calculateBets()
+GET     /matchesapi/v1/bet/test                     controllers.matchesapi.ClientBetController.callTest()
 
 #tvnfeeds
 GET     /tvmaxfeeds/controversies/get               controllers.tvmaxfeeds.ControversyController.getControversies()
