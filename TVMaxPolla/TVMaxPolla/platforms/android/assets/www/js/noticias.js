@@ -88,12 +88,6 @@
 
 	};
 
-
-	$(document).on('click','.news', function(e) {	
-		_fRenderDataContent($(this).data('item'));		
-	});
-
-
 	var _iIndex = $('main').data('index');
 	_jGet = _jMenu[_iIndex].json;
 	

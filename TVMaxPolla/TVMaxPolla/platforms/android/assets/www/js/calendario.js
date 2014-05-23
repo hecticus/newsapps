@@ -242,32 +242,6 @@
 
 	};
 
-
-	$(document).on('click','.calendar', function(e) {						
-		eval($(this).data('function'));		
-		$('.calendar').removeClass('active');	
-		$(this).addClass('active');
-		$('#wrapper2').attr('class','page transition right');
-		myScroll.scrollTo(0,0,0);
-		myScroll2.scrollTo(0,0,0);		
-	});
-
-
-	$(document).on('click','.match', function(e) {	
-		
-		if ($(this).data('phase')) {
-			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
-		} else if ($(this).data('country')){
-			_fRenderDataContent('(_item.equipo_local.search("' + $(this).data('country') + '") >= 0  ) || ( _item.equipo_visitante.search("' + $(this).data('country') + '") >= 0)');	
-		} else {			
-			_fRenderDataContent('_iDate == "' + $(this).data('date') + '"');
-		}
-		
-		myScroll.scrollTo(0,0,0);
-		myScroll2.scrollTo(0,0,0);
-
-	});
-
 	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/partidos_mundial.php',false,false,true);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {

@@ -44,13 +44,6 @@
 
 	};
 
-	$(document).on('click','.player', function(e) {	
-		e.preventDefault();
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-		_fRenderDataContent(decodeURI($(this).data('url')));	
-	});
-
 	_fRenderInitP();
 
 			

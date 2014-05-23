@@ -54,10 +54,6 @@
 
 	};
 
-	$(document).on('click','.stadium', function(e) {
-		_fRenderDataContent(decodeURI($(this).data('url')));	
-	});
-
 	_fRenderInitE();
 			
 			

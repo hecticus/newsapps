@@ -232,67 +232,6 @@ function initPage(){
 	//touchFunctions();
 	//initFacebookManager();
 
-
-
-	$(document).on('click','.menu', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-
-		if ($('header .container .row .menu span').hasClass('icon-back')) {
-			_fSetBack();			
-		} else if ($('#wrapperM').hasClass('right')) {
-			$('#wrapperM').attr('class','page transition left');	
-		} else {
-			$('#wrapperM').attr('class','page transition right');
-		}
-	});
-
-	$(document).on('click','.load', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-	/*	$(document).unbind('click');
-  		$(document).bind('click'); 
-		$(document).off('click');
-		$(document).on('click');*/
-
-		
-		
-		clearTimeout(_mTimeout);			
-		
-		if(_oAjax && _oAjax.readystate != 4) {
-			_oAjax.abort();
-    	}
-
-		_fSetBack();
-		var _this = $(this);
-		
-		$('body').removeClass();
-		$('body').addClass(_jMenu[_this.data('index')].class);
-		$('main').empty();
-		$('main').data('index',_this.data('index'));	
-		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_jMenu[_this.data('index')].load);
-	
-		$('#wrapperM').attr('class','page transition left');
-	
-	});
-	
-	$(document).on('click','.video', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-		window.videoPlayer.play($(this).data('src'));
-	});
-	
-	$(document).on('click','.livetv', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
-	});
-
 }
 function _fRenderLoad(){
 	

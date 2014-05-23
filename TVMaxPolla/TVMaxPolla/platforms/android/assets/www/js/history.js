@@ -59,10 +59,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-	$(document).on('click','.history', function(e) {					
-		_fRenderDataContent(decodeURI($(this).data('url')));	
-	});
 			
 	_fRenderInitH();	
 			

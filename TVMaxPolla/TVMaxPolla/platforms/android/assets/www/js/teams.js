@@ -53,11 +53,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-
-	$(document).on('click','.team', function(e) {	
-		_fRenderDataContent(decodeURI($(this).data('gene')));	
-	});
 	
 	
 	_fRenderInitT();
