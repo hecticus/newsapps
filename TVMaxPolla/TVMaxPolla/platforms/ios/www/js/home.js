@@ -80,9 +80,9 @@
 							Math.floor((Math.random() * _length) + 0)
 						];
 									     		
-			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[0]].image + '" alt="Estrellas"  style=" width:32%; height:' + _height + 'px; float:left;" />';
-			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[1]].image + '" alt="Estrellas"  style="width:36%; height:' + _height + 'px; float:left;" />';
-			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[2]].image + '" alt="Estrellas" style="width:33%; height:' + _height + 'px; " />';
+			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[0]].image + '" alt="Estrellas"  style=" width:33%; height:' + _height + 'px; float:left;" />';
+			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[1]].image + '" alt="Estrellas"  style="width:34%; height:' + _height + 'px; float:left;" />';
+			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[2]].image + '" alt="Estrellas" style="width:33%; height:' + _height + 'px; float:right;" />';
 
 			
 		_html += '<figcaption>';			
@@ -128,7 +128,7 @@
 			_html += '</div>';	
 		_html += '</div>';
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro">';
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 livetv metro">';
 			_html += '<div style="background: #1E5733;  height:' + _height + 'px; text-align:center;" >';
 				_html += '<span class="icon-tvenvivo" style="font-size:4em; color:#ffffff;"></span>';
 				_html += '<br />';

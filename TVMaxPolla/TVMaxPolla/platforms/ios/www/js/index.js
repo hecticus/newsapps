@@ -34,8 +34,7 @@ var _oAjax;
 var _tap = false;
 
 var _jMenu=[
-
-	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-menuhome', json:false},
+	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
   	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
   	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	
   	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
@@ -45,8 +44,9 @@ var _jMenu=[
   	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},  	
   	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
   	{index:9,class:'content-players',title:'Biograf&iacute;as',load:'players.html', glyphicon:'icon-biografia_menu', json:false},
-  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false}
-  	    	
+  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
+  	{index:11,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
+  	{index:12,class:'content-mam',title:'MaM',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false} 	   
 ];
 
 
@@ -60,12 +60,13 @@ function exitApp(){
 }
 
 var app = {
+	
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
     	
-    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+    	/*_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[0].json = _json.noticias_mundial;						
@@ -74,7 +75,7 @@ var app = {
 					return false;
 				});				
 			});
-		}
+		}*/
     	    	
     	$.each(_jPlayers, function(_index,_player) {
 			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
@@ -134,8 +135,8 @@ var app = {
 					
 					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > ul').text();
 						_title = _title.split('-');
-						_title =  _title[1].toString().trim();
-					
+						_title =  _title[1];		
+									
 		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
 						_data = $('<div>').append(_data).remove().html();
 												
@@ -176,7 +177,7 @@ var app = {
 
 		document.addEventListener('backbutton', function(e) {
 			
-			if ($('#wrapper2').hasClass('right')) {			
+			if ($('#wrapper2').hasClass('left')) {			
 				_fSetBack();							
 			} else {
 				
@@ -218,12 +219,9 @@ function initPage(){
 		_html += '</div>';
 	});         	
 	_html += '</div>';
-	
-	$('#wrapperM').height($(window).height());
-	$('#wrapperM .scroller').height($(window).height());
-	$('#wrapperM .scroller .container').height($(window).height());
-	$('#wrapperM .scroller .container').append(_html);
 
+	$('#wrapperM .scroller .container').html(_html);
+	
 	
 	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
@@ -234,42 +232,6 @@ function initPage(){
 	//touchFunctions();
 	//initFacebookManager();
 
-	
-
-	$(document).on('click','.menu', function(e) {	
-	   	if ($('#wrapperM').hasClass('right')) {
-			$('#wrapperM').attr('class','page transition left');	
-		} else {
-			$('#wrapperM').attr('class','page transition right');
-		} 	
-	});
-
-	$(document).on('click','.load', function(e) {			
-			
-		if(_oAjax && _oAjax.readystate != 4) {
-			_oAjax.abort();
-    	}
-
-		_fSetBack();
-		var _this = $(this);
-		
-		$('body').removeClass();
-		$('body').addClass(_jMenu[_this.data('index')].class);
-		$('main').empty();
-		$('main').data('index',_this.data('index'));	
-		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_jMenu[_this.data('index')].load);
-	
-		$('#wrapperM').attr('class','page transition left');
-			
-	
-
-		
-		
-	
-			
-	});
-		
 }
 function _fRenderLoad(){
 	
@@ -282,14 +244,6 @@ function touchFunctions(){
 	$('#facebookLoginButton').click(function(){
         //alert("JQuery Running!");
 		login();
-	});
-	
-	//video stream button
-	$(document).on('touchend','.tv:not(.share)', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log("PASO");
-		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 	});
 }
 

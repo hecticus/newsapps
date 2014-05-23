@@ -1,5 +1,8 @@
 //variables globales
-var afpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
+
+var  _mTimeout;
+
+var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
                           {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
                           {"id_tvmax":"3","name":"Argentina","shortname":"ARG","flag":"ar-lgflag.png","ext_id":"3029"},
                           {"id_tvmax":"4","name":"Australia","shortname":"AUS","flag":"as-lgflag.png","ext_id":"3059"},
@@ -60,7 +63,7 @@ var _fSetBack = function() {
 	$('#wrapperM').attr('class','page transition left');	
 	$('#wrapper2 .scroller .container').empty();			
 	$('#wrapper2').attr('class','page transition right');
-		
+	$('header .container .row .menu span').removeClass('icon-back');		
 
 };
 
@@ -151,3 +154,86 @@ $.fPostAjaXJSON = function(_url, _data) {
 	}
 	
 };
+
+
+
+	var _fGetTime = function() {
+		
+		now = new Date();
+		y2k = new Date("Jun 12 2014 15:00:00");
+		
+		days = (y2k - now) / 1000 / 60 / 60 / 24;
+		daysRound = Math.floor(days);
+		
+		hours = (y2k - now) / 1000 / 60 / 60 - (24 * daysRound);				
+		hoursRound = Math.floor(hours);
+		
+		minutes = (y2k - now) / 1000 /60 - (24 * 60 * daysRound) - (60 * hoursRound);
+		minutesRound = Math.floor(minutes);
+		seconds = (y2k - now) / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
+		secondsRound = Math.round(seconds);
+		
+		
+		secondsRound = (secondsRound < 10) ? "0" + secondsRound : secondsRound;
+		minutesRound = (minutesRound < 10) ? "0" + minutesRound : minutesRound;
+		hoursRound = (hoursRound < 10) ? "0" + hoursRound : hoursRound;
+		daysRound = (daysRound < 10) ? "0" + daysRound : daysRound;
+		
+		
+		/*sec = (secondsRound == 1) ? " segundo" : " segundos";
+		min = (minutesRound == 1) ? " minuto" : " minutos ";
+		hr = (hoursRound == 1) ? " hora" : " horas ";
+		dy = (daysRound == 1) ? " día" : " d&iacute;as ";*/
+
+		sec = "ss";
+		min = "mm";
+		hr = "hh";
+		dy = "dd";
+
+		var _html = '<div class="row" style="padding:25px;" >';
+		
+		_html += '<div class=col-md-12" style="text-align:center; font-size: 2em; font-weight:bold; color:#4D4D4D;" >';	
+			_html += '<span>' + daysRound + ' : </span>';
+			_html += '<span>' + hoursRound + ' : </span>';
+			_html += '<span>' + minutesRound + ' : </span>';
+			_html += '<span>' + secondsRound +'</span>';
+		_html += '</div>';
+
+		
+
+		return _html;
+		
+	};
+
+
+	var _fRenderGetInitTime = function(_class) {
+
+		var _html = '<div class="row" style="padding:25px;" >';
+		
+		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center; " >';
+		_html += '<h3>Para el Mundial faltan</h3>';
+		_html += '</div>';
+		
+		_html += '<div class="col-md-12" >';		
+		_html +=  _fGetTime();
+		_html += '</div>';
+		
+		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center;" >';
+		_html += '<h4>&#161;Pronto disfrutar&aacute;s de esta secci&oacute;n!</h4>';
+		_html += '<span class="' + _class  + '" style="font-size: 4em;"></span>';
+		_html += '</div>';
+		
+		
+		_html += '</div>';
+		
+		$('#wrapper .scroller .container').empty();
+		$('#wrapper .scroller .container').append(_html);
+				
+		_mTimeout = setTimeout(function() {
+			_fRenderGetInitTime(_class);	
+		}, 1000);
+		
+	};			
+		
+	
+

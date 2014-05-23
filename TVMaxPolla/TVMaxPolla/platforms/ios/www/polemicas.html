@@ -8,28 +8,12 @@
 				</div>	
 			</div>
 		</div>	
-
-
-		<div id="wrapper2" class="page" style="left: 100%;">
-			<div class="scroller">							
-				<div class="container" >
-				</div>
-			</div>			
-		</div>
 		
-		
-		<script type="text/javascript">
-				
+		<script type="text/javascript">				
 			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();	
 			});	
-
-			var myScroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
-			myScroll2.on('beforeScrollStart', function () { 
-				this.refresh();
-			});	
-				
 		</script>
 		
 		<script type="text/javascript" src="js/polemicas.js"></script>  

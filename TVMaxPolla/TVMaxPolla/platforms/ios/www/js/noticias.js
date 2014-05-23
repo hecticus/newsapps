@@ -65,6 +65,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
 
 	};
 
@@ -86,15 +87,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-
-	$(document).on('click','.news', function(e) {	
-		if (_tap) _fRenderDataContent($(this).data('item'));
-		setTimeout(function(){
-			_tap = true;
-		}, 200);		
-	});
-
 
 	var _iIndex = $('main').data('index');
 	_jGet = _jMenu[_iIndex].json;

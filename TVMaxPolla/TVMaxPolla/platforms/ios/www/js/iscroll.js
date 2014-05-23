@@ -380,7 +380,10 @@ IScroll.prototype = {
 		if ( this.options.preventDefault && !utils.isBadAndroid && !utils.preventDefaultException(e.target, this.options.preventDefaultException) ) {
 			e.preventDefault();
 		}
-
+		try{e.preventDefault();}catch(ex){}
+		try{e.stopPropagation();}catch(ex){}
+		try{e.stopImmediatePropagation();}catch(ex){}
+		
 		var point = e.touches ? e.touches[0] : e,
 			pos;
 

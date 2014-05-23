@@ -1,28 +1,22 @@
-
-	var _fGetImage = function(_image) {
-		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
-		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
-		_html += '</figure>';
-		return _html;
-	};
 	
 	var _fRenderDataContent = function(_url) {
 	
-		var _html = '<div class="row" >';
+		var _html = '<div class="row">';
 	
 		$.each(_jPlayers, function(_index,_player) {				
 			if (_player.url == _url) {				
-				_html += '<div class="col-md-12" >';
-				_html += _fGetImage({src:_player.image,  caption: _player.title});
+				_html += '<div class="col-md-12" >';				
+				//_html += _fGetImage({src:_player.image,  caption: _player.title});				
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _player.image + '" alt="' +_player.image + '" style="width:50%; height: auto; float:left; padding:5px;"  />';
+				
 				_html += _player.datacontent;
 		 		_html += '</div>';								
 			}
 		});
 		
-		_html += '<div class="col-md-12" >';
+		/*_html += '<div class="col-md-12" >';
 		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';
+		_html += '</div>';*/
 	
 		_html += '</div>';
 
@@ -39,7 +33,6 @@
 				
 		$.each(_jPlayers, function(_index,_player) {
 			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';					
-			_html += '<span class="icon-biografia_menu"></span>';
 			_html += '<span>' +  _player.title + '</span>';
 		 	_html += '</div>';
 		});
@@ -50,10 +43,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-	$(document).on('click','.player', function(e) {	
-		_fRenderDataContent(decodeURI($(this).data('url')));	
-	});
 
 	_fRenderInitP();
 

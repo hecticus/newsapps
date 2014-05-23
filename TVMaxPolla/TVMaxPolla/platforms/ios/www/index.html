@@ -21,16 +21,13 @@
 			<div class="container">
 				<div class="row">
 														
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 menu" style="text-align: left;">
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu" style="text-align: left;">
 						<span class="icon-menuhome"></span>
 					</div>
-
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title" style="text-align: left;">
-						
-					</div>
-					
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 share hidden" style="text-align: right;">
-						<span class="glyphicon glyphicon-share"></span>
+					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 title" style="text-align: center;">						
+					</div>					
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 share hidden" style="text-align: right;">
+						<span class="icon-shareandroid"></span>
 					</div>
 
 				</div>				 
@@ -39,7 +36,7 @@
 
 		<main>&nbsp;</main>
 
-		<div id="wrapperM" class="page" style="z-index: 10; left: -100%;" >
+		<div id="wrapperM" class="page" style="left: -100%;" >
 			<div class="scroller">				
 				<div class="container">
 				</div>	
@@ -58,6 +55,7 @@
         <script type="text/javascript" src="js/index.js"></script>                         
         <script type="text/javascript" src="js/utils.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/touchEvents.js"></script>
         
         <!-- cordova facebook plugin -->
 		<script src="cdv-plugin-fb-connect.js"></script>
@@ -70,10 +68,9 @@
         </script>
 
 		<script type="text/javascript">				
-			var myScrollM = new IScroll('#wrapperM', {click:true,preventDefault:true});			
+			var myScrollM = new IScroll('#wrapperM', {click:true, preventDefault:true});			
 			myScrollM.on('beforeScrollStart', function () {				 
 				this.refresh();
-				_tap = true;
 			});
 		</script>
 

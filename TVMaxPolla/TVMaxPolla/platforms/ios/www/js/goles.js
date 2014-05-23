@@ -1,4 +1,7 @@
-		
+	
+	
+	
+	
 	var _fRenderInit = function() {
 	
 		var _html = '<div class="row" >';
@@ -22,17 +25,17 @@
 		});
 
 
-
-
-		 
 		_html += '</div>';
 		
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
 
 	};
-
-	var _iIndex = $('main').data('index');
+	
+	_fRenderGetInitTime('icon-goles_menu');
+	
+	
+	/*var _iIndex = $('main').data('index');
 	_jGet = _jMenu[_iIndex].json;
 	
 	if (_jGet) {
@@ -47,4 +50,4 @@
 			});
 		}
 		
-	}
+	}*/
