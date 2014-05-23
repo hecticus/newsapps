@@ -8,18 +8,18 @@
 			
 			_html += '<figcaption>';
 			
-			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left; ">';
-			_html += '<span>'+_image.caption+'</span>';
+			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left;  ">';
+				_html += '<span>'+_image.caption+'</span>';
 			_html += '</div>';
 			
-			_html += '<div style="width:20%;  height: 40px; line-height: 20px; float:right; text-align: right; font-size:1.4em;">';
-			_html += '<span class="glyphicon glyphicon-search"></span>';
+			_html += '<div style="width:20%;  height: 40px; line-height: 40px; float:right; text-align: right; font-size:1.6em; font-weight:bold;">';
+				_html += '<span class="icon-lupa"></span>';
 			_html += '</div>';
 						
 			_html += '</figcaption>';		
 
 		}
-		
+	
 		_html += '</figure>';
 		return _html;
 	};
@@ -65,6 +65,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
 
 	};
 
@@ -89,10 +90,7 @@
 
 
 	$(document).on('click','.news', function(e) {	
-		if (_tap) _fRenderDataContent($(this).data('item'));
-		setTimeout(function(){
-			_tap = true;
-		}, 200);		
+		_fRenderDataContent($(this).data('item'));		
 	});
 
 

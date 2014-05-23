@@ -2,12 +2,41 @@
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 	html { -ms-touch-action: none; }			
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
-	body { overflow: hidden; /* this is important to prevent the whole page to bounce */}
-		
+	@font-face
+	{
+		font-family: "tvmaxFont";
+		src: url('../fonts/tvmax.ttf'); 
+	}
+	body { font-family:tvmaxFont; overflow: hidden; /* this is important to prevent the whole page to bounce */}
 	
+	table {border: 0 !important; }
+	table thead tr {border: 0 !important; }
+	table tbody tr {border: 0 !important; }	
+	table thead tr td {border: 0 !important; }
+	table tbody tr td {border: 0 !important; }
+	table thead {border-bottom: solid #FFD455; }
+	
+	thead {
+		background:#3E79C4;  
+		color:#FFD455;
+		font-size: 1.2em;
+		font-weight: bold;
+		
+	}
+	
+	th, tr,td {text-align: center;}
+	
+	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.6em;}
+	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}		
+	
+	
+	.content-menu:nth-child(even) {background:#E6E6E6;}
+	.content-menu:nth-child(odd) {background:#FFFFFF;}
+	.content-menu:last-child {border-bottom: solid #FFD455; }
+
 
 	#wrapper, #wrapper2, #wrapperM { 
-		position: absolute;z-index: 1; top: 50px; bottom: 0; left: 0; width: 100%; background: #fff;
+		position: absolute; z-index: 1; top: 50px; bottom: 0; left: 0; width: 100%; background: #fff;
 	}
 	
 	.scroller {background-color: #ffffff;}
@@ -21,8 +50,6 @@
 	}
 
 
-	
-	
 	header {	
 		position: absolute; 
 		z-index: 2; 
@@ -39,17 +66,16 @@
 		font-weight: bold;
 		display: none;
 		border-bottom: solid #4D4D4D;
+		text-transform: uppercase;
 	}
 			
-	header .glyphicon  {
-		color: #3E79C4;
-	}			
-
-
-
-	body header:not(.content-home) {
+	header .glyphicon { color: #3E79C4;}
+				
+	body:not(.content-home) header, 
+	body:not(.content-init) header {
 		display: block;
 	}
+	
 	
 	figure { width: 100%; height: auto; position:relative; margin: 2px 0; }
 	figure img { width: 100%;  height: auto;  position:relative; left:0; top:0; }			
@@ -64,7 +90,14 @@
 		text-align: left;
 	}
 
-	
+
+	figcaption div:first-child {
+		overflow:hidden; 
+		display: -webkit-box; 
+		-webkit-line-clamp: 2; 
+		-webkit-box-orient: vertical;	
+	}
+	 
 	
 	/*noticias*/
 	body.content-noticias #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
@@ -128,7 +161,8 @@
 		padding:10px;
 		font-size:1.2em;  
 		color:#4D4D4D; 
-		font-style:italic; 	
+		font-style:italic;
+		 	
 	}
 	
 	
@@ -336,11 +370,15 @@
 	/*polemicas*/
 		
 	/*calendario*/
+	
+	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+
 	body.content-calendario #wrapper,
 	body.content-calendario #wrapper2 { 
 		position: absolute;
 		z-index: 1; 
-		top: 100px; 
+		top: 92px; 
 		bottom: 0; 
 		left: 0; 
 		width: 100%; 
@@ -360,7 +398,7 @@
 	    background:none;
 	    text-shadow: none;
 	}
-
+	/*calendario*/
 
 	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
 
@@ -370,6 +408,14 @@
 	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
 	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important;margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
+	
+	
+	.caption-icon {
+		font-size:1.2em; 
+		font-weight:bold; 
+		color:#ffffff;
+	}
+	
 	
 			
 	body.content-home header {display: none;}
@@ -398,6 +444,173 @@
 	    bottom: 0;	
 	}
 	/*Home*/
+
+
+
+
+	/*calendario*/
+	body.content-calendario .calendario-menu.container {
+		position: absolute; 
+		top:50px; 
+		left:0; 		
+		width: 100%; 
+		height: 45px;
+		line-height:45px; 
+		z-index: 2; 
+		font-size: 1.6em; 
+		background: #E6E6E6; 
+		color:#4D4D4D;
+		border-bottom: solid #FFD455;
+	}
+	
+	body.content-calendario .calendario-menu.container .active {
+		color:#3E79C4;
+	}
+	
+	body.content-calendario .calendario-menu.container .calendar {
+		text-align: center; 
+		line-height:40px; 
+		padding:5px;
+		font-size: 1.6em; 
+	}
+	
+	body.content-calendario .name-month {
+		text-align: center;
+		font-size: 1.4em;
+		font-weight: bold;
+		color:#ffffff;	
+		background: #3E79C4 !important;
+		text-transform: uppercase;
+	}
+	
+	body.content-calendario .row div[data-country],
+	body.content-calendario .row div[data-phase] {
+		height: 40px;
+		line-height: 40px;
+		font-size: 1.2em;
+		color:#4D4D4D;  
+	}
+	
+	
+	body.content-calendario .row.data-match:nth-child(even), 
+	body.content-calendario .row div[data-country]:nth-child(even), 
+	body.content-calendario .row div[data-phase]:nth-child(even) 
+	{ 
+		background:#E6E6E6; 
+	}	
+
+	body.content-calendario .row.data-match:nth-child(odd),
+	body.content-calendario .row div[data-country]:nth-child(odd), 
+	body.content-calendario .row div[data-phase]:nth-child(odd) {
+		background:#FFFFFF; 
+	}
+	
+	
+	
+	
+	
+	
+	/*calendario*/
+	
+	body.content-goles .row div.video,
+	body.content-stadiums .row div.stadium,
+	body.content-history .row div.history,
+	body.content-players .row div.player, 	 
+	body.content-teams .row div.team {
+		height: 40px; 
+		line-height: 40px; 
+		font-size: 1.2em; 
+		color:#4D4D4D;
+	}
+	
+	body.content-goles .row div.video:nth-child(even),
+	body.content-stadiums .row div.stadium:nth-child(even),
+	body.content-history .row div.history:nth-child(even), 
+	body.content-players .row div.player:nth-child(even), 
+	body.content-teams .row div.team:nth-child(even) { 
+		background:#E6E6E6; 
+	}
+	
+	body.content-goles .row div.video:nth-child(odd),
+	body.content-stadiums .row div.stadium:nth-child(odd),
+	body.content-history .row div.history:nth-child(odd),   
+	body.content-players .row div.player:nth-child(odd),
+	body.content-teams .row div.team:nth-child(odd) {
+		background:#FFFFFF; 
+	}
+	
+	body.content-goles .row div.video span:last-child,
+	body.content-stadiums .row div.stadium span:last-child,
+	body.content-history .row div.history span:last-child,
+	body.content-players .row div.player span:last-child,
+	body.content-teams .row div.team span:last-child {
+		margin-left: 5px;
+	}
+
+	/*calendario*/
+
+	body.content-players DataContent {padding: 0; margin: 0; border: 0; }
+	body.content-players DataContent {padding-top: 5px;}
+	
+	body.content-players DataContent block[class="Career Data"] hl2,
+	body.content-players DataContent block[class="Biography"] hl2 {
+		font-size: 1.6em; 
+		font-weight: bold; 
+		margin-top: 5px;
+		margin-bottom: 5px;
+		color:#000000;		
+	}
+	
+	body.content-players block[class="Personal Data"] p,
+	body.content-players block[class="Career Data"] p,
+	body.content-players block[class="Biography"]  p {
+		font-size: 1em;
+		color:gray;
+	}
+	
+	body.content-players block[class="Personal Data"] dt,
+	body.content-players block[class="Career Data"] dt {
+		font-size: 1.4em;
+
+	}
+	
+	body.content-players block[class="Career Data"] ul li:first-child {
+		font-size: 1.2em;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		color:#000000;	
+	}
+	
+
+
+
+	body.content-teams DataContent {padding: 0; margin: 0; border: 0; }
+	body.content-teams dt {font-size: 1.4em; color:#000000;}
+	body.content-teams dd p { font-size: 1.2em; color:gray;}
+
+	body.content-stadiums DataContent {padding: 0; margin: 0; border: 0; }
+	body.content-stadiums dt {font-size: 1.4em; color:#000000;}
+	body.content-stadiums dd p { font-size: 1.2em; color:gray;}
+
+	body.content-history DataContent {padding: 0; margin: 0; border: 0; }
+	
+	body.content-history hl2 {font-size: 1.6em; color:#000000;}
+	body.content-history p {font-size: 1.2em; color:gray;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

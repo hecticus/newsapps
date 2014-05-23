@@ -19,12 +19,12 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper');
+			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();		
 			});	
 
-			var myScroll2 = new IScroll('#wrapper2');
+			var myScroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();			
 			});
