@@ -46,7 +46,8 @@ var _jMenu=[
   	{index:9,class:'content-players',title:'Biograf&iacute;as',load:'players.html', glyphicon:'icon-biografia_menu', json:false},
   	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
   	{index:11,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
-  	{index:12,class:'content-mam',title:'MaM',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false} 	   
+  	{index:12,class:'content-mam',title:'MaM',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
+  	{index:13,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false} 	   
 ];
 
 
@@ -119,7 +120,7 @@ var app = {
 						
 					_stadium.title = _title;
 	    			//_stadium.xml = _xml;
-	    			_stadium.image = _urlCloud + '/stdmain/' + _id +'-in.jpg';	    								
+	    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
 					_stadium.datacontent =  _data;						
 						
 				});
@@ -139,9 +140,14 @@ var app = {
 									
 		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
 						_data = $('<div>').append(_data).remove().html();
+								
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+						_id = _id.split('-');
+						_id = _id[1];								
 												
 					_team.title = _title;
 	    			//_team.xml.fiche = _xml;
+	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
 					_team.datacontent.fiche = _data;							
 
 	
@@ -233,10 +239,6 @@ function initPage(){
 	//initFacebookManager();
 
 }
-function _fRenderLoad(){
-	
-	
-};
 
 
 function touchFunctions(){

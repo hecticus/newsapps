@@ -1,11 +1,12 @@
 	
 	var _jPhase = [];
 	var _jCountry = [];
+	var _team = false;
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
 		_html += '<img onerror="this.style.display=\'none\'" src="img/flags/'+_image.src+'" alt="' +_image.src + '"  />';		
-		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
+		if (_image.caption) _html += '<figcaption>' + _image.caption + '</figcaption>';
 		_html += '</figure>';
 		return _html;
 	};
@@ -40,27 +41,29 @@
 				_html += '<div class="row data-match" >';
 				
 				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1em; font-style:italic;  ">' +  _item.fecha_de_partido + '</span>';
+				_html += '<span style="font-size:1.2em;">' +  _item.fecha_de_partido + '</span>';
 				_html += '</div>';
 								
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1.4em; font-weight:bold; ">' +  _item.fase + '</span>';
+				_html += '<span style="font-size:1.2em;">' +  _item.fase + '</span>';
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
 				_html += '<span>' +  _item.sede + ', </span>';
 				_html += '</div>';
 
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:20px; padding:5px;">';
-				_html += '<span style="margin-left:15px; font-weight:bold; text-align: center; ">' +  _item.equipo_local + '</span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
+				_team = _fGetAfpTeam(_item.equipo_local_ext_id); 
+				_html += _fGetImage({src: _team.flag, caption: _team.shortname});
 				_html += '</div>';
 			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:40px; padding:5px;">';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:40px; padding:5px;">';
 				_html += '<span> - </span>';
 				_html += '</div>';
 				
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:20px; padding:5px;">';												
-				_html += '<span style="margin-right:15px; font-weight:bold; text-align: center; ">' + _item.equipo_visitante + '</span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';												
+				_team = _fGetAfpTeam(_item.equipo_visitante_ext_id); 
+				_html += _fGetImage({src: _team.flag, caption: _team.shortname});				
 				_html += '</div>';		
 								
 				_html += '</div>';
@@ -242,7 +245,7 @@
 
 	};
 
-	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/partidos_mundial.php',false,false,true);	
+	_oAjax = $.fGetAjaXJSON('http://10.0.1.125:9009/tvmaxfeeds/calendar/getAll',false,false,true);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			

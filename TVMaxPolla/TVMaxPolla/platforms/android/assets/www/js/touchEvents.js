@@ -89,63 +89,22 @@
 	});
 	
 	//POLLA JS
-	$(document).on('touchend','.save', function(e) {
-		preventBadClick(e);
-		 
-		var _this = $(this).html(_fGetButton('LOADING...'));
-		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
-		var _phase = $('.phase:visible').data('phase');
-
-		$('.row.phase:visible .group .game').each(function(index) {	
-			var _goal = {team_a:0,team_b:0};
-			_goal.team_a = $(this).find('.score .team.team-a .goal').data('goal');
-			_goal.team_b = $(this).find('.score .team.team-b .goal').data('goal');	
-			var _game =  $(this).data('game');
-			//revisamos quien fue el ganador y ajustar los datos
-			var draw = false;
-			var team_a_id = $(this).find('.score .team.team-a').data('team');
-			var team_b_id = $(this).find('.score .team.team-b').data('team');
-			if(_goal.team_a == _goal.team_b && _phase == 1){
-				draw=true;
-			}
-			if(_goal.team_a < _goal.team_b){
-				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_b_id, 'id_team_loser':team_a_id, 'score_winner': _goal.team_b,'score_loser': _goal.team_a, 'draw':draw});
-			}else{
-				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_a_id, 'id_team_loser':team_b_id, 'score_winner': _goal.team_a,'score_loser': _goal.team_b, 'draw':draw});
-			}			
-		});
-
-
-		//alert(JSON.stringify(_jSave));
-		//console.log(JSON.stringify(_jSave));
-		
-		_oAjax = $.fPostAjaXJSON(basePollaURL+'/matchesapi/v1/clientbet/save',JSON.stringify(_jSave));	
-		if (_oAjax) {
-		
-			_oAjax.always(function () {
-				_this.html(_fGetButton('GUARDAR'));	
-			});	
-		
-			_oAjax.done(function(_msg) {
-				if (_msg.error==0) {
-					alert('Bien! Tu pronostico se ha guardado con exito.');
-				} else {
-					alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
-				}
-			});
-			
-			_oAjax.fail(function() {
-				_this.html(_fGetButton('ERROR'));
-			});	
-			
-		} else {
-			_this.html(_fGetButton('GUARDAR'));
-		}
-		
-
+	$(document).on('touchend','.add', function(e) {
+		var _tGoal = $(this).parent().data('goal');
+		_tGoal = parseInt(_tGoal + 1);
+		$(this).parent().data('goal',_tGoal);
+		$(this).parent().find('.score').html(_tGoal);
+	});
+	
+	$(document).on('touchend','.sub', function(e) {
+		var _tGoal = $(this).parent().data('goal');
+		_tGoal = parseInt(_tGoal - 1);					
+		if (_tGoal <= 0)  _tGoal = 0;					
+		$(this).parent().data('goal',_tGoal);
+		$(this).parent().find('.score').html(_tGoal);
+	});	
 	
 
-	});
 	$(document).on('touchend','.back', function(e) {	
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
@@ -156,37 +115,29 @@
 		}
 		
 		_group = $('.group:visible').data('group');						
-		if (_group == 1) $('.back').addClass('hidden');																
+		//if (_group == 1) $('.back').addClass('hidden');																
 		myScroll.scrollTo(0,0,0);
 						
 	});
+	
 	$(document).on('touchend','.next', function(e) {
 		preventBadClick(e);									
-		var _group = $('.group:visible').data('group');									
-		$('.group').addClass('hidden');
-		$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
-		$('.back').removeClass('hidden');
+		var _group = $('.group:visible').data('group');
+		if (_group <= 7) {
+			$('.group').addClass('hidden');
+			$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
+			myScroll.scrollTo(0,0,0);	
+		}
+		
+											
+		
+		
 								
-		myScroll.scrollTo(0,0,0);	
-		e.preventDefault();
-		
-		
+			
+
 	});
-	$(document).on('touchend','.add', function(e) {
-		preventBadClick(e);
-		var _tGoal = $(this).parent().data('goal');
-		_tGoal = parseInt(_tGoal + 1);
-		$(this).parent().data('goal',_tGoal);
-		$(this).parent().find('.score').html(_tGoal);
-	});
-	$(document).on('touchend','.sub', function(e) {
-		preventBadClick(e);
-		var _tGoal = $(this).parent().data('goal');
-		_tGoal = parseInt(_tGoal - 1);					
-		if (_tGoal <= 0)  _tGoal = 0;					
-		$(this).parent().data('goal',_tGoal);
-		$(this).parent().find('.score').html(_tGoal);
-	});	
+	
+	
 	$(document).on('tap','.flag', function(e) {
 		preventBadClick(e);				
 		$('.goal').removeClass('gol');
@@ -201,6 +152,7 @@
 		$('.game[data-game="'+_game+'"] .score .team[data-team="'+_team+'"] .goal').addClass('gol');
 
 	});
+	
 	$(document).on('tap','.goal', function(e) {
 		preventBadClick(e);				
 		$('.goal').removeClass('gol');
@@ -217,13 +169,27 @@
 
 	});
 	
+	//POLLA JS
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//STADIUMS JS
 	$(document).on('click','.stadium', function(e) {
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
 	//TEAMS JS
-	$(document).on('click','.team', function(e) {	
+	/*$(document).on('click','.team', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
 	});
 	
