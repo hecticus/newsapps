@@ -52,6 +52,11 @@ POST    /matchesapi/v1/predictions/convert/one      controllers.matchesapi.Predi
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
 POST    /matchesapi/v1/prediction/get               controllers.matchesapi.PredictionController.getClientPrediction()
 
+
+#bets
+POST    /matchesapi/v1/bet/calculate                controllers.matchesapi.ClientBetController.calculateBets()
+GET     /matchesapi/v1/bet/test                     controllers.matchesapi.ClientBetController.callTest()
+
 #tvnfeeds
 GET     /tvmaxfeeds/controversies/get               controllers.tvmaxfeeds.ControversyController.getControversies()
 POST    /tvmaxfeeds/controversies/insert            controllers.tvmaxfeeds.ControversyController.insert()
@@ -61,6 +66,7 @@ POST    /tvmaxfeeds/predictions/insert              controllers.tvmaxfeeds.Predi
 
 GET     /tvmaxfeeds/goals/get                       controllers.tvmaxfeeds.GoalController.getGoals()
 POST    /tvmaxfeeds/goals/insert                    controllers.tvmaxfeeds.GoalController.insert()
+
 
 GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
 GET     /tvmaxfeeds/calendar/getAll                 controllers.tvmaxfeeds.MatchController.getAllMatchs()

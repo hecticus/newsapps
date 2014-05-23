@@ -94,8 +94,8 @@ public class TvmaxMatch extends HecticusModel {
         GameMatch match = GameMatch.getMatch(matchNumber);
         Team teamLocal = Team.getTeam(match.getIdTeamA());
         Team teamVisitante = Team.getTeam(match.getIdTeamB());
-        tr.put("equipo_local_ext_id",teamLocal.getAfp_id());
-        tr.put("equipo_visitante_ext_id",teamVisitante.getAfp_id());
+        tr.put("equipo_local_ext_id",teamLocal.getAfpId());
+        tr.put("equipo_visitante_ext_id",teamVisitante.getAfpId());
 
         return tr;
     }

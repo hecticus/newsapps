@@ -64,12 +64,12 @@ public class Team extends HecticusModel{
         this.flagFile = flagFile;
     }
 
-    public Long getAfp_id() {
+    public Long getAfpId() {
         return afpId;
     }
 
-    public void setAfp_id(Long afp_id) {
-        this.afpId = afp_id;
+    public void setAfpId(Long afpId) {
+        this.afpId = afpId;
     }
 
     public static Model.Finder<Integer,Team> finder =
