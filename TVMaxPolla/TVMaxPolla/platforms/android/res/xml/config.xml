@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hecticus.tvmaxpolla" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>TV Max Polla</name>
+<widget id="com.tvn.tvmax" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>TVMax Deportes</name>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="DisallowOverscroll" value="false" />
@@ -33,15 +33,20 @@
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />
     </feature>
-    <name>TVMaxPolla</name>
     <description>
-        Aplicacion de TVMax Polla
+        Aplicacion de TVMax Deportes
     </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
     </author>
+    
     <content src="index.html" />
     <access origin="*" />
+    <access origin="http://mundial.tvmax-9.com/*" />
+    <access origin="http://polla.tvmax-9.com/*" />    
+    <access origin="http://10.0.1.125/*" />
+    <access origin="http://10.0.3.142:9002/*" />
+    
     <feature name="org.apache.cordova.facebook.Connect">
         <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
     </feature>

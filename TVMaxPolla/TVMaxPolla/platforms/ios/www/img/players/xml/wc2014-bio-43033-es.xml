@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115313+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115313.bio-43033</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="36">37</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115313.wc2014-bio-43033:37</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-43033</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115313Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115313Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Johan Cruyff</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Cruyff</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Johan</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Holanda</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">25-04-1947</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Amsterdam</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">180 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">70.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>delantero-centrocampista</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Ajax de Ámsterdam (1964-1973)</p><p> - Barcelona FC (Esp/1973-1978)</p><p> - Los Angeles Aztecs (EEUU/1979)</p><p> - Washington Diplomats (EEUU/1980)</p><p> - UD Levante (Esp/1980-1981)</p><p> - Washington Diplomats (EEUU/1981)</p><p> - Ajax (1981-1983)</p><p> - Feyenoord Rotterdam (1983-1984)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>48 (1966-1977)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>07/09/1966, Holanda-Hungría (2-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>26/10/1977, Holanda-Bélgica (1-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>33</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>07/09/1966, Holanda-Hungría (2-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>26/03/1977, Bélgica-Holanda (0-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador:</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - Finalista de la Copa del Mundo (1974), 1 participación (1974), 7 partidos, 3 goles, mejor jugador del torneo</p>
+									<p> - 3º de la Eurocopa (1976), 1 participación (1976), 0 goles</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Copa Intercontinental (1972)</p>
+									<p> - 1 Supercopa de Europa (1972)</p>
+									<p> - 3 Copas de Europa (1971, 1972, 1973)</p>
+									<p> - 9 Ligas de Holanda (1966, 1967, 1968, 1970, 1972, 1973, 1982, 1983, 1984)</p>
+									<p> - 2 veces máximo goleador de Holanda (1967/33 goles, 1972/25 goles)</p>
+									<p> - 6 Copas de Holanda (1967, 1970, 1971, 1972, 1983, 1984)</p>
+									<p> - 1 Liga de España (1974)</p>
+									<p> - 1 Copa de España (1978)</p>
+								</li>
+								<li>Distinciones</li>
+								<li>
+									<p> - 3 veces Balón de Oro europeo (1971, 1973, 1974)</p>
+								</li>
+							</ul>
+							<hl2>Carrera como entrenador</hl2>
+							<ul>
+								<p>Clubes : Ajax de Ámsterdam (1985-88), FC Barcelona (Esp/1988-96)</p>
+							</ul>
+							<hl2>Palmarés como entrenador</hl2>
+							<ul>
+								<p> - 1 Copa de Europa (1992)</p>
+								<p> - 2 Recopas (1987, 1989)</p>
+								<p> - 1 Supercopa de Europa (1992)</p>
+								<p> - 2 Copas de Holanda (1986, 1987)</p>
+								<p> - 4 Ligas de España (1991, 1992, 1993, 1994)</p>
+								<p> - 1 Copa de España (1990)</p>
+								<p> - 3 Supercopas de España (1991, 1992, 1994)</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Un futbolista total</hl2>
+							<p>Johan Cruyff será siempre recordado como la encarnación del "fútbol total" practicado por el Ajax de Ámsterdam, club que dominó Europa a principios de la década de 1970. Junto a Johan Neeskens, los hermanos Van de Kerkhof, Harry Haan y Barry Hulshoff principalmente, hizo temblar y maravilló al planeta fútbol.</p>
+							<p>Nacido el 25 de abril de 1947 y huérfano de padre desde los 12 años, Cruyff fue el incomparable director de orquesta del Ajax y de la "Naranja Mecánica" (apodo de la selección holandesa). A pesar de una aparente fragilidad física, inspiró a un "equipo de ensueño" que lo revolucionó todo a su paso gracias a su velocidad, su técnica en los movimientos y sus cualidades como goleador.</p>
+							<p>Profesional desde los 17 años, Cruyff se hizo famoso con el número 14 a la espalda. Una bella revancha para ese niño cuya madre limpiaba los vestuarios del estadio del Ajax y que en su tercera temporada ya era, con 33 goles, el máximo goleador del campeonato holandés.</p>
+							<p>Los clubes de Europa no podían contrarrestar al "holandés volador", campeón de tres Copas de Europa con el Ajax (1971, 72 y 73); sin embargo, Cruyff fracasó en la final del único Mundial que disputó, el de 1974, contra la Alemania de Franz Beckenbauer.</p>
+							<p>El 7 de julio de 1974, en el estadio Olímpico de Múnich, Cruyff, que había sido hasta entonces la estrella indiscutible del torneo, jugó su peor partido y Holanda perdió 2-1.</p>
+							<hl2>Etapa española</hl2>
+							<p>Balón de Oro europeo en tres ocasiones (1971, 73 y 74), renunció a jugar con la selección a partir de 1977 debido a un conflicto con la federación holandesa.</p>
+							<p>Posteriormente, se pasó al FC Barcelona de Rinus Michels, su ex entrenador en el Ajax, en 1974, donde no tuvo el mismo éxito a pesar de lograr un título nacional que el club catalán llevaba esperando desde hacía catorce años, y una Copa de España (Copa del Generalísimo).</p>
+							<p>De regreso a Holanda, en 1981, tras una experiencia en Estados Unidos de tres años, obtuvo dos títulos nacionales con el Ajax y una Copa. Finalizó su carrera luego de llevar al Feyenoord a la cima del campeonato holandés y a la victoria en la Copa (1984).</p>
+							<p>Adepto del "fútbol total", Cruyff impuso su estilo como entrenador del Ajax y después del Barcelona, con el que ganó cuatro títulos nacionales consecutivos (1991 a 1994) y una Copa de Europa (1992), la primera en la historia del club catalán.</p>
+							<p>Fue destituido de su puesto con cierta brusquedad en mayo de 1996 por el presidente del club, Josep María Núñez, tras un largo conflicto, y declaró que nunca más entrenaría a ningún equipo. Actualmente se ocupa de una universidad para la reconversión de atletas y de una fundación para la asistencia y preparación de deportistas con minusvalías físicas y mentales, ambas entidades creadas por él. Además, fue nombrado en 2009 seleccionador de Cataluña (comunidad autónoma española) sin ganar ni un euro ya que todo el dinero que percibió fue íntegro a su fundación. Estuvo en el cargo hasta 2013.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="FILES" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Holland's national soccer team captain Johan Cruyff dribbles past Argentinian goalkeeper Carnevali to score his team's second goal 26 June 1974 in Gelsenkirchen during their World Cup  quarterfinal match. Holland beat Argentina 4-0.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1974-hol-arg-cruyff.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1404" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1974-hol-arg-cruyff.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="102" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1974-hol-arg-cruyff.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="351" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Ajax Amsterdam's captain Piet Keizer (L) and Johan Cruyff hold aloft the European Cup in front of thousands of fans 03 June 1972 in Amsterdam after Ajax defeated Inter Milan.2-0 on two goals by Cruyff..</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/cruyff-ajax-cup71.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1520" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/cruyff-ajax-cup71.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="110" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/cruyff-ajax-cup71.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="380" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German goalkeeper Sepp Maier catches the ball in front of Dutch forward Johan Cruijff as defender Franz Beckenbauer (L) looks on, 07 July 1974 in Munich, during the World Cup soccer final. Host West Germany beat The Netherlands 2-1 to earn its second World Cup title, twenty years after its first win over Hungary (3-2), 04 July 1954 in Bern.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/cruyff-maier74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1422" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/cruyff-maier74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="103" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/cruyff-maier74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="355" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Dutch forward Johan Cruyff controls the ball under pressure from a West German player during the World Cup final between West Germany and the Netherlands 07 July 1974 in Munich. West Germany won 2-1 to earn its second World title after 1954. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/cruyff-dribble74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1534" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/cruyff-dribble74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="112" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/cruyff-dribble74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="383" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo5">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="LLUIS GENE" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Former Dutch football star Johan Cruyff (L) speaks with FC Barcelona's coach Frank Rikjaard (R) during the European qualifier match for the 2006 World Cup Andorra vs Netherlands at Miniestadi stadium in Barcelona, 17 November 2004. AFP PHOTO/LLUIS GENE</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/cruyff04.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="880" />
+							<Property FormalName="Height" Value="1158" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/cruyff04.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="113" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/cruyff04.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="389" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

@@ -1,3 +1,27 @@
-h3ct1custvm4xp0ll4
+keytool -list -v -keystore Keys/tvmax_key -storepass tvnpanama12
 
-keytool -exportcert -alias tvmaxlapolla -keystore Keys/tvmaxlapolla.keystore | openssl sha1 -binary | openssl base64
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+Alias name: tv max
+Creation date: Oct 2, 2012
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=TVMax
+Issuer: CN=TVMax
+Serial number: 506ae151
+Valid from: Tue Oct 02 08:12:57 VET 2012 until: Thu Sep 25 08:12:57 VET 2042
+Certificate fingerprints:
+	 MD5:  27:A8:9D:2D:A0:D4:D3:31:80:F2:1E:E3:2C:79:3C:13
+	 SHA1: 4D:9A:B5:26:CE:C1:51:0B:8B:5B:7E:A9:C1:B3:6C:D8:00:90:26:1E
+	 SHA256: AE:CE:28:02:AE:42:F0:A6:97:71:0D:F9:5D:CC:68:47:D7:D5:4E:3C:EA:9D:8F:9F:96:8C:A3:53:3F:67:13:5F
+	 Signature algorithm name: SHA1withRSA
+	 Version: 3
+	 
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -storepass tvnpanama12 -keystore Keys/tvmax_key UnsignedDist/TVMax.apk tv\ max
+
+zipalign -v 4 UnsignedDist/TVMax.apk SignedDist/TVMax.apk

@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import models.HecticusModel;
 import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.List;
@@ -39,6 +40,48 @@ public class ClientBet  extends HecticusModel {
 
     public ClientBet(){
 
+    }
+
+    public ClientBet(long idClient, long idLeaderboard, ObjectNode prediction){
+        initClientBetData(idClient, idLeaderboard, prediction);
+    }
+
+    public void initClientBetData(long idClient, long idLeaderboard, ObjectNode prediction){
+        this.idClient = idClient;
+        gameMatch = GameMatch.getMatch(prediction.get("id_match").asInt());
+        this.idLeaderboard = idLeaderboard;
+        //GameMatch match = GameMatch.getMatch(this.idMatch);
+        //si el match no esta activo para apostar no podemos salvar la apuesta sin importar que pase
+        GameMatch match = GameMatch.getMatchIfActiveForBet(this.gameMatch.getIdMatch());
+        if(match!=null){
+            if(prediction.has("score_team_a") && prediction.has("score_team_b")){
+                int score_a = prediction.get("score_team_a").asInt();
+                int score_b = prediction.get("score_team_b").asInt();
+
+                int team_a =  match.getIdTeamA();
+                int team_b =  match.getIdTeamB();
+                if(score_a > score_b){
+                    this.teamWinner =  Team.getTeam(team_a);
+                    this.teamLoser = Team.getTeam(team_b);
+                    this.scoreWinner = score_a;
+                    this.scoreLoser = score_b;
+                }else{
+                    this.teamWinner = Team.getTeam(team_b);
+                    this.teamLoser = Team.getTeam(team_a);
+                    this.scoreWinner = score_b;
+                    this.scoreLoser = score_a;
+                }
+                draw = 0;
+            }else{
+                if(prediction.has("id_team_winner") && prediction.has("id_team_loser")){
+                    this.teamWinner = Team.getTeam(prediction.get("id_team_winner").asInt());
+                    this.teamLoser = Team.getTeam(prediction.get("id_team_loser").asInt());
+                    this.scoreWinner = prediction.get("score_winner").asInt();
+                    this.scoreLoser = prediction.get("score_loser").asInt();
+                    this.draw = (prediction.get("draw").asBoolean())?1:0;
+                }
+            }
+        }
     }
 
     public Long getIdClientBet() {
@@ -165,6 +208,24 @@ public class ClientBet  extends HecticusModel {
 
     @Override
     public ObjectNode toJson() {
-        return null;
+         ObjectNode tr = Json.newObject();
+        tr.put("id_client_bet",idClientBet);
+        tr.put("id_client",idClient);
+        tr.put("id_match",gameMatch.getIdMatch());
+        tr.put("id_team_winner",teamWinner.getIdTeam());
+        tr.put("id_team_loser",teamLoser.getIdTeam());
+        tr.put("score_winner",scoreWinner);
+        tr.put("score_loser",scoreLoser);
+        tr.put("draw",draw);
+
+        return tr;
+    }
+
+    public static List<ClientBet> getClientBets(long idClient){
+        return finder.where().eq("id_client", idClient).findList();
+    }
+
+    public static ClientBet getClientBetForMatch(long idClient, int idMatch){
+        return finder.where().eq("id_client", idClient).eq("id_match", idMatch).findUnique();
     }
 }

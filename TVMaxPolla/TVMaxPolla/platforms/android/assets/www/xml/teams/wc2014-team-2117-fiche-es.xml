@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141512+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141512.team-2117-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="12">13</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141512.wc2014-team-2117-fiche:13</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2117-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141512Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141512Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - España</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>47.100.000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>505.992 km2</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Madrid</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Euro</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Real Federación Española de Fútbol, miembro fundador de la FIFA en 1904, pero la federación se creó en 1913, miembro de la UEFA desde 1954.</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>653.190</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>camiseta roja, pantalón azul, medias rojas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>14 (1934, 1950, 1962, 1966, 1978, 1982, 1986, 1990, 1994, 1998, 2002, 2006, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>Campeón del mundo (2010), cuarto (1950), cuartos de final (1934, 1986, 1994, 2002), octavos de final (1990, 2006), segunda ronda (1982), primera ronda (1962, 1966, 1978, 1998)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>9 (1964, 1980, 1984, 1988, 1996, 2000, 2004, 2008, 2012)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Eurocopa</dt>
+							<dd>
+								<block>
+									<p>Ganador (1964, 2008, 2012), finalista (1984), cuartos de final (1996, 2000), primera ronda (1980, 1988, 2004)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>1º del grupo I  de la zona Europa con 20 puntos, delante de Francia (17), Finlandia (9), Georgia (5) y Bielorrusia (4). 6 victorias, 2 empates, 0 derrotas, 14 goles anotados y 3 encajados</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>Real Madrid, FC Barcelona, Athletic de Bilbao, Atlético de Madrid</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Jordi Alba, Sergio Ramos, Xavi, Andrés Iniesta</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Vicente Del Bosque (desde julio de 2008)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

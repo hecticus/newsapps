@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141502+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141502.team-2100-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="21">22</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141502.wc2014-team-2100-fiche:22</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2100-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141502Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141502Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Chile</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>17 250 000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>756 102 km2</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Santiago de Chile</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Peso chileno</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Federación Chilena de Fútbol, fundada en 1895 y afiliada a la FIFA desde 1913</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>478 500</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>Camiseta roja, pantalón azul, medias blancas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>9 (1930, 1950, 1962, 1966, 1974, 1982, 1998, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>Tercero (1962), octavos de final (1998, 2010), primera fase (1930, 1950, 1966, 1974, 1982)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en la Copa América</dt>
+							<dd>
+								<block>
+									<p>36 (1916, 1917, 1919, 1920, 1922, 1924, 1926, 1935, 1937, 1939, 1941, 1942, 1945, 1946, 1947, 1949, 1953, 1955, 1956, 1957, 1959, 1967, 1975, 1979, 1983, 1987, 1989, 1991, 1993, 1995, 1997, 1999, 2001, 2004, 2007, 2011)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en la Copa América</dt>
+							<dd>
+								<block>
+									<p>4 veces subcampeón (1955, 1956, 1979, 1987), 5 veces tercero (1926, 1941, 1945, 1967, 1991), 10 veces cuarto (1916, 1917, 1919, 1920, 1924, 1935, 1939, 1947, 1953, 1999)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>3º de la zona sudamericana con 28 puntos detrás de Argentina (32) y Colombia (30), y delante de Ecuador (25), Uruguay (25)... 18 partidos jugados, 9 victorias, 1 empate, 6 derrotas con 29 goles a favor y 25 en contra.</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales equipos</dt>
+							<dd>
+								<block>
+									<p>Colo Colo, Universidad de Chile, Universidad Católica, Unión Española</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Mejores jugadores</dt>
+							<dd>
+								<block>
+									<p>Alexis Sánchez, Arturo Vidal, Jorge Valdivia, Gary Medel, Claudio Bravo</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Jorge Sampaoli (desde el 03/12/2012)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">	
+	<body>
+
+	
+		<div id="wrapper">
+			<div class="scroller">				
+				<div class="container" >
+				</div>	
+			</div>
+		</div>	
+		
+		
+		<script type="text/javascript">		
+			var myScroll = new IScroll('#wrapper', {click:true,preventDefault:true});
+			myScroll.on('beforeScrollStart', function () { 
+				this.refresh();	
+				});					
+		</script>
+		
+		<script type="text/javascript" src="js/goles.js"></script>  
+
+	</body>
+	
+</html>

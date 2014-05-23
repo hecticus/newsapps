@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115310+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115310.bio-20917</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="50">51</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115310.wc2014-bio-20917:51</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-20917</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115310Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115310Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Gordon Banks</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Banks</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Gordon</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Inglaterra</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">20-12-1937</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Sheffield</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">183 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">78.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>guardameta</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Chesterfield (D3/1955-59)</p><p> - Leicester City (1959-67)</p><p> - Stoke City (1967-72)</p><p> - Fort Lauderdale Strikers (1977-78)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>73 (1963-1972)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles encajados con la selección</dt>
+								<dd>
+									<block>
+										<p>57</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol encajado con la selección</dt>
+								<dd>
+									<block>
+										<p>06/04/1963, Inglaterra-Escocia (1-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol encajado con la selección</dt>
+								<dd>
+									<block>
+										<p>29/04/1972, Inglaterra-RFA (1-3)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>06/04/1963, Inglaterra-Escocia (1-2)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>27/05/1972, Escocia-Inglaterra (0-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con su selección</li>
+								<li>
+									<p> - 1 Copa del Mundo (1966), cuartos de final (1970), 2 participaciones (1966, 1970), 9 partidos, 4 goles encajados.</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 2 Copas de la liga (1964, 1972)</p>
+								</li>
+								<li>Distinciones</li>
+								<li>
+									<p> - Futbolista del año en Inglaterra (1972)</p>
+									<p> - Mejor guardameta del año del campeonato de América del Norte (1977)</p>
+								</li>
+							</ul>
+							<hl2>Carrera como entrenador:</hl2>
+							<ul>
+								<p>Club: Port Vale (dic. 1978 - dic. 1979)</p>
+							</ul>
+							<hl2>Carrera como dirigente</hl2>
+							<ul>
+								<p> - Telford United (gerente general, ene. 1980 - sept. 1980)</p><p> - Stoke City (Presidente desde 2002)</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>El paradón imposible</hl2>
+							<p>Los supergoles y sus autores suelen pasar a la historia. No así los porteros, aunque los hubo de antología, así como algunas de sus atajadas. Es el caso de la maravillosa estirada del inglés Gordon Banks en el Mundial mexicano de 1970.</p>
+							<p>Fue cuestión de centésimas de segundo, Pelé había recibido un pase perfecto de Jairzinho, lo remató de cabeza, picándolo con su característica maestría para que cayera justo en la línea de gol. Mientras los brasileños comenzaban a festejar el tanto, Banks se estiraba hasta el infinito para lograr, casi milagrosamente, desviar el balón  con la punta de los dedos.</p>
+							<p>"Considero que he marcado porque la atajada de Banks es la más extraordinaria que he visto en mi vida", confesó "O Rei" después. Inglaterra no ganó aquel encuentro  y luego cayó en cuartos contra su eterno rival, Alemania, quizás porque Banks no pudo jugar ese día debido a una intoxicación alimentaria. Una lástima, porque los ingleses aspiraban a reconquistar la Copa del Mundo, ganada cuatro años antes en casa, también con él como guardameta.</p>
+							<hl2>Futbolista por casualidad</hl2>
+							<p>Era el mejor de lejos y ningún seleccionador quería prescindir de él. Le apodaban "Banks of England" en honor al banco inglés, considerado inexpugnable. Y eso que cuando comenzó a jugar, a finales de los años 50, no se le daba ninguna importancia al guardameta. De hecho, lo único que se esperaba de él era que fuese valiente y se colocara más o menos bien.</p>
+							<p>Sobrio, muy profesional, con una flexibilidad fuera de lo común y rapidísimo de reflejos, supo cambiar el estereotipo, sobre todo con sus brillantísimas actuaciones con la selección.</p>
+							<p>Banks, que trabajó en una mina de carbón primero y como albañil después, se metió en el fútbol casi por casualidad. Un sábado por la tarde fue a ver un partido de aficionados y le pidieron que sustituyera al portero, ¡por suerte para los ingleses!.</p>
+							<p>Empezó jugando en el modesto Chesterfield, y después fichó por Leicester, con el que jugó cerca de 300 partidos y llegó dos veces a la final de la Copa de Inglaterra: en 1961 contra el Tottenham y en 1963 contra el Manchester United. Con su tercer club, el Stoke City, ganó la Copa de la Liga. Ese mismo año sufrió un grave accidente de coche que le dejó casi sin visión en un ojo.</p>
+							<p>Abondonó los terrenos de juego durante un tiempo, antes de probar una nueva aventura al otro lado del Atlántico, en el Striker de Fort Lauderdale, Estados Unidos. Allí fue elegido mejor portero del campeonato (1977-78). Se convirtió luego en el entrenador de Port Vale y Telford United, y posteriormente fue nombrado presidente del Stoke City.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="CENTRAL PRESS" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Stoke City's goalkeeper Gordon Banks dives during an English Premiership soccer match 15 December 1969. Banks will participate with England's national soccer team to the World Cup scheduled in Mexico from 31 May to 21 June 1970.  AFP PHOTO/CENTRAL PRESS</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/banks-envol.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1495" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/banks-envol.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="108" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/banks-envol.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="373" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>England's national soccer team captain Bobby Moore holds aloft the Jules Rimet trophy as he is carried by his teammates following England's victory over Germany (4-2 in extra time) in the World Cup final 30 July 1966 at Wembley stadium in London.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/banks-1966-moore-cup.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1555" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/banks-1966-moore-cup.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="113" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/banks-1966-moore-cup.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="388" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

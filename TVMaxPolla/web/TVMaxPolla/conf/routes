@@ -38,15 +38,35 @@ GET     /matchesapi/v1/team/search/:idTeam         controllers.matchesapi.TeamCo
 #phases
 GET     /matchesapi/v1/phase/get/allActive          controllers.matchesapi.PhaseController.getActivePhases()
 GET     /matchesapi/v1/phase/get/currentActive      controllers.matchesapi.PhaseController.getCurrentPhase()
-GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches()
+#GET     /matchesapi/v1/phase/get/matches/current    controllers.matchesapi.PhaseController.getCurrentPhaseMatches(clientScores:Object?=null)
 GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.PhaseController.getAllPhasesMatches()
+
+#client bet phases
+POST    /matchesapi/v1/clientbet/get/current    controllers.matchesapi.ClientBetController.getClientBetForCurrentPhase()
+POST    /matchesapi/v1/clientbet/save                      controllers.matchesapi.ClientBetController.storeClientBet()
+
+#TEMPORAL TO FIX OLD
+POST    /matchesapi/v1/predictions/convert/one      controllers.matchesapi.PredictionController.convertOldDataToNewOne()
 
 #predictions
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
 POST    /matchesapi/v1/prediction/get               controllers.matchesapi.PredictionController.getClientPrediction()
 
+
 #bets
 POST    /matchesapi/v1/bet/calculate                controllers.matchesapi.BetController.calculateBets()
 GET     /matchesapi/v1/bet/test                     controllers.matchesapi.BetController.callTest()
 
+#tvnfeeds
+GET     /tvmaxfeeds/controversies/get               controllers.tvmaxfeeds.ControversyController.getControversies()
+POST    /tvmaxfeeds/controversies/insert            controllers.tvmaxfeeds.ControversyController.insert()
 
+GET     /tvmaxfeeds/predictions/get                 controllers.tvmaxfeeds.PredictionController.getPredictions()
+POST    /tvmaxfeeds/predictions/insert              controllers.tvmaxfeeds.PredictionController.insert()
+
+GET     /tvmaxfeeds/goals/get                       controllers.tvmaxfeeds.GoalController.getGoals()
+POST    /tvmaxfeeds/goals/insert                    controllers.tvmaxfeeds.GoalController.insert()
+
+
+GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
+POST    /tvmaxfeeds/calendar/insert                 controllers.tvmaxfeeds.MatchController.insert()

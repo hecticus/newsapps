@@ -81,6 +81,7 @@ public class Team extends HecticusModel{
         tr.put("name",name);
         tr.put("shortName",shortname);
         tr.put("flag_file",flagFile);
+        tr.put("afp_id",afpId);
         return tr;
     }
 

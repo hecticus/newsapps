@@ -32,10 +32,8 @@ CategoryManager.prototype = {
 	
 	getCompleteCategoriesFromWS:function(callback, errorCallback){
 		
-		var urlComplete = 'http://tvn.news.hecticus.com/newsapi/v1/categories/search';
-		//var urlComplete = 'http://10.0.3.148:9000/newsapi/v1/categories/search';
-		//var urlComplete = 'http://localhost:9007/newsapi/v1/categories/search';
-		
+		var urlComplete = urlServices+'/newsapi/v1/categories/search';
+		//console.log(urlComplete);
 		var instance = this;
 		
 		$.ajax({

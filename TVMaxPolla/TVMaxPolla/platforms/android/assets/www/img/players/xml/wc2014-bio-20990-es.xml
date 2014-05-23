@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115317+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115317.bio-20990</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="96">97</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115317.wc2014-bio-20990:97</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-20990</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115317Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115317Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Sepp Maier</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Maier</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Sepp</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>RFA</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">28-02-1944</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Metten (Alemania)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">183 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">76.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>Portero</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - TSV Haar (1952-1958)</p><p> - Bayern de Múnich (1958-1979)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias con la selección</dt>
+								<dd>
+									<block>
+										<p>95 (1966-1979)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles encajados con la selección</dt>
+								<dd>
+									<block>
+										<p>80</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>04/05/1966, Irlanda-RFA (0-4)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>26/05/1979, Islandia-RFA (1-3)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol encajado</dt>
+								<dd>
+									<block>
+										<p>03/05/1967, Yugoslavia-RFA (1-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol encajado</dt>
+								<dd>
+									<block>
+										<p>26/05/1979, Islandia-RFA (1-3)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con su selección:</li>
+								<li>
+									<p> - Mundial: Campeón (1974), finalista (1966), tercero (1970), segunda fase (1978), 18 partidos</p>
+									<p> - Eurocopa: Campeón (1972), finalista (1976)</p>
+								</li>
+								<li>Con sus clubes:</li>
+								<li>
+									<p> - 3 Copas de Europa (1974, 1975, 1976)</p>
+									<p> - 1 Recopa de Europa (1967)</p>
+									<p> - 1 Copa Intercontinental (1976)</p>
+									<p> - 4 Campeonatos de la RFA (1969, 1972, 1973, 1974)</p>
+									<p> - 4 Copas de la RFA (1966, 1967, 1969, 1971)</p>
+								</li>
+								<li>Distinciones:</li>
+								<li>
+									<p> - Mejor Jugador del Año de la RFA (1975, 1977, 1978)</p>
+								</li>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>El vuelo del felino</hl2>
+							<media media-type="image" style="leftSide">
+								<media-reference mime-type="image/jpeg" units="pixels" data-location="#photo1" />
+							</media>
+							<p>Con su rubia y alborotada melena, el "gato" Sepp Maier se parecía más a un "león". Pero, su apodo fue el de "gato" por su manera de salir a controlar los balones aéreos y también por su habilidad y coraje para echarse a los pies de los atacantes. En su ejemplar carrera alcanzó la gloria con las victorias germanas en la Eurocopa-1972 y el Mundial-1974.</p>
+							<p>Maier nació en Baviera, no lejos de la frontera con la antigua Checoslovaquia. Sus padres, que se habían instalado cerca de Múnich, lo inscribieron en un club de las afueras, el TSV Haar. El chico tenía entonces ocho años.</p>
+							<p>A los 14, los dirigentes del Bayern se fijaron en él y Sepp integró sus categorías inferiores hasta su posterior debut con el primer equipo, en 1966.</p>
+							<p>Ese mismo año y tras jugar con los juveniles de la República Federal de Alemania (RFA), Maier se convirtió en suplente de Hans Tilkowski en la fase de clasificación del Mundial. En esa cita que se disputó en Inglaterra, la RFA perdió en la final frente a los anfitriones (4-2) en la prórroga.</p>
+							<p>En México-1970, Maier defendió el arco como guardameta titular del equipo dirigido por Helmut Schön. En esta ocasión, la selección liderada por el mejor Franz Beckenbauer cayó en semifinales ante Italia en un partido histórico, con prórroga incluida (4-3).</p>
+							<p>El "gato" tuvo una primera recompensa internacional en 1972 con la consecución de la Eurocopa en Bélgica, al ganar  con su combinado a la Unión Soviética en la final (3-0). Pero esa "máquina" dirigida y engrasada por Helmut Schön y con Maier bajo palos no se detuvo ahí.</p>
+							<p>Porque en 1974, la RFA acogió un Mundial que supuso el cénit de la carrera de Maier. La Holanda de Johan Cruyff partió como favorita, pero los germanos comandados por Franz Beckenbauer y Gerd Müller fueron más fuertes. Maier estuvo a la altura. Sólo recibió cuatro goles y en la final asombró a todos parando todo balón que osaba merodear por su arco, incluida una volea muy peligrosa de Johan Neeskens en el segundo tiempo.</p>
+							<hl2>Mas de 400 partidos consecutivos</hl2>
+							<p>Pero los campeones de Europa y del Mundo no pudieron revalidar sus títulos: en la Eurocopa de 1976, Checoslovaquia les ganó en la final y en el Mundial de 1978, en Argentina, cayeron sin pena ni gloria en segunda fase. En 1979, y tras un grave accidente de tráfico, el tres veces mejor jugador de Alemania (1975, 1977, 1978) dijo adiós al fútbol con 35 años.</p>
+							<p>Como profesional, Maier exhibe unos números que parecen de otro planeta. Disputó 13 temporadas seguidas (entre 1966 y 1979) sin haber faltado a un sólo encuentro en la Bundesliga con su club o, lo que es lo mismo, 422 partidos de manera consecutiva, además de haber vestido la camiseta nacional 95 veces.</p>
+							<p>Este arquero poseía, además, un gran sentido del humor y de la publicidad. Sus precalentamientos rozaban la excentricidad y le gustaba posar disfrazado de vaquero, astronauta o payaso, instantáneas que luego se utilizaban para ayudar a niños desfavorecidos.</p>
+							<p>Con el Bayern ganó tres Copas de Europa, una Recopa, una Copa Intercontinental, cuatro campeonatos y cuatro copas, además de ser elegido jugador del año en tres ocasiones.</p>
+							<p>Una vez retirado, fue preparador de porteros del Bayern y más tarde de la selección, de donde fue despedido por tomar partido en la rivalidad entre Oliver Kahn y Jens Lehmann.</p>
+						</block>
+						<block class="Biography" />
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="DPA" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German goalkeeper Sepp Maier dives to grab the ball in front of Polish forward Andrzej Szarmach (top) and his teammate Berti Vogts (2)  during the World Cup first round match between West Germany and Poland 01 June 1978 in Buenos Aires. The match ended in a scoreless draw.  AFP PHOTO/DPA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maier-pologne78.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2040" />
+							<Property FormalName="Height" Value="1880" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maier-pologne78.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="135" />
+							<Property FormalName="Height" Value="123" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maier-pologne78.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="471" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German goalkeeper Sepp Maier catches the ball in front of Dutch forward Johan Cruijff as defender Franz Beckenbauer (L) looks on, 07 July 1974 in Munich, during the World Cup soccer final. Host West Germany beat The Netherlands 2-1 to earn its second World Cup title, twenty years after its first win over Hungary (3-2), 04 July 1954 in Bern.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/cruyff-maier74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1422" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/cruyff-maier74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="103" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/cruyff-maier74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="355" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>West German goalkeeper Sepp Maier (R) deflects a shot by a Polish player during the World Cup first round soccer match between West Germany and Poland 01 June 1978 in Buenos Aires. The match ended in a scoreless draw. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maier-pol78-plongeon.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="877" />
+							<Property FormalName="Height" Value="1293" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maier-pol78-plongeon.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="101" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maier-pol78-plongeon.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="347" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

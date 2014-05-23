@@ -16,6 +16,7 @@
 
 package com.facebook.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -41,6 +42,7 @@ import com.facebook.internal.Utility;
 
 import java.util.*;
 
+@SuppressLint("ValidFragment")
 public class PlacePickerFragment extends PickerFragment<GraphPlace> {
     /**
      * The key for an int parameter in the fragment's Intent bundle to indicate the radius in meters around

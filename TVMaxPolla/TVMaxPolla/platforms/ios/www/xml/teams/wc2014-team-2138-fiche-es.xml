@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140404T141518+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140404</DateId>
+				<NewsItemId>20140404141518.team-2138-fiche</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="13">14</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140404:141518.wc2014-team-2138-fiche:14</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>team-2138-fiche</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140404T141518Z</FirstCreated>
+			<ThisRevisionCreated>20140404T141518Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<ul>Ficha - Honduras</ul>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-team</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-team" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<dl>
+							<dt>Población</dt>
+							<dd>
+								<block>
+									<p>8 500 000 habitantes</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Superficie</dt>
+							<dd>
+								<block>
+									<p>112 088 km2</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Capital</dt>
+							<dd>
+								<block>
+									<p>Tegucigalpa</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Moneda</dt>
+							<dd>
+								<block>
+									<p>Lempira</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Federación</dt>
+							<dd>
+								<block>
+									<p>Federación Nacional Autónoma de Fútbol de Honduras, fundada y afiliada a la FIFA en 1951</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Licencias</dt>
+							<dd>
+								<block>
+									<p>61 300</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Colores</dt>
+							<dd>
+								<block>
+									<p>camiseta blanca, pantalón blanco, medias blancas</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Participaciones en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>3 (1982, 2010, 2014)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Palmarés en Copa del Mundo</dt>
+							<dd>
+								<block>
+									<p>primera ronda (1982, 2010)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Copa de Oro de la CONCACAF</dt>
+							<dd>
+								<block>
+									<p>finalista (1991), tercero (2005, 2009)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Copa América</dt>
+							<dd>
+								<block>
+									<p>tercero (2001)</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Clasificación para el Mundial</dt>
+							<dd>
+								<block>
+									<p>Exento de las dos primeras rondas de la zona CONCACAF - 3ª ronda : 1º del grupo C con 11 puntos, delante de Panamá (11), Canadá (10) y Cuba (1), 3 victorias, 2 empates y 1 derrota, 12 goles anotados y 3 encajados - Hexagonal final : 3º con 15 puntos detrás de Estados Unidos (22) y Costa Rica (18), y delante de México (11), Panamá (8) y Jamaica (5), 4 victorias, 3 empates y 3 derrotas, 13 goles anotados y 12 encajados</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales clubes</dt>
+							<dd>
+								<block>
+									<p>Olimpia, Real España, Motagua, Marathón</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Principales jugadores</dt>
+							<dd>
+								<block>
+									<p>Noel Valladares, Wilson Palacios, Carlo Costly, Jerry Bengtson</p>
+								</block>
+							</dd>
+						</dl>
+						<dl>
+							<dt>Seleccionador</dt>
+							<dd>
+								<block>
+									<p>Luis Suárez (Col/ desde marzo de 2011)</p>
+								</block>
+							</dd>
+						</dl>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

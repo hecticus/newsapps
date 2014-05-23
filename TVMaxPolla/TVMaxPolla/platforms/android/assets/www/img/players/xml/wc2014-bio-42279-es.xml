@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115324+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115324.bio-42279</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="59">60</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115324.wc2014-bio-42279:60</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-42279</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115324Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115324Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Mario Zagallo</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Zagallo</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Mario</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Brasil</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">09-08-1931</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Maceio</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">169 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">61.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>extremo izquierdo</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p>América (1946-1950)</p><p> - Flamengo (1951-1957)</p><p> - Botafogo (1958-1965)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>33 (1958-1964)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>5</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>04/05/1958, Brasil-Paraguay (5-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>07/06/1964, Brasil-Portugal (4-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>04/05/1958, Brasil-Paraguay (5-1, 2 goles)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>30/05/1962, Brasil-México (2-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - 2 Copas del Mundo (1958, 1962), 2 participaciones (1958, 1962), 12 partidos, 2 goles</p>
+									<p> - 1 finale de Copa America (1959)</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 5 Campeonatos de Río (1953, 1954, 1955, 1961, 1962)</p>
+									<p> - 1 Torneo de Rio-Sao Paulo (1962)</p>
+								</li>
+							</ul>
+							<hl2>Carrera como entrenador</hl2>
+							<ul>
+								<p>Clubes : Botafogo (1966-70), Fluminense (1971-72), Flamengo (1972-73), Botafogo (1978-79), Al Hilal (Ara/1979), Al Nasr (Ara/2 meses en 1980), Vasco de Gama (1980-81), Flamengo (1984-85), Botafogo (1986-87), Bangu (1988-89), Vasco de Gama (1990-91), Portuguesa (2000), Flamengo (2000-noviembre 2001)</p>
+							</ul>
+							<hl2>Palmarés como entrenador</hl2>
+							<ul>
+								<p> - 1 Campeonato de Brasil (1986)</p>
+								<p> - 4 Campeonatos de Río (1967, 1968, 1971, 1972)</p>
+								<p> - 1 Campeonato de Arabía Saudí (1979)</p>
+							</ul>
+							<hl2>Carrera como seleccionador</hl2>
+							<ul>
+								<p> - Selección : Brasil (1970-74, sept. 1994 - jul. 1998 y nov. 2002), Kuwait (1976-78), Arabia Saudí(1981-84), Emiratos Árabes Unidos (1988-90)</p>
+							</ul>
+							<hl2>Palmarés como seleccionador</hl2>
+							<ul>
+								<p> - 1 Copa del Mundo (1970), finalista (1998), cuarto (1974)</p>
+								<p> - 1 Copa de América (1997)</p>
+								<p> - 1 Copa Confederaciones (1997)</p>
+								<p> - 1 Copa del Golfo (1976)</p>
+								<p> - Clasificación de Arabia para los Juegos Olímpicos de 1984</p>
+								<p> - Clasificación de los Emiraros Árabes Unidos para el Mundial de 1990</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Campeón del mundo por excelencia</hl2>
+							<p>Mario Jorge Lobo Zagallo es la única persona en ganar el título de campeón mundial como jugador -en 1958 y 1962-, como seleccionador -en 1970- y como coordinador técnico -en 1994-.</p>
+							<p>Cinco semanas después de su primera convocatoria a la selección brasileña -en la que debutó tarde, con 26 años y medio- Zagallo se encontraba dentro del equipo brasileño junto a Didí, Vavá y Pelé para la Copa del Mundo de 1958. Después de tres semanas de competición, se coronó campeón del mundo en Suecia. Cuatro años después, repitió la experiencia en Chile.</p>
+							<p>En 1965 colgó las botas y comenzó una carrera de entrenador en la que se ganó fama de equilibrado y de saber aprovechar las cualidades individuales de los jugadores. Comenzó en el Botafogo y, en 1969, fue invitado a dirigir a los auriverdes.</p>
+							<p>Brasil se había clasificado para el Mundial de México-1970  dirigido por Joao Saldanha, que dimitió porque el dictador de entonces, el general Medici, quería ver al atacante Darío entre los seleccionados. Zagallo lo sustituyó y el delantero acudió a la cita.</p>
+							<hl2>Primer doblete de la historia</hl2>
+							<p>Zagallo armó un equipo de ensueño -Jairzinho, Pelé, Tostao y Rivelino en el ataque y Gerson de director de juego- que no perdió ni uno solo de los partidos que disputó en tierras mexicanas en ocasión del Mundial de 1970.</p>
+							<p>Además, se convirtió en el único en haber ganado la Copa del Mundo como jugador y entrenador, algo que sólo lograría algunos años después Franz Beckenbauer. Supera al "Kaiser" en el palmarés porque también levantó la Copa como ayudante técnico de Carlos Alberto Parreira en el Mundial de Estados Unidos-1994.</p>
+							<p>Abandonó a los auriverdes después de la Copa del Mundo de 1974, en la que Brasil terminó cuarto.</p>
+							<p>Un año más tarde comenzó su aventura por Medio Oriente, que duró hasta 1989: se hizo cargo de las selecciones de Kuwait, Arabia Saudí y Emiratos Árabes, con idas y venidas a Río de Janeiro donde dirigió a los principales equipos.</p>
+							<p>En 1993, fue nombrado coordinador técnico de una 'Seleçao' comandada por Carlos Alberto Parreira, al que servía de parapeto de las críticas. Brasil ganó el Mundial de Estados Unidos-1994 con un Romario y un Bebeto muy inspirados.</p>
+							<p>Después de la competición reasumió la dirección de los auriverdes con un doble objetivo: conquistar el oro olímpico en Atlanta-1996 y coronarse pentacampeones en Francia-1998. No pudo conseguir ni lo uno ni lo otro.  Además, muchos compatriotas le reprocharon dos cosas: practicar un fútbol poco "brasileño" (con volantes defensivos puros como Dunga), y haber puesto de titular a un Ronaldo enfermo en la final mundialista perdida contra Francia.</p>
+							<p>Zagallo anunció el fin de su carrera deportiva en 2001 tras una mala experiencia con el Flamengo. Pero en noviembre 2002 volvió a ser convocado al frente de la Seleçao, de forma interina, tras la renuncia de Luiz Felipe Scolari, quien conquistó para Brasil la quinta Copa del Mundo en Corea del Sur y Japón-2002.</p>
+							<p>Su balance es vertiginoso: 110 victorias, 33 empates y solamente 11 derrotas. En 2003, la leyenda viviente, cuya estatua decora la entrada del Maracaná, reclamó un museo para salvar las 'reliquias' del fútbol brasileño.</p>
+						</block>
+						<block class="Biography">
+							<hl2>El Profesor</hl2><p>La historia de Mario Jorge Lobo Zagallo está irremisiblemente ligada a la de la selección brasileña: ha estado presente en 7 finales  disputadas por Brasil, ya fuera como jugador -dos veces (1958, 1962)- seleccionador -tres: 1970, 1974 y 1998-, coordinador técnico en 1994,  o...soldado.</p>
+							<p>Y es que la primera vez que los auriverdes llegaron a la final, en casa, en 1950, Zagallo, que en ese momento hacía su servicio militar, formaba parte del dispositivo desplegado para vigilar el Maracaná. Una misión amarga porque vio cómo los suyos caían 2-1 ante una sorprendente selección uruguaya.</p>
+							<p>Zagallo, debutó a los 26 años en la Seleçao, y se encontró en la "banda" del equipo brasileño junto a Didí, Vavá y Pelé para la Copa del Mundo de Suecia, en 1958. Se coronó campeón del mundo y  cuatro años después repitía en Chile.</p>
+							<p>En 1965 colgó las botas. Comenzó una extraordinaria carrera de entrenador, ganando fama de equilibrado y de saber aprovechar las cualidades individuales de los jugadores. Comenzó en el Botafogo y en 1969 fue invitado a dirigir a los auriverdes.</p>
+							<hl2>Primer doblete de la historia</hl2>
+							<p>En todo caso, Zagallo armó un equipo de ensueño -Jairzinho, Pelé, Tostao y Rivelino en el ataque y Gerson de director de juego- que no perdió ni un sólo de los partidos en tierras mexicanas.</p>
+							<p>Además, se convirtió en el único en haber ganado la Copa del Mundo como jugador y entrenador, algo que sólo lograría algunos años después Franz Beckenbauer.</p>
+							<p>Abandonó a los auriverdes después de la Copa del Mundo de 1974, en que Brasil debió contentarse con el cuarto lugar (vencida por Polonia 0-1).</p>
+							<p>Un año más tarde comenzó su aventura por Medio Oriente, que duró hasta 1989: se hizo cargo de las selecciones de Kuwait, Arabia, Saudí y Emiratos Arabes, con idas y venidas a Río de Janeiro, donde dirigió a los principales equipos.</p>
+							<p>En 1993, la "seleçao" volvió a irrumpir en la vida de Zagallo. Fue nombrado coordinador técnico de un equipo comandado por Carlos Alberto Parreira, al que servía de parapeto de las críticas. Brasil ganó el Mundial estadounidense de 1994 con un Romario y un Bebeto muy inspirados.</p>
+							<p>Después de la competición, reasumió la dirección de los auriverdes con un doble objetivo: conquistar el oro olímpico en Atlanta y coronarse pentacampeones en Francia 98. No pudo conseguir ni lo uno ni lo otro.  Además, muchos compatriotas le reprocharon haber sacado a un Ronaldo enfermo en la final mundialista perdida contra Francia.</p>
+							<p>Tras haber entrenado el Portuguesa Desportos de Sao Paulo en el 2000, tomó las riendas del Flamengo, pero las malas actuaciones del equipo carioca lo llevaron a que la directiva lo destituyera en noviembre 2001. Mario Jorge Lobo Zagallo anunció el fin de su carrera deportiva. Hasta que en noviembre 2002 fue convocado para que dirija a la seleçao, de manera interina, luego de la renuncia de Luiz Felipe Scolari.</p>
+						</block>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Les joueurs brésiliens, vainqueurs de la Coupe du Monde de Football, posent pour une photo de groupe, le 17 juin 1962 à Santiago du Chili. Le Brésil bat la Tchécoslovaquie trois buts à un. De gauche à droite, debout : Djalma Santos, Zito, Gilmar, Zozimo, Nilton Santos, Mauro. Accroupis : America (masseur), Garrincha, Didi, Vava, Amarildo, Zagalo.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1962-bresil-team.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1525" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1962-bresil-team.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="110" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1962-bresil-team.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="381" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Source>
+						<Party FormalName="DPA" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazilian national soccer team coach Mario Zagalo indicates to his players that five minutes are left in their World Cup second round soccer match against East Germany 26 June 1974 in Hannover. Brazil beat East Germany 1-0 on a goal by forward Rivelino. AFP PHOTO/DPA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/zagallo-coach74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1602" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/zagallo-coach74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="113" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/zagallo-coach74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="400" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ANTONIO SCORZA" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazilian soccer team coach Mario Zagallo (L) comforts striker Ronaldo (R) 12 July at the Stade de France in Saint-Denis, near Paris, after France defeated Brazil 0-3 in the 1998 Soccer World Cup final. (ELECTRONIC IMAGE) AFP PHOTO   ANTONIO SCORZA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/zagallo-ronaldo98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1365" />
+							<Property FormalName="Height" Value="1595" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/zagallo-ronaldo98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="119" />
+							<Property FormalName="Height" Value="140" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/zagallo-ronaldo98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="438" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+					<Source>
+						<Party FormalName="DPA" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazilian national soccer team coach Mario Zagalo indicates to his players that five minutes are left in their World Cup second round soccer match against East Germany 26 June 1974 in Hannover. Brazil beat East Germany 1-0 on a goal by forward Rivelino. AFP PHOTO/DPA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/zagallo-coach74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1602" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/zagallo-coach74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="113" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/zagallo-coach74.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="400" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo5">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ANTONIO SCORZA" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Brazilian soccer team coach Mario Zagallo (L) comforts striker Ronaldo (R) 12 July at the Stade de France in Saint-Denis, near Paris, after France defeated Brazil 0-3 in the 1998 Soccer World Cup final. (ELECTRONIC IMAGE) AFP PHOTO   ANTONIO SCORZA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/zagallo-ronaldo98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1365" />
+							<Property FormalName="Height" Value="1595" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/zagallo-ronaldo98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="119" />
+							<Property FormalName="Height" Value="140" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/zagallo-ronaldo98.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="438" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>

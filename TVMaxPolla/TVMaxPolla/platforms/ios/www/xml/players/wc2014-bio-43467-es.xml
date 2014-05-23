@@ -1,0 +1,825 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewsML>
+	<Catalog Href="http://www.afp.com/dtd/AFPCatalog.xml" />
+	<NewsEnvelope>
+		<DateAndTime>20140430T115318+0200</DateAndTime>
+	</NewsEnvelope>
+	<NewsItem>
+		<Identification>
+			<NewsIdentifier>
+				<ProviderId>afp.com</ProviderId>
+				<DateId>20140430</DateId>
+				<NewsItemId>20140430115318.bio-43467</NewsItemId>
+				<RevisionId Update="N" PreviousRevision="126">127</RevisionId>
+				<PublicIdentifier>urn:newsml:afp.com:20140430:115318.wc2014-bio-43467:127</PublicIdentifier>
+			</NewsIdentifier>
+			<NameLabel>bio-43467</NameLabel>
+		</Identification>
+		<NewsManagement>
+			<NewsItemType FormalName="News" />
+			<FirstCreated>20140430T115318Z</FirstCreated>
+			<ThisRevisionCreated>20140430T115318Z</ThisRevisionCreated>
+			<Status FormalName="Usable" />
+		</NewsManagement>
+		<NewsComponent>
+			<NewsLines>
+				<HeadLine>Diego Armando Maradona</HeadLine>
+				<DateLine>PARIS (AFP)</DateLine>
+				<CopyrightLine>© 2014 AFP</CopyrightLine>
+				<SlugLine>wc2014-biop</SlugLine>
+			</NewsLines>
+			<AdministrativeMetadata>
+				<Provider>
+					<Party FormalName="AFP" />
+				</Provider>
+			</AdministrativeMetadata>
+			<DescriptiveMetadata>
+				<Language FormalName="es" />
+				<OfInterestTo FormalName="wc2014-biop" />
+			</DescriptiveMetadata>
+			<NewsComponent>
+				<ContentItem>
+					<MediaType FormalName="Text" />
+					<Format FormalName="bcNITF2.5" />
+					<DataContent>
+						<block class="Personal Data">
+							<dl>
+								<dt>Apellido</dt>
+								<dd>
+									<block>
+										<p>Maradona</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nombre</dt>
+								<dd>
+									<block>
+										<p>Diego Armando</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>País representado</dt>
+								<dd>
+									<block>
+										<p>Argentina</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nacido el</dt>
+								<dd>
+									<block>
+										<p class="date">30-10-1960</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Lugar de nacimiento</dt>
+								<dd>
+									<block>
+										<p>Buenos Aires</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Altura</dt>
+								<dd>
+									<block>
+										<p class="height">168 cm</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Peso</dt>
+								<dd>
+									<block>
+										<p class="weight">70.0 kg</p>
+									</block>
+								</dd>
+							</dl>
+						</block>
+						<block class="Career Data">
+							<hl2>Carrera como jugador</hl2>
+							<dl>
+								<dt>Puesto</dt>
+								<dd>
+									<block>
+										<p>volante ofensivo</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Clubes</dt>
+								<dd>
+									<block>
+										<p> - Argentinos Juniors (1976-1980)</p><p> - Boca Juniors (1981-1982)</p><p> - FC Barcelona (Esp/1982-1984)</p><p> - Nápoles (Ita/1984-marzo 1991)</p><p> - FC Sevilla (Esp/oct. 1992 - junio 1993)</p><p> - Newells Old Boys (oct.-nov. 1993)</p><p> - Boca Juniors (1995-oct.1997)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Convocatorias</dt>
+								<dd>
+									<block>
+										<p>91 (1977-1994)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Goles con la selección</dt>
+								<dd>
+									<block>
+										<p>34</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primera convocatoria</dt>
+								<dd>
+									<block>
+										<p>27/02/1977, Argentina-Hungría (5-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Última convocatoria</dt>
+								<dd>
+									<block>
+										<p>25/06/1994, Argentina-Nigeria (2-1)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Primer gol con la selección</dt>
+								<dd>
+									<block>
+										<p>02/06/1979, Escocia-Argentina (1-3)</p>
+									</block>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Último gol con la selección</dt>
+								<dd>
+									<block>
+										<p>21/06/1994, Argentina-Grecia (4-0)</p>
+									</block>
+								</dd>
+							</dl>
+							<hl2>Palmarés como jugador</hl2>
+							<ul>
+								<li>Con la selección</li>
+								<li>
+									<p> - 1 Copa del Mundo (1986), 1 final (1990), segunda ronda (1982), octavos de final (1994), 4 participaciones (1982, 1986, 1990, 1994), 21 partidos, 8 goles, mejor jugador del Mundial de 1986</p>
+								</li>
+								<li>Con sus clubes</li>
+								<li>
+									<p> - 1 Copa de la UEFA (1989)</p>
+									<p> - 1 Campeonato argentino (Campeonato Metropolitano/1981)</p>
+									<p> - 1 Copa de España (1983)</p>
+									<p> - 1 Supercopa de España (1983)</p>
+									<p> - 2 Campeonatos de Italia (1987, 1990)</p>
+									<p> - Máximo goleador de Italia (1988/15 goles)</p>
+									<p> - 1 Copa de Italia (1987)</p>
+								</li>
+								<li>Distinciones</li>
+								<li>
+									<p> - Elegido mejor jugador FIFA del siglo por los internautas (2000)</p>
+									<p> - 6 veces elegido mejor jugador sudamericano (1979, 1980, 1986, 1989, 1990, 1992)</p>
+									<p> - Balón de Oro honorífico por su carrera (1996)</p>
+								</li>
+							</ul>
+							<hl2>Carrera como entrenador</hl2>
+							<ul>
+								<p>Clubes : Mandiyu de Corrientes (oct.-dic. 1994), Racing Club de Avellaneda (mayo-sept. 1995), Al Wasl (Dub/16/05/2011-10/07/2012)</p>
+							</ul>
+							<hl2>Carrera como seleccionador</hl2>
+							<ul>
+								<p>País : Argentina (04/11/2008-27/07/2010)</p>
+								<p>Balance con Argentina : 24 partidos, 18 victorias, 0 empates, 6 derrotas, 47 goles a favor, 27 goles en contra</p>
+							</ul>
+							<hl2>Palmarés como seleccionador</hl2>
+							<ul>
+								<p>Copa del Mundo: cuartos de final (2010)</p>
+							</ul>
+							<hl2>Carrera como dirigente</hl2>
+							<ul>
+								<p>Club : Boca Juniors (vicepresidente/2005)</p>
+							</ul>
+						</block>
+						<block class="Biography">
+							<hl2>Diegooooooooool</hl2>
+							<p>¿Ángel o demonio? Diego Armando Maradona  tiene la virtud de combinar ambas facetas, porque si bien era un Dios en la cancha, su vida se asemeja mucho a un descenso vertiginoso a los infiernos. Los internautas lo eligieron "futbolista del siglo" en el año 2000, mientras que la FIFA se decantó por Pelé.</p>
+							<p>Nacido en Lanús (provincia de Buenos Aires) y criado en Villa Fiorito, Diego creció en una familia de ocho hermanos. Su destino parecía escrito si no fuera porque aquel niño bajito y regordete poseía una facilidad innata para el fútbol: de técnica impecable, era capaz de hacer cualquier cosa con el balón.</p>
+							<p>Diez días antes de su 16 cumpleaños, jugó su primer partido profesional con la camiseta de Argentinos Juniors. Su talento y clase eran tan evidentes que fue convocado para la selección cuatro meses más tarde. Tras un breve paso por Boca Juniors, aterrizó en Europa, en el FC Barcelona.</p>
+							<p>Antes de ponerse la camiseta blaugrana, jugó su primer Mundial, en España, que resultó un autentico fiasco. Fue expulsado por agredir al brasileño Batista en un partido de segunda ronda que Argentina perdió por 3-1 y que supuso su eliminación.</p>
+							<p>Adorado por la hinchada del Barça, sólo pudo ofrecerles una Copa de España, en 1983.</p>
+							<hl2>La mano de Dios</hl2>
+							<p>En 1984, desembarcó en el Nápoles por 8 millones de dólares. Fue el principio de la 'Diegomanía'. Maradona, que estaba en el mejor momento de su carrera, logró dos campeonatos italianos (1987 y 1990), la Copa de Italia en 1987 y la Copa de la UEFA en 1989.</p>
+							<p>Pero su mejor partido fue, sin duda, en el Mundial de México-1986, cuando en cuartos de final marcó a Inglaterra dos goles históricos. El primero, con la mano (la celebérrima "Mano de Dios"); el segundo, al término de una carrera de 50 metros en 10 segundos y 89 centésimas en la que dejó sentados a cinco jugadores ingleses para plasmar lo que muchos consideran "el gol más bonito en la historia de un Mundial".</p>
+							<hl2>Surgen los demonios y una luz al final del túnel</hl2>
+							<p>Fue el principio del fin. Aunque Argentina alcanzó la final del Mundial italiano en 1990 (nadie puede olvidar las lágrimas de Maradona después de la derrota contra Alemania por 1-0) la Copa del Mundo de 1994 en Estados Unidos significó un nuevo golpe, esta vez fatal, para su carrera y su reputación. Después de un nuevo positivo, en esta ocasión por ingesta de efedrina, Maradona fue excluido de la competición y suspendido por 15 meses.</p>
+							<p>Jugó dos temporadas más en Boca Juniors. Otro positivo por cocaína en 1997 y adiós. Maradona colgó los zapatos el 30 de octubre de 1997, el día que cumplió 37 años.</p>
+							<p>Su nombre apareció más en la sección de sociedad que en la de deportes. Engordó 40 kg, intentó desengancharse de su adicción pero no pudo y dos graves crisis cardíacas, en enero de 2000 y abril de 2004, le obligaron a someterse a una cura de desintoxicación.</p>
+							<p>Se marchó para ello a Cuba, a la tierra de su amigo Fidel Castro y su ídolo Ernesto 'Che' Guevara, cuyo rostro lleva tatuado en el brazo.</p>
+							<p>A comienzos del 2005 se hizo reducir su estómago en Colombia y perdió 30 kg. En agosto, el 'Pibe de Oro' se convirtió en presentador de TV en "La noche del 10" y abrió el programa con un invitado muy especial: Pelé.</p>
+							<p>El año 2008 le brindó la posibilidad de cumplir uno de sus grandes sueños: ser seleccionador argentino. Clasificó a la 'albiceleste' para la cita de Sudáfrica, en la que cayó ante Alemania (4-0) en cuartos de final. Ese fue su último partido como seleccionador. Su siguiente destino fueron los Emiratos Árabes Unidos, para hacerse cargo del Al Wasl de Dubai, del que fue cesado por los pobres resultados.</p>
+						</block>
+					</DataContent>
+				</ContentItem>
+			</NewsComponent>
+			<NewsComponent Duid="photo1">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentina's soccer team captain Diego Maradona brandishes the World Cup troply after his team beat West Germany 3-2 in the final 29 June 1986 at the Azteca stadium in Mexico City.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1986-arg-maradona-cup.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1449" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1986-arg-maradona-cup.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="105" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1986-arg-maradona-cup.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="362" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo2">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian defender Alberto Tarantini (R) comforts midfielder Diego Maradona as he walks off the field after being sent off by Mexican referee Mario Rubio 02 July 1982 in Barcelona during the World Cup second round soccer match between Brazil and Argentina. Brazil beat Argentina 3-1.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1982-bre-arg-maradona-out.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1333" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1982-bre-arg-maradona-out.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="96" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1982-bre-arg-maradona-out.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="333" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo3">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian midfielder Diego Maradona (C) dribbles past three English defenders 22 June 1986 in Mexico City during the World Cup quarterfinal soccer match between Argentina and England. Maradona scored two goals, the first one with his left hand as he jumped for the ball in front of goalkeeper Peter Shilton, as Argentina beat England 2-1. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1986-arg-maradona-3eng.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1713" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1986-arg-maradona-3eng.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="120" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1986-arg-maradona-3eng.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="428" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo4">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian forward Diego Armando Maradona runs past English defender Terry Butcher (L) on his way to dribbling goalkeeper Peter Shilton (R) and scoring his second goal during the World Cup quarterfinal soccer match between Argentina and England 22 June 1986 in Mexico City.  Argentina advanced to the semifinals with a 2-1 victory.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1986-maradona-eng-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1164" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1986-maradona-eng-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="85" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1986-maradona-eng-but.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="291" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo5">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="DANIEL LUNA" />
+					</Creator>
+					<Source>
+						<Party FormalName="AFP FILES" />
+					</Source>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>(FILES) Argentinian soccer player Diego Maradona (C) is removed by police from a Buenos Aires apartment, 26 April 1991, after being arrested for possession of half-kilo of cocaine. Maradona was suspended by the Italian League 29 March 1991, after an analysis of his urine tested positive for cocaine.</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maradona-arrest91.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2034" />
+							<Property FormalName="Height" Value="1485" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maradona-arrest91.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="108" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maradona-arrest91.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="373" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo6">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP " />
+					</Provider>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian national soccer team captain and midfielder Diego Maradona cries after his team lost to West Germany 1-0 on a penalty kick by defender Andreas Brehme in the World Cup final, 08 July 1990 in Rome. It is Germany's third World title (1954, 1974 and 1990). AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1990-arg-all-maradona-tears.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1404" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1990-arg-all-maradona-tears.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="102" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1990-arg-all-maradona-tears.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="351" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo7">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="DANIEL GARCIA" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Boca Juniors fans greet their team led by Argentine controversial soccer star Diego Maradona 14 September 1997 before the game against Newell's Old Boys in Buenos Aires. This was Maradona's first game since an Argentine court recalled his suspension after testing positive for drugs twice recently. Maradona scored the first goal in a 2-1 victory over Newell's Old Boys.    AFP PHOTO/Daniel GARCIA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maradona-fans97.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1231" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maradona-fans97.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="89" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maradona-fans97.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="307" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo8">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ADALBERTO ROQUE" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Former Argentine soccer star Diego Maradona takes a walk around the Las Praderas hotel in Havana where he is under treatment for drug abuse 22 January, 2000.</p>
+							<p>El ex futbolista argentino Diego Armando Maradona camina, el 22 de enero de 2000, en La Habana, Cuba, por los jardines del Hotel Las Praderas donde esta recibiendo tratamiento medico. Maradona comenzo recibio la visita del presidente cubano Fidel Castro quien fue personalmente a dar felicitaciones a Claudia Villafane, esposa de Maradona quien cumple anos hoy.  (ELECTRONIC IMAGE)   AFP PHOTO / Adalberto ROQUE</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maradona-tatouage00.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="851" />
+							<Property FormalName="Height" Value="1450" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maradona-tatouage00.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="87" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maradona-tatouage00.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="300" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo9">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="DANIEL GARCIA" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentina's coach Diego Maradona walks into the field before the start of the FIFA World Cup South Africa-2010 qualifier football match against Uruguay at the Centenario stadium in Montevideo, Uruguay on October 14, 2009.     AFP PHOTO / DANIEL GARCIA</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maradona-uru09.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1470" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maradona-uru09.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="107" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maradona-uru09.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="367" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo10">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="ALEJANDRO PAGNI" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian football legend Diego Maradona (L) smiles next to the president of the Argentinian Football Association (AFA) Julio Grondona after being officially appointed national team coach, on November 4, 2008 in Ezeiza, in Buenos Aires. "Today is a special day for Argentinian football," said Grondona (not pictured) adding that appointing the 48-year-old - who virtually singlehandedly took Argentina to the 1986 World Cup trophy - was extra special.   AFP PHOTO/Alejandro Pagni</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/maradona-nomination08.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1328" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/maradona-nomination08.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="150" />
+							<Property FormalName="Height" Value="96" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/maradona-nomination08.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="332" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo11">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian defender Alberto Tarantini (R) comforts midfielder Diego Maradona as he walks off the field after being sent off by Mexican referee Mario Rubio 02 July 1982 in Barcelona during the World Cup second round soccer match between Brazil and Argentina. Brazil beat Argentina 3-1.  AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1982-bre-arg-maradona-out.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="1333" />
+							<Property FormalName="Height" Value="2048" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1982-bre-arg-maradona-out.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="96" />
+							<Property FormalName="Height" Value="150" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1982-bre-arg-maradona-out.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="333" />
+							<Property FormalName="Height" Value="512" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+			<NewsComponent Duid="photo12">
+				<AdministrativeMetadata>
+					<Provider>
+						<Party FormalName="AFP" />
+					</Provider>
+					<Creator>
+						<Party FormalName="STAFF" />
+					</Creator>
+				</AdministrativeMetadata>
+				<NewsComponent>
+					<Role FormalName="Caption" />
+					<ContentItem>
+						<MediaType FormalName="Text" />
+						<Format FormalName="bcNITF2.5" />
+						<DataContent>
+							<p>Argentinian midfielder Diego Maradona (C) dribbles past three English defenders 22 June 1986 in Mexico City during the World Cup quarterfinal soccer match between Argentina and England. Maradona scored two goals, the first one with his left hand as he jumped for the ball in front of goalkeeper Peter Shilton, as Argentina beat England 2-1. AFP PHOTO</p>
+						</DataContent>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Main" />
+					<ContentItem Href="images/main/1986-arg-maradona-3eng.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="2048" />
+							<Property FormalName="Height" Value="1713" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Thumbnail" />
+					<ContentItem Href="images/thumbnail/1986-arg-maradona-3eng.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="145" />
+							<Property FormalName="Height" Value="120" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+				<NewsComponent>
+					<Role FormalName="Visu" />
+					<ContentItem Href="images/visu/1986-arg-maradona-3eng.jpg">
+						<MediaType FormalName="Photo" />
+						<Characteristics>
+							<Property FormalName="Width" Value="512" />
+							<Property FormalName="Height" Value="428" />
+						</Characteristics>
+					</ContentItem>
+				</NewsComponent>
+			</NewsComponent>
+		</NewsComponent>
+	</NewsItem>
+</NewsML>
