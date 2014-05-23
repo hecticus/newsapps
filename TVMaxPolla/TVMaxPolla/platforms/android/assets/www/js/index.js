@@ -183,23 +183,39 @@ var app = {
 
 		document.addEventListener('backbutton', function(e) {
 			
-			if ($('#wrapper2').hasClass('left')) {			
-				_fSetBack();							
-			} else {
-				
-				if ($('#wrapperM').hasClass('right')) {
-			 		_fSetBack();
-				} else if ($('body').hasClass('content-home')) {							
-					exitApp();				
+			if ($('body').hasClass('content-polla')) {				
+				if ($('#wrapper2').hasClass('left')) {
+					$('#wrapper2').attr('class','page transition right');
 				} else {
-					$('body').removeClass();
-					$('body').addClass(_jMenu[0].class);
-					$('main').data('index',0);		
-					$('main').load(_jMenu[0].load);
-					$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+						$('body').removeClass();
+						$('body').addClass(_jMenu[0].class);
+						$('main').data('index',0);		
+						$('main').load(_jMenu[0].load);
+						$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+				}
+			} else {
+			
+				if ($('#wrapper2').hasClass('left')) {			
+					_fSetBack();							
+				} else {
+					
+					if ($('#wrapperM').hasClass('right')) {
+				 		_fSetBack();
+					} else if ($('body').hasClass('content-home')) {							
+						exitApp();				
+					} else {
+						$('body').removeClass();
+						$('body').addClass(_jMenu[0].class);
+						$('main').data('index',0);		
+						$('main').load(_jMenu[0].load);
+						$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+					}
+					
 				}
 				
-			}
+			}	
+			
+			
 										
 		}, false);
 		

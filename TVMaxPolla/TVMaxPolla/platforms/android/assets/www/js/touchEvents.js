@@ -90,6 +90,7 @@
 	
 	//POLLA JS
 	$(document).on('touchend','.add', function(e) {
+		preventBadClick(e);	
 		var _tGoal = $(this).parent().data('goal');
 		_tGoal = parseInt(_tGoal + 1);
 		$(this).parent().data('goal',_tGoal);
@@ -97,6 +98,7 @@
 	});
 	
 	$(document).on('touchend','.sub', function(e) {
+		preventBadClick(e);	
 		var _tGoal = $(this).parent().data('goal');
 		_tGoal = parseInt(_tGoal - 1);					
 		if (_tGoal <= 0)  _tGoal = 0;					
@@ -128,13 +130,6 @@
 			$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
 			myScroll.scrollTo(0,0,0);	
 		}
-		
-											
-		
-		
-								
-			
-
 	});
 	
 	
@@ -191,7 +186,7 @@
 	//TEAMS JS
 	/*$(document).on('click','.team', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
-	});
+	});*/
 	
 	//GENERAL
 	function preventBadClick(e){
