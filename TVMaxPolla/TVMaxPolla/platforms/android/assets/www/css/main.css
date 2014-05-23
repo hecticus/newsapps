@@ -36,7 +36,7 @@
 
 
 	#wrapper, #wrapper2, #wrapperM { 
-		position: absolute;z-index: 1; top: 50px; bottom: 0; left: 0; width: 100%; background: #fff;
+		position: absolute; z-index: 1; top: 50px; bottom: 0; left: 0; width: 100%; background: #fff;
 	}
 	
 	.scroller {background-color: #ffffff;}
@@ -546,6 +546,68 @@
 	body.content-teams .row div.team span:last-child {
 		margin-left: 5px;
 	}
+
+	/*calendario*/
+
+	body.content-players DataContent {padding: 0; margin: 0; border: 0; }
+	body.content-players DataContent {padding-top: 5px;}
+	
+	body.content-players DataContent block[class="Career Data"] hl2,
+	body.content-players DataContent block[class="Biography"] hl2 {
+		font-size: 1.6em; 
+		font-weight: bold; 
+		margin-top: 5px;
+		margin-bottom: 5px;
+		color:#000000;		
+	}
+	
+	body.content-players block[class="Personal Data"] p,
+	body.content-players block[class="Career Data"] p,
+	body.content-players block[class="Biography"]  p {
+		font-size: 1em;
+		color:gray;
+	}
+	
+	body.content-players block[class="Personal Data"] dt,
+	body.content-players block[class="Career Data"] dt {
+		font-size: 1.4em;
+
+	}
+	
+	body.content-players block[class="Career Data"] ul li:first-child {
+		font-size: 1.2em;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		color:#000000;	
+	}
+	
+
+
+
+	body.content-teams DataContent {padding: 0; margin: 0; border: 0; }
+	body.content-teams dt {font-size: 1.4em; color:#000000;}
+	body.content-teams dd p { font-size: 1.2em; color:gray;}
+
+	body.content-stadiums DataContent {padding: 0; margin: 0; border: 0; }
+	body.content-stadiums dt {font-size: 1.4em; color:#000000;}
+	body.content-stadiums dd p { font-size: 1.2em; color:gray;}
+
+	body.content-history DataContent {padding: 0; margin: 0; border: 0; }
+	
+	body.content-history hl2 {font-size: 1.6em; color:#000000;}
+	body.content-history p {font-size: 1.2em; color:gray;}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

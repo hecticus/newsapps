@@ -14,7 +14,8 @@
 		$.each(_jHistory, function(_index,_history) {
 			if (_history.url == _url) {
 				_html += '<div class="col-md-12" >';
-				_html += _fGetImage({src:_history.image,  caption: _history.title});				    
+				_html += '<h2>' + _history.title + '</h2>';
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _history.image + '" alt="' +_history.image + '" style="width:auto; height:25%;" />';			    
 			 	_html += _history.datacontent;
 			 	_html += '</div>';			
 			}
@@ -46,7 +47,6 @@
 			var _date = _history.title.substring((a+1), b);
 			var _title =  _history.title.substring(0, a);
 			
-			_html += '<span class="icon-historia_menu"></span>';
 			_html += '<span>' + _title + '</span>';
 			//_html += '<span style="font-style:italic; color:#4D4D4D; ">' + _date + '</span>';
 		 	_html += '</div>';

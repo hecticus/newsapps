@@ -65,6 +65,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
 
 	};
 
@@ -89,10 +90,7 @@
 
 
 	$(document).on('click','.news', function(e) {	
-		if (_tap) _fRenderDataContent($(this).data('item'));
-		setTimeout(function(){
-			_tap = true;
-		}, 200);		
+		_fRenderDataContent($(this).data('item'));		
 	});
 
 

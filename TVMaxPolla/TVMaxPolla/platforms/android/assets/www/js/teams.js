@@ -16,9 +16,9 @@
 		$.each(_jTeams, function(_index,_team) {			
 			if (_team.gene == _url) {							
 				_html += '<div class="col-md-12" >';
-				_html += _team.title;				    
+				_html += '<h2>' + _team.title + '</h2>';
 			 	_html += _team.datacontent.fiche;
-			 	_html += '</div>';			
+			 	_html += '</div>';
 			}
 		});
 
@@ -43,7 +43,6 @@
 	
 		$.each(_jTeams, function(_index,_team) {	
 			_html += '<div class="col-md-12 team" data-gene="' + encodeURI(_team.gene) + '" >';	
-			_html += '<span class="icon-equipos_menu"></span>';
 			_html += '<span>' + _team.title + '</span>';				    		
 		 	_html += '</div>';		
 		});
@@ -56,7 +55,7 @@
 	};
 
 
-	$(document).on('tap','.team', function(e) {	
+	$(document).on('click','.team', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
 	});
 	

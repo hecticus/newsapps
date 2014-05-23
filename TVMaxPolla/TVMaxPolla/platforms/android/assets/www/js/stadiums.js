@@ -1,7 +1,7 @@
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
+			
 		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
 		_html += '</figure>';
 		return _html;
@@ -14,7 +14,8 @@
 		$.each(_jStadiums, function(_index,_stadium) {			
 			if (_stadium.url == _url) {							
 				_html += '<div class="col-md-12" >';
-				_html += _fGetImage({src:_stadium.image,  caption: _stadium.title});					    
+				_html += '<h2>' + _stadium.title + '</h2>';
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _stadium.image + '" alt="' +_stadium.title + '" style="width:auto; height:25%;"  />';						    
 			 	_html += _stadium.datacontent;
 			 	_html += '</div>';			
 			}
@@ -41,7 +42,6 @@
 		
 		$.each(_jStadiums, function(_index,_stadium) {	
 			_html += '<div class="col-md-12 stadium" data-url="' + encodeURI(_stadium.url) + '">';
-			_html += '<span class="icon-estadios_menu"></span>';
 			_html += '<span>' + _stadium.title + '</span>';				    		
 		 	_html += '</div>';		
 		});

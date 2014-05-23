@@ -139,7 +139,7 @@
 			var _jMatch = _fGetJsonMatchDate(((_i < 10 ) ? '0' + _i.toString() : _i.toString()) + '/' + _month);
 						
 			if (_jMatch) {
-				_html += '<td class="match" data-date="' + _date + '" ><span  style="font-weight:bold;">' + _i.toString() +'</span></td>';
+				_html += '<td class="match" data-date="' + _date + '" ><span style="color:red;">' + _i.toString() +'</span></td>';
 			} else {
 				_html += '<td><span>' + _i.toString() +'</span></td>';
 			}

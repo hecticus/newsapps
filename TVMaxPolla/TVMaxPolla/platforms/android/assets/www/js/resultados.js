@@ -1,0 +1,1 @@
+_fRenderGetInitTime('icon-resultados');
