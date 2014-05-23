@@ -142,11 +142,12 @@ $.fPostAjaXJSON = function(_url, _data) {
 	try {				
 	  	return $.ajax({
 			url: _url,		
-			data: _data,	
-			type: 'POST',	            		
+			data: JSON.stringify(_data),	
+			type: 'POST',
+			contentType: "application/json; charset=utf-8",
 			dataType: 'json',
 			beforeSend : function () {
-				_fGetLoading();
+				//_fGetLoading();
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
@@ -193,7 +194,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 		/*sec = (secondsRound == 1) ? " segundo" : " segundos";
 		min = (minutesRound == 1) ? " minuto" : " minutos ";
 		hr = (hoursRound == 1) ? " hora" : " horas ";
-		dy = (daysRound == 1) ? " día" : " d&iacute;as ";*/
+		dy = (daysRound == 1) ? " dï¿½a" : " d&iacute;as ";*/
 
 		sec = "ss";
 		min = "mm";

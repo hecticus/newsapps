@@ -275,10 +275,10 @@
 		});
 
 
-		alert(JSON.stringify(_jSave));
+		//alert(JSON.stringify(_jSave));
 		//console.log(JSON.stringify(_jSave));
 		
-		_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/save',JSON.stringify(_jSave));	
+		_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/save',_jSave);	
 		if (_oAjax) {
 		
 			_oAjax.always(function () {				
