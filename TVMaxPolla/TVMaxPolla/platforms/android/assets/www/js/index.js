@@ -237,6 +237,9 @@ function initPage(){
 	
 
 	$(document).on('click','.menu', function(e) {	
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
 	   	if ($('#wrapperM').hasClass('right')) {
 			$('#wrapperM').attr('class','page transition left');	
 		} else {
@@ -245,7 +248,9 @@ function initPage(){
 	});
 
 	$(document).on('click','.load', function(e) {
-		
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
 	/*	$(document).unbind('click');
   		$(document).bind('click'); 
 		$(document).off('click');
@@ -274,7 +279,17 @@ function initPage(){
 	});
 	
 	$(document).on('click','.video', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
 		window.videoPlayer.play($(this).data('src'));
+	});
+	
+	$(document).on('click','.livetv', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
+		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
 	});
 
 }
@@ -289,14 +304,6 @@ function touchFunctions(){
 	$('#facebookLoginButton').click(function(){
         //alert("JQuery Running!");
 		login();
-	});
-	
-	//video stream button
-	$(document).on('touchend','.tv:not(.share)', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log("PASO");
-		window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
 	});
 }
 

@@ -14,7 +14,7 @@
 			
 			var myScroll;
 	  		
-			myScroll = new IScroll('#wrapper', {tap: true});
+			myScroll = new IScroll('#wrapper', {click: true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();
 				$('.group').removeClass('animated bounceIn');

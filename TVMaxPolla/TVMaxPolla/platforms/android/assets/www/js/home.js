@@ -80,9 +80,9 @@
 							Math.floor((Math.random() * _length) + 0)
 						];
 									     		
-			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[0]].image + '" alt="Estrellas"  style=" width:32%; height:' + _height + 'px; float:left;" />';
-			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[1]].image + '" alt="Estrellas"  style="width:36%; height:' + _height + 'px; float:left;" />';
-			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[2]].image + '" alt="Estrellas" style="width:33%; height:' + _height + 'px; " />';
+			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[0]].image + '" alt="Estrellas"  style=" width:33%; height:' + _height + 'px; float:left;" />';
+			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[1]].image + '" alt="Estrellas"  style="width:34%; height:' + _height + 'px; float:left;" />';
+			_html += '<img onerror="this.style.display=\'none\'" src="' + _jPlayers[_aRandom[2]].image + '" alt="Estrellas" style="width:33%; height:' + _height + 'px; float:right;" />';
 
 			
 		_html += '<figcaption>';			
