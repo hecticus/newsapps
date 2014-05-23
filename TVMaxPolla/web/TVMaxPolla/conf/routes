@@ -45,4 +45,8 @@ GET     /matchesapi/v1/phase/get/matches/all        controllers.matchesapi.Phase
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
 POST    /matchesapi/v1/prediction/get               controllers.matchesapi.PredictionController.getClientPrediction()
 
+#bets
+POST    /matchesapi/v1/bet/calculate                controllers.matchesapi.BetController.calculateBets()
+GET     /matchesapi/v1/bet/test                     controllers.matchesapi.BetController.callTest()
+
 

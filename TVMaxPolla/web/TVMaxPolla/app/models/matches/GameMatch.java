@@ -34,6 +34,9 @@ public class GameMatch extends HecticusModel{
     @OneToOne
     @JoinColumn(name = "id_match")
     public MatchResults results;
+
+    @OneToMany(mappedBy = "gameMatch")
+    private List<ClientBet> bets;
     
     
     public GameMatch(){
@@ -127,7 +130,15 @@ public class GameMatch extends HecticusModel{
     public void setVenue(Venue objVenue) {
         this.objVenue = objVenue;
     }
-    
+
+    public List<ClientBet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<ClientBet> bets) {
+        this.bets = bets;
+    }
+
     public static Model.Finder<Integer,GameMatch> finder =
             new Model.Finder<Integer, GameMatch>(Integer.class, GameMatch.class);
 
