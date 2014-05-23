@@ -5,9 +5,7 @@ import models.HecticusModel;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by sorcerer on 3/20/14.
@@ -25,6 +23,9 @@ public class Resource extends HecticusModel {
     private String res;
     private Integer type; //1 principal, 2 principal reducido, 3 secundaria
     private Integer status;
+    @ManyToOne
+    @JoinColumn(name="news_id_news")
+    private News parent;
 
     public Resource(JsonNode data) throws NewsException {
 
