@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlUpdate;
+import com.avaje.ebean.annotation.PrivateOwned;
 import exceptions.NewsException;
 import models.HecticusModel;
 import org.codehaus.jackson.JsonNode;
@@ -62,7 +63,7 @@ public class News extends HecticusModel{
     private Long pubDateFormated; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
 
     //hecticus images resources
-    @OneToMany (cascade=CascadeType.ALL)
+    @OneToMany (mappedBy = "parent" , cascade=CascadeType.ALL)
     private List<Resource> resources;
 
     public News(JsonNode data) throws UnsupportedEncodingException, NewsException {
@@ -82,7 +83,7 @@ public class News extends HecticusModel{
         if (data.has("Date")) {
             pubDate = data.get("Date").asText();
             //Limpiamos el datestring por si tiene doble espacio:
-            pubDate = pubDate.replace("  "," ");
+            pubDate = pubDate.replace("  ", " ");
             pubDateFormated = Utils.formatDateLongFromStringNew(pubDate);
         } else {
             throw new NewsException("Date faltante");
@@ -129,7 +130,7 @@ public class News extends HecticusModel{
         if (data.has("PublishingDateTime")) {
             pubTime = data.get("PublishingDateTime").asText();
             //Limpiamos el datestring por si tiene doble espacio:
-            pubTime = pubTime.replace("  "," ");
+            pubTime = pubTime.replace("  ", " ");
         } else {
             throw new NewsException("PublishingDateTime faltante");
         }
@@ -397,11 +398,9 @@ public class News extends HecticusModel{
     }
 
     public boolean existInBd(){
-        //check with externalId and crc
-        News result = finder.where().or(
-                Expr.eq("externalId", externalId),
-                Expr.eq("crc", crc)
-        ).findUnique();
+        //check with externalId
+        News result = finder.where().eq("externalId", externalId)
+        .findUnique();
         if (result != null){
             return true;
         }
@@ -416,6 +415,41 @@ public class News extends HecticusModel{
         return finder.where().eq("push_notifications", true).eq("generation_time", generationDate).orderBy("pub_date_formated").setMaxRows(1).findRowCount();
     }
 
+    public News getExistingNews()  {
+        return finder.where().eq("external_id", externalId).findUnique();
+    }
+
+    public static void batchInsertUpdate(ArrayList<News> list) throws Exception {
+        EbeanServer server = Ebean.getServer("default");
+        try {
+            server.beginTransaction();
+            for (int i = 0; i < list.size(); i++) {
+                //if exist update or skip
+                News current = list.get(i);
+                News exist = current.getExistingNews();
+                if (exist != null) {
+                    //update
+                    //remove resources? or update status 0
+                    //update News and insert new resources
+                    current.setIdNews(exist.getIdNews());
+                    current.setInsertedTime(exist.insertedTime);
+                    current.setGenerated(exist.generated);
+                    current.setGenerationTime(exist.generationTime);
+                    if (current.getIdCategory()!= null && current.getIdCategory() == 0){
+                        current.setIdCategory(exist.idCategory);
+                    }
+
+                    server.update(current);
+                }
+            }
+            server.commitTransaction();
+        } catch (Exception ex) {
+            server.rollbackTransaction();
+            throw ex;
+        } finally {
+            server.endTransaction();
+        }
+    }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
 

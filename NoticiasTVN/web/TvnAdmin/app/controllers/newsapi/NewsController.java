@@ -202,6 +202,40 @@ public class NewsController extends HecticusController {
         return ok(buildBasicResponse(0,"OK"));
     }
 
+    public static Result update(){
+        try {
+            ArrayList<News> toUpdate = new ArrayList<News>();
+            //get data from post
+            ObjectNode data = getJson();
+            //get data from json
+            if (data.has("news")){
+                Iterator it = data.get("news").getElements();
+                if(it == null || !it.hasNext()){
+                    return ok(buildBasicResponse(0,"no news"));
+                }
+                while (it.hasNext()){
+                    JsonNode current = (JsonNode)it.next();
+                    try {
+                        //build obj
+                        News received = new News(current);
+                        toUpdate.add(received);
+                    }catch (Exception ex){
+                        return ok(buildBasicResponse(-3,"Error: "+ex.toString()));
+                        //must continue
+                        //ex.printStackTrace();
+                    }
+                }
+                //insert
+                News.batchInsertUpdate(toUpdate);
+            }else{
+                return ok(buildBasicResponse(-2,"bad params"));
+            }
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+        return ok(buildBasicResponse(0,"OK"));
+    }
+
     public static Result delete(){
         try{
             //get date from json
