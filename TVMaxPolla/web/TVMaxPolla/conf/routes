@@ -63,4 +63,5 @@ GET     /tvmaxfeeds/goals/get                       controllers.tvmaxfeeds.GoalC
 POST    /tvmaxfeeds/goals/insert                    controllers.tvmaxfeeds.GoalController.insert()
 
 GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
+GET     /tvmaxfeeds/calendar/getAll                 controllers.tvmaxfeeds.MatchController.getAllMatchs()
 POST    /tvmaxfeeds/calendar/insert                 controllers.tvmaxfeeds.MatchController.insert()

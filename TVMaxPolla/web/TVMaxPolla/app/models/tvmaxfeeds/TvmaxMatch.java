@@ -106,6 +106,10 @@ public class TvmaxMatch extends HecticusModel {
         return finder.orderBy("external_id desc").findPagingList(pageSize).getPage(page).getList();
     }
 
+    public static List<TvmaxMatch> getAll(){
+        return finder.orderBy("external_id desc").findList();
+    }
+
     public static List<TvmaxMatch> getAllLimited(){
         return finder.orderBy("external_id desc").setMaxRows(MAX_SIZE).findList();
     }

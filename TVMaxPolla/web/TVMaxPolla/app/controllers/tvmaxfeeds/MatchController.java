@@ -61,4 +61,23 @@ public class MatchController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
+
+    public static Result getAllMatchs(){
+        try{
+            List<TvmaxMatch> fullList = TvmaxMatch.getAll();
+            ArrayList data = new ArrayList();
+            if (fullList != null && !fullList.isEmpty()){
+                //i got data
+                for (int i = 0; i < fullList.size(); i++){
+                    data.add(fullList.get(i).toJson());
+                }
+            }
+            //build response
+            ObjectNode response;
+            response = tvmaxResponse("partidos_mundial",data);
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
 }
