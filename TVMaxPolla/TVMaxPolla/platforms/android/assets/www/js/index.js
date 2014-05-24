@@ -34,20 +34,22 @@ var _oAjax;
 var _tap = false;
 
 var _jMenu=[
+
 	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
-  	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
-  	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	
-  	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
-  	{index:4,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	
-  	{index:5,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},  	
-  	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
-  	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},  	
-  	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
-  	{index:9,class:'content-players',title:'Biograf&iacute;as',load:'players.html', glyphicon:'icon-biografia_menu', json:false},
-  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
-  	{index:11,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
-  	{index:12,class:'content-mam',title:'MaM',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
-  	{index:13,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false} 	   
+	{index:1,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
+	{index:2,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
+	{index:3,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},	
+  	{index:4,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
+  	{index:5,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	 
+  	{index:6,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
+  	{index:7,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
+  	{index:8,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},  	  
+  	{index:9,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
+  	{index:10,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
+  	{index:11,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
+  	{index:12,class:'content-players',title:'Leyendas del F&uacute;tbol',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
+  	{index:13,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
+  	{index:14,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false} 	   
 ];
 
 
@@ -73,6 +75,7 @@ var app = {
 				_jMenu[0].json = _json.noticias_mundial;						
 				$.each(_json.noticias_mundial.item, function(_index,_item) {
 					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+					var _img = $('img').attr('src',_item.imagen);
 					return false;
 				});				
 			});
@@ -96,6 +99,9 @@ var app = {
 	    			//_player.xml = _xml;
 	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
+					
+					var _img = $('img').attr('src',_player.image);
+
 					
 				});
 			}
@@ -121,7 +127,11 @@ var app = {
 					_stadium.title = _title;
 	    			//_stadium.xml = _xml;
 	    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
-					_stadium.datacontent =  _data;						
+					_stadium.datacontent =  _data;
+											
+					var _img = $('img').attr('src',_stadium.image);
+					 
+
 						
 				});
 			}		
@@ -149,7 +159,7 @@ var app = {
 	    			//_team.xml.fiche = _xml;
 	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
 					_team.datacontent.fiche = _data;							
-
+					var _img = $('img').attr('src', _team.image);
 	
 				});
 			}
@@ -175,7 +185,8 @@ var app = {
 	    			//_history.xml = _xml;
 	    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
 					_history.datacontent =  _data;							
-		
+					var _img = $('img').attr('src', _history.image);
+					
 				});
 			}		
 		});
@@ -186,12 +197,8 @@ var app = {
 			if ($('body').hasClass('content-polla')) {				
 				if ($('#wrapper2').hasClass('left')) {
 					$('#wrapper2').attr('class','page transition right');
-				} else {
-						$('body').removeClass();
-						$('body').addClass(_jMenu[0].class);
-						$('main').data('index',0);		
-						$('main').load(_jMenu[0].load);
-						$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+				} else {				
+					_fSetLoadInit();
 				}
 			} else {
 			
@@ -203,14 +210,10 @@ var app = {
 				 		_fSetBack();
 					} else if ($('body').hasClass('content-home')) {							
 						exitApp();				
-					} else {
-						$('body').removeClass();
-						$('body').addClass(_jMenu[0].class);
-						$('main').data('index',0);		
-						$('main').load(_jMenu[0].load);
-						$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+					} else {						
+						_fSetLoadInit();
 					}
-					
+										
 				}
 				
 			}	
@@ -244,12 +247,8 @@ function initPage(){
 
 	$('#wrapperM .scroller .container').html(_html);
 	
-	
-	$('body').removeClass();
-	$('body').addClass(_jMenu[0].class);
-	$('main').data('index',0);		
-	$('main').load(_jMenu[0].load);
-	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+	_fSetLoadInit();
+	 
 
 	//touchFunctions();
 	//initFacebookManager();

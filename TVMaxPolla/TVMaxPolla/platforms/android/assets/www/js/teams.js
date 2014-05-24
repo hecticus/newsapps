@@ -1,13 +1,3 @@
-	
-	var _fGetImage = function(_image) {
-		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
-		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
-		_html += '</figure>';
-		return _html;
-	};
-
-
 
 	var _fRenderDataContent = function(_url) {
 	
@@ -16,16 +6,13 @@
 		$.each(_jTeams, function(_index,_team) {			
 			if (_team.gene == _url) {							
 				_html += '<div class="col-md-12" >';
-				_html += '<img onerror="this.style.display=\'none\'" src="' + _team.image + '" alt="' +_team.title + '" style="width:100%; height:auto; marging-top:5px;  marging-bottom:5px; margin-top:5px;"  />';
+				_html += '<img id="teampreview"  onerror="this.style.display=\'none\'" src="' + _team.image + '" alt="' +_team.title + '" style="width:100%; height:auto; marging-top:5px;  marging-bottom:5px; margin-top:5px;"  />';
 				_html += '<h2>' + _team.title + '</h2>';
 			 	_html += _team.datacontent.fiche;
 			 	_html += '</div>';
 			}
 		});
 
-		/*_html += '<div class="col-md-12" >';
-		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';*/
 	
 		_html += '</div>';
 		

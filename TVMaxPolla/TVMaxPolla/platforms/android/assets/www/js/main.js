@@ -64,9 +64,19 @@ var _fGetFormatDate = function(_date) {
 	return _year + ' ' + _time[0] + ':' + _time[1] + ((_time[0] > 12) ? ' pm' : ' am');
 };
 
-
-var _fSetBack = function() {	
-
+var _fSetLoadInit = function() {
+	clearTimeout(_mTimeout);
+	$('body').removeClass();
+	$('body').addClass(_jMenu[0].class);
+	$('main').data('index',0);		
+	$('main').load(_jMenu[0].load);
+	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+};
+	
+	
+var _fSetBack = function() {
+		
+	clearTimeout(_mTimeout);
 	$('.share').addClass('hidden');
 	$('.share').removeAttr('onclick');
 				
@@ -74,7 +84,7 @@ var _fSetBack = function() {
 	$('#wrapper2 .scroller .container').empty();			
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-
+	
 };
 
 

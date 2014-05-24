@@ -623,12 +623,12 @@
 
 	body.content-stadiums DataContent {padding: 0; margin: 0; border: 0; }
 	body.content-stadiums dt {font-size: 1.4em; color:#000000;}
-	body.content-stadiums dd p { font-size: 1.2em; color:gray;}
+	body.content-stadiums dd p { font-size: 1em; color:gray;}
 
 	body.content-history DataContent {padding: 0; margin: 0; border: 0; }
 	
 	body.content-history hl2 {font-size: 1.6em; color:#000000;}
-	body.content-history p {font-size: 1.2em; color:gray;}
+	body.content-history p {font-size: 1em; color:gray;}
 
 
 

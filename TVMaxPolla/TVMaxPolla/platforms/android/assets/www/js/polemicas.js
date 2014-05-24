@@ -1,7 +1,10 @@
+	
+	var _height =  parseInt(($(window).height() * 40)/100);
 
 	var _fGetImage = function(_image) {
-		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
+		
+		var _html = '<figure style="background:#E6E6E6;">';					     		
+		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '" style="width:100%; height:' + _height + 'px;"  />';
 		
 		if (_image.caption) {
 			
@@ -54,6 +57,7 @@
 		_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/polemicas_mundial.php',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
+				_jMenu[_iIndex].json = _json.polemicas_mundial;	
 				_jGet = _json.polemicas_mundial;		
 				_fRenderInit();
 			});

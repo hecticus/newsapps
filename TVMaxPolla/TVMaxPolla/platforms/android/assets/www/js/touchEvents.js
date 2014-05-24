@@ -8,6 +8,7 @@
 		myScroll.scrollTo(0,0,0);
 		myScroll2.scrollTo(0,0,0);		
 	});
+	
 	$(document).on('click','.match', function(e) {	
 		preventBadClick(e);
 		if ($(this).data('phase')) {
@@ -40,6 +41,9 @@
 		} else {
 			$('#wrapperM').attr('class','page transition right');
 		}
+		myScrollM.scrollTo(0,0,0);
+		
+		
 	});
 	$(document).on('click','.load', function(e) {
 		preventBadClick(e);

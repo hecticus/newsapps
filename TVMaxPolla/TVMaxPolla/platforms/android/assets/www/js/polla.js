@@ -240,13 +240,6 @@
 		});
 	}
 
-	
-
-
-
-
-
-
 	//POLLA JS
 	$(document).on('touchend','.save', function() {
 		

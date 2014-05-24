@@ -15,15 +15,11 @@
 			if (_history.url == _url) {
 				_html += '<div class="col-md-12" >';
 				_html += '<h2>' + _history.title + '</h2>';				
-				_html += '<img onerror="this.style.display=\'none\'" src="' + _history.image + '" alt="' +_history.image + '" style="width:auto; height:25%; marging-top:5px;  marging-bottom:5px;" />';			    
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _history.image + '" alt="' +_history.image + '" style="width:45%; height: 150px; float:left; margin-right:5px" />';			    
 			 	_html += _history.datacontent;
 			 	_html += '</div>';			
 			}
 		});
-
-		/*_html += '<div class="col-md-12" >';
-		_html += '<span style="font-weight:bold;">' +_copyright + '</span>';
-		_html += '</div>';*/
 	
 		_html += '</div>';
 		
