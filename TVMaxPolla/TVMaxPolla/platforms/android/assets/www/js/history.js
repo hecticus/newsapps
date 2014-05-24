@@ -15,7 +15,7 @@
 			if (_history.url == _url) {
 				_html += '<div class="col-md-12" >';
 				_html += '<h2>' + _history.title + '</h2>';				
-				_html += '<img onerror="this.style.display=\'none\'" src="' + _history.image + '" alt="' +_history.image + '" style="width:auto; height:25%;" />';			    
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _history.image + '" alt="' +_history.image + '" style="width:auto; height:25%; marging-top:5px;  marging-bottom:5px;" />';			    
 			 	_html += _history.datacontent;
 			 	_html += '</div>';			
 			}
@@ -30,6 +30,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
 		myScroll2.scrollTo(0,0,0);
 	};		
 	
