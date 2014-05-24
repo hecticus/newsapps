@@ -83,6 +83,6 @@ public class ClientPrediction extends HecticusModel {
     }
 
     public static List<ClientPrediction> getAllPaged(int pageSize, int page){
-        return finder.orderBy("id_client desc").findPagingList(pageSize).getPage(page).getList();
+        return finder.orderBy("id_client asc").findPagingList(pageSize).getPage(page).getList();
     }
 }
