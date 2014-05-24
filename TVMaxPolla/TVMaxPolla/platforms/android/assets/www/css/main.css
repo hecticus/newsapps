@@ -549,7 +549,7 @@
 	body.content-stadiums .row div.stadium,
 	body.content-history .row div.history,
 	body.content-players .row div.player, 	 
-	body.content-teams .row div.team {
+	body.content-teams .row div.teams {
 		height: 40px; 
 		line-height: 40px; 
 		font-size: 1.2em; 
@@ -560,7 +560,7 @@
 	body.content-stadiums .row div.stadium:nth-child(even),
 	body.content-history .row div.history:nth-child(even), 
 	body.content-players .row div.player:nth-child(even), 
-	body.content-teams .row div.team:nth-child(even) { 
+	body.content-teams .row div.teams:nth-child(even) { 
 		background:#E6E6E6; 
 	}
 	
@@ -568,7 +568,7 @@
 	body.content-stadiums .row div.stadium:nth-child(odd),
 	body.content-history .row div.history:nth-child(odd),   
 	body.content-players .row div.player:nth-child(odd),
-	body.content-teams .row div.team:nth-child(odd) {
+	body.content-teams .row div.teams:nth-child(odd) {
 		background:#FFFFFF; 
 	}
 	
@@ -576,7 +576,7 @@
 	body.content-stadiums .row div.stadium span:last-child,
 	body.content-history .row div.history span:last-child,
 	body.content-players .row div.player span:last-child,
-	body.content-teams .row div.team span:last-child {
+	body.content-teams .row div.teams span:last-child {
 		margin-left: 5px;
 	}
 

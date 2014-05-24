@@ -150,7 +150,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
-			//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
+			alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
 			_fGetLoadingError();
 			return false;
 		});

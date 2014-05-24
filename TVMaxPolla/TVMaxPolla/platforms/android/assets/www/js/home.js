@@ -2,7 +2,7 @@
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '" style="width:100%; height:auto" />';		
+		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '" style="width:100%; height:' + _height + 'px; " />';		
 		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
 		_html += '</figure>';
 		return _html;

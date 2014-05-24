@@ -67,7 +67,7 @@ var app = {
     onDeviceReady: function() {
     	
     	
-    	/*_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[0].json = _json.noticias_mundial;						
@@ -76,7 +76,7 @@ var app = {
 					return false;
 				});				
 			});
-		}*/
+		}
     	    	
     	$.each(_jPlayers, function(_index,_player) {
 			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);

@@ -184,9 +184,9 @@
 	});
 	
 	//TEAMS JS
-	/*$(document).on('click','.team', function(e) {	
+	$(document).on('click','.teams', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
-	});*/
+	});
 	
 	//GENERAL
 	function preventBadClick(e){

@@ -235,7 +235,6 @@
 	_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			console.log("HTTP Complete");
 			_jPrediction = _json;		
 			_fRenderPrediction();
 		});
@@ -252,7 +251,7 @@
 	$(document).on('touchend','.save', function() {
 		
 		 
-		var _this = $(this).html(_fGetButton('LOADING...'));
+		var _this = $('footer .container row .save span').html('LOADING...');
 		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
 		var _phase = $('.phase:visible').data('phase');
 
@@ -276,14 +275,14 @@
 		});
 
 
-		//alert(JSON.stringify(_jSave));
+		alert(JSON.stringify(_jSave));
 		//console.log(JSON.stringify(_jSave));
 		
 		_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/save',JSON.stringify(_jSave));	
 		if (_oAjax) {
 		
-			_oAjax.always(function () {
-				_this.html('<span style="font-size:1.2em;">GUARDAR</span>');	
+			_oAjax.always(function () {				
+				_this.html('GUARDAR');	
 			});	
 		
 			_oAjax.done(function(_msg) {
@@ -294,12 +293,12 @@
 				}
 			});
 			
-			_oAjax.fail(function() {
-				_this.html('<span style="font-size:1.2em;">ERROR</span>');
+			_oAjax.fail(function() {				
+				_this.html('ERROR');
 			});	
 			
-		} else {
-			_this.html('<span style="font-size:1.2em;">GUARDAR</span>');
+		} else {			
+			_this.html('GUARDAR');
 		}
 
 	});
