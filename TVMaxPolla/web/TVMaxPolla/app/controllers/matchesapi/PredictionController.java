@@ -122,31 +122,41 @@ public class PredictionController extends HecticusController {
         }
     }
 
-    public static Result convertOldDataToNewOne(){
+    public static Result convertOldDataToNewOne(int page, int size){
         try {
             ArrayList data = new ArrayList();
-            ObjectNode jsonInfo = getJson();
+            /*ObjectNode jsonInfo = getJson();
             long idClient = -1;
             long idClientPrediction = -1;
             if(jsonInfo.has("idClient"))idClient = jsonInfo.get("idClient").asLong();
-            if(jsonInfo.has("idPrediction"))idClientPrediction = jsonInfo.get("idPrediction").asLong();
-            if(idClient != -1 || idClientPrediction != -1){
-                ClientPrediction prediction = null;
-                if(idClient != -1){
-                    prediction = ClientPrediction.getClientPrediction(idClient);
-                }else{
-                    prediction = ClientPrediction.getPrediction(idClientPrediction);
-                }
+            if(jsonInfo.has("idPrediction"))idClientPrediction = jsonInfo.get("idPrediction").asLong();*/
+            List<ClientPrediction> allpredictions = ClientPrediction.getAllPaged(size,page);
+            for(int i=0;i<allpredictions.size();i++){
+                ClientPrediction prediction = allpredictions.get(i);
                 convertClientPredictionToBet(prediction);
-                //build response
-                ObjectNode response = buildBasicResponse(0, "ok");
-                return ok(response);
-            }else{
-                return badRequest(buildBasicResponse(1, "parametros incorrectos para la conversion"));
-            } 
+
+                /*if(idClient != -1 || idClientPrediction != -1){
+                    ClientPrediction prediction = null;
+                    if(idClient != -1){
+                        prediction = ClientPrediction.getClientPrediction(idClient);
+                    }else{
+                        prediction = ClientPrediction.getPrediction(idClientPrediction);
+                    }
+                    convertClientPredictionToBet(prediction);
+                    //build response
+                    ObjectNode response = buildBasicResponse(0, "ok");
+                    return ok(response);
+                }else{
+                    return badRequest(buildBasicResponse(1, "parametros incorrectos para la conversion"));
+                }*/
+            }
         }catch(Exception ex){
             return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
         }
+
+        //build response
+        ObjectNode response = buildBasicResponse(0, "ok");
+        return ok(response);
     }
 
     public static void convertClientPredictionToBet(ClientPrediction prediction) throws UnsupportedEncodingException {

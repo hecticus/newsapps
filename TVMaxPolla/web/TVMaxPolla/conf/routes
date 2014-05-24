@@ -46,7 +46,8 @@ POST    /matchesapi/v1/clientbet/get/current    controllers.matchesapi.ClientBet
 POST    /matchesapi/v1/clientbet/save                      controllers.matchesapi.ClientBetController.storeClientBet()
 
 #TEMPORAL TO FIX OLD
-POST    /matchesapi/v1/predictions/convert/one      controllers.matchesapi.PredictionController.convertOldDataToNewOne()
+#POST    /matchesapi/v1/predictions/convert/one      controllers.matchesapi.PredictionController.convertOldDataToNewOne()
+GET    /matchesapi/v1/predictions/convert/all/:page/:size      controllers.matchesapi.PredictionController.convertOldDataToNewOne(page:Integer, size:Integer)
 
 #predictions
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Created by chrirod on 4/11/14.
@@ -75,5 +76,13 @@ public class ClientPrediction extends HecticusModel {
 
     public static ClientPrediction getClientPrediction(long idClient){
         return finder.where().eq("id_client", idClient).findUnique();
+    }
+
+    public static List<ClientPrediction> getAllPrediction(){
+        return finder.all();
+    }
+
+    public static List<ClientPrediction> getAllPaged(int pageSize, int page){
+        return finder.orderBy("id_client desc").findPagingList(pageSize).getPage(page).getList();
     }
 }
