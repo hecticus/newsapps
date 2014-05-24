@@ -25,7 +25,7 @@
 	}
 	
 	th, tr,td {text-align: center;}
-
+	body:not(.content-init) #splash {display: none;}
 	
 	
 	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.6em;}
