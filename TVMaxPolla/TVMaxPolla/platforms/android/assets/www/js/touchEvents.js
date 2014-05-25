@@ -92,7 +92,89 @@
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
+
 	//POLLA JS
+	$(document).on('tap','.content-polla-menu[data-group]', function(e) {	
+		preventBadClick(e);	
+		var _group = $(this).data('group');
+		$('.group').addClass('hidden');		
+		$('.group[data-group="'+_group+'"]').removeClass('hidden');
+		$('#wrapper2').attr('class','page transition right');
+	});
+	
+	$(document).on('tap','.content-polla-menu[data-group]', function(e) {	
+		preventBadClick(e);	
+		var _group = $(this).data('group');
+		$('.group').addClass('hidden');		
+		$('.group[data-group="'+_group+'"]').removeClass('hidden');
+		$('#wrapper2').attr('class','page transition right');
+	});
+	
+	$(document).on('click','.menu-group', function(e) {	
+		preventBadClick(e);
+		$('#wrapper2').attr('class','page transition left');
+		myScroll2.scrollTo(0,0,0);
+	});
+
+
+	$(document).on('touchend','.save', function() {
+		
+		 
+		
+		$('#polla-save').html('LOADING...');
+		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
+		var _phase = $('.phase:visible').data('phase');
+
+		$('.row.phase:visible .group .game').each(function(index) {	
+			var _goal = {team_a:0,team_b:0};
+			_goal.team_a = $(this).find('.score .team.team-a .goal').data('goal');
+			_goal.team_b = $(this).find('.score .team.team-b .goal').data('goal');	
+			var _game =  $(this).data('game');
+			//revisamos quien fue el ganador y ajustar los datos
+			var draw = false;
+			var team_a_id = $(this).find('.score .team.team-a').data('team');
+			var team_b_id = $(this).find('.score .team.team-b').data('team');
+			if(_goal.team_a == _goal.team_b && _phase == 1){
+				draw=true;
+			}
+			if(_goal.team_a < _goal.team_b){
+				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_b_id, 'id_team_loser':team_a_id, 'score_winner': _goal.team_b,'score_loser': _goal.team_a, 'draw':draw});
+			}else{
+				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_a_id, 'id_team_loser':team_b_id, 'score_winner': _goal.team_a,'score_loser': _goal.team_b, 'draw':draw});
+			}			
+		});
+
+
+		//alert(JSON.stringify(_jSave));
+		//console.log(JSON.stringify(_jSave));
+		
+		_oAjax = $.fPostAjaXJSONSave(_basePollaURL+'/matchesapi/v1/clientbet/save',_jSave);	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {				
+				//_this.html('GUARDAR');
+				$('#polla-save').html('GUARDAR');	
+			});	
+		
+			_oAjax.done(function(_msg) {
+				if (_msg.error==0) {
+					alert('Bien! Tu pronostico se ha guardado con exito.');
+				} else {
+					alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
+				}
+			});
+			
+			_oAjax.fail(function() {				
+				$('#polla-save').html('ERROR');	
+			});	
+			
+		} else {			
+			$('#polla-save').html('GUARDAR');
+		}
+
+	});
+
+
 	$(document).on('touchend','.add', function(e) {
 		preventBadClick(e);	
 		var _tGoal = $(this).parent().data('goal');
@@ -136,6 +218,12 @@
 		}
 	});
 	
+	$(document).on('tap','.row.group', function(e) {
+		preventBadClick(e);				
+		$('.goal').removeClass('gol');
+		$('.add, .sub').addClass('hidden');
+
+	});
 	
 	$(document).on('tap','.flag', function(e) {
 		preventBadClick(e);				

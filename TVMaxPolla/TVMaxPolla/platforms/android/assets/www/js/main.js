@@ -77,11 +77,12 @@ var _fSetLoadInit = function() {
 var _fSetBack = function() {
 		
 	clearTimeout(_mTimeout);
-	$('.share').addClass('hidden');
-	$('.share').removeAttr('onclick');
+	$('.share, .menu-group').addClass('hidden');
+	$('.share, .menu-group').removeAttr('onclick');
 				
 	$('#wrapperM').attr('class','page transition left');	
-	$('#wrapper2 .scroller .container').empty();			
+	$('#wrapper2 .scroller .container').empty();
+	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
 	
@@ -147,7 +148,7 @@ $.fGetAjaXJSON = function(_url, _dataType, _contentType, _async) {
 };
 
 
-$.fPostAjaXJSON = function(_url, _data) {
+$.fPostAjaXJSONSave = function(_url, _data) {
 	
 	try {				
 	  	return $.ajax({
@@ -158,6 +159,34 @@ $.fPostAjaXJSON = function(_url, _data) {
 			dataType: 'json',
 			beforeSend : function () {
 				//_fGetLoading();
+		}}).always(function () {
+			//always		
+		}).fail(function(jqXHR, textStatus, errorThrown) {		
+			_fGetLoadingError();
+			return false;
+		});
+		   
+	} catch (e) {
+		// statements to handle any exceptions
+		// pass exception object to error handler
+		// alert(e);
+		_fGetLoadingError();
+		return false;
+	}
+	
+};
+
+$.fPostAjaXJSON = function(_url, _data) {
+	
+	try {				
+	  	return $.ajax({
+			url: _url,		
+			data: JSON.stringify(_data),	
+			type: 'POST',
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			beforeSend : function () {
+				_fGetLoading();
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		

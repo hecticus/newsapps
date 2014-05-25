@@ -94,7 +94,7 @@
 		display: block;
 	}
 	body.content-polla #wrapper {
-		bottom: 50px;
+		bottom: 80px;
 	}
 	
 				
@@ -215,13 +215,13 @@
 	body.content-polla figure img {width: 67px; height: 45px;}
 	body.content-polla figcaption {text-align: center; line-height:20px; position:relative;	}
 	
-	body.content-polla .goal {text-align: center; line-height:75px;  font-size: 1.4em; font-weight: bold;}
+	body.content-polla .goal {text-align: center; height:60px; line-height:60px;  font-size: 1.4em; font-weight: bold;}
 	body.content-polla .row.venue div { background:#ffffff; text-align:center; }
 	body.content-polla span {font-size: 0.9em;}
 
 	body.content-polla h3 {text-align: center; font-size: 1.6em; padding: 0; margin: 0; text-transform: uppercase;}
-	body.content-polla .gol {position: absolute;  width:100%; top:-20px; background-color: yellow; z-index: 10; overflow-y: visible; }
-	body.content-polla .add, .sub { display: block; height:20px line-height:20px; font-size:1.6em; font-weight: bold;   }
+	body.content-polla .gol {position: absolute;  width:100%; top:-20px;  height:120px; line-height:40px;  background-color: yellow; z-index: 10; overflow-y: visible; }
+	body.content-polla .add, body.content-polla .sub { display: block; height:10px line-height:10px; font-size:1.6em; font-weight: bold;   }
 	body.content-polla .add.hidden, body.content-polla .sub.hidden {
 		height:0px
 		line-height:0px;
@@ -545,6 +545,7 @@
 	
 	/*calendario*/
 	
+	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
 	body.content-goles .row div.video,
 	body.content-stadiums .row div.stadium,
 	body.content-history .row div.history,
@@ -556,6 +557,7 @@
 		color:#4D4D4D;
 	}
 	
+	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
 	body.content-goles .row div.video:nth-child(even),
 	body.content-stadiums .row div.stadium:nth-child(even),
 	body.content-history .row div.history:nth-child(even), 
@@ -564,6 +566,7 @@
 		background:#E6E6E6; 
 	}
 	
+	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(odd),
 	body.content-goles .row div.video:nth-child(odd),
 	body.content-stadiums .row div.stadium:nth-child(odd),
 	body.content-history .row div.history:nth-child(odd),   
