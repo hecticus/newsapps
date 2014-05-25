@@ -42,6 +42,12 @@
                             "xml": "true",
                             "count": 1
                         }
+                    ],
+                    "AudioToolbox.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -75,6 +81,10 @@
                         {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -105,6 +115,9 @@
         },
         "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "com.hecticus.tvmaxpolla"
+        },
+        "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.tvn-2.TVMax"
         }
     },
     "dependent_plugins": {}

@@ -254,7 +254,54 @@ $.fPostAjaXJSON = function(_url, _data) {
 			_fRenderGetInitTime(_class);	
 		}, 1000);
 		
-	};			
+	};
+	
+	
+	//VERSION CONTROLLER
+	//revisamos cada 10 min por una nueva version
+	var versionInterval = window.setInterval(function(){
+		checkVersion();
+	},300000);
+	
+	var updateURL;
+	function checkVersion(){
+		//console.log("revisando version");
+		try {	
+			//var urlVersion = "http://192.168.1.128:9002/tvmax/appversion/check/1/android";
+			var version = 1;
+			var osName = "android";
+			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
+			updateURL = "";
+		  	$.ajax({
+				url : urlVersion,
+				timeout : 60000,
+				success : function(data, status) {
+					if(typeof data == "string"){
+						data = JSON.parse(data);
+					}
+					var code = data.error;
+					var response = data.response;
+					if(code == 0 && response != null){
+						var results = data.response.updateUrl;
+						//hay una nueva version y hay que llamar al dialogo para actualizar
+						if(results!= null && results.length>0){
+							updateURL = results;
+							console.log("URL "+updateURL);
+							navigator.notification.alert("Hay una nueva versión de la aplicación", goToUpdatePage, "Actualización", "Descargar");
+						}
+					}
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					console.log("error version");
+				}
+			});
+			   
+		} catch (e) {
+		}
+	};
+	function goToUpdatePage(){
+		window.open(updateURL, '_system', 'closebuttoncaption=regresar');
+	}
 		
 	
 

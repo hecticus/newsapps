@@ -230,6 +230,7 @@ var app = {
     receivedEvent: function(id) {
     	//init things
     	initPage();
+    	checkVersion();
     }
 };
 

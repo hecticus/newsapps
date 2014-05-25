@@ -47,7 +47,7 @@ POST    /matchesapi/v1/clientbet/save                      controllers.matchesap
 
 #TEMPORAL TO FIX OLD
 #POST    /matchesapi/v1/predictions/convert/one      controllers.matchesapi.PredictionController.convertOldDataToNewOne()
-GET    /matchesapi/v1/predictions/convert/all/:page/:size      controllers.matchesapi.PredictionController.convertOldDataToNewOne(page:Integer, size:Integer)
+#GET    /matchesapi/v1/predictions/convert/all/:page/:size      controllers.matchesapi.PredictionController.convertOldDataToNewOne(page:Integer, size:Integer)
 
 #predictions
 POST    /matchesapi/v1/prediction/save              controllers.matchesapi.PredictionController.storeClientPrediction()
@@ -72,3 +72,6 @@ POST    /tvmaxfeeds/goals/insert                    controllers.tvmaxfeeds.GoalC
 GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
 GET     /tvmaxfeeds/calendar/getAll                 controllers.tvmaxfeeds.MatchController.getAllMatchs()
 POST    /tvmaxfeeds/calendar/insert                 controllers.tvmaxfeeds.MatchController.insert()
+
+#APP VERSION CONTROL
+GET     /tvmax/appversion/check/:version/:os         controllers.AppVersionController.checkAppVersion(version:Integer, os:String)
