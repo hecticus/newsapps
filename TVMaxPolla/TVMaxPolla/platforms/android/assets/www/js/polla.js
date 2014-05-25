@@ -1,6 +1,7 @@
-	var _basePollaURL = "http://10.0.1.125:9009";
+	//var _basePollaURL = "http://10.0.1.125:9009";
 	//var _basePollaURL = "http://10.0.3.142:9002";
-
+	var _basePollaURL = 'http://polla.tvmax-9.com';
+	
 	var _jPrediction = [];
 	//var _iClient = 22;
 	var _iClient = 3;

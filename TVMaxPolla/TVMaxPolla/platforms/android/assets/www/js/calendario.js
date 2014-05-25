@@ -283,7 +283,7 @@
 		
 	} else {
 	
-		_oAjax = $.fGetAjaXJSON('http://10.0.1.125:9009/tvmaxfeeds/calendar/getAll',false,false,true);	
+		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[_iIndex].json =  _json.partidos_mundial;					
