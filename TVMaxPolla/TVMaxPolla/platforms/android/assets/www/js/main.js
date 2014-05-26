@@ -1,6 +1,8 @@
 //variables globales
 
 var  _mTimeout;
+var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
+var _jClient = false;
 
 var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
                           {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
@@ -200,13 +202,14 @@ $.fPostAjaXJSON = function(_url, _data) {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			_fGetLoadingError();
+			alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
 			return false;
 		});
 		   
 	} catch (e) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
-		// alert(e);
+		 alert(e);
 		_fGetLoadingError();
 		return false;
 	}
@@ -341,4 +344,36 @@ $.fPostAjaXJSON = function(_url, _data) {
 	}
 		
 	
+
+	function _fGetLoginStatus(_jData) {
+		
+		
+		_jData.id_country = 8;
+		_jData.id_business = 17;
+		_jData.app_id = 1;
+
+							
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
+		if (_oAjax) {
+	
+			_oAjax.always(function () {					
+				//always				
+			});	
+		
+			_oAjax.done(function(_json) {			
+				if (_json.response.length == 0) {
+					alert('No existe');
+				} else {
+					saveClientData(_json.response[0]);					
+					_fSetLoadInit();												
+				}			   
+			});
+			
+			_oAjax.fail(function() {
+				//fail	
+			});	
+		
+		}
+		
+	};
 

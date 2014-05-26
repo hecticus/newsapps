@@ -3,8 +3,10 @@
 	var _basePollaURL = 'http://polla.tvmax-9.com';
 	
 	var _jPrediction = [];
-	//var _iClient = 22;
-	var _iClient = 3;
+	var _iClient = false;
+
+	_iClient = _jClient.id_social_clients;
+
 
 	var _fGetFlag = function(_team){ 
 		var _html = '<figure class="flag">';					     		

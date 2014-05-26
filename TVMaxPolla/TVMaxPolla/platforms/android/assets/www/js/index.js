@@ -46,7 +46,7 @@ var _jMenu=[
   	{index:9,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
   	{index:10,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
   	{index:11,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
-  	{index:12,class:'content-players',title:'Leyendas del F&uacute;tbol',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
+  	{index:12,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
   	{index:13,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
   	{index:14,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},
   	{index:15,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
@@ -240,6 +240,9 @@ var app = {
 
 function initPage(){
 	
+	
+	
+	
 	var _html = '<div class="row">';	
 	$(_jMenu).each(function(_index,_menu) {
 		_html += '<div class="col-md-12 content-menu load" data-index="' +  _menu.index + '" >';
@@ -250,11 +253,17 @@ function initPage(){
 	_html += '</div>';
 
 	$('#wrapperM .scroller .container').html(_html);
+	 _jClient = JSON.parse(loadClientData());
 	
-	_fSetLoadInit();
-	//_fSetLoadDefault();
-	 
-	initFacebookManager();
+	alert(_jClient);
+	
+	if (_jClient != null) {
+		_fSetLoadInit();
+	} else {
+		initFacebookManager();
+		//getLoginStatus();
+		_fSetLoadDefault();	
+	}
 
 }
 

@@ -277,6 +277,8 @@
 	
 	$(document).on('touchend','#signIn', function(e) {
 		
+	
+		
 		var _email = $('#form-signIn #email').val();
 		var _password = $('#form-signIn #password').val();
 		var _return = true;
@@ -294,27 +296,35 @@
 		
 		if (_return)  {
 
-			var _jData = {id_country:8, id_business: 17, app_id: 1, userLogin:_email, userPass:_password};		
-			alert(JSON.stringify(_jData));
+			var _html = $('#signIn').html(); 
+			$(this).html('Loading...');
+		
+			_jData.push_id = _email;
+			_jData.userLogin = _email;
+			_jData.userPass =_password;
+
 			
-			/*_oAjax = $.fPostAjaXJSON('http://polla.tvmax-9.com/KrakenSocialClients/v1/client/login',_jData);	
+			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
 			if (_oAjax) {
 			
-				_oAjax.always(function () {				
-					//always
-					alert('always');	
+				_oAjax.always(function () {					
+					$('#signIn').html(_html);					
 				});	
 			
-				_oAjax.done(function(_json) {
-					alert(JSON.stringify(_json));	
+				_oAjax.done(function(_json) {			
+					if (_json.response.length == 0) {
+						alert('No existe');
+					} else {
+						saveClientData(_json.response[0]);						
+						_fSetLoadInit();						
+					}			   
 				});
 				
-				_oAjax.fail(function() {				
-					//fail
-					alert('fail');	
+				_oAjax.fail(function() {
+					$('#signIn').html(_html);
 				});	
 				
-			}*/
+			}
 			
 			
 		} 
@@ -336,6 +346,7 @@
 
 	$(document).on('touchend','#signUp', function(e) {
 		
+
 		var _email = $('#form-signUp #email').val();
 		var _rEmail = $('#form-signUp #email2').val();
 		var _password = $('#form-signUp #password').val();
@@ -346,7 +357,7 @@
 		var _return = true;
 		
 		
-		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+		/*if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
     		alert("El email es obligatorio");
     		_return = false;
 		}
@@ -401,43 +412,50 @@
     		_return = false;
 		}
 
-		if (!_return) return false;
+		if (!_return) return false;*/
 		
 		
 		if (_return)  {
 			
-			
-			var _jData = {	id_country:8, 
-							id_business: 17, 
-							app_id: 1,
-							origin: 'app',
-							push_id: _email,	
-							userLogin: _email,
-							userPass:_password,
-         					userNick:_email,
-         					email:_email
-						};
+			var _html = $('#signUp').html(); 
+			$(this).html('Loading...');
+		
+			_jData.push_id = _email;
+			_jData.userLogin = _email;
+			_jData.userPass =_password;
+			_jData.userNick= _email;
+			_jData.email =_email;
+
 						
-			alert(JSON.stringify(_jData));					
+			
+			alert(JSON.stringify(_jData));				
 								
-			/*_oAjax = $.fPostAjaXJSON('http://polla.tvmax-9.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
+			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
 			if (_oAjax) {
 			
-				_oAjax.always(function () {				
-					//always
-					alert('always');	
+				_oAjax.always(function () {
+					alert('always');
+					$(this).html(_html);					
 				});	
 			
 				_oAjax.done(function(_json) {
-					alert(JSON.stringify(_json));	
+					
+					alert(JSON.stringify(_json));
+								
+					if (_json.response.length == 0) {
+						alert('No existe');
+					} else {
+						saveClientData(_json.response[0]);						
+						_fSetLoadInit();
+					}			   
 				});
 				
-				_oAjax.fail(function() {				
-					//fail
-					alert('fail');	
+				_oAjax.fail(function() {
+					alert('fail');
+					$(this).html(_html);
 				});	
 				
-			}*/
+			}
 			
 		}
 		
