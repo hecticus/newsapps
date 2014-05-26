@@ -2,7 +2,7 @@ var APP_ID = '647787605309095'; // <----( this is the PhoneGap-Facebook app id
 
 function initFacebookManager(){
 	try {
-		alert('Device is ready! Make sure you set your app_id below this alert.');
+		//alert('Device is ready! Make sure you set your app_id below this alert.');
 		FB.init({ appId: APP_ID, nativeInterface: CDV.FB, useCachedDialogs: false });
 
 		//INIT OTHER STUFF

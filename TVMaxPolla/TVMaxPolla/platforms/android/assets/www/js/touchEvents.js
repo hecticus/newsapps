@@ -46,12 +46,8 @@
 		
 	});
 	$(document).on('click','.load', function(e) {
+		
 		preventBadClick(e);
-	/*	$(document).unbind('click');
-  		$(document).bind('click'); 
-		$(document).off('click');
-		$(document).on('click');*/
-
 		clearTimeout(_mTimeout);			
 		
 		if(_oAjax && _oAjax.readystate != 4) {
@@ -61,14 +57,20 @@
 		_fSetBack();
 		var _this = $(this);
 		
-		$('body').removeClass();
-		$('body').addClass(_jMenu[_this.data('index')].class);
-		$('main').empty();
-		$('main').data('index',_this.data('index'));	
-		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_jMenu[_this.data('index')].load);
-	
-		$('#wrapperM').attr('class','page transition left');
+		
+			
+		if (_this.data('index') == 'fb') {
+			login();
+		} else {
+			$('body').removeClass();
+			$('body').addClass(_jMenu[_this.data('index')].class);
+			$('main').empty();
+			$('main').data('index',_this.data('index'));	
+			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+			$('main').load(_jMenu[_this.data('index')].load);	
+			$('#wrapperM').attr('class','page transition left');
+		}
+
 	
 	});
 	$(document).on('click','.video', function(e) {

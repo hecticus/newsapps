@@ -64,6 +64,15 @@ var _fGetFormatDate = function(_date) {
 	return _year + ' ' + _time[0] + ':' + _time[1] + ((_time[0] > 12) ? ' pm' : ' am');
 };
 
+var _fSetLoadDefault = function() {
+	clearTimeout(_mTimeout);
+	$('body').removeClass();
+	$('body').addClass('content-default');
+	$('main').data('index',-1);		
+	$('main').load('default.html');
+	$('.title').html('<span>Default</span>'); 
+};
+
 var _fSetLoadInit = function() {
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
