@@ -49,8 +49,8 @@ var _jMenu=[
   	{index:12,class:'content-players',title:'Leyendas del F&uacute;tbol',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
   	{index:13,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
   	{index:14,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},
-  	{index:15,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
-	{index:16,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
+  	{index:15,class:'content-signin',title:'Ingresar',load:'signIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
+	{index:16,class:'content-signup',title:'Registro',load:'signUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
 ];
 
 
@@ -255,17 +255,17 @@ function initPage(){
 	 
 
 	//touchFunctions();
-	//initFacebookManager();
+	initFacebookManager();
 
 }
 
 
 function touchFunctions(){
 	//facebook login
-	$('#facebookLoginButton').click(function(){
+	/*$('#facebookLoginButton').click(function(){
         //alert("JQuery Running!");
 		login();
-	});
+	});*/
 }
 
 

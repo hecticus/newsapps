@@ -256,20 +256,6 @@
 
 	});
 	
-	//POLLA JS
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//STADIUMS JS
 	$(document).on('click','.stadium', function(e) {
 		_fRenderDataContent(decodeURI($(this).data('url')));	
@@ -286,3 +272,194 @@
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
 	}
+	
+	$(document).on('touchend','#signIn', function(e) {
+		
+		var _email = $('#form-signIn #email').val();
+		var _password = $('#form-signIn #password').val();
+		var _return = true;
+		
+		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (_password.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+
+		
+		if (_return)  {
+
+			var _jData = {id_country:8, id_business: 17, app_id: 1, userLogin:_email, userPass:_password};		
+			alert(JSON.stringify(_jData));
+			
+			/*_oAjax = $.fPostAjaXJSON('http://polla.tvmax-9.com/KrakenSocialClients/v1/client/login',_jData);	
+			if (_oAjax) {
+			
+				_oAjax.always(function () {				
+					//always
+					alert('always');	
+				});	
+			
+				_oAjax.done(function(_json) {
+					alert(JSON.stringify(_json));	
+				});
+				
+				_oAjax.fail(function() {				
+					//fail
+					alert('fail');	
+				});	
+				
+			}*/
+			
+			
+		} 
+
+		return _return;
+		
+
+		
+		
+					
+					
+		
+	});
+
+	$(document).on('click','#facebookLoginButton', function(e) {		
+		login();
+	});
+
+
+	$(document).on('touchend','#signUp', function(e) {
+		
+		var _email = $('#form-signUp #email').val();
+		var _rEmail = $('#form-signUp #email2').val();
+		var _password = $('#form-signUp #password').val();
+		var _rPassword = $('#form-signUp #password2').val();
+		var _name = $('#form-signUp #name').val();
+		var _surName = $('#form-signUp #surname').val();
+		var _nick = _name + ' ' + _surName;
+		var _return = true;
+		
+		
+		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		
+		if (!_rEmail.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_email.length != _rEmail.length ) {
+    		alert("El email no coincide");
+    		_return = false;
+		}		
+		
+		if (!_return) return false;
+		
+		if (_password.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_rPassword.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+				
+		if (_password.length != _rPassword.length ) {
+    		alert("El password no coincide");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+
+		if (_name.length < 2 ) {
+    		alert("El nombre es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_surName.length < 2 ) {
+    		alert("El apellido es obligatorio");
+    		_return = false;
+		}
+
+		if (!_return) return false;
+		
+		
+		if (_return)  {
+			
+			
+			var _jData = {	id_country:8, 
+							id_business: 17, 
+							app_id: 1,
+							origin: 'app',
+							push_id: _email,	
+							userLogin: _email,
+							userPass:_password,
+         					userNick:_email,
+         					email:_email
+						};
+						
+			alert(JSON.stringify(_jData));					
+								
+			/*_oAjax = $.fPostAjaXJSON('http://polla.tvmax-9.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
+			if (_oAjax) {
+			
+				_oAjax.always(function () {				
+					//always
+					alert('always');	
+				});	
+			
+				_oAjax.done(function(_json) {
+					alert(JSON.stringify(_json));	
+				});
+				
+				_oAjax.fail(function() {				
+					//fail
+					alert('fail');	
+				});	
+				
+			}*/
+			
+		}
+		
+		return _return;
+		
+		
+		
+		
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

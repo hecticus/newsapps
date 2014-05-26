@@ -42,7 +42,7 @@ function initFacebookManager(){
  */
 function getLoginStatus() {
 	FB.getLoginStatus(function(response) {
-		alert(JSON.stringify(response));
+		alert('getLoginStatus ->' + JSON.stringify(response));
 	});
 }
 var friendIDs = [];
@@ -81,13 +81,23 @@ function logout() {
 }
 
 function login() {
-	FB.login(
-			function(response) {
-				alert(JSON.stringify(response));
-			},
-			{ scope: "email" }
+    FB.login(
+     function(response) {
+     	if (response.authResponse.session_key) {
+     		FB.api('/me', function(response) {
+  				alert(response.id);
+  				alert(response.first_name);
+  				alert(response.last_name);
+  				alert(response.email);
+			});
+     	} else {
+     		alert('not logged in');
+     	}
+     },{ scope: "email" }
 	);
-}
+};
+
+
 
 
 /*function facebookWallPost() {
