@@ -154,8 +154,9 @@ var app = {
 								
 					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
 						_id = _id.split('-');
-						_id = _id[1];								
-												
+						_id = _id[1];
+														
+					_team.id = _id;						
 					_team.title = _title;
 	    			//_team.xml.fiche = _xml;
 	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
@@ -243,14 +244,20 @@ function initPage(){
 	
 	
 	
-	var _html = '<div class="row">';	
+	var _html = '';	
 	$(_jMenu).each(function(_index,_menu) {
-		_html += '<div class="col-md-12 content-menu load" data-index="' +  _menu.index + '" >';
-		_html += '<span class="' + _menu.glyphicon + '"></span>';
-		_html += '<span>' + _menu.title + '</span>';
+		_html += '<div class="row content-menu">';
+		_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" >';
+			_html += '<span class="' + _menu.glyphicon + '"></span>';
+			_html += '<span>' + _menu.title + '</span>';
 		_html += '</div>';
+		
+		_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+			_html += '<span class="icon-flechaazul"></span>';		
+		_html += '</div>';	
+		_html += '</div>';	
 	});         	
-	_html += '</div>';
+	
 
 	$('#wrapperM .scroller .container').html(_html);
 	 _jClient = JSON.parse(loadClientData());
