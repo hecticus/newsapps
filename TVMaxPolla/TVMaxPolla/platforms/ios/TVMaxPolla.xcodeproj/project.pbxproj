@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0C22F550428549C198F11198 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE9659C409A4255B5EDBB1F /* CDVReachability.m */; };
 		1178EEB69A044A16A399722C /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84914CA181BC48A1B560D065 /* CDVLocalFilesystem.m */; };
@@ -57,6 +56,9 @@
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		DC06AFFE8DB74361A0C086A5 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E8C5C7D1430447BD87D9500C /* CDVNotification.m */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
+		F07AEFBB61534010A468B6CA /* CDVSpinnerDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F46A5A3DD63470583A50C9A /* CDVSpinnerDialog.m */; };
+		E375CDEFCEF2492AB6318B40 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = C685240C63D14C429B1CB330 /* AppDelegate+notification.m */; };
+		4565837AF2A9470A9658F670 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A8E341713742EA8DF7AADF /* PushPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +149,12 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = TVMaxPolla/config.xml; sourceTree = "<group>"; };
 		F9BB9FEA4F2543E3BCF8A096 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = org.apache.cordova.inappbrowser/CDVInAppBrowser.h; sourceTree = "<group>"; };
 		FB6B13C626D846E593681F54 /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = org.apache.cordova.device/CDVDevice.h; sourceTree = "<group>"; };
+		2F46A5A3DD63470583A50C9A /* CDVSpinnerDialog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVSpinnerDialog.m"; path = "hu.dpal.phonegap.plugins.SpinnerDialog/CDVSpinnerDialog.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		BD1DF383EFED46D981BD0772 /* CDVSpinnerDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVSpinnerDialog.h"; path = "hu.dpal.phonegap.plugins.SpinnerDialog/CDVSpinnerDialog.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		C685240C63D14C429B1CB330 /* AppDelegate+notification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		54A8E341713742EA8DF7AADF /* PushPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "PushPlugin.m"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		34C7B5107CFF49CD9DE5C501 /* AppDelegate+notification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		4D98B3395A3C407A94F1CE3B /* PushPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PushPlugin.h"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,6 +305,12 @@
 				5E652C7120264D4DBD6E0D14 /* CDVReachability.h */,
 				E8C5C7D1430447BD87D9500C /* CDVNotification.m */,
 				C361BC13FB004B68B1558504 /* CDVNotification.h */,
+				2F46A5A3DD63470583A50C9A /* CDVSpinnerDialog.m */,
+				BD1DF383EFED46D981BD0772 /* CDVSpinnerDialog.h */,
+				C685240C63D14C429B1CB330 /* AppDelegate+notification.m */,
+				54A8E341713742EA8DF7AADF /* PushPlugin.m */,
+				34C7B5107CFF49CD9DE5C501 /* AppDelegate+notification.h */,
+				4D98B3395A3C407A94F1CE3B /* PushPlugin.h */,
 			);
 			name = Plugins;
 			path = TVMaxPolla/Plugins;
@@ -488,6 +502,9 @@
 				0C22F550428549C198F11198 /* CDVReachability.m in Sources */,
 				6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */,
 				DC06AFFE8DB74361A0C086A5 /* CDVNotification.m in Sources */,
+				F07AEFBB61534010A468B6CA /* CDVSpinnerDialog.m in Sources */,
+				E375CDEFCEF2492AB6318B40 /* AppDelegate+notification.m in Sources */,
+				4565837AF2A9470A9658F670 /* PushPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
