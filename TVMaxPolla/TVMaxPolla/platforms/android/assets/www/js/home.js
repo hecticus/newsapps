@@ -2,7 +2,7 @@
 	var _height =  parseInt(($(window).height() * 20)/100);
 
 	var _fRenderInit = function() {
-	
+		_homeWasShowed = true;
 
 		//row
 		var _html = '<div class="row">';

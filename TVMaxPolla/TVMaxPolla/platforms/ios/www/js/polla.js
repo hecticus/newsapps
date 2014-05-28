@@ -1,9 +1,12 @@
-	//var basePollaURL = "http://10.0.1.125:9009";
-	var basePollaURL = "http://10.0.3.142:9002";
-
+	//var _basePollaURL = "http://10.0.1.125:9009";
+	//var _basePollaURL = "http://10.0.3.142:9002";
+	var _basePollaURL = 'http://polla.tvmax-9.com';
+	
 	var _jPrediction = [];
-	//var _iClient = 22;
-	var _iClient = 3;
+	var _iClient = false;
+
+	_iClient = _jClient.id_social_clients;
+
 
 	var _fGetFlag = function(_team){ 
 		var _html = '<figure class="flag">';					     		
@@ -14,18 +17,21 @@
 	};
 		
 		
-	var _fGetButton= function(_caption){
-		return '<h2 style="padding:5px; text-align:center;">' + _caption + '</h2>';	
-	};	
-			
+	
 	var _fGetGoal = function(_team){						
 		var _html = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 team '+ _team.class +'" data-team="' + _team.id + '" >';
  		_html += '<div class="row" >';
  		
 		_html += '<div class="goal" data-goal="' + _team.score + '" >';
-		_html += '<div class="add hidden" >+</div>';
+		_html += '<div class="add hidden">+</div>';
 		_html += '<div class="score">' + _team.score + '</div>';
-		_html += '<div class="sub hidden" >-</div>';						
+		_html += '<div class="sub hidden">-</div>';				
+		
+		/*_html += '<div class="add hidden">+</div>';
+		_html += '<div class="score">' + _team.score + '</div>';
+		_html += '<div class="sub hidden">-</div>';*/
+		
+				
 		_html += '</div>';
 								
 		_html += '</div>';						
@@ -48,8 +54,8 @@
 		    	var _html = '<!-- <phase> -->';
 			   	_html += '<div class="row phase ' + _hidden + '" data-phase="'+phase.id+'" >';
 			    
-		    	_html += '<div class="col-md-12" style="background-color:brown;">';
-				_html += '<h3>' + phase.name + '</h3>';
+		    	_html += '<div class="col-md-12" style="height:40px; line-height:40px; background:#E6E6E6; color: #004117; text-align:center;">';
+				_html += '<span style="font-size:1.4em;">' + phase.name + '</span>';
 				_html += '</div>';
 	
 				_html += '<div class="col-md-12">';
@@ -61,10 +67,10 @@
 				 	if (group.id != 1) { _hidden = ' hidden ';}
 				 	
 			     	_html += '<!-- <group> -->';
-			     	_html += '<div class="row group ' + _hidden + '" data-group="'+group.id+'" >';
+			     	_html += '<div class="row group' + _hidden + '" data-group="'+group.id+'" >';
 	
-			     	_html += '<div class="col-md-12" style="background-color:yellow;">';
-					_html += '<h3>GRUPO ' + group.name + '</h3>';
+			     	_html += '<div class="col-md-12" style="height:40px; line-height:40px; background:#FFFFFF; color: #3F7AC6; text-align:center; border-bottom: solid #FFD455;">';
+					_html += '<span style="font-size:1.4em;">Grupo ' + group.name + '</span>';
 					_html += '</div>';
 												
 					_html += '<div class="col-md-12">';
@@ -76,7 +82,9 @@
 	
 			     		_html += '<!-- <game> -->';
 			     		_html += '<div class="row game" data-game="'+game.id+'">';
-			     							     						     		
+			     							     					
+			     							     					
+								     		
 			     		_html += '<div class="col-md-12">';
 			     		_html += _oRenderGame.fGetAvenue(game);
 			     		_html += '</div>';
@@ -90,19 +98,8 @@
 	
 			     	});
 			     	
-			     	_html += '</div>';	
-	
-	
-		    		var _class = 'next';
-		    		var _caption = 'CONTINUAR';
-		    		if ((phase.groups.length-1) == index) {
-		    			_caption = 'GUARDAR';
-		    			_class = 'save';	
-		    		}						    		 
+			     	_html += '</div>';			
 		    		
-					_html += '<div id=""  class="col-md-12 '+ _class +'" style="background:white;">';
-		    		_html += _fGetButton(_caption);	
-		    		_html += '</div>';					    	
 		    		
 	
 			     	_html += '</div>';
@@ -120,7 +117,49 @@
 		
 		    	$('#wrapper .scroller .container').empty();
 		     	$('#wrapper .scroller .container').append(_html);
-	    		myScroll.scrollTo(0,0,0);
+		     	
+		     	
+		     	_html = '<div class="container">';
+				
+	     		_html = '<div class="row">';
+	     		
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 back" style="color:#4D4D4D; background:#ffffff; height:50px; line-height:50px; text-align:left; ">';
+				_html += '<span class="icon-polla-back" style="font-size:1.4em; margin-left:5px;"></span>';
+				_html += '</div>';
+			
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 save" style="color:#4D4D4D; background:#ffffff;  height:50px; line-height:50px; text-align:center;">';
+				_html += '<span id="polla-save" style="font-size:1.2em;">GUARDAR</span>';
+				_html += '</div>';
+			
+	    		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 next" style="color:#4D4D4D; background:#ffffff; height:50px; line-height:50px; text-align:right; ">';
+				_html += '<span class="icon-polla-forward" style="font-size:1.4em; margin-right:5px;"></span>';
+				_html += '</div>';
+				
+				_html += '<div>';
+				
+				_html += '<div>';	
+				
+		     	$('footer').html(_html);
+		     			     	
+		     	$('header .container .row .menu-group').removeClass('hidden');		     	
+
+		     	myScroll.scrollTo(0,0,0);
+		     	
+		     	_html = '<div class="row">';
+		     	
+		     	$.each(_jPrediction, function(index,phase) {
+		     		 $.each(phase.groups, function(index, group) {				
+						_html += '<div class="col-md-12 content-polla-menu" data-group="'+group.id+'"  >';
+						_html += '<span>Grupo ' + group.name + '</span>';
+						_html += '</div>';	        	
+						
+		     		 });
+		     	});
+		     	
+				_html += '</div>';
+				$('#wrapper2 .scroller .container').html(_html);
+		     	
+	    		
 	
 	    	}
 
@@ -128,6 +167,9 @@
 		
 		
 	};
+	
+	
+	
 	
 	
 	var _cRenderGame = function(_game){
@@ -139,16 +181,16 @@
 			var _html = '<!-- <venue> -->';
 			
      		_html += '<div class="row venue" data-venue="'+this.game.venue.id+'" >';
-     							     		
-     		_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';					     		
-   	 		_html += '<span>' + _date.substring(6, 8) +'/' + _date.substring(4, 6) + '</span> ';
-   	 		_html += '<span>' + _date.substring(8,10) +':' + _date.substring(11, 13) + '</span> ';
-   	 		_html += '</div>';
-   	 		
-			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-			_html += '<span>'+this.game.venue.name+'</span>';
-   	 		_html += '</div>';
-   	 		
+     							
+				_html += '<div class="col-md-12" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';	
+				_html += '<span style="font-size:1em;">' + _date.substring(6, 8) +'/' + _date.substring(4, 6) + '</span> ';
+   	 			_html += '<span style="font-size:1em;">' + _date.substring(8,10) +':' + _date.substring(11, 13) + '</span> ';				
+				_html += '</div>';
+				     							
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
+				_html += '<span>' +  this.game.venue.name + ' </span>';
+				_html += '</div>';
+				
      		_html += '</div>';					     							     	
      		_html += '<!-- </venue> -->';
 			
@@ -161,7 +203,7 @@
 	        
 	        var _html = '<div class="row">';
  		
-     		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" data-team="'+this.game.team_a.id+'"  style="background-color: green;" >';
+     		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" data-team="'+this.game.team_a.id+'" >';
 				_html += _fGetFlag(this.game.team_a);
      		_html += '</div>';
      		
@@ -172,7 +214,7 @@
 	     		_html += '</div>';			     		
      		_html += '</div>';
      		
-     		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" data-team="'+this.game.team_b.id+'" style="background-color: red;" >';			     		
+     		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" data-team="'+this.game.team_b.id+'" >';			     		
      			_html += _fGetFlag(this.game.team_b);
      		_html += '</div>';
      		
@@ -185,13 +227,28 @@
 	};
 
 	
-	_oAjax = $.fPostAjaXJSON(basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
+	_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			console.log("HTTP Complete");
 			_jPrediction = _json;		
 			_fRenderPrediction();
 		});
 	}
 
 	
+	
+
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+

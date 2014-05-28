@@ -4,6 +4,8 @@ var  _mTimeout;
 var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
 var _jClient = false;
 
+var _homeWasShowed = false;
+
 var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
                           {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
                           {"id_tvmax":"3","name":"Argentina","shortname":"ARG","flag":"ar-lgflag.png","ext_id":"3029"},
@@ -72,7 +74,7 @@ var _fSetLoadDefault = function() {
 	$('body').addClass('content-default');
 	$('main').data('index',-1);		
 	$('main').load('default.html');
-	$('.title').html('<span>Default</span>'); 
+	$('.title').html('<span>Inicio</span>'); 
 };
 
 var _fSetLoadInit = function() {
@@ -202,14 +204,14 @@ $.fPostAjaXJSON = function(_url, _data) {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			_fGetLoadingError();
-			alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
+			//alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
 			return false;
 		});
 		   
 	} catch (e) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
-		 alert(e);
+		 //alert(e);
 		_fGetLoadingError();
 		return false;
 	}
@@ -362,18 +364,36 @@ $.fPostAjaXJSON = function(_url, _data) {
 		
 			_oAjax.done(function(_json) {			
 				if (_json.response.length == 0) {
-					alert('No existe');
+					//alert('No existe');
+					navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
 				} else {
 					saveClientData(_json.response[0]);					
 					_fSetLoadInit();												
-				}			   
+				}
+				navigator.notification.activityStop();
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
+				//ERROR
+				navigator.notification.activityStop();
 			});	
 		
 		}
 		
 	};
+	
+	function backFromRegister(){
+		$('header .container .row .menu span').removeClass();
+		if(_homeWasShowed){
+			$('header .container .row .menu span').addClass('icon-menuhome');
+			_fSetLoadInit();
+		}else{
+			_fSetLoadDefault();	
+		}
+	}
+	
+	function doNothing(){
+		
+	}
 

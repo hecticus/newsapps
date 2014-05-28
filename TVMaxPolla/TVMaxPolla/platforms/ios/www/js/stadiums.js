@@ -1,3 +1,5 @@
+	
+
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
@@ -15,7 +17,7 @@
 			if (_stadium.url == _url) {							
 				_html += '<div class="col-md-12" >';
 				_html += '<h2>' + _stadium.title + '</h2>';
-				_html += '<img onerror="this.style.display=\'none\'" src="' + _stadium.image + '" alt="' +_stadium.title + '" style="width:auto; height:25%;"  />';						    
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _stadium.image + '" alt="' +_stadium.title + '" style="width:100%; height:auto; marging-top:10px;  marging-bottom:10px; "  />';						    
 			 	_html += _stadium.datacontent;
 			 	_html += '</div>';			
 			}
@@ -31,6 +33,7 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
 		myScroll2.scrollTo(0,0,0);
 
 	};	

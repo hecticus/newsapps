@@ -192,6 +192,13 @@ module.exports = [
         "clobbers": [
             "Connection"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
+        "id": "org.apache.cordova.dialogs.notification",
+        "merges": [
+            "navigator.notification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -204,7 +211,8 @@ module.exports.metadata =
     "org.apache.cordova.file": "1.1.0",
     "org.apache.cordova.file-transfer": "0.4.3",
     "org.apache.cordova.device": "0.2.9",
-    "org.apache.cordova.network-information": "0.2.8"
+    "org.apache.cordova.network-information": "0.2.8",
+    "org.apache.cordova.dialogs": "0.2.7"
 }
 // BOTTOM OF METADATA
 });

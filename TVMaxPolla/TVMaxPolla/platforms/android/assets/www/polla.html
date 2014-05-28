@@ -21,7 +21,7 @@
 			
 			var myScroll;
 	  		
-			myScroll = new IScroll('#wrapper', {tap: true, preventDefault:true});
+			myScroll = new IScroll('#wrapper', {click: true, preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();
 				$('.group').removeClass('animated bounceIn');
@@ -32,7 +32,7 @@
 				$('.add, .sub').addClass('hidden');
 			});
 		
-			var myScroll2 = new IScroll('#wrapper2',{tap:true, preventDefault:true});
+			var myScroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();			
 			});

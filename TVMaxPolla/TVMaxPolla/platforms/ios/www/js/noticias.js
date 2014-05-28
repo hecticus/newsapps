@@ -1,13 +1,14 @@
 
+	var _height =  parseInt(($(window).height() * 40)/100);
 
 	var _fGetImage = function(_image) {
-		var _html = '<figure>';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '"  />';		
+		var _html = '<figure style="background:#E6E6E6;">';					     		
+		_html += '<img onerror="this.style.display=\'none\'" src="' + _image.src + '" alt="' +_image.src + '" style="width:100%; height:' + _height + 'px;" />';		
 		
 		if (_image.caption) {
 			
 			_html += '<figcaption>';
-			
+			   
 			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left;  ">';
 				_html += '<span>'+_image.caption+'</span>';
 			_html += '</div>';
@@ -66,7 +67,8 @@
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
 		$('header .container .row .menu span').addClass('icon-back');
-
+		myScroll2.scrollTo(0,0,0);
+		
 	};
 
 	var _fRenderInit = function() {

@@ -213,10 +213,15 @@ var app = {
 				 		_fSetBack();
 					} else if ($('body').hasClass('content-home')) {							
 						exitApp();				
+					} else if ($('body').hasClass('content-default')) {							
+						exitApp();				
+					} else if ($('body').hasClass('content-signin')) {	
+						backFromRegister();		
+					} else if ($('body').hasClass('content-signup')) {							
+						backFromRegister();				
 					} else {						
 						_fSetLoadInit();
-					}
-										
+					}					
 				}
 				
 			}	
