@@ -9,6 +9,31 @@
 	}
 	body { font-family:tvmaxFont; overflow: hidden; /* this is important to prevent the whole page to bounce */}
 	
+	.table-responsive {border: 0 !important; padding: 0 !important; margin: 0 !important;}
+	.table-responsive table.time {border: 0 !important; padding: 0 !important; margin: 0 !important;}
+	.table-responsive table.time tr {border: 0 !important; padding: 0 !important; margin: 0 !important;}
+	.table-responsive table.time tr td {
+		
+		width:25%; 
+		text-align:center; 
+		font-size: 3em; 
+		font-weight:normal; 
+		color:#4D4D4D; 
+		padding: 0 !important; 
+		margin: 0 !important;		
+	}
+	
+	.table-responsive table.time tr td.caption {
+		font-size: 0.9em; 
+		font-weight:normal;				
+	}
+	
+	
+	
+	
+	
+	
+	
 	table {border: 0 !important; }
 	table thead tr {border: 0 !important; }
 	table tbody tr {border: 0 !important; }	
@@ -28,13 +53,15 @@
 	body:not(.content-init) #splash {display: none;}
 	
 	
-	.content-menu {background:#fffff; height; 40px; line-height:40px; font-size: 1.6em;}
+	.content-menu {background:#fffff; height; 50px; line-height:50px; font-size: 1.4em;}
 	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}		
+	.content-menu {border-bottom: solid 1pt #E0E0E0; }
+	.content-menu:last-child {border:0;}
 	
 	
-	.content-menu:nth-child(even) {background:#E6E6E6;}
+	/*.content-menu:nth-child(even) {background:#FFFFFF;}
 	.content-menu:nth-child(odd) {background:#FFFFFF;}
-	.content-menu:last-child {border-bottom: solid #FFD455; }
+	.content-menu:last-child {border-bottom: solid #FFD455; }*/
 
 
 	#wrapper, #wrapper2, #wrapperM { 
@@ -68,12 +95,14 @@
 		line-height: 50px;
 		background: #3E79C4;
 		padding: 0;
+		margin: 0;
 		color: #FFFFFF;
 		font-size: 1.2em;
 		text-align: left;
 		border-bottom: solid #4D4D4D;
 		text-transform: uppercase;
 		display: none;
+		
 	}
 			
 	header .glyphicon { color: #3E79C4;}
@@ -142,9 +171,9 @@
 		padding: 5px; 
 		width:100%;
 		line-height:20px;
-		color:#ffffff; 
+		color:#3E79C4; 
 		text-align: left;	   
-	    background-color:#3E79C4;
+	    background-color:#ffffff;
 	    bottom: 0;	    
 	    border-bottom: solid #FFD455;
 	    
@@ -154,6 +183,8 @@
 	body.content-noticias #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
 	body.content-noticias #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
 	body.content-noticias #wrapper2 .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+
 	
 	body.content-noticias #wrapper2 .scroller .container p.title {
 		position:relative;
@@ -247,74 +278,15 @@
 		padding: 5px; 
 		width:100%;
 		line-height:20px;
-		color:#ffffff; 
+		color:#3E79C4; 
 		text-align: left;	   
-	    background-color:#3E79C4;
+	    background-color:#FFFFFF;
 	    bottom: 0;	    
 	    border-bottom: solid #FFD455;
 	    
 	}
 
 
-	body.content-pronosticos #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-pronosticos #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
-	body.content-pronosticos #wrapper2 .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
-	
-	body.content-pronosticos #wrapper2 .scroller .container p.title {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background:#E6E6E6; 
-		font-size:1.2em; 
-		font-weight:bold; 
-		color:#3E79C4; 
-		
-	}
-	 
-	body.content-pronosticos #wrapper2 .scroller .container p.date {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background: #3E79C4;		
-		text-align: right;
-		font-size:0.9em; 
-		color:#FFD455; 		
-	}
-	
-	body.content-pronosticos #wrapper2 .scroller .container p.description {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background: #E6E6E6; 
-		font-size:1em; 
-		color:#1E5733; 
-		font-style:italic;
-	}
-	
-	body.content-pronosticos #wrapper2 .scroller .container p.fullstory {
-		position:relative;
-		margin: 0; 
-		padding:10px;
-		font-size:1.2em;  
-		color:#4D4D4D; 
-		font-style:italic; 	
-	}
-	
-	
-	
-	body.content-pronosticos #wrapper2 .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
-	body.content-pronosticos #wrapper2 .scroller .container figure img { width: 100%;  height: auto;}			
-	body.content-pronosticos #wrapper2 .scroller .container figcaption {
-		font-size : 1em;			
-		padding: 5px; 
-		width:100%;
-		line-height:20px;
-		color:#ffffff; 
-		text-align: left;	   
-	    background-color:#3E79C4;
-	    bottom: 0;	    
-	    border-bottom: solid #FFD455;
-	}
 	/*pronosticos*/
 	
 	
@@ -336,74 +308,19 @@
 		padding: 5px; 
 		width:100%;
 		line-height:20px;
-		color:#ffffff; 
+		color:#3E79C4; 
 		text-align: left;	   
-	    background-color:#3E79C4;
+	    background-color:#FFFFFF;
 	    bottom: 0;	    
 	    border-bottom: solid #FFD455;
 	    
 	}
 
 
-	body.content-polemicas #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-polemicas #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
-	body.content-polemicas #wrapper2 .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
-	
-	body.content-polemicas #wrapper2 .scroller .container p.title {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background:#E6E6E6; 
-		font-size:1.2em; 
-		font-weight:bold; 
-		color:#3E79C4; 
-		
-	}
-	 
-	body.content-polemicas #wrapper2 .scroller .container p.date {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background: #3E79C4;		
-		text-align: right;
-		font-size:0.9em; 
-		color:#FFD455; 		
-	}
-	
-	body.content-polemicas #wrapper2 .scroller .container p.description {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background: #E6E6E6; 
-		font-size:1em; 
-		color:#1E5733; 
-		font-style:italic;
-	}
-	
-	body.content-polemicas #wrapper2 .scroller .container p.fullstory {
-		position:relative;
-		margin: 0; 
-		padding:10px;
-		font-size:1.2em;  
-		color:#4D4D4D; 
-		font-style:italic; 	
-	}
 	
 	
 	
-	body.content-polemicas #wrapper2 .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
-	body.content-polemicas #wrapper2 .scroller .container figure img { width: 100%;  height: auto;}			
-	body.content-polemicas #wrapper2 .scroller .container figcaption {
-		font-size : 1em;			
-		padding: 5px; 
-		width:100%;
-		line-height:20px;
-		color:#ffffff; 
-		text-align: left;	   
-	    background-color:#3E79C4;
-	    bottom: 0;	    
-	    border-bottom: solid #FFD455;
-	}
+
 	/*polemicas*/
 		
 	/*calendario*/
@@ -448,10 +365,10 @@
 	
 	
 	.caption-icon {
-		font-size:1.2em; 
-		font-weight:bold; 
+		font-size:1em; 
 		color:#ffffff;
 		text-align: center;
+		text-transform: uppercase;
 	}
 	
 	
@@ -514,7 +431,7 @@
 	
 	body.content-calendario .name-month {
 		text-align: center;
-		font-size: 1.4em;
+		font-size: 1.2em;
 		font-weight: bold;
 		color:#ffffff;	
 		background: #3E79C4 !important;
@@ -523,65 +440,64 @@
 	
 	body.content-calendario .row div[data-country],
 	body.content-calendario .row div[data-phase] {
-		height: 40px;
-		line-height: 40px;
-		font-size: 1.2em;
+		height: 50px;
+		line-height: 50px;
+		font-size: 1.4em;
 		color:#4D4D4D;  
+		background:#FFFFFF;
+		border-bottom: solid 1pt #E0E0E0; 
 	}
 	
-	
-	body.content-calendario .row.data-match:nth-child(even), 
-	body.content-calendario .row div[data-country]:nth-child(even), 
-	body.content-calendario .row div[data-phase]:nth-child(even) 
-	{ 
-		background:#E6E6E6; 
-	}	
+	body.content-calendario .row div[data-country]:last-child,
+	body.content-calendario .row div[data-phase]:last-child  {
+		border:0;
+	}
 
-	body.content-calendario .row.data-match:nth-child(odd),
-	body.content-calendario .row div[data-country]:nth-child(odd), 
-	body.content-calendario .row div[data-phase]:nth-child(odd) {
-		background:#FFFFFF; 
-	}
-	
-	
-	
-	
-	
-	
 	/*calendario*/
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-goles .row div.video,
-	body.content-stadiums .row div.stadium,
+	body.content-goles .row div.video,	
 	body.content-history .row div.history,
 	body.content-players .row div.player, 	 
 	body.content-teams .row div.teams {
-		height: 40px; 
-		line-height: 40px; 
-		font-size: 1.2em; 
+		height: 50px; 
+		line-height: 50px; 
+		font-size: 1.4em; 
 		color:#4D4D4D;
 	}
 	
-	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
+	
+
+	
+	
+	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
+	body.content-goles .row div.video,
+	body.content-history .row div.history, 
+	body.content-players .row div.player, 
+	body.content-teams #wrapper .container .row { 
+		background:#FFFFFF;
+		border-bottom: solid 1pt #E0E0E0;
+	}
+	
+	/*body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
 	body.content-goles .row div.video:nth-child(even),
-	body.content-stadiums .row div.stadium:nth-child(even),
 	body.content-history .row div.history:nth-child(even), 
 	body.content-players .row div.player:nth-child(even), 
-	body.content-teams .row div.teams:nth-child(even) { 
-		background:#E6E6E6; 
+	body.content-teams #wrapper .container .row:nth-child(even) { 
+		background:#FFFFFF;
+		border-bottom: solid 1pt #4D4D4D; 
 	}
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(odd),
 	body.content-goles .row div.video:nth-child(odd),
-	body.content-stadiums .row div.stadium:nth-child(odd),
 	body.content-history .row div.history:nth-child(odd),   
 	body.content-players .row div.player:nth-child(odd),
-	body.content-teams .row div.teams:nth-child(odd) {
+	body.content-teams #wrapper .container .row:nth-child(odd) {
 		background:#FFFFFF; 
-	}
+		border-bottom: solid 1pt #4D4D4D;
+	}*/
 	
 	body.content-goles .row div.video span:last-child,
-	body.content-stadiums .row div.stadium span:last-child,
 	body.content-history .row div.history span:last-child,
 	body.content-players .row div.player span:last-child,
 	body.content-teams .row div.teams span:last-child {
@@ -642,16 +558,30 @@
 
 
 
+	body.content-stadiums #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-stadiums #wrapper .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-stadiums #wrapper .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-stadiums #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-stadiums #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-stadiums #wrapper .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#3E79C4; 
+		text-align: left;	   
+	    background-color:#ffffff;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;	    
+	}
 
-
-
-
-
-
-
-
-
-
-
-
+	ul {padding:  10px 5px 5px 5px  !important; list-style-type:none  !important;}
+	ul li {display: inline !important; float: left  !important;}	
+	li[data-phase="grupos"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#64C2BC; background-color:#64C2BC;}
+	li[data-phase="octavos"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#EB008C; background-color:#EB008C;}
+	li[data-phase="cuartos"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#5F207F; background-color:#5F207F;}
+	li[data-phase="semifinales"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#ED2A24; background-color:#ED2A24;}	
+	li[data-phase="3erlugar"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#037677; background-color:#037677;}
+	li[data-phase="final"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#F9A11A; background-color:#F9A11A;}
 
