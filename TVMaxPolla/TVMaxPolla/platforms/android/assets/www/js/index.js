@@ -255,8 +255,6 @@ function initPage(){
 	$('#wrapperM .scroller .container').html(_html);
 	 _jClient = JSON.parse(loadClientData());
 	
-	alert(_jClient);
-	
 	if (_jClient != null) {
 		_fSetLoadInit();
 	} else {
