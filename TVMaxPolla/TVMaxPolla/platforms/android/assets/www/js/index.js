@@ -76,7 +76,7 @@ var app = {
 				_jMenu[0].json = _json.noticias_mundial;						
 				$.each(_json.noticias_mundial.item, function(_index,_item) {
 					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
-					var _img = $('img').attr('src',_item.imagen);
+					var _img = $('img #img').attr('src',_item.imagen);
 					return false;
 				});				
 			});
@@ -101,7 +101,7 @@ var app = {
 	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
 					
-					var _img = $('img').attr('src',_player.image);
+					var _img = $('img #img').attr('src',_player.image);
 
 					
 				});
@@ -130,7 +130,7 @@ var app = {
 	    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
 					_stadium.datacontent =  _data;
 											
-					var _img = $('img').attr('src',_stadium.image);
+					var _img = $('img #img').attr('src',_stadium.image);
 					 
 
 						
@@ -161,7 +161,7 @@ var app = {
 	    			//_team.xml.fiche = _xml;
 	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
 					_team.datacontent.fiche = _data;							
-					var _img = $('img').attr('src', _team.image);
+					var _img = $('img #img').attr('src', _team.image);
 	
 				});
 			}
@@ -187,7 +187,7 @@ var app = {
 	    			//_history.xml = _xml;
 	    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
 					_history.datacontent =  _data;							
-					var _img = $('img').attr('src', _history.image);
+					var _img = $('img #img').attr('src', _history.image);
 					
 				});
 			}		
@@ -253,7 +253,7 @@ function initPage(){
 	$(_jMenu).each(function(_index,_menu) {
 		_html += '<div class="row content-menu">';
 		_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" >';
-			_html += '<span class="' + _menu.glyphicon + '"></span>';
+			_html += '<span class="' + _menu.glyphicon + '" ></span>';
 			_html += '<span>' + _menu.title + '</span>';
 		_html += '</div>';
 		

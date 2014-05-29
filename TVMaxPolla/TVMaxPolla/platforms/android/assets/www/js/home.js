@@ -14,27 +14,34 @@
 
 		
 		//row
-		_html += '<div class="row">';
-			_html += '<div class="col-md-12 metro load" data-index="5" >';
-					
-				_html += '<figure>';									     		
-					_html += '<img onerror="this.style.display=\'none\'" src="' + _jImageFeatured.src + '" alt="' +_jImageFeatured.src + '" style="width:100%;  height: height:auto; "  />';
-					_html += '<figcaption>';
-					
-						_html += '<div style="width:20%; height: 40px; line-height: 40px; font-size:2.5em; float:left; ">';
-							_html += '<span class="icon-noticias"></span>';
-						_html += '</div>';
-												
-						_html += '<div style="width:80%; height: 40px; line-height: 20px; ">';										
-							if (_jImageFeatured.caption) _html += '<span>'+_jImageFeatured.caption+'</span>';
-						_html += '</div>';
+		
+		if (_jImageFeatured) {
+			//row
+			_html += '<div class="row">';
+				_html += '<div class="col-md-12 metro load" data-index="5" >';
 						
-					_html += '</figcaption>';
-				_html += '</figure>';
-
-			_html += '</div>';		
-		_html += '</div>';
-		//row
+					_html += '<figure>';									     		
+						_html += '<img onerror="this.style.display=\'none\'" src="' + _jImageFeatured.src + '" alt="' +_jImageFeatured.src + '" style="width:100%; height:auto; "  />';
+						_html += '<figcaption>';
+						
+							_html += '<div style="width:20%; height: 40px; line-height: 40px; font-size:2.5em; float:left; ">';
+								_html += '<span class="icon-noticias"></span>';
+							_html += '</div>';
+													
+							_html += '<div style="width:80%; height: 40px; line-height: 20px; ">';										
+								if (_jImageFeatured.caption) _html += '<span>'+_jImageFeatured.caption+'</span>';
+							_html += '</div>';
+							
+						_html += '</figcaption>';
+					_html += '</figure>';
+	
+				_html += '</div>';		
+			_html += '</div>';
+			//row
+		}
+		
+		
+		
 
 
 		//row
@@ -59,7 +66,7 @@
 			
 		_html += '<figcaption>';			
 		_html += '<div style="width:100%;  height: 20px; line-height: 20px; font-size:1em;">';
-			_html += '<span class="icon-estrellas"></span><span class="caption-icon"> Leyendas</span>';
+			_html += '<span class="icon-estrellas"></span><span class="caption-icon">Leyendas</span>';
 		_html += '</div>';						
 		_html += '</figcaption>';		
 		
@@ -71,41 +78,39 @@
 		
 		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="9">';
 		
-			_html += '<div style="background: #1E5733;  height:' + _height + 'px;  text-align:center;" >';			
-				_html += '<span class="icon-caption-calendario" style="font-size:6.5em; color:#ffffff;"></span>';
+			_html += '<div style="background: #1E5733; height:' + (_height - 30) + 'px; text-align:center;" >';			
+				_html += '<span class="icon-fechas" style="font-size:5em; color:#ffffff;"></span>';
+			_html += '</div>';
+			
+			_html += '<div style="background: #1E5733;  height:30px; line-height:30px; text-align:center;" >';							
+				_html += '<span class="caption-icon" >Calendario</span>';
 			_html += '</div>';	
+			
+			
+				
 		_html += '</div>';
 
 			
 		_html += '</div>';
 		//row
 
-
 		//row						
 		_html += '<div class="row">';						
-	
-		_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 load metro" data-index="11" >';
-		
-			_html += '<div style="background: #d9534f; text-align:left;  height: 40px; line-height: 40px;" >';
-				_html += '<span class="icon-equipo" style=" margin-left:5px; font-size:1em; color:#ffffff;"></span>';
-				_html += '<span class="caption-icon" style="margin-left:5px;">Equipos</span>';	
-			_html += '</div>';
-				
+
+		_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 load metro" data-index="11" style="height: 40px; line-height: 40px;" >';		
+			_html += '<div style="background: #d9534f; color:#ffffff; height: 40px; line-height: 40px; font-size:1em;" >';
+				_html += '<span class="icon-equipo" style="margin-left:5px; "></span><span class="caption-icon">Equipos</span>';
+			_html += '</div>';				
 		_html += '</div>';
 	
-		_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 load metro" data-index="14">';
-			_html += '<div style="background: #1E5733;  text-align:left;  height: 40px; line-height: 40px; " >';
-				_html += '<span class="icon-alertas" style="margin-left:5px;   font-size:1em; color:#ffffff;"></span>';		
-				_html += '<span class="caption-icon" style="margin-left:5px;">Alertas</span>';
+		_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 load metro" data-index="14" style="height: 40px; line-height: 40px;" >';
+			_html += '<div style="background: #1E5733; color:#ffffff; height: 40px; line-height: 40px; font-size:1em;" >';
+				_html += '<span class="icon-alertas" style="margin-left:5px; "></span><span class="caption-icon">Alertas</span>';
 			_html += '</div>';	
 		_html += '</div>';
 				
 		_html += '</div>';		
 		//row
-
-
-
-		
 
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
