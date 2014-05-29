@@ -40,7 +40,7 @@
 			{url: 'xml/players/wc2014-bio-42296-es.xml', title : false, image : false, xml : false, datacontent : false},
 			{url: 'xml/players/wc2014-bio-42297-es.xml', title : false, image : false, xml : false, datacontent : false},
 			{url: 'xml/players/wc2014-bio-42622-es.xml', title : false, image : false, xml : false, datacontent : false},		
-			{url: 'xml/players/wc2014-bio-42629-es.xml', title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-42699-es.xml', title : false, image : false, xml : false, datacontent : false},
 			{url: 'xml/players/wc2014-bio-43033-es.xml', title : false, image : false, xml : false, datacontent : false},
 			{url: 'xml/players/wc2014-bio-43106-es.xml', title : false, image : false, xml : false, datacontent : false},
 			{url: 'xml/players/wc2014-bio-43170-es.xml', title : false, image : false, xml : false, datacontent : false},
