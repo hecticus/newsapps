@@ -329,9 +329,18 @@ $.fPostAjaXJSON = function(_url, _data) {
 	function checkVersion(){
 		//console.log("revisando version");
 		try {	
+			var osName;
 			//var urlVersion = "http://192.168.1.128:9002/tvmax/appversion/check/1/android";
+			var devicePlatform = device.platform;
+			//IOS
+			if(devicePlatform == "iOS"){
+				osName = "ios";
+			}else{
+				//ANDROID
+				osName = "android";
+			}
 			var version = 1;
-			var osName = "android";
+			
 			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
 			updateURL = "";
 		  	$.ajax({
