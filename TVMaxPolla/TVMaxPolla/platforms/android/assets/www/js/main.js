@@ -98,7 +98,8 @@ var _fSetBack = function() {
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-	$('.tv').removeClass('hidden');	
+	$('.tv').removeClass('hidden');
+	$('.menu-group').addClass('hidden');		
 };
 
 
@@ -242,19 +243,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 		hoursRound = (hoursRound < 10) ? "0" + hoursRound : hoursRound;
 		daysRound = (daysRound < 10) ? "0" + daysRound : daysRound;
 		
-		
-		/*sec = (secondsRound == 1) ? " segundo" : " segundos";
-		min = (minutesRound == 1) ? " minuto" : " minutos ";
-		hr = (hoursRound == 1) ? " hora" : " horas ";
-		dy = (daysRound == 1) ? " d�a" : " d&iacute;as ";*/
-
-		sec = "ss";
-		min = "mm";
-		hr = "hh";
-		dy = "dd";
-
-		var _html = '<div class="row">';		
-			_html += '<div class="table-responsive">';
+	
+		var _html = '<div class="table-responsive">';
 				_html += '<table class="table time">';
 				
 				
@@ -275,7 +265,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				
 				_html += '</table>';
 			_html += '</div>';
-		_html += '</div>';
+
 
 
 		return _html;

@@ -8,6 +8,7 @@ import play.libs.Json;
 import javax.persistence.MappedSuperclass;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * Created by chrirod on 3/27/14.
@@ -15,7 +16,7 @@ import java.net.URLDecoder;
 @MappedSuperclass
 public abstract class HecticusModel extends Model {
 
-    public static final int MAX_SIZE = 20;
+    public static final int MAX_SIZE = 25;
 
     public abstract ObjectNode toJson();
 
@@ -29,6 +30,16 @@ public abstract class HecticusModel extends Model {
             tr= URLDecoder.decode(val, "UTF-8");
         }catch (Exception ex){
             ex.printStackTrace();
+        }
+        return tr;
+    }
+
+    public static String encode(String val) {
+        String tr = null;
+        try {
+            tr = URLEncoder.encode(val, "UTF-8");
+        } catch (Exception ex) {
+            //do nothing
         }
         return tr;
     }

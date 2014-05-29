@@ -156,7 +156,9 @@
 				_html += '<div>';	
 				
 		     	$('footer').html(_html);
-		     			     	
+
+
+				$('header .container .row .tv').addClass('hidden');			     			     	
 		     	$('header .container .row .menu-group').removeClass('hidden');		     	
 
 		     	myScroll.scrollTo(0,0,0);
@@ -167,8 +169,7 @@
 		     		 $.each(phase.groups, function(index, group) {				
 						_html += '<div class="col-md-12 content-polla-menu" data-group="'+group.id+'"  >';
 						_html += '<span>Grupo ' + group.name + '</span>';
-						_html += '</div>';	        	
-						
+						_html += '</div>';
 		     		 });
 		     	});
 		     	

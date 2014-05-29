@@ -44,11 +44,12 @@
 	var _fGetColorPhase = function(_name) {
 
 		var _return = false;
-			_name = _name.toLowerCase();
+			_name = _name.toString().toLowerCase();
 			_name = _name.replace(/\s/g,'');
 	
+	
 		$.each(_jPhase, function(_index,_phase) {
-			if (_phase.name.toLowerCase().replace(/\s/g,'') == _name) _return =  _phase.bgcolor;			
+			if (_phase.name.toString().toLowerCase().replace(/\s/g,'') == _name) _return =  _phase.bgcolor;			
 			if (_return) return true;
 		});
 		
@@ -87,7 +88,7 @@
 		$.each(_jGet.item, function(_index,_item) {
 			
 			_iDate = _item.fecha_de_partido.split(' ');
-			_iDate = _iDate[0].toLowerCase();
+			_iDate = _iDate[0].toString().toLowerCase();
 
 			
 			if (eval(_expression)) {
@@ -338,35 +339,11 @@
 
 
 
-	var _iIndex = $('main').data('index');
-	_jGet = _jMenu[_iIndex].json;
-	
-	if (_jGet) {
-		
-		$.each(_jGet.item, function(_index,_item) {
-			
-			if (_item.fase.indexOf('Grupo') >= 0) {
-				if (_jCountry.indexOf(_item.equipo_local) < 0) {					
-					_jCountry.push(_item.equipo_local);
-				}	
-			}
-			
-			if (_jPhase.indexOf(_item.fase) < 0) {
-				_jPhase.push(_item.fase);	
-			}
-
-		});
-								
-		
-		_fRenderCalendar();
-		
-	} else {
-	
 		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				
-				_jMenu[_iIndex].json =  _json.partidos_mundial;					
+								
 				_jGet = _json.partidos_mundial;
 								
 				/*$.each(_jGet.item, function(_index,_item) {
@@ -387,9 +364,6 @@
 				
 			});
 		}
-	
-	}
-
 
 
 
