@@ -7,7 +7,7 @@
 			if (_player.url == _url) {				
 				_html += '<div class="col-md-12" >';				
 				//_html += _fGetImage({src:_player.image,  caption: _player.title});				
-				_html += '<img onerror="this.style.display=\'none\'" src="' + _player.image + '" alt="' +_player.image + '" style="width:50%; height: auto; float:left; padding:5px;"  />';
+				_html += '<img onerror="this.style.display=\'none\'" src="' + _player.image + '" alt="' +_player.image + '" style="width:45%; height: auto; float:left; margin-right:5px"  />';
 				
 				_html += _player.datacontent;
 		 		_html += '</div>';								
@@ -23,8 +23,9 @@
 		$('#wrapper2 .scroller .container').empty();
 		$('#wrapper2 .scroller .container').append(_html);
 		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
 		myScroll2.scrollTo(0,0,0);
-
+		
 	};
 
 	var _fRenderInitP = function() {

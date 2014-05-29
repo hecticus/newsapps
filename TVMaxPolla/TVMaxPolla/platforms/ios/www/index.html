@@ -5,7 +5,8 @@
 	
 	<head>	
 		<title>TVMax</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" >	
+		<!--meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >	
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">	
@@ -16,18 +17,23 @@
 	</head>
 	
 	<body class="content-init" style="position: fixed;">
-	
-		<header>
+		<img id="splash" src="img/splash/splash.png" height="100%" width="100%"/>
+		<header class="hidden">
 			<div class="container">
 				<div class="row">
 														
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu" style="text-align: left;">
 						<span class="icon-menuhome"></span>
 					</div>
-					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 title" style="text-align: center;">						
-					</div>					
+					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 title" style="text-align: center; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;">						
+					</div>
+										
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 share hidden" style="text-align: right;">
 						<span class="icon-shareandroid"></span>
+					</div>
+
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu-group hidden" style="text-align: right;">
+						<span class="icon-menuhome"></span>
 					</div>
 
 				</div>				 
@@ -36,14 +42,16 @@
 
 		<main>&nbsp;</main>
 
-		<div id="wrapperM" class="page" style="left: -100%;" >
+		<div id="wrapperM" class="page" style="z-index:3; left: -100%;" >
 			<div class="scroller">				
 				<div class="container">
 				</div>	
 			</div>
 		</div>	
 		
-		<footer>&nbsp;</footer>
+		<footer>
+			&nbsp;	
+		</footer>
 
 		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
@@ -56,6 +64,7 @@
         <script type="text/javascript" src="js/utils.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/touchEvents.js"></script>
+        <script type="text/javascript" src="js/clientManager.js"></script>
         
         <!-- cordova facebook plugin -->
 		<script src="cdv-plugin-fb-connect.js"></script>

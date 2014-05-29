@@ -35,18 +35,22 @@ var _tap = false;
 
 var _jMenu=[
 	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
-  	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
-  	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	
-  	{index:3,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
-  	{index:4,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	
-  	{index:5,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},  	
-  	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
-  	{index:7,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},  	
-  	{index:8,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
-  	{index:9,class:'content-players',title:'Biograf&iacute;as',load:'players.html', glyphicon:'icon-biografia_menu', json:false},
-  	{index:10,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
-  	{index:11,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
-  	{index:12,class:'content-mam',title:'MaM',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false} 	   
+	{index:1,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
+	{index:2,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
+	{index:3,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},	
+  	{index:4,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
+  	{index:5,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	 
+  	{index:6,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
+  	{index:7,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
+  	{index:8,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},  	  
+  	{index:9,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
+  	{index:10,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
+  	{index:11,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
+  	{index:12,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
+  	{index:13,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
+  	{index:14,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},
+  	{index:15,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
+	{index:16,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
 ];
 
 
@@ -66,16 +70,17 @@ var app = {
     onDeviceReady: function() {
     	
     	
-    	/*_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[0].json = _json.noticias_mundial;						
 				$.each(_json.noticias_mundial.item, function(_index,_item) {
 					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+					var _img = $('img').attr('src',_item.imagen);
 					return false;
 				});				
 			});
-		}*/
+		}
     	    	
     	$.each(_jPlayers, function(_index,_player) {
 			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
@@ -95,6 +100,9 @@ var app = {
 	    			//_player.xml = _xml;
 	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
+					
+					var _img = $('img').attr('src',_player.image);
+
 					
 				});
 			}
@@ -119,8 +127,12 @@ var app = {
 						
 					_stadium.title = _title;
 	    			//_stadium.xml = _xml;
-	    			_stadium.image = _urlCloud + '/stdmain/' + _id +'-in.jpg';	    								
-					_stadium.datacontent =  _data;						
+	    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
+					_stadium.datacontent =  _data;
+											
+					var _img = $('img').attr('src',_stadium.image);
+					 
+
 						
 				});
 			}		
@@ -139,11 +151,16 @@ var app = {
 									
 		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
 						_data = $('<div>').append(_data).remove().html();
+								
+					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+						_id = _id.split('-');
+						_id = _id[1];								
 												
 					_team.title = _title;
 	    			//_team.xml.fiche = _xml;
+	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
 					_team.datacontent.fiche = _data;							
-
+					var _img = $('img').attr('src', _team.image);
 	
 				});
 			}
@@ -169,7 +186,8 @@ var app = {
 	    			//_history.xml = _xml;
 	    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
 					_history.datacontent =  _data;							
-		
+					var _img = $('img').attr('src', _history.image);
+					
 				});
 			}		
 		});
@@ -177,23 +195,33 @@ var app = {
 
 		document.addEventListener('backbutton', function(e) {
 			
-			if ($('#wrapper2').hasClass('left')) {			
-				_fSetBack();							
-			} else {
-				
+			if ($('body').hasClass('content-polla')) {
 				if ($('#wrapperM').hasClass('right')) {
-			 		_fSetBack();
-				} else if ($('body').hasClass('content-home')) {							
-					exitApp();				
+					$('#wrapperM').attr('class','page transition left');	
+				} else if ($('#wrapper2').hasClass('left')) {
+					$('#wrapper2').attr('class','page transition right');
+				} else {				
+					_fSetLoadInit();
+				}
+			} else {
+			
+				if ($('#wrapper2').hasClass('left')) {			
+					_fSetBack();							
 				} else {
-					$('body').removeClass();
-					$('body').addClass(_jMenu[0].class);
-					$('main').data('index',0);		
-					$('main').load(_jMenu[0].load);
-					$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+					
+					if ($('#wrapperM').hasClass('right')) {
+				 		_fSetBack();
+					} else if ($('body').hasClass('content-home')) {							
+						exitApp();				
+					} else {						
+						_fSetLoadInit();
+					}
+										
 				}
 				
-			}
+			}	
+			
+			
 										
 		}, false);
 		
@@ -205,11 +233,15 @@ var app = {
     receivedEvent: function(id) {
     	//init things
     	initPage();
+    	checkVersion();
     }
 };
 
 
 function initPage(){
+	
+	
+	
 	
 	var _html = '<div class="row">';	
 	$(_jMenu).each(function(_index,_menu) {
@@ -221,31 +253,20 @@ function initPage(){
 	_html += '</div>';
 
 	$('#wrapperM .scroller .container').html(_html);
+	 _jClient = JSON.parse(loadClientData());
 	
+	alert(_jClient);
 	
-	$('body').removeClass();
-	$('body').addClass(_jMenu[0].class);
-	$('main').data('index',0);		
-	$('main').load(_jMenu[0].load);
-	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
-
-	//touchFunctions();
-	//initFacebookManager();
+	if (_jClient != null) {
+		_fSetLoadInit();
+	} else {
+		initFacebookManager();
+		//getLoginStatus();
+		_fSetLoadDefault();	
+	}
 
 }
-function _fRenderLoad(){
-	
-	
-};
 
-
-function touchFunctions(){
-	//facebook login
-	$('#facebookLoginButton').click(function(){
-        //alert("JQuery Running!");
-		login();
-	});
-}
 
 
 

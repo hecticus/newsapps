@@ -16,7 +16,8 @@
 				
 			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
-				this.refresh();		
+				this.refresh();	
+				$("header").removeClass('hidden');
 			});	
 			
 		</script>

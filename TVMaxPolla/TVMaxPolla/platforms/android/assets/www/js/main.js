@@ -4,6 +4,8 @@ var  _mTimeout;
 var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
 var _jClient = false;
 
+var _homeWasShowed = false;
+
 var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
                           {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
                           {"id_tvmax":"3","name":"Argentina","shortname":"ARG","flag":"ar-lgflag.png","ext_id":"3029"},
@@ -72,7 +74,7 @@ var _fSetLoadDefault = function() {
 	$('body').addClass('content-default');
 	$('main').data('index',-1);		
 	$('main').load('default.html');
-	$('.title').html('<span>Default</span>'); 
+	$('.title').html('<span>Inicio</span>'); 
 };
 
 var _fSetLoadInit = function() {
@@ -96,7 +98,7 @@ var _fSetBack = function() {
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-	
+	$('.tv').removeClass('hidden');	
 };
 
 
@@ -202,14 +204,14 @@ $.fPostAjaXJSON = function(_url, _data) {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			_fGetLoadingError();
-			alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
+			//alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
 			return false;
 		});
 		   
 	} catch (e) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
-		 alert(e);
+		 //alert(e);
 		_fGetLoadingError();
 		return false;
 	}
@@ -251,16 +253,30 @@ $.fPostAjaXJSON = function(_url, _data) {
 		hr = "hh";
 		dy = "dd";
 
-		var _html = '<div class="row" style="padding:25px;" >';
-		
-		_html += '<div class=col-md-12" style="text-align:center; font-size: 2em; font-weight:bold; color:#4D4D4D;" >';	
-			_html += '<span>' + daysRound + ' : </span>';
-			_html += '<span>' + hoursRound + ' : </span>';
-			_html += '<span>' + minutesRound + ' : </span>';
-			_html += '<span>' + secondsRound +'</span>';
+		var _html = '<div class="row">';		
+			_html += '<div class="table-responsive">';
+				_html += '<table class="table time">';
+				
+				
+				
+					_html += '<tr>';			
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;" >' + daysRound +'</td>';
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + hoursRound +'</td>';
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + minutesRound +'</td>';
+						_html += '<td>' + secondsRound +'</td>';			
+					_html += '</tr>';
+					
+					_html += '<tr>';		
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">D&iacute;as</td>';
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">Horas</td>';
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">Minutos</td>';
+						_html += '<td class="caption">Segundos</td>';					
+					_html += '</tr>';
+				
+				_html += '</table>';
+			_html += '</div>';
 		_html += '</div>';
 
-		
 
 		return _html;
 		
@@ -269,19 +285,25 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 	var _fRenderGetInitTime = function(_class) {
 
-		var _html = '<div class="row" style="padding:25px;" >';
-		
-		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center; " >';
-		_html += '<h3>Para el Mundial faltan</h3>';
+		var _html = '<div class="row">';
+
+		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; " >';
+		_html += '<span>Faltan:</span>';
 		_html += '</div>';
 		
 		_html += '<div class="col-md-12" >';		
 		_html +=  _fGetTime();
 		_html += '</div>';
 		
-		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center;" >';
+		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; border-bottom: solid #FFD455; " >';
+		_html += '<span>&#161;Para el Mundial!</span>';
+		_html += '</div>';
+	
+
+		
+		_html += '<div class="col-md-12" style="font-size: 1.6em; color:#4D4D4D; text-align:center;" >';
 		_html += '<h4>&#161;Pronto disfrutar&aacute;s de esta secci&oacute;n!</h4>';
-		_html += '<span class="' + _class  + '" style="font-size: 4em;"></span>';
+		_html += '<span class="' + _class  + '" style="font-size: 6em;"></span>';
 		_html += '</div>';
 		
 		
@@ -362,18 +384,36 @@ $.fPostAjaXJSON = function(_url, _data) {
 		
 			_oAjax.done(function(_json) {			
 				if (_json.response.length == 0) {
-					alert('No existe');
+					//alert('No existe');
+					navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
 				} else {
 					saveClientData(_json.response[0]);					
 					_fSetLoadInit();												
-				}			   
+				}
+				navigator.notification.activityStop();
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
+				//ERROR
+				navigator.notification.activityStop();
 			});	
 		
 		}
 		
 	};
+	
+	function backFromRegister(){
+		$('header .container .row .menu span').removeClass();
+		if(_homeWasShowed){
+			$('header .container .row .menu span').addClass('icon-menuhome');
+			_fSetLoadInit();
+		}else{
+			_fSetLoadDefault();	
+		}
+	}
+	
+	function doNothing(){
+		
+	}
 
