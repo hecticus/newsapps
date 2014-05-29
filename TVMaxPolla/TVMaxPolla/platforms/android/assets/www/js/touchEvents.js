@@ -1,5 +1,5 @@
 	//CALENDARIO JS
-	$(document).on('click','.calendar', function(e) {						
+	$(document).on('touchend','.calendar', function(e) {
 		preventBadClick(e);
 		eval($(this).data('function'));		
 		$('.calendar').removeClass('active');	
@@ -9,7 +9,7 @@
 		myScroll2.scrollTo(0,0,0);		
 	});
 	
-	$(document).on('click','.match', function(e) {	
+	$(document).on('touchend','.match', function(e) {
 		preventBadClick(e);
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
@@ -31,10 +31,14 @@
 	});
 	
 	//INDEX JS
-	$(document).on('click','.menu', function(e) {
+	$(document).on('touchend','.menu', function(e) {
 		preventBadClick(e);
 
-		if ($('header .container .row .menu span').hasClass('icon-back')) {
+		if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signin')) {
+			backFromRegister()			
+		} else if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signup')) {
+			backFromRegister()			
+		} else if ($('header .container .row .menu span').hasClass('icon-back')) {
 			_fSetBack();			
 		} else if ($('#wrapperM').hasClass('right')) {
 			$('#wrapperM').attr('class','page transition left');	
@@ -46,12 +50,8 @@
 		
 	});
 	$(document).on('click','.load', function(e) {
+		
 		preventBadClick(e);
-	/*	$(document).unbind('click');
-  		$(document).bind('click'); 
-		$(document).off('click');
-		$(document).on('click');*/
-
 		clearTimeout(_mTimeout);			
 		
 		if(_oAjax && _oAjax.readystate != 4) {
@@ -61,14 +61,28 @@
 		_fSetBack();
 		var _this = $(this);
 		
-		$('body').removeClass();
-		$('body').addClass(_jMenu[_this.data('index')].class);
-		$('main').empty();
-		$('main').data('index',_this.data('index'));	
-		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_jMenu[_this.data('index')].load);
-	
-		$('#wrapperM').attr('class','page transition left');
+		
+			
+		if (_this.data('index') == 'fb') {
+			login();
+		} else {
+			if(_jMenu[_this.data('index')].class == 'content-polla' || _jMenu[_this.data('index')].class == 'content-alertas'){
+				//revisamos si esta hay client data
+				if(loadClientData() == null){
+					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
+					return;
+				}
+			}
+			
+			$('body').removeClass();
+			$('body').addClass(_jMenu[_this.data('index')].class);
+			$('main').empty();
+			$('main').data('index',_this.data('index'));	
+			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+			$('main').load(_jMenu[_this.data('index')].load);	
+			$('#wrapperM').attr('class','page transition left');
+		}
+
 	
 	});
 	$(document).on('click','.video', function(e) {
@@ -92,7 +106,91 @@
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
+
 	//POLLA JS
+	$(document).on('click','.content-polla-menu[data-group]', function(e) {
+		preventBadClick(e);	
+		var _group = $(this).data('group');
+		$('.group').addClass('hidden');		
+		$('.group[data-group="'+_group+'"]').removeClass('hidden');
+		$('#wrapper2').attr('class','page transition right');
+	});
+	
+	$(document).on('click','.content-polla-menu[data-group]', function(e) {
+		preventBadClick(e);	
+		var _group = $(this).data('group');
+		$('.group').addClass('hidden');		
+		$('.group[data-group="'+_group+'"]').removeClass('hidden');
+		$('#wrapper2').attr('class','page transition right');
+	});
+	
+	$(document).on('click','.menu-group', function(e) {	
+		preventBadClick(e);
+		$('#wrapper2').attr('class','page transition left');
+		myScroll2.scrollTo(0,0,0);
+	});
+
+
+	$(document).on('touchend','.save', function() {
+		
+		 
+		
+		$('#polla-save').html('LOADING...');
+		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
+		var _phase = $('.phase:visible').data('phase');
+
+		$('.row.phase:visible .group .game').each(function(index) {	
+			var _goal = {team_a:0,team_b:0};
+			_goal.team_a = $(this).find('.score .team.team-a .goal').data('goal');
+			_goal.team_b = $(this).find('.score .team.team-b .goal').data('goal');	
+			var _game =  $(this).data('game');
+			//revisamos quien fue el ganador y ajustar los datos
+			var draw = false;
+			var team_a_id = $(this).find('.score .team.team-a').data('team');
+			var team_b_id = $(this).find('.score .team.team-b').data('team');
+			if(_goal.team_a == _goal.team_b && _phase == 1){
+				draw=true;
+			}
+			if(_goal.team_a < _goal.team_b){
+				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_b_id, 'id_team_loser':team_a_id, 'score_winner': _goal.team_b,'score_loser': _goal.team_a, 'draw':draw});
+			}else{
+				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_a_id, 'id_team_loser':team_b_id, 'score_winner': _goal.team_a,'score_loser': _goal.team_b, 'draw':draw});
+			}			
+		});
+
+
+		//alert(JSON.stringify(_jSave));
+		//console.log(JSON.stringify(_jSave));
+		
+		_oAjax = $.fPostAjaXJSONSave(_basePollaURL+'/matchesapi/v1/clientbet/save',_jSave);	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {				
+				//_this.html('GUARDAR');
+				$('#polla-save').html('GUARDAR');	
+			});	
+		
+			_oAjax.done(function(_msg) {
+				if (_msg.error==0) {
+					navigator.notification.alert("Bien! Tu pronostico se ha guardado con exito.", doNothing, "Guardar", "OK");
+					//alert('Bien! Tu pronostico se ha guardado con exito.');
+				} else {
+					navigator.notification.alert("Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.", doNothing, "Alerta", "OK");
+					//alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
+				}
+			});
+			
+			_oAjax.fail(function() {				
+				$('#polla-save').html('ERROR');	
+			});	
+			
+		} else {			
+			$('#polla-save').html('GUARDAR');
+		}
+
+	});
+
+
 	$(document).on('touchend','.add', function(e) {
 		preventBadClick(e);	
 		var _tGoal = $(this).parent().data('goal');
@@ -136,8 +234,14 @@
 		}
 	});
 	
+	$(document).on('click','.row.group', function(e) {
+		preventBadClick(e);				
+		$('.goal').removeClass('gol');
+		$('.add, .sub').addClass('hidden');
+
+	});
 	
-	$(document).on('tap','.flag', function(e) {
+	$(document).on('click','.flag', function(e) {
 		preventBadClick(e);				
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
@@ -152,7 +256,7 @@
 
 	});
 	
-	$(document).on('tap','.goal', function(e) {
+	$(document).on('click','.goal', function(e) {
 		preventBadClick(e);				
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
@@ -167,20 +271,6 @@
 
 
 	});
-	
-	//POLLA JS
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	//STADIUMS JS
 	$(document).on('click','.stadium', function(e) {
@@ -198,3 +288,219 @@
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
 	}
+	
+	$(document).on('touchend','#signIn', function(e) {
+		
+	
+		
+		var _email = $('#form-signIn #email').val();
+		var _password = $('#form-signIn #password').val();
+		var _return = true;
+		
+		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		//alert("El email es obligatorio");
+			navigator.notification.alert("El email es obligatorio", doNothing, "Alerta", "OK");
+    		_return = false;
+		}
+		
+		if (_password.length < 6 ) {
+    		//alert("El password es obligatorio");
+			navigator.notification.alert("El password es obligatorio", doNothing, "Alerta", "OK");
+    		_return = false;
+		}
+
+		
+		if (_return)  {
+
+			var _html = $('#signIn').html(); 
+			$(this).html('Loading...');
+		
+			_jData.push_id = _email;
+			_jData.userLogin = _email;
+			_jData.userPass =_password;
+
+			
+			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
+			if (_oAjax) {
+			
+				_oAjax.always(function () {					
+					$('#signIn').html(_html);					
+				});	
+			
+				_oAjax.done(function(_json) {			
+					if (_json.response.length == 0) {
+						//alert('No existe');
+						navigator.notification.alert("El cliente no existe, debe registrarse primero", doNothing, "Alerta", "OK");
+					} else {
+						saveClientData(_json.response[0]);						
+						_fSetLoadInit();						
+					}			   
+				});
+				
+				_oAjax.fail(function() {
+					$('#signIn').html(_html);
+				});	
+				
+			}
+			
+			
+		} 
+
+		return _return;
+		
+
+		
+		
+					
+					
+		
+	});
+
+	$(document).on('click','#facebookLoginButton', function(e) {	
+		navigator.notification.activityStart("Cargando informacion", "Cargando...");
+		login();
+	});
+
+
+	$(document).on('touchend','#signUp', function(e) {
+		
+
+		var _email = $('#form-signUp #email').val();
+		var _rEmail = $('#form-signUp #email2').val();
+		var _password = $('#form-signUp #password').val();
+		var _rPassword = $('#form-signUp #password2').val();
+		var _name = $('#form-signUp #name').val();
+		var _surName = $('#form-signUp #surname').val();
+		var _nick = _name + ' ' + _surName;
+		var _return = true;
+		
+		
+		/*if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		
+		if (!_rEmail.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_email.length != _rEmail.length ) {
+    		alert("El email no coincide");
+    		_return = false;
+		}		
+		
+		if (!_return) return false;
+		
+		if (_password.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_rPassword.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+				
+		if (_password.length != _rPassword.length ) {
+    		alert("El password no coincide");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+
+		if (_name.length < 2 ) {
+    		alert("El nombre es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_surName.length < 2 ) {
+    		alert("El apellido es obligatorio");
+    		_return = false;
+		}
+
+		if (!_return) return false;*/
+		
+		
+		if (_return)  {
+			
+			var _html = $('#signUp').html(); 
+			$(this).html('Loading...');
+		
+			_jData.push_id = _email;
+			_jData.userLogin = _email;
+			_jData.userPass =_password;
+			_jData.userNick= _email;
+			_jData.email =_email;
+
+						
+			
+			//alert(JSON.stringify(_jData));
+			//alert("PASO");
+								
+			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
+			if (_oAjax) {
+			
+				_oAjax.always(function () {
+					//alert('always');
+					$(this).html(_html);					
+				});	
+			
+				_oAjax.done(function(_json) {
+					
+					alert(JSON.stringify(_json));
+								
+					if (_json.response.length == 0) {
+						//alert('No existe');
+						navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+					} else {
+						saveClientData(_json.response[0]);						
+						_fSetLoadInit();
+					}			   
+				});
+				
+				_oAjax.fail(function() {
+					//alert('fail');
+					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+					$(this).html(_html);
+				});	
+				
+			}
+			
+		}
+		
+		return _return;
+		
+		
+		
+		
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

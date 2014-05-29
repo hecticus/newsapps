@@ -1,11 +1,12 @@
 	
 	var _jPhase = [];
 	var _jCountry = [];
+	var _team = false;
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
 		_html += '<img onerror="this.style.display=\'none\'" src="img/flags/'+_image.src+'" alt="' +_image.src + '"  />';		
-		if (_image.caption) _html += '<figcaption>'+_image.caption+'</figcaption>';
+		if (_image.caption) _html += '<figcaption>' + _image.caption + '</figcaption>';
 		_html += '</figure>';
 		return _html;
 	};
@@ -39,28 +40,42 @@
 
 				_html += '<div class="row data-match" >';
 				
-				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1em; font-style:italic;  ">' +  _item.fecha_de_partido + '</span>';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
+				_html += '<span style="font-size:1.2em; margin-left:10px;">' +  _item.fecha_de_partido + '</span>';
 				_html += '</div>';
 								
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1.4em; font-weight:bold; ">' +  _item.fase + '</span>';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:right; color:#FFD455">';
+				_html += '<span style="font-size:1.2em; margin-right:10px;">' +  _item.fase + '</span>';
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
-				_html += '<span>' +  _item.sede + ', </span>';
+				_html += '<span>' +  _item.sede + ' </span>';
 				_html += '</div>';
 
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:20px; padding:5px;">';
-				_html += '<span style="margin-left:15px; font-weight:bold; text-align: center; ">' +  _item.equipo_local + '</span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
+				_team = _fGetAfpTeam(_item.equipo_local_ext_id);
+				 
+				if (_team.shortname) {
+					_html += _fGetImage({src: _team.flag, caption: _team.shortname});	
+				} else {
+					_html += '<span style="margin-left: 5px; font-weight:bold;">' + _item.equipo_local + '</span>';
+				}
+				
 				_html += '</div>';
 			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:40px; padding:5px;">';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';
 				_html += '<span> - </span>';
 				_html += '</div>';
 				
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:60px;  line-height:20px; padding:5px;">';												
-				_html += '<span style="margin-right:15px; font-weight:bold; text-align: center; ">' + _item.equipo_visitante + '</span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
+				_team = _fGetAfpTeam(_item.equipo_visitante_ext_id);
+				 
+				if (_team.shortname) {
+					_html += _fGetImage({src: _team.flag, caption: _team.shortname});	
+				} else {
+					_html += '<span style="margin-right: 5px; font-weight:bold;">' + _item.equipo_visitante + '</span>';
+				}
+								
 				_html += '</div>';		
 								
 				_html += '</div>';
@@ -139,9 +154,9 @@
 			var _jMatch = _fGetJsonMatchDate(((_i < 10 ) ? '0' + _i.toString() : _i.toString()) + '/' + _month);
 						
 			if (_jMatch) {
-				_html += '<td class="match" data-date="' + _date + '" ><span style="color:red;">' + _i.toString() +'</span></td>';
+				_html += '<td class="match" data-date="' + _date + '" ><span style="color:#000000;">' + _i.toString() +'</span></td>';
 			} else {
-				_html += '<td><span>' + _i.toString() +'</span></td>';
+				_html += '<td><span style="color:gray;">' + _i.toString() +'</span></td>';
 			}
 
 			if ((__i%7 == 6) || (_i == _length)) {
@@ -242,28 +257,65 @@
 
 	};
 
-	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/partidos_mundial.php',false,false,true);	
-	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			
-			_jGet = _json.partidos_mundial;	
-		
-			$.each(_jGet.item, function(_index,_item) {
-				
-				if (_item.fase.indexOf('Grupo') >= 0) {
-					if (_jCountry.indexOf(_item.equipo_local) < 0) {					
-						_jCountry.push(_item.equipo_local);
-					}	
-				}
-				
-				if (_jPhase.indexOf(_item.fase) < 0) {
-					_jPhase.push(_item.fase);	
-				}
 
-			});
+
+	var _iIndex = $('main').data('index');
+	_jGet = _jMenu[_iIndex].json;
+	
+	if (_jGet) {
+		
+		$.each(_jGet.item, function(_index,_item) {
 			
-				
-			_fRenderCalendar();
+			if (_item.fase.indexOf('Grupo') >= 0) {
+				if (_jCountry.indexOf(_item.equipo_local) < 0) {					
+					_jCountry.push(_item.equipo_local);
+				}	
+			}
+			
+			if (_jPhase.indexOf(_item.fase) < 0) {
+				_jPhase.push(_item.fase);	
+			}
+
 		});
+								
+		
+		_fRenderCalendar();
+		
+	} else {
+	
+		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				_jMenu[_iIndex].json =  _json.partidos_mundial;					
+				_jGet = _json.partidos_mundial;				
+				$.each(_jGet.item, function(_index,_item) {
+					
+					if (_item.fase.indexOf('Grupo') >= 0) {
+						if (_jCountry.indexOf(_item.equipo_local) < 0) {					
+							_jCountry.push(_item.equipo_local);
+						}	
+					}
+					
+					if (_jPhase.indexOf(_item.fase) < 0) {
+						_jPhase.push(_item.fase);	
+					}
+	
+				});
+								
+				_fRenderCalendar();
+				
+			});
+		}
+	
 	}
+
+
+
+
+
+
+
+
+
+	
 

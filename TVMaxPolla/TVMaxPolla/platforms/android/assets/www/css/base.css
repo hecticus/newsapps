@@ -15,7 +15,7 @@
 		-webkit-tap-highlight-color:rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 	}
 	
-	@font-face
+	/*@font-face
 	{
 		font-family: "tvmaxFont";
 		src: url('../fonts/tvmax.ttf'); 
@@ -45,7 +45,7 @@
     	-moz-text-size-adjust:100%;
     	-ms-text-size-adjust:100%;	    
 	    */
-	}
+	}*/
 	
 	ul, li {
 		list-style:none outside none;

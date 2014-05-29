@@ -2,7 +2,7 @@
 <html lang="es">
 	<body>
 	
-		<div id="wrapper">
+		<div id="wrapper" style="padding-right: 2px;">
 			<div class="scroller">				
 				<div class="container" >
 				</div>	
@@ -13,11 +13,11 @@
 
 
 		<script type="text/javascript">
-				
+			//$("header").removeClass('hidden');
+			$('header .container .row .menu span').addClass('icon-menuhome');
 			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();	
-				$("header").removeClass('hidden');
 			});	
 			
 		</script>

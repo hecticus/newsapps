@@ -39,14 +39,12 @@
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
     </author>
-    
     <content src="index.html" />
     <access origin="*" />
     <access origin="http://mundial.tvmax-9.com/*" />
-    <access origin="http://polla.tvmax-9.com/*" />    
+    <access origin="http://polla.tvmax-9.com/*" />
     <access origin="http://10.0.1.125/*" />
     <access origin="http://10.0.3.142:9002/*" />
-    
     <feature name="org.apache.cordova.facebook.Connect">
         <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
     </feature>
@@ -74,5 +72,14 @@
     </feature>
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="SpinnerDialog">
+        <param name="android-package" value="hu.dpal.phonegap.plugins.SpinnerDialog" />
+    </feature>
+    <feature name="PushPlugin">
+        <param name="android-package" value="com.plugin.gcm.PushPlugin" />
     </feature>
 </widget>

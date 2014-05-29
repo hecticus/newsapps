@@ -1,9 +1,12 @@
-	var _basePollaURL = "http://10.0.1.125:9009";
+	//var _basePollaURL = "http://10.0.1.125:9009";
 	//var _basePollaURL = "http://10.0.3.142:9002";
-
+	var _basePollaURL = 'http://polla.tvmax-9.com';
+	
 	var _jPrediction = [];
-	//var _iClient = 22;
-	var _iClient = 3;
+	var _iClient = false;
+
+	_iClient = _jClient.id_social_clients;
+
 
 	var _fGetFlag = function(_team){ 
 		var _html = '<figure class="flag">';					     		
@@ -125,7 +128,7 @@
 				_html += '</div>';
 			
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 save" style="color:#4D4D4D; background:#ffffff;  height:50px; line-height:50px; text-align:center;">';
-				_html += '<span style="font-size:1.2em;">GUARDAR</span>';
+				_html += '<span id="polla-save" style="font-size:1.2em;">GUARDAR</span>';
 				_html += '</div>';
 			
 	    		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 next" style="color:#4D4D4D; background:#ffffff; height:50px; line-height:50px; text-align:right; ">';
@@ -142,17 +145,18 @@
 
 		     	myScroll.scrollTo(0,0,0);
 		     	
-		     	_html = '';
+		     	_html = '<div class="row">';
+		     	
 		     	$.each(_jPrediction, function(index,phase) {
-		     		 $.each(phase.groups, function(index, group) {
-		     		 	_html += '<div class="row">';					
+		     		 $.each(phase.groups, function(index, group) {				
 						_html += '<div class="col-md-12 content-polla-menu" data-group="'+group.id+'"  >';
 						_html += '<span>Grupo ' + group.name + '</span>';
 						_html += '</div>';	        	
-						_html += '</div>';
+						
 		     		 });
 		     	});
-
+		     	
+				_html += '</div>';
 				$('#wrapper2 .scroller .container').html(_html);
 		     	
 	    		
@@ -165,16 +169,7 @@
 	};
 	
 	
-	$(document).on('tap','.content-polla-menu[data-group]', function(e) {		
-		var _group = $(this).data('group');
-		$('.group').addClass('hidden');		
-		$('.group[data-group="'+_group+'"]').removeClass('hidden');
-		$('#wrapper2').attr('class','page transition right');
-	});
 	
-	$(document).on('click','.menu-group', function(e) {		
-		$('#wrapper2').attr('class','page transition left');
-	});
 	
 	
 	var _cRenderGame = function(_game){
@@ -240,61 +235,7 @@
 		});
 	}
 
-	//POLLA JS
-	$(document).on('touchend','.save', function() {
-		
-		 
-		var _this = $('footer .container row .save span').html('LOADING...');
-		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
-		var _phase = $('.phase:visible').data('phase');
-
-		$('.row.phase:visible .group .game').each(function(index) {	
-			var _goal = {team_a:0,team_b:0};
-			_goal.team_a = $(this).find('.score .team.team-a .goal').data('goal');
-			_goal.team_b = $(this).find('.score .team.team-b .goal').data('goal');	
-			var _game =  $(this).data('game');
-			//revisamos quien fue el ganador y ajustar los datos
-			var draw = false;
-			var team_a_id = $(this).find('.score .team.team-a').data('team');
-			var team_b_id = $(this).find('.score .team.team-b').data('team');
-			if(_goal.team_a == _goal.team_b && _phase == 1){
-				draw=true;
-			}
-			if(_goal.team_a < _goal.team_b){
-				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_b_id, 'id_team_loser':team_a_id, 'score_winner': _goal.team_b,'score_loser': _goal.team_a, 'draw':draw});
-			}else{
-				_jSave.clientBet.matches.push({'id_match': _game ,'id_team_winner':team_a_id, 'id_team_loser':team_b_id, 'score_winner': _goal.team_a,'score_loser': _goal.team_b, 'draw':draw});
-			}			
-		});
-
-
-		//alert(JSON.stringify(_jSave));
-		//console.log(JSON.stringify(_jSave));
-		
-		_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/save',_jSave);	
-		if (_oAjax) {
-		
-			_oAjax.always(function () {				
-				_this.html('GUARDAR');	
-			});	
-		
-			_oAjax.done(function(_msg) {
-				if (_msg.error==0) {
-					alert('Bien! Tu pronostico se ha guardado con exito.');
-				} else {
-					alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
-				}
-			});
-			
-			_oAjax.fail(function() {				
-				_this.html('ERROR');
-			});	
-			
-		} else {			
-			_this.html('GUARDAR');
-		}
-
-	});
+	
 	
 
 

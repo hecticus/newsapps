@@ -2,7 +2,7 @@ var APP_ID = '647787605309095'; // <----( this is the PhoneGap-Facebook app id
 
 function initFacebookManager(){
 	try {
-		alert('Device is ready! Make sure you set your app_id below this alert.');
+		//alert('Device is ready! Make sure you set your app_id below this alert.');
 		FB.init({ appId: APP_ID, nativeInterface: CDV.FB, useCachedDialogs: false });
 
 		//INIT OTHER STUFF
@@ -36,17 +36,25 @@ function initFacebookManager(){
 	}
 }
 
-/*function getSession() {
-    alert("session: " + JSON.stringify(FB.getSession()));
-}
- */
+
 function getLoginStatus() {
 	FB.getLoginStatus(function(response) {
-		alert(JSON.stringify(response));
+		if (response.authResponse.session_key) {
+     		FB.api('/me', function(response) {
+     			_fGetLoginStatus({socialId: response.id});
+			});
+     	} else {
+     		alert('not logged in');
+     	}
 	});
 }
+
+
+
 var friendIDs = [];
 var fdata;
+
+
 function me() {
 	FB.api('/me/friends', { fields: 'id, name, picture' },  function(response) {
 		if (response.error) {
@@ -81,47 +89,16 @@ function logout() {
 }
 
 function login() {
-	FB.login(
-			function(response) {
-				alert(JSON.stringify(response));
-			},
-			{ scope: "email" }
+    FB.login(
+     function(response) {
+     	if (response.authResponse.session_key) {
+     		FB.api('/me', function(response) {
+  				_fGetLoginStatus({socialId: response.id});
+			});
+     	} else {
+     		alert('not logged in');
+     	}
+     },{ scope: "email" }
 	);
-}
+};
 
-
-/*function facebookWallPost() {
-	console.log('Debug 1');
-	var params = {
-			method: 'feed',
-			name: 'Facebook Dialogs',
-			link: 'https://developers.facebook.com/docs/reference/dialogs/',
-			picture: 'http://fbrell.com/f8.jpg',
-			caption: 'Reference Documentation',
-			description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-	};
-	console.log(params);
-	FB.ui(params, function(obj) { console.log(obj);});
-}
-
-function publishStoryFriend() {
-	randNum = Math.floor ( Math.random() * friendIDs.length ); 
-
-	var friendID = friendIDs[randNum];
-	if (friendID == undefined){
-		alert('please click the me button to get a list of friends first');
-	}else{
-		console.log("friend id: " + friendID );
-		console.log('Opening a dialog for friendID: ', friendID);
-		var params = {
-				method: 'feed',
-				to: friendID.toString(),
-				name: 'Facebook Dialogs',
-				link: 'https://developers.facebook.com/docs/reference/dialogs/',
-				picture: 'http://fbrell.com/f8.jpg',
-				caption: 'Reference Documentation',
-				description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-		};
-		FB.ui(params, function(obj) { console.log(obj);});
-	}
-}*/

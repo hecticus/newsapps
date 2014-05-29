@@ -1,6 +1,10 @@
 //variables globales
 
 var  _mTimeout;
+var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
+var _jClient = false;
+
+var _homeWasShowed = false;
 
 var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
                           {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
@@ -64,6 +68,15 @@ var _fGetFormatDate = function(_date) {
 	return _year + ' ' + _time[0] + ':' + _time[1] + ((_time[0] > 12) ? ' pm' : ' am');
 };
 
+var _fSetLoadDefault = function() {
+	clearTimeout(_mTimeout);
+	$('body').removeClass();
+	$('body').addClass('content-default');
+	$('main').data('index',-1);		
+	$('main').load('default.html');
+	$('.title').html('<span>Inicio</span>'); 
+};
+
 var _fSetLoadInit = function() {
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
@@ -77,14 +90,15 @@ var _fSetLoadInit = function() {
 var _fSetBack = function() {
 		
 	clearTimeout(_mTimeout);
-	$('.share').addClass('hidden');
-	$('.share').removeAttr('onclick');
+	$('.share, .menu-group').addClass('hidden');
+	$('.share, .menu-group').removeAttr('onclick');
 				
 	$('#wrapperM').attr('class','page transition left');	
-	$('#wrapper2 .scroller .container').empty();			
+	$('#wrapper2 .scroller .container').empty();
+	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-	
+	$('.tv').removeClass('hidden');	
 };
 
 
@@ -147,7 +161,7 @@ $.fGetAjaXJSON = function(_url, _dataType, _contentType, _async) {
 };
 
 
-$.fPostAjaXJSON = function(_url, _data) {
+$.fPostAjaXJSONSave = function(_url, _data) {
 	
 	try {				
 	  	return $.ajax({
@@ -161,7 +175,6 @@ $.fPostAjaXJSON = function(_url, _data) {
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
-			alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
 			_fGetLoadingError();
 			return false;
 		});
@@ -170,6 +183,35 @@ $.fPostAjaXJSON = function(_url, _data) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
 		// alert(e);
+		_fGetLoadingError();
+		return false;
+	}
+	
+};
+
+$.fPostAjaXJSON = function(_url, _data) {
+	
+	try {				
+	  	return $.ajax({
+			url: _url,		
+			data: JSON.stringify(_data),	
+			type: 'POST',
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			beforeSend : function () {
+				_fGetLoading();
+		}}).always(function () {
+			//always		
+		}).fail(function(jqXHR, textStatus, errorThrown) {		
+			_fGetLoadingError();
+			//alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
+			return false;
+		});
+		   
+	} catch (e) {
+		// statements to handle any exceptions
+		// pass exception object to error handler
+		 //alert(e);
 		_fGetLoadingError();
 		return false;
 	}
@@ -211,16 +253,30 @@ $.fPostAjaXJSON = function(_url, _data) {
 		hr = "hh";
 		dy = "dd";
 
-		var _html = '<div class="row" style="padding:25px;" >';
-		
-		_html += '<div class=col-md-12" style="text-align:center; font-size: 2em; font-weight:bold; color:#4D4D4D;" >';	
-			_html += '<span>' + daysRound + ' : </span>';
-			_html += '<span>' + hoursRound + ' : </span>';
-			_html += '<span>' + minutesRound + ' : </span>';
-			_html += '<span>' + secondsRound +'</span>';
+		var _html = '<div class="row">';		
+			_html += '<div class="table-responsive">';
+				_html += '<table class="table time">';
+				
+				
+				
+					_html += '<tr>';			
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;" >' + daysRound +'</td>';
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + hoursRound +'</td>';
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + minutesRound +'</td>';
+						_html += '<td>' + secondsRound +'</td>';			
+					_html += '</tr>';
+					
+					_html += '<tr>';		
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">D&iacute;as</td>';
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">Horas</td>';
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">Minutos</td>';
+						_html += '<td class="caption">Segundos</td>';					
+					_html += '</tr>';
+				
+				_html += '</table>';
+			_html += '</div>';
 		_html += '</div>';
 
-		
 
 		return _html;
 		
@@ -229,19 +285,25 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 	var _fRenderGetInitTime = function(_class) {
 
-		var _html = '<div class="row" style="padding:25px;" >';
-		
-		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center; " >';
-		_html += '<h3>Para el Mundial faltan</h3>';
+		var _html = '<div class="row">';
+
+		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; " >';
+		_html += '<span>Faltan:</span>';
 		_html += '</div>';
 		
 		_html += '<div class="col-md-12" >';		
 		_html +=  _fGetTime();
 		_html += '</div>';
 		
-		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center;" >';
+		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; border-bottom: solid #FFD455; " >';
+		_html += '<span>&#161;Para el Mundial!</span>';
+		_html += '</div>';
+	
+
+		
+		_html += '<div class="col-md-12" style="font-size: 1.6em; color:#4D4D4D; text-align:center;" >';
 		_html += '<h4>&#161;Pronto disfrutar&aacute;s de esta secci&oacute;n!</h4>';
-		_html += '<span class="' + _class  + '" style="font-size: 4em;"></span>';
+		_html += '<span class="' + _class  + '" style="font-size: 6em;"></span>';
 		_html += '</div>';
 		
 		
@@ -254,7 +316,113 @@ $.fPostAjaXJSON = function(_url, _data) {
 			_fRenderGetInitTime(_class);	
 		}, 1000);
 		
-	};			
+	};
+	
+	
+	//VERSION CONTROLLER
+	//revisamos cada 10 min por una nueva version
+	var versionInterval = window.setInterval(function(){
+		checkVersion();
+	},300000);
+	
+	var updateURL;
+	function checkVersion(){
+		//console.log("revisando version");
+		try {	
+			var osName;
+			//var urlVersion = "http://192.168.1.128:9002/tvmax/appversion/check/1/android";
+			var devicePlatform = device.platform;
+			//IOS
+			if(devicePlatform == "iOS"){
+				osName = "ios";
+			}else{
+				//ANDROID
+				osName = "android";
+			}
+			var version = 1;
+			
+			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
+			updateURL = "";
+		  	$.ajax({
+				url : urlVersion,
+				timeout : 60000,
+				success : function(data, status) {
+					if(typeof data == "string"){
+						data = JSON.parse(data);
+					}
+					var code = data.error;
+					var response = data.response;
+					if(code == 0 && response != null){
+						var results = data.response.updateUrl;
+						//hay una nueva version y hay que llamar al dialogo para actualizar
+						if(results!= null && results.length>0){
+							updateURL = results;
+							console.log("URL "+updateURL);
+							navigator.notification.alert("Hay una nueva versión de la aplicación", goToUpdatePage, "Actualización", "Descargar");
+						}
+					}
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					console.log("error version");
+				}
+			});
+			   
+		} catch (e) {
+		}
+	};
+	function goToUpdatePage(){
+		window.open(updateURL, '_system', 'closebuttoncaption=regresar');
+	}
 		
 	
+
+	function _fGetLoginStatus(_jData) {
+		
+		
+		_jData.id_country = 8;
+		_jData.id_business = 17;
+		_jData.app_id = 1;
+
+							
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
+		if (_oAjax) {
+	
+			_oAjax.always(function () {					
+				//always				
+			});	
+		
+			_oAjax.done(function(_json) {			
+				if (_json.response.length == 0) {
+					//alert('No existe');
+					navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
+				} else {
+					saveClientData(_json.response[0]);					
+					_fSetLoadInit();												
+				}
+				navigator.notification.activityStop();
+			});
+			
+			_oAjax.fail(function() {
+				//fail	
+				//ERROR
+				navigator.notification.activityStop();
+			});	
+		
+		}
+		
+	};
+	
+	function backFromRegister(){
+		$('header .container .row .menu span').removeClass();
+		if(_homeWasShowed){
+			$('header .container .row .menu span').addClass('icon-menuhome');
+			_fSetLoadInit();
+		}else{
+			_fSetLoadDefault();	
+		}
+	}
+	
+	function doNothing(){
+		
+	}
 

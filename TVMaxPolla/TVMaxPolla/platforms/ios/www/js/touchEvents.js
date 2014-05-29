@@ -1,5 +1,5 @@
 	//CALENDARIO JS
-	$(document).on('click','.calendar', function(e) {						
+	$(document).on('touchend','.calendar', function(e) {
 		preventBadClick(e);
 		eval($(this).data('function'));		
 		$('.calendar').removeClass('active');	
@@ -8,7 +8,8 @@
 		myScroll.scrollTo(0,0,0);
 		myScroll2.scrollTo(0,0,0);		
 	});
-	$(document).on('click','.match', function(e) {	
+	
+	$(document).on('touchend','.match', function(e) {
 		preventBadClick(e);
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
@@ -30,7 +31,7 @@
 	});
 	
 	//INDEX JS
-	$(document).on('click','.menu', function(e) {
+	$(document).on('touchend','.menu', function(e) {
 		preventBadClick(e);
 
 		if ($('header .container .row .menu span').hasClass('icon-back')) {
@@ -40,14 +41,13 @@
 		} else {
 			$('#wrapperM').attr('class','page transition right');
 		}
+		myScrollM.scrollTo(0,0,0);
+		
+		
 	});
 	$(document).on('click','.load', function(e) {
+		
 		preventBadClick(e);
-	/*	$(document).unbind('click');
-  		$(document).bind('click'); 
-		$(document).off('click');
-		$(document).on('click');*/
-
 		clearTimeout(_mTimeout);			
 		
 		if(_oAjax && _oAjax.readystate != 4) {
@@ -57,14 +57,20 @@
 		_fSetBack();
 		var _this = $(this);
 		
-		$('body').removeClass();
-		$('body').addClass(_jMenu[_this.data('index')].class);
-		$('main').empty();
-		$('main').data('index',_this.data('index'));	
-		$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-		$('main').load(_jMenu[_this.data('index')].load);
-	
-		$('#wrapperM').attr('class','page transition left');
+		
+			
+		if (_this.data('index') == 'fb') {
+			login();
+		} else {
+			$('body').removeClass();
+			$('body').addClass(_jMenu[_this.data('index')].class);
+			$('main').empty();
+			$('main').data('index',_this.data('index'));	
+			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
+			$('main').load(_jMenu[_this.data('index')].load);	
+			$('#wrapperM').attr('class','page transition left');
+		}
+
 	
 	});
 	$(document).on('click','.video', function(e) {
@@ -88,11 +94,36 @@
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
+
 	//POLLA JS
-	$(document).on('touchend','.save', function(e) {
+	$(document).on('click','.content-polla-menu[data-group]', function(e) {
+		preventBadClick(e);	
+		var _group = $(this).data('group');
+		$('.group').addClass('hidden');		
+		$('.group[data-group="'+_group+'"]').removeClass('hidden');
+		$('#wrapper2').attr('class','page transition right');
+	});
+	
+	$(document).on('click','.content-polla-menu[data-group]', function(e) {
+		preventBadClick(e);	
+		var _group = $(this).data('group');
+		$('.group').addClass('hidden');		
+		$('.group[data-group="'+_group+'"]').removeClass('hidden');
+		$('#wrapper2').attr('class','page transition right');
+	});
+	
+	$(document).on('click','.menu-group', function(e) {	
 		preventBadClick(e);
+		$('#wrapper2').attr('class','page transition left');
+		myScroll2.scrollTo(0,0,0);
+	});
+
+
+	$(document).on('touchend','.save', function() {
+		
 		 
-		var _this = $(this).html(_fGetButton('LOADING...'));
+		
+		$('#polla-save').html('LOADING...');
 		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
 		var _phase = $('.phase:visible').data('phase');
 
@@ -119,11 +150,12 @@
 		//alert(JSON.stringify(_jSave));
 		//console.log(JSON.stringify(_jSave));
 		
-		_oAjax = $.fPostAjaXJSON(basePollaURL+'/matchesapi/v1/clientbet/save',JSON.stringify(_jSave));	
+		_oAjax = $.fPostAjaXJSONSave(_basePollaURL+'/matchesapi/v1/clientbet/save',_jSave);	
 		if (_oAjax) {
 		
-			_oAjax.always(function () {
-				_this.html(_fGetButton('GUARDAR'));	
+			_oAjax.always(function () {				
+				//_this.html('GUARDAR');
+				$('#polla-save').html('GUARDAR');	
 			});	
 		
 			_oAjax.done(function(_msg) {
@@ -134,18 +166,35 @@
 				}
 			});
 			
-			_oAjax.fail(function() {
-				_this.html(_fGetButton('ERROR'));
+			_oAjax.fail(function() {				
+				$('#polla-save').html('ERROR');	
 			});	
 			
-		} else {
-			_this.html(_fGetButton('GUARDAR'));
+		} else {			
+			$('#polla-save').html('GUARDAR');
 		}
-		
-
-	
 
 	});
+
+
+	$(document).on('touchend','.add', function(e) {
+		preventBadClick(e);	
+		var _tGoal = $(this).parent().data('goal');
+		_tGoal = parseInt(_tGoal + 1);
+		$(this).parent().data('goal',_tGoal);
+		$(this).parent().find('.score').html(_tGoal);
+	});
+	
+	$(document).on('touchend','.sub', function(e) {
+		preventBadClick(e);	
+		var _tGoal = $(this).parent().data('goal');
+		_tGoal = parseInt(_tGoal - 1);					
+		if (_tGoal <= 0)  _tGoal = 0;					
+		$(this).parent().data('goal',_tGoal);
+		$(this).parent().find('.score').html(_tGoal);
+	});	
+	
+
 	$(document).on('touchend','.back', function(e) {	
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
@@ -156,38 +205,29 @@
 		}
 		
 		_group = $('.group:visible').data('group');						
-		if (_group == 1) $('.back').addClass('hidden');																
+		//if (_group == 1) $('.back').addClass('hidden');																
 		myScroll.scrollTo(0,0,0);
 						
 	});
+	
 	$(document).on('touchend','.next', function(e) {
 		preventBadClick(e);									
-		var _group = $('.group:visible').data('group');									
-		$('.group').addClass('hidden');
-		$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
-		$('.back').removeClass('hidden');
-								
-		myScroll.scrollTo(0,0,0);	
-		e.preventDefault();
-		
-		
+		var _group = $('.group:visible').data('group');
+		if (_group <= 7) {
+			$('.group').addClass('hidden');
+			$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
+			myScroll.scrollTo(0,0,0);	
+		}
 	});
-	$(document).on('touchend','.add', function(e) {
-		preventBadClick(e);
-		var _tGoal = $(this).parent().data('goal');
-		_tGoal = parseInt(_tGoal + 1);
-		$(this).parent().data('goal',_tGoal);
-		$(this).parent().find('.score').html(_tGoal);
+	
+	$(document).on('click','.row.group', function(e) {
+		preventBadClick(e);				
+		$('.goal').removeClass('gol');
+		$('.add, .sub').addClass('hidden');
+
 	});
-	$(document).on('touchend','.sub', function(e) {
-		preventBadClick(e);
-		var _tGoal = $(this).parent().data('goal');
-		_tGoal = parseInt(_tGoal - 1);					
-		if (_tGoal <= 0)  _tGoal = 0;					
-		$(this).parent().data('goal',_tGoal);
-		$(this).parent().find('.score').html(_tGoal);
-	});	
-	$(document).on('tap','.flag', function(e) {
+	
+	$(document).on('click','.flag', function(e) {
 		preventBadClick(e);				
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
@@ -201,7 +241,8 @@
 		$('.game[data-game="'+_game+'"] .score .team[data-team="'+_team+'"] .goal').addClass('gol');
 
 	});
-	$(document).on('tap','.goal', function(e) {
+	
+	$(document).on('click','.goal', function(e) {
 		preventBadClick(e);				
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
@@ -223,7 +264,7 @@
 	});
 	
 	//TEAMS JS
-	$(document).on('click','.team', function(e) {	
+	$(document).on('click','.teams', function(e) {	
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
 	});
 	
@@ -233,3 +274,212 @@
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
 	}
+	
+	$(document).on('touchend','#signIn', function(e) {
+		
+	
+		
+		var _email = $('#form-signIn #email').val();
+		var _password = $('#form-signIn #password').val();
+		var _return = true;
+		
+		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (_password.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+
+		
+		if (_return)  {
+
+			var _html = $('#signIn').html(); 
+			$(this).html('Loading...');
+		
+			_jData.push_id = _email;
+			_jData.userLogin = _email;
+			_jData.userPass =_password;
+
+			
+			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
+			if (_oAjax) {
+			
+				_oAjax.always(function () {					
+					$('#signIn').html(_html);					
+				});	
+			
+				_oAjax.done(function(_json) {			
+					if (_json.response.length == 0) {
+						alert('No existe');
+					} else {
+						saveClientData(_json.response[0]);						
+						_fSetLoadInit();						
+					}			   
+				});
+				
+				_oAjax.fail(function() {
+					$('#signIn').html(_html);
+				});	
+				
+			}
+			
+			
+		} 
+
+		return _return;
+		
+
+		
+		
+					
+					
+		
+	});
+
+	$(document).on('click','#facebookLoginButton', function(e) {		
+		login();
+	});
+
+
+	$(document).on('touchend','#signUp', function(e) {
+		
+
+		var _email = $('#form-signUp #email').val();
+		var _rEmail = $('#form-signUp #email2').val();
+		var _password = $('#form-signUp #password').val();
+		var _rPassword = $('#form-signUp #password2').val();
+		var _name = $('#form-signUp #name').val();
+		var _surName = $('#form-signUp #surname').val();
+		var _nick = _name + ' ' + _surName;
+		var _return = true;
+		
+		
+		/*if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		
+		if (!_rEmail.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		alert("El email es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_email.length != _rEmail.length ) {
+    		alert("El email no coincide");
+    		_return = false;
+		}		
+		
+		if (!_return) return false;
+		
+		if (_password.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_rPassword.length < 6 ) {
+    		alert("El password es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+				
+		if (_password.length != _rPassword.length ) {
+    		alert("El password no coincide");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+
+		if (_name.length < 2 ) {
+    		alert("El nombre es obligatorio");
+    		_return = false;
+		}
+		
+		if (!_return) return false;
+		
+		if (_surName.length < 2 ) {
+    		alert("El apellido es obligatorio");
+    		_return = false;
+		}
+
+		if (!_return) return false;*/
+		
+		
+		if (_return)  {
+			
+			var _html = $('#signUp').html(); 
+			$(this).html('Loading...');
+		
+			_jData.push_id = _email;
+			_jData.userLogin = _email;
+			_jData.userPass =_password;
+			_jData.userNick= _email;
+			_jData.email =_email;
+
+						
+			
+			alert(JSON.stringify(_jData));				
+								
+			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
+			if (_oAjax) {
+			
+				_oAjax.always(function () {
+					alert('always');
+					$(this).html(_html);					
+				});	
+			
+				_oAjax.done(function(_json) {
+					
+					alert(JSON.stringify(_json));
+								
+					if (_json.response.length == 0) {
+						alert('No existe');
+					} else {
+						saveClientData(_json.response[0]);						
+						_fSetLoadInit();
+					}			   
+				});
+				
+				_oAjax.fail(function() {
+					alert('fail');
+					$(this).html(_html);
+				});	
+				
+			}
+			
+		}
+		
+		return _return;
+		
+		
+		
+		
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,14 +2,14 @@ var APP_ID = '647787605309095'; // <----( this is the PhoneGap-Facebook app id
 
 function initFacebookManager(){
 	try {
-		alert('Device is ready! Make sure you set your app_id below this alert.');
+		//alert('Device is ready! Make sure you set your app_id below this alert.');
 		FB.init({ appId: APP_ID, nativeInterface: CDV.FB, useCachedDialogs: false });
 
 		//INIT OTHER STUFF
-		/*These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory*/
+		/*These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory
 		if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
 		if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-		if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+		if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');*/
 
 		FB.Event.subscribe('auth.login', function(response) {
 			console.log('auth.login event: '+JSON.stringify(response));
@@ -18,43 +18,53 @@ function initFacebookManager(){
 
 		FB.Event.subscribe('auth.logout', function(response) {
 			//alert('auth.logout event: '+JSON.stringify(response));
-			alert('auth.logout event: '+response);
+			//alert('auth.logout event: '+response);
 		});
 
 		FB.Event.subscribe('auth.sessionChange', function(response) {
 			//alert('auth.sessionChange event: '+JSON.stringify(response));
-			alert('auth.sessionChange event: '+response);
+			//alert('auth.sessionChange event: '+response);
 		});
 
 		FB.Event.subscribe('auth.statusChange', function(response) {
 			//alert('auth.statusChange event: '+JSON.stringify(response));
-			alert('auth.statusChange event: '+response);
+			//alert('auth.statusChange event: '+response);
 		});
 
 	} catch (e) {
-		alert(e);
+		//alert(e);
 	}
 }
 
-/*function getSession() {
-    alert("session: " + JSON.stringify(FB.getSession()));
-}
- */
+
 function getLoginStatus() {
 	FB.getLoginStatus(function(response) {
-		alert(JSON.stringify(response));
+		if (response.authResponse.session_key) {
+     		FB.api('/me', function(response) {
+     			_fGetLoginStatus({socialId: response.id});
+			});
+     	} else {
+     		//alert('not logged in');
+     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
+     	}
 	});
 }
+
+
+
 var friendIDs = [];
 var fdata;
+
+
 function me() {
 	FB.api('/me/friends', { fields: 'id, name, picture' },  function(response) {
 		if (response.error) {
-			alert(JSON.stringify(response.error));
+			//alert(JSON.stringify(response.error));
+			navigator.notification.alert("Error obteniendo información de Facebook", doNothing, "Alerta", "OK");
 		} else {
 			var data = document.getElementById('data');
 			fdata=response.data;
-			console.log("fdata: "+fdata);
+			//console.log("fdata: "+fdata);
 			response.data.forEach(function(item) {
 				var d = document.createElement('div');
 				d.innerHTML = "<img src="+item.picture+"/>"+item.name;
@@ -62,7 +72,7 @@ function me() {
 			});
 		}
 		var friends = response.data;
-		console.log(friends.length); 
+		//console.log(friends.length); 
 		for (var k = 0; k < friends.length && k < 200; k++) {
 			var friend = friends[k];
 			var index = 1;
@@ -70,58 +80,29 @@ function me() {
 			friendIDs[k] = friend.id;
 			//friendsInfo[k] = friend;
 		}
-		console.log("friendId's: "+friendIDs);
+		//console.log("friendId's: "+friendIDs);
 	});
 }
 
 function logout() {
 	FB.logout(function(response) {
-		alert('logged out');
+		//alert('logged out');
 	});
 }
 
 function login() {
-	FB.login(
-			function(response) {
-				alert(JSON.stringify(response));
-			},
-			{ scope: "email" }
+    FB.login(
+     function(response) {
+     	if (response.authResponse.session_key) {
+     		FB.api('/me', function(response) {
+  				_fGetLoginStatus({socialId: response.id});
+			});
+     	} else {
+     		//alert('not logged in');
+     		navigator.notification.activityStop();
+     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
+     	}
+     },{ scope: "email" }
 	);
-}
+};
 
-
-/*function facebookWallPost() {
-	console.log('Debug 1');
-	var params = {
-			method: 'feed',
-			name: 'Facebook Dialogs',
-			link: 'https://developers.facebook.com/docs/reference/dialogs/',
-			picture: 'http://fbrell.com/f8.jpg',
-			caption: 'Reference Documentation',
-			description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-	};
-	console.log(params);
-	FB.ui(params, function(obj) { console.log(obj);});
-}
-
-function publishStoryFriend() {
-	randNum = Math.floor ( Math.random() * friendIDs.length ); 
-
-	var friendID = friendIDs[randNum];
-	if (friendID == undefined){
-		alert('please click the me button to get a list of friends first');
-	}else{
-		console.log("friend id: " + friendID );
-		console.log('Opening a dialog for friendID: ', friendID);
-		var params = {
-				method: 'feed',
-				to: friendID.toString(),
-				name: 'Facebook Dialogs',
-				link: 'https://developers.facebook.com/docs/reference/dialogs/',
-				picture: 'http://fbrell.com/f8.jpg',
-				caption: 'Reference Documentation',
-				description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-		};
-		FB.ui(params, function(obj) { console.log(obj);});
-	}
-}*/

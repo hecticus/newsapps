@@ -25,3 +25,7 @@ Certificate fingerprints:
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -storepass tvnpanama12 -keystore Keys/tvmax_key UnsignedDist/TVMax.apk tv\ max
 
 zipalign -v 4 UnsignedDist/TVMax.apk SignedDist/TVMax.apk
+
+
+//FACEBOOK
+keytool -exportcert -alias tv\ max -keystore Keys/tvmax_key | openssl sha1 -binary | openssl base64
