@@ -240,8 +240,13 @@ var app = {
     	//init things
     	initPage();
     	checkVersion();
+    	initPush();
     }
 };
+
+function executePushInit(extra_params){
+	
+}
 
 
 function initPage(){
@@ -265,7 +270,7 @@ function initPage(){
 	
 
 	$('#wrapperM .scroller .container').html(_html);
-	 _jClient = JSON.parse(loadClientData());
+	_jClient = loadClientData();
 	
 	if (_jClient != null) {
 		_fSetLoadInit();

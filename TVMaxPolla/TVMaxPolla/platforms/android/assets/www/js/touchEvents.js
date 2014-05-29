@@ -446,8 +446,8 @@
 
 						
 			
-			alert(JSON.stringify(_jData));
-			alert("PASO");
+			//alert(JSON.stringify(_jData));
+			//alert("PASO");
 								
 			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
 			if (_oAjax) {
