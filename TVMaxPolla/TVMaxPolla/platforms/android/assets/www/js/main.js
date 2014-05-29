@@ -98,7 +98,8 @@ var _fSetBack = function() {
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-	$('.tv').removeClass('hidden');	
+	$('.tv').removeClass('hidden');
+	$('.menu-group').addClass('hidden');		
 };
 
 
@@ -253,8 +254,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 		hr = "hh";
 		dy = "dd";
 
-		var _html = '<div class="row">';		
-			_html += '<div class="table-responsive">';
+		//var _html = '<div class="row">';		
+		var _html = '<div class="table-responsive">';
 				_html += '<table class="table time">';
 				
 				
@@ -275,7 +276,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				
 				_html += '</table>';
 			_html += '</div>';
-		_html += '</div>';
+		//_html += '</div>';
 
 
 		return _html;
@@ -287,13 +288,13 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 		var _html = '<div class="row">';
 
-		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; " >';
+		/*_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; " >';
 		_html += '<span>Faltan:</span>';
 		_html += '</div>';
 		
 		_html += '<div class="col-md-12" >';		
 		_html +=  _fGetTime();
-		_html += '</div>';
+		_html += '</div>';*/
 		
 		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; border-bottom: solid #FFD455; " >';
 		_html += '<span>&#161;Para el Mundial!</span>';

@@ -24,12 +24,12 @@
 						_html += '<img onerror="this.style.display=\'none\'" src="' + _jImageFeatured.src + '" alt="' +_jImageFeatured.src + '" style="width:100%; height:auto; "  />';
 						_html += '<figcaption>';
 						
-							_html += '<div style="width:20%; height: 40px; line-height: 40px; font-size:2.5em; float:left; ">';
+							_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:1.6em; font-weight:bold;">';
 								_html += '<span class="icon-noticias"></span>';
 							_html += '</div>';
 													
-							_html += '<div style="width:80%; height: 40px; line-height: 20px; ">';										
-								if (_jImageFeatured.caption) _html += '<span>'+_jImageFeatured.caption+'</span>';
+							_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
+								_html += '<span>'+_jImageFeatured.caption+'</span>';																									
 							_html += '</div>';
 							
 						_html += '</figcaption>';

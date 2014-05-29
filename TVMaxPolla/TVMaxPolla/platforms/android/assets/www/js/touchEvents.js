@@ -9,7 +9,7 @@
 		myScroll2.scrollTo(0,0,0);		
 	});
 	
-	$(document).on('touchend','.match', function(e) {
+	$(document).on('click','.match', function(e) {
 		preventBadClick(e);
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
