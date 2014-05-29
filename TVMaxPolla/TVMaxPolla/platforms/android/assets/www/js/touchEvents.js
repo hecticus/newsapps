@@ -213,7 +213,8 @@
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
 																	
-		if (_group >= 2) {
+		//if (_group >= 2) {
+		if (_group >= _pollaMinGroup+1) {
 			$('.group').addClass('hidden');
 			$('.group[data-group="'+_group+'"]').prev().removeClass('hidden');	
 		}
@@ -227,7 +228,8 @@
 	$(document).on('touchend','.next', function(e) {
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
-		if (_group <= 7) {
+		//if (_group <= 7) {
+		if (_group <= _pollaMaxGroup-1) {
 			$('.group').addClass('hidden');
 			$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
 			myScroll.scrollTo(0,0,0);	

@@ -147,8 +147,7 @@ function updateDeviceToServer(){
 			//var urlUpdate = "http://10.0.3.144:9000/KrakenSocialClients/v1/devices/add";
 			var urlUpdate = "http://api.hecticus.com/KrakenSocialClients/v1/devices/add";
 			var _data = {}
-			//_data.socialClientID = client.id_social_clients;
-			_data.socialClientID = 19;
+			_data.socialClientID = client.id_social_clients;
 			_data.push_id = regID;
 			var devicePlatform = device.platform;
 			//IOS
