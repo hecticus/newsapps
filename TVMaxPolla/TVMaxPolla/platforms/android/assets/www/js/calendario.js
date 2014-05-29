@@ -44,11 +44,11 @@
 	var _fGetColorPhase = function(_name) {
 
 		var _return = false;
-			_name = _name.toString().toLowerCase();
+			_name = _name.toLowerCase();
 			_name = _name.replace(/\s/g,'');
 	
 		$.each(_jPhase, function(_index,_phase) {
-			if (_phase.name.toString().toLowerCase().replace(/\s/g,'') == _name) _return =  _phase.bgcolor;			
+			if (_phase.name.toLowerCase().replace(/\s/g,'') == _name) _return =  _phase.bgcolor;			
 			if (_return) return true;
 		});
 		
@@ -87,7 +87,7 @@
 		$.each(_jGet.item, function(_index,_item) {
 			
 			_iDate = _item.fecha_de_partido.split(' ');
-			_iDate = _iDate[0].toString().toLowerCase();
+			_iDate = _iDate[0].toLowerCase();
 
 			
 			if (eval(_expression)) {
