@@ -105,7 +105,7 @@
 		margin: 0;
 		color: #FFFFFF;
 		text-align: left;
-		border-bottom: solid #4D4D4D;
+		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
 		display: none;
 		
@@ -381,7 +381,7 @@
 	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
 	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
-	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important;margin: 0 !important;}
+	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
 	
 	
@@ -589,4 +589,8 @@
 	li[data-phase="semifinales"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#ED2A24; background-color:#ED2A24;}	
 	li[data-phase="3erlugar"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#037677; background-color:#037677;}
 	li[data-phase="final"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#F9A11A; background-color:#F9A11A;}
+
+	body.content-home #banner-claro { background-image:url(img/claro/800x80.jpg); background-size:cover; }
+
+	
 

@@ -33,7 +33,7 @@
 			_html += '<div class="row" >';
 
 			_html += '<div class="col-md-12 teams" data-gene="' + encodeURI(_team.gene) + '" style="height:40px; line-height:40px;" >';
-				_html += '<img onerror="this.style.display=\'none\'" src="img/flags/afp/' + _team.id + '.png" alt="' +_team.title + '" style="width:10%;  height:auto; max-width:67px; max-height:45px; vertical-align:sub;"  />';	
+				_html += '<img onerror="this.style.display=\'none\'" src="img/flags/afp/' + _team.id + '.png" alt="' +_team.title + '" style="width:10%;  height:auto; max-width:67px; max-height:45px; vertical-align:middle;"  />';	
 				_html += '<span>' + _team.title + '</span>';							    	
 		 	_html += '</div>';
 		 	
