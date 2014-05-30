@@ -27,7 +27,7 @@
 				
 		_html += '</div>';
 		
-		_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 metro load" data-index="4" >';	
+		_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 metro load" data-index="1" >';	
 			_html += '<div  id="banner-claro" style="background-image:url(img/home/polla.jpg); background-size:cover; height:' + _heightPolla +'px;" >&nbsp;</div>';						
 		_html += '</div>';
 				
@@ -113,8 +113,8 @@
 				if (_width >= 1280)  _banner = 'img/claro/1280x128.jpg';
 				if (_width >= 1600)  _banner = 'img/claro/1600x160.jpg';
 
-				_html += '<div  id="banner-claro" style="background-image:url(' + _banner + '); background-size:cover; height:' + _heightBanner +'px;" >&nbsp;</div>';
-							
+				//_html += '<div  id="banner-claro" style="background-image:url(' + _banner + '); background-size:cover; height:' + _heightBanner +'px;" >&nbsp;</div>';
+				_html += '<img id="banner-claro" src="' + _banner + '" style="width:100%; height:' + _heightBanner +'px;" >';							
 			_html += '</div>';
 		_html += '</div>';
 
