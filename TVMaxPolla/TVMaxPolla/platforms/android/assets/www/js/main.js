@@ -372,7 +372,6 @@ $.fPostAjaXJSON = function(_url, _data) {
 		_jData.id_country = 8;
 		_jData.id_business = 17;
 		_jData.app_id = 1;
-
 							
 		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
 		if (_oAjax) {
@@ -384,7 +383,9 @@ $.fPostAjaXJSON = function(_url, _data) {
 			_oAjax.done(function(_json) {			
 				if (_json.response.length == 0) {
 					//alert('No existe');
-					navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
+					//navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
+					//viene por facebook asi que hay que crearlo 
+					createClientForFacebook(_jData);
 				} else {
 					saveClientData(_json.response[0]);					
 					_fSetLoadInit();												
@@ -401,6 +402,35 @@ $.fPostAjaXJSON = function(_url, _data) {
 		}
 		
 	};
+	
+	function createClientForFacebook(_jData){
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/facebook',_jData);	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {
+				//alert('always');
+				//$(this).html(_html);					
+			});	
+		
+			_oAjax.done(function(_json) {
+							
+				if (_json.response.length == 0) {
+					//alert('No existe');
+					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+				} else {
+					saveClientData(_json.response[0]);						
+					_fSetLoadInit();
+				}			   
+			});
+			
+			_oAjax.fail(function() {
+				//alert('fail');
+				navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+				//$(this).html(_html);
+			});	
+			
+		}
+	}
 	
 	function backFromRegister(){
 		$('header .container .row .menu span').removeClass();
