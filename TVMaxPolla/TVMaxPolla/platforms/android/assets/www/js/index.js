@@ -34,7 +34,7 @@ var _oAjax;
 var _tap = false;
 
 var _jMenu=[
-	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
+	{index:0,class:'content-home',title:'Portada',load:'home.html', glyphicon:'icon-home_menu', json:false},
 	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
 	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},
 	{index:3,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},
@@ -201,7 +201,8 @@ var app = {
 					$('#wrapperM').attr('class','page transition left');	
 				} else if ($('#wrapper2').hasClass('left')) {
 					$('#wrapper2').attr('class','page transition right');
-				} else {				
+				} else {			
+					_fSetBack();	
 					_fSetLoadInit();
 				}
 			} else {
@@ -242,6 +243,14 @@ var app = {
     	initPage();
     	checkVersion();
     	initPush();
+    	
+    	
+	    setInterval(function(){
+			$(_jMenu).each(function(_index,_menu) {
+				_menu.json = false;
+			});
+		}, 300000);
+    	
     }
 };
 
@@ -252,21 +261,44 @@ function executePushInit(extra_params){
 
 function initPage(){
 	
-	
-	
-	
+
 	var _html = '';	
 	$(_jMenu).each(function(_index,_menu) {
-		_html += '<div class="row content-menu">';
-		_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" >';
-			_html += '<span class="' + _menu.glyphicon + '" ></span>';
-			_html += '<span>' + _menu.title + '</span>';
-		_html += '</div>';
 		
-		_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
-			_html += '<span class="icon-flechaazul"></span>';		
-		_html += '</div>';	
-		_html += '</div>';	
+
+		if (_index == 15 || _index == 16) {
+			
+			if(loadClientData() == null) {			
+				_html += '<div class="row content-menu">';		
+				_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
+					_html += '<span class="' + _menu.glyphicon + '" ></span>';
+					_html += '<span>' + _menu.title + '</span>';
+				_html += '</div>';		
+				_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+					_html += '<span class="icon-flechaazul"></span>';		
+				_html += '</div>';			
+				_html += '</div>';
+			
+			}
+
+		}  else {
+		
+			_html += '<div class="row content-menu">';		
+			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
+				_html += '<span class="' + _menu.glyphicon + '" ></span>';
+				_html += '<span>' + _menu.title + '</span>';
+			_html += '</div>';		
+			_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+				_html += '<span class="icon-flechaazul"></span>';		
+			_html += '</div>';			
+			_html += '</div>';
+			
+		}
+		
+		
+		
+		
+			
 	});         	
 	
 
@@ -280,6 +312,9 @@ function initPage(){
 		//getLoginStatus();
 		_fSetLoadDefault();	
 	}
+
+
+
 
 }
 
