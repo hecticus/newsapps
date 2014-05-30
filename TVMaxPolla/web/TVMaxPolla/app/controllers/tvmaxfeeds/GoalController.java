@@ -72,7 +72,6 @@ public class GoalController extends HecticusController {
             }
             ArrayList data = new ArrayList();
             List<SqlRow> t = TvmaxGoal.getGoalSorted(field, limit);
-            System.out.print(t.size());
             ObjectNode result = Json.newObject();
             result.put("error", 0);
             result.put("description","OK");

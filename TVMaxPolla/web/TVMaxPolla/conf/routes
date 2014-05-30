@@ -84,3 +84,4 @@ GET     /tvmax/appversion/check/:version/:os         controllers.AppVersionContr
 
 
 POST    /push/client/insert                         controllers.pushevents.CategoriesWS.insertClient()
+POST    /push/client/delete                         controllers.pushevents.CategoriesWS.deleteClient()
