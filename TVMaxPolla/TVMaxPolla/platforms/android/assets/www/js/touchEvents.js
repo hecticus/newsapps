@@ -274,6 +274,11 @@
 
 	});
 	
+	//BANNER
+	$(document).on('click','#banner-claro', function(e) {
+		window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');	
+	});
+	
 	//STADIUMS JS
 	$(document).on('click','.stadium', function(e) {
 		_fRenderDataContent(decodeURI($(this).data('url')));	
@@ -306,7 +311,7 @@
 		
 		
 		if (!_password.length < 1) {
-    		/* El campo está vacío o sólo contiene espacios */
+    		/* El campo estï¿½ vacï¿½o o sï¿½lo contiene espacios */
     		navigator.notification.alert("El password es un campo obligatorio", doNothing, "Ingresar", "OK");
 		}
 
