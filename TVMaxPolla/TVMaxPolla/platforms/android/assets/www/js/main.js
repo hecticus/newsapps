@@ -98,7 +98,8 @@ var _fSetBack = function() {
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-	$('.tv').removeClass('hidden');	
+	$('.tv').removeClass('hidden');
+	$('.menu-group').addClass('hidden');		
 };
 
 
@@ -242,23 +243,9 @@ $.fPostAjaXJSON = function(_url, _data) {
 		hoursRound = (hoursRound < 10) ? "0" + hoursRound : hoursRound;
 		daysRound = (daysRound < 10) ? "0" + daysRound : daysRound;
 		
-		
-		/*sec = (secondsRound == 1) ? " segundo" : " segundos";
-		min = (minutesRound == 1) ? " minuto" : " minutos ";
-		hr = (hoursRound == 1) ? " hora" : " horas ";
-		dy = (daysRound == 1) ? " d�a" : " d&iacute;as ";*/
-
-		sec = "ss";
-		min = "mm";
-		hr = "hh";
-		dy = "dd";
-
-		var _html = '<div class="row">';		
-			_html += '<div class="table-responsive">';
+	
+		var _html = '<div class="table-responsive">';
 				_html += '<table class="table time">';
-				
-				
-				
 					_html += '<tr>';			
 						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;" >' + daysRound +'</td>';
 						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + hoursRound +'</td>';
@@ -275,7 +262,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				
 				_html += '</table>';
 			_html += '</div>';
-		_html += '</div>';
+
 
 
 		return _html;
@@ -357,7 +344,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 						//hay una nueva version y hay que llamar al dialogo para actualizar
 						if(results!= null && results.length>0){
 							updateURL = results;
-							console.log("URL "+updateURL);
+							//console.log("URL "+updateURL);
 							navigator.notification.alert("Hay una nueva versión de la aplicación", goToUpdatePage, "Actualización", "Descargar");
 						}
 					}
@@ -378,11 +365,11 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 	function _fGetLoginStatus(_jData) {
 		
-		
 		_jData.id_country = 8;
 		_jData.id_business = 17;
 		_jData.app_id = 1;
-
+		_jData.id_carrier = 19;
+		_jData.origin = 'APP';
 							
 		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
 		if (_oAjax) {
@@ -394,23 +381,59 @@ $.fPostAjaXJSON = function(_url, _data) {
 			_oAjax.done(function(_json) {			
 				if (_json.response.length == 0) {
 					//alert('No existe');
-					navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
+					//navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
+					//viene por facebook asi que hay que crearlo 
+					createClientForFacebook(_jData);
 				} else {
 					saveClientData(_json.response[0]);					
-					_fSetLoadInit();												
+					_fSetLoadInit();
+					navigator.notification.activityStop();
 				}
-				navigator.notification.activityStop();
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
 				//ERROR
 				navigator.notification.activityStop();
+				navigator.notification.alert("Error consultando clientes, intente más tarde", doNothing, "Alerta", "OK");
 			});	
 		
 		}
 		
 	};
+	
+	function createClientForFacebook(_jData){
+		//console.log("Va a crear cliente");
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/facebook',_jData);	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {
+				//alert('always');
+				//$(this).html(_html);					
+			});	
+		
+			_oAjax.done(function(_json) {
+				navigator.notification.activityStop();			
+				if (_json.response.length == 0) {
+					//alert('No existe');
+					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+				} else {
+					//console.log("Cliente creado");
+					saveClientData(_json.response[0]);						
+					_fSetLoadInit();
+				}
+				
+			});
+			
+			_oAjax.fail(function() {
+				navigator.notification.activityStop();
+				//alert('fail');
+				navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+				//$(this).html(_html);
+			});	
+			
+		}
+	}
 	
 	function backFromRegister(){
 		$('header .container .row .menu span').removeClass();

@@ -2,16 +2,21 @@
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 	html { -ms-touch-action: none; }			
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
-	@font-face
+	/*@font-face
 	{
 		font-family: "tvmaxFont";
 		src: url('../fonts/tvmax.ttf') url('../fonts/tvmax_bold.ttf') url('../fonts/tvmax_italic.ttf') url('../fonts/tvmax_bold_italic.ttf'); 
+	}*/
+	@font-face
+	{
+		font-family: "tvmaxFont";
+		src: url('../fonts/tvmax.ttf'); 
 	}
 	body { font-family:tvmaxFont; overflow: hidden; /* this is important to prevent the whole page to bounce */}
 	
-	.table-responsive {border: 0 !important; padding: 0 !important; margin: 0 !important;}
-	.table-responsive table.time {border: 0 !important; padding: 0 !important; margin: 0 !important;}
-	.table-responsive table.time tr {border: 0 !important; padding: 0 !important; margin: 0 !important;}
+	.table-responsive {border: 0 !important; padding: 0 !important; margin: 0 !important; overflow-x:hidden;}
+	.table-responsive table.time {border: 0 !important; padding: 0 !important; margin: 0 !important; overflow-x:hidden;}
+	.table-responsive table.time tr {border: 0 !important; padding: 0 !important; margin: 0 !important; overflow-x:hidden;}
 	.table-responsive table.time tr td {
 		
 		width:25%; 
@@ -20,7 +25,8 @@
 		font-weight:normal; 
 		color:#4D4D4D; 
 		padding: 0 !important; 
-		margin: 0 !important;		
+		margin: 0 !important;
+		overflow-x:hidden;		
 	}
 	
 	.table-responsive table.time tr td.caption {
@@ -28,13 +34,8 @@
 		font-weight:normal;				
 	}
 	
-	
-	
-	
-	
-	
-	
-	table {border: 0 !important; }
+
+	table {border: 0 !important; overflow-x:hidden;}
 	table thead tr {border: 0 !important; }
 	table tbody tr {border: 0 !important; }	
 	table thead tr td {border: 0 !important; }
@@ -97,7 +98,6 @@
 		padding: 0;
 		margin: 0;
 		color: #FFFFFF;
-		font-size: 1.2em;
 		text-align: left;
 		border-bottom: solid #4D4D4D;
 		text-transform: uppercase;
@@ -151,13 +151,27 @@
 		text-align: left;
 	}
 
-
-	figcaption div:first-child {
+	figcaption div {
 		overflow:hidden; 
 		display: -webkit-box; 
 		-webkit-line-clamp: 2; 
 		-webkit-box-orient: vertical;	
 	}
+
+
+	/*figcaption div:first-child {
+		overflow:hidden; 
+		display: -webkit-box; 
+		-webkit-line-clamp: 2; 
+		-webkit-box-orient: vertical;	
+	}
+	 
+	body.content-home figcaption div:last-child {
+		overflow:hidden; 
+		display: -webkit-box; 
+		-webkit-line-clamp: 2; 
+		-webkit-box-orient: vertical;	
+	}*/
 	 
 	
 	/*noticias*/
@@ -253,7 +267,7 @@
 	
 	body.content-polla .goal {text-align: center; height:60px; line-height:60px;  font-size: 1.4em; font-weight: bold;}
 	body.content-polla .row.venue div { background:#ffffff; text-align:center; }
-	body.content-polla span {font-size: 0.9em;}
+	/*body.content-polla span {font-size: 0.9em;}*/
 
 	body.content-polla h3 {text-align: center; font-size: 1.6em; padding: 0; margin: 0; text-transform: uppercase;}
 	body.content-polla .gol {position: absolute;  width:100%; top:-20px;  height:120px; line-height:40px;  background-color: yellow; z-index: 10; overflow-y: visible; }
@@ -375,18 +389,7 @@
 	}
 	
 	
-			
-	/*body.content-home header {display: none;}
-	body.content-home #wrapper, body.content-home #wrapperM { 
-		position: absolute;
-		z-index: 1; 
-		top: 0px; 
-		bottom: 0; 
-		left: 0; 
-		width: 100%; 
-		background: #fff;
-	}*/
-	
+
 	body.content-home #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; margin: 0; }
 	body.content-home #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
 	body.content-home #wrapper .scroller .container figcaption {

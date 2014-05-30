@@ -2,7 +2,7 @@
 	var _fRenderDataContent = function(_url) {
 	
 		var _html = '<div class="row" >';
-
+		_jTeams.sort();
 		$.each(_jTeams, function(_index,_team) {			
 			if (_team.gene == _url) {							
 				_html += '<div class="col-md-12" >';
@@ -26,16 +26,21 @@
 	
 	var _fRenderInitT = function() {
 
-		var _html = '<div class="row" >';
+		var _html = '';
 
 	
-		$.each(_jTeams, function(_index,_team) {	
-			_html += '<div class="col-md-12 teams" data-gene="' + encodeURI(_team.gene) + '" >';	
-			_html += '<span>' + _team.title + '</span>';				    		
+		$.each(_jTeams, function(_index,_team) {
+			_html += '<div class="row" >';
+
+			_html += '<div class="col-md-12 teams" data-gene="' + encodeURI(_team.gene) + '" style="height:40px; line-height:40px;" >';
+				_html += '<img onerror="this.style.display=\'none\'" src="img/flags/afp/' + _team.id + '.png" alt="' +_team.title + '" style="width:10%;  height:auto; max-width:67px; max-height:45px; vertical-align:sub;"  />';	
+				_html += '<span>' + _team.title + '</span>';							    	
+		 	_html += '</div>';
+		 	
 		 	_html += '</div>';		
 		});
 
-		_html += '</div>';
+		
 
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);

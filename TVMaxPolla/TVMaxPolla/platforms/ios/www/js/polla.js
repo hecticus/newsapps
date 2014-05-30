@@ -1,17 +1,25 @@
 	//var _basePollaURL = "http://10.0.1.125:9009";
-	//var _basePollaURL = "http://10.0.3.142:9002";
+	//var _basePollaURL = "http://10.0.3.144:9002";
 	var _basePollaURL = 'http://polla.tvmax-9.com';
 	
 	var _jPrediction = [];
 	var _iClient = false;
 
 	_iClient = _jClient.id_social_clients;
+	
+	var _pollaMinGroup = 99;
+	var _pollaMaxGroup = 0;
 
 
 	var _fGetFlag = function(_team){ 
-		var _html = '<figure class="flag">';					     		
-		_html += '<img onerror="this.style.display=\'none\'" src="img/flags/'+_team.flag_file+'" alt="'+_team.name+'" />';
-		_html += '<figcaption>'+_team.shortName+'</figcaption>';
+		var _html = '<figure class="flag">';
+		if(_team.flag_file != null){
+			_html += '<img onerror="this.style.display=\'none\'" src="img/flags/'+_team.flag_file+'" alt="'+_team.name+'" />';
+			_html += '<figcaption>'+_team.shortName+'</figcaption>';
+		}else{
+			_html += '<span>'+_team.name+'</span>';
+		}
+		
 		_html += '</figure>';
 		return _html;
 	};
@@ -44,11 +52,10 @@
 	var _fRenderPrediction = function(){
 
 		$.each(_jPrediction, function(index,phase) {
-
-	    	if (phase.id != 5) {
+	    	if (phase.id < 7) {
 	    	
 				var _hidden;
-				if (phase.id != 1) { _hidden = ' hidden ';}
+				//if (phase.id != 1) { _hidden = ' hidden ';}
 			
 	    	
 		    	var _html = '<!-- <phase> -->';
@@ -60,11 +67,21 @@
 	
 				_html += '<div class="col-md-12">';
 		
-	
+				var first = true;
 				 $.each(phase.groups, function(index, group) {
 				 	
 				 	_hidden =  '';
-				 	if (group.id != 1) { _hidden = ' hidden ';}
+				 	//if (group.id != 1) { _hidden = ' hidden ';}
+				 	if (!first) { _hidden = ' hidden ';}
+				 	first = false;
+				 	
+				 	//establecemos los maximos y minimos
+				 	if(group.id > _pollaMaxGroup){
+				 		_pollaMaxGroup = group.id;
+				 	}
+				 	if(group.id < _pollaMinGroup){
+				 		_pollaMinGroup = group.id;
+				 	}
 				 	
 			     	_html += '<!-- <group> -->';
 			     	_html += '<div class="row group' + _hidden + '" data-group="'+group.id+'" >';
@@ -107,7 +124,6 @@
 
 			     });
 	     
-		
 				_html += '</div>';
 	
 			    _html += '</div>';
@@ -140,7 +156,9 @@
 				_html += '<div>';	
 				
 		     	$('footer').html(_html);
-		     			     	
+
+
+				$('header .container .row .tv').addClass('hidden');			     			     	
 		     	$('header .container .row .menu-group').removeClass('hidden');		     	
 
 		     	myScroll.scrollTo(0,0,0);
@@ -151,8 +169,7 @@
 		     		 $.each(phase.groups, function(index, group) {				
 						_html += '<div class="col-md-12 content-polla-menu" data-group="'+group.id+'"  >';
 						_html += '<span>Grupo ' + group.name + '</span>';
-						_html += '</div>';	        	
-						
+						_html += '</div>';
 		     		 });
 		     	});
 		     	
@@ -161,6 +178,8 @@
 		     	
 	    		
 	
+	    	}else{
+	    		navigator.notification.alert("Ya no se pueden realizar más cambios", doNothing, "Alerta", "OK");
 	    	}
 
 		});

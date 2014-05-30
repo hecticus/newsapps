@@ -36,6 +36,8 @@
 			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';					
 			_html += '<span>' +  _player.title + '</span>';
 		 	_html += '</div>';
+		 	
+		 	console.log('LEYENDAS' + _player.title );
 		});
 
 		_html += '</div>';

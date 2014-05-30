@@ -69,14 +69,14 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-    	
-    	_oAjax = $.fGetAjaXJSON('http://mundial.tvmax-9.com/_modulos/json/noticias_mundial.php',false,false,false);	
+
+    	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[0].json = _json.noticias_mundial;						
 				$.each(_json.noticias_mundial.item, function(_index,_item) {
 					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
-					var _img = $('img').attr('src',_item.imagen);
+					var _img = $('img #img').attr('src',_item.imagen);
 					return false;
 				});				
 			});
@@ -101,7 +101,7 @@ var app = {
 	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
 					
-					var _img = $('img').attr('src',_player.image);
+					var _img = $('img #img').attr('src',_player.image);
 
 					
 				});
@@ -130,7 +130,7 @@ var app = {
 	    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
 					_stadium.datacontent =  _data;
 											
-					var _img = $('img').attr('src',_stadium.image);
+					var _img = $('img #img').attr('src',_stadium.image);
 					 
 
 						
@@ -154,13 +154,14 @@ var app = {
 								
 					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
 						_id = _id.split('-');
-						_id = _id[1];								
-												
+						_id = _id[1];
+														
+					_team.id = _id;						
 					_team.title = _title;
 	    			//_team.xml.fiche = _xml;
 	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
 					_team.datacontent.fiche = _data;							
-					var _img = $('img').attr('src', _team.image);
+					var _img = $('img #img').attr('src', _team.image);
 	
 				});
 			}
@@ -186,7 +187,7 @@ var app = {
 	    			//_history.xml = _xml;
 	    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
 					_history.datacontent =  _data;							
-					var _img = $('img').attr('src', _history.image);
+					var _img = $('img #img').attr('src', _history.image);
 					
 				});
 			}		
@@ -213,10 +214,15 @@ var app = {
 				 		_fSetBack();
 					} else if ($('body').hasClass('content-home')) {							
 						exitApp();				
+					} else if ($('body').hasClass('content-default')) {							
+						exitApp();				
+					} else if ($('body').hasClass('content-signin')) {	
+						backFromRegister();		
+					} else if ($('body').hasClass('content-signup')) {							
+						backFromRegister();				
 					} else {						
 						_fSetLoadInit();
-					}
-										
+					}					
 				}
 				
 			}	
@@ -234,8 +240,13 @@ var app = {
     	//init things
     	initPage();
     	checkVersion();
+    	initPush();
     }
 };
+
+function executePushInit(extra_params){
+	
+}
 
 
 function initPage(){
@@ -243,19 +254,23 @@ function initPage(){
 	
 	
 	
-	var _html = '<div class="row">';	
+	var _html = '';	
 	$(_jMenu).each(function(_index,_menu) {
-		_html += '<div class="col-md-12 content-menu load" data-index="' +  _menu.index + '" >';
-		_html += '<span class="' + _menu.glyphicon + '"></span>';
-		_html += '<span>' + _menu.title + '</span>';
+		_html += '<div class="row content-menu">';
+		_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" >';
+			_html += '<span class="' + _menu.glyphicon + '" ></span>';
+			_html += '<span>' + _menu.title + '</span>';
 		_html += '</div>';
+		
+		_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+			_html += '<span class="icon-flechaazul"></span>';		
+		_html += '</div>';	
+		_html += '</div>';	
 	});         	
-	_html += '</div>';
+	
 
 	$('#wrapperM .scroller .container').html(_html);
-	 _jClient = JSON.parse(loadClientData());
-	
-	alert(_jClient);
+	_jClient = loadClientData();
 	
 	if (_jClient != null) {
 		_fSetLoadInit();
