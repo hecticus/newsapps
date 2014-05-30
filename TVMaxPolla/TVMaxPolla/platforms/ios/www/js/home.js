@@ -8,21 +8,46 @@
 	var _heightNoticia =  parseInt((_height * 40)/100);
 	var _heightBotones =  parseInt((_height * 20)/100);
 	var _heightBanner =  parseInt((_height * 10)/100);
+
+	var homeIconSize = 5;
+	var homeSmallIconsSize = 1.6;
+	var homeTextClass = "caption-icon";
+	var homeLineHeight = 30;
 	
 	var _fRenderInit = function() {
 		_homeWasShowed = true;
+		
+		var devicePlatform = device.platform;
+		//IOS
+		if(devicePlatform == "iOS"){
+			//CAMBIO SOLO IOS
+			if(getIfItsIpad()){
+				homeIconSize = 8;
+				homeSmallIconsSize = 3.3;
+				homeTextClass = "caption-icon-ipad";
+				homeLineHeight = 0;
+			}else{
+				homeIconSize = 4;
+				homeSmallIconsSize = 1.6;
+				homeTextClass = "caption-icon";
+			}
+		}else{
+			homeIconSize = 5;
+			homeSmallIconsSize = 1.6;
+			homeTextClass = "caption-icon";
+		}
 
 		//row
 		var _html = '<div class="row" >';
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="9" >';
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="3" >';
 
 			_html += '<div style="background: #1E5733; height:' + (_heightPolla - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-fechas" style="font-size:5em; color:#ffffff;"></span>';
+				_html += '<span class="icon-fechas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
 			_html += '</div>';
 		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:30px; text-align:center;" >';							
-				_html += '<span class="caption-icon" >Calendario</span>';
+			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+				_html += '<span class="'+homeTextClass+'" >Calendario</span>';
 			_html += '</div>';	
 				
 		_html += '</div>';
@@ -43,7 +68,7 @@
 						_html += '<figure>';	
 							_html += '<div style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
 						_html += '<figcaption>';						
-							_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:1.6em; font-weight:bold;">';
+							_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
 								_html += '<span class="icon-noticias"></span>';
 							_html += '</div>';												
 							_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
@@ -63,37 +88,37 @@
 		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="14"  >';
 
 			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-alertas" style="font-size:5em; color:#ffffff;"></span>';
+				_html += '<span class="icon-alertas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
 			_html += '</div>';
 		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:30px; text-align:center;" >';							
-				_html += '<span class="caption-icon" >Alertas</span>';
+			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+				_html += '<span class="'+homeTextClass+'" >Alertas</span>';
 			_html += '</div>';	
 
 		_html += '</div>';
 
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="12"  >';
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="8"  >';
 		
 			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-estrellas" style="font-size:5em; color:#ffffff;"></span>';
+				_html += '<span class="icon-estrellas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
 			_html += '</div>';
 		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:30px; text-align:center;" >';							
-				_html += '<span class="caption-icon" >Leyendas</span>';
+			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+				_html += '<span class="'+homeTextClass+'" >Leyendas</span>';
 			_html += '</div>';	
 
 		_html += '</div>';
 
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="11" >';	
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="7" >';	
 		
 			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-equipo" style="font-size:5em; color:#ffffff;"></span>';
+				_html += '<span class="icon-equipo" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
 			_html += '</div>';
 		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:30px; text-align:center;" >';							
-				_html += '<span class="caption-icon" >Equipos</span>';
+			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+				_html += '<span class="'+homeTextClass+'" >Equipos</span>';
 			_html += '</div>';	
 						
 		_html += '</div>';

@@ -255,3 +255,7 @@ function getScreenHeight(){
 function printToLog(element){
 	//console.log(element);
 }
+
+function getIfItsIpad(){
+	return getScreenWidth() > 640;
+}

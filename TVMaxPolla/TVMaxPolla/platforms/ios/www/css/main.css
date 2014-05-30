@@ -1,10 +1,4 @@
 
-	@media only screen and (min-width: 0px) and (max-width: 700px) and (orientation: portrait) {
-		html { font-size: 100%; }
-	}
-	@media only screen and (min-width: 700px) and (max-width: 2000px) and (orientation: portrait) {
-		html { font-size: 230%; }
-	}
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 	html { -ms-touch-action: none; }			
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
@@ -378,7 +372,7 @@
 	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
 
 	/*Home*/
-	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
+	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important; overflow:hidden;}	
 	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
 	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
@@ -386,12 +380,20 @@
 	
 	
 	.caption-icon {
-		font-size:1em; 
+		font-size:0.9em;
 		color:#ffffff;
 		text-align: center;
 		text-transform: uppercase;
 		font-weight: bold;
-		margin-left:5px;		
+		margin-left:2px;
+	}
+	.caption-icon-ipad {
+		font-size:2.0em;
+		color:#ffffff;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bold;
+		margin-left:2px;
 	}
 	
 	

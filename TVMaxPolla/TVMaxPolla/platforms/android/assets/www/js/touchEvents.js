@@ -1,3 +1,4 @@
+	//CALENDARIO JS
 	$(document).on('touchend','.calendar', function(e) {
 		preventBadClick(e);
 		eval($(this).data('function'));		
@@ -131,7 +132,7 @@
 
 
 	$(document).on('touchend','.save', function() {
-		
+		preventBadClick(e);
 		 
 		
 		$('#polla-save').html('LOADING...');
@@ -276,16 +277,19 @@
 	
 	//BANNER
 	$(document).on('click','#banner-claro', function(e) {
+		preventBadClick(e);
 		window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');	
 	});
 	
 	//STADIUMS JS
 	$(document).on('click','.stadium', function(e) {
+		preventBadClick(e);
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
 	//TEAMS JS
-	$(document).on('click','.teams', function(e) {	
+	$(document).on('click','.teams', function(e) {
+		preventBadClick(e);
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
 	});
 	
@@ -363,6 +367,7 @@
 
 	$(document).on('click','#facebookLoginButton', function(e) {	
 		navigator.notification.activityStart("Cargando informacion", "Cargando...");
+		preventBadClick(e);
 		loginByFacebook();
 	});
 
