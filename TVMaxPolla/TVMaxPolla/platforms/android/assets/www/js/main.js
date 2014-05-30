@@ -1,7 +1,8 @@
 //variables globales
 
 var  _mTimeout;
-var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
+var _jData = {	id_country:8,  id_business: 17, id_carrier : 19, app_id: 1, origin: 'APP'};
+
 var _jClient = false;
 
 var _homeWasShowed = false;
@@ -205,7 +206,6 @@ $.fPostAjaXJSON = function(_url, _data) {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			_fGetLoadingError();
-			//alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
 			return false;
 		});
 		   

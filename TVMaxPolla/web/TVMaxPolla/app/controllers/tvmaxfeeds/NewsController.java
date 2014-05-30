@@ -107,4 +107,22 @@ public class NewsController extends HecticusController {
         }
     }
 
+    public static Result getNewsById(String id){
+        try{
+            TvmaxNews fullList = TvmaxNews.getNewsById(id);
+            ArrayList data = new ArrayList();
+            if (fullList != null){
+                //i got data
+                data.add(fullList.toJson());
+            }
+            //build response
+            ObjectNode response;
+            response = tvmaxResponse("noticias_mundial",data);
+            return ok(response);
+
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
 }

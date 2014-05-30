@@ -44,6 +44,7 @@
     <access origin="*" />
     <access origin="http://mundial.tvmax-9.com/*" />
     <access origin="http://polla.tvmax-9.com/*" />
+    <access origin="http://192.168.1.111/*" />
     <access origin="http://10.0.1.125/*" />
     <access origin="http://10.0.3.144:9002/*" />
     <access origin="http://api.hecticus.com/*" />
