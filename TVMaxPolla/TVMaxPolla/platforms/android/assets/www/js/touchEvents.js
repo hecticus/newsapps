@@ -30,7 +30,7 @@
 	});
 	
 	//INDEX JS
-	$(document).on('touchend','.menu', function(e) {
+	$(document).on('touchend','.menu, .logo', function(e) {
 		preventBadClick(e);
 
 		if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signin')) {
