@@ -157,7 +157,7 @@
 		     	$('footer').html(_html);
 
 
-				$('header .container .row .tv').addClass('hidden');			     			     	
+						     			     	
 		     	$('header .container .row .menu-group').removeClass('hidden');		     	
 
 		     	myScroll.scrollTo(0,0,0);
@@ -244,6 +244,8 @@
 		};
 	};
 
+
+	$('header .container .row .tv').addClass('hidden');	
 	_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {

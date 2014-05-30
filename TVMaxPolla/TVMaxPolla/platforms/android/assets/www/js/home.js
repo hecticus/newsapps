@@ -15,7 +15,7 @@
 		//row
 		var _html = '<div class="row" >';
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="9" >';
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="3" >';
 
 			_html += '<div style="background: #1E5733; height:' + (_heightPolla - 30) + 'px; text-align:center;" >';			
 				_html += '<span class="icon-fechas" style="font-size:5em; color:#ffffff;"></span>';
@@ -73,7 +73,7 @@
 		_html += '</div>';
 
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="12"  >';
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="8"  >';
 		
 			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
 				_html += '<span class="icon-estrellas" style="font-size:5em; color:#ffffff;"></span>';
@@ -86,7 +86,7 @@
 		_html += '</div>';
 
 
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="11" >';	
+		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="7" >';	
 		
 			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
 				_html += '<span class="icon-equipo" style="font-size:5em; color:#ffffff;"></span>';
