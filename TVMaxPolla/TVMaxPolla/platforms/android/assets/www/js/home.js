@@ -1,6 +1,8 @@
 
 	$('#splash').hide();
+	$('#mloading').remove();
 	$('header').removeClass('hidden');	
+	$('.menu').removeClass('hidden');
 	
 	var _width = 	$(window).width();		
 	var _height = 	$(window).height();

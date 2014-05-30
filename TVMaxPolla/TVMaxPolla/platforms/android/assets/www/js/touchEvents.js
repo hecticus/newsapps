@@ -325,7 +325,7 @@
 		
 
 		var _html = $('#signIn').html(); 
-		$(this).html('Loading...');
+		$(this).html('Cargando...');
 	
 		_jData.push_id = _email;
 		_jData.userLogin = _email;
@@ -413,7 +413,7 @@
 		if (_return) return false;
 
 		var _html = $('#signUp').html(); 
-		$('#signUp').html('Loading...');
+		$('#signUp').html('Cargando...');
 	
 		_jData.push_id = _email;
 		_jData.userLogin = _email;
