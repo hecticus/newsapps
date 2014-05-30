@@ -182,6 +182,12 @@ public class TvmaxNews extends HecticusModel {
                 .endJunction().orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
     }
 
+    public static TvmaxNews getNewsById(String id){
+        return finder.where()
+                .eq("externalId",id)
+               .orderBy("received_date desc").setMaxRows(1).findUnique();
+    }
+
     public static List<TvmaxNews> getLatestLimited(){
         return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
     }
@@ -203,6 +209,7 @@ public class TvmaxNews extends HecticusModel {
                     server.update(current);
                 }else {
                     server.insert(current);
+                    //also insert events
                 }
             }
             server.commitTransaction();

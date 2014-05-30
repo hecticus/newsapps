@@ -75,6 +75,7 @@ POST    /tvmaxfeeds/calendar/insert                 controllers.tvmaxfeeds.Match
 
 GET     /tvmaxfeeds/news/get/:categoryName          controllers.tvmaxfeeds.NewsController.getNews(categoryName : String)
 GET     /tvmaxfeeds/news/latest/                    controllers.tvmaxfeeds.NewsController.getLatest()
+GET     /tvmaxfeeds/news/get/id/:id                 controllers.tvmaxfeeds.NewsController.getNewsById(id : String)
 GET     /tvmaxfeeds/news/awesome/                   controllers.tvmaxfeeds.NewsController.getAwesome()
 POST    /tvmaxfeeds/news/insert                     controllers.tvmaxfeeds.NewsController.insert()
 
