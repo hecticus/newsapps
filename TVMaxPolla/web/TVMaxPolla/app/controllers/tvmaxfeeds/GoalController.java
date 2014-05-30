@@ -1,9 +1,11 @@
 package controllers.tvmaxfeeds;
 
+import com.avaje.ebean.SqlRow;
 import controllers.HecticusController;
 import models.tvmaxfeeds.TvmaxGoal;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+import play.libs.Json;
 import play.mvc.Result;
 
 import java.util.ArrayList;
@@ -60,6 +62,24 @@ public class GoalController extends HecticusController {
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getGoalsSorted(String field, Integer limit){
+        try {
+            if(limit <= 0){
+                return badRequest(buildBasicResponse(-1, "el campo limit debe ser mayor a 0"));
+            }
+            ArrayList data = new ArrayList();
+            List<SqlRow> t = TvmaxGoal.getGoalSorted(field, limit);
+            System.out.print(t.size());
+            ObjectNode result = Json.newObject();
+            result.put("error", 0);
+            result.put("description","OK");
+            result.put("response",Json.toJson(t));
+            return ok(result);
+        }catch(Exception ex){
+            return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
         }
     }
 }
