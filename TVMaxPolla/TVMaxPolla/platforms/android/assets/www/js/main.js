@@ -246,9 +246,6 @@ $.fPostAjaXJSON = function(_url, _data) {
 	
 		var _html = '<div class="table-responsive">';
 				_html += '<table class="table time">';
-				
-				
-				
 					_html += '<tr>';			
 						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;" >' + daysRound +'</td>';
 						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + hoursRound +'</td>';
