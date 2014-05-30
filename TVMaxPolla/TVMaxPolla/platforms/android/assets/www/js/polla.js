@@ -3,13 +3,12 @@
 	var _basePollaURL = 'http://polla.tvmax-9.com';
 	
 	var _jPrediction = [];
-	var _iClient = false;
 
-	_iClient = _jClient.id_social_clients;
-	
+	//_iClient = _jClient.id_social_clients;
+	var _iClient = loadClientData().id_social_clients;
+
 	var _pollaMinGroup = 99;
 	var _pollaMaxGroup = 0;
-
 
 	var _fGetFlag = function(_team){ 
 		var _html = '<figure class="flag">';
@@ -245,7 +244,6 @@
 		};
 	};
 
-	
 	_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {

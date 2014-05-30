@@ -136,6 +136,7 @@
 		 
 		
 		$('#polla-save').html('LOADING...');
+		var _iClient = loadClientData().id_social_clients;
 		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
 		var _phase = $('.phase:visible').data('phase');
 
@@ -359,7 +360,7 @@
 	});
 
 	$(document).on('click','#facebookLoginButton', function(e) {	
-		navigator.notification.activityStart("Cargando informacion", "Cargando...");
+		//navigator.notification.activityStart("Cargando informacion", "Cargando...");
 		loginByFacebook();
 	});
 

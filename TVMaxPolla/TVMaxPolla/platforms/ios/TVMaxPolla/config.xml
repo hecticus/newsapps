@@ -39,7 +39,6 @@
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc.
     </author>
-    
     <content src="index.html" />
     <access origin="*" />
     <access origin="http://mundial.tvmax-9.com/*" />
@@ -47,7 +46,6 @@
     <access origin="http://10.0.1.125/*" />
     <access origin="http://10.0.3.144:9002/*" />
     <access origin="http://api.hecticus.com/*" />
-    
     <feature name="org.apache.cordova.facebook.Connect">
         <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
     </feature>
@@ -89,10 +87,19 @@
     <feature name="PushPlugin">
         <param name="ios-package" value="PushPlugin" />
     </feature>
-	<feature name="Notification">
+    <feature name="Notification">
         <param name="ios-package" value="CDVNotification" />
     </feature>
-	<feature name="org.apache.cordova.facebook.Connect">
-		<param name="ios-package" value="FacebookConnectPlugin" />
-	</feature>
+    <feature name="org.apache.cordova.facebook.Connect">
+        <param name="ios-package" value="FacebookConnectPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
 </widget>

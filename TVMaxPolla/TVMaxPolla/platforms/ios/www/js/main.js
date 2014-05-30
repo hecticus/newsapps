@@ -387,14 +387,14 @@ $.fPostAjaXJSON = function(_url, _data) {
 				} else {
 					saveClientData(_json.response[0]);					
 					_fSetLoadInit();
-					navigator.notification.activityStop();
+					//navigator.notification.activityStop();
 				}
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
 				//ERROR
-				navigator.notification.activityStop();
+				//navigator.notification.activityStop();
 				navigator.notification.alert("Error consultando clientes, intente más tarde", doNothing, "Alerta", "OK");
 			});	
 		
@@ -413,7 +413,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});	
 		
 			_oAjax.done(function(_json) {
-				navigator.notification.activityStop();			
+				//navigator.notification.activityStop();
 				if (_json.response.length == 0) {
 					//alert('No existe');
 					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
@@ -426,7 +426,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});
 			
 			_oAjax.fail(function() {
-				navigator.notification.activityStop();
+				//navigator.notification.activityStop();
 				//alert('fail');
 				navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
 				//$(this).html(_html);

@@ -238,6 +238,7 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
     	//init things
+		setIOSSplashes();
     	initPage();
     	checkVersion();
     	initPush();
@@ -282,9 +283,28 @@ function initPage(){
 
 }
 
-
-
-
+function setIOSSplashes(){
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		if(getScreenWidth() == 640 || getScreenWidth() == 320){
+			if(getScreenHeight() > 960){
+				console.log("iphone 5");
+				$("#splash").attr("src", "img/splashIOS/splash_iphone5.png");
+			}else{
+				console.log("iphone");
+				$("#splash").attr("src", "img/splashIOS/splash_iphone.png");
+			}
+		}else{
+			console.log("ipad");
+			$("#splash").attr("src", "img/splashIOS/splash_ipad.png");
+		}
+			
+	}else{
+		
+	}
+	
+}
 
 
 
