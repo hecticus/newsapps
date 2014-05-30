@@ -64,7 +64,7 @@
 		
 			
 		if (_this.data('index') == 'fb') {
-			login();
+			loginByFacebook();
 		} else {
 			if(_jMenu[_this.data('index')].class == 'content-polla' || _jMenu[_this.data('index')].class == 'content-alertas'){
 				//revisamos si esta hay client data
@@ -360,7 +360,7 @@
 
 	$(document).on('click','#facebookLoginButton', function(e) {	
 		navigator.notification.activityStart("Cargando informacion", "Cargando...");
-		login();
+		loginByFacebook();
 	});
 
 

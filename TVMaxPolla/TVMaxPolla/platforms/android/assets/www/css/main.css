@@ -14,9 +14,9 @@
 	}
 	body { font-family:tvmaxFont; overflow: hidden; /* this is important to prevent the whole page to bounce */}
 	
-	.table-responsive {border: 0 !important; padding: 0 !important; margin: 0 !important;}
-	.table-responsive table.time {border: 0 !important; padding: 0 !important; margin: 0 !important;}
-	.table-responsive table.time tr {border: 0 !important; padding: 0 !important; margin: 0 !important;}
+	.table-responsive {border: 0 !important; padding: 0 !important; margin: 0 !important; overflow-x:hidden;}
+	.table-responsive table.time {border: 0 !important; padding: 0 !important; margin: 0 !important; overflow-x:hidden;}
+	.table-responsive table.time tr {border: 0 !important; padding: 0 !important; margin: 0 !important; overflow-x:hidden;}
 	.table-responsive table.time tr td {
 		
 		width:25%; 
@@ -25,7 +25,8 @@
 		font-weight:normal; 
 		color:#4D4D4D; 
 		padding: 0 !important; 
-		margin: 0 !important;		
+		margin: 0 !important;
+		overflow-x:hidden;		
 	}
 	
 	.table-responsive table.time tr td.caption {
@@ -34,7 +35,7 @@
 	}
 	
 
-	table {border: 0 !important; }
+	table {border: 0 !important; overflow-x:hidden;}
 	table thead tr {border: 0 !important; }
 	table tbody tr {border: 0 !important; }	
 	table thead tr td {border: 0 !important; }

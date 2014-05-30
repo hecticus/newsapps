@@ -344,7 +344,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 						//hay una nueva version y hay que llamar al dialogo para actualizar
 						if(results!= null && results.length>0){
 							updateURL = results;
-							console.log("URL "+updateURL);
+							//console.log("URL "+updateURL);
 							navigator.notification.alert("Hay una nueva versión de la aplicación", goToUpdatePage, "Actualización", "Descargar");
 						}
 					}
@@ -365,10 +365,11 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 	function _fGetLoginStatus(_jData) {
 		
-		
 		_jData.id_country = 8;
 		_jData.id_business = 17;
 		_jData.app_id = 1;
+		_jData.id_carrier = 19;
+		_jData.origin = 'APP';
 							
 		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
 		if (_oAjax) {
@@ -385,15 +386,16 @@ $.fPostAjaXJSON = function(_url, _data) {
 					createClientForFacebook(_jData);
 				} else {
 					saveClientData(_json.response[0]);					
-					_fSetLoadInit();												
+					_fSetLoadInit();
+					navigator.notification.activityStop();
 				}
-				navigator.notification.activityStop();
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
 				//ERROR
 				navigator.notification.activityStop();
+				navigator.notification.alert("Error consultando clientes, intente más tarde", doNothing, "Alerta", "OK");
 			});	
 		
 		}
@@ -401,6 +403,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 	};
 	
 	function createClientForFacebook(_jData){
+		//console.log("Va a crear cliente");
 		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/facebook',_jData);	
 		if (_oAjax) {
 		
@@ -410,17 +413,20 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});	
 		
 			_oAjax.done(function(_json) {
-							
+				navigator.notification.activityStop();			
 				if (_json.response.length == 0) {
 					//alert('No existe');
 					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
 				} else {
+					//console.log("Cliente creado");
 					saveClientData(_json.response[0]);						
 					_fSetLoadInit();
-				}			   
+				}
+				
 			});
 			
 			_oAjax.fail(function() {
+				navigator.notification.activityStop();
 				//alert('fail');
 				navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
 				//$(this).html(_html);

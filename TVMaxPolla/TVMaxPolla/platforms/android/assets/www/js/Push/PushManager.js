@@ -56,7 +56,7 @@ function onNotificationGCM(e) {
 			//console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
 			// Your GCM push server needs to know the regID before it can push to this device
 			// here is where you might want to send it the regID for later use.
-			console.log("regID = " + e.regid);
+			//console.log("regID = " + e.regid);
 			regID = e.regid;
 			updateDeviceToServer();
 		}
@@ -135,13 +135,13 @@ function updateDeviceToServer(){
 			var currentRegID = loadRegID();
 			if(currentRegID != null && currentRegID == regID){
 				//same ID and already registered on server
-				console.log("Registrado en el servidor ya no se vuelve a registrar");
+				//console.log("Registrado en el servidor ya no se vuelve a registrar");
 				return;
 			}
 			//revisamos si tenemos cliente porque sino no podemos registrar nada
 			var client = loadClientData();
 			if(client == null){
-				console.log("Aun no hay cliente para registrar el push id");
+				//console.log("Aun no hay cliente para registrar el push id");
 				return;
 			}
 			//var urlUpdate = "http://10.0.3.144:9000/KrakenSocialClients/v1/devices/add";

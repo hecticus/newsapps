@@ -38,16 +38,23 @@ function initFacebookManager(){
 
 
 function getLoginStatus() {
-	FB.getLoginStatus(function(response) {
-		if (response.authResponse.session_key) {
-     		FB.api('/me', function(response) {
-     			_fGetLoginStatus({socialId: response.id});
-			});
-     	} else {
-     		//alert('not logged in');
-     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
-     	}
-	});
+	try{
+		FB.getLoginStatus(function(response) {
+			if (response.authResponse.session_key) {
+	     		FB.api('/me', function(response) {
+	     			/*console.log("Obteniendo Info de FACEBOOK");
+	     			var temp = {socialId: response.id, email:response.email, userNick:response.name, push_id:response.email}:
+	     			console.log("JSON INFO "+temp);
+	     			_fGetLoginStatus({socialId: response.id, email:response.email, userNick:response.name, push_id:response.email});*/
+				});
+	     	} else {
+	     		//alert('not logged in');
+	     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
+	     	}
+		});
+	}catch(e){
+		navigator.notification.alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
+	}
 }
 
 
@@ -90,12 +97,12 @@ function logout() {
 	});
 }
 
-function login() {
+function loginByFacebook() {
     FB.login(
      function(response) {
      	if (response.authResponse.session_key) {
      		FB.api('/me', function(response) {
-  				_fGetLoginStatus({socialId: response.id});
+  				_fGetLoginStatus({socialId: response.id, email:response.email, userNick:response.name, push_id:response.email});
 			});
      	} else {
      		//alert('not logged in');
