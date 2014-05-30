@@ -1,4 +1,3 @@
-	//CALENDARIO JS
 	$(document).on('touchend','.calendar', function(e) {
 		preventBadClick(e);
 		eval($(this).data('function'));		
@@ -89,7 +88,7 @@
 		preventBadClick(e);
 		window.videoPlayer.play($(this).data('src'));
 	});
-	$(document).on('click','.livetv', function(e) {
+	$(document).on('click','.tv', function(e) {
 		preventBadClick(e);
 		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
 	});
@@ -293,62 +292,60 @@
 	
 	$(document).on('touchend','#signIn', function(e) {
 		
-	
-		
+
 		var _email = $('#form-signIn #email').val();
 		var _password = $('#form-signIn #password').val();
 		var _return = true;
 		
 		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
-    		//alert("El email es obligatorio");
-			navigator.notification.alert("El email es obligatorio", doNothing, "Alerta", "OK");
-    		_return = false;
+			navigator.notification.alert("El email es un campo obligatorio. Compruebe que es correcto.", doNothing, "Ingresar", "OK");
 		}
+				
+		if (_return) return false;
 		
-		if (_password.length < 6 ) {
-    		//alert("El password es obligatorio");
-			navigator.notification.alert("El password es obligatorio", doNothing, "Alerta", "OK");
-    		_return = false;
+		
+		if (!_password.length < 1) {
+    		/* El campo está vacío o sólo contiene espacios */
+    		navigator.notification.alert("El password es un campo obligatorio", doNothing, "Ingresar", "OK");
 		}
 
+		if (_return) return false;
+
 		
-		if (_return)  {
-
-			var _html = $('#signIn').html(); 
-			$(this).html('Loading...');
 		
-			_jData.push_id = _email;
-			_jData.userLogin = _email;
-			_jData.userPass =_password;
 
-			
-			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
-			if (_oAjax) {
-			
-				_oAjax.always(function () {					
-					$('#signIn').html(_html);					
-				});	
-			
-				_oAjax.done(function(_json) {			
-					if (_json.response.length == 0) {
-						//alert('No existe');
-						navigator.notification.alert("El cliente no existe, debe registrarse primero", doNothing, "Alerta", "OK");
-					} else {
-						saveClientData(_json.response[0]);						
-						_fSetLoadInit();						
-					}			   
-				});
-				
-				_oAjax.fail(function() {
-					$('#signIn').html(_html);
-				});	
-				
-			}
-			
-			
-		} 
+		var _html = $('#signIn').html(); 
+		$(this).html('Loading...');
+	
+		_jData.push_id = _email;
+		_jData.userLogin = _email;
+		_jData.userPass =_password;
 
-		return _return;
+		
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {					
+				$('#signIn').html(_html);					
+			});	
+		
+			_oAjax.done(function(_json) {			
+				if (_json.response.length == 0) {
+					//alert('No existe');
+					navigator.notification.alert("El cliente no existe, debe registrarse primero", doNothing, "Ingresar", "OK");
+				} else {
+					saveClientData(_json.response[0]);						
+					_fSetLoadInit();						
+				}			   
+			});
+			
+			_oAjax.fail(function() {
+				$('#signIn').html(_html);
+			});	
+			
+		}
+			
+	
 		
 
 		
@@ -368,125 +365,70 @@
 		
 
 		var _email = $('#form-signUp #email').val();
-		var _rEmail = $('#form-signUp #email2').val();
 		var _password = $('#form-signUp #password').val();
-		var _rPassword = $('#form-signUp #password2').val();
 		var _name = $('#form-signUp #name').val();
 		var _surName = $('#form-signUp #surname').val();
 		var _nick = _name + ' ' + _surName;
 		var _return = true;
-		
-		
-		/*if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
-    		alert("El email es obligatorio");
-    		_return = false;
-		}
-		
-		if (!_return) return false;
-		
-		
-		if (!_rEmail.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
-    		alert("El email es obligatorio");
-    		_return = false;
-		}
-		
-		if (!_return) return false;
-		
-		if (_email.length != _rEmail.length ) {
-    		alert("El email no coincide");
-    		_return = false;
-		}		
-		
-		if (!_return) return false;
-		
-		if (_password.length < 6 ) {
-    		alert("El password es obligatorio");
-    		_return = false;
-		}
-		
-		if (!_return) return false;
-		
-		if (_rPassword.length < 6 ) {
-    		alert("El password es obligatorio");
-    		_return = false;
-		}
-		
-		if (!_return) return false;
-				
-		if (_password.length != _rPassword.length ) {
-    		alert("El password no coincide");
-    		_return = false;
-		}
-		
-		if (!_return) return false;
 
-		if (_name.length < 2 ) {
-    		alert("El nombre es obligatorio");
-    		_return = false;
-		}
 		
-		if (!_return) return false;
-		
-		if (_surName.length < 2 ) {
-    		alert("El apellido es obligatorio");
-    		_return = false;
+		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
+    		navigator.notification.alert("El email es un campo obligatorio. Compruebe que es correcto.", doNothing, "Registro", "OK");
 		}
 
-		if (!_return) return false;*/
+		if (_return) return false;
 		
-		
-		if (_return)  {
-			
-			var _html = $('#signUp').html(); 
-			$(this).html('Loading...');
-		
-			_jData.push_id = _email;
-			_jData.userLogin = _email;
-			_jData.userPass =_password;
-			_jData.userNick= _email;
-			_jData.email =_email;
-
-						
-			
-			//alert(JSON.stringify(_jData));
-			//alert("PASO");
-								
-			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
-			if (_oAjax) {
-			
-				_oAjax.always(function () {
-					//alert('always');
-					$(this).html(_html);					
-				});	
-			
-				_oAjax.done(function(_json) {
-					
-					alert(JSON.stringify(_json));
-								
-					if (_json.response.length == 0) {
-						//alert('No existe');
-						navigator.notification.alert("El cliente no se pudo crear, intente mÃ¡s tarde", doNothing, "Alerta", "OK");
-					} else {
-						saveClientData(_json.response[0]);						
-						_fSetLoadInit();
-					}			   
-				});
-				
-				_oAjax.fail(function() {
-					//alert('fail');
-					navigator.notification.alert("El cliente no se pudo crear, intente mÃ¡s tarde", doNothing, "Alerta", "OK");
-					$(this).html(_html);
-				});	
-				
-			}
-			
+		if (_name.length == 0 || /^\s+$/.test(_name)) {
+    		navigator.notification.alert("El nombre es un campo obligatorio", doNothing, "Registro", "OK");
 		}
 		
-		return _return;
+		if (_return) return false;
 		
+		if (_surName.length == 0 || /^\s+$/.test(_surName)) {
+    		navigator.notification.alert("El apellido es un campo obligatorio", doNothing, "Registro", "OK");
+		}
+
+		if (_return) return false;
+				
+		if (_password.length == 0 || /^\s+$/.test(_password)) {
+    		navigator.notification.alert("El password es un campo obligatorio", doNothing, "Registro", "OK");
+		}
+	
+		if (_return) return false;
+
+		var _html = $('#signUp').html(); 
+		$('#signUp').html('Loading...');
+	
+		_jData.push_id = _email;
+		_jData.userLogin = _email;
+		_jData.userPass =_password;
+		_jData.userNick= _email;
+		_jData.email =_email;
+							
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
+		if (_oAjax) {
 		
+			_oAjax.always(function () {
+				$('#signUp').html(_html);					
+			});	
 		
-		
+			_oAjax.done(function(_json) {
+
+				if (_json.response.length == 0) {
+					navigator.notification.alert("El cliente no se pudo crear, intente m&aacute;s tarde", doNothing, "Registro", "OK");
+				} else {
+					saveClientData(_json.response[0]);						
+					_fSetLoadInit();
+				}			   
+			});
+			
+			_oAjax.fail(function() {
+				navigator.notification.alert("El cliente no se pudo crear, intente m&aacute;s tarde", doNothing, "Registro", "OK");
+				$('#signUp').html(_html);
+			});	
+			
+		}
+
 	});
 
 
