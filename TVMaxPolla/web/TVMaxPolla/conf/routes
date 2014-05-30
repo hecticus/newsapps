@@ -67,6 +67,7 @@ POST    /tvmaxfeeds/predictions/insert              controllers.tvmaxfeeds.Predi
 
 GET     /tvmaxfeeds/goals/get                       controllers.tvmaxfeeds.GoalController.getGoals()
 POST    /tvmaxfeeds/goals/insert                    controllers.tvmaxfeeds.GoalController.insert()
+GET     /tvmaxfeeds/goals/sorted/:field/:limit      controllers.tvmaxfeeds.GoalController.getGoalsSorted(field :String, limit : Integer)
 
 
 GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
@@ -75,8 +76,13 @@ POST    /tvmaxfeeds/calendar/insert                 controllers.tvmaxfeeds.Match
 
 GET     /tvmaxfeeds/news/get/:categoryName          controllers.tvmaxfeeds.NewsController.getNews(categoryName : String)
 GET     /tvmaxfeeds/news/latest/                    controllers.tvmaxfeeds.NewsController.getLatest()
+GET     /tvmaxfeeds/news/get/id/:id                 controllers.tvmaxfeeds.NewsController.getNewsById(id : String)
 GET     /tvmaxfeeds/news/awesome/                   controllers.tvmaxfeeds.NewsController.getAwesome()
 POST    /tvmaxfeeds/news/insert                     controllers.tvmaxfeeds.NewsController.insert()
 
 #APP VERSION CONTROL
 GET     /tvmax/appversion/check/:version/:os         controllers.AppVersionController.checkAppVersion(version:Integer, os:String)
+
+
+POST    /push/client/insert                         controllers.pushevents.CategoriesWS.insertClient()
+POST    /push/client/delete                         controllers.pushevents.CategoriesWS.deleteClient()

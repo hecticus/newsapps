@@ -1,7 +1,61 @@
 	
-	var _jPhase = [];
-	var _jCountry = [];
+	var  _aDay = new Array("Domingo", "Lunes", "Martes", "Mi&eacute;rcoles", "Jueves", "Viernes", "S&aacute;bado", "Domingo");
+	
+	
+
+	var _jPhase = [
+		{name:'Grupo A', bgcolor:'#64C2BC'},
+		{name:'Grupo B', bgcolor:'#64C2BC'},
+		{name:'Grupo C', bgcolor:'#64C2BC'},
+		{name:'Grupo D', bgcolor:'#64C2BC'},
+		{name:'Grupo E', bgcolor:'#64C2BC'},
+		{name:'Grupo F', bgcolor:'#64C2BC'},
+		{name:'Grupo G', bgcolor:'#64C2BC'},
+		{name:'Grupo H', bgcolor:'#64C2BC'},
+		{name:'Octavos', bgcolor:'#EB008C'},
+		{name:'Cuartos', bgcolor:'#5F207F'},
+		{name:'Semifinales', bgcolor:'#ED2A24'},
+		{name:'3er Lugar', bgcolor:'#037677'},
+		{name:'Final', bgcolor:'#F9A11A'}
+	];
+
+	var _jPhaseL = [
+		{name:'Grupos', bgcolor:'#64C2BC'},		
+		{name:'Octavos', bgcolor:'#EB008C'},
+		{name:'Cuartos', bgcolor:'#5F207F'},
+		{name:'Semifinales', bgcolor:'#ED2A24'},
+		{name:'3er Lugar', bgcolor:'#037677'},
+		{name:'Final', bgcolor:'#F9A11A'}
+	];
+
+	var _jCountry = [
+	'Alemania','Argelia','Argentina','Australia','Bosnia','Brasil','B&eacute;lgica',
+	'Camer&uacute;n', 'Chile', 'Colombia', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil',
+	'Croacia', 'Ecuador', 'Espa&ntilde;a', 'Estados Unidos', 'Francia', 'Ghana', 'Grecia',
+	'Holanda', 'Honduras', 'Inglaterra', 'Ir&aacute;n', 'Italia', 'Jap&oacute;n', 'M&eacute;xico', 'Nigeria',
+	'Portugal', 'Rusia', 'Suiza', 'Uruguay'
+	];
+	
+	//var _jPhase = [];
+	//var _jCountry = [];
 	var _team = false;
+
+
+	var _fGetColorPhase = function(_name) {
+
+		var _return = false;
+			_name = _name.toString().toLowerCase();
+			_name = _name.replace(/\s/g,'');
+	
+	
+		$.each(_jPhase, function(_index,_phase) {
+			if (_phase.name.toString().toLowerCase().replace(/\s/g,'') == _name) _return =  _phase.bgcolor;			
+			if (_return) return true;
+		});
+		
+		return _return;
+	};
+
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
@@ -35,6 +89,7 @@
 			
 			_iDate = _item.fecha_de_partido.split(' ');
 			_iDate = _iDate[0].toString().toLowerCase();
+
 			
 			if (eval(_expression)) {
 
@@ -101,10 +156,11 @@
 		
 		var _html = '';
 		var _length = 0;
+
 		
-		if (_month == 'jun') {
+		if (_month == 'jun') {			
 			_length = new Date(2014, 6, 0).getDate();				
-		} else if (_month == 'jul') {
+		} else if (_month == 'jul') {			
 			_length = new Date(2014, 7, 0).getDate();
 		}
 
@@ -143,6 +199,7 @@
 		}
 		
 
+		
 		for (var _i = 1 ; _i <= _length; _i++) {	
 
 			if (__i%7 == 0) {
@@ -150,11 +207,11 @@
 			}
 		
 			var _date = ((_i < 10 ) ? '0' + _i.toString() : _i.toString()) + '/' + _month;
-		
+			
 			var _jMatch = _fGetJsonMatchDate(((_i < 10 ) ? '0' + _i.toString() : _i.toString()) + '/' + _month);
 						
-			if (_jMatch) {
-				_html += '<td class="match" data-date="' + _date + '" ><span style="color:#000000;">' + _i.toString() +'</span></td>';
+			if (_jMatch) {				
+				_html += '<td class="match" data-date="' + _date + '" style="border-bottom: solid ' + _fGetColorPhase(_jMatch.fase) + ' !important;" ><span style="color:#000000;">' + _i.toString() +'</span></td>';
 			} else {
 				_html += '<td><span style="color:gray;">' + _i.toString() +'</span></td>';
 			}
@@ -162,7 +219,7 @@
 			if ((__i%7 == 6) || (_i == _length)) {
 				_html += '</tr>';
 			}
-				
+
 			__i = __i+1;
 			
 		}
@@ -209,9 +266,9 @@
 	var _fRenderPhase = function() {
 
 		var _html = '<div class="row" >';	
-		$.each(_jPhase, function(_index) {			
-			_html += '<div class="col-md-12 match" data-phase="' + _jPhase[_index] + '" >';
-			_html += '<span style="margin-left:15px;">' + _jPhase[_index] + '</span>';
+		$.each(_jPhase, function(_index, _phase) {			
+			_html += '<div class="col-md-12 match" data-phase="' + _phase.name + '" >';
+			_html += '<span style="margin-left:15px;">' + _phase.name + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';
@@ -252,46 +309,47 @@
 		_html += '</div>';
 		_html += '</div>';
 
+
+		_html += '<div class="row" >';
+			_html += '<div class="col-md-12">';
+				_html += '<ul>';		
+					$.each(_jPhaseL, function(_index,_phase) {
+						_html += '<li data-phase="' + _phase.name.toString().toLowerCase().replace(/\s/g,'') + '"><span style="font-size:1.4em;">' + _phase.name + '</span></li>';
+					});					
+				_html += '</ul>';				
+			_html += '</div>';
+		_html += '</div>';
+ 
+		
+	
+
+
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
+
+		
+
+		$('#wrapper .scroller .container table > tbody > tr').each(function(_index) {
+			if ((_index == 1) || (_index == 10)  || (_index == 11)) {
+				$(this).remove();
+			}			
+		});
 
 	};
 
 
 
-	var _iIndex = $('main').data('index');
-	_jGet = _jMenu[_iIndex].json;
-	
-	if (_jGet) {
-		
-		$.each(_jGet.item, function(_index,_item) {
-			
-			if (_item.fase.indexOf('Grupo') >= 0) {
-				if (_jCountry.indexOf(_item.equipo_local) < 0) {					
-					_jCountry.push(_item.equipo_local);
-				}	
-			}
-			
-			if (_jPhase.indexOf(_item.fase) < 0) {
-				_jPhase.push(_item.fase);	
-			}
-
-		});
-								
-		
-		_fRenderCalendar();
-		
-	} else {
-	
 		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
-				_jMenu[_iIndex].json =  _json.partidos_mundial;					
-				_jGet = _json.partidos_mundial;				
-				$.each(_jGet.item, function(_index,_item) {
+				
+								
+				_jGet = _json.partidos_mundial;
+								
+				/*$.each(_jGet.item, function(_index,_item) {
 					
 					if (_item.fase.indexOf('Grupo') >= 0) {
-						if (_jCountry.indexOf(_item.equipo_local) < 0) {					
+						if (_jCountry.indexOf(_item.equipo_local) < 0) {
 							_jCountry.push(_item.equipo_local);
 						}	
 					}
@@ -300,15 +358,12 @@
 						_jPhase.push(_item.fase);	
 					}
 	
-				});
+				});*/
 								
 				_fRenderCalendar();
 				
 			});
 		}
-	
-	}
-
 
 
 

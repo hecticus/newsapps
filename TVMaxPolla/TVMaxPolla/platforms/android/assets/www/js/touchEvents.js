@@ -9,7 +9,7 @@
 		myScroll2.scrollTo(0,0,0);		
 	});
 	
-	$(document).on('touchend','.match', function(e) {
+	$(document).on('click','.match', function(e) {
 		preventBadClick(e);
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
@@ -64,7 +64,7 @@
 		
 			
 		if (_this.data('index') == 'fb') {
-			login();
+			loginByFacebook();
 		} else {
 			if(_jMenu[_this.data('index')].class == 'content-polla' || _jMenu[_this.data('index')].class == 'content-alertas'){
 				//revisamos si esta hay client data
@@ -213,7 +213,8 @@
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
 																	
-		if (_group >= 2) {
+		//if (_group >= 2) {
+		if (_group >= _pollaMinGroup+1) {
 			$('.group').addClass('hidden');
 			$('.group[data-group="'+_group+'"]').prev().removeClass('hidden');	
 		}
@@ -227,7 +228,8 @@
 	$(document).on('touchend','.next', function(e) {
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
-		if (_group <= 7) {
+		//if (_group <= 7) {
+		if (_group <= _pollaMaxGroup-1) {
 			$('.group').addClass('hidden');
 			$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
 			myScroll.scrollTo(0,0,0);	
@@ -358,7 +360,7 @@
 
 	$(document).on('click','#facebookLoginButton', function(e) {	
 		navigator.notification.activityStart("Cargando informacion", "Cargando...");
-		login();
+		loginByFacebook();
 	});
 
 

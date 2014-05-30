@@ -2,6 +2,7 @@ package models.tvmaxfeeds;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.SqlRow;
 import exceptions.TvmaxFeedException;
 import models.HecticusModel;
 import org.codehaus.jackson.JsonNode;
@@ -126,6 +127,20 @@ public class TvmaxGoal extends HecticusModel {
             server.endTransaction();
         }
 
+    }
+
+    public static List<SqlRow> getGoalSorted(String field, int limit) throws TvmaxFeedException {
+        List<SqlRow> rows = null;
+        try {
+
+            String query = "SELECT g.team, g.player,g.score_time, g.id_video_kaltura, m.match_number, m.match_date FROM tvmax_goals as g, tvmax_matches as m where m.match_number = g.id_game order by " + field + " LIMIT " + limit;
+            EbeanServer server = Ebean.getServer("default");
+            rows = server.createSqlQuery(query).findList();
+        } catch (Exception ex) {
+            //error devolver que no existe
+            throw new TvmaxFeedException("ocurrio un error ordenando los gol por el field:" + field   , ex);
+        }
+        return rows;
     }
     /********************** getters and setters **********************/
 

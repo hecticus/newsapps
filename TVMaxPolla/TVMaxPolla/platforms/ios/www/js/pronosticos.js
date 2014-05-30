@@ -1,6 +1,6 @@
 	
 	var _height =  parseInt(($(window).height() * 40)/100);
-	
+
 	var _fGetImage = function(_image) {
 		
 		var _html = '<figure style="background:#E6E6E6;">';					     		
@@ -25,7 +25,7 @@
 		_html += '</figure>';
 		return _html;
 	};
-
+	
 	
 	var _fRenderInit = function() {
 	

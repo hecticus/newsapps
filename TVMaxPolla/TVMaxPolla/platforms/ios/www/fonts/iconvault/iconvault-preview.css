@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "iconvault";
-  src: url("iconvault_9549dd23156461d49d8780149a50c90f.eot");
-  src: url("iconvault_9549dd23156461d49d8780149a50c90f.eot?#iefix") format("embedded-opentype"),
-       url("iconvault_9549dd23156461d49d8780149a50c90f.woff") format("woff"),
-       url("iconvault_9549dd23156461d49d8780149a50c90f.ttf") format("truetype"),
-       url("iconvault_9549dd23156461d49d8780149a50c90f.svg#iconvault") format("svg");
+  src: url("iconvault_c0f4757c71934346c062b0d2ecd73262.eot");
+  src: url("iconvault_c0f4757c71934346c062b0d2ecd73262.eot?#iefix") format("embedded-opentype"),
+       url("iconvault_c0f4757c71934346c062b0d2ecd73262.woff") format("woff"),
+       url("iconvault_c0f4757c71934346c062b0d2ecd73262.ttf") format("truetype"),
+       url("iconvault_c0f4757c71934346c062b0d2ecd73262.svg#iconvault") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -29,6 +29,7 @@
 .icon-goles_menu:before,
 .icon-calendario_menu:before,
 .icon-estrellas:before,
+.icon-menutvmax:before,
 .icon-shareandroid:before,
 .icon-biografia_menu:before,
 .icon-polla-save:before,
@@ -39,10 +40,12 @@
 .icon-pronosticos_menu:before,
 .icon-noticias_menu:before,
 .icon-polla_menu:before,
+.icon-caption-calendario:before,
 .icon-flechaazul:before,
 .icon-polemicas_menu:before,
 .icon-back:before,
 .icon-calendario:before,
+.icon-tvmax:before,
 .icon-equipos_menu:before,
 .icon-paises:before,
 .icon-polla-back:before {
@@ -73,20 +76,23 @@
 .icon-goles_menu:before { content: "\f10d"; }
 .icon-calendario_menu:before { content: "\f10e"; }
 .icon-estrellas:before { content: "\f10f"; }
-.icon-shareandroid:before { content: "\f110"; }
-.icon-biografia_menu:before { content: "\f111"; }
-.icon-polla-save:before { content: "\f112"; }
-.icon-clasificacion:before { content: "\f113"; }
-.icon-tvenvivo:before { content: "\f114"; }
-.icon-equipo:before { content: "\f115"; }
-.icon-fases:before { content: "\f116"; }
-.icon-pronosticos_menu:before { content: "\f117"; }
-.icon-noticias_menu:before { content: "\f118"; }
-.icon-polla_menu:before { content: "\f119"; }
-.icon-flechaazul:before { content: "\f11a"; }
-.icon-polemicas_menu:before { content: "\f11b"; }
-.icon-back:before { content: "\f11c"; }
-.icon-calendario:before { content: "\f11d"; }
-.icon-equipos_menu:before { content: "\f11e"; }
-.icon-paises:before { content: "\f11f"; }
-.icon-polla-back:before { content: "\f120"; }
+.icon-menutvmax:before { content: "\f110"; }
+.icon-shareandroid:before { content: "\f111"; }
+.icon-biografia_menu:before { content: "\f112"; }
+.icon-polla-save:before { content: "\f113"; }
+.icon-clasificacion:before { content: "\f114"; }
+.icon-tvenvivo:before { content: "\f115"; }
+.icon-equipo:before { content: "\f116"; }
+.icon-fases:before { content: "\f117"; }
+.icon-pronosticos_menu:before { content: "\f118"; }
+.icon-noticias_menu:before { content: "\f119"; }
+.icon-polla_menu:before { content: "\f11a"; }
+.icon-caption-calendario:before { content: "\f11b"; }
+.icon-flechaazul:before { content: "\f11c"; }
+.icon-polemicas_menu:before { content: "\f11d"; }
+.icon-back:before { content: "\f11e"; }
+.icon-calendario:before { content: "\f11f"; }
+.icon-tvmax:before { content: "\f120"; }
+.icon-equipos_menu:before { content: "\f121"; }
+.icon-paises:before { content: "\f122"; }
+.icon-polla-back:before { content: "\f123"; }

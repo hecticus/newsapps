@@ -6,10 +6,10 @@ function initFacebookManager(){
 		FB.init({ appId: APP_ID, nativeInterface: CDV.FB, useCachedDialogs: false });
 
 		//INIT OTHER STUFF
-		/*These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory*/
+		/*These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory
 		if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
 		if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-		if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+		if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');*/
 
 		FB.Event.subscribe('auth.login', function(response) {
 			console.log('auth.login event: '+JSON.stringify(response));
@@ -18,35 +18,43 @@ function initFacebookManager(){
 
 		FB.Event.subscribe('auth.logout', function(response) {
 			//alert('auth.logout event: '+JSON.stringify(response));
-			alert('auth.logout event: '+response);
+			//alert('auth.logout event: '+response);
 		});
 
 		FB.Event.subscribe('auth.sessionChange', function(response) {
 			//alert('auth.sessionChange event: '+JSON.stringify(response));
-			alert('auth.sessionChange event: '+response);
+			//alert('auth.sessionChange event: '+response);
 		});
 
 		FB.Event.subscribe('auth.statusChange', function(response) {
 			//alert('auth.statusChange event: '+JSON.stringify(response));
-			alert('auth.statusChange event: '+response);
+			//alert('auth.statusChange event: '+response);
 		});
 
 	} catch (e) {
-		alert(e);
+		//alert(e);
 	}
 }
 
 
 function getLoginStatus() {
-	FB.getLoginStatus(function(response) {
-		if (response.authResponse.session_key) {
-     		FB.api('/me', function(response) {
-     			_fGetLoginStatus({socialId: response.id});
-			});
-     	} else {
-     		alert('not logged in');
-     	}
-	});
+	try{
+		FB.getLoginStatus(function(response) {
+			if (response.authResponse.session_key) {
+	     		FB.api('/me', function(response) {
+	     			/*console.log("Obteniendo Info de FACEBOOK");
+	     			var temp = {socialId: response.id, email:response.email, userNick:response.name, push_id:response.email}:
+	     			console.log("JSON INFO "+temp);
+	     			_fGetLoginStatus({socialId: response.id, email:response.email, userNick:response.name, push_id:response.email});*/
+				});
+	     	} else {
+	     		//alert('not logged in');
+	     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
+	     	}
+		});
+	}catch(e){
+		navigator.notification.alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
+	}
 }
 
 
@@ -58,11 +66,12 @@ var fdata;
 function me() {
 	FB.api('/me/friends', { fields: 'id, name, picture' },  function(response) {
 		if (response.error) {
-			alert(JSON.stringify(response.error));
+			//alert(JSON.stringify(response.error));
+			navigator.notification.alert("Error obteniendo información de Facebook", doNothing, "Alerta", "OK");
 		} else {
 			var data = document.getElementById('data');
 			fdata=response.data;
-			console.log("fdata: "+fdata);
+			//console.log("fdata: "+fdata);
 			response.data.forEach(function(item) {
 				var d = document.createElement('div');
 				d.innerHTML = "<img src="+item.picture+"/>"+item.name;
@@ -70,7 +79,7 @@ function me() {
 			});
 		}
 		var friends = response.data;
-		console.log(friends.length); 
+		//console.log(friends.length); 
 		for (var k = 0; k < friends.length && k < 200; k++) {
 			var friend = friends[k];
 			var index = 1;
@@ -78,25 +87,27 @@ function me() {
 			friendIDs[k] = friend.id;
 			//friendsInfo[k] = friend;
 		}
-		console.log("friendId's: "+friendIDs);
+		//console.log("friendId's: "+friendIDs);
 	});
 }
 
 function logout() {
 	FB.logout(function(response) {
-		alert('logged out');
+		//alert('logged out');
 	});
 }
 
-function login() {
+function loginByFacebook() {
     FB.login(
      function(response) {
      	if (response.authResponse.session_key) {
      		FB.api('/me', function(response) {
-  				_fGetLoginStatus({socialId: response.id});
+  				_fGetLoginStatus({socialId: response.id, email:response.email, userNick:response.name, push_id:response.email});
 			});
      	} else {
-     		alert('not logged in');
+     		//alert('not logged in');
+     		navigator.notification.activityStop();
+     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
      	}
      },{ scope: "email" }
 	);
