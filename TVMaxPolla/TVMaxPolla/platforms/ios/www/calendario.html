@@ -5,13 +5,28 @@
 		<div class="container calendario-menu" >
 			<div class="row" >			
 				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar active" data-function="_fRenderCalendar();">
-				 	<span class="icon-calendario"></span>
+				 	<div style=" position: relative; height:50px; text-align: center;" >
+				 		<span class="icon-calendario" style="font-size: 3.2em; "></span>
+				 	</div>				 	
+				 	<div style="height:20px; line-height:10px; text-align: center;" >
+				 		<span style="font-size: 1em; ">Fechas</span>
+				 	</div>				 					 					 					 					 	
 				 </div>			
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderCountry();">
-				 	<span class="icon-paises"></span>
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" style="" data-function="_fRenderCountry();">
+				 	<div style=" position: relative;height:50px; text-align: center;" >
+				 		<span class="icon-paises" style="font-size: 3.2em; "></span>
+				 	</div>				 	
+				 	<div style="height:20px; line-height:10px; text-align: center;" >
+				 		<span style="font-size: 1em; ">Pa&iacute;ses</span>
+				 	</div>	
 				 </div>			
 				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 calendar" data-function="_fRenderPhase();">
-				 	<span class="icon-fases"></span>
+				 	<div style=" position: relative; height:50px; text-align: center;" >
+				 		<span class="icon-fases" style="font-size: 3.2em; "></span>
+				 	</div>				 	
+				 	<div style="height:20px; line-height:10px; text-align: center;" >
+				 		<span style="font-size: 1em; ">Fases</span>
+				 	</div>	
 				 </div>		 		 
 			 </div>
 		</div>
@@ -35,12 +50,12 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper', {click:true,preventDefault:true});
+			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () {					
 				this.refresh();	
 			});
 				
-			var myScroll2 = new IScroll('#wrapper2', {click:true,preventDefault:true});
+			var myScroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();
 			});	

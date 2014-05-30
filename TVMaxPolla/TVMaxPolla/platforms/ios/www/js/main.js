@@ -4,6 +4,8 @@ var  _mTimeout;
 var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
 var _jClient = false;
 
+var _homeWasShowed = false;
+
 var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
                           {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
                           {"id_tvmax":"3","name":"Argentina","shortname":"ARG","flag":"ar-lgflag.png","ext_id":"3029"},
@@ -72,7 +74,7 @@ var _fSetLoadDefault = function() {
 	$('body').addClass('content-default');
 	$('main').data('index',-1);		
 	$('main').load('default.html');
-	$('.title').html('<span>Default</span>'); 
+	$('.title').html('<span>Inicio</span>'); 
 };
 
 var _fSetLoadInit = function() {
@@ -96,7 +98,8 @@ var _fSetBack = function() {
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');		
-	
+	$('.tv').removeClass('hidden');
+	$('.menu-group').addClass('hidden');		
 };
 
 
@@ -202,14 +205,14 @@ $.fPostAjaXJSON = function(_url, _data) {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			_fGetLoadingError();
-			alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
+			//alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
 			return false;
 		});
 		   
 	} catch (e) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
-		 alert(e);
+		 //alert(e);
 		_fGetLoadingError();
 		return false;
 	}
@@ -240,27 +243,27 @@ $.fPostAjaXJSON = function(_url, _data) {
 		hoursRound = (hoursRound < 10) ? "0" + hoursRound : hoursRound;
 		daysRound = (daysRound < 10) ? "0" + daysRound : daysRound;
 		
-		
-		/*sec = (secondsRound == 1) ? " segundo" : " segundos";
-		min = (minutesRound == 1) ? " minuto" : " minutos ";
-		hr = (hoursRound == 1) ? " hora" : " horas ";
-		dy = (daysRound == 1) ? " d�a" : " d&iacute;as ";*/
+	
+		var _html = '<div class="table-responsive">';
+				_html += '<table class="table time">';
+					_html += '<tr>';			
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;" >' + daysRound +'</td>';
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + hoursRound +'</td>';
+						_html += '<td style="background:#ffffff url(img/barra.jpg) no-repeat right bottom; background-size:2px 50px;">' + minutesRound +'</td>';
+						_html += '<td>' + secondsRound +'</td>';			
+					_html += '</tr>';
+					
+					_html += '<tr>';		
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">D&iacute;as</td>';
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">Horas</td>';
+						_html += '<td class="caption" style="background:#ffffff url(img/barra.jpg) no-repeat right top; background-size:2px 10px;">Minutos</td>';
+						_html += '<td class="caption">Segundos</td>';					
+					_html += '</tr>';
+				
+				_html += '</table>';
+			_html += '</div>';
 
-		sec = "ss";
-		min = "mm";
-		hr = "hh";
-		dy = "dd";
 
-		var _html = '<div class="row" style="padding:25px;" >';
-		
-		_html += '<div class=col-md-12" style="text-align:center; font-size: 2em; font-weight:bold; color:#4D4D4D;" >';	
-			_html += '<span>' + daysRound + ' : </span>';
-			_html += '<span>' + hoursRound + ' : </span>';
-			_html += '<span>' + minutesRound + ' : </span>';
-			_html += '<span>' + secondsRound +'</span>';
-		_html += '</div>';
-
-		
 
 		return _html;
 		
@@ -269,19 +272,25 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 	var _fRenderGetInitTime = function(_class) {
 
-		var _html = '<div class="row" style="padding:25px;" >';
-		
-		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center; " >';
-		_html += '<h3>Para el Mundial faltan</h3>';
+		var _html = '<div class="row">';
+
+		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; " >';
+		_html += '<span>Faltan:</span>';
 		_html += '</div>';
 		
 		_html += '<div class="col-md-12" >';		
 		_html +=  _fGetTime();
 		_html += '</div>';
 		
-		_html += '<div class="col-md-12" style="font-size: 2em; font-weight:bold; color:#4D4D4D; text-align:center;" >';
+		_html += '<div class="col-md-12" style="font-size: 1.4em; height:40px; line-height:40px; font-weight:bold; background:#E6E6E6; color:#3E79C4; text-align:center; border-bottom: solid #FFD455; " >';
+		_html += '<span>&#161;Para el Mundial!</span>';
+		_html += '</div>';
+	
+
+		
+		_html += '<div class="col-md-12" style="font-size: 1.6em; color:#4D4D4D; text-align:center;" >';
 		_html += '<h4>&#161;Pronto disfrutar&aacute;s de esta secci&oacute;n!</h4>';
-		_html += '<span class="' + _class  + '" style="font-size: 4em;"></span>';
+		_html += '<span class="' + _class  + '" style="font-size: 6em;"></span>';
 		_html += '</div>';
 		
 		
@@ -307,9 +316,18 @@ $.fPostAjaXJSON = function(_url, _data) {
 	function checkVersion(){
 		//console.log("revisando version");
 		try {	
+			var osName;
 			//var urlVersion = "http://192.168.1.128:9002/tvmax/appversion/check/1/android";
+			var devicePlatform = device.platform;
+			//IOS
+			if(devicePlatform == "iOS"){
+				osName = "ios";
+			}else{
+				//ANDROID
+				osName = "android";
+			}
 			var version = 1;
-			var osName = "android";
+			
 			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
 			updateURL = "";
 		  	$.ajax({
@@ -326,7 +344,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 						//hay una nueva version y hay que llamar al dialogo para actualizar
 						if(results!= null && results.length>0){
 							updateURL = results;
-							console.log("URL "+updateURL);
+							//console.log("URL "+updateURL);
 							navigator.notification.alert("Hay una nueva versión de la aplicación", goToUpdatePage, "Actualización", "Descargar");
 						}
 					}
@@ -347,11 +365,11 @@ $.fPostAjaXJSON = function(_url, _data) {
 
 	function _fGetLoginStatus(_jData) {
 		
-		
 		_jData.id_country = 8;
 		_jData.id_business = 17;
 		_jData.app_id = 1;
-
+		_jData.id_carrier = 19;
+		_jData.origin = 'APP';
 							
 		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/login',_jData);	
 		if (_oAjax) {
@@ -362,18 +380,72 @@ $.fPostAjaXJSON = function(_url, _data) {
 		
 			_oAjax.done(function(_json) {			
 				if (_json.response.length == 0) {
-					alert('No existe');
+					//alert('No existe');
+					//navigator.notification.alert("No existe el cliente, debe registrarse primero", doNothing, "Alerta", "OK");
+					//viene por facebook asi que hay que crearlo 
+					createClientForFacebook(_jData);
 				} else {
 					saveClientData(_json.response[0]);					
-					_fSetLoadInit();												
-				}			   
+					_fSetLoadInit();
+					navigator.notification.activityStop();
+				}
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
+				//ERROR
+				navigator.notification.activityStop();
+				navigator.notification.alert("Error consultando clientes, intente más tarde", doNothing, "Alerta", "OK");
 			});	
 		
 		}
 		
 	};
+	
+	function createClientForFacebook(_jData){
+		//console.log("Va a crear cliente");
+		_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/facebook',_jData);	
+		if (_oAjax) {
+		
+			_oAjax.always(function () {
+				//alert('always');
+				//$(this).html(_html);					
+			});	
+		
+			_oAjax.done(function(_json) {
+				navigator.notification.activityStop();			
+				if (_json.response.length == 0) {
+					//alert('No existe');
+					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+				} else {
+					//console.log("Cliente creado");
+					saveClientData(_json.response[0]);						
+					_fSetLoadInit();
+				}
+				
+			});
+			
+			_oAjax.fail(function() {
+				navigator.notification.activityStop();
+				//alert('fail');
+				navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
+				//$(this).html(_html);
+			});	
+			
+		}
+	}
+	
+	function backFromRegister(){
+		$('header .container .row .menu span').removeClass();
+		if(_homeWasShowed){
+			$('header .container .row .menu span').addClass('icon-menuhome');
+			_fSetLoadInit();
+		}else{
+			_fSetLoadDefault();	
+		}
+	}
+	
+	function doNothing(){
+		
+	}
 

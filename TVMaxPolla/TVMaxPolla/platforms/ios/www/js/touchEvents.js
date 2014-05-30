@@ -9,7 +9,7 @@
 		myScroll2.scrollTo(0,0,0);		
 	});
 	
-	$(document).on('touchend','.match', function(e) {
+	$(document).on('click','.match', function(e) {
 		preventBadClick(e);
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
@@ -34,7 +34,11 @@
 	$(document).on('touchend','.menu', function(e) {
 		preventBadClick(e);
 
-		if ($('header .container .row .menu span').hasClass('icon-back')) {
+		if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signin')) {
+			backFromRegister()			
+		} else if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signup')) {
+			backFromRegister()			
+		} else if ($('header .container .row .menu span').hasClass('icon-back')) {
 			_fSetBack();			
 		} else if ($('#wrapperM').hasClass('right')) {
 			$('#wrapperM').attr('class','page transition left');	
@@ -60,8 +64,16 @@
 		
 			
 		if (_this.data('index') == 'fb') {
-			login();
+			loginByFacebook();
 		} else {
+			if(_jMenu[_this.data('index')].class == 'content-polla' || _jMenu[_this.data('index')].class == 'content-alertas'){
+				//revisamos si esta hay client data
+				if(loadClientData() == null){
+					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
+					return;
+				}
+			}
+			
 			$('body').removeClass();
 			$('body').addClass(_jMenu[_this.data('index')].class);
 			$('main').empty();
@@ -160,9 +172,11 @@
 		
 			_oAjax.done(function(_msg) {
 				if (_msg.error==0) {
-					alert('Bien! Tu pronostico se ha guardado con exito.');
+					navigator.notification.alert("Bien! Tu pronostico se ha guardado con exito.", doNothing, "Guardar", "OK");
+					//alert('Bien! Tu pronostico se ha guardado con exito.');
 				} else {
-					alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
+					navigator.notification.alert("Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.", doNothing, "Alerta", "OK");
+					//alert('Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.');	
 				}
 			});
 			
@@ -199,7 +213,8 @@
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
 																	
-		if (_group >= 2) {
+		//if (_group >= 2) {
+		if (_group >= _pollaMinGroup+1) {
 			$('.group').addClass('hidden');
 			$('.group[data-group="'+_group+'"]').prev().removeClass('hidden');	
 		}
@@ -213,7 +228,8 @@
 	$(document).on('touchend','.next', function(e) {
 		preventBadClick(e);									
 		var _group = $('.group:visible').data('group');
-		if (_group <= 7) {
+		//if (_group <= 7) {
+		if (_group <= _pollaMaxGroup-1) {
 			$('.group').addClass('hidden');
 			$('.group[data-group="'+_group+'"]').next().removeClass('hidden');
 			myScroll.scrollTo(0,0,0);	
@@ -284,12 +300,14 @@
 		var _return = true;
 		
 		if (!_email.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/)) {
-    		alert("El email es obligatorio");
+    		//alert("El email es obligatorio");
+			navigator.notification.alert("El email es obligatorio", doNothing, "Alerta", "OK");
     		_return = false;
 		}
 		
 		if (_password.length < 6 ) {
-    		alert("El password es obligatorio");
+    		//alert("El password es obligatorio");
+			navigator.notification.alert("El password es obligatorio", doNothing, "Alerta", "OK");
     		_return = false;
 		}
 
@@ -313,7 +331,8 @@
 			
 				_oAjax.done(function(_json) {			
 					if (_json.response.length == 0) {
-						alert('No existe');
+						//alert('No existe');
+						navigator.notification.alert("El cliente no existe, debe registrarse primero", doNothing, "Alerta", "OK");
 					} else {
 						saveClientData(_json.response[0]);						
 						_fSetLoadInit();						
@@ -339,8 +358,9 @@
 		
 	});
 
-	$(document).on('click','#facebookLoginButton', function(e) {		
-		login();
+	$(document).on('click','#facebookLoginButton', function(e) {	
+		navigator.notification.activityStart("Cargando informacion", "Cargando...");
+		loginByFacebook();
 	});
 
 
@@ -428,13 +448,14 @@
 
 						
 			
-			alert(JSON.stringify(_jData));				
+			//alert(JSON.stringify(_jData));
+			//alert("PASO");
 								
 			_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/loginpass',_jData);	
 			if (_oAjax) {
 			
 				_oAjax.always(function () {
-					alert('always');
+					//alert('always');
 					$(this).html(_html);					
 				});	
 			
@@ -443,7 +464,8 @@
 					alert(JSON.stringify(_json));
 								
 					if (_json.response.length == 0) {
-						alert('No existe');
+						//alert('No existe');
+						navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
 					} else {
 						saveClientData(_json.response[0]);						
 						_fSetLoadInit();
@@ -451,7 +473,8 @@
 				});
 				
 				_oAjax.fail(function() {
-					alert('fail');
+					//alert('fail');
+					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
 					$(this).html(_html);
 				});	
 				
