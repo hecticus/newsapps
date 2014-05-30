@@ -34,6 +34,8 @@
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
 		6729F3F077F44840A414D65D /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = BF08E8CC78A641CC8AE2B4B5 /* CDVDevice.m */; };
+		6F15FE831938EB6C00438C30 /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F15FE821938EB6C00438C30 /* FacebookConnectPlugin.m */; };
+		6F15FE851938F5C200438C30 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F15FE841938F5C200438C30 /* FacebookSDK.framework */; };
 		6F51698F192EA5FD0055ED4A /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698C192EA5FD0055ED4A /* MovieViewController.m */; };
 		6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698E192EA5FD0055ED4A /* VideoPlayer.m */; };
 		6F516992192EA69C0055ED4A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F516991192EA69C0055ED4A /* MediaPlayer.framework */; };
@@ -119,6 +121,9 @@
 		5E652C7120264D4DBD6E0D14 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "org.apache.cordova.network-information/CDVReachability.h"; sourceTree = "<group>"; };
 		694C9BACF1A64252B2A242DF /* CDVFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVFileTransfer.m; path = "org.apache.cordova.file-transfer/CDVFileTransfer.m"; sourceTree = "<group>"; };
 		6AC81646655F46FCB055EA91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6F15FE811938EB6C00438C30 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookConnectPlugin.h; sourceTree = "<group>"; };
+		6F15FE821938EB6C00438C30 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookConnectPlugin.m; sourceTree = "<group>"; };
+		6F15FE841938F5C200438C30 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		6F51698B192EA5FD0055ED4A /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
 		6F51698C192EA5FD0055ED4A /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 		6F51698D192EA5FD0055ED4A /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
@@ -171,6 +176,7 @@
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
 				36FDE6561B504C7D9A6CBE47 /* Social.framework in Frameworks */,
 				A6E9A1E964DB42BD9689E126 /* MessageUI.framework in Frameworks */,
+				6F15FE851938F5C200438C30 /* FacebookSDK.framework in Frameworks */,
 				1968B22DD3E04CCFA6FE7290 /* SystemConfiguration.framework in Frameworks */,
 				A75E3BF971F04DCD93EBE921 /* AudioToolbox.framework in Frameworks */,
 			);
@@ -259,6 +265,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F15FE841938F5C200438C30 /* FacebookSDK.framework */,
 				6F516991192EA69C0055ED4A /* MediaPlayer.framework */,
 				5AEE5B34173C68D80009041E /* CoreLocation.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
@@ -283,6 +290,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6F15FE801938EB6C00438C30 /* Facebook */,
 				6F51698A192EA5FD0055ED4A /* VideoPlayer */,
 				9000CA2402B7491F87E398DE /* SocialSharing.m */,
 				7753E7C0281040F09A61EC7E /* SocialSharing.h */,
@@ -349,6 +357,15 @@
 				3088BBBC154F3926009F9C59 /* Default~iphone.png */,
 			);
 			path = splash;
+			sourceTree = "<group>";
+		};
+		6F15FE801938EB6C00438C30 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				6F15FE811938EB6C00438C30 /* FacebookConnectPlugin.h */,
+				6F15FE821938EB6C00438C30 /* FacebookConnectPlugin.m */,
+			);
+			path = Facebook;
 			sourceTree = "<group>";
 		};
 		6F51698A192EA5FD0055ED4A /* VideoPlayer */ = {
@@ -500,6 +517,7 @@
 				CF8439D934BA48239A624CBB /* CDVFileTransfer.m in Sources */,
 				6729F3F077F44840A414D65D /* CDVDevice.m in Sources */,
 				AD36CB08E6C545D8911E0656 /* CDVConnection.m in Sources */,
+				6F15FE831938EB6C00438C30 /* FacebookConnectPlugin.m in Sources */,
 				0C22F550428549C198F11198 /* CDVReachability.m in Sources */,
 				6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */,
 				DC06AFFE8DB74361A0C086A5 /* CDVNotification.m in Sources */,
@@ -545,6 +563,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -579,6 +601,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TVMaxPolla/TVMaxPolla-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
