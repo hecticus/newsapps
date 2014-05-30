@@ -86,7 +86,6 @@
 	}
 
 
-
 	header {	
 		position: absolute; 
 		z-index: 4; 
@@ -103,7 +102,8 @@
 		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
 		display: none;
-
+		
+		
 	}
 			
 	header .glyphicon { color: #3E79C4;}
@@ -130,7 +130,9 @@
 	body.content-polla #wrapper {
 		bottom: 80px;
 	}
-
+	
+				
+	 
 	body:not(.content-init) header {
 		display: block;
 	}

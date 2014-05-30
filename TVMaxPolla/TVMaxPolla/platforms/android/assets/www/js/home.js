@@ -1,4 +1,6 @@
-	
+
+	$('#splash').hide();
+	$('header').removeClass('hidden');	
 	
 	var _width = 	$(window).width();		
 	var _height = 	$(window).height();
