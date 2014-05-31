@@ -255,7 +255,42 @@ var app = {
 };
 
 function executePushInit(extra_params){
-	
+	pushInterval = window.setInterval(function(){
+		if(_homeWasShowed){
+			clearTimeout(_mTimeout);			
+			
+			if(_oAjax && _oAjax.readystate != 4) {
+				_oAjax.abort();
+	    	}
+
+			_fSetBack();
+			var index = 2;
+			
+			if(_jMenu[index].class == 'content-polla' || _jMenu[index].class == 'content-alertas'){
+				//revisamos si esta hay client data
+				if(loadClientData() == null){
+					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
+					return;
+				}
+			}
+				
+			$('body').removeClass();
+			$('body').addClass(_jMenu[index].class);
+			$('main').empty();
+			$('main').data('index',index);	
+			$('.title').html('<span>' + _jMenu[index].title + '</span>');						
+			$('main').load(_jMenu[index].load);	
+			$('#wrapperM').attr('class','page transition left');
+			//console.log("EXTRA "+extra_params);
+			
+			stopPushInterval();
+		}
+		
+	},500);
+}
+
+function stopPushInterval(){
+	clearInterval(pushInterval);
 }
 
 
