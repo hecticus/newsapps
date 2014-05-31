@@ -109,7 +109,7 @@ var _fGetLoading = function() {
 	
 	var _html = '<div class="row" >';
 		_html += '<div class="col-md-12" style="font-size:1.2em; font-weight:bold; text-align:center; ">';
-		_html += '<span>Loading...</span>';
+		_html += '<span>Cargando...</span>';
 		_html += '</div>';
 		_html += '</div>';
 		
@@ -437,9 +437,9 @@ $.fPostAjaXJSON = function(_url, _data) {
 	}
 	
 	function backFromRegister(){
-		$('header .container .row .menu span').removeClass();
+		//$('header .container .row .menu span').removeClass();
 		if(_homeWasShowed){
-			$('header .container .row .menu span').addClass('icon-menuhome');
+			//$('header .container .row .menu span').addClass('icon-menuhome');
 			_fSetLoadInit();
 		}else{
 			_fSetLoadDefault();	

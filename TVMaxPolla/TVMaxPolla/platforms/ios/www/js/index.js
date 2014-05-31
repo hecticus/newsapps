@@ -98,7 +98,8 @@ var app = {
 
 	    			_player.title = _title;
 	    			//_player.xml = _xml;
-	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
+	    			_player.id = _id;	    	
+	    			_player.image = 'img/players/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
 					
 					var _img = $('img #img').attr('src',_player.image);
@@ -255,7 +256,42 @@ var app = {
 };
 
 function executePushInit(extra_params){
-	
+	pushInterval = window.setInterval(function(){
+		if(_homeWasShowed){
+			clearTimeout(_mTimeout);			
+			
+			if(_oAjax && _oAjax.readystate != 4) {
+				_oAjax.abort();
+	    	}
+
+			_fSetBack();
+			var index = 2;
+			
+			if(_jMenu[index].class == 'content-polla' || _jMenu[index].class == 'content-alertas'){
+				//revisamos si esta hay client data
+				if(loadClientData() == null){
+					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
+					return;
+				}
+			}
+				
+			$('body').removeClass();
+			$('body').addClass(_jMenu[index].class);
+			$('main').empty();
+			$('main').data('index',index);	
+			$('.title').html('<span>' + _jMenu[index].title + '</span>');						
+			$('main').load(_jMenu[index].load);	
+			$('#wrapperM').attr('class','page transition left');
+			//console.log("EXTRA "+extra_params);
+			
+			stopPushInterval();
+		}
+		
+	},500);
+}
+
+function stopPushInterval(){
+	clearInterval(pushInterval);
 }
 
 
@@ -324,14 +360,14 @@ function setIOSSplashes(){
 	if(devicePlatform == "iOS"){
 		if(getScreenWidth() == 640 || getScreenWidth() == 320){
 			if(getScreenHeight() > 480){
-				console.log("iphone 5");
+				//console.log("iphone 5");
 				$("#splash").attr("src", "img/splashIOS/splash_iphone5.png");
 			}else{
-				console.log("iphone");
+				//console.log("iphone");
 				$("#splash").attr("src", "img/splashIOS/splash_iphone.png");
 			}
 		}else{
-			console.log("ipad");
+			//console.log("ipad");
 			$("#splash").attr("src", "img/splashIOS/splash_ipad.png");
 		}
 			

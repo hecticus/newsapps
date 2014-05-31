@@ -1,14 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">	
 	<body>
-		<div id="wrapper" class="container" style="margin-top: 75px;">
-			<p>
-				<button data-index="fb" type="button" class="btn btn-primary btn-lg btn-block load">Entrar con Facebook</button>
-				<button data-index="16" type="button" class="btn btn-default btn-lg btn-block load">Soy nuevo en TvMax</button>
-				<button data-index="15" type="button" class="btn btn-default btn-lg btn-block load">Soy usuario de TvMax</button>			
-				<button data-index="0" id="free" type="button" class="btn btn-default btn-lg btn-block load">Entrar sin registrarme</button>
-			</p>
-		</div>
+		<style type="text/css" media="all">
+		.specialMargin {
+			margin-top: 45%;
+		}
+		/* IPHONE 3 ONLY */
+		@media screen and (device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1){
+			.specialMargin {
+				margin-top: 33%;
+			}
+		}
+		/* IPHONE 4 ONLY */
+		@media screen and (device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2) {
+			
+			.specialMargin {
+				margin-top: 45%;
+			}
+			
+		}
+		
+		/* IPHONE 5 ONLY */
+		
+		@media screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) {
+			
+			.specialMargin {
+				margin-top: 55%;
+			}
+			
+		}
+		
+		/* IPAD 1, 2, Mini – Non Retina */
+		@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1) {
+			
+			.specialMargin {
+				margin-top: 55%;
+			}
+			
+		}
+		
+		/* IPAD 3, 4, AIR Retina */
+		@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) {
+			
+			.specialMargin {
+				margin-top: 55%;
+			}
+			
+		}
+		</style>
+		<div id="wrapper" class="specialMargin" style="background-color: rgba(255,255,255,0);">
+			<div class="scroller" style="background-color: rgba(255,255,255,0);" >				
+				<div class="container" style="background-color: rgba(255,255,255,0);">					
+					<p style="background-color: rgba(255,255,255,0);">
+						<button data-index="fb" type="button" class="btn btn-primary btn-lg btn-block load">Entrar con Facebook</button>
+						<button data-index="16" type="button" class="btn btn-default btn-lg btn-block load">Soy nuevo en TvMax</button>
+						<button data-index="15" type="button" class="btn btn-default btn-lg btn-block load">Soy usuario de TvMax</button>			
+						<button data-index="0" id="free" type="button" class="btn btn-default btn-lg btn-block load">Entrar sin registrarme</button>
+					</p>			
+				</div>	
+			</div>
+		</div>	
+
+		<script type="text/javascript">
+			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
+			myScroll.on('beforeScrollStart', function () { 
+				this.refresh();	
+			});				
+		</script>
+		
+		
+		
+		<script type="text/javascript" src="js/default.js"></script>  
 	</body>
 	
 </html>

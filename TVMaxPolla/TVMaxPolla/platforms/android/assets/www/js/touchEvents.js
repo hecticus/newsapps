@@ -132,10 +132,10 @@
 
 
 	$(document).on('touchend','.save', function() {
-		preventBadClick(e);
+		//preventBadClick(e);
 		 
 		
-		$('#polla-save').html('LOADING...');
+		$('#polla-save').html('CARGANDO...');
 		var _iClient = loadClientData().id_social_clients;
 		var _jSave = {idClient:_iClient,idLeaderboard:1,clientBet:{matches:[]}};
 		var _phase = $('.phase:visible').data('phase');

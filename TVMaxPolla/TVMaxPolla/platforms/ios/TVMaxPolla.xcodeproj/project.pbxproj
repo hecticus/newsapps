@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		0C22F550428549C198F11198 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE9659C409A4255B5EDBB1F /* CDVReachability.m */; };
 		1178EEB69A044A16A399722C /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84914CA181BC48A1B560D065 /* CDVLocalFilesystem.m */; };
@@ -36,6 +37,8 @@
 		6712ACA9D1944AF6BB35DE41 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912B8F6066304AAA84483DF2 /* libsqlite3.dylib */; };
 		6729F3F077F44840A414D65D /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = BF08E8CC78A641CC8AE2B4B5 /* CDVDevice.m */; };
 		6F15FE891938FDDD00438C30 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F15FE881938FDDD00438C30 /* FacebookSDK.framework */; };
+		6F15FE8D19394A3900438C30 /* TVMaxDeportes_develop.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */; };
+		6F15FE8E19394A3900438C30 /* TVMaxDeportes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */; };
 		6F51698F192EA5FD0055ED4A /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698C192EA5FD0055ED4A /* MovieViewController.m */; };
 		6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698E192EA5FD0055ED4A /* VideoPlayer.m */; };
 		6F516992192EA69C0055ED4A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F516991192EA69C0055ED4A /* MediaPlayer.framework */; };
@@ -50,6 +53,7 @@
 		7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DB1810823500FA85AD /* icon-76@2x.png */; };
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
+		84B0CE8452364332AEF10296 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */; };
 		A6E9A1E964DB42BD9689E126 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 296C557B0DA24E00969AE70E /* MessageUI.framework */; };
 		A75E3BF971F04DCD93EBE921 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8B993D465495AA4EE16A3 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AD36CB08E6C545D8911E0656 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D5538E992C3B47ECA55E700A /* CDVConnection.m */; };
@@ -65,7 +69,6 @@
 		F07AEFBB61534010A468B6CA /* CDVSpinnerDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F46A5A3DD63470583A50C9A /* CDVSpinnerDialog.m */; };
 		F625EF94C2684921A2CC74CA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F74E8FD1CB04460AF06808B /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
-		84B0CE8452364332AEF10296 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +89,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0BCEB33F493C4290A86B722D /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
+		0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		1BE9659C409A4255B5EDBB1F /* CDVReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "org.apache.cordova.network-information/CDVReachability.m"; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -128,6 +133,8 @@
 		694C9BACF1A64252B2A242DF /* CDVFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVFileTransfer.m; path = "org.apache.cordova.file-transfer/CDVFileTransfer.m"; sourceTree = "<group>"; };
 		6AC81646655F46FCB055EA91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6F15FE881938FDDD00438C30 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVMaxDeportes_develop.entitlements; path = TVMaxPolla/TVMaxDeportes_develop.entitlements; sourceTree = "<group>"; };
+		6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVMaxDeportes.entitlements; path = TVMaxPolla/TVMaxDeportes.entitlements; sourceTree = "<group>"; };
 		6F51698B192EA5FD0055ED4A /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
 		6F51698C192EA5FD0055ED4A /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 		6F51698D192EA5FD0055ED4A /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
@@ -169,8 +176,6 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = TVMaxPolla/config.xml; sourceTree = "<group>"; };
 		F9BB9FEA4F2543E3BCF8A096 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = org.apache.cordova.inappbrowser/CDVInAppBrowser.h; sourceTree = "<group>"; };
 		FB6B13C626D846E593681F54 /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = org.apache.cordova.device/CDVDevice.h; sourceTree = "<group>"; };
-		0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLogger.m"; path = "org.apache.cordova.console/CDVLogger.m"; sourceTree = "<group>"; fileEncoding = 4; };
-		0BCEB33F493C4290A86B722D /* CDVLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLogger.h"; path = "org.apache.cordova.console/CDVLogger.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +244,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */,
+				6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
 				301BF56E109A69640062928A /* www */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
@@ -469,6 +476,7 @@
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
+				6F15FE8E19394A3900438C30 /* TVMaxDeportes.entitlements in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
@@ -477,6 +485,7 @@
 				6F7E80DB193542B8005A6E67 /* icon-iPad@2x.png in Resources */,
 				7E7966E31810823500FA85AD /* icon-60@2x.png in Resources */,
 				7E7966E61810823500FA85AD /* icon-small.png in Resources */,
+				6F15FE8D19394A3900438C30 /* TVMaxDeportes_develop.entitlements in Resources */,
 				3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */,
 				7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */,
 				3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */,
@@ -575,6 +584,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = TVMaxPolla/TVMaxDeportes_develop.entitlements;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -614,6 +624,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = TVMaxPolla/TVMaxDeportes.entitlements;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -33,7 +33,8 @@
 		var _html = '<div class="row" >';
 				
 		$.each(_jPlayers, function(_index,_player) {
-			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';					
+			_html += '<div class="col-md-12 player" data-url="' + encodeURI(_player.url) + '">';
+			_html += '<img src="img/players/' + _player.id + '.jpg">';					
 			_html += '<span>' +  _player.title + '</span>';
 		 	_html += '</div>';
 		 	

@@ -1,4 +1,8 @@
-	
+
+	$('#splash').hide();
+	$('#mloading').remove();
+	$('header').removeClass('hidden');	
+	$('.menu').removeClass('hidden');
 	
 	var _width = 	$(window).width();		
 	var _height = 	$(window).height();
@@ -53,7 +57,7 @@
 		_html += '</div>';
 		
 		_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 metro load" data-index="1" >';	
-			_html += '<div  id="banner-claro" style="background-image:url(img/home/polla.jpg); background-size:cover; height:' + _heightPolla +'px;" >&nbsp;</div>';						
+			_html += '<div style="background-image:url(img/home/polla.jpg); background-size:cover; height:' + _heightPolla +'px;" >&nbsp;</div>';						
 		_html += '</div>';
 				
 		_html += '</div>';	
@@ -64,7 +68,7 @@
 		if (_jImageFeatured) {
 			//row
 			_html += '<div class="row" >';
-				_html += '<div class="col-md-12 metro load" data-index="5" >';						
+				_html += '<div class="col-md-12 metro load" data-index="2" >';						
 						_html += '<figure>';	
 							_html += '<div style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
 						_html += '<figcaption>';						

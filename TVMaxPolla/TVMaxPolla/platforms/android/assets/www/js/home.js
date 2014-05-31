@@ -43,7 +43,7 @@
 		if (_jImageFeatured) {
 			//row
 			_html += '<div class="row" >';
-				_html += '<div class="col-md-12 metro load" data-index="5" >';						
+				_html += '<div class="col-md-12 metro load" data-index="2" >';						
 						_html += '<figure>';	
 							_html += '<div style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
 						_html += '<figcaption>';						

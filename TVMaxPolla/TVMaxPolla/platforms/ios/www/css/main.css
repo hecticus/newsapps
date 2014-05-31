@@ -462,8 +462,7 @@
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
 	body.content-goles .row div.video,	
-	body.content-history .row div.history,
-	body.content-players .row div.player, 	 
+	body.content-history .row div.history,	 	
 	body.content-teams .row div.teams {
 		height: 50px; 
 		line-height: 50px; 
@@ -472,8 +471,15 @@
 	}
 	
 	
-
 	
+	body.content-players .row div.player {
+		height: 100px; 
+		line-height: 100px; 
+		font-size: 1.4em; 
+		color:#4D4D4D;
+	}
+	
+
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
 	body.content-goles .row div.video,
@@ -483,6 +489,20 @@
 		background:#FFFFFF;
 		border-bottom: solid 1pt #E0E0E0;
 	}
+	
+	
+	body.content-players #wrapper2 .scroller .container .row {
+		margin-top:5px; 
+	}
+	
+	body.content-players .row div.player img {
+		vertical-align:middle;
+		width: 25%;
+		height: auto;
+		
+		max-width: 150px;
+		max-height: 150px;	
+	} 
 	
 	/*body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
 	body.content-goles .row div.video:nth-child(even),

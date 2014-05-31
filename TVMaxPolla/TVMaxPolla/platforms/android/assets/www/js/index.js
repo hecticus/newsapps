@@ -360,14 +360,14 @@ function setIOSSplashes(){
 	if(devicePlatform == "iOS"){
 		if(getScreenWidth() == 640 || getScreenWidth() == 320){
 			if(getScreenHeight() > 480){
-				console.log("iphone 5");
+				//console.log("iphone 5");
 				$("#splash").attr("src", "img/splashIOS/splash_iphone5.png");
 			}else{
-				console.log("iphone");
+				//console.log("iphone");
 				$("#splash").attr("src", "img/splashIOS/splash_iphone.png");
 			}
 		}else{
-			console.log("ipad");
+			//console.log("ipad");
 			$("#splash").attr("src", "img/splashIOS/splash_ipad.png");
 		}
 			
