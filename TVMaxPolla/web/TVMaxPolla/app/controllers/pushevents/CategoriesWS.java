@@ -22,6 +22,7 @@ public class CategoriesWS extends HecticusController {
             Long idClient  = jsonInfo.get("idClient").asLong();
 
             Iterator<JsonNode> cats = jsonInfo.get("categories").getElements();
+            long creationTime = System.currentTimeMillis();
             while(cats.hasNext()){
                 JsonNode actual = cats.next();
                 Long idCategory = actual.get("category").asLong();
@@ -29,7 +30,7 @@ public class CategoriesWS extends HecticusController {
                 if(category != null){
                     CategoryClient act = CategoryClient.finder.where().eq("idClient", idClient).eq("id_category", idCategory).findUnique();
                     if(act == null){
-                        act = new CategoryClient(idClient, category);
+                        act = new CategoryClient(idClient, category, creationTime);
                         act.save();
                     }
                 }
