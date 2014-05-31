@@ -235,7 +235,8 @@ module.exports.metadata =
     "org.apache.cordova.network-information": "0.2.8",
     "org.apache.cordova.dialogs": "0.2.7",
     "hu.dpal.phonegap.plugins.SpinnerDialog": "0.2.1",
-    "com.phonegap.plugins.PushPlugin": "2.2.0"
+    "com.phonegap.plugins.PushPlugin": "2.2.0",
+    "org.apache.cordova.console": "0.2.9-dev"
 }
 // BOTTOM OF METADATA
 });

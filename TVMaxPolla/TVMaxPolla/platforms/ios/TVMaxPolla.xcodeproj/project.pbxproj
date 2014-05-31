@@ -30,10 +30,15 @@
 		44D1623723154AFABCA36DC8 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 945BD86214354134A03E8C48 /* CDVFile.m */; };
 		4565837AF2A9470A9658F670 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A8E341713742EA8DF7AADF /* PushPlugin.m */; };
 		5293F458B1A64F4498F21C5B /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9000CA2402B7491F87E398DE /* SocialSharing.m */; };
+		55A0CDD4CCDC4F7DABEDBB10 /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA48514AED2C4C148BB33D98 /* FacebookConnectPlugin.m */; };
 		57CF5E55E281478AB781F610 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E4FE0B4B0841238C64DD94 /* CDVSplashScreen.m */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		6712ACA9D1944AF6BB35DE41 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912B8F6066304AAA84483DF2 /* libsqlite3.dylib */; };
 		6729F3F077F44840A414D65D /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = BF08E8CC78A641CC8AE2B4B5 /* CDVDevice.m */; };
+		6F15FE891938FDDD00438C30 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F15FE881938FDDD00438C30 /* FacebookSDK.framework */; };
+		6F15FE8D19394A3900438C30 /* TVMaxDeportes_develop.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */; };
+		6F15FE8E19394A3900438C30 /* TVMaxDeportes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */; };
 		6F51698F192EA5FD0055ED4A /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698C192EA5FD0055ED4A /* MovieViewController.m */; };
 		6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698E192EA5FD0055ED4A /* VideoPlayer.m */; };
 		6F516992192EA69C0055ED4A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F516991192EA69C0055ED4A /* MediaPlayer.framework */; };
@@ -48,17 +53,21 @@
 		7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DB1810823500FA85AD /* icon-76@2x.png */; };
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
+		84B0CE8452364332AEF10296 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */; };
 		A6E9A1E964DB42BD9689E126 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 296C557B0DA24E00969AE70E /* MessageUI.framework */; };
 		A75E3BF971F04DCD93EBE921 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8B993D465495AA4EE16A3 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AD36CB08E6C545D8911E0656 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D5538E992C3B47ECA55E700A /* CDVConnection.m */; };
 		B833FF9E7B3545A0AFB0CC0C /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C46F56F3F49480AB10CAF9B /* CDVNotification.bundle */; };
 		B9CA44BFA795403FA3FA2078 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF63130EF3F24DCC8FCD0607 /* CDVInAppBrowser.m */; };
+		CF22791487C74BDFA08D8A32 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C323A5C18D4910870F0082 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF8439D934BA48239A624CBB /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 694C9BACF1A64252B2A242DF /* CDVFileTransfer.m */; };
 		D055D5FCFF0D426091D847D7 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9238904ED2EC4E529B0056EC /* CDVAssetLibraryFilesystem.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
+		D53BE33FFD064E55A7A6FF3A /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F1FB5C6B3A4977B169DD3F /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DC06AFFE8DB74361A0C086A5 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E8C5C7D1430447BD87D9500C /* CDVNotification.m */; };
 		E375CDEFCEF2492AB6318B40 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = C685240C63D14C429B1CB330 /* AppDelegate+notification.m */; };
 		F07AEFBB61534010A468B6CA /* CDVSpinnerDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F46A5A3DD63470583A50C9A /* CDVSpinnerDialog.m */; };
+		F625EF94C2684921A2CC74CA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F74E8FD1CB04460AF06808B /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +89,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0BCEB33F493C4290A86B722D /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
+		0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		1BE9659C409A4255B5EDBB1F /* CDVReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "org.apache.cordova.network-information/CDVReachability.m"; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -109,9 +120,11 @@
 		32CA4F630368D1EE00C91783 /* TVMaxPolla-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TVMaxPolla-Prefix.pch"; sourceTree = "<group>"; };
 		34C7B5107CFF49CD9DE5C501 /* AppDelegate+notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; };
 		3698C8F1A61E487C8EA54601 /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVFileTransfer.h; path = "org.apache.cordova.file-transfer/CDVFileTransfer.h"; sourceTree = "<group>"; };
+		36F1FB5C6B3A4977B169DD3F /* Accounts.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		37F9BD17CA3F46359C855509 /* Social.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		44EB8AB1ADA341C785CB2ED3 /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "org.apache.cordova.network-information/CDVConnection.h"; sourceTree = "<group>"; };
 		4D98B3395A3C407A94F1CE3B /* PushPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushPlugin.h; path = com.phonegap.plugins.PushPlugin/PushPlugin.h; sourceTree = "<group>"; };
+		51C323A5C18D4910870F0082 /* AdSupport.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		54A8E341713742EA8DF7AADF /* PushPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushPlugin.m; path = com.phonegap.plugins.PushPlugin/PushPlugin.m; sourceTree = "<group>"; };
 		5868829E31944AA38AB04A52 /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVSplashScreen.h; path = org.apache.cordova.splashscreen/CDVSplashScreen.h; sourceTree = "<group>"; };
 		5AEE5B34173C68D80009041E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -119,11 +132,15 @@
 		5E652C7120264D4DBD6E0D14 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "org.apache.cordova.network-information/CDVReachability.h"; sourceTree = "<group>"; };
 		694C9BACF1A64252B2A242DF /* CDVFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVFileTransfer.m; path = "org.apache.cordova.file-transfer/CDVFileTransfer.m"; sourceTree = "<group>"; };
 		6AC81646655F46FCB055EA91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6F15FE881938FDDD00438C30 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVMaxDeportes_develop.entitlements; path = TVMaxPolla/TVMaxDeportes_develop.entitlements; sourceTree = "<group>"; };
+		6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVMaxDeportes.entitlements; path = TVMaxPolla/TVMaxDeportes.entitlements; sourceTree = "<group>"; };
 		6F51698B192EA5FD0055ED4A /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
 		6F51698C192EA5FD0055ED4A /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 		6F51698D192EA5FD0055ED4A /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		6F51698E192EA5FD0055ED4A /* VideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 		6F516991192EA69C0055ED4A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		6F74E8FD1CB04460AF06808B /* Security.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6F7E80DA193542B8005A6E67 /* icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-iPad@2x.png"; sourceTree = "<group>"; };
 		7753E7C0281040F09A61EC7E /* SocialSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialSharing.h; path = "nl.x-services.plugins.socialsharing/SocialSharing.h"; sourceTree = "<group>"; };
 		7E7966D41810823500FA85AD /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40.png"; sourceTree = "<group>"; };
@@ -139,6 +156,7 @@
 		84914CA181BC48A1B560D065 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = org.apache.cordova.file/CDVLocalFilesystem.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TVMaxPolla-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "TVMaxPolla-Info.plist"; path = "../TVMaxPolla-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9000CA2402B7491F87E398DE /* SocialSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialSharing.m; path = "nl.x-services.plugins.socialsharing/SocialSharing.m"; sourceTree = "<group>"; };
+		912B8F6066304AAA84483DF2 /* libsqlite3.dylib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9238904ED2EC4E529B0056EC /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVAssetLibraryFilesystem.m; path = org.apache.cordova.file/CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
 		945BD86214354134A03E8C48 /* CDVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = org.apache.cordova.file/CDVFile.m; sourceTree = "<group>"; };
 		9B70ED0D5B4D400AAD7E2C6E /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = org.apache.cordova.file/CDVLocalFilesystem.h; sourceTree = "<group>"; };
@@ -151,6 +169,8 @@
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		D5538E992C3B47ECA55E700A /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "org.apache.cordova.network-information/CDVConnection.m"; sourceTree = "<group>"; };
 		D8E4FE0B4B0841238C64DD94 /* CDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVSplashScreen.m; path = org.apache.cordova.splashscreen/CDVSplashScreen.m; sourceTree = "<group>"; };
+		DA48514AED2C4C148BB33D98 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookConnectPlugin.m; path = com.phonegap.plugins.facebookconnect/FacebookConnectPlugin.m; sourceTree = "<group>"; };
+		DD80F253E788486D9CD0DF29 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookConnectPlugin.h; path = com.phonegap.plugins.facebookconnect/FacebookConnectPlugin.h; sourceTree = "<group>"; };
 		E8C5C7D1430447BD87D9500C /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVNotification.m; path = org.apache.cordova.dialogs/CDVNotification.m; sourceTree = "<group>"; };
 		EFB8B993D465495AA4EE16A3 /* AudioToolbox.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = TVMaxPolla/config.xml; sourceTree = "<group>"; };
@@ -173,6 +193,11 @@
 				A6E9A1E964DB42BD9689E126 /* MessageUI.framework in Frameworks */,
 				1968B22DD3E04CCFA6FE7290 /* SystemConfiguration.framework in Frameworks */,
 				A75E3BF971F04DCD93EBE921 /* AudioToolbox.framework in Frameworks */,
+				6712ACA9D1944AF6BB35DE41 /* libsqlite3.dylib in Frameworks */,
+				6F15FE891938FDDD00438C30 /* FacebookSDK.framework in Frameworks */,
+				D53BE33FFD064E55A7A6FF3A /* Accounts.framework in Frameworks */,
+				CF22791487C74BDFA08D8A32 /* AdSupport.framework in Frameworks */,
+				F625EF94C2684921A2CC74CA /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +244,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */,
+				6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
 				301BF56E109A69640062928A /* www */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
@@ -259,6 +286,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F15FE881938FDDD00438C30 /* FacebookSDK.framework */,
 				6F516991192EA69C0055ED4A /* MediaPlayer.framework */,
 				5AEE5B34173C68D80009041E /* CoreLocation.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
@@ -268,6 +296,10 @@
 				296C557B0DA24E00969AE70E /* MessageUI.framework */,
 				6AC81646655F46FCB055EA91 /* SystemConfiguration.framework */,
 				EFB8B993D465495AA4EE16A3 /* AudioToolbox.framework */,
+				912B8F6066304AAA84483DF2 /* libsqlite3.dylib */,
+				36F1FB5C6B3A4977B169DD3F /* Accounts.framework */,
+				51C323A5C18D4910870F0082 /* AdSupport.framework */,
+				6F74E8FD1CB04460AF06808B /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -312,6 +344,10 @@
 				54A8E341713742EA8DF7AADF /* PushPlugin.m */,
 				34C7B5107CFF49CD9DE5C501 /* AppDelegate+notification.h */,
 				4D98B3395A3C407A94F1CE3B /* PushPlugin.h */,
+				DA48514AED2C4C148BB33D98 /* FacebookConnectPlugin.m */,
+				DD80F253E788486D9CD0DF29 /* FacebookConnectPlugin.h */,
+				0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */,
+				0BCEB33F493C4290A86B722D /* CDVLogger.h */,
 			);
 			name = Plugins;
 			path = TVMaxPolla/Plugins;
@@ -440,6 +476,7 @@
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
+				6F15FE8E19394A3900438C30 /* TVMaxDeportes.entitlements in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
@@ -448,6 +485,7 @@
 				6F7E80DB193542B8005A6E67 /* icon-iPad@2x.png in Resources */,
 				7E7966E31810823500FA85AD /* icon-60@2x.png in Resources */,
 				7E7966E61810823500FA85AD /* icon-small.png in Resources */,
+				6F15FE8D19394A3900438C30 /* TVMaxDeportes_develop.entitlements in Resources */,
 				3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */,
 				7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */,
 				3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */,
@@ -506,6 +544,8 @@
 				F07AEFBB61534010A468B6CA /* CDVSpinnerDialog.m in Sources */,
 				E375CDEFCEF2492AB6318B40 /* AppDelegate+notification.m in Sources */,
 				4565837AF2A9470A9658F670 /* PushPlugin.m in Sources */,
+				55A0CDD4CCDC4F7DABEDBB10 /* FacebookConnectPlugin.m in Sources */,
+				84B0CE8452364332AEF10296 /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,7 +584,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = TVMaxPolla/TVMaxDeportes_develop.entitlements;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"\"TVMaxPolla/Plugins/com.phonegap.plugins.facebookconnect\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -578,7 +624,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = TVMaxPolla/TVMaxDeportes.entitlements;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"\"TVMaxPolla/Plugins/com.phonegap.plugins.facebookconnect\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TVMaxPolla/TVMaxPolla-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;

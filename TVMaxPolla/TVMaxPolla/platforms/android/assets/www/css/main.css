@@ -99,7 +99,7 @@
 		margin: 0;
 		color: #FFFFFF;
 		text-align: left;
-		border-bottom: solid #4D4D4D;
+		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
 		display: none;
 		
@@ -375,7 +375,7 @@
 	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
 	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
-	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important;margin: 0 !important;}
+	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
 	
 	
@@ -456,8 +456,7 @@
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
 	body.content-goles .row div.video,	
-	body.content-history .row div.history,
-	body.content-players .row div.player, 	 
+	body.content-history .row div.history,	 	
 	body.content-teams .row div.teams {
 		height: 50px; 
 		line-height: 50px; 
@@ -466,8 +465,15 @@
 	}
 	
 	
-
 	
+	body.content-players .row div.player {
+		height: 100px; 
+		line-height: 100px; 
+		font-size: 1.4em; 
+		color:#4D4D4D;
+	}
+	
+
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
 	body.content-goles .row div.video,
@@ -477,6 +483,20 @@
 		background:#FFFFFF;
 		border-bottom: solid 1pt #E0E0E0;
 	}
+	
+	
+	body.content-players #wrapper2 .scroller .container .row {
+		margin-top:5px; 
+	}
+	
+	body.content-players .row div.player img {
+		vertical-align:middle;
+		width: 25%;
+		height: auto;
+		
+		max-width: 150px;
+		max-height: 150px;	
+	} 
 	
 	/*body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
 	body.content-goles .row div.video:nth-child(even),
@@ -583,4 +603,8 @@
 	li[data-phase="semifinales"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#ED2A24; background-color:#ED2A24;}	
 	li[data-phase="3erlugar"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#037677; background-color:#037677;}
 	li[data-phase="final"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#F9A11A; background-color:#F9A11A;}
+
+	body.content-home #banner-claro { background-image:url(img/claro/800x80.jpg); background-size:cover; }
+
+	
 
