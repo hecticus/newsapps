@@ -2,7 +2,7 @@
 	var _fRenderDataContent = function(_url) {
 	
 		var _html = '<div class="row" >';
-		_jTeams.sort();
+		//_jTeams.sort();
 		$.each(_jTeams, function(_index,_team) {			
 			if (_team.gene == _url) {							
 				_html += '<div class="col-md-12" >';
