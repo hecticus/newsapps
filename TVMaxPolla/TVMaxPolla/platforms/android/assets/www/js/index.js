@@ -98,7 +98,8 @@ var app = {
 
 	    			_player.title = _title;
 	    			//_player.xml = _xml;
-	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
+	    			_player.id = _id;	    	
+	    			_player.image = 'img/players/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
 					
 					var _img = $('img #img').attr('src',_player.image);

@@ -1,4 +1,8 @@
-	
+
+	$('#splash').hide();
+	$('#mloading').remove();
+	$('header').removeClass('hidden');	
+	$('.menu').removeClass('hidden');
 	
 	var _width = 	$(window).width();		
 	var _height = 	$(window).height();
@@ -28,7 +32,7 @@
 		_html += '</div>';
 		
 		_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 metro load" data-index="1" >';	
-			_html += '<div  id="banner-claro" style="background-image:url(img/home/polla.jpg); background-size:cover; height:' + _heightPolla +'px;" >&nbsp;</div>';						
+			_html += '<div style="background-image:url(img/home/polla.jpg); background-size:cover; height:' + _heightPolla +'px;" >&nbsp;</div>';						
 		_html += '</div>';
 				
 		_html += '</div>';	

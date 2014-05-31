@@ -15,37 +15,37 @@
 	];
 		
 	var _jPlayers = [	
-			{url: 'xml/players/wc2014-bio-7001-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-11186-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-15350-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-16558-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-17338-es.xml', title : false, image : false, xml : false, datacontent : false},		
-			{url: 'xml/players/wc2014-bio-17353-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20225-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20228-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20239-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20246-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20599-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20917-es.xml', title : false, image : false, xml : false, datacontent : false},		
-			{url: 'xml/players/wc2014-bio-20924-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20990-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-20996-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-41249-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-41314-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-41880-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-41920-es.xml', title : false, image : false, xml : false, datacontent : false},		
-			{url: 'xml/players/wc2014-bio-42175-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-42279-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-42290-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-42296-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-42297-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-42622-es.xml', title : false, image : false, xml : false, datacontent : false},		
-			{url: 'xml/players/wc2014-bio-42699-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-43033-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-43106-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-43170-es.xml', title : false, image : false, xml : false, datacontent : false},
-			{url: 'xml/players/wc2014-bio-43400-es.xml', title : false, image : false, xml : false, datacontent : false},	
-			{url: 'xml/players/wc2014-bio-43467-es.xml', title : false, image : false, xml : false, datacontent : false}
+			{url: 'xml/players/wc2014-bio-7001-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-11186-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-15350-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-16558-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-17338-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},		
+			{url: 'xml/players/wc2014-bio-17353-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20225-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20228-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20239-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20246-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20599-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20917-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},		
+			{url: 'xml/players/wc2014-bio-20924-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20990-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-20996-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-41249-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-41314-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-41880-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-41920-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},		
+			{url: 'xml/players/wc2014-bio-42175-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-42279-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-42290-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-42296-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-42297-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-42622-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},		
+			{url: 'xml/players/wc2014-bio-42699-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-43033-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-43106-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-43170-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},
+			{url: 'xml/players/wc2014-bio-43400-es.xml', id:0, title : false, image : false, xml : false, datacontent : false},	
+			{url: 'xml/players/wc2014-bio-43467-es.xml', id:0, title : false, image : false, xml : false, datacontent : false}
 		];
 		
 	
@@ -71,7 +71,8 @@
 		{url: 'xml/history/wc2014-histo-2010-resume-es.xml', title : false, image : false, xml : false, datacontent : false}
 	];
             
-	var _jTeams = [	
+	var _jTeams = [
+		{fiche: 'xml/teams/wc2014-team-2128-fiche-es.xml', gene:'xml/teams/wc2014-team-2128-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},	
 		{fiche: 'xml/teams/wc2014-team-2067-fiche-es.xml', gene:'xml/teams/wc2014-team-2067-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}}, 		
 		{fiche: 'xml/teams/wc2014-team-2071-fiche-es.xml', gene:'xml/teams/wc2014-team-2071-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2075-fiche-es.xml', gene:'xml/teams/wc2014-team-2075-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
@@ -83,27 +84,28 @@
 		{fiche: 'xml/teams/wc2014-team-2103-fiche-es.xml', gene:'xml/teams/wc2014-team-2103-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2105-fiche-es.xml', gene:'xml/teams/wc2014-team-2105-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2106-fiche-es.xml', gene:'xml/teams/wc2014-team-2106-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
+		{fiche: 'xml/teams/wc2014-team-2157-fiche-es.xml', gene:'xml/teams/wc2014-team-2157-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2107-fiche-es.xml', gene:'xml/teams/wc2014-team-2107-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2114-fiche-es.xml', gene:'xml/teams/wc2014-team-2114-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2117-fiche-es.xml', gene:'xml/teams/wc2014-team-2117-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2122-fiche-es.xml', gene:'xml/teams/wc2014-team-2122-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2128-fiche-es.xml', gene:'xml/teams/wc2014-team-2128-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
+		{fiche: 'xml/teams/wc2014-team-2303-fiche-es.xml', gene:'xml/teams/wc2014-team-2303-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
+		{fiche: 'xml/teams/wc2014-team-2122-fiche-es.xml', gene:'xml/teams/wc2014-team-2122-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},		
 		{fiche: 'xml/teams/wc2014-team-2129-fiche-es.xml', gene:'xml/teams/wc2014-team-2129-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2130-fiche-es.xml', gene:'xml/teams/wc2014-team-2130-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
+		{fiche: 'xml/teams/wc2014-team-2240-fiche-es.xml', gene:'xml/teams/wc2014-team-2240-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2138-fiche-es.xml', gene:'xml/teams/wc2014-team-2138-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2143-fiche-es.xml', gene:'xml/teams/wc2014-team-2143-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2149-fiche-es.xml', gene:'xml/teams/wc2014-team-2149-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2153-fiche-es.xml', gene:'xml/teams/wc2014-team-2153-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2157-fiche-es.xml', gene:'xml/teams/wc2014-team-2157-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
+		{fiche: 'xml/teams/wc2014-team-2153-fiche-es.xml', gene:'xml/teams/wc2014-team-2153-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},		
 		{fiche: 'xml/teams/wc2014-team-2175-fiche-es.xml', gene:'xml/teams/wc2014-team-2175-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2187-fiche-es.xml', gene:'xml/teams/wc2014-team-2187-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2189-fiche-es.xml', gene:'xml/teams/wc2014-team-2189-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2201-fiche-es.xml', gene:'xml/teams/wc2014-team-2201-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2207-fiche-es.xml', gene:'xml/teams/wc2014-team-2207-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
 		{fiche: 'xml/teams/wc2014-team-2220-fiche-es.xml', gene:'xml/teams/wc2014-team-2220-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2239-fiche-es.xml', gene:'xml/teams/wc2014-team-2239-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2240-fiche-es.xml', gene:'xml/teams/wc2014-team-2240-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}},
-		{fiche: 'xml/teams/wc2014-team-2303-fiche-es.xml', gene:'xml/teams/wc2014-team-2303-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}}
+		{fiche: 'xml/teams/wc2014-team-2239-fiche-es.xml', gene:'xml/teams/wc2014-team-2239-gene-es.xml', id:0, title : false, image : false, xml : {fiche : false, gene: false}, datacontent : {fiche : false, gene: false}}
+		
+		
 	];
 
 
