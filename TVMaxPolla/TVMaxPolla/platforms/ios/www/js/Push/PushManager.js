@@ -99,7 +99,7 @@ function onNotificationGCM(e) {
 }
 
 function tokenHandler (result) {
-    //console.log('<li>token: '+ result +'</li>');
+    console.log('<li>token: '+ result +'</li>');
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
 }
@@ -109,7 +109,7 @@ function successPushHandler (result) {
 }
 
 function errorPushHandler (error) {
-    //console.log('<li>error:'+ error +'</li>');
+    console.log('<li>error:'+ error +'</li>');
 }
 
 var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";
@@ -131,6 +131,9 @@ function loadRegID() {
 function updateDeviceToServer(){
 	//console.log("revisando version");
 	try {	
+		//Actualizamos tambien las categorias de push
+		updatePushCategoriesToServer();
+		
 		if(regID != null && regID != ""){
 			var currentRegID = loadRegID();
 			if(currentRegID != null && currentRegID == regID){

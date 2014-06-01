@@ -1,5 +1,6 @@
 
 	var _height =  parseInt(($(window).height() * 40)/100);
+	
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
@@ -24,6 +25,16 @@
 		_html += '</figure>';
 		return _html;
 	};
+	
+	function checkIfDataContentExists(_id) {
+		var found = false;
+		$.each(_jGet.item, function(_index,_item) {
+			if (_item.id == _id) {
+				found = true;
+			}
+		});
+		return found;
+	}
 
 	var _fRenderDataContent = function(_id) {
 	
@@ -89,7 +100,7 @@
 		
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
-
+		newsReadyForPush = true;
 	};
 
 	var _iIndex = $('main').data('index');
