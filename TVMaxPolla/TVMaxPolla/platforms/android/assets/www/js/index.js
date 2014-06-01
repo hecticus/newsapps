@@ -20,6 +20,11 @@
 var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var _jImageFeatured = false;
 
+//Push things
+var pushInterval;
+var newsPushInterval;
+var newsReadyForPush = false;
+
 				 
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
@@ -284,14 +289,26 @@ function executePushInit(extra_params){
 			$('#wrapperM').attr('class','page transition left');
 			//console.log("EXTRA "+extra_params);
 			
+			var newsID = 866;
+			
+			//abrimos la noticia como tal
+			newsPushInterval = window.setInterval(function(){
+				if(newsReadyForPush){
+					stopNewsInterval();
+					window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
+				}
+			},500);
+			
 			stopPushInterval();
 		}
 		
 	},500);
 }
-
 function stopPushInterval(){
 	clearInterval(pushInterval);
+}
+function stopNewsInterval(){
+	clearInterval(newsPushInterval);
 }
 
 

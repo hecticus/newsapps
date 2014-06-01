@@ -131,6 +131,9 @@ function loadRegID() {
 function updateDeviceToServer(){
 	//console.log("revisando version");
 	try {	
+		//Actualizamos tambien las categorias de push
+		updatePushCategoriesToServer();
+		
 		if(regID != null && regID != ""){
 			var currentRegID = loadRegID();
 			if(currentRegID != null && currentRegID == regID){
