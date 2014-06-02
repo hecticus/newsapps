@@ -19,6 +19,8 @@ public class CategoryClient extends HecticusModel {
     private Long idClientCategory;
     @Constraints.Required
     private Long idClient;
+    @Constraints.Required
+    private Long creationTime;
 
     @ManyToOne
     @JoinColumn(name="id_category")
@@ -31,9 +33,10 @@ public class CategoryClient extends HecticusModel {
         return idClientCategory;
     }
 
-    public CategoryClient(Long idClient, Category category) {
+    public CategoryClient(Long idClient, Category category, Long creationTime) {
         this.idClient = idClient;
         this.category = category;
+        this.creationTime = creationTime;
     }
 
     public void setIdClientCategory(Long idClientCategory) {
@@ -52,11 +55,16 @@ public class CategoryClient extends HecticusModel {
         return category;
     }
 
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode responseNode = Json.newObject();
         responseNode.put("idClientCategory", idClientCategory);
         responseNode.put("idClient", idClient);
+        responseNode.put("creationTime", creationTime);
         return responseNode;
     }
 }

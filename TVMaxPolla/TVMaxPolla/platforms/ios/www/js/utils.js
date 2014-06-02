@@ -255,3 +255,24 @@ function getScreenHeight(){
 function printToLog(element){
 	//console.log(element);
 }
+
+//IOS STUFF
+function getIfItsIpad(){
+	return getScreenWidth() > 640;
+}
+function getPPI(){
+	// create an empty element
+	var div = document.createElement("div");
+	// give it an absolute size of one inch
+	div.style.width="1in";
+	// append it to the body
+	var body = document.getElementsByTagName("body")[0];
+	body.appendChild(div);
+	// read the computed width
+	var ppi = document.defaultView.getComputedStyle(div, null).getPropertyValue('width');
+	// remove it again
+	body.removeChild(div);
+	// and return the value
+	return parseFloat(ppi);
+}
+

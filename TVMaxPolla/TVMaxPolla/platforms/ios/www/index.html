@@ -17,36 +17,44 @@
 	</head>
 	
 	<body class="content-init" style="position: fixed;">
-		<img id="splash" src="img/splash/splash.png" height="100%" width="100%"/>
-		
-		<!--header class="hidden"-->
+		<img id="splash"  src="img/splash/splash.png" height="100%" width="100%"/>
+		<div id="mloading" style="position: absolute; top:50%; width: 100%;  text-align: center; font-size: 1.4em; color: #3E79C4; z-index: 10;">
+			<span>- Cargando -</span>
+		</div>
+
 		<header>
+
 			<div class="container">
 				<div class="row">
+
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+						
+						<div style="display:inline; float: left; height: 50px; font-size:2em; margin-left: -22px;" class="menu">
+							<span class="icon-menuhome" ></span>	
+						</div>
+						
+						<div style="display:inline; float: left; height: 50px; font-size:3.6em;" class="logo">
+							<span class="icon-tvmax"></span>	
+						</div>
+						
+						<div style="display:inline; float: left;  height: 50px; margin-left: 15px; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; font-size:1.4em;" class="title">
+							&nbsp;
+						</div>
 					
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu" style="text-align: left; height: 50px; line-height: 50px; font-size:2em;">
-						<span class="icon-menuhome" style="position:relative; left: -5px"></span>
-					</div>
-										
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: left; height: 50px; line-height: 50px; font-size:3em;">						
-						<span class="icon-tvmax" style="position:relative; left: -20px" ></span>
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 title" style="padding: 0 !important; margin: 0 !important; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;  font-size:1.4em;">						
+						<!--div style="display:inline; float: right; height: 50px; font-size:2em;" class="tv">
+							<span class="icon-tvenvivo"></span>	
+						</div-->
+						
+						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="share hidden">
+							<span class="icon-shareandroid"></span>	
+						</div>
+						
+						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="menu-group hidden">
+							<span class="icon-menuhome"></span>	
+						</div>
+					
 					</div>
 					
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 tv" style="font-size: 1.8em;  height: 50px; line-height: 50px;  text-align: left; font-size:1.8em;">
-						<span class="icon-tvenvivo"></span>
-					</div>
-										
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 share hidden" style="font-size: 1.4em;  height: 50px; line-height: 50px;  text-align: left; font-size:1.8em;">
-						<span class="icon-shareandroid"></span>
-					</div>
-
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu-group hidden" style="font-size: 1.4em;  height: 50px; line-height: 50px; text-align: left; font-size:1.8em;">
-						<span class="icon-menuhome"></span>
-					</div>
-
 				</div>				 
 			</div>			
 		</header>
@@ -77,8 +85,10 @@
         <script type="text/javascript" src="js/touchEvents.js"></script>
         <script type="text/javascript" src="js/clientManager.js"></script>
         <script type="text/javascript" src="js/Push/PushManager.js"></script>
+        <script type="text/javascript" src="js/Push/pushCategoriesManager.js"></script>
         
         <!-- cordova facebook plugin -->
+		<!--script src="plugins/org.apache.cordova.facebook.Connect/www/cdv-plugin-fb-connect.js"></script-->
 		<script src="cdv-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
 		<script src="facebook-js-sdk.js"></script>		

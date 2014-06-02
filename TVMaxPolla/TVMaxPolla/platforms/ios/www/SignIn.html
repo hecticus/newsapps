@@ -2,26 +2,44 @@
 <html lang="es">	
 	<body>
 
-		<div class="container" >
-			<form id="form-signIn" class="form" role="form" style="margin-top: 75px;">
-				
-				  <div class="form-group">
-				    <label class="sr-only" for="exampleInputEmail2">Emails</label>
-				    <input type="email" class="form-control" id="email" placeholder="Email">
-				  </div>
+
+		<div class="container" >	
+			<div class="row" >
+								
+				<div class="col-md-12" style="text-align: center; margin-top: 75px;"  >
+					<button data-index="fb" type="button" class="btn btn-primary btn-lg btn-block load">Entrar con Facebook</button>
+					<button data-index="16" type="button" class="btn btn-default btn-lg btn-block load">Soy nuevo en TvMax</button>					
+				</div>
+	
+				<div class="col-md-12" style="text-align: center; margin: 5px;"  >	
+					<p style="font-size: 1.2em; font-weight: bold;  font-style:italic; color:#E6E6E6;"> - o - </p>			
+				</div>
+	
+				<div class="col-md-12" style="margin: 5px;">					
+	
+					<form id="form-signIn" class="form" role="form" >
+	
+					  <div class="form-group">
+					    <label class="sr-only" for="exampleInputEmail2">Emails</label>
+					    <input type="email" class="form-control" id="email" placeholder="Email">
+					  </div>
+					  
+					  <div class="form-group">
+					    <label class="sr-only" for="exampleInputPassword2">Contrase&ntilde;a</label>
+					    <input type="password" class="form-control" id="password" placeholder="Contrase&ntilde;a">
+					  </div>
+					  
+					  <button id="signIn" type="button"  class="btn btn-default">Ingresar</button>
 				  
-				  <div class="form-group">
-				    <label class="sr-only" for="exampleInputPassword2">Contrase&ntilde;a</label>
-				    <input type="password" class="form-control" id="password" placeholder="Contrase&ntilde;a">
-				  </div>
-				  
-				  <button id="signIn" type="button"  class="btn btn-default">Ingresar</button>
-				  <button id="facebookLoginButton" type="button"  class="btn btn-primary">Facebook</button>
-				  
-			</form>
+					</form>
+														
+				</div>
+			</div>			
 		</div>
-			
+	
+
 		
+
 			
 		<script type="text/javascript" src="js/signIn.js"></script>  		
 		

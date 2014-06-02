@@ -95,11 +95,11 @@
 
 				_html += '<div class="row data-match" >';
 				
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px; text-align:left; color:#FFD455">';
 				_html += '<span style="font-size:1.2em; margin-left:10px;">' +  _item.fecha_de_partido + '</span>';
 				_html += '</div>';
 								
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background-color:#3E79C4; height:40px; line-height:40px; text-align:right; color:#FFD455">';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px; text-align:right; color:#FFD455">';
 				_html += '<span style="font-size:1.2em; margin-right:10px;">' +  _item.fase + '</span>';
 				_html += '</div>';
 				
@@ -188,7 +188,7 @@
 					_html += '<tr>';
 				}
 					
-				_html += '<td><span>&nbsp;</span></td>';
+				_html += '<td style="background:#ffffff;"><span style="background:#ffffff;">&nbsp;</span></td>';
 				
 				if (__i%7 == 6) {
 				_html += '</tr>';
@@ -211,9 +211,9 @@
 			var _jMatch = _fGetJsonMatchDate(((_i < 10 ) ? '0' + _i.toString() : _i.toString()) + '/' + _month);
 						
 			if (_jMatch) {				
-				_html += '<td class="match" data-date="' + _date + '" style="border-bottom: solid ' + _fGetColorPhase(_jMatch.fase) + ' !important;" ><span style="color:#000000;">' + _i.toString() +'</span></td>';
+				_html += '<td class="match" data-date="' + _date + '" style="background:#ffffff; border-bottom: solid ' + _fGetColorPhase(_jMatch.fase) + ' !important;" ><span style="background:#ffffff; color:#000000;">' + _i.toString() +'</span></td>';
 			} else {
-				_html += '<td><span style="color:gray;">' + _i.toString() +'</span></td>';
+				_html += '<td style="background:#ffffff;"><span style=" background:#ffffff; color:gray;">' + _i.toString() +'</span></td>';
 			}
 
 			if ((__i%7 == 6) || (_i == _length)) {

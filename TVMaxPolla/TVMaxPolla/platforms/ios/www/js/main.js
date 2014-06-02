@@ -1,7 +1,8 @@
 //variables globales
 
 var  _mTimeout;
-var _jData = {	id_country:8,  id_business: 17,  app_id: 1, origin: 'app'};
+var _jData = {	id_country:8,  id_business: 17, id_carrier : 19, app_id: 1, origin: 'APP'};
+
 var _jClient = false;
 
 var _homeWasShowed = false;
@@ -100,6 +101,7 @@ var _fSetBack = function() {
 	$('header .container .row .menu span').removeClass('icon-back');		
 	$('.tv').removeClass('hidden');
 	$('.menu-group').addClass('hidden');		
+	
 };
 
 
@@ -107,7 +109,7 @@ var _fGetLoading = function() {
 	
 	var _html = '<div class="row" >';
 		_html += '<div class="col-md-12" style="font-size:1.2em; font-weight:bold; text-align:center; ">';
-		_html += '<span>Loading...</span>';
+		_html += '<span>Cargando...</span>';
 		_html += '</div>';
 		_html += '</div>';
 		
@@ -205,7 +207,6 @@ $.fPostAjaXJSON = function(_url, _data) {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			_fGetLoadingError();
-			//alert(' -> ' + jqXHR + ' - ' + textStatus + ' - ' + errorThrown);
 			return false;
 		});
 		   
@@ -387,14 +388,14 @@ $.fPostAjaXJSON = function(_url, _data) {
 				} else {
 					saveClientData(_json.response[0]);					
 					_fSetLoadInit();
-					navigator.notification.activityStop();
+					//navigator.notification.activityStop();
 				}
 			});
 			
 			_oAjax.fail(function() {
 				//fail	
 				//ERROR
-				navigator.notification.activityStop();
+				//navigator.notification.activityStop();
 				navigator.notification.alert("Error consultando clientes, intente más tarde", doNothing, "Alerta", "OK");
 			});	
 		
@@ -413,7 +414,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});	
 		
 			_oAjax.done(function(_json) {
-				navigator.notification.activityStop();			
+				//navigator.notification.activityStop();
 				if (_json.response.length == 0) {
 					//alert('No existe');
 					navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
@@ -426,7 +427,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});
 			
 			_oAjax.fail(function() {
-				navigator.notification.activityStop();
+				//navigator.notification.activityStop();
 				//alert('fail');
 				navigator.notification.alert("El cliente no se pudo crear, intente más tarde", doNothing, "Alerta", "OK");
 				//$(this).html(_html);
@@ -436,9 +437,9 @@ $.fPostAjaXJSON = function(_url, _data) {
 	}
 	
 	function backFromRegister(){
-		$('header .container .row .menu span').removeClass();
+		//$('header .container .row .menu span').removeClass();
 		if(_homeWasShowed){
-			$('header .container .row .menu span').addClass('icon-menuhome');
+			//$('header .container .row .menu span').addClass('icon-menuhome');
 			_fSetLoadInit();
 		}else{
 			_fSetLoadDefault();	

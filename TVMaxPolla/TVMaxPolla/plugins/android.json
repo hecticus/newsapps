@@ -152,6 +152,9 @@
         },
         "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.tvn.tvmax"
+        },
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.tvn.tvmax"
         }
     },
     "dependent_plugins": {}

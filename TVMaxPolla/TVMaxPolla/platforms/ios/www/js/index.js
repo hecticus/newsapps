@@ -20,6 +20,11 @@
 var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var _jImageFeatured = false;
 
+//Push things
+var pushInterval;
+var newsPushInterval;
+var newsReadyForPush = false;
+
 				 
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
@@ -34,20 +39,20 @@ var _oAjax;
 var _tap = false;
 
 var _jMenu=[
-	{index:0,class:'content-home',title:'Home',load:'home.html', glyphicon:'icon-home_menu', json:false},
-	{index:1,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
-	{index:2,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
-	{index:3,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},	
-  	{index:4,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
-  	{index:5,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},  	 
-  	{index:6,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},  	
-  	{index:7,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
-  	{index:8,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},  	  
-  	{index:9,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},  	
-  	{index:10,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
-  	{index:11,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
-  	{index:12,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
-  	{index:13,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},
+	{index:0,class:'content-home',title:'Portada',load:'home.html', glyphicon:'icon-home_menu', json:false},
+	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
+	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},
+	{index:3,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},
+	{index:4,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
+  	{index:5,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},
+	{index:6,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
+  	{index:7,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
+  	{index:8,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
+  	{index:9,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},  	
+	{index:10,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
+	{index:11,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
+	{index:12,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},	
+  	{index:13,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},
   	{index:14,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},
   	{index:15,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
 	{index:16,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
@@ -98,7 +103,8 @@ var app = {
 
 	    			_player.title = _title;
 	    			//_player.xml = _xml;
-	    			_player.image = _urlCloud + '/legends/' + _id +'.jpg';	    								
+	    			_player.id = _id;	    	
+	    			_player.image = 'img/players/' + _id +'.jpg';	    								
 					_player.datacontent =  _data;
 					
 					var _img = $('img #img').attr('src',_player.image);
@@ -201,7 +207,8 @@ var app = {
 					$('#wrapperM').attr('class','page transition left');	
 				} else if ($('#wrapper2').hasClass('left')) {
 					$('#wrapper2').attr('class','page transition right');
-				} else {				
+				} else {			
+					_fSetBack();	
 					_fSetLoadInit();
 				}
 			} else {
@@ -238,34 +245,113 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
     	//init things
+		setIOSSplashes();
     	initPage();
     	checkVersion();
     	initPush();
+    	
+    	
+	    setInterval(function(){
+			$(_jMenu).each(function(_index,_menu) {
+				_menu.json = false;
+			});
+		}, 300000);
+    	
     }
 };
 
 function executePushInit(extra_params){
-	
+	pushInterval = window.setInterval(function(){
+		if(_homeWasShowed){
+			clearTimeout(_mTimeout);			
+			
+			if(_oAjax && _oAjax.readystate != 4) {
+				_oAjax.abort();
+	    	}
+
+			_fSetBack();
+			var index = 2;
+			
+			if(_jMenu[index].class == 'content-polla' || _jMenu[index].class == 'content-alertas'){
+				//revisamos si esta hay client data
+				if(loadClientData() == null){
+					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
+					return;
+				}
+			}
+				
+			$('body').removeClass();
+			$('body').addClass(_jMenu[index].class);
+			$('main').empty();
+			$('main').data('index',index);	
+			$('.title').html('<span>' + _jMenu[index].title + '</span>');						
+			$('main').load(_jMenu[index].load);	
+			$('#wrapperM').attr('class','page transition left');
+			//console.log("EXTRA "+extra_params);
+			
+			var newsID = 866;
+			
+			//abrimos la noticia como tal
+			newsPushInterval = window.setInterval(function(){
+				if(newsReadyForPush){
+					stopNewsInterval();
+					window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
+				}
+			},500);
+			
+			stopPushInterval();
+		}
+		
+	},500);
+}
+function stopPushInterval(){
+	clearInterval(pushInterval);
+}
+function stopNewsInterval(){
+	clearInterval(newsPushInterval);
 }
 
 
 function initPage(){
 	
-	
-	
-	
+
 	var _html = '';	
 	$(_jMenu).each(function(_index,_menu) {
-		_html += '<div class="row content-menu">';
-		_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" >';
-			_html += '<span class="' + _menu.glyphicon + '" ></span>';
-			_html += '<span>' + _menu.title + '</span>';
-		_html += '</div>';
 		
-		_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
-			_html += '<span class="icon-flechaazul"></span>';		
-		_html += '</div>';	
-		_html += '</div>';	
+
+		if (_index == 15 || _index == 16) {
+			
+			if(loadClientData() == null) {			
+				_html += '<div class="row content-menu">';		
+				_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
+					_html += '<span class="' + _menu.glyphicon + '" ></span>';
+					_html += '<span>' + _menu.title + '</span>';
+				_html += '</div>';		
+				_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+					_html += '<span class="icon-flechaazul"></span>';		
+				_html += '</div>';			
+				_html += '</div>';
+			
+			}
+
+		}  else {
+		
+			_html += '<div class="row content-menu">';		
+			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
+				_html += '<span class="' + _menu.glyphicon + '" ></span>';
+				_html += '<span>' + _menu.title + '</span>';
+			_html += '</div>';		
+			_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+				_html += '<span class="icon-flechaazul"></span>';		
+			_html += '</div>';			
+			_html += '</div>';
+			
+		}
+		
+		
+		
+		
+			
 	});         	
 	
 
@@ -280,6 +366,32 @@ function initPage(){
 		_fSetLoadDefault();	
 	}
 
+
+
+
+}
+
+function setIOSSplashes(){
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		if(getScreenWidth() == 640 || getScreenWidth() == 320){
+			if(getScreenHeight() > 480){
+				//console.log("iphone 5");
+				$("#splash").attr("src", "img/splashIOS/splash_iphone5.png");
+			}else{
+				//console.log("iphone");
+				$("#splash").attr("src", "img/splashIOS/splash_iphone.png");
+			}
+		}else{
+			//console.log("ipad");
+			$("#splash").attr("src", "img/splashIOS/splash_ipad.png");
+		}
+			
+	}else{
+		
+	}
+	
 }
 
 
