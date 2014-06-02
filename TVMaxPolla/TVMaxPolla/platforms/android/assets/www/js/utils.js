@@ -109,6 +109,10 @@ function formatDateStringForSorting(ds) {
 	return ""+YYYY+MM+DD+hh+mm+ss;
 };
 
+function getCurrentTimeMillis(){
+	return new Date().getTime();
+}
+
 function cleanExternalURL(url){
 	return url.replace(/ /g,'%20');
 }
