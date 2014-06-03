@@ -71,11 +71,12 @@ public class GoalController extends HecticusController {
                 return badRequest(buildBasicResponse(-1, "el campo limit debe ser mayor a 0"));
             }
             ArrayList data = new ArrayList();
-            ObjectNode t = TvmaxGoal.getGoalSorted(field, limit);
+            //ObjectNode t = TvmaxGoal.getGoalSorted(field, limit);
+            ArrayList t = TvmaxGoal.getGoalSorted(field, limit);
             ObjectNode result = Json.newObject();
             result.put("error", 0);
             result.put("description","OK");
-            result.put("response",t);
+            result.put("response",Json.toJson(t));
             return ok(result);
         }catch(Exception ex){
             return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));

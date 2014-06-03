@@ -31,8 +31,25 @@
 	
 		$.each(_jTeams, function(_index,_team) {
 			_html += '<div class="row" >';
+			var lineHeight=40;
+			var devicePlatform = device.platform;
+			//IOS
+			if(devicePlatform == "iOS"){
+			   if(getScreenHeight() > 700){
+					lineHeight=60;
+			   }else{
+					lineHeight=40;
+			   }
+			   
+			}else{
+				if(getScreenHeight() > 1500){
+					lineHeight=60;
+			   }else{
+					lineHeight=40;
+			   }
+			}
 
-			_html += '<div class="col-md-12 teams" data-gene="' + encodeURI(_team.gene) + '" style="height:40px; line-height:40px;" >';
+			_html += '<div class="col-md-12 teams" data-gene="' + encodeURI(_team.gene) + '" style="height:'+lineHeight+'px; line-height:'+lineHeight+'px;" >';
 				_html += '<img onerror="this.style.display=\'none\'" src="img/flags/afp/' + _team.id + '.png" alt="' +_team.title + '" style="width:10%;  height:auto; max-width:67px; max-height:45px; vertical-align:middle;"  />';	
 				_html += '<span>' + _team.title + '</span>';							    	
 		 	_html += '</div>';
