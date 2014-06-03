@@ -1,0 +1,11 @@
+openssl x509 -in aps_production.cer -inform der -out PushNoticiasTVNCert.pem
+
+openssl pkcs12 -nocerts -out PushNoticiasTVNKey.pem -in PushNoticiasTVNKey.p12
+
+cat PushNoticiasTVNCert.pem PushNoticiasTVNKey.pem > ckNoticiasTVN.pem
+
+
+p12 Pass: CdNnKVl2U5Y=
+
+TEST:
+openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert PushNoticiasTVNCert.pem -key PushNoticiasTVNKey.pem

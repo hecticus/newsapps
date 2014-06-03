@@ -250,7 +250,6 @@ var app = {
     	checkVersion();
     	initPush();
     	
-    	
 	    setInterval(function(){
 			$(_jMenu).each(function(_index,_menu) {
 				_menu.json = false;

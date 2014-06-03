@@ -1,0 +1,11 @@
+openssl x509 -in aps_production.cer -inform der -out PushTVMaxMundialCert.pem
+
+openssl pkcs12 -nocerts -out PushTVMaxMundialKey.pem -in PushTVMaxMundialKey.p12
+
+cat PushTVMaxMundialCert.pem PushTVMaxMundialKey.pem > ckTVMaxMundial.pem
+
+
+p12 Pass: CdNnKVl2U5Y=
+
+TEST:
+openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert PushTVMaxMundialCert.pem -key PushTVMaxMundialKey.pem
