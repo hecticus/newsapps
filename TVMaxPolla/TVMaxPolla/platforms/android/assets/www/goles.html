@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">	
 	<body>
-
-
+		
 		<div class="container goles-menu" >
 			<div class="row" >
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 gol active">
-				 	<div style=" position: relative; height:40px; line-height:40px; text-align: center; margin-top: 5px;" >
-				 		<span class="icon-estadios_menu" style="font-size: 2.5em; "></span>
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 goal active" data-function="_fRenderPhase();">
+				 		<div style=" position: relative; height:40px; line-height:40px; text-align: center; margin-top: 5px;" >
+				 		<span class="icon-calendario" style="font-size: 2.5em; "></span>
 				 	</div>				 	
 				 	<div style="height:20px; line-height:20px; text-align: center; " >
-				 		<span style="font-size: 1em; ">Juegos</span>
+				 		<span style="font-size: 1em; ">Fases</span>
 				 	</div>				 					 					 					 					 	
 				 </div>			
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 gol">
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 goal" data-function="_fRenderCountry();">
 				 	<div style=" position: relative;height:40px; line-height:40px; text-align: center; margin-top: 5px;" >
 				 		<span class="icon-paises" style="font-size: 2.5em; "></span>
 				 	</div>				 	
@@ -21,7 +20,7 @@
 				 		<span style="font-size: 1em; ">Pa&iacute;ses</span>
 				 	</div>	
 				 </div>			
-				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 gol" >
+				 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 goal" data-function="_fRenderPlayer();">
 				 	<div style=" position: relative; height:40px; line-height:40px; text-align: center; margin-top: 5px;" >
 				 		<span class="icon-biografia_menu" style="font-size: 2.5em; "></span>
 				 	</div>				 	
@@ -47,6 +46,12 @@
 			</div>			
 		</div>
 		
+		<div id="wrapper3" class="page" style="left: 100%;">
+			<div class="scroller">							
+				<div class="container" >
+				</div>
+			</div>			
+		</div>
 		
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper', {click:true,preventDefault:true});
@@ -58,6 +63,12 @@
 			myScroll2.on('beforeScrollStart', function () {
 				this.refresh();
 			});
+			
+			var myScroll3 = new IScroll('#wrapper3',{click:true,preventDefault:true});
+			myScroll2.on('beforeScrollStart', function () {
+				this.refresh();
+			});
+			
 		</script>
 		
 		<script type="text/javascript" src="js/goles.js"></script>  
