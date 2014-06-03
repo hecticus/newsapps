@@ -91,8 +91,14 @@ var _fSetLoadInit = function() {
 var _fSetBack = function() {
 		
 	clearTimeout(_mTimeout);
-	$('.share, .menu-group').addClass('hidden');
-	$('.share, .menu-group').removeAttr('onclick');
+
+	$('.share, .menu-group, .refresh').addClass('hidden');
+	$('.share, .menu-group, .refresh').removeAttr('onclick');
+	
+	$('#wrapperMaM').attr('class','page transition right');
+	$('#wrapperMaM .container.header').empty();	
+	$('#wrapperMaM2 .scroller .container').empty();
+	
 				
 	$('#wrapperM').attr('class','page transition left');	
 	$('#wrapper2 .scroller .container').empty();
@@ -102,6 +108,18 @@ var _fSetBack = function() {
 	$('.tv').removeClass('hidden');
 	$('.menu-group').addClass('hidden');		
 	
+};
+
+var _fGetLoadingRefreshBefore = function() {	
+	$('#refresh').addClass('loading');
+};
+
+var _fGetLoadingRefreshEnd = function() {	
+	$('#refresh').removeClass('loading');
+};
+
+var _fGetLoadingRefreshError = function() {	
+	$('#refresh').addClass('Error');
 };
 
 
@@ -132,7 +150,51 @@ var _fGetLoadingError = function() {
 	
 };
 
-$.fGetAjaXJSON = function(_url, _dataType, _contentType, _async) {
+
+
+
+
+
+$.fGetAjaXJSONNotLoading = function(_url) {
+
+	try {
+		
+	  	return $.ajax({
+			url: _url,			
+			type: 'GET',	
+			async : false,            		
+			dataType : 'json',
+			contentType : 'application/json; charset=utf-8',
+			beforeSend :  function () {
+				_fGetLoadingRefreshBefore();
+			}}).always(function () {
+				_fGetLoadingRefreshEnd();	
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				_fGetLoadingRefreshError();		
+				return false;
+			});
+				   
+	} catch (e) {
+		_fGetLoadingRefreshEnd();
+		return false;
+	}
+	
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$.fGetAjaXJSON = function(_url, _dataType, _contentType, _async,_loading) {
 
 	try {	
 		

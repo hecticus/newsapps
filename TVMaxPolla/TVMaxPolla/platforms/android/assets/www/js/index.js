@@ -213,8 +213,8 @@ var app = {
 				}
 			} else {
 			
-				if ($('#wrapper2').hasClass('left')) {			
-					_fSetBack();							
+				if ($('#wrapper2').hasClass('left') || $('#wrapperMaM').hasClass('left'))  {	
+					_fSetBack();												
 				} else {
 					
 					if ($('#wrapperM').hasClass('right')) {
