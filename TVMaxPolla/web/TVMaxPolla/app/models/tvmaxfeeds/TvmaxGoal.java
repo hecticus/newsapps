@@ -137,9 +137,11 @@ public class TvmaxGoal extends HecticusModel {
      * @return
      * @throws TvmaxFeedException
      */
-    public static ObjectNode getGoalSorted(String field, int limit) throws TvmaxFeedException {
+    //public static ObjectNode getGoalSorted(String field, int limit) throws TvmaxFeedException {
+    public static ArrayList getGoalSorted(String field, int limit) throws TvmaxFeedException {
         List<SqlRow> rows = null ,rows2 = null;
-        ObjectNode result = Json.newObject();
+        //ObjectNode result = Json.newObject();
+        ArrayList result = new ArrayList();
         try {
             if(field.equalsIgnoreCase("match_number")){
                 ArrayList<JsonNode> toReturn = new ArrayList<>();
@@ -152,7 +154,10 @@ public class TvmaxGoal extends HecticusModel {
                     for(int i = 0; i < rows.size(); i++){
                         rows2 = server.createSqlQuery(query + rows.get(i).getInteger(field)).findList();
                         if(!rows2.isEmpty()){
-                            result.put(""+rows.get(i).getInteger(field), Json.toJson(rows2));
+                            ObjectNode obj = Json.newObject();
+                            obj.put(""+rows.get(i).getInteger(field),Json.toJson(rows2));
+                            result.add(obj);
+                            //result.put(""+rows.get(i).getInteger(field), Json.toJson(rows2));
                         }
                     }
                 }
@@ -174,7 +179,10 @@ public class TvmaxGoal extends HecticusModel {
                                 in.deleteCharAt(in.length() - 1);
                             }
                             rows2 = server.createSqlQuery(query + "(" + in + ")").findList();
-                            result.put(fieldIndex, Json.toJson(rows2));
+                            ObjectNode obj = Json.newObject();
+                            obj.put(fieldIndex, Json.toJson(rows2));
+                            result.add(obj);
+                            //result.put(fieldIndex, Json.toJson(rows2));
                             if(!actual.equalsIgnoreCase(fieldIndex)){
                                 fieldIndex = rows.get(i).getString(field);
                                 in.delete(0, in.length());
@@ -182,8 +190,8 @@ public class TvmaxGoal extends HecticusModel {
                             }
                         }
                     }
-                    rows2 = server.createSqlQuery(query + "(" + in + ")").findList();
-                    result.put(fieldIndex, Json.toJson(rows2));
+                    //rows2 = server.createSqlQuery(query + "(" + in + ")").findList();
+                    //result.put(fieldIndex, Json.toJson(rows2));
                 }
             }
 //            rows = server.createSqlQuery(query).findList();
