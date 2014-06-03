@@ -95,12 +95,12 @@
 
 				_html += '<div class="row data-match" >';
 				
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1.2em; margin-left:10px;">' +  _item.fecha_de_partido + '</span>';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:left; color:#FFD455">';
+				_html += '<span style="font-size:1.2em; margin-left:5px;">' +  _item.fecha_de_partido + '</span>';
 				_html += '</div>';
 								
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px; text-align:right; color:#FFD455">';
-				_html += '<span style="font-size:1.2em; margin-right:10px;">' +  _item.fase + '</span>';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:right; color:#FFD455">';
+				_html += '<span style="font-size:1.2em; margin-right:5px;">' +  _item.fase + '</span>';
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
@@ -118,9 +118,23 @@
 				
 				_html += '</div>';
 			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';
-				_html += '<span> - </span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="   text-align: center; height:100px;  line-height:60px; padding:5px;">';
+				_html += '<span style="padding:5px; font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
+				_html += '<span style="padding:5px; font-size:1em; font-weight:bold;">-</span>';
+				_html += '<span style="padding:5px; font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_local + '</span>';
+				
+					
+				/*if (_team.transmision_por_TVMAX) {
+					_html += '<span>En vivo</span>';	
+				} else {
+					_html += '<span>Diferido</span>';
+					
+				}*/
+					
+				//_html += '<span style="background:#0A8A00; color:#ffffff; padding:5px;">AHORA</span>';
 				_html += '</div>';
+			
+	
 				
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
 				_team = _fGetAfpTeam(_item.equipo_visitante_ext_id);
@@ -339,31 +353,13 @@
 
 
 
-		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
-		if (_oAjax) {
-			_oAjax.done(function(_json) {
-				
-								
-				_jGet = _json.partidos_mundial;
-								
-				/*$.each(_jGet.item, function(_index,_item) {
-					
-					if (_item.fase.indexOf('Grupo') >= 0) {
-						if (_jCountry.indexOf(_item.equipo_local) < 0) {
-							_jCountry.push(_item.equipo_local);
-						}	
-					}
-					
-					if (_jPhase.indexOf(_item.fase) < 0) {
-						_jPhase.push(_item.fase);	
-					}
-	
-				});*/
-								
-				_fRenderCalendar();
-				
-			});
-		}
+	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {
+			_jGet = _json.partidos_mundial;					
+			_fRenderCalendar();				
+		});
+	}
 
 
 

@@ -454,12 +454,18 @@
 
 
 
+	
+	$(document).on('click','.content-mam .row[data-match]', function(e) {
+		preventBadClick(e);
+		_fRenderDataContent($(this).data('match'));			
+	});
 
 
-
-
-
-
+	$(document).on('click','.refresh', function(e) {			
+		preventBadClick(e);
+		clearTimeout(_mTimeout);
+		_fRenderEvent($(this).data('match'));
+	});
 
 
 
