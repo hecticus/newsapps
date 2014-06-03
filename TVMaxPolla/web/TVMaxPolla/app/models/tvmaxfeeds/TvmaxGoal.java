@@ -169,32 +169,32 @@ public class TvmaxGoal extends HecticusModel {
                 if(!rows.isEmpty()){
                     StringBuilder in = new StringBuilder();
                     String fieldIndex = rows.get(0).getString(field);
-                    for(int i = 0; i < rows.size(); i++){
-                        String actual = rows.get(i).getString(field);
+                    for(int i = 0; i <= rows.size(); i++){
+                        in.append(",");
+                        String actual = rows.get(i<rows.size()?i:(rows.size()-1)).getString(field);
                         if(actual.equalsIgnoreCase(fieldIndex)){
-                            in.append(rows.get(i).getLong("id_goal")).append(",");
+                            in.append(rows.get(i<rows.size()?i:(rows.size()-1)).getLong("id_goal"));
                         }
                         if(i == rows.size() -1 || !actual.equalsIgnoreCase(fieldIndex)){
                             if(in.charAt(in.length() - 1) == ','){
                                 in.deleteCharAt(in.length() - 1);
                             }
+                            if(in.charAt(0) == ','){
+                                in.deleteCharAt(0);
+                            }
                             rows2 = server.createSqlQuery(query + "(" + in + ")").findList();
                             ObjectNode obj = Json.newObject();
                             obj.put(fieldIndex, Json.toJson(rows2));
                             result.add(obj);
-                            //result.put(fieldIndex, Json.toJson(rows2));
                             if(!actual.equalsIgnoreCase(fieldIndex)){
                                 fieldIndex = rows.get(i).getString(field);
                                 in.delete(0, in.length());
-                                in.append(rows.get(i).getLong("id_goal"));
+                                in.append(rows.get(i<rows.size()?i:(rows.size()-1)).getLong("id_goal"));
                             }
                         }
                     }
-                    //rows2 = server.createSqlQuery(query + "(" + in + ")").findList();
-                    //result.put(fieldIndex, Json.toJson(rows2));
                 }
             }
-//            rows = server.createSqlQuery(query).findList();
         } catch (Exception ex) {
             //error devolver que no existe
             System.out.println(ex.getMessage());
