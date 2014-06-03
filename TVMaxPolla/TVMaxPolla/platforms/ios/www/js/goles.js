@@ -32,7 +32,7 @@
 
 	};
 	
-	_fRenderGetInitTime('icon-goles_menu');
+	//_fRenderGetInitTime('icon-goles_menu');
 	
 	
 	/*var _iIndex = $('main').data('index');
