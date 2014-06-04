@@ -419,15 +419,35 @@ $.fPostAjaXJSON = function(_url, _data) {
 		window.open(updateURL, '_system', 'closebuttoncaption=regresar');
 	}
 		
-	var _fgetFlag = function(_name) {
+		
+	var _fgetTeamData = function(_id) {		
+		var _jTeam = false;
+		$.each(_jAfpTeamsIds.teams, function(_index,_team) {
+			if (_team.ext_id ==  _id) _jTeam = _team;
+			if (_jTeam) return false;
+		});		
+		return _jTeam;
+	};		
+		
+	
+	var _fgetFlag = function(_name, _id) {
 		
 		var _flag = false;
 		
 		$.each(_jAfpTeamsIds.teams, function(_index,_team) {
 			
-			if (_team.name.search(_name) >= 0  ) {
-				_flag = _team.flag;
+			if (_id) {
+				if (_team.ext_id ==  _id) {
+					_flag = _team.flag;
+				}	
+			} 
+			
+			if (_name) {
+				if (_team.name.search(_name) >= 0  ) {
+					_flag = _team.flag;
+				}	
 			}
+			
 			
 			if (_flag) return false;
 		});
