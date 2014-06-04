@@ -71,14 +71,14 @@ public class Category extends HecticusModel {
     @Override
     public ObjectNode toJson() {
         ObjectNode responseNode = Json.newObject();
-        responseNode.put("idCategory", idCategory);
+        responseNode.put("id_category", idCategory);
         responseNode.put("name", name);
-        responseNode.put("idTeam", idTeam);
-        List<ObjectNode> clients = new ArrayList<ObjectNode>(this.clients.size());
-        for(int i = 0; i < clients.size(); i++){
-            clients.add(this.clients.get(i).toJson());
-        }
-        responseNode.put("clients", Json.toJson(clients));
+        responseNode.put("id_team", idTeam);
+//        List<ObjectNode> clients = new ArrayList<ObjectNode>(this.clients.size());
+//        for(int i = 0; i < clients.size(); i++){
+//            clients.add(this.clients.get(i).toJson());
+//        }
+//        responseNode.put("clients", Json.toJson(clients));
         return responseNode;
     }
 }

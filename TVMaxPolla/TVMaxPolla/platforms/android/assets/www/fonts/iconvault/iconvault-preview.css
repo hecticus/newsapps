@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "iconvault";
-  src: url("iconvault_c0f4757c71934346c062b0d2ecd73262.eot");
-  src: url("iconvault_c0f4757c71934346c062b0d2ecd73262.eot?#iefix") format("embedded-opentype"),
-       url("iconvault_c0f4757c71934346c062b0d2ecd73262.woff") format("woff"),
-       url("iconvault_c0f4757c71934346c062b0d2ecd73262.ttf") format("truetype"),
-       url("iconvault_c0f4757c71934346c062b0d2ecd73262.svg#iconvault") format("svg");
+  src: url("iconvault_5563ea3f08cd6546ef0596f00494823f.eot");
+  src: url("iconvault_5563ea3f08cd6546ef0596f00494823f.eot?#iefix") format("embedded-opentype"),
+       url("iconvault_5563ea3f08cd6546ef0596f00494823f.woff") format("woff"),
+       url("iconvault_5563ea3f08cd6546ef0596f00494823f.ttf") format("truetype"),
+       url("iconvault_5563ea3f08cd6546ef0596f00494823f.svg#iconvault") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -17,6 +17,7 @@
 .icon-alertas:before,
 .icon-menuhome:before,
 .icon-fechas:before,
+.icon-refrescar:before,
 .icon-estadios_menu:before,
 .icon-noticias:before,
 .icon-resultados:before,
@@ -64,35 +65,36 @@
 .icon-alertas:before { content: "\f101"; }
 .icon-menuhome:before { content: "\f102"; }
 .icon-fechas:before { content: "\f103"; }
-.icon-estadios_menu:before { content: "\f104"; }
-.icon-noticias:before { content: "\f105"; }
-.icon-resultados:before { content: "\f106"; }
-.icon-minutoaminuto:before { content: "\f107"; }
-.icon-lupa:before { content: "\f108"; }
-.icon-home_menu:before { content: "\f109"; }
-.icon-historia_menu:before { content: "\f10a"; }
-.icon-shareios:before { content: "\f10b"; }
-.icon-menuazul:before { content: "\f10c"; }
-.icon-goles_menu:before { content: "\f10d"; }
-.icon-calendario_menu:before { content: "\f10e"; }
-.icon-estrellas:before { content: "\f10f"; }
-.icon-menutvmax:before { content: "\f110"; }
-.icon-shareandroid:before { content: "\f111"; }
-.icon-biografia_menu:before { content: "\f112"; }
-.icon-polla-save:before { content: "\f113"; }
-.icon-clasificacion:before { content: "\f114"; }
-.icon-tvenvivo:before { content: "\f115"; }
-.icon-equipo:before { content: "\f116"; }
-.icon-fases:before { content: "\f117"; }
-.icon-pronosticos_menu:before { content: "\f118"; }
-.icon-noticias_menu:before { content: "\f119"; }
-.icon-polla_menu:before { content: "\f11a"; }
-.icon-caption-calendario:before { content: "\f11b"; }
-.icon-flechaazul:before { content: "\f11c"; }
-.icon-polemicas_menu:before { content: "\f11d"; }
-.icon-back:before { content: "\f11e"; }
-.icon-calendario:before { content: "\f11f"; }
-.icon-tvmax:before { content: "\f120"; }
-.icon-equipos_menu:before { content: "\f121"; }
-.icon-paises:before { content: "\f122"; }
-.icon-polla-back:before { content: "\f123"; }
+.icon-refrescar:before { content: "\f104"; }
+.icon-estadios_menu:before { content: "\f105"; }
+.icon-noticias:before { content: "\f106"; }
+.icon-resultados:before { content: "\f107"; }
+.icon-minutoaminuto:before { content: "\f108"; }
+.icon-lupa:before { content: "\f109"; }
+.icon-home_menu:before { content: "\f10a"; }
+.icon-historia_menu:before { content: "\f10b"; }
+.icon-shareios:before { content: "\f10c"; }
+.icon-menuazul:before { content: "\f10d"; }
+.icon-goles_menu:before { content: "\f10e"; }
+.icon-calendario_menu:before { content: "\f10f"; }
+.icon-estrellas:before { content: "\f110"; }
+.icon-menutvmax:before { content: "\f111"; }
+.icon-shareandroid:before { content: "\f112"; }
+.icon-biografia_menu:before { content: "\f113"; }
+.icon-polla-save:before { content: "\f114"; }
+.icon-clasificacion:before { content: "\f115"; }
+.icon-tvenvivo:before { content: "\f116"; }
+.icon-equipo:before { content: "\f117"; }
+.icon-fases:before { content: "\f118"; }
+.icon-pronosticos_menu:before { content: "\f119"; }
+.icon-noticias_menu:before { content: "\f11a"; }
+.icon-polla_menu:before { content: "\f11b"; }
+.icon-caption-calendario:before { content: "\f11c"; }
+.icon-flechaazul:before { content: "\f11d"; }
+.icon-polemicas_menu:before { content: "\f11e"; }
+.icon-back:before { content: "\f11f"; }
+.icon-calendario:before { content: "\f120"; }
+.icon-tvmax:before { content: "\f121"; }
+.icon-equipos_menu:before { content: "\f122"; }
+.icon-paises:before { content: "\f123"; }
+.icon-polla-back:before { content: "\f124"; }
