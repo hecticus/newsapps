@@ -13,6 +13,11 @@
 				_html += '<table class="table">';					
 				_html += '<thead>';
 				_html += '<tr>';	         				
+				
+				if (_item.id_phases == 13) {
+					_item.name = '3er. Lugar';
+				} 
+				
 				_html += '<th style="width:85%;">' + _item.name + '</th>';
 				_html += '<th style="width:2%;">J</th>';
 				_html += '<th style="width:2%;">G</th>';
