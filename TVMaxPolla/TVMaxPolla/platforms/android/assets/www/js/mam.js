@@ -1,6 +1,6 @@
 	//_fRenderGetInitTime('icon-minutoaminuto');
 
-	var _aMonth = ['January', 'February', 'March', 'April', 'May', 'Jun','Jul', 'August', 'September', 'October', 'November', 'December'];
+	
 	var _lastMinute = 0;
 	var _lastEvent = 0;
 

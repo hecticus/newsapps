@@ -1,6 +1,9 @@
-	
-	var  _aDay = new Array("Domingo", "Lunes", "Martes", "Mi&eacute;rcoles", "Jueves", "Viernes", "S&aacute;bado", "Domingo");
-	
+	var _aMonth = ['January', 'February', 'March', 'April', 'May', 'Jun','Jul', 'August', 'September', 'October', 'November', 'December'];
+	var _aMonthEs = ['January', 'February', 'March', 'April', 'May', 'Junio','Julio', 'August', 'September', 'October', 'November', 'December'];	
+	//var _aDay = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes','Sabado'];
+	var _aDay = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie','Sab'];
+
+
 	var _jPhase = [
 		{name:'Grupo A', bgcolor:'#64C2BC'},
 		{name:'Grupo B', bgcolor:'#64C2BC'},

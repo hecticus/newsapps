@@ -538,7 +538,30 @@ $.fPostAjaXJSON = function(_url, _data) {
 		}
 	}
 	
-	function doNothing(){
+	
+	function _fgetFormatDateMatch(_date) {
+
+		var _sFormatDate = _date;			
+		var _aDate= _sFormatDate.split('/');
+		var _oDate = false;
+		
+		if (_aDate.length >= 1) {
+			
+			_oDate = new Date(2014, 6, _aDate[0]);
+			if (_sFormatDate.search('Jul') >= 0  ) {
+				_oDate = new Date(2014, 7, _aDate[0]);
+			}
+								
+			_sFormatDate = _aDay[_oDate.getDay()];
+			_sFormatDate += ', ' +  _aDate[0]; 
+			_sFormatDate += ' de ' + _aMonthEs[_oDate.getMonth()];
+			//_sFormatDate += ' de 2014';
+
+		}
+	
+		return _date;
 		
 	}
-
+	
+			
+	
