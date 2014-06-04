@@ -501,14 +501,6 @@
 		}
 
 	});
-
-
-
-
-
-
-
-
 	
 	$(document).on('click','.content-mam .row[data-match]', function(e) {
 		preventBadClick(e);
@@ -524,16 +516,3 @@
 		_fRenderEvent($(this).data('match'));
 	});
 
-
-
-	$(document).on('touchend','.goal', function(e) {
-		preventBadClick(e);
-		eval($(this).data('function'));		
-		$('.goal').removeClass('active');	
-		$(this).addClass('active');
-		$('#wrapper2,#wrapper3').attr('class','page transition right');
-		myScroll.scrollTo(0,0,0);
-		myScroll2.scrollTo(0,0,0);
-		myScroll3.scrollTo(0,0,0);		
-	});
-		
