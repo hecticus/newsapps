@@ -42,6 +42,11 @@
 			   }
 			   
 			}else{
+				if(getScreenHeight() > 1500){
+					lineHeight=60;
+			   }else{
+					lineHeight=40;
+			   }
 			}
 
 			_html += '<div class="col-md-12 teams" data-gene="' + encodeURI(_team.gene) + '" style="height:'+lineHeight+'px; line-height:'+lineHeight+'px;" >';

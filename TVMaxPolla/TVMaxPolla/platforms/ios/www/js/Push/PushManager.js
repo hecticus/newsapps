@@ -39,7 +39,11 @@ function onNotificationAPN(e) {
         pushNotification.setApplicationIconBadgeNumber(successPushHandler, e.badge);
     }*/
 	if(e["extra_params"] != null && e["extra_params"] != ""){
-		executePushInit(e["extra_params"]);
+		try{
+			executePushInit(JSON.parse(e["extra_params"]));
+		}catch(e){
+			console.log("Error: "+e);
+		}
 	}
 }
 
@@ -99,7 +103,9 @@ function onNotificationGCM(e) {
 }
 
 function tokenHandler (result) {
-    console.log('<li>token: '+ result +'</li>');
+    //console.log('<li>token: '+ result +'</li>');
+	regID = result;
+	updateDeviceToServer();
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
 }

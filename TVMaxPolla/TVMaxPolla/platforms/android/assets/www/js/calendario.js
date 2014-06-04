@@ -1,43 +1,7 @@
 	
-	var  _aDay = new Array("Domingo", "Lunes", "Martes", "Mi&eacute;rcoles", "Jueves", "Viernes", "S&aacute;bado", "Domingo");
 	
 	
-
-	var _jPhase = [
-		{name:'Grupo A', bgcolor:'#64C2BC'},
-		{name:'Grupo B', bgcolor:'#64C2BC'},
-		{name:'Grupo C', bgcolor:'#64C2BC'},
-		{name:'Grupo D', bgcolor:'#64C2BC'},
-		{name:'Grupo E', bgcolor:'#64C2BC'},
-		{name:'Grupo F', bgcolor:'#64C2BC'},
-		{name:'Grupo G', bgcolor:'#64C2BC'},
-		{name:'Grupo H', bgcolor:'#64C2BC'},
-		{name:'Octavos', bgcolor:'#EB008C'},
-		{name:'Cuartos', bgcolor:'#5F207F'},
-		{name:'Semifinales', bgcolor:'#ED2A24'},
-		{name:'3er Lugar', bgcolor:'#037677'},
-		{name:'Final', bgcolor:'#F9A11A'}
-	];
-
-	var _jPhaseL = [
-		{name:'Grupos', bgcolor:'#64C2BC'},		
-		{name:'Octavos', bgcolor:'#EB008C'},
-		{name:'Cuartos', bgcolor:'#5F207F'},
-		{name:'Semifinales', bgcolor:'#ED2A24'},
-		{name:'3er Lugar', bgcolor:'#037677'},
-		{name:'Final', bgcolor:'#F9A11A'}
-	];
-
-	var _jCountry = [
-	'Alemania','Argelia','Argentina','Australia','Bosnia','Brasil','B&eacute;lgica',
-	'Camer&uacute;n', 'Chile', 'Colombia', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil',
-	'Croacia', 'Ecuador', 'Espa&ntilde;a', 'Estados Unidos', 'Francia', 'Ghana', 'Grecia',
-	'Holanda', 'Honduras', 'Inglaterra', 'Ir&aacute;n', 'Italia', 'Jap&oacute;n', 'M&eacute;xico', 'Nigeria',
-	'Portugal', 'Rusia', 'Suiza', 'Uruguay'
-	];
 	
-	//var _jPhase = [];
-	//var _jCountry = [];
 	var _team = false;
 
 
@@ -107,6 +71,14 @@
 				_html += '<span>' +  _item.sede + ' </span>';
 				_html += '</div>';
 
+
+				if ((_item.transmision_por_TVMAX) && (_item.estado_del_partido.toString().toLowerCase() == 'próximo'))  {
+					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tv" style="height:50px; line-height:50px; text-align:center;">';
+						_html += '<img  src="img/live.png" alt="En vivo" style="width:25%; max-width:145px; max-height:50px; height:auto;"  />';		
+					_html += '</div>';	
+				}
+
+
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
 				_team = _fGetAfpTeam(_item.equipo_local_ext_id);
 				 
@@ -118,22 +90,11 @@
 				
 				_html += '</div>';
 			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="   text-align: center; height:100px;  line-height:60px; padding:5px;">';
-				_html += '<span style="padding:5px; font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
-				_html += '<span style="padding:5px; font-size:1em; font-weight:bold;">-</span>';
-				_html += '<span style="padding:5px; font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_local + '</span>';
-				
-					
-				/*if (_team.transmision_por_TVMAX) {
-					_html += '<span>En vivo</span>';	
-				} else {
-					_html += '<span>Diferido</span>';
-					
-				}*/
-					
-				//_html += '<span style="background:#0A8A00; color:#ffffff; padding:5px;">AHORA</span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
+				_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
+				_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
+				_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
 				_html += '</div>';
-			
 	
 				
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
@@ -263,12 +224,17 @@
 	};
 	
 	var _fRenderCountry = function() {
-		var _html = '<div class="row" >';
-		_jCountry.sort();	
-		$.each(_jCountry, function(_index) {			
-			_html += '<div class="col-md-12 match" data-country="' + _jCountry[_index] + '" >';
-			_html += '<span style="margin-left:15px;">' + _jCountry[_index].toString()  + '</span>';
+		var _html = '<div class="row" >';			
+		$.each(_jCountry, function(_index) {	
+			
+			var _name = _jCountry[_index];
+			var _flag = _fgetFlag(_name.toString());
+								
+			_html += '<div class="col-md-12 match" data-country="' + _name + '" >';
+			//_html += '<img onerror="this.style.display=\'none\'" src="img/flags/' + _flag + '" alt="' + _name + '" style="width:25px; height:auto; margin-left:15px; margin-right:10px; vertical-align: sub;"  />';
+			_html += '<span>' + _name + '</span>';	
 			_html += '</div>';
+			
 		});
 		_html += '</div>';
 		
@@ -282,7 +248,7 @@
 		var _html = '<div class="row" >';	
 		$.each(_jPhase, function(_index, _phase) {			
 			_html += '<div class="col-md-12 match" data-phase="' + _phase.name + '" >';
-			_html += '<span style="margin-left:15px;">' + _phase.name + '</span>';
+			_html += '<span>' + _phase.name + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';

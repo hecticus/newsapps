@@ -1,1 +1,1 @@
-//_fRenderGetInitTime('icon-resultados');
+_fRenderGetInitTime('icon-resultados');

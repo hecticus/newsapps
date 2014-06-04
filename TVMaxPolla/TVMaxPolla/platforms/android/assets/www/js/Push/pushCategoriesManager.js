@@ -62,7 +62,7 @@ function updatePushCategoriesToServer(){
 					data = JSON.parse(data);
 				}
 				var code = data.error;
-				console.log("RESPONSE ="+JSON.stringify(data));
+				//console.log("RESPONSE ="+JSON.stringify(data));
 				if(code == 0){
 					//SAVE Categories
 					//console.log("GUARDO TODO BIEN "+JSON.stringify(_data));

@@ -332,36 +332,8 @@
 	}
 
 
-	/*resultados*/		
-
-	body.content-resultados #wrapper,
-	body.content-resultados #wrapper2 { 
-		position: absolute;
-		z-index: 1; 
-		top: 120px; 
-		bottom: 0; 
-		left: 0; 
-		width: 100%; 
-		background: #fff;
 		
-	}
-		
-	body.content-resultados .resultados-menu.container {
-		position: absolute; 
-		top:50px; 
-		left:0; 		
-		width: 100%; 
-		height: 70px;
-		line-height:70px; 
-		z-index: 2; 
-		background: #E6E6E6; 
-		color:#4D4D4D;
-		border-bottom: solid #FFD455;
-	}
 	
-	body.content-resultados .resultados-menu.container .active {
-		color:#3E79C4;
-	}	
 		
 	/*Goles*/
 	body.content-goles #wrapper,
@@ -399,8 +371,8 @@
 		
 	/*mam*/
 	
-	body.content-mam #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-mam #wrapperMaM2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	/*body.content-mam #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-mam #wrapperMaM2 .scroller .container  { padding:  2px !important; margin: 0 !important;}*/
 
 	body.content-mam figure {text-align: center; margin: 0 auto; padding: 5px;}
 	body.content-mam figure img {width: 67px; height: 45px;}
@@ -431,18 +403,9 @@
 	}
 	
 	/*mam*/		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	/*calendario*/
-	
+
+	/*calendario*/	
+
 	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
 	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
 
@@ -518,8 +481,6 @@
 	/*Home*/
 
 
-
-
 	/*calendario*/
 	body.content-calendario .calendario-menu.container {
 		position: absolute; 
@@ -566,7 +527,6 @@
 	/*calendario*/
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-goles .row div.video,	
 	body.content-history .row div.history,	 	
 	body.content-teams .row div.teams {
 		height: 50px; 
@@ -587,7 +547,6 @@
 
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-goles .row div.video,
 	body.content-history .row div.history, 
 	body.content-players .row div.player, 
 	body.content-teams #wrapper .container .row { 
@@ -609,23 +568,6 @@
 		max-height: 150px;	
 	} 
 	
-	/*body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
-	body.content-goles .row div.video:nth-child(even),
-	body.content-history .row div.history:nth-child(even), 
-	body.content-players .row div.player:nth-child(even), 
-	body.content-teams #wrapper .container .row:nth-child(even) { 
-		background:#FFFFFF;
-		border-bottom: solid 1pt #4D4D4D; 
-	}
-	
-	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(odd),
-	body.content-goles .row div.video:nth-child(odd),
-	body.content-history .row div.history:nth-child(odd),   
-	body.content-players .row div.player:nth-child(odd),
-	body.content-teams #wrapper .container .row:nth-child(odd) {
-		background:#FFFFFF; 
-		border-bottom: solid 1pt #4D4D4D;
-	}*/
 	
 	body.content-goles .row div.video span:last-child,
 	body.content-history .row div.history span:last-child,
@@ -634,7 +576,7 @@
 		margin-left: 5px;
 	}
 
-	/*calendario*/
+
 
 	body.content-players DataContent {padding: 0; margin: 0; border: 0; }
 	body.content-players DataContent {padding-top: 5px;}
@@ -719,3 +661,22 @@
 
 	.refresh.loading {color:#FFD455;}
 	.refresh.error {color:red;}
+	
+	
+	
+	body.content-goles .row div[data-country],
+	body.content-goles .row div[data-phase] {
+		height: 50px;
+		line-height: 50px;
+		font-size: 1.4em;
+		color:#4D4D4D;  
+		background:#FFFFFF;
+		border-bottom: solid 1pt #E0E0E0; 
+	}
+	
+	body.content-goles .row div[data-country]:last-child,
+	body.content-goles .row div[data-phase]:last-child  {
+		border:0;
+	}
+	
+	
