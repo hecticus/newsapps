@@ -22,15 +22,15 @@ public class Action extends HecticusModel {
     @Override
     public ObjectNode toJson() {
         ObjectNode responseNode = Json.newObject();
-        responseNode.put("idAction", idAction);
+        responseNode.put("id_action", idAction);
         responseNode.put("name", name);
-        responseNode.put("template", template);
-        responseNode.put("pushable", pushable);
-        List<ObjectNode> clients = new ArrayList<ObjectNode>(this.clients.size());
-        for(int i = 0; i < clients.size(); i++){
-            clients.add(this.clients.get(i).toJson());
-        }
-        responseNode.put("clients", Json.toJson(clients));
+//        responseNode.put("template", template);
+//        responseNode.put("pushable", pushable);
+//        List<ObjectNode> clients = new ArrayList<ObjectNode>(this.clients.size());
+//        for(int i = 0; i < clients.size(); i++){
+//            clients.add(this.clients.get(i).toJson());
+//        }
+//        responseNode.put("clients", Json.toJson(clients));
         return responseNode;
     }
 
