@@ -189,7 +189,12 @@ public class TvmaxNews extends HecticusModel {
     }
 
     public static List<TvmaxNews> getLatestLimited(){
-        return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
+        List<TvmaxNews> top = finder.where().eq("main", 1).orderBy("received_date desc").setMaxRows(MAIN_MAX_SIZE).findList();
+        List<TvmaxNews> bottom = finder.where().eq("main", 0).orderBy("received_date desc").setMaxRows(OTHERS_MAX_SIZE).findList();
+        top.addAll(bottom);
+        bottom.clear();
+        return top;
+//        return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
     }
 
     public static void insertBatch(ArrayList<TvmaxNews> list) throws Exception {
