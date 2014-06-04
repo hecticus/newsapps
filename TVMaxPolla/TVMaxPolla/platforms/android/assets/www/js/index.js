@@ -19,7 +19,7 @@
 
 var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var _jImageFeatured = false;
-
+var _jSchedule = false;
 //Push things
 var pushInterval;
 var newsPushInterval;
@@ -74,6 +74,12 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
+		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {				
+				_jSchedule = _json.partidos_mundial;				
+			});
+		}
 
     	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
 		if (_oAjax) {

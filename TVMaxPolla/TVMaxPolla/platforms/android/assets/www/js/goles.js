@@ -1,6 +1,29 @@
 	
 	var _height =  parseInt(($(window).height() * 40)/100);
 
+						
+
+
+	var _fGetMatch = function(_id) {
+
+		var _return = false;
+		 
+		if (_jSchedule) {
+			$.each(_jSchedule.item, function(_index,_item) {
+				if (_item.numero_de_partido == _id) {
+					_return = _item;
+				}
+				
+				if (_return) return false;
+				
+			});
+		}
+		
+		
+		return _return;
+		
+	};
+
 	var _fGetImage = function(_image) {
 		
 		var _html = '<figure style="background:#E6E6E6;">';					     		
@@ -36,12 +59,23 @@
 		 		
 		 		if (_item.activo == 'Si') {
 		 		
-		 			var _caption = _item.goleador;
+		 			
+		 			var _jMatch = _fGetMatch(_item.numero_partido);
+
+		 	
+		 			 
+		 			 
+		 			//var _caption = _jMatch.equipo_local + ' vs ' + _jMatch.equipo_visitante + '. ';
+		 			
+		 			var _caption = '<img src="img/flags/' + _fgetFlag(_jMatch.equipo_local) + '" alt="' + _jMatch.equipo_local + '" style="width:auto; height:20px; margin-right:5px; vertical-align:middle;"  />';
+		 			_caption += '-';
+		 			_caption += '<img src="img/flags/' + _fgetFlag(_jMatch.equipo_visitante) + '" alt="' + _jMatch.equipo_visitante + '" style="width:auto; height:20px; margin-left:5px; margin-right:5px; vertical-align:middle;"  />';
+		 					 			
+		 			_caption += _item.goleador;
 		 			_caption += ' de ' + _item.equipo;
-		 			_caption += ' al minuto ' + _item. minuto_anotacion;
-		 			_caption += ' del ' + _item.tiempo_anotacion;
-		 			
-		 			
+		 			_caption += ', minuto ' + _item.minuto_anotacion;
+		 			_caption += ' del ' + _item.tiempo_anotacion.toLowerCase(); 
+
 			 		var _src = 'http://www.kaltura.com/p/1199011/sp/0/playManifest/entryId/' + _item.id_video_kaltura + '/format/url/flavorParamId/0/video.mp4';
 					_html += '<div class="col-md-12 video" data-src="' + _src + '"  >';
 					_html += _fGetImage({src:_item.imagen_gol,caption:_caption});

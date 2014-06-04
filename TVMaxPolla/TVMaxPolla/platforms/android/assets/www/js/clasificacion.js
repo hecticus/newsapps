@@ -7,7 +7,7 @@
 		var _html = '<div class="row" >';
 
 		$.each(_jGet.response, function(_index,_item) {			
-			if (_item.ranking.length >= 1) {
+			//if (_item.ranking.length >= 1) {
 				_html += '<div class="col-md-12">';	
 				_html += '<div class="table-responsive">';
 				_html += '<table class="table">';					
@@ -48,7 +48,7 @@
 				_html += '</table>';
 				_html += '</div>';
 				_html += '</div>';
-			}
+			//}
 		});
 		 
 		_html += '</div>';
