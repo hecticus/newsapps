@@ -158,7 +158,7 @@
                           {"id_tvmax":"9","name":"Chile","shortname":"CHI","flag":"ci-lgflag.png","ext_id":"3015"},
                           {"id_tvmax":"10","name":"Colombia","shortname":"COL","flag":"co-lgflag.png","ext_id":"3037"},
                           {"id_tvmax":"11","name":"Corea del Sur","shortname":"KOR","flag":"ks-lgflag.png","ext_id":"3068"},
-                          {"id_tvmax":"12","name":"Costa de Marfil","shortname":"CIV","flag":"iv-lgflag.png","ext_id":"3038"},
+                          {"id_tvmax":"12","name":"Cta. de Marfil","shortname":"CIV","flag":"iv-lgflag.png","ext_id":"3038"},
                           {"id_tvmax":"13","name":"Costa Rica","shortname":"CRC","flag":"cs-lgflag.png","ext_id":"3090"},
                           {"id_tvmax":"14","name":"Croacia","shortname":"CRO","flag":"hr-lgflag.png","ext_id":"523"},
                           {"id_tvmax":"15","name":"Ecuador","shortname":"ECU","flag":"ec-lgflag.png","ext_id":"3065"},
