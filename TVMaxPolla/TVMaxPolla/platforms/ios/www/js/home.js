@@ -36,9 +36,16 @@
 				homeTextClass = "caption-icon";
 			}
 		}else{
-			homeIconSize = 5;
-			homeSmallIconsSize = 1.6;
-			homeTextClass = "caption-icon";
+			if(getScreenHeight()>1500){
+				homeIconSize = 8;
+				homeSmallIconsSize = 3.3;
+				homeTextClass = "caption-icon-tablets";
+				homeLineHeight = 0;
+			}else{
+				homeIconSize = 5;
+				homeSmallIconsSize = 1.6;
+				homeTextClass = "caption-icon";
+			}
 		}
 
 		//row

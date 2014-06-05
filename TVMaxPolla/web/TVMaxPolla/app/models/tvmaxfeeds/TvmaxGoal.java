@@ -37,6 +37,7 @@ public class TvmaxGoal extends HecticusModel {
     private Boolean penalty; //not sure about this one
     private String idVideoKaltura;
     private Boolean active;
+    private String image;
 
     private static Model.Finder<Long,TvmaxGoal> finder =
             new Model.Finder<Long, TvmaxGoal>(Long.class, TvmaxGoal.class);
@@ -56,6 +57,7 @@ public class TvmaxGoal extends HecticusModel {
         ronda_penales = data.get("ronda_penales").asText();
         idVideoKaltura = data.get("id_video_kaltura").asText();
         active = data.get("activo").asText().equalsIgnoreCase("si");
+        image = data.get("imagen_gol").asText();
     }
 
     @Override
@@ -73,6 +75,7 @@ public class TvmaxGoal extends HecticusModel {
         //tr.put("penalty", penalty);
         tr.put("id_video_kaltura", decode(idVideoKaltura));
         tr.put("activo", active);
+        tr.put("imagen_gol", image);
         return tr;
     }
 
@@ -298,5 +301,13 @@ public class TvmaxGoal extends HecticusModel {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

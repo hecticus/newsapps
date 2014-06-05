@@ -2,6 +2,7 @@ package models.tvmaxfeeds;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.Expr;
 import exceptions.TvmaxFeedException;
 import models.HecticusModel;
 import models.matches.GameMatch;
@@ -10,6 +11,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -42,6 +44,7 @@ public class TvmaxMatch extends HecticusModel {
     private String matchStatus;
     private String matchDescription;
     private Boolean tvmaxBroadcast;
+    private String formatedDate;
 
     private static Model.Finder<Long,TvmaxMatch> finder =
             new Model.Finder<Long, TvmaxMatch>(Long.class, TvmaxMatch.class);
@@ -67,6 +70,7 @@ public class TvmaxMatch extends HecticusModel {
         matchStatus= data.get("estado_del_partido").asText();
         matchDescription= data.get("descripcion_del_partido").asText();
         tvmaxBroadcast= data.get("transmision_por_TVMAX").asText().equalsIgnoreCase("si");
+        formatedDate = Utils.formatCalendarDate(matchDate, "America/Panama");
     }
 
     @Override
@@ -102,6 +106,8 @@ public class TvmaxMatch extends HecticusModel {
                 tr.put("equipo_visitante_ext_id",teamVisitante.getAfpId());
             }
         }
+
+        tr.put("currentlyLive", decode(matchStatus).equalsIgnoreCase("activo"));
 
         return tr;
     }
@@ -161,7 +167,39 @@ public class TvmaxMatch extends HecticusModel {
         }finally {
             server.endTransaction();
         }
+    }
 
+    public static List<TvmaxMatch> getMatchesByDate(String date){
+        return finder.where()
+                .like("match_date", date)
+                .or(Expr.eq("match_status","activo"), Expr.eq("match_status",encode("Próximo")))
+                .orderBy("external_id desc")
+                .findList();
+    }
+
+    public static List<TvmaxMatch> getActiveMatchesByDate(String date){
+        return finder.where()
+                .eq("match_status", "activo")
+                .like("match_date", date)
+                .orderBy("external_id desc")
+                .findList();
+    }
+
+    public static List<TvmaxMatch> getFinisedMatchesByDate(String date){
+        return finder.where().or(
+                    Expr.eq("match_status", "Finalizado"),
+                    Expr.eq("match_status", "Finalizado en penales"))
+                .like("match_date", date)
+                .orderBy("external_id desc")
+                .findList();
+    }
+
+    public static List<TvmaxMatch> getBroadcastableMatchesByDate(String date){
+        return finder.where()
+                .eq("tvmax_broadcast", 1)
+                .like("formated_date", date)
+                .orderBy("external_id desc")
+                .findList();
     }
 
     /********************** getters and setters **********************/
@@ -300,5 +338,13 @@ public class TvmaxMatch extends HecticusModel {
 
     public void setTvmaxBroadcast(Boolean tvmaxBroadcast) {
         this.tvmaxBroadcast = tvmaxBroadcast;
+    }
+
+    public String getFormatedDate() {
+        return formatedDate;
+    }
+
+    public void setFormatedDate(String formatedDate) {
+        this.formatedDate = formatedDate;
     }
 }

@@ -65,7 +65,7 @@
 	.content-menu:last-child {border-bottom: solid #FFD455; }*/
 
 
-	#wrapper, #wrapper2, #wrapperM { 
+	#wrapper, #wrapper2, #wrapperM, #wrapperMaM, #wrapperMaM2 { 
 		position: absolute; 
 		z-index: 1; 
 		top: 50px; 
@@ -86,7 +86,6 @@
 	}
 
 
-
 	header {	
 		position: absolute; 
 		z-index: 4; 
@@ -103,7 +102,8 @@
 		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
 		display: none;
-
+		
+		
 	}
 			
 	header .glyphicon { color: #3E79C4;}
@@ -130,7 +130,9 @@
 	body.content-polla #wrapper {
 		bottom: 80px;
 	}
-
+	
+				
+	 
 	body:not(.content-init) header {
 		display: block;
 	}
@@ -330,11 +332,114 @@
 	}
 
 
-	
-	
-	
+	/*resultados*/		
 
-	/*polemicas*/
+	body.content-resultados #wrapper,
+	body.content-resultados #wrapper2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 120px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+		
+	body.content-resultados .resultados-menu.container {
+		position: absolute; 
+		top:50px; 
+		left:0; 		
+		width: 100%; 
+		height: 70px;
+		line-height:70px; 
+		z-index: 2; 
+		background: #E6E6E6; 
+		color:#4D4D4D;
+		border-bottom: solid #FFD455;
+	}
+	
+	body.content-resultados .resultados-menu.container .active {
+		color:#3E79C4;
+	}	
+		
+	/*Goles*/
+	body.content-goles #wrapper,
+	body.content-goles #wrapper2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 120px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+		
+	body.content-goles .goles-menu.container {
+		position: absolute; 
+		top:50px; 
+		left:0; 		
+		width: 100%; 
+		height: 70px;
+		line-height:70px; 
+		z-index: 2; 
+		background: #E6E6E6; 
+		color:#4D4D4D;
+		border-bottom: solid #FFD455;
+	}
+	
+	body.content-goles .goles-menu.container .active {
+		color:#3E79C4;
+	}
+	/*goles*/	
+		
+		
+		
+		
+	/*mam*/
+	
+	body.content-mam #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-mam #wrapperMaM2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+
+	body.content-mam figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-mam figure img {width: 67px; height: 45px;}
+	body.content-mam figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
+
+	body.content-mam #wrapperMaM2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 200px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+
+	body.content-mam #wrapperMaM2 .scroller .container .row.event {
+		border-bottom: solid 1pt #E0E0E0; 
+	}
+	
+	/*mam*/		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	/*calendario*/
 	
@@ -612,5 +717,5 @@
 
 	body.content-home #banner-claro { background-image:url(img/claro/800x80.jpg); background-size:cover; }
 
-	
-
+	.refresh.loading {color:#FFD455;}
+	.refresh.error {color:red;}

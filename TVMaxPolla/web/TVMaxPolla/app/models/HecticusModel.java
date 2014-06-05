@@ -18,13 +18,17 @@ public abstract class HecticusModel extends Model {
 
     public static final int MAX_SIZE = 25;
 
+    public static final int MAIN_MAX_SIZE = 4;
+
+    public static final int OTHERS_MAX_SIZE = 21;
+
     public abstract ObjectNode toJson();
 
     public JsonNode toObjJson() {
         return Json.toJson(this);
     }
 
-    public String decode(String val){
+    public static String decode(String val){
         String tr = null;
         try {
             tr= URLDecoder.decode(val, "UTF-8");

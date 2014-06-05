@@ -213,8 +213,8 @@ var app = {
 				}
 			} else {
 			
-				if ($('#wrapper2').hasClass('left')) {			
-					_fSetBack();							
+				if ($('#wrapper2').hasClass('left') || $('#wrapperMaM').hasClass('left'))  {	
+					_fSetBack();												
 				} else {
 					
 					if ($('#wrapperM').hasClass('right')) {
@@ -249,7 +249,6 @@ var app = {
     	initPage();
     	checkVersion();
     	initPush();
-    	
     	
 	    setInterval(function(){
 			$(_jMenu).each(function(_index,_menu) {
@@ -287,9 +286,20 @@ function executePushInit(extra_params){
 			$('.title').html('<span>' + _jMenu[index].title + '</span>');						
 			$('main').load(_jMenu[index].load);	
 			$('#wrapperM').attr('class','page transition left');
-			//console.log("EXTRA "+extra_params);
+			//console.log("EXTRA "+JSON.stringify(extra_params));
 			
-			var newsID = 866;
+			var newsID = 0;
+			
+			try{
+				if(extra_params != null){
+					var temp = extra_params.externalId;
+					newsID = parseInt(temp);
+				}
+				
+			}catch(ex){
+				console.log("ERROR push "+ex);
+			}
+			
 			
 			//abrimos la noticia como tal
 			newsPushInterval = window.setInterval(function(){
