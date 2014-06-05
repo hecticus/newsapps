@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Expr;
 import models.HecticusModel;
+import models.pushevents.Category;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
@@ -43,6 +44,8 @@ public class TvmaxNews extends HecticusModel {
     private String trendingName;
     @Column(columnDefinition = "TEXT")
     private String fullstory;
+    @Transient
+    private Boolean currentlyLive;
 
     //resources
     @OneToMany(cascade= CascadeType.ALL)
@@ -92,6 +95,7 @@ public class TvmaxNews extends HecticusModel {
         insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         generationTime = 0l;
         //pubDateFormated = Utils.formatDateLongFromStringNew("");
+        currentlyLive = false;
 
     }
 
@@ -118,6 +122,11 @@ public class TvmaxNews extends HecticusModel {
         tr.put("nombre_trending", trendingName);
         tr.put("fullstory", decode(fullstory));
 
+        if (currentlyLive != null){
+            tr.put("currentlyLive", currentlyLive);
+        }
+
+
 //        if (resources.size()> 0){
 //            ObjectNode hec = Json.newObject();
 //            ArrayList<String> resized = new ArrayList<>();
@@ -142,6 +151,10 @@ public class TvmaxNews extends HecticusModel {
 //        }
 
         return tr;
+    }
+
+    public String getDecodedTitle(){
+        return decode(this.title);
     }
 
     /********************** bd funtions*******************************/
@@ -214,7 +227,17 @@ public class TvmaxNews extends HecticusModel {
                     server.update(current);
                 }else {
                     server.insert(current);
-                    //also insert events
+                    ArrayList<Integer> categories = current.getCategoryList();
+                    String idActionJackson = "0";
+                    EventQueue ev = new EventQueue(current.getDecodedTitle(), idActionJackson, current.externalId);
+                    ev.save();
+                    for (int j= 0; j < categories.size(); j++){
+                        //insert event_queue
+                        int idCategory = categories.get(j); //constante
+                        //insert category event
+                        CategoryEvent ce = new CategoryEvent(idCategory, ev.getIdEvent());
+                        ce.save();
+                    }
                 }
             }
             server.commitTransaction();
@@ -225,6 +248,62 @@ public class TvmaxNews extends HecticusModel {
             server.endTransaction();
         }
 
+    }
+
+    public ArrayList<Integer> getCategoryList(){
+        ArrayList<Integer> tr = new ArrayList<>();
+        if (category != null && !category.isEmpty()) {
+            //get and add
+            int toAdd = 0;
+            Long temp = Category.getIdCategoryByName(category);
+            if (temp != null) {
+                toAdd = temp.intValue();
+            }
+            if (toAdd != 0) {
+                tr.add(toAdd);
+            }
+        }
+
+        if (category2 != null && !category2.isEmpty()){
+            //get and add
+            int toAdd = 0;
+            Long temp = Category.getIdCategoryByName(category2);
+            if (temp != null) {
+                toAdd = temp.intValue();
+            }
+            if (toAdd != 0) {
+                tr.add(toAdd);
+            }
+        }
+
+        if (category3 != null && !category3.isEmpty()){
+            //get and add
+            int toAdd = 0;
+            Long temp = Category.getIdCategoryByName(category3);
+            if (temp != null) {
+                toAdd = temp.intValue();
+            }
+            if (toAdd != 0) {
+                tr.add(toAdd);
+            }
+        }
+
+        if (category4 != null && !category4.isEmpty()){
+            //get and add
+            int toAdd = 0;
+            Long temp = Category.getIdCategoryByName(category4);
+            if (temp != null) {
+                toAdd = temp.intValue();
+            }
+            if (toAdd != 0) {
+                tr.add(toAdd);
+            }
+        }
+        if (tr.size()== 0){
+            System.out.println("esta vacio! fuck!!!!!!: " +this.externalId + this.category + ";" + this.category2 + ":" + this.category3 + ":" +this.category4);
+        }
+
+        return tr;
     }
 
     public static List<TvmaxNews> getAwesome(){
@@ -424,5 +503,13 @@ public class TvmaxNews extends HecticusModel {
 
     public void setPubDateFormated(Long pubDateFormated) {
         this.pubDateFormated = pubDateFormated;
+    }
+
+    public Boolean getCurrentlyLive() {
+        return currentlyLive;
+    }
+
+    public void setCurrentlyLive(Boolean currentlyLive) {
+        this.currentlyLive = currentlyLive;
     }
 }

@@ -73,6 +73,9 @@ GET     /tvmaxfeeds/goals/sorted/:field/:limit      controllers.tvmaxfeeds.GoalC
 GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
 GET     /tvmaxfeeds/calendar/getAll                 controllers.tvmaxfeeds.MatchController.getAllMatchs()
 POST    /tvmaxfeeds/calendar/insert                 controllers.tvmaxfeeds.MatchController.insert()
+GET     /tvmaxfeeds/calendar/today                  controllers.tvmaxfeeds.MatchController.getToday()
+GET     /tvmaxfeeds/calendar/today/active           controllers.tvmaxfeeds.MatchController.getActive()
+GET     /tvmaxfeeds/calendar/today/results          controllers.tvmaxfeeds.MatchController.getResults()
 
 GET     /tvmaxfeeds/news/get/:categoryName          controllers.tvmaxfeeds.NewsController.getNews(categoryName : String)
 GET     /tvmaxfeeds/news/latest/                    controllers.tvmaxfeeds.NewsController.getLatest()

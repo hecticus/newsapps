@@ -28,7 +28,7 @@ public abstract class HecticusModel extends Model {
         return Json.toJson(this);
     }
 
-    public String decode(String val){
+    public static String decode(String val){
         String tr = null;
         try {
             tr= URLDecoder.decode(val, "UTF-8");
