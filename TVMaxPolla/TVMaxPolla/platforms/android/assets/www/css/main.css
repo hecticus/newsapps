@@ -687,7 +687,20 @@
 	body.content-clasificacion  #wrapper .scroller .container .row div {background: #ffffff !important;}
 	body.content-clasificacion table tbody tr td {border-bottom: solid 1pt #E0E0E0 !important;}
 
+	/*ALERTAS*/
+	/* CSS REQUIRED */
+	.state-icon {
+	    left: -5px;
+	}
+	.list-group-item-primary {
+	    color: rgb(255, 255, 255);
+	    background-color: rgb(66, 139, 202);
+	}
 	
+	/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+	/*.well .list-group {
+	    margin-bottom: 0px;
+	}*/
 	
 	
 	
