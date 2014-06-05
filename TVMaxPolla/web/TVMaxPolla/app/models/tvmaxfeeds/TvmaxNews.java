@@ -44,8 +44,6 @@ public class TvmaxNews extends HecticusModel {
     private String trendingName;
     @Column(columnDefinition = "TEXT")
     private String fullstory;
-    @Transient
-    private Boolean currentlyLive;
 
     //resources
     @OneToMany(cascade= CascadeType.ALL)
@@ -95,7 +93,6 @@ public class TvmaxNews extends HecticusModel {
         insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         generationTime = 0l;
         //pubDateFormated = Utils.formatDateLongFromStringNew("");
-        currentlyLive = false;
 
     }
 
@@ -121,10 +118,6 @@ public class TvmaxNews extends HecticusModel {
         tr.put("status_trending", statusTrending);
         tr.put("nombre_trending", trendingName);
         tr.put("fullstory", decode(fullstory));
-
-        if (currentlyLive != null){
-            tr.put("currentlyLive", currentlyLive);
-        }
 
 
 //        if (resources.size()> 0){
@@ -228,7 +221,7 @@ public class TvmaxNews extends HecticusModel {
                 }else {
                     server.insert(current);
                     ArrayList<Integer> categories = current.getCategoryList();
-                    String idActionJackson = "0";
+                    String idActionJackson = "16";
                     EventQueue ev = new EventQueue(current.getDecodedTitle(), idActionJackson, current.externalId);
                     ev.save();
                     for (int j= 0; j < categories.size(); j++){
@@ -505,11 +498,4 @@ public class TvmaxNews extends HecticusModel {
         this.pubDateFormated = pubDateFormated;
     }
 
-    public Boolean getCurrentlyLive() {
-        return currentlyLive;
-    }
-
-    public void setCurrentlyLive(Boolean currentlyLive) {
-        this.currentlyLive = currentlyLive;
-    }
 }

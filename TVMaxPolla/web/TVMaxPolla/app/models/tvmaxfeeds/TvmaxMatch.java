@@ -172,6 +172,7 @@ public class TvmaxMatch extends HecticusModel {
     public static List<TvmaxMatch> getMatchesByDate(String date){
         return finder.where()
                 .like("match_date", date)
+                .or(Expr.eq("match_status","activo"), Expr.eq("match_status",encode("Próximo")))
                 .orderBy("external_id desc")
                 .findList();
     }
