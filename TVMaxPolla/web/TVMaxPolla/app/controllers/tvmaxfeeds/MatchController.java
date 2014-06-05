@@ -4,6 +4,7 @@ import controllers.HecticusController;
 import models.tvmaxfeeds.TvmaxMatch;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+import play.libs.Json;
 import play.mvc.Result;
 import utils.Utils;
 
@@ -150,6 +151,49 @@ public class MatchController extends HecticusController {
             //build response
             ObjectNode response;
             response = tvmaxResponse("partidos_mundial",data);
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+	public static Result getActiveMatch(){
+        boolean active = false;
+        boolean wc = false;
+        int preWindow = 1;
+        int postWindow = 3;
+        String tz = "America/Panama";
+        try{
+            Calendar today = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            today.setTimeZone(TimeZone.getTimeZone(tz));
+            SimpleDateFormat like = new SimpleDateFormat("yyyyMMdd");
+            like.setTimeZone(TimeZone.getTimeZone(tz));
+            List<TvmaxMatch> fullList = TvmaxMatch.getBroadcastableMatchesByDate(like.format(today.getTime())+"%");
+            Calendar wcInit = new GregorianCalendar(2014,05,12);
+            wcInit.setTimeZone(TimeZone.getTimeZone(tz));
+            wc = today.after(wcInit);
+            if (fullList != null && !fullList.isEmpty()){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                sdf.setTimeZone(TimeZone.getTimeZone(tz));
+                for (int i = 0; i < fullList.size(); i++){
+                    TvmaxMatch act = fullList.get(i);
+                    Date dateStr = sdf.parse(act.getFormatedDate().trim());
+                    Calendar pre = new GregorianCalendar();
+                    Calendar post = new GregorianCalendar();
+                    pre.setTime(dateStr);
+                    pre.setTimeZone(TimeZone.getTimeZone(tz));
+                    pre.add(Calendar.HOUR_OF_DAY, -preWindow);
+                    post.setTime(dateStr);
+                    post.setTimeZone(TimeZone.getTimeZone(tz));
+                    post.add(Calendar.HOUR_OF_DAY, postWindow);
+                    active |= (today.after(pre) && today.before(post));
+                }
+            }
+            ObjectNode response = Json.newObject();
+            response.put("error", 0);
+            response.put("description", "ok");
+            response.put("live", active);
+            response.put("worldCupStarted", wc);
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
