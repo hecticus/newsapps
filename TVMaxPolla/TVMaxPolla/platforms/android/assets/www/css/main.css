@@ -376,26 +376,15 @@
 	
 	/*mam*/		
 
-	/*calendario*/	
 
-	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
 
-	body.content-calendario #wrapper,
-	body.content-calendario #wrapper2 { 
-		position: absolute;
-		z-index: 1; 
-		top: 120px; 
-		bottom: 0; 
-		left: 0; 
-		width: 100%; 
-		background: #fff;
-		
-	}
 
-	body.content-calendario figure {text-align: center; margin: 0 auto; padding: 5px;}
-	body.content-calendario figure img {width: 67px; height: 45px;}
-	body.content-calendario figcaption {
+
+	/*mam*/
+
+	body.content-resultados figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-resultados figure img {width: 67px; height: 45px;}
+	body.content-resultados figcaption {
 		text-align: center; 
 		line-height:20px; 
 		position:relative;
@@ -405,7 +394,33 @@
 	    background:none;
 	    text-shadow: none;
 	}
-	/*calendario*/
+
+	body.content-resultados #wrapperMaM2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 200px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+
+	body.content-resultados #wrapperMaM2 .scroller .container .row.event {
+		border-bottom: solid 1pt #E0E0E0; 
+	}
+	
+	/*mam*/	
+
+
+
+
+
+
+
+
+
+
 
 	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
 
@@ -454,6 +469,36 @@
 
 
 	/*calendario*/
+	
+	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+
+	body.content-calendario #wrapper,
+	body.content-calendario #wrapper2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 120px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+
+	body.content-calendario figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-calendario figure img {width: 67px; height: 45px;}
+	body.content-calendario figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
+	
+	
 	body.content-calendario .calendario-menu.container {
 		position: absolute; 
 		top:50px; 
@@ -470,6 +515,7 @@
 	body.content-calendario .calendario-menu.container .active {
 		color:#3E79C4;
 	}
+	
 
 	
 	body.content-calendario .name-month {
