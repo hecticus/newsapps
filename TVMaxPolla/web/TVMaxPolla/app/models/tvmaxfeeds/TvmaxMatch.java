@@ -194,6 +194,14 @@ public class TvmaxMatch extends HecticusModel {
                 .findList();
     }
 
+    public static List<TvmaxMatch> getBroadcastableMatchesByDate(String date){
+        return finder.where()
+                .eq("tvmax_broadcast", 1)
+                .like("formated_date", date)
+                .orderBy("external_id desc")
+                .findList();
+    }
+
     /********************** getters and setters **********************/
 
     public Long getIdTvnMatch() {

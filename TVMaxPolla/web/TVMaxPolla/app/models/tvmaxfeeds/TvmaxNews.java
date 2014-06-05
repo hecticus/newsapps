@@ -13,6 +13,7 @@ import utils.Utils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="tvmax_news")
-public class TvmaxNews extends HecticusModel {
+public class TvmaxNews extends HecticusModel implements Comparable<TvmaxNews> {
 
     @Id
     private Long idNews;
@@ -165,14 +166,14 @@ public class TvmaxNews extends HecticusModel {
     public static List<TvmaxNews> getAllLimitedByCategory(String category){
         return finder.where().or(
                 Expr.or(
-                        Expr.eq("category",category),
-                        Expr.eq("category2",category)
+                        Expr.eq("category", category),
+                        Expr.eq("category2", category)
                 ),
                 Expr.or(
-                        Expr.eq("category3",category),
-                        Expr.eq("category4",category)
+                        Expr.eq("category3", category),
+                        Expr.eq("category4", category)
                 )
-                ).setMaxRows(MAX_SIZE).findList();
+        ).setMaxRows(MAX_SIZE).findList();
     }
 
     public static List<TvmaxNews> getAllLimitedByCategoryV2(String category){
@@ -190,7 +191,7 @@ public class TvmaxNews extends HecticusModel {
 
     public static TvmaxNews getNewsById(String id){
         return finder.where()
-                .eq("externalId",id)
+                .eq("externalId", id)
                .orderBy("received_date desc").setMaxRows(1).findUnique();
     }
 
@@ -199,6 +200,7 @@ public class TvmaxNews extends HecticusModel {
         List<TvmaxNews> bottom = finder.where().eq("main", 0).orderBy("received_date desc").setMaxRows(OTHERS_MAX_SIZE).findList();
         top.addAll(bottom);
         bottom.clear();
+        Collections.sort(top);
         return top;
 //        return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
     }
@@ -303,6 +305,14 @@ public class TvmaxNews extends HecticusModel {
         return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
     }
 
+    /*********************/
+
+    @Override
+    public int compareTo(TvmaxNews o) {
+        long actual = Long.parseLong(this.receivedDate.replaceAll("[^A-Za-z0-9]", ""));
+        long other = Long.parseLong(o.getReceivedDate().replaceAll("[^A-Za-z0-9]", ""));
+        return (int)(actual - other);
+    }
 
     /********************** getters and setters **********************/
 
