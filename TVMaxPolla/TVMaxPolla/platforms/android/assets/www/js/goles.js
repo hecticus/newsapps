@@ -67,9 +67,13 @@
 		 			 
 		 			//var _caption = _jMatch.equipo_local + ' vs ' + _jMatch.equipo_visitante + '. ';
 		 			
-		 			var _caption = '<img src="img/flags/' + _fgetFlag(_jMatch.equipo_local) + '" alt="' + _jMatch.equipo_local + '" style="width:auto; height:20px; margin-right:5px; vertical-align:middle;"  />';
-		 			_caption += '-';
-		 			_caption += '<img src="img/flags/' + _fgetFlag(_jMatch.equipo_visitante) + '" alt="' + _jMatch.equipo_visitante + '" style="width:auto; height:20px; margin-left:5px; margin-right:5px; vertical-align:middle;"  />';
+		 			var _caption = ''; 
+		 			
+		 			if (_jSchedule) {
+		 				_caption = '<img onerror="this.style.display=\'none\'" src="img/flags/' + _fgetFlag(_jMatch.equipo_local) + '" alt="' + _jMatch.equipo_local + '" style="width:auto; height:20px; margin-right:5px; vertical-align:middle;"  />';
+		 				_caption += '-';
+		 				_caption += '<img onerror="this.style.display=\'none\'" src="img/flags/' + _fgetFlag(_jMatch.equipo_visitante) + '" alt="' + _jMatch.equipo_visitante + '" style="width:auto; height:20px; margin-left:5px; margin-right:5px; vertical-align:middle;"  />';	
+		 			} 
 		 					 			
 		 			_caption += _item.goleador;
 		 			_caption += ' de ' + _item.equipo;

@@ -2,7 +2,9 @@ package utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -208,4 +210,23 @@ public class Utils {
         //console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
         return Long.parseLong(YYYY+MM+DD+hh+mm+ss);
     }
+
+    public static String formatCalendarDate(String value, String tz) {
+        try {
+            Calendar today = new GregorianCalendar(Utils.APP_TIMEZONE);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM h:mm a");
+            sdf.setTimeZone(TimeZone.getTimeZone(tz));
+            Date dateStr = sdf.parse(value);
+            SimpleDateFormat aux = new SimpleDateFormat("yyyyMMddHHmmss");
+            aux.setTimeZone(TimeZone.getTimeZone(tz));
+            Calendar pre = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            pre.setTime(dateStr);
+            pre.setTimeZone(TimeZone.getTimeZone(tz));
+            pre.set(Calendar.YEAR, today.get(Calendar.YEAR));
+            return aux.format(pre.getTime());
+        }catch (Exception ex){
+            return "";
+        }
+    }
+
 }

@@ -4,11 +4,12 @@ import controllers.HecticusController;
 import models.tvmaxfeeds.TvmaxMatch;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+import play.libs.Json;
 import play.mvc.Result;
+import utils.Utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by sorcerer on 5/19/14.
@@ -80,4 +81,123 @@ public class MatchController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
+
+    public static Result getToday(){
+        try{
+            String date;
+            Calendar current = new GregorianCalendar(TimeZone.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM");
+            sdf.setTimeZone(Utils.APP_TIMEZONE);
+            date = sdf.format(current.getTime())+"%";
+
+            List<TvmaxMatch> fullList = TvmaxMatch.getMatchesByDate(date);
+            ArrayList data = new ArrayList();
+            if (fullList != null && !fullList.isEmpty()){
+                //i got data
+                for (int i = 0; i < fullList.size(); i++){
+                    data.add(fullList.get(i).toJson());
+                }
+            }
+            //build response
+            ObjectNode response;
+            response = tvmaxResponse("partidos_mundial",data);
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getActive(){
+        try{
+            String date;
+            Calendar current = new GregorianCalendar(TimeZone.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM");
+            sdf.setTimeZone(Utils.APP_TIMEZONE);
+            date = sdf.format(current.getTime())+"%";
+
+            List<TvmaxMatch> fullList = TvmaxMatch.getActiveMatchesByDate(date);
+            ArrayList data = new ArrayList();
+            if (fullList != null && !fullList.isEmpty()){
+                //i got data
+                for (int i = 0; i < fullList.size(); i++){
+                    data.add(fullList.get(i).toJson());
+                }
+            }
+            //build response
+            ObjectNode response;
+            response = tvmaxResponse("partidos_mundial",data);
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getResults(){
+        try{
+            String date;
+            Calendar current = new GregorianCalendar(TimeZone.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM");
+            sdf.setTimeZone(TimeZone.getTimeZone("America/Panama"));
+            date = sdf.format(current.getTime())+"%";
+
+            List<TvmaxMatch> fullList = TvmaxMatch.getFinisedMatchesByDate(date);
+            ArrayList data = new ArrayList();
+            if (fullList != null && !fullList.isEmpty()){
+                //i got data
+                for (int i = 0; i < fullList.size(); i++){
+                    data.add(fullList.get(i).toJson());
+                }
+            }
+            //build response
+            ObjectNode response;
+            response = tvmaxResponse("partidos_mundial",data);
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+	public static Result getActiveMatch(){
+        boolean active = false;
+        boolean wc = false;
+        int preWindow = 1;
+        int postWindow = 3;
+        String tz = "America/Panama";
+        try{
+            Calendar today = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            today.setTimeZone(TimeZone.getTimeZone(tz));
+            SimpleDateFormat like = new SimpleDateFormat("yyyyMMdd");
+            like.setTimeZone(TimeZone.getTimeZone(tz));
+            List<TvmaxMatch> fullList = TvmaxMatch.getBroadcastableMatchesByDate(like.format(today.getTime())+"%");
+            Calendar wcInit = new GregorianCalendar(2014,05,12);
+            wcInit.setTimeZone(TimeZone.getTimeZone(tz));
+            wc = today.after(wcInit);
+            if (fullList != null && !fullList.isEmpty()){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                sdf.setTimeZone(TimeZone.getTimeZone(tz));
+                for (int i = 0; i < fullList.size(); i++){
+                    TvmaxMatch act = fullList.get(i);
+                    Date dateStr = sdf.parse(act.getFormatedDate().trim());
+                    Calendar pre = new GregorianCalendar();
+                    Calendar post = new GregorianCalendar();
+                    pre.setTime(dateStr);
+                    pre.setTimeZone(TimeZone.getTimeZone(tz));
+                    pre.add(Calendar.HOUR_OF_DAY, -preWindow);
+                    post.setTime(dateStr);
+                    post.setTimeZone(TimeZone.getTimeZone(tz));
+                    post.add(Calendar.HOUR_OF_DAY, postWindow);
+                    active |= (today.after(pre) && today.before(post));
+                }
+            }
+            ObjectNode response = Json.newObject();
+            response.put("error", 0);
+            response.put("description", "ok");
+            response.put("live", active);
+            response.put("worldCupStarted", wc);
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ package models.pushevents;
  * Created by plesse on 5/27/14.
  */
 
+import com.avaje.ebean.Expr;
 import models.HecticusModel;
 import org.codehaus.jackson.node.ObjectNode;
 import play.data.validation.Constraints;
@@ -80,5 +81,24 @@ public class Category extends HecticusModel {
 //        }
 //        responseNode.put("clients", Json.toJson(clients));
         return responseNode;
+    }
+
+    public static Long getIdCategoryByName(String name){
+        Long tr = null;
+        if (name.equalsIgnoreCase("noticias destacadas") ||
+                name.equalsIgnoreCase("noticias generales") ||
+                name.equalsIgnoreCase("historia") ||
+                decode(name).equalsIgnoreCase("noticias destacadas") ||
+                decode(name).equalsIgnoreCase("noticias generales") ||
+                decode(name).equalsIgnoreCase("historia")){
+            tr = 46l; //categoria fija de noticias generales
+            return tr;
+        }
+
+        Category rs = finder.where().or(Expr.eq("name", name),Expr.eq("name",decode(name))).setMaxRows(1).findUnique();
+        if (rs != null){
+            tr = rs.getIdCategory();
+        }
+        return tr;
     }
 }

@@ -6,19 +6,26 @@
 	
 		var _html = '<div class="row" >';
 
-		$.each(_jGet.response, function(_index,_item) {			
-			//if (_item.ranking.length >= 1) {
+		$.each(_jGet.response, function(_index,_item) {
+
+			if ((_item.id_phases <= 9) && (_item.ranking.length >= 1)) {
+				
 				_html += '<div class="col-md-12">';	
 				_html += '<div class="table-responsive">';
 				_html += '<table class="table">';					
 				_html += '<thead>';
 				_html += '<tr>';	         				
+				
+				if (_item.id_phases == 13) {
+					_item.name = '3er. Lugar';
+				} 
+				
 				_html += '<th style="width:85%;">' + _item.name + '</th>';
 				_html += '<th style="width:2%;">J</th>';
 				_html += '<th style="width:2%;">G</th>';
 				_html += '<th style="width:2%;">E</th>';
 				_html += '<th style="width:2%;">P</th>';
-				_html += '<th style="width:5%;">Pts</th>';
+				_html += '<th style="width:5%;">PTS</th>';
 				_html += '</tr>';
 				_html += '</thead>';			
 				_html += '<tbody>';
@@ -48,7 +55,8 @@
 				_html += '</table>';
 				_html += '</div>';
 				_html += '</div>';
-			//}
+				
+			}
 		});
 		 
 		_html += '</div>';

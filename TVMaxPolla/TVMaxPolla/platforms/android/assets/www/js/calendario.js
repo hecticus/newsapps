@@ -1,6 +1,5 @@
 	
-	
-	
+
 	
 	var _team = false;
 
@@ -57,14 +56,13 @@
 			
 			if (eval(_expression)) {
 
-				_html += '<div class="row data-match" >';
-				
+				_html += '<div class="row" >';
 				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1.2em; margin-left:5px;">' +  _item.fecha_de_partido + '</span>';
+				_html += '<span style="font-size:1em; ">' +  _fgetFormatDateMatch(_item.fecha_de_partido) + '</span>';
 				_html += '</div>';
 								
 				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:right; color:#FFD455">';
-				_html += '<span style="font-size:1.2em; margin-right:5px;">' +  _item.fase + '</span>';
+				_html += '<span style="font-size:1em; ">' +  _item.fase + '</span>';
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
@@ -262,10 +260,8 @@
 
 		var _html = '<div class="row" >';
 		_html += '<div class="col-md-12">';
-
-		_html += '<div class="table-responsive" style="border:0;">';
-		
-		_html += '<table class="table table-striped">';
+		_html += '<div class="table-responsive" style="border:0;">';		
+		_html += '<table class="table">';
 				
 		_html += '<thead>';
 		_html += '<tr>';           

@@ -72,41 +72,11 @@
 		if (_this.data('index') == 'fb') {
 			loginByFacebook();
 		} else {
-						
-			var _jSMenu = false; 
-			var _return = false;
-			
-			$.each(_jMenu, function(_index,_menu) {
-				if (_menu.index == _this.data('index')) {	
-					_jSMenu = _menu;									
-					if(_menu.class == 'content-polla' || _menu.class == 'content-alertas'){
-						//revisamos si esta hay client data
-						if(loadClientData() == null){
-							navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
-							_return = true;
-						}
-					}
-					if (_return) return false;
-				}
-				
-				if (_return) return false;
-				
-			});
-			
-			if (_return) return false;
-			
-			$('body').removeClass();
-			$('body').addClass(_jSMenu.class);
-			$('main').empty();
-			$('main').data('index',_this.data('index'));	
-			$('.title').html('<span>' + _jSMenu.title + '</span>');						
-			$('main').load(_jSMenu.load);	
-			$('#wrapperM').attr('class','page transition left');
-			
-			
-			/*
-			
-			if(_jMenu[_this.data('index')].class == 'content-polla' || _jMenu[_this.data('index')].class == 'content-alertas'){
+								
+			if(_jMenu[_this.data('index')].class == 'content-polla' 
+				|| _jMenu[_this.data('index')].class == 'content-alertas' 
+				|| _jMenu[_this.data('index')].class == 'content-signin' 
+				|| _jMenu[_this.data('index')].class == 'content-signup' ){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -115,14 +85,15 @@
 			}
 			
 			
-			
 			$('body').removeClass();
 			$('body').addClass(_jMenu[_this.data('index')].class);
 			$('main').empty();
 			$('main').data('index',_this.data('index'));	
 			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
 			$('main').load(_jMenu[_this.data('index')].load);	
-			$('#wrapperM').attr('class','page transition left');*/
+			$('#wrapperM').attr('class','page transition left');
+
+			
 		}
 		
 		return false;
@@ -516,14 +487,6 @@
 		}
 
 	});
-
-
-
-
-
-
-
-
 	
 	$(document).on('click','.content-mam .row[data-match]', function(e) {
 		if(preventBadClick(e)){return false;}
@@ -539,16 +502,3 @@
 		_fRenderEvent($(this).data('match'));
 	});
 
-
-
-	$(document).on('touchend','.goal', function(e) {
-		preventBadClick(e);
-		eval($(this).data('function'));		
-		$('.goal').removeClass('active');	
-		$(this).addClass('active');
-		$('#wrapper2,#wrapper3').attr('class','page transition right');
-		myScroll.scrollTo(0,0,0);
-		myScroll2.scrollTo(0,0,0);
-		myScroll3.scrollTo(0,0,0);		
-	});
-		
