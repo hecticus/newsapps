@@ -1,8 +1,7 @@
 	//_fRenderGetInitTime('icon-minutoaminuto');
 
 	
-	var _lastMinute = 0;
-	var _lastEvent = 0;
+
 
 	var _jTeamMaM = {team_a:0, team_b:0}; 
 
@@ -15,10 +14,11 @@
 	};
 
 
-	var _fRenderEvent = function(_match) {
+	var _fRenderEvent = function(_match,_lastMinute,_lastEvent) {
 
 		var _html = '';
 		
+				
 		_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/1?last_minute=' + _lastMinute);
 		if (_oAjax) {
 					
@@ -73,10 +73,9 @@
 	
 		$('#wrapperMaM2 .scroller .container').prepend(_html);	
 		myScroll2.scrollTo(0,0,0);
-		
-	
+
 		_mTimeout = setTimeout(function() {	
-			_fRenderEvent(_match);				
+			_fRenderEvent(_match,_lastMinute,_lastEvent);				
 		}, 10000);
 	
 	};
@@ -147,7 +146,9 @@
 		});	
 
 		$('.refresh').data('match',_match);
-		$('.refresh').removeClass('hidden');
+		$('.refresh').removeClass('hidden');		
+		$('.tv').addClass('hidden');
+		
 		$('#wrapperMaM .container.header').empty();
 		$('#wrapperMaM .container.header').removeClass('hidden');
 		$('#wrapperMaM .container.header').append(_html);
@@ -155,7 +156,7 @@
 		$('#wrapperMaM2 .scroller .container').empty();
 		$('header .container .row .menu span').addClass('icon-back');
 		
-		_fRenderEvent(_match);
+		_fRenderEvent(_match,0,0);
 		
 		
 	};
@@ -244,6 +245,7 @@
 	};
 
 	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
+	//_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/today',false,false,true);
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			_jGet = _json.partidos_mundial;					
