@@ -64,8 +64,12 @@
 		 			
 		 		});	
 		 		
-		 		_lastMinute = _json.response[0].action_minute;
-		 		_lastEvent	= _json.response[0].id_game_matc_events;
+		 		
+		 		if (json.response[0]) {		 		
+		 			_lastMinute = _json.response[0].action_minute;
+		 			_lastEvent	= _json.response[0].id_game_matc_events;	
+		 		}
+		 		
 		 		
 			});
 		}

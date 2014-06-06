@@ -8,7 +8,7 @@
 
 		$.each(_jGet.response, function(_index,_item) {
 
-			if ((_item.id_phases <= 9) && (_item.ranking.length >= 1)) {
+			if (_item.ranking.length >= 1) {
 				
 				_html += '<div class="col-md-12">';	
 				_html += '<div class="table-responsive">';
@@ -57,6 +57,7 @@
 				_html += '</div>';
 				
 			}
+			
 		});
 		 
 		_html += '</div>';
