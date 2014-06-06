@@ -488,7 +488,7 @@
 
 	});
 	
-	$(document).on('click','.content-mam .row[data-match]', function(e) {
+	$(document).on('click','.content-mam .row[data-match], .content-resultados .row[data-match]', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent($(this).data('match'));			
