@@ -41,11 +41,13 @@
 		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: right; padding-top:5px; padding-bottom:5px;">';
 
 		 					_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:50px; height:50px; margin-left:5px; margin-right:5px;"  />';
+		 					_html += '<p>' + _event.action.description + '</p>';
+		 					
 			 				if ((_jTeamMaM.team_a == _event.team.ext_id ) ||  (_jTeamMaM.team_a == 0 )) {
 			 					_html += '<span>' + _event.player_a + '</span>';
 			 					_html += '<span>' + _event.player_b + '</span>';
 			 					_html += '<p>' + _event.action.description + '</p>';	
-			 				} 
+			 				}  
 			 					
 		 				_html += '</div>';
 		 				
@@ -56,6 +58,7 @@
 		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: left; padding-top:5px; padding-bottom:5px;">';
 		 				
 		 					_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:50px; height:50px; margin-left:5px; margin-right:5px;"  />';
+		 					_html += '<p>' + _event.action.description + '</p>';
 		 					
 		 					if ((_jTeamMaM.team_b == _event.team.ext_id ) ||  (_jTeamMaM.team_a == 0 )) {
 			 					_html += '<span>' + _event.player_a + '</span>';
