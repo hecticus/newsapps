@@ -91,10 +91,10 @@
 		width: 100%; 
 		height: 50px;
 		line-height: 50px;
-		background: #3E79C4;
+		background: #FFFFFF;
 		padding: 0;
 		margin: 0;
-		color: #FFFFFF;
+		color: #4D4D4D;
 		text-align: left;
 		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
@@ -471,7 +471,7 @@
 	/*calendario*/
 	
 	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	/*body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}*/
 
 	body.content-calendario #wrapper,
 	body.content-calendario #wrapper2 { 
@@ -695,6 +695,9 @@
 	.list-group-item-primary {
 	    color: rgb(255, 255, 255);
 	    background-color: rgb(66, 139, 202);
+	}
+	.countryButton{
+		
 	}
 	
 	/* DEMO ONLY - REMOVES UNWANTED MARGIN */

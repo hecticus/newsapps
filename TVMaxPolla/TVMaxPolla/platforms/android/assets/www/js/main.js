@@ -72,8 +72,27 @@ var _fSetBack = function() {
 	$('#wrapper2 .scroller .container').empty();
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
-	$('header .container .row .menu span').removeClass('icon-back');		
-	$('.tv').removeClass('hidden');
+	$('header .container .row .menu span').removeClass('icon-back');
+	
+	if (_jActive) {
+		
+		if (_jActive.live) {
+			$('header .container .row .tv').removeClass('hidden');
+		} else {
+			$('header .container .row .tv').addClass('hidden');
+		} 	
+		 	
+		if (_jActive.worldCupStarted) {
+			$('.worldcup').removeClass('hidden');
+			$('.preview').addClass('hidden');
+		}
+		
+	}	
+	
+	
+
+						
+
 	$('.menu-group').addClass('hidden');		
 	
 };
@@ -563,5 +582,43 @@ $.fPostAjaXJSON = function(_url, _data) {
 		
 	}
 	
+
+	setInterval(function(){
+		$(_jMenu).each(function(_index,_menu) {
+			_menu.json = false;
+		});
+	}, 300000);
+			
+	setInterval(function(){
+		_oAjax = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				
+				_jActive = _json;
+				
+				if ($('body').hasClass('content-home')) {
+					
+					if (_jActive) {
+						
+						if (_jActive.live) {
+							$('header .container .row .tv').removeClass('hidden');
+						} else {
+							$('header .container .row .tv').addClass('hidden');
+						} 							
+						
+						if (_jActive.worldCupStarted) {
+							$('.worldcup').removeClass('hidden');
+							$('.preview').addClass('hidden');
+						}
+	
+					}
+				}
+		
+			});
+		}
+	},60000);
+    
+   
+		
 			
 	

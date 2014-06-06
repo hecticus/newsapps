@@ -330,7 +330,7 @@
 		try{e.preventDefault();}catch(ex){}
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
-		console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
+		//console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
 		if(lastClicked != 0 &&  getCurrentTimeMillis()-lastClicked  < 500){
 			//lastClicked = getCurrentTimeMillis();
 			return true;
@@ -488,7 +488,7 @@
 
 	});
 	
-	$(document).on('click','.content-mam .row[data-match]', function(e) {
+	$(document).on('click','.content-mam .row[data-match], .content-resultados .row[data-match]', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent($(this).data('match'));			

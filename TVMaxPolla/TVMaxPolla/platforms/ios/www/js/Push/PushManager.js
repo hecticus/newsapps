@@ -138,7 +138,8 @@ function updateDeviceToServer(){
 	//console.log("revisando version");
 	try {	
 		//Actualizamos tambien las categorias de push
-		updatePushCategoriesToServer();
+		//updatePushOptionsToServer();
+		getClientPushOptions(doNothing,doNothing,true);
 		
 		if(regID != null && regID != ""){
 			var currentRegID = loadRegID();

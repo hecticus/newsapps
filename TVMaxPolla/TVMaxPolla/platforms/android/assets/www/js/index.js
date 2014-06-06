@@ -24,6 +24,8 @@ var _jSchedule = false;
 var pushInterval;
 var newsPushInterval;
 var newsReadyForPush = false;
+var _jActive = false;
+
 
 				 
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
@@ -74,6 +76,17 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
+    	
+    	
+    	
+    	
+    	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {				
+				_jActive = _json;				
+			});
+		}
+    	
     	
 		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,false);	
 		if (_oAjax) {
@@ -253,14 +266,7 @@ var app = {
 		setIOSSplashes();
     	initPage();
     	checkVersion();
-    	initPush();
-    	
-	    setInterval(function(){
-			$(_jMenu).each(function(_index,_menu) {
-				_menu.json = false;
-			});
-		}, 300000);
-    	
+    	initPush();    		
     }
 };
 
@@ -274,7 +280,7 @@ function executePushInit(extra_params){
 	    	}
 
 			_fSetBack();
-			var index = 2;
+			var index = 4;
 			
 			
 			if(_jMenu[index].class == 'content-polla' 
