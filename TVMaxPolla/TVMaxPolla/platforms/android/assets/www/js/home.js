@@ -94,8 +94,12 @@
 
 
 		//row
-
-		_html += '<div class="row worldcup hidden">';
+		if (isMundialOn) {
+			_html += '<div class="row worldcup">';
+		}else{
+			_html += '<div class="row worldcup hidden">';
+		}
+		
 
 			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="5"  >';
 	
@@ -137,8 +141,12 @@
 		
 		_html += '</div>';
 
-
-		_html += '<div class="row preview ">';						
+		if (isMundialOn) {
+			_html += '<div class="row preview hidden">';
+		}else{
+			_html += '<div class="row preview ">';
+		}
+								
 
 			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="10"  >';
 	
