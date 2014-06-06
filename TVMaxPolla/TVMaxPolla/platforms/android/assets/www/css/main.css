@@ -545,7 +545,8 @@
 	/*calendario*/
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-history .row div.history,	 	
+	body.content-history .row div.history,
+	body.content-alertas .row div.teams-alerts, 	
 	body.content-teams .row div.teams {
 		height: 100px; 
 		line-height: 100px; 
@@ -562,6 +563,11 @@
 		color:#4D4D4D;
 	}
 	
+
+	body.content-alertas .row div.teams-alerts {
+		background:#FFFFFF;
+		border-bottom: solid 1pt #E0E0E0;
+	}
 
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
@@ -589,6 +595,7 @@
 		
 	body.content-history .row div.history span:last-child,
 	body.content-players .row div.player span:last-child,
+	body.content-alertas .row div.teams-alerts span:last-child,
 	body.content-teams .row div.teams span:last-child {
 		margin-left: 5px;
 	}
@@ -705,6 +712,12 @@
 	    margin-bottom: 0px;
 	}*/
 	
+	
+	.opacity img {
+		opacity: 0.4; 
+		filter: alpha(opacity=40);	
+	}
+	 
 	
 	
 	

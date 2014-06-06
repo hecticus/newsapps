@@ -1,3 +1,51 @@
+
+
+	var _fRenderDataContent = function(_url) {
+	  
+		var _html = '<div class="row" >';
+
+		$.each(_jAfpTeamsIds.teams, function(_index,_team) {
+				
+			var _opacity = 'opacity';		
+			$.each(_jAlert.teams, function(_index,_id) {
+				if (_id == _team.ext_id) _opacity = '';
+			});
+			
+			_html += '<div class="col-md-12 teams-alerts ' + _opacity + '" data-id="' + _team.ext_id + '" >';	
+				_html += '<img  onerror="this.style.display=\'none\'" src="img/flags/' + _team.flag + '" alt="' +_team.name + '" style="width:20%;  height:auto; max-width:67px; max-height:45px; vertical-align:middle;"  />';		
+				_html += '<span>' + _team.name + '</span>';							    	
+		 	_html += '</div>';
+		 	
+		});
+
+	
+		_html += '</div>';
+		
+		
+		$('#wrapper2 .scroller .container').empty();
+		$('#wrapper2 .scroller .container').append(_html);
+		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
+		myScroll2.scrollTo(0,0,0);
+		
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //_fRenderGetInitTime('icon-alertas');
 
 var newClientCountriesAlerts;
@@ -42,7 +90,7 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
                 }
             };
             
-        $widget.css('cursor', 'pointer')
+        $widget.css('cursor', 'pointer');
         $widget.append($checkbox);
 
         // Event Handlers
@@ -145,7 +193,8 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 	    navigator.notification.activityStart("Guardando alertas", "Guardando...");
 	    setNewPushOptionsToServer(newClientCountriesAlerts, newClientActionsAlerts, alertSaveComplete, alertSaveFail);
 	});
-	$('.countryButton').on('click', function(e) {
+	
+	/*$('.countryButton').on('click', function(e) {
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		var sendButton = $(e.target);
@@ -156,7 +205,7 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 			console.log("Agregar country");
 		}
 	    
-	});
+	});*/
 	//END TOUCH
 }
 
@@ -170,14 +219,27 @@ function renderInitAlerts() {
 	var _html = '<div class="row">';
 	_html += '<div class="col-xs-12">';
 	_html += '<h3 class="text-center">Paises favoritos</h3>';
-	for(var i=0;i<4;i++){
+	
+	/*for(var i=0;i<4;i++){
 		if(currentClientCountries.lenght>0 && currentClientCountries<i){
 			var country = getCountryByCategoryID(currentClientCountries[i]);
 			_html += '<button data-value="'+country.id_category+'" class="btn btn-primary col-xs-12 countryButton" id="country_button_"'+i+' style="margin-top:5%; width:80%;left:10%;">'+country.name+'</button>';
 		}else{
 			_html += '<button data-value="-1" class="btn btn-primary col-xs-12 countryButton" id="country_button_"'+i+' style="margin-top:5%; width:80%;left:10%;">Agregar</button>';
 		}
-	}
+	}*/
+	
+	
+			
+			
+
+	_html += '<div id="equipos"  class="row">';
+	_html += '</div>';			
+	
+	
+	_html += '<button data-value="-1" class="btn btn-primary col-xs-12 countryButton"  style="margin-top:5%; width:80%;left:10%;">Agregar</button>';
+	
+	_html += '<br />';
 	
 	_html += '<h3 class="text-center">Alertas</h3>';
 	//_html += '<div class="well" style="max-height: 300px;overflow: auto;">';
