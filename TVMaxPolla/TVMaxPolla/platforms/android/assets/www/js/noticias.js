@@ -68,8 +68,7 @@
 				_html += '</div>';				
 				
 				$('.tv').addClass('hidden');		
-				$('.share').removeClass('hidden');		
-				
+				$('.share').removeClass('hidden');						
 				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://mundial.tvmax-9.com/noticias/' + _item.id + '/' + _item.id + '\');');
 				
 			}

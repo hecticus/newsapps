@@ -311,7 +311,7 @@ public class TvmaxNews extends HecticusModel implements Comparable<TvmaxNews> {
     public int compareTo(TvmaxNews o) {
         long actual = Long.parseLong(this.receivedDate.replaceAll("[^A-Za-z0-9]", ""));
         long other = Long.parseLong(o.getReceivedDate().replaceAll("[^A-Za-z0-9]", ""));
-        return (int)(actual - other);
+        return (int)(other - actual);
     }
 
     /********************** getters and setters **********************/
