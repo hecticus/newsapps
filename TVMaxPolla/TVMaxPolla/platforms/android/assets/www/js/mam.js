@@ -26,11 +26,11 @@
 		var _html = '';
 			
 		if (_event.team.ext_id  == 0 ) {		 				
-			_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
+			_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:35px; height:auto; margin-left:5px; margin:5px;"  />';
 			_html += '<p>' + _event.action.description + '</p>';
 		} else if (_team == _event.team.ext_id ) {
 			
-			_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';			 					
+			_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:35px; height:auto; margin-left:5px; margin:5px;"  />';			 					
 			_html += '<p style="font-weight:bold;">' + _event.action.description + '</p>';
 						
 			if (_event.action.mnemonic == 'SUBS') {
@@ -59,8 +59,12 @@
 					
 				$('.goal-' + _jTeamMaM.team_a).html(_json.home_goals);
 				$('.goal-' + _jTeamMaM.team_b).html(_json.away_goals);
+
+		
 						
 				$.each(_json.response, function(_index,_event) {
+
+					
 
 
 					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
@@ -98,7 +102,7 @@
 
 		_mTimeoutMaM = setTimeout(function() {	
 			_fRenderEvent(_match,_lastMinute,_lastEvent);				
-		}, 10000);
+		}, 60000);
 	
 	};
 	
