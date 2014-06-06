@@ -238,6 +238,21 @@ public class CategoriesWS extends HecticusController {
                     a.delete();
                 }
                 actCl.clear();
+
+                acts = jsonInfo.get("categories").getElements();
+                long creationTime = System.currentTimeMillis();
+                while(acts.hasNext()){
+                    JsonNode actual = acts.next();
+                    Long idCategory = actual.get("category").asLong();
+                    Category category = Category.finder.byId(idCategory);
+                    if(category != null){
+                        CategoryClient act = CategoryClient.finder.where().eq("idClient", idClient).eq("id_category", idCategory).findUnique();
+                        if(act == null){
+                            act = new CategoryClient(idClient, category, creationTime);
+                            act.save();
+                        }
+                    }
+                }
             }
             if(jsonInfo.has("actions")){
                 Iterator<JsonNode> acts = jsonInfo.get("actions").getElements();
@@ -251,6 +266,20 @@ public class CategoriesWS extends HecticusController {
                     a.delete();
                 }
                 actCl.clear();
+
+                acts = jsonInfo.get("actions").getElements();
+                while(acts.hasNext()){
+                    JsonNode actual = acts.next();
+                    Long idAction = actual.get("action").asLong();
+                    Action action = Action.finder.byId(idAction);
+                    if(action != null){
+                        ClientAction act = ClientAction.finder.where().eq("idClient", idClient).eq("id_action", idAction).findUnique();
+                        if(act == null){
+                            act = new ClientAction(idClient, action);
+                            act.save();
+                        }
+                    }
+                }
             }
             return ok(hecticusResponseSimple(0,"ok", null,null));
         } catch (Exception e){
