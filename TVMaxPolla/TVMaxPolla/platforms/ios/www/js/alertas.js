@@ -173,12 +173,12 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 	    var checkedItems = {}, counter = 0;
-	    console.log("Paso por boton de save");
+	    //console.log("Paso por boton de save");
 	    newClientActionsAlerts = [];
 	    //Obtenemos las acciones
 	    $("#check-list-box li.active").each(function(idx, li) {
 	        checkedItems[counter] = $(li).text();
-	        console.log("ID FROM: "+checkedItems[counter]+" ID:"+$(li).data("value"));
+	        //console.log("ID FROM: "+checkedItems[counter]+" ID:"+$(li).data("value"));
 	        newClientActionsAlerts.push($(li).data("value"));
 	        counter++;
 	    });
@@ -187,7 +187,7 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 	    newClientCountriesAlerts = [];
 	
 		$.each(_jAlert.teams, function(_index,_id) {
-			console.log("COUNTRY: "+_id+" ID: "+JSON.stringify(getCategoryIDByCountryCode(_id)));
+			//console.log("COUNTRY: "+_id+" ID: "+JSON.stringify(getCategoryIDByCountryCode(_id)));
 			var obj = getCategoryIDByCountryCode(_id);
 			newClientCountriesAlerts.push(obj.id_category);
 		});
@@ -295,7 +295,8 @@ function alertSaveComplete(){
 function errorRenderAlerts(){
 	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
-	console.log("Paso por el error de RENDER ALERTS");
+	//console.log("Paso por el error de RENDER ALERTS");
+	navigator.notification.alert("Error cargando las alertas", doNothing, "Alerta", "OK");
 }
 
 function initAlertPage(){
@@ -312,7 +313,7 @@ function initAlertPage(){
 		var obj = getCountryByCategoryID(newClientCountriesAlerts[i]);
 		_jAlert.teams.push(obj.id_team);
 	}
-	console.log("ALERTAS!!! "+JSON.stringify(_jAlert)+" LOADED: "+JSON.stringify(newClientCountriesAlerts));
+	//console.log("ALERTAS!!! "+JSON.stringify(_jAlert)+" LOADED: "+JSON.stringify(newClientCountriesAlerts));
 	renderInitAlerts();	
 
 }
