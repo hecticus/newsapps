@@ -1,7 +1,7 @@
 	//_fRenderGetInitTime('icon-minutoaminuto');
 
 	
-
+	var _matchHasFinished;
 
 	var _jTeamMaM = {team_a:0, team_b:0}; 
 
@@ -50,7 +50,7 @@
 
 
 	var _fRenderEvent = function(_match,_lastMinute,_lastEvent) {
-		
+		if(_matchHasFinished) return;
 		_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/1?last_minute=' + _lastMinute);
 		if (_oAjax) {
 					
@@ -64,7 +64,9 @@
 						
 				$.each(_json.response, function(_index,_event) {
 
-					
+					if(_event.action.mnemonic == 'FNLBLW'){
+						_matchHasFinished = true;
+					}	
 
 
 					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
@@ -102,7 +104,7 @@
 
 		_mTimeoutMaM = setTimeout(function() {	
 			_fRenderEvent(_match,_lastMinute,_lastEvent);				
-		}, 60000);
+		}, 30000);
 	
 	};
 	

@@ -245,9 +245,9 @@ function renderInitAlerts() {
 	
 	_html += '<button data-value="-1" class="btn btn-primary col-xs-12 countryButton"  style="margin-top:5%; width:80%;left:10%;">Agregar</button>';
 	
-	_html += '<br />';
+	_html += '<br>';
 	
-	_html += '<h3 class="text-center">Alertas</h3>';
+	_html += '<h3 class="text-center col-xs-12">Alertas</h3>';
 	//_html += '<div class="well" style="max-height: 300px;overflow: auto;">';
 		_html += '<ul id="check-list-box" class="list-group checked-list-box">';
 		cantCategories = 0;

@@ -160,72 +160,60 @@
 		var _oDate = new Date();
 		var _day = _oDate.getDate();
 		var _month = _oDate.getMonth();
-		
-		_day = 12;
 
 		$.each(_jGet.item, function(_index,_item) {
+		
+			_html += '<div class="row data-match" data-match="' + _item.id_del_partido + '" >';
 			
-			var _iDate = _item.fecha_de_partido.split('/');
-			var _iMonth = _iDate[1].toString().split(' ');			
-			_iMont = _iMonth[0];						
-			_iDate = parseInt(_iDate[0]);
+			_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style=" background:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
+			_html += '<span style="font-size:1em; ">' +  _item.fecha_de_partido + '</span>';
+			_html += '</div>';
+							
+			_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4; height:40px; line-height:40px; text-align:right; color:#FFD455">';
+			_html += '<span style="font-size:1em; margin-right:5px;">' +  _item.fase + '</span>';
+			_html += '</div>';
 			
-
-			
-			if ((_iDate == _day) && (_iMont == _aMonth[_month])) {
-
-				_html += '<div class="row data-match" data-match="' + _item.id_del_partido + '" >';
-				
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style=" background:#3E79C4; height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1em; ">' +  _item.fecha_de_partido + '</span>';
-				_html += '</div>';
-								
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4; height:40px; line-height:40px; text-align:right; color:#FFD455">';
-				_html += '<span style="font-size:1em; margin-right:5px;">' +  _item.fase + '</span>';
-				_html += '</div>';
-				
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
-				_html += '<span>' +  _item.sede + ' </span>';
-				_html += '</div>';
-
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
-				_team = _fGetAfpTeam(_item.equipo_local_ext_id);
-				 
-				if (_team.shortname) {
-					_html += _fGetImage({src: _team.flag, caption: _team.shortname});	
-				} else {
-					_html += '<span style="margin-left: 5px; font-weight:bold;">' + _item.equipo_local + '</span>';
-				}
-				
-				_html += '</div>';
-			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
-				_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
-				_html += '</div>';
-				
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
-				_team = _fGetAfpTeam(_item.equipo_visitante_ext_id);
-				 
-				if (_team.shortname) {
-					_html += _fGetImage({src: _team.flag, caption: _team.shortname});	
-				} else {
-					_html += '<span style="margin-right: 5px; font-weight:bold;">' + _item.equipo_visitante + '</span>';
-				}
-								
-				_html += '</div>';		
-								
-				_html += '</div>';
-
+			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
+			_html += '<span>' +  _item.sede + ' </span>';
+			_html += '</div>';
+	
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
+			_team = _fGetAfpTeam(_item.equipo_local_ext_id);
+			 
+			if (_team.shortname) {
+				_html += _fGetImage({src: _team.flag, caption: _team.shortname});	
+			} else {
+				_html += '<span style="margin-left: 5px; font-weight:bold;">' + _item.equipo_local + '</span>';
 			}
+			
+			_html += '</div>';
+		
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
+			_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
+			_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
+			_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
+			_html += '</div>';
+			
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
+			_team = _fGetAfpTeam(_item.equipo_visitante_ext_id);
+			 
+			if (_team.shortname) {
+				_html += _fGetImage({src: _team.flag, caption: _team.shortname});	
+			} else {
+				_html += '<span style="margin-right: 5px; font-weight:bold;">' + _item.equipo_visitante + '</span>';
+			}
+							
+			_html += '</div>';		
+							
+			_html += '</div>';
+
 			
 		});
 			
 		if (_html == '') {
 			_html = '<div class="row" >';
 			_html += '<div class="col-md-12" style="text-align:center;" >';
-			_html += '<h4>&#161;Para hoy no hay juegos programados!</h4>';
+			_html += '<h4>&#161; No hay juegos programados para hoy!</h4>';
 			_html += '<span class="icon-resultados" style="font-size: 12em;"></span>';
 			_html += '</div>';
 			_html += '</div>';
