@@ -270,9 +270,12 @@ var app = {
     }
 };
 
+var pushHasExecuted = false;
 function executePushInit(extra_params){
 	pushInterval = window.setInterval(function(){
 		if(_homeWasShowed){
+			if(pushHasExecuted){return;}
+			pushHasExecuted = true;
 			clearTimeout(_mTimeout);			
 			
 			if(_oAjax && _oAjax.readystate != 4) {

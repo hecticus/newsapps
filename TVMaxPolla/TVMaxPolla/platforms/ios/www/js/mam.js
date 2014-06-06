@@ -15,6 +15,7 @@
 
 
 	var _fRenderEvent = function(_match,_lastMinute,_lastEvent) {
+		
 
 		var _html = '';
 		
@@ -26,15 +27,24 @@
 					
 							
 				$.each(_json.response, function(_index,_event) {
+					var _mnemonic = ''; 
+					_mnemonic = _event.action.mnemonic;
+					var _icon = _mnemonic.toString().toLowerCase();
+					_icon = 'img/mam/' + _icon + '.png';
 					
-					
-					if ((_lastEvent > _event.id_game_matc_events) && (_event.action.mnemonic != 'PRVW')) {
+					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
 						
 						_html += '<div class="row event" >';
 		 					 			
+		 					 			
+		 					 			
 		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: right; padding-top:5px; padding-bottom:5px;">';
-		 			
-			 				if (_jTeamMaM.team_a == _event.team.ext_id ) {
+
+		 					if (_event.team.ext_id  == 0 ) {		 				
+		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
+		 						_html += '<p>' + _event.action.description + '</p>';
+		 					} else if (_jTeamMaM.team_a == _event.team.ext_id ) {
+		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
 			 					_html += '<span>' + _event.player_a + '</span>';
 			 					_html += '<span>' + _event.player_b + '</span>';
 			 					_html += '<p>' + _event.action.description + '</p>';	
@@ -48,7 +58,11 @@
 		 						 				
 		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: left; padding-top:5px; padding-bottom:5px;">';
 		 				
-		 					if (_jTeamMaM.team_b == _event.team.ext_id ) {
+		 					if (_event.team.ext_id  == 0 ) {		 				
+		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
+		 						_html += '<p>' + _event.action.description + '</p>';
+		 					} else if (_jTeamMaM.team_b == _event.team.ext_id ) {
+		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
 			 					_html += '<span>' + _event.player_a + '</span>';
 			 					_html += '<span>' + _event.player_b + '</span>';
 			 					_html += '<p>' + _event.action.description + '</p>';	
@@ -65,10 +79,10 @@
 		 		});	
 		 		
 		 		
-				if (_json.response[0]) {	 		
-		 			_lastMinute = _json.response[0].action_minute;
-		 			_lastEvent	= _json.response[0].id_game_matc_events;	
-		 		}
+
+		 		_lastMinute = _json.response[0].action_minute;
+		 		_lastEvent	= _json.response[0].id_game_matc_events;	
+		 		
 		 		
 		 		
 			});
