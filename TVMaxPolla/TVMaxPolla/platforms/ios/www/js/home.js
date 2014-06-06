@@ -93,101 +93,93 @@
 		}
 
 
-		
-
-	
-	
-
-		//row	
-		_html += '<div class="row">';						
-
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="10"  >';
-
-			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-alertas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" >Alertas</span>';
-			_html += '</div>';	
-
-		_html += '</div>';
-
-
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="13"  >';
-		
-			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-estrellas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" >Leyendas</span>';
-			_html += '</div>';	
-
-		_html += '</div>';
-
-
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="12" >';	
-		
-			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-equipo" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" >Equipos</span>';
-			_html += '</div>';	
-						
-		_html += '</div>';
-	
-		
-
-		_html += '</div>';	
 		//row
 
+		_html += '<div class="row worldcup hidden">';
 
-
-		//row						
-		_html += '<div class="row">';
-
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="5"  >';
-
-			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-clasificacion" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" style="font-size:0.8em" >Clasificaci&oacute;n</span>';
-			_html += '</div>';	
-
-		_html += '</div>';
-
-
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="1"  >';
-		
-			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-resultados" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" >Resultados</span>';
-			_html += '</div>';	
-
-		_html += '</div>';
-
-
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="2" >';	
-		
-			_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-goles_menu" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" >Goles</span>';
-			_html += '</div>';	
-						
-		_html += '</div>';
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="5"  >';
+	
+				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
+					_html += '<span class="icon-clasificacion" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
+				_html += '</div>';
 			
+				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+					_html += '<span class="'+homeTextClass+'" style="font-size:0.8em" >Clasificaci&oacute;n</span>';
+				_html += '</div>';	
+	
+			_html += '</div>';
+	
+	
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="1"  >';
+			
+				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
+					_html += '<span class="icon-resultados" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
+				_html += '</div>';
+			
+				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+					_html += '<span class="'+homeTextClass+'" >Resultados</span>';
+				_html += '</div>';	
+	
+			_html += '</div>';
+	
+	
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="2" >';	
+			
+				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
+					_html += '<span class="icon-goles_menu" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
+				_html += '</div>';
+			
+				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+					_html += '<span class="'+homeTextClass+'" >Goles</span>';
+				_html += '</div>';	
+							
+			_html += '</div>';
+		
 		_html += '</div>';
+
+
+		_html += '<div class="row preview ">';						
+
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="10"  >';
+	
+				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
+					_html += '<span class="icon-alertas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
+				_html += '</div>';
+			
+				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+					_html += '<span class="'+homeTextClass+'" >Alertas</span>';
+				_html += '</div>';	
+	
+			_html += '</div>';
+	
+	
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="13"  >';
+			
+				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
+					_html += '<span class="icon-estrellas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
+				_html += '</div>';
+			
+				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+					_html += '<span class="'+homeTextClass+'" >Leyendas</span>';
+				_html += '</div>';	
+	
+			_html += '</div>';
+	
+	
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="12" >';	
+			
+				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
+					_html += '<span class="icon-equipo" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
+				_html += '</div>';
+			
+				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
+					_html += '<span class="'+homeTextClass+'" >Equipos</span>';
+				_html += '</div>';	
+							
+			_html += '</div>';
+
+		_html += '</div>';
+		
 		//row
 
 

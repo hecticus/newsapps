@@ -28,7 +28,7 @@
 				$.each(_json.response, function(_index,_event) {
 					
 					
-					if (_lastEvent != _event.id_game_matc_events) {
+					if ((_lastEvent > _event.id_game_matc_events) && (_event.action.mnemonic != 'PRVW')) {
 						
 						_html += '<div class="row event" >';
 		 					 			
@@ -65,7 +65,7 @@
 		 		});	
 		 		
 		 		
-		 		if (json.response[0]) {		 		
+				if (_json.response[0]) {	 		
 		 			_lastMinute = _json.response[0].action_minute;
 		 			_lastEvent	= _json.response[0].id_game_matc_events;	
 		 		}

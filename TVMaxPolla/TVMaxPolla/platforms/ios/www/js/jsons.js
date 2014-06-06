@@ -3,6 +3,8 @@
 	//var _aDay = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes','Sabado'];
 	var _aDay = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie','Sab'];
 
+	var _jAlert = {teams:[]};
+
 
 	var _jPhase = [
 		{name:'Grupo A', bgcolor:'#64C2BC'},

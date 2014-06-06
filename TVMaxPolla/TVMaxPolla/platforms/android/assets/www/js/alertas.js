@@ -185,6 +185,13 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 	    
 	    //obtenemos los paises
 	    newClientCountriesAlerts = [];
+	
+		$.each(_jAlert.teams, function(_index,_id) {
+			console.log("COUNTRY: "+_id+" ID: "+JSON.stringify(getCategoryIDByCountryCode(_id)));
+			var obj = getCategoryIDByCountryCode(_id);
+			newClientCountriesAlerts.push(obj.id_category);
+		});
+
 	    
 	    //mandamos a salvar la data
 	    /*if(checkIfPushConfigsChanged(newClientCountriesAlerts, newClientActionsAlerts)){
@@ -299,7 +306,14 @@ function initAlertPage(){
 	//newClientCategoriesAlerts = currentClientCategories.slice(0);
 	newClientActionsAlerts = currentClientActions.slice(0);
 	
-	renderInitAlerts();
+	//set Country data from WS
+	_jAlert.teams = [];
+	for(var i=0;i<newClientCountriesAlerts.length;i++){
+		var obj = getCountryByCategoryID(newClientCountriesAlerts[i]);
+		_jAlert.teams.push(obj.id_team);
+	}
+	console.log("ALERTAS!!! "+JSON.stringify(_jAlert)+" LOADED: "+JSON.stringify(newClientCountriesAlerts));
+	renderInitAlerts();	
 
 }
 //window.plugins.spinnerDialog.show();

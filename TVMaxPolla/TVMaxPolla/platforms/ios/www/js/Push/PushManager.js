@@ -115,7 +115,7 @@ function successPushHandler (result) {
 }
 
 function errorPushHandler (error) {
-    console.log('<li>error:'+ error +'</li>');
+    //console.log('<li>error:'+ error +'</li>');
 }
 
 var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";

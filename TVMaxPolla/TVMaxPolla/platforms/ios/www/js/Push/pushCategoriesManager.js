@@ -31,6 +31,15 @@ function getCountryByCategoryID(catID){
 	return null;
 }
 
+function getCategoryIDByCountryCode(countryCode){
+	for(var i=0;i<pushCountriesIndexes.length;i++){
+		if(pushCountriesIndexes[i].id_team == countryCode){
+			return pushCountriesIndexes[i];
+		}
+	}
+	return null;
+}
+
 function savePushOptions(pushOptions) {
 	try{
 		window.localStorage.setItem(FILE_KEY_PUSH_OPTIONS,JSON.stringify(pushOptions));
@@ -280,9 +289,18 @@ function getClientPushOptions(successFunction, errorFunction, firstTime){
 }
 
 function isCategoryIndex(catID){
-	for(var i=0;i<pushCategoryIndexes.length;i++){
+	/*for(var i=0;i<pushCategoryIndexes.length;i++){
 		if(pushCategoryIndexes[i].id_category == catID){
 			return true;
+		}
+	}*/
+	for(var i=0;i<pushCategoryIndexes.length;i++){
+		if(pushCategoryIndexes[i].id_category == catID){
+			if(pushCategoryIndexes[i].id_team == null || pushCategoryIndexes[i].id_team == ""){
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
 	return false;

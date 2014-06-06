@@ -312,9 +312,7 @@ function executePushInit(extra_params){
 			
 			
 			if(_jMenu[index].class == 'content-polla' 
-				|| _jMenu[index].class == 'content-alertas' 
-				|| _jMenu[index].class == 'content-signin' 
-				|| _jMenu[index].class == 'content-signup') {
+				|| _jMenu[index].class == 'content-alertas') {
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");

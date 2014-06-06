@@ -1,4 +1,7 @@
-
+*:not(input):not(textarea) {
+-webkit-user-select: none; /* disable selection/Copy of UIWebView */
+-webkit-touch-callout: none; /* disable the IOS popup when long-press on a link */
+}
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 	html { -ms-touch-action: none; }			
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
@@ -91,14 +94,15 @@
 		width: 100%; 
 		height: 50px;
 		line-height: 50px;
-		background: #3E79C4;
+		background: #FFFFFF;
 		padding: 0;
 		margin: 0;
-		color: #FFFFFF;
+		color: #4D4D4D;
 		text-align: left;
 		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
 		display: none;
+		font-size: 0.9em;
 		
 		
 	}
@@ -471,7 +475,7 @@
 	/*calendario*/
 	
 	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	/*body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}*/
 
 	body.content-calendario #wrapper,
 	body.content-calendario #wrapper2 { 
@@ -545,7 +549,8 @@
 	/*calendario*/
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-history .row div.history,	 	
+	body.content-history .row div.history,
+	body.content-alertas .row div.teams-alerts, 	
 	body.content-teams .row div.teams {
 		height: 100px; 
 		line-height: 100px; 
@@ -562,6 +567,11 @@
 		color:#4D4D4D;
 	}
 	
+
+	body.content-alertas .row div.teams-alerts {
+		background:#FFFFFF;
+		border-bottom: solid 1pt #E0E0E0;
+	}
 
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
@@ -589,6 +599,7 @@
 		
 	body.content-history .row div.history span:last-child,
 	body.content-players .row div.player span:last-child,
+	body.content-alertas .row div.teams-alerts span:last-child,
 	body.content-teams .row div.teams span:last-child {
 		margin-left: 5px;
 	}
@@ -705,6 +716,12 @@
 	    margin-bottom: 0px;
 	}*/
 	
+	
+	.opacity img {
+		opacity: 0.4; 
+		filter: alpha(opacity=40);	
+	}
+	 
 	
 	
 	

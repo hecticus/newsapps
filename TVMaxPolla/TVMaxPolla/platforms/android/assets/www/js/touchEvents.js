@@ -516,7 +516,7 @@
 		if ($(this).hasClass('opacity')) {
 			
 			if (_jAlert.teams.length == 4) {
-				navigator.notification.alert("No puede seleccionar m·s de 4 paÌses", doNothing, "Alertas", "OK");
+				navigator.notification.alert("No puede seleccionar m√°s de 4 pa√≠ses", doNothing, "Alertas", "OK");
 				return false;
 			} else{
 				$(this).removeClass('opacity');

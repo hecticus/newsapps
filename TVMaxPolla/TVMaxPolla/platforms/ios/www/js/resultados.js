@@ -19,7 +19,7 @@
 
 		var _html = '';
 		
-		_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/1?last_minute=' + _lastMinute);
+		_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/1');
 		if (_oAjax) {
 					
 			_oAjax.done(function(_json) {
@@ -73,11 +73,6 @@
 	
 		$('#wrapperMaM2 .scroller .container').prepend(_html);	
 		myScroll2.scrollTo(0,0,0);
-		
-	
-		_mTimeout = setTimeout(function() {	
-			_fRenderEvent(_match);				
-		}, 10000);
 	
 	};
 	
@@ -146,8 +141,7 @@
 
 		});	
 
-		$('.refresh').data('match',_match);
-		$('.refresh').removeClass('hidden');
+
 		$('#wrapperMaM .container.header').empty();
 		$('#wrapperMaM .container.header').removeClass('hidden');
 		$('#wrapperMaM .container.header').append(_html);
@@ -178,7 +172,7 @@
 			
 
 			
-			if ((_iDate == _day) && (_iMont == _aMonth[_month])) {			
+			if ((_iDate == _day) && (_iMont == _aMonth[_month])) {
 
 				_html += '<div class="row data-match" data-match="' + _item.id_del_partido + '" >';
 				
@@ -232,7 +226,7 @@
 			_html = '<div class="row" >';
 			_html += '<div class="col-md-12" style="text-align:center;" >';
 			_html += '<h4>&#161;Para hoy no hay juegos programados!</h4>';
-			_html += '<span class="icon-minutoaminuto" style="font-size: 12em;"></span>';
+			_html += '<span class="icon-resultados" style="font-size: 12em;"></span>';
 			_html += '</div>';
 			_html += '</div>';
 		}			
@@ -243,7 +237,7 @@
 		
 	};
 
-	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
+	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/today/results',false,false,true);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			_jGet = _json.partidos_mundial;					

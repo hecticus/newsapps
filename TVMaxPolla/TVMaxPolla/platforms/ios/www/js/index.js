@@ -24,6 +24,8 @@ var _jSchedule = false;
 var pushInterval;
 var newsPushInterval;
 var newsReadyForPush = false;
+var _jActive = false;
+
 
 				 
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
@@ -74,6 +76,17 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
+    	
+    	
+    	
+    	
+    	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {				
+				_jActive = _json;				
+			});
+		}
+    	
     	
 		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,false);	
 		if (_oAjax) {
@@ -253,14 +266,7 @@ var app = {
 		setIOSSplashes();
     	initPage();
     	checkVersion();
-    	initPush();
-    	
-	    setInterval(function(){
-			$(_jMenu).each(function(_index,_menu) {
-				_menu.json = false;
-			});
-		}, 300000);
-    	
+    	initPush();    		
     }
 };
 
@@ -275,12 +281,38 @@ function executePushInit(extra_params){
 
 			_fSetBack();
 			var index = 4;
+			var action = -1;
+			var newsID = 0;
+			
+			var NEWS_ACTION = 16;
+			var END_MATCH_ACTION = 14;
+			
+			//revisamos que tipo de aacion llego
+			try{
+				if(extra_params != null){
+					var temp = extra_params.externalId;
+					newsID = parseInt(temp);
+					var tempAction = extra_params.action;
+					action = parseInt(tempAction);
+				}
+				
+			}catch(ex){
+				console.log("ERROR push "+ex);
+			}
+			
+			if(action == NEWS_ACTION){
+				index = 4;
+			}else{
+				if(action == END_MATCH_ACTION){
+					index = 1;
+				}else{
+					index = 3;
+				}
+			}
 			
 			
 			if(_jMenu[index].class == 'content-polla' 
-				|| _jMenu[index].class == 'content-alertas' 
-				|| _jMenu[index].class == 'content-signin' 
-				|| _jMenu[index].class == 'content-signup') {
+				|| _jMenu[index].class == 'content-alertas') {
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -297,26 +329,17 @@ function executePushInit(extra_params){
 			$('#wrapperM').attr('class','page transition left');
 			//console.log("EXTRA "+JSON.stringify(extra_params));
 			
-			var newsID = 0;
 			
-			try{
-				if(extra_params != null){
-					var temp = extra_params.externalId;
-					newsID = parseInt(temp);
-				}
-				
-			}catch(ex){
-				console.log("ERROR push "+ex);
+			
+			if(action == NEWS_ACTION){
+				//abrimos la noticia como tal
+				newsPushInterval = window.setInterval(function(){
+					if(newsReadyForPush){
+						stopNewsInterval();
+						window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
+					}
+				},500);
 			}
-			
-			
-			//abrimos la noticia como tal
-			newsPushInterval = window.setInterval(function(){
-				if(newsReadyForPush){
-					stopNewsInterval();
-					window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
-				}
-			},500);
 			
 			stopPushInterval();
 		}
