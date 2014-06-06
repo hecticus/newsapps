@@ -64,8 +64,6 @@
 						
 				$.each(_json.response, function(_index,_event) {
 
-					
-
 
 					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
 
