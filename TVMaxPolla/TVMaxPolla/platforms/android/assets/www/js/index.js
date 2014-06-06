@@ -275,6 +275,34 @@ function executePushInit(extra_params){
 
 			_fSetBack();
 			var index = 4;
+			var action = -1;
+			var newsID = 0;
+			
+			var NEWS_ACTION = 16;
+			var END_MATCH_ACTION = 14;
+			
+			//revisamos que tipo de aacion llego
+			try{
+				if(extra_params != null){
+					var temp = extra_params.externalId;
+					newsID = parseInt(temp);
+					var tempAction = extra_params.action;
+					action = parseInt(tempAction);
+				}
+				
+			}catch(ex){
+				console.log("ERROR push "+ex);
+			}
+			
+			if(action == NEWS_ACTION){
+				index = 4;
+			}else{
+				if(action == END_MATCH_ACTION){
+					index = 1;
+				}else{
+					index = 3;
+				}
+			}
 			
 			
 			if(_jMenu[index].class == 'content-polla' 
@@ -297,26 +325,17 @@ function executePushInit(extra_params){
 			$('#wrapperM').attr('class','page transition left');
 			//console.log("EXTRA "+JSON.stringify(extra_params));
 			
-			var newsID = 0;
 			
-			try{
-				if(extra_params != null){
-					var temp = extra_params.externalId;
-					newsID = parseInt(temp);
-				}
-				
-			}catch(ex){
-				console.log("ERROR push "+ex);
+			
+			if(action == NEWS_ACTION){
+				//abrimos la noticia como tal
+				newsPushInterval = window.setInterval(function(){
+					if(newsReadyForPush){
+						stopNewsInterval();
+						window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
+					}
+				},500);
 			}
-			
-			
-			//abrimos la noticia como tal
-			newsPushInterval = window.setInterval(function(){
-				if(newsReadyForPush){
-					stopNewsInterval();
-					window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
-				}
-			},500);
 			
 			stopPushInterval();
 		}

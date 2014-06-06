@@ -74,9 +74,7 @@
 		} else {
 								
 			if(_jMenu[_this.data('index')].class == 'content-polla' 
-				|| _jMenu[_this.data('index')].class == 'content-alertas' 
-				|| _jMenu[_this.data('index')].class == 'content-signin' 
-				|| _jMenu[_this.data('index')].class == 'content-signup' ){
+				|| _jMenu[_this.data('index')].class == 'content-alertas'){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
