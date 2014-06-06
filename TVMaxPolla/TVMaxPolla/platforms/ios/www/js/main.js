@@ -589,13 +589,17 @@ $.fPostAjaXJSON = function(_url, _data) {
 		});
 	}, 300000);
 			
-	setInterval(function(){
+	var isMundialOn = false;
+	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
+	function mundialIntervalFunc(){
 		_oAjax = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				
 				_jActive = _json;
-				
+				if (_jActive.worldCupStarted) {
+					isMundialOn = true;
+				}
 				if ($('body').hasClass('content-home')) {
 					
 					if (_jActive) {
@@ -616,8 +620,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 		
 			});
 		}
-	},60000);
-    
+	}
+	mundialIntervalFunc();
    
 		
 	function _fsetTeamsAlerts() {	
