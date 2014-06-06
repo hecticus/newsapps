@@ -37,8 +37,8 @@
 					
 					_html += '<tr>'; 
 					_html += '<td style="width:85%; text-align:left; font-size:1em;">';
-					_html += '<img src="img/flags/' + _team.flag + '" alt="' + _ranking.team.country.name + '" style="width:20%; height:auto; max-width:67px; max-height:45px; margin-left:5px; margin-right:10px;"  />';					
-					_html += '<span>' +  _ranking.team.country.name	 + '</span>'; 	
+					_html += '<img src="img/flags/' + _team.flag + '" alt="' + _team.shortname + '" style="width:20%; height:auto; max-width:67px; max-height:45px; margin-left:5px; margin-right:10px;"  />';					
+					_html += '<span>' + _team.shortname	 + '</span>'; 	
 					_html += '</td>';
 					
 	
