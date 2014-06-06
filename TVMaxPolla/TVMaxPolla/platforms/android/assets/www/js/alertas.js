@@ -230,10 +230,8 @@ function renderInitAlerts() {
 	}*/
 	
 	
-			
-			
 
-	_html += '<div id="equipos"  class="row">';
+	_html += '<div id="equipos"  class="row">';	
 	_html += '</div>';			
 	
 	
@@ -271,6 +269,7 @@ function renderInitAlerts() {
 	$('#wrapper .scroller .container').append(_html);
 	
 	initAlerts();
+	_fsetTeamsAlerts();	
 }
 
 //SAVING FUNCTIONS alertSaveComplete, alertSaveFail
@@ -301,6 +300,7 @@ function initAlertPage(){
 	newClientActionsAlerts = currentClientActions.slice(0);
 	
 	renderInitAlerts();
+
 }
 //window.plugins.spinnerDialog.show();
 navigator.notification.activityStart("Cargando alertas", "Cargando...");

@@ -531,15 +531,7 @@
 
 		}
 
-		var  _html = '<div class="col-md-12"  >';	
-		$.each(_jAlert.teams, function(_index,_id) {			
-			var _team = _fgetTeamData(_id);			
-			_html += '<img  data-id="' +  _id + '" onerror="this.style.display=\'none\'" src="img/flags/' + _team.flag + '" alt="' + _team.name + '" style="width:20%;  height:auto; max-width:67px; max-height:45px; float:left; margin:5px; "  />';					    			 						
-		});			
-		_html += '</div>';
-		
-		$('#equipos').html(_html);
-				
+		_fsetTeamsAlerts();	
 		
 	});
 
