@@ -274,7 +274,7 @@ function executePushInit(extra_params){
 	    	}
 
 			_fSetBack();
-			var index = 2;
+			var index = 4;
 			
 			
 			if(_jMenu[index].class == 'content-polla' 

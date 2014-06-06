@@ -330,7 +330,7 @@
 		try{e.preventDefault();}catch(ex){}
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
-		console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
+		//console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
 		if(lastClicked != 0 &&  getCurrentTimeMillis()-lastClicked  < 500){
 			//lastClicked = getCurrentTimeMillis();
 			return true;
