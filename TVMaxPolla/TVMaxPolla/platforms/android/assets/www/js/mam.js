@@ -14,60 +14,70 @@
 	};
 
 
+	var _fRenderTimeLine = function(_team,_event) {
+		
+		var _mnemonic = ''; 
+		_mnemonic = _event.action.mnemonic;
+				
+		var _icon = _mnemonic.toString().toLowerCase();
+		_icon = 'img/mam/' + _icon + '.png';
+		
+		
+		var _html = '';
+			
+		if (_event.team.ext_id  == 0 ) {		 				
+			_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
+			_html += '<p>' + _event.action.description + '</p>';
+		} else if (_team == _event.team.ext_id ) {
+			
+			_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';			 					
+			_html += '<p style="font-weight:bold;">' + _event.action.description + '</p>';
+						
+			if (_event.action.mnemonic == 'SUBS') {
+				_html += '<p>' + _event.player_a + '</p>';
+				_html += '<p> por </p>';
+				_html += '<p>' + _event.player_b + '</p>';				
+			}  else {
+				_html += '<p>' + _event.player_a + '</p>';		
+			} 
+			
+		}
+		
+		return _html;		
+		
+		
+	};
+
+
 	var _fRenderEvent = function(_match,_lastMinute,_lastEvent) {
 		
-
-		var _html = '';
-		
-				
 		_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/1?last_minute=' + _lastMinute);
 		if (_oAjax) {
 					
+			var _html = '';		
 			_oAjax.done(function(_json) {
-					
-							
+						
 				$.each(_json.response, function(_index,_event) {
-					var _mnemonic = ''; 
-					_mnemonic = _event.action.mnemonic;
-					var _icon = _mnemonic.toString().toLowerCase();
-					_icon = 'img/mam/' + _icon + '.png';
+					
+					
+				
+					
+					
 					
 					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
 						
 						_html += '<div class="row event" >';
-		 					 			
-		 					 			
-		 					 			
-		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: right; padding-top:5px; padding-bottom:5px;">';
-
-		 					if (_event.team.ext_id  == 0 ) {		 				
-		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
-		 						_html += '<p>' + _event.action.description + '</p>';
-		 					} else if (_jTeamMaM.team_a == _event.team.ext_id ) {
-		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
-			 					_html += '<span>' + _event.player_a + '</span>';
-			 					_html += '<span>' + _event.player_b + '</span>';
-			 					_html += '<p>' + _event.action.description + '</p>';	
-			 				} 
-			 					
+	
+		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
+		 				_html += _fRenderTimeLine(_jTeamMaM.team_a,_event);			 					
 		 				_html += '</div>';
 		 				
 		 				_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center; padding-top:5px; ">'; 				
 		 				_html += '<span style="color:red; font-wight:bold;">' + _event.action_minute + '&#39;</span>';
 		 				_html += '</div>';
 		 						 				
-		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: left; padding-top:5px; padding-bottom:5px;">';
-		 				
-		 					if (_event.team.ext_id  == 0 ) {		 				
-		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
-		 						_html += '<p>' + _event.action.description + '</p>';
-		 					} else if (_jTeamMaM.team_b == _event.team.ext_id ) {
-		 						_html += '<img src="' + _icon + '" alt="' + _event.action.mnemonic + '" style="width:25px; height:auto; margin-left:5px; margin:5px;"  />';
-			 					_html += '<span>' + _event.player_a + '</span>';
-			 					_html += '<span>' + _event.player_b + '</span>';
-			 					_html += '<p>' + _event.action.description + '</p>';	
-			 				} 
-
+		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
+		 				_html += _fRenderTimeLine(_jTeamMaM.team_b,_event);
 		 				_html += '</div>';
 		 						 						 				
 		 				_html += '</div>';
@@ -78,12 +88,9 @@
 		 			
 		 		});	
 		 		
-		 		
 
 		 		_lastMinute = _json.response[0].action_minute;
 		 		_lastEvent	= _json.response[0].id_game_matc_events;	
-		 		
-		 		
 		 		
 			});
 		}
@@ -92,7 +99,7 @@
 		$('#wrapperMaM2 .scroller .container').prepend(_html);	
 		myScroll2.scrollTo(0,0,0);
 
-		_mTimeout = setTimeout(function() {	
+		_mTimeoutMaM = setTimeout(function() {	
 			_fRenderEvent(_match,_lastMinute,_lastEvent);				
 		}, 10000);
 	

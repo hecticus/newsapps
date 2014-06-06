@@ -70,7 +70,7 @@
 				_html += '</div>';
 
 
-				if ((_item.transmision_por_TVMAX) && (!_item.currentlyLive))  {
+				if ((_item.transmision_por_TVMAX) && (_item.currentlyLive))  {
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tv" style="height:50px; line-height:50px; text-align:center;">';
 						_html += '<img  src="img/live.png" alt="En vivo" style="width:25%; max-width:145px; max-height:50px; height:auto;"  />';		
 					_html += '</div>';	
