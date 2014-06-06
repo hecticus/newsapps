@@ -22,7 +22,7 @@
 		var _icon = _mnemonic.toString().toLowerCase();
 		_icon = 'img/mam/' + _icon + '.png';
 		
-		
+
 		var _html = '';
 			
 		if (_event.team.ext_id  == 0 ) {		 				
@@ -56,16 +56,15 @@
 					
 			var _html = '';		
 			_oAjax.done(function(_json) {
+					
+				$('.goal-' + _jTeamMaM.team_a).html(_json.home_goals);
+				$('.goal-' + _jTeamMaM.team_b).html(_json.away_goals);
 						
 				$.each(_json.response, function(_index,_event) {
-					
-					
-				
-					
-					
-					
+
+
 					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
-						
+
 						_html += '<div class="row event" >';
 	
 		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
@@ -83,8 +82,6 @@
 		 				_html += '</div>';
 						
 					}
-					
-		 			
 		 			
 		 		});	
 		 		
@@ -142,10 +139,11 @@
 				
 				_html += '</div>';
 			
+
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
+				_html += '<span class="goal-' + _item.equipo_local_ext_id  +'"  style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
 				_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
+				_html += '<span class="goal-' + _item.equipo_visitante_ext_id + '"  style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';								
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
@@ -182,8 +180,7 @@
 		$('header .container .row .menu span').addClass('icon-back');
 		
 		_fRenderEvent(_match,0,0);
-		
-		
+	
 	};
 
 	var _fRenderMaM = function() {
@@ -232,9 +229,9 @@
 				_html += '</div>';
 			
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
+				_html += '<span class="goal-' + _item.equipo_local_ext_id  +'"  style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
 				_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
+				_html += '<span class="goal-' + _item.equipo_visitante_ext_id + '"  style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';		
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
@@ -257,7 +254,7 @@
 		if (_html == '') {
 			_html = '<div class="row" >';
 			_html += '<div class="col-md-12" style="text-align:center;" >';
-			_html += '<h4>&#161;Para hoy no hay juegos programados!</h4>';
+			_html += '<h4>&#161; No hay juegos programados para hoy!</h4>';
 			_html += '<span class="icon-minutoaminuto" style="font-size: 12em;"></span>';
 			_html += '</div>';
 			_html += '</div>';
