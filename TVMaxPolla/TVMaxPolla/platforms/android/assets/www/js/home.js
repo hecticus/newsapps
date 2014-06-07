@@ -203,17 +203,14 @@
 
 
 		_html += '<div class="row" >';
-			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 load metro">';
+			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 load metro" style=" text-align: center;">';
 			
-				var _banner = 'img/claro/540x54.jpg';		
-				if (_width >= 720) _banner = 'img/claro/720x72.jpg';			
-				if (_width >= 800)  _banner = 'img/claro/800x80.jpg';
-				if (_width >= 1080)  _banner = 'img/claro/1080x108.jpg';
-				if (_width >= 1280)  _banner = 'img/claro/1280x128.jpg';
-				if (_width >= 1600)  _banner = 'img/claro/1600x160.jpg';
-
-				//_html += '<div  id="banner-claro" style="background-image:url(' + _banner + '); background-size:cover; height:' + _heightBanner +'px;" >&nbsp;</div>';
-				_html += '<img id="banner-claro" src="' + _banner + '" style="width:100%; height:' + _heightBanner +'px;" >';							
+				var _banner = 'img/claro/banner_640.png';		
+				if (_width >= 720) _banner = 'img/claro/banner_720.png';			
+				if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
+				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
+			
+				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + _heightBanner +'px; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
 
