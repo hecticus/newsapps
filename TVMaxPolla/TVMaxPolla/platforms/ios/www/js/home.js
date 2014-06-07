@@ -17,6 +17,7 @@
 	var homeSmallIconsSize = 1.6;
 	var homeTextClass = "caption-icon";
 	var homeLineHeight = 30;
+	var homeTextSmaller = 0.8;
 	
 	var _fRenderInit = function() {
 		_homeWasShowed = true;
@@ -30,10 +31,12 @@
 				homeSmallIconsSize = 3.3;
 				homeTextClass = "caption-icon-ipad";
 				homeLineHeight = 0;
+				homeTextSmaller = 1.8;
 			}else{
 				homeIconSize = 4;
 				homeSmallIconsSize = 1.6;
 				homeTextClass = "caption-icon";
+				homeTextSmaller = 0.8;
 			}
 		}else{
 			if(getScreenHeight()>1500){
@@ -41,10 +44,12 @@
 				homeSmallIconsSize = 3.3;
 				homeTextClass = "caption-icon-tablets";
 				homeLineHeight = 0;
+				homeTextSmaller = 1.8;
 			}else{
 				homeIconSize = 5;
 				homeSmallIconsSize = 1.6;
 				homeTextClass = "caption-icon";
+				homeTextSmaller = 0.8;
 			}
 		}
 
@@ -108,7 +113,7 @@
 				_html += '</div>';
 			
 				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" style="font-size:0.8em" >Clasificaci&oacute;n</span>';
+					_html += '<span class="'+homeTextClass+'" style="font-size:'+homeTextSmaller+'em" >Clasificaci&oacute;n</span>';
 				_html += '</div>';	
 	
 			_html += '</div>';

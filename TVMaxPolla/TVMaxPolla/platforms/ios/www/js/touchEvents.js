@@ -102,9 +102,9 @@
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		window.videoPlayer.play($(this).data('src'));
 	});
-	$(document).on('click','.tv', function(e) {
+	$(document).on('touchend','.tv', function(e) {
 		if(preventBadClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		//if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
 	});
 	
@@ -494,9 +494,9 @@
 	});
 
 
-	$(document).on('click','.refresh', function(e) {			
+	$(document).on('touchend','.refresh', function(e) {
 		if(preventBadClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		//if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		clearTimeout(_mTimeout);
 		_fRenderEvent($(this).data('match'));
 	});
