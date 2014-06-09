@@ -208,8 +208,16 @@ var arrCategory = [];
 
 function fRemoveClassIcon() {
 		
-	$(".icon").removeClass('back');
-	$(".icon").removeClass('share');
+	//$(".icon").removeClass('back');
+	//$(".icon").removeClass('share');
+	
+	$(".icon.logo").show();
+	$(".icon.tv").show();
+
+	$(".icon.back").hide();
+	$(".icon.share").hide();
+	
+	
 	$(".icon").removeAttr('onclick');
 }
 
@@ -842,8 +850,15 @@ function initBasicApp(){
     				
 		
 					$("#header-title").addClass('back');
-					$(".icon.logo").addClass('back');	
-    				$(".icon.tv").addClass('share');
+					
+					//$(".icon.logo").addClass('back');	
+    				//$(".icon.tv").addClass('share');
+    				
+    				$(".icon.logo").hide();
+					$(".icon.tv").hide();
+    				
+    				$(".icon.back").show();
+					$(".icon.share").show();
     				
     				
     				newsDatacontent = $(this).data('id');
@@ -895,8 +910,16 @@ function initBasicApp(){
     			if (press) {
 					
 					$("#header-title").addClass('back');
-					$(".icon.logo").addClass('back');	
-    				$(".icon.tv").addClass('share');
+					
+					//$(".icon.logo").addClass('back');	
+    				//$(".icon.tv").addClass('share');
+    				
+    				$(".icon.logo").hide();
+					$(".icon.tv").hide();
+    				
+    				$(".icon.back").show();
+					$(".icon.share").show();
+    				
     				
     				var manager = new TrendingManager();
     				manager.loadTrendingByIDFromBD($(this).data('id'),successGetTrendingDataContentFromBD,noConnectionForTrendingNews);
