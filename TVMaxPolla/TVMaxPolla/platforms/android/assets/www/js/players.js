@@ -38,7 +38,7 @@
 			_html += '<span>' +  _player.title + '</span>';
 		 	_html += '</div>';
 		 	
-		 	console.log('LEYENDAS' + _player.title );
+		 	//console.log('LEYENDAS' + _player.title );
 		});
 
 		_html += '</div>';

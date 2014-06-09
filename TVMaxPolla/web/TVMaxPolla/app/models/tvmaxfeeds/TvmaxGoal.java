@@ -13,6 +13,7 @@ import play.libs.Json;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class TvmaxGoal extends HecticusModel {
     private Boolean penalty; //not sure about this one
     private String idVideoKaltura;
     private Boolean active;
+    private String image;
 
     private static Model.Finder<Long,TvmaxGoal> finder =
             new Model.Finder<Long, TvmaxGoal>(Long.class, TvmaxGoal.class);
@@ -55,6 +57,7 @@ public class TvmaxGoal extends HecticusModel {
         ronda_penales = data.get("ronda_penales").asText();
         idVideoKaltura = data.get("id_video_kaltura").asText();
         active = data.get("activo").asText().equalsIgnoreCase("si");
+        image = data.get("imagen_gol").asText();
     }
 
     @Override
@@ -72,6 +75,7 @@ public class TvmaxGoal extends HecticusModel {
         //tr.put("penalty", penalty);
         tr.put("id_video_kaltura", decode(idVideoKaltura));
         tr.put("activo", active);
+        tr.put("imagen_gol", image);
         return tr;
     }
 
@@ -129,18 +133,77 @@ public class TvmaxGoal extends HecticusModel {
 
     }
 
-    public static List<SqlRow> getGoalSorted(String field, int limit) throws TvmaxFeedException {
-        List<SqlRow> rows = null;
+    /**
+     * Si, esta terriblemente feo, lo se. pero mientras se me ocurre algo mejor funcionara asi
+     * @param field
+     * @param limit
+     * @return
+     * @throws TvmaxFeedException
+     */
+    //public static ObjectNode getGoalSorted(String field, int limit) throws TvmaxFeedException {
+    public static ArrayList getGoalSorted(String field, int limit) throws TvmaxFeedException {
+        List<SqlRow> rows = null ,rows2 = null;
+        //ObjectNode result = Json.newObject();
+        ArrayList result = new ArrayList();
         try {
-
-            String query = "SELECT g.team, g.player,g.score_time, g.id_video_kaltura, m.match_number, m.match_date FROM tvmax_goals as g, tvmax_matches as m where m.match_number = g.id_game order by " + field + " LIMIT " + limit;
-            EbeanServer server = Ebean.getServer("default");
-            rows = server.createSqlQuery(query).findList();
+            if(field.equalsIgnoreCase("match_number")){
+                ArrayList<JsonNode> toReturn = new ArrayList<>();
+                String query1 = "SELECT match_number FROM tvmax_matches order by match_number" ;
+                String query = "SELECT g.team, g.player,g.score_time, g.id_video_kaltura, m.match_number, m.match_date FROM tvmax_matches as m, tvmax_goals as g where m.match_number = g.id_game AND m.match_number = " ;
+                EbeanServer server = Ebean.getServer("default");
+                rows = server.createSqlQuery(query1).findList();
+                if(!rows.isEmpty()){
+                    int fieldIndex = rows.get(0).getInteger(field);
+                    for(int i = 0; i < rows.size(); i++){
+                        rows2 = server.createSqlQuery(query + rows.get(i).getInteger(field)).findList();
+                        if(!rows2.isEmpty()){
+                            ObjectNode obj = Json.newObject();
+                            obj.put(""+rows.get(i).getInteger(field),Json.toJson(rows2));
+                            result.add(obj);
+                            //result.put(""+rows.get(i).getInteger(field), Json.toJson(rows2));
+                        }
+                    }
+                }
+            } else {
+                String query1 = "SELECT " + field + ",id_goal FROM tvmax_goals order by " + field ;
+                String query = "SELECT g.team, g.player,g.score_time, g.id_video_kaltura, m.match_number, m.match_date FROM tvmax_goals as g, tvmax_matches as m where m.match_number = g.id_game and g.id_goal in ";//order by " + field + " LIMIT " + limit;
+                EbeanServer server = Ebean.getServer("default");
+                rows = server.createSqlQuery(query1).findList();
+                if(!rows.isEmpty()){
+                    StringBuilder in = new StringBuilder();
+                    String fieldIndex = rows.get(0).getString(field);
+                    for(int i = 0; i <= rows.size(); i++){
+                        in.append(",");
+                        String actual = rows.get(i<rows.size()?i:(rows.size()-1)).getString(field);
+                        if(actual.equalsIgnoreCase(fieldIndex)){
+                            in.append(rows.get(i<rows.size()?i:(rows.size()-1)).getLong("id_goal"));
+                        }
+                        if(i == rows.size() -1 || !actual.equalsIgnoreCase(fieldIndex)){
+                            if(in.charAt(in.length() - 1) == ','){
+                                in.deleteCharAt(in.length() - 1);
+                            }
+                            if(in.charAt(0) == ','){
+                                in.deleteCharAt(0);
+                            }
+                            rows2 = server.createSqlQuery(query + "(" + in + ")").findList();
+                            ObjectNode obj = Json.newObject();
+                            obj.put(fieldIndex, Json.toJson(rows2));
+                            result.add(obj);
+                            if(!actual.equalsIgnoreCase(fieldIndex)){
+                                fieldIndex = rows.get(i).getString(field);
+                                in.delete(0, in.length());
+                                in.append(rows.get(i<rows.size()?i:(rows.size()-1)).getLong("id_goal"));
+                            }
+                        }
+                    }
+                }
+            }
         } catch (Exception ex) {
             //error devolver que no existe
+            System.out.println(ex.getMessage());
             throw new TvmaxFeedException("ocurrio un error ordenando los gol por el field:" + field   , ex);
         }
-        return rows;
+        return result;
     }
     /********************** getters and setters **********************/
 
@@ -238,5 +301,13 @@ public class TvmaxGoal extends HecticusModel {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

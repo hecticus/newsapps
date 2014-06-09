@@ -39,7 +39,11 @@ function onNotificationAPN(e) {
         pushNotification.setApplicationIconBadgeNumber(successPushHandler, e.badge);
     }*/
 	if(e["extra_params"] != null && e["extra_params"] != ""){
-		executePushInit(e["extra_params"]);
+		try{
+			executePushInit(JSON.parse(e["extra_params"]));
+		}catch(e){
+			console.log("Error: "+e);
+		}
 	}
 }
 
@@ -99,7 +103,9 @@ function onNotificationGCM(e) {
 }
 
 function tokenHandler (result) {
-    console.log('<li>token: '+ result +'</li>');
+    //console.log('<li>token: '+ result +'</li>');
+	regID = result;
+	updateDeviceToServer();
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
 }
@@ -109,7 +115,7 @@ function successPushHandler (result) {
 }
 
 function errorPushHandler (error) {
-    console.log('<li>error:'+ error +'</li>');
+    //console.log('<li>error:'+ error +'</li>');
 }
 
 var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";
@@ -132,7 +138,8 @@ function updateDeviceToServer(){
 	//console.log("revisando version");
 	try {	
 		//Actualizamos tambien las categorias de push
-		updatePushCategoriesToServer();
+		//updatePushOptionsToServer();
+		getClientPushOptions(doNothing,doNothing,true);
 		
 		if(regID != null && regID != ""){
 			var currentRegID = loadRegID();

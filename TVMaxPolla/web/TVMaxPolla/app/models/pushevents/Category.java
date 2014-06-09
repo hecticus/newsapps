@@ -4,6 +4,7 @@ package models.pushevents;
  * Created by plesse on 5/27/14.
  */
 
+import com.avaje.ebean.Expr;
 import models.HecticusModel;
 import org.codehaus.jackson.node.ObjectNode;
 import play.data.validation.Constraints;
@@ -71,14 +72,33 @@ public class Category extends HecticusModel {
     @Override
     public ObjectNode toJson() {
         ObjectNode responseNode = Json.newObject();
-        responseNode.put("idCategory", idCategory);
+        responseNode.put("id_category", idCategory);
         responseNode.put("name", name);
-        responseNode.put("idTeam", idTeam);
-        List<ObjectNode> clients = new ArrayList<ObjectNode>(this.clients.size());
-        for(int i = 0; i < clients.size(); i++){
-            clients.add(this.clients.get(i).toJson());
-        }
-        responseNode.put("clients", Json.toJson(clients));
+        responseNode.put("id_team", idTeam);
+//        List<ObjectNode> clients = new ArrayList<ObjectNode>(this.clients.size());
+//        for(int i = 0; i < clients.size(); i++){
+//            clients.add(this.clients.get(i).toJson());
+//        }
+//        responseNode.put("clients", Json.toJson(clients));
         return responseNode;
+    }
+
+    public static Long getIdCategoryByName(String name){
+        Long tr = null;
+        if (name.equalsIgnoreCase("noticias destacadas") ||
+                name.equalsIgnoreCase("noticias generales") ||
+                name.equalsIgnoreCase("historia") ||
+                decode(name).equalsIgnoreCase("noticias destacadas") ||
+                decode(name).equalsIgnoreCase("noticias generales") ||
+                decode(name).equalsIgnoreCase("historia")){
+            tr = 46l; //categoria fija de noticias generales
+            return tr;
+        }
+
+        Category rs = finder.where().or(Expr.eq("name", name),Expr.eq("name",decode(name))).setMaxRows(1).findUnique();
+        if (rs != null){
+            tr = rs.getIdCategory();
+        }
+        return tr;
     }
 }

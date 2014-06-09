@@ -1,43 +1,6 @@
 	
-	var  _aDay = new Array("Domingo", "Lunes", "Martes", "Mi&eacute;rcoles", "Jueves", "Viernes", "S&aacute;bado", "Domingo");
-	
-	
 
-	var _jPhase = [
-		{name:'Grupo A', bgcolor:'#64C2BC'},
-		{name:'Grupo B', bgcolor:'#64C2BC'},
-		{name:'Grupo C', bgcolor:'#64C2BC'},
-		{name:'Grupo D', bgcolor:'#64C2BC'},
-		{name:'Grupo E', bgcolor:'#64C2BC'},
-		{name:'Grupo F', bgcolor:'#64C2BC'},
-		{name:'Grupo G', bgcolor:'#64C2BC'},
-		{name:'Grupo H', bgcolor:'#64C2BC'},
-		{name:'Octavos', bgcolor:'#EB008C'},
-		{name:'Cuartos', bgcolor:'#5F207F'},
-		{name:'Semifinales', bgcolor:'#ED2A24'},
-		{name:'3er Lugar', bgcolor:'#037677'},
-		{name:'Final', bgcolor:'#F9A11A'}
-	];
-
-	var _jPhaseL = [
-		{name:'Grupos', bgcolor:'#64C2BC'},		
-		{name:'Octavos', bgcolor:'#EB008C'},
-		{name:'Cuartos', bgcolor:'#5F207F'},
-		{name:'Semifinales', bgcolor:'#ED2A24'},
-		{name:'3er Lugar', bgcolor:'#037677'},
-		{name:'Final', bgcolor:'#F9A11A'}
-	];
-
-	var _jCountry = [
-	'Alemania','Argelia','Argentina','Australia','Bosnia','Brasil','B&eacute;lgica',
-	'Camer&uacute;n', 'Chile', 'Colombia', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil',
-	'Croacia', 'Ecuador', 'Espa&ntilde;a', 'Estados Unidos', 'Francia', 'Ghana', 'Grecia',
-	'Holanda', 'Honduras', 'Inglaterra', 'Ir&aacute;n', 'Italia', 'Jap&oacute;n', 'M&eacute;xico', 'Nigeria',
-	'Portugal', 'Rusia', 'Suiza', 'Uruguay'
-	];
 	
-	//var _jPhase = [];
-	//var _jCountry = [];
 	var _team = false;
 
 
@@ -93,19 +56,26 @@
 			
 			if (eval(_expression)) {
 
-				_html += '<div class="row data-match" >';
-				
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px; text-align:left; color:#FFD455">';
-				_html += '<span style="font-size:1.2em; margin-left:10px;">' +  _item.fecha_de_partido + '</span>';
+				_html += '<div class="row" >';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:left; color:#FFD455">';
+				_html += '<span style="font-size:1em; ">' +  _fgetFormatDateMatch(_item.fecha_de_partido) + '</span>';
 				_html += '</div>';
 								
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px; text-align:right; color:#FFD455">';
-				_html += '<span style="font-size:1.2em; margin-right:10px;">' +  _item.fase + '</span>';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:right; color:#FFD455">';
+				_html += '<span style="font-size:1em; ">' +  _item.fase + '</span>';
 				_html += '</div>';
 				
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="font-size:1em; color:#1E5733; height:40px; line-height:40px; text-align:center;">';
 				_html += '<span>' +  _item.sede + ' </span>';
 				_html += '</div>';
+
+
+				if ((_item.transmision_por_TVMAX) && (_item.currentlyLive))  {
+					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tv" style="height:50px; line-height:50px; text-align:center;">';
+						_html += '<img  src="img/live.png" alt="En vivo" style="width:25%; max-width:145px; max-height:50px; height:auto;"  />';		
+					_html += '</div>';	
+				}
+
 
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
 				_team = _fGetAfpTeam(_item.equipo_local_ext_id);
@@ -118,9 +88,12 @@
 				
 				_html += '</div>';
 			
-				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';
-				_html += '<span> - </span>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
+				_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
+				_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
+				_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
 				_html += '</div>';
+	
 				
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
 				_team = _fGetAfpTeam(_item.equipo_visitante_ext_id);
@@ -249,12 +222,17 @@
 	};
 	
 	var _fRenderCountry = function() {
-		var _html = '<div class="row" >';
-		_jCountry.sort();	
-		$.each(_jCountry, function(_index) {			
-			_html += '<div class="col-md-12 match" data-country="' + _jCountry[_index] + '" >';
-			_html += '<span style="margin-left:15px;">' + _jCountry[_index].toString()  + '</span>';
+		var _html = '<div class="row" >';			
+		$.each(_jCountry, function(_index) {	
+			
+			var _name = _jCountry[_index];
+			var _flag = _fgetFlag(_name.toString());
+								
+			_html += '<div class="col-md-12 match" data-country="' + _name + '" >';
+		
+			_html += '<span style="margin-left:15px;">' + _name + '</span>';	
 			_html += '</div>';
+			
 		});
 		_html += '</div>';
 		
@@ -282,10 +260,8 @@
 
 		var _html = '<div class="row" >';
 		_html += '<div class="col-md-12">';
-
-		_html += '<div class="table-responsive" style="border:0;">';
-		
-		_html += '<table class="table table-striped">';
+		_html += '<div class="table-responsive" style="border:0;">';		
+		_html += '<table class="table">';
 				
 		_html += '<thead>';
 		_html += '<tr>';           
@@ -339,31 +315,13 @@
 
 
 
-		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
-		if (_oAjax) {
-			_oAjax.done(function(_json) {
-				
-								
-				_jGet = _json.partidos_mundial;
-								
-				/*$.each(_jGet.item, function(_index,_item) {
-					
-					if (_item.fase.indexOf('Grupo') >= 0) {
-						if (_jCountry.indexOf(_item.equipo_local) < 0) {
-							_jCountry.push(_item.equipo_local);
-						}	
-					}
-					
-					if (_jPhase.indexOf(_item.fase) < 0) {
-						_jPhase.push(_item.fase);	
-					}
-	
-				});*/
-								
-				_fRenderCalendar();
-				
-			});
-		}
+	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {
+			_jGet = _json.partidos_mundial;					
+			_fRenderCalendar();				
+		});
+	}
 
 
 

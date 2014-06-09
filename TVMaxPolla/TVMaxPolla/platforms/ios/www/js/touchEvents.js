@@ -1,3 +1,5 @@
+	var lastClicked = 0;
+
 	//CALENDARIO JS
 	$(document).on('touchend','.calendar', function(e) {
 		preventBadClick(e);
@@ -10,7 +12,8 @@
 	});
 	
 	$(document).on('click','.match', function(e) {
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		if ($(this).data('phase')) {
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
 		} else if ($(this).data('country')){
@@ -24,9 +27,11 @@
 
 	});
 	
+	
 	//HISTORY JS
 	$(document).on('click','.history', function(e) {					
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
@@ -51,7 +56,8 @@
 	});
 	$(document).on('click','.load', function(e) {
 		
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		clearTimeout(_mTimeout);			
 		
 		if(_oAjax && _oAjax.readystate != 4) {
@@ -66,13 +72,16 @@
 		if (_this.data('index') == 'fb') {
 			loginByFacebook();
 		} else {
-			if(_jMenu[_this.data('index')].class == 'content-polla' || _jMenu[_this.data('index')].class == 'content-alertas'){
+								
+			if(_jMenu[_this.data('index')].class == 'content-polla' 
+				|| _jMenu[_this.data('index')].class == 'content-alertas'){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
-					return;
+					return false;
 				}
 			}
+			
 			
 			$('body').removeClass();
 			$('body').addClass(_jMenu[_this.data('index')].class);
@@ -81,35 +90,43 @@
 			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
 			$('main').load(_jMenu[_this.data('index')].load);	
 			$('#wrapperM').attr('class','page transition left');
-		}
 
+			
+		}
+		
+		return false;
 	
 	});
 	$(document).on('click','.video', function(e) {
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		window.videoPlayer.play($(this).data('src'));
 	});
-	$(document).on('click','.tv', function(e) {
-		preventBadClick(e);
+	$(document).on('touchend','.tv', function(e) {
+		if(preventBadClick(e)){return false;}
+		//if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
 	});
 	
 	//NOTICIAS JS
 	$(document).on('click','.news', function(e) {	
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent($(this).data('item'));		
 	});
 	
 	//PLAYERS JS
 	$(document).on('click','.player', function(e) {	
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
 
 	//POLLA JS
 	$(document).on('click','.content-polla-menu[data-group]', function(e) {
-		preventBadClick(e);	
+		if(preventBadClick(e)){return false;}	
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		var _group = $(this).data('group');
 		$('.group').addClass('hidden');		
 		$('.group[data-group="'+_group+'"]').removeClass('hidden');
@@ -117,15 +134,17 @@
 	});
 	
 	$(document).on('click','.content-polla-menu[data-group]', function(e) {
-		preventBadClick(e);	
+		if(preventBadClick(e)){return false;}	
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		var _group = $(this).data('group');
 		$('.group').addClass('hidden');		
 		$('.group[data-group="'+_group+'"]').removeClass('hidden');
 		$('#wrapper2').attr('class','page transition right');
 	});
 	
-	$(document).on('click','.menu-group', function(e) {	
-		preventBadClick(e);
+	$(document).on('touchend','.menu-group', function(e) {
+		if(preventBadClick(e)){return false;}
+		//if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		$('#wrapper2').attr('class','page transition left');
 		myScroll2.scrollTo(0,0,0);
 	});
@@ -238,14 +257,16 @@
 	});
 	
 	$(document).on('click','.row.group', function(e) {
-		preventBadClick(e);				
+		if(preventBadClick(e)){return false;}	
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 
 	});
 	
 	$(document).on('click','.flag', function(e) {
-		preventBadClick(e);				
+		if(preventBadClick(e)){return false;}	
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 		
@@ -260,7 +281,8 @@
 	});
 	
 	$(document).on('click','.goal', function(e) {
-		preventBadClick(e);				
+		if(preventBadClick(e)){return false;}	
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 		
@@ -277,27 +299,43 @@
 	
 	//BANNER
 	$(document).on('click','#banner-claro', function(e) {
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');	
 	});
 	
 	//STADIUMS JS
 	$(document).on('click','.stadium', function(e) {
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent(decodeURI($(this).data('url')));	
 	});
 	
 	//TEAMS JS
 	$(document).on('click','.teams', function(e) {
-		preventBadClick(e);
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent(decodeURI($(this).data('gene')));	
 	});
 	
 	//GENERAL
+	/*function preventBadClick(e){
+		try{e.preventDefault();}catch(ex){}
+		try{e.stopPropagation();}catch(ex){}
+		try{e.stopImmediatePropagation();}catch(ex){}
+	}*/
 	function preventBadClick(e){
 		try{e.preventDefault();}catch(ex){}
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
+		//console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
+		if(lastClicked != 0 &&  getCurrentTimeMillis()-lastClicked  < 500){
+			//lastClicked = getCurrentTimeMillis();
+			return true;
+		}else{
+			lastClicked = getCurrentTimeMillis();
+			return false;
+		}
 	}
 	
 	$(document).on('touchend','#signIn', function(e) {
@@ -366,8 +404,9 @@
 	});
 
 	$(document).on('click','#facebookLoginButton', function(e) {	
-		//navigator.notification.activityStart("Cargando informacion", "Cargando...");
-		preventBadClick(e);
+		navigator.notification.activityStart("Cargando informacion", "Cargando...");
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		loginByFacebook();
 	});
 
@@ -446,21 +485,56 @@
 		}
 
 	});
+	
+	$(document).on('click','.content-mam .row[data-match], .content-resultados .row[data-match]', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		_matchHasFinished = false;
+		_fRenderDataContent($(this).data('match'));			
+	});
 
 
+	$(document).on('touchend','.refresh', function(e) {
+		if(preventBadClick(e)){return false;}
+		//if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		clearTimeout(_mTimeout);
+		_fRenderEvent($(this).data('match'));
+	});
 
 
+	$(document).on('click','.content-alertas .countryButton', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		_fRenderDataContent();	
+		myScroll2.scrollTo(0,0,0);
+	});
 
+	$(document).on('click','.teams-alerts', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		
 
+		if ($(this).hasClass('opacity')) {
+			
+			if (_jAlert.teams.length == 4) {
+				navigator.notification.alert("No puede seleccionar más de 4 países", doNothing, "Alertas", "OK");
+				return false;
+			} else{
+				$(this).removeClass('opacity');
+				_jAlert.teams.push($(this).data('id'));	
+			}
+						
+		}  else {
 
+			$(this).addClass('opacity');
+			$(this).data('select','0');				
+			_jAlert.teams.splice($.inArray($(this).data('id'), _jAlert.teams),1);
 
+		}
 
-
-
-
-
-
-
+		_fsetTeamsAlerts();	
+		
+	});
 
 
 

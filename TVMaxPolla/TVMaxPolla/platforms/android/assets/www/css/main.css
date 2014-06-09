@@ -59,13 +59,10 @@
 	.content-menu {border-bottom: solid 1pt #E0E0E0; }
 	.content-menu:last-child {border:0;}
 	
-	
-	/*.content-menu:nth-child(even) {background:#FFFFFF;}
-	.content-menu:nth-child(odd) {background:#FFFFFF;}
-	.content-menu:last-child {border-bottom: solid #FFD455; }*/
 
 
-	#wrapper, #wrapper2, #wrapperM { 
+
+	#wrapper, #wrapper2, #wrapperM, #wrapperMaM, #wrapperMaM2 { 
 		position: absolute; 
 		z-index: 1; 
 		top: 50px; 
@@ -94,14 +91,15 @@
 		width: 100%; 
 		height: 50px;
 		line-height: 50px;
-		background: #3E79C4;
+		background: #FFFFFF;
 		padding: 0;
 		margin: 0;
-		color: #FFFFFF;
+		color: #4D4D4D;
 		text-align: left;
 		border-bottom: solid 1pt #4D4D4D;
 		text-transform: uppercase;
 		display: none;
+		font-size: 0.9em;
 		
 		
 	}
@@ -159,19 +157,7 @@
 	}
 
 
-	/*figcaption div:first-child {
-		overflow:hidden; 
-		display: -webkit-box; 
-		-webkit-line-clamp: 2; 
-		-webkit-box-orient: vertical;	
-	}
-	 
-	body.content-home figcaption div:last-child {
-		overflow:hidden; 
-		display: -webkit-box; 
-		-webkit-line-clamp: 2; 
-		-webkit-box-orient: vertical;	
-	}*/
+	
 	 
 	
 	/*noticias*/
@@ -306,9 +292,7 @@
 	
 	
 	
-	
-	/*goles*/
-	/*body.content-goles |class|element|id| {|property|}*/
+
 	
 	 
 	/*polemicas*/
@@ -332,16 +316,163 @@
 	}
 
 
+		
 	
+		
+	/*Goles*/
+	
+	body.content-goles #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-goles #wrapper .scroller .container .row { padding: 0 !important; margin: 0 !important; }
+	body.content-goles #wrapper .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
+	
+	body.content-goles #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-goles #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-goles #wrapper .scroller .container figcaption {
+		font-size : 1em;			
+		padding: 5px; 
+		width:100%;
+		line-height:20px;
+		color:#3E79C4; 
+		text-align: left;	   
+	    background-color:#FFFFFF;
+	    bottom: 0;	    
+	    border-bottom: solid #FFD455;
+	    
+	}
+
+	/*goles*/	
+		
+		
+		
+		
+	/*mam*/
+
+	body.content-mam figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-mam figure img {width: 67px; height: 45px;}
+	body.content-mam figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
+
+	body.content-mam #wrapperMaM2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 200px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+
+	body.content-mam #wrapperMaM2 .scroller .container .row.event {
+		border-bottom: solid 1pt #E0E0E0; 
+	}
+	
+	/*mam*/		
+
+
+
+
+
+	/*mam*/
+
+	body.content-resultados figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-resultados figure img {width: 67px; height: 45px;}
+	body.content-resultados figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
+
+	body.content-resultados #wrapperMaM2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 200px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+
+	body.content-resultados #wrapperMaM2 .scroller .container .row.event {
+		border-bottom: solid 1pt #E0E0E0; 
+	}
+	
+	/*mam*/	
+
+
+
+
+
+
+
+
+
+
+
+	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
+
+	/*Home*/
+	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
+	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
+	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
+	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
+	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
+	
+	
+	.caption-icon {
+		font-size:1em; 
+		color:#ffffff;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bold;
+		margin-left:5px;		
+	}
+	.caption-icon-tablets {
+		font-size:1.5em;
+		color:#ffffff;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bold;
+		margin-left:2px;
+	}
 	
 	
 
-	/*polemicas*/
-		
+	body.content-home #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; margin: 0; }
+	body.content-home #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
+	body.content-home #wrapper .scroller .container figcaption {
+		font-size : 1em;
+		margin: 0;			
+		padding: 5px; 
+		width:100%; 
+		line-height:20px;				 
+		color:#ffffff; 
+		text-align: left;
+	    background-color:#3E79C4;
+	    position: absolute;	
+	    bottom: 0;	
+	}
+	/*Home*/
+
+
 	/*calendario*/
 	
 	body.content-calendario #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
-	body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	/*body.content-calendario #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}*/
 
 	body.content-calendario #wrapper,
 	body.content-calendario #wrapper2 { 
@@ -367,49 +498,8 @@
 	    background:none;
 	    text-shadow: none;
 	}
-	/*calendario*/
-
-	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
-
-	/*Home*/
-	body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
-	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
-	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
-	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
-	body.content-home #wrapper .scroller .container .row .metro:last-child {padding-right: 0px !important; margin: 0 !important;}
 	
 	
-	.caption-icon {
-		font-size:1em; 
-		color:#ffffff;
-		text-align: center;
-		text-transform: uppercase;
-		font-weight: bold;
-		margin-left:5px;		
-	}
-	
-	
-
-	body.content-home #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; margin: 0; }
-	body.content-home #wrapper .scroller .container figure img { width: 100%;  height: auto;}			
-	body.content-home #wrapper .scroller .container figcaption {
-		font-size : 1em;
-		margin: 0;			
-		padding: 5px; 
-		width:100%; 
-		line-height:20px;				 
-		color:#ffffff; 
-		text-align: left;
-	    background-color:#3E79C4;
-	    position: absolute;	
-	    bottom: 0;	
-	}
-	/*Home*/
-
-
-
-
-	/*calendario*/
 	body.content-calendario .calendario-menu.container {
 		position: absolute; 
 		top:50px; 
@@ -426,6 +516,7 @@
 	body.content-calendario .calendario-menu.container .active {
 		color:#3E79C4;
 	}
+	
 
 	
 	body.content-calendario .name-month {
@@ -455,11 +546,11 @@
 	/*calendario*/
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-goles .row div.video,	
-	body.content-history .row div.history,	 	
+	body.content-history .row div.history,
+	body.content-alertas .row div.teams-alerts, 	
 	body.content-teams .row div.teams {
-		height: 50px; 
-		line-height: 50px; 
+		height: 100px; 
+		line-height: 100px; 
 		font-size: 1.4em; 
 		color:#4D4D4D;
 	}
@@ -474,9 +565,13 @@
 	}
 	
 
+	body.content-alertas .row div.teams-alerts {
+		background:#FFFFFF;
+		border-bottom: solid 1pt #E0E0E0;
+	}
+
 	
 	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu,
-	body.content-goles .row div.video,
 	body.content-history .row div.history, 
 	body.content-players .row div.player, 
 	body.content-teams #wrapper .container .row { 
@@ -498,32 +593,15 @@
 		max-height: 150px;	
 	} 
 	
-	/*body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(even),
-	body.content-goles .row div.video:nth-child(even),
-	body.content-history .row div.history:nth-child(even), 
-	body.content-players .row div.player:nth-child(even), 
-	body.content-teams #wrapper .container .row:nth-child(even) { 
-		background:#FFFFFF;
-		border-bottom: solid 1pt #4D4D4D; 
-	}
-	
-	body.content-polla #wrapper2 .scroller .container .row div.content-polla-menu:nth-child(odd),
-	body.content-goles .row div.video:nth-child(odd),
-	body.content-history .row div.history:nth-child(odd),   
-	body.content-players .row div.player:nth-child(odd),
-	body.content-teams #wrapper .container .row:nth-child(odd) {
-		background:#FFFFFF; 
-		border-bottom: solid 1pt #4D4D4D;
-	}*/
-	
-	body.content-goles .row div.video span:last-child,
+		
 	body.content-history .row div.history span:last-child,
 	body.content-players .row div.player span:last-child,
+	body.content-alertas .row div.teams-alerts span:last-child,
 	body.content-teams .row div.teams span:last-child {
 		margin-left: 5px;
 	}
 
-	/*calendario*/
+
 
 	body.content-players DataContent {padding: 0; margin: 0; border: 0; }
 	body.content-players DataContent {padding-top: 5px;}
@@ -606,5 +684,68 @@
 
 	body.content-home #banner-claro { background-image:url(img/claro/800x80.jpg); background-size:cover; }
 
+	.refresh.loading {color:#FFD455;}
+	.refresh.error {color:red;}
 	
+	
+	
+	
+	
+	body.content-clasificacion #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-clasificacion  #wrapper .scroller .container .row div {background: #ffffff !important;}
+	body.content-clasificacion table tbody tr td {border-bottom: solid 1pt #E0E0E0 !important;}
 
+	/*ALERTAS*/
+	/* CSS REQUIRED */
+	.state-icon {
+	    left: -5px;
+	}
+	.list-group-item-primary {
+	    color: rgb(255, 255, 255);
+	    background-color: rgb(66, 139, 202);
+	}
+	.countryButton{
+		
+	}
+	
+	/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+	/*.well .list-group {
+	    margin-bottom: 0px;
+	}*/
+	
+	
+	.opacity img {
+		opacity: 0.4; 
+		filter: alpha(opacity=40);	
+	}
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

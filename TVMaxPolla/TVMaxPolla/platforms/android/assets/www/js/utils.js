@@ -109,6 +109,10 @@ function formatDateStringForSorting(ds) {
 	return ""+YYYY+MM+DD+hh+mm+ss;
 };
 
+function getCurrentTimeMillis(){
+	return new Date().getTime();
+}
+
 function cleanExternalURL(url){
 	return url.replace(/ /g,'%20');
 }
@@ -251,7 +255,64 @@ function getScreenHeight(){
 	}
 }
 
+//SORTING
+function sortNumber(a,b) {
+    return a - b;
+}
+//var numArray = [140000, 104, 99];
+//numArray.sort(sortNumber);
+
+//attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+
 //DEBUG
 function printToLog(element){
 	//console.log(element);
 }
+
+function doNothing(){
+	
+}
+
+//IOS STUFF
+function getIfItsIpad(){
+	return getScreenWidth() > 640;
+}
+function getPPI(){
+	// create an empty element
+	var div = document.createElement("div");
+	// give it an absolute size of one inch
+	div.style.width="1in";
+	// append it to the body
+	var body = document.getElementsByTagName("body")[0];
+	body.appendChild(div);
+	// read the computed width
+	var ppi = document.defaultView.getComputedStyle(div, null).getPropertyValue('width');
+	// remove it again
+	body.removeChild(div);
+	// and return the value
+	return parseFloat(ppi);
+}
+

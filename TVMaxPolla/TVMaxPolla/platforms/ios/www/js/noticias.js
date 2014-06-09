@@ -1,6 +1,8 @@
 
 	var _height =  parseInt(($(window).height() * 40)/100);
 	
+	var lastTimeDownloaded = 0;
+	
 
 	var _fGetImage = function(_image) {
 		var _html = '<figure>';					     		
@@ -28,16 +30,16 @@
 	
 	function checkIfDataContentExists(_id) {
 		var found = false;
-		$.each(_jGet.item, function(_index,_item) {
-			if (_item.id == _id) {
+		for(var i=0; i<_jGet.item.length; i++){
+			if (_jGet.item[i].id == _id) {
 				found = true;
+				return found;
 			}
-		});
+		}
 		return found;
 	}
 
 	var _fRenderDataContent = function(_id) {
-	
 		var _html = '<div class="row" >';
 		
 		$.each(_jGet.item, function(_index,_item) {
@@ -65,10 +67,9 @@
 				_html += '<p class="fullstory">' + _item.fullstory + '</p>'; 
 				_html += '</div>';				
 				
-				$('.tv').addClass('hidden');		
-				$('.share').removeClass('hidden');		
-				
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://mundial.tvmax-9.com/noticias/' + _item.id + '/' + _item.id + '\');');
+				/*$('.tv').addClass('hidden');
+				$('.share').removeClass('hidden');						
+				$('.share').attr('touchstart','console.log("PASO");window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://mundial.tvmax-9.com/noticias/' + _item.id + '/' + _item.id + '\');');*/
 				
 			}
 		});
@@ -89,30 +90,30 @@
 		var _html = '<div class="row" >';
 
 		$.each(_jGet.item, function(_index,_item) {				
-		 	if (_index <= 10) {		 	
+		 	//if (_index <= 10) {		 	
 				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
 				_html += _fGetImage({src:_item.imagen,caption:_item.titulo});
 				_html += '</div>';
-			}		 			
+			//}		 			
 		});
 		 
 		_html += '</div>';
 		
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
-		newsReadyForPush = true;
+		window.setTimeout(function(){newsReadyForPush = true;},500);
 	};
 
 	var _iIndex = $('main').data('index');
 	_jGet = _jMenu[_iIndex].json;
 	
-	if (_jGet) {
+	if (_jGet && (lastTimeDownloaded < getCurrentTimeMillis() - 300000)) {
 		_fRenderInit();
 	} else {
-	
 		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,true);	
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
+				lastTimeDownloaded = getCurrentTimeMillis();
 				_jMenu[_iIndex].json = _json.noticias_mundial;	
 				_jGet = _json.noticias_mundial;		
 				_fRenderInit();

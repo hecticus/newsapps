@@ -19,11 +19,13 @@
 
 var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var _jImageFeatured = false;
-
+var _jSchedule = false;
 //Push things
 var pushInterval;
 var newsPushInterval;
 var newsReadyForPush = false;
+var _jActive = false;
+
 
 				 
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
@@ -40,26 +42,27 @@ var _tap = false;
 
 var _jMenu=[
 	{index:0,class:'content-home',title:'Portada',load:'home.html', glyphicon:'icon-home_menu', json:false},
-	{index:1,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
-	{index:2,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},
-	{index:3,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},
-	{index:4,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
-  	{index:5,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},
-	{index:6,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
-  	{index:7,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
-  	{index:8,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
-  	{index:9,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},  	
-	{index:10,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
-	{index:11,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
-	{index:12,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},	
-  	{index:13,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},
-  	{index:14,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},
+	{index:1,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
+	{index:2,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},
+	{index:3,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
+	{index:4,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},
+	{index:5,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},
+	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},	
+	{index:7,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
+	{index:8,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
+  	{index:9,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},
+  	{index:10,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},  	
+	{index:11,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
+  	{index:12,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
+  	{index:13,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
+  	{index:14,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},  	
   	{index:15,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
 	{index:16,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
 ];
 
 
- 
+
+
 function exitApp(){
 	if (navigator.app) {						
         navigator.app.exitApp();				            
@@ -74,6 +77,23 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
+    	
+    	
+    	
+    	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {				
+				_jActive = _json;				
+			});
+		}
+    	
+    	
+		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {				
+				_jSchedule = _json.partidos_mundial;				
+			});
+		}
 
     	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
 		if (_oAjax) {
@@ -113,8 +133,6 @@ var app = {
 				});
 			}
 		});	
-
-
 
 		$.each(_jStadiums, function(_index,_stadium) {
 			_oAjax = $.fGetAjaXJSON(_stadium.url, 'xml', 'text/xml charset=utf-8', false);
@@ -213,8 +231,8 @@ var app = {
 				}
 			} else {
 			
-				if ($('#wrapper2').hasClass('left')) {			
-					_fSetBack();							
+				if ($('#wrapper2').hasClass('left') || $('#wrapperMaM').hasClass('left'))  {	
+					_fSetBack();												
 				} else {
 					
 					if ($('#wrapperM').hasClass('right')) {
@@ -248,21 +266,16 @@ var app = {
 		setIOSSplashes();
     	initPage();
     	checkVersion();
-    	initPush();
-    	
-    	
-	    setInterval(function(){
-			$(_jMenu).each(function(_index,_menu) {
-				_menu.json = false;
-			});
-		}, 300000);
-    	
+    	initPush();    		
     }
 };
 
+var pushHasExecuted = false;
 function executePushInit(extra_params){
 	pushInterval = window.setInterval(function(){
 		if(_homeWasShowed){
+			if(pushHasExecuted){return;}
+			pushHasExecuted = true;
 			clearTimeout(_mTimeout);			
 			
 			if(_oAjax && _oAjax.readystate != 4) {
@@ -270,9 +283,39 @@ function executePushInit(extra_params){
 	    	}
 
 			_fSetBack();
-			var index = 2;
+			var index = 4;
+			var action = -1;
+			var newsID = 0;
 			
-			if(_jMenu[index].class == 'content-polla' || _jMenu[index].class == 'content-alertas'){
+			var NEWS_ACTION = 16;
+			var END_MATCH_ACTION = 14;
+			
+			//revisamos que tipo de aacion llego
+			try{
+				if(extra_params != null){
+					var temp = extra_params.externalId;
+					newsID = parseInt(temp);
+					var tempAction = extra_params.action;
+					action = parseInt(tempAction);
+				}
+				
+			}catch(ex){
+				console.log("ERROR push "+ex);
+			}
+			
+			if(action == NEWS_ACTION){
+				index = 4;
+			}else{
+				if(action == END_MATCH_ACTION){
+					index = 1;
+				}else{
+					index = 3;
+				}
+			}
+			
+			
+			if(_jMenu[index].class == 'content-polla' 
+				|| _jMenu[index].class == 'content-alertas') {
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -287,17 +330,19 @@ function executePushInit(extra_params){
 			$('.title').html('<span>' + _jMenu[index].title + '</span>');						
 			$('main').load(_jMenu[index].load);	
 			$('#wrapperM').attr('class','page transition left');
-			//console.log("EXTRA "+extra_params);
+			//console.log("EXTRA "+JSON.stringify(extra_params));
 			
-			var newsID = 866;
 			
-			//abrimos la noticia como tal
-			newsPushInterval = window.setInterval(function(){
-				if(newsReadyForPush){
-					stopNewsInterval();
-					window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
-				}
-			},500);
+			
+			if(action == NEWS_ACTION){
+				//abrimos la noticia como tal
+				newsPushInterval = window.setInterval(function(){
+					if(newsReadyForPush){
+						stopNewsInterval();
+						window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
+					}
+				},500);
+			}
 			
 			stopPushInterval();
 		}
