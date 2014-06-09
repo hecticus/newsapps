@@ -7,6 +7,7 @@ var createCategoryQuery = 'CREATE TABLE IF NOT EXISTS CATEGORY (category_tvn_id 
 'category_pushable INTEGER DEFAULT NULL,'+
 'category_trending INTEGER DEFAULT NULL,'+
 'category_hidden INTEGER DEFAULT NULL,'+
+'category_iconClass TEXT DEFAULT NULL,'+
 'PRIMARY KEY (category_tvn_id))';
 
 //declaring the constructor
@@ -126,7 +127,7 @@ CategoryManager.prototype = {
 			trending: false,
 			sort: 0*/
 
-			var insertStatement = 'INSERT INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden)'+
+			var insertStatement = 'INSERT INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden,category_iconClass)'+
 			'VALUES ('+insertObj.id+','+
 			'"'+encodeURIComponent(insertObj.name)+'",'+
 			'"'+encodeURIComponent(insertObj.shortName)+'",'+
@@ -134,7 +135,8 @@ CategoryManager.prototype = {
 			'"'+encodeURIComponent(insertObj.internalUrl)+'",'+
 			''+(insertObj.pushable?1:0)+','+
 			''+(insertObj.trending?1:0)+','+
-			''+(insertObj.hidden?1:0)+
+			''+(insertObj.hidden?1:0)+','+			
+			'"'+encodeURIComponent(insertObj.iconClass)+'"'+			
 			');';
 	    	//console.log("INSERT: "+insertStatement);
 			printToLog("saveAllCategoryToDB 1.5 "+insertStatement);
@@ -156,6 +158,7 @@ function decodeCategory(encodedResult){
 	result["pushable"] = encodedResult.category_pushable;
 	result["trending"] = encodedResult.category_trending;
 	result["hidden"] = encodedResult.category_hidden;
+	result["iconClass"] = decodeURIComponent(encodedResult.category_iconClass);
 	return result;
 }
 
