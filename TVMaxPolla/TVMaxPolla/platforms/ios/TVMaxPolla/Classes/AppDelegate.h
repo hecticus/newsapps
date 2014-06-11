@@ -26,10 +26,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 #import <Cordova/CDVViewController.h>
 
-@interface AppDelegate : NSObject <UIApplicationDelegate>{}
+@interface AppDelegate : NSObject <UIApplicationDelegate>{
+	MPMoviePlayerController *mMoviePlayer;
+}
 
 // invoke string is passed to your app on launch, this is only valid if you
 // edit TVMaxPolla-Info.plist to add a protocol
