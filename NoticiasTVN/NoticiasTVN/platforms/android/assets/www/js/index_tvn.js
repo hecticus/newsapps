@@ -43,12 +43,14 @@ var arrTimeM=['am','am','am','am','am','am','am','am','am','am','am','am','pm','
 var arrMonth=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 var arrDay=['Dom', 'Lun', 'Mar','Mie', 'Jue', 'Vie', 'Sab'];
 
-var arrMenuColor=['#ffffff', '#ebebeb', '#d4d4d4','#c0c0c0', '#a8a8a8', '#8f8f8f','#a8a8a8','#c0c0c0','#d4d4d4','#ebebeb'];
+var arrMenuColor=['#ffffff', '#ffffff', '#ffffff','#ffffff', '#ffffff', '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'];
 
 
 
 var Copyright= 'Copyright © Televisora Nacional S.A. ' + year;
 $('#splash-footer').html('Copyright &copy; Televisora Nacional S.A.' + year);
+
+
 
 var viewport={width:$(window).width(),height:$(window).height(),pHeight:(($(window).height()*40)/100), pWidth:(($(window).width()*25)/100),ar:($(window).width()/$(window).height())};
 var arrPage=[];
@@ -65,9 +67,12 @@ function setMenuCategories(){
 
 	$.li='';
 	var a = 0;
+
+	
 	for(var i=0; i<arrCategory.length; i++){
-		$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" style="padding-left: 1em; background-color:'+arrMenuColor[(i%10)]+';">';			
-		$.li+=arrCategory[i].title;			
+		$.li+='<li data-category="'+arrCategory[i].classId+'" class="menu" data-position="'+arrCategory[i].i+'" >';
+		$.li+='<span class="icon ' + arrCategory[i].iconClass + '"></span>';
+		$.li+='<span class="caption">' + arrCategory[i].title + '</span>';			
 		$.li+='</li>';
 		a = i;
 	}
@@ -79,14 +84,17 @@ function setMenuCategories(){
 		//nada
 	}else{
 		a++;	
-		$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
-		$.li+=yo_informo;			
+		//$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
+		$.li+='<li data-category="y" class="menu" data-position="-2" >';		
+		$.li+='<span class="icon icon-yo-informo"></span>';
+		$.li+='<span class="caption">' + yo_informo + '</span>';						
 		$.li+='</li>';
 	}
 	
 	a++;	
-	$.li+='<li data-category="?" class="menu" data-position="-1" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
-	$.li+=info_app;			
+	$.li+='<li data-category="?" class="menu" data-position="-1" >';
+	$.li+='<span class="icon icon-app"></span>';
+	$.li+='<span class="caption">' + info_app + '</span>';													
 	$.li+='</li>';	
 		
 	$('#mainMenuList').empty();
@@ -200,8 +208,16 @@ var arrCategory = [];
 
 function fRemoveClassIcon() {
 		
-	$(".icon").removeClass('back');
-	$(".icon").removeClass('share');
+	//$(".icon").removeClass('back');
+	//$(".icon").removeClass('share');
+	
+	$(".icon.logo").show();
+	$(".icon.tv").show();
+
+	$(".icon.back").hide();
+	$(".icon.share").hide();
+	
+	
 	$(".icon").removeAttr('onclick');
 }
 
@@ -483,9 +499,11 @@ function initBasicApp(){
 			$('#miForm').width(viewport.width);
 			$('#miForm').height(viewport.height);
 
-					
-
-
+			$('header').css('line-height', $('header').height() + 'px');		
+			$('img.icon.logo').height($('header').height() + 'px');
+			$('img.icon.tv').height($('header').height() + 'px');
+			$('#header-title').show();
+			
 			
 		 	$('#scrollerpage').width(viewport.width*(arrCategory.length));
 			$('#scrollerpage').height(viewport.height);					
@@ -500,7 +518,7 @@ function initBasicApp(){
 			$('#gamesWrapper').width(viewport.width);
 			$('#gamesScroller').width(viewport.width);
 			
-			$('#header-title').width(viewport.width/2);
+			//$('#header-title').width(viewport.width/2);
 			
 			
 		 
@@ -832,8 +850,15 @@ function initBasicApp(){
     				
 		
 					$("#header-title").addClass('back');
-					$(".icon.logo").addClass('back');	
-    				$(".icon.tv").addClass('share');
+					
+					//$(".icon.logo").addClass('back');	
+    				//$(".icon.tv").addClass('share');
+    				
+    				$(".icon.logo").hide();
+					$(".icon.tv").hide();
+    				
+    				$(".icon.back").show();
+					$(".icon.share").show();
     				
     				
     				newsDatacontent = $(this).data('id');
@@ -885,8 +910,16 @@ function initBasicApp(){
     			if (press) {
 					
 					$("#header-title").addClass('back');
-					$(".icon.logo").addClass('back');	
-    				$(".icon.tv").addClass('share');
+					
+					//$(".icon.logo").addClass('back');	
+    				//$(".icon.tv").addClass('share');
+    				
+    				$(".icon.logo").hide();
+					$(".icon.tv").hide();
+    				
+    				$(".icon.back").show();
+					$(".icon.share").show();
+    				
     				
     				var manager = new TrendingManager();
     				manager.loadTrendingByIDFromBD($(this).data('id'),successGetTrendingDataContentFromBD,noConnectionForTrendingNews);
