@@ -1,0 +1,40 @@
+/*
+ * Created with iconvau.lt
+ */
+
+@font-face {
+  font-family: "iconvault";
+  src: url("iconvault_0c2d07bebf26cd0c81218a129e45a593.eot");
+  src: url("iconvault_0c2d07bebf26cd0c81218a129e45a593.eot?#iefix") format("embedded-opentype"),
+       url("iconvault_0c2d07bebf26cd0c81218a129e45a593.woff") format("woff"),
+       url("iconvault_0c2d07bebf26cd0c81218a129e45a593.ttf") format("truetype"),
+       url("iconvault_0c2d07bebf26cd0c81218a129e45a593.svg#iconvault") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon-internacionales:before,
+.icon-deportes:before,
+.icon-entretenimiento:before,
+.icon-tecnologia:before,
+.icon-nacionales:before,
+.icon-politica:before,
+.icon-salud:before {
+  font-family: "iconvault";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+}
+
+.icon-internacionales:before { content: "\f100"; }
+.icon-deportes:before { content: "\f101"; }
+.icon-entretenimiento:before { content: "\f102"; }
+.icon-tecnologia:before { content: "\f103"; }
+.icon-nacionales:before { content: "\f104"; }
+.icon-politica:before { content: "\f105"; }
+.icon-salud:before { content: "\f106"; }
