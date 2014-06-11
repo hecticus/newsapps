@@ -75,6 +75,9 @@ public class TVMaxDeportes extends CordovaActivity
 			//videoValue = R.raw.v1600_2560;
 			videoValue = R.raw.v1080_1920;
 		}
+		if (android.os.Build.VERSION.SDK_INT < 9){
+			videoValue = R.raw.vh263;
+		}
 		super.setStringProperty("SplashScreenVideo", "android.resource://com.tvn.tvmax/" + videoValue);
 		
         

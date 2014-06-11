@@ -53,6 +53,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import android.webkit.ValueCallback;
 import android.webkit.WebViewClient;
@@ -1156,14 +1157,21 @@ public class CordovaActivity extends Activity implements CordovaInterface {
                 Display display = getWindowManager().getDefaultDisplay();
 
                 // Create the layout for the dialog
-                LinearLayout root = new LinearLayout(that.getActivity());
+                RelativeLayout root = new RelativeLayout(that.getActivity());
                 root.setMinimumHeight(display.getHeight());
                 root.setMinimumWidth(display.getWidth());
-                root.setOrientation(LinearLayout.VERTICAL);
+                //root.setOrientation(LinearLayout.VERTICAL);
                 root.setBackgroundColor(that.getIntegerProperty("backgroundColor", Color.BLACK));
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
                 //root.setBackgroundResource(that.splashscreen);
+                //layout params
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT); // or wrap_content
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                
                 VideoView myVideoView = new VideoView(that.getActivity());
                 //VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
                 Uri videoUri = Uri.parse(that.splashscreenVideo);
@@ -1172,7 +1180,7 @@ public class CordovaActivity extends Activity implements CordovaInterface {
                 //myVideoView.setMediaController(new MediaController(this));
                 myVideoView.requestFocus();
                 myVideoView.start();
-                root.addView(myVideoView);
+                root.addView(myVideoView,layoutParams);
                 
                 // Create and show the dialog
                 splashDialog = new Dialog(that, android.R.style.Theme_Translucent_NoTitleBar);
