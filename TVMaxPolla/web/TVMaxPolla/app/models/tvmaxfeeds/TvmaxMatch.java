@@ -77,7 +77,8 @@ public class TvmaxMatch extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
         tr.put("idTvnMatch", idTvnMatch); //local id
-        tr.put("id_del_partido", externalId); //external id
+        tr.put("id_del_partido", matchNumber); //external id
+        tr.put("id_del_partido_tvmax", externalId); //external id
         tr.put("numero_de_partido", matchNumber);
         tr.put("fecha_de_partido", matchDate);
         tr.put("fase", decode(phase));
