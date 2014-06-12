@@ -53,6 +53,7 @@ public class ClientBetController extends HecticusController {
                 }*/
                 //buscamos todos los matches y los guardamos si no existen
                 ArrayNode matches = (ArrayNode)predictionObj.get("matches");
+                boolean isCurrent = false;
                 for(int i=0; i<matches.size();i++){
                     ObjectNode onematch = (ObjectNode) matches.get(i);
                     int matchID = onematch.get("id_match").asInt();
@@ -68,11 +69,19 @@ public class ClientBetController extends HecticusController {
                             currentBet.update();
                         }
                         data.add(currentBet.toJson());
+                    }else{
+                        isCurrent = true;
                     }
                 }
+
                 //build response
-                ObjectNode response = hecticusResponse(0, "ok", "clientBet", data);
-                return ok(response);
+                if(isCurrent){
+                    ObjectNode response = hecticusMessageResponse(0, "ok", "clientBet", data, "Ya no se pueden realizar más cambios hasta la próxima fase");
+                    return ok(response);
+                }else{
+                    ObjectNode response = hecticusResponse(0, "ok", "clientBet", data);
+                    return ok(response);
+                }
             }else{
                 return badRequest(buildBasicResponse(1,"parametros incorrectos para la apuesta"));
             }
