@@ -166,28 +166,43 @@ public class MatchController extends HecticusController {
         try{
             Calendar today = new GregorianCalendar(TimeZone.getTimeZone(tz));
             today.setTimeZone(TimeZone.getTimeZone(tz));
-            SimpleDateFormat like = new SimpleDateFormat("yyyyMMdd");
-            like.setTimeZone(TimeZone.getTimeZone(tz));
-            List<TvmaxMatch> fullList = TvmaxMatch.getBroadcastableMatchesByDate(like.format(today.getTime())+"%");
+
+            Calendar top = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            top.set(Calendar.HOUR_OF_DAY, 9);
+            top.set(Calendar.MINUTE, 30);
+            top.setTimeZone(TimeZone.getTimeZone(tz));
+
+            Calendar bottom = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            bottom.set(Calendar.HOUR_OF_DAY, 22);
+            bottom.set(Calendar.MINUTE, 30);
+            bottom.setTimeZone(TimeZone.getTimeZone(tz));
+
             Calendar wcInit = new GregorianCalendar(2014,05,12);
             wcInit.setTimeZone(TimeZone.getTimeZone(tz));
             wc = today.after(wcInit);
-            if (fullList != null && !fullList.isEmpty()){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-                sdf.setTimeZone(TimeZone.getTimeZone(tz));
-                for (int i = 0; i < fullList.size(); i++){
-                    TvmaxMatch act = fullList.get(i);
-                    Date dateStr = sdf.parse(act.getFormatedDate().trim());
-                    Calendar pre = new GregorianCalendar();
-                    Calendar post = new GregorianCalendar();
-                    pre.setTime(dateStr);
-                    pre.setTimeZone(TimeZone.getTimeZone(tz));
-                    pre.add(Calendar.HOUR_OF_DAY, -preWindow);
-                    post.setTime(dateStr);
-                    post.setTimeZone(TimeZone.getTimeZone(tz));
-                    post.add(Calendar.HOUR_OF_DAY, postWindow);
-                    active |= (today.after(pre) && today.before(post));
-                }
+
+            if (today.after(top) && today.before(bottom)) {
+//                SimpleDateFormat like = new SimpleDateFormat("yyyyMMdd");
+//                like.setTimeZone(TimeZone.getTimeZone(tz));
+//                List<TvmaxMatch> fullList = TvmaxMatch.getBroadcastableMatchesByDate(like.format(today.getTime())+"%");
+//                if (fullList != null && !fullList.isEmpty()){
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//                    sdf.setTimeZone(TimeZone.getTimeZone(tz));
+//                    for (int i = 0; i < fullList.size(); i++){
+//                        TvmaxMatch act = fullList.get(i);
+//                        Date dateStr = sdf.parse(act.getFormatedDate().trim());
+//                        Calendar pre = new GregorianCalendar();
+//                        Calendar post = new GregorianCalendar();
+//                        pre.setTime(dateStr);
+//                        pre.setTimeZone(TimeZone.getTimeZone(tz));
+//                        pre.add(Calendar.HOUR_OF_DAY, -preWindow);
+//                        post.setTime(dateStr);
+//                        post.setTimeZone(TimeZone.getTimeZone(tz));
+//                        post.add(Calendar.HOUR_OF_DAY, postWindow);
+//                        active |= (today.after(pre) && today.before(post));
+//                    }
+//                }
+                active = true;
             }
             ObjectNode response = Json.newObject();
             response.put("error", 0);
