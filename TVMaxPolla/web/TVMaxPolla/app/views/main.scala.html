@@ -23,7 +23,8 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/polla.js")" type="text/javascript"></script>
+        <!--script src="@routes.Assets.at("javascripts/polla.js")" type="text/javascript"></script-->
+        <script src="@routes.Assets.at("javascripts/polla2.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/facebook.js")" type="text/javascript"></script>
        	<script src="@routes.SignUp.jsRoutes()" type="text/javascript"></script>
        	<script src="@routes.Assets.at("javascripts/ga.js")" type="text/javascript"></script>
@@ -33,6 +34,13 @@
     
     <script>
     	$(function() {
+    		
+    		
+   		$(document).on('click','.share', function() {
+   			var _url = 'http://mundial.tvmax-9.com/polla/?page=share&id=@session.get("connected")';
+			window.location = _url;
+		});
+
     		
     		$(document).on('click','.save', function() {
 					
@@ -55,7 +63,7 @@
 
 					
 					$.ajax({
-	            		url: "@controllers.matchesapi.routes.PredictionController.storeClientPrediction",
+	            		url: "@controllers.matchesapi.routes.ClientBetController.storeClientBet",
 	            		type: 'POST',	            		
 	            		dataType: 'json',
 	            		data: JSON.stringify(jsonSave),
