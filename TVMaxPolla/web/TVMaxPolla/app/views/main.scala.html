@@ -38,7 +38,8 @@
     		
    		$(document).on('click','.share', function() {
    			var _url = 'http://mundial.tvmax-9.com/polla/?page=share&id=@session.get("connected")';
-			window.location = _url;
+			//window.location = _url;
+			window.open(_url);
 		});
 
     		
