@@ -87,6 +87,47 @@
 
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+	
+	
+	NSURL* mMovieURL;
+    NSBundle *bundle = [NSBundle mainBundle];
+    if(bundle != nil)
+    {
+		CGRect screenRect = [[UIScreen mainScreen] bounds];
+		CGFloat screenWidth = screenRect.size.width;
+		NSString *moviePath;
+		if(screenWidth < 330){
+			moviePath = [bundle pathForResource:@"v480_640" ofType:@"mp4"];
+		}else if(screenWidth < 650){
+			moviePath = [bundle pathForResource:@"v720_1280" ofType:@"mp4"];
+		}else if (screenWidth < 770){
+			moviePath = [bundle pathForResource:@"v720_1280" ofType:@"mp4"];
+		}else{
+			moviePath = [bundle pathForResource:@"v1080_1920" ofType:@"mp4"];
+		}
+        if (moviePath)
+        {
+            mMovieURL = [NSURL fileURLWithPath:moviePath];
+        }
+    }
+	
+    mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:mMovieURL];
+	
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:mMoviePlayer];
+	
+    mMoviePlayer.controlStyle = MPMovieControlStyleNone;
+    //[mMoviePlayer.backgroundView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash/Default@2x~iphone.png"]]];
+	mMoviePlayer.view.backgroundColor = [UIColor clearColor];
+    mMoviePlayer.scalingMode = MPMovieScalingModeFill;
+	
+    [window addSubview:mMoviePlayer.view];
+    [mMoviePlayer setFullscreen:YES animated:NO];
+	
+    [window makeKeyAndVisible];
+    [mMoviePlayer play];
 
     return YES;
 }
@@ -128,6 +169,14 @@
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
+
+//Video things
+-(void) moviePlayBackDidFinish:(NSNotification*)notification
+{
+    NSLog(@"Intro video stopped");
+	[mMoviePlayer.view removeFromSuperview];
+	//[mMoviePlayer.view setHidden:YES];
 }
 
 @end
