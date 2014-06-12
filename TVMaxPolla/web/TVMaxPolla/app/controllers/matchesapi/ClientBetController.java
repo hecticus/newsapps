@@ -56,17 +56,19 @@ public class ClientBetController extends HecticusController {
                 for(int i=0; i<matches.size();i++){
                     ObjectNode onematch = (ObjectNode) matches.get(i);
                     int matchID = onematch.get("id_match").asInt();
-                    ClientBet currentBet = ClientBet.getClientBetForMatch(idClient, matchID);
-                    if(currentBet == null){
-                        //creamos una nueva
-                        currentBet = new ClientBet(idClient,idLeaderboard,onematch);
-                        currentBet.save();
-                    }else{
-                        //modificamos la existente
-                        currentBet.initClientBetData(idClient,idLeaderboard,onematch);
-                        currentBet.update();
+                    if(GameMatch.getMatchIfActiveForBet(matchID) != null){
+                        ClientBet currentBet = ClientBet.getClientBetForMatch(idClient, matchID);
+                        if(currentBet == null){
+                            //creamos una nueva
+                            currentBet = new ClientBet(idClient,idLeaderboard,onematch);
+                            currentBet.save();
+                        }else{
+                            //modificamos la existente
+                            currentBet.initClientBetData(idClient,idLeaderboard,onematch);
+                            currentBet.update();
+                        }
+                        data.add(currentBet.toJson());
                     }
-                    data.add(currentBet.toJson());
                 }
                 //build response
                 ObjectNode response = hecticusResponse(0, "ok", "clientBet", data);
