@@ -53,6 +53,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.VideoView;
 import android.webkit.ValueCallback;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -169,6 +170,8 @@ public class CordovaActivity extends Activity implements CordovaInterface {
     // This is not the same as calling super.loadSplashscreen(url)
     protected int splashscreen = 0;
     protected int splashscreenTime = 3000;
+    //plays splash screen video
+    protected String splashscreenVideo = null;
 
     // LoadUrl timeout value in msec (default of 20 sec)
     protected int loadUrlTimeoutValue = 20000;
@@ -404,15 +407,20 @@ public class CordovaActivity extends Activity implements CordovaInterface {
         }
 
         this.splashscreenTime = this.getIntegerProperty("SplashScreenDelay", this.splashscreenTime);
-        if(this.splashscreenTime > 0)
-        {
-            this.splashscreen = this.getIntegerProperty("SplashScreen", 0);
-            if(this.splashscreen != 0)
-            {
-                this.showSplashScreen(this.splashscreenTime);
-            }
+        this.splashscreenVideo = this.getStringProperty("SplashScreenVideo",null);
+        //revisamos si es un splash con video
+        if(this.splashscreenVideo != null){
+        	this.showVideoSplashScreen(this.splashscreenTime);
+        }else{
+	        if(this.splashscreenTime > 0)
+	        {
+	            this.splashscreen = this.getIntegerProperty("SplashScreen", 0);
+	            if(this.splashscreen != 0)
+	            {
+	                this.showSplashScreen(this.splashscreenTime);
+	            }
+	        }
         }
-        
         // Set backgroundColor
         this.backgroundColor = this.getIntegerProperty("BackgroundColor", Color.BLACK);
         this.root.setBackgroundColor(this.backgroundColor);
@@ -1110,6 +1118,61 @@ public class CordovaActivity extends Activity implements CordovaInterface {
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
                 root.setBackgroundResource(that.splashscreen);
+                
+                // Create and show the dialog
+                splashDialog = new Dialog(that, android.R.style.Theme_Translucent_NoTitleBar);
+                // check to see if the splash screen should be full screen
+                if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                        == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
+                    splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
+                splashDialog.setContentView(root);
+                splashDialog.setCancelable(false);
+                splashDialog.show();
+
+                // Set Runnable to remove splash screen just in case
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        removeSplashScreen();
+                    }
+                }, time);
+            }
+        };
+        this.runOnUiThread(runnable);
+    }
+    
+    /**
+     * Shows the splash screen over the full Activity
+     */
+    @SuppressWarnings("deprecation")
+    protected void showVideoSplashScreen(final int time) {
+        final CordovaActivity that = this;
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+                // Get reference to display
+                Display display = getWindowManager().getDefaultDisplay();
+
+                // Create the layout for the dialog
+                LinearLayout root = new LinearLayout(that.getActivity());
+                root.setMinimumHeight(display.getHeight());
+                root.setMinimumWidth(display.getWidth());
+                root.setOrientation(LinearLayout.VERTICAL);
+                root.setBackgroundColor(that.getIntegerProperty("backgroundColor", Color.BLACK));
+                root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+                //root.setBackgroundResource(that.splashscreen);
+                VideoView myVideoView = new VideoView(that.getActivity());
+                //VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
+                Uri videoUri = Uri.parse(that.splashscreenVideo);
+                //Uri videoUri = Uri.parse("http://techslides.com/demos/sample-videos/small.mp4");
+                myVideoView.setVideoURI(videoUri);
+                //myVideoView.setMediaController(new MediaController(this));
+                myVideoView.requestFocus();
+                myVideoView.start();
+                root.addView(myVideoView);
                 
                 // Create and show the dialog
                 splashDialog = new Dialog(that, android.R.style.Theme_Translucent_NoTitleBar);
