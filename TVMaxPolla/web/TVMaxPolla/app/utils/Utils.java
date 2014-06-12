@@ -229,4 +229,24 @@ public class Utils {
         }
     }
 
+    public static String fanaticos412Date(String value, String tz) {
+        try {
+            Calendar today = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM h:mm a");
+            Date dateStr = sdf.parse(value);
+
+            SimpleDateFormat aux = new SimpleDateFormat("dd/MMM h:mm a");
+            aux.setTimeZone(TimeZone.getTimeZone(tz));
+
+            Calendar pre = new GregorianCalendar(TimeZone.getTimeZone(tz));
+            pre.setTime(dateStr);
+            pre.setTimeZone(Utils.APP_TIMEZONE);
+            pre.set(Calendar.YEAR, today.get(Calendar.YEAR));
+
+            return aux.format(pre.getTime());
+        }catch (Exception ex){
+            return "";
+        }
+    }
+
 }
