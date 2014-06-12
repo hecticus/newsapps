@@ -192,7 +192,12 @@
 		
 			_oAjax.done(function(_msg) {
 				if (_msg.error==0) {
-					navigator.notification.alert("Bien! Tu pronostico se ha guardado con exito.", doNothing, "Guardar", "OK");
+					if(_msg.message != null && _msg.message != ""){
+						navigator.notification.alert(_msg.message, doNothing, "Guardar", "OK");
+					}else{
+						navigator.notification.alert("Bien! Tu pronostico se ha guardado con exito.", doNothing, "Guardar", "OK");
+					}
+					
 					//alert('Bien! Tu pronostico se ha guardado con exito.');
 				} else {
 					navigator.notification.alert("Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.", doNothing, "Alerta", "OK");
@@ -212,7 +217,8 @@
 
 
 	$(document).on('touchend','.add', function(e) {
-		preventBadClick(e);	
+		preventBadClick(e);
+		if(isPollaPhaseRunning) return false;
 		var _tGoal = $(this).parent().data('goal');
 		_tGoal = parseInt(_tGoal + 1);
 		$(this).parent().data('goal',_tGoal);
@@ -221,6 +227,7 @@
 	
 	$(document).on('touchend','.sub', function(e) {
 		preventBadClick(e);	
+		if(isPollaPhaseRunning) return false;
 		var _tGoal = $(this).parent().data('goal');
 		_tGoal = parseInt(_tGoal - 1);					
 		if (_tGoal <= 0)  _tGoal = 0;					
@@ -267,6 +274,7 @@
 	$(document).on('click','.flag', function(e) {
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		if(isPollaPhaseRunning) return false;
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 		
@@ -283,6 +291,7 @@
 	$(document).on('click','.goal', function(e) {
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		if(isPollaPhaseRunning) return false;
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 		

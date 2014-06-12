@@ -94,6 +94,11 @@ public class Phase extends HecticusModel {
         return finder.where().gt("date_end", currentTime).orderBy("date_end").setMaxRows(1).findUnique();
     }
 
+    public static Phase getRunningPhase(){
+        long currentTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
+        return finder.where().ge("date_end", currentTime).le("date_start", currentTime).orderBy("date_end").setMaxRows(1).findUnique();
+    }
+
     public static List<Phase> getAllActivePhases(){
         long currentTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         return finder.where().gt("date_start", currentTime).orderBy("date_start").findList();

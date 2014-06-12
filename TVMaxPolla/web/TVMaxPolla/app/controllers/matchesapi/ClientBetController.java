@@ -151,8 +151,14 @@ public class ClientBetController extends HecticusController {
                     dataGroup.add(groupObjJson);
                 }
             }
+            //indicamos si la fase esta transcurriendo o no
+            boolean isRunning = false;
+            Phase runningPhase = Phase.getRunningPhase();
+            if(runningPhase != null && runningPhase.getIdPhase() == currentPhaseID){
+                isRunning = true;
+            }
             //build response
-            ObjectNode response = tvmaxPhaseResponse("phase", currentPhase.toJson(),dataGroup,null);
+            ObjectNode response = tvmaxPhaseResponse("phase", currentPhase.toJson(),dataGroup,null,isRunning);
             return ok(response);
 
         }catch(Exception ex){
