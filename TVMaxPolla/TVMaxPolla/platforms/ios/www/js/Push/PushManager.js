@@ -115,7 +115,7 @@ function successPushHandler (result) {
 }
 
 function errorPushHandler (error) {
-    console.log('<li>error:'+ error +'</li>');
+    //console.log('<li>error:'+ error +'</li>');
 }
 
 var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";
@@ -138,7 +138,8 @@ function updateDeviceToServer(){
 	//console.log("revisando version");
 	try {	
 		//Actualizamos tambien las categorias de push
-		updatePushCategoriesToServer();
+		//updatePushOptionsToServer();
+		getClientPushOptions(doNothing,doNothing,true);
 		
 		if(regID != null && regID != ""){
 			var currentRegID = loadRegID();

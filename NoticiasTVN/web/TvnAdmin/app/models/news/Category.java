@@ -48,6 +48,8 @@ public class Category extends HecticusModel{
 
     //type
     private Boolean hidden;
+
+    private String iconClass;
 	
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);
@@ -75,6 +77,12 @@ public class Category extends HecticusModel{
         tr.put("sort",sort);
         tr.put("status",status);
         tr.put("hidden",hidden);
+        if (iconClass != null && !iconClass.isEmpty()){
+            tr.put("iconClass", iconClass);
+        }else {
+            tr.put("iconClass", "icon-default");
+        }
+
         return tr;
     }
 
@@ -210,4 +218,11 @@ public class Category extends HecticusModel{
         this.hidden = hidden;
     }
 
+    public String getIconClass() {
+        return iconClass;
+    }
+
+    public void setIconClass(String iconClass) {
+        this.iconClass = iconClass;
+    }
 }

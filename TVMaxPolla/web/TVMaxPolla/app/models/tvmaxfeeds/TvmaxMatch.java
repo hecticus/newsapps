@@ -101,13 +101,16 @@ public class TvmaxMatch extends HecticusModel {
             Team teamVisitante = Team.getTeam(match.getIdTeamB());
             if (teamLocal!= null){
                 tr.put("equipo_local_ext_id",teamLocal.getAfpId());
+                tr.put("equipo_local_short_name", teamLocal.getShortName());
             }
             if (teamVisitante != null){
                 tr.put("equipo_visitante_ext_id",teamVisitante.getAfpId());
+                tr.put("equipo_visitante_short_name", teamVisitante.getShortName());
             }
         }
 
         tr.put("currentlyLive", decode(matchStatus).equalsIgnoreCase("activo"));
+        tr.put("fecha_de_partido_ve", Utils.fanaticos412Date(matchDate, "America/Caracas"));
 
         return tr;
     }
@@ -119,7 +122,7 @@ public class TvmaxMatch extends HecticusModel {
     }
 
     public static List<TvmaxMatch> getAll(){
-        return finder.orderBy("external_id desc").findList();
+        return finder.orderBy("external_id asc").findList();
     }
 
     public static List<TvmaxMatch> getAllLimited(){

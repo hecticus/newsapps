@@ -74,9 +74,7 @@
 		} else {
 								
 			if(_jMenu[_this.data('index')].class == 'content-polla' 
-				|| _jMenu[_this.data('index')].class == 'content-alertas' 
-				|| _jMenu[_this.data('index')].class == 'content-signin' 
-				|| _jMenu[_this.data('index')].class == 'content-signup' ){
+				|| _jMenu[_this.data('index')].class == 'content-alertas'){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -330,7 +328,7 @@
 		try{e.preventDefault();}catch(ex){}
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}
-		console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
+		//console.log("getCurrentTimeMillis():"+getCurrentTimeMillis()+" lastClicked:"+lastClicked);
 		if(lastClicked != 0 &&  getCurrentTimeMillis()-lastClicked  < 500){
 			//lastClicked = getCurrentTimeMillis();
 			return true;
@@ -488,9 +486,10 @@
 
 	});
 	
-	$(document).on('click','.content-mam .row[data-match]', function(e) {
+	$(document).on('click','.content-mam .row[data-match], .content-resultados .row[data-match]', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		_matchHasFinished = false;
 		_fRenderDataContent($(this).data('match'));			
 	});
 
@@ -501,4 +500,41 @@
 		clearTimeout(_mTimeout);
 		_fRenderEvent($(this).data('match'));
 	});
+
+
+	$(document).on('click','.content-alertas .countryButton', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		_fRenderDataContent();	
+		myScroll2.scrollTo(0,0,0);
+	});
+
+	$(document).on('click','.teams-alerts', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		
+
+		if ($(this).hasClass('opacity')) {
+			
+			if (_jAlert.teams.length == 4) {
+				navigator.notification.alert("No puede seleccionar más de 4 países", doNothing, "Alertas", "OK");
+				return false;
+			} else{
+				$(this).removeClass('opacity');
+				_jAlert.teams.push($(this).data('id'));	
+			}
+						
+		}  else {
+
+			$(this).addClass('opacity');
+			$(this).data('select','0');				
+			_jAlert.teams.splice($.inArray($(this).data('id'), _jAlert.teams),1);
+
+		}
+
+		_fsetTeamsAlerts();	
+		
+	});
+
+
 

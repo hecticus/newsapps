@@ -70,7 +70,7 @@
 				_html += '</div>';
 
 
-				if ((_item.transmision_por_TVMAX) && (_item.estado_del_partido.toString().toLowerCase() == 'próximo'))  {
+				if ((_item.transmision_por_TVMAX) && (_item.currentlyLive))  {
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tv" style="height:50px; line-height:50px; text-align:center;">';
 						_html += '<img  src="img/live.png" alt="En vivo" style="width:25%; max-width:145px; max-height:50px; height:auto;"  />';		
 					_html += '</div>';	
@@ -229,8 +229,8 @@
 			var _flag = _fgetFlag(_name.toString());
 								
 			_html += '<div class="col-md-12 match" data-country="' + _name + '" >';
-			//_html += '<img onerror="this.style.display=\'none\'" src="img/flags/' + _flag + '" alt="' + _name + '" style="width:25px; height:auto; margin-left:15px; margin-right:10px; vertical-align: sub;"  />';
-			_html += '<span>' + _name + '</span>';	
+		
+			_html += '<span style="margin-left:15px;">' + _name + '</span>';	
 			_html += '</div>';
 			
 		});
@@ -246,7 +246,7 @@
 		var _html = '<div class="row" >';	
 		$.each(_jPhase, function(_index, _phase) {			
 			_html += '<div class="col-md-12 match" data-phase="' + _phase.name + '" >';
-			_html += '<span>' + _phase.name + '</span>';
+			_html += '<span style="margin-left:15px;">' + _phase.name + '</span>';
 			_html += '</div>';
 		});
 		_html += '</div>';

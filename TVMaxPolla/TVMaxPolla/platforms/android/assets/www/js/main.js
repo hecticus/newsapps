@@ -72,8 +72,27 @@ var _fSetBack = function() {
 	$('#wrapper2 .scroller .container').empty();
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
-	$('header .container .row .menu span').removeClass('icon-back');		
-	$('.tv').removeClass('hidden');
+	$('header .container .row .menu span').removeClass('icon-back');
+	
+	if (_jActive) {
+		
+		if (_jActive.live) {
+			$('header .container .row .tv').removeClass('hidden');
+		} else {
+			$('header .container .row .tv').addClass('hidden');
+		} 	
+		 	
+		if (_jActive.worldCupStarted) {
+			$('.worldcup').removeClass('hidden');
+			$('.preview').addClass('hidden');
+		}
+		
+	}	
+	
+	
+
+						
+
 	$('.menu-group').addClass('hidden');		
 	
 };
@@ -384,7 +403,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				//ANDROID
 				osName = "android";
 			}
-			var version = 1;
+			var version = 3;
 			
 			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
 			updateURL = "";
@@ -563,5 +582,55 @@ $.fPostAjaXJSON = function(_url, _data) {
 		
 	}
 	
+
+	setInterval(function(){
+		$(_jMenu).each(function(_index,_menu) {
+			_menu.json = false;
+		});
+	}, 300000);
 			
+	var isMundialOn = false;
+	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
+	function mundialIntervalFunc(){
+		_oAjax = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				
+				_jActive = _json;
+				if (_jActive.worldCupStarted) {
+					isMundialOn = true;
+				}
+				if ($('body').hasClass('content-home')) {
+					
+					if (_jActive) {
+						
+						if (_jActive.live) {
+							$('header .container .row .tv').removeClass('hidden');
+						} else {
+							$('header .container .row .tv').addClass('hidden');
+						} 							
+						
+						if (_jActive.worldCupStarted) {
+							$('.worldcup').removeClass('hidden');
+							$('.preview').addClass('hidden');
+						}
+	
+					}
+				}
+		
+			});
+		}
+	}
+	mundialIntervalFunc();
+   
+		
+	function _fsetTeamsAlerts() {	
+		var  _html = '<div class="col-md-12"  >';	
+		$.each(_jAlert.teams, function(_index,_id) {			
+			var _team = _fgetTeamData(_id);			
+			_html += '<img  data-id="' +  _id + '" onerror="this.style.display=\'none\'" src="img/flags/' + _team.flag + '" alt="' + _team.name + '" style="width:20%;  height:auto; max-width:67px; max-height:45px; float:left; margin:5px; "  />';					    			 						
+		});			
+		_html += '</div>';
+		$('#equipos').html(_html);		
+	}	
 	

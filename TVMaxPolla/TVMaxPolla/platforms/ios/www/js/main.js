@@ -7,38 +7,6 @@ var _jClient = false;
 
 var _homeWasShowed = false;
 
-var _jAfpTeamsIds={"teams":[{"id_tvmax":"1","name":"Alemania","shortname":"GER","flag":"gm-lgflag.png","ext_id":"1500"},
-                          {"id_tvmax":"2","name":"Argelia","shortname":"ALG","flag":"ag-lgflag.png","ext_id":"3041"},
-                          {"id_tvmax":"3","name":"Argentina","shortname":"ARG","flag":"ar-lgflag.png","ext_id":"3029"},
-                          {"id_tvmax":"4","name":"Australia","shortname":"AUS","flag":"as-lgflag.png","ext_id":"3059"},
-                          {"id_tvmax":"5","name":"B&eacute;lgica","shortname":"BEL","flag":"be-lgflag.png","ext_id":"3004"},
-                          {"id_tvmax":"6","name":"Bosnia y Hna.","shortname":"BIH","flag":"bk-lgflag.png","ext_id":"3100"},
-                          {"id_tvmax":"7","name":"Brasil","shortname":"BRA","flag":"br-lgflag.png","ext_id":"1035"},
-                          {"id_tvmax":"8","name":"Camer&uacute;n","shortname":"CMR","flag":"cm-lgflag.png","ext_id":"3075"},
-                          {"id_tvmax":"9","name":"Chile","shortname":"CHI","flag":"ci-lgflag.png","ext_id":"3015"},
-                          {"id_tvmax":"10","name":"Colombia","shortname":"COL","flag":"co-lgflag.png","ext_id":"3037"},
-                          {"id_tvmax":"11","name":"Corea del Sur","shortname":"KOR","flag":"ks-lgflag.png","ext_id":"3068"},
-                          {"id_tvmax":"12","name":"Costa de Marfil","shortname":"CIV","flag":"iv-lgflag.png","ext_id":"3038"},
-                          {"id_tvmax":"13","name":"Costa Rica","shortname":"CRC","flag":"cs-lgflag.png","ext_id":"3090"},
-                          {"id_tvmax":"14","name":"Croacia","shortname":"CRO","flag":"hr-lgflag.png","ext_id":"523"},
-                          {"id_tvmax":"15","name":"Ecuador","shortname":"ECU","flag":"ec-lgflag.png","ext_id":"3065"},
-                          {"id_tvmax":"16","name":"Espa&ntilde;a","shortname":"ESP","flag":"sp-lgflag.png","ext_id":"413"},
-                          {"id_tvmax":"17","name":"Usa","shortname":"USA","flag":"us-lgflag.png","ext_id":"3019"},
-                          {"id_tvmax":"18","name":"Francia","shortname":"FRA","flag":"fr-lgflag.png","ext_id":"461"},
-                          {"id_tvmax":"19","name":"Ghana","shortname":"GHA","flag":"gh-lgflag.png","ext_id":"3025"},
-                          {"id_tvmax":"20","name":"Grecia","shortname":"GRE","flag":"gr-lgflag.png","ext_id":"3012"},
-                          {"id_tvmax":"21","name":"Honduras","shortname":"HON","flag":"ho-lgflag.png","ext_id":"3048"},
-                          {"id_tvmax":"22","name":"Inglaterra","shortname":"ENG","flag":"en-lgflag.png","ext_id":"436"},
-                          {"id_tvmax":"23","name":"Ir&aacute;n","shortname":"IRN","flag":"ir-lgflag.png","ext_id":"3033"},
-                          {"id_tvmax":"24","name":"Italia","shortname":"ITA","flag":"it-lgflag.png","ext_id":"445"},
-                          {"id_tvmax":"25","name":"Jap&oacute;n","shortname":"JPN","flag":"ja-lgflag.png","ext_id":"3062"},
-                          {"id_tvmax":"26","name":"M&eacute;xico","shortname":"MEX","flag":"mx-lgflag.png","ext_id":"3010"},
-                          {"id_tvmax":"27","name":"Nigeria","shortname":"NGA","flag":"ni-lgflag.png","ext_id":"3084"},
-                          {"id_tvmax":"28","name":"Pa&iacute;ses Bajos","shortname":"NED","flag":"nl-lgflag.png","ext_id":"411"},
-                          {"id_tvmax":"29","name":"Portugal","shortname":"POR","flag":"po-lgflag.png","ext_id":"450"},
-                          {"id_tvmax":"30","name":"Rusia","shortname":"RUS","flag":"rs-lgflag.png","ext_id":"1063"},
-                          {"id_tvmax":"31","name":"Suiza","shortname":"SUI","flag":"sz-lgflag.png","ext_id":"408"},
-                          {"id_tvmax":"32","name":"Uruguay","shortname":"URU","flag":"uy-lgflag.png","ext_id":"3024"}]};
 
 
 var _fGetAfpTeam = function(_id) {		
@@ -104,8 +72,27 @@ var _fSetBack = function() {
 	$('#wrapper2 .scroller .container').empty();
 	$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
-	$('header .container .row .menu span').removeClass('icon-back');		
-	$('.tv').removeClass('hidden');
+	$('header .container .row .menu span').removeClass('icon-back');
+	
+	if (_jActive) {
+		
+		if (_jActive.live) {
+			$('header .container .row .tv').removeClass('hidden');
+		} else {
+			$('header .container .row .tv').addClass('hidden');
+		} 	
+		 	
+		if (_jActive.worldCupStarted) {
+			$('.worldcup').removeClass('hidden');
+			$('.preview').addClass('hidden');
+		}
+		
+	}	
+	
+	
+
+						
+
 	$('.menu-group').addClass('hidden');		
 	
 };
@@ -155,7 +142,7 @@ var _fGetLoadingError = function() {
 
 
 
-$.fGetAjaXJSONNotLoading = function(_url) {
+$.fGetAjaXJSONMaM = function(_url) {
 
 	try {
 		
@@ -183,6 +170,33 @@ $.fGetAjaXJSONNotLoading = function(_url) {
 
 
 
+
+$.fGetAjaXJSON2 = function(_url, _dataType, _contentType, _async,_loading) {
+
+	try {	
+		
+			
+	  	return $.ajax({
+			url: _url,			
+			type: 'GET',	
+			async: (_async) ? _async : false,            		
+			dataType: (_dataType) ? _dataType : 'json',
+			contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
+		}).always(function () {
+			//always		
+		}).fail(function(jqXHR, textStatus, errorThrown) {		
+			//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);			
+			return false;
+		});
+		   
+	} catch (e) {
+		// statements to handle any exceptions
+		// pass exception object to error handler
+		// alert(e);
+		return false;
+	}
+	
+};
 
 
 
@@ -389,7 +403,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				//ANDROID
 				osName = "android";
 			}
-			var version = 1;
+			var version = 2;
 			
 			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
 			updateURL = "";
@@ -424,6 +438,41 @@ $.fPostAjaXJSON = function(_url, _data) {
 		window.open(updateURL, '_system', 'closebuttoncaption=regresar');
 	}
 		
+		
+	var _fgetTeamData = function(_id) {		
+		var _jTeam = false;
+		$.each(_jAfpTeamsIds.teams, function(_index,_team) {
+			if (_team.ext_id ==  _id) _jTeam = _team;
+			if (_jTeam) return false;
+		});		
+		return _jTeam;
+	};		
+		
+	
+	var _fgetFlag = function(_name, _id) {
+		
+		var _flag = false;
+		
+		$.each(_jAfpTeamsIds.teams, function(_index,_team) {
+			
+			if (_id) {
+				if (_team.ext_id ==  _id) {
+					_flag = _team.flag;
+				}	
+			} 
+			
+			if (_name) {
+				if (_team.name.search(_name) >= 0  ) {
+					_flag = _team.flag;
+				}	
+			}
+			
+			
+			if (_flag) return false;
+		});
+		
+		return _flag;
+	};
 	
 
 	function _fGetLoginStatus(_jData) {
@@ -508,7 +557,80 @@ $.fPostAjaXJSON = function(_url, _data) {
 		}
 	}
 	
-	function doNothing(){
+	
+	function _fgetFormatDateMatch(_date) {
+
+		var _sFormatDate = _date;			
+		var _aDate= _sFormatDate.split('/');
+		var _oDate = false;
+		
+		if (_aDate.length >= 1) {
+			
+			_oDate = new Date(2014, 6, _aDate[0]);
+			if (_sFormatDate.search('Jul') >= 0  ) {
+				_oDate = new Date(2014, 7, _aDate[0]);
+			}
+								
+			_sFormatDate = _aDay[_oDate.getDay()];
+			_sFormatDate += ', ' +  _aDate[0]; 
+			_sFormatDate += ' de ' + _aMonthEs[_oDate.getMonth()];
+			//_sFormatDate += ' de 2014';
+
+		}
+	
+		return _date;
 		
 	}
+	
 
+	setInterval(function(){
+		$(_jMenu).each(function(_index,_menu) {
+			_menu.json = false;
+		});
+	}, 300000);
+			
+	var isMundialOn = false;
+	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
+	function mundialIntervalFunc(){
+		_oAjax = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				
+				_jActive = _json;
+				if (_jActive.worldCupStarted) {
+					isMundialOn = true;
+				}
+				if ($('body').hasClass('content-home')) {
+					
+					if (_jActive) {
+						
+						if (_jActive.live) {
+							$('header .container .row .tv').removeClass('hidden');
+						} else {
+							$('header .container .row .tv').addClass('hidden');
+						} 							
+						
+						if (_jActive.worldCupStarted) {
+							$('.worldcup').removeClass('hidden');
+							$('.preview').addClass('hidden');
+						}
+	
+					}
+				}
+		
+			});
+		}
+	}
+	mundialIntervalFunc();
+   
+		
+	function _fsetTeamsAlerts() {	
+		var  _html = '<div class="col-md-12"  >';	
+		$.each(_jAlert.teams, function(_index,_id) {			
+			var _team = _fgetTeamData(_id);			
+			_html += '<img  data-id="' +  _id + '" onerror="this.style.display=\'none\'" src="img/flags/' + _team.flag + '" alt="' + _team.name + '" style="width:20%;  height:auto; max-width:67px; max-height:45px; float:left; margin:5px; "  />';					    			 						
+		});			
+		_html += '</div>';
+		$('#equipos').html(_html);		
+	}	
+	
