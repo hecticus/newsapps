@@ -162,7 +162,7 @@ public class ClientBetController extends HecticusController {
             return ok(response);
 
         }catch(Exception ex){
-            return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
+            return badRequest(buildBasicResponse(-1,"ocurrio un error getCurrentPhaseMatches:"+ex.toString()));
         }
     }
 
@@ -178,7 +178,7 @@ public class ClientBetController extends HecticusController {
                 return getCurrentPhaseMatches(false,-1);
             }
         }catch(Exception ex){
-            return badRequest(buildBasicResponse(-1,"ocurrio un error:"+ex.toString()));
+            return badRequest(buildBasicResponse(-1,"ocurrio un error getClientBetForCurrentPhase:"+ex.toString()));
         }
     }
 
