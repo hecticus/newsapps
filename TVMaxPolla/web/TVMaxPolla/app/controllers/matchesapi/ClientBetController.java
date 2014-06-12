@@ -53,24 +53,35 @@ public class ClientBetController extends HecticusController {
                 }*/
                 //buscamos todos los matches y los guardamos si no existen
                 ArrayNode matches = (ArrayNode)predictionObj.get("matches");
+                boolean isCurrent = false;
                 for(int i=0; i<matches.size();i++){
                     ObjectNode onematch = (ObjectNode) matches.get(i);
                     int matchID = onematch.get("id_match").asInt();
-                    ClientBet currentBet = ClientBet.getClientBetForMatch(idClient, matchID);
-                    if(currentBet == null){
-                        //creamos una nueva
-                        currentBet = new ClientBet(idClient,idLeaderboard,onematch);
-                        currentBet.save();
+                    if(GameMatch.getMatchIfActiveForBet(matchID) != null){
+                        ClientBet currentBet = ClientBet.getClientBetForMatch(idClient, matchID);
+                        if(currentBet == null){
+                            //creamos una nueva
+                            currentBet = new ClientBet(idClient,idLeaderboard,onematch);
+                            currentBet.save();
+                        }else{
+                            //modificamos la existente
+                            currentBet.initClientBetData(idClient,idLeaderboard,onematch);
+                            currentBet.update();
+                        }
+                        data.add(currentBet.toJson());
                     }else{
-                        //modificamos la existente
-                        currentBet.initClientBetData(idClient,idLeaderboard,onematch);
-                        currentBet.update();
+                        isCurrent = true;
                     }
-                    data.add(currentBet.toJson());
                 }
+
                 //build response
-                ObjectNode response = hecticusResponse(0, "ok", "clientBet", data);
-                return ok(response);
+                if(isCurrent){
+                    ObjectNode response = hecticusMessageResponse(0, "ok", "clientBet", data, "Ya no se pueden realizar más cambios hasta la próxima fase");
+                    return ok(response);
+                }else{
+                    ObjectNode response = hecticusResponse(0, "ok", "clientBet", data);
+                    return ok(response);
+                }
             }else{
                 return badRequest(buildBasicResponse(1,"parametros incorrectos para la apuesta"));
             }
