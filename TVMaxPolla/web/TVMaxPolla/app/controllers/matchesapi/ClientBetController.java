@@ -194,7 +194,7 @@ public class ClientBetController extends HecticusController {
             String errors = "";
 
             boolean hasNext = false;
-            if(post.get("response").isArray()){
+            //if(post.get("response").isArray()){
                 //Iterator<JsonNode> matches = post.get("response").getElements();
 
                 //while (matches.hasNext()){
@@ -204,8 +204,8 @@ public class ClientBetController extends HecticusController {
                     Integer scoreWinner = match.get("score_winner").asInt();
                     Integer scoreLoser = match.get("score_loser").asInt();
                     Integer idMatch = match.get("id_match").asInt();
-                    Integer pageSize = match.get("page_size").asInt();
-                    Integer page = match.get("page").asInt();
+                    Integer pageSize = post.get("page_size").asInt();
+                    Integer page = post.get("page").asInt();
                     GameMatch gm = GameMatch.getMatch(idMatch);
                     if(gm == null ){
                         errors+="- The match "+idMatch+" doesn't exists\n";
@@ -223,7 +223,7 @@ public class ClientBetController extends HecticusController {
                         //System.out.println();
                         //Llamar a web service para los puntos del leaderboard
                         try{
-                            String url = "http://localhost:9000/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
+                            String url = "http://localhost:9001/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
                                     +cbet.getIdClient()+"/"+cbet.getIdLeaderboard()+"/"+points;
                             F.Promise<WS.Response> add = WS.url(url).post("content");
                             JsonNode node = Json.parse(add.get().getBody());
@@ -240,12 +240,14 @@ public class ClientBetController extends HecticusController {
                         }
                     }
                 //}
-            }
-            if(!errors.isEmpty()){
-                throw new Exception("Ocurrieron los siguientes errores: "+errors);
-            }
+            //}
+
             //result = buildBasicResponse(0,"OK");
             result = hecticusResponseSimple(0,"OK","hasMore",hasNext);
+            if(!errors.isEmpty()){
+                result.put("errors",errors);
+                //throw new Exception("Ocurrieron los siguientes errores: "+errors);
+            }
         }catch (Exception ex){
             //log and email about fail
             result = buildBasicResponse(-1, ex.getMessage());
