@@ -95,6 +95,12 @@ public class TvmaxMatch extends HecticusModel {
         tr.put("descripcion_del_partido", decode(matchDescription));
         tr.put("transmision_por_TVMAX", tvmaxBroadcast);
 
+        //goles dependiendo del estado del partido
+        if (decode(matchStatus).equalsIgnoreCase("Próximo")){
+            tr.put("goles_equipo_local", "-");
+            tr.put("goles_equipo_visitante", "-");
+        }
+
         //obtenemos data adicional como los id_ext de los equipos
         GameMatch match = GameMatch.getMatch(matchNumber);
         if (match != null){
@@ -195,6 +201,19 @@ public class TvmaxMatch extends HecticusModel {
                     Expr.eq("match_status", "Finalizado en penales"))
                 .like("match_date", date)
                 .orderBy("external_id desc")
+                .findList();
+    }
+
+    public static List<TvmaxMatch> getFinisedMatchesByDate(String beginDate, String endDate){
+        return finder.where().disjunction()
+                .eq("match_status", "Finalizado")
+                .eq("match_status", "Finalizado en penales")
+                .eq("match_description", "Finalizado")
+                .eq("match_description", "Finalizado en penales")
+                .endJunction()
+                .between("formated_date", beginDate, endDate)
+                .orderBy("external_id desc")
+                .setMaxRows(10)
                 .findList();
     }
 
