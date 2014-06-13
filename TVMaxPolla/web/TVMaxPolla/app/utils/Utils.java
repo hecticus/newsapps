@@ -233,6 +233,7 @@ public class Utils {
         try {
             Calendar today = new GregorianCalendar(TimeZone.getTimeZone(tz));
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM h:mm a");
+            sdf.setTimeZone(Utils.APP_TIMEZONE);
             Date dateStr = sdf.parse(value);
 
             SimpleDateFormat aux = new SimpleDateFormat("dd/MMM h:mm a");

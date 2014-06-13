@@ -135,12 +135,15 @@ public class MatchController extends HecticusController {
     public static Result getResults(){
         try{
             String date;
-            Calendar current = new GregorianCalendar(TimeZone.getDefault());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM");
-            sdf.setTimeZone(TimeZone.getTimeZone("America/Panama"));
-            date = sdf.format(current.getTime())+"%";
+            Calendar current = new GregorianCalendar(Utils.APP_TIMEZONE);
 
-            List<TvmaxMatch> fullList = TvmaxMatch.getFinisedMatchesByDate(date);
+            Calendar begin = new GregorianCalendar(Utils.APP_TIMEZONE);
+            begin.add(Calendar.DAY_OF_MONTH, -3);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            sdf.setTimeZone(Utils.APP_TIMEZONE);
+
+            List<TvmaxMatch> fullList = TvmaxMatch.getFinisedMatchesByDate(sdf.format(begin.getTime())+"000000", sdf.format(current.getTime())+ "235959");
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()){
                 //i got data
