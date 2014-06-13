@@ -44,7 +44,7 @@ public class Application extends Controller
     public static Result index()
     {
     	
-    	String connected = session("connected");
+    	/*String connected = session("connected");
     	if(connected==null) {
     		return redirect("/signin");
     	}
@@ -53,9 +53,38 @@ public class Application extends Controller
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
     	lstPhase = objClient.getPrediction(connected);    	
     	return ok(index.render(lstPhase));
+    	*/
     
+    	String connected = session("connected");
+    	if(connected==null) {
+    		return redirect("/signin");
+    	}
+    	    
+    	Client objClient =  new Client();
+    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+    	lstPhase = objClient.getPredictionBet(connected);    	
+    	return ok(index2.render(lstPhase));    	
+    	
 
     }
+    
+    
+    public static Result index2()
+    {
+
+    	String connected = session("connected");
+    	if(connected==null) {
+    		return redirect("/signin");
+    	}
+    	    
+    	Client objClient =  new Client();
+    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+    	lstPhase = objClient.getPredictionBet(connected);    	
+    	return ok(index2.render(lstPhase));    	
+  
+    }
+    
+    
     
     public static Result exit()
     {

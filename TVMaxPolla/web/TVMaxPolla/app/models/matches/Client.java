@@ -220,6 +220,104 @@ public class Client  {
     }
 
     
+    public List<Phase> getPredictionBet(String idClient) {
+    	
+    	ObjectNode dataJson = Json.newObject();    	
+    	dataJson.put("idClient", idClient);
+
+    	String url = Config.getTVMaxPollaHost();
+    	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
+    	    	
+
+    	
+    	JsonNode jsonResponse = wsResponse.get().asJson();    	
+    	JsonNode jsonPhase = jsonResponse.get("phase");
+    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+    	
+		Phase objPhase = new Phase();
+		objPhase.setIdPhase(jsonPhase.get("id").asInt());
+    	objPhase.setName(jsonPhase.get("name").asText());
+    	objPhase.setDateStart(Long.parseLong(jsonPhase.get("date_start").asText()));
+    	objPhase.setDateEnd(Long.parseLong(jsonPhase.get("date_end").asText()));
+    	
+    	Iterator<JsonNode> iJsonGroup = jsonPhase.get("groups").iterator();
+    	List<MatchGroup> lstMatchGroup = new ArrayList<MatchGroup>();
+
+    	while (iJsonGroup.hasNext()) {
+    		
+
+    		MatchGroup objMatchGroup = new MatchGroup();    		
+        	JsonNode jsonGroup = iJsonGroup.next();        	
+        	objMatchGroup.setIdGroup(jsonGroup.get("id").asInt());
+        	objMatchGroup.setName(jsonGroup.get("name").asText());
+        	Iterator<JsonNode> iJsonGame = jsonGroup.get("games").iterator();	
+        	List<GameMatch> lstGameMatch = new ArrayList<GameMatch>();
+        	
+        	while (iJsonGame.hasNext()) {
+        		
+        		GameMatch objGameMatch = new GameMatch();    		
+            	JsonNode jsonGame = iJsonGame.next();            	
+            	objGameMatch.setIdMatch(jsonGame.get("id").asInt());
+            	objGameMatch.setDate(Long.parseLong(jsonGame.get("date").asText()));            	               
+            	
+
+            		Team objTeamA = new Team();
+                	Team objTeamB = new Team();
+
+                	JsonNode jsonTeamA = jsonGame.get("team_a");
+                	JsonNode jsonTeamB = jsonGame.get("team_b");                    	
+
+                	objTeamA.setIdTeam(jsonTeamA.get("id").asInt());            	
+                	objTeamA.setName(jsonTeamA.get("name").asText());            	
+                	objTeamA.setShortName(jsonTeamA.get("shortName").asText());
+                	objTeamA.setFlagFile(jsonTeamA.get("flag_file").asText());
+                	
+                	objTeamB.setIdTeam(jsonTeamB.get("id").asInt());            	
+                	objTeamB.setName(jsonTeamB.get("name").asText());            	
+                	objTeamB.setShortName(jsonTeamB.get("shortName").asText());
+                	objTeamB.setFlagFile(jsonTeamB.get("flag_file").asText());
+                	
+                	objGameMatch.setTeamA(objTeamA);
+                	objGameMatch.setTeamB(objTeamB);
+            		
+            	
+            	
+            	Venue objVenue = new Venue();
+            	JsonNode jsonVenue = jsonGame.get("venue");
+            	objVenue.setIdVenue(jsonVenue.get("id").asInt());
+            	objVenue.setName(jsonVenue.get("name").asText());
+
+            	objGameMatch.setVenue(objVenue);
+
+                MatchResults objResults = new MatchResults(objGameMatch.getIdMatch(),0,0,0,0);
+
+            	if (jsonGame.get("score_team_a") != null ) {
+            		objResults.setScoreTeamA(jsonGame.get("score_team_a").asInt());
+            	}
+            	
+            	if (jsonGame.get("score_team_b") != null ) {
+            		objResults.setScoreTeamB(jsonGame.get("score_team_b").asInt());
+            	}
+            	
+                objGameMatch.setResults(objResults);
+            	
+            	lstGameMatch.add(objGameMatch);
+            	
+        	}
+        	
+        	objMatchGroup.setGameMatch(lstGameMatch);
+        	lstMatchGroup.add(objMatchGroup);
+        	objPhase.setMatchGroup(lstMatchGroup);
+
+    	}
+		
+
+    	lstPhase.add(objPhase);
+
+    	return lstPhase;
+    	
+    }
+    
     public List<Phase> getPrediction(String idClient) {
 		
 		ObjectNode dataJson = Json.newObject();    	
