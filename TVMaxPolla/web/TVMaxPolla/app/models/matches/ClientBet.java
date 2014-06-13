@@ -185,14 +185,16 @@ public class ClientBet  extends HecticusModel {
         if(scoreWinner.equals(scoreLoser) && this.scoreWinner.equals(this.scoreLoser)){
             points+=draw;
         }
+        teamWinner = Team.getTeam(teamWinner.getIdTeam());
+        if(teamWinner!=null){
+            if(teamWinner.getAfpId().equals(afpIdWinner) && scoreWinner >= scoreLoser){
 
-        if(teamWinner.getAfpId().equals(afpIdWinner) && scoreWinner >= scoreLoser){
+                points+=winner;
+            }
 
-            points+=winner;
-        }
-
-        if(this.scoreWinner.equals(scoreWinner) && this.scoreLoser.equals(scoreLoser)){
-            points+=goals;
+            if(this.scoreWinner.equals(scoreWinner) && this.scoreLoser.equals(scoreLoser)){
+                points+=goals;
+            }
         }
 
         return points;
@@ -200,6 +202,10 @@ public class ClientBet  extends HecticusModel {
 
     public static List<ClientBet> getList(Integer idMatch){
         return finder.where().eq("id_match",idMatch).eq("calculated",0).findList();
+    }
+
+    public static List<ClientBet> getListLimited(Integer idMatch, Integer pageSize, Integer page){
+        return finder.where().eq("id_match",idMatch).eq("calculated",0).orderBy("id_client_bet").findPagingList(pageSize).getPage(page).getList();
     }
 
     public static void update(ClientBet cb){

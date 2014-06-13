@@ -76,6 +76,8 @@ public class HecticusController extends Controller {
             innerObj.put(parentObj, (Float)data);
         }else if(data instanceof String){
             innerObj.put(parentObj, (String)data);
+        }else if(data instanceof Boolean){
+            innerObj.put(parentObj, (Boolean)data);
         }
         tr.put("response",innerObj);
         return tr;

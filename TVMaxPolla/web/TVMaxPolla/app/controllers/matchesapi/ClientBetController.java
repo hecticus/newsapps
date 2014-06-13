@@ -192,21 +192,29 @@ public class ClientBetController extends HecticusController {
         try{
             JsonNode post = request().body().asJson();
             String errors = "";
-            if(post.get("response").isArray()){
-                Iterator<JsonNode> matches = post.get("response").getElements();
 
-                while (matches.hasNext()){
-                    JsonNode match = matches.next();
+            boolean hasNext = false;
+            //if(post.get("response").isArray()){
+                //Iterator<JsonNode> matches = post.get("response").getElements();
+
+                //while (matches.hasNext()){
+                    //JsonNode match = matches.next();
+                    JsonNode match = post.get("response");
                     Long winner = match.get("winner").asLong();
                     Integer scoreWinner = match.get("score_winner").asInt();
                     Integer scoreLoser = match.get("score_loser").asInt();
                     Integer idMatch = match.get("id_match").asInt();
+                    Integer pageSize = post.get("page_size").asInt();
+                    Integer page = post.get("page").asInt();
                     GameMatch gm = GameMatch.getMatch(idMatch);
                     if(gm == null ){
                         errors+="- The match "+idMatch+" doesn't exists\n";
-                        continue;
+                        //continue;
+                        throw new Exception(errors);
                     }
-                    Iterator<ClientBet> betIt = ClientBet.getList(idMatch).iterator();
+                    Iterator<ClientBet> betIt = ClientBet.getListLimited(idMatch, pageSize, page).iterator();
+                    //System.out.println(betIt.hasNext());
+                    hasNext = betIt.hasNext();
                     while(betIt.hasNext()){
                         ClientBet cbet = betIt.next();
                         //System.out.println("res "+winner+", "+scoreWinner+", "+scoreLoser);
@@ -215,7 +223,7 @@ public class ClientBetController extends HecticusController {
                         //System.out.println();
                         //Llamar a web service para los puntos del leaderboard
                         try{
-                            String url = "http://localhost:9000/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
+                            String url = "http://localhost:9001/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
                                     +cbet.getIdClient()+"/"+cbet.getIdLeaderboard()+"/"+points;
                             F.Promise<WS.Response> add = WS.url(url).post("content");
                             JsonNode node = Json.parse(add.get().getBody());
@@ -231,15 +239,23 @@ public class ClientBetController extends HecticusController {
                             errors+="- "+ex.getMessage()+"\n";
                         }
                     }
-                }
-            }
+                //}
+            //}
+
+            //result = buildBasicResponse(0,"OK");
+            result = hecticusResponseSimple(0,"OK","hasMore",hasNext);
             if(!errors.isEmpty()){
-                throw new Exception("Ocurrieron los siguientes errores: "+errors);
+                result.put("errors",errors);
+                //throw new Exception("Ocurrieron los siguientes errores: "+errors);
             }
-            result = buildBasicResponse(0,"OK");
         }catch (Exception ex){
             //log and email about fail
             result = buildBasicResponse(-1, ex.getMessage());
+            /*String error="";
+            for(int i=0;i<ex.getStackTrace().length;i++){
+                error += ex.getStackTrace()[i].toString()+"\n";
+            }
+            result = buildBasicResponse(-1, error);*/
         }
 
         return ok(result);

@@ -41,7 +41,7 @@ public class PredictionController extends HecticusController {
                     return badRequest(buildBasicResponse(2,"ocurrio un error parseando el json de prediccion: "+e.toString()));
                 }
 
-                ClientPrediction prediction = ClientPrediction.getClientPrediction(idClient);
+                /*ClientPrediction prediction = ClientPrediction.getClientPrediction(idClient);
                 if(prediction == null){
                     //creamos una nueva
                     prediction = new ClientPrediction(idClient,predictionString);
@@ -53,7 +53,7 @@ public class PredictionController extends HecticusController {
                     convertClientPredictionToBet(prediction);
                     prediction.update();
                 }
-                data.add(prediction.toJson());
+                data.add(prediction.toJson());*/
                 //build response
                 ObjectNode response = hecticusResponse(0, "ok", "prediction", data);
                 return ok(response);
