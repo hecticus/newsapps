@@ -202,6 +202,10 @@ public class ClientBet  extends HecticusModel {
         return finder.where().eq("id_match",idMatch).eq("calculated",0).findList();
     }
 
+    public static List<ClientBet> getListLimited(Integer idMatch, Integer pageSize, Integer page){
+        return finder.where().eq("id_match",idMatch).eq("calculated",0).orderBy("id_client_bet").findPagingList(pageSize).getPage(page).getList();
+    }
+
     public static void update(ClientBet cb){
         Ebean.update(cb);
     }
