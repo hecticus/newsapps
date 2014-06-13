@@ -186,13 +186,15 @@ public class ClientBet  extends HecticusModel {
             points+=draw;
         }
         teamWinner = Team.getTeam(teamWinner.getIdTeam());
-        if(teamWinner.getAfpId().equals(afpIdWinner) && scoreWinner >= scoreLoser){
+        if(teamWinner!=null){
+            if(teamWinner.getAfpId().equals(afpIdWinner) && scoreWinner >= scoreLoser){
 
-            points+=winner;
-        }
+                points+=winner;
+            }
 
-        if(this.scoreWinner.equals(scoreWinner) && this.scoreLoser.equals(scoreLoser)){
-            points+=goals;
+            if(this.scoreWinner.equals(scoreWinner) && this.scoreLoser.equals(scoreLoser)){
+                points+=goals;
+            }
         }
 
         return points;
