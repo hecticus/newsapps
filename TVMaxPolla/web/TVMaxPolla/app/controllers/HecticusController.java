@@ -76,6 +76,8 @@ public class HecticusController extends Controller {
             innerObj.put(parentObj, (Float)data);
         }else if(data instanceof String){
             innerObj.put(parentObj, (String)data);
+        }else if(data instanceof Boolean){
+            innerObj.put(parentObj, (Boolean)data);
         }
         tr.put("response",innerObj);
         return tr;
@@ -95,7 +97,7 @@ public class HecticusController extends Controller {
         return tr;
     }
 
-    public static ObjectNode tvmaxPhaseResponse(String parentObj, ObjectNode phaseObj, ArrayList groupsArray, ArrayList teamsArray){
+    public static ObjectNode tvmaxPhaseResponse(String parentObj, ObjectNode phaseObj, ArrayList groupsArray, ArrayList teamsArray, boolean isRunning){
         ObjectNode tr = Json.newObject();
         /*ArrayList groupsArrayNew = new ArrayList();
         for(int i=0;i<groupsArray.size();i++){
@@ -104,6 +106,7 @@ public class HecticusController extends Controller {
             groupsArrayNew.add(obj);
         }*/
         phaseObj.put("groups",Json.toJson(groupsArray));
+        phaseObj.put("isRunning",isRunning);
         tr.put("phase",phaseObj);
         return tr;
     }

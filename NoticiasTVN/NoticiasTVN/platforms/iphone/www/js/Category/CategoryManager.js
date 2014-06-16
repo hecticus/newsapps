@@ -1,5 +1,5 @@
 //La data se almacena en jsons en el campo category_datacontent, todo lo que se recibe se guarda ahi, para asi soportar mejor cualquier cambio o extra informacion que se a�ada
-var createCategoryQuery = 'CREATE TABLE IF NOT EXISTS CATEGORY (category_tvn_id INTEGER,'+
+var createCategoryQuery = 'CREATE TABLE IF NOT EXISTS CATEGORY_TVN (category_tvn_id INTEGER,'+
 'category_name TEXT DEFAULT NULL,'+
 'category_shortName TEXT NOT NULL,'+
 'category_feedUrl TEXT DEFAULT NULL,'+
@@ -72,7 +72,7 @@ CategoryManager.prototype = {
 		printToLog("getAllCategoryFromDB");
 		tx.executeSql(createCategoryQuery);
 	    
-		tx.executeSql('SELECT * FROM CATEGORY', [], 
+		tx.executeSql('SELECT * FROM CATEGORY_TVN', [], 
 			function(tx, results){
 				if(results != null){
 					var len = results.rows.length;
@@ -127,7 +127,7 @@ CategoryManager.prototype = {
 			trending: false,
 			sort: 0*/
 
-			var insertStatement = 'INSERT INTO CATEGORY(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden,category_iconClass)'+
+			var insertStatement = 'INSERT INTO CATEGORY_TVN(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden,category_iconClass)'+
 			'VALUES ('+insertObj.id+','+
 			'"'+encodeURIComponent(insertObj.name)+'",'+
 			'"'+encodeURIComponent(insertObj.shortName)+'",'+
@@ -169,13 +169,13 @@ function removeAllStoredCategory(callback, errorCallback){
 
 function deleteAllCategoryDB(tx, instanceCaller){
 	printToLog("deleteAllCategoryDB");
-    tx.executeSql('DROP TABLE IF EXISTS CATEGORY');
+    tx.executeSql('DROP TABLE IF EXISTS CATEGORY_TVN');
     printToLog("deleteAllCategoryDB done");
 }
 
 function clearCategoriesTable(tx){
 	
-	var limitStatement = 'DELETE FROM CATEGORY WHERE category_tvn_id >= 0;'; //offset,limit
+	var limitStatement = 'DELETE FROM CATEGORY_TVN WHERE category_tvn_id >= 0;'; //offset,limit
 	tx.executeSql(limitStatement);
 }
 

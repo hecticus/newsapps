@@ -590,6 +590,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 	}, 300000);
 			
 	var isMundialOn = false;
+	var isLiveTV = false;
 	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
 	function mundialIntervalFunc(){
 		_oAjax = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
@@ -599,6 +600,10 @@ $.fPostAjaXJSON = function(_url, _data) {
 				_jActive = _json;
 				if (_jActive.worldCupStarted) {
 					isMundialOn = true;
+				}
+				if(_jActive.live){
+					isLiveTV = true;
+					$('header .container .row .tv').removeClass('hidden');
 				}
 				if ($('body').hasClass('content-home')) {
 					

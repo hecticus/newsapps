@@ -213,6 +213,12 @@
 				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + _heightBanner +'px; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
+		
+		if(isLiveTV){
+			$('header .container .row .tv').removeClass('hidden');
+		}else{
+			$('header .container .row .tv').addClass('hidden');
+		}
 
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);

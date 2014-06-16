@@ -77,7 +77,8 @@ public class TvmaxMatch extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
         tr.put("idTvnMatch", idTvnMatch); //local id
-        tr.put("id_del_partido", externalId); //external id
+        tr.put("id_del_partido", matchNumber); //external id
+        tr.put("id_del_partido_tvmax", externalId); //external id
         tr.put("numero_de_partido", matchNumber);
         tr.put("fecha_de_partido", matchDate);
         tr.put("fase", decode(phase));
@@ -93,6 +94,12 @@ public class TvmaxMatch extends HecticusModel {
         tr.put("estado_del_partido", decode(matchStatus));
         tr.put("descripcion_del_partido", decode(matchDescription));
         tr.put("transmision_por_TVMAX", tvmaxBroadcast);
+
+        //goles dependiendo del estado del partido
+        if (decode(matchStatus).equalsIgnoreCase("Próximo")){
+            tr.put("goles_equipo_local", "-");
+            tr.put("goles_equipo_visitante", "-");
+        }
 
         //obtenemos data adicional como los id_ext de los equipos
         GameMatch match = GameMatch.getMatch(matchNumber);
@@ -176,7 +183,7 @@ public class TvmaxMatch extends HecticusModel {
         return finder.where()
                 .like("match_date", date)
                 .or(Expr.eq("match_status","activo"), Expr.eq("match_status",encode("Próximo")))
-                .orderBy("external_id desc")
+                .orderBy("formated_date asc")
                 .findList();
     }
 
@@ -194,6 +201,19 @@ public class TvmaxMatch extends HecticusModel {
                     Expr.eq("match_status", "Finalizado en penales"))
                 .like("match_date", date)
                 .orderBy("external_id desc")
+                .findList();
+    }
+
+    public static List<TvmaxMatch> getFinisedMatchesByDate(String beginDate, String endDate){
+        return finder.where().disjunction()
+                .eq("match_status", "Finalizado")
+                .eq("match_status", "Finalizado en penales")
+                .eq("match_description", "Finalizado")
+                .eq("match_description", "Finalizado en penales")
+                .endJunction()
+                .between("formated_date", beginDate, endDate)
+                .orderBy("external_id desc")
+                .setMaxRows(10)
                 .findList();
     }
 
