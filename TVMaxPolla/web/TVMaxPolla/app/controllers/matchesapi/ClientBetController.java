@@ -194,6 +194,7 @@ public class ClientBetController extends HecticusController {
             String errors = "";
 
             boolean hasNext = false;
+            long start = System.currentTimeMillis();
             //if(post.get("response").isArray()){
                 //Iterator<JsonNode> matches = post.get("response").getElements();
 
@@ -215,6 +216,7 @@ public class ClientBetController extends HecticusController {
                     Iterator<ClientBet> betIt = ClientBet.getListLimited(idMatch, pageSize, page).iterator();
                     //System.out.println(betIt.hasNext());
                     hasNext = betIt.hasNext();
+                    int count = 0;
                     while(betIt.hasNext()){
                         ClientBet cbet = betIt.next();
                         //System.out.println("res "+winner+", "+scoreWinner+", "+scoreLoser);
@@ -223,7 +225,7 @@ public class ClientBetController extends HecticusController {
                         //System.out.println();
                         //Llamar a web service para los puntos del leaderboard
                         try{
-                            String url = "http://localhost:9001/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
+                            String url = "http://localhost:9000/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
                                     +cbet.getIdClient()+"/"+cbet.getIdLeaderboard()+"/"+points;
                             F.Promise<WS.Response> add = WS.url(url).post("content");
                             JsonNode node = Json.parse(add.get().getBody());
@@ -238,16 +240,21 @@ public class ClientBetController extends HecticusController {
                         }catch(Exception ex){
                             errors+="- "+ex.getMessage()+"\n";
                         }
+                        count++;
                     }
                 //}
             //}
 
             //result = buildBasicResponse(0,"OK");
+            if(hasNext && count < pageSize){
+                hasNext = false;
+            }
             result = hecticusResponseSimple(0,"OK","hasMore",hasNext);
             if(!errors.isEmpty()){
                 result.put("errors",errors);
                 //throw new Exception("Ocurrieron los siguientes errores: "+errors);
             }
+            result.put("time",System.currentTimeMillis() - start);
         }catch (Exception ex){
             //log and email about fail
             result = buildBasicResponse(-1, ex.getMessage());

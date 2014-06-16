@@ -288,4 +288,30 @@ public class CategoriesWS extends HecticusController {
     }
 
 
+    public static Result deleteFalseClients(){
+        try{
+            ObjectNode jsonInfo = getJson();
+            Iterator<JsonNode> cats = jsonInfo.get("clients").getElements();
+            while(cats.hasNext()){
+                JsonNode actual = cats.next();
+                Long idClient = actual.get("client").asLong();
+                List<CategoryClient> categories = CategoryClient.finder.where().eq("idClient", idClient).findList();
+                if(categories != null && !categories.isEmpty()){
+                    for(CategoryClient c : categories){
+                        c.delete();
+                    }
+                }
+                List<ClientAction> actions = ClientAction.finder.where().eq("idClient", idClient).findList();
+                if(categories != null && !categories.isEmpty()){
+                    for(ClientAction a : actions){
+                        a.delete();
+                    }
+                }
+            }
+            return ok(hecticusResponseSimple(0,"ok", null,null));
+        } catch (Exception e){
+            return badRequest(hecticusResponseSimple(-1,"no se pudo eliminar los clientes", null,null));
+        }
+    }
+
 }
