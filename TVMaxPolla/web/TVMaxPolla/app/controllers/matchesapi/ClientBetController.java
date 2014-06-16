@@ -215,6 +215,7 @@ public class ClientBetController extends HecticusController {
                     Iterator<ClientBet> betIt = ClientBet.getListLimited(idMatch, pageSize, page).iterator();
                     //System.out.println(betIt.hasNext());
                     hasNext = betIt.hasNext();
+                    int count = 0;
                     while(betIt.hasNext()){
                         ClientBet cbet = betIt.next();
                         //System.out.println("res "+winner+", "+scoreWinner+", "+scoreLoser);
@@ -238,11 +239,15 @@ public class ClientBetController extends HecticusController {
                         }catch(Exception ex){
                             errors+="- "+ex.getMessage()+"\n";
                         }
+                        count++;
                     }
                 //}
             //}
 
             //result = buildBasicResponse(0,"OK");
+            if(hasNext && count < pageSize){
+                hasNext = false;
+            }
             result = hecticusResponseSimple(0,"OK","hasMore",hasNext);
             if(!errors.isEmpty()){
                 result.put("errors",errors);
