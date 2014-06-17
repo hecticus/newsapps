@@ -222,13 +222,17 @@ public class Client  {
     
     public List<Phase> getPredictionBet(String idClient) {
     	
-    	ObjectNode dataJson = Json.newObject();    	
+    	ObjectNode dataJson = Json.newObject();
     	dataJson.put("idClient", idClient);
 
     	String url = Config.getTVMaxPollaHost();
     	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
-    	    	
-
+    	//Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/clientbet/get/current").post(dataJson);
+    	
+    	/*System.out.println("-- -- -- -- Inicio -- -- -- --");
+    	System.out.println(url+"matchesapi/v1/clientbet/get/current/"+idClient);
+    	System.out.println(wsResponse.get().asJson().toString());    	
+    	System.out.println("-- -- -- -- Fin -- -- -- --");*/
     	
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPhase = jsonResponse.get("phase");

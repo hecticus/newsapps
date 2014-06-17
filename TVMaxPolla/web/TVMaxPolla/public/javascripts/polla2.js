@@ -231,8 +231,6 @@ $(function() {
 				$.fUpdate(_group.name+(index+1),team,2);						
 				var _team = $.fgetTeam( _group.name+(index+1));
 				 
-				alert(_group.name+(index+1));
-				 
 				$('.phase[data-phase="2"] .group .game .team[data-team="'+_team.id+'"] .flag').attr('src',team.flag);
 				$('.phase[data-phase="2"] .group .game .team[data-team="'+_team.id+'"] .flag').removeAttr('style');
 				$('.phase[data-phase="2"] .group .game .team[data-team="'+_team.id+'"] .name').html(team.name);						
@@ -390,10 +388,6 @@ $(function() {
 
 
 				$.fgetTeam = function(_name) {
-					
-					alert(_name);
-					alert(JSON.stringify(arrDataTeam));
-					
 					
 					$.each(arrDataTeam, function(index,team) {				
 						if (team.name==_name){
@@ -754,8 +748,7 @@ $(function() {
 
 
 		$.fgetUpdate = function() {
-			
-				alert('ss');
+
 			$.each(arrPhase, function(index,phase) {
 		
 					
@@ -823,10 +816,10 @@ $(function() {
 
 		$( document ).ready(function() {
 
-				/*$.fgetUpdate();					
+				$.fgetUpdate();					
 				$.fUpdateStandingPhase22();
 			
-				$.each(arrPhase, function( index,phase) {
+				/*$.each(arrPhase, function( index,phase) {
 	
 					$.each(phase.group, function( index,group) {
 						
