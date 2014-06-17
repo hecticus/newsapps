@@ -200,7 +200,7 @@ public class TvmaxNews extends HecticusModel implements Comparable<TvmaxNews> {
         List<TvmaxNews> bottom = finder.where().eq("main", 0).orderBy("received_date desc").setMaxRows(OTHERS_MAX_SIZE).findList();
         top.addAll(bottom);
         bottom.clear();
-        Collections.sort(top);
+//        Collections.sort(top);
         return top;
 //        return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
     }

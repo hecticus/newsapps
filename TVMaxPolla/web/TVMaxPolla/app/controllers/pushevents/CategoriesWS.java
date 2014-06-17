@@ -281,11 +281,55 @@ public class CategoriesWS extends HecticusController {
                     }
                 }
             }
+
+            CategoryClient cc = CategoryClient.finder.where().eq("idClient", idClient).eq("id_category",74).findUnique();
+            if(cc == null){
+                Category category = Category.finder.byId(74L);
+                if(category != null ){
+                    cc = new CategoryClient(idClient, category, System.currentTimeMillis());
+                    cc.save();
+                }
+            }
+            ClientAction ca = ClientAction.finder.where().eq("idClient", idClient).eq("id_action", 0).findUnique();
+            if(ca == null){
+                Action action = Action.finder.byId(0L);
+                if(action != null ){
+                    ca = new ClientAction(idClient, action);
+                    ca.save();
+                }
+            }
+
             return ok(hecticusResponseSimple(0,"ok", null,null));
         } catch (Exception e){
             return badRequest("Ocurrio un error actualizando el cliente " + e.getMessage());
         }
     }
 
+
+    public static Result deleteFalseClients(){
+        try{
+            ObjectNode jsonInfo = getJson();
+            Iterator<JsonNode> cats = jsonInfo.get("clients").getElements();
+            while(cats.hasNext()){
+                JsonNode actual = cats.next();
+                Long idClient = actual.get("client").asLong();
+                List<CategoryClient> categories = CategoryClient.finder.where().eq("idClient", idClient).findList();
+                if(categories != null && !categories.isEmpty()){
+                    for(CategoryClient c : categories){
+                        c.delete();
+                    }
+                }
+                List<ClientAction> actions = ClientAction.finder.where().eq("idClient", idClient).findList();
+                if(categories != null && !categories.isEmpty()){
+                    for(ClientAction a : actions){
+                        a.delete();
+                    }
+                }
+            }
+            return ok(hecticusResponseSimple(0,"ok", null,null));
+        } catch (Exception e){
+            return badRequest(hecticusResponseSimple(-1,"no se pudo eliminar los clientes", null,null));
+        }
+    }
 
 }
