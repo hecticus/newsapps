@@ -3,6 +3,12 @@
 	
 	var _team = false;
 
+	var _cToday = new Date().getDate();			
+	var _cMonth = new Date().getMonth();	
+	var _cDate = _cToday + '/' + _aMonth[_cMonth];
+	_cDate =_cDate.toString().toLowerCase();
+
+
 
 	var _fGetColorPhase = function(_name) {
 
@@ -183,8 +189,15 @@
 			
 			var _jMatch = _fGetJsonMatchDate(((_i < 10 ) ? '0' + _i.toString() : _i.toString()) + '/' + _month);
 						
-			if (_jMatch) {				
-				_html += '<td class="match" data-date="' + _date + '" style="background:#ffffff; border-bottom: solid ' + _fGetColorPhase(_jMatch.fase) + ' !important;" ><span style="background:#ffffff; color:#000000;">' + _i.toString() +'</span></td>';
+			if (_jMatch) {
+
+				if (_date == _cDate) {
+					_html += '<td class="match" data-date="' + _date + '" style="border-bottom: solid ' + _fGetColorPhase(_jMatch.fase) + ' !important; font-size:1.8em;" >' + _i.toString() +'</td>';	
+				} else{
+
+					_html += '<td class="match" data-date="' + _date + '" style="border-bottom: solid ' + _fGetColorPhase(_jMatch.fase) + ' !important;" >' + _i.toString() +'</td>'; 
+				}
+
 			} else {
 				_html += '<td style="background:#ffffff;"><span style=" background:#ffffff; color:gray;">' + _i.toString() +'</span></td>';
 			}
@@ -296,14 +309,9 @@
 			_html += '</div>';
 		_html += '</div>';
  
-		
-	
-
 
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
-
-		
 
 		$('#wrapper .scroller .container table > tbody > tr').each(function(_index) {
 			if ((_index == 1) || (_index == 10)  || (_index == 11)) {
@@ -311,6 +319,7 @@
 			}			
 		});
 
+		
 	};
 
 
@@ -319,7 +328,8 @@
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			_jGet = _json.partidos_mundial;					
-			_fRenderCalendar();				
+			_fRenderCalendar();
+			_fRenderDataContent('_iDate == "' + _cDate + '"');				
 		});
 	}
 

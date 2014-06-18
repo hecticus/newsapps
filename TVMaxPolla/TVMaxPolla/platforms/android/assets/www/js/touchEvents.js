@@ -18,7 +18,7 @@
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
 		} else if ($(this).data('country')){
 			_fRenderDataContent('(_item.equipo_local.search("' + $(this).data('country') + '") >= 0  ) || ( _item.equipo_visitante.search("' + $(this).data('country') + '") >= 0)');	
-		} else {			
+		} else {						
 			_fRenderDataContent('_iDate == "' + $(this).data('date') + '"');
 		}
 		
@@ -26,6 +26,24 @@
 		myScroll2.scrollTo(0,0,0);
 
 	});
+	
+	
+	$(document).on('click','.goal-match', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		if ($(this).data('phase')) {
+			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
+		} else if ($(this).data('country')){
+			_fRenderDataContent('(_item.equipo.search("' + $(this).data('country') + '") >= 0  )');	
+		} else {						
+			_fRenderDataContent('_iDate == "' + $(this).data('date') + '"');
+		}
+		
+		myScroll.scrollTo(0,0,0);
+		myScroll2.scrollTo(0,0,0);
+
+	});
+	
 	
 	
 	//HISTORY JS
@@ -504,7 +522,7 @@
 	$(document).on('click','.content-mam .row[data-match], .content-resultados .row[data-match]', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		_matchHasFinished = false;
+		_matchHasFinished = false;		
 		_fRenderDataContent($(this).data('match'));			
 	});
 
