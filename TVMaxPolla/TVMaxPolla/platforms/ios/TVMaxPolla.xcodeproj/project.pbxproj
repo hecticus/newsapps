@@ -14,6 +14,7 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		2E64F8FA594D4DCFB815B2DF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C006B2491EFB47BE97434BDF /* CoreData.framework */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
@@ -46,6 +47,7 @@
 		6F87FF251948DDD400FF4F02 /* v1080_1920.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F87FF221948DDD400FF4F02 /* v1080_1920.mp4 */; };
 		6F87FF261948DDD400FF4F02 /* v480_640.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F87FF231948DDD400FF4F02 /* v480_640.mp4 */; };
 		6F87FF271948DDD400FF4F02 /* v720_1280.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F87FF241948DDD400FF4F02 /* v720_1280.mp4 */; };
+		78B1CBE895AF4A1DA513EF2F /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3172779D1B48648122CA4A /* GAPlugin.m */; };
 		7E7966DE1810823500FA85AD /* icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D41810823500FA85AD /* icon-40.png */; };
 		7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D51810823500FA85AD /* icon-40@2x.png */; };
 		7E7966E01810823500FA85AD /* icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D61810823500FA85AD /* icon-50.png */; };
@@ -62,6 +64,7 @@
 		AD36CB08E6C545D8911E0656 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D5538E992C3B47ECA55E700A /* CDVConnection.m */; };
 		B833FF9E7B3545A0AFB0CC0C /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C46F56F3F49480AB10CAF9B /* CDVNotification.bundle */; };
 		B9CA44BFA795403FA3FA2078 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF63130EF3F24DCC8FCD0607 /* CDVInAppBrowser.m */; };
+		CC8BF0D6852D4AE48B26867A /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0A1DB4705F14397A6906524 /* GoogleAnalytics.a */; };
 		CF22791487C74BDFA08D8A32 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C323A5C18D4910870F0082 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF8439D934BA48239A624CBB /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 694C9BACF1A64252B2A242DF /* CDVFileTransfer.m */; };
 		D055D5FCFF0D426091D847D7 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9238904ED2EC4E529B0056EC /* CDVAssetLibraryFilesystem.m */; };
@@ -98,6 +101,7 @@
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* TVMaxDeportes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TVMaxDeportes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DFEE5E8C00447139FBB6754 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITrackedViewController.h; path = com.adobe.plugins.GAPlugin/GAITrackedViewController.h; sourceTree = "<group>"; };
 		1F766FDD13BBADB100FB74C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		206252E51BB94EC7B8355F22 /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVFile.h; path = org.apache.cordova.file/CDVFile.h; sourceTree = "<group>"; };
@@ -125,8 +129,11 @@
 		3698C8F1A61E487C8EA54601 /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVFileTransfer.h; path = "org.apache.cordova.file-transfer/CDVFileTransfer.h"; sourceTree = "<group>"; };
 		36F1FB5C6B3A4977B169DD3F /* Accounts.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		37F9BD17CA3F46359C855509 /* Social.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		3B12C28929B04969BCA2024E /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITransactionItem.h; path = com.adobe.plugins.GAPlugin/GAITransactionItem.h; sourceTree = "<group>"; };
+		4281D1017ABD45798313B72D /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITracker.h; path = com.adobe.plugins.GAPlugin/GAITracker.h; sourceTree = "<group>"; };
 		44EB8AB1ADA341C785CB2ED3 /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "org.apache.cordova.network-information/CDVConnection.h"; sourceTree = "<group>"; };
 		4D98B3395A3C407A94F1CE3B /* PushPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushPlugin.h; path = com.phonegap.plugins.PushPlugin/PushPlugin.h; sourceTree = "<group>"; };
+		4E1619B11578438083590D11 /* GAPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAPlugin.h; path = com.adobe.plugins.GAPlugin/GAPlugin.h; sourceTree = "<group>"; };
 		51C323A5C18D4910870F0082 /* AdSupport.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		54A8E341713742EA8DF7AADF /* PushPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushPlugin.m; path = com.phonegap.plugins.PushPlugin/PushPlugin.m; sourceTree = "<group>"; };
 		5868829E31944AA38AB04A52 /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVSplashScreen.h; path = org.apache.cordova.splashscreen/CDVSplashScreen.h; sourceTree = "<group>"; };
@@ -148,6 +155,7 @@
 		6F87FF221948DDD400FF4F02 /* v1080_1920.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v1080_1920.mp4; sourceTree = "<group>"; };
 		6F87FF231948DDD400FF4F02 /* v480_640.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v480_640.mp4; sourceTree = "<group>"; };
 		6F87FF241948DDD400FF4F02 /* v720_1280.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v720_1280.mp4; sourceTree = "<group>"; };
+		7125A2647D694666A911CD04 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITransaction.h; path = com.adobe.plugins.GAPlugin/GAITransaction.h; sourceTree = "<group>"; };
 		7753E7C0281040F09A61EC7E /* SocialSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialSharing.h; path = "nl.x-services.plugins.socialsharing/SocialSharing.h"; sourceTree = "<group>"; };
 		7E7966D41810823500FA85AD /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40.png"; sourceTree = "<group>"; };
 		7E7966D51810823500FA85AD /* icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40@2x.png"; sourceTree = "<group>"; };
@@ -166,9 +174,11 @@
 		9238904ED2EC4E529B0056EC /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVAssetLibraryFilesystem.m; path = org.apache.cordova.file/CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
 		945BD86214354134A03E8C48 /* CDVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = org.apache.cordova.file/CDVFile.m; sourceTree = "<group>"; };
 		9B70ED0D5B4D400AAD7E2C6E /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = org.apache.cordova.file/CDVLocalFilesystem.h; sourceTree = "<group>"; };
+		B0A1DB4705F14397A6906524 /* GoogleAnalytics.a */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = archive.ar; name = GoogleAnalytics.a; path = TVMaxPolla/Plugins/com.adobe.plugins.GAPlugin/GoogleAnalytics.a; sourceTree = "<group>"; };
 		BD1DF383EFED46D981BD0772 /* CDVSpinnerDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVSpinnerDialog.h; path = hu.dpal.phonegap.plugins.SpinnerDialog/CDVSpinnerDialog.h; sourceTree = "<group>"; };
 		BE1ADA4173384AC7B2892D13 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVAssetLibraryFilesystem.h; path = org.apache.cordova.file/CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
 		BF08E8CC78A641CC8AE2B4B5 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVDevice.m; path = org.apache.cordova.device/CDVDevice.m; sourceTree = "<group>"; };
+		C006B2491EFB47BE97434BDF /* CoreData.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C361BC13FB004B68B1558504 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVNotification.h; path = org.apache.cordova.dialogs/CDVNotification.h; sourceTree = "<group>"; };
 		C685240C63D14C429B1CB330 /* AppDelegate+notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; };
 		CF63130EF3F24DCC8FCD0607 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowser.m; path = org.apache.cordova.inappbrowser/CDVInAppBrowser.m; sourceTree = "<group>"; };
@@ -177,7 +187,9 @@
 		D8E4FE0B4B0841238C64DD94 /* CDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVSplashScreen.m; path = org.apache.cordova.splashscreen/CDVSplashScreen.m; sourceTree = "<group>"; };
 		DA48514AED2C4C148BB33D98 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookConnectPlugin.m; path = com.phonegap.plugins.facebookconnect/FacebookConnectPlugin.m; sourceTree = "<group>"; };
 		DD80F253E788486D9CD0DF29 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookConnectPlugin.h; path = com.phonegap.plugins.facebookconnect/FacebookConnectPlugin.h; sourceTree = "<group>"; };
+		DE3172779D1B48648122CA4A /* GAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAPlugin.m; path = com.adobe.plugins.GAPlugin/GAPlugin.m; sourceTree = "<group>"; };
 		E8C5C7D1430447BD87D9500C /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVNotification.m; path = org.apache.cordova.dialogs/CDVNotification.m; sourceTree = "<group>"; };
+		EC55AD109E644A158F0312FF /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = com.adobe.plugins.GAPlugin/GAI.h; sourceTree = "<group>"; };
 		EFB8B993D465495AA4EE16A3 /* AudioToolbox.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = TVMaxPolla/config.xml; sourceTree = "<group>"; };
 		F9BB9FEA4F2543E3BCF8A096 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = org.apache.cordova.inappbrowser/CDVInAppBrowser.h; sourceTree = "<group>"; };
@@ -204,6 +216,8 @@
 				D53BE33FFD064E55A7A6FF3A /* Accounts.framework in Frameworks */,
 				CF22791487C74BDFA08D8A32 /* AdSupport.framework in Frameworks */,
 				F625EF94C2684921A2CC74CA /* Security.framework in Frameworks */,
+				CC8BF0D6852D4AE48B26867A /* GoogleAnalytics.a in Frameworks */,
+				2E64F8FA594D4DCFB815B2DF /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +321,8 @@
 				36F1FB5C6B3A4977B169DD3F /* Accounts.framework */,
 				51C323A5C18D4910870F0082 /* AdSupport.framework */,
 				6F74E8FD1CB04460AF06808B /* Security.framework */,
+				B0A1DB4705F14397A6906524 /* GoogleAnalytics.a */,
+				C006B2491EFB47BE97434BDF /* CoreData.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -355,6 +371,13 @@
 				DD80F253E788486D9CD0DF29 /* FacebookConnectPlugin.h */,
 				0D80AFDC43B2488AAA8C46B0 /* CDVLogger.m */,
 				0BCEB33F493C4290A86B722D /* CDVLogger.h */,
+				DE3172779D1B48648122CA4A /* GAPlugin.m */,
+				3B12C28929B04969BCA2024E /* GAITransactionItem.h */,
+				7125A2647D694666A911CD04 /* GAITransaction.h */,
+				4281D1017ABD45798313B72D /* GAITracker.h */,
+				1DFEE5E8C00447139FBB6754 /* GAITrackedViewController.h */,
+				EC55AD109E644A158F0312FF /* GAI.h */,
+				4E1619B11578438083590D11 /* GAPlugin.h */,
 			);
 			name = Plugins;
 			path = TVMaxPolla/Plugins;
@@ -566,6 +589,7 @@
 				4565837AF2A9470A9658F670 /* PushPlugin.m in Sources */,
 				55A0CDD4CCDC4F7DABEDBB10 /* FacebookConnectPlugin.m in Sources */,
 				84B0CE8452364332AEF10296 /* CDVLogger.m in Sources */,
+				78B1CBE895AF4A1DA513EF2F /* GAPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +645,10 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "TVMaxPolla/TVMaxPolla-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/TVMaxDeportes/Plugins/com.adobe.plugins.GAPlugin\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -663,6 +691,10 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "TVMaxPolla/TVMaxPolla-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/TVMaxDeportes/Plugins/com.adobe.plugins.GAPlugin\"",
+				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,

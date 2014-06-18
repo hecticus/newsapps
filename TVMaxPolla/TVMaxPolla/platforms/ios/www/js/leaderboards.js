@@ -57,8 +57,8 @@
 	}
 	
 	var _fRenderFriendsLeaderboard = function(friendList) {
-		//console.log("RenderFriends!!! FRIENDS?");
-		//console.log("RenderFriends!!! "+JSON.stringify(friendList));
+		console.log("RenderFriends!!! FRIENDS?");
+		console.log("RenderFriends!!! "+JSON.stringify(friendList));
 		
 		var _html = '<div class="row" style="margin:5%;">';
 		
