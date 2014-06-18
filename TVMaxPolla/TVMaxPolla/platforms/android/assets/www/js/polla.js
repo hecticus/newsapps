@@ -254,7 +254,7 @@
 			_jPrediction = _json;
 			if(_jPrediction!=null && _jPrediction.phase != null && _jPrediction.phase.isRunning != null && _jPrediction.phase.isRunning != ""){
 				isPollaPhaseRunning = _jPrediction.phase.isRunning;
-				console.log("POLLA RUNNING "+isPollaPhaseRunning);
+				//console.log("POLLA RUNNING "+isPollaPhaseRunning);
 			}
 			_fRenderPrediction();
 		});

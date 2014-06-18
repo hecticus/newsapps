@@ -546,7 +546,7 @@
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		
-		//console.log("TEAMARRAY: "+JSON.stringify(_jAlert.teams));
+
 		if ($(this).hasClass('opacity')) {
 			
 			if (_jAlert.teams.length == 4) {
