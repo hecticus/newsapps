@@ -718,7 +718,54 @@
 		opacity: 0.4; 
 		filter: alpha(opacity=40);	
 	}
-	 
+	
+	
+	/*leaderboards*/
+	
+	body.content-leaderboard #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+
+	body.content-leaderboard #wrapper,
+	body.content-leaderboard #wrapper2 { 
+		position: absolute;
+		z-index: 1; 
+		top: 120px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%; 
+		background: #fff;
+		
+	}
+
+	body.content-leaderboard figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-leaderboard figure img {width: 67px; height: 45px;}
+	body.content-leaderboard figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
+	
+	
+	body.content-leaderboard .leaderboard-menu.container {
+		position: absolute; 
+		top:50px; 
+		left:0; 		
+		width: 100%; 
+		height: 70px;
+		line-height:70px; 
+		z-index: 2; 
+		background: #E6E6E6; 
+		color:#4D4D4D;
+		border-bottom: solid #FFD455;
+	}
+	
+	body.content-leaderboard .leaderboard-menu.container .active {
+		color:#3E79C4;
+	}
 	
 	
 	

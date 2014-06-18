@@ -74,6 +74,15 @@ function phonegapIsOnline(){
 	}
 }
 
+function isWIFIOnly(){
+	var networkState = navigator.connection.type;
+	if(networkState == Connection.WIFI){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 function formatDateStringForSorting(ds) {
 	var YYYY,MM,DD;
 	var hh="00";

@@ -49,22 +49,24 @@ var _jMenu=[
 	{index:5,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},
 	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},	
 	{index:7,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
-	{index:8,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
-  	{index:9,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},
-  	{index:10,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},  	
-	{index:11,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
-  	{index:12,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
-  	{index:13,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
-  	{index:14,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},  	
-  	{index:15,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
-	{index:16,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
+	{index:8,class:'content-leaderboard',title:'Leaderboard',load:'leaderboards.html', glyphicon:'icon-fases', json:false},
+	{index:9,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
+  	{index:10,class:'content-polemicas',title:'P&oacute;lemicas',load:'polemicas.html', glyphicon:'icon-polemicas_menu', json:false},
+  	{index:11,class:'content-alertas',title:'Alertas',load:'alertas.html', glyphicon:'icon-alertas', json:false},  	
+	{index:12,class:'content-stadiums',title:'Estadios',load:'stadiums.html', glyphicon:'icon-estadios_menu', json:false},
+  	{index:13,class:'content-teams',title:'Equipos',load:'teams.html', glyphicon:'icon-equipo', json:false},
+  	{index:14,class:'content-players',title:'Leyendas',load:'players.html', glyphicon:'icon-biografia_menu', json:false},  	
+  	{index:15,class:'content-history',title:'Historia',load:'history.html', glyphicon:'icon-historia_menu', json:false},  	
+  	{index:16,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', json:false},
+	{index:17,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', json:false}
 ];
 
 
 
 
 function exitApp(){
-	if (navigator.app) {						
+	gaPlugin.exit(successGAHandler, successGAHandler);
+	if (navigator.app) {					
         navigator.app.exitApp();				            
     } else if (navigator.device) {			        	
         navigator.device.exitApp();				            				          
@@ -77,198 +79,203 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-    	
-    	
-    	
-    	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
-		if (_oAjax) {
-			_oAjax.done(function(_json) {				
-				_jActive = _json;				
-			});
-		}
-    	
-    	
-		_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,false);	
-		if (_oAjax) {
-			_oAjax.done(function(_json) {				
-				_jSchedule = _json.partidos_mundial;				
-			});
-		}
+    	//set timeout para init data
+    	window.setTimeout(initAllAppData(),100);
 
-    	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
-		if (_oAjax) {
-			_oAjax.done(function(_json) {					
-				_jMenu[0].json = _json.noticias_mundial;						
-				$.each(_json.noticias_mundial.item, function(_index,_item) {
-					if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
-					var _img = $('img #img').attr('src',_item.imagen);
-					return false;
-				});				
-			});
-		}
-    	    	
-    	$.each(_jPlayers, function(_index,_player) {
-			_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-														
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-					
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-						
-					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-	    				_data = $('<div>').append(_data).remove().html();
-
-	    			_player.title = _title;
-	    			//_player.xml = _xml;
-	    			_player.id = _id;	    	
-	    			_player.image = 'img/players/' + _id +'.jpg';	    								
-					_player.datacontent =  _data;
-					
-					var _img = $('img #img').attr('src',_player.image);
-
-					
-				});
-			}
-		});	
-
-		$.each(_jStadiums, function(_index,_stadium) {
-			_oAjax = $.fGetAjaXJSON(_stadium.url, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > hl2').text();
-					
-					var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > dl').clone();
-			    		_data = $('<div>').append(_data).remove().html();
-			    		
-			    		
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[2];
-						
-					_stadium.title = _title;
-	    			//_stadium.xml = _xml;
-	    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
-					_stadium.datacontent =  _data;
-											
-					var _img = $('img #img').attr('src',_stadium.image);
-					 
-
-						
-				});
-			}		
-		});
-
-
-		$.each(_jTeams, function(_index,_team) {
-			
-			_oAjax = $.fGetAjaXJSON(_team.fiche, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > ul').text();
-						_title = _title.split('-');
-						_title =  _title[1];		
-									
-		    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-						_data = $('<div>').append(_data).remove().html();
-								
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-														
-					_team.id = _id;						
-					_team.title = _title;
-	    			//_team.xml.fiche = _xml;
-	    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
-					_team.datacontent.fiche = _data;							
-					var _img = $('img #img').attr('src', _team.image);
-	
-				});
-			}
-
-		});
-
-
-
-		$.each(_jHistory, function(_index,_history) {	
-			_oAjax = $.fGetAjaXJSON(_history.url, 'xml', 'text/xml charset=utf-8', false);
-			if (_oAjax) {
-				_oAjax.done(function(_xml) {
-					
-					var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
-			    	var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
-			    		_data = $('<div>').append(_data).remove().html();
-			    		
-					var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
-						_id = _id.split('-');
-						_id = _id[1];
-						
-					_history.title = _title;
-	    			//_history.xml = _xml;
-	    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
-					_history.datacontent =  _data;							
-					var _img = $('img #img').attr('src', _history.image);
-					
-				});
-			}		
-		});
-
-
-		document.addEventListener('backbutton', function(e) {
-			
-			if ($('body').hasClass('content-polla')) {
-				if ($('#wrapperM').hasClass('right')) {
-					$('#wrapperM').attr('class','page transition left');	
-				} else if ($('#wrapper2').hasClass('left')) {
-					$('#wrapper2').attr('class','page transition right');
-				} else {			
-					_fSetBack();	
-					_fSetLoadInit();
-				}
-			} else {
-			
-				if ($('#wrapper2').hasClass('left') || $('#wrapperMaM').hasClass('left'))  {	
-					_fSetBack();												
-				} else {
-					
-					if ($('#wrapperM').hasClass('right')) {
-				 		_fSetBack();
-					} else if ($('body').hasClass('content-home')) {							
-						exitApp();				
-					} else if ($('body').hasClass('content-default')) {							
-						exitApp();				
-					} else if ($('body').hasClass('content-signin')) {	
-						backFromRegister();		
-					} else if ($('body').hasClass('content-signup')) {							
-						backFromRegister();				
-					} else {						
-						_fSetLoadInit();
-					}					
-				}
-				
-			}	
-			
-			
-										
-		}, false);
-		
-		app.receivedEvent('deviceready');    	
-    	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
- 		
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-    	//init things
-		setIOSSplashes();
-    	initPage();
-    	checkVersion();
-    	initPush();    		
+    	if(id == 'deviceready'){
+	    	//init things
+			setIOSSplashes();
+	    	initPage();
+	    	checkVersion();
+	    	initPush();
+	    	initGA();
+    	}
     }
 };
+
+function initAllAppData(){
+	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {				
+			_jActive = _json;				
+		});
+	}
+	
+	
+	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,false);	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {				
+			_jSchedule = _json.partidos_mundial;				
+		});
+	}
+
+	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {					
+			_jMenu[0].json = _json.noticias_mundial;						
+			$.each(_json.noticias_mundial.item, function(_index,_item) {
+				if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+				var _img = $('img #img').attr('src',_item.imagen);
+				return false;
+			});				
+		});
+	}
+	    	
+	$.each(_jPlayers, function(_index,_player) {
+		_oAjax = $.fGetAjaXJSON(_player.url, 'xml', 'text/xml charset=utf-8', false);
+		if (_oAjax) {
+			_oAjax.done(function(_xml) {
+													
+				var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
+				
+				var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+					_id = _id.split('-');
+					_id = _id[1];
+					
+				var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+    				_data = $('<div>').append(_data).remove().html();
+
+    			_player.title = _title;
+    			//_player.xml = _xml;
+    			_player.id = _id;	    	
+    			_player.image = 'img/players/' + _id +'.jpg';	    								
+				_player.datacontent =  _data;
+				
+				var _img = $('img #img').attr('src',_player.image);
+
+				
+			});
+		}
+	});	
+
+	$.each(_jStadiums, function(_index,_stadium) {
+		_oAjax = $.fGetAjaXJSON(_stadium.url, 'xml', 'text/xml charset=utf-8', false);
+		if (_oAjax) {
+			_oAjax.done(function(_xml) {
+				
+				var _title = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > hl2').text();
+				
+				var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent > dl').clone();
+		    		_data = $('<div>').append(_data).remove().html();
+		    		
+		    		
+				var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+					_id = _id.split('-');
+					_id = _id[2];
+					
+				_stadium.title = _title;
+    			//_stadium.xml = _xml;
+    			_stadium.image = _urlCloud + '/stdvisu/' + _id +'-in.jpg';	    								
+				_stadium.datacontent =  _data;
+										
+				var _img = $('img #img').attr('src',_stadium.image);
+				 
+
+					
+			});
+		}		
+	});
+
+
+	$.each(_jTeams, function(_index,_team) {
+		
+		_oAjax = $.fGetAjaXJSON(_team.fiche, 'xml', 'text/xml charset=utf-8', false);
+		if (_oAjax) {
+			_oAjax.done(function(_xml) {
+				
+				var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > ul').text();
+					_title = _title.split('-');
+					_title =  _title[1];		
+								
+	    		var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+					_data = $('<div>').append(_data).remove().html();
+							
+				var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+					_id = _id.split('-');
+					_id = _id[1];
+													
+				_team.id = _id;						
+				_team.title = _title;
+    			//_team.xml.fiche = _xml;
+    			_team.image = _urlCloud + '/teams/' + _id +'.jpg';	  
+				_team.datacontent.fiche = _data;							
+				var _img = $('img #img').attr('src', _team.image);
+
+			});
+		}
+
+	});
+
+
+
+	$.each(_jHistory, function(_index,_history) {	
+		_oAjax = $.fGetAjaXJSON(_history.url, 'xml', 'text/xml charset=utf-8', false);
+		if (_oAjax) {
+			_oAjax.done(function(_xml) {
+				
+				var _title = $(_xml).find('NewsItem > NewsComponent > NewsLines > HeadLine').text();
+		    	var _data = $(_xml).find('NewsItem > NewsComponent > NewsComponent:first > ContentItem > DataContent').clone();
+		    		_data = $('<div>').append(_data).remove().html();
+		    		
+				var _id = $(_xml).find('NewsItem > Identification > NameLabel').text();
+					_id = _id.split('-');
+					_id = _id[1];
+					
+				_history.title = _title;
+    			//_history.xml = _xml;
+    			_history.image = _urlCloud + '/histmain/' + _id +'-1.jpg';	    								
+				_history.datacontent =  _data;							
+				var _img = $('img #img').attr('src', _history.image);
+				
+			});
+		}		
+	});
+
+
+	document.addEventListener('backbutton', function(e) {
+		
+		if ($('body').hasClass('content-polla')) {
+			if ($('#wrapperM').hasClass('right')) {
+				$('#wrapperM').attr('class','page transition left');	
+			} else if ($('#wrapper2').hasClass('left')) {
+				$('#wrapper2').attr('class','page transition right');
+			} else {			
+				_fSetBack();	
+				_fSetLoadInit();
+			}
+		} else {
+		
+			if ($('#wrapper2').hasClass('left') || $('#wrapperMaM').hasClass('left'))  {	
+				_fSetBack();												
+			} else {
+				
+				if ($('#wrapperM').hasClass('right')) {
+			 		_fSetBack();
+				} else if ($('body').hasClass('content-home')) {							
+					exitApp();				
+				} else if ($('body').hasClass('content-default')) {							
+					exitApp();				
+				} else if ($('body').hasClass('content-signin')) {	
+					backFromRegister();		
+				} else if ($('body').hasClass('content-signup')) {							
+					backFromRegister();				
+				} else {						
+					_fSetLoadInit();
+				}					
+			}
+			
+		}	
+		
+		
+									
+	}, false);
+	
+	app.receivedEvent('deviceready');    	
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+}
 
 var pushHasExecuted = false;
 function executePushInit(extra_params){
@@ -287,8 +294,28 @@ function executePushInit(extra_params){
 			var action = -1;
 			var newsID = 0;
 			
+			/*
+			 * '0','Anuncios','Anuncios','0'
+				'1','GOL','Gol de #TEAM1# anota #PLAYER1# ','1'
+				'2','CAMBIO','Cambio en #TEAM1# entra #PLAYER2# por #PLAYER1#','0'
+				'3','INICIO','Arranca el partido entre #TEAM1# y #TEAM2#','1'
+				'4','Final','Termina el partido entre #TEAM1# y #TEAM2#','0'
+				'5','Tarjeta Amarilla','Amarilla para #PLAYER1# de #TEAM1#','0'
+				'6','Tarjeta Roja Directa','Roja directa para #PLAYER1# de #TEAM1#','1'
+				'7','Tarjeta Roja Acumulada','Segunda Amarilla, Roja para #PLAYER1# de #TEAM1#','1'
+				'8','Parada del Portero','Paradon #PLAYER1# de #TEAM1#','0'
+				'9','Autogol','En propia puerta! Gol de #TEAM1# anota #PLAYER1# ','1'
+				'10','Tanda de Penales','Incian los Penales entre #TEAM1# y #TEAM2#','0'
+				'11','Penal detenido','Paradon del portero de #TEAM1#','0'
+				'12','Penal fallado','#PLAYER1# manda a volar su penalti','0'
+				'13','Inicio de tiempo','Saltan los equipos a la cancha #TEAM1# vs #TEAM2#','1'
+				'14','Final de tiempo','Los equipos se retiran a los vestidores #TEAM1# vs #TEAM2#','1'
+				'15','Previa','El partido entre #TEAM1# y #TEAM2# esta por comenzar!','1'
+				'16','Noticias','Noticia','1'
+			 */
+			
 			var NEWS_ACTION = 16;
-			var END_MATCH_ACTION = 14;
+			var END_MATCH_ACTION = 4;
 			
 			//revisamos que tipo de aacion llego
 			try{
@@ -403,10 +430,11 @@ function initPage(){
 	$('#wrapperM .scroller .container').html(_html);
 	_jClient = loadClientData();
 	
+	initFacebookManager();
+	
 	if (_jClient != null) {
 		_fSetLoadInit();
 	} else {
-		initFacebookManager();
 		//getLoginStatus();
 		_fSetLoadDefault();	
 	}

@@ -45,6 +45,10 @@
                         {
                             "xml": "true",
                             "count": 1
+                        },
+                        {
+                            "xml": "false",
+                            "count": 1
                         }
                     ],
                     "AudioToolbox.framework": [
@@ -74,6 +78,12 @@
                     "Security.framework": [
                         {
                             "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "CoreData.framework": [
+                        {
+                            "xml": "false",
                             "count": 1
                         }
                     ]
@@ -153,6 +163,10 @@
                         {
                             "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"GAPlugin\"><param name=\"ios-package\" value=\"GAPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -221,6 +235,9 @@
             "PACKAGE_NAME": "com.tvn-2.TVMax"
         },
         "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.tvn-2.TVMax"
+        },
+        "com.adobe.plugins.GAPlugin": {
             "PACKAGE_NAME": "com.tvn-2.TVMax"
         }
     },

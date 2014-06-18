@@ -63,22 +63,28 @@ var friendIDs = [];
 var fdata;
 
 
-function me() {
-	FB.api('/me/friends', { fields: 'id, name, picture' },  function(response) {
+function getFacebookFriends() {
+	FB.api('/me/friends', { fields: 'id, name, picture, installed' },  function(response) {
 		if (response.error) {
+			failedToLoadFriendsLeaderboard();
 			//alert(JSON.stringify(response.error));
 			navigator.notification.alert("Error obteniendo información de Facebook", doNothing, "Alerta", "OK");
 		} else {
-			var data = document.getElementById('data');
-			fdata=response.data;
 			//console.log("fdata: "+fdata);
+			var friendList = [];
 			response.data.forEach(function(item) {
-				var d = document.createElement('div');
+				/*var d = document.createElement('div');
 				d.innerHTML = "<img src="+item.picture+"/>"+item.name;
-				data.appendChild(d);
+				data.appendChild(d);*/
+				//alert("name "+item.name+" ID:"+item.id+" installed:"+item.installed);
+				if(item.installed == true){
+					//ese es un cliente a buscar
+					friendList.push(item);
+				}
 			});
+			getSocialLeaderboard(friendList);
 		}
-		var friends = response.data;
+		/*var friends = response.data;
 		//console.log(friends.length); 
 		for (var k = 0; k < friends.length && k < 200; k++) {
 			var friend = friends[k];
@@ -86,7 +92,7 @@ function me() {
 
 			friendIDs[k] = friend.id;
 			//friendsInfo[k] = friend;
-		}
+		}*/
 		//console.log("friendId's: "+friendIDs);
 	});
 }
@@ -111,5 +117,21 @@ function loginByFacebook() {
      	}
      },{ scope: "email" }
 	);
+};
+
+function loginToFacebookForFriends() {
+	//FB.init({ appId: APP_ID, nativeInterface: CDV.FB, useCachedDialogs: false });
+    /*FB.login(
+     function(response) {
+     	if (response.authResponse.session_key) {
+     		getFacebookFriends();
+     	} else {
+     		//alert('not logged in');
+     		failedToLoadFriendsLeaderboard();
+     		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
+     	}
+     },{ scope: "email" }
+	);*/
+	getFacebookFriends();
 };
 
