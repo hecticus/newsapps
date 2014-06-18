@@ -55,7 +55,7 @@
 		var _html = '<div class="row" >';
 
 		$.each(_jGet.item, function(_index,_item) {
-		 	if (_index <= 15) {
+		 	//if (_index <= 15) {
 		 		
 		 		if (_item.activo == 'Si') {
 		 		
@@ -88,7 +88,7 @@
 		 		
 		 		
 				
-			}		 			
+			//}		 			
 		});
 		 
 		_html += '</div>';
