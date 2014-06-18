@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"GAPlugin\"><param name=\"android-package\" value=\"com.adobe.plugins.GAPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -154,6 +158,9 @@
             "PACKAGE_NAME": "com.tvn.tvmax"
         },
         "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.tvn.tvmax"
+        },
+        "com.adobe.plugins.GAPlugin": {
             "PACKAGE_NAME": "com.tvn.tvmax"
         }
     },

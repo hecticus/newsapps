@@ -149,7 +149,7 @@ function makeCategoriesActionsUpdate(){
 }
 
 function markAllCategoriesAndActions(){
-	currentClientCountries = [];
+	//currentClientCountries = [];
 	currentClientCategories = [];
 	for(var i=0;i<pushCategoryIndexes.length;i++){
 		//agregamos todas las categorias que no sean paises, eso si se tiene que agregar a parte

@@ -220,6 +220,13 @@ module.exports = [
         "clobbers": [
             "PushNotification"
         ]
+    },
+    {
+        "file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
+        "id": "com.adobe.plugins.GAPlugin.GAPlugin",
+        "clobbers": [
+            "GAPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -236,7 +243,8 @@ module.exports.metadata =
     "org.apache.cordova.dialogs": "0.2.7",
     "hu.dpal.phonegap.plugins.SpinnerDialog": "0.2.1",
     "com.phonegap.plugins.PushPlugin": "2.2.0",
-    "org.apache.cordova.console": "0.2.9-dev"
+    "org.apache.cordova.console": "0.2.9-dev",
+    "com.adobe.plugins.GAPlugin": "2.3.1"
 }
 // BOTTOM OF METADATA
 });

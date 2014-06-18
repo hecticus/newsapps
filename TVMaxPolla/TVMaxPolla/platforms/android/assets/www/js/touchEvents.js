@@ -105,7 +105,12 @@
 	$(document).on('click','.tv', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
+		//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
+		if(isWIFIOnly()){
+			window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
+		}else{
+			navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
+		}
 	});
 	
 	//NOTICIAS JS
@@ -522,7 +527,7 @@
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		
-
+		//console.log("TEAMARRAY: "+JSON.stringify(_jAlert.teams));
 		if ($(this).hasClass('opacity')) {
 			
 			if (_jAlert.teams.length == 4) {
@@ -536,13 +541,29 @@
 		}  else {
 
 			$(this).addClass('opacity');
-			$(this).data('select','0');				
-			_jAlert.teams.splice($.inArray($(this).data('id'), _jAlert.teams),1);
-
+			$(this).data('select','0');
+			var index = _jAlert.teams.indexOf(""+$(this).data('id'));
+			//console.log("DELETE: "+$(this).data('id')+" INDEX: "+index);
+			if(index >= 0){
+				//_jAlert.teams.splice($.inArray($(this).data('id'), _jAlert.teams),1);
+				_jAlert.teams.splice(index,1);
+			}
 		}
 
 		_fsetTeamsAlerts();	
 		
+	});
+	
+	
+	/*LEADERBOARDS*/
+	$(document).on('touchend','.leaderboard', function(e) {
+		preventBadClick(e);
+		eval($(this).data('function'));		
+		$('.leaderboard').removeClass('active');	
+		$(this).addClass('active');
+		$('#wrapper2').attr('class','page transition right');
+		myScroll.scrollTo(0,0,0);
+		myScroll2.scrollTo(0,0,0);		
 	});
 
 

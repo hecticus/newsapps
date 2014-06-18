@@ -273,6 +273,42 @@
 		<!-- </phase> -->
 
 	
+		@for(phase <- phases) {
+			@if(phase.getIdPhase == 1) {
+			
+			
+				<div class="row title prediction" >
+					<div class="col-md-12" >
+						<span>Predicción por Grupos</span>
+					</div>
+				</div>
+				
+				<div class="row prediction" >			
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:5px; background-color:#e2e2e3; overflow: hidden">		
+					@for((group,index) <- phase.getMatchGroup().zipWithIndex) {
+						
+						
+
+						
+							
+							<div class="position" style="background: url(@routes.Assets.at("images/arrows/" + group.getName().toLowerCase() + ".png")) no-repeat left center; background-size: 20px 80px;">							
+								
+									<div data-group="@group.getIdGroup()" data-position="0" data-index="@group.getName()1" class="content-flag-score" style="display: block; margin: 0 auto;">@group.getName()1</div>	
+									<div data-group="@group.getIdGroup()" data-position="1" data-index="@group.getName()2" class="content-flag-score" style="display: block; margin: 0 auto;">@group.getName()2</div>
+							
+								
+									
+							</div>
+							
+						
+					}
+					</div>					
+				</div>		
+				
+			}	
+
+		}
+	
 }
 
 
