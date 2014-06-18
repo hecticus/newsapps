@@ -18,7 +18,7 @@
 			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
 		} else if ($(this).data('country')){
 			_fRenderDataContent('(_item.equipo_local.search("' + $(this).data('country') + '") >= 0  ) || ( _item.equipo_visitante.search("' + $(this).data('country') + '") >= 0)');	
-		} else {			
+		} else {						
 			_fRenderDataContent('_iDate == "' + $(this).data('date') + '"');
 		}
 		
@@ -26,6 +26,24 @@
 		myScroll2.scrollTo(0,0,0);
 
 	});
+	
+	
+	$(document).on('click','.goal-match', function(e) {
+		if(preventBadClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		if ($(this).data('phase')) {
+			_fRenderDataContent('_item.fase.search("' + $(this).data('phase') + '") >= 0');		
+		} else if ($(this).data('country')){
+			_fRenderDataContent('(_item.equipo.search("' + $(this).data('country') + '") >= 0  )');	
+		} else {						
+			_fRenderDataContent('_iDate == "' + $(this).data('date') + '"');
+		}
+		
+		myScroll.scrollTo(0,0,0);
+		myScroll2.scrollTo(0,0,0);
+
+	});
+	
 	
 	
 	//HISTORY JS
@@ -74,7 +92,8 @@
 		} else {
 								
 			if(_jMenu[_this.data('index')].class == 'content-polla' 
-				|| _jMenu[_this.data('index')].class == 'content-alertas'){
+				|| _jMenu[_this.data('index')].class == 'content-alertas'
+				|| _jMenu[_this.data('index')].class == 'content-leaderboard'){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -104,8 +123,12 @@
 	});
 	$(document).on('touchend','.tv', function(e) {
 		if(preventBadClick(e)){return false;}
-		//if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
+		//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
+		if(isWIFIOnly()){
+			window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
+		}else{
+			navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
+		}
 	});
 	
 	//NOTICIAS JS
@@ -192,7 +215,12 @@
 		
 			_oAjax.done(function(_msg) {
 				if (_msg.error==0) {
-					navigator.notification.alert("Bien! Tu pronostico se ha guardado con exito.", doNothing, "Guardar", "OK");
+					if(_msg.message != null && _msg.message != ""){
+						navigator.notification.alert(_msg.message, doNothing, "Guardar", "OK");
+					}else{
+						navigator.notification.alert("Bien! Tu pronostico se ha guardado con exito.", doNothing, "Guardar", "OK");
+					}
+					
 					//alert('Bien! Tu pronostico se ha guardado con exito.');
 				} else {
 					navigator.notification.alert("Error! Tu pronostico no se ha logrado guardar; Vuelve a intentarlo.", doNothing, "Alerta", "OK");
@@ -212,7 +240,8 @@
 
 
 	$(document).on('touchend','.add', function(e) {
-		preventBadClick(e);	
+		preventBadClick(e);
+		if(isPollaPhaseRunning) return false;
 		var _tGoal = $(this).parent().data('goal');
 		_tGoal = parseInt(_tGoal + 1);
 		$(this).parent().data('goal',_tGoal);
@@ -221,6 +250,7 @@
 	
 	$(document).on('touchend','.sub', function(e) {
 		preventBadClick(e);	
+		if(isPollaPhaseRunning) return false;
 		var _tGoal = $(this).parent().data('goal');
 		_tGoal = parseInt(_tGoal - 1);					
 		if (_tGoal <= 0)  _tGoal = 0;					
@@ -267,6 +297,7 @@
 	$(document).on('click','.flag', function(e) {
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		if(isPollaPhaseRunning) return false;
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 		
@@ -283,6 +314,7 @@
 	$(document).on('click','.goal', function(e) {
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		if(isPollaPhaseRunning) return false;
 		$('.goal').removeClass('gol');
 		$('.add, .sub').addClass('hidden');
 		
@@ -527,14 +559,28 @@
 		}  else {
 
 			$(this).addClass('opacity');
-			$(this).data('select','0');				
-			_jAlert.teams.splice($.inArray($(this).data('id'), _jAlert.teams),1);
-
+			$(this).data('select','0');
+			var index = _jAlert.teams.indexOf(""+$(this).data('id'));
+			//console.log("DELETE: "+$(this).data('id')+" INDEX: "+index);
+			if(index >= 0){
+				//_jAlert.teams.splice($.inArray($(this).data('id'), _jAlert.teams),1);
+				_jAlert.teams.splice(index,1);
+			}
 		}
 
 		_fsetTeamsAlerts();	
 		
 	});
-
-
+	
+	
+	/*LEADERBOARDS*/
+	$(document).on('touchend','.leaderboard', function(e) {
+		preventBadClick(e);
+		eval($(this).data('function'));		
+		$('.leaderboard').removeClass('active');	
+		$(this).addClass('active');
+		$('#wrapper2').attr('class','page transition right');
+		myScroll.scrollTo(0,0,0);
+		myScroll2.scrollTo(0,0,0);		
+	});
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">	
+	<body>
+
+		<div class="container leaderboard-menu" >
+			<div class="row" >			
+				 <div id="leaderboard_global_menu" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leaderboard active" data-function="_fRenderGlobalLeaderboard();">
+				 	<div style=" position: relative; height:40px; line-height:40px; text-align: center; margin-top: 5px;" >
+				 		<span class="icon-fases" style="font-size: 2.5em; "></span>
+				 	</div>				 	
+				 	<div style="height:20px; line-height:20px; text-align: center; " >
+				 		<span style="font-size: 1em; ">Global</span>
+				 	</div>				 					 					 					 					 	
+				 </div>			
+		
+				 <div id="leaderboard_social_menu"  class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leaderboard" data-function="loadAndShowFriends();">
+				 	<div style=" position: relative; height:40px; line-height:40px; text-align: center; margin-top: 5px;" >
+				 		<span class="icon-biografia_menu" style="font-size: 2.5em; "></span>
+				 	</div>				 	
+				 	<div style="height:20px; line-height:20px; text-align: center;" >
+				 		<span style="font-size: 1em; ">Amigos</span>
+				 	</div>	
+				 </div>		 		 
+			 </div>
+		</div>
+	
+		<div id="wrapper">
+			<div class="scroller">				
+				<div class="container" >
+				</div>	
+			</div>
+		</div>	
+
+
+		<div id="wrapper2" class="page" style="left: 100%;">
+			<div class="scroller">							
+				<div class="container" >
+				</div>
+			</div>			
+		</div>
+		
+		<script type="text/javascript">
+
+			var myScroll = new IScroll('#wrapper', {click:true,preventDefault:true});
+			myScroll.on('beforeScrollStart', function () { 
+				this.refresh();	
+			});	
+				
+			var myScroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
+			myScroll2.on('beforeScrollStart', function () { 
+				this.refresh();			
+			});				
+			gaPlugin.trackPage(successGAHandler, errorGAHandler, "Leaderboards");				
+		</script>
+		
+		<script type="text/javascript" src="js/leaderboards.js"></script>  
+
+	</body>
+	
+</html>

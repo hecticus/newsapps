@@ -99,13 +99,9 @@
 
 
 		//row
-		if (isMundialOn) {
-			_html += '<div class="row worldcup">';
-		}else{
-			_html += '<div class="row worldcup hidden">';
-		}
 		
-
+		_html += '<div class="row worldcup">';
+		
 			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="5"  >';
 	
 				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
@@ -146,52 +142,7 @@
 		
 		_html += '</div>';
 
-		if (isMundialOn) {
-			_html += '<div class="row preview hidden">';
-		}else{
-			_html += '<div class="row preview ">';
-		}
-								
-
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="10"  >';
-	
-				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-					_html += '<span class="icon-alertas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-				_html += '</div>';
-			
-				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" >Alertas</span>';
-				_html += '</div>';	
-	
-			_html += '</div>';
-	
-	
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="13"  >';
-			
-				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-					_html += '<span class="icon-estrellas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-				_html += '</div>';
-			
-				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" >Leyendas</span>';
-				_html += '</div>';	
-	
-			_html += '</div>';
-	
-	
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="12" >';	
-			
-				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-					_html += '<span class="icon-equipo" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-				_html += '</div>';
-			
-				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" >Equipos</span>';
-				_html += '</div>';	
-							
-			_html += '</div>';
-
-		_html += '</div>';
+		
 		
 		//row
 
@@ -213,6 +164,12 @@
 				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + _heightBanner +'px; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
+		
+		if(isLiveTV){
+			$('header .container .row .tv').removeClass('hidden');
+		}else{
+			$('header .container .row .tv').addClass('hidden');
+		}
 
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);

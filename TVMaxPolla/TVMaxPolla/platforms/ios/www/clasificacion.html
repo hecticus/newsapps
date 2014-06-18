@@ -15,7 +15,8 @@
 			var myScroll = new IScroll('#wrapper', {click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();	
-				});					
+				});	
+			gaPlugin.trackPage(successGAHandler, errorGAHandler, "Clasificacion");
 		</script>
 		
 		<script type="text/javascript" src="js/clasificacion.js"></script>  

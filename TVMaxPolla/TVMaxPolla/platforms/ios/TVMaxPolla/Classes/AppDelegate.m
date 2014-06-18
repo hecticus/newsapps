@@ -175,6 +175,12 @@
 -(void) moviePlayBackDidFinish:(NSNotification*)notification
 {
     NSLog(@"Intro video stopped");
+	if ([mMoviePlayer respondsToSelector:@selector(setFullscreen:animated:)])
+    {
+        [mMoviePlayer setFullscreen:NO animated:NO];
+		
+    }
+	
 	[mMoviePlayer.view removeFromSuperview];
 	//[mMoviePlayer.view setHidden:YES];
 }

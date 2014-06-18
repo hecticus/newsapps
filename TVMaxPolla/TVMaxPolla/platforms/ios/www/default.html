@@ -49,6 +49,7 @@
 		}
 		</style>
 		<div id="wrapper" class="specialMargin" style="background-color: rgba(255,255,255,0);">
+		<!--div id="wrapper" style="background-color: rgba(255,255,255,0); top: 40%;"-->
 			<div class="scroller" style="background-color: rgba(255,255,255,0);" >				
 				<div class="container" style="background-color: rgba(255,255,255,0);">					
 					<p style="background-color: rgba(255,255,255,0);">
@@ -65,7 +66,8 @@
 			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();	
-			});				
+			});	
+			gaPlugin.trackPage(successGAHandler, errorGAHandler, "LoginInicial");
 		</script>
 		
 		

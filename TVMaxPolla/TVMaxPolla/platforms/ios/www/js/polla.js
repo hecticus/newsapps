@@ -9,6 +9,8 @@
 
 	var _pollaMinGroup = 99;
 	var _pollaMaxGroup = 0;
+	
+	var isPollaPhaseRunning = false;
 
 	var _fGetFlag = function(_team){ 
 		var _html = '<figure class="flag">';
@@ -249,7 +251,11 @@
 	_oAjax = $.fPostAjaXJSON(_basePollaURL+'/matchesapi/v1/clientbet/get/current',{idClient:_iClient});	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			_jPrediction = _json;		
+			_jPrediction = _json;
+			if(_jPrediction!=null && _jPrediction.phase != null && _jPrediction.phase.isRunning != null && _jPrediction.phase.isRunning != ""){
+				isPollaPhaseRunning = _jPrediction.phase.isRunning;
+				//console.log("POLLA RUNNING "+isPollaPhaseRunning);
+			}
 			_fRenderPrediction();
 		});
 	}
