@@ -129,7 +129,7 @@ public class TvmaxMatch extends HecticusModel {
     }
 
     public static List<TvmaxMatch> getAll(){
-        return finder.orderBy("external_id asc").findList();
+        return finder.orderBy("formated_date asc").findList();
     }
 
     public static List<TvmaxMatch> getAllLimited(){
