@@ -48,69 +48,91 @@
 		
 	};
 
-
+	var eventsShowed = [];
+	var renderSafeDone = true;
 	var _fRenderEvent = function(_match,_lastMinute,_lastEvent) {
-		if(_matchHasFinished) return;
-		_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/' + _match  + '?last_minute=' + _lastMinute);
-		if (_oAjax) {
-					
-			var _html = '';		
-			_oAjax.done(function(_json) {
-					
-				$('.goal-' + _jTeamMaM.team_a).html(_json.home_goals);
-				$('.goal-' + _jTeamMaM.team_b).html(_json.away_goals);
-
+		try{
+			if(_matchHasFinished) return;
+			if(!renderSafeDone) return;
+			renderSafeDone = false;
+			_oAjax = $.fGetAjaXJSONMaM('http://api.hecticus.com/KrakenAfp/v1/matches/events/get/fifa/' + _match  + '?last_minute=' + _lastMinute);
+			if (_oAjax) {
+						
+				var _html = '';		
+				_oAjax.done(function(_json) {
+						
+					$('.goal-' + _jTeamMaM.team_a).html(_json.home_goals);
+					$('.goal-' + _jTeamMaM.team_b).html(_json.away_goals);
+	
+			
+							
+					$.each(_json.response, function(_index,_event) {
+						
+						if(_event.action.mnemonic == 'FNLBLW'){
+							_matchHasFinished = true;
+						}	
+						
+						if(isEventShowed(_event.id_game_matc_events)){  }
+						else{ 
+							eventsShowed.push(_event.id_game_matc_events);
+							if(_event.action.mnemonic != 'PRVW'){
+	
+						//if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
+	
+							_html += '<div class="row event" >';
 		
-						
-				$.each(_json.response, function(_index,_event) {
-
-					if(_event.action.mnemonic == 'FNLBLW'){
-						_matchHasFinished = true;
-					}	
-
-
-					if ((_event.id_game_matc_events > _lastEvent) && (_event.action.mnemonic != 'PRVW')) {
-
-						_html += '<div class="row event" >';
+			 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
+			 				_html += _fRenderTimeLine(_jTeamMaM.team_a,_event);			 					
+			 				_html += '</div>';
+			 				
+			 				_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center; padding-top:5px; ">'; 				
+			 				_html += '<span style="color:red; font-wight:bold;">' + _event.action_minute + '&#39;</span>';
+			 				_html += '</div>';
+			 						 				
+			 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
+			 				_html += _fRenderTimeLine(_jTeamMaM.team_b,_event);
+			 				_html += '</div>';
+			 						 						 				
+			 				_html += '</div>';
+							}
+						}
+			 			
+			 		});	
+			 		
 	
-		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
-		 				_html += _fRenderTimeLine(_jTeamMaM.team_a,_event);			 					
-		 				_html += '</div>';
-		 				
-		 				_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center; padding-top:5px; ">'; 				
-		 				_html += '<span style="color:red; font-wight:bold;">' + _event.action_minute + '&#39;</span>';
-		 				_html += '</div>';
-		 						 				
-		 				_html += '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center; padding-top:5px; padding-bottom:5px;">';
-		 				_html += _fRenderTimeLine(_jTeamMaM.team_b,_event);
-		 				_html += '</div>';
-		 						 						 				
-		 				_html += '</div>';
-						
-					}
-		 			
-		 		});	
-		 		
-
-		 		_lastMinute = _json.response[0].action_minute;
-		 		_lastEvent	= _json.response[0].id_game_matc_events;	
-		 		
-			});
+			 		_lastMinute = _json.response[0].action_minute;
+			 		_lastEvent	= _json.response[0].id_game_matc_events;	
+			 		renderSafeDone = true;
+				});
+			}else{
+				renderSafeDone = true;
+			}
+		
+		
+			$('#wrapperMaM2 .scroller .container').prepend(_html);	
+			myScroll2.scrollTo(0,0,0);
+			
+			_mTimeoutMaM = setTimeout(function() {	
+				_fRenderEvent(_match,_lastMinute,_lastEvent);				
+			}, 30000);
+		}catch(e){
+			renderSafeDone = true;
+			_mTimeoutMaM = setTimeout(function() {	
+				_fRenderEvent(_match,_lastMinute,_lastEvent);				
+			}, 30000);
 		}
-	
-	
-		$('#wrapperMaM2 .scroller .container').prepend(_html);	
-		myScroll2.scrollTo(0,0,0);
-
-		_mTimeoutMaM = setTimeout(function() {	
-			_fRenderEvent(_match,_lastMinute,_lastEvent);				
-		}, 30000);
-	
 	};
-	
+	function isEventShowed(currentEvent){
+		for(var i=0;i<eventsShowed.length;i++){
+			if(eventsShowed[i]==currentEvent){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	var _fRenderDataContent = function(_match) {
-	
+		eventsShowed = [];
 		var _html = '';
 		var _return= false;
 		$.each(_jGet.item, function(_index,_item) {
@@ -252,7 +274,7 @@
 			_html += '</div>';
 		}			
 
-				
+		eventsShowed = [];		
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
 		
@@ -262,7 +284,8 @@
 	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/today',false,false,true);
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			_jGet = _json.partidos_mundial;					
+			_jGet = _json.partidos_mundial;
+			eventsShowed = [];
 			_fRenderMaM();				
 		});
 	}

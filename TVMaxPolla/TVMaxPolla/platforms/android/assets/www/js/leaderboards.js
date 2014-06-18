@@ -1,6 +1,24 @@
-
-	var _iClient = loadClientData().id_social_clients;
+	var _ClientObj = loadClientData();
+	var _iClient = _ClientObj.id_social_clients;
 	var currentRanking;
+	
+	var isSocialClient = false;
+	if(_ClientObj.id_social != null && _ClientObj.id_social != ""){
+		isSocialClient = true;
+	}
+	
+	if(!isSocialClient){
+		$('#leaderboard_social_menu').hide();
+		//col-xs-6 col-sm-6 col-md-6 col-lg-6
+		$('#leaderboard_global_menu').removeClass("col-xs-6");
+		$('#leaderboard_global_menu').addClass("col-xs-12");
+		$('#leaderboard_global_menu').removeClass("col-sm-6");
+		$('#leaderboard_global_menu').addClass("col-sm-12");
+		$('#leaderboard_global_menu').removeClass("col-md-6");
+		$('#leaderboard_global_menu').addClass("col-md-12");
+		$('#leaderboard_global_menu').removeClass("col-lg-6");
+		$('#leaderboard_global_menu').addClass("col-lg-12");
+	}
 	
 	function loadAndShowFriends(){
 		_fGetLoading();
@@ -14,7 +32,17 @@
 	var _jLeaderboardItemsSocial;
 	
 	function getSocialLeaderboard(friendList){
-		_oAjax2 = $.fGetAjaXJSON('http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/rank/1/'+_iClient,false,false,true);	
+		//Obtenemos toda la lista de clientes para pasarla al WS
+		var socialIDs = "";
+		for(var i=0;i<friendList.length;i++){
+			var social_id = friendList[i].id;
+			socialIDs+=social_id+",";
+		}
+		
+		//KrakenSocialLeaderboards/v1/leaderboard/facebook/1/2/699300099,1079599281,880505327
+		//192.168.1.128
+		//http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/facebook/1/
+		_oAjax2 = $.fGetAjaXJSON('http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/facebook/1/'+_iClient+"/"+socialIDs,false,false,true);	
 		if (_oAjax2) {
 			_oAjax2.done(function(_json) {
 				if(_json!=null && _json.response != null){
@@ -29,24 +57,19 @@
 	}
 	
 	var _fRenderFriendsLeaderboard = function(friendList) {
-		console.log("RenderFriends!!! FRIENDS?");
-		console.log("RenderFriends!!! "+JSON.stringify(friendList));
+		//console.log("RenderFriends!!! FRIENDS?");
+		//console.log("RenderFriends!!! "+JSON.stringify(friendList));
 		
 		var _html = '<div class="row" style="margin:5%;">';
 		
-		$.each(friendList, function(_index,_player) {
+		$.each(_jLeaderboardItemsSocial, function(_index,_player) {
 			
-			/*var clientData=_player.client;
+			var clientData=_player.client;
 			var login = clientData.nick;
+			var idSocial = clientData.id_social;
 			var emailIndex = login.indexOf("@");
 			var rank = (_index+1);
-			var score = _player.score;*/
-			var clientData=_player;
-			var login = clientData.id;
-			var social_id = clientData.id;
-			var emailIndex = login.indexOf("@");
-			var rank = (_index+1);
-			var score = 0;
+			var score = _player.score;
 			if(emailIndex >= 0){
 				//cortamos el correo para que no salga en pantalla
 				login = login.substring(0,emailIndex);
@@ -57,7 +80,7 @@
 			_html += '<span>' +  login + '</span>';
 			_html += '<span>' +  score + '</span>';
 		 	_html += '</div>';*/
-			var image = getImageFromFacebookList(friendList,social_id);
+			var image = getImageFromFacebookList(friendList,idSocial);
 			
 			_html += '<div class="media" style="background-color:#cbcbcd; padding:5px;">';
 			_html += '<a href="#" class="pull-left">';
