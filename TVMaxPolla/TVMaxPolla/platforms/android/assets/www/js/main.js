@@ -29,12 +29,11 @@ var _fGetFormatDate = function(_date) {
 	}
 	
 	_time = _time.toString().trim();			
-	_time = _time.toString().split(':');
-	_time[0] = _aTime[_time[0] * 1];
+	_time = _time.toString().split(':');	
+	_meridian = ((_time[0] > 12) ? ' pm' : ' am');	
+	_time[0] = _aTime[_time[0] * 1];		
+	return _year + ' ' + _time[0] + ':' + _time[1] + _meridian;
 	
-	
-	
-	return _year + ' ' + _time[0] + ':' + _time[1] + ((_time[0] > 12) ? ' pm' : ' am');
 };
 
 var _fSetLoadDefault = function() {
