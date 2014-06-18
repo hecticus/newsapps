@@ -140,7 +140,8 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
                 	}
                 }
         	}else{*/
-        		var realIndex = index-cantCategories;
+        		//var realIndex = index+1;
+        		var realIndex = index;
         		//console.log("ACTIONS "+realIndex);
         		for(var i=0;i<newClientActionsAlerts.length;i++){
                 	if(newClientActionsAlerts[i]==pushActionsIndex[realIndex].id_action){
@@ -257,10 +258,12 @@ function renderInitAlerts() {
 				cantCategories++;
 			}
 		}*/
-		for(var i=0;i<pushActionsIndex.length;i++){		
+		for(var i=0;i<pushActionsIndex.length;i++){	
+			//if(pushActionsIndex[i].id_action!=0){
 			_html += '<li data-value="'+pushActionsIndex[i].id_action+'" class="list-group-item" data-style="button">'+pushActionsIndex[i].name+'</li>';
 			/*_html += '<div class="col-md-12 news" data-item="'+pushActionsIndex[i].id_action+'"  >';
 			_html += '</div>';*/		
+			//}
 		}
 		 
 		//_html += '</div>';
