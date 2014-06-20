@@ -33,16 +33,22 @@
 	
 	function getSocialLeaderboard(friendList){
 		//Obtenemos toda la lista de clientes para pasarla al WS
-		var socialIDs = "";
+		var socialIDs = [];
 		for(var i=0;i<friendList.length;i++){
 			var social_id = friendList[i].id;
-			socialIDs+=social_id+",";
+			//socialIDs+=social_id+",";
+			socialIDs.push(social_id);
 		}
+		
+		var data = {};
+		data.leaderboard_id = 1;
+		data.client_id = _iClient;
+		data.social_ids = socialIDs;
 		
 		//KrakenSocialLeaderboards/v1/leaderboard/facebook/1/2/699300099,1079599281,880505327
 		//192.168.1.128
 		//http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/facebook/1/
-		_oAjax2 = $.fGetAjaXJSON('http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/facebook/1/'+_iClient+"/"+socialIDs,false,false,true);	
+		_oAjax2 = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/facebook',data);	
 		if (_oAjax2) {
 			_oAjax2.done(function(_json) {
 				if(_json!=null && _json.response != null){
@@ -57,8 +63,8 @@
 	}
 	
 	var _fRenderFriendsLeaderboard = function(friendList) {
-		console.log("RenderFriends!!! FRIENDS?");
-		console.log("RenderFriends!!! "+JSON.stringify(friendList));
+		//console.log("RenderFriends!!! FRIENDS?");
+		//console.log("RenderFriends!!! "+JSON.stringify(friendList));
 		
 		var _html = '<div class="row" style="margin:5%;">';
 		
@@ -129,6 +135,8 @@
 
 		var _html = '<div class="row" style="margin:5%;">';
 		
+		var clientRank = currentRanking;
+		
 		$.each(_jLeaderboardItems, function(_index,_player) {
 			var clientData=_player.client;
 			var login = clientData.nick;
@@ -145,6 +153,10 @@
 			_html += '<span>' +  login + '</span>';
 			_html += '<span>' +  score + '</span>';
 		 	_html += '</div>';*/
+			
+			if(_player.id_client == _iClient){
+				rank = currentRanking;
+			}
 			
 			_html += '<div class="media" style="background-color:#cbcbcd; padding:5px;">';
 			_html += '<a href="#" class="pull-left">';

@@ -68,7 +68,21 @@ function getFacebookFriends() {
 		if (response.error) {
 			failedToLoadFriendsLeaderboard();
 			//alert(JSON.stringify(response.error));
-			navigator.notification.alert("Error obteniendo información de Facebook", doNothing, "Alerta", "OK");
+		   //navigator.notification.alert("Error obteniendo información de Facebook", doNothing, "Alerta", "OK");
+		   if(response.error){
+					FB.login(
+					function(response) {
+					if (response.authResponse.session_key) {
+							 getFacebookFriends();
+					} else {
+							 //alert('not logged in');
+							 failedToLoadFriendsLeaderboard();
+							 navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
+					}
+					},{ scope: "email" }
+					);
+		   }
+			
 		} else {
 			//console.log("fdata: "+fdata);
 			var friendList = [];

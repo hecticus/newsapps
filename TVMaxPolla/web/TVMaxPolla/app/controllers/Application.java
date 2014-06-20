@@ -51,20 +51,42 @@ public class Application extends Controller
     	
     	Client objClient =  new Client();
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
-    	lstPhase = objClient.getPrediction(connected);    	
-    	return ok(index.render(lstPhase));
+    	lstPhase = objClient.getPrediction(connected);
+    	
+    	String url = Config.getKrakenHost();        	
+    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
+    	JsonNode jsonError = jsonLeaderboard.get("error"); 
+    	JsonNode jsonDescription = jsonLeaderboard.get("description");
+    	JsonNode jsonResponse = jsonLeaderboard.get("response");
+    	    	
+    	return ok(index.render(lstPhase,jsonResponse.get("rank").asText()));
+    
+   
+    }
     
     
-    	/*String connected = session("connected");
+    
+    
+    
+    
+    public static Result leaderboard()
+    {
+
+    	String connected = session("connected");
     	if(connected==null) {
     		return redirect("/signin");
     	}
-    	    
-    	Client objClient =  new Client();
-    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
-    	lstPhase = objClient.getPredictionBet(connected);    	
-    	return ok(index2.render(lstPhase));*/   	
+    	
+    	String url = Config.getKrakenHost();    
+    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
+    	JsonNode jsonError = jsonLeaderboard.get("error"); 
+    	JsonNode jsonDescription = jsonLeaderboard.get("description");
+    	JsonNode jsonResponse = jsonLeaderboard.get("response");
 
+    	return ok(leaderboard.render(jsonResponse));    	
+  
     }
     
     
@@ -89,7 +111,6 @@ public class Application extends Controller
     {
     	session().clear();
     	return redirect(controllers.routes.SignIn.blank());
-		//return redirect("/signin");
     }
         
 

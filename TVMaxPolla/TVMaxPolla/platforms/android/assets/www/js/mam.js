@@ -184,6 +184,9 @@
 				}
 								
 				_html += '</div>';		
+
+			
+
 								
 				_html += '</div>';
 
@@ -232,7 +235,7 @@
 			_html += '<span>' +  _item.sede + ' </span>';
 			_html += '</div>';
 	
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px;  line-height:20px; padding:5px;">';				
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:80px;  line-height:20px; padding:5px;">';				
 			_team = _fGetAfpTeam(_item.equipo_local_ext_id);
 			 
 			if (_team.shortname) {
@@ -243,13 +246,13 @@
 			
 			_html += '</div>';
 		
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:80px;  line-height:80px;">';
 			_html += '<span class="goal-' + _item.equipo_local_ext_id  +'"  style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
 			_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
 			_html += '<span class="goal-' + _item.equipo_visitante_ext_id + '"  style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';		
 			_html += '</div>';
 			
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:100px; line-height:20px; padding:5px;">';												
+			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style="text-align: center; height:80px; line-height:20px; padding:5px;">';												
 			_team = _fGetAfpTeam(_item.equipo_visitante_ext_id);
 			 
 			if (_team.shortname) {
@@ -259,6 +262,12 @@
 			}
 							
 			_html += '</div>';		
+						
+						
+			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 more " style="height:40px; line-height:40px; text-align:center;">';
+			_html += '<span>ver m&aacute;s</span>';
+			_html += '</div>';
+										
 							
 			_html += '</div>';
 

@@ -392,7 +392,7 @@ function initPage(){
 	$(_jMenu).each(function(_index,_menu) {
 		
 
-		if (_index == 15 || _index == 16) {
+		if (_index == 16 || _index == 17) {
 			
 			if(loadClientData() == null) {			
 				_html += '<div class="row content-menu">';		

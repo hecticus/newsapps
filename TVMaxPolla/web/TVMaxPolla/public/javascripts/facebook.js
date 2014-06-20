@@ -8,22 +8,40 @@ window.fbAsyncInit = function() {
 }; 
 			  
 (function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=647787605309095";
-		  fjs.parentNode.insertBefore(js, fjs);
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=647787605309095";
+	  fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
 var login_event = function(response) {
 		
   if (response.status == 'connected') {
-  	FB.api('/me?fields=name,email', function(response) {
+ 
+  	FB.api('/me/?fields=name,email', function(response) {
       	document.getElementById("socialid").value = response.id;				      	
 		document.getElementById("socialname").value = response.name;					      	
 		document.getElementById("socialemail").value = response.email;
-      	document.forms[0].submit();
+    	document.forms[0].submit();
     });
+    
+   	/*FB.api('/me/friends', { fields: 'id, name, picture, installed' }, function(response) {  		
+		$.each(response.data, function(index,friend) {
+			if (friend.installed) {
+				socialfriends.push(friend.id);
+				console.log('------------ -----------');				
+				console.log(friend.id);
+				console.log(friend.name);
+				console.log(friend.picture.data.url);
+				console.log('------------ -----------');
+			}
+		});	
+	});*/
+	
+
+	
+
   } else if (response.status === 'not_authorized') {
   	return false;
   } else {
@@ -32,6 +50,33 @@ var login_event = function(response) {
   
 };
 
+	var fgetFriends = function() {
+		
+		var socialfriends = [];
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+			   FB.api('/me/friends', { fields: 'id, name, picture, installed' }, function(response) {  		
+					$.each(response.data, function(index,friend) {
+						if (friend.installed) {
+							socialfriends.push(friend.id);
+							console.log('------------ -----------');				
+							console.log(friend.id);
+							console.log(friend.name);
+							console.log(friend.picture.data.url);
+							console.log('------------ -----------');
+						}
+					});
+				});
+			} else if (response.status === 'not_authorized') {
+				socialfriends = false;
+			} else {
+				socialfriends = false;
+			}
+		});
+
+		return socialfriends;
+		
+	};
 
 
 	var fejemplo = function() {
