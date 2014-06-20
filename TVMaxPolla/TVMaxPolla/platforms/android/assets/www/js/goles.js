@@ -98,10 +98,11 @@
 			_oAjax.done(function(_json) {
 				_jGol = _json.goles_mundial;
 				
+			
 				var _gol = false;
 				var _html = '<div class="row" >';
 				
-				$.each(_jGol.item, function(_index,_item) {					
+				$.each(_jGol.item, function(_index,_item) {
 					if (_item.activo == 'Si') {
 					
 						_iDate = _item.fecha_anotacion.split(' ');
@@ -150,7 +151,7 @@
 				if (!_gol) {
 					_html = '<div class="row" >';
 					_html += '<div class="col-md-12" style="text-align:center;" >';
-					_html += '<h4>&#161; EL criterio de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado!</h4>';
+					_html += '<h4>A&uacute;n no hay goles disponibles de los partidos de hoy o no hay partidos programados, puede revisar d&iacute;as anteriores, por pa&iacute;s, fecha o fases</h4>';
 					_html += '<span class="icon-goles_menu" style="font-size: 12em;"></span>';
 					_html += '</div>';
 					_html += '</div>';
