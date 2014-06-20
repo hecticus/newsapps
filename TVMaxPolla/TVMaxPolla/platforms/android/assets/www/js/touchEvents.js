@@ -109,6 +109,12 @@
 			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
 			$('main').load(_jMenu[_this.data('index')].load);	
 			$('#wrapperM').attr('class','page transition left');
+			
+			if(_this.data('index') == 0){
+				try{setTimeout(function() {
+					reloadNewsMain();	
+				}, 100);}catch(e){}
+			}
 
 			
 		}
@@ -126,7 +132,9 @@
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
 		if(isWIFIOnly()){
-			window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
+			//window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
+			//window.videoPlayer.play(liveTVURL); //NO ES POSIBLE YA QUE ES UNA URL
+			window.open(liveTVURL, '_system', 'closebuttoncaption=regresar');
 		}else{
 			navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
 		}

@@ -44,7 +44,7 @@
 				homeSmallIconsSize = 3.3;
 				homeTextClass = "caption-icon-tablets";
 				homeLineHeight = 0;
-				homeTextSmaller = 1.8;
+				homeTextSmaller = 1.6;
 			}else{
 				homeIconSize = 5;
 				homeSmallIconsSize = 1.6;
@@ -82,13 +82,13 @@
 			_html += '<div class="row" >';
 				_html += '<div class="col-md-12 metro load" data-index="4" >';						
 						_html += '<figure>';	
-							_html += '<div style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+							_html += '<div id="home_news_image" style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
 						_html += '<figcaption>';						
 							_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
 								_html += '<span class="icon-noticias"></span>';
 							_html += '</div>';												
 							_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
-								_html += '<span>'+_jImageFeatured.caption+'</span>';																									
+								_html += '<span id="home_news_caption">'+_jImageFeatured.caption+'</span>';																									
 							_html += '</div>';							
 						_html += '</figcaption>';
 					_html += '</figure>';

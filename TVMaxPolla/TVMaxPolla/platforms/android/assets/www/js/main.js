@@ -52,6 +52,9 @@ var _fSetLoadInit = function() {
 	$('main').data('index',0);		
 	$('main').load(_jMenu[0].load);
 	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
+	try{setTimeout(function() {
+		reloadNewsMain();	
+	}, 100);}catch(e){}
 };
 	
 	
@@ -402,7 +405,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				//ANDROID
 				osName = "android";
 			}
-			var version = 4;
+			var version = 5;
 			
 			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
 			updateURL = "";
@@ -590,6 +593,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 			
 	var isMundialOn = false;
 	var isLiveTV = false;
+	var liveTVURL = "http://mundial.tvmax-9.com/UA_APP.php";
 	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
 	function mundialIntervalFunc(){
 		_oAjax = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getActive',false,false,false);	
@@ -603,6 +607,9 @@ $.fPostAjaXJSON = function(_url, _data) {
 				if(_jActive.live){
 					isLiveTV = true;
 					$('header .container .row .tv').removeClass('hidden');
+				}
+				if(_jActive.live_android != null && _jActive.live_android != ""){
+					liveTVURL = _jActive.live_android;
 				}
 				if ($('body').hasClass('content-home')) {
 					

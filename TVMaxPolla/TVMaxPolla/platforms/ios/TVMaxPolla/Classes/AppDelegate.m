@@ -98,8 +98,6 @@
 		NSString *moviePath;
 		if(screenWidth < 330){
 			moviePath = [bundle pathForResource:@"v480_640" ofType:@"mp4"];
-		}else if(screenWidth < 650){
-			moviePath = [bundle pathForResource:@"v720_1280" ofType:@"mp4"];
 		}else if (screenWidth < 770){
 			moviePath = [bundle pathForResource:@"v720_1280" ofType:@"mp4"];
 		}else{

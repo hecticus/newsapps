@@ -7,6 +7,8 @@ GET     /                          controllers.Application.index()
 GET     /index                     controllers.Application.index()
 GET     /index2                    controllers.Application.index2()
 GET     /leaderboard               controllers.Application.leaderboard()
+GET     /leaderboardfb             controllers.Application.leaderboardfb()
+POST    /wsleaderboardfb           controllers.Application.wsleaderboardfb()
 
 GET     /share/:id                 controllers.Application.share(id:String)
 GET     /exit                      controllers.Application.exit()

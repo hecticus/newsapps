@@ -54,7 +54,8 @@ public class Application extends Controller
     	lstPhase = objClient.getPrediction(connected);
     	
     	String url = Config.getKrakenHost();        	
-    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	//Promise<WS.Response> wsLeaderboard = WS.url("http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();   	
     	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
     	JsonNode jsonError = jsonLeaderboard.get("error"); 
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
@@ -64,9 +65,46 @@ public class Application extends Controller
     
    
     }
+
+    
+    public static Result leaderboardfb()
+    {
+    	
+    	String connected = session("connected");
+    	if(connected==null) {
+    		return redirect("/signin");
+    	}
+    	
+    	return ok(leaderboardfb.render());
+    	
+    }
     
     
-    
+    public static Result wsleaderboardfb()
+    {
+
+    	String connected = session("connected");
+    	if(connected==null) {
+    		return redirect("/signin");
+    	}
+    	    	
+    	ObjectNode jsonInfo =  controllers.HecticusController.getJson();    	    	
+    	ObjectNode dataJson = Json.newObject();        	
+    	dataJson.put("leaderboard_id", 1);
+    	dataJson.put("client_id", connected);
+    	dataJson.put("social_ids",jsonInfo.get("friends"));
+
+    	String url = Config.getKrakenHost();  
+    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/facebook").post(dataJson);
+    	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
+    	JsonNode jsonError = jsonLeaderboard.get("error"); 
+    	JsonNode jsonDescription = jsonLeaderboard.get("description");
+    	JsonNode jsonResponse = jsonLeaderboard.get("response");
+    	Iterator<JsonNode> iJsonLeader = jsonResponse.get("leaderboard").iterator();
+
+    	return ok(jsonResponse);
+
+    }
     
     
     
@@ -78,8 +116,9 @@ public class Application extends Controller
     		return redirect("/signin");
     	}
     	
-    	String url = Config.getKrakenHost();    
+    	String url = Config.getKrakenHost();  
     	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	//Promise<WS.Response> wsLeaderboard = WS.url("http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
     	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
     	JsonNode jsonError = jsonLeaderboard.get("error"); 
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
