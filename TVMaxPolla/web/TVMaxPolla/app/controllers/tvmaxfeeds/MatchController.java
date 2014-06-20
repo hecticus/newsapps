@@ -212,6 +212,11 @@ public class MatchController extends HecticusController {
             response.put("description", "ok");
             response.put("live", active);
             response.put("worldCupStarted", wc);
+            //Witch Live VIDEO URL IS
+            String liveVideoDroid = "http://mundial.tvmax-9.com/UA_APP.php";
+            //String liveVideoIOS = "http://mundial.tvmax-9.com/UA_APP.php";
+            response.put("live_android", liveVideoDroid);
+            //response.put("live_ios", liveVideoIOS);
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
