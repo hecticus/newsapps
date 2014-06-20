@@ -54,6 +54,7 @@
 	var _fRenderDataContent = function(_expression) {
 	
 		var _html = '';
+		var _match = false;
 		$.each(_jGet.item, function(_index,_item) {
 			
 			_iDate = _item.fecha_de_partido.split(' ');
@@ -62,6 +63,8 @@
 			
 			if (eval(_expression)) {
 
+				_match = true;
+				
 				_html += '<div class="row" >';
 				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="background:#3E79C4;  height:40px; line-height:40px; text-align:left; color:#FFD455">';
 				_html += '<span style="font-size:1em; ">' +  _fgetFormatDateMatch(_item.fecha_de_partido) + '</span>';
@@ -120,9 +123,14 @@
 			}			
 		});
 			
-		$('#wrapper2 .scroller .container').empty();
-		$('#wrapper2 .scroller .container').append(_html);
-		$('#wrapper2').attr('class','page transition left');
+			
+		if (_match) {
+			$('#wrapper2 .scroller .container').empty();
+			$('#wrapper2 .scroller .container').append(_html);
+			$('#wrapper2').attr('class','page transition left');	
+		}					
+			
+		
 
 	};
 

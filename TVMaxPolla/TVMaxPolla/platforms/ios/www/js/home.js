@@ -82,13 +82,13 @@
 			_html += '<div class="row" >';
 				_html += '<div class="col-md-12 metro load" data-index="4" >';						
 						_html += '<figure>';	
-							_html += '<div style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+							_html += '<div id="home_news_image" style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
 						_html += '<figcaption>';						
 							_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
 								_html += '<span class="icon-noticias"></span>';
 							_html += '</div>';												
 							_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
-								_html += '<span>'+_jImageFeatured.caption+'</span>';																									
+								_html += '<span id="home_news_caption">'+_jImageFeatured.caption+'</span>';																									
 							_html += '</div>';							
 						_html += '</figcaption>';
 					_html += '</figure>';
@@ -161,7 +161,7 @@
 				if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
 				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
 			
-				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + _heightBanner +'px; margin:0 auto;" >';							
+				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:100%; height:auto; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
 		

@@ -65,6 +65,7 @@ var _jMenu=[
 
 
 function exitApp(){
+	try{clearInterval(newsRefreshInterval);}catch(e){}
 	gaPlugin.exit(successGAHandler, successGAHandler);
 	if (navigator.app) {					
         navigator.app.exitApp();				            
@@ -277,6 +278,31 @@ function initAllAppData(){
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
 }
 
+function reloadNewsMain(){
+	_oAjaxRefresh = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
+	if (_oAjaxRefresh) {
+		_oAjaxRefresh.done(function(_json) {					
+			_jMenu[0].json = _json.noticias_mundial;						
+			$.each(_json.noticias_mundial.item, function(_index,_item) {
+				if (_index == 0){
+					try{
+						_jImageFeatured = {src:_item.imagen,caption:_item.titulo};
+						$('#home_news_caption').html(_item.titulo);
+						$('#home_news_image').css('background-image','url('+_item.imagen+')');
+						return false;
+					}catch(e){
+						
+					}
+				}
+			});				
+		});
+	}
+}
+
+var newsRefreshInterval = window.setInterval(function(){
+	reloadNewsMain();
+},300000);
+
 var pushHasExecuted = false;
 function executePushInit(extra_params){
 	pushInterval = window.setInterval(function(){
@@ -335,6 +361,12 @@ function executePushInit(extra_params){
 			}else{
 				if(action == END_MATCH_ACTION){
 					index = 1;
+				}else if(action == 0){
+					if(extra_params.msg != null && extra_params.msg != ""){
+						navigator.notification.alert(extra_params.msg, doNothing, "Mensaje", "OK");
+					}
+					stopPushInterval();
+					return false;
 				}else{
 					index = 3;
 				}
