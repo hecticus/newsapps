@@ -58,12 +58,7 @@ var login_event = function(response) {
 			   FB.api('/me/friends', { fields: 'id, name, picture, installed' }, function(response) {  		
 					$.each(response.data, function(index,friend) {
 						if (friend.installed) {
-							socialfriends.push(friend.id);
-							console.log('------------ -----------');				
-							console.log(friend.id);
-							console.log(friend.name);
-							console.log(friend.picture.data.url);
-							console.log('------------ -----------');
+							socialfriends.push(friend.id);						
 						}
 					});
 				});

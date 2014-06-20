@@ -2,7 +2,7 @@
 
 @getLeader(jLeader: java.util.Iterator[org.codehaus.jackson.JsonNode]) = {
 	@for((leader, index) <- jLeader.zipWithIndex) {				
-		<div class="col-md-6" style="margin-top: 5px;">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " style="margin-top: 5px;">
 			
 			@if(session.get("connected") == leader.get("id_client").asText() ) {
 			

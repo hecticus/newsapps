@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>Polla Mundial | Mundial Brasil 2014</title>        
+        <meta charset="utf-8">
+		
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    	<meta name="description" content="La Polla Mundial TvMax - Brasil 2014">
+    	<meta name="author" content="Hecticus Software, Inc.">
+    	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/normalize.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animate.css")">        
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/polla.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>      
+        <script src="@routes.Assets.at("javascripts/facebook.js")" type="text/javascript"></script>          	
+       	<script src="@routes.Assets.at("javascripts/ga.js")" type="text/javascript"></script>
+       
+
+	</head>
+	<body>
+		<div class="container" style="max-width: 940px;" >
+
+			<div class="row" >
+				<div>
+					<a href="@routes.Application.index()">
+						<img src="@routes.Assets.at("images/banner.jpg")" style="width: 100%; height: auto;" >	
+					</a>					
+				</div>
+			</div>
+			
+			<div class="row title" >
+				<div class="col-md-12"  >
+					<span>Ranking y resultados</span>
+				</div>
+			</div>
+			
+			<div class="row" >
+				<script>
+					$(function() {						
+						var aFriends = fgetFriends();						
+						$.ajax({
+				    		url: "@controllers.routes.Application.wsleaderboardfb",
+				    		type: 'POST',	            		
+				    		dataType: 'json',
+				    		data: JSON.stringify({friends:aFriends}),
+				    		contentType: "application/json; charset=utf-8"
+				    	}).always(function () {
+							//always    				
+						}).done(function(json) {					
+							console.log(JSON.stringify(json));
+						}).fail(function( jqXHR, textStatus ) {
+							//fail 							
+						});
+						
+					});
+				</script>	
+			</div>
+
+		</div>
+		
+	</body>
+</html>
