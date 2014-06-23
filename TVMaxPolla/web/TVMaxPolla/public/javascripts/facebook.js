@@ -64,7 +64,7 @@
 								_rank = (index+1);								
 								if (user == leader.id_client) _rank = json.social_client.rank;
 								 
-								_html += '<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " style="margin-top: 5px;">';
+								_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 5px;">';
 
 									if (user == leader.id_client) {
 										_html += '<div style="background: #C5E4F6; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';	

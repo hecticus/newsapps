@@ -8,7 +8,7 @@
 				<span>¡Bienvenido  @session.get("nick")!</span><br />
 				<span>Usted está en la posicion </span> <span style="color:#FECD16;">@rank</span> <span> del ranking <a href="@routes.Application.leaderboard()" style="color: #FECD16;">General</a> </span>				 
 				 @if(session.get("id_social") != "null") {
-					o <a href="@routes.Application.leaderboardfb()" style="color: #FECD16;">Facebook</a> 	
+					<br /> o <a href="@routes.Application.leaderboardfb()" style="color: #FECD16;">Facebook</a> 	
 				 }				 
 			</div>	
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 large" style="text-align: right;" >				
