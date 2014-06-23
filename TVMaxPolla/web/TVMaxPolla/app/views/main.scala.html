@@ -37,7 +37,6 @@
 
    		$(document).on('click','.iPrediction', function() {
    			var _url = 'http://mundial.tvmax-9.com/polla/?page=share&id=@session.get("connected")';
-			//window.location = _url;
 			window.open(_url);
 		});
 
@@ -73,20 +72,15 @@
 			}).done(function(msg) {
 				
 				if (msg.error==0) {
-					        			
-					//$('#myModal').modal('show');
-					//$('#message').html('<strong>Bien!</strong> Tu pronóstico se ha guardado con éxito.');
-					
 					alert('Bien! Tu pronóstico se ha guardado con éxito.');
 				} else {
-					alert('Error! Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');
-					//$('#message').html('<strong>Error!</strong> Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
+					alert('Error! Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
 				}
 	
 			}).fail(function( jqXHR, textStatus ) {  						
 				$('.alert-danger').removeClass('hidden');
 				
-			})
+			});
 	
 	
 		});
@@ -100,6 +94,8 @@
     <body >
 		<div class="container" style="max-width: 940px;" >
 			@content	
+			
+			
 		</div>
     </body>
     
