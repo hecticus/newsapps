@@ -22,7 +22,7 @@
        
 
 	</head>
-	<body>
+	<body onload="fgetFriends(@session.get("connected"))">
 		<div class="container" style="max-width: 940px;" >
 
 			<div class="row" >
@@ -39,29 +39,14 @@
 				</div>
 			</div>
 			
-			<div class="row" >
-				<script>
-					$(function() {						
-						var aFriends = fgetFriends();						
-						$.ajax({
-				    		url: "@controllers.routes.Application.wsleaderboardfb",
-				    		type: 'POST',	            		
-				    		dataType: 'json',
-				    		data: JSON.stringify({friends:aFriends}),
-				    		contentType: "application/json; charset=utf-8"
-				    	}).always(function () {
-							//always    				
-						}).done(function(json) {					
-							console.log(JSON.stringify(json));
-						}).fail(function( jqXHR, textStatus ) {
-							//fail 							
-						});
-						
-					});
-				</script>	
+			<div class="row content" >
+				
 			</div>
 
 		</div>
 		
 	</body>
+
+	
+	
 </html>
