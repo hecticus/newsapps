@@ -25,7 +25,8 @@ public class Phase extends HecticusModel {
     private String name;
     private Long dateStart;
     private Long dateEnd;
-
+    public Boolean running;
+    
     public List<MatchGroup> lstMatchGroup;
     
     public Phase(){

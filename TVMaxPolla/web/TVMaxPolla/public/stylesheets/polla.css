@@ -190,8 +190,8 @@ li[data-phase="6"] {float:left;}
 	margin: 0 auto;
 }
 
-.goal.share {text-align: center; font-size: 1.4em; font-weight: bold; padding: 15px;}
-
+.goal.share.false {text-align: center; font-size: 1em; font-weight: bold;}
+.goal.share.true {text-align: center; font-size: 1.4em; font-weight: bold; padding: 15px;}
 
 .or_divide {
 display: block;

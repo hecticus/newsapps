@@ -111,6 +111,7 @@ public class Application extends Controller
     public static Result leaderboard()
     {
 
+
     	String connected = session("connected");
     	if(connected==null) {
     		return redirect("/signin");
