@@ -60,9 +60,8 @@
 						var _html = '';
 						var _rank = 0;
 						$.each(json.leaderboard, function(index,leader) {
-							
-								_rank = (index+1);								
-								if (user == leader.id_client) _rank = json.social_client.rank;
+												
+					
 								 
 								_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 5px;">';
 
@@ -75,16 +74,11 @@
 
 									_html += '<div style="background: url(assets/images/usuario3.png) no-repeat left center; height: 73px; width:100%;">';
 								
-										_html += '<div style=" line-height:73px; height: 73px; width: 30px; float: left; text-align: center; ">';																	
+										_html += '<div style=" line-height:73px; height: 73px; width: 30px; float: left; text-align: center; ">';
+										_html += '<span style="font-size: 0.9em; font-weight:bold; color:#FFFFFF;">' + (index+1) + '</span>';
 										_html += '</div>';
-										
+	
 										_html += '<div style="float: left; margin-left: 45px; padding-top: 15px;">';
-										_html += '<p>';
-										_html += '<span style="font-size: 2em; font-weight:bold; color:#173169; text-transform:uppercase;">' + _rank + '</span><br />';
-										_html += '</p>';
-										_html += '</div>';
-											
-										_html += '<div style="float: left; margin-left: 10px; padding-top: 15px;">';
 											_html += '<p>';												
 												_html += '<span style="font-size: 1em; font-weight:bold; color:#173169; text-transform:uppercase;">' + leader.client.nick + '</span><br />';
 												_html += '<span style="font-size: 1em; font-weight:bold;">' + leader.score + ' puntos</span>';
