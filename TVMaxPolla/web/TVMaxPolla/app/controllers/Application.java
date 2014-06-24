@@ -100,7 +100,8 @@ public class Application extends Controller
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
     	JsonNode jsonResponse = jsonLeaderboard.get("response");
     	Iterator<JsonNode> iJsonLeader = jsonResponse.get("leaderboard").iterator();
-
+    	//System.out.println(wsLeaderboard.get().asJson().toString());    
+    	
     	return ok(jsonResponse);
 
     }
@@ -139,8 +140,18 @@ public class Application extends Controller
     	    
     	Client objClient =  new Client();
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
-    	lstPhase = objClient.getPredictionBet(connected);    	
-    	return ok(index2.render(lstPhase));    	
+    	lstPhase = objClient.getPredictionBet(connected);    
+    	
+    	String url = Config.getKrakenHost();        	
+    	//Promise<WS.Response> wsLeaderboard = WS.url("http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();   	
+    	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
+    	JsonNode jsonError = jsonLeaderboard.get("error"); 
+    	JsonNode jsonDescription = jsonLeaderboard.get("description");
+    	JsonNode jsonResponse = jsonLeaderboard.get("response");
+    	    	
+    	return ok(index2.render(lstPhase,jsonResponse.get("rank").asText()));  
+    	
   
     }
     

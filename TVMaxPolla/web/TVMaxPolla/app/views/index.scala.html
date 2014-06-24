@@ -1,47 +1,29 @@
 @(phases: List[models.matches.Phase], rank : String)
 
-
 @main("La polla de TVMax - FiFA World Cup Brasil 2014") {
 
-		<div class="row title" style="background-color: #536bb1;">		
+		<div class="row title" style="background-color: #536bb1;">
+					
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				
 				<span>¡Bienvenido  @session.get("nick")!</span><br />
-				<span>Usted está en la posicion </span> <span style="color:#FECD16;">@rank</span> <span> del ranking <a href="@routes.Application.leaderboard()" style="color: #FECD16;">General</a> </span>				 				 				
-			</div>	
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 large" style="text-align: right;" >				
-				<button type="button" class="btn btn-default menu phase exit " onclick="fReplace();" style="padding: 10px; background-color: #173069;">SALIR</button>	
-			</div>			
-		</div>
+				<span>Estás en la posici&oacute;n </span> <span style="color:#FECD16;">@rank</span> <span> del ranking <a href="@routes.Application.leaderboard()" style="color: #FECD16;">General</a> </span>
 
-		<div class="row menu large" style="margin-top:5px; margin-bottom: 5px; padding: 0;">		
-			<div data-type="large" class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style=" padding: 5px;">				
-				<div class="btn-group">
-					@for(phase <- phases) {			
-						@if(phase.getIdPhase() != 5) {
-							<button data-phase="@phase.getIdPhase()"  type="button"  class="btn btn-default menu phase large @("on".when(phase.getIdPhase() == 1)) @("hidden".when(phase.getIdPhase() != 1))" >@phase.getName()</button>
-						}			
-					}
-				</div>					
+				@if(session.get("id_social") != "null") {
+					<br />Tambi&eacute;n puedes compararte con tus amigos de <a href="@routes.Application.leaderboardfb()" style="color: #FECD16;">Facebook</a>	
+				}
+								 				 				
 			</div>
-			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align: right; padding: 5px;" >
-				<div class="btn-group">
-					  <button  type="button" class="btn btn-success iPrediction"  style="padding:10px; font-weight: bold;">MI PREDICCIÓN</button>					  
-				</div>						
-			</div>
-		</div>
-
- 		<div class="row menu small" style="background-color: #BAC6DD; padding: 10px 5px;">
 			
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right;" >			
+				<button  type="button" class="btn btn-success iPrediction"  style="padding:10px; font-weight: bold;">MI PREDICCI&Oacute;N</button>					
+				<button type="button" class="btn btn-default menu phase exit " onclick="fReplace();" style="padding: 10px; background-color: #173069;">SALIR</button>	
+			</div>
+						
 		</div>
- 	
  	
 		<!-- <phase> -->
 		@for(phase <- phases) {
-			
-			
-			
-			
-			@if(phase.getIdPhase() != 5) {
 			
 				<div data-phase="@phase.getIdPhase()"  class="row @("hidden".when(phase.getIdPhase() != 1)) phase" data-games="@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}">
 				
@@ -268,8 +250,7 @@
 					arrGroup = [];
 				});
 			</script>
-			
-			}
+
 		} 
 		<!-- </phase> -->
 
