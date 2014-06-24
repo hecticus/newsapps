@@ -61,8 +61,8 @@ public class Application extends Controller
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
     	JsonNode jsonResponse = jsonLeaderboard.get("response");
     	    	
-    	return ok(index.render(lstPhase,jsonResponse.get("rank").asText()));
-    
+    	//return ok(index.render(lstPhase,jsonResponse.get("rank").asText()));
+    	return ok(index.render(lstPhase,false));
    
     }
 
