@@ -330,7 +330,7 @@ public class Client  {
     	String url = Config.getTVMaxPollaHost();
     	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
     	//Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/prediction/get").post(dataJson);
-    	System.out.println(wsResponse.get().asJson().toString());
+    	//System.out.println(wsResponse.get().asJson().toString());
     	
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPredictions = jsonResponse.get("response").get("prediction");  
