@@ -48,6 +48,26 @@ public class Application extends Controller
     	if(connected==null) {
     		return redirect("/signin");
     	}
+    	    
+    	Client objClient =  new Client();
+    	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
+    	lstPhase = objClient.getPredictionBet(connected);    
+    	
+    	String url = Config.getKrakenHost();        	
+    	//Promise<WS.Response> wsLeaderboard = WS.url("http://api.hecticus.com/KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	Promise<WS.Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();   	
+    	JsonNode jsonLeaderboard = wsLeaderboard.get().asJson();  
+    	JsonNode jsonError = jsonLeaderboard.get("error"); 
+    	JsonNode jsonDescription = jsonLeaderboard.get("description");
+    	JsonNode jsonResponse = jsonLeaderboard.get("response");
+    	    	
+    	return ok(index2.render(lstPhase,jsonResponse.get("rank").asText()));  
+    	
+    	
+    	/*String connected = session("connected");
+    	if(connected==null) {
+    		return redirect("/signin");
+    	}
     	
     	Client objClient =  new Client();
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
@@ -61,7 +81,7 @@ public class Application extends Controller
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
     	JsonNode jsonResponse = jsonLeaderboard.get("response");
     	    	
-    	return ok(index.render(lstPhase,jsonResponse.get("rank").asText()));    	
+    	return ok(index.render(lstPhase,jsonResponse.get("rank").asText()));*/    	
    
     }
 

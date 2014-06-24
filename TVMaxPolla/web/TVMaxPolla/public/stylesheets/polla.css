@@ -55,6 +55,9 @@ body{padding: 0 !important;}
 #brackets h4 {font-size: 1em}
 #brackets h3 {font-size: 1.2em}
 
+.iPrediction:hover{color:#FECD16}
+.exit:hover{color:#FECD16}
+
 .menu, .calcular{cursor:pointer; }
 .menu.group:hover{color:#ffe85c}
 .menu.group.on{color:#ffe85c}

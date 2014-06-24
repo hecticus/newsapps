@@ -8,99 +8,79 @@ var arrDataTeam	= [];
 
 $(function() {
 
-	$.fCompare = function(_groupTeams,_eval) {
-		
-		var aux = 0;
-		var othersTeams= [];
-		var afirts = [];
-		var asecond = [];
-
-		for ( var i = 0; i < 2; i++ ) {
-				
-				$.each(_groupTeams, function(index,team) { if (eval(_eval)>aux) aux = eval(_eval); });						
-				$.each(_groupTeams, function(index,team) {
-				
-								
-					if (eval(_eval) == aux) {
-						if (i == 0) {
-							afirts.push(team);
+		$.fCompare = function(_groupTeams,_eval) {
+			
+			var aux = 0;
+			var othersTeams= [];
+			var afirts = [];
+			var asecond = [];
+	
+			for ( var i = 0; i < 2; i++ ) {
+					
+					$.each(_groupTeams, function(index,team) { if (eval(_eval)>aux) aux = eval(_eval); });						
+					$.each(_groupTeams, function(index,team) {
+					
+									
+						if (eval(_eval) == aux) {
+							if (i == 0) {
+								afirts.push(team);
+							} else {
+								asecond.push(team);
+							}
 						} else {
-							asecond.push(team);
-						}
-					} else {
-						othersTeams.push(team);
-					}							
-				});
-				
-				aux = 0;
-				_groupTeams = othersTeams;
-				othersTeam = [];
-
-		}
-
-		return {firts:afirts,second:asecond};
-	};
-			
-
-
-
-
-
-
-
-				
-
-
-
-
-
-
-
-
-
-			
-
-
-				$.fgetPhaseActive = function() {
-				
-					var _return	= false;
-					
-					$.each(arrPhase, function(index,phase) {
-											
-						if (phase.active) {
-							_return = phase;
-							return true;
-						}	
-						
-						if (_return)  {
-							return false;
-						} 								
+							othersTeams.push(team);
+						}							
 					});
 					
-					return _return;
-					
-				};
+					aux = 0;
+					_groupTeams = othersTeams;
+					othersTeam = [];
+	
+			}
+	
+			return {firts:afirts,second:asecond};
+		};
 
-
-				$.fgetGroupActive = function() {
+		$.fgetPhaseActive = function() {
+		
+			var _return	= false;
+			
+			$.each(arrPhase, function(index,phase) {
+									
+				if (phase.active) {
+					_return = phase;
+					return true;
+				}	
 				
-					var _phase = $.fgetPhaseActive();
-					var _return	= false;
+				if (_return)  {
+					return false;
+				} 								
+			});
+			
+			return _return;
+			
+		};
 
-					$.each(_phase.group, function( index, group) {						
-						if (group.active) {
-							_return = group;
-							return true;
-						}
-						
-						if (_return)  {
-							return false;
-						}										
-					});
-					
-					return _return;
-					
-				};
+
+		$.fgetGroupActive = function() {
+		
+			var _phase = $.fgetPhaseActive();
+			var _return	= false;
+
+			$.each(_phase.group, function( index, group) {						
+				if (group.active) {
+					_return = group;
+					return true;
+				}
+				
+				if (_return)  {
+					return false;
+				}										
+			});
+			
+			return _return;
+			
+		};
 
 
 
