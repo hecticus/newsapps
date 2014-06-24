@@ -3,8 +3,6 @@ package models.matches;
 import models.HecticusModel;
 
 import org.codehaus.jackson.node.ObjectNode;
-import org.junit.Ignore;
-
 import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
@@ -25,10 +23,7 @@ public class Phase extends HecticusModel {
     private Integer idPhase;
     private String name;
     private Long dateStart;
-    private Long dateEnd;
-    
-    /*@Ignore
-    public Boolean running;*/
+    private Long dateEnd;    
     
     public List<MatchGroup> lstMatchGroup;
     
