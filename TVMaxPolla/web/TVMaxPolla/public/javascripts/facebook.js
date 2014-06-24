@@ -1,20 +1,26 @@
-	var socialfriends = [];
-	
+
+	window.socialfriends = [];
+	window.fbApiInit = false;
+	 
 	window.fbAsyncInit = function() {
+	  
+	  
 	  FB.init({
 	    appId      : '647787605309095',
 	    status     : false, // check login status
 	    cookie     : false, // enable cookies to allow the server to access the session
 	    xfbml      : true  // parse XFBML
-	  });	  
+	  });
+	  
+	  window.fbApiInit = true;
+	  
 	}; 
 			  
 	(function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
 	  if (d.getElementById(id)) return;
 	  js = d.createElement(s); js.id = id;
-	  //js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=647787605309095";
-	  js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&status=0";	  
+	  js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=647787605309095";	
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 
@@ -35,74 +41,83 @@
 
 	var fgetFriends = function(user) {
 		
-
-		FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-								
-			   	FB.api('/me/friends', { fields: 'id, name, picture, installed' }, function(response) {  		
-
-					$.each(response.data, function(index,friend) {
-						if (friend.installed) {							
-							socialfriends.push(friend.id);															
-						};
-					});
-
-					$.ajax({
-			    		url: '/wsleaderboardfb',
-			    		type: 'POST',	            		
-			    		dataType: 'json',
-			    		data: JSON.stringify({"friends":socialfriends}),
-			    		contentType: "application/json; charset=utf-8"
-			    	}).always(function () {
-						//always    		
-					}).done(function(json) {
-		
-						var _html = '';
-						var _rank = 0;
-						$.each(json.leaderboard, function(index,leader) {
-												
-					
-								 
-								_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 5px;">';
-
-									if (user == leader.id_client) {
-										_html += '<div style="background: #C5E4F6; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';	
-									} else {									
-										if(index == 0) _html += '<div style="background: #C7DB60; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';				
-										else _html += '<div style="background: #CBCBCD; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';																				
-									}
-
-									_html += '<div style="background: url(assets/images/usuario3.png) no-repeat left center; height: 73px; width:100%;">';
-								
-										_html += '<div style=" line-height:73px; height: 73px; width: 30px; float: left; text-align: center; ">';
-										_html += '<span style="font-size: 0.9em; font-weight:bold; color:#FFFFFF;">' + (index+1) + '</span>';
-										_html += '</div>';
+		 if(window.fbApiInit) {
+		 	
+		 	FB.getLoginStatus(function(response) {
+				if (response.status === 'connected') {
+									
+				   	FB.api('/me/friends', { fields: 'id, name, picture, installed' }, function(response) {  		
 	
-										_html += '<div style="float: left; margin-left: 45px; padding-top: 15px;">';
-											_html += '<p>';												
-												_html += '<span style="font-size: 1em; font-weight:bold; color:#173169; text-transform:uppercase;">' + leader.client.nick + '</span><br />';
-												_html += '<span style="font-size: 1em; font-weight:bold;">' + leader.score + ' puntos</span>';
-											_html += '</p>';
-										_html += '</div>';
-																			
-									_html += '</div>';
-								_html += '</div>';
-							
-							_html += '</div>';
-							_html += '</div>';
-							
+						$.each(response.data, function(index,friend) {
+							if (friend.installed) {							
+								window.socialfriends.push(friend.id);															
+							};
 						});
-		
-					$('.row.content').html(_html);
+	
+						$.ajax({
+				    		url: '/wsleaderboardfb',
+				    		type: 'POST',	            		
+				    		dataType: 'json',
+				    		data: JSON.stringify({"friends":window.socialfriends}),
+				    		contentType: "application/json; charset=utf-8"
+				    	}).always(function () {
+							//always    		
+						}).done(function(json) {
+			
+							var _html = '';
+							var _rank = 0;
+							$.each(json.leaderboard, function(index,leader) {
 													
-					}).fail(function( jqXHR, textStatus ) {
-						//fail 							
-					});		
+						
+									 
+									_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 5px;">';
+	
+										if (user == leader.id_client) {
+											_html += '<div style="background: #C5E4F6; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';	
+										} else {									
+											if(index == 0) _html += '<div style="background: #C7DB60; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';				
+											else _html += '<div style="background: #CBCBCD; height: 78px; width:100%; padding: 5px; margin: 0 auto;">';																				
+										}
+	
+										_html += '<div style="background: url(assets/images/usuario3.png) no-repeat left center; height: 73px; width:100%;">';
+									
+											_html += '<div style=" line-height:73px; height: 73px; width: 30px; float: left; text-align: center; ">';
+											_html += '<span style="font-size: 0.9em; font-weight:bold; color:#FFFFFF;">' + (index+1) + '</span>';
+											_html += '</div>';
+		
+											_html += '<div style="float: left; margin-left: 45px; padding-top: 15px;">';
+												_html += '<p>';												
+													_html += '<span style="font-size: 1em; font-weight:bold; color:#173169; text-transform:uppercase;">' + leader.client.nick + '</span><br />';
+													_html += '<span style="font-size: 1em; font-weight:bold;">' + leader.score + ' puntos</span>';
+												_html += '</p>';
+											_html += '</div>';
+																				
+										_html += '</div>';
+									_html += '</div>';
+								
+								_html += '</div>';
+								_html += '</div>';
+								
+							});
+			
+						$('.row.content').html(_html);
+														
+						}).fail(function( jqXHR, textStatus ) {
+							//fail 							
+						});		
+	
+					});
+	
+				};
+			});
+			
+		 } else {
+		 	
+		 	setTimeout(function() {fgetFriends(user);}, 50);
 
-				});
+		 }
 
-			};
-		});
+		
 	};
 
 
