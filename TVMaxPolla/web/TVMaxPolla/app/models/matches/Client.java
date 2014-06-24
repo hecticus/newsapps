@@ -226,8 +226,8 @@ public class Client  {
     	dataJson.put("idClient", idClient);
 
     	String url = Config.getTVMaxPollaHost();
-    	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
-    	//Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/clientbet/get/current").post(dataJson);
+    	//Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
+    	Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/clientbet/get/current").post(dataJson);
     	/*
     	System.out.println("-- -- -- -- Inicio -- -- -- --");
     	System.out.println(url+"matchesapi/v1/clientbet/get/current/"+idClient);
@@ -243,7 +243,7 @@ public class Client  {
     	objPhase.setName(jsonPhase.get("name").asText());
     	objPhase.setDateStart(Long.parseLong(jsonPhase.get("date_start").asText()));
     	objPhase.setDateEnd(Long.parseLong(jsonPhase.get("date_end").asText()));
-
+    	objPhase.setRunning(jsonPhase.get("isRunning").asBoolean());
     	Iterator<JsonNode> iJsonGroup = jsonPhase.get("groups").iterator();
     	List<MatchGroup> lstMatchGroup = new ArrayList<MatchGroup>();
 
@@ -326,11 +326,11 @@ public class Client  {
 		
 		ObjectNode dataJson = Json.newObject();    	
 		dataJson.put("idClient", idClient);
-		
+    	
     	String url = Config.getTVMaxPollaHost();
     	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
     	//Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/prediction/get").post(dataJson);
-    	//System.out.println(wsResponse.get().asJson().toString());
+    	System.out.println(wsResponse.get().asJson().toString());
     	
     	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPredictions = jsonResponse.get("response").get("prediction");  

@@ -4,7 +4,7 @@
 	@for((leader, index) <- jLeader.zipWithIndex) {				
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="margin-top: 5px;">
 			
-			@if(session.get("connected") == leader.get("id_client").asText() ) {
+			@if((session.get("connected") == leader.get("id_client").asText()) &&  (index >= 10)) {
 			
 				<div style="background: #C5E4F6; height: 78px; width:100%; padding: 5px; margin: 0 auto;">				
 					<div style="background: url(@routes.Assets.at("images/usuario3.png")) no-repeat left center; height: 73px; width:100%;">					
