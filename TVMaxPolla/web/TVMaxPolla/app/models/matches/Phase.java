@@ -3,6 +3,7 @@ package models.matches;
 import models.HecticusModel;
 
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by chrirod on 3/27/14.
@@ -23,7 +25,10 @@ public class Phase extends HecticusModel {
     private Integer idPhase;
     private String name;
     private Long dateStart;
-    private Long dateEnd;    
+    private Long dateEnd;
+    
+    @Transient
+    public Boolean running;
     
     public List<MatchGroup> lstMatchGroup;
     
@@ -63,6 +68,18 @@ public class Phase extends HecticusModel {
         this.dateEnd = dateEnd;
     }
 
+    
+    @Transient
+    public Boolean getRunning() {
+        return running;
+    }
+
+    public void setRunning(Boolean running) {
+        this.running = running;
+    }
+    
+    
+    
     public List<MatchGroup> getMatchGroup() {
         return lstMatchGroup;
     }
