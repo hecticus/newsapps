@@ -1,87 +1,91 @@
 @(phases: List[models.matches.Phase], rank : String)
 
 
-@main2("La polla de TVMax - FiFA World Cup Brasil 2014") {
+@mainv2("La polla de TVMax - FiFA World Cup Brasil 2014") {
 
 		<div class="row title" style="background-color: #536bb1;">
 					
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<span>¡Bienvenido  @session.get("nick")!</span><br />
 				<span>Estás en la posici&oacute;n </span> <span style="color:#FECD16;">@rank</span> <span> del ranking <a href="@routes.Application.leaderboard()" style="color: #FECD16;">General</a> </span>
 
 				@if(session.get("id_social") != "null") {
 					<br />Tambi&eacute;n puedes compararte con tus amigos de <a href="@routes.Application.leaderboardfb()" style="color: #FECD16;">Facebook</a>	
 				}
-				
 								 				 				
 			</div>
 			
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right;" >
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="float: right;" >
+				<div class="row" style="float: right; padding: 0 !important; margin: 0 !important; ">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 iPrediction" style="cursor: pointer; padding: 0 !important; margin: 0 !important; " >
+						<div style="width:100%; height:30px; line-height:30px; text-align: center; font-size: 1.4em;">
+							<span class="glyphicon glyphicon-star"></span>
+						</div>
+						<div style="width:100%; height: 10px; line-height:10px; text-align: center; font-weight:normal; font-size: 0.9em;">
+							<span>Pron&oacute;stico</span>
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 exit" onclick="fReplace();" style="cursor: pointer; ">
+						<div style="width:100%; height:30px; line-height:30px; text-align: center; font-size: 1.4em;">
+							<span class="glyphicon glyphicon-log-out"></span>
+						</div>
+						<div style="width:100%; height: 10px; line-height:10px; text-align: center; font-weight:normal; font-size:0.9em;">
+							<span>Salir</span>
+						</div>
+					</div>
+				</div>
 				
-				@if(!phases(0).getRunning()) {
-					<button  data-loading-text="Loading..."  type="button" class="btn btn-default menu phase save" >GUARDAR</button>	
-				}
-				
-				<button  type="button" class="btn btn-success iPrediction"  style="padding:10px; font-weight: bold;">MI PREDICCIÓN</button>				
-				<button type="button" class="btn btn-default menu phase exit " onclick="fReplace();" style="padding: 10px; background-color: #173069;">SALIR</button>	
+				<!--button  type="button" class="btn btn-success iPrediction"  style="padding:10px; font-weight: bold;">MI PREDICCIÓN</button>				
+				<button type="button" class="btn btn-default menu phase exit " onclick="fReplace();" style="padding: 10px; background-color: #173069;">SALIR</button-->	
 			</div>			
 		</div>
 
  	
 		<!-- <phase> -->
 		@for(phase <- phases) {
-			
-			
-			
-			
-			@if(phase.getIdPhase() != 5) {
-			
-				<div data-phase="@phase.getIdPhase()"  class="row @("hidden".when(phase.getIdPhase() != 1)) phase" data-games="@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}">
-				
-				
-				
-					<div class="col-md-12">
-				
 
-						<div class="row title">
-					
-							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">								
-								<span class="large">Predicción @phase.getName()</span>	
-								<span class="small" style="font-size: 0.9em">@phase.getName()</span>				
-							</div>
-							
-							@if(phase.getIdPhase() == 1) {
-								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 large" style="text-align: right;">
-									<span>Grupos </span>
-									@if(phase.getIdPhase() == 1) {
-										@for(group <- phase.getMatchGroup()) {
-											<span data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1))" >@group.getName()</span>	
-										}	
-									}				
-								</div>
-							}
+			<div data-phase="@phase.getIdPhase()"  class="row @("hidden".when(phase.getIdPhase() != 1)) phase" data-games="@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}">
+			
+			
+			
+				<div class="col-md-12">
+			
 
-							@if(phase.getIdPhase() == 1) {
-								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 small" style="text-align: right;">
-									@if(phase.getIdPhase() == 1) {
-										<div class="btn-group">
-											@for(group <- phase.getMatchGroup()) {		
-												<button data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1)) " >@group.getName()</button>			
-											}
-										</div>
-									}
-								</div>
-							}
-
+					<div class="row title">
+				
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">								
+							<span class="large">Predicción @phase.getName()</span>	
+							<span class="small" style="font-size: 0.9em">@phase.getName()</span>				
 						</div>
-				
-
-			
-					<!--<group>-->
-					
-					@for(group <- phase.getMatchGroup()) {
-
 						
+						@if(phase.getIdPhase() == 1) {
+							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 large" style="text-align: right;">
+								<span>Grupos </span>
+								@if(phase.getIdPhase() == 1) {
+									@for(group <- phase.getMatchGroup()) {
+										<span data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1))" >@group.getName()</span>	
+									}	
+								}				
+							</div>
+						}
+
+						@if(phase.getIdPhase() == 1) {
+							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 small" style="text-align: right;">
+								@if(phase.getIdPhase() == 1) {
+									<div class="btn-group">
+										@for(group <- phase.getMatchGroup()) {		
+											<button data-group="@group.getIdGroup()" class="menu group @("on".when(group.getIdGroup() == 1)) " >@group.getName()</button>			
+										}
+									</div>
+								}
+							</div>
+						}
+
+					</div>
+
+					<!--<group>-->				
+					@for(group <- phase.getMatchGroup()) {
+					
 						<div class="row group @("hidden".when(group.getIdGroup() != 1))"  data-group="@group.getIdGroup()">
 						
 							<div class="col-md-12">
@@ -97,26 +101,7 @@
 										<div class="row game"  data-game="@game.getIdMatch()" data-set="true"  >	
 									}
 									
-
-										<script>			
-							  				$(function() {
-							  					arrTeamGame.push({id:@game.getTeamA().getIdTeam(),goals:{f:0,a:0},points:0}, {id:@game.getTeamB().getIdTeam(),goals:{f:0,a:0},points:0});
-							  					arrGame.push({id:@game.getIdMatch(),team:arrTeamGame});		  					
-							  					arrTeamGame = [];
-							  					@if(index <= 1) {		  					
-													
-													arrTeam.push({id:@game.getTeamA().getIdTeam(),name:'@game.getTeamA().getName()',shortName:'@game.getTeamA().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())',goals:{f:0,a:0,d:0},points:0});
-													arrTeam.push({id:@game.getTeamB().getIdTeam(),name:'@game.getTeamB().getName()',shortName:'@game.getTeamB().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())',goals:{f:0,a:0,d:0},points:0});
-																										
-													arrDataTeam.push({id:@game.getTeamA().getIdTeam(),name:'@game.getTeamA().getName()',shortName:'@game.getTeamA().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamA().getFlagFile())'});
-													arrDataTeam.push({id:@game.getTeamB().getIdTeam(),name:'@game.getTeamB().getName()',shortName:'@game.getTeamB().getShortName()',flag:'@routes.Assets.at("images/flags/" + game.getTeamB().getFlagFile())'});
-													
-												}														
-											});
-							  			</script>
-									
-										
-										
+	
 										<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 											
 											<div class="row">
@@ -136,9 +121,9 @@
 											</div>
 																		
 										</div>
-
+	
 										<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8"  >
-
+	
 											<div class="row">
 										
 												<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 team" style="text-align: left; padding: 5px; " data-team="@game.getTeamA().getIdTeam()"   >
@@ -208,22 +193,16 @@
 									</div>
 								}
 								<!--<game>-->
-
+	
 							</div>
-							
-							<script>			
-								$(function() {
-									arrGroup.push({id:@group.getIdGroup(), name:'@group.getName()',team:arrTeam,game:arrGame,classified:[], active:@{if(group.getIdGroup() == 1) true else false}});
-									arrGame = [];
-									arrTeam = [];
-								});
-							</script>		
+														
 						
 						</div>
+						
 					}
 					<!--<group>-->
-					
-	
+				
+
 					<div class="row title small" style="font-size: 100%;">
 											
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">							
@@ -244,21 +223,23 @@
 							
 					</div>
 
-										
-	
+									
 				</div>
-			</div>	
-	
-			<script>
-				$(function() {
-					arrPhase.push({id:@phase.getIdPhase(),name:'@phase.getName()',games:@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}, group:arrGroup, active:@{if(phase.getIdPhase() == 1) true else false}});
-					arrGroup = [];
-				});
-			</script>
+				
+			</div>
 			
-			}
 		} 
-		<!-- </phase> -->
+	<!-- </phase> -->
+
+	@if(!phases(0).getRunning()) {		
+		<div class="row">
+			<div class="col-md-12" style="margin: 5px; text-align: center;">
+				<button  data-loading-text="Loading..."  type="button" class="btn btn-default menu phase save" style="margin: 0 auto; width: 25%;">GUARDAR</button>				
+			</div>	
+		</div>	
+	}
+
+	
 
 	
 }
