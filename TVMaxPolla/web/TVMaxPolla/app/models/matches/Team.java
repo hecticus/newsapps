@@ -28,6 +28,11 @@ public class Team extends HecticusModel{
     private String flagFile;
     private Long afpId;
 
+    private String originalName;
+    private String originalShortname;
+    private String originalFlagFile;
+    private Long originalAfpId;
+
     public Team(){
         //por defecto
     }
@@ -82,6 +87,16 @@ public class Team extends HecticusModel{
         tr.put("shortName",shortname);
         tr.put("flag_file",flagFile);
         tr.put("afp_id",afpId);
+        return tr;
+    }
+
+    public ObjectNode toJsonPrediction(){
+        ObjectNode tr = Json.newObject();
+        tr.put("id", idTeam);
+        tr.put("name",originalName);
+        tr.put("shortName",originalShortname);
+        tr.put("flag_file",originalFlagFile);
+        tr.put("afp_id",originalAfpId);
         return tr;
     }
 
