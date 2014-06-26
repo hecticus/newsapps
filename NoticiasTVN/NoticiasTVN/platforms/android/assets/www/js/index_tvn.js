@@ -1240,6 +1240,7 @@ function initBasicApp(){
 								var realImageY = $.news.highdef[0].height*imageDiff;
 								var imageAspect = realImageX/realImageY;
 								
+								$($.category+'-featured').empty();
 								if(realImageY < realY){
 									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
 								}else{
@@ -1647,9 +1648,9 @@ function initBasicApp(){
 				
 					if (i==0) {
 						
-						$('#trending-news-featured-title').data('id',$.news.id);
+						/*$('#trending-news-featured-title').data('id',$.news.id);
 						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
-						$('#trending-news-featured-title').attr('data-content','trending');
+						$('#trending-news-featured-title').attr('data-content','trending');*/
 																
 						var width = getScreenWidth();
 						var height = getScreenHeight();
@@ -2345,7 +2346,8 @@ var app = {
 		//init push data
 		initPush();		
 		//Manejador de BD
-		storageManager = new StorageManager();		
+		storageManager = new StorageManager();
+		storageManager.checkVersionDB();
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
 		
 		/*initBasicApp();
