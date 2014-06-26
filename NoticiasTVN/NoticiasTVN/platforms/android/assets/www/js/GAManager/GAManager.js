@@ -4,7 +4,7 @@ function initGA(){
 	try 
 	{ 
     	gaPlugin = window.plugins.gaPlugin;
-		gaPlugin.init(successGAHandler, errorGAHandler, "UA-43996311-3", 10);
+		gaPlugin.init(successGAHandler, errorGAHandler, "UA-52052028-1", 10);
     }
 	catch(err) 
 	{ 

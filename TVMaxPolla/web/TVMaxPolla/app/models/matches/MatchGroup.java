@@ -24,6 +24,7 @@ public class MatchGroup extends HecticusModel{
     private Integer idGroup;
     private Integer idPhase;
     private String name;
+    private String originalName;
     
     public List<GameMatch> lstGameMatch;
    
@@ -80,6 +81,13 @@ public class MatchGroup extends HecticusModel{
         ObjectNode tr = Json.newObject();
         tr.put("id", idGroup);
         tr.put("name",name);
+        return tr;
+    }
+
+    public ObjectNode toJsonSimplePrediction(){
+        ObjectNode tr = Json.newObject();
+        tr.put("id", idGroup);
+        tr.put("name",originalName);
         return tr;
     }
 
