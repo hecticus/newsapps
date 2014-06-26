@@ -41,7 +41,7 @@
 		<!-- <phase> -->
 		@for(phase <- phases) {
 
-			<div data-phase="@phase.getIdPhase()"  class="row @("hidden".when(phase.getIdPhase() != 1)) phase" data-games="@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}">
+			<div data-phase="@phase.getIdPhase()"  class="row phase" data-games="@{if(phase.getIdPhase() == 1) (phase.getMatchGroup().size()*4) else phase.getMatchGroup().size()}">
 			
 			
 			
@@ -83,7 +83,7 @@
 					<!--<group>-->				
 					@for(group <- phase.getMatchGroup()) {
 					
-						<div class="row group @("hidden".when(group.getIdGroup() != 1))"  data-group="@group.getIdGroup()">
+						<div class="row group"  data-group="@group.getIdGroup()">
 						
 							<div class="col-md-12">
 						 
