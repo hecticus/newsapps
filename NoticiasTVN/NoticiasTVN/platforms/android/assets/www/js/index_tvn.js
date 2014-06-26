@@ -1269,16 +1269,16 @@ function initBasicApp(){
 								
 								$($.category+'-news-featured-title').append($.li);
 
-								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {								
-									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
+								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {
+									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {
 	                                	var target = $(this);
-										ImgCache.isCached(target.attr('src'), function(path, success){
-											if(success){
-												if(isOffline()){
+										ImgCache.isCached(target.attr('src'), function(path, success) {
+											if(success) {
+												if(isOffline()) {
 													ImgCache.useCachedFile(target);
 												}
 											} else {
-												ImgCache.cacheFile(target.attr('src'), function(){
+												ImgCache.cacheFile(target.attr('src'), function() {
 													ImgCache.useOnlineFile(target);
 											    });
 											}
@@ -1453,8 +1453,8 @@ function initBasicApp(){
 									var _left = (parseInt(viewport.width / 2) - 25);
 
 									$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    				
-					    			$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; " />';					    					
-					    			$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position: absolute; width:50px; height:50px; top:' + _top + 'px; left:' + _left + 'px;" /></a>';
+					    			$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; " />';					    			
+					    			$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/play.svg" onerror="this.src=\'img/playvideo.png\'" style="position: absolute; width:50px; height:50px; top:' + _top + 'px; left:' + _left + 'px;" /></a>';
 					    			$.lii+='</div>';
 					    			
 								});
