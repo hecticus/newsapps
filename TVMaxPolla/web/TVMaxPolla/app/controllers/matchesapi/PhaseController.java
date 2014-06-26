@@ -144,7 +144,7 @@ public class PhaseController extends HecticusController {
                 //Para cada grupo traemos los equipos que lo conforman
                 for (int i = 0; i < allGroups.size(); i++) {
                     MatchGroup groupObj = allGroups.get(i);
-                    ObjectNode groupObjJson = groupObj.toJsonSimple();
+                    ObjectNode groupObjJson = groupObj.toJsonSimplePrediction();
                     List<GameMatch> allGroupMatches = GameMatch.getMatchesForGroupAndPhase(groupObj.getIdGroup(), currentPhaseID);
                     ArrayList allGroupMatchesArray = new ArrayList();
                     //Por cada equipo perteneciente a un grupo buscamos los partidos de esa fase
