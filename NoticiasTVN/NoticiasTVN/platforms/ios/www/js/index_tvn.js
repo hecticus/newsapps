@@ -1336,7 +1336,7 @@ function errorDoNothing(){
 
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100) - 4)+'px; height:78px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box; padding:2px;">';
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100) - 4)+'px; height:118px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box; padding:2px;">';
 									$.li+='<div align="center" style="position: absolute; height: 100%; width:100%;text-align: center; top:1.6em;">';									
 										$.li+='<span style="font-size:1.6em;">Tendencias</span> <br />';
 										$.li+='<span style="font-size:1.9em; font-weight:bold;">DE HOY</span>';
@@ -1349,7 +1349,7 @@ function errorDoNothing(){
 									$.li+='<div style="width:'+((viewport.width*70)/100)+'px; height:auto; float:left;">';
 	
 									arrTrendingTopics.forEach(function(trending,i) {										
-										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px;  height:35px; line-height:18px; padding:2px;  float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff;  text-align: left; font-size:1.2em; font-weight:bold; color:#999999; overflow:hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">';
+										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px;  height:45px; line-height:38px; padding:2px;  float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff;  text-align: left; font-size:1.2em; font-weight:bold; color:#999999; overflow:hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">';
 										$.li+='#'+trending.Title;										
 										$.li+='</div>';
 									});
