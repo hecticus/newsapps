@@ -1,5 +1,30 @@
 var db;
 
+var currentVersion = 1;
+var STOREDVERSIONFILE = "TVNNOTICIASDBVERSION";
+
+function saveCurrentDBVersion() {
+	try{
+		window.localStorage.setItem(STOREDVERSIONFILE,currentVersion);
+		return true;
+	}catch(e){
+		return false;
+	}
+}
+
+function checkIfStoredDBVersionIsSame() {
+	var stored = window.localStorage.getItem(STOREDVERSIONFILE);
+	if(stored == null || stored == ""){
+		return false;
+	}else{
+		if(currentVersion == stored){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}
+
 //declaring the constructor
 function StorageManager() {  
     //unico punto de entrada para guardar objetos
@@ -13,6 +38,14 @@ function StorageManager() {
 
 //declaring instance methods  
 StorageManager.prototype = {  
+	checkVersionDB: function () {
+		if(!checkIfStoredDBVersionIsSame()){
+			//console.log("Different DB");
+			this.deleteAllDBs(errorCallbackDeleteAll, okDeleteAll);
+		}else{
+			//console.log("SAME DB");
+		}
+	},
 	simpleTest: function () {  
 		printToLog("StorageManager: testStorageManager func");
     },
@@ -40,6 +73,22 @@ StorageManager.prototype = {
     		errorCB(err,instanceCaller);
     	}, function(){
     		successCB(instanceCaller);
+    	});
+    },
+    deleteAllDBs: function (errorCB, successCB) {
+        printToLog("StorageManager: deleteAllDBs");
+    	db.transaction(function(tx){
+    			deleteAllCategoryDB(tx, null);
+    			deleteAllNewsDB(tx, null);
+    			deleteAllTrendingIndexDB(tx, null);
+    			deleteAllTrendingDB(tx, null);
+    		}
+    	, function(err){
+    		//printToLog("err2!!!!: "+JSON.stringify(err));
+    		printToLog("err2!!!!: ");
+    		errorCB(err,null);
+    	}, function(){
+    		successCB(null);
     	});
     },
 	deleteFromSelectDB: function (deleteDB, errorCB, successCB, instanceCaller,data) {
@@ -85,3 +134,13 @@ StorageManager.prototype = {
         	});
     }
 };
+
+function errorCallbackDeleteAll(){
+	console.log("Error al borrar todas las BDs");
+}
+function okDeleteAll(){
+	//console.log("OK borrar todas las BDs");
+	saveCurrentDBVersion();
+}
+
+
