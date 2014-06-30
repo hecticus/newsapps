@@ -198,7 +198,7 @@ public class TvmaxMatch extends HecticusModel {
     public static List<TvmaxMatch> getFinisedMatchesByDate(String date){
         return finder.where().or(
                     Expr.eq("match_status", "Finalizado"),
-                    Expr.eq("match_status", "Finalizado en penales"))
+                    Expr.eq("match_status", encode("Finalizado en penales")))
                 .like("match_date", date)
                 .orderBy("external_id desc")
                 .findList();
@@ -207,9 +207,9 @@ public class TvmaxMatch extends HecticusModel {
     public static List<TvmaxMatch> getFinisedMatchesByDate(String beginDate, String endDate){
         return finder.where().disjunction()
                 .eq("match_status", "Finalizado")
-                .eq("match_status", "Finalizado en penales")
+                .eq("match_status", encode("Finalizado en penales"))
                 .eq("match_description", "Finalizado")
-                .eq("match_description", "Finalizado en penales")
+                .eq("match_description", encode("Finalizado en penales"))
                 .endJunction()
                 .between("formated_date", beginDate, endDate)
                 .orderBy("external_id desc")
