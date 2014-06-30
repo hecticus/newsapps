@@ -19,7 +19,7 @@
 		
 			body {width:100%; height:100%; overflow: hidden;}
 			/*#content {position:absolute; z-index:0; bottom:0; left:0; width:100%; height:auto;}*/					
-			#menu, #datacontent, #datatrending {position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto;}
+			#menu, #datacontent, #datatrending {position:absolute; z-index:1; top:0px; bottom:0; left:0; width:100%; overflow:auto; }
 			#menu, #datacontent, #datatrending {top:100px;}
 			
 			
@@ -51,8 +51,8 @@
 			li[data-view="thumbnail"] .headline {margin-top:2px; margin-left:46%; width:50%; font-weight:bold;}
 			
 					
-			li[data-view="thumbnail"] .title {font-size:1.4em; }
-			li[data-view="thumbnail"] .date {font-size:1.2em; color:#9e9e9e;}
+			li[data-view="thumbnail"] .title {font-size:1.8em; }
+			li[data-view="thumbnail"] .date {font-size:1.6em; color:#9e9e9e;}
 		 	li[data-view="thumbnail"]:last-child {border: 0px;}
 		 	
 		 	li[data-view="thumbnail"][data-category="baseball_nacional"] img {display:none;}
@@ -111,7 +111,7 @@
 			header li.icon.share div {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
 			header li.icon.back div {background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}*/
 			
-			header div.icon.logo {width:25%; float:left; background:url(img/icon/logoTvn50.png) no-repeat left center; background-size:auto 100%; }
+			header div.icon.logo {width:25%; float:left; background:url(img/icon/logoTvnLast.png) no-repeat left center; background-size:auto 100%; }
 			header div.icon.tv {width:20%; float:right; background:url(img/icon/tv.png) no-repeat center; background-size:auto 80%;}
 			header div.icon.share {background:url(img/icon/share.png) no-repeat center; background-size:100% auto;}				
 			header div.icon.back {width:15%; float:left; background:url(img/icon/back.png) no-repeat center; background-size:100% auto;}
@@ -185,7 +185,7 @@
 				text-transform:uppercase; 
 				color:#000000; 
 				font-weight: bold; 
-				font-size: 1.8em; 
+				font-size: 1.8em;
 				white-space:nowrap; 
 				text-overflow:ellipsis; 
 				overflow:hidden;
@@ -231,9 +231,9 @@
 			<!--div style="width:100%; height:100%;  "-->
 				
 				
-				<img class="icon back" src="img/icon/back.png" style="float: left; width:10%; height:100%; max-width:88px;  max-height:55px; vertical-align: middle; display:none;  " alt="Back"  />
-				<img class="icon logo" src="img/icon/top_ai_tvn.png" style="float: left; width: auto; height:100%;   max-width:184px;  max-height:64px; vertical-align: middle;  " alt="Tvn Noticias"  />
-				<span id="header-title">NACIONALES</span>								
+				<img class="icon back" src="img/icon/back.png" style="float: left; width:10%; height:100%; max-width:88px;  max-height:55px; margin-top:10px; vertical-align: middle; display:none;  " alt="Back"  />
+				<img class="icon logo" src="img/icon/logoTvnLast.png" style="float: left; width: auto; height:100%;   max-width:184px;  max-height:77px; vertical-align: middle;  " alt="Tvn Noticias"  />
+				<span id="header-title" style="position:relative;display:inline-block;width:55%;height:77px;"></span>
 				<img class="icon tv" src="img/icon/tv.png" style="float: right; width: 20%; height:100%; max-width:140px; max-height:77px;" alt="Tv"   />
 				<img class="icon share" src="img/icon/share.png" style="float: right; width: 20%; height:100%; max-width:140px; max-height:77px; display: none;" alt="Share"   />
 				

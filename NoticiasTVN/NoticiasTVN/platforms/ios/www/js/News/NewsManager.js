@@ -55,7 +55,7 @@ getCategoryNewsFromDB:function(tx, instanceCaller, errorCallback, callback, sele
     printToLog("getCategoryNewsFromDB 1");
     
     printToLog("getCategoryNewsFromDB: "+selected);
-	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_creationtime asc LIMIT 20', [],
+	tx.executeSql('SELECT * FROM NEWS WHERE news_category="'+encodeURIComponent(selected)+'" ORDER BY news_date desc LIMIT 20', [],
 				  function(tx, results){
 					callback(results);
 				  },
@@ -144,7 +144,7 @@ function limitNewsTableSize(tx){
 	//eliminamos todas las categorias que no existan mas, despues por cada categoria eliminamos los que son viejos por cantidad
 	if(arrCategory!=null){
 		for(var i=0; i<arrCategory.length; i++){
-			var limitStatement = 'DELETE FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" AND news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_creationtime asc LIMIT 60,200);'; //offset,limit
+			var limitStatement = 'DELETE FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" AND news_tvn_id IN (SELECT news_tvn_id FROM NEWS WHERE news_category = "'+arrCategory[i].id+'" ORDER BY news_date desc LIMIT 60,200);'; //offset,limit
 			//console.log("delete "+limitStatement);
 			tx.executeSql(limitStatement);
 		}

@@ -524,7 +524,7 @@ function initBasicApp(){
 		 
 			myScrollPage = new iScroll('spage',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
 				
-				onScrollMove: function(e){		
+				onBeforeScrollEnd: function(e){		
 					if(parseInt(this.currPageX + this.dirX)>=0){
 						$('#header-title').html(arrCategory[parseInt(this.currPageX + this.dirX)].title);	
 					}
@@ -1014,11 +1014,12 @@ function errorDoNothing(){
 			$(document).on('touchstart','#bannerSpecial', function(e) {				
 				press=false;	
     		}).on('touchend','#bannerSpecial', function() {
-    			if(bannerLink != null && bannerLink != ""){
-    				//window.open(bannerLink, '_system');
-    				window.open(bannerLink, '_system', 'closebuttoncaption=regresar');
-    			}		
-    			
+    			if (press) {
+    				if(bannerLink != null && bannerLink != ""){
+    					//window.open(bannerLink, '_system');
+    					window.open(bannerLink, '_system', 'closebuttoncaption=regresar');
+    				}	
+    			}
     		});
 		
 
@@ -1286,6 +1287,7 @@ function errorDoNothing(){
 								var realImageY = $.news.highdef[0].height*imageDiff;
 								var imageAspect = realImageX/realImageY;
 								
+								$($.category+'-featured').empty();
 								if(realImageY < realY){
 									$($.category+'-featured').append('<img data-src="'+$.news.highdef[0].src+'" onerror="this.style.display=\'none\'" src="'+$.news.highdef[0].src+'" class="center" style="width:auto; height:100%;"  />');
 								}else{
@@ -1313,16 +1315,16 @@ function errorDoNothing(){
 								
 								$($.category+'-news-featured-title').append($.li);
 
-								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {								
-									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {                                	
+								if ((ImgCache.ready) && ($.news.highdef.length >= 1)) {
+									$('img[src="'+$.news.highdef[0].src+'"]').each(function() {
 	                                	var target = $(this);
-										ImgCache.isCached(target.attr('src'), function(path, success){
-											if(success){
-												if(isOffline()){
+										ImgCache.isCached(target.attr('src'), function(path, success) {
+											if(success) {
+												if(isOffline()) {
 													ImgCache.useCachedFile(target);
 												}
 											} else {
-												ImgCache.cacheFile(target.attr('src'), function(){
+												ImgCache.cacheFile(target.attr('src'), function() {
 													ImgCache.useOnlineFile(target);
 											    });
 											}
@@ -1334,26 +1336,20 @@ function errorDoNothing(){
 
 								$.li='<li data-view="trending" >';
 								
-									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100))+'px; height:auto; min-height:70px; max-height:70px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box;">';
-									
-									//$.li+='<div style="position: absolute; top: 50%; left: 50%; height: 30%; width:100%; margin: -20% 0 0 -30%;">';
-									$.li+='<div align="center" style="position: absolute; height: 100%; width:100%;text-align: center; top:1.6em;">';
-										/*$.li+='<span style="font-size:1.0em;">Tendencias</span> <br />';
-										$.li+='<span style="font-size:1.4em; font-weight:bold;">DE HOY</span>';*/
+									$.li+='<div style="position:relative; display:inline-block; width:'+(((viewport.width*30)/100) - 4)+'px; height:78px; float:left; background-color: #034985; color:#ffffff; font-style:italic; vertical-align:bottom; box-sizing:border-box; padding:2px;">';
+									$.li+='<div align="center" style="position: absolute; height: 100%; width:100%;text-align: center; top:1.6em;">';									
 										$.li+='<span style="font-size:1.6em;">Tendencias</span> <br />';
 										$.li+='<span style="font-size:1.9em; font-weight:bold;">DE HOY</span>';
 									$.li+='</div>';
 									
-
+  
 									
 									$.li+='</div>';
 									
 									$.li+='<div style="width:'+((viewport.width*70)/100)+'px; height:auto; float:left;">';
-
-									arrTrendingTopics.forEach(function(trending,i) {
-										//$.li+='<div style="width:'+(((viewport.width*35)/100))+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box;">';
-										//$.li+='<p style="width:100%; height:100%; color:#ffffff; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline; ">#'+trending.titulo+'</p>';
-										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px; height:auto; min-height:35px; max-height:35px; float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff; vertical-align:top; padding:2px; box-sizing:border-box; text-align: left; font-size:1.2em; font-weight:bold; color:#999999; display:inline;">';
+	
+									arrTrendingTopics.forEach(function(trending,i) {										
+										$.li+='<div class="trending" data-content="trending" data-id="'+trending.ID+'" style="width:'+(((viewport.width*35)/100)-5)+'px;  height:35px; line-height:18px; padding:2px;  float:left; background-color:#f9f9f9;  border-left:1px  solid #ffffff;  border-bottom:1px  solid #ffffff;  text-align: left; font-size:1.2em; font-weight:bold; color:#999999; overflow:hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">';
 										$.li+='#'+trending.Title;										
 										$.li+='</div>';
 									});
@@ -1498,10 +1494,15 @@ function errorDoNothing(){
 							
 
 								$.news.video.forEach(function(video){
+									
+									var _top = (parseInt(viewport.pHeight / 2) - 25);
+									var _left = (parseInt(viewport.width / 2) - 25);
+
 									$.lii+='<div data-src="'+video.src+'" data-type="video" style="position:relative; float:left; width:'+viewport.width+'px; height:'+viewport.pHeight+'px; background-color:#000000; ">';						    				
-					    			$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; " />';					    					
-					    			$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/playvideo.png" style="position:absolute; width:32px; height:32px; top:45%; left:45%;" /></a>';
+					    			$.lii+='<img alt="highdef" src="'+video.poster+'" onerror="this.style.display=\'none\'" class="center" style="width:auto; height:'+viewport.pHeight+'px; " />';					    			
+					    			$.lii+='<a href="'+video.src+'"><img alt="highdef" src="img/play.svg" onerror="this.src=\'img/playvideo.png\'" style="position: absolute; width:50px; height:50px; top:' + _top + 'px; left:' + _left + 'px;" /></a>';
 					    			$.lii+='</div>';
+					    			
 								});
 								
 								c=0;
@@ -1693,9 +1694,9 @@ function errorDoNothing(){
 				
 					if (i==0) {
 						
-						$('#trending-news-featured-title').data('id',$.news.id);
+						/*$('#trending-news-featured-title').data('id',$.news.id);
 						$('#trending-news-featured-title').data('news','#news-'+$.news.id);																		
-						$('#trending-news-featured-title').attr('data-content','trending');
+						$('#trending-news-featured-title').attr('data-content','trending');*/
 																
 						var width = getScreenWidth();
 						var height = getScreenHeight();
@@ -2392,7 +2393,8 @@ var app = {
 		//init push data
 		initPush();		
 		//Manejador de BD
-		storageManager = new StorageManager();		
+		storageManager = new StorageManager();
+		storageManager.checkVersionDB();
 		//window.plugins.smsPlugin.sendSMS("Prueba sms",successSaveNews, errorNewsSave);
 		
 		/*initBasicApp();

@@ -90,7 +90,7 @@ function formatDateStringForSorting(ds) {
 		var HMS = parts[1].split(":");
 		var meridian = parts[2];
 		var intH = parseInt(HMS[0]);
-		if(meridian == "p.m." || meridian == "p.m" || meridian == "pm"){
+		if(meridian == "p.m." || meridian == "p.m" || meridian == "pm" || meridian == "PM"){
 			if(intH < 12){
 				intH = intH+12;
 			}
@@ -103,7 +103,7 @@ function formatDateStringForSorting(ds) {
 		mm = HMS[1];
 		
 	}
-	if ( MM < 10 ) MM = '0' + MM;
+	if ( MM < 10 && MM.length == 1) MM = '0' + MM;
 
 	//console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
 	return ""+YYYY+MM+DD+hh+mm+ss;
