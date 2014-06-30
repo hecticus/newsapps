@@ -279,7 +279,7 @@ function initAllAppData(){
 }
 
 function reloadNewsMain(){
-	_oAjaxRefresh = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,false,false);	
+	_oAjaxRefresh = $.fGetAjaXJSON2('http://polla.tvmax-9.com/tvmaxfeeds/news/latest/',false,true,false);	
 	if (_oAjaxRefresh) {
 		_oAjaxRefresh.done(function(_json) {					
 			_jMenu[0].json = _json.noticias_mundial;						
@@ -418,7 +418,6 @@ function stopNewsInterval(){
 
 
 function initPage(){
-	
 
 	var _html = '';	
 	$(_jMenu).each(function(_index,_menu) {
