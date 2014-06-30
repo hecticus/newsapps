@@ -39,15 +39,15 @@ var _jGet = false;
 var _oAjax;
 
 var _tap = false;
-
+/*{index:5,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'calendario.html', glyphicon:'icon-clasificacion', json:false, view:'phase'},*/
 var _jMenu=[
 	{index:0,class:'content-home',title:'Portada',load:'home.html', glyphicon:'icon-home_menu', json:false},
 	{index:1,class:'content-resultados',title:'Resultados',load:'resultados.html', glyphicon:'icon-resultados', json:false},
 	{index:2,class:'content-goles',title:'Goles',load:'goles.html', glyphicon:'icon-goles_menu', json:false},
 	{index:3,class:'content-mam',title:'Minuto a Minuto',load:'mam.html', glyphicon:'icon-minutoaminuto', json:false},
 	{index:4,class:'content-noticias',title:'Noticias',load:'noticias.html', glyphicon:'icon-noticias_menu', json:false},
-	{index:5,class:'content-clasificacion',title:'Clasificaci&oacute;n',load:'clasificacion.html', glyphicon:'icon-clasificacion', json:false},
-	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false},	
+	{index:5,class:'content-calendario',title:'Clasificaci&oacute;n',load:'calendario.html', glyphicon:'icon-clasificacion', json:false, view:'phase'},
+	{index:6,class:'content-calendario',title:'Calendario',load:'calendario.html', glyphicon:'icon-fechas', json:false, view:'normal'},	
 	{index:7,class:'content-polla',title:'Polla',load:'polla.html', glyphicon:'icon-polla_menu', json:false},
 	{index:8,class:'content-leaderboard',title:'Leaderboard',load:'leaderboards.html', glyphicon:'icon-fases', json:false},
 	{index:9,class:'content-pronosticos',title:'Pron&oacute;sticos',load:'pronosticos.html', glyphicon:'icon-pronosticos_menu', json:false},  	  	
