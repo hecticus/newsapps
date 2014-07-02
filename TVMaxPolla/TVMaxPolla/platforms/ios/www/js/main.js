@@ -405,7 +405,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 				//ANDROID
 				osName = "android";
 			}
-			var version = 5;
+			var version = 6;
 			
 			var urlVersion = "http://polla.tvmax-9.com/tvmax/appversion/check/"+version+"/"+osName;
 			updateURL = "";

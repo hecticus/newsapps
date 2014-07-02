@@ -507,10 +507,25 @@
 
 
 
+	/*clasificacion*/
+	
+	body.content-clasificacion figure {text-align: center; margin: 0 auto; padding: 5px;}
+	body.content-clasificacion figure img {width: 67px; height: 45px;}	
+	body.content-clasificacion figcaption {
+		text-align: center; 
+		line-height:20px; 
+		position:relative;
+		font-size : 0.9em;	
+		font-weight: bold;
+		color:#000; 
+	    background:none;
+	    text-shadow: none;
+	}
+
+	/*clasificion*/
 
 
-
-
+ 	
 
 
 
@@ -780,9 +795,9 @@
 	
 	
 	
-	body.content-clasificacion #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	/*body.content-clasificacion #wrapper .scroller .container  { padding:  2px !important; margin: 0 !important;}
 	body.content-clasificacion  #wrapper .scroller .container .row div {background: #ffffff !important;}
-	body.content-clasificacion table tbody tr td {border-bottom: solid 1pt #E0E0E0 !important;}
+	body.content-clasificacion table tbody tr td {border-bottom: solid 1pt #E0E0E0 !important;}*/
 
 	/*ALERTAS*/
 	/* CSS REQUIRED */

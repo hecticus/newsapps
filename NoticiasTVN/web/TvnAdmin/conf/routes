@@ -62,6 +62,7 @@ POST    /newsapi/v1/news/push/generated                 controllers.newsapi.News
 GET     /newsapi/v1/news/search/tvn/name/:categoryName      controllers.newsapi.NewsController.getByCategoryName(categoryName : String, hecticResponse : Boolean = false)
 GET     /newsapi/v1/news/search/tvn/id/:idCategory          controllers.newsapi.NewsController.getByIdCategory(idCategory:Long, hecticResponse : Boolean = false)
 GET     /newsapi/v1/news/search/tvn/trending/:id            controllers.newsapi.NewsController.getTrendingNews(id:Long, hecticResponse : Boolean = false)
+GET     /newsapi/v1/news/:idNews                            controllers.newsapi.NewsController.getById(idNews: Long)
 
 #trending topics
 GET     /newsapi/v1/news/trendingtopics/search/         controllers.newsapi.TrendingTopicsController.get()

@@ -15,11 +15,11 @@
 		{name:'Grupo F', bgcolor:'#64C2BC'},
 		{name:'Grupo G', bgcolor:'#64C2BC'},
 		{name:'Grupo H', bgcolor:'#64C2BC'},
-		{name:'Octavos', bgcolor:'#EB008C'},
-		{name:'Cuartos', bgcolor:'#5F207F'},
-		{name:'Semifinales', bgcolor:'#ED2A24'},
-		{name:'3er Lugar', bgcolor:'#037677'},
-		{name:'Final', bgcolor:'#F9A11A'}
+		{name:'Octavos', bgcolor:'#EB008C',date:{begin:'28/jun',end:'01/jul'}},
+		{name:'Cuartos', bgcolor:'#5F207F',date:{begin:'04/jul',end:'05/jul'}},
+		{name:'Semifinales', bgcolor:'#ED2A24',date:{begin:'08/jul',end:'09/jul'}},
+		{name:'3er Lugar', bgcolor:'#037677',date:{begin:'12/jul',end:'12/jul'}},
+		{name:'Final', bgcolor:'#F9A11A',date:{begin:'13/jul',end:'13/jul'}}
 	];
 
 	var _jPhaseL = [

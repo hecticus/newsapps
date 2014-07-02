@@ -264,6 +264,67 @@ function getScreenHeight(){
 	}
 }
 
+var PD_LOW = 0;
+var PD_MID = 1;
+var PD_HI = 2;
+var PD_EXHI = 3;
+
+function getPixelDensity(){
+	/*var screenwidth = getScreenWidth();
+	var screenheight = getScreenHeight();
+	console.log("W: "+screenwidth+" H: "+screenheight);*/
+	var pixelRatio = window.devicePixelRatio;
+	if(pixelRatio >= 2) {
+		// pixelratio 2 or above – Extra high DPI
+		//console.log("EXTRA HIGH "+pixelRatio);
+		return PD_EXHI;
+	} else if (pixelRatio >= 1.5) {
+		// Pixelratio 1.5 or above – High DPI
+		//console.log("HIGH "+pixelRatio);
+		return PD_HI;
+	} else if (pixelRatio <= 0.75) {
+		// Pixelratio 0.75 or less – Low DPI
+		//console.log("LOW "+pixelRatio);
+		return PD_LOW;
+	} else {
+		// Pixelratio 1 or undetected. – Medium DPI
+		//console.log("MEDIUM "+pixelRatio);
+		return PD_MID;
+	}
+}
+
+var GET_IMAGE_LOW = 0;
+var GET_IMAGE_MID = 1;
+var GET_IMAGE_HI = 2;
+
+function getImageSizeType(){
+	var pd = getPixelDensity();
+	var screenwidth = getScreenWidth();
+	var screenheight = getScreenHeight();
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		if( pd == PD_HI || pd == PD_EXHI ){
+			if(screenwidth < 768){
+				//return GET_IMAGE_MID;
+				return GET_IMAGE_LOW;
+			}else{
+				return GET_IMAGE_MID;
+				//return GET_IMAGE_HI;
+			}
+		}else{
+			if(screenwidth < 768){
+				return GET_IMAGE_LOW;
+			}else{
+				//return GET_IMAGE_MID;
+				return GET_IMAGE_LOW;
+			}
+		}
+	}else{
+		//ANDROID
+	}
+}
+
 //SORTING
 function sortNumber(a,b) {
     return a - b;

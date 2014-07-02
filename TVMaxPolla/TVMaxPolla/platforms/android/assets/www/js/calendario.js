@@ -98,9 +98,17 @@
 				_html += '</div>';
 			
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 " style=" text-align: center; height:100px;  line-height:80px;">';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:left;">' + _item.goles_equipo_local + '</span>';
-				_html += '<span style="font-size:1.4em; font-weight:bold;">vs</span>';
-				_html += '<span style="font-size:1.4em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante + '</span>';			
+				
+				_html += '<span style="font-size:1.2em; font-weight:bold; float:left;">' + _item.goles_equipo_local;				
+				if (_item.estado_del_partido == 'Finalizado en penales' ) _html += '(' + _item.penales_equipo_local + ')';
+				_html += '</span>';	
+							
+				_html += '<span style="font-size:1.2em; font-weight:bold;">vs</span>';
+				
+				_html += '<span style="font-size:1.2em; font-weight:bold; float:right;">' + _item.goles_equipo_visitante;				
+				if (_item.estado_del_partido == 'Finalizado en penales' ) _html += '(' + _item.penales_equipo_visitante + ')';
+				_html += '</span>';
+								
 				_html += '</div>';
 	
 				
@@ -334,10 +342,10 @@
 
 	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
 	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			_jGet = _json.partidos_mundial;					
+		_oAjax.done(function(_json) {			
+			_jGet = _json.partidos_mundial;
 			_fRenderCalendar();
-			_fRenderDataContent('_iDate == "' + _cDate + '"');				
+			_fRenderDataContent('_iDate == "' + _cDate + '"');	
 		});
 	}
 

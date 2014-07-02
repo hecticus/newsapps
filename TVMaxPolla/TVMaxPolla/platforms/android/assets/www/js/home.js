@@ -39,12 +39,17 @@
 				homeTextSmaller = 0.8;
 			}
 		}else{
-			if(getScreenHeight()>1500){
+			if(getScreenHeight()>2000 || (getPixelDensity() != PD_EXHI && getScreenHeight()>1000)){
 				homeIconSize = 8;
 				homeSmallIconsSize = 3.3;
 				homeTextClass = "caption-icon-tablets";
 				homeLineHeight = 0;
 				homeTextSmaller = 1.6;
+			}else if(getScreenHeight()>1000){
+				homeIconSize = 5;
+				homeSmallIconsSize = 1.6;
+				homeTextClass = "caption-icon";
+				homeTextSmaller = 0.8;
 			}else{
 				homeIconSize = 5;
 				homeSmallIconsSize = 1.6;
