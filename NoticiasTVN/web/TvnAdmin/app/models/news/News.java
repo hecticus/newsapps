@@ -320,6 +320,10 @@ public class News extends HecticusModel{
         return finder.where().eq("id_news", idNews).findUnique();
     }
 
+    public static News getNewsByExtID(long idNews){
+        return finder.where().eq("external_id", idNews).findUnique();
+    }
+
     public static List<News> getNewsByCategory(long idCategory){
         return getNewsByCategory(idCategory, MAX_SIZE);
     }

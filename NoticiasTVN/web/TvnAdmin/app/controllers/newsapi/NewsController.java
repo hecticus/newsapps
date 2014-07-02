@@ -316,7 +316,7 @@ public class NewsController extends HecticusController {
 
     public static Result getById(Long idNews) {
         try {
-            News resultset = News.getNews(idNews);
+            News resultset = News.getNewsByExtID(idNews);
             ArrayList data = new ArrayList();
             if (resultset != null) {
                 data.add(resultset.toJsonTVN());
