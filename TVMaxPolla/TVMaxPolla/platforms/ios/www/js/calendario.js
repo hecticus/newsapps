@@ -331,13 +331,52 @@
 	};
 
 
-
+	var _iIndex = $('main').data('index');
 	_oAjax = $.fGetAjaXJSON('http://polla.tvmax-9.com/tvmaxfeeds/calendar/getAll',false,false,true);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			_jGet = _json.partidos_mundial;					
+			
+			_jGet = _json.partidos_mundial;
 			_fRenderCalendar();
-			_fRenderDataContent('_iDate == "' + _cDate + '"');				
+			if (_jMenu[_iIndex].view == 'normal') {
+				_fRenderDataContent('_iDate == "' + _cDate + '"');	
+			} else {			
+				
+				var _find = false;
+				
+				$.each(_jPhase, function(_index, _phase) {
+					
+					if (_phase.date) {
+						
+						_iMonthBegin = _phase.date.begin.split('/');
+						_iMonthEnd = _phase.date.end.split('/');
+				
+						if (_iMonthEnd[1].toString().toLowerCase() != _aMonth[_cMonth].toString().toLowerCase()) {
+							_find = _phase.name; 
+						} else {
+							 if (_iMonthBegin[0] >= _cToday) {
+							 	_find = _phase.name;
+							 }
+						}
+
+					}
+					
+					
+					if (_find) {						
+						$('.calendar').removeClass('active');	
+						$('.calendar[data-function="_fRenderPhase();"]').addClass('active');
+						return false;
+					} 
+					
+				});
+
+
+			
+				_fRenderDataContent('_item.fase.search("' + _find + '") >= 0');
+
+
+			}
+							
 		});
 	}
 
