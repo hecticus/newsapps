@@ -313,4 +313,21 @@ public class NewsController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
+
+    public static Result getById(Long idNews) {
+        try {
+            News resultset = News.getNews(idNews);
+            ArrayList data = new ArrayList();
+            if (resultset != null) {
+                data.add(resultset.toJsonTVN());
+            }
+            //build response
+            ObjectNode response;
+            response = tvnResponse("noticias", data);
+
+            return ok(response);
+        } catch (Exception ex) {
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
 }
