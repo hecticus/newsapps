@@ -40,6 +40,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -411,6 +412,7 @@ public class CordovaActivity extends Activity implements CordovaInterface {
         this.splashscreenVideo = this.getStringProperty("SplashScreenVideo",null);
         //revisamos si es un splash con video
         if(this.splashscreenVideo != null){
+        	this.splashscreen = this.getIntegerProperty("SplashScreen", 0);
         	this.showVideoSplashScreen(this.splashscreenTime);
         }else{
 	        if(this.splashscreenTime > 0)
@@ -1149,7 +1151,7 @@ public class CordovaActivity extends Activity implements CordovaInterface {
      */
     @SuppressWarnings("deprecation")
     protected void showVideoSplashScreen(final int time) {
-        final CordovaActivity that = this;
+    	final CordovaActivity that = this;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -1164,21 +1166,30 @@ public class CordovaActivity extends Activity implements CordovaInterface {
                 root.setBackgroundColor(that.getIntegerProperty("backgroundColor", Color.BLACK));
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
-                //root.setBackgroundResource(that.splashscreen);
-                //layout params
+                root.setBackgroundResource(that.splashscreen);
+                
+                //VIDEO VIEW
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT); // or wrap_content
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                
+                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			  
                 VideoView myVideoView = new VideoView(that.getActivity());
-                //VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
                 Uri videoUri = Uri.parse(that.splashscreenVideo);
-                //Uri videoUri = Uri.parse("http://techslides.com/demos/sample-videos/small.mp4");
                 myVideoView.setVideoURI(videoUri);
-                //myVideoView.setMediaController(new MediaController(this));
+                //myVideoView.setBackgroundResource(that.splashscreen);
                 myVideoView.requestFocus();
+                final VideoView myVideoViewF = myVideoView;
+                myVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+			
+                	public boolean onError(MediaPlayer mp, int what, int extra) {
+                		myVideoViewF.setBackgroundResource(that.splashscreen);
+                		return true;
+                	}
+			
+                });
                 myVideoView.start();
                 root.addView(myVideoView,layoutParams);
                 
@@ -1205,6 +1216,98 @@ public class CordovaActivity extends Activity implements CordovaInterface {
         };
         this.runOnUiThread(runnable);
     }
+    
+//    /**
+//     * Shows the splash screen over the full Activity
+//     */
+//    @SuppressWarnings("deprecation")
+//    protected void showVideoSplashScreen(final int time) {
+//        final CordovaActivity that = this;
+//
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                // Get reference to display
+//                Display display = getWindowManager().getDefaultDisplay();
+//
+//                // Create the layout for the dialog
+//                RelativeLayout root = new RelativeLayout(that.getActivity());
+//                root.setMinimumHeight(display.getHeight());
+//                root.setMinimumWidth(display.getWidth());
+//                //root.setOrientation(LinearLayout.VERTICAL);
+//                root.setBackgroundColor(that.getIntegerProperty("backgroundColor", Color.WHITE));
+//                root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+//                //root.setBackgroundResource(that.splashscreen);
+//                //layout params
+//                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT); // or wrap_content
+//                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+//                
+//                ImageView backgroundImage = new ImageView(that.getActivity());
+//                backgroundImage.setImageResource(that.splashscreen);
+//                root.addView(backgroundImage,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+//                
+//                VideoView myVideoView = new VideoView(that.getActivity());
+//                //VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
+//                Uri videoUri = Uri.parse(that.splashscreenVideo);
+//                //Uri videoUri = Uri.parse("http://techslides.com/demos/sample-videos/small.mp4");
+//                myVideoView.setVideoURI(videoUri);
+//                myVideoView.setBackgroundResource(that.splashscreen);
+//                //myVideoView.setMediaController(new MediaController(this));
+//                myVideoView.requestFocus();
+//                final RelativeLayout rootF = root;
+//                final VideoView myVideoViewF = myVideoView;
+//                myVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+//
+//                    public boolean onError(MediaPlayer mp, int what, int extra) {
+//                        // TODO Auto-generated method stub
+////                        Intent intent = getIntent();
+////                        overridePendingTransition(0, 0);
+////                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+////
+////                        finish();
+////
+////                        overridePendingTransition(0, 0);
+////                        startActivity(intent);
+////                    	Log.e("VIDEO", "PASO POR EL ON ERROR INI 4");
+////                    	//rootF.removeView(myVideoViewF);
+////                    	myVideoViewF.setVisibility(View.GONE);
+////                        Log.e("VIDEO", "PASO POR EL ON ERROR END 4"); 
+//
+//                        return true;
+//                    }
+//
+//                });
+//                myVideoView.start();
+//                root.addView(myVideoView,layoutParams);
+//                
+//                // Create and show the dialog
+//                splashDialog = new Dialog(that, android.R.style.Theme_Translucent_NoTitleBar);
+//                // check to see if the splash screen should be full screen
+//                if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//                        == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
+//                    splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                }
+//                splashDialog.setContentView(root);
+//                splashDialog.setCancelable(false);
+//                splashDialog.show();
+//
+//                // Set Runnable to remove splash screen just in case
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    public void run() {
+//                        removeSplashScreen();
+//                    }
+//                }, time);
+//            }
+//        };
+//        this.runOnUiThread(runnable);
+//    }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
