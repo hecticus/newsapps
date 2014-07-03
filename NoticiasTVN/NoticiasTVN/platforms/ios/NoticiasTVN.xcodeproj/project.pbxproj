@@ -61,7 +61,6 @@
 		6F6DDD471875C5050090B0E8 /* NoticiasTVN-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */; };
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
-		6F7342AF1964BE40006EE875 /* v480p.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F7342AC1964BE40006EE875 /* v480p.mp4 */; };
 		6F7342B01964BE40006EE875 /* v540x960_level3_1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F7342AD1964BE40006EE875 /* v540x960_level3_1.mp4 */; };
 		6F7342B11964BE40006EE875 /* v720x1280_level3_1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F7342AE1964BE40006EE875 /* v720x1280_level3_1.mp4 */; };
 		6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */; };
@@ -168,7 +167,6 @@
 		6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "NoticiasTVN-Info.plist"; path = "NoticiasTVN/NoticiasTVN-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6F6DDD481875C51A0090B0E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = NoticiasTVN/config.xml; sourceTree = "<group>"; };
 		6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		6F7342AC1964BE40006EE875 /* v480p.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v480p.mp4; sourceTree = "<group>"; };
 		6F7342AD1964BE40006EE875 /* v540x960_level3_1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v540x960_level3_1.mp4; sourceTree = "<group>"; };
 		6F7342AE1964BE40006EE875 /* v720x1280_level3_1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v720x1280_level3_1.mp4; sourceTree = "<group>"; };
 		6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-iPad@2x.png"; sourceTree = "<group>"; };
@@ -448,7 +446,6 @@
 		6F7342AB1964BE40006EE875 /* video */ = {
 			isa = PBXGroup;
 			children = (
-				6F7342AC1964BE40006EE875 /* v480p.mp4 */,
 				6F7342AD1964BE40006EE875 /* v540x960_level3_1.mp4 */,
 				6F7342AE1964BE40006EE875 /* v720x1280_level3_1.mp4 */,
 			);
@@ -575,7 +572,6 @@
 				6F6DDD371875C4F80090B0E8 /* icon-72@2x.png in Resources */,
 				6F6DDD3C1875C4F80090B0E8 /* icon.png in Resources */,
 				6F6DDD431875C4F80090B0E8 /* Default-Portrait~ipad.png in Resources */,
-				6F7342AF1964BE40006EE875 /* v480p.mp4 in Resources */,
 				6F6DDD3A1875C4F80090B0E8 /* icon-small.png in Resources */,
 				6F6DDD421875C4F80090B0E8 /* Default-Portrait@2x~ipad.png in Resources */,
 				6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */,
