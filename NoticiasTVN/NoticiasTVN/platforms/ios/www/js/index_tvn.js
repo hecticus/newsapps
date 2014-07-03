@@ -954,52 +954,22 @@ function initBasicApp(){
 					
 									
 			}
-
-function goToNewsPageLoadAll(){
-	for(var i=0;i<arrCategory.length;i++){
-		var myJsonTemp=$.fGetAjaXJSON(arrCategory[i].internalUrl);
-		myJsonTemp.done(function(json) {
-			var itemArray = null;
-			if(json["noticias"] != null){
-				itemArray = json["noticias"];
-				//console.log("itemArray "+itemArray.length);
-			}
-			if(itemArray != null && itemArray.length > 0){
-				var manager = new NewsManager();
-				json["category"] = arrCategory[i].id;
-				manager.saveNewsFromWS(json,successDoNothing,errorDoNothing);
-			}
+			
+			function goToNewsPageFromPush(newsArray){
 				
-		});
-	}
-	
-	setTimeout(function () {
-			   console.log("Va a buscar push");
-				$("#header-title").addClass('back');
-				$(".icon.logo").addClass('back');
-				$(".icon.tv").addClass('share');
- 
-			   var manager = new NewsManager();
-			   manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
-			   
-			   $('.news-datacontent').hide();
-			   $('.back img').addClass('content');
-			   $('.back img, .share').removeClass('hidden');
-			   myScrollDatacontent.scrollTo(0,0,0);
-			   $($(this).data('news')).show();
-			   $('.position').html('1');
-			   $('#datacontent').attr('class','page transition left');
-	}, 10000);
-}
-function successDoNothing(){
-	
-}
-function errorDoNothing(){
-	
-}
-
-
-
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden'); 				  			
+				myScrollDatacontent.scrollTo(0,0,0);							
+				$($(this).data('news')).show();								
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				
+				$.fsetNewsDatacontents(newsArray);				
+			}
+    		
+    		
+    		
 			$(document).on('touchstart','div[data-type="video"]', function(e) {
 				press=false;		
     		}).on('touchend','div[data-type="video"]', function(e) {
@@ -1930,10 +1900,9 @@ function errorDoNothing(){
 		    	pushInterval = window.setInterval(function(){
 					if(isLoaded){
 						newsDatacontent = extra_params;
-						goToNewsPage();
-						//goToNewsPageLoadAll();
 						isCommingFromPush = true;
 						stopPushInterval();
+						getPushNews();
 					}
 					
 				},500);
@@ -1945,6 +1914,24 @@ function errorDoNothing(){
 			var isCommingFromPush;
 			var isLoaded;
 			var pushInterval;
+			
+			//Get news for push
+			function getPushNews() {
+				var urlComplete = urlServices+"/newsapi/v1/news/"+newsDatacontent;
+				myJson=$.fGetAjaXJSON(urlComplete);
+				myJson.done(function(json) {
+					var itemArray = null;
+					if(json["noticias"] != null){
+						itemArray = json["noticias"];
+						//console.log("itemArray "+itemArray.length);
+					}
+					//console.log("itemArrayOBJ "+JSON.stringify(itemArray));
+					if(itemArray != null && itemArray.length > 0){
+						goToNewsPageFromPush(itemArray);
+					}
+
+				});
+    		};
 
 
 
@@ -2401,7 +2388,7 @@ var app = {
 		
 		clearPageStatus();*/
 		
-		
+		imageTypeNews = getImageSizeType();
 		//init page
 		getCategoriesForApp();
 		//endOfAppInitialization();

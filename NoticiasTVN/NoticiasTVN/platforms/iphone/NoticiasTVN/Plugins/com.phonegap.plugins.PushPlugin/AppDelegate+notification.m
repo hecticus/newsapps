@@ -44,12 +44,12 @@ static char launchNotificationKey;
 // to process notifications in cold-start situations
 - (void)createNotificationChecker:(NSNotification *)notification
 {
-	/*if (notification)
+	if (notification)
 	{
 		NSDictionary *launchOptions = [notification userInfo];
 		if (launchOptions)
 			self.launchNotification = [launchOptions objectForKey: @"UIApplicationLaunchOptionsRemoteNotificationKey"];
-	}*/
+	}
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

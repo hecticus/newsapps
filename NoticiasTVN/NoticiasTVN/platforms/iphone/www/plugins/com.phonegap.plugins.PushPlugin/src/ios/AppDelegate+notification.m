@@ -77,6 +77,7 @@ static char launchNotificationKey;
         pushHandler.isInline = YES;
         [pushHandler notificationReceived];
     } else {
+		NSLog(@"SAVE IT");
         //save it for later
         self.launchNotification = userInfo;
     }
@@ -90,6 +91,7 @@ static char launchNotificationKey;
     application.applicationIconBadgeNumber = 0;
 
     if (![self.viewController.webView isLoading] && self.launchNotification) {
+		NSLog(@"PUSHING");
         PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
 		
         pushHandler.notificationMessage = self.launchNotification;

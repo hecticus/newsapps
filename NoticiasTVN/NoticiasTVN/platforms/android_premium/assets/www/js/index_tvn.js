@@ -951,6 +951,19 @@ function initBasicApp(){
 					
 									
 			}
+			
+			function goToNewsPageFromPush(newsArray){
+				
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden'); 				  			
+				myScrollDatacontent.scrollTo(0,0,0);							
+				$($(this).data('news')).show();								
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				
+				$.fsetNewsDatacontents(newsArray);				
+			}
     		
     		
     		
@@ -1884,9 +1897,9 @@ function initBasicApp(){
 		    	pushInterval = window.setInterval(function(){
 					if(isLoaded){
 						newsDatacontent = extra_params;
-						goToNewsPage();
 						isCommingFromPush = true;
 						stopPushInterval();
+						getPushNews();
 					}
 					
 				},500);
@@ -1898,6 +1911,24 @@ function initBasicApp(){
 			var isCommingFromPush;
 			var isLoaded;
 			var pushInterval;
+			
+			//Get news for push
+			function getPushNews() {
+				var urlComplete = urlServices+"/newsapi/v1/news/"+newsDatacontent;
+				myJson=$.fGetAjaXJSON(urlComplete);
+				myJson.done(function(json) {
+					var itemArray = null;
+					if(json["noticias"] != null){
+						itemArray = json["noticias"];
+						//console.log("itemArray "+itemArray.length);
+					}
+					//console.log("itemArrayOBJ "+JSON.stringify(itemArray));
+					if(itemArray != null && itemArray.length > 0){
+						goToNewsPageFromPush(itemArray);
+					}
+
+				});
+    		};
 
 
 
@@ -2354,7 +2385,7 @@ var app = {
 		
 		clearPageStatus();*/
 		
-		
+		imageTypeNews = getImageSizeType();
 		//init page
 		getCategoriesForApp();
 		//endOfAppInitialization();
