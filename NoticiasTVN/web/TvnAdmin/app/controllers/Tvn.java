@@ -21,17 +21,17 @@ public class Tvn extends Controller {
 	final static Form<Category> categoryForm = form(Category.class);
 	public static Result GO_HOME = redirect(routes.Tvn.list(0, "sort", "asc", ""));
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result index() {
 		return GO_HOME;
 	}	
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result blank() {
 	   return ok(form.render(categoryForm));
 	}
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result edit(Long id) {
         Form<Category> filledForm = categoryForm.fill(
         		Category.finder.byId(id)
@@ -41,7 +41,7 @@ public class Tvn extends Controller {
         );
     }
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result update(Long id) {
 		Form<Category> filledForm = categoryForm.bindFromRequest();
 		if(filledForm.hasErrors()) {
@@ -52,7 +52,7 @@ public class Tvn extends Controller {
 		return GO_HOME;
 	}	
 
-	@SecuredAction
+	//@SecuredAction
 	public static Result sort(String ids) {		
 		String[] aids = ids.split(",");
 		
@@ -65,7 +65,7 @@ public class Tvn extends Controller {
 		return ok("Fine!");		
 	}
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
             list.render(
@@ -75,19 +75,19 @@ public class Tvn extends Controller {
         );
     }
 
-	@SecuredAction
+	//@SecuredAction
 	public static Result delete(Long id) {
 		Category.finder.ref(id).delete();
 		flash("success", "Category has been deleted");
 	    return GO_HOME;	    
 	}
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result lsort() {
 		 return ok(sort.render(Category.page(0, 0,"sort", "asc", "")));
 	}
 	
-	@SecuredAction
+	//@SecuredAction
 	public static Result submit() {
 	   Form<Category> filledForm = categoryForm.bindFromRequest();	   
 	   if(filledForm.hasErrors()) {

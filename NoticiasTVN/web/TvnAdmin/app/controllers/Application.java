@@ -15,8 +15,8 @@ import java.io.File;
 
 public class Application extends Controller {
 	
-	@With(HttpsAction.class)
-	@SecuredAction
+	//@With(HttpsAction.class)
+	//@SecuredAction
     public static Result index() {
         //return ok(index.render("Your new application is ready."));
 		return redirect(routes.Tvn.list(0, "sort", "asc", ""));				

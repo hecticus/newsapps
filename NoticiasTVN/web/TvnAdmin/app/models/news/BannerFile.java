@@ -1,7 +1,15 @@
 package models.news;
 
+import java.util.List;
+
 import models.HecticusModel;
+
 import org.codehaus.jackson.node.ObjectNode;
+
+import com.avaje.ebean.Page;
+
+import play.data.validation.Constraints;
+import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
@@ -15,16 +23,23 @@ public class BannerFile extends HecticusModel {
 
     @Id
     private Long idBannerFile;
+    private Long idBanner;
     private String name;
     private String location;
     private int width;
     private int height;
-
+    
+    public static Model.Finder<Long,BannerFile> finder =
+            new Model.Finder<Long, BannerFile>(Long.class, BannerFile.class);
+    
+    
+    
     public BannerFile() {
         //contructor por defecto
     }
 
-    public BannerFile(String name, String location, int width, int height) {
+    public BannerFile(Long idBanner, String name, String location, int width, int height) {
+    	this.idBanner = idBanner;
         this.name = name;
         this.location = location;
         this.width = width;
@@ -47,6 +62,14 @@ public class BannerFile extends HecticusModel {
         this.idBannerFile = idBannerFile;
     }
 
+    public Long getIdBanner() {
+        return idBanner;
+    }
+
+    public void setIdBanner(Long idBanner) {
+        this.idBanner = idBanner;
+    }
+    
     public String getName() {
         return name;
     }
@@ -78,4 +101,36 @@ public class BannerFile extends HecticusModel {
     public void setHeight(int height) {
         this.height = height;
     }
+        
+    /**
+     * Return a page of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<BannerFile> page(Long parent, int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                finder.where()
+                		.eq("banner_id_banner", parent)
+                        .ilike("name", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .findPagingList(pageSize)
+                        .getPage(page);
+    }
+        
+    public static List<BannerFile> getAllFiles(){
+        return finder.all();
+    }
+
+    public static BannerFile getFile(long id){
+        return finder.where().eq("id_banner_file", id).findUnique();
+    }
+    
+    public static BannerFile getFileByName(String name){
+        return finder.where().eq("name", name).findUnique();
+    }
+  
 }

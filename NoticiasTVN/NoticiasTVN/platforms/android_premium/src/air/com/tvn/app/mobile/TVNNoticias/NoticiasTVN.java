@@ -20,8 +20,10 @@
 package air.com.tvn.app.mobile.TVNNoticias;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Display;
 
 import org.apache.cordova.*;
 
@@ -38,6 +40,50 @@ public class NoticiasTVN extends CordovaActivity
         // Load your application
      	super.setIntegerProperty("splashscreen", R.drawable.splash);
      	super.clearCache(); // just add This Line
+     	super.appView.clearCache(true);
+     	super.clearCache(); // just add This Line
+     	
+     	int width;
+		int height;
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		
+		if (android.os.Build.VERSION.SDK_INT >= 13){
+			Point size = new Point();
+			display.getSize(size);
+			width = size.x;
+			height = size.y;
+		}else{
+			width = display.getWidth();
+			height = display.getHeight();
+		}
+		int minSize = 0;
+		if(width<height){
+			minSize = width;
+		}else{
+			minSize = height;
+		}
+		
+		int videoValue = R.raw.vbasic;
+		
+		//determinamos el mejor video para la resolucion de pantalla
+		if(minSize<450){
+			//videoValue = R.raw.v480p;
+			videoValue = R.raw.v540x960_level3_1;
+		}else if(minSize<720){
+			videoValue = R.raw.v540x960_level3_1;
+		}else if(minSize<1080){
+			videoValue = R.raw.v720x1280_level3_1;
+		}else{
+			//videoValue = R.raw.v1600_2560;
+			videoValue = R.raw.v720x1280_level3_1;
+		}
+		if (android.os.Build.VERSION.SDK_INT < 9){
+			//videoValue = R.raw.vbasic;
+		}
+		//videoValue = R.raw.test;
+		super.setStringProperty("SplashScreenVideo", "android.resource://com.tvn.app.mobile.TVNNoticias/" + videoValue);
+		
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")

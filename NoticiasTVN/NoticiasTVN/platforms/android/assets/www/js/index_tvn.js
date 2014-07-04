@@ -525,14 +525,14 @@ function initBasicApp(){
 			myScrollPage = new iScroll('spage',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
 				
 				onBeforeScrollEnd: function(e){		
-					if(parseInt(this.currPageX + this.dirX)>=0){
+					/*if(parseInt(this.currPageX + this.dirX)>=0){
 						$('#header-title').html(arrCategory[parseInt(this.currPageX + this.dirX)].title);	
-					}
+					}*/
 				}, onScrollEnd:function () {
 										
 					if (this.currPageX!=this.lastPageX) {
 						
-						
+						$('#header-title').html(arrCategory[this.currPageX].title);
 						
 						if (typeof window[arrPage[this.lastPageX]] != 'undefined') {
    							window[arrPage[this.lastPageX]].scrollTo(0,0,0);
@@ -950,6 +950,19 @@ function initBasicApp(){
 				$('#datacontent').attr('class','page transition left');
 					
 									
+			}
+			
+			function goToNewsPageFromPush(newsArray){
+				
+				$('.news-datacontent').hide();	
+				$('.back img').addClass('content');
+				$('.back img, .share').removeClass('hidden'); 				  			
+				myScrollDatacontent.scrollTo(0,0,0);							
+				$($(this).data('news')).show();								
+				$('.position').html('1');
+				$('#datacontent').attr('class','page transition left');
+				
+				$.fsetNewsDatacontents(newsArray);				
 			}
     		
     		
@@ -1884,9 +1897,9 @@ function initBasicApp(){
 		    	pushInterval = window.setInterval(function(){
 					if(isLoaded){
 						newsDatacontent = extra_params;
-						goToNewsPage();
 						isCommingFromPush = true;
 						stopPushInterval();
+						getPushNews();
 					}
 					
 				},500);
@@ -1898,6 +1911,24 @@ function initBasicApp(){
 			var isCommingFromPush;
 			var isLoaded;
 			var pushInterval;
+			
+			//Get news for push
+			function getPushNews() {
+				var urlComplete = urlServices+"/newsapi/v1/news/"+newsDatacontent;
+				myJson=$.fGetAjaXJSON(urlComplete);
+				myJson.done(function(json) {
+					var itemArray = null;
+					if(json["noticias"] != null){
+						itemArray = json["noticias"];
+						//console.log("itemArray "+itemArray.length);
+					}
+					//console.log("itemArrayOBJ "+JSON.stringify(itemArray));
+					if(itemArray != null && itemArray.length > 0){
+						goToNewsPageFromPush(itemArray);
+					}
+
+				});
+    		};
 
 
 
@@ -2354,7 +2385,7 @@ var app = {
 		
 		clearPageStatus();*/
 		
-		
+		imageTypeNews = getImageSizeType();
 		//init page
 		getCategoriesForApp();
 		//endOfAppInitialization();

@@ -1,0 +1,52 @@
+@(bannerForm: Form[models.news.Banner])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+    @helper.form(action = controllers.routes.Banner.submit) {
+        
+        <fieldset>
+            <legend>Account informations</legend>
+            
+            @inputText(
+                bannerForm("name"), 
+                '_label -> "Name", 
+                '_help -> "Please choose a valid name.",
+                '_error -> bannerForm.globalError
+            )
+               
+			@inputText(
+                bannerForm("link"), 
+                '_label -> "Link", 
+                '_help -> "Please choose a valid link.",
+                '_error -> bannerForm.globalError
+            )               
+                        
+			@textarea(
+				bannerForm("description"), 
+            	'_label -> "Description", 'cols -> 50,
+            	'_help -> "Please choose a valid description."
+        	)
+            
+            @select(
+                bannerForm("status"), 
+                options("0"-> "Inactivo", "1"-> "Active"),
+                '_default -> "--- Status ---",
+                '_label -> "Status",
+                '_error -> bannerForm("status").error.map(_.withMessage("Please select the status"))
+            )
+            
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Create this Banner">
+            <a href="@controllers.routes.Banner.list()" class="btn">Cancel</a>
+        </div>
+        
+    }
+    
+}

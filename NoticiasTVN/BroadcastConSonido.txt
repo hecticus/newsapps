@@ -1,0 +1,3 @@
+Para hacer que el broadcast de Noticias TVN tenga sonido agregar el campo "sound":"noticias.aiff" en "Base Users" como se muestra en este ejemplo:
+
+{"source":"business_push","flag_rebilling":0,"platforms":["android","ios"],"configFile":"../configs/NoticiasTVN/pushConfig.php", "sound":"noticias.aiff"}

@@ -191,6 +191,17 @@ function getBigImagesArrayForNews(news){
 
 function getListImageForNews(news, isMainImage){
 	var imageFile = "";
+	var imageTypeName;
+	if(imageTypeNews == GET_IMAGE_MID){
+		imageTypeName = "_med.";
+		//console.log("IMAGE MED");
+	}else if(imageTypeNews == GET_IMAGE_HI){
+		imageTypeName = "_high.";
+		//console.log("IMAGE HIGH");
+	}else{
+		imageTypeName = "_low.";
+		//console.log("IMAGE LOW");
+	}
 	try{
 		//console.log("NEWS: "+JSON.stringify(news));
 		if(news["hecticus_img"] != null && 
@@ -201,20 +212,8 @@ function getListImageForNews(news, isMainImage){
 				imageFile = cleanExternalURL(news["hecticus_img"]["originalimage"]);
 				//console.log("ORIGINAL "+imageFile);
 			}else{
-				var screenwidth = getScreenWidth();
-				//console.log("SCREEN: "+screenwidth);
-				if(screenwidth <= 480){
-					imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_low.");
-					//console.log("LOW "+imageFile);
-				}else{
-					if(screenwidth <= 720){
-						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_med.");
-						//console.log("MED "+imageFile);
-					}else{
-						imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],"_high.");
-						//console.log("HIGH "+imageFile);
-					}
-				}
+				//GET THE CORRECT IMAGE
+				imageFile = getCorrectImageBySize(news["hecticus_img"]["resizedimage"],imageTypeName);
 			}
 		}else{
 			//console.log("OLDIMG");
@@ -260,6 +259,82 @@ function getScreenHeight(){
 		return window.outerHeight;
 	}
 }
+
+var PD_LOW = 0;
+var PD_MID = 1;
+var PD_HI = 2;
+var PD_EXHI = 3;
+
+function getPixelDensity(){
+	var pixelRatio = window.devicePixelRatio;
+	if(pixelRatio >= 2) {
+		// pixelratio 2 or above – Extra high DPI
+		//console.log("EXTRA HIGH "+pixelRatio);
+		return PD_EXHI;
+	} else if (pixelRatio >= 1.5) {
+		// Pixelratio 1.5 or above – High DPI
+		//console.log("HIGH "+pixelRatio);
+		return PD_HI;
+	} else if (pixelRatio <= 0.75) {
+		// Pixelratio 0.75 or less – Low DPI
+		//console.log("LOW "+pixelRatio);
+		return PD_LOW;
+	} else {
+		// Pixelratio 1 or undetected. – Medium DPI
+		//console.log("MEDIUM "+pixelRatio);
+		return PD_MID;
+	}
+}
+
+var GET_IMAGE_LOW = 0;
+var GET_IMAGE_MID = 1;
+var GET_IMAGE_HI = 2;
+
+function getImageSizeType(){
+	var pd = getPixelDensity();
+	var screenwidth = getScreenWidth();
+	var screenheight = getScreenHeight();
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		if( pd == PD_HI || pd == PD_EXHI ){
+			if(screenwidth < 768){
+				//return GET_IMAGE_MID;
+				return GET_IMAGE_LOW;
+			}else{
+				return GET_IMAGE_MID;
+				//return GET_IMAGE_HI;
+			}
+		}else{
+			if(screenwidth < 768){
+				return GET_IMAGE_LOW;
+			}else{
+				//return GET_IMAGE_MID;
+				return GET_IMAGE_LOW;
+			}
+		}
+	}else{
+		//ANDROID
+		if( pd == PD_HI || pd == PD_EXHI ){
+			if(screenwidth < 768){
+				//return GET_IMAGE_MID;
+				return GET_IMAGE_LOW;
+			}else{
+				return GET_IMAGE_MID;
+				//return GET_IMAGE_HI;
+			}
+		}else{
+			if(screenwidth < 768){
+				return GET_IMAGE_LOW;
+			}else{
+				//return GET_IMAGE_MID;
+				return GET_IMAGE_LOW;
+			}
+		}
+	}
+}
+
+var imageTypeNews;
 
 //DEBUG
 function printToLog(element){

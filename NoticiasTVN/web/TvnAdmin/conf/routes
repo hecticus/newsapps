@@ -47,7 +47,7 @@ POST    /newsapi/v1/news/search/list                    controllers.newsapi.News
 #insert news
 POST    /newsapi/v1/news/insert                         controllers.newsapi.NewsController.insert()
 POST    /newsapi/v1/news/update                         controllers.newsapi.NewsController.update()
-#POST    /newsapi/v1/news/insertTrending                         controllers.newsapi.NewsController.insertTrending()
+#POST    /newsapi/v1/news/insertTrending                controllers.newsapi.NewsController.insertTrending()
 
 #update news
 
@@ -72,7 +72,7 @@ POST    /newsapi/v1/news/trendingtopics/insert          controllers.newsapi.Tren
 GET     /newsapi/v1/banners/get                         controllers.newsapi.BannerController.getActiveBanner()
 
 #ImageUpload Yo Informo
-POST    /newsapi/v1/yoinformo/uploadimage               controllers.newsapi.YoInformoController.uploadImage()
+POST    /newsapi/v1/yoinformo/uploadimage/       controllers.newsapi.YoInformoController.uploadImage()
 
 GET    /newsapi/v1/yoinformo/getImg/*name                    controllers.newsapi.YoInformoController.getImg(name : String)
 
@@ -80,6 +80,26 @@ GET    /newsapi/v1/yoinformo/getImg/*name                    controllers.newsapi
 
 # Default path will just redirect to the category list
 GET     /tvn					controllers.Tvn.index()
+
+# Banners list (look at the default values for pagination parameters)
+GET     /banner/list			controllers.Banner.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /banner/lsort			controllers.Banner.lsort()
+GET     /file/list/:parent		controllers.Banner.listFile(parent:Long, p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+
+# Add banner
+GET     /banner/blank		controllers.Banner.blank()
+POST    /banner				controllers.Banner.submit()
+GET     /file/blank/:parent	controllers.Banner.blankFile(parent:Long)
+POST    /file/uploadimage   controllers.Banner.uploadImage()
+
+# Edit existing banner
+GET     /banner/:id				controllers.Banner.edit(id:Long)
+POST    /banner/:id				controllers.Banner.update(id:Long)
+GET     /banner/sort/:ids		controllers.Banner.sort(ids:String)
+
+# Delete a banner
+POST    /banner/:id/delete		controllers.Banner.delete(id:Long)
+
 
 # Categories list (look at the default values for pagination parameters)
 GET     /tvn/list				controllers.Tvn.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")

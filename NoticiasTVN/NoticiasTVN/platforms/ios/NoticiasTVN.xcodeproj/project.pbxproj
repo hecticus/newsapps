@@ -61,6 +61,8 @@
 		6F6DDD471875C5050090B0E8 /* NoticiasTVN-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */; };
 		6F6DDD491875C51A0090B0E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F6DDD481875C51A0090B0E8 /* config.xml */; };
 		6F6DDD521875F7A40090B0E8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */; };
+		6F7342B01964BE40006EE875 /* v540x960_level3_1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F7342AD1964BE40006EE875 /* v540x960_level3_1.mp4 */; };
+		6F7342B11964BE40006EE875 /* v720x1280_level3_1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6F7342AE1964BE40006EE875 /* v720x1280_level3_1.mp4 */; };
 		6F7D35D918D8EF8E006C4BA4 /* icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */; };
 		6FAE6645190AA3190041A151 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE6644190AA3190041A151 /* CDVInAppBrowser.m */; };
 		6FC8D6AB18CE1EC200B5D007 /* noticias.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 6FC8D6AA18CE1EC200B5D007 /* noticias.aiff */; };
@@ -165,6 +167,8 @@
 		6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "NoticiasTVN-Info.plist"; path = "NoticiasTVN/NoticiasTVN-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6F6DDD481875C51A0090B0E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = NoticiasTVN/config.xml; sourceTree = "<group>"; };
 		6F6DDD511875F7A40090B0E8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		6F7342AD1964BE40006EE875 /* v540x960_level3_1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v540x960_level3_1.mp4; sourceTree = "<group>"; };
+		6F7342AE1964BE40006EE875 /* v720x1280_level3_1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v720x1280_level3_1.mp4; sourceTree = "<group>"; };
 		6F7D35D818D8EF8D006C4BA4 /* icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-iPad@2x.png"; sourceTree = "<group>"; };
 		6FAE6643190AA3190041A151 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVInAppBrowser.h; sourceTree = "<group>"; };
 		6FAE6644190AA3190041A151 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVInAppBrowser.m; sourceTree = "<group>"; };
@@ -258,6 +262,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6F7342AB1964BE40006EE875 /* video */,
 				6FC8D6A718CE05AC00B5D007 /* sounds */,
 				6F6DDD461875C5050090B0E8 /* NoticiasTVN-Info.plist */,
 				6F6DDD101875C4F80090B0E8 /* es.lproj */,
@@ -438,6 +443,16 @@
 			path = NoticiasTVN/Resources/splash;
 			sourceTree = SOURCE_ROOT;
 		};
+		6F7342AB1964BE40006EE875 /* video */ = {
+			isa = PBXGroup;
+			children = (
+				6F7342AD1964BE40006EE875 /* v540x960_level3_1.mp4 */,
+				6F7342AE1964BE40006EE875 /* v720x1280_level3_1.mp4 */,
+			);
+			name = video;
+			path = NoticiasTVN/Resources/video;
+			sourceTree = SOURCE_ROOT;
+		};
 		6FAE6642190AA3190041A151 /* org.apache.cordova.inappbrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,8 +579,10 @@
 				6F6DDCFA1875C4B90090B0E8 /* MainViewController.xib in Resources */,
 				6F6DDD3F1875C4F80090B0E8 /* Default-568h@2x~iphone.png in Resources */,
 				6F6DDD3D1875C4F80090B0E8 /* icon@2x.png in Resources */,
+				6F7342B01964BE40006EE875 /* v540x960_level3_1.mp4 in Resources */,
 				6F6DDD471875C5050090B0E8 /* NoticiasTVN-Info.plist in Resources */,
 				6F6DDD311875C4F80090B0E8 /* icon-40@2x.png in Resources */,
+				6F7342B11964BE40006EE875 /* v720x1280_level3_1.mp4 in Resources */,
 				6F6DDD341875C4F80090B0E8 /* icon-60.png in Resources */,
 				6F6DDD2F1875C4F80090B0E8 /* Localizable.strings in Resources */,
 				6F6DDD451875C4F80090B0E8 /* Default~iphone.png in Resources */,
