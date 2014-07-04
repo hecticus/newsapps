@@ -525,14 +525,14 @@ function initBasicApp(){
 			myScrollPage = new iScroll('spage',0,{snap:true,momentum: false,hScroll: true, vScroll: false,hScrollbar: false, lockDirection: true, bounce:true,
 				
 				onBeforeScrollEnd: function(e){		
-					if(parseInt(this.currPageX + this.dirX)>=0){
+					/*if(parseInt(this.currPageX + this.dirX)>=0){
 						$('#header-title').html(arrCategory[parseInt(this.currPageX + this.dirX)].title);	
-					}
+					}*/
 				}, onScrollEnd:function () {
 										
 					if (this.currPageX!=this.lastPageX) {
 						
-						
+						$('#header-title').html(arrCategory[this.currPageX].title);
 						
 						if (typeof window[arrPage[this.lastPageX]] != 'undefined') {
    							window[arrPage[this.lastPageX]].scrollTo(0,0,0);
