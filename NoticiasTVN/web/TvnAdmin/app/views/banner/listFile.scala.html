@@ -1,9 +1,9 @@
-@(currentPage: com.avaje.ebean.Page[models.news.Category], currentSortBy: String, currentOrder: String, currentFilter: String)
+@(currentPage: com.avaje.ebean.Page[models.news.BannerFile], parent: Long, currentSortBy: String, currentOrder: String, currentFilter: String)
 
 @****************************************
 * Helper generating navigation links    *
 ****************************************@
-@link(newPage:Int, newSortBy:String) = @{
+@link(parent:Long, newPage:Int, newSortBy:String) = @{
     
     var sortBy = currentSortBy
     var order = currentOrder
@@ -22,24 +22,16 @@
     }
     
     // Generate the link
-    controllers.routes.Tvn.list(newPage, sortBy, order, currentFilter)
+    controllers.routes.Banner.listFile(parent, newPage, sortBy, order, currentFilter)
     
 }
 
-@**********************************
-* Helper generating table headers *
-***********************************@
-@header(key:String, title:String) = {
-    <th class="@key.replace(".","_") header @if(currentSortBy == key) @{if(currentOrder == "asc") "headerSortDown" else "headerSortUp"}">
-        <a href="@link(0, key)">@title</a>
-    </th>
-}
 
 @title = {}
 
 @main(title, nav = "") {
     
-    <h1 id="homeTitle">@Messages("categories.list.title", currentPage.getTotalRowCount)</h1>
+    <h1 id="homeTitle">@Messages("banners.list.title", currentPage.getTotalRowCount)</h1>
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
@@ -53,10 +45,10 @@
 
 
     <div id="actions">        
-        <form action="@link(0, "name")" method="GET">
-            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by category name...">
+        <form action="@link(parent,0, "name")" method="GET">
+            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by banner name...">
             <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
-            <a class="btn success" id="add" href="@controllers.routes.Tvn.blank">Add a new category</a>
+            <a class="btn success" id="add" href="@controllers.routes.Banner.blank">Add a new banner</a>
         </form>
     </div>
     
@@ -71,27 +63,19 @@
         <table class="computers zebra-striped">
             <thead>
                 <tr>
-                    @header("name", "Name")
-                    @header("feedUrl", "Feed")
-                    @header("pushable", "Pushable")
+                	<th>File</th>
+                	<th>Width</th>
+                	<th>Height</th>
                 </tr>
             </thead>
             <tbody>
-
-                @for(category <- currentPage.getList) {
-                    <tr data-id="@category.idCategory">
-                        <td><a href="@controllers.routes.Tvn.edit(category.idCategory)">@category.name</a></td>
-                        <td>@category.feedUrl</td>
-                        <td>
-                            @if(category.pushable) {
-                                Si
-                            } else {
-                                No
-                            }
-                        </td>                        
-                    </tr>
+            	@for(file <- currentPage.getList) {
+                    <tr data-id="@file.getIdBannerFile()">
+                        <td><img src="@file.getLocation()" alt="@file.getName()" style="width:75%; height: auto;"></td>
+                        <td style="text-align: center; font-size: 20px; vertical-align: middle; " >@file.getWidth()</td>
+                        <td style="text-align: center; font-size: 20px; vertical-align: middle;" >@file.getHeight()</td>
+                    </tr>                    
                 }
-
             </tbody>
         </table>
 
@@ -99,7 +83,7 @@
             <ul>
                 @if(currentPage.hasPrev) {
                     <li class="prev">
-                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                        <a href="@link(parent,currentPage.getPageIndex - 1, null)">&larr; Previous</a>
                     </li>
                 } else {
                     <li class="prev disabled">
@@ -111,7 +95,7 @@
                 </li>
                 @if(currentPage.hasNext) {
                     <li class="next">
-                        <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                        <a href="@link(parent,currentPage.getPageIndex + 1, null)">Next &rarr;</a>
                     </li>
                 } else {
                     <li class="next disabled">
@@ -124,3 +108,6 @@
     }
         
 }
+
+
+

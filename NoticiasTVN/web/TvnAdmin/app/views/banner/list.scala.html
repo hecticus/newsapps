@@ -1,4 +1,4 @@
-@(currentPage: com.avaje.ebean.Page[models.news.Category], currentSortBy: String, currentOrder: String, currentFilter: String)
+@(currentPage: com.avaje.ebean.Page[models.news.Banner], currentSortBy: String, currentOrder: String, currentFilter: String)
 
 @****************************************
 * Helper generating navigation links    *
@@ -22,7 +22,7 @@
     }
     
     // Generate the link
-    controllers.routes.Tvn.list(newPage, sortBy, order, currentFilter)
+    controllers.routes.Banner.list(newPage, sortBy, order, currentFilter)
     
 }
 
@@ -39,7 +39,7 @@
 
 @main(title, nav = "") {
     
-    <h1 id="homeTitle">@Messages("categories.list.title", currentPage.getTotalRowCount)</h1>
+    <h1 id="homeTitle">@Messages("banners.list.title", currentPage.getTotalRowCount)</h1>
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
@@ -54,9 +54,9 @@
 
     <div id="actions">        
         <form action="@link(0, "name")" method="GET">
-            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by category name...">
+            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by banner name...">
             <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
-            <a class="btn success" id="add" href="@controllers.routes.Tvn.blank">Add a new category</a>
+            <a class="btn success" id="add" href="@controllers.routes.Banner.blank">Add a new banner</a>
         </form>
     </div>
     
@@ -72,23 +72,28 @@
             <thead>
                 <tr>
                     @header("name", "Name")
-                    @header("feedUrl", "Feed")
-                    @header("pushable", "Pushable")
+                    @header("description", "Description")
+                    @header("status", "Status")                    
+                    <th style="text-align: center;">Files</th>                    
                 </tr>
             </thead>
             <tbody>
-
-                @for(category <- currentPage.getList) {
-                    <tr data-id="@category.idCategory">
-                        <td><a href="@controllers.routes.Tvn.edit(category.idCategory)">@category.name</a></td>
-                        <td>@category.feedUrl</td>
+                @for(banner <- currentPage.getList) {
+                    <tr data-id="@banner.getIdBanner()">
+                        <td><a href="@controllers.routes.Banner.edit(banner.getIdBanner())">@banner.getName()</a></td>
+                        <td>@banner.getDescription()</td>
                         <td>
-                            @if(category.pushable) {
-                                Si
+                            @if(banner.getStatus() == 1) {
+                                Activo
                             } else {
-                                No
+                                Inactivo
                             }
-                        </td>                        
+                        </td> 
+                        <td style="text-align: center;" >
+                        
+                        	<a href="@controllers.routes.Banner.blankFile(banner.getIdBanner())">(@banner.getFileList().length)</a>
+                        	<!--a href="@controllers.routes.Banner.listFile(banner.getIdBanner())">(@banner.getFileList().length)</a-->
+                        </td>                       
                     </tr>
                 }
 

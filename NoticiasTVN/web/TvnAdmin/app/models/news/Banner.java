@@ -1,12 +1,19 @@
 package models.news;
 
 import models.HecticusModel;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+import org.springframework.validation.annotation.Validated;
+
+import com.avaje.ebean.Page;
+
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -21,16 +28,20 @@ public class Banner extends HecticusModel {
     private Long idBanner;
     private String name;
     private String description;
+
+    @Constraints.Required
+	@Constraints.Pattern(value = "(@)?(href=')?(HREF=')?(HREF=\")?(href=\")?(http://)?[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?", message="Example: http://www.hecticus.com")
     private String link;
     private Integer status;
-
+    private Integer sort;
+    
     //lista de archivos
     @OneToMany(cascade= CascadeType.ALL)
     private List<BannerFile> fileList;
 
-    private static Model.Finder<Long,Banner> finder =
+    public static Model.Finder<Long,Banner> finder =
             new Model.Finder<Long, Banner>(Long.class, Banner.class);
-
+    
     //constants
     public static final int STATUS_ACTIVE = 1;
     public static final int STATUS_INACTIVE = 0;
@@ -39,19 +50,12 @@ public class Banner extends HecticusModel {
         //contructor por defecto
     }
 
-    public Banner(String name, String description, String link, Integer status) {
+    public Banner(String name, String description, String link, Integer status, Integer sort) {
         this.name = name;
         this.description = description;
         this.link = link;
         this.status = status;
-    }
-
-    public static Banner getBanner(long id){
-        return finder.where().eq("id_banner", id).findUnique();
-    }
-
-    public static Banner getActiveBanner(){
-        return finder.where().eq("status", STATUS_ACTIVE).setMaxRows(1).findUnique();
+        this.sort = sort;
     }
 
     public static void activateBanner(){
@@ -118,4 +122,50 @@ public class Banner extends HecticusModel {
     public void setFileList(List<BannerFile> fileList) {
         this.fileList = fileList;
     }
+    
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+    
+    
+    /**
+     * Return a page of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<Banner> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                finder.where()
+                        .ilike("name", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .findPagingList(pageSize)
+                        .getPage(page);
+    }
+    
+    
+    public static List<Banner> getAllBanners(){
+        return finder.all();
+    }
+
+    public static Banner getBanner(long id){
+        return finder.where().eq("id_banner", id).findUnique();
+    }
+
+    public static Banner getActiveBanner(){
+        return finder.where().eq("status", STATUS_ACTIVE).setMaxRows(1).findUnique();
+    }
+    
+    public static Banner getBannersByName(String name){
+        return finder.where().eq("name", name).findUnique();
+    }
+    
+    
 }

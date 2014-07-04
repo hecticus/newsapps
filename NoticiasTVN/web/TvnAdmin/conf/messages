@@ -1,4 +1,6 @@
 # Messages
 
+banners.list.title={0,choice,0#No banners|1#One banner|1<{0,number,integer} banners} found
+files.list.title={0,choice,0#No files|1#One file|1<{0,number,integer} banners} found
 categories.list.title={0,choice,0#No categories|1#One category|1<{0,number,integer} categories} found
 users.list.title={0,choice,0#No users|1#One user|1<{0,number,integer} users} found

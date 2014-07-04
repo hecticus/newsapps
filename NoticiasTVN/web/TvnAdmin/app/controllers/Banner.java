@@ -1,0 +1,239 @@
+package controllers;
+
+import static play.data.Form.form;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.UUID;
+
+import org.codehaus.jackson.node.ObjectNode;
+
+import com.hecticus.rackspacecloud.RackspaceCreate;
+import com.hecticus.rackspacecloud.RackspacePublish;
+
+import controllers.newsapi.YoInformoController;
+import login.authorization.WithProfile;
+import models.Config;
+import models.news.BannerFile;
+import models.news.BannerResolution;
+import models.news.Category;
+import play.api.templates.Html;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Result;
+import utils.Utils;
+import views.html.banner.*;
+import securesocial.core.java.SecureSocial.SecuredAction;
+
+@SuppressWarnings("unused")
+public class Banner extends HecticusController {
+
+	
+	public static final String imageDir = "files/banneruploader/";
+    private static final String containerName = "tvn_advertising_upload";
+    private static final int TTL = 900;
+	
+    final static Form<models.news.BannerFile> BannerFileform = form(models.news.BannerFile.class);
+	final static Form<models.news.Banner> BannerForm = form(models.news.Banner.class);
+	public static Result GO_HOME = redirect(routes.Banner.list(0, "sort", "asc", ""));
+		
+	public static Result index() {
+		return GO_HOME;
+	}	
+		
+	public static Result blank() {
+	   return ok(form.render(BannerForm));
+	}
+	
+	public static Result blankFile(Long parent) {		
+		BannerResolution objResolution= new BannerResolution();
+		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();		
+		return ok(upload.render(parent,lstResolution));
+	}
+	
+	public static Result edit(Long id) {
+        Form<models.news.Banner> filledForm = BannerForm.fill(
+        		models.news.Banner.finder.byId(id)
+        );
+        return ok(
+            edit.render(id, filledForm)
+        );
+    }
+	
+	public static Result update(Long id) {
+		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
+		if(filledForm.hasErrors()) {
+			return badRequest(edit.render(id, filledForm));
+		}
+		filledForm.get().update(id);
+		flash("success", "Banner " + filledForm.get().getName() + " has been updated");
+		return GO_HOME;
+	}	
+	
+	
+	
+	public static Result listFile(Long parent, int page, String sortBy, String order, String filter) {
+        return ok(
+            listFile.render(
+            	models.news.BannerFile.page(parent, page, 10, sortBy, order, filter),
+            	parent, sortBy, order, filter
+            )
+        );
+    }
+	
+	public static Result list(int page, String sortBy, String order, String filter) {
+        return ok(
+            list.render(
+            	models.news.Banner.page(page, 10, sortBy, order, filter),
+                sortBy, order, filter
+            )
+        );
+    }
+	
+	public static Result sort(String ids) {		
+		String[] aids = ids.split(",");
+		
+		for (int i=0; i<aids.length; i++) {
+			models.news.Banner oBanner = models.news.Banner.finder.byId(Long.parseLong(aids[i]));
+			oBanner.setSort(i);
+			oBanner.save();
+		}
+		
+		return ok("Fine!");		
+	}
+	
+	public static Result lsort() {
+		 return ok(sort.render(models.news.Banner.page(0, 0,"sort", "asc", "")));
+	}	
+	
+	public static Result delete(Long id) {
+		models.news.Banner.finder.ref(id).delete();
+		flash("success", "Banner has been deleted");
+	    return GO_HOME;	    
+	}	
+	
+	public static Result submit() {
+
+	   Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
+	   if(filledForm.hasErrors()) {
+           return badRequest(form.render(filledForm));         
+       } else {
+    	   models.news.Banner gfilledForm = filledForm.get();     	   
+    	   gfilledForm.setSort(models.news.Banner.finder.findRowCount());
+    	   gfilledForm.save();
+    	   flash("success", "Banner " + filledForm.get().getName() + " has been created");
+    	   return GO_HOME;  
+       }
+
+	}
+
+	 public static Result uploadImage(){
+		 
+        try {
+        	 
+        	 
+        	BannerFile objBannerFile = new BannerFile();
+        	Form<BannerFile> filledForm = BannerFileform.bindFromRequest();
+        	         	 
+        	Http.MultipartFormData body = request().body().asMultipartFormData();
+            List<Http.MultipartFormData.FilePart> lstPicture = body.getFiles();  
+             
+        	for (int i = 0; i < lstPicture.size(); i++) {
+        		
+        		Http.MultipartFormData.FilePart picture = getImage(lstPicture.get(i).getKey());        		
+        	    
+        		
+        		
+        		if (picture != null) {
+                	
+                    String fileName = picture.getFilename();
+                    /*String contentType = picture.getContentType();
+                    File file = picture.getFile();
+                    Calendar today = new GregorianCalendar(TimeZone.getDefault());
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    sdf.setTimeZone(TimeZone.getDefault());
+                    UUID idFile = UUID.randomUUID();
+                    File dest = new File(Config.getString("img-Folder-Route-Banner")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+                    file.renameTo(dest);
+                    
+                    boolean useCDN = Config.getInt("use-cdn")==1;
+                    if(useCDN && !uploadAndPublish(dest)){
+                        Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
+                        return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
+                    
+                    }
+                    
+                    ArrayList data = new ArrayList();
+                    String urlPrefix = useCDN?Config.getString("rks-CDN-URL-BANNER"):Config.getString("img-WS-Route");
+                    data.add(urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+                    Utils.printToLog(Banner.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_INFO);
+                    if(useCDN) dest.delete();
+                    ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
+                    */
+        			
+                
+                    objBannerFile.setIdBanner(Long.parseLong(filledForm.field("parent").value()));
+        			objBannerFile.setName(fileName);
+        			objBannerFile.setWidth(500);
+        			objBannerFile.setHeight(500);
+                    //return ok(response);
+                    
+                }else{
+                	
+                    Utils.printToLog(Banner.class, "", "no hay imagen a subir", false, null, "", Config.LOGGER_ERROR);
+                    return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
+                }
+        		
+        		
+        	}
+        	
+        	return ok("ready");	
+        	
+        	 
+        	
+            
+            
+        }catch (Exception ex){
+            Utils.printToLog(Banner.class, "", "ocurrio un error desconocido", false, ex, "", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+	 }
+	 	 
+	 private static boolean uploadAndPublish(File file) {
+
+	        String username = "hctcsproddfw";
+	        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
+	        String provider = "cloudfiles-us";
+	        RackspaceCreate upload = new RackspaceCreate(username, apiKey, provider);
+	        RackspacePublish pub = new RackspacePublish(username, apiKey, provider);
+	        long init = System.currentTimeMillis();
+	        int retry = 3;
+	        if(upload == null || pub == null){
+	            return false;
+	        }
+	        try {
+	            upload.createContainer(containerName);
+	            Utils.printToLog(Banner.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_INFO);
+	            //resources
+	            boolean uploaded = uploadFile(upload, retry, containerName, file, "advertising", init);
+	            Utils.printToLog(Banner.class, "", "Archivo" + (!uploaded?" NO":"") + " subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_INFO);
+	            if(uploaded){
+	                //publish
+	                pub.enableCdnContainer(containerName, TTL);
+	                Utils.printToLog(Banner.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_INFO);
+	            }
+	            return uploaded;
+	        }catch (Exception ex){
+	            Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
+	            return false;
+	        }
+	        
+	 }	 
+	
+}

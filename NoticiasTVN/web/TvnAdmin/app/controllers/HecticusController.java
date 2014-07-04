@@ -1,13 +1,16 @@
 package controllers;
 
 import models.Config;
+
 import org.apache.commons.codec.digest.DigestUtils;
+
 import play.mvc.Controller;
 import play.libs.Json;
 
 import javax.persistence.MappedSuperclass;
 
 import org.codehaus.jackson.node.ObjectNode;
+
 import play.mvc.Http;
 
 import java.io.File;
@@ -16,10 +19,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.hecticus.rackspacecloud.RackspaceCreate;
+
 import utils.Utils;
 
 /**
@@ -57,10 +62,18 @@ public class HecticusController extends Controller {
     public static Http.MultipartFormData.FilePart getImage(){
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart picture = body.getFile("file");
-
         return picture;
     }
 
+    public static Http.MultipartFormData.FilePart getImage(String field){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart picture = body.getFile(field);
+        return picture;
+    }
+    
+   
+    
+    
     public static ObjectNode hecticusResponse(int code, String description, String parentObj, ArrayList data) {
         ObjectNode tr = Json.newObject();
         tr.put("error", code);
