@@ -22,8 +22,7 @@ import javax.persistence.*;
 public class BannerFile extends HecticusModel {
 
     @Id
-    private Long idBannerFile;
-    private Long idBanner;
+    private Long idBannerFile; 
     private String name;
     private String location;
     private int width;
@@ -38,8 +37,8 @@ public class BannerFile extends HecticusModel {
         //contructor por defecto
     }
 
-    public BannerFile(Long idBanner, String name, String location, int width, int height) {
-    	this.idBanner = idBanner;
+    public BannerFile(String name, String location, int width, int height) {
+    	
         this.name = name;
         this.location = location;
         this.width = width;
@@ -62,13 +61,6 @@ public class BannerFile extends HecticusModel {
         this.idBannerFile = idBannerFile;
     }
 
-    public Long getIdBanner() {
-        return idBanner;
-    }
-
-    public void setIdBanner(Long idBanner) {
-        this.idBanner = idBanner;
-    }
     
     public String getName() {
         return name;

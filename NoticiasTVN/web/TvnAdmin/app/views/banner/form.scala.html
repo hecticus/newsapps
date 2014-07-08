@@ -1,4 +1,4 @@
-@(bannerForm: Form[models.news.Banner])
+@(bannerForm: Form[models.news.Banner], resolutions: List[models.news.BannerResolution])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -7,10 +7,17 @@
 
 @main(title, nav = "create") {
     
-    @helper.form(action = controllers.routes.Banner.submit) {
+     @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    } 
+
+
+    @helper.form(action = controllers.routes.Banner.submit, 'enctype -> "multipart/form-data") {
         
         <fieldset>
-            <legend>Account informations</legend>
+            <legend>Banner informations</legend>
             
             @inputText(
                 bannerForm("name"), 
@@ -40,6 +47,19 @@
                 '_error -> bannerForm("status").error.map(_.withMessage("Please select the status"))
             )
             
+        </fieldset>
+
+		<fieldset>
+            <legend>Files uploads</legend>
+            @for((resolution,index) <- resolutions.zipWithIndex) {
+	            <div class="clearfix  " id="file[@index]_field">	    			
+	    			<div class="input">
+	    				<input type="file" name="file[@index]" required = "required" >
+	        			<span class="help-block">Please choose a valid resolution of width @resolution.getWidth().</span> 
+	    			</div>
+				</div>
+            }
+      
         </fieldset>
 
         <div class="actions">

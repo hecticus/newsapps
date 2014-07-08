@@ -1,4 +1,4 @@
-@(id: Long, bannerForm: Form[models.news.Banner])
+@(id: Long, bannerForm: Form[models.news.Banner], files: List[models.news.BannerFile])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -12,7 +12,8 @@
     @form(controllers.routes.Banner.update(id)) {
         
         <fieldset>
-        
+        	<legend>Banner informations</legend>
+        	
         	@inputText(bannerForm("name"), '_label -> "Name", '_help -> "Please choose a valid name.", '_error -> bannerForm.globalError)
         	@inputText(bannerForm("link"), '_label -> "Link", '_help -> "Please choose a valid link.", '_error -> bannerForm.globalError)
         	@textarea(bannerForm("description"), '_label -> "Description", 'cols -> 50, '_help -> "Please choose a valid description.")                        
@@ -25,21 +26,25 @@
                 '_error -> bannerForm("status").error.map(_.withMessage("Please select the status")),
                 'showConstraints -> true
             )
-            
-            
-            
-            <div class="clearfix" id="add_file_field">
-    			<label for="add_file"></label>
-    			<div class="input">
-        			<a href="@controllers.routes.Banner.blankFile(id)" class="btn success">Add files</a> 
-    			</div>
-			</div>
-            
-            
-         	
 			
         </fieldset>
         
+        <fieldset>
+            <legend>Files uploads</legend>
+            @for((file,index) <- files.zipWithIndex) {
+	            <div class="clearfix  " id="file[@index]_field">	    			
+	    			<div class="input">
+	    				<img src="@file.getLocation()" alt="@file.getName()" style="width:45%; height: auto; vertical-align: middle">	    				
+	        			<a class="removePhone btn danger">Edit</a>
+	        			<!--input type="file" name="file[@index]" required = "required" >        	    				
+	        			<span class="help-inline"></span-->
+	        			<!--span class="help-block">Please choose a valid resolution of width @file.getWidth().</span-->
+	    			</div>
+				</div>
+            }
+      
+        </fieldset>
+  
         <div class="actions">        	        	
             <input type="submit" value="Save this banner" onclick="return confirm('Are you sure?');" class="btn primary"> or 
             <a href="@controllers.routes.Banner.list()" class="btn">Cancel</a> 

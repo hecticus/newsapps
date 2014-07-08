@@ -89,8 +89,7 @@ GET     /file/list/:parent		controllers.Banner.listFile(parent:Long, p:Int ?= 0,
 # Add banner
 GET     /banner/blank		controllers.Banner.blank()
 POST    /banner				controllers.Banner.submit()
-GET     /file/blank/:parent	controllers.Banner.blankFile(parent:Long)
-POST    /file/uploadimage   controllers.Banner.uploadImage()
+
 
 # Edit existing banner
 GET     /banner/:id				controllers.Banner.edit(id:Long)

@@ -2,7 +2,9 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,9 +13,12 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
+
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.hecticus.rackspacecloud.RackspaceCreate;
+import com.hecticus.rackspacecloud.RackspaceDelete;
 import com.hecticus.rackspacecloud.RackspacePublish;
 
 import controllers.newsapi.YoInformoController;
@@ -33,7 +38,6 @@ import securesocial.core.java.SecureSocial.SecuredAction;
 
 @SuppressWarnings("unused")
 public class Banner extends HecticusController {
-
 	
 	public static final String imageDir = "files/banneruploader/";
     private static final String containerName = "tvn_advertising_upload";
@@ -48,28 +52,33 @@ public class Banner extends HecticusController {
 	}	
 		
 	public static Result blank() {
-	   return ok(form.render(BannerForm));
-	}
-	
-	public static Result blankFile(Long parent) {		
 		BannerResolution objResolution= new BannerResolution();
 		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();		
-		return ok(upload.render(parent,lstResolution));
+	   return ok(form.render(BannerForm,lstResolution));
 	}
 	
 	public static Result edit(Long id) {
+		
+		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
+		List<BannerFile> lstFile = objBanner.getFileList();
+		
         Form<models.news.Banner> filledForm = BannerForm.fill(
         		models.news.Banner.finder.byId(id)
         );
+        
         return ok(
-            edit.render(id, filledForm)
+            edit.render(id, filledForm,lstFile)
         );
     }
 	
 	public static Result update(Long id) {
+		
+		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
+		List<BannerFile> lstFile = objBanner.getFileList();
+
 		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
 		if(filledForm.hasErrors()) {
-			return badRequest(edit.render(id, filledForm));
+			return badRequest(edit.render(id, filledForm, lstFile));
 		}
 		filledForm.get().update(id);
 		flash("success", "Banner " + filledForm.get().getName() + " has been updated");
@@ -113,98 +122,119 @@ public class Banner extends HecticusController {
 	}	
 	
 	public static Result delete(Long id) {
+		
+		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
+		List<BannerFile> lstFile = objBanner.getFileList();
+		ArrayList<String> lstFileName = new ArrayList<String>();
+		
+		if (lstFile.size() >= 1) {			
+			for (int i = 0; i < lstFile.size() ; i++) {				
+				String url = lstFile.get(i).getLocation();
+				String fileName = url.substring( url.lastIndexOf('/')+1, url.length() );
+				lstFileName.add(fileName);
+			}
+		}
+		
+		String username = "hctcsproddfw";
+        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
+        String provider = "cloudfiles-us";
+        RackspaceDelete delete = new RackspaceDelete(username, apiKey, provider);
+        delete.deleteObjectsFromContainer(containerName,lstFileName); 
+ 
 		models.news.Banner.finder.ref(id).delete();
 		flash("success", "Banner has been deleted");
-	    return GO_HOME;	    
+	    return GO_HOME;
+	    
 	}	
 	
 	public static Result submit() {
+		
+		
+		BannerResolution objResolution= new BannerResolution();
+		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();
+		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
+		List <models.news.BannerFile>  lstBannerFile =  new ArrayList<models.news.BannerFile>();
+		
+		
 
-	   Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
-	   if(filledForm.hasErrors()) {
-           return badRequest(form.render(filledForm));         
-       } else {
-    	   models.news.Banner gfilledForm = filledForm.get();     	   
-    	   gfilledForm.setSort(models.news.Banner.finder.findRowCount());
-    	   gfilledForm.save();
-    	   flash("success", "Banner " + filledForm.get().getName() + " has been created");
-    	   return GO_HOME;  
-       }
+		if(filledForm.hasErrors()) {
+           return badRequest(form.render(filledForm,lstResolution));         
+		} else {
+			
 
-	}
-
-	 public static Result uploadImage(){
-		 
-        try {
-        	 
-        	 
-        	BannerFile objBannerFile = new BannerFile();
-        	Form<BannerFile> filledForm = BannerFileform.bindFromRequest();
-        	         	 
-        	Http.MultipartFormData body = request().body().asMultipartFormData();
+			Http.MultipartFormData body = request().body().asMultipartFormData();
             List<Http.MultipartFormData.FilePart> lstPicture = body.getFiles();  
              
         	for (int i = 0; i < lstPicture.size(); i++) {
-        		
-        		Http.MultipartFormData.FilePart picture = getImage(lstPicture.get(i).getKey());        		
-        	    
-        		
+
+        		Http.MultipartFormData.FilePart picture = getImage(lstPicture.get(i).getKey());
         		
         		if (picture != null) {
-                	
-                    String fileName = picture.getFilename();
-                    /*String contentType = picture.getContentType();
+        			
+        			String fileName = picture.getFilename();
+        			String contentType = picture.getContentType();
                     File file = picture.getFile();
+
                     Calendar today = new GregorianCalendar(TimeZone.getDefault());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                     sdf.setTimeZone(TimeZone.getDefault());
                     UUID idFile = UUID.randomUUID();
                     File dest = new File(Config.getString("img-Folder-Route-Banner")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
                     file.renameTo(dest);
-                    
-                    boolean useCDN = Config.getInt("use-cdn")==1;
+                   
+                    boolean useCDN = Config.getInt("use-cdn")==1;              
                     if(useCDN && !uploadAndPublish(dest)){
-                        Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
-                        return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
-                    
+                    	flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());                    	
+                        Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
+                        //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
+                        if(useCDN) dest.delete();
+                        return badRequest(form.render(filledForm,lstResolution));        
                     }
                     
-                    ArrayList data = new ArrayList();
-                    String urlPrefix = useCDN?Config.getString("rks-CDN-URL-BANNER"):Config.getString("img-WS-Route");
+                    ArrayList<Object> data = new ArrayList<Object>();
+                    String urlPrefix = Config.getString("rks-CDN-URL-BANNER");
                     data.add(urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg");
-                    Utils.printToLog(Banner.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_INFO);
-                    if(useCDN) dest.delete();
-                    ObjectNode response = hecticusResponse(0, "ok", "urlimage", data);
-                    */
-        			
-                
-                    objBannerFile.setIdBanner(Long.parseLong(filledForm.field("parent").value()));
-        			objBannerFile.setName(fileName);
-        			objBannerFile.setWidth(500);
-        			objBannerFile.setHeight(500);
-                    //return ok(response);
-                    
-                }else{
-                	
-                    Utils.printToLog(Banner.class, "", "no hay imagen a subir", false, null, "", Config.LOGGER_ERROR);
-                    return badRequest(buildBasicResponse(-2, "no hay imagen a subir"));
-                }
-        		
-        		
+                    Utils.printToLog(Banner.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_INFO);                    
+                 
+                    BufferedImage bffImage = null;
+					try {
+
+						bffImage = ImageIO.read(new File(dest.getAbsolutePath()));
+						models.news.BannerFile objBannerFile = new models.news.BannerFile();						
+						objBannerFile.setName(file.getName());	        			        		
+	        			objBannerFile.setWidth(bffImage.getWidth());
+	        			objBannerFile.setHeight(bffImage.getHeight());        			
+	        			objBannerFile.setLocation(data.get(0).toString());
+	        			lstBannerFile.add(objBannerFile);
+	        			if(useCDN) dest.delete();
+
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						if(useCDN) dest.delete();
+						flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());
+						 return badRequest(form.render(filledForm,lstResolution));   
+						 
+					}               
+
+        		}
+
         	}
+        		
         	
-        	return ok("ready");	
-        	
-        	 
-        	
-            
-            
-        }catch (Exception ex){
-            Utils.printToLog(Banner.class, "", "ocurrio un error desconocido", false, ex, "", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
-        }
-	 }
-	 	 
+    	   models.news.Banner gfilledForm = filledForm.get();    	   
+    	   gfilledForm.setFileList(lstBannerFile);
+    	   gfilledForm.setSort(models.news.Banner.finder.findRowCount());
+    	   gfilledForm.save();
+
+    	   flash("success", "Banner " + filledForm.get().getName() + " has been created");
+    	   return GO_HOME;  
+    	   
+		}
+
+	}
+
+ 
 	 private static boolean uploadAndPublish(File file) {
 
 	        String username = "hctcsproddfw";
