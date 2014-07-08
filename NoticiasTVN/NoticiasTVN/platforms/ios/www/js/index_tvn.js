@@ -86,14 +86,14 @@ function setMenuCategories(){
 		a++;	
 		//$.li+='<li data-category="y" class="menu" data-position="-2" style="padding-left: 1em; background-color:'+arrMenuColor[(a%10)]+';">';			
 		$.li+='<li data-category="y" class="menu" data-position="-2" >';		
-		$.li+='<span class="icon icon-yo-informo"></span>';
+		$.li+='<span class="icon icon-yoinformo"></span>';
 		$.li+='<span class="caption">' + yo_informo + '</span>';						
 		$.li+='</li>';
 	}
 	
 	a++;	
 	$.li+='<li data-category="?" class="menu" data-position="-1" >';
-	$.li+='<span class="icon icon-app"></span>';
+	$.li+='<span class="icon icon-sobreapp"></span>';
 	$.li+='<span class="caption">' + info_app + '</span>';													
 	$.li+='</li>';	
 		
