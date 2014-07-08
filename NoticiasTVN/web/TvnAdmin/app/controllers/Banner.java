@@ -72,29 +72,98 @@ public class Banner extends HecticusController {
     }
 	
 	public static Result update(Long id) {
-		
+
+		BannerResolution objResolution= new BannerResolution();
+		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
 		List<BannerFile> lstFile = objBanner.getFileList();
-
+		List <models.news.BannerFile>  lstBannerFile =   models.news.BannerFile.finder.all();
+		
 		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
 		if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm, lstFile));
 		}
-		filledForm.get().update(id);
-		flash("success", "Banner " + filledForm.get().getName() + " has been updated");
+		
+		
+		Http.MultipartFormData body = request().body().asMultipartFormData();
+        List<Http.MultipartFormData.FilePart> lstPicture = body.getFiles();  
+        
+    	for (int i = 0; i < lstPicture.size(); i++) {
+
+    		Http.MultipartFormData.FilePart picture = getImage(lstPicture.get(i).getKey());
+    		
+    		if (picture != null) {
+
+    			for (int f = 0; f < lstBannerFile.size(); f++) {
+    				if (lstBannerFile.get(f).getIdBannerFile() == Long.parseLong(lstPicture.get(i).getKey())) {
+
+    					String fileName = picture.getFilename();
+    	    			String contentType = picture.getContentType();
+    	                File file = picture.getFile();
+
+    	                Calendar today = new GregorianCalendar(TimeZone.getDefault());
+    	                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    	                sdf.setTimeZone(TimeZone.getDefault());
+    	                UUID idFile = UUID.randomUUID();
+    	                File dest = new File(Config.getString("img-Folder-Route-Banner")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+    	                file.renameTo(dest);
+    	               
+    	                boolean useCDN = Config.getInt("use-cdn")==1;
+    	                if(useCDN && !RackspaceUploadAndPublish(dest)){
+    	                	flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());                    	
+    	                    Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
+    	                    //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
+    	                    if(useCDN) dest.delete();
+    	                    return badRequest(form.render(filledForm,lstResolution));        
+    	                }
+    	                
+    	                ArrayList<Object> data = new ArrayList<Object>();
+    	                String urlPrefix = Config.getString("rks-CDN-URL-BANNER");
+    	                data.add(urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+    	                Utils.printToLog(Banner.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_INFO);                    
+    	             
+    	                BufferedImage bffImage = null;
+    					try {
+    						    						
+    						ArrayList<String> lstFileName = new ArrayList<String>();
+    						String strUrl = lstBannerFile.get(f).getLocation();
+    						String strfileName = strUrl.substring(strUrl.lastIndexOf('/')+1, strUrl.length());    						
+    						lstFileName.add(strfileName); 
+    						
+    						bffImage = ImageIO.read(new File(dest.getAbsolutePath()));
+    						models.news.BannerFile objBannerFile = new models.news.BannerFile();						
+    						lstBannerFile.get(f).setName(file.getName());	        			        		
+    						lstBannerFile.get(f).setWidth(bffImage.getWidth());
+    						lstBannerFile.get(f).setHeight(bffImage.getHeight());        			
+    	        			lstBannerFile.get(f).setLocation(data.get(0).toString());
+    	        			if(useCDN) dest.delete();
+    	        			
+    	        			RackspaceDelete(lstFileName); 
+
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						//e.printStackTrace();
+    						if(useCDN) dest.delete();
+    						flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());
+    						return badRequest(form.render(filledForm,lstResolution));       						
+    					}
+
+    				}
+    			}
+    			
+
+    		}
+    	}
+
+
+    	models.news.Banner gfilledForm = filledForm.get();
+    	if (lstBannerFile.size() >= 1) gfilledForm.setFileList(lstBannerFile);    	
+    	gfilledForm.update(id);
+		
+		flash("success", "Banner " + gfilledForm.getName() + " has been updated");
 		return GO_HOME;
+		
 	}	
-	
-	
-	
-	public static Result listFile(Long parent, int page, String sortBy, String order, String filter) {
-        return ok(
-            listFile.render(
-            	models.news.BannerFile.page(parent, page, 10, sortBy, order, filter),
-            	parent, sortBy, order, filter
-            )
-        );
-    }
 	
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
@@ -120,6 +189,22 @@ public class Banner extends HecticusController {
 	public static Result lsort() {
 		 return ok(sort.render(models.news.Banner.page(0, 0,"sort", "asc", "")));
 	}	
+
+	public static boolean RackspaceDelete(ArrayList<String> lstFileName) {
+		
+		try {
+			String username = "hctcsproddfw";
+	        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
+	        String provider = "cloudfiles-us";
+	        RackspaceDelete delete = new RackspaceDelete(username, apiKey, provider);
+	        delete.deleteObjectsFromContainer(containerName,lstFileName);
+	        return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+
+	}
 	
 	public static Result delete(Long id) {
 		
@@ -130,17 +215,12 @@ public class Banner extends HecticusController {
 		if (lstFile.size() >= 1) {			
 			for (int i = 0; i < lstFile.size() ; i++) {				
 				String url = lstFile.get(i).getLocation();
-				String fileName = url.substring( url.lastIndexOf('/')+1, url.length() );
+				String fileName = url.substring( url.lastIndexOf('/')+1, url.length());
 				lstFileName.add(fileName);
 			}
 		}
 		
-		String username = "hctcsproddfw";
-        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
-        String provider = "cloudfiles-us";
-        RackspaceDelete delete = new RackspaceDelete(username, apiKey, provider);
-        delete.deleteObjectsFromContainer(containerName,lstFileName); 
- 
+		RackspaceDelete(lstFileName); 
 		models.news.Banner.finder.ref(id).delete();
 		flash("success", "Banner has been deleted");
 	    return GO_HOME;
@@ -183,7 +263,7 @@ public class Banner extends HecticusController {
                     file.renameTo(dest);
                    
                     boolean useCDN = Config.getInt("use-cdn")==1;              
-                    if(useCDN && !uploadAndPublish(dest)){
+                    if(useCDN && !RackspaceUploadAndPublish(dest)){
                     	flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());                    	
                         Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
                         //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
@@ -227,7 +307,7 @@ public class Banner extends HecticusController {
     	   gfilledForm.setSort(models.news.Banner.finder.findRowCount());
     	   gfilledForm.save();
 
-    	   flash("success", "Banner " + filledForm.get().getName() + " has been created");
+    	   flash("success", "Banner " + gfilledForm.getName() + " has been created");
     	   return GO_HOME;  
     	   
 		}
@@ -235,7 +315,7 @@ public class Banner extends HecticusController {
 	}
 
  
-	 private static boolean uploadAndPublish(File file) {
+	 private static boolean RackspaceUploadAndPublish(File file) {
 
 	        String username = "hctcsproddfw";
 	        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";

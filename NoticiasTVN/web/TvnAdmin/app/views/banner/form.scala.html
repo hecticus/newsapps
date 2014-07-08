@@ -54,7 +54,8 @@
             @for((resolution,index) <- resolutions.zipWithIndex) {
 	            <div class="clearfix  " id="file[@index]_field">	    			
 	    			<div class="input">
-	    				<input type="file" name="file[@index]" required = "required" >
+	    				<img id="img-@index" src="" alt="" style="width:75%; height: auto; vertical-align: middle" onerror="this.style.display='none'">
+	    				<input type="file" name="file[@index]" required = "required" data-img="img-@index" >
 	        			<span class="help-block">Please choose a valid resolution of width @resolution.getWidth().</span> 
 	    			</div>
 				</div>

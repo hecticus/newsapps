@@ -13,10 +13,50 @@
         
 		<script>
 	  		$(function() {
+	  		
+	  		
+	  			$(document).on('click','.cancel', function() {
+	  				
+	  				var _img = $('#' + $(this).data('img'));
+	  				var _input = $('input[data-img="' + $(this).data('img') + '"]');
+	  				
+	  				_img.attr('src',_img.data('src'));	
+	  				_input.val('');			
+	  				$(this).hide();
+
+	  			});	  	
+	  		
+	  			$(document).on('change','input[type=file]', function() {	  			
+	  				  				
+	  				var _img = $('#' + $(this).data('img'));
+	  				var _cancel = $('a[data-img="' + $(this).data('img') + '"]');
+	  				
+					var files = !!this.files ? this.files : [];
+        			if (!files.length || !window.FileReader) {
+        				_img.attr('src',_img.data('src'));
+        				_cancel.hide();
+        				return; 	
+        			};	// no file selected, or no FileReader support
+ 
+	        		if (/^image/.test(files[0].type)) { // only image file
+	            		var reader = new FileReader(); // instance of the FileReader
+	            		reader.readAsDataURL(files[0]); // read the local file 
+	            		reader.onloadend = function() { // set image data as background of div
+	            			_img.attr('src',this.result);	            			
+	            			_img.show();
+	            			_cancel.show();						  
+	            		};
+	       		 	} else {
+	       		 		_img.val('');
+	       		 		_img.attr('src',_img.data('src'));	
+	       		 	};
+
+    			});
+	  			
 	  			
 	  			$("#alert").click(
-	  				function () {	  					
-	  					$(this).toggle();	  						  					
+	  				function () {
+	  					$(this).toggle();
 	  				}
 	  			);
 

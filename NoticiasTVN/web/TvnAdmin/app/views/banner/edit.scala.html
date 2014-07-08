@@ -9,7 +9,7 @@
     
     <h1>Edit Banner</h1>
     
-    @form(controllers.routes.Banner.update(id)) {
+    @form(controllers.routes.Banner.update(id), 'enctype -> "multipart/form-data") {
         
         <fieldset>
         	<legend>Banner informations</legend>
@@ -32,13 +32,13 @@
         <fieldset>
             <legend>Files uploads</legend>
             @for((file,index) <- files.zipWithIndex) {
-	            <div class="clearfix  " id="file[@index]_field">	    			
-	    			<div class="input">
-	    				<img src="@file.getLocation()" alt="@file.getName()" style="width:45%; height: auto; vertical-align: middle">	    				
-	        			<a class="removePhone btn danger">Edit</a>
-	        			<!--input type="file" name="file[@index]" required = "required" >        	    				
-	        			<span class="help-inline"></span-->
-	        			<!--span class="help-block">Please choose a valid resolution of width @file.getWidth().</span-->
+	            <div class="clearfix" id="file[@index]_field">	    			
+	    			<div class="input">	    			
+	    				<img id="@file.getIdBannerFile()" src="@file.getLocation()" alt="@file.getName()" data-src="@file.getLocation()" style="width:75%; height: auto; vertical-align: middle">						
+						<input type="file" name="@file.getIdBannerFile()" data-img="@file.getIdBannerFile()" > 
+	        			<span class="help-inline"></span>
+	        			<span class="help-block">Please choose a valid resolution of width @file.getWidth().</span>
+	        			<a class="cancel" data-img="@file.getIdBannerFile()" style="cursor: pointer; display: none;">Cancel</a>
 	    			</div>
 				</div>
             }
