@@ -18,8 +18,8 @@ public class Application extends Controller {
 	//@With(HttpsAction.class)
 	//@SecuredAction
     public static Result index() {
-        //return ok(index.render("Your new application is ready."));
-		return redirect(routes.Tvn.list(0, "sort", "asc", ""));				
+        return ok(index.render());
+		//return redirect(routes.Tvn.list(0, "sort", "asc", ""));				
     }
 
     public static Result checkFile(String name){
