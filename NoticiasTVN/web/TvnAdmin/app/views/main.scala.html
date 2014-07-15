@@ -68,19 +68,18 @@
 	    		$( "#sortable tbody").sortable();	    		
 	    		$( "#sortable tbody").disableSelection();
 
-	    		$("#ajax").click(
-	    			function () {
-	    				
-	    				var arrC = [];
-	    				var url="";
-	    					    					    			
+	    		$("#ajax").click(function () {
+	    			
+						var _url = $('#ajax').data('url'); 	    				
+	    				var _arrC = [];
+	    					    					    					    			
 	    				$("#sortable tbody tr").each(function (i) {
-	    					arrC.push($(this).data("id"));
+	    					_arrC.push($(this).data("id"));
 	    				});
 	    					
-						arrC =arrC.join(',');	
+						_arrC =_arrC.join(',');	
 	    				$.ajax({
-  							url: '/banner/sort/'+ arrC,
+  							url: _url + _arrC,
   							success: function(data) {
   								$('#alert').show();
   							}
@@ -135,6 +134,16 @@
 				          	</ul>
 				        </li>                        	
                         
+                        
+                        <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario<span class="caret"></span></a>
+				          	<ul class="dropdown-menu" role="menu">
+					            <li><a href="@controllers.routes.User.list()">Listar</a></li>					            
+					            <li class="divider"></li>
+					            <li><a href="@controllers.routes.User.blank()">Crear</a></li>
+				          	</ul>
+				        </li>     
+                        
                         <li>		 
                             <a href="@securesocial.controllers.routes.LoginPage.logout()">Salir</a>
                         </li>
@@ -146,10 +155,10 @@
         </div>
 
         <div class="container">
-
             <div class="content">
                 
                 <div class="page-header">
+                
                     <!--h1>@title</h1-->
                     <!--img src="@routes.Assets.at("images/logo-hecticus.jpeg")" style="width: 250px; height:69px" >
                     <img src="@routes.Assets.at("images/logo-tvn.png")" style="width: 250px; height:69px" -->

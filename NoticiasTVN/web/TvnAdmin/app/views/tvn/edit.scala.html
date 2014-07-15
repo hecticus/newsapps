@@ -7,34 +7,36 @@
 
 @main(title, nav = "create") {
     
-    <h1>Edit category</h1>
+    <h1>Editar categoría</h1>
     
-    @form(controllers.routes.Tvn.update(id)) {
+    @helper.form(controllers.routes.Tvn.update(id)) {
         
         <fieldset>
         
-        	@inputText(categoryForm("name"), '_label -> "Name", '_help -> "Please choose a valid name.", '_error -> categoryForm.globalError)            
-            @inputText(categoryForm("feedUrl"), '_label -> "Feed", '_help -> "Enter a valid url address.")
+        	@inputText(categoryForm("name"), '_label -> "Nombre", '_help -> "Ingrese un nombre válido.", '_error -> categoryForm.globalError)            
+            @inputText(categoryForm("feedUrl"), '_label -> "Url", '_help -> "Ingrese una url válida.")
             
             @select(
                 categoryForm("pushable"), 
                 options("false"-> "No", "true"-> "Si"),
+                 '_default -> "--- Seleccione ---",
                 '_label -> "Pushable",
-                '_error -> categoryForm("pushable").error.map(_.withMessage("Please select your pushable")),
-                'showConstraints -> true
+                '_error -> categoryForm("pushable").error.map(_.withMessage("Seleciones una opción")),
+                'showConstraints -> true,
+				'_help -> "Requerido."
             )
 
         </fieldset>
         
         <div class="actions">
-            <input type="submit" value="Save this category" onclick="return confirm('Are you sure?');" class="btn primary"> or 
-            <a href="@controllers.routes.Tvn.list()" class="btn">Cancel</a> 
+            <input type="submit" value="Actualizar esta categoría" onclick="return confirm('Estás seguro?');" class="btn primary"> o 
+            <a href="@controllers.routes.Tvn.list()" class="btn">Cancelar</a> 
         </div>
             
     }
     
     @form(controllers.routes.Tvn.delete(id), 'class -> "topRight") {
-		<input type="submit" value="Delete this category" onclick="return confirm('Are you sure?');" class="btn danger">
+		<input type="submit" value="Eliminar esta categoría" onclick="return confirm('Estás seguro?');" class="btn danger">
     }
        
 }

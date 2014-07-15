@@ -46,17 +46,20 @@ public class Banner extends HecticusController {
     final static Form<models.news.BannerFile> BannerFileform = form(models.news.BannerFile.class);
 	final static Form<models.news.Banner> BannerForm = form(models.news.Banner.class);
 	public static Result GO_HOME = redirect(routes.Banner.list(0, "sort", "asc", ""));
-		
+	
+	@SecuredAction		
 	public static Result index() {
 		return GO_HOME;
 	}	
-		
+	
+	@SecuredAction	
 	public static Result blank() {
 		BannerResolution objResolution= new BannerResolution();
 		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();		
 	   return ok(form.render(BannerForm,lstResolution));
 	}
 	
+	@SecuredAction
 	public static Result edit(Long id) {
 		
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
@@ -71,6 +74,7 @@ public class Banner extends HecticusController {
         );
     }
 	
+	@SecuredAction
 	public static Result update(Long id) {
 
 		BannerResolution objResolution= new BannerResolution();
@@ -138,7 +142,7 @@ public class Banner extends HecticusController {
     	        			lstBannerFile.get(f).setLocation(data.get(0).toString());
     	        			if(useCDN) dest.delete();
     	        			
-    	        			RackspaceDelete(lstFileName); 
+    	        			RackspaceDelete(lstFileName);
 
     					} catch (IOException e) {
     						// TODO Auto-generated catch block
@@ -165,15 +169,17 @@ public class Banner extends HecticusController {
 		
 	}	
 	
+	@SecuredAction
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
             list.render(
             	models.news.Banner.page(page, 10, sortBy, order, filter),
-                sortBy, order, filter
+                sortBy, order, filter,false
             )
         );
     }
 	
+	@SecuredAction
 	public static Result sort(String ids) {		
 		String[] aids = ids.split(",");
 		
@@ -186,10 +192,18 @@ public class Banner extends HecticusController {
 		return ok("Fine!");		
 	}
 	
+	@SecuredAction
 	public static Result lsort() {
-		 return ok(sort.render(models.news.Banner.page(0, 0,"sort", "asc", "")));
+		 /*return ok(sort.render(models.news.Banner.page(0, 0,"sort", "asc", "")));*/		
+		 	return ok(
+		            list.render(
+		            	models.news.Banner.page(0, 0,"sort", "asc", ""),
+		            	"sort", "asc", "",true
+		            )
+		        );
 	}	
-
+	
+	@SecuredAction
 	public static boolean RackspaceDelete(ArrayList<String> lstFileName) {
 		
 		try {
@@ -197,7 +211,13 @@ public class Banner extends HecticusController {
 	        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
 	        String provider = "cloudfiles-us";
 	        RackspaceDelete delete = new RackspaceDelete(username, apiKey, provider);
-	        delete.deleteObjectsFromContainer(containerName,lstFileName);
+	        
+	        if (lstFileName == null) {
+	        	delete.deleteObjectsFromContainer(containerName);	        		
+	        } else {
+	        	delete.deleteObjectsFromContainer(containerName,lstFileName);
+	        }
+
 	        return true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -206,6 +226,7 @@ public class Banner extends HecticusController {
 
 	}
 	
+	@SecuredAction
 	public static Result delete(Long id) {
 		
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
@@ -215,7 +236,7 @@ public class Banner extends HecticusController {
 		if (lstFile.size() >= 1) {			
 			for (int i = 0; i < lstFile.size() ; i++) {				
 				String url = lstFile.get(i).getLocation();
-				String fileName = url.substring( url.lastIndexOf('/')+1, url.length());
+				String fileName = url.substring(url.lastIndexOf('/')+1, url.length());
 				lstFileName.add(fileName);
 			}
 		}
@@ -227,6 +248,7 @@ public class Banner extends HecticusController {
 	    
 	}	
 	
+	@SecuredAction
 	public static Result submit() {
 		
 		
@@ -234,8 +256,6 @@ public class Banner extends HecticusController {
 		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();
 		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
 		List <models.news.BannerFile>  lstBannerFile =  new ArrayList<models.news.BannerFile>();
-		
-		
 
 		if(filledForm.hasErrors()) {
            return badRequest(form.render(filledForm,lstResolution));         
@@ -259,7 +279,7 @@ public class Banner extends HecticusController {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                     sdf.setTimeZone(TimeZone.getDefault());
                     UUID idFile = UUID.randomUUID();
-                    File dest = new File(Config.getString("img-Folder-Route-Banner")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+                    File dest = new File(Config.getString("img-Folder-Route-Banner")+sdf.format(today.getTime())+"_"+idFile+".jpeg");                    
                     file.renameTo(dest);
                    
                     boolean useCDN = Config.getInt("use-cdn")==1;              
@@ -278,7 +298,6 @@ public class Banner extends HecticusController {
                  
                     BufferedImage bffImage = null;
 					try {
-
 						bffImage = ImageIO.read(new File(dest.getAbsolutePath()));
 						models.news.BannerFile objBannerFile = new models.news.BannerFile();						
 						objBannerFile.setName(file.getName());	        			        		
@@ -287,20 +306,22 @@ public class Banner extends HecticusController {
 	        			objBannerFile.setLocation(data.get(0).toString());
 	        			lstBannerFile.add(objBannerFile);
 	        			if(useCDN) dest.delete();
-
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						//e.printStackTrace();
+						RackspaceDelete(null);
 						if(useCDN) dest.delete();
 						flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());
-						 return badRequest(form.render(filledForm,lstResolution));   
-						 
-					}               
+						return badRequest(form.render(filledForm,lstResolution));   						 
+					}
 
         		}
 
         	}
-        		
+
+        	
+        	 
+        	
         	
     	   models.news.Banner gfilledForm = filledForm.get();    	   
     	   gfilledForm.setFileList(lstBannerFile);
@@ -314,7 +335,7 @@ public class Banner extends HecticusController {
 
 	}
 
- 
+	@SecuredAction
 	 private static boolean RackspaceUploadAndPublish(File file) {
 
 	        String username = "hctcsproddfw";
@@ -339,7 +360,7 @@ public class Banner extends HecticusController {
 	                Utils.printToLog(Banner.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_INFO);
 	            }
 	            return uploaded;
-	        }catch (Exception ex){
+	        } catch (Exception ex) {
 	            Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
 	            return false;
 	        }

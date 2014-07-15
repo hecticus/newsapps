@@ -14,30 +14,31 @@
             
             @inputText(
                 categoryForm("name"), 
-                '_label -> "Name", 
-                '_help -> "Please choose a valid name.",
+                '_label -> "Nombre", 
+                '_help -> "Ingrese un nombre válido.",
                 '_error -> categoryForm.globalError
             )
             
             @inputText(
                 categoryForm("feedUrl"),
-                '_label -> "Feed",
-                '_help -> "Enter a valid url address."
+                '_label -> "Url",
+                '_help -> "Ingrese una url válida."
             )
             
             @select(
                 categoryForm("pushable"), 
                 options("false"-> "No", "true"-> "Si"),
-                '_default -> "--- Pushable ---",
+                '_default -> "--- Seleccione ---",
                 '_label -> "Pushable",
-                '_error -> categoryForm("pushable").error.map(_.withMessage("Please select your pushable"))
+                '_error -> categoryForm("pushable").error.map(_.withMessage("Selecciona una opción")),
+                '_help -> "Requerido."
             )
             
         </fieldset>
 
         <div class="actions">
-            <input type="submit" class="btn primary" value="Create this category">
-            <a href="@controllers.routes.Tvn.list()" class="btn">Cancel</a>
+            <input type="submit" class="btn primary" value="Crear esta categoría">
+            <a href="@controllers.routes.Tvn.list()" class="btn">Cancelar</a>
         </div>
         
     }
