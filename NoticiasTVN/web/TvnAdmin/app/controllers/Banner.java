@@ -15,14 +15,15 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.codehaus.jackson.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import com.hecticus.rackspacecloud.RackspacePublish;
 
 import controllers.newsapi.YoInformoController;
-import login.authorization.WithProfile;
+
 import models.Config;
 import models.news.BannerFile;
 import models.news.BannerResolution;
@@ -34,7 +35,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import utils.Utils;
 import views.html.banner.*;
-import securesocial.core.java.SecureSocial.SecuredAction;
+
 
 @SuppressWarnings("unused")
 public class Banner extends HecticusController {
@@ -47,19 +48,19 @@ public class Banner extends HecticusController {
 	final static Form<models.news.Banner> BannerForm = form(models.news.Banner.class);
 	public static Result GO_HOME = redirect(routes.Banner.list(0, "sort", "asc", ""));
 	
-	@SecuredAction		
+	
 	public static Result index() {
 		return GO_HOME;
 	}	
 	
-	@SecuredAction	
+	
 	public static Result blank() {
 		BannerResolution objResolution= new BannerResolution();
 		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();		
 	   return ok(form.render(BannerForm,lstResolution));
 	}
 	
-	@SecuredAction
+	
 	public static Result edit(Long id) {
 		
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
@@ -74,7 +75,7 @@ public class Banner extends HecticusController {
         );
     }
 	
-	@SecuredAction
+	
 	public static Result update(Long id) {
 
 		BannerResolution objResolution= new BannerResolution();
@@ -169,7 +170,7 @@ public class Banner extends HecticusController {
 		
 	}	
 	
-	@SecuredAction
+	
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
             list.render(
@@ -179,7 +180,7 @@ public class Banner extends HecticusController {
         );
     }
 	
-	@SecuredAction
+	
 	public static Result sort(String ids) {		
 		String[] aids = ids.split(",");
 		
@@ -192,7 +193,7 @@ public class Banner extends HecticusController {
 		return ok("Fine!");		
 	}
 	
-	@SecuredAction
+	
 	public static Result lsort() {
 		 /*return ok(sort.render(models.news.Banner.page(0, 0,"sort", "asc", "")));*/		
 		 	return ok(
@@ -203,7 +204,7 @@ public class Banner extends HecticusController {
 		        );
 	}	
 	
-	@SecuredAction
+	
 	public static boolean RackspaceDelete(ArrayList<String> lstFileName) {
 		
 		try {
@@ -226,7 +227,7 @@ public class Banner extends HecticusController {
 
 	}
 	
-	@SecuredAction
+	
 	public static Result delete(Long id) {
 		
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
@@ -248,7 +249,7 @@ public class Banner extends HecticusController {
 	    
 	}	
 	
-	@SecuredAction
+	
 	public static Result submit() {
 		
 		
@@ -335,7 +336,7 @@ public class Banner extends HecticusController {
 
 	}
 
-	@SecuredAction
+	
 	 private static boolean RackspaceUploadAndPublish(File file) {
 
 	        String username = "hctcsproddfw";

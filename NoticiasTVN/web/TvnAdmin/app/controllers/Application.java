@@ -1,22 +1,11 @@
 package controllers;
 
-
-import actions.HttpsAction;
-import login.authorization.WithProfile;
-import controllers.routes;
-import models.Config;
-import play.*;
 import play.mvc.*;
-import securesocial.core.java.SecureSocial.SecuredAction;
-import utils.Utils;
 import views.html.*;
-
 import java.io.File;
 
 public class Application extends Controller {
-	
-	@With(HttpsAction.class)
-	@SecuredAction
+		
     public static Result index() {
         return ok(index.render());
 		//return redirect(routes.Tvn.list(0, "sort", "asc", ""));				

@@ -3,19 +3,15 @@ package models.news;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import models.HecticusModel;
-
-import org.codehaus.jackson.node.ObjectNode;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.avaje.ebean.Page;
-
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
-
 import java.util.ArrayList;
 import java.util.List;
 
