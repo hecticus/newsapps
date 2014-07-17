@@ -2,36 +2,38 @@ name := "TvnAdmin"
 
 version := "1.0-SNAPSHOT"
 
-play.Project.playJavaSettings
+scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq(
   	javaJdbc,
   	javaEbean,
   	cache,
-	"mysql" % "mysql-connector-java" % "5.1.26",
-	"net.vz.mongodb.jackson" %% "play-mongo-jackson-mapper" % "1.1.0",	
-	"org.apache.jclouds" % "jclouds-allblobstore" % "1.7.2",
+  	javaWs,
+	"mysql" % "mysql-connector-java" % "5.1.26",	
+	"org.apache.jclouds" % "jclouds-allblobstore" % "1.7.3",
 	"com.google.guava" % "guava" % "15.0",
 	"com.jolbox" % "bonecp-spring" % "0.8.0.RELEASE",
-	"org.apache.jclouds.driver" % "jclouds-slf4j" % "1.7.2",
-	"org.apache.jclouds.driver" % "jclouds-sshj" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-cloudservers-us" % "1.7.2",
-	"org.apache.jclouds.provider" % "cloudfiles-us" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-cloudblockstorage-us" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-clouddns-us" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-cloudloadbalancers-us" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-cloudservers-uk" % "1.7.2",
-	"org.apache.jclouds.provider" % "cloudfiles-uk" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-cloudblockstorage-uk" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-clouddns-uk" % "1.7.2",
-	"org.apache.jclouds.provider" % "rackspace-cloudloadbalancers-uk" % "1.7.2",
+	"org.apache.jclouds.driver" % "jclouds-slf4j" % "1.7.3",
+	"org.apache.jclouds.driver" % "jclouds-sshj" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-cloudservers-us" % "1.7.3",
+	"org.apache.jclouds.provider" % "cloudfiles-us" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-cloudblockstorage-us" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-clouddns-us" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-cloudloadbalancers-us" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-cloudservers-uk" % "1.7.3",
+	"org.apache.jclouds.provider" % "cloudfiles-uk" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-cloudblockstorage-uk" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-clouddns-uk" % "1.7.3",
+	"org.apache.jclouds.provider" % "rackspace-cloudloadbalancers-uk" % "1.7.3",
 	"org.jclouds" % "jclouds-compute" % "1.5.0-alpha.6",
 	"org.reflections" % "reflections" % "0.9.7.RC1",
 	"org.mindrot" % "jbcrypt" % "0.3m"
 )     
 
-resolvers ++= Seq(   		
-	"Maven1 Repository" at "http://repo1.maven.org/maven2/net/vz/mongodb/jackson/play-mongo-jackson-mapper_2.10/1.1.0/",
+lazy val root = (project in file(".")).enablePlugins(play.PlayJava)
+
+
+resolvers ++= Seq(   			
 	Resolver.url("sbt-plugin-releases", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns),
 	"Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 )
