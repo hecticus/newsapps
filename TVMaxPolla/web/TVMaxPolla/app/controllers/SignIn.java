@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.*;
-import play.libs.WS;
+import play.libs.ws.*;
+import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.mvc.*;
 import play.libs.Json;
@@ -42,11 +43,11 @@ public class SignIn extends Controller {
         
         Form<Client> filledForm = form.bindFromRequest();
         Client objClient =  new Client();
-                
+
         if(filledForm.field("socialid").value().isEmpty()) {
         	if(filledForm.hasErrors()) {
                 return badRequest(signInForm.render(filledForm));
-            }   
+            }
         }
 
         JsonNode jsonResponse = objClient.getLogin(filledForm);
@@ -54,9 +55,9 @@ public class SignIn extends Controller {
         	flash("danger", "La dirección de correo electrónico o la contraseña que has introducido no son correctas.");
     		return ok(signInForm.render(filledForm));
         } else {
-        	
+
         	session("connected", jsonResponse.get("id_social_clients").asText());
-        	session("id_social", jsonResponse.get("id_social").asText());        	 
+        	session("id_social", jsonResponse.get("id_social").asText());
         	session("nick", jsonResponse.get("nick").asText());        	
         	return redirect(controllers.routes.Application.index());
         	

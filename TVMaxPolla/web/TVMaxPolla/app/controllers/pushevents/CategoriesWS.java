@@ -8,8 +8,8 @@ import models.pushevents.Action;
 import models.pushevents.Category;
 import models.pushevents.CategoryClient;
 import models.pushevents.ClientAction;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 import play.mvc.Result;
 
@@ -28,7 +28,7 @@ public class CategoriesWS extends HecticusController {
             Long idClient  = jsonInfo.get("idClient").asLong();
 
             if(jsonInfo.has("categories")){
-                Iterator<JsonNode> cats = jsonInfo.get("categories").getElements();
+                Iterator<JsonNode> cats = jsonInfo.get("categories").elements();
                 long creationTime = System.currentTimeMillis();
                 while(cats.hasNext()){
                     JsonNode actual = cats.next();
@@ -55,7 +55,7 @@ public class CategoriesWS extends HecticusController {
             }
 
             if(jsonInfo.has("deleteCategories")){
-                Iterator<JsonNode> cats = jsonInfo.get("deleteCategories").getElements();
+                Iterator<JsonNode> cats = jsonInfo.get("deleteCategories").elements();
                 while(cats.hasNext()){
                     JsonNode actual = cats.next();
                     Long idCategory = actual.get("category").asLong();
@@ -71,7 +71,7 @@ public class CategoriesWS extends HecticusController {
 
 
             if(jsonInfo.has("insertActions")){
-                Iterator<JsonNode> acts = jsonInfo.get("insertActions").getElements();
+                Iterator<JsonNode> acts = jsonInfo.get("insertActions").elements();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
                     Long idAction = actual.get("action").asLong();
@@ -87,7 +87,7 @@ public class CategoriesWS extends HecticusController {
             }
 
             if(jsonInfo.has("deleteActions")){
-                Iterator<JsonNode> acts = jsonInfo.get("deleteActions").getElements();
+                Iterator<JsonNode> acts = jsonInfo.get("deleteActions").elements();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
                     Long idAction = actual.get("action").asLong();
@@ -110,7 +110,7 @@ public class CategoriesWS extends HecticusController {
         try{
             ObjectNode jsonInfo = getJson();
             Long idClient  = jsonInfo.get("idClient").asLong();
-            Iterator<JsonNode> cats = jsonInfo.get("categories").getElements();
+            Iterator<JsonNode> cats = jsonInfo.get("categories").elements();
             while(cats.hasNext()){
                 JsonNode actual = cats.next();
                 Long idCategory = actual.get("category").asLong();
@@ -133,7 +133,7 @@ public class CategoriesWS extends HecticusController {
             ObjectNode jsonInfo = getJson();
             Long idClient  = jsonInfo.get("idClient").asLong();
             if(jsonInfo.has("actions")){
-                Iterator<JsonNode> acts = jsonInfo.get("actions").getElements();
+                Iterator<JsonNode> acts = jsonInfo.get("actions").elements();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
                     Long idAction = actual.get("action").asLong();
@@ -158,7 +158,7 @@ public class CategoriesWS extends HecticusController {
             ObjectNode jsonInfo = getJson();
             Long idClient  = jsonInfo.get("idClient").asLong();
             if(jsonInfo.has("actions")){
-                Iterator<JsonNode> acts = jsonInfo.get("actions").getElements();
+                Iterator<JsonNode> acts = jsonInfo.get("actions").elements();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
                     Long idAction = actual.get("action").asLong();
@@ -227,7 +227,7 @@ public class CategoriesWS extends HecticusController {
             ObjectNode jsonInfo = getJson();
             Long idClient  = jsonInfo.get("idClient").asLong();
             if(jsonInfo.has("categories")){
-                Iterator<JsonNode> acts = jsonInfo.get("categories").getElements();
+                Iterator<JsonNode> acts = jsonInfo.get("categories").elements();
                 ArrayList<Long> asoActs = new ArrayList<>();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
@@ -239,7 +239,7 @@ public class CategoriesWS extends HecticusController {
                 }
                 actCl.clear();
 
-                acts = jsonInfo.get("categories").getElements();
+                acts = jsonInfo.get("categories").elements();
                 long creationTime = System.currentTimeMillis();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
@@ -255,7 +255,7 @@ public class CategoriesWS extends HecticusController {
                 }
             }
             if(jsonInfo.has("actions")){
-                Iterator<JsonNode> acts = jsonInfo.get("actions").getElements();
+                Iterator<JsonNode> acts = jsonInfo.get("actions").elements();
                 ArrayList<Long> asoActs = new ArrayList<>();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
@@ -267,7 +267,7 @@ public class CategoriesWS extends HecticusController {
                 }
                 actCl.clear();
 
-                acts = jsonInfo.get("actions").getElements();
+                acts = jsonInfo.get("actions").elements();
                 while(acts.hasNext()){
                     JsonNode actual = acts.next();
                     Long idAction = actual.get("action").asLong();
@@ -309,7 +309,7 @@ public class CategoriesWS extends HecticusController {
     public static Result deleteFalseClients(){
         try{
             ObjectNode jsonInfo = getJson();
-            Iterator<JsonNode> cats = jsonInfo.get("clients").getElements();
+            Iterator<JsonNode> cats = jsonInfo.get("clients").elements();
             while(cats.hasNext()){
                 JsonNode actual = cats.next();
                 Long idClient = actual.get("client").asLong();
