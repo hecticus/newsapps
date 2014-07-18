@@ -2,11 +2,12 @@ package controllers.tvmaxfeeds;
 
 import controllers.HecticusController;
 import models.tvmaxfeeds.TvmaxMatch;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
 import play.mvc.Result;
 import utils.Utils;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class MatchController extends HecticusController {
             ObjectNode data = getJson();
             //get data from json
             if (data.has("calendar")){
-                Iterator it = data.get("calendar").elements();
+                Iterator it = data.get("calendar").getElements();
                 while (it.hasNext()){
                     JsonNode current = (JsonNode)it.next();
                     try {

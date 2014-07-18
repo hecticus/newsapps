@@ -2,9 +2,10 @@ package controllers.tvmaxfeeds;
 
 import controllers.HecticusController;
 import models.tvmaxfeeds.TvmaxPrediction;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.mvc.Result;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,7 @@ public class PredictionController extends HecticusController {
             ObjectNode data = getJson();
             //get data from json
             if (data.has("predictions")){
-                Iterator it = data.get("predictions").elements();
+                Iterator it = data.get("predictions").getElements();
                 while (it.hasNext()){
                     JsonNode current = (JsonNode)it.next();
                     try {

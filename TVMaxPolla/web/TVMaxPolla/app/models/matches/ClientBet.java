@@ -2,10 +2,10 @@ package models.matches;
 
 import com.avaje.ebean.Ebean;
 import models.HecticusModel;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
+
 import javax.persistence.*;
 import java.util.List;
 

@@ -8,14 +8,13 @@ import javax.persistence.Id;
 
 import models.Config;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import play.data.Form;
 import play.data.validation.Constraints;
 import play.libs.Json;
-import play.libs.ws.*;
-import play.libs.F.Function;
+import play.libs.WS;
 import play.libs.F.Promise;
 import utils.Utils;
 
@@ -91,7 +90,7 @@ public class Client  {
 	
     
     public JsonNode getLogin(Form<Client> filledForm) {
-
+    	
     	ObjectNode dataJson = Json.newObject();    	
     	dataJson.put("id_country", Config.getIDCountry());
     	dataJson.put("id_business", Config.getIDBusiness());
@@ -102,29 +101,28 @@ public class Client  {
     		dataJson.put("userPass", filledForm.field("password").value());
     	} else {    		
     		dataJson.put("socialId", filledForm.field("socialid").value());
-    	}
+    	}   
 
     	try {
             String url = Config.getKrakenHost();
-            Promise<WSResponse> wsLogin = WS.url(url+"KrakenSocialClients/v1/client/login").post(dataJson);
-
-            JsonNode jsonLogin = wsLogin.get(10000).asJson();
-        	JsonNode jsonError = jsonLogin.get("error");
+    		Promise<WS.Response> wsLogin = WS.url(url+"KrakenSocialClients/v1/client/login").post(dataJson);
+        	JsonNode jsonLogin = wsLogin.get().asJson();  
+        	JsonNode jsonError = jsonLogin.get("error"); 
         	JsonNode jsonDescription = jsonLogin.get("description");
         	JsonNode jsonResponse = jsonLogin.get("response");
-
-
+        	//System.out.print(wsLogin.get().asJson().toString());
+        	
         	if (jsonResponse.size() == 0) {
 
         		if(!filledForm.field("socialid").value().isEmpty()) {
         			return this.getLoginPass(filledForm);
         		}
 
-        		return null;
-
+        		return null;	
+        		
         	} else {
-
-        		return jsonResponse.iterator().next();
+        		
+        		return jsonResponse.iterator().next();	
         	}
 
 		} catch (Exception e) {
@@ -133,12 +131,12 @@ public class Client  {
 		}
 
     }
-
-
-
+    
+    
+    
     public Boolean getCheckLogin(String email) {
-
-    	ObjectNode dataJson = Json.newObject();
+    	        	
+    	ObjectNode dataJson = Json.newObject();    	
     	dataJson.put("id_country", Config.getIDCountry());
     	dataJson.put("id_business", Config.getIDBusiness());
     	dataJson.put("app_id", Config.getIDSocialApp());
@@ -146,19 +144,19 @@ public class Client  {
 
     	try {
     		String url = Config.getKrakenHost();
-    		Promise<WSResponse> wsCheckLogin = WS.url(url+"KrakenSocialClients/v1/client/checklogin").post(dataJson);
-        	JsonNode jsonCheckLogin = wsCheckLogin.get(10000).asJson();
-        	JsonNode jsonError = jsonCheckLogin.get("error");
+    		Promise<WS.Response> wsCheckLogin = WS.url(url+"KrakenSocialClients/v1/client/checklogin").post(dataJson);
+        	JsonNode jsonCheckLogin = wsCheckLogin.get().asJson();  
+        	JsonNode jsonError = jsonCheckLogin.get("error"); 
         	JsonNode jsonDescription = jsonCheckLogin.get("description");
         	JsonNode jsonResponse = jsonCheckLogin.get("response");
-
-
+        	//System.out.print(wsCheckLogin.get().asJson().toString());
+    		
     		if (jsonResponse.size() == 0) {
         		return false;
         	} else {
         		return true;
         	}
-
+    		
 		} catch (Exception e) {
 			// TODO: handle exception
 			return true;
@@ -194,12 +192,13 @@ public class Client  {
      	
      	try {
             String url = Config.getKrakenHost();
-     		Promise<WSResponse> wsLoginPass = WS.url(url+"KrakenSocialClients/v1/client/create/loginpass").post(dataJson);
-         	JsonNode jsonLoginPass = wsLoginPass.get(10000).asJson();
+     		Promise<WS.Response> wsLoginPass = WS.url(url+"KrakenSocialClients/v1/client/create/loginpass").post(dataJson);
+         	JsonNode jsonLoginPass = wsLoginPass.get().asJson();    	
          	JsonNode jsonError = jsonLoginPass.get("error"); 
          	JsonNode jsonDescription = jsonLoginPass.get("description");
          	JsonNode jsonResponse = jsonLoginPass.get("response");   
-
+         	//System.out.print(wsLoginPass.get().asJson().toString());
+        	  
          	Iterator<JsonNode> iJsonResponse = jsonResponse.iterator();    	
          	jsonResponse= iJsonResponse.next();
          	
@@ -225,9 +224,11 @@ public class Client  {
     	dataJson.put("idClient", idClient);
 
     	String url = Config.getTVMaxPollaHost();
-    	Promise<WSResponse> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
-
-    	JsonNode jsonResponse = wsResponse.get(10000).asJson();
+    	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
+    	//Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/clientbet/get/current").post(dataJson);
+    	
+    	
+    	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPhase = jsonResponse.get("phase");
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
     	
@@ -322,8 +323,11 @@ public class Client  {
 		dataJson.put("idClient", idClient);
     	
     	String url = Config.getTVMaxPollaHost();
-    	Promise<WSResponse> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
-    	JsonNode jsonResponse = wsResponse.get(10000).asJson();
+    	Promise<WS.Response> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
+    	//Promise<WS.Response> wsResponse = WS.url("http://polla.tvmax-9.com/matchesapi/v1/prediction/get").post(dataJson);
+    	//System.out.println(wsResponse.get().asJson().toString());
+    	
+    	JsonNode jsonResponse = wsResponse.get().asJson();    	
     	JsonNode jsonPredictions = jsonResponse.get("response").get("prediction");  
     	Iterator<JsonNode> iJsonPredictions = jsonPredictions.iterator();    	
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
