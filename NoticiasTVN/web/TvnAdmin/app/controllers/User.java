@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+
 import models.user.*;
 import play.api.templates.Html;
 import play.data.Form;
@@ -13,8 +14,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.helper.form;
 import views.html.user.*;
-import scala.Option;
+import securesocial.core.java.SecureSocial.SecuredAction;
 
+import scala.Option;
+import securesocial.core.PasswordInfo;
+import securesocial.core.providers.utils.BCryptPasswordHasher;
 
 @SuppressWarnings("unused")
 public class User extends Controller {
@@ -22,17 +26,17 @@ public class User extends Controller {
 	final static Form<U01_Users> userForm = form(U01_Users.class);
 	public static Result GO_HOME = redirect(routes.User.list(0, "u01_Id", "asc", ""));
 	
-	
+	@SecuredAction
 	public static Result index() {
 		return GO_HOME;
 	}	
 	
-	
+	@SecuredAction
 	public static Result blank()  {		
 		return ok(views.html.user.form.render(userForm));
 	}
 	
-	
+	@SecuredAction
 	public static Result edit(Long id) {
         Form<U01_Users> filledForm = userForm.fill(
         		U01_Users.finder.byId(id)
@@ -42,7 +46,7 @@ public class User extends Controller {
         );
     }
 	
-	
+	@SecuredAction
 	public static Result update(Long id) {
 		
 		Form<U01_Users> filledForm = userForm.bindFromRequest();
@@ -62,29 +66,27 @@ public class User extends Controller {
 		
 		
 		U01_Users gfilledForm = filledForm.get();
-		filledForm.get().u01_Password = BCrypt.hashpw(filledForm.get().u01_Password, BCrypt.gensalt());
-		
-		/*Option<PasswordInfo> opf = filledForm.get().passwordInfo();
-		PasswordInfo pinfo = opf.get();
-		if(pinfo.hasher().equals(BCryptPasswordHasher.BCryptHasher())){
-			Option<String> optSalt = pinfo.salt();
-			String salt="";
-			if(optSalt != null && optSalt.nonEmpty()){
-				salt=optSalt.get();
-				filledForm.get().u01_Password = BCrypt.hashpw(filledForm.get().u01_Password, salt);
-				
-			}
-		}*/
-		
+ 	   
+  	  	Option<PasswordInfo> opf = filledForm.get().passwordInfo();
+		  PasswordInfo pinfo = opf.get();
+		  if(pinfo.hasher().equals(BCryptPasswordHasher.BCryptHasher())){
+			  Option<String> optSalt = pinfo.salt();
+			  String salt="";
+			  if(optSalt != null && optSalt.nonEmpty()){
+				  salt=optSalt.get();
+				  filledForm.get().u01_Password = BCrypt.hashpw(filledForm.get().u01_Password, salt);
+			  }
+			  
+		  }
+
 		
 		filledForm.get().update(id);
 		flash("success", "User " + filledForm.get().u01_Login + " has been updated");
 		return GO_HOME;
-		
 	}
 	
 	
-	
+	@SecuredAction
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
         		views.html.user.list.render(
@@ -94,7 +96,7 @@ public class User extends Controller {
         );
     }
 
-	
+	@SecuredAction
 	public static Result delete(Long id) {
 		U01_Users.finder.ref(id).delete();
 		flash("success", "User has been deleted");
@@ -102,12 +104,12 @@ public class User extends Controller {
 	}
 	
 		
-	
+	@SecuredAction
 	public static Result submit() {
 
 		
 		
-	  Form<U01_Users> filledForm = userForm.bindFromRequest();
+	   Form<U01_Users> filledForm = userForm.bindFromRequest();
 	   
 	   // Check repeated password
        if(!filledForm.field("u01_Password").valueOr("").isEmpty()) {
@@ -127,9 +129,8 @@ public class User extends Controller {
        } else {
     	   
     	  U01_Users gfilledForm = filledForm.get();
-    	  filledForm.get().u01_Password = BCrypt.hashpw(filledForm.get().u01_Password, BCrypt.gensalt());
-    	  
-    	  /*Option<PasswordInfo> opf = filledForm.get().passwordInfo();
+    	   
+    	  Option<PasswordInfo> opf = filledForm.get().passwordInfo();
 		  PasswordInfo pinfo = opf.get();
 		  if(pinfo.hasher().equals(BCryptPasswordHasher.BCryptHasher())){
 			  Option<String> optSalt = pinfo.salt();
@@ -139,7 +140,7 @@ public class User extends Controller {
 				  filledForm.get().u01_Password = BCrypt.hashpw(filledForm.get().u01_Password, salt);
 			  }
 			  
-		  }*/
+		  }
     	   
 
     	   gfilledForm.save();

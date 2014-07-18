@@ -2,8 +2,7 @@ package controllers.newsapi;
 
 import controllers.HecticusController;
 import models.news.Banner;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.mvc.Result;
 import java.util.ArrayList;
 

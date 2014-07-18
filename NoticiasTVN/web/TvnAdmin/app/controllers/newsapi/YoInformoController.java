@@ -5,10 +5,8 @@ import controllers.Application;
 import controllers.HecticusController;
 import models.Config;
 import org.apache.commons.codec.binary.Base64;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.api.Play;
 import play.mvc.Http;
 import play.mvc.Result;

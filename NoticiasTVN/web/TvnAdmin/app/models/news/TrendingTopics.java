@@ -5,8 +5,8 @@ import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Page;
 import exceptions.TrendingTopicException;
 import models.HecticusModel;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.data.validation.Constraints;
 import play.libs.Json;
 
