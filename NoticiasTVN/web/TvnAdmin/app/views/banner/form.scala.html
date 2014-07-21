@@ -1,4 +1,4 @@
-@(bannerForm: Form[models.news.Banner])
+@(bannerForm: Form[models.news.Banner], resolutions: List[models.news.BannerResolution])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -7,44 +7,66 @@
 
 @main(title, nav = "create") {
     
-    @helper.form(action = controllers.routes.Banner.submit) {
+     @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    } 
+
+
+    @helper.form(action = controllers.routes.Banner.submit, 'enctype -> "multipart/form-data") {
         
         <fieldset>
-            <legend>Account informations</legend>
+            <legend>Banner informations</legend>
             
             @inputText(
                 bannerForm("name"), 
                 '_label -> "Name", 
-                '_help -> "Please choose a valid name.",
+                '_help -> "Ingrese un nombre válido.",
                 '_error -> bannerForm.globalError
             )
                
 			@inputText(
                 bannerForm("link"), 
                 '_label -> "Link", 
-                '_help -> "Please choose a valid link.",
+                 '_help -> "Ingrese una url válida.",
                 '_error -> bannerForm.globalError
             )               
                         
 			@textarea(
 				bannerForm("description"), 
             	'_label -> "Description", 'cols -> 50,
-            	'_help -> "Please choose a valid description."
+            	'_help -> "Ingrese una descripción válida."
         	)
             
             @select(
                 bannerForm("status"), 
                 options("0"-> "Inactivo", "1"-> "Active"),
-                '_default -> "--- Status ---",
-                '_label -> "Status",
-                '_error -> bannerForm("status").error.map(_.withMessage("Please select the status"))
+                '_default -> "--- Seleccione ---",
+                '_label -> "Estatus",
+                '_error -> bannerForm("status").error.map(_.withMessage("Selecciona una opción.")),
+                '_help -> "Requerido."
             )
             
         </fieldset>
 
+		<fieldset>
+            <legend>Files uploads</legend>
+            @for((resolution,index) <- resolutions.zipWithIndex) {
+	            <div class="clearfix  " id="file[@index]_field">	    			
+	    			<div class="input">
+	    				<img id="img-@index" src="" alt="" style="width:75%; height: auto; vertical-align: middle" onerror="this.style.display='none'">
+	    				<input type="file" name="file[@index]" required = "required" data-img="img-@index" >
+	        			<span class="help-block">Seleccione un banner con una dimensión ajustada en un ancho de @resolution.getWidth()px.</span> 
+	    			</div>
+				</div>
+            }
+      
+        </fieldset>
+
         <div class="actions">
-            <input type="submit" class="btn primary" value="Create this Banner">
-            <a href="@controllers.routes.Banner.list()" class="btn">Cancel</a>
+            <input type="submit" class="btn primary" value="Crear este banner">
+            <a href="@controllers.routes.Banner.list()" class="btn">Cancelar</a>
         </div>
         
     }

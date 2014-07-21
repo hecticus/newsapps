@@ -84,13 +84,11 @@ GET     /tvn					controllers.Tvn.index()
 # Banners list (look at the default values for pagination parameters)
 GET     /banner/list			controllers.Banner.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
 GET     /banner/lsort			controllers.Banner.lsort()
-GET     /file/list/:parent		controllers.Banner.listFile(parent:Long, p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
 
 # Add banner
 GET     /banner/blank		controllers.Banner.blank()
 POST    /banner				controllers.Banner.submit()
-GET     /file/blank/:parent	controllers.Banner.blankFile(parent:Long)
-POST    /file/uploadimage   controllers.Banner.uploadImage()
+
 
 # Edit existing banner
 GET     /banner/:id				controllers.Banner.edit(id:Long)

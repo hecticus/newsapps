@@ -1,7 +1,42 @@
-@(message: String)
-
-@main("Welcome to Play 2.1") {
+@main(Html("Panel de administración de categorías de noticias")) {
     
-    @play20.welcome(message, style = "Java")
+    <h2>Listar categorías</h2>
+    
+    <p>
+        Lista de categorias activas en la app
+    </p>
+    
+    <p>
+        <a class="btn" href="@controllers.routes.Tvn.list()">Ir »</a>
+    </p>
+    
+    <h2>Crear una Categoría</h2>
+    
+    <p>
+        Formulario de creación de nuevas categorías
+    </p>
+    
+    
+    
+	<h2>Listar banners</h2>
+    
+    <p>
+        Lista de banners de la app
+    </p>
+    
+    <p>
+        <a class="btn" href="@controllers.routes.Banner.list()">Ir »</a>
+    </p>
+    
+    <h2>Crear una banner</h2>
+    
+    <p>
+        Formulario de creación de nuevos banners
+    </p>
+    
+    
+    <p>
+        <a class="btn" href="@controllers.routes.Banner.blank()">Ir »</a>
+    </p>
     
 }

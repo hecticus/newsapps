@@ -48,8 +48,10 @@ public class Application extends Controller
     	if(connected==null) {
     		return redirect("/signin");
     	}
-    	    
-    	Client objClient =  new Client();
+
+    	return redirect(controllers.routes.Application.leaderboard());
+    	
+    	/*Client objClient =  new Client();
     	java.util.List<Phase> lstPhase = new ArrayList<Phase>();
     	lstPhase = objClient.getPredictionBet(connected);    
     	
@@ -61,7 +63,7 @@ public class Application extends Controller
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
     	JsonNode jsonResponse = jsonLeaderboard.get("response");
     	    	
-    	return ok(index2.render(lstPhase,jsonResponse.get("rank").asText()));  
+    	return ok(index2.render(lstPhase,jsonResponse.get("rank").asText()));  */
     	
     	
     	/*String connected = session("connected");

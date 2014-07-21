@@ -26,14 +26,14 @@ public class Category extends HecticusModel{
 	@Id
 	public Long idCategory;
 	
-	@Constraints.Required
+	@Constraints.Required(message ="Requerido")
 	public String name;
        
-    @Constraints.Required
+    @Constraints.Required(message ="Requerido")
 	@Constraints.Pattern(value = "(@)?(href=')?(HREF=')?(HREF=\")?(href=\")?(http://)?[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?", message="Example: http://www.hecticus.com")
     public String feedUrl;
     
-    @Constraints.Required
+    @Constraints.Required(message ="Requerido")
     public boolean pushable;
     
     public int sort;
