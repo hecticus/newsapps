@@ -17,11 +17,11 @@
     @helper.form(action = controllers.routes.Banner.submit, 'enctype -> "multipart/form-data") {
         
         <fieldset>
-            <legend>Banner informations</legend>
+            <legend>Información de banner</legend>
             
             @inputText(
                 bannerForm("name"), 
-                '_label -> "Name", 
+                '_label -> "Nombre", 
                 '_help -> "Ingrese un nombre válido.",
                 '_error -> bannerForm.globalError
             )
@@ -35,7 +35,7 @@
                         
 			@textarea(
 				bannerForm("description"), 
-            	'_label -> "Description", 'cols -> 50,
+            	'_label -> "Descripción", 'cols -> 50,
             	'_help -> "Ingrese una descripción válida."
         	)
             

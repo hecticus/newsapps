@@ -12,12 +12,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
+
 import javax.imageio.ImageIO;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import com.hecticus.rackspacecloud.RackspacePublish;
+
 import controllers.newsapi.YoInformoController;
 import models.Config;
 import models.news.BannerFile;
@@ -28,6 +31,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Security;
 import utils.Utils;
 import views.html.banner.*;
 
@@ -43,19 +47,19 @@ public class Banner extends HecticusController {
 	final static Form<models.news.Banner> BannerForm = form(models.news.Banner.class);
 	public static Result GO_HOME = redirect(routes.Banner.list(0, "sort", "asc", ""));
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result index() {
 		return GO_HOME;
 	}	
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result blank() {
 		BannerResolution objResolution= new BannerResolution();
 		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();		
 	   return ok(form.render(BannerForm,lstResolution));
 	}
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
@@ -70,7 +74,7 @@ public class Banner extends HecticusController {
         );
     }
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 
 		BannerResolution objResolution= new BannerResolution();
@@ -110,7 +114,7 @@ public class Banner extends HecticusController {
     	               
     	                boolean useCDN = Config.getInt("use-cdn")==1;
     	                if(useCDN && !RackspaceUploadAndPublish(dest)){
-    	                	flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());                    	
+    	                	flash("success", "Error publicando el banner " + lstResolution.get(i).getWidth());                    	
     	                    Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
     	                    //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
     	                    if(useCDN) dest.delete();
@@ -144,7 +148,7 @@ public class Banner extends HecticusController {
     						// TODO Auto-generated catch block
     						//e.printStackTrace();
     						if(useCDN) dest.delete();
-    						flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());
+    						flash("success", "Error publicando el banner " + lstResolution.get(i).getWidth());
     						return badRequest(form.render(filledForm,lstResolution));       						
     					}
 
@@ -160,12 +164,12 @@ public class Banner extends HecticusController {
     	if (lstBannerFile.size() >= 1) gfilledForm.setFileList(lstBannerFile);    	
     	gfilledForm.update(id);
 		
-		flash("success", "Banner " + gfilledForm.getName() + " has been updated");
+		flash("success", "El banner " + gfilledForm.getName() + " se ha eliminado");
 		return GO_HOME;
 		
 	}	
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
             list.render(
@@ -175,7 +179,7 @@ public class Banner extends HecticusController {
         );
     }
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result sort(String ids) {		
 		String[] aids = ids.split(",");
 		
@@ -188,18 +192,12 @@ public class Banner extends HecticusController {
 		return ok("Fine!");		
 	}
 	
-	
-	public static Result lsort() {
-		 /*return ok(sort.render(models.news.Banner.page(0, 0,"sort", "asc", "")));*/		
-		 	return ok(
-		            list.render(
-		            	models.news.Banner.page(0, 0,"sort", "asc", ""),
-		            	"sort", "asc", "",true
-		            )
-		        );
+	@Security.Authenticated(Secured.class)
+	public static Result lsort() {		 	
+	 	return ok(list.render(models.news.Banner.page(0, 0,"sort", "asc", ""),"sort", "asc", "",true));
 	}	
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static boolean RackspaceDelete(ArrayList<String> lstFileName) {
 		
 		try {
@@ -222,7 +220,7 @@ public class Banner extends HecticusController {
 
 	}
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result delete(Long id) {
 		
 		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
@@ -239,12 +237,12 @@ public class Banner extends HecticusController {
 		
 		RackspaceDelete(lstFileName); 
 		models.news.Banner.finder.ref(id).delete();
-		flash("success", "Banner has been deleted");
+		flash("success", "El banner se ha eliminado");
 	    return GO_HOME;
 	    
 	}	
 	
-	
+	@Security.Authenticated(Secured.class)
 	public static Result submit() {
 		
 		
@@ -280,8 +278,8 @@ public class Banner extends HecticusController {
                    
                     boolean useCDN = Config.getInt("use-cdn")==1;              
                     if(useCDN && !RackspaceUploadAndPublish(dest)){
-                    	flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());                    	
-                        Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
+                    	flash("success", "Error publicando el banner " + lstResolution.get(i).getWidth());                    	
+                        Utils.printToLog(Banner.class, "", "no se logró subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
                         //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
                         if(useCDN) dest.delete();
                         return badRequest(form.render(filledForm,lstResolution));        
@@ -307,7 +305,7 @@ public class Banner extends HecticusController {
 						//e.printStackTrace();
 						RackspaceDelete(null);
 						if(useCDN) dest.delete();
-						flash("success", "Error publishing banner " + lstResolution.get(i).getWidth());
+						flash("success", "Error publicando el banner " + lstResolution.get(i).getWidth());
 						return badRequest(form.render(filledForm,lstResolution));   						 
 					}
 
@@ -315,52 +313,48 @@ public class Banner extends HecticusController {
 
         	}
 
-        	
-        	 
-        	
-        	
     	   models.news.Banner gfilledForm = filledForm.get();    	   
     	   gfilledForm.setFileList(lstBannerFile);
     	   gfilledForm.setSort(models.news.Banner.finder.findRowCount());
     	   gfilledForm.save();
 
-    	   flash("success", "Banner " + gfilledForm.getName() + " has been created");
+    	   flash("success", "El Banner " + gfilledForm.getName() + " ha sido creado");
     	   return GO_HOME;  
     	   
 		}
 
 	}
 
-	
-	 private static boolean RackspaceUploadAndPublish(File file) {
+	@Security.Authenticated(Secured.class)
+	private static boolean RackspaceUploadAndPublish(File file) {
 
-	        String username = "hctcsproddfw";
-	        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
-	        String provider = "cloudfiles-us";
-	        RackspaceCreate upload = new RackspaceCreate(username, apiKey, provider);
-	        RackspacePublish pub = new RackspacePublish(username, apiKey, provider);
-	        long init = System.currentTimeMillis();
-	        int retry = 3;
-	        if(upload == null || pub == null){
-	            return false;
-	        }
-	        try {
-	            upload.createContainer(containerName);
-	            Utils.printToLog(Banner.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_INFO);
-	            //resources
-	            boolean uploaded = uploadFile(upload, retry, containerName, file, "advertising", init);
-	            Utils.printToLog(Banner.class, "", "Archivo" + (!uploaded?" NO":"") + " subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_INFO);
-	            if(uploaded){
-	                //publish
-	                pub.enableCdnContainer(containerName, TTL);
-	                Utils.printToLog(Banner.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_INFO);
-	            }
-	            return uploaded;
-	        } catch (Exception ex) {
-	            Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
-	            return false;
-	        }
+        String username = "hctcsproddfw";
+        String apiKey = "276ef48143b9cd81d3bef7ad9fbe4e06";
+        String provider = "cloudfiles-us";
+        RackspaceCreate upload = new RackspaceCreate(username, apiKey, provider);
+        RackspacePublish pub = new RackspacePublish(username, apiKey, provider);
+        long init = System.currentTimeMillis();
+        int retry = 3;
+        if(upload == null || pub == null){
+            return false;
+        }
+        try {
+            upload.createContainer(containerName);
+            Utils.printToLog(Banner.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_INFO);
+            //resources
+            boolean uploaded = uploadFile(upload, retry, containerName, file, "advertising", init);
+            Utils.printToLog(Banner.class, "", "Archivo" + (!uploaded?" NO":"") + " subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_INFO);
+            if(uploaded){
+                //publish
+                pub.enableCdnContainer(containerName, TTL);
+                Utils.printToLog(Banner.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_INFO);
+            }
+            return uploaded;
+        } catch (Exception ex) {
+            Utils.printToLog(null, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
+            return false;
+        }
 	        
-	 }	 
+	}	 
 	
 }

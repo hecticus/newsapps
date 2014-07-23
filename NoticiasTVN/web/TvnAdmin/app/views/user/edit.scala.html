@@ -7,26 +7,26 @@
 
 @main(title, nav = "create") {
     
-    <h1>Edit user</h1>
+    <h1>Editar usuario</h1>
     
     @form(controllers.routes.User.update(id)) {
         
         <fieldset>        
-        	@inputText(userForm("u01_Login"), '_label -> "Login", '_help -> "Please choose a valid Login.",'_error -> userForm.globalError, 'readonly -> "readonly")
-       		@inputPassword(userForm("u01_Password"), '_label -> "Password", '_help -> "Enter a valid password.")        
-        	@inputPassword(userForm("u01_Password_Confirmation"),'_label -> "Password Confirmation",'_help -> "Repeat your password again.",'_error -> userForm.error("u01_Password"))            
-            @inputText(userForm("u01_Email"),'_label -> "Email",'_help -> "Enter a valid email.", 'readonly -> "readonly")        
+        	@inputText(userForm("u01_Login"), '_label -> "Nombre", '_help -> "",'_error -> userForm.globalError, 'readonly -> "readonly")
+       		@inputPassword(userForm("u01_Password"), '_label -> "Contraseña", '_help -> "Ingrese una contraseña válida.")        
+        	@inputPassword(userForm("u01_Password_Confirmation"),'_label -> "Confirmar contraseña",'_help -> "Repita su contraseña.",'_error -> userForm.error("u01_Password"))            
+            @inputText(userForm("u01_Email"),'_label -> "Email",'_help -> "", 'readonly -> "readonly")        
         </fieldset>
         
         <div class="actions">
-            <input type="submit" value="Save this user" onclick="return confirm('Are you sure?');" class="btn primary"> or 
-            <a href="@controllers.routes.User.list()" class="btn">Cancel</a> 
+            <input type="submit" value="Actualiar este usuario" onclick="return confirm('¿Estás seguro de actualizar los datos del usuario?');" class="btn primary"> o 
+            <a href="@controllers.routes.User.list()" class="btn">Cancelar</a> 
         </div>
             
     }
     
     @form(controllers.routes.User.delete(id), 'class -> "topRight") {
-		<input type="submit" value="Delete this user" onclick="return confirm('Are you sure?');" class="btn danger">
+		<input type="submit" value="Eliminar este usuario" onclick="return confirm('¿Estás seguro de eliminar el usuario?');" class="btn danger">
     }
 
 }

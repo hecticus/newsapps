@@ -10,39 +10,39 @@
     @helper.form(action = controllers.routes.User.submit) {
         
         <fieldset>
-            <legend>Account informations</legend>
+            <legend>Información del usuario</legend>
             
             @inputText(
                 userForm("u01_Login"), 
-                '_label -> "Login", 
-                '_help -> "Please choose a valid Login.",
+                '_label -> "Nombre", 
+                '_help -> "Ingrese un nombre válido.",
                 '_error -> userForm.globalError
             )
             
             @inputPassword(
                 userForm("u01_Password"),
-                '_label -> "Password",
-                '_help -> "Enter a valid password."
+                '_label -> "Contraseña",
+                '_help -> "Ingrese una contraseña válido."
             )
                         
 			@inputPassword(
                 userForm("u01_Password_Confirmation"),
-                '_label -> "Password Confirmation",
- 				'_help -> "Repeat your password again.",
+                '_label -> "Confirmar contraseña",
+ 				'_help -> "Repita la contraseña.",
                 '_error -> userForm.error("u01_Password")
             )
             
             @inputText(
                 userForm("u01_Email"),
                 '_label -> "Email",
-                '_help -> "Enter a valid email."
+                '_help -> "Ingrese un email válido"
             )
             
             @inputText(
                 userForm("u01_Email_Confirmation"),
                 'class-> "required",
                 '_label -> "Email Confirmation",
- 				'_help -> "Repeat your email again.",
+ 				'_help -> "Repita el email",
                 '_error -> userForm.error("u01_Email")
             )
                         
@@ -50,8 +50,8 @@
         </fieldset>
 
         <div class="actions">
-            <input type="submit" class="btn primary" value="Create this user">
-            <a href="@controllers.routes.User.list()" class="btn">Cancel</a>
+            <input type="submit" class="btn primary" value="Crear este usuario">
+            <a href="@controllers.routes.User.list()" class="btn">Cancelar</a>
         </div>
         
     }

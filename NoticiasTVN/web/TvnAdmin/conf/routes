@@ -23,7 +23,7 @@ POST    /newsapi/v1/news/search/list                    controllers.newsapi.News
 #insert news
 POST    /newsapi/v1/news/insert                         controllers.newsapi.NewsController.insert()
 POST    /newsapi/v1/news/update                         controllers.newsapi.NewsController.update()
-#POST    /newsapi/v1/news/insertTrending                controllers.newsapi.NewsController.insertTrending()
+#POST   /newsapi/v1/news/insertTrending                controllers.newsapi.NewsController.insertTrending()
 
 #update news
 
@@ -55,7 +55,8 @@ GET    /newsapi/v1/yoinformo/getImg/*name                    controllers.newsapi
 #<Tvn>
 
 # Default path will just redirect to the category list
-GET     /tvn					controllers.Tvn.index()
+GET     /tvn			controllers.Tvn.index()
+
 
 # Banners list (look at the default values for pagination parameters)
 GET     /banner/list			controllers.Banner.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
@@ -111,5 +112,11 @@ POST    /user/:id				controllers.User.update(id:Long)
 
 # Delete a user
 POST    /user/:id/delete		controllers.User.delete(id:Long)
+
+
+GET     /login			controllers.User.login()
+POST    /login			controllers.User.authenticate()
+GET     /logout         controllers.User.logout()
+
 
 #</User>

@@ -23,17 +23,17 @@ public class U01_Users extends HecticusModel {
 	@Id
 	public Long u01_Id;
 	
-	@Constraints.Required
-	@Constraints.MinLength(5)	
+	@Constraints.Required(message ="Este campo es requerido")
+	@Constraints.MinLength(value = 5, message ="Longitud mínima es de 5 caracteres." )	
 	public String u01_Login;
 		
-	@Constraints.Required
-	@Constraints.MinLength(6)
+	@Constraints.Required(message ="Este campo es requerido")
+	@Constraints.MinLength(value = 6, message ="Longitud mínima es de 6 caracteres.")
 	public String u01_Password;
 
-	@Constraints.Required
 	@Constraints.Email
 	public String u01_Email;
+
 
 	
 	public static Model.Finder<Long, U01_Users> finder =
@@ -81,14 +81,15 @@ public class U01_Users extends HecticusModel {
     }
     		  
 
-    public static List<U01_Users> getUsers(String u01_login){
-        return finder.where().eq("u01_login", u01_login).findList();
+    public static U01_Users getUsers(String u01_login){
+        return finder.where().eq("u01_login", u01_login).findUnique();
     }
     
     public static List<U01_Users> getAllUsers(){
         return finder.all();
     }
-
+   
+    
     @Override
     public ObjectNode toJson() {
         return null;

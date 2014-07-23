@@ -43,16 +43,16 @@
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
-            <strong>Done!</strong> @flash.get("success")
+            <strong>Hecho!</strong> @flash.get("success")
         </div>
     } 
 
 
     <div id="actions">        
         <form action="@link(0, "u01_Login")" method="GET">
-            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by user login...">
-            <input type="submit" id="searchsubmit" value="Filter by login" class="btn primary">
-            <a class="btn success" id="add" href="@controllers.routes.User.blank()">Add a new user</a>            
+            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filtrar por nombre de usuario...">
+            <input type="submit" id="searchsubmit" value="Filtrar por nombre de usuario" class="btn primary">
+            <a class="btn success" id="add" href="@controllers.routes.User.blank()">Agregar nuevo usuario</a>            
         </form>
     </div>
     
@@ -67,7 +67,7 @@
         <table class="users zebra-striped">
             <thead>
                 <tr>
-                    @header("u01_Login", "Login")
+                    @header("u01_Login", "Nombre")
                     @header("u01_Email", "Email")
                 </tr>
             </thead>
@@ -87,27 +87,27 @@
             <ul>
                 @if(currentPage.hasPrev) {
                     <li class="prev">
-                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Anterior</a>
                     </li>
                 } else {
                     <li class="prev disabled">
-                        <a>&larr; Previous</a>
+                        <a>&larr; Anterior</a>
                     </li>
                 }
                 <li class="current">
-                    <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+                    <a>Listando del @currentPage.getDisplayXtoYofZ(" al "," de ")</a>
                 </li>
                 @if(currentPage.hasNext) {
                     <li class="next">
-                        <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                        <a href="@link(currentPage.getPageIndex + 1, null)">Próximo &rarr;</a>
                     </li>
                 } else {
                     <li class="next disabled">
-                        <a>Next &rarr;</a>
+                        <a>Próximo &rarr;</a>
                     </li>
                 }
             </ul>
-        </div>
+		</div>
         
     }
         

@@ -6,7 +6,7 @@
     <head>
     	
         <title>Tvn</title>
-        
+   
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
@@ -109,47 +109,52 @@
         <div class="topbar">
             <div class="fill">
                 <div class="container">
-                	
-                    <a class="brand" href="@controllers.routes.Application.index()">INICIO</a>
-                    
-                    <ul class="nav">
-
-				 		<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Categorías<span class="caret"></span></a>
-				          	<ul class="dropdown-menu" role="menu">
-					            <li><a href="@controllers.routes.Tvn.list()">Listar</a></li>
-					            <li><a href="@controllers.routes.Tvn.lsort()">Ordenar</a></li>
-					             <li class="divider"></li>
-					            <li><a href="@controllers.routes.Tvn.blank()">Crear</a></li>
-				          	</ul>
-				        </li>                        	
-                        	
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Banners<span class="caret"></span></a>
-				          	<ul class="dropdown-menu" role="menu">
-					            <li><a href="@controllers.routes.Banner.list()">Listar</a></li>
-					            <li><a href="@controllers.routes.Banner.lsort()">Ordenar</a></li> 
-					            <li class="divider"></li>					            
-					            <li><a href="@controllers.routes.Banner.blank()">Crear</a></li>
-				          	</ul>
-				        </li>                        	
-                        
-                        
-                        <li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario<span class="caret"></span></a>
-				          	<ul class="dropdown-menu" role="menu">
-					            <li><a href="@controllers.routes.User.list()">Listar</a></li>					            
-					            <li class="divider"></li>
-					            <li><a href="@controllers.routes.User.blank()">Crear</a></li>
-				          	</ul>
-				        </li>     
-                        
-                        <li>		 
-                            <a href="#">Salir</a>
-                        </li>
-                        				
-                    </ul>
-                    
+                	@if(session.get("logged") != null) {
+                		
+	                    <a class="brand" href="@controllers.routes.Application.index()">INICIO</a>
+	                    	                    
+	                    <ul class="nav">
+							
+							
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Categorías<span class="caret"></span></a>
+						          	<ul class="dropdown-menu" role="menu">
+							            <li><a href="@controllers.routes.Tvn.list()">Listar</a></li>
+							            <li><a href="@controllers.routes.Tvn.lsort()">Ordenar</a></li>
+							             <li class="divider"></li>
+							            <li><a href="@controllers.routes.Tvn.blank()">Crear</a></li>
+						          	</ul>
+						        </li>                        	
+		                        	
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Banners<span class="caret"></span></a>
+						          	<ul class="dropdown-menu" role="menu">
+							            <li><a href="@controllers.routes.Banner.list()">Listar</a></li>
+							            <li><a href="@controllers.routes.Banner.lsort()">Ordenar</a></li> 
+							            <li class="divider"></li>					            
+							            <li><a href="@controllers.routes.Banner.blank()">Crear</a></li>
+						          	</ul>
+						        </li>                        	
+		                        
+		                        
+		                        <!--li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario<span class="caret"></span></a>
+						          	<ul class="dropdown-menu" role="menu">
+							            <li><a href="@controllers.routes.User.list()">Listar</a></li>					            
+							            <li class="divider"></li>
+							            <li><a href="@controllers.routes.User.blank()">Crear</a></li>
+						          	</ul>
+						        </li-->     
+		                        
+		                        <li>		 
+		                            <a href="@controllers.routes.User.logout()">Salir</a>
+	                        </li>
+							
+								
+								
+						</ul>
+	                    
+					}
                 </div>
             </div>
         </div>

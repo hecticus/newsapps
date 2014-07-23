@@ -12,7 +12,7 @@
      @helper.form(controllers.routes.Banner.update(id), 'enctype -> "multipart/form-data") {
         
         <fieldset>
-        	<legend>Banner informations</legend>
+        	<legend>Informacion del banner</legend>
         	
         	@inputText(bannerForm("name"), '_label -> "Nombre", '_help -> "Ingrese un nombre válido.", '_error -> bannerForm.globalError)
         	@inputText(bannerForm("link"), '_label -> "Url", '_help -> "Ingrese una url válida.", '_error -> bannerForm.globalError)
