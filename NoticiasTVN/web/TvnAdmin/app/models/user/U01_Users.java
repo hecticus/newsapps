@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Page;
@@ -34,7 +35,8 @@ public class U01_Users extends HecticusModel {
 	@Constraints.Email
 	public String u01_Email;
 
-
+	@ManyToOne
+	public U02_Profiles profiles;
 	
 	public static Model.Finder<Long, U01_Users> finder =
 			  new Model.Finder<Long, U01_Users>(Long.class, U01_Users.class);
@@ -82,7 +84,9 @@ public class U01_Users extends HecticusModel {
     		  
 
     public static U01_Users getUsers(String u01_login){
-        return finder.where().eq("u01_login", u01_login).findUnique();
+        return finder.where()
+        		.eq("u01_login", u01_login)
+        		.findUnique();
     }
     
     public static List<U01_Users> getAllUsers(){

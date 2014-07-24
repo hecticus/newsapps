@@ -29,14 +29,14 @@
         </fieldset>
         
         <div class="actions">
-            <input type="submit" value="Actualizar esta categoría" onclick="return confirm('Estás seguro?');" class="btn primary"> o 
+            <input type="submit" value="Actualizar esta categoría" onclick="return confirm('¿Por favor confirmar que desea actualizar la información de la categoría?');" class="btn primary"> o 
             <a href="@controllers.routes.Tvn.list()" class="btn">Cancelar</a> 
         </div>
             
     }
     
     @form(controllers.routes.Tvn.delete(id), 'class -> "topRight") {
-		<input type="submit" value="Eliminar esta categoría" onclick="return confirm('Estás seguro?');" class="btn danger">
+		<input type="submit" value="Eliminar esta categoría" onclick="return confirm('¿Por favor confirmar que desea eliminar la información de la categoría?');" class="btn danger">
     }
        
 }

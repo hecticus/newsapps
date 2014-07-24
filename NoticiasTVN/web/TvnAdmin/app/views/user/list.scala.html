@@ -68,7 +68,7 @@
             <thead>
                 <tr>
                     @header("u01_Login", "Nombre")
-                    @header("u01_Email", "Email")
+                    @header("u01_Email", "Perfil")
                 </tr>
             </thead>
             <tbody>
@@ -76,7 +76,7 @@
                 @for(user <- currentPage.getList) {
                     <tr>
                         <td><a href="@controllers.routes.User.edit(user.u01_Id)">@user.u01_Login</a></td>
-                        <td>@user.u01_Email</td>                                          
+                        <td>@user.profiles.u02_Name</td>             
                     </tr>
                 }
 

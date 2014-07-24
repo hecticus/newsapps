@@ -47,14 +47,14 @@
         </fieldset>
   
         <div class="actions">        	        	
-            <input type="submit" value="Actualizar este banner" onclick="return confirm('Está seguro?');" class="btn primary"> o 
+            <input type="submit" value="Actualizar este banner" onclick="return confirm('¿Por favor confirmar que desea actualizar la información del banner?');" class="btn primary"> o 
             <a href="@controllers.routes.Banner.list()" class="btn">Cancelar</a> 
         </div>
             
     }
     
     @form(controllers.routes.Banner.delete(id), 'class -> "topRight") {
-		<input type="submit" value="Delete this banner" onclick="return confirm('Está seguro?');" class="btn danger">
+		<input type="submit" value="Delete this banner" onclick="return confirm('¿Por favor confirmar que desea eliminar la información del banner?');" class="btn danger">
     }
        
 }

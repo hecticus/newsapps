@@ -37,7 +37,7 @@ public class User extends Controller {
 	
 	public static Result logout() {
 	    session().clear();	    
-	    flash("success", "Has cerrado sesión");
+	    flash("success", "Su sesión se ha cerrado.");
 	    return ok(login.render(userForm));
 	}
 	
@@ -48,11 +48,12 @@ public class User extends Controller {
 			return badRequest(login.render(filledForm));
 		 } else {
 			 
-	    	U01_Users objUser =  U01_Users.getUsers(filledForm.field("u01_Login").value());	    	
+	    	U01_Users objUser =  U01_Users.getUsers(filledForm.field("u01_Login").value());
+	    	
 	    	if (objUser != null) {
 	    		if (BCrypt.checkpw(filledForm.field("u01_Password").value(), objUser.getU01_Password())) {
 					session().clear();	    	
-			        session("logged", "true");
+			        session("logged",  objUser.profiles.u02_Id.toString());
 					return GO_LIST;
 				} else {
 					flash("danger", "El usuario o contraseña que has introducido no son correctas");

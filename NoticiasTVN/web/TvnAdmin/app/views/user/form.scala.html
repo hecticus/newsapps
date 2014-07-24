@@ -46,6 +46,12 @@
                 '_error -> userForm.error("u01_Email")
             )
                         
+            @select(
+                userForm("profiles.u02_Id"), 
+                options(models.user.U02_Profiles.options), 
+                '_label -> "Perfil", '_default -> "-- Elegir el perfil --",
+                '_showConstraints -> false
+            )
             
         </fieldset>
 
