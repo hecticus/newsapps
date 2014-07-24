@@ -41,7 +41,7 @@
             
             @select(
                 bannerForm("status"), 
-                options("0"-> "Inactivo", "1"-> "Active"),
+                options("0"-> "Inactivo", "1"-> "Activo"),
                 '_default -> "--- Seleccione ---",
                 '_label -> "Estatus",
                 '_error -> bannerForm("status").error.map(_.withMessage("Selecciona una opción.")),

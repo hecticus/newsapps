@@ -46,6 +46,7 @@ POST    /newsapi/v1/news/trendingtopics/insert          controllers.newsapi.Tren
 
 #banners
 GET     /newsapi/v1/banners/get                         controllers.newsapi.BannerController.getActiveBanner()
+GET     /newsapi/v1/banners/get/all                     controllers.newsapi.BannerController.getActiveBanners()
 
 #ImageUpload Yo Informo
 POST    /newsapi/v1/yoinformo/uploadimage/       controllers.newsapi.YoInformoController.uploadImage()
