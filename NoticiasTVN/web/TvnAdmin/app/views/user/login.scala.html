@@ -1,0 +1,54 @@
+@(userForm: Form[models.user.U01_Users])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "") {
+	
+	
+		
+	@if(flash.containsKey("danger")) {										
+		<div class="alert-message danger">@flash.get("danger")</div>						
+	} 
+	
+    @if(flash.containsKey("success")) {
+    	<div class="alert-message success">@flash.get("success")</div>
+    }  
+      
+      
+    @helper.form(action = routes.User.authenticate,  'role -> "form" ) {
+        
+        
+        
+        <fieldset>
+
+            <legend>Iniciar sesión</legend>
+            
+            @inputText(
+                userForm("u01_Login"), 
+                '_label -> "Usuario", 
+                '_help -> "Ingrese un usuario válido.",
+                '_error -> userForm.globalError
+            )
+            
+            @inputPassword(
+                userForm("u01_Password"),
+                '_label -> "Contraseña",
+                '_help -> "Ingrese una contraseña válida."
+            )
+        
+	    
+                    
+        </fieldset>
+        
+        <div class="actions">
+			<button type="submit" class="btn primary" >Ingresar</button>	
+		</div>
+        
+		       
+        
+    }
+    
+}
