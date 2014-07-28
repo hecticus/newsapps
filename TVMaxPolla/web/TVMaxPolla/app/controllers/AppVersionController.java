@@ -3,6 +3,7 @@ package controllers;
 import models.Config;
 import org.codehaus.jackson.node.ObjectNode;
 import play.mvc.Result;
+import utils.Utils;
 
 /**
  * Created by chrirod on 5/25/14.
@@ -10,7 +11,7 @@ import play.mvc.Result;
 public class AppVersionController extends HecticusController {
 
     public static Result checkAppVersion(int version, String os){
-        int versionServer = 0;
+        /*int versionServer = 0;
         String url = "";
         boolean differentVersion = false;
         if(os.contains("droid")){
@@ -32,6 +33,16 @@ public class AppVersionController extends HecticusController {
         if(differentVersion){
             //build response
             ObjectNode response = hecticusResponseSimple(0, "ok", "updateUrl", url);
+            return ok(response);
+        }else{
+            //build response
+            ObjectNode response = buildBasicResponse(0,"ok");
+            return ok(response);
+        }*/
+        String updateURL = Utils.getUpdateVersionURL(version, os);
+        if(updateURL != null){
+            //build response
+            ObjectNode response = hecticusResponseSimple(0, "ok", "updateUrl", updateURL);
             return ok(response);
         }else{
             //build response

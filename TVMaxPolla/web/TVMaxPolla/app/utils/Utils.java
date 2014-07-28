@@ -1,6 +1,8 @@
 package utils;
 
+import models.Config;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.codehaus.jackson.node.ObjectNode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -247,6 +249,33 @@ public class Utils {
             return aux.format(pre.getTime());
         }catch (Exception ex){
             return "";
+        }
+    }
+
+    public static String getUpdateVersionURL(int version, String os){
+        int versionServer = 0;
+        String url = "";
+        boolean differentVersion = false;
+        if(os.contains("droid")){
+            //is android
+            versionServer = Config.getInt("app_version_android");
+            if(version<versionServer){
+                url = Config.getString("android_app_url");
+                differentVersion = true;
+            }
+        }else{
+            //is ios
+            versionServer = Config.getInt("app_version_ios");
+            if(version<versionServer){
+                url = Config.getString("ios_app_url");
+                differentVersion = true;
+            }
+        }
+
+        if(differentVersion){
+            return url;
+        }else{
+            return null;
         }
     }
 
