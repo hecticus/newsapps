@@ -1,12 +1,14 @@
 package controllers.newsapi;
 
 import controllers.HecticusController;
+import models.Config;
 import models.news.Banner;
 import models.news.BannerFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import play.libs.Json;
 import play.mvc.Result;
 
 import java.util.ArrayList;
@@ -33,6 +35,21 @@ public class BannerController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
+    
+    
+    public static Result getConfigBanners(){
+        try {        	       
+            //get activebanner            
+            String urlPrefix = Config.getString("banner-interval");            
+            //build answer
+            ObjectNode response = hecticusResponseSimple(0, "ok", "interval-banner", urlPrefix);
+            return ok(response);
+        } catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+    
+    
     
     public static Result getActiveBanners(){
         try {
