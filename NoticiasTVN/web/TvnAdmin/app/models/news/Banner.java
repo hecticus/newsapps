@@ -161,6 +161,7 @@ public class Banner extends HecticusModel {
     public static List<Banner> getActiveBanners() {
         return finder.where()
         		.eq("status", STATUS_ACTIVE)
+        		.setMaxRows(3)
         		.orderBy("sort")        		
         		.findList();
     }
