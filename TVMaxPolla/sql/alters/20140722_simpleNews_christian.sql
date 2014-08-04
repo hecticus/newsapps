@@ -59,3 +59,17 @@ INSERT INTO `tvmax_polla_admin`.`actions` (`id_action`, `name`, `template`, `pus
 INSERT INTO `tvmax_polla_admin`.`actions` (`id_action`, `name`, `template`, `pushable`) VALUES ('21', 'Otros', 'Otros', '0');
 
 
+
+UPDATE `tvmax_polla_admin`.`news_category` SET `keywords`='Principales' WHERE `id_news_category`='1';
+
+
+
+ALTER TABLE `tvmax_polla_admin`.`news_category` ADD COLUMN `id_action` INT(11) NOT NULL DEFAULT 0  AFTER `id_category` ;
+
+UPDATE `tvmax_polla_admin`.`news_category` SET `id_category`='75', `id_action`='18' WHERE `id_news_category`='2';
+UPDATE `tvmax_polla_admin`.`news_category` SET `id_category`='76', `id_action`='19' WHERE `id_news_category`='3';
+UPDATE `tvmax_polla_admin`.`news_category` SET `id_category`='77', `id_action`='20' WHERE `id_news_category`='4';
+UPDATE `tvmax_polla_admin`.`news_category` SET `id_category`='78', `id_action`='21' WHERE `id_news_category`='5';
+UPDATE `tvmax_polla_admin`.`news_category` SET `id_category`='79', `id_action`='17' WHERE `id_news_category`='1';
+
+

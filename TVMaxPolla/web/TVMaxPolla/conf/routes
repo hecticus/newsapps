@@ -103,6 +103,7 @@ POST    /push/client/deleteActions                  controllers.pushevents.Categ
 
 
 POST    /push/client/getInfo                        controllers.pushevents.CategoriesWS.getClientInfo()
+POST    /push/client/getInfoSimple                  controllers.pushevents.CategoriesWS.getClientInfoSimple()
 
 #simple news
 GET     /tvmaxfeeds/simplenews/get/:categoryName          controllers.tvmaxfeeds.SimpleNewsController.getNews(categoryName : String)
