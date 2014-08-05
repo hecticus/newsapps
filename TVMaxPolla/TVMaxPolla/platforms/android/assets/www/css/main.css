@@ -55,20 +55,17 @@
 	
 	
 	.content-menu {background:#fffff; height; 50px; line-height:50px; font-size: 1.4em;}
-	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}		
-	.content-menu {border-bottom: solid 1pt #E0E0E0; }
+	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}
+	.content-menu {border-bottom: solid 1pt #E0E0E0;}
 	.content-menu:last-child {border:0;}
-	
 
-
-
-	#wrapper, #wrapper2, #wrapperM, #wrapperMaM, #wrapperMaM2 { 
-		position: absolute; 
-		z-index: 1; 
+	#wrapper, #wrapper2, #wrapperM, #wrapperMaM, #wrapperMaM2 {
+		position: absolute;
+		z-index: 1;
 		top: 50px; 
 		bottom: 0; 
 		left: 0; 
-		width: 100%; 
+		width: 100%;
 		background: #fff;
 	}
 	

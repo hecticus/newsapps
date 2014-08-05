@@ -81,10 +81,22 @@ function initAllAppData(){
 	_oAjax = $.fGetAjaXJSON('http://10.0.1.125:9002/tvmaxfeeds/newscategories/getsimple',false,true,false);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			$.each(_json.news_categories.item, function(_index,_item) {				
-				if (_index >= 1) {
-	
-					_jMenu.push({index:_index,						
+
+			$.each(_json.news_categories.item, function(_index,_item) {
+				if (_item.main) {
+					_jMenu.push({index:_jMenu.length,						
+							class: 'content-noticias',
+							title:_item.display_name,
+							load:'noticias.html',
+							glyphicon:'',								
+							json:{item:_item,backup:false},
+							stream:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords});
+				}	
+			});
+			
+			$.each(_json.news_categories.item, function(_index,_item) {
+				if (!_item.main) {
+					_jMenu.push({index:_jMenu.length,						
 								class: 'content-noticias',
 								title:_item.display_name,
 								load:'noticias.html',
@@ -93,20 +105,18 @@ function initAllAppData(){
 								stream:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords});
 				
 				}
-				
-											
-				
-			});			
+			});
+						
 		});
 	}
 
 	_jMenu.push({index:_jMenu.length,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
 	_jMenu.push({index:_jMenu.length,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});
 
-	_oAjax = $.fGetAjaXJSON(_jMenu[1].stream,false,false,false);	
+	_oAjax = $.fGetAjaXJSON(_jMenu[2].stream,false,true,false);	
 	if (_oAjax) {
-		_oAjax.done(function(_json) {					
-			_jMenu[1].json.backup = _json.noticias_deportes;						
+		_oAjax.done(function(_json) {
+			_jMenu[2].json.backup = _json.noticias_deportes;						
 			$.each(_json.noticias_deportes.item, function(_index,_item) {
 				if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
 				var _img = $('img #img').attr('src',_item.imagen);
@@ -312,35 +322,6 @@ function initPage(){
 			_html += '<span class="icon-flechaazul"></span>';		
 		_html += '</div>';			
 		_html += '</div>';
-
-		/*if (_index == 16 || _index == 17) {
-			
-			if(loadClientData() == null) {			
-				_html += '<div class="row content-menu">';		
-				_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
-					_html += '<span class="' + _menu.glyphicon + '" ></span>';
-					_html += '<span>' + _menu.title + '</span>';
-				_html += '</div>';		
-				_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
-					_html += '<span class="icon-flechaazul"></span>';		
-				_html += '</div>';			
-				_html += '</div>';
-			
-			}
-
-		}  else {
-		
-			_html += '<div class="row content-menu">';		
-			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
-				_html += '<span class="' + _menu.glyphicon + '" ></span>';
-				_html += '<span>' + _menu.title + '</span>';
-			_html += '</div>';		
-			_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
-				_html += '<span class="icon-flechaazul"></span>';		
-			_html += '</div>';			
-			_html += '</div>';
-			
-		}*/
 
 	});         	
 	
