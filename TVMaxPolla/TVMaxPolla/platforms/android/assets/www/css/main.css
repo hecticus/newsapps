@@ -786,7 +786,6 @@
 	li[data-phase="3erlugar"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#037677; background-color:#037677;}
 	li[data-phase="final"]:before {content: "-"; font-size:1.4em; margin-right:10px; color:#F9A11A; background-color:#F9A11A;}
 
-	body.content-home #banner-claro { background-image:url(img/claro/800x80.jpg); background-size:cover; }
 
 	.refresh.loading {color:#FFD455;}
 	.refresh.error {color:red;}

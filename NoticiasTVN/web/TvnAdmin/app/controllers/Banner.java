@@ -34,7 +34,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import utils.Utils;
 import views.html.banner.*;
-
+import securesocial.core.java.SecureSocial.SecuredAction;
 
 @SuppressWarnings("unused")
 public class Banner extends HecticusController {

@@ -1,11 +1,11 @@
 package models.pushevents;
 
 import models.HecticusModel;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -64,5 +64,18 @@ public class Action extends HecticusModel {
 
     public Integer getPushable() {
         return pushable;
+    }
+
+    /********************** bd funtions*******************************/
+    public static Long getActionByName(String name){
+        Long tr = null;
+        Action action = finder.where().disjunction()
+                .eq("name",name)
+                .eq("name",encode(name))
+                .endJunction().findUnique();
+        if(action != null){
+            tr = action.getIdAction();
+        }
+        return tr;
     }
 }

@@ -1,6 +1,6 @@
-@(jResponse:com.fasterxml.jackson.databind.JsonNode) 
+@(jResponse:org.codehaus.jackson.JsonNode) 
 
-@getLeader(jLeader: java.util.Iterator[com.fasterxml.jackson.databind.JsonNode]) = {
+@getLeader(jLeader: java.util.Iterator[org.codehaus.jackson.JsonNode]) = {
 	@for((leader, index) <- jLeader.zipWithIndex) {				
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="margin-top: 5px;">
 			

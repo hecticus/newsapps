@@ -1,26 +1,47 @@
 package models.user;
 
+
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.node.ObjectNode;
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.avaje.ebean.Page;
 
 import models.HecticusModel;
+import play.Play;
 import play.data.validation.*;
 import play.db.ebean.Model;
-import play.libs.Json;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import scala.Option;
+import securesocial.core.AuthenticationMethod;
+import securesocial.core.Identity;
+import securesocial.core.IdentityId;
+import securesocial.core.OAuth1Info;
+import securesocial.core.OAuth2Info;
+import securesocial.core.PasswordInfo;
+import securesocial.core.providers.utils.BCryptPasswordHasher;
 
 @Entity
 @Table(name="u01_users")
-public class U01_Users extends HecticusModel {
+public class U01_Users extends HecticusModel implements Identity {
 
+	/*
+	 *	Las anotaciones @Required y @Email se utilizan para validar los campos del formulario
+	 *  correspondientes al atributo del modelo.
+	 *  
+	 *   Para mayor información visitar:
+	 *   	http://www.playframework.com/documentation/2.1.x/JavaForms
+	 *   	
+	 */
+	//private static final long serialVersionUID = 1L;
+	
 	@Id
 	public Long u01_Id;
 	

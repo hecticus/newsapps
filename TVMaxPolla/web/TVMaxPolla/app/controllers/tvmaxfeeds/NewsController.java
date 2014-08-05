@@ -3,9 +3,10 @@ package controllers.tvmaxfeeds;
 import controllers.HecticusController;
 import models.tvmaxfeeds.TvmaxMatch;
 import models.tvmaxfeeds.TvmaxNews;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.mvc.Result;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +24,7 @@ public class NewsController extends HecticusController {
             ObjectNode data = getJson();
             //get data from json
             if (data.has("news")){
-                Iterator it = data.get("news").elements();
+                Iterator it = data.get("news").getElements();
                 while (it.hasNext()){
                     JsonNode current = (JsonNode)it.next();
                     try {

@@ -1,7 +1,7 @@
 package models;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -19,6 +19,8 @@ public abstract class HecticusModel extends Model {
     public static final int MAX_SIZE = 25;
 
     public static final int MAIN_MAX_SIZE = 4;
+
+    public static final int SIMPLENEWS_MAIN_MAX_SIZE = 5;
 
     public static final int OTHERS_MAX_SIZE = 21;
 

@@ -7,11 +7,12 @@ import exceptions.TvmaxFeedException;
 import models.HecticusModel;
 import models.matches.GameMatch;
 import models.matches.Team;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;

@@ -2,18 +2,12 @@ package controllers.matchesapi;
 
 import controllers.HecticusController;
 import models.matches.*;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.libs.F;
 import play.libs.Json;
-
-import play.libs.ws.*;
-import play.libs.F.Function;
-import play.libs.F.Promise;
-
+import play.libs.WS;
 import play.mvc.Result;
 
 import java.io.UnsupportedEncodingException;
@@ -233,8 +227,8 @@ public class ClientBetController extends HecticusController {
                         try{
                             String url = "http://localhost:9000/KrakenSocialLeaderboards/v1/leaderboard/item/add/"
                                     +cbet.getIdClient()+"/"+cbet.getIdLeaderboard()+"/"+points;
-                            Promise<WSResponse> add = WS.url(url).post("content");
-                            JsonNode node = Json.parse(add.get(0).getBody());
+                            F.Promise<WS.Response> add = WS.url(url).post("content");
+                            JsonNode node = Json.parse(add.get().getBody());
                             int error = node.get("error").asInt();
                             if(error == 0){
                                 //update client calculated
@@ -285,8 +279,8 @@ public class ClientBetController extends HecticusController {
                 "{\"id_match\":64,\"winner\":11101,\"loser\":11101,\"score_winner\":2,\"score_loser\":1}]}";
         System.out.println(json_str);
         JsonNode node = Json.parse(json_str);
-        Promise<WSResponse> calculate = WS.url("http://localhost:8000/matchesapi/v1/bet/calculate").post(node);
-        JsonNode result = Json.parse(calculate.get(0).getBody());
+        F.Promise<WS.Response> calculate = WS.url("http://localhost:8000/matchesapi/v1/bet/calculate").post(node);
+        JsonNode result = Json.parse(calculate.get().getBody());
         return ok(result);
     }
 }
