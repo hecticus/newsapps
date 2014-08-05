@@ -88,9 +88,10 @@ function initAllAppData(){
 							class: 'content-noticias',
 							title:_item.display_name,
 							load:'noticias.html',
-							glyphicon:'',								
-							json:{item:_item,backup:false},
-							stream:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords});
+							glyphicon:'',															
+							json:_item,
+							stream:{url:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords,json:false}
+							});
 				}	
 			});
 			
@@ -101,8 +102,9 @@ function initAllAppData(){
 								title:_item.display_name,
 								load:'noticias.html',
 								glyphicon:'',								
-								json:{item:_item,backup:false},
-								stream:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords});
+								json:_item,
+								stream:{url:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords,json:false}
+								});
 				
 				}
 			});
@@ -113,10 +115,10 @@ function initAllAppData(){
 	_jMenu.push({index:_jMenu.length,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
 	_jMenu.push({index:_jMenu.length,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});
 
-	_oAjax = $.fGetAjaXJSON(_jMenu[2].stream,false,true,false);	
+	_oAjax = $.fGetAjaXJSON(_jMenu[2].stream.url,false,true,false);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			_jMenu[2].json.backup = _json.noticias_deportes;						
+			_jMenu[2].stream.json = _json.noticias_deportes;						
 			$.each(_json.noticias_deportes.item, function(_index,_item) {
 				if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
 				var _img = $('img #img').attr('src',_item.imagen);
@@ -127,41 +129,26 @@ function initAllAppData(){
 
 
 	document.addEventListener('backbutton', function(e) {
-		
-		if ($('body').hasClass('content-polla')) {
-			if ($('#wrapperM').hasClass('right')) {
-				$('#wrapperM').attr('class','page transition left');	
-			} else if ($('#wrapper2').hasClass('left')) {
-				$('#wrapper2').attr('class','page transition right');
-			} else {			
-				_fSetBack();	
-				_fSetLoadInit();
-			}
-		} else {
-		
-			if ($('#wrapper2').hasClass('left') || $('#wrapperMaM').hasClass('left'))  {	
-				_fSetBack();												
-			} else {
 				
-				if ($('#wrapperM').hasClass('right')) {
-			 		_fSetBack();
-				} else if ($('body').hasClass('content-home')) {							
-					exitApp();				
-				} else if ($('body').hasClass('content-default')) {							
-					exitApp();				
-				} else if ($('body').hasClass('content-signin')) {	
-					backFromRegister();		
-				} else if ($('body').hasClass('content-signup')) {							
-					backFromRegister();				
-				} else {						
-					_fSetLoadInit();
-				}					
-			}
+		if ($('#wrapper2').hasClass('left'))  {	
+			_fSetBack();												
+		} else {
 			
-		}	
-		
-		
-									
+			if ($('#wrapperM').hasClass('right')) {
+		 		_fSetBack();
+			} else if ($('body').hasClass('content-home')) {							
+				exitApp();				
+			} else if ($('body').hasClass('content-default')) {							
+				exitApp();				
+			} else if ($('body').hasClass('content-signin')) {	
+				backFromRegister();		
+			} else if ($('body').hasClass('content-signup')) {							
+				backFromRegister();				
+			} else {						
+				_fSetLoadInit();
+			}					
+		}
+							
 	}, false);
 	
 	app.receivedEvent('deviceready');    	
@@ -170,7 +157,7 @@ function initAllAppData(){
 }
 
 function reloadNewsMain(){
-	_oAjaxRefresh = $.fGetAjaXJSON2(_jMenu[1].stream,false,true,false);	
+	_oAjaxRefresh = $.fGetAjaXJSON2(_jMenu[1].stream.json,false,true,false);	
 	if (_oAjaxRefresh) {
 		_oAjaxRefresh.done(function(_json) {					
 			_jMenu[1].json.backup = _json.noticias_deportes;						

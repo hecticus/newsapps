@@ -102,8 +102,8 @@
 
 	
 	var _iIndex = $('main').data('index');
-	_jStream = _jMenu[_iIndex].stream;
-	_jGet = _jMenu[_iIndex].json.backup;
+	_jStream = _jMenu[_iIndex].stream.url;
+	_jGet = _jMenu[_iIndex].stream.json;
 	
 
 	if (_jGet && (lastTimeDownloaded < getCurrentTimeMillis() - 300000)) {
