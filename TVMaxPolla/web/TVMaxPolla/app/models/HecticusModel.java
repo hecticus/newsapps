@@ -20,6 +20,8 @@ public abstract class HecticusModel extends Model {
 
     public static final int MAIN_MAX_SIZE = 4;
 
+    public static final int SIMPLENEWS_MAIN_MAX_SIZE = 5;
+
     public static final int OTHERS_MAX_SIZE = 21;
 
     public abstract ObjectNode toJson();

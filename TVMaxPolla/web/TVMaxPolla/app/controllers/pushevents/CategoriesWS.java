@@ -183,19 +183,19 @@ public class CategoriesWS extends HecticusController {
         try{
             ObjectNode jsonInfo = getJson();
             Long idClient  = jsonInfo.get("idClient").asLong();
-            List<Category> availableCategories = Category.finder.findList();
+            List<Category> availableCategories = Category.finder.where().lt("id_category", 75).findList();
             ArrayList<ObjectNode> avNodes = new ArrayList<>();
             for(Category c : availableCategories){
                 avNodes.add(c.toJson());
             }
 
-            List<Action> action = Action.finder.where().eq("pushable", 1).findList();
+            List<Action> action = Action.finder.where().eq("pushable", 1).lt("id_action", 17).findList();
             ArrayList<ObjectNode> catNodes = new ArrayList<>();
             for(Action a : action){
                 catNodes.add(a.toJson());
             }
 
-            List<CategoryClient> catCl = CategoryClient.finder.where().eq("idClient", idClient).findList();
+            List<CategoryClient> catCl = CategoryClient.finder.where().eq("idClient", idClient).lt("id_category", 75).findList();
             ArrayList<Long> catClNodes = new ArrayList<>();
             for(CategoryClient a : catCl){
                 catClNodes.add(a.getCategory().getIdCategory());
@@ -221,6 +221,33 @@ public class CategoriesWS extends HecticusController {
         }
     }
 
+    public static Result getClientInfoSimple(){
+        try{
+            ObjectNode jsonInfo = getJson();
+            Long idClient  = jsonInfo.get("idClient").asLong();
+            List<CategoryClient> catCl = CategoryClient.finder.where().eq("idClient", idClient).findList();
+            ArrayList<Long> catClNodes = new ArrayList<>();
+            for(CategoryClient a : catCl){
+                catClNodes.add(a.getCategory().getIdCategory());
+            }
+
+            List<ClientAction> actCl = ClientAction.finder.where().eq("idClient", idClient).findList();
+            ArrayList<Long> actClNodes = new ArrayList<>();
+            for(ClientAction a : actCl){
+                actClNodes.add(a.getAction().getIdAction());
+            }
+
+
+            ObjectNode responseNode = Json.newObject();
+            responseNode.put("error", 0);
+            responseNode.put("description", "ok");
+            responseNode.put("clientCategories", Json.toJson(catClNodes));
+            responseNode.put("clientActions", Json.toJson(actClNodes));
+            return ok(responseNode);
+        } catch (Exception e){
+            return badRequest("Ocurrio un error insertando el cliente " + e.getMessage());
+        }
+    }
 
     public static Result updateClient(){
         try{

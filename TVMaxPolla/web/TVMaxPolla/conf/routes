@@ -103,3 +103,13 @@ POST    /push/client/deleteActions                  controllers.pushevents.Categ
 
 
 POST    /push/client/getInfo                        controllers.pushevents.CategoriesWS.getClientInfo()
+POST    /push/client/getInfoSimple                  controllers.pushevents.CategoriesWS.getClientInfoSimple()
+
+#simple news
+GET     /tvmaxfeeds/simplenews/get/:categoryName          controllers.tvmaxfeeds.SimpleNewsController.getNews(categoryName : String)
+GET     /tvmaxfeeds/simplenews/latest/                    controllers.tvmaxfeeds.SimpleNewsController.getLatest()
+GET     /tvmaxfeeds/simplenews/get/id/:id                 controllers.tvmaxfeeds.SimpleNewsController.getNewsById(id : String)
+POST    /tvmaxfeeds/simplenews/insert                     controllers.tvmaxfeeds.SimpleNewsController.insert()
+
+GET     /tvmaxfeeds/newscategories/get/:version/:os          controllers.tvmaxfeeds.SimpleNewsController.getNewsCategories(version:Integer, os:String)
+GET     /tvmaxfeeds/newscategories/getsimple          controllers.tvmaxfeeds.SimpleNewsController.getNewsCategories(version:Integer = 99999, os:String = "droid")

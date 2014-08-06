@@ -65,4 +65,17 @@ public class Action extends HecticusModel {
     public Integer getPushable() {
         return pushable;
     }
+
+    /********************** bd funtions*******************************/
+    public static Long getActionByName(String name){
+        Long tr = null;
+        Action action = finder.where().disjunction()
+                .eq("name",name)
+                .eq("name",encode(name))
+                .endJunction().findUnique();
+        if(action != null){
+            tr = action.getIdAction();
+        }
+        return tr;
+    }
 }
