@@ -26,7 +26,8 @@ var newsPushInterval;
 var newsReadyForPush = false;
 var _jActive = false;
 
-var _urlHecticus = 'http://10.0.1.125:9002/';
+//var _urlHecticus = 'http://10.0.1.125:9002/';
+var _urlHecticus = 'http://polla.tvmax-9.com/';
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
 var _day = _date.getDate();
@@ -73,11 +74,23 @@ var app = {
     }
 };
 
-function _fPushMenu(_json,_expression) {
+function _fPushMenu(_json) {
 	$.each(_json.news_categories.item, function(_index,_item) {
 		_storeKey = 'newscategories_' + _item.id_news_category;
 		if (_item.status == 1) {		
-			if (eval(_expression)) {
+			if (_item.main == 1) {
+				_jMenu.push({
+					index:_jMenu.length,						
+					class: 'content-noticias',
+					title:_item.display_name,
+					load:'noticias.html',
+					glyphicon:'',								
+					json:_item,
+					update:true,
+					stream:_urlHecticus + 'tvmaxfeeds/simplenews/latest/',
+					storeKey: 'newscategories_' + _item.id_news_category
+				});				
+			}else{
 				_jMenu.push({
 					index:_jMenu.length,						
 					class: 'content-noticias',
@@ -88,8 +101,8 @@ function _fPushMenu(_json,_expression) {
 					update:true,
 					stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords,
 					storeKey: 'newscategories_' + _item.id_news_category
-				});				
-			};
+				});
+			}
 		} else {
 			if(typeof(window.localStorage) != 'undefined') {
 				window.localStorage.removeItem(_storeKey);	
@@ -119,8 +132,7 @@ function _fRequestCategories() {
 	}	 
 
 	if (_json) {
-		_fPushMenu(_json,'_item.main');
-		_fPushMenu(_json,'!_item.main');		
+		_fPushMenu(_json);
 	}
 
 }
