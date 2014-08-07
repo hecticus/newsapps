@@ -201,33 +201,22 @@ $.fGetAjaXJSON2 = function(_url, _dataType, _contentType, _async,_loading) {
 };
 
 
-
-
-
-
-
-
-
-
-
 $.fGetAjaXJSON = function(_url, _dataType, _contentType, _async,_loading) {
-
-	try {	
-		
-			
+	try {						
 	  	return $.ajax({
 			url: _url,			
 			type: 'GET',	
+			timeout: 1000,
 			async: (_async) ? _async : false,            		
 			dataType: (_dataType) ? _dataType : 'json',
 			contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
 			beforeSend : function () {				
-				_fGetLoading();					
+				_fGetLoading();
 		}}).always(function () {
 			//always		
 		}).fail(function(jqXHR, textStatus, errorThrown) {		
 			//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
-			_fGetLoadingError();
+			//_fGetLoadingError();
 			return false;
 		});
 		   

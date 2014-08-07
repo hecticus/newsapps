@@ -26,8 +26,7 @@ var newsPushInterval;
 var newsReadyForPush = false;
 var _jActive = false;
 
-
-				 
+var _urlHecticus = 'http://10.0.1.125:9002/';
 var _urlCloud = 'http://1053e587fa1a3ea08428-6ed752b9d8baed6ded0f61e0102250e4.r36.cf1.rackcdn.com';
 var _date = new Date();
 var _day = _date.getDate();
@@ -74,63 +73,53 @@ var app = {
     }
 };
 
-function initAllAppData(){
+function _fRequestCategories() {
 	
+	var _json = false;
+	var _key = 'newscategories';
 	
-	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu'});	
-	_oAjax = $.fGetAjaXJSON('http://10.0.1.125:9002/tvmaxfeeds/newscategories/getsimple',false,true,false);	
+	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/getsimple',false,true,false);
+	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-
-			$.each(_json.news_categories.item, function(_index,_item) {
-				if (_item.main) {
-					_jMenu.push({index:_jMenu.length,						
-							class: 'content-noticias',
-							title:_item.display_name,
-							load:'noticias.html',
-							glyphicon:'',															
-							json:_item,
-							stream:{url:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords,json:false}
-							});
-				}	
-			});
-			
-			$.each(_json.news_categories.item, function(_index,_item) {
-				if (!_item.main) {
-					_jMenu.push({index:_jMenu.length,						
-								class: 'content-noticias',
-								title:_item.display_name,
-								load:'noticias.html',
-								glyphicon:'',								
-								json:_item,
-								stream:{url:'http://10.0.1.125:9002/tvmaxfeeds/simplenews/get/' + _item.keywords,json:false}
-								});
-				
-				}
-			});
-						
+			if(typeof(window.localStorage) != 'undefined') {		
+				window.localStorage.setItem(_key,JSON.stringify(_json));				 
+			}
 		});
 	}
+	
+	if (window.localStorage.getItem(_key)) {
+		_json = JSON.parse(window.localStorage.getItem('newscategories'));	
+	} 
 
+	if (_json) {
+		$.each(_json.news_categories.item, function(_index,_item) {
+			_jMenu.push({index:_jMenu.length,						
+						class: 'content-noticias',
+						title:_item.display_name,
+						load:'noticias.html',
+						glyphicon:'',								
+						json:_item,
+						stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords
+						});
+		});		
+	}
+
+}
+
+
+function initAllAppData() {
+	
+
+	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu'});	
+	_fRequestCategories();
 	_jMenu.push({index:_jMenu.length,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
 	_jMenu.push({index:_jMenu.length,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});
-
-	_oAjax = $.fGetAjaXJSON(_jMenu[2].stream.url,false,true,false);	
-	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			_jMenu[2].stream.json = _json.noticias_deportes;						
-			$.each(_json.noticias_deportes.item, function(_index,_item) {
-				if (_index == 0) _jImageFeatured = {src:_item.imagen,caption:_item.titulo};
-				var _img = $('img #img').attr('src',_item.imagen);
-				return false;
-			});				
-		});
-	}
 
 
 	document.addEventListener('backbutton', function(e) {
 				
-		if ($('#wrapper2').hasClass('left'))  {	
+		if ($('#wrapper2').hasClass('left')) {	
 			_fSetBack();												
 		} else {
 			
@@ -146,7 +135,8 @@ function initAllAppData(){
 				backFromRegister();				
 			} else {						
 				_fSetLoadInit();
-			}					
+			}
+								
 		}
 							
 	}, false);
@@ -156,30 +146,6 @@ function initAllAppData(){
 
 }
 
-function reloadNewsMain(){
-	_oAjaxRefresh = $.fGetAjaXJSON2(_jMenu[1].stream.json,false,true,false);	
-	if (_oAjaxRefresh) {
-		_oAjaxRefresh.done(function(_json) {					
-			_jMenu[1].json.backup = _json.noticias_deportes;						
-			$.each(_json.noticias_deportes.item, function(_index,_item) {
-				if (_index == 0){
-					try{
-						_jImageFeatured = {src:_item.imagen,caption:_item.titulo};
-						$('#home_news_caption').html(_item.titulo);
-						$('#home_news_image').css('background-image','url('+_item.imagen+')');
-						return false;
-					}catch(e){
-						
-					}
-				}
-			});				
-		});
-	}
-}
-
-var newsRefreshInterval = window.setInterval(function(){
-	reloadNewsMain();
-},300000);
 
 var pushHasExecuted = false;
 function executePushInit(extra_params){

@@ -110,11 +110,11 @@
 			$('main').load(_jMenu[_this.data('index')].load);	
 			$('#wrapperM').attr('class','page transition left');
 			
-			if(_this.data('index') == 0){
+			/*if(_this.data('index') == 0){
 				try{setTimeout(function() {
 					reloadNewsMain();	
 				}, 100);}catch(e){}
-			}
+			}*/
 
 			
 		}
