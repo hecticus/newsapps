@@ -76,33 +76,19 @@ var app = {
 
 function _fPushMenu(_json) {
 	$.each(_json.news_categories.item, function(_index,_item) {
-		_storeKey = 'newscategories_' + _item.id_news_category;
-		if (_item.status == 1) {		
-			if (_item.main == 1) {
-				_jMenu.push({
-					index:_jMenu.length,						
-					class: 'content-noticias',
-					title:_item.display_name,
-					load:'noticias.html',
-					glyphicon:'',								
-					json:_item,
-					update:true,
-					stream:_urlHecticus + 'tvmaxfeeds/simplenews/latest/',
-					storeKey: 'newscategories_' + _item.id_news_category
-				});				
-			}else{
-				_jMenu.push({
-					index:_jMenu.length,						
-					class: 'content-noticias',
-					title:_item.display_name,
-					load:'noticias.html',
-					glyphicon:'',								
-					json:_item,
-					update:true,
-					stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords,
-					storeKey: 'newscategories_' + _item.id_news_category
-				});
-			}
+		_storeKey = 'newscategories_' + _item.id_news_category;				
+		if (_item.status == 1) {
+			_jMenu.push({
+				index:_jMenu.length,						
+				class: 'content-noticias',
+				title:_item.display_name,
+				load:'noticias.html',
+				glyphicon:'',								
+				json:_item,
+				update:true,
+				stream: _item.stream,
+				storeKey: 'newscategories_' + _item.id_news_category
+			});	
 		} else {
 			if(typeof(window.localStorage) != 'undefined') {
 				window.localStorage.removeItem(_storeKey);	

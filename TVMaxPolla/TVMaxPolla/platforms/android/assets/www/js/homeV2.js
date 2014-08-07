@@ -75,7 +75,7 @@
 						
 						_html += '<div class="scrollerx" style="width:' + (_width * _limit) + 'px;  height: ' + _heightNoticia  + 'px;">';
 							$.each(_json.item, function(_index, _item) {
-							 	if (_index <= _limit) {
+							 	if (_index <= (_limit-1)) {
 									if (!_item.imagen) _item.imagen = ''; 													
 									_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
 										_html += '<figure>';																												
