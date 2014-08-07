@@ -298,19 +298,18 @@ function _getJsonNews () {
 	
 	var _json = false;
 	var _iIndex = $('main').data('index');
-	var _sKey = 'newscategories_' + _jMenu[_iIndex].json.id_news_category;
 	
 	_oAjax = $.fGetAjaXJSON(_jMenu[_iIndex].stream,false,true,false);
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			if(typeof(window.localStorage) != 'undefined') {
-				window.localStorage.setItem(_sKey, JSON.stringify(_json));				 
+				window.localStorage.setItem(_jMenu[_iIndex].storeKey, JSON.stringify(_json));				 
 			}
 		});
 	}
 	
-	if (window.localStorage.getItem(_sKey)) {
-		_json = JSON.parse(window.localStorage.getItem(_sKey));	
+	if (window.localStorage.getItem(_storeKey)) {
+		_json = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));	
 	}
 	
 	return _json;

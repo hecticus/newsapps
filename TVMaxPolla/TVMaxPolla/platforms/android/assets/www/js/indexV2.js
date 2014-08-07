@@ -76,32 +76,38 @@ var app = {
 function _fRequestCategories() {
 	
 	var _json = false;
-	var _key = 'newscategories';
+	var _storeKey = 'newscategories';
 	
 	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/getsimple',false,true,false);
 	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			if(typeof(window.localStorage) != 'undefined') {		
-				window.localStorage.setItem(_key,JSON.stringify(_json));				 
+				window.localStorage.setItem(_storeKey,JSON.stringify(_json));
 			}
 		});
 	}
 	
 	if (window.localStorage.getItem(_key)) {
-		_json = JSON.parse(window.localStorage.getItem('newscategories'));	
+		_json = JSON.parse(window.localStorage.getItem(_storeKey));	
 	} 
 
 	if (_json) {
 		$.each(_json.news_categories.item, function(_index,_item) {
-			_jMenu.push({index:_jMenu.length,						
+			_storeKey = 'newscategories_' + _item.id_news_category;	
+			if (_item.main) {
+				_jMenu.push({index:_jMenu.length,						
 						class: 'content-noticias',
 						title:_item.display_name,
 						load:'noticias.html',
 						glyphicon:'',								
 						json:_item,
-						stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords
+						stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords,
+						storeKey: 'newscategories_' + _item.id_news_category
 						});
+			} else {
+				window.localStorage.removeItem(_storeKey);
+			}
 		});		
 	}
 
