@@ -5,8 +5,8 @@ import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Expr;
 import models.HecticusModel;
 import models.pushevents.Category;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 import utils.Utils;
 

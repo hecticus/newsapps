@@ -4,7 +4,6 @@ import static play.data.Form.form;
 
 import java.util.List;
 
-import login.authorization.WithProfile;
 import models.news.Category;
 //import play.twirl.api.Html;
 import play.data.Form;
@@ -12,7 +11,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.tvn.*;
-import securesocial.core.java.SecureSocial.SecuredAction;
 
 @SuppressWarnings("unused")
 public class Tvn extends Controller {

@@ -2,7 +2,6 @@ package utils;
 
 import models.Config;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.codehaus.jackson.node.ObjectNode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

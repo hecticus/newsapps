@@ -96,6 +96,7 @@ public class User extends Controller {
 		filledForm.get().update(id);
 		flash("success", "El usuario " + filledForm.get().u01_Login + "  ha sido actualizado");
 		return GO_HOME;
+		
 	}
 		
 	@Security.Authenticated(Secured.class)

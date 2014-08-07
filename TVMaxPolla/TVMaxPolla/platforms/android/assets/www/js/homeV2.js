@@ -61,100 +61,61 @@
 		
 		var _html = '';
 		
-		//row
-		
-		 /* 
-		_html += '<div class="row" >';
-		_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 metro load" data-index="6" >';
 
-			_html += '<div style="background: #1E5733; height:' + (_heightPolla - 30) + 'px; text-align:center;" >';			
-				_html += '<span class="icon-fechas" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-			_html += '</div>';
-		
-			_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-				_html += '<span class="'+homeTextClass+'" >Calendario</span>';
-			_html += '</div>';	
-				
-		_html += '</div>';
-		
-		_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 metro load" data-index="7" >';	
-			_html += '<div style="background-image:url(img/home/polla.jpg); background-size:cover; height:' + _heightPolla +'px;" >&nbsp;</div>';						
-		_html += '</div>';
-				
-		_html += '</div>';	*/
-		//row
-
-		
 		//row		
 		if (_jImageFeatured) {
+			
+
 			//row
 			_html += '<div class="row" >';
-				_html += '<div class="col-md-12 metro load" data-index="4" >';						
-						_html += '<figure>';	
-							_html += '<div id="home_news_image" style="background-image:url(' + _jImageFeatured.src + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
-						_html += '<figcaption>';						
-							_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
-								_html += '<span class="icon-noticias"></span>';
-							_html += '</div>';												
-							_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
-								_html += '<span id="home_news_caption">'+_jImageFeatured.caption+'</span>';																									
-							_html += '</div>';							
-						_html += '</figcaption>';
-					_html += '</figure>';
+				
+				
+				
+					
+				_html += '<div class="col-md-12 metro load" data-index="4" >';
+
+					_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';
+					
+						_html += '<div class="scrollerx" style="width:' + (_width * 3) + 'px;  height: ' + _heightNoticia  + 'px;">';
+
+								_jGet = _jMenu[2].stream.json;
+								$.each(_jGet.item, function(_index,_item) {				
+								 	if (_index <= 2) {		 	
+								 		
+										if (!_item.imagen) _item.imagen = ''; 
+										
+										_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
+											_html += '<figure>';
+											
+											
+												_html += '<div id="home_news_image" style="background-image:url(' + _item.imagen + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+												_html += '<figcaption>';						
+													_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
+														_html += '<span class="icon-noticias"></span>';
+													_html += '</div>';												
+													_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
+														_html += '<span id="home_news_caption">'+_item.titulo+'</span>';																									
+													_html += '</div>';							
+												_html += '</figcaption>';
+											_html += '</figure>';
+										_html += '</div>';
+	
+									}		 			
+								});
+
+							
+
+						_html += '</div>';
+											
+					_html += '</div>';
+					
 				_html += '</div>';		
 			_html += '</div>';
 			//row
 		}
 
 
-		//row
 		
-		/*_html += '<div class="row worldcup">';
-		
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="5"  >';
-	
-				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-					_html += '<span class="icon-clasificacion" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-				_html += '</div>';
-			
-				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" style="font-size:'+homeTextSmaller+'em" >Clasificaci&oacute;n</span>';
-				_html += '</div>';	
-	
-			_html += '</div>';
-	
-	
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="1"  >';
-			
-				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-					_html += '<span class="icon-resultados" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-				_html += '</div>';
-			
-				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" >Resultados</span>';
-				_html += '</div>';	
-	
-			_html += '</div>';
-	
-	
-			_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 load metro" data-index="2" >';	
-			
-				_html += '<div style="background: #1E5733; height:' + (_heightBotones - 30) + 'px; text-align:center;" >';			
-					_html += '<span class="icon-goles_menu" style="font-size:'+homeIconSize+'em; color:#ffffff;"></span>';
-				_html += '</div>';
-			
-				_html += '<div style="background: #1E5733;  height:30px; line-height:'+homeLineHeight+'px; text-align:center;" >';
-					_html += '<span class="'+homeTextClass+'" >Goles</span>';
-				_html += '</div>';	
-							
-			_html += '</div>';
-		
-		_html += '</div>';
-		*/
-		
-		
-		//row
-
 
 
 
@@ -180,13 +141,18 @@
 			$('header .container .row .tv').addClass('hidden');
 		}
 
+		
+		
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
 
+		var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
+		
 	};
 
 	
 	_fRenderInit();
+	
 	
 	
 	
