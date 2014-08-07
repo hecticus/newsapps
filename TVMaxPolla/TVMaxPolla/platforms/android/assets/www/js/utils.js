@@ -27,6 +27,11 @@ function onResumeApp(){
 }
 
 //Connection
+function isOnLine(){	
+	return phonegapIsOnline();
+}
+
+
 function isOffline(){
 	/*var online = window.localStorage.getItem(FILE_KEY_ONLINE);
 	if(online!=null && online == "true"){
@@ -118,7 +123,7 @@ function formatDateStringForSorting(ds) {
 	return ""+YYYY+MM+DD+hh+mm+ss;
 };
 
-function getCurrentTimeMillis(){
+function getCurrentTimeMillis() {
 	return new Date().getTime();
 }
 
@@ -292,38 +297,3 @@ function getPPI(){
 	// and return the value
 	return parseFloat(ppi);
 }
-
-
-function _getJsonNews (_iIndex) {
-	
-	var _json = false;
-	if (!_iIndex) _iIndex = $('main').data('index');
-
-	_oAjax = $.fGetAjaXJSON(_jMenu[_iIndex].stream,false,true,false);
-	if (_oAjax) {
-		_oAjax.done(function(_json) {
-			if(typeof(window.localStorage) != 'undefined') {
-				window.localStorage.setItem(_jMenu[_iIndex].storeKey, JSON.stringify(_json));				 
-			}
-		});
-	}
-	
-	if(typeof(window.localStorage) != 'undefined') {
-		if (window.localStorage.getItem(_jMenu[_iIndex].storeKey)) {
-			_json = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));	
-		}	
-	}
-		
-	return _json.noticias_deportes;
-	
-	
-	
-};
-
-	
-	
-	
-
-	
-
-

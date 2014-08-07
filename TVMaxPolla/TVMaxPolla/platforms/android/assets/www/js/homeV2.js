@@ -60,17 +60,22 @@
 
 		
 		var _html = '';
-		
+		var _index = 1; 
 
 		//row
 		_html += '<div class="row" >';
-			_html += '<div class="col-md-12 metro load" data-index="4" >';
-				_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';				
-					_html += '<div class="scrollerx" style="width:' + (_width * 3) + 'px;  height: ' + _heightNoticia  + 'px;">';														
-						var _json = _getJsonNews(1);
-						if (_json) {
+			_html += '<div class="col-md-12 metro load" data-index="' + _index + '" >';
+				_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';
+																						
+					var _json = _getJsonNews(_index);
+					if (_json) {
+						
+						var _limit =  _json.item.length;
+						if (_limit > 3) _limit = 3;						 
+						
+						_html += '<div class="scrollerx" style="width:' + (_width * _limit) + 'px;  height: ' + _heightNoticia  + 'px;">';
 							$.each(_json.item, function(_index, _item) {
-							 	if (_index <= 2) {
+							 	if (_index <= _limit) {
 									if (!_item.imagen) _item.imagen = ''; 													
 									_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
 										_html += '<figure>';																												
@@ -87,21 +92,14 @@
 									_html += '</div>';				
 								};
 							});
-						};
-					_html += '</div>';									
+						_html += '</div>';
+						
+					};
+																	
 				_html += '</div>';				
 			_html += '</div>';		
 		_html += '</div>';
 		//row
-
-
-
-		
-
-
-
-
-
 
 
 		_html += '<div class="row" >';

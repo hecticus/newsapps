@@ -85,6 +85,7 @@ function _fPushMenu(_json,_expression) {
 					load:'noticias.html',
 					glyphicon:'',								
 					json:_item,
+					update:true,
 					stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords,
 					storeKey: 'newscategories_' + _item.id_news_category
 				});				
@@ -102,8 +103,7 @@ function _fRequestCategories() {
 	var _json = false;
 	var _storeKey = 'newscategories';
 	
-	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/getsimple',false,true,false);
-	
+	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/getsimple',false,true,false);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			if(typeof(window.localStorage) != 'undefined') {		
@@ -162,6 +162,13 @@ function initAllAppData() {
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
 
 }
+
+
+var _bUpdateNews = window.setInterval(function(){	
+	$(_jMenu).each(function(_index,_menu) {
+		_menu.update = true ;
+	});
+},100000);
 
 
 var pushHasExecuted = false;

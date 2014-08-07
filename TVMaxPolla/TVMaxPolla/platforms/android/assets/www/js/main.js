@@ -46,15 +46,14 @@ var _fSetLoadDefault = function() {
 };
 
 var _fSetLoadInit = function() {
+	
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
 	$('main').load(_jMenu[0].load);
-	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
-	try{setTimeout(function() {
-		reloadNewsMain();	
-	}, 100);}catch(e){}
+	$('.title').html('<span>' + _jMenu[0].title + '</span>');
+		
 };
 	
 	
@@ -202,32 +201,32 @@ $.fGetAjaXJSON2 = function(_url, _dataType, _contentType, _async,_loading) {
 
 
 $.fGetAjaXJSON = function(_url, _dataType, _contentType, _async,_loading) {
-	try {						
-	  	return $.ajax({
-			url: _url,			
-			type: 'GET',	
-			timeout: 1000,
-			async: (_async) ? _async : false,            		
-			dataType: (_dataType) ? _dataType : 'json',
-			contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
-			beforeSend : function () {				
-				_fGetLoading();
-		}}).always(function () {
-			//always		
-		}).fail(function(jqXHR, textStatus, errorThrown) {		
-			//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
-			//_fGetLoadingError();
-			return false;
-		});
-		   
+	try {		
+		if (isOnLine()) {	
+			return $.ajax({
+				url: _url,			
+				type: 'GET',	
+				timeout: 100,
+				async: (_async) ? _async : false,            		
+				dataType: (_dataType) ? _dataType : 'json',
+				contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
+				beforeSend : function () {				
+					_fGetLoading();
+			}}).always(function () {
+				//always		
+			}).fail(function(jqXHR, textStatus, errorThrown) {		
+				//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
+				//_fGetLoadingError();
+				return false;
+			});
+		}
 	} catch (e) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
 		// alert(e);
 		_fGetLoadingError();
 		return false;
-	}
-	
+	}	
 };
 
 
@@ -634,3 +633,34 @@ $.fPostAjaXJSON = function(_url, _data) {
 		$('#equipos').html(_html);		
 	}	
 	
+
+
+	function _getJsonNews (_iIndex) {
+		
+		var _return = false;
+		if (!_iIndex) _iIndex = $('main').data('index');
+		
+		if(typeof(window.localStorage) != 'undefined') {			
+			if (window.localStorage.getItem(_jMenu[_iIndex].storeKey)) {
+				_return = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));	
+			}	
+		}		
+				
+		if (!_return || _jMenu[_iIndex].update) {
+			_oAjax = $.fGetAjaXJSON(_jMenu[_iIndex].stream,false,false,false);
+			if (_oAjax) {
+				_oAjax.done(function(_json) {
+					_jMenu[_iIndex].update = false;					
+					_return = _json;
+					if(typeof(window.localStorage) != 'undefined') {
+						window.localStorage.setItem(_jMenu[_iIndex].storeKey, JSON.stringify(_json));
+					}
+				});
+			};
+		};
+
+
+		return _return.noticias_deportes;
+	
+	};
+
