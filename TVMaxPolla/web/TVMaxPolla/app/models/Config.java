@@ -130,4 +130,13 @@ public class Config extends Model{
         return c.getValue();
     }
 
+    /**
+     * Metodo para obtener el dominio de la polla
+     * @return dominio de la polla
+     */
+    public static String getPollaDomain() {
+		Config c = finder.where().eq("key","tvmax_polla_domain").findUnique();
+		return c.getValue();
+	}
+    
 }

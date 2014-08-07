@@ -1,13 +1,17 @@
 package models.tvmaxfeeds;
 
+import models.Config;
 import models.HecticusModel;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import play.libs.Json;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import java.util.List;
 
 /**
@@ -42,6 +46,15 @@ public class TvmaxNewsCategory extends HecticusModel {
         tr.put("status", status);
         tr.put("id_category", idCategory);
         tr.put("main", main);
+        
+        String domainPolla = Config.getPollaDomain();
+        
+        if (main) {        	
+        	tr.put("stream", domainPolla + "tvmaxfeeds/simplenews/latest/");
+        } else {
+        	tr.put("stream", domainPolla + "tvmaxfeeds/simplenews/get/" + keywords);
+        }
+        
         return tr;
     }
 
