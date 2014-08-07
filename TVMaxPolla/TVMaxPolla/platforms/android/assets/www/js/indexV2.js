@@ -73,6 +73,30 @@ var app = {
     }
 };
 
+function _fPushMenu(_json,_expression) {
+	$.each(_json.news_categories.item, function(_index,_item) {
+		_storeKey = 'newscategories_' + _item.id_news_category;
+		if (_item.status == 1) {		
+			if (eval(_expression)) {
+				_jMenu.push({
+					index:_jMenu.length,						
+					class: 'content-noticias',
+					title:_item.display_name,
+					load:'noticias.html',
+					glyphicon:'',								
+					json:_item,
+					stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords,
+					storeKey: 'newscategories_' + _item.id_news_category
+				});				
+			};
+		} else {
+			if(typeof(window.localStorage) != 'undefined') {
+				window.localStorage.removeItem(_storeKey);	
+			};
+		};
+	});
+};
+
 function _fRequestCategories() {
 	
 	var _json = false;
@@ -95,24 +119,8 @@ function _fRequestCategories() {
 	}	 
 
 	if (_json) {
-		$.each(_json.news_categories.item, function(_index,_item) {
-			_storeKey = 'newscategories_' + _item.id_news_category;	
-			if (_item.main) {
-				_jMenu.push({index:_jMenu.length,						
-						class: 'content-noticias',
-						title:_item.display_name,
-						load:'noticias.html',
-						glyphicon:'',								
-						json:_item,
-						stream:_urlHecticus + 'tvmaxfeeds/simplenews/get/' + _item.keywords,
-						storeKey: 'newscategories_' + _item.id_news_category
-						});
-			} else {
-				if(typeof(window.localStorage) != 'undefined') {
-					window.localStorage.removeItem(_storeKey);	
-				}				
-			}
-		});		
+		_fPushMenu(_json,'_item.main');
+		_fPushMenu(_json,'!_item.main');		
 	}
 
 }
@@ -120,8 +128,7 @@ function _fRequestCategories() {
 
 function initAllAppData() {
 	
-
-	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu'});	
+	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu'});
 	_fRequestCategories();
 	_jMenu.push({index:_jMenu.length,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
 	_jMenu.push({index:_jMenu.length,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});

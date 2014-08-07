@@ -62,49 +62,38 @@
 		var _html = '';
 		
 
-		//row		
-		//if (_jImageFeatured) {
-			
-
-			//row
-			_html += '<div class="row" >';
-
-				_html += '<div class="col-md-12 metro load" data-index="4" >';
-
-					_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';
-					
-						_html += '<div class="scrollerx" style="width:' + (_width * 3) + 'px;  height: ' + _heightNoticia  + 'px;">';
-																
-								var _json = _getJsonNews();
-								if (_json) {
-									$.each(_json.noticias_deportes, function(_index,_item) {				
-									 	if (_index <= 2) {											 		
-											if (!_item.imagen) _item.imagen = ''; 													
-											_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
-												_html += '<figure>';																												
-													_html += '<div id="home_news_image" style="background-image:url(' + _item.imagen + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
-													_html += '<figcaption>';						
-														_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
-															_html += '<span class="icon-noticias"></span>';
-														_html += '</div>';												
-														_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
-															_html += '<span id="home_news_caption">'+_item.titulo+'</span>';																									
-														_html += '</div>';							
-													_html += '</figcaption>';
-												_html += '</figure>';
-											_html += '</div>';				
-										};
-									});
+		//row
+		_html += '<div class="row" >';
+			_html += '<div class="col-md-12 metro load" data-index="4" >';
+				_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';				
+					_html += '<div class="scrollerx" style="width:' + (_width * 3) + 'px;  height: ' + _heightNoticia  + 'px;">';														
+						var _json = _getJsonNews(1);
+						if (_json) {
+							$.each(_json.item, function(_index, _item) {
+							 	if (_index <= 2) {
+									if (!_item.imagen) _item.imagen = ''; 													
+									_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
+										_html += '<figure>';																												
+											_html += '<div id="home_news_image" style="background-image:url(' + _item.imagen + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+											_html += '<figcaption>';						
+												_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
+													_html += '<span class="icon-noticias"></span>';
+												_html += '</div>';												
+												_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
+													_html += '<span id="home_news_caption">'+_item.titulo+'</span>';																									
+												_html += '</div>';							
+											_html += '</figcaption>';
+										_html += '</figure>';
+									_html += '</div>';				
 								};
+							});
+						};
+					_html += '</div>';									
+				_html += '</div>';				
+			_html += '</div>';		
+		_html += '</div>';
+		//row
 
-						_html += '</div>';
-											
-					_html += '</div>';
-					
-				_html += '</div>';		
-			_html += '</div>';
-			//row
-		//}
 
 
 		
@@ -138,7 +127,7 @@
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
 
-		//var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
+		var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
 		
 	};
 

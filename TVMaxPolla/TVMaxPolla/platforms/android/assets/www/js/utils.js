@@ -294,11 +294,11 @@ function getPPI(){
 }
 
 
-function _getJsonNews () {
+function _getJsonNews (_iIndex) {
 	
 	var _json = false;
-	var _iIndex = $('main').data('index');
-	
+	if (!_iIndex) _iIndex = $('main').data('index');
+
 	_oAjax = $.fGetAjaXJSON(_jMenu[_iIndex].stream,false,true,false);
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
@@ -314,7 +314,7 @@ function _getJsonNews () {
 		}	
 	}
 		
-	return _json;
+	return _json.noticias_deportes;
 	
 	
 	

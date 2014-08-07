@@ -101,16 +101,6 @@
 	};
 	
 	
-	var _json = _getJsonNews();
-	if (_json) {		
-		_jGet = _json.noticias_deportes;				
-		_fRenderInit();
-	}
-		
+	_jGet = _getJsonNews();
+	if (_jGet) _fRenderInit();
 	
-	
-		
-	
-
-	
-
