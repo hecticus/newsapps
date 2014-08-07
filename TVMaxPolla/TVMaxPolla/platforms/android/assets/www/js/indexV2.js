@@ -88,9 +88,11 @@ function _fRequestCategories() {
 		});
 	}
 	
-	if (window.localStorage.getItem(_key)) {
-		_json = JSON.parse(window.localStorage.getItem(_storeKey));	
-	} 
+	if(typeof(window.localStorage) != 'undefined') {
+		if (window.localStorage.getItem(_storeKey)) {
+			_json = JSON.parse(window.localStorage.getItem(_storeKey));	
+		}	
+	}	 
 
 	if (_json) {
 		$.each(_json.news_categories.item, function(_index,_item) {
@@ -106,7 +108,9 @@ function _fRequestCategories() {
 						storeKey: 'newscategories_' + _item.id_news_category
 						});
 			} else {
-				window.localStorage.removeItem(_storeKey);
+				if(typeof(window.localStorage) != 'undefined') {
+					window.localStorage.removeItem(_storeKey);	
+				}				
 			}
 		});		
 	}

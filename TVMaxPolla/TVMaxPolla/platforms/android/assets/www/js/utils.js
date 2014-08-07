@@ -308,10 +308,12 @@ function _getJsonNews () {
 		});
 	}
 	
-	if (window.localStorage.getItem(_storeKey)) {
-		_json = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));	
+	if(typeof(window.localStorage) != 'undefined') {
+		if (window.localStorage.getItem(_jMenu[_iIndex].storeKey)) {
+			_json = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));	
+		}	
 	}
-	
+		
 	return _json;
 	
 	
