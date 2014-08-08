@@ -1860,7 +1860,7 @@ function initBasicApp(){
 				var parts = dateString.split(" ");
 				var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 				var DMY = parts[0].split("/");
-				var monthIndex = parseInt(DMY[1]);
+				var monthIndex = DMY[1];
 				if(parts.length > 1){
 					
 					var HMS = parts[1].split(":");
@@ -1869,8 +1869,8 @@ function initBasicApp(){
 
 					if (full) {						
 						dateStringFinal = ""+months[monthIndex-1]+' '+DMY[0]+', '+DMY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;									
-					} else {						
-						if ((parseInt(DMY[2])<parseInt(year)) || (parseInt(DMY[1])<parseInt(month)) || (parseInt(DMY[0])<parseInt(day))) {
+					} else {								
+						if ((DMY[2]<year) || (DMY[1]<month) || (DMY[0]<day)) {
 							dateStringFinal = ""+months[monthIndex-1]+' '+DMY[0]+', '+DMY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;
 						}	
 					}
@@ -1881,7 +1881,6 @@ function initBasicApp(){
 					return dateStringFinal;
 				}else{
 					var dateStringFinal = months[monthIndex-1]+', '+DMY[0]+", "+DMY[2];
-
 					return dateStringFinal;
 				}
 				
