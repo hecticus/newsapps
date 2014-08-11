@@ -646,7 +646,10 @@ $.fPostAjaXJSON = function(_url, _data) {
 			}	
 		}		
 				
-		if (!_return || _jMenu[_iIndex].update) {
+		if (_jMenu[_iIndex].update || _return == false) {
+			
+			alert(_jMenu[_iIndex].stream);
+			
 			_oAjax = $.fGetAjaXJSON(_jMenu[_iIndex].stream,false,false,false);
 			if (_oAjax) {
 				_oAjax.done(function(_json) {
