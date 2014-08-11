@@ -28,6 +28,8 @@ public class TvmaxNewsCategory extends HecticusModel {
     private String keywords;
     private Integer status;
     private Integer idCategory;
+    private Integer idAction;
+    private Integer sort;
     private Boolean main;
 
     private static Finder<Integer,TvmaxNewsCategory> finder =
@@ -45,7 +47,9 @@ public class TvmaxNewsCategory extends HecticusModel {
         tr.put("keywords", keywords);
         tr.put("status", status);
         tr.put("id_category", idCategory);
+        tr.put("id_action", idAction);
         tr.put("main", main);
+        tr.put("sort", sort);
         
         String domainPolla = Config.getPollaDomain();
         
@@ -115,4 +119,19 @@ public class TvmaxNewsCategory extends HecticusModel {
         this.main = main;
     }
 
+    public Integer getIdAction() {
+        return idAction;
+    }
+
+    public void setIdAction(Integer idAction) {
+        this.idAction = idAction;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 }
