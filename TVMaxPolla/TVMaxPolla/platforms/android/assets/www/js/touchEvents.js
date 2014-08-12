@@ -90,10 +90,20 @@
 		if (_this.data('index') == 'fb') {
 			loginByFacebook();
 		} else {
+			
+			var menuIndex = _this.data('index');
+			
+			if (_this.data('index') == 'signup') {
+				menuIndex = signupPageIndex;
+			}else{
+				if (_this.data('index') == 'signin') {
+					menuIndex = signinPageIndex;
+				}
+			}
 								
-			if(_jMenu[_this.data('index')].class == 'content-polla' 
-				|| _jMenu[_this.data('index')].class == 'content-alertas'
-				|| _jMenu[_this.data('index')].class == 'content-leaderboard'){
+			if(_jMenu[menuIndex].class == 'content-polla' 
+				|| _jMenu[menuIndex].class == 'content-alertas'
+				|| _jMenu[menuIndex].class == 'content-leaderboard'){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -103,14 +113,14 @@
 			
 			
 			$('body').removeClass();
-			$('body').addClass(_jMenu[_this.data('index')].class);
+			$('body').addClass(_jMenu[menuIndex].class);
 			$('main').empty();
-			$('main').data('index',_this.data('index'));	
-			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-			$('main').load(_jMenu[_this.data('index')].load);	
+			$('main').data('index',menuIndex);	
+			$('.title').html('<span>' + _jMenu[menuIndex].title + '</span>');						
+			$('main').load(_jMenu[menuIndex].load);	
 			$('#wrapperM').attr('class','page transition left');
 			
-			/*if(_this.data('index') == 0){
+			/*if(menuIndex == 0){
 				try{setTimeout(function() {
 					reloadNewsMain();	
 				}, 100);}catch(e){}
@@ -543,7 +553,7 @@
 	});
 
 
-	$(document).on('click','.content-alertas .countryButton', function(e) {
+	/*$(document).on('click','.content-alertas .countryButton', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent();	
@@ -579,7 +589,7 @@
 
 		_fsetTeamsAlerts();	
 		
-	});
+	});*/
 	
 	
 	/*LEADERBOARDS*/

@@ -118,18 +118,24 @@ function _fRequestCategories() {
 	}	 
 
 	if (_json) {
+		try{setPushList(_json);}catch(e){}
 		_fPushMenu(_json);
 	}
 
 }
 
+var signupPageIndex;
+var signinPageIndex;
 
 function initAllAppData() {
 	
 	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu'});
 	_fRequestCategories();
-	_jMenu.push({index:_jMenu.length,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
-	_jMenu.push({index:_jMenu.length,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});
+	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false});
+	signinPageIndex = _jMenu.length;
+	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
+	signupPageIndex = _jMenu.length;
+	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});
 
 
 	document.addEventListener('backbutton', function(e) {
