@@ -89,6 +89,7 @@ function _fPushMenu(_json) {
 				stream: _item.stream,
 				storeKey: 'newscategories_' + _item.id_news_category
 			});	
+							
 		} else {
 			if(typeof(window.localStorage) != 'undefined') {
 				window.localStorage.removeItem(_storeKey);	
