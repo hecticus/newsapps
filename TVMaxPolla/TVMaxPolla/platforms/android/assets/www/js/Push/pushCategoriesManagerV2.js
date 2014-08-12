@@ -235,19 +235,9 @@ function getClientPushOptions(successFunction, errorFunction){
 					currentClientActions = data.clientActions.slice(0);
 					//revisamos si tenemos informacion guardada, esto es para activar todas las categorias
 					var pushOptions = loadPushOptions();
-					if(pushOptions == null){
-						//hacemos update con todas las alertas encendidas si no tiene ninguna accion, ya que debe ser un cliente nuevo
-						/*if(currentClientActions == null || currentClientActions.length == 0){
-							markAllCategoriesAndActions();
-						}*/
+					if(!checkIfCategoriesExists(currentClientCategories)){
 						markAllCategoriesAndActions(); //TODO:arreglar, por ahora dispositivo nuevo marca todas activas y listo
 						updatePushOptionsToServer(doNothing,doNothing);
-					}else{
-						if(!checkIfCategoriesExists(currentClientCategories)){
-							console.log("No hay ninguna categoria en comun");
-							markAllCategoriesAndActions(); //TODO:arreglar, por ahora dispositivo nuevo marca todas activas y listo
-							updatePushOptionsToServer(doNothing,doNothing);
-						}
 					}
 					
 					markCurrentPushServices(currentClientCategories,currentClientActions);
