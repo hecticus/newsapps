@@ -176,8 +176,8 @@ public class Utils {
         String ss="00";
         String[] parts = dateString.split(" ");
         String[] MDY = parts[0].split("/");
-        DD = MDY[0];
-        MM = MDY[1];
+        DD = MDY[1];
+        MM = MDY[0];
         YYYY = MDY[2];
         if(parts.length > 1){
 
@@ -206,7 +206,7 @@ public class Utils {
 
         }
         int MMint = Integer.parseInt(MM);
-        if ( MMint < 10 && MM.charAt(0) != '0' ) MM = '0' + MM;
+        if ( MMint < 10) MM = '0' + MM;
 
         //console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
         return Long.parseLong(YYYY+MM+DD+hh+mm+ss);

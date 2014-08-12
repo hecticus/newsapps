@@ -29,6 +29,7 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
     private String title;
     private Boolean main;
     private String receivedDate;
+    private Long sortableDate; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
     private String category;
     private String subCategory;
     private String image;
@@ -44,7 +45,6 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
     private Long insertedTime;
     private Boolean generated;
     private Long generationTime; //tiempo que se usa para saber cuando se genero el push de la noticia. Formato: YYYYMMDD
-    private Long pubDateFormated; //es el mismo pubDate pero con un formato que se puede ordenar YYYYMMDDhhmmss
 
     private static Finder<Long,TvmaxSimpleNews> finder =
            new Finder<Long, TvmaxSimpleNews>(Long.class, TvmaxSimpleNews.class);
@@ -69,10 +69,12 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
         //resources
 
         generated = false;
-        crc = Utils.createMd5(title);
+        //crc = Utils.createMd5(title);
+        crc = Utils.createMd5(data.toString());
         insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         generationTime = 0l;
-        //pubDateFormated = Utils.formatDateLongFromStringNew("");
+        sortableDate = Utils.formatDateLongFromStringNew(receivedDate);
+        System.out.println("receivedDate: "+receivedDate+" sortableDate: "+sortableDate);
 
     }
 
@@ -84,6 +86,7 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
         tr.put("titulo", decode(title));
         tr.put("principal", main);
         tr.put("fecha", receivedDate);
+        tr.put("fecha_ordenada", sortableDate);
         tr.put("categoria", decode(category));
         tr.put("sub-categoria", decode(subCategory));
         tr.put("image", image);
@@ -136,17 +139,17 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
         return finder.where().disjunction()
                 .eq("category",category)
                 .eq("category",encode(category))
-                .endJunction().orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
+                .endJunction().orderBy("sortable_date desc").setMaxRows(MAX_SIZE).findList();
     }
 
     public static TvmaxSimpleNews getNewsById(String id){
         return finder.where()
                 .eq("externalId", id)
-               .orderBy("received_date desc").setMaxRows(1).findUnique();
+               .orderBy("sortable_date desc").setMaxRows(1).findUnique();
     }
 
     public static List<TvmaxSimpleNews> getLatestLimited(){
-        List<TvmaxSimpleNews> top = finder.where().eq("main", 1).orderBy("received_date desc").setMaxRows(SIMPLENEWS_MAIN_MAX_SIZE).findList();
+        List<TvmaxSimpleNews> top = finder.where().eq("main", 1).orderBy("sortable_date desc").setMaxRows(SIMPLENEWS_MAIN_MAX_SIZE).findList();
         //List<TvmaxSimpleNews> bottom = finder.where().eq("main", 0).orderBy("received_date desc").setMaxRows(OTHERS_MAX_SIZE).findList();
         //top.addAll(bottom);
         //bottom.clear();
@@ -269,7 +272,7 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
     }
 
     public static List<TvmaxSimpleNews> getAwesome(){
-        return finder.orderBy("received_date desc").setMaxRows(MAX_SIZE).findList();
+        return finder.orderBy("sortable_date desc").setMaxRows(MAX_SIZE).findList();
     }
 
     /*********************/
@@ -388,11 +391,11 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
     }
 
     public Long getPubDateFormated() {
-        return pubDateFormated;
+        return sortableDate;
     }
 
     public void setPubDateFormated(Long pubDateFormated) {
-        this.pubDateFormated = pubDateFormated;
+        this.sortableDate = sortableDate;
     }
 
 }
