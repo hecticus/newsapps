@@ -76,10 +76,10 @@
 						_html += '<div class="scrollerx" style="width:' + (_width * _limit) + 'px;  height: ' + _heightNoticia  + 'px;">';
 							$.each(_json.item, function(_index, _item) {
 							 	if (_index <= (_limit-1)) {
-									if (!_item.imagen) _item.imagen = ''; 													
+									if (!_item.image) _item.image = ''; 													
 									_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
 										_html += '<figure>';																												
-											_html += '<div id="home_news_image" style="background-image:url(' + _item.imagen + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+											_html += '<div id="home_news_image" style="background-image:url(' + _item.image + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
 											_html += '<figcaption>';						
 												_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
 													_html += '<span class="icon-noticias"></span>';

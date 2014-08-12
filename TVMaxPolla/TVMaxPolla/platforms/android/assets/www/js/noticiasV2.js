@@ -50,7 +50,7 @@
 				_html += '</div>';
 			 
 				_html += '<div class="col-md-12">';
-				_html += _fGetImage({src:_item.imagen,caption:false});
+				_html += _fGetImage({src:_item.image,caption:false});
 				_html += '</div>';
 
 				_html += '<div class="col-md-12" >';				
@@ -87,7 +87,7 @@
 		$.each(_jGet.item, function(_index,_item) {				
 		 	if (_index <= 10) {		 	
 				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
-				_html += _fGetImage({src:_item.imagen,caption:_item.titulo});
+				_html += _fGetImage({src:_item.image,caption:_item.titulo});
 				_html += '</div>';
 			}		 			
 		});
