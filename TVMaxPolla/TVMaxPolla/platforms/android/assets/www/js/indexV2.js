@@ -87,7 +87,8 @@ function _fPushMenu(_json) {
 				json:_item,
 				update:true,
 				stream: _item.stream,
-				storeKey: 'newscategories_' + _item.id_news_category
+				storeKey: 'newscategories_' + _item.id_news_category,
+				session:null
 			});	
 							
 		} else {
@@ -129,14 +130,14 @@ var signupPageIndex;
 var signinPageIndex;
 
 function initAllAppData() {
-	
-	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu'});
+		
+	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});
 	_fRequestCategories();
-	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false});
+	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false, session:true});
 	signinPageIndex = _jMenu.length;
-	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
+	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', session:false});
 	signupPageIndex = _jMenu.length;
-	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload'});
+	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});
 
 
 	document.addEventListener('backbutton', function(e) {
@@ -292,18 +293,28 @@ function stopNewsInterval(){
 
 function initPage(){
 	
-	var _html = '';	
+	var _html = '';
+	var _session = null;
+	
+	if (loadClientData() == null) {
+		_session = false;
+	} else {
+		_session = true;
+	}
+
 	$(_jMenu).each(function(_index,_menu) {
 
-		_html += '<div class="row content-menu">';		
-		_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
-			_html += '<span class="' + _menu.glyphicon + '" ></span>';
-			_html += '<span>' + _menu.title + '</span>';
-		_html += '</div>';		
-		_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
-			_html += '<span class="icon-flechaazul"></span>';		
-		_html += '</div>';			
-		_html += '</div>';
+		if ((_menu.session == null) || (_menu.session == _session)) {
+			_html += '<div class="row content-menu">';		
+			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
+				_html += '<span class="' + _menu.glyphicon + '" ></span>';
+				_html += '<span>' + _menu.title + '</span>';
+			_html += '</div>';		
+			_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  load" data-index="' +  _menu.index + '">';
+				_html += '<span class="icon-flechaazul"></span>';		
+			_html += '</div>';			
+			_html += '</div>';
+		}
 
 	});         	
 	
@@ -314,7 +325,7 @@ function initPage(){
 	initFacebookManager();
 	
 	if (_jClient != null) {
-		_fSetLoadInit();
+		_fSetLoadInit();		
 	} else {
 		//getLoginStatus();
 		_fSetLoadDefault();	

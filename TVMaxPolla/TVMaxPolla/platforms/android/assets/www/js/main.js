@@ -45,8 +45,7 @@ var _fSetLoadDefault = function() {
 	$('.title').html('<span>Inicio</span>'); 
 };
 
-var _fSetLoadInit = function() {
-	
+var _fSetLoadInit = function() {	
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
@@ -58,7 +57,8 @@ var _fSetLoadInit = function() {
 	
 	
 var _fSetBack = function() {
-		
+	
+
 	clearTimeout(_mTimeout);
 
 	$('.share, .menu-group, .refresh').addClass('hidden');
@@ -140,6 +140,33 @@ var _fGetLoadingError = function() {
 
 
 
+var _fGetLoadingNews = function() {
+	
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span>Cargando...</span>';
+		_html += '</div>';
+		_html += '</div>';
+		
+	$('#wrapper .scroller .container').empty();
+	$('#wrapper .scroller .container').append(_html);
+	
+};
+
+
+var _fGetLoadingErrorNews = function() {
+	
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span>No se puede obtener el resultado de las noticias. Por favor, int&eacute;ntalo de nuevo m&aacute;s tarde.</span>';
+		_html += '</div>';
+		_html += '</div>';
+		
+	$('#wrapper .scroller .container').empty();
+	$('#wrapper .scroller .container').append(_html);
+	
+};
+
 
 
 
@@ -200,20 +227,36 @@ $.fGetAjaXJSON2 = function(_url, _dataType, _contentType, _async,_loading) {
 };
 
 
+
+$.fGetAjaXJSONNews = function(_url) {
+	try {		
+		if (isOnLine()) {
+			return $.ajax({
+				url: _url,			
+				type: 'GET',          		
+				dataType : 'json',
+				contentType: 'application/json; charset=utf-8',		
+			}).fail(function(jqXHR, textStatus, errorThrown) {		
+				return false;
+			});
+		}
+	} catch (e) {
+		return false;
+	}	
+};
+
+
+
 $.fGetAjaXJSON = function(_url, _dataType, _contentType, _async,_loading) {
 	try {		
 		if (isOnLine()) {	
 			return $.ajax({
 				url: _url,			
-				type: 'GET',	
-				timeout: 100,
+				type: 'GET',			
+				//timeout: 100,
 				async: (_async) ? _async : false,            		
 				dataType: (_dataType) ? _dataType : 'json',
-				contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
-				beforeSend : function () {				
-					_fGetLoading();
-			}}).always(function () {
-				//always		
+				contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',		
 			}).fail(function(jqXHR, textStatus, errorThrown) {		
 				//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
 				//_fGetLoadingError();
@@ -488,7 +531,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 					createClientForFacebook(_jData);
 				} else {
 					saveClientData(_json.response[0]);					
-					_fSetLoadInit();
+					//_fSetLoadInit();
+					initPage();
 					navigator.notification.activityStop();
 				}
 			});
@@ -522,7 +566,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 				} else {
 					//console.log("Cliente creado");
 					saveClientData(_json.response[0]);						
-					_fSetLoadInit();
+					//_fSetLoadInit();
+					initPage();
 				}
 				
 			});
@@ -621,8 +666,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 		}
 	}
 	mundialIntervalFunc();
-   
-		
+   	
 	function _fsetTeamsAlerts() {	
 		var  _html = '<div class="col-md-12"  >';	
 		$.each(_jAlert.teams, function(_index,_id) {			
@@ -632,36 +676,3 @@ $.fPostAjaXJSON = function(_url, _data) {
 		_html += '</div>';
 		$('#equipos').html(_html);		
 	}	
-	
-
-
-	function _getJsonNews (_iIndex) {
-		
-		var _return = false;
-		if (!_iIndex) _iIndex = $('main').data('index');
-
-		if(typeof(window.localStorage) != 'undefined') {			
-			if (window.localStorage.getItem(_jMenu[_iIndex].storeKey)) {
-				_return = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));	
-			}	
-		}		
-				
-		if (_jMenu[_iIndex].update || _return == false) {
-			
-			_oAjax = $.fGetAjaXJSON(_jMenu[_iIndex].stream,false,false,false);
-			if (_oAjax) {
-				_oAjax.done(function(_json) {
-					_jMenu[_iIndex].update = false;					
-					_return = _json;
-					if(typeof(window.localStorage) != 'undefined') {
-						window.localStorage.setItem(_jMenu[_iIndex].storeKey, JSON.stringify(_json));
-					}
-				});
-			};
-		};
-
-
-		return _return.noticias_deportes;
-	
-	};
-

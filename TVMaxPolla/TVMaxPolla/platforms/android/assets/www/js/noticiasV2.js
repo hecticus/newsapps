@@ -81,7 +81,7 @@
 	};
 
 	var _fRenderInit = function() {
-	
+
 		var _html = '<div class="row" >';
 
 		$.each(_jGet.item, function(_index,_item) {				
@@ -101,6 +101,46 @@
 	};
 	
 	
-	_jGet = _getJsonNews();
-	if (_jGet) _fRenderInit();
+	
+	var _iIndex = $('main').data('index');
+	var _jGet = false;
+	
+	_fGetLoadingNews();
+		
+	if(typeof(window.localStorage) != 'undefined') {			
+		if (window.localStorage.getItem(_jMenu[_iIndex].storeKey)) {
+			_jGet = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));
+			_fRenderInit();	
+		}	
+	} 		
+				
+	if (_jMenu[_iIndex].update || _jGet == false) {
+		_oAjax = $.fGetAjaXJSONNews(_jMenu[_iIndex].stream);
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+
+				if(typeof(window.localStorage) != 'undefined') {
+					_jMenu[_iIndex].update = false;
+					window.localStorage.setItem(_jMenu[_iIndex].storeKey, JSON.stringify(_json.noticias_deportes));
+				}
+				
+				_jGet = _json.noticias_deportes;
+				_fRenderInit();
+									
+			});
+		} else {
+			if (_jGet) {
+				_fRenderInit();
+			} else{
+				_fGetLoadingErrorNews(); 
+			}			
+		};			
+	};
+	
+	
+	
+	
+	
+	
+	
 	
