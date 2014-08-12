@@ -69,8 +69,8 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
         //resources
 
         generated = false;
-        //crc = Utils.createMd5(title);
-        crc = Utils.createMd5(data.toString());
+        crc = Utils.createMd5(title);
+        //crc = Utils.createMd5(data.toString());
         insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         generationTime = 0l;
         sortableDate = Utils.formatDateLongFromStringNew(receivedDate);
