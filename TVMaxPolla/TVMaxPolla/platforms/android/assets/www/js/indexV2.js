@@ -115,11 +115,25 @@ function _fRequestCategories() {
 	var _json = false;
 	var _storeKey = 'newscategories';
 	var _catergoriesSame = false;
-	//console.log("VA A REQUEST CAT");
-	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/getsimple',false,true,false);	
+	
+	//Ahora en las categorias se va a enviar toda la informacion relevante de la app para eso necesitamos enviar info extra
+	var osName;
+	var devicePlatform = device.platform;
+	//IOS
+	if(devicePlatform == "iOS"){
+		osName = "ios";
+	}else{
+		//ANDROID
+		osName = "android";
+	}
+	var version = 6;
+	
+	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/get/'+version+'/'+osName,false,true,false);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			if(typeof(window.localStorage) != 'undefined') {		
+			//sacamos la info extra
+			try{getExtraInfoFromInitWS(_json);}catch(e){}
+			if(typeof(window.localStorage) != 'undefined') {
 				//revisamos si las categorias son las mismas
 				//_jsonOld = JSON.parse(window.localStorage.getItem(_storeKey));
 				_jsonOld = window.localStorage.getItem(_storeKey);
@@ -166,6 +180,53 @@ function _fRequestCategories() {
 			setMenuView();
 		}
 	}
+}
+
+//UPDATE APP y Extra config params
+var updateURL;
+var isLiveTV = false;
+var liveTVURL = "http://mundial.tvmax-9.com/UA_APP.php";
+var wifiOnly = false;
+var browserPlay = false;
+function getExtraInfoFromInitWS(_json){
+	var updateVerion = _json.updateUrl;
+	//hay una nueva version y hay que llamar al dialogo para actualizar
+	if(updateVerion!= null && updateVerion.length>0){
+		updateURL = updateVerion;
+		//console.log("URL "+updateURL);
+		navigator.notification.alert("Hay una nueva versión de la aplicación", goToUpdatePage, "Actualización", "Descargar");
+	}
+	
+	if(_json.live){
+		isLiveTV = true;
+	}
+	
+	//IOS
+	if(device.platform == "iOS"){
+		if(_json.live_ios != null && _json.live_ios != ""){
+			liveTVURL = _json.live_ios;
+		}
+	}else{
+		//ANDROID
+		if(_json.live_android != null && _json.live_android != ""){
+			liveTVURL = _json.live_android;
+		}
+	}
+	
+	if(_json.wifiOnly){
+		wifiOnly = true;
+	}else{
+		wifiOnly = false;
+	}
+	
+	if(_json.browserPlay){
+		browserPlay = true;
+	}else{
+		browserPlay = false;
+	}
+}
+function goToUpdatePage(){
+	window.open(updateURL, '_system', 'closebuttoncaption=regresar');
 }
 
 var signupPageIndex;
@@ -230,7 +291,7 @@ function initAllAppData() {
 	
 	setIOSSplashes();
 	initPage();
-	checkVersion();
+	//checkVersion();
 	initPush();
 	initGA();
 

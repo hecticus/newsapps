@@ -417,7 +417,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 	
 	//VERSION CONTROLLER
 	//revisamos cada 10 min por una nueva version
-	var versionInterval = window.setInterval(function(){
+	/*var versionInterval = window.setInterval(function(){
 		checkVersion();
 	},300000);
 	
@@ -468,7 +468,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 	};
 	function goToUpdatePage(){
 		window.open(updateURL, '_system', 'closebuttoncaption=regresar');
-	}
+	}*/
 		
 		
 	var _fgetTeamData = function(_id) {		
@@ -615,15 +615,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 		return _date;
 		
 	}
-	
-
-	setInterval(function(){
-		$(_jMenu).each(function(_index,_menu) {
-			_menu.json = false;
-		});
-	}, 300000);
 			
-	var isMundialOn = false;
+	/*var isMundialOn = false;
 	var isLiveTV = false;
 	var liveTVURL = "http://mundial.tvmax-9.com/UA_APP.php";
 	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
@@ -664,7 +657,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});
 		}
 	}
-	mundialIntervalFunc();
+	mundialIntervalFunc();*/
    	
 	function _fsetTeamsAlerts() {	
 		var  _html = '<div class="col-md-12"  >';	

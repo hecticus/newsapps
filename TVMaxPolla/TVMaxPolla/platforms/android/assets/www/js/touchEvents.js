@@ -140,15 +140,27 @@
 	$(document).on('click','.tv', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
-		if(isWIFIOnly()){
-			//window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
-			//window.videoPlayer.play(liveTVURL); //NO ES POSIBLE YA QUE ES UNA URL
-			window.open(liveTVURL, '_system', 'closebuttoncaption=regresar');
+		if(wifiOnly){
+			//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
+			if(isWIFIOnly()){
+				playLiveTV();
+			}else{
+				navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
+			}
 		}else{
-			navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
+			playLiveTV();
 		}
 	});
+	
+	function playLiveTV(){
+		if(!browserPlay){
+			//Si hay que reproducirlo por player nativo
+			window.videoPlayer.play(liveTVURL);
+		}else{
+			//Si hay que reproducirlo por browser
+			window.open(liveTVURL, '_system', 'closebuttoncaption=regresar');
+		}	
+	}
 	
 	//NOTICIAS JS
 	$(document).on('click','.news', function(e) {	

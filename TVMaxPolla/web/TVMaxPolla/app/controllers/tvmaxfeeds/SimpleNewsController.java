@@ -153,6 +153,9 @@ public class SimpleNewsController extends HecticusController {
             response.put("live_ios", liveVideoIOS);
             response.put("live", active);
 
+            response.put("wifiOnly",false);
+            response.put("browserPlay",false);
+
             //enviamos la informacion de actualizacion de la aplicacion
             String updateURL = Utils.getUpdateVersionURL(version, os);
             if(updateURL != null){
