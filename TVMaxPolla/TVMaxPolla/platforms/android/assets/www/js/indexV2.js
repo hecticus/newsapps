@@ -171,6 +171,24 @@ function _fRequestCategories() {
 var signupPageIndex;
 var signinPageIndex;
 
+function _fSetNewsHome() {
+	_oAjax = $.fGetAjaXJSON(_jMenu[1].stream,false,false,false);	
+	if (_oAjax) {
+		_oAjax.done(function(_json) {
+
+			if(typeof(window.localStorage) != 'undefined') {
+				_jMenu[1].update = false;
+				window.localStorage.setItem(_jMenu[1].storeKey, JSON.stringify(_json.noticias_deportes));
+			}
+					
+			$.each(_json.noticias_deportes.item, function(_index,_item) {		
+				var _oIimg = $('img #img').attr('src',_item.image);				
+			});
+			
+		});
+	}
+};
+
 function initAllAppData() {
 		
 	/*_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});
@@ -181,6 +199,7 @@ function initAllAppData() {
 	signupPageIndex = _jMenu.length;
 	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});//*/
 	_fRequestCategories();
+	_fSetNewsHome();
 
 	document.addEventListener('backbutton', function(e) {
 				
@@ -224,6 +243,9 @@ var _bUpdateNews = window.setInterval(function(){
 	$(_jMenu).each(function(_index,_menu) {
 		_menu.update = true ;
 	});
+	
+	_fSetNewsHome();
+	
 },300000);
 
 
