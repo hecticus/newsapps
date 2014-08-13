@@ -166,7 +166,7 @@
 				if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
 				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
 			
-				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:100%; height:auto; margin:0 auto;" >';							
+				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + _heightBanner +'px; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
 		

@@ -89,7 +89,7 @@
     [self.window makeKeyAndVisible];
 	
 	
-	NSURL* mMovieURL;
+	/*NSURL* mMovieURL;
     NSBundle *bundle = [NSBundle mainBundle];
     if(bundle != nil)
     {
@@ -125,7 +125,7 @@
     [mMoviePlayer setFullscreen:YES animated:NO];
 	
     [window makeKeyAndVisible];
-    [mMoviePlayer play];
+    [mMoviePlayer play];*/
 
     return YES;
 }

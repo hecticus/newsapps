@@ -38,28 +38,26 @@ var _fGetFormatDate = function(_date) {
 
 var _fSetLoadDefault = function() {
 	clearTimeout(_mTimeout);
-	$('body').removeClass();
 	$('body').addClass('content-default');
 	$('main').data('index',-1);		
 	$('main').load('default.html');
 	$('.title').html('<span>Inicio</span>'); 
 };
 
-var _fSetLoadInit = function() {
+var _fSetLoadInit = function() {	
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
 	$('main').load(_jMenu[0].load);
-	$('.title').html('<span>' + _jMenu[0].title + '</span>'); 
-	try{setTimeout(function() {
-		reloadNewsMain();	
-	}, 100);}catch(e){}
+	$('.title').html('<span>' + _jMenu[0].title + '</span>');
+		
 };
 	
 	
 var _fSetBack = function() {
-		
+	
+
 	clearTimeout(_mTimeout);
 
 	$('.share, .menu-group, .refresh').addClass('hidden');
@@ -141,6 +139,33 @@ var _fGetLoadingError = function() {
 
 
 
+var _fGetLoadingNews = function() {
+	
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span>Cargando...</span>';
+		_html += '</div>';
+		_html += '</div>';
+		
+	$('#wrapper .scroller .container').empty();
+	$('#wrapper .scroller .container').append(_html);
+	
+};
+
+
+var _fGetLoadingErrorNews = function() {
+	
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span>No se puede obtener el resultado de las noticias. Por favor, int&eacute;ntalo de nuevo m&aacute;s tarde.</span>';
+		_html += '</div>';
+		_html += '</div>';
+		
+	$('#wrapper .scroller .container').empty();
+	$('#wrapper .scroller .container').append(_html);
+	
+};
+
 
 
 
@@ -202,43 +227,48 @@ $.fGetAjaXJSON2 = function(_url, _dataType, _contentType, _async,_loading) {
 
 
 
-
-
-
-
-
+$.fGetAjaXJSONNews = function(_url) {
+	try {		
+		if (isOnLine()) {
+			return $.ajax({
+				url: _url,			
+				type: 'GET',          		
+				dataType : 'json',
+				contentType: 'application/json; charset=utf-8',		
+			}).fail(function(jqXHR, textStatus, errorThrown) {		
+				return false;
+			});
+		}
+	} catch (e) {
+		return false;
+	}	
+};
 
 
 
 $.fGetAjaXJSON = function(_url, _dataType, _contentType, _async,_loading) {
-
-	try {	
-		
-			
-	  	return $.ajax({
-			url: _url,			
-			type: 'GET',	
-			async: (_async) ? _async : false,            		
-			dataType: (_dataType) ? _dataType : 'json',
-			contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',
-			beforeSend : function () {				
-				_fGetLoading();					
-		}}).always(function () {
-			//always		
-		}).fail(function(jqXHR, textStatus, errorThrown) {		
-			//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
-			_fGetLoadingError();
-			return false;
-		});
-		   
+	try {		
+		if (isOnLine()) {	
+			return $.ajax({
+				url: _url,			
+				type: 'GET',			
+				//timeout: 100,
+				async: (_async) ? _async : false,            		
+				dataType: (_dataType) ? _dataType : 'json',
+				contentType: (_contentType) ? _contentType : 'application/json; charset=utf-8',		
+			}).fail(function(jqXHR, textStatus, errorThrown) {		
+				//alert('jqXHR -> ' + jqXHR + ' textStatus -> ' + textStatus + ' errorThrown -> ' + errorThrown);
+				//_fGetLoadingError();
+				return false;
+			});
+		}
 	} catch (e) {
 		// statements to handle any exceptions
 		// pass exception object to error handler
 		// alert(e);
 		_fGetLoadingError();
 		return false;
-	}
-	
+	}	
 };
 
 
@@ -387,7 +417,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 	
 	//VERSION CONTROLLER
 	//revisamos cada 10 min por una nueva version
-	var versionInterval = window.setInterval(function(){
+	/*var versionInterval = window.setInterval(function(){
 		checkVersion();
 	},300000);
 	
@@ -438,7 +468,7 @@ $.fPostAjaXJSON = function(_url, _data) {
 	};
 	function goToUpdatePage(){
 		window.open(updateURL, '_system', 'closebuttoncaption=regresar');
-	}
+	}*/
 		
 		
 	var _fgetTeamData = function(_id) {		
@@ -500,7 +530,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 					createClientForFacebook(_jData);
 				} else {
 					saveClientData(_json.response[0]);					
-					_fSetLoadInit();
+					//_fSetLoadInit();
+					initPage();
 					//navigator.notification.activityStop();
 				}
 			});
@@ -534,7 +565,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 				} else {
 					//console.log("Cliente creado");
 					saveClientData(_json.response[0]);						
-					_fSetLoadInit();
+					//_fSetLoadInit();
+					initPage();
 				}
 				
 			});
@@ -583,15 +615,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 		return _date;
 		
 	}
-	
-
-	setInterval(function(){
-		$(_jMenu).each(function(_index,_menu) {
-			_menu.json = false;
-		});
-	}, 300000);
 			
-	var isMundialOn = false;
+	/*var isMundialOn = false;
 	var isLiveTV = false;
 	var liveTVURL = "http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8";
 	var mundialInterval = setInterval(mundialIntervalFunc(),60000);
@@ -632,9 +657,8 @@ $.fPostAjaXJSON = function(_url, _data) {
 			});
 		}
 	}
-	mundialIntervalFunc();
-   
-		
+	mundialIntervalFunc();*/
+   	
 	function _fsetTeamsAlerts() {	
 		var  _html = '<div class="col-md-12"  >';	
 		$.each(_jAlert.teams, function(_index,_id) {			
@@ -644,4 +668,3 @@ $.fPostAjaXJSON = function(_url, _data) {
 		_html += '</div>';
 		$('#equipos').html(_html);		
 	}	
-	

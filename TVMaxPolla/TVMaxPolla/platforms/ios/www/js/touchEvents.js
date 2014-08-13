@@ -90,10 +90,20 @@
 		if (_this.data('index') == 'fb') {
 			loginByFacebook();
 		} else {
+			
+			var menuIndex = _this.data('index');
+			
+			if (_this.data('index') == 'signup') {
+				menuIndex = signupPageIndex;
+			}else{
+				if (_this.data('index') == 'signin') {
+					menuIndex = signinPageIndex;
+				}
+			}
 								
-			if(_jMenu[_this.data('index')].class == 'content-polla' 
-				|| _jMenu[_this.data('index')].class == 'content-alertas'
-				|| _jMenu[_this.data('index')].class == 'content-leaderboard'){
+			if(_jMenu[menuIndex].class == 'content-polla' 
+				|| _jMenu[menuIndex].class == 'content-alertas'
+				|| _jMenu[menuIndex].class == 'content-leaderboard'){
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
@@ -103,18 +113,19 @@
 			
 			
 			$('body').removeClass();
-			$('body').addClass(_jMenu[_this.data('index')].class);
+			$('body').addClass(_jMenu[menuIndex].class);
 			$('main').empty();
-			$('main').data('index',_this.data('index'));	
-			$('.title').html('<span>' + _jMenu[_this.data('index')].title + '</span>');						
-			$('main').load(_jMenu[_this.data('index')].load);	
+			$('main').data('index',menuIndex);	
+			$('.title').html('<span>' + _jMenu[menuIndex].title + '</span>');						
+			$('main').load(_jMenu[menuIndex].load);
+			$('main').css({'opacity':0}).animate({'opacity':1});	
 			$('#wrapperM').attr('class','page transition left');
 			
-			if(_this.data('index') == 0){
+			/*if(menuIndex == 0){
 				try{setTimeout(function() {
 					reloadNewsMain();	
 				}, 100);}catch(e){}
-			}
+			}*/
 
 			
 		}
@@ -129,14 +140,28 @@
 	});
 	$(document).on('touchend','.tv', function(e) {
 		if(preventBadClick(e)){return false;}
-		//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
-		if(isWIFIOnly()){
-			//window.videoPlayer.play("http://urtmpkal-f.akamaihd.net/i/0s75qzjf5_1@132850/master.m3u8");
-			window.videoPlayer.play(liveTVURL);
+
+		if(wifiOnly){
+			//solo puede ver nuestra señal en vivo utilizando Wi-Fi.
+			if(isWIFIOnly()){
+				playLiveTV();
+			}else{
+				navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
+			}
 		}else{
-			navigator.notification.alert("Solo puede ver nuestra señal en vivo utilizando Wi-Fi.", doNothing, "Alerta", "OK");
+			playLiveTV();
 		}
 	});
+	
+	function playLiveTV(){
+		if(!browserPlay){
+			//Si hay que reproducirlo por player nativo
+			window.videoPlayer.play(liveTVURL);
+		}else{
+			//Si hay que reproducirlo por browser
+			window.open(liveTVURL, '_system', 'closebuttoncaption=regresar');
+		}	
+	}
 	
 	//NOTICIAS JS
 	$(document).on('click','.news', function(e) {	
@@ -422,7 +447,8 @@
 					navigator.notification.alert("El cliente no existe, debe registrarse primero", doNothing, "Ingresar", "OK");
 				} else {
 					saveClientData(_json.response[0]);						
-					_fSetLoadInit();						
+					//_fSetLoadInit();
+					initPage();						
 				}			   
 			});
 			
@@ -512,7 +538,8 @@
 					navigator.notification.alert("El cliente no se pudo crear, intente m&aacute;s tarde", doNothing, "Registro", "OK");
 				} else {
 					saveClientData(_json.response[0]);						
-					_fSetLoadInit();
+					//_fSetLoadInit();
+					initPage();	
 				}			   
 			});
 			
@@ -528,7 +555,7 @@
 	$(document).on('click','.content-mam .row[data-match], .content-resultados .row[data-match]', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		_matchHasFinished = false;
+		_matchHasFinished = false;		
 		_fRenderDataContent($(this).data('match'));			
 	});
 
@@ -541,7 +568,7 @@
 	});
 
 
-	$(document).on('click','.content-alertas .countryButton', function(e) {
+	/*$(document).on('click','.content-alertas .countryButton', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		_fRenderDataContent();	
@@ -577,7 +604,7 @@
 
 		_fsetTeamsAlerts();	
 		
-	});
+	});*/
 	
 	
 	/*LEADERBOARDS*/
@@ -590,4 +617,6 @@
 		myScroll.scrollTo(0,0,0);
 		myScroll2.scrollTo(0,0,0);		
 	});
+
+
 
