@@ -41,7 +41,7 @@ public class TVMaxDeportes extends CordovaActivity
      	super.appView.clearCache(true);
      	super.clearCache();
         
-        int width;
+        /*int width;
 		int height;
 		
 		Display display = getWindowManager().getDefaultDisplay();
@@ -79,7 +79,7 @@ public class TVMaxDeportes extends CordovaActivity
 			videoValue = R.raw.vh263;
 		}
 		//videoValue = R.raw.vh263;
-		super.setStringProperty("SplashScreenVideo", "android.resource://com.tvn.tvmax/" + videoValue);
+		super.setStringProperty("SplashScreenVideo", "android.resource://com.tvn.tvmax/" + videoValue);*/
 		
         
         // Set by <content src="index.html" /> in config.xml

@@ -135,11 +135,11 @@ function makeCategoriesActionsUpdate(){
 	obj.categories = [];
 	obj.actions = [];
 	for(var i=0; i<pushList.length; i++){
+		//Siempre se mantiene la suscripcion a la categoria, mas no a la accion
+		var innerCat = {};
+		innerCat.category = pushList[i].id_category;
+		obj.categories.push(innerCat);
 		if(pushList[i].isSuscribed == true){
-			var innerCat = {};
-			innerCat.category = pushList[i].id_category;
-			obj.categories.push(innerCat);
-			
 			var innerAct = {};
 			innerAct.action = pushList[i].id_action;
 			obj.actions.push(innerAct);
