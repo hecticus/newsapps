@@ -107,7 +107,7 @@
 	
 	_fGetLoadingNews();
 		
-	if(typeof(window.localStorage) != 'undefined') {			
+	if(typeof(window.localStorage) != 'undefined') {
 		if (window.localStorage.getItem(_jMenu[_iIndex].storeKey)) {
 			_jGet = JSON.parse(window.localStorage.getItem(_jMenu[_iIndex].storeKey));
 			_fRenderInit();	

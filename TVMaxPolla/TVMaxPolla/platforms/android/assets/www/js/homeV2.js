@@ -60,19 +60,19 @@
 
 		
 		var _html = '';
-		var _index = 1; 
 
 		//row
 		_html += '<div class="row" >';
-			_html += '<div class="col-md-12 metro load" data-index="' + _index + '" >';
+			_html += '<div class="col-md-12 metro load" data-index="1" >';
 				_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';
-																						
-					/*var _json = _getJsonNews(_index);
+								
+					_json = JSON.parse(window.localStorage.getItem(_jMenu[1].storeKey));
+				
 					if (_json) {
 						
 						var _limit =  _json.item.length;
 						if (_limit > 3) _limit = 3;						 
-						
+
 						_html += '<div class="scrollerx" style="width:' + (_width * _limit) + 'px;  height: ' + _heightNoticia  + 'px;">';
 							$.each(_json.item, function(_index, _item) {
 							 	if (_index <= (_limit-1)) {
@@ -94,7 +94,7 @@
 							});
 						_html += '</div>';
 						
-					};*/
+					};
 																	
 				_html += '</div>';				
 			_html += '</div>';		
@@ -120,12 +120,12 @@
 			$('header .container .row .tv').addClass('hidden');
 		}
 
-		
-		
+				
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
 
-		//var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
+		var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
+				
 		
 	};
 
