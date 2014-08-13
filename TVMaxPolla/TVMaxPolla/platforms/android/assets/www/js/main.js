@@ -38,7 +38,6 @@ var _fGetFormatDate = function(_date) {
 
 var _fSetLoadDefault = function() {
 	clearTimeout(_mTimeout);
-	$('body').removeClass();
 	$('body').addClass('content-default');
 	$('main').data('index',-1);		
 	$('main').load('default.html');
