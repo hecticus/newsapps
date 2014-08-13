@@ -434,7 +434,8 @@
 					navigator.notification.alert("El cliente no existe, debe registrarse primero", doNothing, "Ingresar", "OK");
 				} else {
 					saveClientData(_json.response[0]);						
-					_fSetLoadInit();						
+					//_fSetLoadInit();
+					initPage();						
 				}			   
 			});
 			
@@ -524,7 +525,8 @@
 					navigator.notification.alert("El cliente no se pudo crear, intente m&aacute;s tarde", doNothing, "Registro", "OK");
 				} else {
 					saveClientData(_json.response[0]);						
-					_fSetLoadInit();
+					//_fSetLoadInit();
+					initPage();	
 				}			   
 			});
 			
