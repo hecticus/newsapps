@@ -11,8 +11,12 @@ var pushActionsIndex;
 //NEW VARS
 var pushList;
 
-function setPushList(json){
+function setPushList(json, deleteOld){
 	pushList = json.news_categories.item.slice(0);
+	if(deleteOld){
+		window.localStorage.removeItem(FILE_KEY_PUSH_OPTIONS);
+		//getClientPushOptions(doNothing,doNothing);
+	}
 }
 
 function checkIfCategoriesExists(categoriesClientList){

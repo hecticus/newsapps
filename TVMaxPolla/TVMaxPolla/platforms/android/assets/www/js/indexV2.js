@@ -58,23 +58,26 @@ var app = {
     onDeviceReady: function() {
     	
     	//set timeout para init data
-    	window.setTimeout(initAllAppData(),100);
-
+    	//window.setTimeout(initAllAppData(),100);
+    	app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
     	if(id == 'deviceready'){
 	    	//init things
-			setIOSSplashes();
+    		initAllAppData();
+			/*setIOSSplashes();
 	    	initPage();
 	    	checkVersion();
 	    	initPush();
-	    	initGA();
+	    	initGA();*/
     	}
     }
 };
 
 function _fPushMenu(_json) {
+	_jMenu = [];
+	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});//*/
 	$.each(_json.news_categories.item, function(_index,_item) {
 		_storeKey = 'newscategories_' + _item.id_news_category;				
 		if (_item.status == 1) {
@@ -97,17 +100,45 @@ function _fPushMenu(_json) {
 			};
 		};
 	});
+	
+	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false, session:true});
+	signinPageIndex = _jMenu.length;
+	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', session:false});
+	signupPageIndex = _jMenu.length;
+	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});//*/
 };
+
+var firstTime = true;
 
 function _fRequestCategories() {
 	
 	var _json = false;
 	var _storeKey = 'newscategories';
-	
+	var _catergoriesSame = false;
+	//console.log("VA A REQUEST CAT");
 	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/getsimple',false,true,false);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 			if(typeof(window.localStorage) != 'undefined') {		
+				//revisamos si las categorias son las mismas
+				//_jsonOld = JSON.parse(window.localStorage.getItem(_storeKey));
+				_jsonOld = window.localStorage.getItem(_storeKey);
+				//console.log("VA A REQUEST CAT 1");
+				if (_jsonOld) {
+					var jsonString = JSON.stringify(_json);
+					console.log("VA A REQUEST CAT objeto viejo");
+					console.log("JSON1 "+_jsonOld);
+					console.log("JSON2 "+jsonString);
+					if (jsonString == _jsonOld){
+						console.log("VA A REQUEST CAT objeto viejo es igual");
+						_catergoriesSame = true;
+					}else{
+						console.log("VA A REQUEST CAT objeto viejo es diferente");
+						_catergoriesSame = false;
+					}
+				}else{
+					_catergoriesSame = false;
+				}
 				window.localStorage.setItem(_storeKey,JSON.stringify(_json));
 			}
 		});
@@ -118,12 +149,23 @@ function _fRequestCategories() {
 			_json = JSON.parse(window.localStorage.getItem(_storeKey));	
 		}	
 	}	 
-
-	if (_json) {
-		try{setPushList(_json);}catch(e){}
-		_fPushMenu(_json);
+	
+	if(firstTime){
+		console.log("VA A REQUEST CAT primera vez");
+		firstTime = false;
+		if (_json) {
+			try{setPushList(_json,false);}catch(e){}
+			_fPushMenu(_json);
+		}
+	}else{
+		console.log("VA A REQUEST CAT otras veces");
+		if (_json && _catergoriesSame == false) {
+			console.log("VA A REQUEST CAT categorias nuevas a actualizar");
+			try{setPushList(_json,true);}catch(e){}
+			_fPushMenu(_json);
+			setMenuView();
+		}
 	}
-
 }
 
 var signupPageIndex;
@@ -131,14 +173,14 @@ var signinPageIndex;
 
 function initAllAppData() {
 		
-	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});
+	/*_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});
 	_fRequestCategories();
 	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false, session:true});
 	signinPageIndex = _jMenu.length;
 	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', session:false});
 	signupPageIndex = _jMenu.length;
-	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});
-
+	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});//*/
+	_fRequestCategories();
 
 	document.addEventListener('backbutton', function(e) {
 				
@@ -164,17 +206,25 @@ function initAllAppData() {
 							
 	}, false);
 	
-	app.receivedEvent('deviceready');    	
+	//app.receivedEvent('deviceready');    	
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+	
+	setIOSSplashes();
+	initPage();
+	checkVersion();
+	initPush();
+	initGA();
 
 }
 
 
 var _bUpdateNews = window.setInterval(function(){	
+	//buscamos si hay un cambio en las categorias para refrescar eso primero
+	_fRequestCategories();
 	$(_jMenu).each(function(_index,_menu) {
 		_menu.update = true ;
 	});
-},100000);
+},300000);
 
 
 var pushHasExecuted = false;
@@ -196,21 +246,6 @@ function executePushInit(extra_params){
 			
 			/*
 			 * '0','Anuncios','Anuncios','0'
-				'1','GOL','Gol de #TEAM1# anota #PLAYER1# ','1'
-				'2','CAMBIO','Cambio en #TEAM1# entra #PLAYER2# por #PLAYER1#','0'
-				'3','INICIO','Arranca el partido entre #TEAM1# y #TEAM2#','1'
-				'4','Final','Termina el partido entre #TEAM1# y #TEAM2#','0'
-				'5','Tarjeta Amarilla','Amarilla para #PLAYER1# de #TEAM1#','0'
-				'6','Tarjeta Roja Directa','Roja directa para #PLAYER1# de #TEAM1#','1'
-				'7','Tarjeta Roja Acumulada','Segunda Amarilla, Roja para #PLAYER1# de #TEAM1#','1'
-				'8','Parada del Portero','Paradon #PLAYER1# de #TEAM1#','0'
-				'9','Autogol','En propia puerta! Gol de #TEAM1# anota #PLAYER1# ','1'
-				'10','Tanda de Penales','Incian los Penales entre #TEAM1# y #TEAM2#','0'
-				'11','Penal detenido','Paradon del portero de #TEAM1#','0'
-				'12','Penal fallado','#PLAYER1# manda a volar su penalti','0'
-				'13','Inicio de tiempo','Saltan los equipos a la cancha #TEAM1# vs #TEAM2#','1'
-				'14','Final de tiempo','Los equipos se retiran a los vestidores #TEAM1# vs #TEAM2#','1'
-				'15','Previa','El partido entre #TEAM1# y #TEAM2# esta por comenzar!','1'
 				'16','Noticias','Noticia','1'
 			 */
 			
@@ -293,7 +328,27 @@ function stopNewsInterval(){
 
 function initPage(){
 	
+	setMenuView();
+	
+	_jClient = loadClientData();
+	
+	initFacebookManager();
+	
+	if (_jClient != null) {
+		_fSetLoadInit();		
+	} else {
+		//getLoginStatus();
+		_fSetLoadDefault();	
+	}
+
+
+
+
+}
+
+function setMenuView(){
 	var _html = '';
+
 	var _session = null;
 	
 	if (loadClientData() == null) {
@@ -301,7 +356,7 @@ function initPage(){
 	} else {
 		_session = true;
 	}
-
+	
 	$(_jMenu).each(function(_index,_menu) {
 
 		if ((_menu.session == null) || (_menu.session == _session)) {
@@ -320,20 +375,6 @@ function initPage(){
 	
 
 	$('#wrapperM .scroller .container').html(_html);
-	_jClient = loadClientData();
-	
-	initFacebookManager();
-	
-	if (_jClient != null) {
-		_fSetLoadInit();		
-	} else {
-		//getLoginStatus();
-		_fSetLoadDefault();	
-	}
-
-
-
-
 }
 
 function setIOSSplashes(){
