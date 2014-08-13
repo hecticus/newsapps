@@ -297,3 +297,41 @@ function getPPI(){
 	// and return the value
 	return parseFloat(ppi);
 }
+
+function _fUseImageCache(_image,_background) {	
+	if (ImgCache.ready) {
+				
+		var _selector = 'img[src="' + _image + '"]';		
+		if (_background) _selector = 'div[data-src="' + _image + '"]';
+
+		$(_selector).each(function() {
+	    	var _this = $(this);
+			ImgCache.isCached(_this.attr('src'), function(_path, _success) {
+				if(_success) {
+					if(isOffline()) {
+						if (_background) {
+							ImgCache.useCachedBackground(_this);
+						} else {
+							ImgCache.useCachedFile(_this); 
+						};						
+					};
+				} else {
+					ImgCache.cacheFile(_this.attr('src'), function() {
+						ImgCache.useOnlineFile(_this);
+				    });
+				};
+			});                                	
+		});
+		
+	};		
+};
+
+		
+
+
+
+
+
+
+
+

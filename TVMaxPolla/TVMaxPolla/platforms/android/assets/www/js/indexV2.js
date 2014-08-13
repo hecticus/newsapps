@@ -56,7 +56,6 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
-    	
     	//set timeout para init data
     	//window.setTimeout(initAllAppData(),100);
     	app.receivedEvent('deviceready');
@@ -71,6 +70,14 @@ var app = {
 	    	checkVersion();
 	    	initPush();
 	    	initGA();*/
+	    	
+	    	//Image Cache
+	    	ImgCache.options.debug = true;
+	    	ImgCache.options.localCacheFolder = 'TvMax';
+	      	ImgCache.options.usePersistentCache = true;       	        	    	
+			ImgCache.options.cacheClearSize = 5;
+			ImgCache.init();	
+	    	
     	}
     }
 };
