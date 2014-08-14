@@ -166,6 +166,8 @@ function errorRenderAlerts(){
 	navigator.notification.activityStop();
 	//console.log("Paso por el error de RENDER ALERTS");
 	navigator.notification.alert("Error cargando las alertas", doNothing, "Alerta", "OK");
+	
+	_fSetLoadInit();
 }
 
 function initAlertPage(){

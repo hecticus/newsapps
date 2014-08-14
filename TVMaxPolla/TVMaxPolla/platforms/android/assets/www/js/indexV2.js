@@ -294,7 +294,7 @@ function initAllAppData() {
 	//checkVersion();
 	initPush();
 	initGA();
-
+	categoriesLoaded = true;
 }
 
 
@@ -311,9 +311,10 @@ var _bUpdateNews = window.setInterval(function(){
 
 
 var pushHasExecuted = false;
+var categoriesLoaded = false;
 function executePushInit(extra_params){
 	pushInterval = window.setInterval(function(){
-		if(_homeWasShowed){
+		if(_homeWasShowed && categoriesLoaded){
 			if(pushHasExecuted){return;}
 			pushHasExecuted = true;
 			clearTimeout(_mTimeout);			
@@ -323,17 +324,15 @@ function executePushInit(extra_params){
 	    	}
 
 			_fSetBack();
-			var index = 4;
+			var index = 0;
 			var action = -1;
 			var newsID = 0;
+			var isNewsAction = false;
 			
 			/*
 			 * '0','Anuncios','Anuncios','0'
 				'16','Noticias','Noticia','1'
 			 */
-			
-			var NEWS_ACTION = 16;
-			var END_MATCH_ACTION = 4;
 			
 			//revisamos que tipo de aacion llego
 			try{
@@ -347,22 +346,27 @@ function executePushInit(extra_params){
 			}catch(ex){
 				console.log("ERROR push "+ex);
 			}
-			
-			if(action == NEWS_ACTION){
-				index = 4;
+			if(action == 0){
+				if(extra_params.msg != null && extra_params.msg != ""){
+					navigator.notification.alert(extra_params.msg, doNothing, "Mensaje", "OK");
+				}
+				stopPushInterval();
+				return false;
 			}else{
-				if(action == END_MATCH_ACTION){
-					index = 1;
-				}else if(action == 0){
-					if(extra_params.msg != null && extra_params.msg != ""){
-						navigator.notification.alert(extra_params.msg, doNothing, "Mensaje", "OK");
+				try{
+					for(var i=0;i<_jMenu.length;i++){
+						if(_jMenu[i].json != null && _jMenu[i].json.id_action == action){
+							index = i;
+							isNewsAction = true;
+							break;
+						}
 					}
-					stopPushInterval();
-					return false;
-				}else{
-					index = 3;
+				}catch(e){
+					
 				}
 			}
+			
+			
 			
 			
 			if(_jMenu[index].class == 'content-polla' 
@@ -374,24 +378,41 @@ function executePushInit(extra_params){
 					return;
 				}
 			}
+
+			if(isNewsAction){
+				$('body').removeClass();
+				$('body').addClass(_jMenu[index].class);
+				$('main').empty();
+				$('main').data('index',index);	
+				$('.title').html('<span>' + _jMenu[index].title + '</span>');						
+				$('main').load(_jMenu[index].load);	
+				$('#wrapperM').attr('class','page transition left');
+				//console.log("EXTRA "+JSON.stringify(extra_params));
 				
-			$('body').removeClass();
-			$('body').addClass(_jMenu[index].class);
-			$('main').empty();
-			$('main').data('index',index);	
-			$('.title').html('<span>' + _jMenu[index].title + '</span>');						
-			$('main').load(_jMenu[index].load);	
-			$('#wrapperM').attr('class','page transition left');
-			//console.log("EXTRA "+JSON.stringify(extra_params));
-			
-			
-			
-			if(action == NEWS_ACTION){
 				//abrimos la noticia como tal
 				newsPushInterval = window.setInterval(function(){
 					if(newsReadyForPush){
 						stopNewsInterval();
-						window.setTimeout(function(){try{if(checkIfDataContentExists(newsID)){_fRenderDataContent(newsID);}}catch(ex){}}, 500);
+						window.setTimeout(function(){
+							try{
+								if(checkIfDataContentExists(newsID)){
+									_fRenderDataContent(newsID);
+								}else{
+									//buscamos la noticia en el servidor y la mostramos directamente
+									var _oAjaxTemp = $.fGetAjaXJSONNews("http://polla.tvmax-9.com/tvmaxfeeds/simplenews/get/id/"+newsID);
+									if (_oAjaxTemp) {
+										_oAjaxTemp.done(function(_json) {
+											if(_json != null && _json.noticias_deportes != null && _json.noticias_deportes.items != null){
+												var newsJsonObj = _json.noticias_deportes.items[0];
+												addPushNews(newsJsonObj);
+												_fRenderDataContent(newsID);
+											}
+																
+										});
+									}
+								}
+							}catch(ex){}
+						}, 500);
 					}
 				},500);
 			}

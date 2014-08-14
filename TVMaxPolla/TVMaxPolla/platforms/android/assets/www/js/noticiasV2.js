@@ -38,6 +38,10 @@
 		}
 		return found;
 	}
+	
+	function addPushNews(json){
+		_jGet.item.push(json);
+	}
 
 	var _fRenderDataContent = function(_id) {
 		var _html = '<div class="row" >';
