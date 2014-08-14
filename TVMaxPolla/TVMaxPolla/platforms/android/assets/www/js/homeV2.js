@@ -61,6 +61,8 @@
 		
 		var _html = '';
 		var _limit = 0; 
+		var _return = false; 
+		
 		//row
 		_html += '<div class="row" >';
 			_html += '<div class="col-md-12 metro load" data-index="1" >';
@@ -92,8 +94,17 @@
 												_html += '</div>';							
 											_html += '</figcaption>';
 										_html += '</figure>';
-									_html += '</div>';				
+									_html += '</div>';	
+									
+									
+									if (_index >= (_limit-1)) {
+										_return = true;
+									} 
+												
 								};
+								
+								if (_return) return true;
+								
 							});
 						_html += '</div>';
 						
@@ -126,11 +137,15 @@
 				
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
-		
+		_return = false;
 		$.each(_json.item, function(_index, _item) {
 			if (_index <= (_limit-1)) {
-				_fUseImageCache(_item.image);		
+				_fUseImageCache(_item.image);
+				if (_index >= (_limit-1)) {
+					_return = true;
+				} 	
 			}
+			if (_return) return true;
 		});
 		
 		var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});

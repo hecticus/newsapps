@@ -41,10 +41,13 @@
 	}
 
 	var _fRenderDataContent = function(_id) {
+		
 		var _html = '<div class="row" >';
 		var _image = false;
+		var _return = false;
 		
 		$.each(_jGet.item, function(_index,_item) {
+			
 			if (_item.id == _id) {
 
 				_html += '<div class="col-md-12">';
@@ -69,7 +72,12 @@
 				$('.share').removeClass('hidden');						
 				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://mundial.tvmax-9.com/noticias/' + _item.id + '/' + _item.id + '\');');
 				
+				_return = true;
+				
 			}
+			
+			if (_return) return true; 
+			
 		});
 			
 		_html += '</div>';
@@ -87,26 +95,37 @@
 	var _fRenderInit = function() {
 
 		var _html = '<div class="row" >';
+		var _return = false;
 
 		$.each(_jGet.item, function(_index,_item) {				
-		 	if (_index <= 10) {
-		 				 	
+		 	
+		 	if (_index <= 10) {		 				 	
 				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
 				_html += _fGetImage({src:_item.image,caption:_item.titulo});
 				_html += '</div>';
-				
-			}		 			
+				_return = true;
+			}
+			
+			if (_return) return true; 
+					 			
 		});
 		 
 		_html += '</div>';
 		
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
+		_return = false;
 		
-		$.each(_jGet.item, function(_index,_item) {				
-		 	if (_index <= 10) {		 		
+		 
+		$.each(_jGet.item, function(_index,_item) {
+							
+		 	if (_index <= 10) {
 		 		_fUseImageCache(_item.image);
-			};		 			
+		 		_return = true;
+			};
+			
+			if (_return) return true;
+					 			
 		});
 		
 
