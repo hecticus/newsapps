@@ -60,7 +60,9 @@
 
 		
 		var _html = '';
-
+		var _limit = 0; 
+		var _return = false; 
+		
 		//row
 		_html += '<div class="row" >';
 			_html += '<div class="col-md-12 metro load" data-index="1" >';
@@ -70,27 +72,39 @@
 				
 					if (_json) {
 						
-						var _limit =  _json.item.length;
+						 _limit =  _json.item.length;
 						if (_limit > 3) _limit = 3;						 
 
 						_html += '<div class="scrollerx" style="width:' + (_width * _limit) + 'px;  height: ' + _heightNoticia  + 'px;">';
 							$.each(_json.item, function(_index, _item) {
 							 	if (_index <= (_limit-1)) {
-									if (!_item.image) _item.image = ''; 													
+									if (!_item.image) _item.image = '';
 									_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
 										_html += '<figure>';																												
-											_html += '<div id="home_news_image" style="background-image:url(' + _item.image + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+											//_html += '<div id="home_news_image" style="background-image:url(' + _item.image + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
+											
+											_html += '<img src="' + _item.image + '"  alt="' + _item.titulo + '" style="width:100%; height:' + _heightNoticia +'px;" />';	
+											
 											_html += '<figcaption>';						
 												_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
 													_html += '<span class="icon-noticias"></span>';
 												_html += '</div>';												
 												_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
-													_html += '<span id="home_news_caption">'+_item.titulo+'</span>';																									
+													_html += '<span id="home_news_caption">' + _item.titulo + '</span>';																									
 												_html += '</div>';							
 											_html += '</figcaption>';
 										_html += '</figure>';
-									_html += '</div>';				
+									_html += '</div>';	
+									
+									
+									if (_index >= (_limit-1)) {
+										_return = true;
+									} 
+												
 								};
+								
+								if (_return) return true;
+								
 							});
 						_html += '</div>';
 						
@@ -123,7 +137,17 @@
 				
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
-
+		_return = false;
+		$.each(_json.item, function(_index, _item) {
+			if (_index <= (_limit-1)) {
+				_fUseImageCache(_item.image);
+				if (_index >= (_limit-1)) {
+					_return = true;
+				} 	
+			}
+			if (_return) return true;
+		});
+		
 		var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
 				
 		

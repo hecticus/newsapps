@@ -97,7 +97,8 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 	    });
 	    
 	    //mandamos a salvar la data
-	    navigator.notification.activityStart("Guardando alertas", "Guardando...");
+		window.plugins.spinnerDialog.show();
+	    //navigator.notification.activityStart("Guardando alertas", "Guardando...");
 	    //TODO: HACER NUEVO SAVE FUNC
 	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
 	});
@@ -150,34 +151,36 @@ function renderInitAlerts() {
 
 //SAVING FUNCTIONS alertSaveComplete, alertSaveFail
 function alertSaveFail(){
-	//window.plugins.spinnerDialog.hide();
-	navigator.notification.activityStop();
+	window.plugins.spinnerDialog.hide();
+	//navigator.notification.activityStop();
 	navigator.notification.alert("No se guardaron las alertas, error", doNothing, "Alerta", "OK");
 }
 function alertSaveComplete(){
-	//window.plugins.spinnerDialog.hide();
-	navigator.notification.activityStop();
+	window.plugins.spinnerDialog.hide();
+	//navigator.notification.activityStop();
 	navigator.notification.alert("Se guardaron las alertas exitosamente", doNothing, "Exito", "OK");
 }
 
 //INIT FUNCTIONS
 function errorRenderAlerts(){
-	//window.plugins.spinnerDialog.hide();
-	navigator.notification.activityStop();
+	window.plugins.spinnerDialog.hide();
+	//navigator.notification.activityStop();
 	//console.log("Paso por el error de RENDER ALERTS");
 	navigator.notification.alert("Error cargando las alertas", doNothing, "Alerta", "OK");
+	
+	_fSetLoadInit();
 }
 
 function initAlertPage(){
-	//window.plugins.spinnerDialog.hide();
-	navigator.notification.activityStop();
+	window.plugins.spinnerDialog.hide();
+	//navigator.notification.activityStop();
 	//inicializamos los valores
 	//newClientActionsAlerts = currentClientActions.slice(0);
 	
 	renderInitAlerts();	
 
 }
-//window.plugins.spinnerDialog.show();
-navigator.notification.activityStart("Cargando alertas", "Cargando...");
+window.plugins.spinnerDialog.show();
+//navigator.notification.activityStart("Cargando alertas", "Cargando...");
 //Obtenemos la informacion del cliente y las opciones que podemos activar/desactivar
 getClientPushOptions(initAlertPage, errorRenderAlerts);
