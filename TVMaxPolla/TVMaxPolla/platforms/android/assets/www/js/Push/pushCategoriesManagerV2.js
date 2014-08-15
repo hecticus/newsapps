@@ -111,10 +111,10 @@ function updatePushOptionsToServer(okFunction, failFunction){
 					data = JSON.parse(data);
 				}
 				var code = data.error;
-				console.log("RESPONSE ="+JSON.stringify(data));
+				//console.log("RESPONSE ="+JSON.stringify(data));
 				if(code == 0){
 					//SAVE Categories
-					console.log("GUARDO TODO BIEN "+JSON.stringify(_data));
+					//console.log("GUARDO TODO BIEN "+JSON.stringify(_data));
 					savePushOptions(_data);
 					okFunction();
 				}else{
@@ -198,7 +198,7 @@ function checkIfPushConfigsChanged(newClientActions){
 	if(currentClientActions.equals(newClientActions)){
 		areEqual = true;
 	}
-	console.log("Compare Push configs are Equal? "+areEqual);
+	//console.log("Compare Push configs are Equal? "+areEqual);
 	return areEqual;
 }
 
@@ -230,10 +230,10 @@ function getClientPushOptions(successFunction, errorFunction){
 					data = JSON.parse(data);
 				}
 				var code = data.error;
-				console.log("RESPONSE ="+JSON.stringify(data));
+				//console.log("RESPONSE ="+JSON.stringify(data));
 				if(code == 0){
 					//SAVE Categories
-					console.log("CONSULTO TODO BIEN "+JSON.stringify(data));
+					//console.log("CONSULTO TODO BIEN "+JSON.stringify(data));
 
 					currentClientCategories = data.clientCategories.slice(0);
 					currentClientActions = data.clientActions.slice(0);

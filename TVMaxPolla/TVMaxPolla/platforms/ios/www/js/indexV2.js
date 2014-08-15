@@ -147,14 +147,9 @@ function _fRequestCategories() {
 				//console.log("VA A REQUEST CAT 1");
 				if (_jsonOld) {
 					var jsonString = JSON.stringify(_json);
-					console.log("VA A REQUEST CAT objeto viejo");
-					console.log("JSON1 "+_jsonOld);
-					console.log("JSON2 "+jsonString);
 					if (jsonString == _jsonOld){
-						console.log("VA A REQUEST CAT objeto viejo es igual");
 						_catergoriesSame = true;
 					}else{
-						console.log("VA A REQUEST CAT objeto viejo es diferente");
 						_catergoriesSame = false;
 					}
 				}else{
@@ -172,16 +167,13 @@ function _fRequestCategories() {
 	}	 
 	
 	if(firstTime){
-		console.log("VA A REQUEST CAT primera vez");
 		firstTime = false;
 		if (_json) {
 			try{setPushList(_json,false);}catch(e){}
 			_fPushMenu(_json);
 		}
 	}else{
-		console.log("VA A REQUEST CAT otras veces");
 		if (_json && _catergoriesSame == false) {
-			console.log("VA A REQUEST CAT categorias nuevas a actualizar");
 			try{setPushList(_json,true);}catch(e){}
 			_fPushMenu(_json);
 			setMenuView();
