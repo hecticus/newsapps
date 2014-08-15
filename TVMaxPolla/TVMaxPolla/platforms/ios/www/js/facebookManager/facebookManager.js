@@ -126,7 +126,8 @@ function loginByFacebook() {
 			});
      	} else {
      		//alert('not logged in');
-     		navigator.notification.activityStop();
+			window.plugins.spinnerDialog.hide();
+     		//navigator.notification.activityStop();
      		navigator.notification.alert("Falló el login con Facebook", doNothing, "Alerta", "OK");
      	}
      },{ scope: "email" }

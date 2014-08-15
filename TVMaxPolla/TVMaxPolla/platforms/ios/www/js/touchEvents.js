@@ -88,6 +88,7 @@
 		
 			
 		if (_this.data('index') == 'fb') {
+			window.plugins.spinnerDialog.show();
 			loginByFacebook();
 		} else {
 			
@@ -469,7 +470,8 @@
 	});
 
 	$(document).on('click','#facebookLoginButton', function(e) {	
-		navigator.notification.activityStart("Cargando informacion", "Cargando...");
+		window.plugins.spinnerDialog.show();
+		//navigator.notification.activityStart("Login con Facebook", "Cargando...");
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		loginByFacebook();
