@@ -40,6 +40,7 @@
 		6F15FE891938FDDD00438C30 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F15FE881938FDDD00438C30 /* FacebookSDK.framework */; };
 		6F15FE8D19394A3900438C30 /* TVMaxDeportes_develop.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */; };
 		6F15FE8E19394A3900438C30 /* TVMaxDeportes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */; };
+		6F32249219A28B3600381D33 /* SharedConfigurations.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F32249119A28B3600381D33 /* SharedConfigurations.m */; };
 		6F51698F192EA5FD0055ED4A /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698C192EA5FD0055ED4A /* MovieViewController.m */; };
 		6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F51698E192EA5FD0055ED4A /* VideoPlayer.m */; };
 		6F516992192EA69C0055ED4A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F516991192EA69C0055ED4A /* MediaPlayer.framework */; };
@@ -142,6 +143,8 @@
 		6F15FE881938FDDD00438C30 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		6F15FE8B19394A3900438C30 /* TVMaxDeportes_develop.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVMaxDeportes_develop.entitlements; path = TVMaxPolla/TVMaxDeportes_develop.entitlements; sourceTree = "<group>"; };
 		6F15FE8C19394A3900438C30 /* TVMaxDeportes.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TVMaxDeportes.entitlements; path = TVMaxPolla/TVMaxDeportes.entitlements; sourceTree = "<group>"; };
+		6F32249019A28B3600381D33 /* SharedConfigurations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedConfigurations.h; path = com.hecticus.cordova.plugins/SharedConfigurations.h; sourceTree = "<group>"; };
+		6F32249119A28B3600381D33 /* SharedConfigurations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedConfigurations.m; path = com.hecticus.cordova.plugins/SharedConfigurations.m; sourceTree = "<group>"; };
 		6F51698B192EA5FD0055ED4A /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
 		6F51698C192EA5FD0055ED4A /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 		6F51698D192EA5FD0055ED4A /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6F32249019A28B3600381D33 /* SharedConfigurations.h */,
+				6F32249119A28B3600381D33 /* SharedConfigurations.m */,
 				6F51698A192EA5FD0055ED4A /* VideoPlayer */,
 				9000CA2402B7491F87E398DE /* SocialSharing.m */,
 				7753E7C0281040F09A61EC7E /* SocialSharing.h */,
@@ -560,6 +565,7 @@
 				D055D5FCFF0D426091D847D7 /* CDVAssetLibraryFilesystem.m in Sources */,
 				CF8439D934BA48239A624CBB /* CDVFileTransfer.m in Sources */,
 				6729F3F077F44840A414D65D /* CDVDevice.m in Sources */,
+				6F32249219A28B3600381D33 /* SharedConfigurations.m in Sources */,
 				AD36CB08E6C545D8911E0656 /* CDVConnection.m in Sources */,
 				0C22F550428549C198F11198 /* CDVReachability.m in Sources */,
 				6F516990192EA5FD0055ED4A /* VideoPlayer.m in Sources */,

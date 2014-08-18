@@ -227,6 +227,13 @@ module.exports = [
         "clobbers": [
             "GAPlugin"
         ]
+    },
+    {
+        "file": "plugins/com.hecticus.cordova.plugins/www/sharedConfigurations.js",
+        "id": "com.hecticus.cordova.plugins.sharedconfigurations",
+        "clobbers": [
+            "SharedConfigurations"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -244,7 +251,8 @@ module.exports.metadata =
     "hu.dpal.phonegap.plugins.SpinnerDialog": "0.2.1",
     "com.phonegap.plugins.PushPlugin": "2.2.0",
     "org.apache.cordova.console": "0.2.9-dev",
-    "com.adobe.plugins.GAPlugin": "2.3.1"
+    "com.adobe.plugins.GAPlugin": "2.3.1",
+    "com.hecticus.cordova.plugins": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

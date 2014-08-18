@@ -86,4 +86,7 @@
     <feature name="GAPlugin">
         <param name="android-package" value="com.adobe.plugins.GAPlugin" />
     </feature>
+    <feature name="SharedConfigurations">
+        <param name="android-package" value="com.hecticus.cordova.plugins.sharedconfigurations.SharedConfigurations" />
+    </feature>
 </widget>
