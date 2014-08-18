@@ -67,8 +67,11 @@
 		_html += '<div class="row" >';
 			_html += '<div class="col-md-12 metro load" data-index="1" >';
 				_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';
-								
-					_json = JSON.parse(window.localStorage.getItem(_jMenu[1].storeKey));
+					
+					try{
+						_json = JSON.parse(window.localStorage.getItem(_jMenu[1].storeKey));
+					}catch(e){}
+					
 				
 					if (_json) {
 						
@@ -124,7 +127,7 @@
 				if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
 				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
 			
-				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + _heightBanner +'px; margin:0 auto;" >';							
+				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:width:100%; max-height:' + _heightBanner +'px; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
 		
@@ -155,6 +158,57 @@
 
 	
 	_fRenderInit();
+	
+	
+	//banner
+	function getBannerSpecial(){
+		var urlBanner = urlServices+'/newsapi/v1/banners/get';
+		//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+		//console.log("VA AL Banners");
+		$.ajax({
+			url : urlBanner,
+			timeout : 120000,
+			success : function(data, status) {
+				loadFirstPage();
+				if(typeof data == "string"){
+					data = JSON.parse(data);
+				}
+				//console.log("Banners DATA: "+JSON.stringify(data));
+				var error = data["error"];
+				if(error == 0){
+					var results = data["response"]["banners"];
+					//console.log("Banners results: "+JSON.stringify(results));
+					if(results != null){
+						if(results.length>0){
+							var banner = results[0];
+							//Guardamos las imagenes del banner y el link
+							bannerImages = new Array();
+							var imagesArray = banner["fileList"];
+							var indexToUse = 0;
+							var minSize = 70000;
+							for(var i=0;i<imagesArray.length;i++){
+								var diff = getScreenWidth() - imagesArray[i]["width"];
+								//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
+								if(diff < 0){
+									diff = diff*(-1);
+								}
+								if(diff < minSize){
+									minSize = diff;
+									indexToUse = i;
+								}
+							}
+							bannerImages.push(imagesArray[indexToUse]["location"]);
+							bannerLink = banner["link"];
+						}
+					}
+				}
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("ERROR Banners DATA: "+thrownError);
+				loadFirstPage();
+			}
+		});
+	}
 	
 	
 	
