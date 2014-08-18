@@ -45,6 +45,9 @@
 	}
 
 	var _fRenderDataContent = function(_id) {
+		//este es el codigo que muestra una noticia asi que aqui es donde colocaremos el evento
+		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "noticias", "detalle", "section", _id);
+		//console.log("noticias detalle "+_id);
 		
 		var _html = '<div class="row" >';
 		var _image = false;

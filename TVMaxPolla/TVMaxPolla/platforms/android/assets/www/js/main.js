@@ -57,7 +57,8 @@ var _fSetLoadInit = function() {
 	
 var _fSetBack = function() {
 	
-
+	//si se quieren salvar las alertas aqui sin darle al boton hay que hacerlo cuando este valor sea igual al index de alertas
+	//console.log("BACK FROM "+$('main').data('index'));
 	clearTimeout(_mTimeout);
 
 	$('.share, .menu-group, .refresh').addClass('hidden');

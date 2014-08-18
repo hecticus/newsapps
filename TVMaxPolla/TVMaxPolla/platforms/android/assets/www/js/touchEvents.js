@@ -112,7 +112,7 @@
 				}
 			}
 			
-			
+			//console.log("GOTO: "+menuIndex);
 			$('body').removeClass();
 			$('body').addClass(_jMenu[menuIndex].class);
 			$('main').empty();
@@ -121,6 +121,10 @@
 			$('main').load(_jMenu[menuIndex].load);
 			$('main').css({'opacity':0}).animate({'opacity':1});	
 			$('#wrapperM').attr('class','page transition left');
+			
+			//se accede a una categoria desde el menu
+			gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", _jMenu[menuIndex].title, "section", menuIndex);
+			//console.log("menu: "+_jMenu[menuIndex].title);
 			
 			/*if(menuIndex == 0){
 				try{setTimeout(function() {

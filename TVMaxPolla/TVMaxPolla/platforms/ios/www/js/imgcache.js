@@ -56,7 +56,7 @@ var ImgCache = {
                 if (level === LOG_LEVEL_INFO) { str = 'INFO: ' + str; }
                 if (level === LOG_LEVEL_WARNING) { str = 'WARN: ' + str; }
                 if (level === LOG_LEVEL_ERROR) { str = 'ERROR: ' + str; }
-                console.log(str);
+                //console.log(str);
             }
         }
     };
