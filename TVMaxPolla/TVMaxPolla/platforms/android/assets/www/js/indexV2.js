@@ -88,19 +88,22 @@ function _fPushMenu(_json) {
 	$.each(_json.news_categories.item, function(_index,_item) {
 		_storeKey = 'newscategories_' + _item.id_news_category;				
 		if (_item.status == 1) {
-			_jMenu.push({
-				index:_jMenu.length,						
-				class: 'content-noticias',
-				title:_item.display_name,
-				load:'noticias.html',
-				glyphicon:'',								
-				json:_item,
-				update:true,
-				stream: _item.stream,
-				storeKey: 'newscategories_' + _item.id_news_category,
-				session:null
-			});	
-							
+			
+			if (_index >= 1) {
+				_jMenu.push({
+					index:_jMenu.length,						
+					class: 'content-noticias',
+					title:_item.display_name,
+					load:'noticias.html',
+					glyphicon:'',								
+					json:_item,
+					update:true,
+					stream: _item.stream,
+					storeKey: 'newscategories_' + _item.id_news_category,
+					session:null
+				});	
+			}
+
 		} else {
 			if(typeof(window.localStorage) != 'undefined') {
 				window.localStorage.removeItem(_storeKey);	

@@ -5,21 +5,22 @@
 	
 
 	var _fGetImage = function(_image) {
+			
 		var _html = '<figure>';				     		
-		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + _height + 'px;" />';		
+		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
 		
 		if (_image.caption) {
-			
+
 			_html += '<figcaption>';
-			   
-			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left;  ">';
-				_html += '<span>'+_image.caption+'</span>';
+
+			_html += '<div class="block-ellipsis" style="width:100%;  height: 40px; line-height: 20px; float:left; color:#000000; font-size:0.9em; font-weight:bold;">';
+				_html += _image.caption;
 			_html += '</div>';
-			
-			_html += '<div style="width:20%;  height: 40px; line-height: 40px; float:right; text-align: right; font-size:1.6em; font-weight:bold;">';
-				_html += '<span class="icon-lupa"></span>';
+		
+			_html += '<div style="width:100%; height: 20px; line-height: 20px; float:left; color:#787B7F; font-size:0.7em; ">';				
+				_html += _image.date;
 			_html += '</div>';
-						
+
 			_html += '</figcaption>';		
 
 		}
@@ -106,9 +107,9 @@
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	
-		 	if (_index <= 10) {		 				 	
+		 	if (_index <= 10) {
 				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
-				_html += _fGetImage({src:_item.image,caption:_item.titulo});
+				_html += _fGetImage({src:_item.image,caption:_item.titulo, date:_item.fecha});
 				_html += '</div>';
 				_return = true;
 			}

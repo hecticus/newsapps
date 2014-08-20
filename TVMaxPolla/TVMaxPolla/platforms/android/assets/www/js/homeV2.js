@@ -6,133 +6,109 @@
 	
 	var _width = 	$(window).width();		
 	var _height = 	$(window).height();
+	var _json = false;
 	_height =  parseInt(_height - 18);
 	
-	var _heightPolla =  parseInt((_height * 20)/100);
-	var _heightNoticia =  parseInt((_height * 40)/100);
-	var _heightBotones =  parseInt((_height * 20)/100);
-	var _heightBanner =  parseInt((_height * 10)/100);
 
-	var homeIconSize = 5;
-	var homeSmallIconsSize = 1.6;
-	var homeTextClass = "caption-icon";
-	var homeLineHeight = 30;
-	var homeTextSmaller = 0.8;
+	var _fGetImage = function(_image) {
+			
+		var _html = '<figure>';				     		
+		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
+		
+		if (_image.caption) {
+
+			_html += '<figcaption>';
+
+			_html += '<div class="block-ellipsis" style="width:100%;  height: 40px; line-height: 20px; float:left; color:#000000; font-size:0.9em; font-weight:bold;">';
+				_html += _image.caption;
+			_html += '</div>';
+		
+			_html += '<div style="width:100%; height: 20px; line-height: 20px; float:left; color:#787B7F; font-size:0.7em; ">';				
+				_html += _image.date;
+			_html += '</div>';
+
+			_html += '</figcaption>';		
+
+		}
+	
+		_html += '</figure>';
+		return _html;
+		
+	};
+
+
+
+	var _fRenderDataContent = function(_id) {
+		
+		var _html = '<div class="row" >';
+		var _image = false;
+		var _return = false;
+		
+		$.each(_json.item, function(_index,_item) {
+			
+			if (_item.id == _id) {
+
+				_html += '<div class="col-md-12">';
+				_html += '<p class="title">' + _item.titulo + '</p>';				
+				_html += '</div>';
+			 
+				_html += '<div class="col-md-12">';
+				_image = _item.image;
+				_html += _fGetImage({src:_item.image,caption:false});
+				_html += '</div>';
+
+				_html += '<div class="col-md-12" >';				
+				_html += '<p class="date">' + _fGetFormatDate(_item.fecha) + '</p>';				
+				_html += '</div>';
+
+										
+				_html += '<div class="col-md-12" >';
+				_html += '<p class="fullstory">' + _item.texto + '</p>'; 
+				_html += '</div>';				
+				
+				$('.tv').addClass('hidden');		
+				$('.share').removeClass('hidden');						
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://mundial.tvmax-9.com/noticias/' + _item.id + '/' + _item.id + '\');');
+				
+				_return = true;
+				
+			}
+			
+			if (_return) return true; 
+			
+		});
+			
+		_html += '</div>';
+		
+		
+		$('#wrapper2 .scroller .container').empty();
+		$('#wrapper2 .scroller .container').append(_html);
+		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
+		myScroll2.scrollTo(0,0,0);
+		_fUseImageCache(_image);
+
+	};
+
+
 	
 	var _fRenderInit = function() {
-		_homeWasShowed = true;
-		
-		var devicePlatform = device.platform;
-		//IOS
-		if(devicePlatform == "iOS"){
-			//CAMBIO SOLO IOS
-			if(getIfItsIpad()){
-				homeIconSize = 8;
-				homeSmallIconsSize = 3.3;
-				homeTextClass = "caption-icon-ipad";
-				homeLineHeight = 0;
-				homeTextSmaller = 1.8;
-			}else{
-				homeIconSize = 4;
-				homeSmallIconsSize = 1.6;
-				homeTextClass = "caption-icon";
-				homeTextSmaller = 0.8;
-			}
-		}else{
-			if(getScreenHeight()>2000 || (getPixelDensity() != PD_EXHI && getScreenHeight()>1000)){
-				homeIconSize = 8;
-				homeSmallIconsSize = 3.3;
-				homeTextClass = "caption-icon-tablets";
-				homeLineHeight = 0;
-				homeTextSmaller = 1.6;
-			}else if(getScreenHeight()>1000){
-				homeIconSize = 5;
-				homeSmallIconsSize = 1.6;
-				homeTextClass = "caption-icon";
-				homeTextSmaller = 0.8;
-			}else{
-				homeIconSize = 5;
-				homeSmallIconsSize = 1.6;
-				homeTextClass = "caption-icon";
-				homeTextSmaller = 0.8;
-			}
+
+		var _html = '';
+		 
+		_json = JSON.parse(window.localStorage.getItem(_jMenu[1].storeKey));
+		if (_json) {
+			_html += '<div class="row" >';
+				$.each(_json.item, function(_index, _item) {
+					_fUseImageCache(_item.image);
+					_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
+					_html += _fGetImage({src:_item.image,caption:_item.titulo, date:_item.fecha});
+					_html += '</div>';	
+				});
+			_html += '</div>';
 		}
 
-		
-		var _html = '';
-		var _limit = 0; 
-		var _return = false; 
-		
-		//row
-		_html += '<div class="row" >';
-			_html += '<div class="col-md-12 metro load" data-index="1" >';
-				_html += '<div id="wrapperx" style="width:' + _width + 'px; height: ' + _heightNoticia  + 'px; ">';
-					
-					try{
-						_json = JSON.parse(window.localStorage.getItem(_jMenu[1].storeKey));
-					}catch(e){}
-					
-				
-					if (_json) {
-						
-						 _limit =  _json.item.length;
-						if (_limit > 3) _limit = 3;						 
 
-						_html += '<div class="scrollerx" style="width:' + (_width * _limit) + 'px;  height: ' + _heightNoticia  + 'px;">';
-							$.each(_json.item, function(_index, _item) {
-							 	if (_index <= (_limit-1)) {
-									if (!_item.image) _item.image = '';
-									_html += '<div class="slide" style="width:' + (_width - 2) + 'px; height: ' + _heightNoticia  + 'px; line-height: 20px; ">';								
-										_html += '<figure>';																												
-											//_html += '<div id="home_news_image" style="background-image:url(' + _item.image + '); background-size:cover; height:' + _heightNoticia +'px;" >&nbsp;</div>';
-											
-											_html += '<img src="' + _item.image + '"  alt="' + _item.titulo + '" style="width:100%; height:' + _heightNoticia +'px;" />';	
-											
-											_html += '<figcaption>';						
-												_html += '<div style="width:15%; height:40px; line-height: 40px; float:left; text-align: center; font-size:'+homeSmallIconsSize+'em; font-weight:bold;">';
-													_html += '<span class="icon-noticias"></span>';
-												_html += '</div>';												
-												_html += '<div style="width:85%; height: 40px; line-height: 20px; float:right;  ">';										
-													_html += '<span id="home_news_caption">' + _item.titulo + '</span>';																									
-												_html += '</div>';							
-											_html += '</figcaption>';
-										_html += '</figure>';
-									_html += '</div>';	
-									
-									
-									if (_index >= (_limit-1)) {
-										_return = true;
-									} 
-												
-								};
-								
-								if (_return) return true;
-								
-							});
-						_html += '</div>';
-						
-					};
-																	
-				_html += '</div>';				
-			_html += '</div>';		
-		_html += '</div>';
-		//row
-
-
-		_html += '<div class="row" >';
-			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 load metro" style=" text-align: center;">';
-			
-				/*var _banner = 'img/claro/banner_640.png';		
-				if (_width >= 720) _banner = 'img/claro/banner_720.png';			
-				if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
-				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';*/
-				var _banner = "";
-				if (bannerImages != null && bannerImages[0] != null){
-					_banner = bannerImages[0];
-				}
-				_html += '<img id="banner-main" src="' + _banner + '" style=" display: block; width:width:100%; max-height:' + _heightBanner +'px; margin:0 auto;" >';							
-			_html += '</div>';
-		_html += '</div>';
 		
 		if(isLiveTV){
 			$('header .container .row .tv').removeClass('hidden');
@@ -140,23 +116,23 @@
 			$('header .container .row .tv').addClass('hidden');
 		}
 
+
 				
 		$('#wrapper .scroller .container').empty();
 		$('#wrapper .scroller .container').append(_html);
-		_return = false;
-		$.each(_json.item, function(_index, _item) {
-			if (_index <= (_limit-1)) {
-				_fUseImageCache(_item.image);
-				if (_index >= (_limit-1)) {
-					_return = true;
-				} 	
-			}
-			if (_return) return true;
-		});
+
+
+		var _banner = 'img/claro/banner_640.png';
+		if (_width >= 720) _banner = 'img/claro/banner_720.png';
+		if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
+		if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
+		_html = '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
 		
-		var myScrollX = new IScroll('#wrapperx', {scrollX:true, scrollY:false, snap: true, snapSpeed: 400, momentum: false, keyBindings: true,click:true,preventDefault:true});
-				
 		
+		$('footer').css('height',parseInt((_height * 10)/100) + 'px');
+		$('footer').empty();
+		$('footer').append(_html);
+
 	};
 
 	
