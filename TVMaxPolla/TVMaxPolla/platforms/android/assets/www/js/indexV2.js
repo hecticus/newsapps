@@ -187,6 +187,7 @@ var isLiveTV = false;
 var liveTVURL = "http://mundial.tvmax-9.com/UA_APP.php";
 var wifiOnly = false;
 var browserPlay = false;
+var bannerFiles = [];
 function getExtraInfoFromInitWS(_json){
 	var updateVerion = _json.updateUrl;
 	//hay una nueva version y hay que llamar al dialogo para actualizar

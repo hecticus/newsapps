@@ -367,10 +367,13 @@
 	});
 	
 	//BANNER
-	$(document).on('click','#banner-claro', function(e) {
+	$(document).on('click','#banner-main', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');	
+		//window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');
+		if(bannerLink != null && bannerLink.length > 0){
+			window.open(bannerLink[currentBannerIndex], '_system', 'closebuttoncaption=regresar');
+		}
 	});
 	
 	//STADIUMS JS

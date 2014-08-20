@@ -122,12 +122,15 @@
 		_html += '<div class="row" >';
 			_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 load metro" style=" text-align: center;">';
 			
-				var _banner = 'img/claro/banner_640.png';		
+				/*var _banner = 'img/claro/banner_640.png';		
 				if (_width >= 720) _banner = 'img/claro/banner_720.png';			
 				if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
-				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
-			
-				_html += '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:width:100%; max-height:' + _heightBanner +'px; margin:0 auto;" >';							
+				if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';*/
+				var _banner = "";
+				if (bannerImages != null && bannerImages[0] != null){
+					_banner = bannerImages[0];
+				}
+				_html += '<img id="banner-main" src="' + _banner + '" style=" display: block; width:width:100%; max-height:' + _heightBanner +'px; margin:0 auto;" >';							
 			_html += '</div>';
 		_html += '</div>';
 		
@@ -161,54 +164,71 @@
 	
 	
 	//banner
+	var bannerImages = new Array();
+	var bannerLink = new Array();
+	var currentBannerIndex = 0;
+	var currentBannerInterval = 60000;
+	getBannerSpecial();
 	function getBannerSpecial(){
-		var urlBanner = urlServices+'/newsapi/v1/banners/get';
-		//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+		var urlBanner = 'http://polla.tvmax-9.com/tvmax/v1/banners/get/all';
+		//var urlBanner = 'http://10.0.3.142:9002/tvmax/v1/banners/get/all';
 		//console.log("VA AL Banners");
 		$.ajax({
 			url : urlBanner,
 			timeout : 120000,
 			success : function(data, status) {
-				loadFirstPage();
 				if(typeof data == "string"){
 					data = JSON.parse(data);
 				}
 				//console.log("Banners DATA: "+JSON.stringify(data));
 				var error = data["error"];
 				if(error == 0){
-					var results = data["response"]["banners"];
-					//console.log("Banners results: "+JSON.stringify(results));
-					if(results != null){
-						if(results.length>0){
-							var banner = results[0];
-							//Guardamos las imagenes del banner y el link
-							bannerImages = new Array();
-							var imagesArray = banner["fileList"];
-							var indexToUse = 0;
-							var minSize = 70000;
-							for(var i=0;i<imagesArray.length;i++){
-								var diff = getScreenWidth() - imagesArray[i]["width"];
-								//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
-								if(diff < 0){
-									diff = diff*(-1);
+					if(data["response"] != null){
+						if(data["response"]["interval-banner"] != null){
+							currentBannerInterval = data["response"]["interval-banner"];
+							console.log("Interval! "+currentBannerInterval);
+						}
+						var results = data["response"]["banners"];
+						//console.log("Banners results: "+JSON.stringify(results));
+						bannerImages = new Array();
+						bannerLink = new Array();
+						currentBannerIndex = 0;
+						if(results != null){
+							for(var j=0; j<results.length; j++){
+								var banner = results[j];
+								//Guardamos las imagenes del banner y el link
+								var imagesArray = banner["fileList"];
+								var indexToUse = 0;
+								var minSize = 70000;
+								for(var i=0;i<imagesArray.length;i++){
+									var diff = getScreenWidth() - imagesArray[i]["width"];
+									//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
+									if(diff < 0){
+										diff = diff*(-1);
+									}
+									if(diff < minSize){
+										minSize = diff;
+										indexToUse = i;
+									}
 								}
-								if(diff < minSize){
-									minSize = diff;
-									indexToUse = i;
-								}
+								bannerImages.push(imagesArray[indexToUse]["location"]);
+								bannerLink.push(banner["link"]);
 							}
-							bannerImages.push(imagesArray[indexToUse]["location"]);
-							bannerLink = banner["link"];
+							if($('#banner-main').length != 0)$('#banner-main').attr('src', bannerImages[currentBannerIndex]);
 						}
 					}
 				}
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				console.log("ERROR Banners DATA: "+thrownError);
-				loadFirstPage();
 			}
 		});
 	}
+	
+	//refresh banners
+	setInterval(function(){
+		getBannerSpecial();
+	}, 600000);
 	
 	
 	

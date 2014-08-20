@@ -113,3 +113,8 @@ POST    /tvmaxfeeds/simplenews/insert                     controllers.tvmaxfeeds
 
 GET     /tvmaxfeeds/newscategories/get/:version/:os          controllers.tvmaxfeeds.SimpleNewsController.getNewsCategories(version:Integer, os:String)
 GET     /tvmaxfeeds/newscategories/getsimple          controllers.tvmaxfeeds.SimpleNewsController.getNewsCategories(version:Integer = 99999, os:String = "droid")
+
+#banners
+GET     /tvmax/v1/banners/get                         controllers.banners.BannerController.getActiveBanner()
+GET     /tvmax/v1/banners/get/all                     controllers.banners.BannerController.getActiveBanners()
+GET     /tvmax/v1/banners/get/config                  controllers.banners.BannerController.getConfigBanners()
