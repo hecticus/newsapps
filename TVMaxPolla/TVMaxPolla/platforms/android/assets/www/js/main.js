@@ -71,15 +71,15 @@ var _fSetBack = function() {
 				
 	$('#wrapperM').attr('class','page transition left');	
 	$('#wrapper2 .scroller .container').empty();
-	$('footer').empty();				
+	//$('footer').empty();				
 	$('#wrapper2').attr('class','page transition right');
 	$('header .container .row .menu span').removeClass('icon-back');
+	$('header .container .row .tv').removeClass('hidden');
+	
 	
 	if (_jActive) {
 		
-		if (_jActive.live) {
-			$('header .container .row .tv').removeClass('hidden');
-		} else {
+		if (!_jActive.live) {		
 			$('header .container .row .tv').addClass('hidden');
 		} 	
 		 	
@@ -90,9 +90,6 @@ var _fSetBack = function() {
 		
 	}	
 	
-	
-
-						
 
 	$('.menu-group').addClass('hidden');		
 	
