@@ -122,16 +122,27 @@
 		$('#wrapper .scroller .container').append(_html);
 
 
-		var _banner = 'img/claro/banner_640.png';
+		/*var _banner = 'img/claro/banner_640.png';
 		if (_width >= 720) _banner = 'img/claro/banner_720.png';
 		if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
-		if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';
-		_html = '<img id="banner-claro" src="' + _banner + '" style=" display: block; width:auto; height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
+		if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';*/
+		var _banner = "";
+		var isBanner = false;
+		if (bannerImages != null && bannerImages[currentBannerIndex] != null){
+			_banner = bannerImages[currentBannerIndex];
+			isBanner = true;
+		}
+		_html = '<img id="banner-main" src="' + _banner + '" style=" display: block; width:auto; height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
 		
 		
 		$('footer').css('height',parseInt((_height * 10)/100) + 'px');
 		$('footer').empty();
 		$('footer').append(_html);
+		if(isBanner){
+			$('footer').css('visibility','visible');
+		}else{
+			$('footer').css('visibility','hidden');
+		}
 
 	};
 
@@ -162,14 +173,14 @@
 					if(data["response"] != null){
 						if(data["response"]["interval-banner"] != null){
 							currentBannerInterval = data["response"]["interval-banner"];
-							console.log("Interval! "+currentBannerInterval);
+							//console.log("Interval! "+currentBannerInterval);
 						}
 						var results = data["response"]["banners"];
 						//console.log("Banners results: "+JSON.stringify(results));
 						bannerImages = new Array();
 						bannerLink = new Array();
 						currentBannerIndex = 0;
-						if(results != null){
+						if(results != null && results.length > 0){
 							for(var j=0; j<results.length; j++){
 								var banner = results[j];
 								//Guardamos las imagenes del banner y el link
@@ -190,7 +201,11 @@
 								bannerImages.push(imagesArray[indexToUse]["location"]);
 								bannerLink.push(banner["link"]);
 							}
-							if($('#banner-main').length != 0)$('#banner-main').attr('src', bannerImages[currentBannerIndex]);
+							
+							if($('#banner-main').length != 0){
+								$('footer').css('visibility','visible');
+								$('#banner-main').attr('src', bannerImages[currentBannerIndex]);
+							}
 						}
 					}
 				}
