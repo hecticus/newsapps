@@ -135,8 +135,7 @@
 	figcaption  {
 		position: absolute;		
 		z-index:100;
-		bottom: 20%;
-		font-size : 1.2em;			
+		bottom: 20%;	
 		padding: 5px; 		
 		line-height:20px;				 
 		color:#ffffff; 
@@ -160,6 +159,7 @@
 
 	/*home*/ /*noticias*/
 	body.content-home footer { display: block; }
+	body.content-home footer.hidden { display: none; }
 	
 	body.content-home #wrapper .scroller .container,
 	body.content-noticias #wrapper .scroller .container  { 
@@ -175,26 +175,48 @@
 	body.content-noticias #wrapper .scroller .container .row div { padding: 0 !important; margin: 0 !important;  }
 	
 	body.content-home #wrapper .scroller .container figure,
-	body.content-noticias #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin: 0; }|
+	body.content-noticias #wrapper .scroller .container figure {position:relative;  width: 100%; height: auto; padding: 0; margin-bottom: 10px; }
 	
 	body.content-home #wrapper .scroller .container figure img, 
 	body.content-noticias #wrapper .scroller .container figure img { width: 100%;  height: auto;}
 	
 	body.content-home #wrapper .scroller .container figcaption,			
-	body.content-noticias #wrapper .scroller .container figcaption {
-		font-size : 1em;			
+	body.content-noticias #wrapper .scroller .container figcaption {		
 		padding: 5px; 
 		width:100%;
 		text-align: left;	   
 	    background-color:#ffffff;
 	    bottom: 0;	    
-	    border-bottom: solid #B8B8B8;	    
+	    border-bottom: solid #B8B8B8;
+	    color: #000000;	    
 	}
 	
+	body.content-home #wrapper .scroller .container figcaption .title,			
+	body.content-noticias #wrapper .scroller .container figcaption .title {
+		width:100%;
+		height: 40px;
+		line-height: 20px;
+		float:left;
+		color:#000000;
+		font-size:1.1em;
+		font-weight: bold;	
+	}		
+
+	body.content-home #wrapper .scroller .container figcaption .date,			
+	body.content-noticias #wrapper .scroller .container figcaption .date {
+		width:100%;
+		height: 20px; 
+		line-height: 20px; 
+		float:left; 
+		color:#787B7F; 
+		font-size:0.8em; 
+	}
+
+
 
 
 	body.content-home #wrapper2 .scroller .container,
-	body.content-noticias #wrapper2 .scroller .container  { padding:  2px !important; margin: 0 !important;}
+	body.content-noticias #wrapper2 .scroller .container  { padding:  0 !important; margin: 0 !important;}
 	
 	body.content-home #wrapper2 .scroller .container .row, 
 	body.content-noticias #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
@@ -207,11 +229,10 @@
 	body.content-noticias #wrapper2 .scroller .container p.title {
 		position:relative;
 		margin: 0; 
-		padding:5px;
-		background:#E6E6E6; 
-		font-size:1.2em; 
+		padding:10px;
+		font-size:1.5em; 
 		font-weight:bold; 
-		color:#3E79C4; 
+		color:#000000; 
 		
 	}
 	
@@ -219,24 +240,12 @@
 	body.content-noticias #wrapper2 .scroller .container p.date {
 		position:relative;
 		margin: 0; 
-		padding:5px;
-		background: #3E79C4;		
-		text-align: right;
-		font-size:0.9em; 
-		color:#FFD455; 		
-	}
-	
-	body.content-home #wrapper2 .scroller .container p.description,
-	body.content-noticias #wrapper2 .scroller .container p.description {
-		position:relative;
-		margin: 0; 
-		padding:5px;
-		background: #E6E6E6; 
+		padding:10px;	
+		text-align: left;
 		font-size:1em; 
-		color:#1E5733; 
-		font-style:italic;
+		color:#787B7F; 		
 	}
-	
+		
 	body.content-home #wrapper2 .scroller .container p.fullstory,
 	body.content-noticias #wrapper2 .scroller .container p.fullstory {
 		position:relative;

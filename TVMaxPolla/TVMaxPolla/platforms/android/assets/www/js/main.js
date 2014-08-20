@@ -92,6 +92,8 @@ var _fSetBack = function() {
 	
 
 	$('.menu-group').addClass('hidden');		
+	$('footer').removeClass('hidden');	
+	
 	
 };
 

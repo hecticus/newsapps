@@ -13,11 +13,11 @@
 
 			_html += '<figcaption>';
 
-			_html += '<div class="block-ellipsis" style="width:100%;  height: 40px; line-height: 20px; float:left; color:#000000; font-size:0.9em; font-weight:bold;">';
+			_html += '<div class="block-ellipsis title" >';
 				_html += _image.caption;
 			_html += '</div>';
 		
-			_html += '<div style="width:100%; height: 20px; line-height: 20px; float:left; color:#787B7F; font-size:0.7em; ">';				
+			_html += '<div class="date" >';				
 				_html += _image.date;
 			_html += '</div>';
 
@@ -58,19 +58,20 @@
 			
 			if (_item.id == _id) {
 
-				_html += '<div class="col-md-12">';
-				_html += '<p class="title">' + _item.titulo + '</p>';				
-				_html += '</div>';
 			 
 				_html += '<div class="col-md-12">';
 				_image = _item.image;
 				_html += _fGetImage({src:_item.image,caption:false});
 				_html += '</div>';
 
+
+				_html += '<div class="col-md-12">';
+				_html += '<p class="title">' + _item.titulo + '</p>';				
+				_html += '</div>';
+
 				_html += '<div class="col-md-12" >';				
 				_html += '<p class="date">' + _fGetFormatDate(_item.fecha) + '</p>';				
 				_html += '</div>';
-
 										
 				_html += '<div class="col-md-12" >';
 				_html += '<p class="fullstory">' + _item.texto + '</p>'; 
