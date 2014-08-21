@@ -120,7 +120,14 @@
 			$('.title').html('<span>' + _jMenu[menuIndex].title + '</span>');						
 			$('main').load(_jMenu[menuIndex].load);
 			$('main').css({'opacity':0}).animate({'opacity':1});	
-			$('#wrapperM').attr('class','page transition left');
+			$('#wrapperM').attr('class','page transition left');			
+			$('.title').addClass('bounceInLeft');
+			
+			$('.title').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function() {
+  				$('.title').removeClass('bounceInLeft');
+			});
+			
+			
 			
 			//se accede a una categoria desde el menu
 			gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", _jMenu[menuIndex].title, "section", menuIndex);
@@ -626,6 +633,3 @@
 		myScroll.scrollTo(0,0,0);
 		myScroll2.scrollTo(0,0,0);		
 	});
-
-
-

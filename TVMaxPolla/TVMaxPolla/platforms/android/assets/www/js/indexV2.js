@@ -17,6 +17,7 @@
  * under the License.
  */
 
+
 var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var _jImageFeatured = false;
 var _jSchedule = false;
@@ -57,7 +58,7 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	//set timeout para init data
-    	//window.setTimeout(initAllAppData(),100);
+    	//window.setTimeout(initAllAppData(),100);	
     	app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -70,6 +71,8 @@ var app = {
 	    	checkVersion();
 	    	initPush();
 	    	initGA();*/
+	    	
+	    	
 	    	
 	    	//Image Cache
 	    	ImgCache.options.debug = true;
@@ -266,7 +269,7 @@ function initAllAppData() {
 	_fSetNewsHome();
 
 	document.addEventListener('backbutton', function(e) {
-				
+		
 		if ($('#wrapper2').hasClass('left')) {	
 			_fSetBack();												
 		} else {
@@ -298,6 +301,7 @@ function initAllAppData() {
 	initPush();
 	initGA();
 	categoriesLoaded = true;
+
 }
 
 
@@ -506,10 +510,4 @@ function setIOSSplashes(){
 	}
 	
 }
-
-
-
-
-
-
 

@@ -21,7 +21,7 @@
 			$('header .container .row .menu span').addClass('icon-menuhome');
 			
 			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
-			myScroll.on('beforeScrollStart', function () { 
+			myScroll.on('beforeScrollStart', function () {
 				this.refresh();	
 			});	
 			
@@ -29,9 +29,11 @@
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();			
 			});
+
 			
 			gaPlugin.trackPage(successGAHandler, errorGAHandler, "Home");
 			
+
 		</script>
 
 		<script type="text/javascript" src="js/homeV2.js"></script>  

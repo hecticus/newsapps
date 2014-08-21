@@ -138,7 +138,10 @@
 		});
 		
 
-		window.setTimeout(function(){newsReadyForPush = true;},500);
+		window.setTimeout(function(){newsReadyForPush = true;},500);		
+		_fInitSwipe();
+		
+		
 	};
 	
 	
