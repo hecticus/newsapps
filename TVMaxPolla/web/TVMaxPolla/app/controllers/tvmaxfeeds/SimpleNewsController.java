@@ -53,12 +53,14 @@ public class SimpleNewsController extends HecticusController {
     public static Result getNews(String categoryName){
         try{
             List<TvmaxSimpleNews> fullList = TvmaxSimpleNews.getAllLimitedByCategoryV2(categoryName);
+            String domainShare = Config.getShareDomain();      
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()){
                 //i got data
                 for (int i = 0; i < fullList.size(); i++){
-                    data.add(fullList.get(i).toJson());
-
+                	ObjectNode innerObj = fullList.get(i).toJson();
+                	innerObj.put("shareDomain", domainShare + "?id=" +innerObj.get("id"));              	
+                	data.add(innerObj);                    
                 }
             }
             //build response
@@ -75,10 +77,15 @@ public class SimpleNewsController extends HecticusController {
         try {
             List<TvmaxSimpleNews> fullList = TvmaxSimpleNews.getLatestLimited();
             ArrayList data = new ArrayList();
+           
+            
+            String domainShare = Config.getShareDomain();            
             if (fullList != null && !fullList.isEmpty()){
                 //i got data
-                for (int i = 0; i < fullList.size(); i++){
-                    data.add(fullList.get(i).toJson());
+                for (int i = 0; i < fullList.size(); i++){                	
+                	ObjectNode innerObj = fullList.get(i).toJson();
+                	innerObj.put("shareDomain", domainShare + "?id=" +innerObj.get("id"));              	
+                	data.add(innerObj);
                 }
             }
             ObjectNode response;
@@ -159,8 +166,7 @@ public class SimpleNewsController extends HecticusController {
             response.put("wifiOnly",false);
             response.put("browserPlay",false);
                         
-            String domainShare = Config.getShareDomain();
-            response.put("shareDomain",domainShare);
+
             
             //enviamos la informacion de actualizacion de la aplicacion
             String updateURL = Utils.getUpdateVersionURL(version, os);
