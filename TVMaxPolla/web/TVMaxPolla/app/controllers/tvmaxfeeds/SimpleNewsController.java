@@ -1,10 +1,13 @@
 package controllers.tvmaxfeeds;
 
 import controllers.HecticusController;
+import models.Config;
 import models.tvmaxfeeds.TvmaxNewsCategory;
 import models.tvmaxfeeds.TvmaxSimpleNews;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import play.mvc.Result;
 import utils.Utils;
 
@@ -155,7 +158,10 @@ public class SimpleNewsController extends HecticusController {
 
             response.put("wifiOnly",false);
             response.put("browserPlay",false);
-
+                        
+            String domainShare = Config.getShareDomain();
+            response.put("shareDomain",domainShare);
+            
             //enviamos la informacion de actualizacion de la aplicacion
             String updateURL = Utils.getUpdateVersionURL(version, os);
             if(updateURL != null){
