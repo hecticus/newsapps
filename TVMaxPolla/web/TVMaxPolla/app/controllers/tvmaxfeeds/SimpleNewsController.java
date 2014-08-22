@@ -59,7 +59,7 @@ public class SimpleNewsController extends HecticusController {
                 //i got data
                 for (int i = 0; i < fullList.size(); i++){
                 	ObjectNode innerObj = fullList.get(i).toJson();
-                	innerObj.put("shareDomain", domainShare + "?id=" +innerObj.get("id"));              	
+                	innerObj.put("shareURL", domainShare + "?id=" +innerObj.get("id"));              	
                 	data.add(innerObj);                    
                 }
             }
@@ -84,7 +84,7 @@ public class SimpleNewsController extends HecticusController {
                 //i got data
                 for (int i = 0; i < fullList.size(); i++){                	
                 	ObjectNode innerObj = fullList.get(i).toJson();
-                	innerObj.put("shareDomain", domainShare + "?id=" +innerObj.get("id"));              	
+                	innerObj.put("shareURL", domainShare + "?id=" +innerObj.get("id"));              	
                 	data.add(innerObj);
                 }
             }
