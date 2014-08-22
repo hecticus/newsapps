@@ -31,7 +31,10 @@ public class TvmaxNewsCategory extends HecticusModel {
     private Integer idAction;
     private Integer sort;
     private Boolean main;
-
+    
+    @Column(name = "cssClass")    
+    private String cssClass;
+    
     private static Finder<Integer,TvmaxNewsCategory> finder =
             new Finder<Integer, TvmaxNewsCategory>(Integer.class, TvmaxNewsCategory.class);
 
@@ -50,6 +53,7 @@ public class TvmaxNewsCategory extends HecticusModel {
         tr.put("id_action", idAction);
         tr.put("main", main);
         tr.put("sort", sort);
+        tr.put("cssClass", cssClass);
         
         String domainPolla = Config.getPollaDomain();
         
@@ -134,4 +138,13 @@ public class TvmaxNewsCategory extends HecticusModel {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+    
+    public String getCssClass() {
+        return cssClass;
+    }
+
+    public void setCssClass(String cssClass) {
+        this.cssClass = cssClass;
+    }
+    
 }
