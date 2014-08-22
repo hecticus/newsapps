@@ -5,21 +5,22 @@
 	
 
 	var _fGetImage = function(_image) {
+			
 		var _html = '<figure>';				     		
-		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + _height + 'px;" />';		
+		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
 		
 		if (_image.caption) {
-			
+
 			_html += '<figcaption>';
-			   
-			_html += '<div style="width:80%;  height: 40px; line-height: 20px; float:left;  ">';
-				_html += '<span>'+_image.caption+'</span>';
+
+			_html += '<div class="block-ellipsis title" >';
+				_html += _image.caption;
 			_html += '</div>';
-			
-			_html += '<div style="width:20%;  height: 40px; line-height: 40px; float:right; text-align: right; font-size:1.6em; font-weight:bold;">';
-				_html += '<span class="icon-lupa"></span>';
+		
+			_html += '<div class="date" >';				
+				_html += _image.date;
 			_html += '</div>';
-						
+
 			_html += '</figcaption>';		
 
 		}
@@ -57,19 +58,20 @@
 			
 			if (_item.id == _id) {
 
-				_html += '<div class="col-md-12">';
-				_html += '<p class="title">' + _item.titulo + '</p>';				
-				_html += '</div>';
 			 
 				_html += '<div class="col-md-12">';
 				_image = _item.image;
 				_html += _fGetImage({src:_item.image,caption:false});
 				_html += '</div>';
 
+
+				_html += '<div class="col-md-12">';
+				_html += '<p class="title">' + _item.titulo + '</p>';				
+				_html += '</div>';
+
 				_html += '<div class="col-md-12" >';				
 				_html += '<p class="date">' + _fGetFormatDate(_item.fecha) + '</p>';				
 				_html += '</div>';
-
 										
 				_html += '<div class="col-md-12" >';
 				_html += '<p class="fullstory">' + _item.texto + '</p>'; 
@@ -106,9 +108,9 @@
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	
-		 	if (_index <= 10) {		 				 	
+		 	if (_index <= 10) {
 				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
-				_html += _fGetImage({src:_item.image,caption:_item.titulo});
+				_html += _fGetImage({src:_item.image,caption:_item.titulo, date:_item.fecha});
 				_html += '</div>';
 				_return = true;
 			}
@@ -136,7 +138,10 @@
 		});
 		
 
-		window.setTimeout(function(){newsReadyForPush = true;},500);
+		window.setTimeout(function(){newsReadyForPush = true;},500);		
+		_fInitSwipe();
+		
+		
 	};
 	
 	

@@ -11,6 +11,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">	
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/animate.css">
 		<link rel="stylesheet" href="fonts/iconvault/iconvault-preview.css">				
 		<link rel="stylesheet" href="css/transition.css">
 		<link rel="stylesheet" href="css/main.css">
@@ -33,29 +34,29 @@
 							<span class="icon-menuhome" ></span>	
 						</div>
 						
-						<div style="display:inline; float: left; width:64px; height: 50px; line-height: 50px; " class="logo">						
-							<img src="img/logo_grande.png" style="width:64px; height: 45px; margin-bottom: 5px;"> 	
+						<div style="display:inline; float: left; width:64px; height: 50px; line-height: 50px;" class="logo" >						
+							<img src="img/logo.svg" style="width:100%; height: auto;"> 	
 						</div>
 						
-						<div style="display:inline; float: left;  height: 50px; margin-left: 15px; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; font-size:1.4em;" class="title">
+						<div style="display:inline; float: left;  height: 50px; margin-left: 15px; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; font-size:1.4em;" class="title animated">
 							&nbsp;
 						</div>
 					
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="tv hidden">
+						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="tv hidden">
 							<span class="icon-tvenvivo"></span>	
 						</div>
 						
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="share hidden">
+						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="share hidden">
 							<span class="icon-shareandroid"></span>	
 						</div>
 						
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="menu-group hidden">
+						<!--div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="menu-group hidden">
 							<span class="icon-menuhome"></span>	
 						</div>
 					
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="refresh hidden">
+						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="refresh hidden">
 							<span class="icon-refrescar"></span>	
-						</div>
+						</div-->
 					
 					</div>
 					
@@ -65,18 +66,18 @@
 
 		<main>&nbsp;</main>
 
-		<div id="wrapperM" class="page" style="z-index:3; left: -100%;" >
+		<div id="wrapperM" class="page" style="z-index:3; left: -100%; height: 100%;" >
 			<div class="scroller">				
-				<div class="container">
+				<div class="container" >
 				</div>	
 			</div>
 		</div>	
 		
 		<footer>
-			&nbsp;	
 		</footer>
 
 		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>		
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/SocialSharing.js"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
@@ -107,10 +108,14 @@
         </script>
 
 		<script type="text/javascript">				
+		
 			var myScrollM = new IScroll('#wrapperM', {click:true, preventDefault:true});			
 			myScrollM.on('beforeScrollStart', function () {				 
 				this.refresh();
 			});
+			
+			$('#wrapperM > .scroller > .container').css('height', $(window).height() + 'px');
+				
 		</script>
 
 

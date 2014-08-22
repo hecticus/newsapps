@@ -327,7 +327,19 @@ function _fUseImageCache(_image,_background) {
 };
 
 		
-
+function _fInitSwipe() {	
+	$('.container').swipe('destroy');		
+	$('.container').swipe( {
+		//Generic swipe handler for all directions
+		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+			if ((direction == 'right') || (direction == 'left')) {
+				$('#wrapperM').attr('class','page transition ' + direction);	
+			}		
+		},
+		//Default is 75px, set to 0 for demo so any distance triggers swipe
+	   threshold:null
+	});
+};	
 
 
 

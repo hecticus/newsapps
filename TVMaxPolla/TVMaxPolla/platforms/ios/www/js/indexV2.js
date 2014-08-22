@@ -17,6 +17,7 @@
  * under the License.
  */
 
+
 var _aTime = [0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11];
 var _jImageFeatured = false;
 var _jSchedule = false;
@@ -57,7 +58,7 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	//set timeout para init data
-    	//window.setTimeout(initAllAppData(),100);
+    	//window.setTimeout(initAllAppData(),100);	
     	app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -70,6 +71,8 @@ var app = {
 	    	checkVersion();
 	    	initPush();
 	    	initGA();*/
+	    	
+	    	
 	    	
 	    	//Image Cache
 	    	ImgCache.options.debug = true;
@@ -88,19 +91,22 @@ function _fPushMenu(_json) {
 	$.each(_json.news_categories.item, function(_index,_item) {
 		_storeKey = 'newscategories_' + _item.id_news_category;				
 		if (_item.status == 1) {
-			_jMenu.push({
-				index:_jMenu.length,						
-				class: 'content-noticias',
-				title:_item.display_name,
-				load:'noticias.html',
-				glyphicon:'',								
-				json:_item,
-				update:true,
-				stream: _item.stream,
-				storeKey: 'newscategories_' + _item.id_news_category,
-				session:null
-			});	
-							
+			
+			if (_index >= 1) {
+				_jMenu.push({
+					index:_jMenu.length,						
+					class: 'content-noticias',
+					title:_item.display_name,
+					load:'noticias.html',
+					glyphicon:'',								
+					json:_item,
+					update:true,
+					stream: _item.stream,
+					storeKey: 'newscategories_' + _item.id_news_category,
+					session:null
+				});	
+			}
+
 		} else {
 			if(typeof(window.localStorage) != 'undefined') {
 				window.localStorage.removeItem(_storeKey);	
@@ -187,6 +193,7 @@ var isLiveTV = false;
 var liveTVURL = "http://mundial.tvmax-9.com/UA_APP.php";
 var wifiOnly = false;
 var browserPlay = false;
+var bannerFiles = [];
 function getExtraInfoFromInitWS(_json){
 	var updateVerion = _json.updateUrl;
 	//hay una nueva version y hay que llamar al dialogo para actualizar
@@ -262,7 +269,7 @@ function initAllAppData() {
 	_fSetNewsHome();
 
 	document.addEventListener('backbutton', function(e) {
-				
+		
 		if ($('#wrapper2').hasClass('left')) {	
 			_fSetBack();												
 		} else {
@@ -294,6 +301,7 @@ function initAllAppData() {
 	initPush();
 	initGA();
 	categoriesLoaded = true;
+
 }
 
 
@@ -502,10 +510,4 @@ function setIOSSplashes(){
 	}
 	
 }
-
-
-
-
-
-
 

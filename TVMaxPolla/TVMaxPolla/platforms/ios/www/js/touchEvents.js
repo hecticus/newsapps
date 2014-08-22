@@ -120,7 +120,14 @@
 			$('.title').html('<span>' + _jMenu[menuIndex].title + '</span>');						
 			$('main').load(_jMenu[menuIndex].load);
 			$('main').css({'opacity':0}).animate({'opacity':1});	
-			$('#wrapperM').attr('class','page transition left');
+			$('#wrapperM').attr('class','page transition left');			
+			$('.title').addClass('bounceInLeft');
+			
+			$('.title').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function() {
+  				$('.title').removeClass('bounceInLeft');
+			});
+			
+			
 			
 			//se accede a una categoria desde el menu
 			gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", _jMenu[menuIndex].title, "section", menuIndex);
@@ -172,6 +179,7 @@
 	$(document).on('click','.news', function(e) {	
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		$('footer').addClass('hidden');	
 		_fRenderDataContent($(this).data('item'));		
 	});
 	
@@ -367,10 +375,13 @@
 	});
 	
 	//BANNER
-	$(document).on('click','#banner-claro', function(e) {
+	$(document).on('click','#banner-main', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-		window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');	
+		//window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');
+		if(bannerLink != null && bannerLink.length > 0){
+			window.open(bannerLink[currentBannerIndex], '_system', 'closebuttoncaption=regresar');
+		}
 	});
 	
 	//STADIUMS JS

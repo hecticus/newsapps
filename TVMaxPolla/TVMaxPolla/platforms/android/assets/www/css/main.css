@@ -1,6 +1,9 @@
-
+*:not(input):not(textarea) {
+-webkit-user-select: none; /* disable selection/Copy of UIWebView */
+-webkit-touch-callout: none; /* disable the IOS popup when long-press on a link */
+}
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
-	html { -ms-touch-action: none; }			
+	html { -ms-touch-action: none; }
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
 	/*@font-face
 	{
@@ -172,6 +175,7 @@
 		padding:  10px !important;  
 		margin: 0 !important;
 		background-color: #E2E2E2;
+		width: 100%; 
 	}
 	
 	body.content-home #wrapper .scroller .container .row,
@@ -222,7 +226,7 @@
 
 
 	body.content-home #wrapper2 .scroller .container,
-	body.content-noticias #wrapper2 .scroller .container  { padding:  0 !important; margin: 0 !important;}
+	body.content-noticias #wrapper2 .scroller .container  { width: 100%; padding:  0 !important; margin: 0 !important;}
 	
 	body.content-home #wrapper2 .scroller .container .row, 
 	body.content-noticias #wrapper2 .scroller .container .row { padding: 0 !important; margin: 0 !important; }
@@ -568,7 +572,7 @@
 	hl2 { font-size:1.2em; font-weight: bold; margin: 5px 0 5px 0;}
 
 	/*Home*/
-	/*body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important;}	
+	/*body.content-home #wrapper .scroller .container { padding:  0 !important; margin: 0 !important; overflow:hidden;}
 	body.content-home #wrapper .scroller .container .row { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
 	body.content-home #wrapper .scroller .container .row:first-child { padding-top: 4px !important; margin: 0 !important;}	
 	body.content-home #wrapper .scroller .container .row .metro { padding: 0px 2px 2px 2px !important; margin: 0 !important;}
