@@ -57,6 +57,7 @@
 	$(document).on('touchend','.menu, .logo', function(e) {
 		preventBadClick(e);
 
+
 		if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signin')) {
 			backFromRegister()			
 		} else if ($('header .container .row .menu span').hasClass('icon-back') && $('body').hasClass('content-signup')) {
@@ -175,8 +176,9 @@
 		}	
 	}
 	
+	
 	//NOTICIAS JS
-	$(document).on('click','.news', function(e) {	
+	$(document).on('click','.news', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		$('footer').addClass('hidden');	

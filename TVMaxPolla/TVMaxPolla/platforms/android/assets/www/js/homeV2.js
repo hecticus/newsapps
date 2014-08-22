@@ -66,7 +66,7 @@
 				
 				$('.tv').addClass('hidden');		
 				$('.share').removeClass('hidden');						
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://tvmax-9.com/deportes/noticias_detalle.asp?id=' + _item.id + '\');');
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
 				
 				_return = true;
 				
