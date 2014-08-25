@@ -130,7 +130,7 @@
 			_banner = bannerImages[currentBannerIndex];
 			isBanner = true;
 		}
-		_html = '<img id="banner-main" src="' + _banner + '" style=" display: block; width:auto; height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
+		_html = '<img id="banner-main" src="' + _banner + '" style=" display: block; max-width:100%; max-height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
 		
 		
 		$('footer').css('height',parseInt((_height * 10)/100) + 'px');

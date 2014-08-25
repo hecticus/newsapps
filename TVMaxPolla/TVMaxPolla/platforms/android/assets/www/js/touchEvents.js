@@ -382,6 +382,7 @@
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		//window.open("http://www.claro.com.pa/wps/portal/pa/pc/personas/tv/claro-tv/#info-02", '_system', 'closebuttoncaption=regresar');
 		if(bannerLink != null && bannerLink.length > 0){
+			gaPlugin.trackEvent(successGAHandler, errorGAHandler, "banner", bannerLink[currentBannerIndex], "external_link", 1);
 			window.open(bannerLink[currentBannerIndex], '_system', 'closebuttoncaption=regresar');
 		}
 	});
