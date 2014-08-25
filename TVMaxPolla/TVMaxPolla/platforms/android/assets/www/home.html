@@ -4,8 +4,8 @@
 	
 		<div id="wrapper">
 			<div class="scroller">				
-				<div class="container">
-				</div>	
+				<!--div class="container">
+				</div-->	
 			</div>
 		</div>	
 
@@ -15,28 +15,50 @@
 				</div>
 			</div>			
 		</div>
-
+		
+		<script type="text/javascript" src="js/homeV3.js"></script>
 		<script type="text/javascript">
 		
 			$('header .container .row .menu span').addClass('icon-menuhome');
 			
-			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
-			myScroll.on('beforeScrollStart', function () {
-				this.refresh();	
-			});	
+			var myScroll = new IScroll('#wrapper',{
+				click:true,
+				preventDefault:true,
+				scrollX: true,
+				scrollY: false,
+				momentum: false,
+				snap: true
+			});
 			
+			myScroll.on('beforeScrollStart', function () {
+				this.refresh();					
+			});	
+
+		
+			myScroll.on('scrollEnd', function () {
+				
+				if (this.currentPage.pageX != this.lastPageX) {
+					_fRenderInitNews(this.currentPage.pageX);		
+					$('header .title').html('<span>' + _jMenu[this.currentPage.pageX].title + '</span>');
+					window['myScroll' + this.lastPageX].scrollTo(0,0,0);
+				}
+				
+				this.lastPageX = this.currentPage.pageX;
+			
+			});
+			
+
 			var myScroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
 			myScroll2.on('beforeScrollStart', function () { 
 				this.refresh();			
 			});
-
 			
 			gaPlugin.trackPage(successGAHandler, errorGAHandler, "Home");
 			
 
 		</script>
 
-		<script type="text/javascript" src="js/homeV2.js"></script>  
+		  
 
 	</body>
 	

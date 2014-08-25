@@ -139,7 +139,9 @@ var _fGetLoadingError = function() {
 
 
 
-var _fGetLoadingNews = function() {
+var _fGetLoadingNews = function(_selector) {
+	
+	if (!_selector) _selector = '#wrapper .scroller .container';
 	
 	var _html = '<div class="row" >';
 		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
@@ -147,13 +149,15 @@ var _fGetLoadingNews = function() {
 		_html += '</div>';
 		_html += '</div>';
 		
-	$('#wrapper .scroller .container').empty();
-	$('#wrapper .scroller .container').append(_html);
+	$(_selector).empty();
+	$(_selector).append(_html);
 	
 };
 
 
-var _fGetLoadingErrorNews = function() {
+var _fGetLoadingErrorNews = function(_selector) {
+	
+	if (!_selector) _selector = '#wrapper .scroller .container';
 	
 	var _html = '<div class="row" >';
 		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
@@ -161,8 +165,8 @@ var _fGetLoadingErrorNews = function() {
 		_html += '</div>';
 		_html += '</div>';
 		
-	$('#wrapper .scroller .container').empty();
-	$('#wrapper .scroller .container').append(_html);
+	$(_selector).empty();
+	$(_selector).append(_html);
 	
 };
 

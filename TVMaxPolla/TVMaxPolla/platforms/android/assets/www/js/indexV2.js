@@ -87,26 +87,22 @@ var app = {
 
 function _fPushMenu(_json) {
 	_jMenu = [];
-	_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});//*/
+	
 	$.each(_json.news_categories.item, function(_index,_item) {
 		_storeKey = 'newscategories_' + _item.id_news_category;				
-		if (_item.status == 1) {
-			
-			if (_index >= 1) {
-				_jMenu.push({
-					index:_jMenu.length,						
-					class: 'content-noticias',
-					title:_item.display_name,
-					load:'noticias.html',
-					glyphicon:_item.cssClass,								
-					json:_item,
-					update:true,
-					stream: _item.stream,
-					storeKey: 'newscategories_' + _item.id_news_category,
-					session:null
-				});	
-			}
-
+		if (_item.status == 1) {			
+			_jMenu.push({
+				index:_index,						
+				class: (_index == 0) ? 'content-home' : 'content-noticias',
+				title:_item.display_name,
+				load: (_index == 0) ? 'home.html' : 'noticias.html',
+				glyphicon:_item.cssClass,								
+				json:_item,
+				update:true,
+				stream: _item.stream,
+				storeKey: 'newscategories_' + _item.id_news_category,
+				session:null
+			});	
 		} else {
 			if(typeof(window.localStorage) != 'undefined') {
 				window.localStorage.removeItem(_storeKey);	
@@ -239,13 +235,13 @@ var signupPageIndex;
 var signinPageIndex;
 
 function _fSetNewsHome() {
-	_oAjax = $.fGetAjaXJSON(_jMenu[1].stream,false,false,false);	
+	_oAjax = $.fGetAjaXJSON(_jMenu[0].stream,false,false,true,false);	
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
 
 			if(typeof(window.localStorage) != 'undefined') {
-				_jMenu[1].update = false;
-				window.localStorage.setItem(_jMenu[1].storeKey, JSON.stringify(_json.noticias_deportes));
+				_jMenu[0].update = false;
+				window.localStorage.setItem(_jMenu[0].storeKey, JSON.stringify(_json.noticias_deportes));
 			}
 					
 			$.each(_json.noticias_deportes.item, function(_index,_item) {		
@@ -373,9 +369,7 @@ function executePushInit(extra_params){
 				}
 			}
 			
-			
-			
-			
+
 			if(_jMenu[index].class == 'content-polla' 
 				|| _jMenu[index].class == 'content-alertas'
 				|| _jMenu[index].class == 'content-leaderboard') {
