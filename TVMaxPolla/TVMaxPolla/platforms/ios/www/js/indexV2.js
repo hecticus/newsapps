@@ -98,7 +98,7 @@ function _fPushMenu(_json) {
 					class: 'content-noticias',
 					title:_item.display_name,
 					load:'noticias.html',
-					glyphicon:'',								
+					glyphicon:_item.cssClass,								
 					json:_item,
 					update:true,
 					stream: _item.stream,

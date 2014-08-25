@@ -66,7 +66,7 @@
 				
 				$('.tv').addClass('hidden');		
 				$('.share').removeClass('hidden');						
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'http://mundial.tvmax-9.com/noticias/' + _item.id + '/' + _item.id + '\');');
+				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
 				
 				_return = true;
 				
@@ -130,7 +130,7 @@
 			_banner = bannerImages[currentBannerIndex];
 			isBanner = true;
 		}
-		_html = '<img id="banner-main" src="' + _banner + '" style=" display: block; width:auto; height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
+		_html = '<img id="banner-main" src="' + _banner + '" style=" display: block; max-width:100%; max-height:' + parseInt((_height * 10)/100) + 'px; margin:0 auto;" >';
 		
 		
 		$('footer').css('height',parseInt((_height * 10)/100) + 'px');

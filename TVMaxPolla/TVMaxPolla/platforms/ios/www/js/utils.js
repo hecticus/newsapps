@@ -332,12 +332,14 @@ function _fInitSwipe() {
 	$('.container').swipe( {
 		//Generic swipe handler for all directions
 		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+			var _touch = event.changedTouches[0];
+			//console.log('_touch.pageX -> ' + _touch.pageX);			
 			if ((direction == 'right') || (direction == 'left')) {
 				$('#wrapperM').attr('class','page transition ' + direction);	
-			}		
+			}	
 		},
 		//Default is 75px, set to 0 for demo so any distance triggers swipe
-	   threshold:null
+	   threshold:100
 	});
 };	
 
