@@ -103,7 +103,7 @@
 				}
 			}
 								
-			if(_jMenu[menuIndex].class == 'content-polla' 
+			/*if(_jMenu[menuIndex].class == 'content-polla' 
 				|| _jMenu[menuIndex].class == 'content-alertas'
 				|| _jMenu[menuIndex].class == 'content-leaderboard'){
 				//revisamos si esta hay client data
@@ -111,7 +111,7 @@
 					navigator.notification.alert("Para entrar a esta sección debes estar registrado, entra en Menú/Ingresar", doNothing, "Alerta", "OK");
 					return false;
 				}
-			}
+			}*/
 			
 			//console.log("GOTO: "+menuIndex);
 			$('body').removeClass();
