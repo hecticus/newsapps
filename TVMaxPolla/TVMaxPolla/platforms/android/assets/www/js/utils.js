@@ -298,7 +298,8 @@ function getPPI(){
 	return parseFloat(ppi);
 }
 
-function _fUseImageCache(_image,_background) {	
+function _fUseImageCache(_image,_background) {
+		
 	if (ImgCache.ready) {
 				
 		var _selector = 'img[src="' + _image + '"]';		

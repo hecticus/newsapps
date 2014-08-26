@@ -245,52 +245,59 @@ function _fSetNewsHome() {
 			}
 					
 			$.each(_json.noticias_deportes.item, function(_index,_item) {		
-				var _oIimg = $('img #img').attr('src',_item.image);				
+				var _oIimg = $('img #img').attr('src',_item.image);	
+				_fUseImageCache(_item.image);			
 			});
 			
 		});
-	}
+	} 
 };
 
 function initAllAppData() {
 			
-	_fRequestCategories();
-	_fSetNewsHome();
+	try {
+   
+   		_fRequestCategories();
+		_fSetNewsHome();
 
-	document.addEventListener('backbutton', function(e) {
-		
-		if ($('#wrapper2').hasClass('left')) {	
-			_fSetBack();												
-		} else {
+		document.addEventListener('backbutton', function(e) {
 			
-			if ($('#wrapperM').hasClass('right')) {
-		 		_fSetBack();
-			} else if ($('body').hasClass('content-home')) {							
-				exitApp();				
-			} else if ($('body').hasClass('content-default')) {							
-				exitApp();				
-			} else if ($('body').hasClass('content-signin')) {	
-				backFromRegister();		
-			} else if ($('body').hasClass('content-signup')) {							
-				backFromRegister();				
-			} else {						
-				_fSetLoadInit();
+			if ($('#wrapper2').hasClass('left')) {	
+				_fSetBack();												
+			} else {
+				
+				if ($('#wrapperM').hasClass('right')) {
+			 		_fSetBack();
+				} else if ($('body').hasClass('content-home')) {							
+					exitApp();				
+				} else if ($('body').hasClass('content-default')) {							
+					exitApp();				
+				} else if ($('body').hasClass('content-signin')) {	
+					backFromRegister();		
+				} else if ($('body').hasClass('content-signup')) {							
+					backFromRegister();				
+				} else {						
+					_fSetLoadInit();
+				}
+									
 			}
 								
-		}
-							
-	}, false);
+		}, false);
+		
+		//app.receivedEvent('deviceready');    	
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+		
+		setIOSSplashes();
+		initPage();
+		//checkVersion();
+		initPush();
+		initGA();
+		categoriesLoaded = true;
+   
+	} catch(err) {    	
+  		_fSetLoadOffLine();
+	}
 	
-	//app.receivedEvent('deviceready');    	
-	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
-	
-	setIOSSplashes();
-	initPage();
-	//checkVersion();
-	initPush();
-	initGA();
-	categoriesLoaded = true;
-
 }
 
 

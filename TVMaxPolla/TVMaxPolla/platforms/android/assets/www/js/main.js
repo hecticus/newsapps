@@ -53,6 +53,14 @@ var _fSetLoadInit = function() {
 	$('.title').html('<span>' + _jMenu[0].title + '</span>');		
 };
 	
+var _fSetLoadOffLine = function() {	
+	clearTimeout(_mTimeout);
+	$('body').removeClass();
+	$('body').addClass('content-offline');		
+	$('main').load('offline.html');
+	$('.title').html('<span>Error</span>');	
+};	
+
 	
 var _fSetBack = function() {
 	

@@ -164,6 +164,9 @@
 	}
 
 
+	body.content-offline footer { display: none; }
+	body.content-offline header { display: none; }
+
 
 	/*home*/ /*noticias*/
 /*	body.content-home footer { display: block; }
