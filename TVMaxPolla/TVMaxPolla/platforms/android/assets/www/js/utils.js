@@ -326,10 +326,13 @@ function _fUseImageCache(_image,_background) {
 	};		
 };
 
+function _fDestroySwipe() {
+	$('#wrapper .container, #wrapper2 .container, #wrapperM .container').swipe('destroy');		
+};
 		
 function _fInitSwipe() {	
-	$('.container').swipe('destroy');		
-	$('.container').swipe( {
+	_fDestroySwipe();
+	$('#wrapper .container, #wrapperM .container').swipe( {
 		//Generic swipe handler for all directions
 		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
 			var _touch = event.changedTouches[0];
@@ -341,7 +344,24 @@ function _fInitSwipe() {
 		//Default is 75px, set to 0 for demo so any distance triggers swipe
 	   threshold:100
 	});
-};	
+};
+
+
+function _fInitSwipeContent() {
+	
+	_fDestroySwipe();	
+	$('#wrapper2 .container').swipe( {
+		//Generic swipe handler for all directions
+		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+			var _touch = event.changedTouches[0];			
+			if (direction == 'right') {
+				_fSetBack();
+			}	
+		},
+		//Default is 75px, set to 0 for demo so any distance triggers swipe
+	   threshold:100
+	});
+};		
 
 
 

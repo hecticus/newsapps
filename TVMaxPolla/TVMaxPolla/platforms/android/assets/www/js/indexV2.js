@@ -93,9 +93,9 @@ function _fPushMenu(_json) {
 		if (_item.status == 1) {			
 			_jMenu.push({
 				index:_index,						
-				class: (_index == 0) ? 'content-home' : 'content-noticias',
+				class: 'content-noticias', //class: (_index == 0) ? 'content-home' : 'content-noticias',
 				title:_item.display_name,
-				load: (_index == 0) ? 'home.html' : 'noticias.html',
+				load: 'noticias.html', //load: (_index == 0) ? 'home.html' : 'noticias.html',
 				glyphicon:_item.cssClass,								
 				json:_item,
 				update:true,
@@ -110,11 +110,11 @@ function _fPushMenu(_json) {
 		};
 	});
 	
-	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false, session:true});
-	signinPageIndex = _jMenu.length;
+	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false, session:false});
+	/*signinPageIndex = _jMenu.length;
 	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', session:false});
 	signupPageIndex = _jMenu.length;
-	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});//*/
+	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});*/
 };
 
 var firstTime = true;
@@ -196,7 +196,7 @@ function getExtraInfoFromInitWS(_json){
 	if(updateVerion!= null && updateVerion.length>0){
 		updateURL = updateVerion;
 		//console.log("URL "+updateURL);
-		navigator.notification.alert("Hay una nueva versi贸n de la aplicaci贸n", goToUpdatePage, "Actualizaci贸n", "Descargar");
+		navigator.notification.alert("Hay una nueva versi&骯cute;n de la aplicaci&骯cute;n", goToUpdatePage, "Actualizaci&骯cute;n", "Descargar");
 	}
 	
 	if(_json.live){
@@ -253,14 +253,7 @@ function _fSetNewsHome() {
 };
 
 function initAllAppData() {
-		
-	/*_jMenu.push({index:0,class:'content-home',title:'Portada',load:'home.html',glyphicon:'icon-home_menu', session:null});
-	_fRequestCategories();
-	_jMenu.push({index:_jMenu.length,class:'content-alertas',title:'Alertas',load:'alertasV2.html', glyphicon:'icon-alertas', json:false, session:true});
-	signinPageIndex = _jMenu.length;
-	_jMenu.push({index:signinPageIndex,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download', session:false});
-	signupPageIndex = _jMenu.length;
-	_jMenu.push({index:signupPageIndex,class:'content-signup',title:'Registro',load:'SignUp.html', glyphicon:'glyphicon glyphicon-cloud-upload', session:false});//*/
+			
 	_fRequestCategories();
 	_fSetNewsHome();
 
@@ -375,7 +368,7 @@ function executePushInit(extra_params){
 				|| _jMenu[index].class == 'content-leaderboard') {
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
-					navigator.notification.alert("Para entrar a esta secci贸n debes estar registrado, entra en Men煤/Ingresar", doNothing, "Alerta", "OK");
+					navigator.notification.alert("Para entrar a esta secci&骯cute;n debes estar registrado, entra en Men&鷄cute;/Ingresar", doNothing, "Alerta", "OK");
 					return;
 				}
 			}
@@ -432,10 +425,11 @@ function stopNewsInterval(){
 
 
 function initPage(){
-	
+
 	setMenuView();
+	_fSetLoadInit();
 	
-	_jClient = loadClientData();
+	/*_jClient = loadClientData();
 	
 	initFacebookManager();
 	
@@ -444,7 +438,7 @@ function initPage(){
 	} else {
 		//getLoginStatus();
 		_fSetLoadDefault();	
-	}
+	}*/
 
 
 

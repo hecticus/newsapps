@@ -98,7 +98,7 @@
 		$('header .container .row .menu span').addClass('icon-back');
 		myScroll2.scrollTo(0,0,0);
 		_fUseImageCache(_image);
-
+		_fInitSwipeContent();
 	};
 
 	var _fRenderInit = function() {
@@ -142,6 +142,26 @@
 		_fInitSwipe();
 		
 		
+		var _banner = "";
+		var _bHeight = parseInt(($(window).height() * 10)/100);
+		var isBanner = false;
+		if (bannerImages != null && bannerImages[currentBannerIndex] != null){
+			_banner = bannerImages[currentBannerIndex];
+			isBanner = true;
+		}
+		_html = '<img id="banner-main" src="' + _banner + '" style=" display: block; max-width:100%; max-height:' + _bHeight + 'px; margin:0 auto;" >';
+		
+		
+		$('footer').css('height',_bHeight + 'px');
+		$('footer').empty();
+		$('footer').append(_html);
+		if(isBanner){
+			$('footer').css('visibility','visible');
+		}else{
+			$('footer').css('visibility','hidden');
+		}
+		
+		
 	};
 	
 	
@@ -181,6 +201,93 @@
 		};			
 	};
 	
+
+	
+	if (_iIndex == 0) {
+		
+		$('footer').removeClass();
+		
+		//banner
+		var bannerImages = new Array();
+		var bannerLink = new Array();
+		var currentBannerIndex = 0;
+		var currentBannerInterval = 60000;
+		getBannerSpecial();
+		function getBannerSpecial(){
+			var urlBanner = 'http://polla.tvmax-9.com/tvmax/v1/banners/get/all';
+			//var urlBanner = 'http://10.0.3.142:9002/tvmax/v1/banners/get/all';
+			//console.log("VA AL Banners");
+			$.ajax({
+				url : urlBanner,
+				timeout : 120000,
+				success : function(data, status) {
+					if(typeof data == "string"){
+						data = JSON.parse(data);
+					}
+					//console.log("Banners DATA: "+JSON.stringify(data));
+					var error = data["error"];
+					if(error == 0){
+						if(data["response"] != null){
+							if(data["response"]["interval-banner"] != null){
+								currentBannerInterval = data["response"]["interval-banner"];
+								//console.log("Interval! "+currentBannerInterval);
+							}
+							var results = data["response"]["banners"];
+							//console.log("Banners results: "+JSON.stringify(results));
+							bannerImages = new Array();
+							bannerLink = new Array();
+							currentBannerIndex = 0;
+							if(results != null && results.length > 0){
+								for(var j=0; j<results.length; j++){
+									var banner = results[j];
+									//Guardamos las imagenes del banner y el link
+									var imagesArray = banner["fileList"];
+									var indexToUse = 0;
+									var minSize = 70000;
+									for(var i=0;i<imagesArray.length;i++){
+										var diff = getScreenWidth() - imagesArray[i]["width"];
+										//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
+										if(diff < 0){
+											diff = diff*(-1);
+										}
+										if(diff < minSize){
+											minSize = diff;
+											indexToUse = i;
+										}
+									}
+									bannerImages.push(imagesArray[indexToUse]["location"]);
+									bannerLink.push(banner["link"]);
+								}
+								
+								if($('#banner-main').length != 0){
+									$('footer').css('visibility','visible');
+									$('#banner-main').attr('src', bannerImages[currentBannerIndex]);
+								}
+							}
+						}
+					}
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					console.log("ERROR Banners DATA: "+thrownError);
+				}
+			});
+		}
+		
+		//refresh banners
+		setInterval(function(){
+			getBannerSpecial();
+		}, 600000);
+		
+		
+		
+		
+		
+		
+		
+		
+	} else {
+		 $('footer').addClass('hidden');
+	}
 	
 	
 	

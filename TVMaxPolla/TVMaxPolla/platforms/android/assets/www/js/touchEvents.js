@@ -120,7 +120,7 @@
 			$('main').data('index',menuIndex);	
 			$('.title').html('<span>' + _jMenu[menuIndex].title + '</span>');						
 			$('main').load(_jMenu[menuIndex].load);
-			$('main').css({'opacity':0}).animate({'opacity':1});	
+			$('main').css({'opacity':0}).animate({'opacity':1});
 			$('#wrapperM').attr('class','page transition left');			
 			$('.title').addClass('bounceInLeft');
 			

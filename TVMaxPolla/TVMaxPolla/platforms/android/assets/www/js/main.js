@@ -50,8 +50,7 @@ var _fSetLoadInit = function() {
 	$('body').addClass(_jMenu[0].class);
 	$('main').data('index',0);		
 	$('main').load(_jMenu[0].load);
-	$('.title').html('<span>' + _jMenu[0].title + '</span>');
-		
+	$('.title').html('<span>' + _jMenu[0].title + '</span>');		
 };
 	
 	
@@ -89,12 +88,20 @@ var _fSetBack = function() {
 		}
 		
 	}	
-	
 
 	$('.menu-group').addClass('hidden');		
-	$('footer').removeClass('hidden');	
+
 	
+	var _iIndex = $('main').data('index');	
+	if (_iIndex == 0) {
+		$('footer').removeClass();
+	} else {
+		 $('footer').addClass('hidden');
+	}
 	
+
+	_fInitSwipe();
+
 };
 
 var _fGetLoadingRefreshBefore = function() {	

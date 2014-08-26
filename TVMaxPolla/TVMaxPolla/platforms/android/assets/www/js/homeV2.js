@@ -84,6 +84,7 @@
 		$('#wrapper2').attr('class','page transition left');
 		$('header .container .row .menu span').addClass('icon-back');
 		myScroll2.scrollTo(0,0,0);
+		_fInitSwipeContent();
 		_fUseImageCache(_image);
 
 	};
@@ -94,7 +95,7 @@
 
 		var _html = '';
 		 
-		_json = JSON.parse(window.localStorage.getItem(_jMenu[1].storeKey));
+		_json = JSON.parse(window.localStorage.getItem(_jMenu[0].storeKey));
 		if (_json) {
 			_html += '<div class="row" >';
 				$.each(_json.item, function(_index, _item) {
@@ -120,10 +121,6 @@
 		$('#wrapper .scroller .container').append(_html);
 
 
-		/*var _banner = 'img/claro/banner_640.png';
-		if (_width >= 720) _banner = 'img/claro/banner_720.png';
-		if (_width >= 1056)  _banner = 'img/claro/banner_grande.png';
-		if (_width >= 1325)  _banner = 'img/claro/banner-claro-1325.png';*/
 		var _banner = "";
 		var isBanner = false;
 		if (bannerImages != null && bannerImages[currentBannerIndex] != null){

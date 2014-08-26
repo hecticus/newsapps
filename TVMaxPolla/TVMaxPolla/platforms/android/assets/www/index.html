@@ -80,7 +80,7 @@
 		<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>		
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/SocialSharing.js"></script>
-		<script type="text/javascript" src="js/iscroll-probe.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
 		
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		 <script type="text/javascript" src="js/jsons.js"></script>
@@ -100,11 +100,15 @@
 		<!--script src="plugins/org.apache.cordova.facebook.Connect/www/cdv-plugin-fb-connect.js"></script-->
 		<script src="cdv-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
-		<script src="facebook-js-sdk.js"></script>		
-		<script type="text/javascript" src="js/facebookManager/facebookManager.js"></script>
+		<!--script src="facebook-js-sdk.js"></script-->		
+		<!--script type="text/javascript" src="js/facebookManager/facebookManager.js"></script-->
         
         <script type="text/javascript">              
             app.initialize();
+            $('#splash').hide();
+			$('#mloading').remove();
+			$('header').removeClass('hidden');	
+			$('.menu').removeClass('hidden');
         </script>
 
 		<script type="text/javascript">				

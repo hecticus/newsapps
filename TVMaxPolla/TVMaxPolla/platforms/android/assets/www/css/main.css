@@ -166,9 +166,13 @@
 
 
 	/*home*/ /*noticias*/
-	body.content-home footer { display: block; }
-	body.content-home footer.hidden { display: none; }
-	
+/*	body.content-home footer { display: block; }
+	body.content-home footer.hidden { display: none; }*/
+
+
+	body.content-noticias footer { display: block; }
+	body.content-noticias footer.hidden { display: none; }
+
 	body.content-home #wrapper .scroller .container,
 	body.content-noticias #wrapper .scroller .container  { 
 		padding:  10px !important;  
