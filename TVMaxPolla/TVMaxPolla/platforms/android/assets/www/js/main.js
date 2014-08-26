@@ -328,6 +328,34 @@ $.fPostAjaXJSON = function(_url, _data) {
 	
 };
 
+$.fPostAjaXJSONSimple = function(_url, _data) {
+	
+	try {				
+	  	return $.ajax({
+			url: _url,		
+			data: JSON.stringify(_data),	
+			type: 'POST',
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json'
+		}).always(function () {
+			//always		
+		}).fail(function(jqXHR, textStatus, errorThrown) {		
+			//_fGetLoadingError();
+			console.log("Error "+errorThrown);
+			return false;
+		});
+		   
+	} catch (e) {
+		// statements to handle any exceptions
+		// pass exception object to error handler
+		 //alert(e);
+		//_fGetLoadingError();
+		console.log("Error catch "+e);
+		return false;
+	}
+	
+};
+
 
 
 	var _fGetTime = function() {
