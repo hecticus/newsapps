@@ -260,31 +260,31 @@ function initAllAppData() {
    		_fRequestCategories();
 		_fSetNewsHome();
 
-	document.addEventListener('backbutton', function(e) {
-		if ($('#wrapper2').hasClass('left')) {	
-			_fSetBack();												
-		} else {
-			if ($('#wrapperM').hasClass('right')) {
-		 		_fSetBack();
-			} else if ($('main').data('index') == 0 ) {							
-				exitApp();				
-			} else {						
-				_fSetLoadInit();
+		document.addEventListener('backbutton', function(e) {
+			if ($('#wrapper2').hasClass('left')) {	
+				_fSetBack();												
+			} else {
+				if ($('#wrapperM').hasClass('right')) {
+			 		_fSetBack();
+				} else if ($('main').data('index') == 0 ) {							
+					exitApp();				
+				} else {						
+					_fSetLoadInit();
+				}
+									
 			}
 								
-		}
-							
-	}, false);
-	
-	//app.receivedEvent('deviceready');    	
-	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
-	
-	setIOSSplashes();
-	initPage();
-	//checkVersion();
-	initPush();
-	initGA();
-	categoriesLoaded = true;
+		}, false);
+		
+		//app.receivedEvent('deviceready');    	
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+		
+		setIOSSplashes();
+		initPage();
+		//checkVersion();
+		initPush();
+		initGA();
+		categoriesLoaded = true;
 
 	} catch(err) {    	
   		_fSetLoadOffLine();
