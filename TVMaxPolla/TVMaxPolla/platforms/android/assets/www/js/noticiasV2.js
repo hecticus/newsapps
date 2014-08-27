@@ -155,6 +155,7 @@
 		$('footer').css('height',_bHeight + 'px');
 		$('footer').empty();
 		$('footer').append(_html);
+		
 		if(isBanner){
 			$('footer').css('visibility','visible');
 		}else{

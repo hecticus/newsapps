@@ -19,7 +19,7 @@
 		
 		
 		<script type="text/javascript">		
-			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true});
+			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true, directionLockThreshold:20});
 			myScroll.on('beforeScrollStart', function () { 
 				this.refresh();		
 			});	

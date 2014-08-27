@@ -245,17 +245,20 @@ function _fSetNewsHome() {
 			}
 					
 			$.each(_json.noticias_deportes.item, function(_index,_item) {		
-				var _oIimg = $('img #img').attr('src',_item.image);				
+				var _oIimg = $('img #img').attr('src',_item.image);	
+				_fUseImageCache(_item.image);			
 			});
 			
 		});
-	}
+	} 
 };
 
 function initAllAppData() {
 			
-	_fRequestCategories();
-	_fSetNewsHome();
+	try {
+   
+   		_fRequestCategories();
+		_fSetNewsHome();
 
 	document.addEventListener('backbutton', function(e) {
 		if ($('#wrapper2').hasClass('left')) {	
@@ -282,6 +285,10 @@ function initAllAppData() {
 	initPush();
 	initGA();
 	categoriesLoaded = true;
+
+	} catch(err) {    	
+  		_fSetLoadOffLine();
+	}
 
 }
 
