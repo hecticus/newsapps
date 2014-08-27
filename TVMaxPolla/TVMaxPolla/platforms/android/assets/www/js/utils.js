@@ -328,12 +328,32 @@ function _fUseImageCache(_image,_background) {
 };
 
 function _fDestroySwipe() {
-	$('#wrapper .container, #wrapper2 .container, #wrapperM .container').swipe('destroy');		
+	$('#wrapper .container, #wrapper2 .container, #wrapperM .container, #wrapperMPull').swipe('destroy');		
 };
+		
+function _fInitMenu() {	
+	_fDestroySwipe();
+	$('#wrapperMPull').swipe( {
+		swipeStatus:function(event, phase, direction, distance, duration, fingers) {
+			if (phase == 'start') {
+				$('#wrapperM').attr('class','page transition rightShort');
+			} else if ((phase == 'move') && (direction == 'right')) {
+				$('#wrapperM').attr('class','page transition right');	
+			} else {				
+				if (distance >= 10) {
+					$('#wrapperM').attr('class','page transition right');					
+				} else {
+					$('#wrapperM').attr('class','page transition left');	
+				}
+			}
+		},
+	   threshold:100
+	});
+};		
 		
 function _fInitSwipe() {	
 	_fDestroySwipe();
-	$('#wrapper .container, #wrapperM .container').swipe( {
+	$('#wrapper .container, #wrapperM .container').swipe( {		
 		//Generic swipe handler for all directions
 		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
 			var _touch = event.changedTouches[0];
