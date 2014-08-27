@@ -1,7 +1,8 @@
 var cantCategories = 0;
 
 function initAlerts(){
-$('.list-group.checked-list-box .list-group-item').each(function (index) {
+
+	$('.list-group.checked-list-box .list-group-item').each(function (index) {
         
         // Settings
         var $widget = $(this),
@@ -72,7 +73,10 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
                 $widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
             }
         }
+        
         init();
+        
+        
     });
     
     
@@ -108,6 +112,7 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 //RENDER
 function renderInitAlerts() {
 	
+	/*
 	var _html = '<div class="row">';
 		_html += '<div class="col-md-12">';
 		
@@ -124,6 +129,36 @@ function renderInitAlerts() {
 	_html += '<div class="row">';
 		_html += '<div class="col-md-12">';
 			_html += '<button class="btn btn-primary col-xs-12" id="get-checked-data" style="margin-top:5%; width:80%;left:10%;">Guardar alertas</button>';				
+		_html += '</div>';	
+	_html += '</div>';
+	
+	$('#wrapper .scroller .container').empty();
+	$('#wrapper .scroller .container').append(_html);
+	
+	initAlerts();
+	_fsetTeamsAlerts();	
+	*/
+
+	
+	var _html = '';
+	for(var i=0;i<pushList.length;i++){
+		_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu alerts">';
+		
+			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">';
+				_html += '<span>' + pushList[i].display_name  +'</span>';
+			_html += '</div>';
+			
+			_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >';
+				_html += '<span class="glyphicon glyphicon-star glyphicon-star-empty "></span>';		
+			_html += '</div>';
+								
+		_html += '</div>';	
+	}		
+
+
+	_html += '<div class="row">';
+		_html += '<div class="col-md-12">';
+			_html += '<button class="btn btn-primary col-xs-12" id="get-checked-data" style="margin-top:5%; width:80%;left:10%; border:0 !important;">Guardar alertas</button>';				
 		_html += '</div>';	
 	_html += '</div>';
 	
@@ -169,3 +204,10 @@ function initAlertPage(){
 navigator.notification.activityStart("Cargando alertas", "Cargando...");
 //Obtenemos la informacion del cliente y las opciones que podemos activar/desactivar
 getClientPushOptions(initAlertPage, errorRenderAlerts,true);
+
+
+	$(document).on('touchend','.alerts', function(e) {
+		preventBadClick(e);
+		$(this).find('div:last > span').toggleClass('glyphicon-star-empty');
+	});
+
