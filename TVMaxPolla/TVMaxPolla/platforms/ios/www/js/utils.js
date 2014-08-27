@@ -298,7 +298,8 @@ function getPPI(){
 	return parseFloat(ppi);
 }
 
-function _fUseImageCache(_image,_background) {	
+function _fUseImageCache(_image,_background) {
+		
 	if (ImgCache.ready) {
 				
 		var _selector = 'img[src="' + _image + '"]';		
@@ -326,10 +327,33 @@ function _fUseImageCache(_image,_background) {
 	};		
 };
 
+function _fDestroySwipe() {
+	$('#wrapper .container, #wrapper2 .container, #wrapperM .container, #wrapperMPull').swipe('destroy');		
+};
+		
+function _fInitMenu() {	
+	_fDestroySwipe();
+	$('#wrapperMPull').swipe( {
+		swipeStatus:function(event, phase, direction, distance, duration, fingers) {
+			if (phase == 'start') {
+				$('#wrapperM').attr('class','page transition rightShort');
+			} else if ((phase == 'move') && (direction == 'right')) {
+				$('#wrapperM').attr('class','page transition right');	
+			} else {				
+				if (distance >= 10) {
+					$('#wrapperM').attr('class','page transition right');					
+				} else {
+					$('#wrapperM').attr('class','page transition left');	
+				}
+			}
+		},
+	   threshold:100
+	});
+};		
 		
 function _fInitSwipe() {	
-	$('.container').swipe('destroy');		
-	$('.container').swipe( {
+	_fDestroySwipe();
+	$('#wrapper .container, #wrapperM .container').swipe( {		
 		//Generic swipe handler for all directions
 		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
 			var _touch = event.changedTouches[0];
@@ -341,7 +365,24 @@ function _fInitSwipe() {
 		//Default is 75px, set to 0 for demo so any distance triggers swipe
 	   threshold:100
 	});
-};	
+};
+
+
+function _fInitSwipeContent() {
+	
+	_fDestroySwipe();	
+	$('#wrapper2 .container').swipe( {
+		//Generic swipe handler for all directions
+		swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+			var _touch = event.changedTouches[0];			
+			if (direction == 'right') {
+				_fSetBack();
+			}	
+		},
+		//Default is 75px, set to 0 for demo so any distance triggers swipe
+	   threshold:100
+	});
+};		
 
 
 

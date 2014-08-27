@@ -114,7 +114,7 @@ function errorPushHandler (error) {
     //console.log('<li>error:'+ error +'</li>');
 }
 
-var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";
+var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID_V2";
 
 function saveRegID(regID) {
 	try{

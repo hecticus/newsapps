@@ -1,4 +1,4 @@
-var FILE_KEY_CLIENT = "APPDATACLIENT";
+var FILE_KEY_CLIENT = "APPDATACLIENT_V2";
 
 function saveClientData(json) {
 	if(json != null){

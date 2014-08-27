@@ -73,6 +73,11 @@
 			</div>
 		</div>	
 		
+		<div id="wrapperMPull" class="page" style="z-index:4; left: 0; width:50px; height: 100%; filter:alpha(opacity=0); opacity:0.0;" >
+			&nbsp;
+		</div>	
+		
+		
 		<footer>
 		</footer>
 
@@ -100,11 +105,15 @@
 		<!--script src="plugins/org.apache.cordova.facebook.Connect/www/cdv-plugin-fb-connect.js"></script-->
 		<script src="cdv-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
-		<script src="facebook-js-sdk.js"></script>		
-		<script type="text/javascript" src="js/facebookManager/facebookManager.js"></script>
+		<!--script src="facebook-js-sdk.js"></script-->		
+		<!--script type="text/javascript" src="js/facebookManager/facebookManager.js"></script-->
         
         <script type="text/javascript">              
             app.initialize();
+            $('#splash').hide();
+			$('#mloading').remove();
+			$('header').removeClass('hidden');	
+			$('.menu').removeClass('hidden');
         </script>
 
 		<script type="text/javascript">				
@@ -115,6 +124,9 @@
 			});
 			
 			$('#wrapperM > .scroller > .container').css('height', $(window).height() + 'px');
+		
+		
+				_fInitMenu();
 				
 		</script>
 
