@@ -82,9 +82,16 @@ function initAlerts(){
     
 	//TOUCH ALERTAS
 	$('#get-checked-data').on('click', function(e) {
+		
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
-	    //console.log("Paso por boton de save");
+	   
+	   
+		$('.option-alert.selected').each(function(index) {
+			alert($(this).data('value'));
+		});
+	   
+	    /*//console.log("Paso por boton de save");
 	    //limpiamos los valores
 	    for(var j=0;j<pushList.length; j++){
 	    	pushList[j].isSuscribed = false;
@@ -104,6 +111,8 @@ function initAlerts(){
 	    navigator.notification.activityStart("Guardando alertas", "Guardando...");
 	    //TODO: HACER NUEVO SAVE FUNC
 	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
+	    */
+	    
 	});
 	//END TOUCH
 }
@@ -142,7 +151,7 @@ function renderInitAlerts() {
 	
 	var _html = '';
 	for(var i=0;i<pushList.length;i++){
-		_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu alerts">';
+		_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu option-alert">';
 		
 			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">';
 				_html += '<span>' + pushList[i].display_name  +'</span>';
@@ -206,8 +215,9 @@ navigator.notification.activityStart("Cargando alertas", "Cargando...");
 getClientPushOptions(initAlertPage, errorRenderAlerts,true);
 
 
-	$(document).on('touchend','.alerts', function(e) {
-		preventBadClick(e);
+	$(document).on('touchend','.option-alert', function(e) {
+		preventBadClick(e);		
+		$(this).toggleClass('selected');
 		$(this).find('div:last > span').toggleClass('glyphicon-star-empty');
 	});
 
