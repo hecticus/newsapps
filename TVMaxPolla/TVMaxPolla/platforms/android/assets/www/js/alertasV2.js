@@ -107,39 +107,25 @@ $('.list-group.checked-list-box .list-group-item').each(function (index) {
 
 //RENDER
 function renderInitAlerts() {
-	//console.log("Paso por el RENDER ALERTS");
-	//var _html = '<div class="row" >';
-	//console.log("ARRAY: "+JSON.stringify(pushActionsIndex));
 	
 	var _html = '<div class="row">';
-	
-	_html += '<h3 class="text-center col-xs-12">Alertas</h3>';
-	//_html += '<div class="well" style="max-height: 300px;overflow: auto;">';
-		_html += '<ul id="check-list-box" class="list-group checked-list-box">';
-		cantCategories = 0;
-		/*for(var i=0;i<pushCategoryIndexes.length;i++){
-			if(pushCategoryIndexes[i].id_team == null || pushCategoryIndexes[i].id_team == ""){
-				_html += '<li data-value="'+pushCategoryIndexes[i].id_category+'" class="list-group-item" data-style="button">'+pushCategoryIndexes[i].name+'</li>';
-				cantCategories++;
-			}
-		}*/
-		for(var i=0;i<pushList.length;i++){	
-			//if(pushActionsIndex[i].id_action!=0){
-			_html += '<li data-value="'+pushList[i].id_action+'" class="list-group-item" data-style="button">'+pushList[i].display_name+'</li>';
-			/*_html += '<div class="col-md-12 news" data-item="'+pushActionsIndex[i].id_action+'"  >';
-			_html += '</div>';*/		
-			//}
-		}
-		 
-		//_html += '</div>';
-		_html += '</ul>';
-		_html += '<br />';
+		_html += '<div class="col-md-12">';
+		
+			_html += '<ul id="check-list-box" class="list-group checked-list-box">';
+				cantCategories = 0;	
+				for(var i=0;i<pushList.length;i++){		
+					_html += '<li data-value="'+pushList[i].id_action+'" class="list-group-item" data-style="button">'+pushList[i].display_name+'</li>';	
+				}		
+			_html += '</ul>';
+			
 		_html += '</div>';
-	
-	_html += '<button class="btn btn-primary col-xs-12" id="get-checked-data" style="margin-top:5%; width:80%;left:10%;">Guardar alertas</button>';
-	
 	_html += '</div>';
-	_html += '<br />';
+	
+	_html += '<div class="row">';
+		_html += '<div class="col-md-12">';
+			_html += '<button class="btn btn-primary col-xs-12" id="get-checked-data" style="margin-top:5%; width:80%;left:10%;">Guardar alertas</button>';				
+		_html += '</div>';	
+	_html += '</div>';
 	
 	$('#wrapper .scroller .container').empty();
 	$('#wrapper .scroller .container').append(_html);

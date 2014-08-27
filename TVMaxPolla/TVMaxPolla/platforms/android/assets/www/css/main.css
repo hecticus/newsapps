@@ -76,7 +76,10 @@
 		background: #FFFFFF;
 	}
 	
-
+	body.content-alertas #wrapper{
+		background: #FFFFFF;		
+	}
+	
 	.scroller {background-color: #ffffff;}
 	
 	ul {
