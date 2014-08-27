@@ -132,11 +132,7 @@ function loadRegID() {
 //Ahora tratamos de obtener el cliente con el device id para que si no existe se cree y luego vamos al proceso normal
 function updateDeviceToServer(){
 	//console.log("revisando version");
-	try {	
-		//Actualizamos tambien las categorias de push
-		//updatePushOptionsToServer();
-		getClientPushOptions(doNothing,doNothing);
-		
+	try {			
 		if(regID != null && regID != ""){
 			var currentRegID = loadRegID();
 			if(currentRegID != null && currentRegID == regID){
@@ -156,30 +152,36 @@ function updateDeviceToServer(){
 					//ANDROID
 					_jData.type = "droid";
 				}
-				console.log("DATA TO SEND "+JSON.stringify(_jData));
-				_oAjax = $.fPostAjaXJSONSimple('http://10.0.3.142:9000/KrakenSocialClients/v1/client/create/generic',_jData);
-				//_oAjax = $.fPostAjaXJSON('http://api.hecticus.com/KrakenSocialClients/v1/client/create/generic',_jData);	
-				if (_oAjax) {
+				//console.log("DATA TO SEND "+JSON.stringify(_jData));
+				//var _oAjaxCreate = $.fPostAjaXJSONSimple('http://10.0.3.142:9000/KrakenSocialClients/v1/client/create/generic',_jData);
+				var _oAjaxCreate = $.fPostAjaXJSONSimple('http://api.hecticus.com/KrakenSocialClients/v1/client/create/generic',_jData);	
+				if (_oAjaxCreate) {
 
-					_oAjax.done(function(_json) {
-						console.log("Respuesta ");
-						console.log("JSON "+JSON.stringify(_json));
+					_oAjaxCreate.done(function(_json) {
+						//console.log("Respuesta ");
+						//console.log("JSON "+JSON.stringify(_json));
 						if (_json.response.length == 0) {
 							//alert('No existe');
-							navigator.notification.alert("Error login", doNothing, "Ingresar", "OK");
+							//navigator.notification.alert("Error login", doNothing, "Ingresar", "OK");
 						} else {
+							//Actualizamos tambien las categorias de push
+							getClientPushOptions(doNothing,doNothing,false);
+							
 							saveClientData(_json.response[0]);						
 							//SAVE REGID
 							saveRegID(regID);					
 						}			   
 					});
 					
-					_oAjax.fail(function() {
+					_oAjaxCreate.fail(function() {
 						
 					});	
 					
 				}
 			}else{
+				//Actualizamos tambien las categorias de push
+				getClientPushOptions(doNothing,doNothing,false);
+				
 				//var urlUpdate = "http://10.0.3.144:9000/KrakenSocialClients/v1/devices/add";
 				var urlUpdate = "http://api.hecticus.com/KrakenSocialClients/v1/devices/add";
 				var _data = {}

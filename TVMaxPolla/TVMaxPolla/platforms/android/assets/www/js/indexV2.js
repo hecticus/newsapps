@@ -196,7 +196,7 @@ function getExtraInfoFromInitWS(_json){
 	if(updateVerion!= null && updateVerion.length>0){
 		updateURL = updateVerion;
 		//console.log("URL "+updateURL);
-		navigator.notification.alert("Hay una nueva versi&óacute;n de la aplicaci&óacute;n", goToUpdatePage, "Actualizaci&óacute;n", "Descargar");
+		navigator.notification.alert("Hay una nueva versi&ï¿½acute;n de la aplicaci&ï¿½acute;n", goToUpdatePage, "Actualizaci&ï¿½acute;n", "Descargar");
 	}
 	
 	if(_json.live){
@@ -258,21 +258,13 @@ function initAllAppData() {
 	_fSetNewsHome();
 
 	document.addEventListener('backbutton', function(e) {
-		
 		if ($('#wrapper2').hasClass('left')) {	
 			_fSetBack();												
 		} else {
-			
 			if ($('#wrapperM').hasClass('right')) {
 		 		_fSetBack();
-			} else if ($('body').hasClass('content-home')) {							
+			} else if ($('main').data('index') == 0 ) {							
 				exitApp();				
-			} else if ($('body').hasClass('content-default')) {							
-				exitApp();				
-			} else if ($('body').hasClass('content-signin')) {	
-				backFromRegister();		
-			} else if ($('body').hasClass('content-signup')) {							
-				backFromRegister();				
 			} else {						
 				_fSetLoadInit();
 			}
@@ -368,7 +360,7 @@ function executePushInit(extra_params){
 				|| _jMenu[index].class == 'content-leaderboard') {
 				//revisamos si esta hay client data
 				if(loadClientData() == null){
-					navigator.notification.alert("Para entrar a esta secci&óacute;n debes estar registrado, entra en Men&úacute;/Ingresar", doNothing, "Alerta", "OK");
+					navigator.notification.alert("Para entrar a esta secci&ï¿½acute;n debes estar registrado, entra en Men&ï¿½acute;/Ingresar", doNothing, "Alerta", "OK");
 					return;
 				}
 			}

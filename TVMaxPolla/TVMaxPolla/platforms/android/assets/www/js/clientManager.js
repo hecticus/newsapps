@@ -4,7 +4,7 @@ function saveClientData(json) {
 	if(json != null){
 		try{
 			window.localStorage.setItem(FILE_KEY_CLIENT,JSON.stringify(json));
-			updateDeviceToServer();
+			//updateDeviceToServer();
 			return true;
 		}catch(e){
 			return false;

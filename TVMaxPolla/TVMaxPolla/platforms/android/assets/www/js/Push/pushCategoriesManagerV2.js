@@ -203,14 +203,22 @@ function checkIfPushConfigsChanged(newClientActions){
 }
 
 //GET INFO FROM CLIENT
-function getClientPushOptions(successFunction, errorFunction){
+function getClientPushOptions(successFunction, errorFunction, fromAlerts){
 	
 	try {	
 		//revisamos si tenemos cliente porque sino no podemos buscar nada
 		var client = loadClientData();
 		if(client == null){
 			//console.log("Aun no hay cliente para registrar la categoria del push");
-			errorFunction();
+			if(fromAlerts){
+				setTimeout(function() {
+					updateDeviceToServer();	
+				}, 100);
+			}
+			setTimeout(function() {
+				errorFunction();	
+			}, 600);
+			
 			return;
 		}
 

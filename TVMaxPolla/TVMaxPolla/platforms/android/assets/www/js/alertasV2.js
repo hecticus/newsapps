@@ -182,4 +182,4 @@ function initAlertPage(){
 //window.plugins.spinnerDialog.show();
 navigator.notification.activityStart("Cargando alertas", "Cargando...");
 //Obtenemos la informacion del cliente y las opciones que podemos activar/desactivar
-getClientPushOptions(initAlertPage, errorRenderAlerts);
+getClientPushOptions(initAlertPage, errorRenderAlerts,true);
