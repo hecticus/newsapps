@@ -86,10 +86,24 @@ function initAlerts(){
 		if(preventBadClick(e)){return false;}	
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 	   
-	   
+		//limpiamos los valores
+	    for(var j=0;j<pushList.length; j++){
+	    	pushList[j].isSuscribed = false;
+	    }
 		$('.option-alert.selected').each(function(index) {
-			alert($(this).data('value'));
+			//alert($(this).data('value'));
+			var idAction = $(this).data('value');
+	        for(var j=0;j<pushList.length; j++){
+	        	if(pushList[j].id_action == idAction){
+	        		pushList[j].isSuscribed = true;
+	        	}
+	        }
 		});
+		
+		//mandamos a salvar la data
+	    navigator.notification.activityStart("Guardando alertas", "Guardando...");
+	    //TODO: HACER NUEVO SAVE FUNC
+	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
 	   
 	    /*//console.log("Paso por boton de save");
 	    //limpiamos los valores
@@ -151,14 +165,23 @@ function renderInitAlerts() {
 	
 	var _html = '';
 	for(var i=0;i<pushList.length;i++){
-		_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu option-alert">';
+		if(pushList[i].isSuscribed == true){
+			_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu option-alert selected">';
+		}else{
+			_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu option-alert">';
+		}
+		
 		
 			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">';
 				_html += '<span>' + pushList[i].display_name  +'</span>';
 			_html += '</div>';
 			
 			_html += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >';
-				_html += '<span class="glyphicon glyphicon-star glyphicon-star-empty "></span>';		
+			if(pushList[i].isSuscribed == true){
+				_html += '<span class="glyphicon glyphicon-star "></span>';	
+			}else{
+				_html += '<span class="glyphicon glyphicon-star glyphicon-star-empty "></span>';
+			}
 			_html += '</div>';
 								
 		_html += '</div>';	
