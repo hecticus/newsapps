@@ -449,15 +449,15 @@ function setMenuView(){
 
 	var _session = null;
 	
-	if (loadClientData() == null) {
+	/*if (loadClientData() == null) {
 		_session = false;
 	} else {
 		_session = true;
-	}
+	}*/
 	
 	$(_jMenu).each(function(_index,_menu) {
 
-		if ((_menu.session == null) || (_menu.session == _session)) {
+		//if ((_menu.session == null) || (_menu.session == _session)) {
 			_html += '<div class="row content-menu">';		
 			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10  load" data-index="' +  _menu.index + '" data-visible= >';
 				_html += '<span class="' + _menu.glyphicon + '" ></span>';
@@ -467,7 +467,7 @@ function setMenuView(){
 				_html += '<span class="icon-flechaazul"></span>';		
 			_html += '</div>';			
 			_html += '</div>';
-		}
+		//}
 
 	});         	
 	
