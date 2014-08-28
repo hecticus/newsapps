@@ -54,6 +54,9 @@
 	}
 	
 	th, tr,td {text-align: center;}
+	body.content-init #splash {display: block;}
+	body:not(.content-init) #splash {display: none;}
+	
 	
 	.content-menu {background:#fffff; height; 50px; line-height:50px; font-size: 1.4em;}
 	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}
