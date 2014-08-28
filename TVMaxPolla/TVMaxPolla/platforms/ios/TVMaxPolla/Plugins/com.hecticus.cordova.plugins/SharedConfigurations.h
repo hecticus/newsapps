@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString *callback;
 
 - (void)addSharedConfigEntry:(CDVInvokedUrlCommand*)command;
++ (void)addSharedConfigEntryFromNative:(NSString*)configKey value:(NSString*)configValue;
 - (void)getSharedConfigEntry:(CDVInvokedUrlCommand*)command;
 
 

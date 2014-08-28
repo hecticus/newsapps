@@ -80,7 +80,17 @@
 				$('.tv').addClass('hidden');		
 				$('.share').removeClass('hidden');						
 				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
-				
+														
+				//codigo solo para arreglar bug de noticias que no despliegan en iOS 7.0, en todos los demas funcionan bien
+				//es muy raro pero es lo unico que lo arreglo
+				if(isIOS7){
+					_html += '<div class="col-md-12" style="visibility:hidden;">';
+					_html += _fGetImage({src:_item.image,caption:false});
+					_html += '</div>';
+					_html += '<div class="col-md-12" style="visibility:hidden;">';
+					_html += '<p class="fullstory">' + _item.texto + '</p>';
+					_html += '</div>';
+				}
 				_return = true;
 				
 			}
@@ -279,12 +289,7 @@
 			getBannerSpecial();
 		}, 600000);
 		
-		
-		
-		
-		
-		
-		
+
 		
 	} else {
 		 $('footer').addClass('hidden');

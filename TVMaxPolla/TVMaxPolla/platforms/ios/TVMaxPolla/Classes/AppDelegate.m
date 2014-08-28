@@ -88,6 +88,15 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 	
+	//revisamos que OS es:
+	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && SYSTEM_VERSION_LESS_THAN(@"7.1")){
+		NSLog(@"IS OS 7, %@",[[UIDevice currentDevice] systemVersion]);
+		[SharedConfigurations addSharedConfigEntryFromNative:@"isios7" value:@"true"];
+	}else{
+		[SharedConfigurations addSharedConfigEntryFromNative:@"isios7" value:@"false"];
+		NSLog(@"NOT OS 7, %@",[[UIDevice currentDevice] systemVersion]);
+	}
+	
 	
 	/*NSURL* mMovieURL;
     NSBundle *bundle = [NSBundle mainBundle];

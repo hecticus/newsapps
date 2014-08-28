@@ -6,6 +6,15 @@
 @synthesize notificationCallbackId;
 @synthesize callback;
 
++ (void)addSharedConfigEntryFromNative:(NSString*)configKey value:(NSString*)configValue;
+{
+	NSString *configKeyString = (NSString *)configKey;
+	
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];  //load NSUserDefaults
+	[prefs setValue:configValue forKey:configKeyString];
+	
+	[prefs synchronize];
+}
 
 - (void)addSharedConfigEntry:(CDVInvokedUrlCommand*)command;
 {

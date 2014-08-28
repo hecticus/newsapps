@@ -54,6 +54,7 @@
 	}
 	
 	th, tr,td {text-align: center;}
+	body.content-init #splash {display: block;}
 	body:not(.content-init) #splash {display: none;}
 	
 	
@@ -76,7 +77,10 @@
 		background: #FFFFFF;
 	}
 	
-
+	body.content-alertas #wrapper{
+		background: #FFFFFF;		
+	}
+	
 	.scroller {background-color: #ffffff;}
 	
 	ul {

@@ -252,7 +252,7 @@ function _fSetNewsHome() {
 		});
 	} 
 };
-
+var isIOS7 = false;
 function initAllAppData() {
 			
 	try {
@@ -285,13 +285,26 @@ function initAllAppData() {
 		initPush();
 		initGA();
 		categoriesLoaded = true;
+		
+		try{
+			window.plugins.sharedConfigurations.getSharedConfigEntry("isios7", successCallbackSharedConfig, doNothing);
+		}catch(e){
+			
+		}
 
 	} catch(err) {    	
   		_fSetLoadOffLine();
 	}
 
 }
-
+function successCallbackSharedConfig(val){
+	console.log("GOT VAL "+val);
+	if(val == "true"){
+		isIOS7 = true;
+	}else{
+		isIOS7 = false;
+	}
+}
 
 var _bUpdateNews = window.setInterval(function(){	
 	//buscamos si hay un cambio en las categorias para refrescar eso primero
