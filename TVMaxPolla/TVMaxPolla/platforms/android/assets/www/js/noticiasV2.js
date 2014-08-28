@@ -279,12 +279,7 @@
 			getBannerSpecial();
 		}, 600000);
 		
-		
-		
-		
-		
-		
-		
+
 		
 	} else {
 		 $('footer').addClass('hidden');
