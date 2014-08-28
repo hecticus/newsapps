@@ -90,6 +90,7 @@ function initAlerts(){
 	    for(var j=0;j<pushList.length; j++){
 	    	pushList[j].isSuscribed = false;
 	    }
+	    
 		$('.option-alert.selected').each(function(index) {
 			//alert($(this).data('value'));
 			var idAction = $(this).data('value');
@@ -170,8 +171,7 @@ function renderInitAlerts() {
 		}else{
 			_html += '<div data-value="' + pushList[i].id_action + '"  class="row content-menu option-alert">';
 		}
-		
-		
+
 			_html += '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">';
 				_html += '<span>' + pushList[i].display_name  +'</span>';
 			_html += '</div>';
@@ -182,16 +182,19 @@ function renderInitAlerts() {
 			}else{
 				_html += '<span class="glyphicon glyphicon-star glyphicon-star-empty "></span>';
 			}
+			
 			_html += '</div>';
 								
 		_html += '</div>';	
 	}		
+	
+	_html += '<br />';
 
-
-	_html += '<div class="row">';
-		_html += '<div class="col-md-12">';
-			_html += '<button class="btn btn-primary col-xs-12" id="get-checked-data" style="margin-top:5%; width:80%;left:10%; border:0 !important;">Guardar alertas</button>';				
-		_html += '</div>';	
+	_html += '<div id="get-checked-data" class="row content-menu">';
+		_html += '<div class="col-md-12" style="text-align:center;">';
+			_html += '<span class="glyphicon glyphicon-ok" ></span>';
+			_html += '<span>OK</span>';
+		_html += '</div>';			
 	_html += '</div>';
 	
 	$('#wrapper .scroller .container').empty();
@@ -199,6 +202,7 @@ function renderInitAlerts() {
 	
 	initAlerts();
 	_fsetTeamsAlerts();	
+	_fInitSwipe();
 }
 
 //SAVING FUNCTIONS alertSaveComplete, alertSaveFail
