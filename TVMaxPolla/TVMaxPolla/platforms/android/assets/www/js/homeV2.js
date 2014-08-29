@@ -148,7 +148,7 @@
 
 
 		_fInitSwipe();
-
+		_homeWasShowed = true;
 
 	};
 
