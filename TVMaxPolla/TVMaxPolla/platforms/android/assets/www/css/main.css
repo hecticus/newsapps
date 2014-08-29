@@ -54,8 +54,8 @@
 	}
 	
 	th, tr,td {text-align: center;}
-	body.content-init #splash {display: block;}
-	body:not(.content-init) #splash {display: none;}
+	body.content-init .splash.loading, body.content-init .splash.loading {display: block;}
+	body:not(.content-init) .splash.loading {display: none;}
 	
 	
 	.content-menu {background:#fffff; height; 50px; line-height:50px; font-size: 1.4em;}
