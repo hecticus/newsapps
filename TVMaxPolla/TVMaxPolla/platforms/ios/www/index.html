@@ -13,19 +13,15 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/animate.css">
 		<link rel="stylesheet" href="fonts/iconvault/iconvault-preview.css">				
+		<link rel="stylesheet" href="fonts/iconvault2/iconvault-preview.css">
 		<link rel="stylesheet" href="css/transition.css">
 		<link rel="stylesheet" href="css/main.css">
 	</head>
 	
 	<body class="content-init" style="position: fixed;">
-		
-			
-		<img id="splash"  src="img/splash/splash.png" height="100%" width="100%" >
-		
-		
-		<!--div id="mloading" style="position: absolute; top:50%; width: 100%;  text-align: center; font-size: 1.4em; color: #3E79C4; z-index: 10;">
-			<span>- Cargando -</span>
-		</div--->
+
+		<img class="splash loading"  src="img/splash/splash.png" style="width: 100%; height: auto;" >
+		<h3 class="splash text loading" style="position: absolute; top:50%; width: 100%;  text-align: center;">Cargando</h3>
 
 		<header>
 
@@ -128,10 +124,12 @@
 			});
 			
 			$('#wrapperM > .scroller > .container').css('height', $(window).height() + 'px');
-		
-		
-				_fInitMenu();
-				
+			_fInitMenu();
+			
+			$('img.splash').css('width','100%');						
+			$('img.splash').css('height',$(window).height() + 'px');
+
+			
 		</script>
 
 

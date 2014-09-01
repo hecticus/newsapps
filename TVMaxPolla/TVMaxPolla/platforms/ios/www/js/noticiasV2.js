@@ -7,7 +7,7 @@
 	var _fGetImage = function(_image) {
 			
 		var _html = '<figure>';				     		
-		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
+		_html += '<img onerror="this.src=\'img/splash/splash_not_image.png\'" src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
 		
 		if (_image.caption) {
 
@@ -44,6 +44,51 @@
 	function addPushNews(json){
 		_jGet.item.push(json);
 	}
+	
+	//SI se cambia el render hay que cambiar este tambien, esto se tuvo que hacer porque la pagina no se sabe cuando esta cargada y cuando llega un push hay que forzar esto
+	var _fRenderDataContentSimple = function(_id, _item) {
+		//este es el codigo que muestra una noticia asi que aqui es donde colocaremos el evento
+		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "noticias", "detalle", "section", _id);
+		//console.log("noticias detalle "+_id);
+		
+		var _html = '<div class="row" >';
+		var _image = false;
+		var _return = false;
+
+		_html += '<div class="col-md-12">';
+		_image = _item.image;
+		_html += _fGetImage({src:_item.image,caption:false});
+		_html += '</div>';
+
+
+		_html += '<div class="col-md-12">';
+		_html += '<p class="title">' + _item.titulo + '</p>';				
+		_html += '</div>';
+
+		_html += '<div class="col-md-12" >';				
+		_html += '<p class="date">' + _fGetFormatDate(_item.fecha) + '</p>';				
+		_html += '</div>';
+								
+		_html += '<div class="col-md-12" >';
+		_html += '<p class="fullstory">' + _item.texto + '</p>'; 
+		_html += '</div>';				
+		
+		$('.tv').addClass('hidden');		
+		$('.share').removeClass('hidden');						
+		$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+
+			
+		_html += '</div>';
+		
+		
+		$('#wrapper2 .scroller .container').empty();
+		$('#wrapper2 .scroller .container').append(_html);
+		$('#wrapper2').attr('class','page transition left');
+		$('header .container .row .menu span').addClass('icon-back');
+		myScroll2.scrollTo(0,0,0);
+		_fUseImageCache(_image);
+		_fInitSwipeContent();
+	};
 
 	var _fRenderDataContent = function(_id) {
 		//este es el codigo que muestra una noticia asi que aqui es donde colocaremos el evento
@@ -118,14 +163,11 @@
 
 		$.each(_jGet.item, function(_index,_item) {				
 		 	
-		 	if (_index <= 10) {
-				_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
-				_html += _fGetImage({src:_item.image,caption:_item.titulo, date:_item.fecha});
-				_html += '</div>';
-				_return = true;
-			}
-			
-			if (_return) return true; 
+			_html += '<div class="col-md-12 news" data-item="'+_item.id+'"  >';
+			_html += _fGetImage({src:_item.image,caption:_item.titulo, date:_item.fecha});
+			_html += '</div>';
+			   
+			_fUseImageCache(_item.image);
 					 			
 		});
 		 
@@ -135,20 +177,6 @@
 		$('#wrapper .scroller .container').append(_html);
 		_return = false;
 		
-		 
-		$.each(_jGet.item, function(_index,_item) {
-							
-		 	if (_index <= 10) {
-		 		_fUseImageCache(_item.image);
-		 		_return = true;
-			};
-			
-			if (_return) return true;
-					 			
-		});
-		
-
-		window.setTimeout(function(){newsReadyForPush = true;},500);		
 		_fInitSwipe();
 		
 		
@@ -172,7 +200,7 @@
 			$('footer').css('visibility','hidden');
 		}
 		
-		
+		_homeWasShowed = true;
 	};
 	
 	
@@ -201,6 +229,10 @@
 				
 				_jGet = _json.noticias_deportes;
 				_fRenderInit();
+				
+				if(_homeWasShowed == true){
+					window.setTimeout(function(){newsReadyForPush = true;},500);
+				}
 									
 			});
 		} else {

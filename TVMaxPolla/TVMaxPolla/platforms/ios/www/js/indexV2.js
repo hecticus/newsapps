@@ -135,7 +135,7 @@ function _fRequestCategories() {
 		//ANDROID
 		osName = "android";
 	}
-	var version = 6;
+	var version = 7;
 	
 	_oAjax = $.fGetAjaXJSON(_urlHecticus + 'tvmaxfeeds/newscategories/get/'+version+'/'+osName,false,true,false);	
 	if (_oAjax) {
@@ -373,7 +373,7 @@ function executePushInit(extra_params){
 					
 				}
 			}
-			
+			console.log("PUSH!! "+index+" , "+isNewsAction);
 
 			if(_jMenu[index].class == 'content-polla' 
 				|| _jMenu[index].class == 'content-alertas'
@@ -386,13 +386,27 @@ function executePushInit(extra_params){
 			}
 
 			if(isNewsAction){
-				$('body').removeClass();
+				console.log("PUSH ventana!! "+index+" , "+isNewsAction+" , "+_jMenu[index].class);
+				/*$('body').removeClass();
 				$('body').addClass(_jMenu[index].class);
 				$('main').empty();
 				$('main').data('index',index);	
 				$('.title').html('<span>' + _jMenu[index].title + '</span>');						
 				$('main').load(_jMenu[index].load);	
-				$('#wrapperM').attr('class','page transition left');
+				$('#wrapperM').attr('class','page transition left');*/
+				$('body').removeClass();
+				$('body').addClass(_jMenu[index].class);
+				$('main').empty();
+				$('main').data('index',index);	
+				$('.title').html('<span>' + _jMenu[index].title + '</span>');						
+				$('main').load(_jMenu[index].load);
+				$('main').css({'opacity':0}).animate({'opacity':1});
+				$('#wrapperM').attr('class','page transition left');			
+				$('.title').addClass('bounceInLeft');
+				
+				$('.title').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function() {
+	  				$('.title').removeClass('bounceInLeft');
+				});
 				//console.log("EXTRA "+JSON.stringify(extra_params));
 				
 				//abrimos la noticia como tal
@@ -408,10 +422,14 @@ function executePushInit(extra_params){
 									var _oAjaxTemp = $.fGetAjaXJSONNews("http://polla.tvmax-9.com/tvmaxfeeds/simplenews/get/id/"+newsID);
 									if (_oAjaxTemp) {
 										_oAjaxTemp.done(function(_json) {
-											if(_json != null && _json.noticias_deportes != null && _json.noticias_deportes.items != null){
-												var newsJsonObj = _json.noticias_deportes.items[0];
-												addPushNews(newsJsonObj);
-												_fRenderDataContent(newsID);
+											if(_json != null && _json.noticias_deportes != null && _json.noticias_deportes.item != null){
+												//console.log("Va a noticia mostrar!!! "+JSON.stringify(_json.noticias_deportes.item[0]));
+												var newsJsonObj = _json.noticias_deportes.item[0];
+												//addPushNews(newsJsonObj);
+												//_fRenderDataContent(newsID);
+												//console.log("VA A RENDER");
+												_fRenderDataContentSimple(newsID,newsJsonObj);
+												//console.log("HIZO RENDER");
 											}
 																
 										});

@@ -20,7 +20,22 @@
 		
 		<script type="text/javascript">		
 			var myScroll = new IScroll('#wrapper',{click:true,preventDefault:true, directionLockThreshold:20});
-			myScroll.on('beforeScrollStart', function () { 
+			myScroll.on('beforeScrollStart', function () {
+				if(getIfItsIpad()){
+					if ($('main').data('index') == 0) {
+						$('#wrapper').css('bottom','90px');
+					} else {
+						$('#wrapper').css('bottom','0');
+					}
+				}else{
+					if ($('main').data('index') == 0) {
+						$('#wrapper').css('bottom','55px');
+					} else {
+						$('#wrapper').css('bottom','0');
+					}
+				}
+				
+				 
 				this.refresh();		
 			});	
 
