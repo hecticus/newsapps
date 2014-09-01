@@ -7,7 +7,7 @@
 	var _fGetImage = function(_image) {
 			
 		var _html = '<figure>';				     		
-		_html += '<img src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
+		_html += '<img onerror="this.src=\'img/splash/splash_not_image.png\'" src="' + _image.src + '"  alt="' +_image.src + '" style="width:100%; height:' + parseInt(($(window).height() * 40)/100) + 'px;" />';		
 		
 		if (_image.caption) {
 
