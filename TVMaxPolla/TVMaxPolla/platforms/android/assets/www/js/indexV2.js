@@ -373,7 +373,7 @@ function executePushInit(extra_params){
 			}
 
 			if(isNewsAction){
-				console.log("PUSH ventana!! "+index+" , "+isNewsAction+" , "+_jMenu[index].class);
+				//console.log("PUSH ventana!! "+index+" , "+isNewsAction+" , "+_jMenu[index].class);
 				/*$('body').removeClass();
 				$('body').addClass(_jMenu[index].class);
 				$('main').empty();
