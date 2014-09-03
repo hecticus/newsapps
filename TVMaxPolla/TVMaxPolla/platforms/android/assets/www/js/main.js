@@ -735,3 +735,9 @@ $.fPostAjaXJSONSimple = function(_url, _data) {
 		_html += '</div>';
 		$('#equipos').html(_html);		
 	}	
+	
+	
+	//ALERT VARS FOR AUTO-RETRY
+	var alertIsRetrying = false;
+	var currentAlertRetrys = 0;
+	var maxAlertRetrys = 3;

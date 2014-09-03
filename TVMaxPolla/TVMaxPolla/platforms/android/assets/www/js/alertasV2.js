@@ -211,11 +211,22 @@ function alertSaveFail(){
 	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
 	//navigator.notification.alert("No se guardaron las alertas, error", doNothing, "Alerta", "OK");
+	if(currentAlertRetrys >= maxAlertRetrys){
+		alertIsRetrying = false;
+		currentAlertRetrys = 0;
+		return false;
+	}
+	
+	alertIsRetrying = true;
+	currentAlertRetrys = currentAlertRetrys+1;
+	updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
 }
 function alertSaveComplete(){
 	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
 	//navigator.notification.alert("Se guardaron las alertas exitosamente", doNothing, "Exito", "OK");
+	alertIsRetrying = false;
+	currentAlertRetrys = 0;
 }
 
 //INIT FUNCTIONS
