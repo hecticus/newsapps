@@ -105,7 +105,7 @@ function initAlerts(){
 	    //navigator.notification.activityStart("Guardando alertas", "Guardando...");
 	    //TODO: HACER NUEVO SAVE FUNC
 	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
-	    _fSetLoadInit();
+	    _fZoomOutInit();
 	   
 	    /*//console.log("Paso por boton de save");
 	    //limpiamos los valores
