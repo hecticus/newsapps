@@ -188,6 +188,23 @@ var _fGetLoadingErrorNews = function(_selector) {
 	
 };
 
+var _fGetLoadingErrorAlerts = function(_selector) {
+	
+	if (!_selector) _selector = '#wrapper .scroller .container';
+	var _index = $('main').data('index');
+	
+
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span>No se puede obtener la configuración de las alertas. Por favor, int&eacute;ntalo de nuevo m&aacute;s tarde.</span>';
+		_html += '<span class="' + _jMenu[_index].glyphicon + '" style="font-size: 12em;"></span>';
+		_html += '</div>';		
+		_html += '</div>';
+
+	$(_selector).empty();
+	$(_selector).append(_html);
+	
+};
 
 
 
