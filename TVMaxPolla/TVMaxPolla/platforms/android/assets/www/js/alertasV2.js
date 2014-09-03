@@ -105,7 +105,8 @@ function initAlerts(){
 	    //navigator.notification.activityStart("Guardando alertas", "Guardando...");
 	    //TODO: HACER NUEVO SAVE FUNC
 	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
-	    _fZoomOutInit();
+	    $('#get-checked-data').addClass('ok');
+	    //_fSetLoadInit();
 	   
 	    /*//console.log("Paso por boton de save");
 	    //limpiamos los valores
@@ -256,10 +257,13 @@ _fGetLoadingNews();
 //Obtenemos la informacion del cliente y las opciones que podemos activar/desactivar
 getClientPushOptions(initAlertPage, errorRenderAlerts,true);
 
+	$(document).on('touchend','body,.option-alert', function(e) {
+		$('#get-checked-data').removeClass('ok');
+	});
 
 	$(document).on('touchend','.option-alert', function(e) {
 		preventBadClick(e);		
 		$(this).toggleClass('selected');
-		$(this).find('div:last > span').toggleClass('glyphicon-star-empty');
+		$(this).find('div:last > span').toggleClass('glyphicon-star-empty');		
 	});
 

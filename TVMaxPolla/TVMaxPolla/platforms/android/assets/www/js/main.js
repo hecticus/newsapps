@@ -53,24 +53,6 @@ var _fSetLoadInit = function() {
 	$('.title').html('<span>' + _jMenu[0].title + '</span>');		
 };
 
-var _fZoomOutInit = function() {
-	
-	
-	clearTimeout(_mTimeout);	
-	$('body').removeClass();
-	$('body').addClass(_jMenu[0].class);
-	$('main').addClass('lightSpeedOut');	
-	$('main').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function() {
-  		$('main').removeClass('lightSpeedOut');
-	});
-			
-	$('main').data('index',0);		
-	$('main').load(_jMenu[0].load);
-	
-	$('.title').html('<span>' + _jMenu[0].title + '</span>');	
-
-};
-	
 var _fSetLoadOffLine = function() {	
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
