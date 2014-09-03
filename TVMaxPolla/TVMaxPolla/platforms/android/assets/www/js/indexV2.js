@@ -408,6 +408,7 @@ function executePushInit(extra_params){
 						stopNewsInterval();
 						window.setTimeout(function(){
 							try{
+								gaPlugin.trackEvent(successGAHandler, errorGAHandler, "push", _jMenu[index].title, "detalle", newsID);
 								if(checkIfDataContentExists(newsID)){
 									_fRenderDataContent(newsID);
 								}else{
