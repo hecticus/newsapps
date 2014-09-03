@@ -203,6 +203,12 @@ function getExtraInfoFromInitWS(_json){
 		isLiveTV = true;
 	}
 	
+	if(isLiveTV){
+		$('header .container .row .tv').removeClass('hidden');
+	}else{
+		$('header .container .row .tv').addClass('hidden');
+	}
+	
 	//IOS
 	if(device.platform == "iOS"){
 		if(_json.live_ios != null && _json.live_ios != ""){

@@ -167,6 +167,7 @@
 	});
 	
 	function playLiveTV(){
+		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "liveTV", liveTVURL, "external_link", 1);
 		if(!browserPlay){
 			//Si hay que reproducirlo por player nativo
 			window.videoPlayer.play(liveTVURL);

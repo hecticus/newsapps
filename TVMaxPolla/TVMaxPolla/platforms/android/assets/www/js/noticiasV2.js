@@ -75,7 +75,8 @@
 		
 		$('.tv').addClass('hidden');		
 		$('.share').removeClass('hidden');						
-		$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+		//$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+		$('.share').attr('onclick','shareLink(\'' + _item.titulo.replace(/["']/g, "") + '\',\'' + _item.shareURL + '\');');
 
 			
 		_html += '</div>';
@@ -124,7 +125,8 @@
 				
 				$('.tv').addClass('hidden');		
 				$('.share').removeClass('hidden');						
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+				//$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+				$('.share').attr('onclick','shareLink(\'' + _item.titulo.replace(/["']/g, "") + '\',\'' + _item.shareURL + '\');');
 				
 				_return = true;
 				
