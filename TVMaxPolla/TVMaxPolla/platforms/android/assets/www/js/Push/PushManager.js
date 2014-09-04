@@ -145,6 +145,7 @@ function updateDeviceToServer(){
 			if(client == null){
 				//lo registramos como un cliente generico
 				_jData.push_id = regID;
+				var devicePlatform = device.platform;
 				//IOS
 				if(devicePlatform == "iOS"){
 					_jData.type = "ios";

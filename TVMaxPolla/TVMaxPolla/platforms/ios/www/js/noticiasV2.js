@@ -48,7 +48,7 @@
 	//SI se cambia el render hay que cambiar este tambien, esto se tuvo que hacer porque la pagina no se sabe cuando esta cargada y cuando llega un push hay que forzar esto
 	var _fRenderDataContentSimple = function(_id, _item) {
 		//este es el codigo que muestra una noticia asi que aqui es donde colocaremos el evento
-		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "noticias", "detalle", "section", _id);
+		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "Noticias", "Detalle_"+_jMenu[_iIndex].title, "section", 0);
 		//console.log("noticias detalle "+_id);
 		
 		var _html = '<div class="row" >';
@@ -75,7 +75,8 @@
 		
 		$('.tv').addClass('hidden');		
 		$('.share').removeClass('hidden');						
-		$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+		//$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+		$('.share').attr('onclick','shareLink(\'' + _item.titulo.replace(/["']/g, "") + '\',\'' + _item.shareURL + '\');');
 
 			
 		_html += '</div>';
@@ -92,7 +93,7 @@
 
 	var _fRenderDataContent = function(_id) {
 		//este es el codigo que muestra una noticia asi que aqui es donde colocaremos el evento
-		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "noticias", "detalle", "section", _id);
+		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "Noticias", "Detalle_"+_jMenu[_iIndex].title, "section", 0);
 		//console.log("noticias detalle "+_id);
 		
 		var _html = '<div class="row" >';
@@ -124,7 +125,8 @@
 				
 				$('.tv').addClass('hidden');		
 				$('.share').removeClass('hidden');						
-				$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+				//$('.share').attr('onclick','window.plugins.socialsharing.share(\'' + _item.titulo.replace(/["']/g, "") + '\',\'TvMax-9\',null,\'' + _item.shareURL + '\');');
+				$('.share').attr('onclick','shareLink(\'' + _item.titulo.replace(/["']/g, "") + '\',\'' + _item.shareURL + '\');');
 														
 				//codigo solo para arreglar bug de noticias que no despliegan en iOS 7.0, en todos los demas funcionan bien
 				//es muy raro pero es lo unico que lo arreglo

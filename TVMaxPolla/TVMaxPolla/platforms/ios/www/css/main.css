@@ -63,6 +63,10 @@
 	.content-menu {border-bottom: solid 1pt #E0E0E0;}
 	.content-menu:last-child {border:0;}
 
+
+	#get-checked-data.ok {color:#28701A;}
+	#get-checked-data.error {color:red;}
+
 	#wrapper, #wrapper2, #wrapperM, #wrapperMaM, #wrapperMaM2 {
 		position: absolute;
 		z-index: 1;

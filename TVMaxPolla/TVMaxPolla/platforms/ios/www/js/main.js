@@ -52,7 +52,7 @@ var _fSetLoadInit = function() {
 	$('main').load(_jMenu[0].load);
 	$('.title').html('<span>' + _jMenu[0].title + '</span>');		
 };
-	
+
 var _fSetLoadOffLine = function() {	
 	clearTimeout(_mTimeout);
 	$('body').removeClass();
@@ -188,6 +188,25 @@ var _fGetLoadingErrorNews = function(_selector) {
 	
 };
 
+var _fGetLoadingErrorAlerts = function(_selector) {
+	
+	if (!_selector) _selector = '#wrapper .scroller .container';
+	var _index = $('main').data('index');
+	
+
+	var _html = '<div class="row" >';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span>No se puede obtener la configuración de las alertas. Por favor, int&eacute;ntalo de nuevo m&aacute;s tarde.</span>';
+		_html += '</div>';
+		_html += '<div class="col-md-12" style="font-size:1em; font-weight:normal; text-align:center; ">';
+		_html += '<span class="' + _jMenu[_index].glyphicon + '" style="font-size: 12em;"></span>';
+		_html += '</div>';		
+		_html += '</div>';
+
+	$(_selector).empty();
+	$(_selector).append(_html);
+	
+};
 
 
 
@@ -723,3 +742,9 @@ $.fPostAjaXJSONSimple = function(_url, _data) {
 		_html += '</div>';
 		$('#equipos').html(_html);		
 	}	
+	
+	
+	//ALERT VARS FOR AUTO-RETRY
+	var alertIsRetrying = false;
+	var currentAlertRetrys = 0;
+	var maxAlertRetrys = 3;

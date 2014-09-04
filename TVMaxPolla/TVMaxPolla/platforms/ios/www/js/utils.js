@@ -382,7 +382,11 @@ function _fInitSwipeContent() {
 		//Default is 75px, set to 0 for demo so any distance triggers swipe
 	   threshold:100
 	});
-};		
+};	
+
+function shareLink(title, url){
+	window.plugins.socialsharing.share(title,'TVMax-9',null,url);
+}
 
 
 

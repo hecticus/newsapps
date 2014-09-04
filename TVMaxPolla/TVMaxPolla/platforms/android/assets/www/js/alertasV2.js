@@ -106,6 +106,9 @@ function initAlerts(){
 	    //TODO: HACER NUEVO SAVE FUNC
 	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
 	    $('#get-checked-data').addClass('ok');
+	    setTimeout(function() {
+	    	_fSetLoadInit();	
+		}, 500);
 	    //_fSetLoadInit();
 	   
 	    /*//console.log("Paso por boton de save");

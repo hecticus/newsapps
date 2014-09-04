@@ -103,7 +103,7 @@ function onNotificationGCM(e) {
 }
 
 function tokenHandler (result) {
-    //console.log('<li>token: '+ result +'</li>');
+    console.log('<li>token: '+ result +'</li>');
 	regID = result;
 	updateDeviceToServer();
     // Your iOS push server needs to know the token before it can push to this device
@@ -149,6 +149,7 @@ function updateDeviceToServer(){
 			if(client == null){
 				//lo registramos como un cliente generico
 				_jData.push_id = regID;
+				var devicePlatform = device.platform;
 				//IOS
 				if(devicePlatform == "iOS"){
 					_jData.type = "ios";

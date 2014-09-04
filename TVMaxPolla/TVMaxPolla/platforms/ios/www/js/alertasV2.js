@@ -102,10 +102,14 @@ function initAlerts(){
 		});
 		
 		//mandamos a salvar la data
-		window.plugins.spinnerDialog.show();
 	    //navigator.notification.activityStart("Guardando alertas", "Guardando...");
 	    //TODO: HACER NUEVO SAVE FUNC
 	    updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
+	    $('#get-checked-data').addClass('ok');
+	    setTimeout(function() {
+	    	_fSetLoadInit();	
+		}, 500);
+	    //_fSetLoadInit();
 	   
 	    /*//console.log("Paso por boton de save");
 	    //limpiamos los valores
@@ -208,44 +212,61 @@ function renderInitAlerts() {
 
 //SAVING FUNCTIONS alertSaveComplete, alertSaveFail
 function alertSaveFail(){
-	window.plugins.spinnerDialog.hide();
+	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
-	navigator.notification.alert("No se guardaron las alertas, error", doNothing, "Alerta", "OK");
+	//navigator.notification.alert("No se guardaron las alertas, error", doNothing, "Alerta", "OK");
+	if(currentAlertRetrys >= maxAlertRetrys){
+		alertIsRetrying = false;
+		currentAlertRetrys = 0;
+		return false;
+	}
+	
+	alertIsRetrying = true;
+	currentAlertRetrys = currentAlertRetrys+1;
+	updatePushOptionsToServer(alertSaveComplete, alertSaveFail);
 }
 function alertSaveComplete(){
-	window.plugins.spinnerDialog.hide();
+	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
-	navigator.notification.alert("Se guardaron las alertas exitosamente", doNothing, "Exito", "OK");
+	//navigator.notification.alert("Se guardaron las alertas exitosamente", doNothing, "Exito", "OK");
+	alertIsRetrying = false;
+	currentAlertRetrys = 0;
 }
 
 //INIT FUNCTIONS
 function errorRenderAlerts(){
-	window.plugins.spinnerDialog.hide();
+	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
 	//console.log("Paso por el error de RENDER ALERTS");
-	navigator.notification.alert("Error cargando las alertas", doNothing, "Alerta", "OK");
+	//navigator.notification.alert("Error cargando las alertas", doNothing, "Alerta", "OK");
 	
-	_fSetLoadInit();
+	//_fSetLoadInit();
+	_fGetLoadingErrorAlerts();
 }
 
 function initAlertPage(){
-	window.plugins.spinnerDialog.hide();
+	//window.plugins.spinnerDialog.hide();
 	//navigator.notification.activityStop();
 	//inicializamos los valores
 	//newClientActionsAlerts = currentClientActions.slice(0);
 	
-	renderInitAlerts();	
+	renderInitAlerts();
 
 }
-window.plugins.spinnerDialog.show();
+_fGetLoadingNews();
+
+//window.plugins.spinnerDialog.show();
 //navigator.notification.activityStart("Cargando alertas", "Cargando...");
 //Obtenemos la informacion del cliente y las opciones que podemos activar/desactivar
 getClientPushOptions(initAlertPage, errorRenderAlerts,true);
 
+	$(document).on('touchend','body,.option-alert', function(e) {
+		$('#get-checked-data').removeClass('ok');
+	});
 
 	$(document).on('touchend','.option-alert', function(e) {
 		preventBadClick(e);		
 		$(this).toggleClass('selected');
-		$(this).find('div:last > span').toggleClass('glyphicon-star-empty');
+		$(this).find('div:last > span').toggleClass('glyphicon-star-empty');		
 	});
 

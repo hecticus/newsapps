@@ -167,6 +167,7 @@
 	});
 	
 	function playLiveTV(){
+		gaPlugin.trackEvent(successGAHandler, errorGAHandler, "liveTV", liveTVURL, "external_link", 1);
 		if(!browserPlay){
 			//Si hay que reproducirlo por player nativo
 			window.videoPlayer.play(liveTVURL);
@@ -176,8 +177,9 @@
 		}	
 	}
 	
+	
 	//NOTICIAS JS
-	$(document).on('click','.news', function(e) {	
+	$(document).on('click','.news', function(e) {
 		if(preventBadClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		$('footer').addClass('hidden');	
