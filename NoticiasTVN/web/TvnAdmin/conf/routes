@@ -50,7 +50,7 @@ GET     /newsapi/v1/banners/get/all                     controllers.newsapi.Bann
 GET     /newsapi/v1/banners/get/config                  controllers.newsapi.BannerController.getConfigBanners()
 
 #ImageUpload Yo Informo
-POST    /newsapi/v1/yoinformo/uploadimage/       controllers.newsapi.YoInformoController.uploadImage()
+POST    /newsapi/v1/yoinformo/uploadimage       controllers.newsapi.YoInformoController.uploadImage()
 
 GET    /newsapi/v1/yoinformo/getImg/*name                    controllers.newsapi.YoInformoController.getImg(name : String)
 
