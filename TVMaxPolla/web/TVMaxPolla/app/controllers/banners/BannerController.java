@@ -7,9 +7,7 @@ import models.Config;
 import play.libs.Json;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by sorcerer on 4/23/14.
@@ -72,6 +70,11 @@ public class BannerController extends HecticusController {
         		 }
 
              }
+
+            //random order
+            long seed = System.nanoTime();
+            Collections.shuffle(data, new Random(seed));
+
             String bannerInterval = Config.getString("banner-interval");
         	 
             //build answer
