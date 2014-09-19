@@ -56,7 +56,7 @@ public class Banner extends HecticusController {
 	public static Result blank() {
 		BannerResolution objResolution= new BannerResolution();
 		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();		
-	   return ok(form.render(BannerForm,lstResolution));
+	   return ok(form.render(BannerForm));
 	}
 	
 	@Security.Authenticated(Secured.class)
@@ -70,11 +70,174 @@ public class Banner extends HecticusController {
         );
         
         return ok(
-            edit.render(id, filledForm,lstFile)
+            edit.render(id, filledForm)
         );
     }
 	
 	@Security.Authenticated(Secured.class)
+	public static Result uploadFileBanner(Long id) {
+		
+		
+		BannerResolution objResolution= new BannerResolution();
+		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();
+		
+		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
+		List<BannerFile> lstFile = objBanner.getFileList();
+		
+		for (int i = 0; i < lstResolution.size(); i++) {			
+			BannerFile objBannerFile =  BannerFile.getFileByResolution(id, lstResolution.get(i).getWidth(), lstResolution.get(i).getHeight());
+			lstResolution.get(i).setFile(objBannerFile);			
+		}
+				
+
+        Form<models.news.Banner> filledForm = BannerForm.fill(models.news.Banner.finder.byId(id));        
+        return ok(uploadFile.render(id, lstFile,lstResolution));
+        
+    }
+	
+	
+	@Security.Authenticated(Secured.class)
+	public static Result updateFileBanner(Long id) {
+
+		BannerResolution objResolution= new BannerResolution();
+		List<BannerResolution> lstResolution = objResolution.getAllBannerResolutions();
+		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
+		List<BannerFile> lstFile = objBanner.getFileList();
+		
+
+		Http.MultipartFormData body = request().body().asMultipartFormData();
+        List<Http.MultipartFormData.FilePart> lstPicture = body.getFiles();  
+        
+    	for (int i = 0; i < lstPicture.size(); i++) {
+    		
+    		Http.MultipartFormData.FilePart picture = getImage(lstPicture.get(i).getKey());
+    		
+    		if (picture != null) {
+    			
+    			BannerResolution objBannerResolution = BannerResolution.getBannerResolutionById(Long.parseLong(lstPicture.get(i).getKey()));    			
+    			BannerFile objBannerFile = new BannerFile();    			
+    			objBannerFile = BannerFile.getFileByResolution(id, objBannerResolution.getWidth(), objBannerResolution.getHeight());
+    			
+				String fileName = picture.getFilename();
+    			String contentType = picture.getContentType();
+                File file = picture.getFile();
+    			
+                Calendar today = new GregorianCalendar(TimeZone.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                sdf.setTimeZone(TimeZone.getDefault());
+                UUID idFile = UUID.randomUUID();
+               
+                File dest = new File(Config.getString("img-Folder-Route-Banner")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+                file.renameTo(dest);
+   
+                boolean useCDN = Config.getInt("use-cdn")==1;
+                if(useCDN && !RackspaceUploadAndPublish(dest)){
+                	flash("success", "Error publicando el banner " + lstResolution.get(i).getWidth());                    	
+                    Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
+                    //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
+                    if(useCDN) {
+                    	 dest.delete();
+                    }
+                    return badRequest(uploadFile.render(id,lstFile,lstResolution));        
+                }
+                
+                ArrayList<Object> data = new ArrayList<Object>();
+                String urlPrefix = Config.getString("rks-CDN-URL-BANNER");
+                data.add(urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg");
+                Utils.printToLog(Banner.class, "", urlPrefix+sdf.format(today.getTime())+"_"+idFile+".jpeg", false, null, "", Config.LOGGER_INFO);
+                
+                BufferedImage bffImage = null;
+                
+
+				try {
+					
+					if (objBannerFile == null) {	
+
+    					bffImage = ImageIO.read(new File(dest.getAbsolutePath()));
+    					objBannerFile = new models.news.BannerFile();
+    					objBannerFile.setName(objBanner.getName());	        			        		
+            			objBannerFile.setWidth(bffImage.getWidth());
+            			objBannerFile.setHeight(bffImage.getHeight());        			
+            			objBannerFile.setLocation(data.get(0).toString());
+            			lstFile.add(objBannerFile);            			
+            			objBanner.setFileList(lstFile);    	
+            	    	objBanner.update(id);            			            			
+            			if(useCDN) dest.delete();
+            			
+	    			} else {
+	    				
+	    				ArrayList<String> lstFileName = new ArrayList<String>();
+						String strUrl = lstFile.get(i).getLocation();
+						String strfileName = strUrl.substring(strUrl.lastIndexOf('/')+1, strUrl.length());    						
+						lstFileName.add(strfileName); 						
+						bffImage = ImageIO.read(new File(dest.getAbsolutePath()));
+						objBannerFile.setName(objBanner.getName());
+						objBannerFile.setLocation(data.get(0).toString());
+						lstFile.add(objBannerFile); 						
+						objBanner.setFileList(lstFile);
+						objBanner.update();						
+	        			if(useCDN) dest.delete();	        			
+	        			RackspaceDelete(lstFileName);
+
+	    			}
+        			
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					RackspaceDelete(null);
+					if(useCDN) dest.delete();
+					flash("success", "Error publicando el banner " + lstResolution.get(i).getWidth());
+					return badRequest(uploadFile.render(id,lstFile,lstResolution));   						 
+				}
+    				
+    			
+
+    		}
+    	}
+
+		
+		flash("success", "Los archvios del banner " + objBanner.getName() + " se han actualizados");
+		return GO_HOME;
+		
+	}	
+	
+	@Security.Authenticated(Secured.class)
+	public static Result update(Long id) {
+
+		models.news.Banner objBanner = models.news.Banner.finder.byId(id);
+		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
+		if(filledForm.hasErrors()) {
+			return badRequest(edit.render(id, filledForm));
+		}
+		
+    	models.news.Banner gfilledForm = filledForm.get();    	
+    	gfilledForm.update(id);
+		
+		flash("success", "El banner " + gfilledForm.getName() + " se ha eliminado");
+		return GO_HOME;
+		
+	}	
+	
+	@Security.Authenticated(Secured.class)
+	public static Result submit() throws IOException {
+
+		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
+
+		if(filledForm.hasErrors()) {
+           return badRequest(form.render(filledForm));         
+		}
+
+		models.news.Banner gfilledForm = filledForm.get();    	   
+   	  	gfilledForm.setSort(models.news.Banner.finder.findRowCount());
+   	  	gfilledForm.save();
+
+   	   flash("success", "El Banner " + gfilledForm.getName() + " ha sido creado");
+   	   return GO_HOME;
+		
+	}
+	
+	
+	/*@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 
 		BannerResolution objResolution= new BannerResolution();
@@ -85,7 +248,7 @@ public class Banner extends HecticusController {
 		
 		Form<models.news.Banner> filledForm = BannerForm.bindFromRequest();
 		if(filledForm.hasErrors()) {
-			return badRequest(edit.render(id, filledForm, lstFile));
+			return badRequest(edit.render(id, filledForm));
 		}
 		
 		
@@ -118,7 +281,7 @@ public class Banner extends HecticusController {
     	                    Utils.printToLog(Banner.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);                        
     	                    //return badRequest(buildBasicResponse(-3, "no se pudo subir la imagen"));
     	                    if(useCDN) dest.delete();
-    	                    return badRequest(form.render(filledForm,lstResolution));        
+    	                    return badRequest(form.render(filledForm));        
     	                }
     	                
     	                ArrayList<Object> data = new ArrayList<Object>();
@@ -167,7 +330,7 @@ public class Banner extends HecticusController {
 		flash("success", "El banner " + gfilledForm.getName() + " se ha eliminado");
 		return GO_HOME;
 		
-	}	
+	}	*/
 	
 	@Security.Authenticated(Secured.class)
 	public static Result list(int page, String sortBy, String order, String filter) {
@@ -242,7 +405,7 @@ public class Banner extends HecticusController {
 	    
 	}	
 	
-	@Security.Authenticated(Secured.class)
+	/*@Security.Authenticated(Secured.class)
 	public static Result submit() {
 		
 		
@@ -323,7 +486,7 @@ public class Banner extends HecticusController {
     	   
 		}
 
-	}
+	}*/
 
 	@Security.Authenticated(Secured.class)
 	private static boolean RackspaceUploadAndPublish(File file) {

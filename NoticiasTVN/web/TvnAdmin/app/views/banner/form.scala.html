@@ -1,4 +1,4 @@
-@(bannerForm: Form[models.news.Banner], resolutions: List[models.news.BannerResolution])
+@(bannerForm: Form[models.news.Banner])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -50,25 +50,11 @@
             
         </fieldset>
 
-		<fieldset>
-            <legend>Files uploads</legend>
-            @for((resolution,index) <- resolutions.zipWithIndex) {
-	            <div class="clearfix  " id="file[@index]_field">	    			
-	    			<div class="input">
-	    				<img id="img-@index" src="" alt="" style="width:75%; height: auto; vertical-align: middle" onerror="this.style.display='none'">
-	    				<input type="file" name="file[@index]" required = "required" data-img="img-@index" >
-	        			<span class="help-block">Seleccione un banner con una dimensión ajustada en un ancho de @resolution.getWidth()px.</span> 
-	    			</div>
-				</div>
-            }
-      
-        </fieldset>
-
         <div class="actions">
             <input type="submit" class="btn primary" value="Crear este banner">
             <a href="@controllers.routes.Banner.list()" class="btn">Cancelar</a>
         </div>
         
     }
-    
+ 
 }
