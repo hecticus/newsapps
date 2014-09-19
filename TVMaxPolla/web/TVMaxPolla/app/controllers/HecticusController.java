@@ -2,13 +2,26 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
+import utils.Utils;
+
 import javax.persistence.MappedSuperclass;
+
+import models.Config;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import com.hecticus.rackspacecloud.RackspaceCreate;
 
 /**
  * Created by chrirod on 3/27/14.
@@ -110,4 +123,39 @@ public class HecticusController extends Controller {
         tr.put("phase",phaseObj);
         return tr;
     }
+    
+    public static boolean uploadFile(RackspaceCreate upload,int retry,String container, File file, String parent, long init) throws InterruptedException{
+        boolean uploaded = false;
+        while(retry > 0 && !uploaded){
+            Utils.printToLog(HecticusController.class, "", "Subiendo el archivo " + file.getName() + " intento " + retry, false, null, "", Config.LOGGER_INFO);
+            try {
+                upload.uploadObject(container,file);
+                uploaded = true;
+            } catch (Exception ex) {
+                Utils.printToLog(null, "Falla subiendo el archivo " + (System.currentTimeMillis() - init) + " ms", "Se realizará reintento en 3 minutos", false, ex, "", Config.LOGGER_ERROR);
+                Thread.sleep(5000);
+                retry--;
+            }
+        }
+
+        if(!uploaded){
+            Utils.printToLog(null,"Luego de "+retry+" intentos, el archivo no pudo ser cargado el cloud","-",false,null,"",Config.LOGGER_ERROR);
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static Http.MultipartFormData.FilePart getImage(){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart picture = body.getFile("file");
+        return picture;
+    }
+
+    public static Http.MultipartFormData.FilePart getImage(String field){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart picture = body.getFile(field);
+        return picture;
+    }
+    
 }

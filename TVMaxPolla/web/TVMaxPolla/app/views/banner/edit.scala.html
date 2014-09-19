@@ -1,0 +1,46 @@
+@(id: Long, bannerForm: Form[models.Banners.Banner])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+    <h1>Edit Banner</h1>
+    
+     @helper.form(controllers.routes.Banner.update(id), 'enctype -> "multipart/form-data") {
+        
+        <fieldset>
+        	<legend>Informacion del banner</legend>
+        	
+        	@inputText(bannerForm("name"), '_label -> "Nombre", '_help -> "Ingrese un nombre válido.", '_error -> bannerForm.globalError)
+        	@inputText(bannerForm("link"), '_label -> "Url", '_help -> "Ingrese una url válida.", '_error -> bannerForm.globalError)
+        	@textarea(bannerForm("description"), '_label -> "Descripción", 'cols -> 50, '_help -> "Ingrese una descripción valida.")                        
+            
+             @select(
+                bannerForm("status"), 
+                options("0"-> "Inactivo", "1"-> "Activo"),
+                '_default -> "--- Seleccione ---",
+                '_label -> "Estatus",
+                '_error -> bannerForm("status").error.map(_.withMessage("Selecciona una opción.")),
+                'showConstraints -> true,
+                '_help -> "Requerido."
+            )
+
+        </fieldset>
+
+        <div class="actions">        	        	 
+            <input type="submit" value="Actualizar este banner" onclick="return confirm('¿Por favor confirmar que desea actualizar la información del banner?');" class="btn primary">
+            <a class="btn success" id="add" href="@controllers.routes.Banner.uploadFileBanner(id)">Editar archivos</a>
+            <a href="@controllers.routes.Banner.list()" class="btn">Cancelar</a>  
+        </div>
+            
+    }
+    
+    @form(controllers.routes.Banner.delete(id), 'class -> "topRight") {
+		<input type="submit" value="Eliminar este banner" onclick="return confirm('¿Por favor confirmar que desea eliminar la información del banner?');" class="btn danger">
+		
+    }
+       
+}

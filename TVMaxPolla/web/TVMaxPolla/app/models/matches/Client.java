@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import models.Config;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.data.Form;
 import play.data.validation.Constraints;
 import play.libs.Json;
-import play.libs.ws.*;
+import play.libs.WS;
+import play.libs.WS.Response;
 import play.libs.F.Function;
 import play.libs.F.Promise;
 import utils.Utils;
@@ -106,7 +108,7 @@ public class Client  {
 
     	try {
             String url = Config.getKrakenHost();
-            Promise<WSResponse> wsLogin = WS.url(url+"KrakenSocialClients/v1/client/login").post(dataJson);
+            Promise<Response> wsLogin = WS.url(url+"KrakenSocialClients/v1/client/login").post(dataJson);
 
             JsonNode jsonLogin = wsLogin.get(10000).asJson();
         	JsonNode jsonError = jsonLogin.get("error");
@@ -146,7 +148,7 @@ public class Client  {
 
     	try {
     		String url = Config.getKrakenHost();
-    		Promise<WSResponse> wsCheckLogin = WS.url(url+"KrakenSocialClients/v1/client/checklogin").post(dataJson);
+    		Promise<Response> wsCheckLogin = WS.url(url+"KrakenSocialClients/v1/client/checklogin").post(dataJson);
         	JsonNode jsonCheckLogin = wsCheckLogin.get(10000).asJson();
         	JsonNode jsonError = jsonCheckLogin.get("error");
         	JsonNode jsonDescription = jsonCheckLogin.get("description");
@@ -194,7 +196,7 @@ public class Client  {
      	
      	try {
             String url = Config.getKrakenHost();
-     		Promise<WSResponse> wsLoginPass = WS.url(url+"KrakenSocialClients/v1/client/create/loginpass").post(dataJson);
+     		Promise<Response> wsLoginPass = WS.url(url+"KrakenSocialClients/v1/client/create/loginpass").post(dataJson);
          	JsonNode jsonLoginPass = wsLoginPass.get(10000).asJson();
          	JsonNode jsonError = jsonLoginPass.get("error"); 
          	JsonNode jsonDescription = jsonLoginPass.get("description");
@@ -225,7 +227,7 @@ public class Client  {
     	dataJson.put("idClient", idClient);
 
     	String url = Config.getTVMaxPollaHost();
-    	Promise<WSResponse> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
+    	Promise<Response> wsResponse = WS.url(url+"matchesapi/v1/clientbet/get/current").post(dataJson);
 
     	JsonNode jsonResponse = wsResponse.get(10000).asJson();
     	JsonNode jsonPhase = jsonResponse.get("phase");
@@ -322,7 +324,7 @@ public class Client  {
 		dataJson.put("idClient", idClient);
     	
     	String url = Config.getTVMaxPollaHost();
-    	Promise<WSResponse> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
+    	Promise<Response> wsResponse = WS.url(url+"matchesapi/v1/prediction/get").post(dataJson);
     	JsonNode jsonResponse = wsResponse.get(10000).asJson();
     	JsonNode jsonPredictions = jsonResponse.get("response").get("prediction");  
     	Iterator<JsonNode> iJsonPredictions = jsonPredictions.iterator();    	

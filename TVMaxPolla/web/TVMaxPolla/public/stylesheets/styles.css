@@ -1,0 +1,195 @@
+/** Clases por nombre */
+*,body {margin:0; padding:0; border:0; }
+body { background-color:#FFFFFF; font-size:11px; color:#333; height: 100%; font-family: Verdana, Arial, sans-serif;}
+a { text-decoration:none; }
+
+/** containers y clases globales */
+#submenu {
+	padding:0px; margin:0px;
+}
+
+#submenu ul{
+	width: 100%;
+	cursor: pointer;
+	margin: 0px; list-style-type: none; padding:0px; overflow:hidden;
+}
+
+#submenu ul li {
+	height: 20px;
+	border: 0px;
+	vertical-align: middle;
+}
+
+#menu input{
+	width: 80px;
+}
+
+#container{ 
+	width: 100%;
+	/*height: 600px; */
+	font-size:inherit;
+}
+
+/*
+#container input,
+#container select{
+	border: 1px solid #999; 
+}*/
+
+#container textarea{
+	border: 1px solid #999; 
+	font-size:11px;
+	width: 100%;
+	height:100px;
+}
+
+#center {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#container button {
+	min-width: 80px;
+	cursor: pointer;
+	padding-right: 3px;
+}
+
+#container table {
+	font-size: inherit;
+	text-align: right;
+	width: 100%;
+}
+
+#content table{
+	text-align: left;
+	font-size: inherit;
+	width: 100%;
+}
+
+#container table tr{
+	height: 20px;
+}
+
+#content-header {
+	margin-left:0px;
+	padding:0px;
+	width:100%;/* cambiar por static sizes*/
+	min-height: 50px;
+	float: left;
+	background-color: #FFF;
+	text-align: right;
+}
+
+#content-header button img {
+	padding-top:2px;
+}
+
+#content table td{
+	vertical-align: middle;
+	padding: 1px;
+	height: 20px;
+}
+
+#content table td.top{
+	vertical-align: top;
+	border-top: 0;
+}
+
+#content table td button img {
+	border: 0px;
+	width: 16px;
+	height: 16px;
+	text-align: left;
+}
+
+
+#content table td button table td {
+	border: 0px;
+	text-align: left;
+}
+
+#content table td img {
+	margin: 1px; 
+	padding: 0px;
+	text-align: center;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#header {
+	margin-top:0px;
+	margin-right:0px;
+	margin-left:0px;
+	border:0;
+	background-color:#eee;
+	background-repeat:no-repeat;
+	background-image: url(images/header.gif);
+	background-position: top;
+	color:#FFF;
+	width:100%;
+	height:30px;
+}
+
+#content{
+	margin-left:0px;
+	padding:0px;
+	width:100%;/* cambiar por static sizes*/
+	/*min-height: 50px;*/
+	float:left;
+	color:#999;
+	background-color: #FFF;
+	text-align: right;
+	vertical-align: top;
+}
+
+/* TABS navigation */
+
+#navigation a {
+	text-decoration: none;
+	padding-left: 7px;
+	padding-top: 5px;
+	padding-right: 7px;
+	padding-bottom: 5px;
+	display: block;
+	border-top: none;
+	float: left;
+}
+
+#navigation li{
+	float: left;
+	list-style: none;
+	margin-left: 1px;
+}
+
+/* Relation's tabs*/
+#relation a {
+	text-decoration: none;
+	padding-left: 7px;
+	padding-top: 5px;
+	padding-right: 7px;
+	padding-bottom: 5px;
+	border-bottom: none;
+	display: block;
+	float: right;
+}
+
+#relation li{
+	float: right;
+	list-style: none;
+	margin-left: 1px;
+}
+
+.label {
+	width: 250px;
+}
+
+.radio, .checkbox {
+	width: 30px;
+	text-align: center;
+}
+
+.image {
+	width: 100px;
+	text-align: left;
+}
