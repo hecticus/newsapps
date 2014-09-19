@@ -1,7 +1,7 @@
 ﻿
 INSERT INTO `configs` (`key`, `value`, `description`) VALUES ('rks-CDN-URL-BANNER', 'http://ed77a5482266a2da7be3-a37b01026a6a3cd6cafffe441531b836.r2.cf1.rackcdn.com/', 'Url base de banners de tvn noticias');
-INSERT INTO `tvn_admin`.`configs` (`key`, `value`, `description`) VALUES ('img-Folder-Route-Banner', 'C:\Server\www\PhoneGap\newsapps\NoticiasTVN\web\TvnAdmin\public\banners\', 'Ruta de la carpeta de banners');
-INSERT INTO `tvn_admin`.`configs` (`key`, `value`, `description`) VALUES ('banner-interval', '60000', 'Rotación de banners en la app de tvn');
+INSERT INTO `configs` (`key`, `value`, `description`) VALUES ('img-Folder-Route-Banner', 'C:\Server\www\PhoneGap\newsapps\NoticiasTVN\web\TvnAdmin\public\banners\', 'Ruta de la carpeta de banners');
+INSERT INTO `configs` (`key`, `value`, `description`) VALUES ('banner-interval', '60000', 'Rotación de banners en la app de tvn');
 INSERT INTO `u02_profiles` (`u02_name`) VALUES ('Administrador');
 INSERT INTO `u02_profiles` (`u02_name`) VALUES ('User');
 
