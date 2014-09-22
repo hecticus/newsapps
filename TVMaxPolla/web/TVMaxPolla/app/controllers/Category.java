@@ -102,6 +102,7 @@ public class Category extends Controller {
 	@Security.Authenticated(Secured.class)
 	public static Result submit() {
 
+		
 	   Form<TvmaxNewsCategory> filledForm = categoryForm.bindFromRequest();	   
 	   if(filledForm.hasErrors()) {
            return badRequest(form.render(filledForm));
@@ -120,6 +121,7 @@ public class Category extends Controller {
     	   
     	   TvmaxNewsCategory gfilledForm = filledForm.get();
     	   gfilledForm.setIdCategory(Integer.parseInt(objCategory.getIdCategory().toString()));
+    	   gfilledForm.setMain(false);
     	   gfilledForm.setIdAction(Integer.parseInt(objAction.getIdAction().toString()));    	   
     	   gfilledForm.setSort(TvmaxNewsCategory.finder.findRowCount());    	       	   
     	   gfilledForm.save();
