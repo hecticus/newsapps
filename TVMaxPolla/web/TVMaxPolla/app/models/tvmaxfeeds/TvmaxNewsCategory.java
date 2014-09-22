@@ -32,9 +32,9 @@ public class TvmaxNewsCategory extends HecticusModel {
     @Column(columnDefinition = "TEXT")
     @Constraints.Required(message ="Requerido")
     private String keywords;
-    private Integer status;
-    private Integer idCategory;
     @Constraints.Required(message ="Requerido")
+    private Integer status;
+    private Integer idCategory;   
     private Integer idAction;
     private Integer sort;
     private Boolean main;
