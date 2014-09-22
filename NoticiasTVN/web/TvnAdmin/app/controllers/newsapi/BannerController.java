@@ -23,8 +23,7 @@ public class BannerController extends HecticusController {
     public static Result getActiveBanner(){
         try {
             //get activebanner
-            //Banner search = Banner.getActiveBanner();
-            Banner search = Banner.getRandomActiveBanner();
+            Banner search = Banner.getActiveBanner();
             ArrayList data = new ArrayList();
             if (search != null){
                 data.add(search);
