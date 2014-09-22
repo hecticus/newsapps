@@ -3,7 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                          controllers.Application.index()
+
+GET     /                          controllers.Adm.index()
+GET     /check/*name               controllers.Adm.checkFile(name: String)
+
+#GET     /                          controllers.Application.index()
 GET     /index                     controllers.Application.index()
 GET     /index2                    controllers.Application.index2()
 GET     /leaderboard               controllers.Application.leaderboard()
@@ -13,7 +17,6 @@ POST    /wsleaderboardfb           controllers.Application.wsleaderboardfb()
 GET     /share/:id                 controllers.Application.share(id:String)
 GET     /exit                      controllers.Application.exit()
 
-GET     /check/*name                controllers.Application.checkFile(name: String)
 
 #GET     /person       				controllers.Application.getAll()
 #DELETE  /person/:id   				controllers.Application.delete(id: Long)
@@ -118,3 +121,99 @@ GET     /tvmaxfeeds/newscategories/getsimple          controllers.tvmaxfeeds.Sim
 GET     /tvmax/v1/banners/get                         controllers.banners.BannerController.getActiveBanner()
 GET     /tvmax/v1/banners/get/all                     controllers.banners.BannerController.getActiveBanners()
 GET     /tvmax/v1/banners/get/config                  controllers.banners.BannerController.getConfigBanners()
+
+
+#<Adm TvMax>
+#<Tvn>
+
+# Default path will just redirect to the category list
+GET     /category			controllers.Category.index()
+
+
+# Banners list (look at the default values for pagination parameters)
+GET     /banner/list			controllers.Banner.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /banner/lsort			controllers.Banner.lsort()
+
+# Add banner
+GET     /banner/blank		controllers.Banner.blank()
+POST    /banner				controllers.Banner.submit()
+
+# Edit existing banner
+GET     /banner/:id				controllers.Banner.edit(id:Long)
+POST    /banner/:id				controllers.Banner.update(id:Long)
+GET     /banner/sort/:ids		controllers.Banner.sort(ids:String)
+
+# Edit existing file
+GET     /banner/file/:id				controllers.Banner.uploadFileBanner(id:Long)
+POST    /banner/file/:id				controllers.Banner.updateFileBanner(id:Long)
+
+# Delete a banner
+POST    /banner/:id/delete		controllers.Banner.delete(id:Long)
+
+
+# Categories list (look at the default values for pagination parameters)
+GET     /category/list				controllers.Category.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /category/lsort				controllers.Category.lsort()
+
+# Add category
+GET     /category/blank				controllers.Category.blank()
+POST    /category					controllers.Category.submit()
+					
+# Edit existing category
+GET     /category/:id				controllers.Category.edit(id:Int)
+POST    /category/:id				controllers.Category.update(id:Int)
+GET     /category/sort/:ids			controllers.Category.sort(ids:String)
+
+# Delete a category
+POST    /Category/:id/delete			controllers.Category.delete(id:Int)
+
+#</Tvn>
+
+#<User>
+
+# Default path will just redirect to the user list
+GET     /user					controllers.User.index()
+
+# Users list (look at the default values for pagination parameters)
+GET     /user/list				controllers.User.list(p:Int ?= 0, s ?= "u01_Id", o ?= "asc", f ?= "")
+
+# Add user
+GET     /user/blank				controllers.User.blank()
+POST    /user					controllers.User.submit()
+
+# Edit existing user
+GET     /user/:id				controllers.User.edit(id:Long)
+POST    /user/:id				controllers.User.update(id:Long)
+
+# Delete a user
+POST    /user/:id/delete		controllers.User.delete(id:Long)
+
+
+GET     /login			controllers.User.login()
+POST    /login			controllers.User.authenticate()
+GET     /logout         controllers.User.logout()
+
+
+#</User>
+#</Adm TvMax>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

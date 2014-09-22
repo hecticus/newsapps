@@ -78,6 +78,10 @@ GET     /banner/sort/:ids		controllers.Banner.sort(ids:String)
 POST    /banner/:id/delete		controllers.Banner.delete(id:Long)
 
 
+# Edit existing file
+GET     /banner/file/:id				controllers.Banner.uploadFileBanner(id:Long)
+POST    /banner/file/:id				controllers.Banner.updateFileBanner(id:Long)
+
 # Categories list (look at the default values for pagination parameters)
 GET     /tvn/list				controllers.Tvn.list(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
 GET     /tvn/lsort				controllers.Tvn.lsort()

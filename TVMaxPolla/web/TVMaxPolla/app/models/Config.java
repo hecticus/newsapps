@@ -14,6 +14,33 @@ import javax.persistence.Transient;
 @Table(name="configs")
 public class Config extends Model{
 
+	 /**
+     * Logger error types
+     */
+    @Transient
+    public static final int LOGGER_ERROR = 1;
+    /**
+     * Logger error types
+     */
+    @Transient
+    public static final int LOGGER_INFO = 2;
+    /**
+     * Logger error types
+     */
+    @Transient
+    public static final int LOGGER_WARN = 3;
+    /**
+     * Logger error types
+     */
+    @Transient
+    public static final int LOGGER_DEBUG = 4;
+    /**
+     * Logger error types
+     */
+    @Transient
+    public static final int LOGGER_TRACE = 5;
+	
+	
 	@Id
 	private Long idConfig;
 	@Required

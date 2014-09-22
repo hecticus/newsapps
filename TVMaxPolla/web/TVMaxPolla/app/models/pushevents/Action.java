@@ -1,15 +1,20 @@
 package models.pushevents;
 
 import models.HecticusModel;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +48,7 @@ public class Action extends HecticusModel {
     @Constraints.Required
     private Integer pushable;
 
-    @OneToMany(mappedBy = "action")
+    @OneToMany(mappedBy = "action", cascade=CascadeType.ALL)
     private List<ClientAction> clients;
 
     public static Model.Finder<Long, Action> finder = new
@@ -54,18 +59,35 @@ public class Action extends HecticusModel {
         return idAction;
     }
 
+    public void setIdAction(Long idAction) {
+    	 this.idAction = idAction; 
+    }
+    
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getTemplate() {
         return template;
     }
 
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+    
     public Integer getPushable() {
         return pushable;
     }
 
+    public void setPushable(Integer pushable) {
+        this.pushable = pushable;
+    }
+    
+    
     /********************** bd funtions*******************************/
     public static Long getActionByName(String name){
         Long tr = null;

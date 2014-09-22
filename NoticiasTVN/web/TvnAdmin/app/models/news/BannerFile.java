@@ -1,10 +1,14 @@
 package models.news;
 
 import java.util.List;
+
 import models.HecticusModel;
+import models.news.BannerFile;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.avaje.ebean.Page;
+
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -122,4 +126,11 @@ public class BannerFile extends HecticusModel {
         return finder.where().eq("name", name).findUnique();
     }
   
+    public static BannerFile getFileByResolution(long idBanner, int width, int height){
+        return finder.where()
+        		.eq("banner_id_banner", idBanner)
+        		.eq("width", width)
+        		.findUnique();
+    }
+    
 }

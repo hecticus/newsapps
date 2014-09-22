@@ -2,9 +2,12 @@ package models.tvmaxfeeds;
 
 import models.Config;
 import models.HecticusModel;
+import models.Banners.Banner;
 
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import play.data.validation.Constraints;
 import play.libs.Json;
 
 import javax.persistence.Column;
@@ -23,11 +26,15 @@ public class TvmaxNewsCategory extends HecticusModel {
 
     @Id
     private Integer idNewsCategory;
+    
+    @Constraints.Required(message ="Requerido")
     private String displayName;
     @Column(columnDefinition = "TEXT")
+    @Constraints.Required(message ="Requerido")
     private String keywords;
     private Integer status;
     private Integer idCategory;
+    @Constraints.Required(message ="Requerido")
     private Integer idAction;
     private Integer sort;
     private Boolean main;
@@ -35,7 +42,7 @@ public class TvmaxNewsCategory extends HecticusModel {
     @Column(name = "cssClass")    
     private String cssClass;
     
-    private static Finder<Integer,TvmaxNewsCategory> finder =
+    public static Finder<Integer,TvmaxNewsCategory> finder =
             new Finder<Integer, TvmaxNewsCategory>(Integer.class, TvmaxNewsCategory.class);
 
     public TvmaxNewsCategory() {
@@ -145,6 +152,28 @@ public class TvmaxNewsCategory extends HecticusModel {
 
     public void setCssClass(String cssClass) {
         this.cssClass = cssClass;
+    }
+    
+    /**
+     * Return a page of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<TvmaxNewsCategory> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                finder.where()
+                        .ilike("display_name", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .findPagingList(pageSize)
+                        .getPage(page);
+    }
+    
+    public static TvmaxNewsCategory getTvmaxNewsCategory(long id){
+        return finder.where().eq("id_news_category", id).findUnique();
     }
     
 }

@@ -1,0 +1,37 @@
+@(categoryForm: Form[models.tvmaxfeeds.TvmaxNewsCategory])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+    @helper.form(action = controllers.routes.Category.submit) {
+        
+        <fieldset>
+            <legend>Información de la categoría</legend>
+
+            @inputText(categoryForm("displayName"), '_label -> "Titulo", '_help -> "Ingrese un nombre válido.", '_error -> categoryForm.globalError)            
+            @inputText(categoryForm("keywords"), '_label -> "Keyword", '_help -> "Palabra clave de la categoría a indexar en los feeds de noticias.", '_error -> categoryForm.globalError)
+            
+            @select(
+                categoryForm("status"), 
+                options("0"-> "Inactivo", "1"-> "Activo"),
+                 '_default -> "--- Seleccione ---",
+                '_label -> "Estatus",
+                '_error -> categoryForm("status").error.map(_.withMessage("Seleciones una opción")),
+                'showConstraints -> true,
+				'_help -> "Requerido."
+            )
+            
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Crear esta categoría">
+            <a href="@controllers.routes.Category.list()" class="btn">Cancelar</a>
+        </div>
+        
+    }
+    
+}

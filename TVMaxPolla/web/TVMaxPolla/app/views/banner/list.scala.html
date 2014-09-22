@@ -1,0 +1,171 @@
+@(currentPage: com.avaje.ebean.Page[models.Banners.Banner], currentSortBy: String, currentOrder: String, currentFilter: String, sortView: Boolean)
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage:Int, newSortBy:String) = @{
+    
+    var sortBy = currentSortBy
+    var order = currentOrder
+    
+    if(newSortBy != null) {
+        sortBy = newSortBy
+        if(currentSortBy == newSortBy) {
+            if(currentOrder == "asc") {
+                order = "desc"
+            } else {
+                order = "asc"
+            }
+        } else {
+            order = "asc"
+        }
+    }
+    
+    // Generate the link
+    controllers.routes.Banner.list(newPage, sortBy, order, currentFilter)
+    
+}
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(key:String, title:String) = {
+    <th class="@key.replace(".","_") header @if(currentSortBy == key) @{if(currentOrder == "asc") "headerSortDown" else "headerSortUp"}">
+        <a href="@link(0, key)">@title</a>
+    </th>
+}
+
+@title = {}
+
+@main(title, nav = "") {
+    
+    <h1 id="homeTitle">@Messages("banners.list.title", currentPage.getTotalRowCount)</h1>
+
+    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Hecho!</strong> @flash.get("success")
+        </div>
+    } 
+
+	<div id="alert" class="alert-message warning" style="display: none; ">
+        <strong>Hecho!</strong>
+    </div>
+
+
+    <div id="actions">        
+        <form action="@link(0, "name")" method="GET">
+        	
+        	@if(!sortView) {
+				<input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filtrar por nombre de banner..."> 	
+				 <input type="submit" id="searchsubmit" value="Filtrar por nombre" class="btn primary">
+        	}
+        	
+        	<a class="btn success" id="add" href="@controllers.routes.Banner.blank">Agregar nuevo banner</a>
+
+			@if(sortView) {
+				<a class="btn success" id="ajax" href="#" data-url="/banner/sort/" >Aplicar</a>
+			}
+
+        </form>
+    </div>
+    
+    @if(currentPage.getTotalRowCount == 0) {
+        
+        <div class="well">
+            <em>No hay nada que mostrar</em>
+        </div>
+        
+    } else {
+        
+         @if(sortView) {
+        
+	        <table id="sortable" class="zebra-striped">
+				<thead>
+	                <tr>
+	                	<th>Name</th>
+	                	<th>Descripción</th>
+	                	<th>Estatus</th>    
+	                </tr>
+	            </thead>        	        	           
+	            <tbody>
+				 @for(banner <- currentPage.getList) {
+	                    <tr data-id="@banner.getIdBanner()">
+	                        <td><a href="@controllers.routes.Banner.edit(banner.getIdBanner())">@banner.getName()</a></td>
+	                        <td>@banner.getDescription()</td>
+	                        <td>
+	                            @if(banner.getStatus() == 1) {
+	                                Activo
+	                            } else {
+	                                Inactivo
+	                            }
+	                        </td>                        
+	                    </tr>
+	                }               
+	            </tbody>
+	        </table>
+	        
+        } else {
+        	
+        	<table class="zebra-striped">
+	            <thead>
+	                <tr>
+	                    @header("name", "Nombre")
+	                    @header("description", "Descripción")
+	                    @header("status", "Estatus")                    
+	                    <th style="text-align: center;"></th>                    
+	                </tr>
+	            </thead>
+	            <tbody>
+	                @for(banner <- currentPage.getList) {
+	                    <tr data-id="@banner.getIdBanner()">
+	                        <td><a href="@controllers.routes.Banner.edit(banner.getIdBanner())">@banner.getName()</a></td>
+	                        <td>@banner.getDescription()</td>
+	                        <td>
+	                            @if(banner.getStatus() == 1) {
+	                                Activo
+	                            } else {
+	                                Inactivo
+	                            }
+	                        </td> 
+	                        <td style="text-align: center;" >
+	                        	<a class="btn success" id="add" href="@controllers.routes.Banner.uploadFileBanner(banner.getIdBanner())">Editar archivos (@banner.getFileList().length)</a>
+
+	                        </td>                       
+	                    </tr>
+	                }
+	
+	            </tbody>
+	        </table>
+	
+	       	<div id="pagination" class="pagination">
+	            <ul>
+	                @if(currentPage.hasPrev) {
+	                    <li class="prev">
+	                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Anterior</a>
+	                    </li>
+	                } else {
+	                    <li class="prev disabled">
+	                        <a>&larr; Anterior</a>
+	                    </li>
+	                }
+	                <li class="current">
+	                    <a>Listando del @currentPage.getDisplayXtoYofZ(" al "," de ")</a>
+	                </li>
+	                @if(currentPage.hasNext) {
+	                    <li class="next">
+	                        <a href="@link(currentPage.getPageIndex + 1, null)">Próximo &rarr;</a>
+	                    </li>
+	                } else {
+	                    <li class="next disabled">
+	                        <a>Próximo &rarr;</a>
+	                    </li>
+	                }
+	            </ul>
+	        </div>
+        	
+        	 
+        }
+        
+    }
+        
+}

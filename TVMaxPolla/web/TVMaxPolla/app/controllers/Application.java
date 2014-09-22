@@ -14,12 +14,14 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 
 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.*;
-import play.libs.ws.*;
+import play.libs.WS;
+import play.libs.WS.Response;
 import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.cache.Cache;
@@ -34,15 +36,6 @@ import views.html.*;
 public class Application extends Controller
 {
 
-    public static Result checkFile(String name){
-        File file = new File(name);
-
-        if(file.exists()){
-            return ok("OK");
-        }else{
-            return badRequest("file not found");
-        }
-    }
 	
     public static Result index()
     {
@@ -57,7 +50,7 @@ public class Application extends Controller
     	lstPhase = objClient.getPredictionBet(connected);
 
     	String url = Config.getKrakenHost();        	
-    	Promise<WSResponse> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	Promise<Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
     	JsonNode jsonLeaderboard = wsLeaderboard.get(10000).asJson();
     	JsonNode jsonError = jsonLeaderboard.get("error"); 
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
@@ -97,7 +90,7 @@ public class Application extends Controller
     	dataJson.put("social_ids",jsonInfo.get("friends"));
 
     	String url = Config.getKrakenHost();  
-    	Promise<WSResponse> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/facebook").post(dataJson);
+    	Promise<Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/facebook").post(dataJson);
     	JsonNode jsonLeaderboard = wsLeaderboard.get(10000).asJson();
     	JsonNode jsonError = jsonLeaderboard.get("error"); 
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
@@ -120,7 +113,7 @@ public class Application extends Controller
     	}
     	
     	String url = Config.getKrakenHost();  
-    	Promise<WSResponse> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	Promise<Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
     	JsonNode jsonLeaderboard = wsLeaderboard.get(10000).asJson();
     	JsonNode jsonError = jsonLeaderboard.get("error"); 
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
@@ -144,7 +137,7 @@ public class Application extends Controller
     	lstPhase = objClient.getPredictionBet(connected);    
     	
     	String url = Config.getKrakenHost();
-    	Promise<WSResponse> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
+    	Promise<Response> wsLeaderboard = WS.url(url+"KrakenSocialLeaderboards/v1/leaderboard/rank/1/" + connected).get();
     	JsonNode jsonLeaderboard = wsLeaderboard.get(10000).asJson();
     	JsonNode jsonError = jsonLeaderboard.get("error"); 
     	JsonNode jsonDescription = jsonLeaderboard.get("description");
@@ -169,7 +162,7 @@ public class Application extends Controller
     {
     	
     	String url = Config.getKrakenHost();    	
-    	Promise<WSResponse> wsResponse = WS.url(url+"KrakenSocialClients/v1/client/" + id).get();
+    	Promise<Response> wsResponse = WS.url(url+"KrakenSocialClients/v1/client/" + id).get();
     	
     	JsonNode jsonResponse = wsResponse.get(10000).asJson();
     	

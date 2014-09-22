@@ -10,7 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.*;
-import play.libs.ws.*;
+//import play.libs.ws.*;
+import play.api.libs.ws.*;
 import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.mvc.*;

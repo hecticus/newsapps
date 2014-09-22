@@ -1,0 +1,60 @@
+@(bannerForm: Form[models.Banners.Banner])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+     @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    } 
+
+
+    @helper.form(action = controllers.routes.Banner.submit, 'enctype -> "multipart/form-data") {
+        
+        <fieldset>
+            <legend>Información de banner</legend>
+            
+            @inputText(
+                bannerForm("name"), 
+                '_label -> "Nombre", 
+                '_help -> "Ingrese un nombre válido.",
+                '_error -> bannerForm.globalError
+            )
+               
+			@inputText(
+                bannerForm("link"), 
+                '_label -> "Link", 
+                 '_help -> "Ingrese una url válida.",
+                '_error -> bannerForm.globalError
+            )               
+                        
+			@textarea(
+				bannerForm("description"), 
+            	'_label -> "Descripción", 'cols -> 50,
+            	'_help -> "Ingrese una descripción válida."
+        	)
+            
+            @select(
+                bannerForm("status"), 
+                options("0"-> "Inactivo", "1"-> "Activo"),
+                '_default -> "--- Seleccione ---",
+                '_label -> "Estatus",
+                '_error -> bannerForm("status").error.map(_.withMessage("Selecciona una opción.")),
+                '_help -> "Requerido."
+            )
+            
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Crear este banner">
+            <a href="@controllers.routes.Banner.list()" class="btn">Cancelar</a>
+        </div>
+        
+    }
+ 
+}
