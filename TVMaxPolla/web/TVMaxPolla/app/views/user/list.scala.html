@@ -1,0 +1,114 @@
+@(currentPage: com.avaje.ebean.Page[models.user.U01_Users], currentSortBy: String, currentOrder: String, currentFilter: String)
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage:Int, newSortBy:String) = @{
+    
+    var sortBy = currentSortBy
+    var order = currentOrder
+    
+    if(newSortBy != null) {
+        sortBy = newSortBy
+        if(currentSortBy == newSortBy) {
+            if(currentOrder == "asc") {
+                order = "desc"
+            } else {
+                order = "asc"
+            }
+        } else {
+            order = "asc"
+        }
+    }
+    
+    // Generate the link
+    controllers.routes.User.list(newPage, sortBy, order, currentFilter)
+    
+}
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(key:String, title:String) = {
+    <th class="@key.replace(".","_") header @if(currentSortBy == key) @{if(currentOrder == "asc") "headerSortDown" else "headerSortUp"}">
+        <a href="@link(0, key)">@title</a>
+    </th>
+}
+
+@title = {}
+
+@main(title, nav = "") {
+    
+    <h1 id="homeTitle">@Messages("users.list.title", currentPage.getTotalRowCount)</h1>
+
+    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Hecho!</strong> @flash.get("success")
+        </div>
+    } 
+
+
+    <div id="actions">        
+        <form action="@link(0, "u01_Login")" method="GET">
+            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filtrar por nombre de usuario...">
+            <input type="submit" id="searchsubmit" value="Filtrar por nombre de usuario" class="btn primary">
+            <a class="btn success" id="add" href="@controllers.routes.User.blank()">Agregar nuevo usuario</a>            
+        </form>
+    </div>
+    
+    @if(currentPage.getTotalRowCount == 0) {
+        
+        <div class="well">
+            <em>No hay nada que mostrar</em>
+        </div>
+        
+    } else {
+        
+        <table class="users zebra-striped">
+            <thead>
+                <tr>
+                    @header("u01_Login", "Nombre")
+                    @header("u01_Email", "Perfil")
+                </tr>
+            </thead>
+            <tbody>
+            	
+                @for(user <- currentPage.getList) {
+                    <tr>
+                        <td><a href="@controllers.routes.User.edit(user.u01_Id)">@user.u01_Login</a></td>
+                        <td>@user.profiles.u02_Name</td>             
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                @if(currentPage.hasPrev) {
+                    <li class="prev">
+                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Anterior</a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr; Anterior</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Listando del @currentPage.getDisplayXtoYofZ(" al "," de ")</a>
+                </li>
+                @if(currentPage.hasNext) {
+                    <li class="next">
+                        <a href="@link(currentPage.getPageIndex + 1, null)">Próximo &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>Próximo &rarr;</a>
+                    </li>
+                }
+            </ul>
+		</div>
+        
+    }
+        
+}

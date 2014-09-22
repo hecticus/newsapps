@@ -72,7 +72,7 @@
     @if(currentPage.getTotalRowCount == 0) {
         
         <div class="well">
-            <em>Nothing to display</em>
+            <em>No hay nada que mostrar</em>
         </div>
         
     } else {
@@ -112,7 +112,7 @@
 	                    @header("name", "Nombre")
 	                    @header("description", "Descripción")
 	                    @header("status", "Estatus")                    
-	                    <th style="text-align: center;">Archivos</th>                    
+	                    <th style="text-align: center;"></th>                    
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -128,7 +128,8 @@
 	                            }
 	                        </td> 
 	                        <td style="text-align: center;" >
-	                        	@banner.getFileList().length
+	                        	<a class="btn success" id="add" href="@controllers.routes.Banner.uploadFileBanner(banner.getIdBanner())">Editar archivos (@banner.getFileList().length)</a>
+
 	                        </td>                       
 	                    </tr>
 	                }
@@ -168,3 +169,4 @@
     }
         
 }
+

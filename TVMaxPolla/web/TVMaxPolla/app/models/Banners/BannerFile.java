@@ -24,6 +24,7 @@ public class BannerFile extends HecticusModel {
     private String location;
     private int width;
     private int height;
+
     
     public static Model.Finder<Long,BannerFile> finder =
             new Model.Finder<Long, BannerFile>(Long.class, BannerFile.class);
@@ -39,7 +40,7 @@ public class BannerFile extends HecticusModel {
         this.name = name;
         this.location = location;
         this.width = width;
-        this.height = height;
+        this.height = height;;
     }
 
     @Override
@@ -90,7 +91,8 @@ public class BannerFile extends HecticusModel {
     public void setHeight(int height) {
         this.height = height;
     }
-        
+     
+    
     /**
      * Return a page of computer
      *
@@ -122,4 +124,11 @@ public class BannerFile extends HecticusModel {
         return finder.where().eq("name", name).findUnique();
     }
   
+    public static BannerFile getFileByResolution(long idBanner, int width, int height){
+        return finder.where()
+        		.eq("banner_id_banner", idBanner)
+        		.eq("width", width)
+        		.findUnique();
+    }
+    
 }

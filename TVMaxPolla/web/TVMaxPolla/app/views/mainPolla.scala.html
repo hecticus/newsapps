@@ -1,0 +1,102 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Polla Mundial | Mundial Brasil 2014</title>
+        
+        <meta charset="utf-8">
+        <meta property="og:title" content="La Polla Mundial TvMax - Brasil 2014" />
+		<meta property="og:description" content="Ya armé La Polla Mundial TvMax - Brasil 2014, elige al próximo campeón del mundo y a quiénes le tiene que ganar para levantar la copa. Te toca a ti, arma el tuyo y compártelo." />
+		<meta property="og:image" content="http://polla.tvmax-9.com/assets/images/thumbnail_logo.png" />
+
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    	<meta name="description" content="@title">
+    	<meta name="author" content="Hecticus Software, Inc.">
+    	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/normalize.css")">        
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animate.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/polla.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/polla2.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/facebook.js")" type="text/javascript"></script>
+       	<script src="@routes.SignUp.jsRoutes()" type="text/javascript"></script>
+       	<script src="@routes.Assets.at("javascripts/ga.js")" type="text/javascript"></script>
+		     
+    </head>
+    
+    
+    <script>
+    	$(function() {
+
+
+   		$(document).on('click','.iPrediction', function() {
+   			var _url = 'http://mundial.tvmax-9.com/polla/?page=share&id=@session.get("connected")';
+			window.open(_url);
+		});
+
+    		
+    	$(document).on('click','.save', function() {
+					
+			$('.alert').removeAttr('style');
+			$('.alert').addClass('hidden');
+			
+			var btn = $(this);
+			btn.button('loading');
+			
+			
+			var jsonSave={idClient:'@session.get("connected")',clientPrediction:{matches:[]}};
+	
+			$.each(arrPhase, function(index,phase) {
+				$.each(phase.group, function(index,group) {
+					$.each(group.game, function( index, game ) {								
+						jsonSave.clientPrediction.matches.push({"id_match":game.id,"score_team_a":game.team[0].goals.f,"score_team_b":game.team[1].goals.f});
+					});
+				});
+			});
+	
+			
+			$.ajax({
+	    		url: "@controllers.matchesapi.routes.ClientBetController.storeClientBet",
+	    		type: 'POST',	            		
+	    		dataType: 'json',
+	    		data: JSON.stringify(jsonSave),
+	    		contentType: "application/json; charset=utf-8"
+	    	}).always(function () {
+				btn.button('reset');    				
+			}).done(function(msg) {
+				
+				if (msg.error==0) {
+					alert('Bien! Tu pronóstico se ha guardado con éxito.');
+				} else {
+					alert('Error! Tu pronóstico no se ha logrado guardar; Vuelve a intentarlo.');	
+				}
+	
+			}).fail(function( jqXHR, textStatus ) {  						
+				$('.alert-danger').removeClass('hidden');
+				
+			});
+	
+	
+		});
+				
+    		
+    	});
+    	
+    	
+    </script>
+    
+    <body >
+		<div class="container" style="max-width: 940px;" >
+			@content	
+			
+			
+		</div>
+    </body>
+    
+</html>

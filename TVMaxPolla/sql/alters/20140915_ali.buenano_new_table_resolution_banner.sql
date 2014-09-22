@@ -7,9 +7,9 @@ CREATE TABLE `banner_resolution` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1
 
 
-INSERT INTO `tvn_admin`.`banner_resolution` (`width`, `height`) VALUES (540, 54);
-INSERT INTO `tvn_admin`.`banner_resolution` (`width`, `height`) VALUES (720, 72);
-INSERT INTO `tvn_admin`.`banner_resolution` (`width`, `height`) VALUES (800, 80);
-INSERT INTO `tvn_admin`.`banner_resolution` (`width`, `height`) VALUES (1080, 108);
-INSERT INTO `tvn_admin`.`banner_resolution` (`width`, `height`) VALUES (1280, 128);
-INSERT INTO `tvn_admin`.`banner_resolution` (`width`, `height`) VALUES (1600, 160);
+INSERT INTO `banner_resolution` (`width`, `height`) VALUES (540, 54);
+INSERT INTO `banner_resolution` (`width`, `height`) VALUES (720, 72);
+INSERT INTO `banner_resolution` (`width`, `height`) VALUES (800, 80);
+INSERT INTO `banner_resolution` (`width`, `height`) VALUES (1080, 108);
+INSERT INTO `banner_resolution` (`width`, `height`) VALUES (1280, 128);
+INSERT INTO `banner_resolution` (`width`, `height`) VALUES (1600, 160);

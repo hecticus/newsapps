@@ -1,0 +1,6 @@
+# Messages
+
+banners.list.title={0,choice,0#No hay banners|1#Un banner encontrado|1<{0,number,integer} banners encontrados}
+files.list.title={0,choice,0#No files|1#Un archivo encontrado|1<{0,number,integer} archivos encontrados} 
+categories.list.title={0,choice,0#No hay categorías|1#Una categoría encontrada|1<{0,number,integer} categorías encontradas} 
+users.list.title={0,choice,0#No users|1#Un usuario encontrado|1<{0,number,integer} usuarios encontrados} 

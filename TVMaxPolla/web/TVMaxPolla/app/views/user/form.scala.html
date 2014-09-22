@@ -1,0 +1,65 @@
+@(userForm: Form[models.user.U01_Users])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+	
+    @helper.form(action = controllers.routes.User.submit) {
+        
+        <fieldset>
+            <legend>Información del usuario</legend>
+            
+            @inputText(
+                userForm("u01_Login"), 
+                '_label -> "Nombre", 
+                '_help -> "Ingrese un nombre válido.",
+                '_error -> userForm.globalError
+            )
+            
+            @inputPassword(
+                userForm("u01_Password"),
+                '_label -> "Contraseña",
+                '_help -> "Ingrese una contraseña válido."
+            )
+                        
+			@inputPassword(
+                userForm("u01_Password_Confirmation"),
+                '_label -> "Confirmar contraseña",
+ 				'_help -> "Repita la contraseña.",
+                '_error -> userForm.error("u01_Password")
+            )
+            
+            @inputText(
+                userForm("u01_Email"),
+                '_label -> "Email",
+                '_help -> "Ingrese un email válido"
+            )
+            
+            @inputText(
+                userForm("u01_Email_Confirmation"),
+                'class-> "required",
+                '_label -> "Email Confirmation",
+ 				'_help -> "Repita el email",
+                '_error -> userForm.error("u01_Email")
+            )
+                        
+            @select(
+                userForm("profiles.u02_Id"), 
+                options(models.user.U02_Profiles.options), 
+                '_label -> "Perfil", '_default -> "-- Elegir el perfil --",
+                '_showConstraints -> false
+            )
+            
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Crear este usuario">
+            <a href="@controllers.routes.User.list()" class="btn">Cancelar</a>
+        </div>
+        
+    }
+    
+}

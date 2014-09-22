@@ -6,8 +6,8 @@ CREATE TABLE `u02_profiles` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8
 
 
-INSERT INTO `tvn_admin`.`u02_profiles` (`u02_name`) VALUES ('Administrator');
-INSERT INTO `tvn_admin`.`u02_profiles` (`u02_name`) VALUES ('User');
+INSERT INTO `u02_profiles` (`u02_name`) VALUES ('Administrator');
+INSERT INTO `u02_profiles` (`u02_name`) VALUES ('User');
 
 
 CREATE TABLE `u01_users` (
@@ -19,7 +19,7 @@ CREATE TABLE `u01_users` (
   PRIMARY KEY (`u01_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8
 
-INSERT INTO `tvn_admin`.`u01_users` (`u01_login`, `u01_password`, `u01_email`, `profiles_u02_id`) VALUES ('admin', '$2a$10$qCupCLirPXlZRMu2GbVA.ezJ0BctwuidUvqXaXNbdrUXGNfQnTKPy', 'admin@hecticus.com', 1);
+INSERT INTO `u01_users` (`u01_login`, `u01_password`, `u01_email`, `profiles_u02_id`) VALUES ('admin', '$2a$10$qCupCLirPXlZRMu2GbVA.ezJ0BctwuidUvqXaXNbdrUXGNfQnTKPy', 'admin@hecticus.com', 1);
 
 
 

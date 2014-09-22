@@ -1,0 +1,128 @@
+@(id: Long, files: List[models.Banners.BannerFile], resolutions: List[models.Banners.BannerResolution])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title, nav = "create") {
+    
+    <h1>Editar Archivos</h1>
+    
+     @helper.form(controllers.routes.Banner.updateFileBanner(id), 'enctype -> "multipart/form-data", 'onsubmit -> "return _fReturn();") {
+
+        <fieldset>
+            <!--legend>Files uploads</legend-->
+                        
+        	 @for((resolution,index) <- resolutions.zipWithIndex) {
+	            <div class="clearfix  " id="file[@index]_field">	    			
+	    			<div class="input">
+	    				@if(resolution.getFile() == null) { 
+	    					<img id="img-@index" src="" alt="" style="width:75%; height: auto; vertical-align: middle"   data-width="@resolution.getWidth()" data-height="@resolution.getHeight()"  onerror="this.style.display='none'">
+	    					<input type="file" name="@resolution.getIdBannerResolution()" data-img="img-@index" data-set="false">
+	        				<span class="help-block">Seleccione un banner con una dimensión ajustada en un ancho de @resolution.getWidth()px.</span>	
+	    				} else {
+	    					<img id="@resolution.getIdBannerResolution()" src="@resolution.getFile().getLocation()" alt="@resolution.getFile().getName()"  data-width="@resolution.getWidth()" data-height="@resolution.getHeight()" data-src="@resolution.getFile().getLocation()" style="width:75%; height: auto; vertical-align: middle">
+	    					<input type="file" name="@resolution.getIdBannerResolution()" data-set="true" data-img="@resolution.getIdBannerResolution()" > 
+		        			<span class="help-inline"></span>
+		        			<span class="help-block">Seleccione un banner con una dimensión ajustada en un ancho de @resolution.getFile().getWidth()px.</span>
+	    				}
+	    			</div>
+				</div>
+        	}
+            
+        </fieldset>
+  
+        <div class="actions">        	        	
+            <input type="submit" value="Actualizar" onclick="return confirm('¿Por favor confirmar que desea actualizar la información del banner?');" class="btn primary">
+            <a href="@controllers.routes.Banner.list()" class="btn">Cancelar</a> 
+        </div>
+        
+         
+    }
+
+
+ 	<script>
+    
+    	function _fReturn() {
+			
+			var _inputSize = $('input[type="file"][data-set="true"]').size();
+			var _fileSize = $('input[type="file"]').size();
+			var _return = false;
+			
+			if (_inputSize == _fileSize) {
+				$('div.actions').hide();									
+				_return = true;
+				
+			} else {
+				alert('Para continuar debe cargar todos los archivos');		
+			};
+					
+			return _return;
+		};
+    
+    
+	    function _fReadImage(_this,_file) {
+	  
+		    var _reader = new FileReader();
+		    var _image  = new Image();
+		  	var _preview =  $('#'+_this.data('img'));
+		  	var _width =  _preview.data('width');
+	
+		    _reader.readAsDataURL(_file);  
+		    _reader.onload = function(_file_) {
+		    	
+		        _image.src    = _file_.target.result;
+		        
+		        _image.onload = function() {
+		        		
+		         	/*var w = this.width,
+		                h = this.height,
+		                t = _file.type,
+		                n = _file.name,
+		                s = ~~(_file.size/1024) +'KB';*/
+	
+		                if (_preview.data('width') == this.width) {
+		                	_this.attr('data-set','true');
+		                	_preview.attr('src',this.src);	
+		                	_preview.show();	
+
+		                } else {
+		                	_this.attr('data-set','false');
+		                	_preview.attr('src','');
+		                	_preview.hide();	
+	  						_this.val('');	
+	  						 alert('La imagen seleccionada tiene una dimensión de ' + this.width + 'x' + this.height + ' y la selección corresponde a un dimensión de ' + _preview.data('width') + 'x' + _preview.data('height'));
+		                }
+
+		        };
+		        
+		        _image.onerror= function() {
+		            alert('Invalid file type: '+ _file.type);
+		            _preview.hide();
+		        };
+		        
+		    };
+	    
+		};
+
+	    $('input[type="file"]').on('change',function(e){
+	    	
+	    	var _this = $(this);
+			var _file = this.files;
+    		if (_file && _file[0]) {
+    			for(var _i=0; _i<_file.length; _i++) {
+    				_fReadImage(_this,_file[_i]);
+    			} 	
+    		} else {    			    		
+    			var _preview =  $('#'+_this.data('img'));		  		
+    			_preview.attr('src','');
+				_preview.hide();	
+				_this.val('');
+    		}
+    			
+	    });
+
+	</script>
+
+}

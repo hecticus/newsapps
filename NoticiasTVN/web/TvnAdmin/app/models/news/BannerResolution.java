@@ -5,7 +5,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
+import models.news.BannerFile;
+import models.news.BannerResolution;
 import play.db.ebean.Model;
 
 
@@ -20,6 +22,10 @@ public class BannerResolution {
 	  private Long idBannerResolution;
 	  private int width;
 	  private int height;
+	  
+	  
+	  @Transient
+	  private BannerFile file;
 	  
 	  public static Model.Finder<Long,BannerResolution> finder =
 	            new Model.Finder<Long, BannerResolution>(Long.class, BannerResolution.class);
@@ -57,9 +63,23 @@ public class BannerResolution {
 		  this.height = height;
 	  }
 
+	  
+	  public BannerFile getFile() {
+		  return file;
+	  }
+
+	  public void setFile(BannerFile file) {
+		  this.file = file;
+	  }
+	  
+	  
 	  public List<BannerResolution> getAllBannerResolutions() {
 	        return finder.all();
 	  }
+	  
+	  public static BannerResolution getBannerResolutionById(long id){
+	        return finder.where().eq("id_banner_resolution", id).findUnique();
+	    }
 	  
 }
 
