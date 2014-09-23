@@ -11,7 +11,7 @@ public class Adm extends Controller {
 	
 	@Security.Authenticated(Secured.class)
     public static Result index() {
-    	return redirect(routes.Category.list(0, "sort", "asc", ""));			
+    	return redirect(routes.Banner.list(0, "sort", "asc", ""));			
     	
     }
 	
