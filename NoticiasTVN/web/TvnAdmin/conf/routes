@@ -54,6 +54,9 @@ POST    /newsapi/v1/yoinformo/uploadimage       controllers.newsapi.YoInformoCon
 
 GET    /newsapi/v1/yoinformo/getImg/*name                    controllers.newsapi.YoInformoController.getImg(name : String)
 
+#CONFIGURATIONS
+GET     /newsapi/v1/configs/get                         controllers.ConfigurationController.get()
+
 #<Tvn>
 
 # Default path will just redirect to the category list
