@@ -19,7 +19,7 @@ public class User extends Controller {
 	
 	final static Form<U01_Users> userForm = form(U01_Users.class);
 	public static Result GO_HOME = redirect(routes.User.list(0, "u01_Id", "asc", ""));
-	public static Result GO_LIST = redirect(routes.Category.list(0, "sort", "asc", ""));
+	public static Result GO_LIST = redirect(routes.Banner.list(0, "sort", "asc", ""));
 	
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
