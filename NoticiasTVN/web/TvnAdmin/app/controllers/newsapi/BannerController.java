@@ -69,7 +69,15 @@ public class BannerController extends HecticusController {
              }
         	 
             //build answer
-            ObjectNode response = hecticusResponse(0, "ok", "banners", data);
+            //ObjectNode response = hecticusResponse(0, "ok", "banners", data);
+            String bannerInterval = Config.getString("banner-interval");
+            ObjectNode response = Json.newObject();
+            response.put("error", 0);
+            response.put("description", "ok");
+            ObjectNode innerObj = Json.newObject();
+            innerObj.put("banners", Json.toJson((data)));
+            innerObj.put("interval-banner",bannerInterval);
+            response.put("response",innerObj);
             return ok(response);
         } catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
