@@ -555,9 +555,9 @@ function initBasicApp(){
 																															
 						if (!arrCategory[this.currPageX].status) $.fgetNews();
 												
-						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].classId);
-    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "scroll", "swype", "section", 1);
-    					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].classId);
+						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].title);
+    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "swype-category", "swype", "section", 1);
+    					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].title);
     					
 					}
 					
@@ -776,15 +776,17 @@ function initBasicApp(){
 			});
 			
 			
-			
 			$(document).on('touchend','.tv:not(.share)', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				//window.videoPlayer.play('rtsp://streaming.tmira.com:1935/tvn/tvn.stream');
-				window.videoPlayer.play('http://urtmpkal-f.akamaihd.net/i/19wqj1kgf_1@136614/master.m3u8');
-				//window.videoPlayer.play('http://streaming.tmira.com:1935/tvn/mp4:tvn.stream/playlist.m3u');
-
+				if(liveStreamURL != ""){
+					window.videoPlayer.play(liveStreamURL);
+				}else{
+					getAppConfiguration();
+				}
+				//window.videoPlayer.play('http://urtmpkal-f.akamaihd.net/i/19wqj1kgf_1@136614/master.m3u8');
 			});
+
 			$(document).on('touchend','#screen-block', function() {			
 				fBack();				
 			});		
@@ -820,9 +822,9 @@ function initBasicApp(){
 	    				$('#screen-block').addClass('hidden');		
 	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
 	    				
-	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].id);
-	    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu", "touch", "section", 1);
-						gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].id);
+	    				gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[$(this).data('position')].title);
+	    				gaPlugin.trackEvent(successGAHandler, errorGAHandler, "menu-category", "touch", "section", 1);
+						gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[$(this).data('position')].title);
 	    				
 		    			myScrollPage.scrollToPage($(this).data('position'), 0, 0);
 		    			
@@ -1863,7 +1865,7 @@ function initBasicApp(){
 				var parts = dateString.split(" ");
 				var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 				var DMY = parts[0].split("/");
-				var monthIndex = parseInt(DMY[1]);
+				var monthIndex = DMY[1];
 				if(parts.length > 1){
 					
 					var HMS = parts[1].split(":");
@@ -1872,8 +1874,8 @@ function initBasicApp(){
 
 					if (full) {						
 						dateStringFinal = ""+months[monthIndex-1]+' '+DMY[0]+', '+DMY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;									
-					} else {						
-						if ((parseInt(DMY[2])<parseInt(year)) || (parseInt(DMY[1])<parseInt(month)) || (parseInt(DMY[0])<parseInt(day))) {
+					} else {								
+						if ((DMY[2]<year) || (DMY[1]<month) || (DMY[0]<day)) {
 							dateStringFinal = ""+months[monthIndex-1]+' '+DMY[0]+', '+DMY[2]+' '+HMS[0]+':'+HMS[1]+' '+meridian;
 						}	
 					}
@@ -1884,7 +1886,6 @@ function initBasicApp(){
 					return dateStringFinal;
 				}else{
 					var dateStringFinal = months[monthIndex-1]+', '+DMY[0]+", "+DMY[2];
-
 					return dateStringFinal;
 				}
 				
@@ -1944,6 +1945,7 @@ function initBasicApp(){
 			clearPageStatus();
 			refreshTrendingIndexesForApp();
 			getBannerSpecial();
+			getAppConfiguration();
 		}, 300000);
 
 
@@ -2113,6 +2115,36 @@ function getBannerSpecial(){
 	});
 }
 
+//get configurations (live stream url, etc...)
+var liveStreamURL = "";
+function getAppConfiguration(){
+	var urlConfigs = urlServices+'/newsapi/v1/configs/get';
+	$.ajax({
+		url : urlConfigs,
+		timeout : 120000,
+		success : function(data, status) {
+			if(typeof data == "string"){
+				data = JSON.parse(data);
+			}
+			//console.log("Configs DATA: "+JSON.stringify(data));
+			var error = data["error"];
+			if(error == 0){
+				var devicePlatform = device.platform;
+				//IOS
+				if(devicePlatform == "iOS"){
+					liveStreamURL = data["live_ios"];
+				}else{
+					//ANDROID
+					liveStreamURL = data["live_android"];
+				}
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("ERROR Configs: "+thrownError);
+		}
+	});
+}
+
 function loadFirstPage(){
 	$.fgetNews();
 }
@@ -2145,6 +2177,7 @@ function endOfAppInitialization(){
 	clearPageStatus();
 	
 	getBannerSpecial();
+	getAppConfiguration();
 	
 	//$.fgetNews(); //despues del getBanner se llama a traves de loadFirstPage()
 	if (arrCategory.length > 0) $("#header-title").html(arrCategory[0].title);
