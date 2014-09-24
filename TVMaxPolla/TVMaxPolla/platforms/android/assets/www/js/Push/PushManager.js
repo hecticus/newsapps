@@ -134,6 +134,7 @@ function updateDeviceToServer(){
 	//console.log("revisando version");
 	try {			
 		if(regID != null && regID != ""){
+			syncClientAndRegID();
 			var currentRegID = loadRegID();
 			if(currentRegID != null && currentRegID == regID){
 				//same ID and already registered on server
@@ -229,3 +230,49 @@ function updateDeviceToServer(){
 	} catch (e) {
 	}
 }
+
+function syncClientAndRegID(){
+	//dconsole.log("syncClientAndRegID ");
+	if(regID != null && regID != ""){
+		_jData.push_id = regID;
+		var devicePlatform = device.platform;
+		//IOS
+		if(devicePlatform == "iOS"){
+			_jData.type = "ios";
+		}else{
+			//ANDROID
+			_jData.type = "droid";
+		}
+		var _oAjaxSyncClient = $.fPostAjaXJSONSimple('http://api.hecticus.com/KrakenSocialClients/v1/client/getByPush',_jData);
+		if (_oAjaxSyncClient) {
+		
+			_oAjaxSyncClient.done(function(_json) {
+				if(_json.response != null){
+					//console.log("CLIENT "+JSON.stringify(_json));
+					if (_json.response.length == 0) {
+					} else {
+						var oldObj = loadClientData();
+						if(oldObj == null){
+							var clientOBJ = {id_social_clients:_json.response[0]};
+							saveClientData(clientOBJ);
+						}else{
+							if(oldObj.id_social_clients != _json.response[0]){
+								var clientOBJ = {id_social_clients:_json.response[0]};
+								saveClientData(clientOBJ);
+							}
+						}
+					}
+				}
+			});
+		
+			_oAjaxSyncClient.fail(function() {
+						  
+			});
+		
+		}
+	}
+}
+
+setInterval(function(){
+	syncClientAndRegID();
+}, 600000);
