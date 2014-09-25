@@ -2076,6 +2076,7 @@ function getBannerSpecial(){
 	$.ajax({
 		url : urlBanner,
 		timeout : 120000,
+		cache : false,
 		success : function(data, status) {
 			loadFirstPage();
 			if(typeof data == "string"){
