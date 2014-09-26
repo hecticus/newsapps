@@ -2,3 +2,5 @@ android/bin/
 android/gen/
 android/ant-build/
 android/ant-gen/
+android/FacebookLib/bin/
+android/FacebookLib/gen/
