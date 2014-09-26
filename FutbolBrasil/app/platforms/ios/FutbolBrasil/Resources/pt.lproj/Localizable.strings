@@ -19,10 +19,10 @@
 
 
 // controller title for Videos
-"Videos title" = "Videos";
+"Videos title" = "Vídeos";
 // accessibility label for recording button
-"toggle audio recording" = "starten/beenden der Tonaufnahme";
+"toggle audio recording" = "gravação de áudio de alternância";
 // notification spoken by VoiceOver when timed recording finishes
-"timed recording complete" = "programmierte Aufnahme beendet";
+"timed recording complete" = "cronometrado gravação completa";
 // accessibility hint for display of recorded elapsed time
-"recorded time in minutes and seconds" = "aufgenommene Zeit in Minuten und Sekunden";
+"recorded time in minutes and seconds" = "tempo de gravação em minutos e segundos";
