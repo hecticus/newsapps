@@ -216,6 +216,13 @@ module.exports = [
         "clobbers": [
             "window.plugins.socialsharing"
         ]
+    },
+    {    			 
+        "file": "plugins/com.phonegap.plugins.facebookconnect.FacebookConnectPlugin/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "clobbers": [
+            "window.facebookConnectPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -230,7 +237,8 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.4.6",
     "com.jsmobile.plugins.sms": "0.0.1",
     "org.apache.cordova.videoplayer": "1.0",
-    "nl.x-services.plugins.socialsharing": "4.3.6"
+    "nl.x-services.plugins.socialsharing": "4.3.6",
+    "com.phonegap.plugins.facebookconnect": "0.5.1"
 }
 // BOTTOM OF METADATA
 });
