@@ -8,7 +8,7 @@
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
+    <content src="login.html" />
     <access origin="*" />
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
@@ -38,10 +38,13 @@
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
-    <feature name="GAPlugin">
-        <param name="android-package" value="com.adobe.plugins.GAPlugin" />
+    <feature name="GAPlugin" >
+    	<param name="android-package" value="com.adobe.plugins.GAPlugin"/>
+	</feature>
+	<feature name="FacebookConnectPlugin">
+        <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
     </feature>
     <feature name="UID">
         <param name="android-package" value="org.hygieiasoft.cordova.uid.UID" />
-    </feature>
+    </feature>   
 </widget>
