@@ -2,5 +2,6 @@ android/bin/
 android/gen/
 android/ant-build/
 android/ant-gen/
-android/FacebookLib/bin/
-android/FacebookLib/gen/
+android/com.phonegap.plugins.facebookconnect/FacebookLib/bin/
+android/com.phonegap.plugins.facebookconnect/FacebookLib/gen/
+

@@ -217,18 +217,18 @@ module.exports = [
             "window.plugins.socialsharing"
         ]
     },
-    {    			 
-        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
-        "clobbers": [
-            "window.facebookConnectPlugin"
-        ]
-    },
     {
         "file": "plugins/org.hygieiasoft.cordova.uid/www/uid.js",
         "id": "org.hygieiasoft.cordova.uid.uid",
         "clobbers": [
             "cordova.plugins.uid"
+        ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "clobbers": [
+            "window.facebookConnectPlugin"
         ]
     }
 ];
@@ -245,8 +245,8 @@ module.exports.metadata =
     "com.jsmobile.plugins.sms": "0.0.1",
     "org.apache.cordova.videoplayer": "1.0",
     "nl.x-services.plugins.socialsharing": "4.3.6",
-    "com.phonegap.plugins.facebookconnect": "0.5.1",
-    "org.hygieiasoft.cordova.uid": "1.1.0"
+    "org.hygieiasoft.cordova.uid": "1.1.0",
+    "com.phonegap.plugins.facebookconnect": "0.8.0"
 }
 // BOTTOM OF METADATA
 });
