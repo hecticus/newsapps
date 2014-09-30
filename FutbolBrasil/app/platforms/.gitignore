@@ -3,6 +3,7 @@ android/gen/
 android/ant-build/
 android/ant-gen/
 android/CordovaLib/bin/
+android/CordovaLib/bin
 android/CordovaLib/gen/
 android/com.phonegap.plugins.facebookconnect/FacebookLib/bin/
 android/com.phonegap.plugins.facebookconnect/FacebookLib/gen/
