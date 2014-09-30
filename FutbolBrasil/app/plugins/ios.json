@@ -119,6 +119,9 @@
         },
         "org.apache.cordova.videoplayer": {
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
+        },
+        "org.hygieiasoft.cordova.uid": {
+            "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         }
     },
     "dependent_plugins": {}

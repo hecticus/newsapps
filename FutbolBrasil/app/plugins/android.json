@@ -43,6 +43,10 @@
                         {
                             "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"UID\"><param name=\"android-package\" value=\"org.hygieiasoft.cordova.uid.UID\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -56,6 +60,14 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
                             "count": 1
                         }
                     ],
@@ -102,6 +114,9 @@
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         },
         "nl.x-services.plugins.socialsharing": {
+            "PACKAGE_NAME": "futbolbrasil.hecticus.com"
+        },
+        "org.hygieiasoft.cordova.uid": {
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         }
     },

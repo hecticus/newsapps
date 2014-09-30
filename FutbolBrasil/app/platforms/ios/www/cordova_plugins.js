@@ -230,6 +230,13 @@ module.exports = [
         "clobbers": [
             "window.videoPlayer"
         ]
+    },
+    {
+        "file": "plugins/org.hygieiasoft.cordova.uid/www/uid.js",
+        "id": "org.hygieiasoft.cordova.uid.uid",
+        "clobbers": [
+            "cordova.plugins.uid"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -244,7 +251,8 @@ module.exports.metadata =
     "org.apache.cordova.inappbrowser": "0.5.2",
     "org.apache.cordova.network-information": "0.2.12",
     "org.apache.cordova.splashscreen": "0.3.3",
-    "org.apache.cordova.videoplayer": "1.0"
+    "org.apache.cordova.videoplayer": "1.0",
+    "org.hygieiasoft.cordova.uid": "1.1.0"
 }
 // BOTTOM OF METADATA
 });

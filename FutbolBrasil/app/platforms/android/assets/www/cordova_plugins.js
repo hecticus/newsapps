@@ -216,6 +216,13 @@ module.exports = [
         "clobbers": [
             "window.plugins.socialsharing"
         ]
+    },
+    {
+        "file": "plugins/org.hygieiasoft.cordova.uid/www/uid.js",
+        "id": "org.hygieiasoft.cordova.uid.uid",
+        "clobbers": [
+            "cordova.plugins.uid"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -230,7 +237,8 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.4.6",
     "com.jsmobile.plugins.sms": "0.0.1",
     "org.apache.cordova.videoplayer": "1.0",
-    "nl.x-services.plugins.socialsharing": "4.3.6"
+    "nl.x-services.plugins.socialsharing": "4.3.6",
+    "org.hygieiasoft.cordova.uid": "1.1.0"
 }
 // BOTTOM OF METADATA
 });
