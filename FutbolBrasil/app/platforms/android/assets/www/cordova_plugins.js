@@ -218,7 +218,7 @@ module.exports = [
         ]
     },
     {    			 
-        "file": "plugins/com.phonegap.plugins.facebookconnect.FacebookConnectPlugin/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
+        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
         "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
         "clobbers": [
             "window.facebookConnectPlugin"
