@@ -17,12 +17,11 @@
  under the License.
  */
 
-
 // controller title for Videos
-"Videos title" = "VÌdeos";
+"Videos title" = "V√≠deos";
 // accessibility label for recording button
-"toggle audio recording" = "gravaÁ„o de ·udio de altern‚ncia";
+"toggle audio recording" = "grava√ß√£o de √°udio de altern√¢ncia";
 // notification spoken by VoiceOver when timed recording finishes
-"timed recording complete" = "cronometrado gravaÁ„o completa";
+"timed recording complete" = "cronometrado grava√ß√£o completa";
 // accessibility hint for display of recorded elapsed time
-"recorded time in minutes and seconds" = "tempo de gravaÁ„o em minutos e segundos";
+"recorded time in minutes and seconds" = "tempo de grava√ß√£o em minutos e segundos";
