@@ -54,6 +54,12 @@
 		E550442CF32647CFBD8A951C /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A49BAB82D32A43E093842882 /* CDVDevice.m */; };
 		E79F8D69EC0B493DB8814816 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 384F23096DF3435B8C689943 /* CDVInAppBrowser.m */; };
 		E8F66F7AB33649F38E134A67 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0B9860550B4A0DBDADCDEF /* CDVLogger.m */; };
+		8D52E60C85D145C1BC0BCE14 /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1940A4ADE9AB445EB54C5469 /* FacebookConnectPlugin.m */; };
+		D0DD055FEFB84AD4A503DE29 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BDA5D2B8914F4B954E5CB2 /* FacebookSDK.framework */; };
+		EA6F6B308F394CC9BCB596B9 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0E40CF259E478E8861D16B /* libsqlite3.dylib */; };
+		2CEFA1135CB74EB0BB020E3C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B5FE098AC464BAE457D84 /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		19FE57E7406A41E7B24EC1E1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F901245D79954A1898C138AE /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		50A90115E2C04886A8A0F314 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F7CD1544F74C4CB5260CDA /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +150,13 @@
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = FutbolBrasil/config.xml; sourceTree = "<group>"; };
+		1940A4ADE9AB445EB54C5469 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "FacebookConnectPlugin.m"; path = "Plugins\com.phonegap.plugins.facebookconnect\FacebookConnectPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		A2C7C769F1C2435ABEA72816 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FacebookConnectPlugin.h"; path = "Plugins\com.phonegap.plugins.facebookconnect\FacebookConnectPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		84BDA5D2B8914F4B954E5CB2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "FacebookSDK.framework"; path = "FutbolBrasil\Plugins\com.phonegap.plugins.facebookconnect\FacebookSDK.framework"; sourceTree = "<group>"; };
+		AB0E40CF259E478E8861D16B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsqlite3.dylib"; path = "usr/lib/libsqlite3.dylib"; sourceTree = SDKROOT; fileEncoding = 4; };
+		1B0B5FE098AC464BAE457D84 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Accounts.framework"; path = "System/Library/Frameworks/Accounts.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		F901245D79954A1898C138AE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "AdSupport.framework"; path = "System/Library/Frameworks/AdSupport.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		11F7CD1544F74C4CB5260CDA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Security.framework"; path = "System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +172,11 @@
 				66B577D27E404166A05A32A2 /* MessageUI.framework in Frameworks */,
 				BE657DA7878F4AE99D944235 /* Social.framework in Frameworks */,
 				45EFF901F4D147B789E66D23 /* SystemConfiguration.framework in Frameworks */,
+				D0DD055FEFB84AD4A503DE29 /* FacebookSDK.framework in Frameworks */,
+				EA6F6B308F394CC9BCB596B9 /* libsqlite3.dylib in Frameworks */,
+				2CEFA1135CB74EB0BB020E3C /* Accounts.framework in Frameworks */,
+				19FE57E7406A41E7B24EC1E1 /* AdSupport.framework in Frameworks */,
+				50A90115E2C04886A8A0F314 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +272,11 @@
 				12BF8E999A314504BA46A973 /* MessageUI.framework */,
 				44D9241AAADA40D59FFB6EE0 /* Social.framework */,
 				E6265EC24A9C4870861CDA5E /* SystemConfiguration.framework */,
+				84BDA5D2B8914F4B954E5CB2 /* FacebookSDK.framework */,
+				AB0E40CF259E478E8861D16B /* libsqlite3.dylib */,
+				1B0B5FE098AC464BAE457D84 /* Accounts.framework */,
+				F901245D79954A1898C138AE /* AdSupport.framework */,
+				11F7CD1544F74C4CB5260CDA /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -293,6 +316,8 @@
 				4A5A40EC48034F5C93B35EFE /* CDVReachability.h */,
 				2DEB7D44A9EC488C8354A53C /* CDVSplashScreen.m */,
 				020B39B9166D447E82F0F2BF /* CDVSplashScreen.h */,
+				1940A4ADE9AB445EB54C5469 /* FacebookConnectPlugin.m */,
+				A2C7C769F1C2435ABEA72816 /* FacebookConnectPlugin.h */,
 			);
 			name = Plugins;
 			path = FutbolBrasil/Plugins;
@@ -493,6 +518,7 @@
 				B002CDD1AAD84639A98E436A /* CDVConnection.m in Sources */,
 				DC809E828CD245C38644C172 /* CDVReachability.m in Sources */,
 				2C790C0B2A79446887B71360 /* CDVSplashScreen.m in Sources */,
+				8D52E60C85D145C1BC0BCE14 /* FacebookConnectPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +590,10 @@
 				);
 				PRODUCT_NAME = FutbolBrasil;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"FutbolBrasil\Plugins\com.phonegap.plugins.facebookconnect\"",
+				);
 			};
 			name = Debug;
 		};
@@ -595,6 +625,10 @@
 				);
 				PRODUCT_NAME = FutbolBrasil;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"FutbolBrasil\Plugins\com.phonegap.plugins.facebookconnect\"",
+				);
 			};
 			name = Release;
 		};
