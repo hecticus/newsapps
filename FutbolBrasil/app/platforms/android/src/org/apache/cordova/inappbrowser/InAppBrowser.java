@@ -19,6 +19,8 @@
 package org.apache.cordova.inappbrowser;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+
 import org.apache.cordova.inappbrowser.InAppBrowserDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -460,6 +462,7 @@ public class InAppBrowser extends CordovaPlugin {
                 return value;
             }
 
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN) @SuppressWarnings("deprecation")
             public void run() {
                 // Let's create the main dialog
                 dialog = new InAppBrowserDialog(cordova.getActivity(), android.R.style.Theme_NoTitleBar);
