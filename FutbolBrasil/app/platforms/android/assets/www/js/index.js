@@ -37,15 +37,23 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+    	
+    	if (id == 'deviceready') {
+    			    	
+	    	//Image Cache
+	    	ImgCache.options.debug = true;
+	    	ImgCache.options.localCacheFolder = 'FutebolBrasil';
+	      	ImgCache.options.usePersistentCache = true;       	        	    	
+			ImgCache.options.cacheClearSize = 5;
+			ImgCache.init();
+			
+			_jFutbolBrasil.load(0);
+				
+	    	
+    	}
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
 };
 
 app.initialize();
+
