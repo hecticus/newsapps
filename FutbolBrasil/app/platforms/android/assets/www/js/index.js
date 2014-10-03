@@ -47,7 +47,7 @@ var app = {
 			ImgCache.options.cacheClearSize = 5;
 			ImgCache.init();
 			
-			_jFutbolBrasil.load(0);
+			_jApp.load(0);
 				
 	    	
     	}
