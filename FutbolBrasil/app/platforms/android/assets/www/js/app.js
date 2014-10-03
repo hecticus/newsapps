@@ -41,3 +41,18 @@ var _jApp = {
   	}
   	    
 };
+
+
+
+$(document).on('click','header div[data-touch="menu"]', function(e) {
+	
+	if(_fPreventDefault(e)){return false;}
+	if(e.type == "touchstart" || e.type == "touchend") {return false;}
+	
+	var _index = $(this).data('index');
+	
+	$('footer div[data-touch="menu"]').addClass('hidden');
+	$('footer div.' + _index).removeClass('hidden');
+		
+});
+
