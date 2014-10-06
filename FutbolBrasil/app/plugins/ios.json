@@ -10,7 +10,7 @@
                     "MessageUI.framework": [
                         {
                             "xml": "true",
-                            "count": 2
+                            "count": 1
                         }
                     ],
                     "Social.framework": [
@@ -73,10 +73,6 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Sms\"><param name=\"ios-package\" value=\"Sms\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -135,6 +131,10 @@
                         {
                             "xml": "<access origin=\"https://*.akamaihd.net\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -164,9 +164,6 @@
         }
     },
     "installed_plugins": {
-        "com.jsmobile.plugins.sms": {
-            "PACKAGE_NAME": "futbolbrasil.hecticus.com"
-        },
         "nl.x-services.plugins.socialsharing": {
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         },
@@ -200,6 +197,9 @@
         "com.phonegap.plugins.facebookconnect": {
             "APP_ID": "320314531485580",
             "APP_NAME": "FutbolBrasil",
+            "PACKAGE_NAME": "futbolbrasil.hecticus.com"
+        },
+        "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         }
     },

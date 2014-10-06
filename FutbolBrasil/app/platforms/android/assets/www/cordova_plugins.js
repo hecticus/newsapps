@@ -197,13 +197,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.jsmobile.plugins.sms/www/sms.js",
-        "id": "com.jsmobile.plugins.sms.sms",
-        "clobbers": [
-            "window.sms"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.videoplayer/www/video.js",
         "id": "org.apache.cordova.videoplayer.VideoPlayer",
         "clobbers": [
@@ -230,6 +223,13 @@ module.exports = [
         "clobbers": [
             "window.facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
+        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "clobbers": [
+            "PushNotification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -242,11 +242,11 @@ module.exports.metadata =
     "org.apache.cordova.network-information": "0.2.12",
     "org.apache.cordova.splashscreen": "0.3.3",
     "org.apache.cordova.file-transfer": "0.4.6",
-    "com.jsmobile.plugins.sms": "0.0.1",
     "org.apache.cordova.videoplayer": "1.0",
     "nl.x-services.plugins.socialsharing": "4.3.6",
     "org.hygieiasoft.cordova.uid": "1.1.0",
-    "com.phonegap.plugins.facebookconnect": "0.8.0"
+    "com.phonegap.plugins.facebookconnect": "0.8.0",
+    "com.phonegap.plugins.PushPlugin": "2.3.1"
 }
 // BOTTOM OF METADATA
 });
