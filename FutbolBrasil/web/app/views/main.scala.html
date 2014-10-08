@@ -20,6 +20,126 @@
         <script src="@routes.Assets.at("javascripts/material.min.js")" type="text/javascript"></script>
         
    
+		<script>
+			$(function() {
+
+
+				var _fPostAjaXJSON = function(_url, _data) {
+					
+					try {				
+					  	return $.ajax({
+							url: _url,		
+							data: JSON.stringify(_data),	
+							type: 'POST',
+							dataType: 'json',				
+							contentType: "application/json; charset=utf-8",
+						}).fail(function(jqXHR, textStatus, errorThrown) {		
+							return false;
+						});			   
+					} catch (e) {
+						return false;
+					}
+					
+				};
+
+
+
+				$(document).on('dragstart', '.row-picture' ,function (e) {
+				    var dataTransfer = e.originalEvent.dataTransfer;
+				    dataTransfer.setData('text/html', this.id);
+				});
+ 
+				$(document).on('dragover', '.list-group-item.related',function (e) {
+				   	var event = e.originalEvent;
+				    if (event.preventDefault) event.preventDefault();	    
+				    return false;
+				});
+ 
+				$(document).on('drop', '.list-group-item.related' ,function (e) {
+				  	var event = e.originalEvent;
+				    if (event.stopPropagation) event.stopPropagation();				 
+				    var dataTransfer = event.dataTransfer;
+				    var draggedId = dataTransfer.getData('text/html');
+				    var draggedElement = $('#' + draggedId);
+				    draggedElement.removeClass('relatable');
+				    draggedElement.addClass('related');
+				    $('.list-group-item.related').append(draggedElement[0].outerHTML);
+				    draggedElement.remove();				   				    	    
+				    return false;
+				    
+				});
+
+ 
+				$(document).on('dragover', '.list-group-item.relatable' ,function (e) {								
+				   	var event = e.originalEvent;
+				    if (event.preventDefault) event.preventDefault();	    
+				    return false;
+				});
+ 
+				$(document).on('drop', '.list-group-item.relatable' ,function (e) {
+				  	var event = e.originalEvent;
+				    if (event.stopPropagation) event.stopPropagation();				 
+				    var dataTransfer = event.dataTransfer;
+				    var draggedId = dataTransfer.getData('text/html');				   
+				    var draggedElement = $('#' + draggedId);
+				    draggedElement.removeClass('related');
+				    draggedElement.addClass('relatable');				    
+				    $('.list-group-item.relatable').append( draggedElement[0].outerHTML);
+				    draggedElement.remove();				    
+				    return false;
+				});
+
+
+				$('#save').click(function () {
+					
+					var _data = {news:0,resources:[]};
+					var _btn = $(this);					
+					
+					_btn.button('loading');
+					
+					_data.news = _btn.data('news');
+
+					$('div.row-picture.related').each(function(index) {
+						_data.resources.push($(this).data('resource'));										  
+					});
+					
+					
+					
+					var _oAjax = _fPostAjaXJSON('http://127.0.0.1:9100/resource/update',_data);
+
+					if (_oAjax) {
+						
+						_oAjax.always(function () {
+							_btn.button('reset');
+						});	
+			
+						_oAjax.done(function(_json) {
+							$('.alert-success').show();
+							setTimeout(function(){
+								$('.alert-success').hide();
+							}, 5000);
+						});
+						
+						_oAjax.fail(function() {
+							$('.alert-success').show();
+							setTimeout(function() {
+								$('.alert-success').hide();
+							}, 5000);		
+						});
+							
+					} else {
+						_btn.button('reset');
+					}
+					
+					
+				});
+
+
+			});
+
+		</script>
+   
+   
     </head>
     <body>
     	
