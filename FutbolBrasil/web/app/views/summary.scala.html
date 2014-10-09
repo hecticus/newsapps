@@ -10,12 +10,12 @@
 		    		
 					<div class="alert alert-dismissable alert-success" style="display: none;">
 					    <button type="button" class="close" data-dismiss="alert">×</button>
-					    <strong>Tudo certo!</strong> As imagens est&atilde;o associados com sucedida.
+					    <strong>¡Bien!</strong> Las im&eacute;genes se han asociado con &eacute;xito.
 					</div>
 					
 					<div class="alert alert-dismissable alert-danger" style="display: none;">
     					<button type="button" class="close" data-dismiss="alert">×</button>
-    					<strong>Oh pressão!</strong> Um erro &eacute; gerado na associa&ccedil;&atilde;o de imagens.
+    					<strong>¡Lo sentimos!</strong> Se ha generado un error asociando las im&aacute;genes.
 					</div>
 
 				</div>
@@ -34,7 +34,7 @@
 	    	
 	    	<div class="row">		    	
 		    	<div class="col-lg-12">
-					<h2>Imagens associadas</h2>
+					<h2>Im&aacute;genes asociadas</h2>
 				</div>
 	    	</div>	
 	    	
@@ -42,10 +42,10 @@
 	    		<div class="col-lg-12">
 					<div class="bs-component">
 						<div class="list-group">
-							<div class="list-group-item related" style="width:100%; height:auto; min-height: 70px;">
+							<div class="list-group-item related" style="width:100%; height:auto; min-height: 100px;">
 								@for((resource, index) <-  news.getResources().zipWithIndex) {
-							    	<div id="row-picture-@resource.getId()" data-resource="@resource.getId()" class="row-picture related" draggable="true" style="cursor: pointer;">
-					        			<img class="circle" src="@resource.getUrl()" alt="icon" style="width: 70px; height: 70px;" >
+							    	<div id="row-picture-@resource.getId()" data-resource="@resource.getId()" class="row-picture related" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal">
+					        			<img class="img-rounded" src="@resource.getUrl()" alt="icon" style="width: 100px; height: 100px;" >
 					        		</div>	
 							    }	
 							</div>
@@ -59,7 +59,7 @@
 
     	<div class="row">		    	
 	    	<div class="col-lg-12">
-				<h2>Imagens dispon&iacute;veis</h2>
+				<h2>Im&aacute;genes disponibles</h2>
 			</div>
     	</div>	
 	    	
@@ -67,10 +67,10 @@
     		<div class="col-lg-12">    			
 				<div class="bs-component">
 					<div class="list-group">
-						<div class="list-group-item relatable" style="width:100%; height:auto; min-height: 70px;">
+						<div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
 							@for((resource, index) <-  resources.zipWithIndex) {
-						    	<div id="row-picture-@resource.getId()" data-resource="@resource.getId()" class="row-picture relatable" draggable="true" style="cursor: pointer;" >
-				        			<img class="circle" src="@resource.getUrl()" alt="icon" style="width: 70px; height: 70px;" >
+						    	<div id="row-picture-@resource.getId()" data-resource="@resource.getId()" class="row-picture relatable" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal" >
+				        			<img class="img-rounded" src="@resource.getUrl()" alt="icon" style="width: 100px; height: 100px;"  >
 				        		</div>	
 						    }			    
 						</div>
@@ -80,8 +80,29 @@
 		</div>
 	    <hr />
 	    <p style="text-align: right;">
-	    	<a id="save" class="btn btn-primary btn-lg" data-news="@news.getId()">Salvar</a>
+	    	<a id="save" class="btn btn-primary btn-lg" data-news="@news.getId()">Guardar</a>
 		</p>
+		
+		
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Detalle de la imagen</h4>
+		      </div>
+		      <div class="modal-body">
+		        ...
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        <button type="button" class="btn btn-primary"></button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
 	       
 	</div>
 
