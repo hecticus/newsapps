@@ -61,3 +61,7 @@ GET     /garotas/v1/clients/list                            controllers.client.C
 GET     /garotas/v1/clients/pmc/get/:id                     controllers.client.Clients.get(id : Integer, pmc : Boolean?=true)
 GET     /garotas/v1/clients/pmc/list/:page/:pageSize        controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
 POST    /garotas/v1/clients/pmc/clean                       controllers.client.Clients.cleanDevices()
+
+#FAKE UPSTREAM URL
+POST    /garotas/v1/clients/upstream/game/user/login        controllers.client.Clients.upstreamFakeLogin()
+POST    /garotas/v1/clients/upstream/game/user/status       controllers.client.Clients.upstreamFakeStatus()

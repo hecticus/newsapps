@@ -13,13 +13,18 @@ import models.clients.ClientHasDevices;
 import models.clients.ClientHasWoman;
 import models.clients.Device;
 import models.content.women.Woman;
+import org.apache.commons.codec.binary.Base64;
+import play.libs.F;
 import play.libs.Json;
+import play.libs.ws.WS;
+import play.libs.ws.WSRequestHolder;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by plesse on 9/30/14.
@@ -40,16 +45,18 @@ public class Clients extends HecticusController {
             if(login != null){
                 client = Client.finder.where().eq("login",login).findUnique();
                 boolean update = false;
-                if(client.getUserId() == null){
-                    getUserIdFromUpstream(client);
-                    update = true;
-                }
-                if(client.getStatus() <= 0){
-                    getStatusFromUpstream(client);
-                    update = true;
-                }
-                if(update){
-                    client.update();
+                if(client != null){
+                    if(client.getUserId() == null){
+                        getUserIdFromUpstream(client);
+                        update = true;
+                    }
+                    if(client.getStatus() <= 0){
+                        getStatusFromUpstream(client);
+                        update = true;
+                    }
+                    if(update){
+                        client.update();
+                    }
                 }
             }
             if(client == null){
@@ -286,8 +293,7 @@ public class Clients extends HecticusController {
                     if ((actualDate.get(Calendar.YEAR) > lastCheckDate.get(Calendar.YEAR)) || (actualDate.get(Calendar.MONTH) > lastCheckDate.get(Calendar.MONTH)) || (actualDate.get(Calendar.DATE) > lastCheckDate.get(Calendar.DATE))) {
                         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
                         if (client.getLogin() != null) {
-                            int status = getStatusFromUpstream(client);
-                            client.setStatus(status);
+                            getStatusFromUpstream(client);
                             client.setLastCheckDate(sf.format(actualDate.getTime()));
                             client.update();
                         } else {
@@ -369,20 +375,269 @@ public class Clients extends HecticusController {
         }
     }
 
-    private static void getUserIdFromUpstream(Client client) {
+    /**
+     * Funcion que permite hacer login del usuario en Upstream dado un username y un password
+     *
+     * POST data as JSON:
+     * username     String  mandatory   user name
+     * google_id    String  optional    push id
+     * password     String  mandatory   password sent from SMS to the user
+     * service_id   String  mandatory   Upstream suscription service
+     * metadata     JSON    optional    extra params
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 6-google id already exists, 7-Upstream service no longer available
+     * user_id      String
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type : application/json
+     * Accept : application/gamingapi.v1+json
+     * x-gameapi-app-key : DEcxvzx98533fdsagdsfiou
+     * Body:
+     * {"password":"CMSLJMWD","metadata":{"channel":"Android","result":null,"points":null,
+     * "app_version":"gamingapi.v1","session_id":null},"service_id":"prototype-app -SubscriptionDefault",
+     * "username":"999000000005","google_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
+     *
+     * Response:
+     * {
+     * "result" : 0
+     * "user_id" : "324234345050505"
+     * }
+     *
+     *
+     * username  user from the app
+     * password  password from the app
+     * googleID  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void getUserIdFromUpstream(Client client) throws Exception{
         if(client.getLogin() == null){
             client.setStatus(2);
         } else {
-            //TODO: llamar a upstream
+            String username = client.getLogin();
+            String password = client.getPassword();
+            String channel = "Android";
+            String googleID = null;
+            try{
+                List<ClientHasDevices> devices = client.getDevices();
+                for (int i=0; i<devices.size(); i++){
+                    if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
+                        //con el primer Google ID nos basta por ahora
+                        googleID = devices.get(i).getRegistrationId();
+                        break;
+                    }
+                }
+            }catch (Exception e){
+                //no hacemos nada si esto falla
+            }
+
+            //Data from configs
+            String upstreamServiceID = Config.getString("upstreamServiceID");
+            String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
+            String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/login";
+
+            System.out.println("URL "+url);
+
+            String authString = username+":"+password;
+            byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
+            authString = new String(encodedBytes);
+
+            //Hacemos la llamada con los headers de autenticacion
+            WSRequestHolder urlCall = WS.url(url).setContentType("application/json");
+            //FORMAT:  "Authentication: username:password" //BASE64
+            //urlCall.setHeader("Authorization","Basic AW4rRRcpbjpvcGVuIHNlc2FtZQ==");
+            urlCall.setHeader("Authorization","Basic "+authString);
+            urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
+
+            //The different versions of the API are defined in the HTTPS Accept header.
+            urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = Json.newObject();
+            ObjectNode metadata = Json.newObject();
+            fields.put("password", password);
+            fields.put("service_id", upstreamServiceID);
+            fields.put("username", username);
+            if(googleID != null && !googleID.isEmpty()) fields.put("google_id",googleID);
+            //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
+            metadata.put("channel",channel);
+            metadata.put("app_version",upstreamAppVersion);
+            fields.put("metadata",metadata);
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            String errorMessage="";
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                if(callResult == 0 || callResult == 6){
+                    //Se trajo la informacion con exito
+                    String userID = fResponse.findValue("user_id").asText();
+                    //TODO: guardar el userID en la info del cliente
+                    client.setUserId(userID);
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+
             client.setStatus(1);
-            client.setUserId("FAKE_ID");
         }
     }
 
-    private static int getStatusFromUpstream(Client client) {
-        if(client.getLogin() == null){
-            return -1;
+    /**
+     * Funcion que permite obtener el status de una suscripcion en Upstream
+     *
+     * POST data as JSON:
+     * user_id      String  mandatory   upstream user_id
+     * google_id    String  optional    push id
+     * service_id   String  mandatory   Upstream suscription service
+     * metadata     JSON    optional    extra params
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 7-Upstream service no longer available
+     * user_id      String
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type : application/json
+     * Accept : application/gamingapi.v1+json
+     * x-gameapi-app-key : DEcxvzx98533fdsagdsfiou
+     * Authorization : Basic OTk5MDAwMDIzMzE1OlNSUTcyRktT
+     * Body:
+     * {"metadata":{"channel":"Android","result":null,"points":null,"app_version":"gamingapi.v1",
+     * "session_id":null},"service_id":"prototype-app -SubscriptionDefault",
+     * "user_id":8001,"google_id":"wreuoi24lkjfdlk13jh45kjhfkjqewhrt34jrewh2"}
+     *
+     * Response:
+     * {
+     * "result" : 0,
+     * "eligible" : "true",
+     * "credits_left" : "10"
+     * }
+     *
+     * userID    upstream user id
+     * username  user from the app
+     * password  password from the app
+     * googleID  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void getStatusFromUpstream(Client client) throws Exception{
+        if(client.getLogin() == null && client.getUserId() == null){
+            String username = client.getLogin();
+            String userID = client.getUserId();
+            String password = client.getPassword();
+            String channel = "Android";
+            String googleID = null;
+            try{
+                List<ClientHasDevices> devices = client.getDevices();
+                for (int i=0; i<devices.size(); i++){
+                    if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
+                        //con el primer Google ID nos basta por ahora
+                        googleID = devices.get(i).getRegistrationId();
+                        break;
+                    }
+                }
+            }catch (Exception e){
+                //no hacemos nada si esto falla
+            }
+
+            //Data from configs
+            String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
+            String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
+            String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/status";
+
+            String authString = username+":"+password;
+            byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
+            authString = new String(encodedBytes);
+
+            //Hacemos la llamada con los headers de autenticacion
+            WSRequestHolder urlCall = WS.url(url).setContentType("application/json");
+            //FORMAT:  "Authentication: username:password" //BASE64
+            //urlCall.setHeader("Authorization","Basic AW4rRRcpbjpvcGVuIHNlc2FtZQ==");
+            urlCall.setHeader("Authorization","Basic "+authString);
+            urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
+
+            //The different versions of the API are defined in the HTTPS Accept header.
+            urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = Json.newObject();
+            ObjectNode metadata = Json.newObject();
+            fields.put("user_id", userID);
+            fields.put("service_id", upstreamServiceID);
+            if(googleID != null && !googleID.isEmpty()) fields.put("google_id",googleID);
+            //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
+            metadata.put("channel",channel);
+            metadata.put("app_version",upstreamAppVersion);
+            fields.put("metadata",metadata);
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            String errorMessage = "";
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                if(callResult == 0 || callResult == 4){
+                    //Se trajo la informacion con exito
+                    Boolean eligible = fResponse.findValue("eligible").asBoolean();
+                    //TODO: guardar en el userID la info de si esta activo o no
+                    client.setStatus(eligible ? 1 : 0);
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+        }else{
+            //deberia estar en periodo de pruebas 2 o desactivado por tiempo -1 la verificacion se hace despues de la llamada
+            client.setStatus(2);
         }
-        return 1;
+    }
+
+    //0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 6-google id already exists, 7-Upstream service no longer available
+    public static String getUpstreamError(int errorCode){
+        switch (errorCode){
+            case 0: return "Success";
+            case 2: return "User cannot be identified";
+            case 3: return "User not Subscribed";
+            case 4: return "Google id missing";
+            case 6: return "Google id already exists";
+            case 7: return "Upstream service no longer available";
+            default: return "Error not recognized";
+        }
+    }
+      
+    //FAKE UPSTREAM RESPONSE
+    public static Result upstreamFakeLogin() {
+        ObjectNode response = Json.newObject();
+        response.put("result",0);
+        response.put("user_id","324234345050505");
+        return ok(response);
+    }
+    public static Result upstreamFakeStatus() {
+        ObjectNode response = Json.newObject();
+        response.put("result",0);
+        response.put("eligible",true);
+        response.put("credits_left",10);
+        return ok(response);
     }
 }
