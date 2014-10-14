@@ -369,4 +369,19 @@ public class Posts extends HecticusController {
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
+
+    public static Result getRecentPosts(){
+        try {
+            Iterator<Post> postIterator = Post.finder.where().setFirstRow(0).setMaxRows(10).orderBy("date desc").findList().iterator();
+            ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+            while(postIterator.hasNext()){
+                posts.add(postIterator.next().toJson());
+            }
+            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(posts));
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
 }
