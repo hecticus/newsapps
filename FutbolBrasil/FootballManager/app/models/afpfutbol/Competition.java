@@ -26,6 +26,7 @@ public class Competition  extends HecticusModel {
     private Long extId;
 
     private Integer idApp;
+    private Integer status;
 
     @OneToMany(mappedBy="comp")
     public List<Phase> phases;
@@ -63,6 +64,14 @@ public class Competition  extends HecticusModel {
 
     public void setIdApp(Integer idApp) {
         this.idApp = idApp;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public static Competition findById(Long id){

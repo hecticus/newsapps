@@ -49,7 +49,7 @@ public class NewsController extends HecticusController {
             //build response
             ObjectNode response;
             if (hecticResponse){
-                response = hecticusResponse(0, "ok", "news", data);
+                response = hecticu  sResponse(0, "ok", "news", data);
             }else {
                 if(cat.isVideo()){
                     response = tvnResponse("videos",data);

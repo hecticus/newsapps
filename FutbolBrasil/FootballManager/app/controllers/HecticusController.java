@@ -98,4 +98,14 @@ public class HecticusController extends Controller {
             invoker = new StringBuilder(request().queryString().get("invoker")[0]);
         }
     }
+
+    public static ObjectNode hecticusResponse(int code, String description, String parentObj, ArrayList data) {
+        ObjectNode tr = Json.newObject();
+        tr.put("error", code);
+        tr.put("description", description);
+        ObjectNode innerObj = Json.newObject();
+        innerObj.put(parentObj, Json.toJson((data)));
+        tr.put("response",innerObj);
+        return tr;
+    }
 }
