@@ -75,7 +75,7 @@ app.initialize();
 function initAllAppData() {
 	console.log("initAllAppData");
 	
-	_jMenu.push({index:0,class:'content-home',title:'Test',load:'test.html',glyphicon:'icon-home_menu'});
+	_jMenu.push({index:0,class:'content-home',title:'main',load:'main.html',glyphicon:'icon-home_menu'});
 	
 	//_fRequestCategories();
 	//_jMenu.push({index:_jMenu.length,class:'content-signin',title:'Ingresar',load:'SignIn.html', glyphicon:'glyphicon glyphicon-cloud-download'});
@@ -108,15 +108,52 @@ function initAllAppData() {
 	
 	app.receivedEvent('deviceready');    	
 //	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
-	
+	initPush();
 	console.log("init data");
+	
+	
+	var idClient = loadClientID();
+	if(idClient != null){
+		//go to main
+		console.log("existe");
+		basicSettings(false);
+		var dataIndex = 0;
+		$('body').removeClass();
+		$('body').addClass(_jMenu[dataIndex].class);
+		$('main').empty();
+		$('main').data('index',dataIndex);	
+		$('main').load(_jMenu[dataIndex].load);
+		$('.title').html('<span>' + _jMenu[dataIndex].title + '</span>');						
+		$('#header').removeClass('hidden');
+	}else{
+		console.log("no existe");
+		asembleGallery();
+		basicSettings(true);
+	}
 	
 }
 
+function asembleGallery(){
+	var gallery = '<div style="position: absolute; width: 100%; height: 100%;">';
+	gallery +='<div id="over">';
+	gallery +='<span class="Centerer"></span>';
+	gallery +='<img class="Centered" src="http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/9/c140ca79-1cb7-4250-9d9c-00179a2883b8a.jpg"/>';
+	gallery +='</div>';
+	gallery +='<ul class="bxslider" id="slider" style="position: relative; width: 100%; height: 50%; display: inline-block;">';
+	//gallery +='<li><div style="width: 100%; heigth: 50%; display: inline-block; position: relative; overflow: hidden;"><img class="Centered" src="http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/9/c140ca79-1cb7-4250-9d9c-00179a2883b8a.jpg" width="100%" height="auto" style="vertical-align: middle"/></div></li>';
+	gallery +='</ul>';
+	gallery +='<p>Garotas melhores todos os dias!</p>';
+	gallery +='<button data-index="0" type="button" class="load col-xs-12 col-sm-12 col-md-12 col-lg-12">Iniciar Sesion</button>';
+	gallery +='<button data-index="1" type="button" class="create col-xs-12 col-sm-12 col-md-12 col-lg-12">Experimente 7 dias gratis</button>';
+	gallery +='</div>';
+	$("#main").append(gallery);
+	
 
-function basicSettings(){
+}
+
+function basicSettings(loadImages){
 	$.ajax({
-      url : "http://revan:9000/garotas/settings",
+      url : "http://10.0.3.128:9000/garotas/settings",
       type: 'GET',
       contentType: "application/json; charset=utf-8",
       dataType: 'json',
@@ -125,28 +162,34 @@ function basicSettings(){
       success : function(data, status) {
           var response = data.response;
           console.log(response.app_version);
-          var arrImg = response.img;
-					var images = '';
-					for(var i = 0; i < arrImg.length; i++){
-						images+='<li><div style="width: 100%; heigth: 50%; display: inline-block; position: relative; overflow: hidden;"><img src="'+arrImg[i]+'" width="100%" height="auto" style="vertical-align: middle"/></div></li>';
-						//images+='<li><div style="background-image: url(\"'+arrImg[i]+'\"); width: 100%; display: inline-block; position: relative;">&nbsp</div></li>';
+          if(loadImages){
+	          var arrImg = response.img;
+						var images = '';
+						for(var i = 0; i < arrImg.length; i++){
+							images+='<li style="background-color:#00F;"><div style="width: 100%; heigth: 50%; display: inline-block; position: relative; overflow: hidden;"><img src="'+arrImg[i]+'" width="100%" height="auto" style="vertical-align: middle"/></div></li>';
+							//images+='<li><div style="background-image: url(\"'+arrImg[i]+'\"); width: 100%; display: inline-block; position: relative;">&nbsp</div></li>';
+						}
+						$("#slider").append(images);
+						$('.bxslider').bxSlider({auto: true, controls : false, pager : false});
 					}
-					console.log(images);
-					$("#slider").append(images);
       },
       error : function(xhr, ajaxOptions, thrownError) {
-          var arrImg = ['http://30c96e5d3d6352665630-e992ea5784c8ea654dc41c522b685459.r45.cf1.rackcdn.com/1/1e6c69a0-313a-4ad7-a5d7-b69ae07116961.jpg','http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/15/4929b5ff-8a07-44e3-a83e-5c88373fbf7ds.jpg','http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/2/3a8c463c-d834-4327-9d50-fdf14e5b7678a.jpg','http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/4/4692c05b-d28d-4e94-b8fa-6067480c6dd4l.jpg'];
-					var images = '';
-					for(var i = 0; i < arrImg.length; i++){
-						images+='<li><img src="'+arrImg[i]+'" width="100%" height="auto" style="vertical-align: middle"/></li>';
+      		if(loadImages){
+	          var arrImg = ['http://30c96e5d3d6352665630-e992ea5784c8ea654dc41c522b685459.r45.cf1.rackcdn.com/1/1e6c69a0-313a-4ad7-a5d7-b69ae07116961.jpg','http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/15/4929b5ff-8a07-44e3-a83e-5c88373fbf7ds.jpg','http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/2/3a8c463c-d834-4327-9d50-fdf14e5b7678a.jpg','http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/4/4692c05b-d28d-4e94-b8fa-6067480c6dd4l.jpg'];
+						var images = '';
+						for(var i = 0; i < arrImg.length; i++){
+							images+='<li><img src="'+arrImg[i]+'" width="100%" height="auto" style="vertical-align: middle"/></li>';
+						}
+						$("#slider").append(images);
+						$('.bxslider').bxSlider({auto: true, controls : false, pager : false});
 					}
-					$("#slider").append(images);
       }
   });
 }
-basicSettings();
+//basicSettings();
 
 
 $(document).ready(function(){
-  $('.bxslider').bxSlider({auto: true, controls : false, pager : false});
+  //$('.bxslider').bxSlider({auto: true, controls : false, pager : false});
+	console.log("ready")
 });
