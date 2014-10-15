@@ -32,62 +32,72 @@
 		<link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <header class="hidden">
+        <header id="header" class="hidden" >
 			<div class="container">
 				<div class="row">
+
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-						<div style="display:inline; float: left; height: 500px; font-size:2em; margin-left: -22px;" class="menu hidden">
+						
+						<div style="display:inline; float: left; height: 50px; font-size:2em; margin-left: -22px;" class="menu">
 							<span class="icon-menuhome" ></span>	
 						</div>
-						<div style="display:inline; float: left; width:64px; height: 50px; line-height: 50px; " class="logo hidden">						
-							<img src="img/logo.svg" style="width:64px; height: 45px; margin-bottom: 5px;"> 	
+						
+						<div style="display:inline; float: left; width:64px; height: 50px; line-height: 50px;" class="logo" >						
+							<img src="img/logo.svg" onerror="this.src='img/logo.png'" style="width:100%; height: auto;"> 	
 						</div>
-						<div style="display:inline; float: left;  height: 50px; margin-left: 15px; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; font-size:1.4em;" class="title hidden">
+						
+						<div style="display:inline; float: left;  height: 50px; margin-left: 15px; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; font-size:1.4em;" class="title animated">
 							&nbsp;
 						</div>
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="tv hidden">
+					
+						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="tv hidden">
 							<span class="icon-tvenvivo"></span>	
 						</div>
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="share hidden">
+						
+						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="share hidden">
 							<span class="icon-shareandroid"></span>	
 						</div>
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="menu-group hidden">
+						
+						<!--div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="menu-group hidden">
 							<span class="icon-menuhome"></span>	
 						</div>
-						<div style="display:inline; float: right; height: 50px; font-size:2em;" class="refresh hidden">
+					
+						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="refresh hidden">
 							<span class="icon-refrescar"></span>	
-						</div>
+						</div-->
+					
 					</div>
+					
 				</div>				 
 			</div>			
 		</header>
 
-    	<main>
-    		<div id="over">
-    			<span class="Centerer"></span>
-    			<img class="Centered" src="http://dabef43ba137c0922ae6-78791d9251c278a0783b6cc2598ecd64.r88.cf1.rackcdn.com/9/c140ca79-1cb7-4250-9d9c-00179a2883b8a.jpg"/>
-    		</div>
-    		<ul class="bxslider" id="slider" style="width: 100%; height: 50%; display: inline-block;">
-			</ul>
-			<p>Garotas melhores todos os dias!</p>
-            <input type="text" name="login" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <input type="password" name="pwd" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button data-index="0" type="button" class="load col-xs-12 col-sm-12 col-md-12 col-lg-12">Iniciar Sesion</button>
-            <button data-index="0" type="button" class="load col-xs-12 col-sm-12 col-md-12 col-lg-12">Experimente 7 dias gratis</button>
-       </main>
+    	<main id="main">
+	    	
+       	</main>
     	
-    	<div id="wrapperM" class="page" style="z-index:3; left: -100%; height: 100%;" >
+    	<div id="wrapperL" class="page" style="z-index:3; left: -100%; height: 100%; padding: 0; marging: 0;" >
+			<div>
+				<form name="client">
+		            <input type="text" name="login" id="login"><br />
+		            <input type="password" name="pwd" id="pwd"><br />
+		            <button data-index="0" type="button" class="create">Iniciar Sesion</button><br />
+		        </form>
+	        </div>
+		</div>	
+		
+		<div id="wrapperM" class="page" style="z-index:4; left: -100%; height: 100%;" >
 			<div class="scroller">				
-				<div class="container">
+				<div class="container" >
 				</div>	
 			</div>
-		</div>	
+		</div>
 		
 				
 		<footer>
 			&nbsp;	
 		</footer>
-    	
+    	<script type="text/javascript" src="js/Push/PushManager.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
         <script type="text/javascript" src="js/wordpress.js"></script>
@@ -97,9 +107,9 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/touchEvent.js"></script>
         
+        
         <script src="js/jquery.bxslider/jquery.bxslider.min.js"></script>
 		<link href="js/jquery.bxslider/jquery.bxslider.css" rel="stylesheet" />
-        
         
         <script type="text/javascript">				
 		
@@ -109,20 +119,12 @@
 			});
 			
 			$('#wrapperM > .scroller > .container').css('height', $(window).height() + 'px');
-			_fInitMenu();
 			
-			$('img.splash').css('width','100%');						
-			$('img.splash').css('height',$(window).height() + 'px');
-	
-		 	var myScroll2 = new IScroll('#wrapperM',{click:true,preventDefault:true});
-			myScroll2.on('beforeScrollStart', function (e) { 
-				this.refresh();			
-			});
 			
 		</script>
+        
+      
 		
-		
-	
 		
 
 

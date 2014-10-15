@@ -82,6 +82,28 @@ public class Clients extends HecticusController {
                 }
             }
             if(client != null){
+                //actualizar regID
+                if(clientData.has("devices")){
+                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                    boolean update = false;
+                    while (devicesIterator.hasNext()){
+                        ObjectNode next = (ObjectNode)devicesIterator.next();
+                        if(next.has("device_id") && next.has("registration_id")){
+                            String registrationId = next.get("registration_id").asText();
+                            int deviceId = next.get("device_id").asInt();
+                            Device device = Device.finder.byId(deviceId);
+                            ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient",client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
+                            if(clientHasDevice == null){
+                                clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                client.getDevices().add(clientHasDevice);
+                                update = true;
+                            }
+                        }
+                    }
+                    if(update){
+                        client.update();
+                    }
+                }
                 response = buildBasicResponse(0, "OK", client.toJson());
                 return ok(response);
             }
@@ -535,7 +557,7 @@ public class Clients extends HecticusController {
      *
      */
     private static void getStatusFromUpstream(Client client) throws Exception{
-        if(client.getLogin() == null && client.getUserId() == null){
+        if(client.getLogin() != null && client.getUserId() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();

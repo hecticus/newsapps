@@ -5,6 +5,7 @@ import models.HecticusModel;
 import models.clients.ClientHasDevices;
 import models.clients.ClientHasWoman;
 import models.content.posts.Post;
+import models.content.posts.PostHasMedia;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -23,6 +24,9 @@ public class Woman extends HecticusModel {
     private Integer idWoman;
     @Constraints.Required
     private String name;
+
+    @Constraints.Required
+    private String defaultPhoto;
 
     @OneToMany(mappedBy="woman", cascade = CascadeType.ALL)
     private List<Post> posts;
@@ -54,6 +58,14 @@ public class Woman extends HecticusModel {
         return idWoman;
     }
 
+    public String getDefaultPhoto() {
+        return defaultPhoto;
+    }
+
+    public void setDefaultPhoto(String defaultPhoto) {
+        this.defaultPhoto = defaultPhoto;
+    }
+
     public List<WomanHasSocialNetwork> getSocialNetworks() {
         return socialNetworks;
     }
@@ -83,6 +95,16 @@ public class Woman extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);
         response.put("name", name);
+        if(!posts.isEmpty()){
+            List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
+            if(!media.isEmpty()){
+                response.put("default_photo", media.get(0).getLink());
+            } else {
+                response.put("default_photo", defaultPhoto);
+            }
+        } else {
+            response.put("default_photo", defaultPhoto);
+        }
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(WomanHasSocialNetwork ad : socialNetworks){
@@ -111,6 +133,16 @@ public class Woman extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);
         response.put("name", name);
+        if(!posts.isEmpty()){
+            List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
+            if(!media.isEmpty()){
+                response.put("default_photo", media.get(0).getLink());
+            } else {
+                response.put("default_photo", defaultPhoto);
+            }
+        } else {
+            response.put("default_photo", defaultPhoto);
+        }
         return response;
     }
 
@@ -118,6 +150,17 @@ public class Woman extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);
         response.put("name", name);
+        if(!posts.isEmpty()){
+            List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
+            if(!media.isEmpty()){
+                response.put("default_photo", media.get(0).getLink());
+            } else {
+                response.put("default_photo", defaultPhoto);
+            }
+        } else {
+            response.put("default_photo", defaultPhoto);
+        }
+
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(WomanHasSocialNetwork ad : socialNetworks){
