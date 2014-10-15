@@ -68,10 +68,19 @@ public class News extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();
         tr.put("idNews",idNews); //local id
-        tr.put("Body", decode(newsBody));
-        tr.put("Categories",decode(categories));
-        tr.put("Date" , publicationDate);
-        tr.put("Destacada", featured);
+        tr.put("status", status);
+        tr.put("title", title);
+        tr.put("summary", summary);
+        tr.put("body", decode(newsBody));
+        tr.put("categories",decode(categories));
+        tr.put("date" , publicationDate);
+        tr.put("featured", featured);
+        tr.put("keyword", keyword);
+        tr.put("author", author);
+        tr.put("publicationDate", publicationDate);
+        if (resources.size()> 0){
+            tr.put("resorces", Json.toJson((resources)));
+        }
 
         return tr;
     }
@@ -94,6 +103,10 @@ public class News extends HecticusModel {
 
     public static int getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
         return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findRowCount();
+    }
+
+    public static List<News> getLatestNews(int idApp, int offset, int count){
+        return finder.where().eq("id_app",idApp).findList();
     }
 
     /***

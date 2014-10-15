@@ -101,7 +101,7 @@ public class DataFactoryScraper extends HecticusThread {
             builder = builderFactory.newDocumentBuilder();
             //InputSource source = new InputSource(new StringReader(xml)); from string
 
-            Document document = builder.parse(new FileInputStream("tempFiles/deportes.futbol.brasileirao.fixture.xml"));
+            Document document = builder.parse(new FileInputStream("tempFiles/deportes.afp.brasileirao.fixture.xml"));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             String expression = "";//fixture
 
@@ -168,7 +168,7 @@ public class DataFactoryScraper extends HecticusThread {
             builder = builderFactory.newDocumentBuilder();
             //InputSource source = new InputSource(new StringReader(xml)); from string
 
-            Document document = builder.parse(new FileInputStream("tempFiles/deportes.futbol.brasileirao.posiciones.xml"));
+            Document document = builder.parse(new FileInputStream("tempFiles/deportes.afp.brasileirao.posiciones.xml"));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             //data fija
             NodeList equipos = (NodeList) xPath.compile("posiciones/equipo").evaluate(document, XPathConstants.NODESET);
@@ -193,7 +193,7 @@ public class DataFactoryScraper extends HecticusThread {
             builder = builderFactory.newDocumentBuilder();
             InputSource source = new InputSource(new StringReader(xml));
 
-            Document document = builder.parse(new FileInputStream("tempFiles/deportes.futbol.brasileirao.plantelxcampeonato.xml"));
+            Document document = builder.parse(new FileInputStream("tempFiles/deportes.afp.brasileirao.plantelxcampeonato.xml"));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             //data fija
             String expression = "";
