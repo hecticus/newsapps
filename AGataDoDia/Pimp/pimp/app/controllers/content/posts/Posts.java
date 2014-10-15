@@ -9,6 +9,7 @@ import controllers.content.women.Women;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
+import models.clients.Client;
 import models.content.posts.*;
 import models.content.women.Woman;
 import play.libs.Json;
@@ -370,14 +371,22 @@ public class Posts extends HecticusController {
         }
     }
 
-    public static Result getRecentPosts(){
+    public static Result getRecentPosts(Integer id){
         try {
-            Iterator<Post> postIterator = Post.finder.where().setFirstRow(0).setMaxRows(10).orderBy("date desc").findList().iterator();
-            ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
-            while(postIterator.hasNext()){
-                posts.add(postIterator.next().toJson());
+            Client client = Client.finder.byId(id);
+            ObjectNode response = null;
+            if(client != null) {
+                Country country = client.getCountry();
+                Language language = country.getLanguage();
+                Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage",language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+                while(postIterator.hasNext()){
+                    posts.add(postIterator.next().toJson(language));
+                }
+                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+            } else {
+                response = buildBasicResponse(2, "el cliente no existe");
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(posts));
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);

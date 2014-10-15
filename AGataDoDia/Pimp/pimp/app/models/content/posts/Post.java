@@ -201,4 +201,29 @@ public class Post extends HecticusModel {
         response.put("push_date", pushDate);
         return response;
     }
+
+    public ObjectNode toJson(Language language) {
+        ObjectNode response = Json.newObject();
+        response.put("id_post", idPost);
+        response.put("woman", woman.toJsonWithoutRelations());
+        response.put("date", date);
+        response.put("source", source);
+        if(media != null && !media.isEmpty()){
+            ArrayList<String> apps = new ArrayList<>();
+            for(PostHasMedia ad : media){
+                apps.add(ad.getLink());
+            }
+            response.put("files", Json.toJson(apps));
+        }
+        if(localizations != null && !localizations.isEmpty()){
+            for(PostHasLocalization ad : localizations){
+                if(ad.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue()){
+                    response.put("title", ad.getTitle());
+                    response.put("content", ad.getContent());
+                    break;
+                }
+            }
+        }
+        return response;
+    }
 }
