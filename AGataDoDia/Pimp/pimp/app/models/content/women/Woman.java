@@ -90,6 +90,10 @@ public class Woman extends HecticusModel {
         this.clients = clients;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -112,13 +116,15 @@ public class Woman extends HecticusModel {
             }
             response.put("social_networks", Json.toJson(apps));
         }
-        if(clients != null && !clients.isEmpty()){
-            ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(ClientHasWoman ad : clients){
-                apps.add(ad.toJsonWithoutWoman());
-            }
-            response.put("clients", Json.toJson(apps));
-        }
+//        if(clients != null && !clients.isEmpty()){
+//            ArrayList<ObjectNode> apps = new ArrayList<>();
+//            for(ClientHasWoman ad : clients){
+//                apps.add(ad.toJsonWithoutWoman());
+//            }
+//            response.put("clients", Json.toJson(apps));
+//        }
+        response.put("clients", clients == null?0:clients.size());
+        response.put("posts", posts == null?0:posts.size());
         if(categories != null && !categories.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(WomanHasCategory ad : categories){
@@ -133,6 +139,8 @@ public class Woman extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);
         response.put("name", name);
+        response.put("clients", clients == null?0:clients.size());
+        response.put("posts", posts == null?0:posts.size());
         if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
             if(!media.isEmpty()){
@@ -143,6 +151,13 @@ public class Woman extends HecticusModel {
         } else {
             response.put("default_photo", defaultPhoto);
         }
+        if(socialNetworks != null && !socialNetworks.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(WomanHasSocialNetwork ad : socialNetworks){
+                apps.add(ad.toJsonWithoutWoman());
+            }
+            response.put("social_networks", Json.toJson(apps));
+        }
         return response;
     }
 
@@ -150,6 +165,8 @@ public class Woman extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);
         response.put("name", name);
+        response.put("clients", clients == null?0:clients.size());
+        response.put("posts", posts == null?0:posts.size());
         if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
             if(!media.isEmpty()){

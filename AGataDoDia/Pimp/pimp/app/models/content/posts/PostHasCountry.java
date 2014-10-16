@@ -33,6 +33,10 @@ public class PostHasCountry extends HecticusModel{
         this.country = country;
     }
 
+    public Integer getIdPostHasCountry() {
+        return idPostHasCountry;
+    }
+
     public Post getPost() {
         return post;
     }

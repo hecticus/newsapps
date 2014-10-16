@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Country;
 import models.basic.Language;
+import models.content.women.SocialNetwork;
 import models.content.women.Woman;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -36,6 +37,10 @@ public class Post extends HecticusModel {
 
     @Constraints.Required
     private String source;
+
+    @OneToOne
+    @JoinColumn(name = "id_social_network")
+    private SocialNetwork socialNetwork;
 
     @Constraints.Required
     private Integer push;
@@ -137,6 +142,14 @@ public class Post extends HecticusModel {
         this.pushDate = pushDate;
     }
 
+    public SocialNetwork getSocialNetwork() {
+        return socialNetwork;
+    }
+
+    public void setSocialNetwork(SocialNetwork socialNetwork) {
+        this.socialNetwork = socialNetwork;
+    }
+
     public String getPushDateAsString() {
         Date expiry = new Date(pushDate);
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss z");
@@ -182,6 +195,8 @@ public class Post extends HecticusModel {
         response.put("source", source);
         response.put("push", push);
         response.put("push_date", pushDate);
+        response.put("social_network", socialNetwork.toJson());
+        response.put("media", media == null?0:media.size());
         if(media != null && !media.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(PostHasMedia ad : media){
@@ -214,6 +229,8 @@ public class Post extends HecticusModel {
         response.put("source", source);
         response.put("push", push);
         response.put("push_date", pushDate);
+        response.put("social_network", socialNetwork.toJson());
+        response.put("media", media == null?0:media.size());
         return response;
     }
 
@@ -224,6 +241,8 @@ public class Post extends HecticusModel {
         response.put("woman", woman.toJsonWithNetworks());
         response.put("date", date);
         response.put("source", source);
+        response.put("social_network", socialNetwork.toJson());
+        response.put("media", media == null?0:media.size());
         if(media != null && !media.isEmpty()){
             ArrayList<String> apps = new ArrayList<>();
             for(PostHasMedia ad : media){

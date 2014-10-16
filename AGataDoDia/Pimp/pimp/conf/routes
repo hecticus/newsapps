@@ -5,6 +5,7 @@
 # Home page
 GET     /                                                   controllers.Application.index()
 
+
 GET     /check/*name                                        controllers.Application.checkFile(name: String)
 GET     /garotas/settings                                   controllers.Application.getAppSettings()
 
@@ -46,7 +47,9 @@ POST    /garotas/v1/posts/update/:id                        controllers.content.
 POST    /garotas/v1/posts/delete/:id                        controllers.content.posts.Posts.delete(id : Integer)
 GET     /garotas/v1/posts/get/:id                           controllers.content.posts.Posts.get(id : Integer)
 GET     /garotas/v1/posts/get/client/:id                    controllers.content.posts.Posts.getRecentPosts(id : Integer)
+GET     /garotas/v1/posts/get/client/:idClient/:idPost      controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
 GET     /garotas/v1/posts/list                              controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /garotas/v1/posts/list/woman/:id                    controllers.content.posts.Posts.getListForWoman(id : Integer)
 
 #Files
 GET     /garotas/v1/files/get                               controllers.content.posts.Posts.getPublicImages()
@@ -66,3 +69,6 @@ POST    /garotas/v1/clients/pmc/clean                       controllers.client.C
 #FAKE UPSTREAM URL
 POST    /garotas/v1/clients/upstream/game/user/login        controllers.client.Clients.upstreamFakeLogin()
 POST    /garotas/v1/clients/upstream/game/user/status       controllers.client.Clients.upstreamFakeStatus()
+
+
+

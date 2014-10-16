@@ -393,4 +393,43 @@ public class Posts extends HecticusController {
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
+
+    public static Result getListForWoman(Integer id){
+        try {
+            ObjectNode response = null;
+            Woman woman = Woman.finder.byId(id);
+            if(woman != null) {
+                Iterator<Post> postIterator = woman.getPosts().iterator();
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+                while(postIterator.hasNext()){
+                    posts.add(postIterator.next().toJson());
+                }
+                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
+    public static Result getPostForClient(Integer idClient, Integer idPost){
+        try {
+            ObjectNode response = null;
+            Post post = Post.finder.byId(idPost);
+            Client client = Client.finder.byId(idClient);
+            if(post != null && client != null) {
+                response = buildBasicResponse(0, "OK", post.toJson(client.getCountry().getLanguage()));
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + idPost + " para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
 }
