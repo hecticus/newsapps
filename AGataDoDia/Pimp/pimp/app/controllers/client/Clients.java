@@ -193,7 +193,7 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result update(Integer id, String upstreamChannel) {
+    public static Result update(Integer id) {
         ObjectNode clientData = getJson();
         try{
             ObjectNode response = null;
@@ -211,6 +211,11 @@ public class Clients extends HecticusController {
                     client.setPassword(clientData.get("password").asText());
                     loginAgain = true;
                     update = true;
+                }
+
+                String upstreamChannel = "Android"; //default Android
+                if(clientData.has("upstreamChannel")){
+                    upstreamChannel = clientData.get("upstreamChannel").asText();
                 }
 
                 if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
@@ -330,12 +335,12 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result get(Integer id, Boolean pmc, String upstreamChannel){
+    public static Result get(Integer id, String upstreamChannel, Boolean pmc){
         try {
             ObjectNode response = null;
             Client client = Client.finder.byId(id);
             if(client != null) {
-                if(client.getStatus() >= 0) {
+                if(client.getStatus() >= 0 && !pmc) {
                     String lcd = client.getLastCheckDate();
                     Calendar lastCheckDate = new GregorianCalendar(Integer.parseInt(lcd.substring(0, 4)), Integer.parseInt(lcd.substring(4, 6)) - 1, Integer.parseInt(lcd.substring(6)));
                     TimeZone tz = TimeZone.getDefault();
