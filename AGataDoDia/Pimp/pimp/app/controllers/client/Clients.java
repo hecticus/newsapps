@@ -234,22 +234,26 @@ public class Clients extends HecticusController {
                 }
 
                 if(clientData.has("remove_woman")){
-                    Iterator<JsonNode> devicesIterator = clientData.get("remove_devices").elements();
-                    ArrayList<ClientHasDevices> devices = new ArrayList<>();
-                    while (devicesIterator.hasNext()) {
-                        JsonNode next = devicesIterator.next();
-                        int index = client.getWomanIndex(next.asInt());
-                        if (index != -1) {
-                            client.getWomen().remove(index);
-                            update = true;
+                    Iterator<JsonNode> womanIterator = clientData.get("remove_woman").elements();
+                    while (womanIterator.hasNext()) {
+                        JsonNode next = womanIterator.next();
+                        Woman woman = Woman.finder.byId(next.asInt());
+                        if(woman == null){
+                            continue;
                         }
+                        ClientHasWoman clientHasWoman = ClientHasWoman.finder.where().eq("client.idClient", client.getIdClient()).eq("woman.idWoman", woman.getIdWoman()).findUnique();
+                        if(clientHasWoman != null){
+                            client.getWomen().remove(clientHasWoman);
+                            clientHasWoman.delete();
+                        }
+
                     }
                 }
 
                 if(clientData.has("add_woman")) {
-                    Iterator<JsonNode> devicesIterator = clientData.get("add_devices").elements();
-                    while (devicesIterator.hasNext()) {
-                        JsonNode next = devicesIterator.next();
+                    Iterator<JsonNode> womanIterator = clientData.get("add_woman").elements();
+                    while (womanIterator.hasNext()) {
+                        JsonNode next = womanIterator.next();
                         int index = client.getWomanIndex(next.asInt());
                         if (index == -1) {
                             Woman woman = Woman.finder.byId(next.asInt());

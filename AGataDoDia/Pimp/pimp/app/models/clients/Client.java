@@ -163,7 +163,11 @@ public class Client extends HecticusModel {
         if(woman == null){
             return -1;
         }
-        return women.indexOf(woman);
+        ClientHasWoman clientHasWoman = ClientHasWoman.finder.where().eq("client.idClient", idClient).eq("woman.idWoman", woman.getIdWoman()).findUnique();
+        if(clientHasWoman == null){
+            return -1;
+        }
+        return women.indexOf(clientHasWoman);
     }
 
 
