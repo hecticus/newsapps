@@ -59,7 +59,7 @@ public class Posts extends HecticusController {
                 SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
                 String date = sf.format(actualDate.getTime());
                 Post post = new Post(woman, date, postData.get("source").asText(), socialNetwork);
-                
+
                 Iterator<JsonNode> localizationsIterator = postData.get("localizations").elements();
                 ArrayList<PostHasLocalization> localizations = new ArrayList<>();
                 while (localizationsIterator.hasNext()){

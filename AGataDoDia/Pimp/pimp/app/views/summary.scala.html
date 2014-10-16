@@ -1,0 +1,248 @@
+@(post: models.content.posts.Post, resources: List[String], countries: List[models.basic.Country], languages: List[models.basic.Language], women: List[models.content.women.Woman])
+
+@main("A Gata Do Dia - Post") {
+
+	<div class="jumbotron">
+		
+		<div class="bs-docs-section">
+			<div class="row">		    	
+		    	<div class="col-lg-12">
+		    		
+					<div class="alert alert-dismissable alert-success" style="display: none;">
+					    <button type="button" class="close" data-dismiss="alert">×</button>
+					    <strong>¡Bien!</strong> Las im&eacute;genes se han asociado con &eacute;xito.
+					</div>
+					
+					<div class="alert alert-dismissable alert-danger" style="display: none;">
+    					<button type="button" class="close" data-dismiss="alert">×</button>
+    					<strong>¡Lo sentimos!</strong> Se ha generado un error asociando las im&aacute;genes.
+					</div>
+
+				</div>
+	    	</div>	
+		</div>
+			
+
+		
+		
+	    <h1>@Html(""+post.getIdPost()) - @Html(post.getWoman().getName())</h1>
+
+
+        @if(post.getPush == 1){
+            <p class="text-info">Scheduled to push on @Html(post.getPushDateAsString())</p>
+        }else{
+            @if(post.getPush == 2){
+                <p class="text-danger">Pushing</p>
+            }else{
+                <p class="text-success">Pushed on @Html(post.getPushDateAsString())</p>
+            }
+        }
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Date</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>@Html(post.getDateFormatted())</p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Source</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <input type="text" class="form-control" id="inputSouce" placeholder="Titulo" value="@post.getSource()">
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Gata</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <select class="form-control" id="selectWoman">
+                                @for((woman, index) <-  women.zipWithIndex) {
+                                    @if(woman.getIdWoman() == post.getWoman().getIdWoman()){
+                                        <option id="row-selectable-woman-@woman.getIdWoman" data-resource="@woman.getIdWoman" selected>@Html(woman.getName())</option>
+                                    }else{
+                                        <option id="row-selectable-woman-@woman.getIdWoman" data-resource="@woman.getIdWoman">@Html(woman.getName())</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Countries</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <div class="list-group">
+                        <div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
+                            @for((country, index) <-  post.getCountries().zipWithIndex) {
+                                <div id="row-country-@country.getIdPostHasCountry()" data-resource="@country.getIdPostHasCountry()" >
+                                    <p>@Html(country.getCountry().getName()) - @Html(country.getCountry().getLanguage().getName())</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12">
+                <select class="form-control" id="select">
+                    @for((country, index) <-  countries.zipWithIndex) {
+                        <option id="row-selectable-country-@country.getIdCountry" data-resource="@country.getIdCountry">@Html(country.getName()) - @Html(country.getLanguage().getName())</option>
+                    }
+                </select>
+            </div>
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Localizations</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <div class="list-group">
+                        <div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
+                            @for((localization, index) <-  post.getLocalizations().zipWithIndex) {
+                            <div id="row-localization-@localization.getIdPostHasLocalization()" data-resource="@localization.getIdPostHasLocalization()" >
+                                <h3>@Html(localization.getLanguage().getName())</h3>
+                                <input type="text" class="form-control" id="input-localization-title-@localization.getIdPostHasLocalization()" placeholder="Title" value="@localization.getTitle()">
+                                <input type="text" class="form-control" id="input-localization-content-@localization.getIdPostHasLocalization()" placeholder="Content" value="@localization.getContent()">
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12">
+                <select class="form-control" id="select-language">
+                    @for((language, index) <-  languages.zipWithIndex) {
+                    <option id="row-selectable-language-@language.getIdLanguage" data-resource="@language.getIdLanguage">@Html(language.getName())</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-lg-12">
+                <input type="text" class="form-control" id="inputTitle" placeholder="Titulo">
+                <input type="text" class="form-control" id="inputContent" placeholder="Contenido">
+            </div>
+
+
+
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+
+	    <div class="bs-docs-section">
+	    	
+	    	
+	    	<div class="row">		    	
+		    	<div class="col-lg-12">
+					<h2>Related Images</h2>
+				</div>
+	    	</div>	
+	    	
+	    	<div class="row">		    	
+	    		<div class="col-lg-12">
+					<div class="bs-component">
+						<div class="list-group">
+							<div class="list-group-item related" style="width:100%; height:auto; min-height: 100px;">
+								@for((resource, index) <-  post.getMedia().zipWithIndex) {
+							    	<div id="row-picture-@resource.getIdPostHasMedia()" data-resource="@resource.getIdPostHasMedia()" class="row-picture related" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal">
+					        			<img class="img-rounded" src="@resource.getLink()" alt="icon" style="width: 100px; height: 100px;" >
+					        		</div>	
+							    }	
+							</div>
+								
+						</div>
+					</div>
+				</div>
+			</div>
+
+	    </div>
+
+    	<div class="row">		    	
+	    	<div class="col-lg-12">
+				<h2>Available Images</h2>
+			</div>
+    	</div>	
+	    	
+    	<div class="row">		    	
+    		<div class="col-lg-12">    			
+				<div class="bs-component">
+					<div class="list-group">
+						<div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
+							@for((resource, index) <-  resources.zipWithIndex) {
+						    	<div id="row-picture-@index" data-resource="@index" class="row-picture relatable" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal" >
+				        			<img class="img-rounded" src="@resource" alt="icon" style="width: 100px; height: 100px;"  >
+				        		</div>	
+						    }			    
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <hr />
+	    <p style="text-align: right;">
+	    	<a id="save" class="btn btn-primary btn-lg" data-post="@post.getIdPost()">Save</a>
+		</p>
+		
+		
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Detalle de la imagen</h4>
+		      </div>
+		      <div class="modal-body">
+		        ...
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        <button type="button" class="btn btn-primary"></button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+	       
+	</div>
+
+}

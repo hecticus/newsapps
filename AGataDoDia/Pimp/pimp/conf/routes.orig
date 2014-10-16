@@ -3,15 +3,11 @@
 # ~~~~
 
 # Home page
-#GET     /                                                   controllers.Application.index()
+GET     /                                                   controllers.Application.index()
 
-GET     /                      		                        controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-GET     /index                                              controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-
-GET     /getImg/*name                                       controllers.Application.getImg(name : String)
 
 GET     /check/*name                                        controllers.Application.checkFile(name: String)
-GET     /garotas/loading                                    controllers.Application.getAppSettings()
+GET     /garotas/settings                                   controllers.Application.getAppSettings()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
@@ -60,14 +56,14 @@ GET     /garotas/v1/files/get                               controllers.content.
 
 #Clients
 POST    /garotas/v1/clients/create                          controllers.client.Clients.create()
-POST    /garotas/v1/clients/update/:id                      controllers.client.Clients.update(id : Integer)
+POST    /garotas/v1/clients/update/:id/:upstreamChannel     controllers.client.Clients.update(id : Integer, upstreamChannel : String?="Android")
 POST    /garotas/v1/clients/delete/:id                      controllers.client.Clients.delete(id : Integer)
 POST    /garotas/v1/clients/upstream/resetpass              controllers.client.Clients.resetUpstreamPass()
-GET     /garotas/v1/clients/get/:id/:upstreamChannel        controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET     /garotas/v1/clients/get/:id/:upstreamChannel        controllers.client.Clients.get(id : Integer, pmc : Boolean?=false, upstreamChannel : String?="Android")
 GET     /garotas/v1/clients/list                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 
 #Clients PMC
-GET     /garotas/v1/clients/pmc/get/:id                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
+GET     /garotas/v1/clients/pmc/get/:id                     controllers.client.Clients.get(id : Integer, pmc : Boolean?=true)
 GET     /garotas/v1/clients/pmc/list/:page/:pageSize        controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
 POST    /garotas/v1/clients/pmc/clean                       controllers.client.Clients.cleanDevices()
 
@@ -75,49 +71,10 @@ POST    /garotas/v1/clients/pmc/clean                       controllers.client.C
 POST    /garotas/v1/clients/upstream/game/user/subscribe    controllers.client.Clients.upstreamFakeCreate()
 POST    /garotas/v1/clients/upstream/game/user/login        controllers.client.Clients.upstreamFakeLogin()
 POST    /garotas/v1/clients/upstream/game/user/status       controllers.client.Clients.upstreamFakeStatus()
+<<<<<<< HEAD
+
+
+
+=======
 POST    /garotas/v1/clients/upstream/game/user/password     controllers.client.Clients.upstreamFakeResetPass()
-
-#view
-
-GET     /posts/:id         			                        controllers.Application.getPost(id:Integer)
-
-
-# Authenticate
-GET     /restricted                                         controllers.Application.restricted
-GET     /assets/javascript/routes.js                        controllers.Application.jsRoutes
-
-GET     /profile                                            controllers.Application.profile
-
-GET     /login                                              controllers.Application.login
-POST    /login                                              controllers.Application.doLogin
-
-GET     /logout                                             com.feth.play.module.pa.controllers.Authenticate.logout
-GET     /authenticate/:provider                             com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
-
-GET     /signup                                             controllers.Application.signup
-POST    /signup                                             controllers.Application.doSignup
-
-GET     /accounts/unverified        		                controllers.Signup.unverified
-GET     /authenticate/:provider/denied    	                controllers.Signup.oAuthDenied(provider: String)
-
-GET     /accounts/verify/:token                             controllers.Signup.verify(token: String)
-GET     /accounts/exists                                    controllers.Signup.exists
-
-GET     /accounts/password/reset/:token                     controllers.Signup.resetPassword(token: String)
-POST    /accounts/password/reset                            controllers.Signup.doResetPassword
-
-GET    /accounts/password/change                            controllers.Account.changePassword
-POST   /accounts/password/change                            controllers.Account.doChangePassword
-
-GET     /accounts/verify                                    controllers.Account.verifyEmail
-
-GET     /accounts/add                                       controllers.Account.link
-
-GET     /accounts/link                                      controllers.Account.askLink
-POST    /accounts/link                                      controllers.Account.doLink
-
-GET     /accounts/merge                                     controllers.Account.askMerge
-POST    /accounts/merge                                     controllers.Account.doMerge
-
-GET     /login/password/forgot                              controllers.Signup.forgotPassword(email: String ?= "")
-POST    /login/password/forgot                              controllers.Signup.doForgotPassword
+>>>>>>> ffa3b8cbf07ed6a026125b4cdff97653f201e91a
