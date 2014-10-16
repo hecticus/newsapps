@@ -53,7 +53,7 @@ public class Category extends HecticusModel {
             for(WomanHasCategory ad : women){
                 apps.add(ad.toJsonWithoutCategory());
             }
-            response.put("clients", Json.toJson(apps));
+            response.put("women", Json.toJson(apps));
         }
         return response;
     }

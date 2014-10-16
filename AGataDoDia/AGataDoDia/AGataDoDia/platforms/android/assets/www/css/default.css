@@ -1,0 +1,44 @@
+:not(input):not(textarea) {
+	-webkit-user-select: none; /* disable selection/Copy of UIWebView */
+	-webkit-touch-callout: none; /* disable the IOS popup when long-press on a link */
+}
+
+
+	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+	html { -ms-touch-action: none; }
+	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
+
+
+
+	#wrapper {	
+		position: absolute;
+		z-index: 1;
+		top: 75px; 
+		bottom: 0px; 
+		left: 0; 
+		width: 100%;
+		background: #ffffff;
+	}
+
+	#wrapper .container-fluid .row i {font-size: 2em;}
+
+	header{			
+		position: absolute; 
+		z-index: 2;
+		top: 0;
+		left: 0; 
+		width: 100%; 
+		height: 75px;
+		line-height: 75px;		
+		background: #FFFFFF;		
+		padding: 0;
+		margin: 0;
+		color: #ED2226;	
+		border: 0;				
+		background-image: url(../img/dashed.png), url(../img/dashed.png); 
+		background-repeat: repeat-x; 
+		background-position: top, bottom;
+	}
+	
+	.hidden { display: none; }			
+	.option {text-align: center; font-size: 0.9em; font-weight: bold;}

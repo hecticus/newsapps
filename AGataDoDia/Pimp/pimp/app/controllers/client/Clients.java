@@ -106,6 +106,28 @@ public class Clients extends HecticusController {
                 }
             }
             if(client != null){
+                //actualizar regID
+                if(clientData.has("devices")){
+                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                    boolean update = false;
+                    while (devicesIterator.hasNext()){
+                        ObjectNode next = (ObjectNode)devicesIterator.next();
+                        if(next.has("device_id") && next.has("registration_id")){
+                            String registrationId = next.get("registration_id").asText();
+                            int deviceId = next.get("device_id").asInt();
+                            Device device = Device.finder.byId(deviceId);
+                            ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient",client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
+                            if(clientHasDevice == null){
+                                clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                client.getDevices().add(clientHasDevice);
+                                update = true;
+                            }
+                        }
+                    }
+                    if(update){
+                        client.update();
+                    }
+                }
                 response = buildBasicResponse(0, "OK", client.toJson());
                 return ok(response);
             }
@@ -236,22 +258,26 @@ public class Clients extends HecticusController {
                 }
 
                 if(clientData.has("remove_woman")){
-                    Iterator<JsonNode> devicesIterator = clientData.get("remove_devices").elements();
-                    ArrayList<ClientHasDevices> devices = new ArrayList<>();
-                    while (devicesIterator.hasNext()) {
-                        JsonNode next = devicesIterator.next();
-                        int index = client.getWomanIndex(next.asInt());
-                        if (index != -1) {
-                            client.getWomen().remove(index);
-                            update = true;
+                    Iterator<JsonNode> womanIterator = clientData.get("remove_woman").elements();
+                    while (womanIterator.hasNext()) {
+                        JsonNode next = womanIterator.next();
+                        Woman woman = Woman.finder.byId(next.asInt());
+                        if(woman == null){
+                            continue;
                         }
+                        ClientHasWoman clientHasWoman = ClientHasWoman.finder.where().eq("client.idClient", client.getIdClient()).eq("woman.idWoman", woman.getIdWoman()).findUnique();
+                        if(clientHasWoman != null){
+                            client.getWomen().remove(clientHasWoman);
+                            clientHasWoman.delete();
+                        }
+
                     }
                 }
 
                 if(clientData.has("add_woman")) {
-                    Iterator<JsonNode> devicesIterator = clientData.get("add_devices").elements();
-                    while (devicesIterator.hasNext()) {
-                        JsonNode next = devicesIterator.next();
+                    Iterator<JsonNode> womanIterator = clientData.get("add_woman").elements();
+                    while (womanIterator.hasNext()) {
+                        JsonNode next = womanIterator.next();
                         int index = client.getWomanIndex(next.asInt());
                         if (index == -1) {
                             Woman woman = Woman.finder.byId(next.asInt());
@@ -741,7 +767,7 @@ public class Clients extends HecticusController {
      *
      */
     private static void getStatusFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() == null && client.getUserId() == null){
+        if(client.getLogin() != null && client.getUserId() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();

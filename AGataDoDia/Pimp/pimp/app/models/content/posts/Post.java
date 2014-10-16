@@ -1,5 +1,6 @@
 package models.content.posts;
 
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Country;
@@ -10,7 +11,9 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -134,6 +137,18 @@ public class Post extends HecticusModel {
         this.pushDate = pushDate;
     }
 
+    public String getPushDateAsString() {
+        Date expiry = new Date(pushDate);
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss z");
+        return sf.format(expiry);
+    }
+
+    public String getDateFormatted() {
+        return date.substring(6, 8) + "/" + date.substring(4, 6) + "/" + date.substring(0, 4)+ " - " + date.substring(8, 10) + ":" + date.substring(10);
+    }
+
+
+
     public int getLocalizationIndex(Language language) {
         PostHasLocalization phl = PostHasLocalization.finder.where().eq("post.idPost", idPost).eq("language.idLanguage", language.getIdLanguage()).findUnique();
         if(phl == null){
@@ -200,5 +215,37 @@ public class Post extends HecticusModel {
         response.put("push", push);
         response.put("push_date", pushDate);
         return response;
+    }
+
+    public ObjectNode toJson(Language language) {
+        ObjectNode response = Json.newObject();
+        response.put("id_post", idPost);
+//        response.put("woman", woman.toJsonWithoutRelations());
+        response.put("woman", woman.toJsonWithNetworks());
+        response.put("date", date);
+        response.put("source", source);
+        if(media != null && !media.isEmpty()){
+            ArrayList<String> apps = new ArrayList<>();
+            for(PostHasMedia ad : media){
+                apps.add(ad.getLink());
+            }
+            response.put("files", Json.toJson(apps));
+        }
+        if(localizations != null && !localizations.isEmpty()){
+            for(PostHasLocalization ad : localizations){
+                if(ad.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue()){
+                    response.put("title", ad.getTitle());
+                    response.put("content", ad.getContent());
+                    break;
+                }
+            }
+        }
+        return response;
+    }
+
+    public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
+//        return finder.where().setFirstRow(page).setMaxRows(pageSize).findList();
+        return finder.where()//.ilike("headLine", "%" + filter + "%").orderBy(sortBy + " " + order)
+         .findPagingList(pageSize).getPage(page);
     }
 }

@@ -11,6 +11,8 @@ import play.mvc.Result;
 import play.mvc.Results;
 import utils.Utils;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,7 +25,7 @@ public class Women extends HecticusController {
         ObjectNode womanData = getJson();
         try{
             ObjectNode response = null;
-            if(womanData.has("name")){
+            if(womanData.has("name") && womanData.has("default_photo")){
                 Woman woman = createWoman(womanData);
                 response = buildBasicResponse(0, "OK", woman.toJson());
             } else {
@@ -46,6 +48,14 @@ public class Women extends HecticusController {
                     woman.setName(womanData.get("name").asText());
                     woman.update();
                 }
+
+                if(womanData.has("default_photo")){
+                    String file = womanData.get("default_photo").asText();
+                    String path = Utils.uploadAttachment(file, woman.getIdWoman());
+                    woman.setDefaultPhoto(path);
+                    woman.update();
+                }
+
                 if(womanData.has("add_social_networks")){
                     Iterator<JsonNode> socialNetworks = womanData.get("add_social_networks").elements();
                     while (socialNetworks.hasNext()){
@@ -159,7 +169,7 @@ public class Women extends HecticusController {
         }
     }
 
-    public static Woman createWoman(ObjectNode data){
+    public static Woman createWoman(ObjectNode data) throws IOException, NoSuchAlgorithmException {
         Woman woman = new Woman(data.get("name").asText());
         if(data.has("social_networks")){
             Iterator<JsonNode> socialNetworks = data.get("social_networks").elements();
@@ -190,6 +200,13 @@ public class Women extends HecticusController {
             }
             woman.setCategories(cats);
         }
+
+        if(data.has("default_photo")){
+            String file = data.get("default_photo").asText();
+            String path = Utils.uploadAttachment(file, woman.getIdWoman());
+            woman.setDefaultPhoto(path);
+        }
+
         woman.save();
         return woman;
     }

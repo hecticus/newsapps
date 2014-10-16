@@ -1,4 +1,7 @@
-@(title: String)(content: Html)
+@(title: String, nav: String = "")(content: Html)
+
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
 
 <!DOCTYPE html>
 
@@ -211,19 +214,35 @@
     </head>
     <body>
     	
-    	
-    	
-    	
-    	
-    	
     	<div class="container">
     	
 	    	<div class="navbar navbar-default">
-				<div class="navbar-header">	        
+				<div class="navbar-header">					
 			        <a class="navbar-brand" href="@controllers.routes.Application.index()">Inicio</a>
 			    </div>
-			</div>
-    	
+			   
+				<div class="navbar-collapse collapse navbar-responsive-collapse">			        
+			        <ul class="nav navbar-nav navbar-right">
+			            <li class="dropdown">
+			            	
+			            	@subjectPresentOr() {
+          						@defining(Application.getLocalUser(session())) { user =>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span>&nbsp;@user.name <b class="caret"></b></a>
+            						<ul class="dropdown-menu">
+			                    		<li><a href="@routes.Application.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
+			                    		<li class="divider"></li>
+			                    		<li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><span class="glyphicon glyphicon-off"></span>&nbsp;@Messages("playauthenticate.navigation.logout")</a></li>
+			                		</ul>
+            					}
+          					}{            					
+            					<a href="@routes.Application.login()" class="dropdown-toggle @("disabled".when(nav == "login"))" data-toggle="dropdown">@Messages("playauthenticate.navigation.login")</a>
+          					}
+    			                
+			            </li>
+			        </ul>
+			    </div>			    			    
+			</div> 
+
     		@content
     		
     		<footer>
