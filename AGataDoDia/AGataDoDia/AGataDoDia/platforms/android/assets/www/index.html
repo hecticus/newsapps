@@ -22,111 +22,71 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/animate.css">
-		<link rel="stylesheet" href="fonts/iconvault/iconvault-preview.css">				
-		<link rel="stylesheet" href="fonts/iconvault2/iconvault-preview.css">
-		<link rel="stylesheet" href="css/transition.css">
-		<link rel="stylesheet" href="css/main.css">
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <link rel="stylesheet" type="text/css" href="css/default.css" />        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/transition.css">
+        <link rel="stylesheet" href="css/material-wfont.min.css">
+     
+        <title>A gata do dia</title>
     </head>
-    <body>
-        <header id="header" class="hidden" >
-			<div class="container">
-				<div class="row">
+    
+    <body class="content-init" style="position: fixed;">
+    	
+    	<header>
 
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-						
-						<div style="display:inline; float: left; height: 50px; font-size:2em; margin-left: -22px;" class="menu">
-							<span class="icon-menuhome" ></span>	
-						</div>
-						
-						<div style="display:inline; float: left; width:64px; height: 50px; line-height: 50px;" class="logo" >						
-							<img src="img/logo.svg" onerror="this.src='img/logo.png'" style="width:100%; height: auto;"> 	
-						</div>
-						
-						<div style="display:inline; float: left;  height: 50px; margin-left: 15px; text-align: left; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; font-size:1.4em;" class="title animated">
-							&nbsp;
-						</div>
+			<div class="container-fluid" >
+				
+				<div class="row" data-touch="menu">					
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+						<img src="img/agatadodia.svg" onerror="this.src='img/agatadodia.png'" alt="a gata do dia" style="width:75%; height: auto;">				
+					</div>
+				</div>   
+
+				<div class="row menu hidden" style="background: #666666; height: 50px; line-height:50px; ">
 					
-						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="tv hidden">
-							<span class="icon-tvenvivo"></span>	
-						</div>
-						
-						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="share hidden">
-							<span class="icon-shareandroid"></span>	
-						</div>
-						
-						<!--div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="menu-group hidden">
-							<span class="icon-menuhome"></span>	
-						</div>
-					
-						<div style="display:inline; float: right; height: 50px; font-size:2.2em;" class="refresh hidden">
-							<span class="icon-refrescar"></span>	
-						</div-->
-					
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 option">
+						<span>Salao de Fama</span>
 					</div>
 					
-				</div>				 
-			</div>			
-		</header>
-
-    	<main id="main">
-	    	
-       	</main>
-    	
-    	<div id="wrapperL" class="page" style="z-index:3; left: -100%; height: 100%; padding: 0; marging: 0;" >
-			<div>
-				<form name="client">
-		            <input type="text" name="login" id="login"><br />
-		            <input type="password" name="pwd" id="pwd"><br />
-		            <button data-index="0" type="button" class="create">Iniciar Sesion</button><br />
-		        </form>
-	        </div>
-		</div>	
-		
-		<div id="wrapperM" class="page" style="z-index:4; left: -100%; height: 100%;" >
-			<div class="scroller">				
-				<div class="container" >
-				</div>	
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 option">
+						<span>Meu Favorito</span>
+					</div>
+					
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 option">
+						<span>Configura&ccedil;&otilde;es</span>
+					</div>
+					
+				</div>   
+	
 			</div>
-		</div>
-		
-				
-		<footer>
-			&nbsp;	
-		</footer>
-    	<script type="text/javascript" src="js/Push/PushManager.js"></script>
-        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
-        <script type="text/javascript" src="js/wordpress.js"></script>
-        <script type="text/javascript" src="js/iscroll.js"></script>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/utils.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/touchEvent.js"></script>
-        
-        
-        <script src="js/jquery.bxslider/jquery.bxslider.min.js"></script>
-		<link href="js/jquery.bxslider/jquery.bxslider.css" rel="stylesheet" />
-        
-        <script type="text/javascript">				
-		
-			var myScrollM = new IScroll('#wrapperM', {click:true, preventDefault:true});			
-			myScrollM.on('beforeScrollStart', function () {				 
-				this.refresh();
-			});
-			
-			$('#wrapperM > .scroller > .container').css('height', $(window).height() + 'px');
-			
-			
-		</script>
-        
-      
-		
-		
+    	</header>
 
+    	<main>
+    		<!-- load html here --> 
+    	</main>
+    	
+		<footer>			
+			<!-- here code footer -->
+		</footer>
+        
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>        
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/moment.js"></script>
+		<script type="text/javascript" src="js/utilities.js"></script>
+		
+		<!-- plugins -->	
+        <script type="text/javascript" src="js/imgcache.js"></script>
+		<!-- plugins -->
+		
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
 
     </body>
+    
 </html>
