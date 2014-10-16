@@ -11,6 +11,7 @@ import models.basic.Country;
 import models.basic.Language;
 import models.clients.Client;
 import models.content.posts.*;
+import models.content.women.SocialNetwork;
 import models.content.women.Woman;
 import play.libs.Json;
 import play.mvc.Result;
@@ -29,7 +30,7 @@ public class Posts extends HecticusController {
         ObjectNode postData = getJson();
         try{
             ObjectNode response = null;
-            if(postData.has("woman") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") ){
+            if(postData.has("woman") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
                 Woman woman = null;
                 if(postData.get("woman").isInt()){
                     woman = Woman.finder.byId(postData.get("woman").asInt());
@@ -46,12 +47,19 @@ public class Posts extends HecticusController {
                     response = buildBasicResponse(1, "Faltan campos para crear el registro");
                     return ok(response);
                 }
+
+                SocialNetwork socialNetwork = SocialNetwork.finder.byId(postData.get("social_network").asInt());
+                if(socialNetwork == null){
+                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                    return ok(response);
+                }
+
                 TimeZone tz = TimeZone.getDefault();
                 Calendar actualDate = new GregorianCalendar(tz);
                 SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
                 String date = sf.format(actualDate.getTime());
-                Post post = new Post(woman, date, postData.get("source").asText());
-
+                Post post = new Post(woman, date, postData.get("source").asText(), socialNetwork);
+                
                 Iterator<JsonNode> localizationsIterator = postData.get("localizations").elements();
                 ArrayList<PostHasLocalization> localizations = new ArrayList<>();
                 while (localizationsIterator.hasNext()){

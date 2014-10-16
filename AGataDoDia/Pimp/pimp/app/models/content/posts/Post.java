@@ -60,18 +60,20 @@ public class Post extends HecticusModel {
 
     public static Model.Finder<Integer, Post> finder = new Model.Finder<Integer, Post>(Integer.class, Post.class);
 
-    public Post(Woman woman, String date, String source) {
+    public Post(Woman woman, String date, String source, SocialNetwork socialNetwork) {
         this.woman = woman;
         this.date = date;
         this.source = source;
+        this.socialNetwork = socialNetwork;
     }
 
-    public Post(Woman woman, String date, String source, Integer push, Long pushDate) {
+    public Post(Woman woman, String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
         this.woman = woman;
         this.date = date;
         this.source = source;
         this.push = push;
         this.pushDate = pushDate;
+        this.socialNetwork = socialNetwork;
     }
 
     public Integer getIdPost() {
