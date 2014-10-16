@@ -38,6 +38,13 @@ public class Clients extends HecticusController {
             Client client = null;
             String login = null;
             String password = null;
+            //Obtenemos el canal por donde esta llegando el request
+            String upstreamChannel;
+            if(clientData.has("upstreamChannel")){
+                upstreamChannel = clientData.get("upstreamChannel").asText();
+            }else{
+                upstreamChannel = "Android"; //"Android" o "Web"
+            }
             if(clientData.has("login")){
                 login = clientData.get("login").asText();
                 password = clientData.get("password").asText();
@@ -47,11 +54,18 @@ public class Clients extends HecticusController {
                 boolean update = false;
                 if(client != null){
                     if(client.getUserId() == null){
-                        getUserIdFromUpstream(client);
+                        //si tenemos password tratamos de hacer login
+                        if(password != null && !password.isEmpty()){
+                            client.setPassword(password);
+                            getUserIdFromUpstream(client,upstreamChannel);
+                        }else{
+                            //tratamos de crear al cliente
+                            subscribeUserToUpstream(client,upstreamChannel);
+                        }
                         update = true;
                     }
                     if(client.getStatus() <= 0){
-                        getStatusFromUpstream(client);
+                        getStatusFromUpstream(client,upstreamChannel);
                         update = true;
                     }
                     if(update){
@@ -59,6 +73,7 @@ public class Clients extends HecticusController {
                     }
                 }
             }
+            //tratamos de buscar un cliente por registrationID si no existe se crea uno
             if(client == null){
                 Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                 while (devicesIterator.hasNext()){
@@ -69,12 +84,21 @@ public class Clients extends HecticusController {
                         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
                         if(clientHasDevice != null){
                             client = clientHasDevice.getClient();
-                            if(login != null && !login.isEmpty() && password != null && !password.isEmpty()){
-                                client.setLogin(login);
-                                client.setPassword(password);
-                                getUserIdFromUpstream(client);
-                                getStatusFromUpstream(client);
-                                client.update();
+                            if(login != null && !login.isEmpty()){
+                                if(password != null && !password.isEmpty()){
+                                    client.setLogin(login);
+                                    client.setPassword(password);
+                                    getUserIdFromUpstream(client,upstreamChannel);
+                                    getStatusFromUpstream(client,upstreamChannel);
+                                    client.update();
+                                }else{
+                                    //si no tiene password tratamos de suscribirlo
+                                    client.setLogin(login);
+                                    client.setPassword(password);
+                                    subscribeUserToUpstream(client,upstreamChannel);
+                                    getStatusFromUpstream(client,upstreamChannel);
+                                    client.update();
+                                }
                             }
                             break;
                         }
@@ -117,8 +141,8 @@ public class Clients extends HecticusController {
                     String date = sf.format(actualDate.getTime());
 
                     client = new Client(2, login, password, country, date);
-                    getUserIdFromUpstream(client);
-                    getStatusFromUpstream(client);
+                    getUserIdFromUpstream(client,upstreamChannel);
+                    getStatusFromUpstream(client,upstreamChannel);
                     Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                     ArrayList<ClientHasDevices> devices = new ArrayList<>();
                     while (devicesIterator.hasNext()){
@@ -169,7 +193,7 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result update(Integer id) {
+    public static Result update(Integer id, String upstreamChannel) {
         ObjectNode clientData = getJson();
         try{
             ObjectNode response = null;
@@ -190,8 +214,8 @@ public class Clients extends HecticusController {
                 }
 
                 if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
-                    getUserIdFromUpstream(client);
-                    getStatusFromUpstream(client);
+                    getUserIdFromUpstream(client,upstreamChannel);
+                    getStatusFromUpstream(client,upstreamChannel);
                 }
 
                 if(clientData.has("remove_devices")){
@@ -306,7 +330,7 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result get(Integer id, Boolean pmc){
+    public static Result get(Integer id, Boolean pmc, String upstreamChannel){
         try {
             ObjectNode response = null;
             Client client = Client.finder.byId(id);
@@ -319,7 +343,7 @@ public class Clients extends HecticusController {
                     if ((actualDate.get(Calendar.YEAR) > lastCheckDate.get(Calendar.YEAR)) || (actualDate.get(Calendar.MONTH) > lastCheckDate.get(Calendar.MONTH)) || (actualDate.get(Calendar.DATE) > lastCheckDate.get(Calendar.DATE))) {
                         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
                         if (client.getLogin() != null) {
-                            getStatusFromUpstream(client);
+                            getStatusFromUpstream(client,upstreamChannel);
                             client.setLastCheckDate(sf.format(actualDate.getTime()));
                             client.update();
                         } else {
@@ -401,6 +425,219 @@ public class Clients extends HecticusController {
         }
     }
 
+    //Reset Upstream pass and they send MT to client with new one
+    public static Result resetUpstreamPass() {
+        String msisdn = "";
+        try{
+            ObjectNode response = null;
+            ObjectNode clientData = getJson();
+            Client client = null;
+            //Obtenemos el canal por donde esta llegando el request
+            String upstreamChannel;
+            if(clientData.has("upstreamChannel")){
+                upstreamChannel = clientData.get("upstreamChannel").asText();
+            }else{
+                upstreamChannel = "Android"; //"Android" o "Web"
+            }
+            //buscamos el msisdn
+            if(clientData.has("msisdn")){
+                msisdn = clientData.get("msisdn").asText();
+                client = Client.finder.where().eq("login",msisdn).findUnique();
+            }
+            if(client != null) {
+                resetPasswordForUpstream(client,upstreamChannel);
+                client.setPassword("");
+                client.update();
+                response = buildBasicResponse(0, "OK", client.toJson());
+            } else {
+                response = buildBasicResponse(2, "no existe el registro para hacer reset del pass");
+            }
+            return ok(response);
+        } catch (Exception ex) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error recuperando el password de upstream del client " + msisdn, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            return Results.badRequest(buildBasicResponse(3, "ocurrio un error recuperando password", ex));
+        }
+    }
+
+    //FUNCIONES DE UPSTREAM
+
+    /**
+     * Funcion que permite suscribir al usuario en Upstream dado su msisdn(username)
+     *
+     * POST data as JSON:
+     * msisdn       String  mandatory   msisdn from user (login)
+     * google_id    String  optional    push id
+     * password     String  mandatory   password sent from SMS to the user
+     * service_id   String  mandatory   Upstream suscription service
+     * metadata     JSON    optional    extra params
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 1-User already subscribed, 2-User cannot be identified, 3-User not Subscribed, 5-Invalid MSISDN, 6-google id already exists, 7-Upstream service no longer available
+     * user_id      String
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type : application/json
+     * Accept : application/gamingapi.v1+json
+     * x-gameapi-app-key : DEcxvzx98533fdsagdsfiou
+     * Body:
+     * {"password":"CMSLJMWD","metadata":{"channel":"Android","result":null,"points":null,
+     * "app_version":"gamingapi.v1","session_id":null},"service_id":"prototype-app -SubscriptionDefault",
+     * "msisdn":"999000000005","google_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
+     *
+     * Response:
+     * {
+     * "result" : 0
+     * "user_id" : "324234345050505"
+     * }
+     *
+     *
+     * Parametros necesarios
+     * username  user from the app
+     * password  password from the app
+     * googleID  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void subscribeUserToUpstream(Client client, String upstreamChannel) throws Exception{
+        if(client.getLogin() == null){
+            client.setStatus(2);
+        } else {
+            String msisdn = client.getLogin();
+            String password = client.getPassword();
+            String googleID = null;
+
+            if(upstreamChannel.equalsIgnoreCase("Android")){
+                googleID = getGoogleID(client);
+            }
+
+            //Data from configs
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/subscribe";
+
+            WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            //agregamos el msisdn(username) y el password
+            fields.put("password", password);
+            fields.put("msisdn", msisdn);
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            String errorMessage="";
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                //TODO: revisar si todos estos casos devuelven con exito la llamada o algunos si se consideran errores
+                if(callResult == 0 || callResult == 1 || callResult == 0 || callResult == 6){
+                    //Se trajo la informacion con exito
+                    String userID = fResponse.findValue("user_id").asText();
+                    //TODO: guardar el userID en la info del cliente
+                    client.setUserId(userID);
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+
+            client.setStatus(1);
+        }
+    }
+
+    /**
+     * Funcion que permite desuscribir al usuario en Upstream dado su user_id de upstream
+     *
+     * POST data as JSON:
+     * user_id      String  mandatory   upstream user_id
+     * google_id    String  optional    push id
+     * service_id   String  mandatory   Upstream suscription service
+     * metadata     JSON    optional    extra params
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 7-Upstream service no longer available
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type : application/json
+     * Accept : application/gamingapi.v1+json
+     * x-gameapi-app-key : DEcxvzx98533fdsagdsfiou
+     * Body:
+     * {"metadata":{"channel":"Android","result":null,"points":null,
+     * "app_version":"gamingapi.v1","session_id":null},"service_id":"prototype-app -SubscriptionDefault",
+     * "user_id":8001,"google_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
+     *
+     * Response:
+     * {
+     * "result" : 0
+     * }
+     *
+     *
+     * Parametros necesarios
+     * user_id   upstream user_id
+     * username  user from the app
+     * password  password from the app
+     * googleID  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void unsubscribeUserToUpstream(Client client, String upstreamChannel) throws Exception{
+        String errorMessage="";
+        if(client.getLogin() == null || client.getUserId() == null){
+            errorMessage = "El cliente no posee login o user_id";
+            throw new Exception(errorMessage);
+        } else {
+            String login = client.getLogin();
+            String userID = client.getUserId();
+            String password = client.getPassword();
+            String googleID = null;
+            if(upstreamChannel.equalsIgnoreCase("Android")){
+                googleID = getGoogleID(client);
+            }
+
+            //Data from configs
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/subscribe";
+
+            WSRequestHolder urlCall = setUpstreamRequest(url, login, password);
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            //agregamos el user_id
+            fields.put("user_id", userID);
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                if(callResult == 0){
+                    //TODO: Que se debe hacer en el caso que la desuscripcion sea exitosa, borrar al cliente, ponerlo en status 2 para que con la fecha se actualice?
+                    client.setStatus(2);
+                    client.setUserId("");
+                    client.setPassword("");
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+
+            client.setStatus(1);
+        }
+    }
+
     /**
      * Funcion que permite hacer login del usuario en Upstream dado un username y un password
      *
@@ -432,68 +669,36 @@ public class Clients extends HecticusController {
      * "user_id" : "324234345050505"
      * }
      *
-     *
+     * Parameters required
      * username  user from the app
      * password  password from the app
      * googleID  optional, regID of user
      * channel   "Android" or "Web"
      *
      */
-    private static void getUserIdFromUpstream(Client client) throws Exception{
+    private static void getUserIdFromUpstream(Client client, String upstreamChannel) throws Exception{
         if(client.getLogin() == null){
             client.setStatus(2);
         } else {
             String username = client.getLogin();
             String password = client.getPassword();
-            String channel = "Android";
+            //String channel = "Android";
             String googleID = null;
-            try{
-                List<ClientHasDevices> devices = client.getDevices();
-                for (int i=0; i<devices.size(); i++){
-                    if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
-                        //con el primer Google ID nos basta por ahora
-                        googleID = devices.get(i).getRegistrationId();
-                        break;
-                    }
-                }
-            }catch (Exception e){
-                //no hacemos nada si esto falla
+            if(upstreamChannel.equalsIgnoreCase("Android")){
+                googleID = getGoogleID(client);
             }
 
             //Data from configs
-            String upstreamServiceID = Config.getString("upstreamServiceID");
-            String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
-            String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
             String upstreamURL = Config.getString("upstreamURL");
             String url = upstreamURL+"/game/user/login";
 
-            System.out.println("URL "+url);
-
-            String authString = username+":"+password;
-            byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
-            authString = new String(encodedBytes);
-
-            //Hacemos la llamada con los headers de autenticacion
-            WSRequestHolder urlCall = WS.url(url).setContentType("application/json");
-            //FORMAT:  "Authentication: username:password" //BASE64
-            //urlCall.setHeader("Authorization","Basic AW4rRRcpbjpvcGVuIHNlc2FtZQ==");
-            urlCall.setHeader("Authorization","Basic "+authString);
-            urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
-
-            //The different versions of the API are defined in the HTTPS Accept header.
-            urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+            WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = Json.newObject();
-            ObjectNode metadata = Json.newObject();
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            //agregamos el username y el password
             fields.put("password", password);
-            fields.put("service_id", upstreamServiceID);
             fields.put("username", username);
-            if(googleID != null && !googleID.isEmpty()) fields.put("google_id",googleID);
-            //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
-            metadata.put("channel",channel);
-            metadata.put("app_version",upstreamAppVersion);
-            fields.put("metadata",metadata);
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
@@ -553,6 +758,7 @@ public class Clients extends HecticusController {
      * "credits_left" : "10"
      * }
      *
+     * Parametros necesarios
      * userID    upstream user id
      * username  user from the app
      * password  password from the app
@@ -560,57 +766,26 @@ public class Clients extends HecticusController {
      * channel   "Android" or "Web"
      *
      */
-    private static void getStatusFromUpstream(Client client) throws Exception{
+    private static void getStatusFromUpstream(Client client, String upstreamChannel) throws Exception{
         if(client.getLogin() != null && client.getUserId() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
-            String channel = "Android";
             String googleID = null;
-            try{
-                List<ClientHasDevices> devices = client.getDevices();
-                for (int i=0; i<devices.size(); i++){
-                    if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
-                        //con el primer Google ID nos basta por ahora
-                        googleID = devices.get(i).getRegistrationId();
-                        break;
-                    }
-                }
-            }catch (Exception e){
-                //no hacemos nada si esto falla
+            if(upstreamChannel.equalsIgnoreCase("Android")){
+                googleID = getGoogleID(client);
             }
 
             //Data from configs
-            String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
-            String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
-            String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
             String upstreamURL = Config.getString("upstreamURL");
             String url = upstreamURL+"/game/user/status";
 
-            String authString = username+":"+password;
-            byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
-            authString = new String(encodedBytes);
-
             //Hacemos la llamada con los headers de autenticacion
-            WSRequestHolder urlCall = WS.url(url).setContentType("application/json");
-            //FORMAT:  "Authentication: username:password" //BASE64
-            //urlCall.setHeader("Authorization","Basic AW4rRRcpbjpvcGVuIHNlc2FtZQ==");
-            urlCall.setHeader("Authorization","Basic "+authString);
-            urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
-
-            //The different versions of the API are defined in the HTTPS Accept header.
-            urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+            WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = Json.newObject();
-            ObjectNode metadata = Json.newObject();
-            fields.put("user_id", userID);
-            fields.put("service_id", upstreamServiceID);
-            if(googleID != null && !googleID.isEmpty()) fields.put("google_id",googleID);
-            //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
-            metadata.put("channel",channel);
-            metadata.put("app_version",upstreamAppVersion);
-            fields.put("metadata",metadata);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            fields.put("user_id", userID); //agregamos el UserID al request
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
@@ -639,13 +814,148 @@ public class Clients extends HecticusController {
         }
     }
 
+    /**
+     * Funcion que permite que Upstream envie un MT con el password nuevamente al cliente
+     *
+     * POST data as JSON:
+     * msisdn       String  mandatory   upstream user_id
+     * google_id    String  optional    push id
+     * service_id   String  mandatory   Upstream suscription service
+     * metadata     JSON    optional    extra params
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 7-Upstream service no longer available
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type : application/json
+     * Accept : application/gamingapi.v1+json
+     * x-gameapi-app-key : DEcxvzx98533fdsagdsfiou
+     * Authorization : Basic OTk5MDAwMDIzMzE1OlNSUTcyRktT
+     * Body:
+     * {"metadata":{"channel":"Android","result":null,"points":null,"app_version":"gamingapi.v1",
+     * "session_id":null},"service_id":"prototype-app -SubscriptionDefault",
+     * "msisdn":"999000000005"}
+     *
+     * Response:
+     * {
+     * "result" : 0
+     * }
+     *
+     * msisdn    msisdn for upstream client
+     * googleID  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void resetPasswordForUpstream(Client client, String upstreamChannel) throws Exception{
+        String errorMessage = "";
+        if(client.getLogin() == null){
+            String msisdn = client.getLogin();
+            String userID = null;
+            String password = null;
+            String googleID = null;
+
+            //Data from configs
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/password";
+
+            //Hacemos la llamada con los headers de autenticacion
+            WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            fields.put("msisdn", msisdn); //agregamos el UserID al request
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                if(callResult == 0){
+                    //everything is OK, do nothing but wait for MT
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+        }else{
+            errorMessage = "No MSISDN for client";
+            throw new Exception(errorMessage);
+        }
+    }
+
+    //UPSTREAM COMMONS
+    //set headers and url call
+    private static WSRequestHolder setUpstreamRequest(String url, String username, String password){
+        String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
+        String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
+
+        String authString = null;
+        if(username != null && !username.isEmpty() && password != null & !password.isEmpty()){
+            authString = username+":"+password;
+            byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
+            authString = new String(encodedBytes);
+        }
+
+        //Hacemos la llamada con los headers de autenticacion
+        WSRequestHolder urlCall = WS.url(url).setContentType("application/json");
+        //FORMAT:  "Authentication: username:password" //BASE64
+        //urlCall.setHeader("Authorization","Basic AW4rRRcpbjpvcGVuIHNlc2FtZQ==");
+        if(authString != null) urlCall.setHeader("Authorization","Basic "+authString);
+        urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
+
+        //The different versions of the API are defined in the HTTPS Accept header.
+        urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+        return urlCall;
+    }
+    //set basic POST data for UPSTREAM
+    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String googleID){
+        String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
+        String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
+
+        ObjectNode fields = Json.newObject();
+        ObjectNode metadata = Json.newObject();
+        fields.put("service_id", upstreamServiceID);
+        if(googleID != null && !googleID.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")) fields.put("google_id",googleID);
+        //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
+        metadata.put("channel",upstreamChannel);
+        metadata.put("app_version",upstreamAppVersion);
+        fields.put("metadata",metadata);
+        return fields;
+    }
+    //get googleID for upstream
+    private static String getGoogleID(Client client){
+        String googleID = null;
+        try{
+            List<ClientHasDevices> devices = client.getDevices();
+            for (int i=0; i<devices.size(); i++){
+                if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
+                    //con el primer Google ID nos basta por ahora
+                    googleID = devices.get(i).getRegistrationId();
+                    break;
+                }
+            }
+        }catch (Exception e){
+            //no hacemos nada si esto falla
+        }
+        return googleID;
+    }
+
     //0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 6-google id already exists, 7-Upstream service no longer available
-    public static String getUpstreamError(int errorCode){
+    private static String getUpstreamError(int errorCode){
         switch (errorCode){
             case 0: return "Success";
+            case 1: return "User already subscribed";
             case 2: return "User cannot be identified";
             case 3: return "User not Subscribed";
             case 4: return "Google id missing";
+            case 5: return "Invalid MSISDN";
             case 6: return "Google id already exists";
             case 7: return "Upstream service no longer available";
             default: return "Error not recognized";
@@ -653,6 +963,12 @@ public class Clients extends HecticusController {
     }
       
     //FAKE UPSTREAM RESPONSE
+    public static Result upstreamFakeCreate() {
+        ObjectNode response = Json.newObject();
+        response.put("result",0);
+        response.put("user_id","324234345050505");
+        return ok(response);
+    }
     public static Result upstreamFakeLogin() {
         ObjectNode response = Json.newObject();
         response.put("result",0);
@@ -664,6 +980,11 @@ public class Clients extends HecticusController {
         response.put("result",0);
         response.put("eligible",true);
         response.put("credits_left",10);
+        return ok(response);
+    }
+    public static Result upstreamFakeResetPass() {
+        ObjectNode response = Json.newObject();
+        response.put("result",0);
         return ok(response);
     }
 }

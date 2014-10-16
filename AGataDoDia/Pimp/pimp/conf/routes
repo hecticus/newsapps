@@ -56,9 +56,10 @@ GET     /garotas/v1/files/get                               controllers.content.
 
 #Clients
 POST    /garotas/v1/clients/create                          controllers.client.Clients.create()
-POST    /garotas/v1/clients/update/:id                      controllers.client.Clients.update(id : Integer)
+POST    /garotas/v1/clients/update/:id/:upstreamChannel     controllers.client.Clients.update(id : Integer, upstreamChannel : String?="Android")
 POST    /garotas/v1/clients/delete/:id                      controllers.client.Clients.delete(id : Integer)
-GET     /garotas/v1/clients/get/:id                         controllers.client.Clients.get(id : Integer, pmc : Boolean?=false)
+POST    /garotas/v1/clients/upstream/resetpass              controllers.client.Clients.resetUpstreamPass()
+GET     /garotas/v1/clients/get/:id/:upstreamChannel        controllers.client.Clients.get(id : Integer, pmc : Boolean?=false, upstreamChannel : String?="Android")
 GET     /garotas/v1/clients/list                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 
 #Clients PMC
@@ -67,8 +68,7 @@ GET     /garotas/v1/clients/pmc/list/:page/:pageSize        controllers.client.C
 POST    /garotas/v1/clients/pmc/clean                       controllers.client.Clients.cleanDevices()
 
 #FAKE UPSTREAM URL
+POST    /garotas/v1/clients/upstream/game/user/subscribe    controllers.client.Clients.upstreamFakeCreate()
 POST    /garotas/v1/clients/upstream/game/user/login        controllers.client.Clients.upstreamFakeLogin()
 POST    /garotas/v1/clients/upstream/game/user/status       controllers.client.Clients.upstreamFakeStatus()
-
-
-
+POST    /garotas/v1/clients/upstream/game/user/password     controllers.client.Clients.upstreamFakeResetPass()
