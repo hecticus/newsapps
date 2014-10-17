@@ -28,8 +28,8 @@ row:not(input):not(textarea) {
 		top: 0;
 		left: 0; 
 		width: 100%; 
-		height: 75px;
-		line-height: 0px;		
+		height: 50px;
+		line-height: 50px;		
 		background-color: #FFFFFF;			
 		padding: 0 !important; 
 		margin:0 !important;
@@ -37,7 +37,16 @@ row:not(input):not(textarea) {
 		border: 0;
 	}
 	
-	.hidden { display: none; }			
+	.hidden { display: none; }
+					
+	i[class *= 'icon-material'] { 
+		font-size:2em; 
+		color:#000000; 
+	}
+			
+	i[class *= 'icon-material'].on { 
+		color:#ED2226; 
+	}	
 	
 	/*header .container, 
 	header .container div.row,
@@ -49,8 +58,8 @@ row:not(input):not(textarea) {
 		
 	header .container div.row:first-child {
 				
-		height: 75px;
-		line-height: 75px;			
+		height: 50px;
+		line-height: 50px;			
 		/*background-image: url(../img/dashed.png), url(../img/dashed.png); 
 		background-repeat: repeat-x; 
 		background-position: top, bottom;*/
