@@ -388,8 +388,19 @@ public class Posts extends HecticusController {
                 Language language = country.getLanguage();
                 Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage",language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+
+                //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
-                    posts.add(postIterator.next().toJson(language));
+                    Post post = postIterator.next();
+                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
+                    ObjectNode postJson = post.toJson(language);
+                    if(index != -1){
+                        //si la tiene como favorita
+                        postJson.put("starred",true);
+                    }else{
+                        postJson.put("starred",false);
+                    }
+                    posts.add(postJson);
                 }
                 response = buildBasicResponse(0, "OK", Json.toJson(posts));
             } else {
