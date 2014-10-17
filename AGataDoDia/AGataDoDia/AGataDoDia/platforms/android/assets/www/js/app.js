@@ -1,4 +1,5 @@
 var _url = 'http://10.0.1.125:9100/garotas';
+var _client = 1;
 
 var _jMenu = [];
 	_jMenu.push({

@@ -49,17 +49,3 @@ var app = {
 app.initialize();
 
 
-$(document).on('click','[data-touch="menu"]', function(e) {
-	
-	if(_fPreventDefault(e)){return false;}
-	if(e.type == "touchstart" || e.type == "touchend") {return false;}
-	
-	if ($('.row.menu').hasClass('hidden')) {
-		$('.row.menu').removeClass('hidden');	
-	} else {
-		$('.row.menu').addClass('hidden');
-	}
-
-});
-
-

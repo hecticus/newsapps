@@ -1,9 +1,7 @@
 
-
 	//loading...
 		
-	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/get/client/' + _client);
-	
+	var _oAjax = _fGetAjaxJson(_url + '/v1/clients/get/' + _client);	
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 
@@ -24,7 +22,7 @@
 
 					_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align:right;">';
 					
-						$.each(_item.woman.social_networks, function(_index,_item) {							
+						/*$.each(_item.woman.social_networks, function(_index,_item) {							
 							switch(_item.social_network.id_social_network) {
 							    case 1: _html += '<i class="icon icon-material-post-instagram" style="margin-left:2px;"></i>';	
 							       break;
@@ -33,13 +31,13 @@
 							    case 3: _html += '<i class="icon icon-material-post-twitter" style="margin-left:2px;"></i>';	
 							       break;
 							}	
-						});
+						});*/
 						
 						
 						_html += '<i class="icon-material-share-alt" style="margin-left:2px;"></i>';
-						_html += '<i class="icon-material-favorite-outline" style="margin-left:2px;"></i>';
-						_html += '<i class="icon-material-link" style="margin-left:2px;"></i>';
-						_html += '<i class="icon-material-web2" style="margin-left:2px;"></i>';
+						/*_html += '<i class="icon-material-favorite-outline" style="margin-left:2px;"></i>';*/
+						/*_html += '<i class="icon-material-link" style="margin-left:2px;"></i>';
+						_html += '<i class="icon-material-web2" style="margin-left:2px;"></i>';*/
 						
 						
 						
