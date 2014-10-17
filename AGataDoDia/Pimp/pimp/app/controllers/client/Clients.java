@@ -430,6 +430,32 @@ public class Clients extends HecticusController {
         }
     }
 
+    public static Result getStarredWomenForClient(Integer id) {
+        try {
+            ObjectNode response = null;
+            Client client = Client.finder.byId(id);
+            if(client != null) {
+                if(client.getStatus() >= 0) {
+                    List<ClientHasWoman> women = client.getWomen();
+                    ArrayList jsonWomen = new ArrayList();
+                    for(int i=0; i<women.size(); i++){
+                        jsonWomen.add(women.get(i).toJson());
+                    }
+                    response = buildBasicResponse(0, "OK", Json.toJson(jsonWomen));
+                }else{
+                    response = buildBasicResponse(3, "cliente no se encuentra en status valido");
+                }
+
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo la lista de mujeres para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
     //Reset Upstream pass and they send MT to client with new one
     public static Result resetUpstreamPass() {
         String msisdn = "";

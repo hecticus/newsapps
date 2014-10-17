@@ -65,6 +65,7 @@ POST    /garotas/v1/clients/delete/:id                      controllers.client.C
 POST    /garotas/v1/clients/upstream/resetpass              controllers.client.Clients.resetUpstreamPass()
 GET     /garotas/v1/clients/get/:id/:upstreamChannel        controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
 GET     /garotas/v1/clients/list                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+GET     /garotas/v1/clients/favorites/:id                   controllers.client.Clients.getStarredWomenForClient(id : Integer)
 
 #Clients PMC
 GET     /garotas/v1/clients/pmc/get/:id                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
