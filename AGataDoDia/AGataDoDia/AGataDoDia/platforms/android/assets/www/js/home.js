@@ -2,7 +2,7 @@
 
 	//loading...
 		
-	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/get/client/' + _client);
+	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/get/client/' + _parameters.client);
 	
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
@@ -13,7 +13,7 @@
 					_html += '<div class="row" data-touch="post" data-post="' + _item.id_post + '" >';
 						_html += '<div class="col-md-12">';
 							_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" style="width:100%; height:auto;" />';
-							_html += '<h3>' + _item.woman.name + '</h3>';
+							_html += '<h3>' + _item.woman.name + ' <span class="badge">' + _item.woman.posts + '</span></h3>';
 							
 							_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
 							_html += '<h2>' + _item.title + '</h2>';
@@ -79,31 +79,13 @@
 		
 		if($(this).hasClass('on')) {
 			$('[data-touch="favorite"][data-woman="' + _woman + '"]').removeClass('on');
-			_data.add_woman.push(_woman);
-			
-			alert(_url + '/v1/clients/update/' + _client);
-			
-			var _oAjax = _fPostAjaxJson(_url + '/v1/clients/update/' + _client,_data) ;			
-			if (_oAjax) {		
-				_oAjax.done(function(_json) {
-					alert(JSON.stringify(_json));				
-				});			
-			} else {
-				alert(_data);	
-			};						
+			_data.remove_woman.push(_woman);		
 		} else {
 			$('[data-touch="favorite"][data-woman="' + _woman + '"]').addClass('on');
-			_data.remove_woman.push(_woman);			
-			var _oAjax = _fPostAjaxJson(_url + '/v1/clients/update/' + _client,_data) ;			
-			if (_oAjax) {		
-				_oAjax.done(function(_json) {
-					alert(JSON.stringify(_json));				
-				});			
-			} else {
-				alert(_oAjax);
-			};	
+			_data.add_woman.push(_woman);		
 		}
 		
+		_fPostAjaxJson(_url + '/v1/clients/update/' + _client,_data) ;
 		
 	});
 

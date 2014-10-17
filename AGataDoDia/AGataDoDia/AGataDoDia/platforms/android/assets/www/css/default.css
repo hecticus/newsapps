@@ -32,8 +32,7 @@ row:not(input):not(textarea) {
 		line-height: 50px;		
 		background-color: #FFFFFF;			
 		padding: 0 !important; 
-		margin:0 !important;
-		color: #ED2226;	
+		margin:0 !important;		
 		border: 0;
 	}
 	
@@ -59,13 +58,15 @@ row:not(input):not(textarea) {
 	header .container div.row:first-child {
 				
 		height: 50px;
-		line-height: 50px;			
+		line-height: 50px;
+		text-align: center;			
 		/*background-image: url(../img/dashed.png), url(../img/dashed.png); 
 		background-repeat: repeat-x; 
 		background-position: top, bottom;*/
 	}
 	
 	header .container div.row:first-child {
+		
 		/*border-top-style: dashed;
 		border-top-width: 2px;
 		border-bottom-style: dashed;
@@ -87,7 +88,8 @@ row:not(input):not(textarea) {
 
 	
 	
-	/*header .container div.row:last-child div {		
+	
+	header .container div.row:last-child div {		
 		height: 40px;
 		line-height: 40px;
 		text-align: center;
@@ -95,6 +97,7 @@ row:not(input):not(textarea) {
 		font-size: 0.8em;
 		font-weight: bold;	
 		margin-bottom: 5px;
-	}*/
+		color: #ED2226;	
+	}
 
 					
