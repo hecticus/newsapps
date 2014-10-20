@@ -3,7 +3,7 @@
 	
 
 	
-	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/list/woman/' + _parameters.woman);	
+	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/list/woman/' + _jParameters.woman);	
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 
@@ -23,8 +23,8 @@
 				});		
 			
 						
-			$('#wrapper .scroller .container-fluid').empty();
-			$('#wrapper .scroller .container-fluid').append(_html);
+			$('#wrapper .scroller .container').empty();
+			$('#wrapper .scroller .container').append(_html);
 																
 		});
 	}

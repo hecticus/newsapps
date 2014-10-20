@@ -38,14 +38,31 @@ row:not(input):not(textarea) {
 	
 	.hidden { display: none; }
 					
-	i[class *= 'icon-material'] { 
-		font-size:2em; 
-		color:#000000; 
+	i[class *= 'icon'] { 
+		font-size:1.6em; 
+		color:#000000;
+		vertical-align:middle;
+		margin-left: 2px;
+		margin-right: 2px;
 	}
 			
-	i[class *= 'icon-material'].on { 
+	i[class *= 'icon'].on { 
 		color:#ED2226; 
 	}	
+	
+			
+	body #wrapper,
+	body #wrapper .scroller,
+	body #wrapper .scroller .container,    			
+	body #wrapper .scroller .container .row,
+	body #wrapper .scroller .container .row div { 
+		padding: 0 !important; 
+		margin: 0 !important; 
+	}
+	
+	img {
+		border-radius : 0 !important;	
+	}
 	
 	/*header .container, 
 	header .container div.row,
@@ -100,4 +117,40 @@ row:not(input):not(textarea) {
 		color: #ED2226;	
 	}
 
-					
+
+
+	body  #wrapper .scroller .container figure {
+		position:relative;  
+		width: 100%; 
+		height: auto; 
+		padding: 0; 
+		bottom: 0;
+	}
+
+	body  #wrapper .scroller .container figure img { 
+		width: 100%;  
+		height: auto;
+		min-height: 200px;
+	}			
+	
+	body  #wrapper .scroller .container figure figcaption {
+		position: absolute;		
+		width:100%;
+		height: auto;
+	    /*line-height: 40px;*/		
+		text-align: left;	   
+	    background-color:#E2E2E1;	    
+	    bottom: 0;
+	    color: #000000;
+	    opacity: 0.8;	    	
+	}
+
+
+
+
+
+
+
+
+
+
