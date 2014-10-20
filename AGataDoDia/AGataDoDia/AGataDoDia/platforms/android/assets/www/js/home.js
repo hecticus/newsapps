@@ -54,7 +54,17 @@
 							_html += '<i class="icon-material-web2" style="margin-left:2px;"></i>';
 							*/
 
-						_html += '</div>';		
+						_html += '</div>';
+
+						
+						_html += '<div class="col-md-12">';
+							$.each(_item.woman.categories, function(_index,_item) {
+								_html += '<span class="label label-default" data-touch="category" data-category="' + _item.category.id_category + '" style="margin-right:2px;">' + _item.category.name + '</span>';
+							});
+						_html += '</div>';
+						
+							_html += '<br />';
+								
 					_html += '</div>';	
 									
 				});		
