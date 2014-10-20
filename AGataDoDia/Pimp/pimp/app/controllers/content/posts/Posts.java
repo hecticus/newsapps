@@ -13,6 +13,7 @@ import models.clients.Client;
 import models.content.posts.*;
 import models.content.women.SocialNetwork;
 import models.content.women.Woman;
+import models.content.women.WomanHasCategory;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -396,9 +397,9 @@ public class Posts extends HecticusController {
                     ObjectNode postJson = post.toJson(language);
                     if(index != -1){
                         //si la tiene como favorita
-                        postJson.put("starred",true);
+                        postJson.put("starred", true);
                     }else{
-                        postJson.put("starred",false);
+                        postJson.put("starred", false);
                     }
                     posts.add(postJson);
                 }
@@ -447,6 +448,51 @@ public class Posts extends HecticusController {
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + idPost + " para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
+    //obtenemos todos los post por categoria
+    public static Result getPostForCategory(Integer idClient, Integer idCategory, Integer page, Integer pageSize){
+        try {
+            Client client = Client.finder.byId(idClient);
+            ObjectNode response = null;
+            if(client != null) {
+                Country country = client.getCountry();
+                Language language = country.getLanguage();
+                //obtenemos todos los id de las mujeres de una categoria
+                List<WomanHasCategory> womenCat = WomanHasCategory.finder.where().eq("id_category",idCategory).findList();
+                ArrayList women = new ArrayList();
+                for(int i=0; i<womenCat.size(); i++){
+                    women.add(womenCat.get(i).getWoman().getIdWoman());
+                }
+                Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").fetch("woman").where().
+                        eq("countries.country.idCountry", country.getIdCountry()).
+                        eq("localizations.language.idLanguage",language.getIdLanguage()).
+                        in("woman.idWoman",women).
+                        setFirstRow(pageSize*page).setMaxRows(pageSize).orderBy("date desc").findList().iterator();
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+
+                //buscamos sus favoritos tambien y agregamos esa info
+                while(postIterator.hasNext()){
+                    Post post = postIterator.next();
+                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
+                    ObjectNode postJson = post.toJson(language);
+                    if(index != -1){
+                        //si la tiene como favorita
+                        postJson.put("starred", true);
+                    }else{
+                        postJson.put("starred", false);
+                    }
+                    posts.add(postJson);
+                }
+                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+            } else {
+                response = buildBasicResponse(2, "el cliente no existe");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
