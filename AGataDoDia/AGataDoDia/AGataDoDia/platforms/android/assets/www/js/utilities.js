@@ -16,8 +16,6 @@
 		}
 	};
 
-
-
 	var _fGetAjaxJson = function(_url) {
 		try {		
 			return $.ajax({
@@ -49,6 +47,25 @@
 			return false;
 		}	
 	};
+	
+	var _fPostAjaxJson = function(_url, _data) {
+		
+		try {				
+		  	return $.ajax({
+				url: _url,		
+				data: JSON.stringify(_data),	
+				type: 'POST',
+				dataType: 'json',				
+				contentType: "application/json; charset=utf-8",
+			}).fail(function(jqXHR, textStatus, errorThrown) {		
+				return false;
+			});			   
+		} catch (e) {
+			return false;
+		}
+		
+	};
+	
 	
 	function _fGetMoment(_date) {	
 		var _oMoment = moment();	

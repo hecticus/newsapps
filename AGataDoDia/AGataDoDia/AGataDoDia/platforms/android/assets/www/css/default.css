@@ -1,4 +1,4 @@
-:not(input):not(textarea) {
+row:not(input):not(textarea) {
 	-webkit-user-select: none; /* disable selection/Copy of UIWebView */
 	-webkit-touch-callout: none; /* disable the IOS popup when long-press on a link */
 }
@@ -13,7 +13,7 @@
 	#wrapper {	
 		position: absolute;
 		z-index: 1;
-		top: 75px; 
+		top: 50px; 
 		bottom: 0px; 
 		left: 0; 
 		width: 100%;
@@ -22,23 +22,82 @@
 
 	#wrapper .container-fluid .row i {font-size: 2em;}
 
-	header{			
+	header{
 		position: absolute; 
 		z-index: 2;
 		top: 0;
 		left: 0; 
 		width: 100%; 
-		height: 75px;
-		line-height: 75px;		
-		background: #FFFFFF;		
-		padding: 0;
-		margin: 0;
-		color: #ED2226;	
-		border: 0;				
-		background-image: url(../img/dashed.png), url(../img/dashed.png); 
-		background-repeat: repeat-x; 
-		background-position: top, bottom;
+		height: 50px;
+		line-height: 50px;		
+		background-color: #FFFFFF;			
+		padding: 0 !important; 
+		margin:0 !important;		
+		border: 0;
 	}
 	
-	.hidden { display: none; }			
-	.option {text-align: center; font-size: 0.9em; font-weight: bold;}
+	.hidden { display: none; }
+					
+	i[class *= 'icon-material'] { 
+		font-size:2em; 
+		color:#000000; 
+	}
+			
+	i[class *= 'icon-material'].on { 
+		color:#ED2226; 
+	}	
+	
+	/*header .container, 
+	header .container div.row,
+	header .container div.row div {
+		padding: 0 !important; 
+		margin:0 !important;
+	}*/
+	
+		
+	header .container div.row:first-child {
+				
+		height: 50px;
+		line-height: 50px;
+		text-align: center;			
+		/*background-image: url(../img/dashed.png), url(../img/dashed.png); 
+		background-repeat: repeat-x; 
+		background-position: top, bottom;*/
+	}
+	
+	header .container div.row:first-child {
+		
+		/*border-top-style: dashed;
+		border-top-width: 2px;
+		border-bottom-style: dashed;
+		border-bottom-width: 2px;		
+		margin-top: 5px;
+		margin-bottom: 5px;*/
+	}	
+
+		
+	header .container div.row:last-child {		
+		/*border-bottom-style: dashed;
+		border-bottom-width: 2px;*/	
+							
+		/*background-image: url(../img/dashed.png); 
+		background-repeat: repeat-x; 
+		background-position: bottom;*/
+
+	}
+
+	
+	
+	
+	header .container div.row:last-child div {		
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		background-color: #E2E2E1;
+		font-size: 0.8em;
+		font-weight: bold;	
+		margin-bottom: 5px;
+		color: #ED2226;	
+	}
+
+					

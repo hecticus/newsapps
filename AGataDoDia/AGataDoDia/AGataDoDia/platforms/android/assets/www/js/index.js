@@ -49,17 +49,19 @@ var app = {
 app.initialize();
 
 
-$(document).on('click','[data-touch="menu"]', function(e) {
+$(document).on('click','[data-touch="load"]', function(e) {
 	
 	if(_fPreventDefault(e)){return false;}
 	if(e.type == "touchstart" || e.type == "touchend") {return false;}
-	
-	if ($('.row.menu').hasClass('hidden')) {
-		$('.row.menu').removeClass('hidden');	
+	var _load = $(this).data('target');
+	var _woman = $(this).data('woman');
+		
+	if (_woman) {
+		_parameters.woman = _woman;	
 	} else {
-		$('.row.menu').addClass('hidden');
+		_parameters.woman  = false;	
 	}
-
+	
+	_jApp.load(_load);	
+	
 });
-
-
