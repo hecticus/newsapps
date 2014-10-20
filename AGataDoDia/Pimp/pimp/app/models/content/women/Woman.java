@@ -185,6 +185,14 @@ public class Woman extends HecticusModel {
             }
             response.put("social_networks", Json.toJson(apps));
         }
+        //se le agrega tambien las categorias de una vez
+        if(categories != null && !categories.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(WomanHasCategory ad : categories){
+                apps.add(ad.toJsonWithoutWoman());
+            }
+            response.put("categories", Json.toJson(apps));
+        }
         return response;
     }
 
