@@ -6,11 +6,9 @@ row:not(input):not(textarea) {
 
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 	html { -ms-touch-action: none; }
-	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%;}
-
-
-
-	#wrapper {	
+	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
+	
+	#wrapper, #wrapper2 {	
 		position: absolute;
 		z-index: 1;
 		top: 50px; 
@@ -20,7 +18,8 @@ row:not(input):not(textarea) {
 		background: #ffffff;
 	}
 
-	#wrapper .container-fluid .row i {font-size: 2em;}
+	#wrapper .container-fluid .row i , 
+	#wrapper2 .container-fluid .row i {font-size: 2em;}
 
 	header{
 		position: absolute; 
@@ -56,6 +55,15 @@ row:not(input):not(textarea) {
 	body #wrapper .scroller .container,    			
 	body #wrapper .scroller .container .row,
 	body #wrapper .scroller .container .row div { 
+		padding: 0 !important; 
+		margin: 0 !important; 
+	}
+	
+	body #wrapper2,
+	body #wrapper2 .scroller,
+	body #wrapper2 .scroller .container,    			
+	body #wrapper2 .scroller .container .row,
+	body #wrapper2 .scroller .container .row div { 
 		padding: 0 !important; 
 		margin: 0 !important; 
 	}
@@ -102,9 +110,6 @@ row:not(input):not(textarea) {
 		background-position: bottom;*/
 
 	}
-
-	
-	
 	
 	header .container div.row:last-child div {		
 		height: 40px;
@@ -117,9 +122,8 @@ row:not(input):not(textarea) {
 		color: #ED2226;	
 	}
 
-
-
-	body  #wrapper .scroller .container figure {
+	body #wrapper .scroller .container figure,
+	body #wrapper2 .scroller .container figure {
 		position:relative;  
 		width: 100%; 
 		height: auto; 
@@ -127,13 +131,15 @@ row:not(input):not(textarea) {
 		bottom: 0;
 	}
 
-	body  #wrapper .scroller .container figure img { 
+	body #wrapper .scroller .container figure img,
+	body #wrapper2 .scroller .container figure img { 
 		width: 100%;  
 		height: auto;
 		min-height: 200px;
 	}			
 	
-	body  #wrapper .scroller .container figure figcaption {
+	body #wrapper .scroller .container figure figcaption,
+	body #wrapper2 .scroller .container figure figcaption  {
 		position: absolute;		
 		width:100%;
 		height: auto;
