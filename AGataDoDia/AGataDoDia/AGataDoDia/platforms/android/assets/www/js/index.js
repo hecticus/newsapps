@@ -46,7 +46,7 @@ var app = {
 			}, false);
     		    			
     		    		    		
-			_jApp.load(0);
+			_jApp.load(5);
     	}
     }
 };
