@@ -4,7 +4,7 @@
 		return new Date().getTime();
 	}
 	
-	function _fPreventDefault(e){
+	function _fPreventDefaultClick(e){
 		try{e.preventDefault();}catch(ex){}
 		try{e.stopPropagation();}catch(ex){}
 		try{e.stopImmediatePropagation();}catch(ex){}	
@@ -15,6 +15,7 @@
 			return false;
 		}
 	};
+
 
 	var _fGetAjaxJson = function(_url) {
 		try {		
