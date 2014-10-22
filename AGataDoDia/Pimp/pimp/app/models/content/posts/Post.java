@@ -13,9 +13,7 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by plesse on 9/30/14.
@@ -59,6 +57,18 @@ public class Post extends HecticusModel {
     private List<PostHasLocalization> localizations;
 
     public static Model.Finder<Integer, Post> finder = new Model.Finder<Integer, Post>(Integer.class, Post.class);
+
+    public Post() {
+        TimeZone tz = TimeZone.getDefault();
+        Calendar actualDate = new GregorianCalendar(tz);
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
+        push = 1;
+        pushDate = actualDate.getTimeInMillis();
+        date = sf.format(actualDate.getTime());
+        media = new ArrayList<>();
+        countries = new ArrayList<>();
+        localizations = new ArrayList<>();
+    }
 
     public Post(Woman woman, String date, String source, SocialNetwork socialNetwork) {
         this.woman = woman;

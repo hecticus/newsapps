@@ -3,123 +3,123 @@
 # ~~~~
 
 # Home page
-#GET     /                                                   controllers.Application.index()
+#GET     /                                                                              controllers.Application.index()
 
-GET     /                      		                        controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-GET     /index                                              controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /                      		                                                    controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /index                                                                          controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
 
-GET     /getImg/*name                                       controllers.Application.getImg(name : String)
+GET     /getImg/*name                                                                   controllers.Application.getImg(name : String)
 
-GET     /check/*name                                        controllers.Application.checkFile(name: String)
-GET     /garotas/loading                                    controllers.Application.getAppSettings()
+GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
+GET     /garotas/loading                                                                controllers.Application.getAppSettings()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
+GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
 
 
 #SocialNetworks
-POST    /garotas/v1/socialnetworks/create                   controllers.content.women.SocialNetworks.create()
-POST    /garotas/v1/socialnetworks/update/:id               controllers.content.women.SocialNetworks.update(id : Integer)
-POST    /garotas/v1/socialnetworks/delete/:id               controllers.content.women.SocialNetworks.delete(id : Integer)
-GET     /garotas/v1/socialnetworks/get/:id                  controllers.content.women.SocialNetworks.get(id : Integer)
-GET     /garotas/v1/socialnetworks/list                     controllers.content.women.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /garotas/v1/socialnetworks/create                                               controllers.content.women.SocialNetworks.create()
+POST    /garotas/v1/socialnetworks/update/:id                                           controllers.content.women.SocialNetworks.update(id : Integer)
+POST    /garotas/v1/socialnetworks/delete/:id                                           controllers.content.women.SocialNetworks.delete(id : Integer)
+GET     /garotas/v1/socialnetworks/get/:id                                              controllers.content.women.SocialNetworks.get(id : Integer)
+GET     /garotas/v1/socialnetworks/list                                                 controllers.content.women.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Categories
-POST    /garotas/v1/categories/create                       controllers.content.women.Categories.create()
-POST    /garotas/v1/categories/update/:id                   controllers.content.women.Categories.update(id : Integer)
-POST    /garotas/v1/categories/delete/:id                   controllers.content.women.Categories.delete(id : Integer)
-GET     /garotas/v1/categories/get/:id                      controllers.content.women.Categories.get(id : Integer)
-GET     /garotas/v1/categories/list                         controllers.content.women.Categories.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /garotas/v1/categories/create                                                   controllers.content.women.Categories.create()
+POST    /garotas/v1/categories/update/:id                                               controllers.content.women.Categories.update(id : Integer)
+POST    /garotas/v1/categories/delete/:id                                               controllers.content.women.Categories.delete(id : Integer)
+GET     /garotas/v1/categories/get/:id                                                  controllers.content.women.Categories.get(id : Integer)
+GET     /garotas/v1/categories/list                                                     controllers.content.women.Categories.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Women
-POST    /garotas/v1/women/create                            controllers.content.women.Women.create()
-POST    /garotas/v1/women/update/:id                        controllers.content.women.Women.update(id : Integer)
-POST    /garotas/v1/women/delete/:id                        controllers.content.women.Women.delete(id : Integer)
-GET     /garotas/v1/women/get/:id                           controllers.content.women.Women.get(id : Integer)
-GET     /garotas/v1/women/list                              controllers.content.women.Women.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /garotas/v1/women/create                                                        controllers.content.women.Women.create()
+POST    /garotas/v1/women/update/:id                                                    controllers.content.women.Women.update(id : Integer)
+POST    /garotas/v1/women/delete/:id                                                    controllers.content.women.Women.delete(id : Integer)
+GET     /garotas/v1/women/get/:id                                                       controllers.content.women.Women.get(id : Integer)
+GET     /garotas/v1/women/list                                                          controllers.content.women.Women.list(pageSize: Integer?=0, page: Integer?=0)
 
 #FileTypes
-POST    /garotas/v1/filetypes/create                        controllers.content.posts.FileTypes.create()
-POST    /garotas/v1/filetypes/update/:id                    controllers.content.posts.FileTypes.update(id : Integer)
-POST    /garotas/v1/filetypes/delete/:id                    controllers.content.posts.FileTypes.delete(id : Integer)
-GET     /garotas/v1/filetypes/get/:id                       controllers.content.posts.FileTypes.get(id : Integer)
-GET     /garotas/v1/filetypes/list                          controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /garotas/v1/filetypes/create                                                    controllers.content.posts.FileTypes.create()
+POST    /garotas/v1/filetypes/update/:id                                                controllers.content.posts.FileTypes.update(id : Integer)
+POST    /garotas/v1/filetypes/delete/:id                                                controllers.content.posts.FileTypes.delete(id : Integer)
+GET     /garotas/v1/filetypes/get/:id                                                   controllers.content.posts.FileTypes.get(id : Integer)
+GET     /garotas/v1/filetypes/list                                                      controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Posts
-POST    /garotas/v1/posts/create                            controllers.content.posts.Posts.create()
-POST    /garotas/v1/posts/update/:id                        controllers.content.posts.Posts.update(id : Integer)
-POST    /garotas/v1/posts/delete/:id                        controllers.content.posts.Posts.delete(id : Integer)
-GET     /garotas/v1/posts/get/:id                           controllers.content.posts.Posts.get(id : Integer)
-GET     /garotas/v1/posts/get/client/:id                    controllers.content.posts.Posts.getRecentPosts(id : Integer)
-GET     /garotas/v1/posts/get/client/:idClient/:idPost      controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
-GET     /garotas/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize          controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
-GET     /garotas/v1/posts/list                              controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
-GET     /garotas/v1/posts/list/woman/:id                    controllers.content.posts.Posts.getListForWoman(id : Integer)
+POST    /garotas/v1/posts/create                                                        controllers.content.posts.Posts.create()
+POST    /garotas/v1/posts/update/:id                                                    controllers.content.posts.Posts.update(id : Integer)
+POST    /garotas/v1/posts/delete/:id                                                    controllers.content.posts.Posts.delete(id : Integer)
+GET     /garotas/v1/posts/get/:id                                                       controllers.content.posts.Posts.get(id : Integer)
+GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer)
+GET     /garotas/v1/posts/get/client/:idClient/:idPost                                  controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
+GET     /garotas/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize            controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
+GET     /garotas/v1/posts/list                                                          controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /garotas/v1/posts/list/woman/:id                                                controllers.content.posts.Posts.getListForWoman(id : Integer)
 
 #Files
-GET     /garotas/v1/files/get                               controllers.content.posts.Posts.getPublicImages()
+GET     /garotas/v1/files/get                                                           controllers.content.posts.Posts.getPublicImages()
 
 #Clients
-POST    /garotas/v1/clients/create                          controllers.client.Clients.create()
-POST    /garotas/v1/clients/update/:id                      controllers.client.Clients.update(id : Integer)
-POST    /garotas/v1/clients/delete/:id                      controllers.client.Clients.delete(id : Integer)
-POST    /garotas/v1/clients/upstream/resetpass              controllers.client.Clients.resetUpstreamPass()
-GET     /garotas/v1/clients/get/:id/:upstreamChannel        controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
-GET     /garotas/v1/clients/list                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
-GET     /garotas/v1/clients/favorites/:id                   controllers.client.Clients.getStarredWomenForClient(id : Integer)
+POST    /garotas/v1/clients/create                                                      controllers.client.Clients.create()
+POST    /garotas/v1/clients/update/:id                                                  controllers.client.Clients.update(id : Integer)
+POST    /garotas/v1/clients/delete/:id                                                  controllers.client.Clients.delete(id : Integer)
+POST    /garotas/v1/clients/upstream/resetpass                                          controllers.client.Clients.resetUpstreamPass()
+GET     /garotas/v1/clients/get/:id/:upstreamChannel                                    controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET     /garotas/v1/clients/list                                                        controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+GET     /garotas/v1/clients/favorites/:id                                               controllers.client.Clients.getStarredWomenForClient(id : Integer)
 
 #Clients PMC
-GET     /garotas/v1/clients/pmc/get/:id                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
-GET     /garotas/v1/clients/pmc/list/:page/:pageSize        controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
-POST    /garotas/v1/clients/pmc/clean                       controllers.client.Clients.cleanDevices()
+GET     /garotas/v1/clients/pmc/get/:id                                                 controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
+GET     /garotas/v1/clients/pmc/list/:page/:pageSize                                    controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
+POST    /garotas/v1/clients/pmc/clean                                                   controllers.client.Clients.cleanDevices()
 
 #FAKE UPSTREAM URL
-POST    /garotas/v1/clients/upstream/game/user/subscribe    controllers.client.Clients.upstreamFakeCreate()
-POST    /garotas/v1/clients/upstream/game/user/login        controllers.client.Clients.upstreamFakeLogin()
-POST    /garotas/v1/clients/upstream/game/user/status       controllers.client.Clients.upstreamFakeStatus()
-POST    /garotas/v1/clients/upstream/game/user/password     controllers.client.Clients.upstreamFakeResetPass()
+POST    /garotas/v1/clients/upstream/game/user/subscribe                                controllers.client.Clients.upstreamFakeCreate()
+POST    /garotas/v1/clients/upstream/game/user/login                                    controllers.client.Clients.upstreamFakeLogin()
+POST    /garotas/v1/clients/upstream/game/user/status                                   controllers.client.Clients.upstreamFakeStatus()
+POST    /garotas/v1/clients/upstream/game/user/password                                 controllers.client.Clients.upstreamFakeResetPass()
 
 #view
 
-GET     /posts/:id         			                        controllers.Application.getPost(id:Integer)
+GET     /posts/:id         			                                                    controllers.Application.getPost(id:Integer)
 
 
 # Authenticate
-GET     /restricted                                         controllers.Application.restricted
-GET     /assets/javascript/routes.js                        controllers.Application.jsRoutes
+GET     /restricted                                                                     controllers.Application.restricted
+GET     /assets/javascript/routes.js                                                    controllers.Application.jsRoutes
 
-GET     /profile                                            controllers.Application.profile
+GET     /profile                                                                        controllers.Application.profile
 
-GET     /login                                              controllers.Application.login
-POST    /login                                              controllers.Application.doLogin
+GET     /login                                                                          controllers.Application.login
+POST    /login                                                                          controllers.Application.doLogin
 
-GET     /logout                                             com.feth.play.module.pa.controllers.Authenticate.logout
-GET     /authenticate/:provider                             com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /logout                                                                         com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider                                                         com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
-GET     /signup                                             controllers.Application.signup
-POST    /signup                                             controllers.Application.doSignup
+GET     /signup                                                                         controllers.Application.signup
+POST    /signup                                                                         controllers.Application.doSignup
 
-GET     /accounts/unverified        		                controllers.Signup.unverified
-GET     /authenticate/:provider/denied    	                controllers.Signup.oAuthDenied(provider: String)
+GET     /accounts/unverified        		                                            controllers.Signup.unverified
+GET     /authenticate/:provider/denied    	                                            controllers.Signup.oAuthDenied(provider: String)
 
-GET     /accounts/verify/:token                             controllers.Signup.verify(token: String)
-GET     /accounts/exists                                    controllers.Signup.exists
+GET     /accounts/verify/:token                                                         controllers.Signup.verify(token: String)
+GET     /accounts/exists                                                                controllers.Signup.exists
 
-GET     /accounts/password/reset/:token                     controllers.Signup.resetPassword(token: String)
-POST    /accounts/password/reset                            controllers.Signup.doResetPassword
+GET     /accounts/password/reset/:token                                                 controllers.Signup.resetPassword(token: String)
+POST    /accounts/password/reset                                                        controllers.Signup.doResetPassword
 
-GET    /accounts/password/change                            controllers.Account.changePassword
-POST   /accounts/password/change                            controllers.Account.doChangePassword
+GET    /accounts/password/change                                                        controllers.Account.changePassword
+POST   /accounts/password/change                                                        controllers.Account.doChangePassword
 
-GET     /accounts/verify                                    controllers.Account.verifyEmail
+GET     /accounts/verify                                                                controllers.Account.verifyEmail
 
-GET     /accounts/add                                       controllers.Account.link
+GET     /accounts/add                                                                   controllers.Account.link
 
-GET     /accounts/link                                      controllers.Account.askLink
-POST    /accounts/link                                      controllers.Account.doLink
+GET     /accounts/link                                                                  controllers.Account.askLink
+POST    /accounts/link                                                                  controllers.Account.doLink
 
-GET     /accounts/merge                                     controllers.Account.askMerge
-POST    /accounts/merge                                     controllers.Account.doMerge
+GET     /accounts/merge                                                                 controllers.Account.askMerge
+POST    /accounts/merge                                                                 controllers.Account.doMerge
 
-GET     /login/password/forgot                              controllers.Signup.forgotPassword(email: String ?= "")
-POST    /login/password/forgot                              controllers.Signup.doForgotPassword
+GET     /login/password/forgot                                                          controllers.Signup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot                                                          controllers.Signup.doForgotPassword

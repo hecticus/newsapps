@@ -40,6 +40,10 @@ public class SocialNetwork extends HecticusModel{
         this.home = home;
     }
 
+    public Integer getIdSocialNetwork() {
+        return idSocialNetwork;
+    }
+
     public String getName() {
         return name;
     }

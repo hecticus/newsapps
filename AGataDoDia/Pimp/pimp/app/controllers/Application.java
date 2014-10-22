@@ -12,6 +12,7 @@ import models.basic.Country;
 import models.basic.Language;
 import models.content.posts.Post;
 import models.content.posts.PostHasMedia;
+import models.content.women.SocialNetwork;
 import models.content.women.Woman;
 import play.*;
 import play.Routes;
@@ -83,17 +84,23 @@ public class Application extends Controller {
 
 
     public static Result getPost(Integer id) {
-        Post objNews = Post.finder.byId(id);
+        Post post = null;
+        if(id > 0) {
+            post = Post.finder.byId(id);
+        } else {
+            post = new Post();
+        }
         List<Country> countries = Country.finder.all();
-        List<Language> languages = Language.finder.all();
+        List<Language> languages = Language.finder.where().eq("active", 1).findList();
         List<Woman> women = Woman.finder.all();
+        List<SocialNetwork> socialNetworks = SocialNetwork.finder.all();
         File ftp = new File(Config.getString("ftp-route"));
         List<File> files = Arrays.asList(ftp.listFiles());
         ArrayList<String> filesToServe = new ArrayList<>();
         for(File f : files){
             filesToServe.add("/getImg/"+f.getName());
         }
-        return ok(summary.render(objNews, filesToServe, countries, languages, women));
+        return ok(summary.render(post, filesToServe, countries, languages, women, socialNetworks));
     }
 
     public static Result getImg(String name){
