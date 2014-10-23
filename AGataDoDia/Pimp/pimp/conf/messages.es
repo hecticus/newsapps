@@ -146,3 +146,5 @@ playauthenticate.index.details=Ver detalles
 playauthenticate.restricted.secrets=¡Secretos y más secretos!
 
 ### --- play-authenticate END
+
+women.list.title={0,choice,0#No hay Mujeres|1#Una Mujer encontrada|1<{0,number,integer} Mujeres encontradas}

@@ -1,5 +1,6 @@
 package models.content.women;
 
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.clients.ClientHasDevices;
@@ -194,6 +195,24 @@ public class Woman extends HecticusModel {
             response.put("categories", Json.toJson(apps));
         }
         return response;
+    }
+
+    /**
+     * Return a page of women list
+     *
+     * @param page Page to display
+     * @param pageSize Number of women per page
+     * @param sortBy Women property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static Page<Woman> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                finder.where()
+                        .ilike("name", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .findPagingList(pageSize)
+                        .getPage(page);
     }
 
 }
