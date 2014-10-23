@@ -26,6 +26,7 @@ create table competitions (
   name                      varchar(255),
   ext_id                    bigint,
   id_app                    integer,
+  status                    integer,
   constraint pk_competitions primary key (id_competitions))
 ;
 
@@ -120,7 +121,7 @@ create table news (
   id_news                   bigint auto_increment not null,
   status                    integer,
   title                     varchar(255),
-  summary                   varchar(255),
+  summary                   TEXT,
   categories                varchar(255),
   keyword                   varchar(255),
   author                    varchar(255),
@@ -132,6 +133,8 @@ create table news (
   source                    varchar(255),
   featured                  tinyint(1) default 0,
   external_id               integer,
+  push_status               integer,
+  push_date                 bigint,
   id_category               bigint,
   id_app                    integer,
   id_language               integer,

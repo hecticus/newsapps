@@ -3,9 +3,11 @@ package models;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.SqlRow;
+import com.avaje.ebean.SqlUpdate;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.h2.tools.Server;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,7 +35,14 @@ public class Job extends HecticusModel {
 
     @Override
     public ObjectNode toJson() {
-        return null;
+        ObjectNode tr = Json.newObject();
+        tr.put("id",id);
+        tr.put("status", status);
+        tr.put("className", className);
+        tr.put("name",name);
+        //params
+        tr.put("idApp",idApp);
+        return tr;
     }
 
     /******************bd funtions ******************************************************************************/
@@ -42,8 +51,8 @@ public class Job extends HecticusModel {
 
     public static List<Job> getToActivateJobs(){
         int limit = 1000;
-        //return finder.where().eq("status","1").orderBy("id asc").setMaxRows(limit).findList();
-        return finder.where().eq("id","1").orderBy("id asc").setMaxRows(limit).findList();
+        return finder.where().eq("status","1").orderBy("id asc").setMaxRows(limit).findList();
+       // return finder.where().eq("id","1").orderBy("id asc").setMaxRows(limit).findList();
     }
 
     public static List<Job> getToStopJobs(){
@@ -56,6 +65,10 @@ public class Job extends HecticusModel {
         return finder.where().eq("status","2").orderBy("id asc").setMaxRows(limit).findList();
     }
 
+    public static List<Job> getBadJobs(){ //is this one???
+        return finder.where().eq("status","-1").orderBy("id asc").setMaxRows(1000).findList();
+    }
+
     public void activateJob(){
         this.setStatus(2);
         this.save();
@@ -66,18 +79,22 @@ public class Job extends HecticusModel {
         this.save();
     }
 
+    public void failedJob(){
+        this.setStatus(-1);
+        this.save();
+    }
+
     public static void resetJobsOnStart(){
-//        try {
-//            String sql = "update jobs set `status` = 1 where `status` = 2";
-//            EbeanServer server = Ebean.getServer("Default");
-//            server.createSqlQuery(sql);
-//            server.endTransaction();
-//        }catch (Exception ex){
-//            //rollback
-//            ex.printStackTrace();
-//        }finally {
-//
-//        }
+        try {
+            String sql = "update jobs set `status` = 1 where `status` = 2";
+            SqlUpdate update = Ebean.createSqlUpdate(sql);
+            int modifiedCount = Ebean.execute(update);
+        } catch (Exception ex) {
+            //rollback
+            ex.printStackTrace();
+        } finally {
+
+        }
     }
 
 

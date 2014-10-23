@@ -6,10 +6,12 @@ import com.avaje.ebean.SqlUpdate;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 @Entity
 @Table(name="news")
@@ -19,6 +21,7 @@ public class News extends HecticusModel {
     private Long idNews;
     private Integer status;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String summary;
     private String categories; //category o list of categories
     private String keyword;
@@ -43,6 +46,9 @@ public class News extends HecticusModel {
 
     private Integer externalId; //id de la noticia externo
 
+    private Integer pushStatus;
+    private Long pushDate;
+
     //hecticus fields
     private Long idCategory; //local id category
     private Integer idApp; //id de la aplicacion
@@ -56,8 +62,38 @@ public class News extends HecticusModel {
     @OneToMany (mappedBy = "parent" , cascade=CascadeType.ALL)
     private List<Resource> resources;
 
-    public News(){
-        //por defecto
+    /***
+     * constructor para lance news
+     * @param title
+     * @param summary
+     * @param categories
+     * @param keyword
+     * @param author
+     * @param newsBody
+     * @param publicationDate
+     * @param source
+     * @param updatedDate
+     * @param idApp
+     */
+    public News(String title, String summary, String categories, String keyword, String author, String newsBody,
+                String publicationDate, String source, String updatedDate, Integer idApp) {
+        this.title = encode(title);
+        this.summary = encode(summary);
+        this.categories = encode(categories);
+        this.keyword = keyword;
+        this.author = author;
+        this.newsBody = encode(newsBody);
+        this.publicationDate = publicationDate;
+        this.source = source;
+        this.updatedDate = updatedDate;
+        this.idApp = idApp;
+        //automatic values
+        this.status = 0;
+        this.featured = false;
+        this.crc = createMd5(title);
+        this.pushStatus = 0;
+        this.insertedDate = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+
     }
 
     private static Model.Finder<Long,News> finder =
@@ -69,8 +105,8 @@ public class News extends HecticusModel {
         ObjectNode tr = Json.newObject();
         tr.put("idNews",idNews); //local id
         tr.put("status", status);
-        tr.put("title", title);
-        tr.put("summary", summary);
+        tr.put("title", decode(title));
+        tr.put("summary", decode(summary));
         tr.put("body", decode(newsBody));
         tr.put("categories",decode(categories));
         tr.put("date" , publicationDate);
@@ -81,51 +117,34 @@ public class News extends HecticusModel {
         if (resources.size()> 0){
             tr.put("resorces", Json.toJson((resources)));
         }
+        //hecticus data??
 
         return tr;
+    }
+
+    public boolean isNewsEmpty(){
+        boolean tr = false;
+        if (title.isEmpty() && summary.isEmpty() && newsBody.isEmpty()){
+            tr = true;
+        }
+        return  tr;
     }
 
     public static News getNews(long idNews){
         return finder.where().eq("id_news", idNews).findUnique();
     }
 
-    public static News getNewsByExtID(long idNews){
-        return finder.where().eq("external_id", idNews).findUnique();
-    }
-
-    public static List<News> getNewsByCategory(long idCategory){
-        return getNewsByCategory(idCategory, MAX_SIZE);
-    }
-
-    public static List<News> getNewsByCategory(long idCategory, int limit){
-        return finder.where().eq("id_category", idCategory).orderBy("pub_date_formated DESC").setMaxRows(limit).findList();
-    }
-
-    public static int getNewsByCategoriesAndGenerationDate(ArrayList<Long> idCategories, long generationDate){
-        return finder.where().in("id_category", idCategories).eq("generationTime", generationDate).findRowCount();
-    }
-
     public static List<News> getLatestNews(int idApp, int offset, int count){
-        return finder.where().eq("id_app",idApp).findList();
+        return finder.where().eq("id_app",idApp).setFirstRow(offset).setMaxRows(count).orderBy("publication_date desc").findList();
     }
 
-    /***
-     *
-     * @param idCategory
-     * @return
-     */
-    public static List<News> getNewsByDateAndNotPushed(long idCategory){
-        return finder.where().eq("id_category", idCategory).eq("generation_time", 0).orderBy("pub_date_formated").findList();
+    public static News getNewsByTitleAndApp(int idApp, String newsTitle){
+        return finder.where().eq("id_app",idApp).eq("title",newsTitle).findUnique();
     }
 
-    public static List<News> getTrendingNewsById(long id){
-        return getTrendingNewsById(id, MAX_SIZE);
+    public static News getNewsToPush(){
+        return null;
     }
-
-    public static List<News> getTrendingNewsById(long id, int limit){
-        return finder.where().eq("id_trending", id ).orderBy("pub_date_formated DESC").setMaxRows(limit).findList();
-    }
-
 
     public static void insertBatch(ArrayList<News> list){
         EbeanServer server = Ebean.getServer("default");
@@ -144,36 +163,6 @@ public class News extends HecticusModel {
 
     }
 
-    //not needed
-    public static void updateBatch(ArrayList<News> list){
-        EbeanServer server = Ebean.getServer("default");
-        try {
-            server.beginTransaction();
-            for (int i =0; i < list.size(); i++){
-                server.save(list.get(i));
-            }
-            server.commitTransaction();
-        }catch (Exception ex){
-            server.rollbackTransaction();
-            throw ex;
-        }finally {
-            server.endTransaction();
-        }
-    }
-
-    public static void cleanInsertedNews(long date) throws Exception {
-        try {
-            String tempSql = "DELETE FROM news where inserted_date < :time";
-            EbeanServer server = Ebean.getServer("default");
-
-            SqlUpdate query = server.createSqlUpdate(tempSql);
-            query.setParameter("time", date);
-            query.execute();
-        }catch (Exception ex){
-
-        }
-    }
-
     public boolean existInBd(){
         //check with externalId
         News result = finder.where().eq("externalId", externalId)
@@ -184,52 +173,36 @@ public class News extends HecticusModel {
         return false;
     }
 
-    public static News getNewsByDateAndNotPushed(){
-        return finder.where().eq("push_notifications", true).eq("generation_time", 0).orderBy("pub_date_formated desc").setMaxRows(1).findUnique();
-    }
-
-    public static int getNewsByDateAndNotPushedCount(long generationDate){
-        return finder.where().eq("push_notifications", true).eq("generation_time", generationDate).orderBy("pub_date_formated").setMaxRows(1).findRowCount();
-    }
-
-    public News getExistingNews()  {
-        return finder.where().eq("external_id", externalId).findUnique();
-    }
-
-//    public static void batchInsertUpdate(ArrayList<News> list) throws Exception {
-//        EbeanServer server = Ebean.getServer("default");
-//        try {
-//            server.beginTransaction();
-//            for (int i = 0; i < list.size(); i++) {
-//                //if exist update or skip
-//                News current = list.get(i);
-//                News exist = current.getExistingNews();
-//                if (exist != null) {
-//                    //update
-//                    //remove resources? or update status 0
-//                    //update News and insert new resources
+    public static void batchInsertUpdate(ArrayList<News> list) throws Exception {
+        EbeanServer server = Ebean.getServer("default");
+        try {
+            server.beginTransaction();
+            for (int i = 0; i < list.size(); i++) {
+                //if exist update or skip
+                News current = list.get(i);
+                News exist = null; //current.getExistingNews();
+                if (exist != null) {
+                    //update
+                    //remove resources? or update status 0
+                    //update News and insert new resources
 //                    current.setIdNews(exist.getIdNews());
 //                    current.setInsertedTime(exist.insertedTime);
 //                    current.setGenerated(exist.generated);
 //                    current.setGenerationTime(exist.generationTime);
-//                    if (current.getIdCategory()!= null && current.getIdCategory() == 0){
-//                        current.setIdCategory(exist.idCategory);
-//                    }
-//
-//                    server.update(current);
-//                }
-//            }
-//            server.commitTransaction();
-//        } catch (Exception ex) {
-//            server.rollbackTransaction();
-//            throw ex;
-//        } finally {
-//            server.endTransaction();
-//        }
-//    }
+                    if (current.getIdCategory()!= null && current.getIdCategory() == 0){
+                        current.setIdCategory(exist.idCategory);
+                    }
 
-    public static News getNewsByTitleAndApp(){
-        return null;
+                    server.update(current);
+                }
+            }
+            server.commitTransaction();
+        } catch (Exception ex) {
+            server.rollbackTransaction();
+            throw ex;
+        } finally {
+            server.endTransaction();
+        }
     }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
@@ -384,5 +357,21 @@ public class News extends HecticusModel {
 
     public void setCrc(String crc) {
         this.crc = crc;
+    }
+
+    public Integer getPushStatus() {
+        return pushStatus;
+    }
+
+    public void setPushStatus(Integer pushStatus) {
+        this.pushStatus = pushStatus;
+    }
+
+    public Long getPushDate() {
+        return pushDate;
+    }
+
+    public void setPushDate(Long pushDate) {
+        this.pushDate = pushDate;
     }
 }
