@@ -151,12 +151,24 @@ row:not(input):not(textarea) {
 	    opacity: 0.8;	    	
 	}
 
+	body.content-signin #wrapper .scroller .container figure figcaption {
+		position: absolute;		
+		width:100%;
+		height: auto;
+	    /*line-height: 40px;*/		
+		text-align: left;	   
+	    background-color:#E2E2E1;	    
+	    bottom: 0;
+	    color: #000000;
+	    opacity: 0.8;	    	
+	}
 
 
-
-
-
-
-
-
-
+	.center {
+	 	margin: auto; 
+	 	position: absolute; 
+	 	top: 0px;
+	 	bottom: 0px; 
+	 	left: 0px; 
+		right: 0px
+	}

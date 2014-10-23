@@ -16,6 +16,20 @@ GET     /garotas/loading                                                        
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
 
+#WomenView
+# WomenView list (look at the default values for pagination parameters)
+GET     /women/list			    controllers.WomenView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /women/lsort		    controllers.WomenView.lsort()
+# Add WomenView
+GET     /women/blank		    controllers.WomenView.blank()
+POST    /women				    controllers.WomenView.submit()
+# Edit existing woman
+GET     /women/sort/:ids	    controllers.WomenView.sort(ids:String)
+GET     /women/:id			    controllers.WomenView.edit(id:Integer)
+POST    /women/:id			    controllers.WomenView.update(id:Integer)
+# Delete a woman
+POST    /women/:id/delete		controllers.WomenView.delete(id:Integer)
+
 
 #SocialNetworks
 POST    /garotas/v1/socialnetworks/create                                               controllers.content.women.SocialNetworks.create()
@@ -37,6 +51,7 @@ POST    /garotas/v1/women/update/:id                                            
 POST    /garotas/v1/women/delete/:id                                                    controllers.content.women.Women.delete(id : Integer)
 GET     /garotas/v1/women/get/:id                                                       controllers.content.women.Women.get(id : Integer)
 GET     /garotas/v1/women/list                                                          controllers.content.women.Women.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /garotas/v1/women/sort/:ids                                                     controllers.WomenView.sort(ids:String)
 
 #FileTypes
 POST    /garotas/v1/filetypes/create                                                    controllers.content.posts.FileTypes.create()
@@ -123,3 +138,4 @@ POST    /accounts/merge                                                         
 
 GET     /login/password/forgot                                                          controllers.Signup.forgotPassword(email: String ?= "")
 POST    /login/password/forgot                                                          controllers.Signup.doForgotPassword
+

@@ -4,6 +4,7 @@ import controllers.HecticusController;
 import models.news.TrendingTopics;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import play.mvc.BodyParser;
 import play.mvc.Result;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,6 +37,7 @@ public class TrendingTopicsController extends HecticusController {
         }
     }
 
+    @BodyParser.Of(value = BodyParser.Json.class, maxLength = 1024 * 1024)
     public static Result insert(){
         try {
             TrendingTopics toGet = new TrendingTopics();

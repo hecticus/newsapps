@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import controllers.content.posts.Posts;
 import models.User;
 import models.basic.Config;
 import models.basic.Country;
@@ -90,17 +91,9 @@ public class Application extends Controller {
         } else {
             post = new Post();
         }
-        List<Country> countries = Country.finder.all();
-        List<Language> languages = Language.finder.where().eq("active", 1).findList();
         List<Woman> women = Woman.finder.all();
-        List<SocialNetwork> socialNetworks = SocialNetwork.finder.all();
-        File ftp = new File(Config.getString("ftp-route"));
-        List<File> files = Arrays.asList(ftp.listFiles());
-        ArrayList<String> filesToServe = new ArrayList<>();
-        for(File f : files){
-            filesToServe.add("/getImg/"+f.getName());
-        }
-        return ok(summary.render(post, filesToServe, countries, languages, women, socialNetworks));
+        Form<Post> fill = Posts.POST_FORM.fill(post);
+        return ok(summary.render(post, women, fill));
     }
 
     public static Result getImg(String name){

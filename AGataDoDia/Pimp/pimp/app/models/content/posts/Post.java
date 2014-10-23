@@ -164,7 +164,7 @@ public class Post extends HecticusModel {
 
     public String getPushDateAsString() {
         Date expiry = new Date(pushDate);
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss z");
+        SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         return sf.format(expiry);
     }
 

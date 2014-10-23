@@ -6,6 +6,7 @@ import com.hecticus.rackspacecloud.Rackspace;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import controllers.HecticusController;
 import controllers.content.women.Women;
+import controllers.routes;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
@@ -14,18 +15,61 @@ import models.content.posts.*;
 import models.content.women.SocialNetwork;
 import models.content.women.Woman;
 import models.content.women.WomanHasCategory;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.Utils;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static play.data.Form.form;
 
 /**
  * Created by plesse on 10/1/14.
  */
 public class Posts extends HecticusController {
+
+    public final static Form<Post> POST_FORM = form(Post.class);
+
+
+
+
+
+
+//    @Security.Authenticated(Secured.class)
+//    public static Result index() {
+//        return GO_HOME;
+//    }
+//
+////    @Security.Authenticated(Secured.class)
+//    public static Result blank() {
+//        return ok(form.render(POST_FORM));
+//    }
+
+//    public static Result submit() throws IOException {
+//        System.out.println("submit()");
+//        Form<Post> filledForm = POST_FORM.bindFromRequest();
+//
+//        if(filledForm.hasErrors()) {
+//            return badRequest(summary.render(filledForm));
+//        }
+//
+//        Post gfilledForm = filledForm.get();
+//        gfilledForm.setSort(Post.finder.findRowCount());
+//        gfilledForm.save();
+//
+//        flash("success", "El Banner " + gfilledForm.getWoman().getName() + " ha sido creado");
+//        return GO_HOME;
+//
+//    }
+
+
+
+
 
     public static Result create() {
         ObjectNode postData = getJson();

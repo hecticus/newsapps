@@ -1,7 +1,70 @@
-@(post: models.content.posts.Post, resources: List[String], countries: List[models.basic.Country], languages: List[models.basic.Language], women: List[models.content.women.Woman], networks: List[models.content.women.SocialNetwork])
+@(post: models.content.posts.Post, women: List[models.content.women.Woman], postForm: Form[models.content.posts.Post])
+
+@import helper._
+@import helper.twitterBootstrap._
 
 
 
+@localizationGroup(field: Field, className: String = "localization") = {
+    <div class="twipsies well @className">
+        <a class="removeLocalization btn btn-primary danger pull-right">Remove this Localization</a>
+        @if(field("language").toString.endsWith("Field(null,localizations[x].language,ArrayBuffer(),None,ArrayBuffer(),None)") || field("language").toString.endsWith("Field(null,localizations[0].language,ArrayBuffer(),None,ArrayBuffer(),None)")){
+            @select(
+                field("language"),
+                options = options(models.basic.Language.options),
+                '_label -> "Language",
+                'class -> "form-control"
+            )
+        } else {
+            @input(field("language.name"), '_label -> "Language") { (id, name, value, _) =>
+                <input type="text" name="@name" value="@value" class="form-control" disabled>
+            }
+        }
+        @input(field("title"), '_label -> "Title") { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+        @input(field("content"), '_label -> "Content") { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+  </div>
+}
+
+@countryGroup(field: Field, className: String = "country") = {
+    <div class="twipsies well @className">
+        <a class="removeCountry btn btn-primary danger pull-right">Remove this Country</a>
+        @if(field("country").toString.endsWith("Field(null,countries[x].country,ArrayBuffer(),None,ArrayBuffer(),None)") || field("country").toString.endsWith("Field(null,countries[0].country,ArrayBuffer(),None,ArrayBuffer(),None)")){
+            @select(
+                field("country"),
+                options = options(models.basic.Country.options),
+                '_label -> "Country",
+                'class -> "form-control"
+            )
+        } else {
+            @input(field("country.name"), '_label -> "Country") { (id, name, value, _) =>
+                <input type="text" name="@name" value="@value" class="form-control" disabled>
+            }
+        }
+    </div>
+}
+
+@mediaGroup(field: Field, className: String = "media") = {
+    <div class="twipsies well @className">
+        <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
+        @if(field("link").toString.endsWith("Field(null,media[x].link,ArrayBuffer(),None,ArrayBuffer(),None)") || field("link").toString.endsWith("Field(null,media[0].link,ArrayBuffer((constraint.required,Buffer())),None,ArrayBuffer(),None)")){
+            <div class="form-group">
+                <label for="inputFile" class="col-lg-2 control-label">File</label>
+                <div class="col-lg-10">
+                    <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
+                    <input type="file" id="inputFile" multiple="">
+                </div>
+            </div>
+        } else {
+            @input(field("link"), '_label -> "Media") { (id, name, value, _) =>
+                <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
+            }
+        }
+    </div>
+}
 
 
 @main("A Gata Do Dia - Post") {
@@ -34,28 +97,22 @@
             <h1>New Post</h1>
         }
         @if(post.getPush == 1){
-            <p class="text-info">Scheduled to push on @Html(post.getPushDateAsString())</p>
+            <p class="text-info">Scheduled to push on</p>
             <div class="container">
                 <div class="row">
                     <div class='col-sm-6'>
                         <div class="form-group">
-                            <div class='input-group date' id='datetimepicker7'>
+                            <div class='input-group date' id='datetimepicker1'>
                                 <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <script type="text/javascript">
                         $(function () {
-                            $('#datetimepicker7').datetimepicker({
-                                defaultDate: "11/1/2013",
-                                disabledDates: [
-                                    moment("12/25/2013"),
-                                    new Date(2013, 11 - 1, 21),
-                                    "11/22/2013 00:53"
-                                ]
+                            $('#datetimepicker1').datetimepicker({
+                                defaultDate: "@Html(post.getPushDateAsString())"
                             });
                         });
                     </script>
@@ -90,35 +147,19 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <input type="text" class="form-control" id="inputSouce" placeholder="Titulo" value="@post.getSource()">
+                @input(postForm("source")) { (id, name, value, _) =>
+                    <input type="text" name="@name" value="@value" class="form-control" >
+                }
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="bs-component">
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <select class="form-control" id="selectNetwork">
-                                    @for((network, index) <-  networks.zipWithIndex) {
-                                        @if(post.getSocialNetwork() != null && network.getIdSocialNetwork() == post.getSocialNetwork().getIdSocialNetwork()){
-                                            <option id="row-selectable-network-@network.getIdSocialNetwork()" data-resource="@network.getIdSocialNetwork()" selected>@Html(network.getName())</option>
-                                        }else{
-                                            <option id="row-selectable-network-@network.getIdSocialNetwork()" data-resource="@network.getIdSocialNetwork()">@Html(network.getName())</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-lg-12">
+                @select(
+                    postForm("socialNetwork"),
+                    options = options(models.content.women.SocialNetwork.options),
+                    '_label -> "Social Network",
+                    'class -> "form-control"
+                )
             </div>
         </div>
-
-
-
-
-
-
-
 
         <div class="row">
             <div class="col-lg-12">
@@ -127,56 +168,11 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="bs-component">
-                    <div class="form-group">
-                        <div class="col-lg-12">
-                            <select class="form-control" id="selectWoman">
-                                @for((woman, index) <-  women.zipWithIndex) {
-                                    @if(post.getWoman() != null && woman.getIdWoman() == post.getWoman().getIdWoman()){
-                                        <option id="row-selectable-woman-@woman.getIdWoman()" data-resource="@woman.getIdWoman()" selected>@Html(woman.getName())</option>
-                                    }else{
-                                        <option id="row-selectable-woman-@woman.getIdWoman()" data-resource="@woman.getIdWoman()">@Html(woman.getName())</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>Countries</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="bs-component">
-                    <div class="list-group">
-                        <div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
-                            @for((country, index) <-  post.getCountries().zipWithIndex) {
-                                <div id="row-country-@country.getIdPostHasCountry()" data-resource="@country.getIdPostHasCountry()" >
-                                    <p>@Html(country.getCountry().getName()) - @Html(country.getCountry().getLanguage().getName())</p>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-lg-12">
-                <select class="form-control" id="select">
-                    @for((country, index) <-  countries.zipWithIndex) {
-                        <option id="row-selectable-country-@country.getIdCountry" data-resource="@country.getIdCountry">@Html(country.getName()) - @Html(country.getLanguage().getName())</option>
-                    }
-                </select>
-            </div>
-            <div class="col-lg-12">
-                <button type="submit" class="btn btn-primary">Add</button>
+                @select(
+                    postForm("woman"),
+                    options = options(models.content.women.Woman.options),
+                    'class -> "form-control"
+                )
             </div>
         </div>
 
@@ -185,104 +181,93 @@
                 <h2>Localizations</h2>
             </div>
         </div>
+        <fieldset>
+
+
+            <div id="localizations">
+
+                @repeat(postForm("localizations")) { localization =>
+
+                    @localizationGroup(localization)
+
+                }
+                @localizationGroup(
+                    postForm("localizations[x]"),
+                    className = "localization_template"
+                )
+
+                <div class="manage">
+                    <a class="addLocalization btn btn-primary success">Add another Localization</a>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+
+
+
+
+
+
         <div class="row">
             <div class="col-lg-12">
-                <div class="bs-component">
-                    <div class="list-group">
-                        <div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
-                            @for((localization, index) <-  post.getLocalizations().zipWithIndex) {
-                                <div id="row-localization-@localization.getIdPostHasLocalization()" data-resource="@localization.getIdPostHasLocalization()" >
-                                    <h3>@Html(localization.getLanguage().getName())</h3>
-                                    <input type="text" class="form-control" id="input-localization-title-@localization.getIdPostHasLocalization()" placeholder="Title" value="@localization.getTitle()">
-                                    <input type="text" class="form-control" id="input-localization-content-@localization.getIdPostHasLocalization()" placeholder="Content" value="@localization.getContent()">
-                                </div>
-                            }
-                        </div>
-                    </div>
+                <h2>Countries</h2>
+            </div>
+        </div>
+
+        <fieldset>
+
+
+            <div id="countries">
+
+                @repeat(postForm("countries")) { country =>
+
+                    @countryGroup(country)
+
+                }
+                @countryGroup(
+                    postForm("countries[x]"),
+                    className = "country_template"
+                )
+
+                <div class="manage">
+                    <a class="addCountry btn btn-primary success">Add another Country</a>
                 </div>
+
+            </div>
+
+        </fieldset>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Media</h2>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-lg-12">
-                <select class="form-control" id="select-language">
-                    @for((language, index) <-  languages.zipWithIndex) {
-                    <option id="row-selectable-language-@language.getIdLanguage" data-resource="@language.getIdLanguage">@Html(language.getName())</option>
-                    }
-                </select>
+        <fieldset>
+
+
+            <div id="Media">
+
+                @repeat(postForm("media")) { m =>
+
+                    @mediaGroup(m)
+
+                }
+                @mediaGroup(
+                    postForm("media[x]"),
+                    className = "media_template"
+                )
+
+                <div class="manage">
+                    <a class="addMedia btn btn-primary success">Add another Media</a>
+                </div>
+
             </div>
 
-            <div class="col-lg-12">
-                <input type="text" class="form-control" id="inputTitle" placeholder="Titulo">
-                <input type="text" class="form-control" id="inputContent" placeholder="Contenido">
-            </div>
+        </fieldset>
 
-
-
-            <div class="col-lg-12">
-                <button type="submit" class="btn btn-primary">Add</button>
-            </div>
-        </div>
-
-	    <div class="bs-docs-section">
-	    	
-	    	
-	    	<div class="row">		    	
-		    	<div class="col-lg-12">
-					<h2>Related Images</h2>
-				</div>
-	    	</div>	
-	    	
-	    	<div class="row">		    	
-	    		<div class="col-lg-12">
-					<div class="bs-component">
-						<div class="list-group">
-							<div class="list-group-item related" style="width:100%; height:auto; min-height: 100px;">
-								@for((resource, index) <-  post.getMedia().zipWithIndex) {
-							    	<div id="row-picture-@resource.getIdPostHasMedia()" data-resource="@resource.getIdPostHasMedia()" class="row-picture related" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal">
-					        			<img class="img-rounded" src="@resource.getLink()" alt="icon" style="width: 100px; height: 100px;" >
-					        		</div>	
-							    }	
-							</div>
-								
-						</div>
-					</div>
-				</div>
-			</div>
-
-	    </div>
-
-
-        <div class="form-group">
-            <label for="inputFile" class="col-lg-2 control-label">File</label>
-            <div class="col-lg-10">
-                <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
-                <input type="file" id="inputFile" multiple="">
-            </div>
-        </div>
-
-    	<div class="row">		    	
-	    	<div class="col-lg-12">
-				<h2>Available Images</h2>
-			</div>
-    	</div>	
-	    	
-    	<div class="row">		    	
-    		<div class="col-lg-12">    			
-				<div class="bs-component">
-					<div class="list-group">
-						<div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
-							@for((resource, index) <-  resources.zipWithIndex) {
-						    	<div id="row-picture-@index" data-resource="@index" class="row-picture relatable" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal" >
-				        			<img class="img-rounded" src="@resource" alt="icon" style="width: 100px; height: 100px;"  >
-				        		</div>	
-						    }			    
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	    <hr />
 	    <p style="text-align: right;">
 	    	<a id="save" class="btn btn-primary btn-lg" data-post="@post.getIdPost()">Save</a>
 		</p>
@@ -309,5 +294,71 @@
 		
 	       
 	</div>
+
+    <script type="text/javascript" charset="utf-8">
+
+        $(document).on('click','.removeLocalization', function(e) {
+            console.log("ESTO NO LO VEO")
+            $(this).parents('.localization').remove()
+            renumberLocalizations()
+        })
+
+        $(document).on('click','.addLocalization', function(e) {
+            var template = $('.localization_template')
+            template.before('<div class="twipsies well localization">' + template.html() + '</div>')
+            renumberLocalizations()
+        })
+
+        var renumberLocalizations = function() {
+            $('.localization').each(function(i) {
+                $('input', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+
+                })
+            })
+        }
+
+        $(document).on('click','.removeCountry', function(e) {
+            $(this).parents('.country').remove()
+            renumberCountries()
+        })
+
+        $(document).on('click','.addCountry', function(e) {
+            var template = $('.country_template')
+            console.log(template)
+            template.before('<div class="twipsies well country">' + template.html() + '</div>')
+            renumberCountries()
+        })
+
+        var renumberCountries = function() {
+            $('.country').each(function(i) {
+                $('input', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/countries\[.+?\]/g, 'countries[' + i + ']'))
+                })
+            })
+        }
+
+        $(document).on('click','.removeMedia', function(e) {
+            $(this).parents('.media').remove()
+            renumberMedia()
+        })
+
+        $(document).on('click','.addMedia', function(e) {
+            var template = $('.media_template')
+            console.log(template)
+            template.before('<div class="twipsies well media">' + template.html() + '</div>')
+            renumberMedia()
+        })
+
+        var renumberMedia = function() {
+            $('.media').each(function(i) {
+                $('input', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                })
+            })
+        }
+
+
+    </script>
 
 }

@@ -1,30 +1,28 @@
 
-	//loading...
-	
-
-	
-	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/list/woman/' + _jParameters.woman);	
+	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/get/' + _jParameters.post);	
 	if (_oAjax) {		
-		_oAjax.done(function(_json) {
-
-				var _html = ''; 	
-				$.each(_json.response, function(_index,_item) {
+		
+		
+		var _width = $(window).width();
+		var _html = '';
 					
-					_html += '<div class="row" data-touch="woman" data-post="' + _item.woman.id_woman + '" >';
-
-						_html += '<div class="col-md-12">';
-							_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" style="width:100%; height:auto;" />';
-							_html += '<h3>' + _item.woman.name + '</h3>';							
-							_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';							
-						_html += '</div>';		
-										
-					_html += '</div>';	
-									
-				});		
-			
-						
-			$('#wrapper .scroller .container').empty();
-			$('#wrapper .scroller .container').append(_html);
-																
+		_oAjax.done(function(_json) {
+			_item = _json.response;		
+			_width = parseInt($(window).width() * _item.files.length);
+			$.each(_item.files, function(_index,_file) {
+				_html += '<figure style="width:' + $(window).width() + 'px; height:' + parseInt($(window).height() - 55) + 'px; float:left; " >';														
+					_html += '<img onerror="this.style.display=\'none\'" src="' + _file.link + '" alt="' +_item.woman.name + '" class="img-rounded" style="margin: auto; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;"   />';
+				_html += '</figure>';								
+			});							
 		});
+		
+		
+		$('#wrapper').css('width', $(window).width() + 'px');
+		$('#wrapper .scroller').css('width',  _width + 'px');
+		$('#wrapper .scroller .container').empty();		
+		$('#wrapper .scroller .container').append(_html);
+		
+		_scroll.scrollTo(0,0,0);
+		_scroll.refresh();
+		
 	}

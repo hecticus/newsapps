@@ -39,7 +39,7 @@ import views.html.banner.*;
 public class Banner extends HecticusController {
 	
 	public static final String imageDir = "files/banneruploader/";
-    private static final String containerName = "tvmax_banners";
+    private static final String containerName = "pimp";
     private static final int TTL = 900;
 	
     final static Form<models.Banners.BannerFile> BannerFileform = form(models.Banners.BannerFile.class);
@@ -289,7 +289,7 @@ public class Banner extends HecticusController {
 
 	@Security.Authenticated(Secured.class)
 	public static Result submit() throws IOException {
-
+        System.out.println("submit()");
 		Form<models.Banners.Banner> filledForm = BannerForm.bindFromRequest();
 
 		if(filledForm.hasErrors()) {
