@@ -1,18 +1,28 @@
-
-
 	
-	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/get/category/' + _jParameters.client + '/' + _jParameters.category + '/0/10');	
+	
 
+	var _oAjax = _fGetAjaxJson(_url + '/loading');	
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 
-			_html = '';
-			$.each(_json.response, function(_index,_item) {
+			var _html = '';
+			var _width = $(window).width();
+			var _item = _json.response.posts[0];
+			_width = parseInt($(window).width() * _item.files.length);
+			
+			_html += '<div class="row" style="overflow:hidden; height:' + parseInt(($(window).height() - 55)/2) + 'px;">';
+				$.each(_item.files, function(_index,_file) {			
+					_html += '<figure style="width:' + $(window).width() + 'px; height:auto; float:left; " >';								
+						_html += '<img onerror="this.style.display=\'none\'" src="' + _file + '" alt="' +_item.woman.name + '" class="img-rounded" />';
+					_html += '</figure>';
+				});	
+			_html += '</div>';
+
 					
-				_html += '<div class="row"  style="margin-top:5px !important;" >';	
+				/*_html += '<div class="row"  style="margin-top:5px !important;" >';	
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
 					
-					 _html += '<figure  data-touch="load" data-target="2" data-post="' + _item.id_post + '">';				     		
+					 _html += '<figure  data-touch="load" data-target="2" data-post="' + _item.id_post + '" >';				     		
 						_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"   />';		
 						_html += '<figcaption>';
 							_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
@@ -55,50 +65,19 @@
 						});
 					_html += '</div>';
 				_html += '</div>';	
-									
-			});		
-			
-						
-			$('#wrapper .scroller .container').empty();
+					
+				$.each(_item.files, function(_index,_file) {					
+					var _img = $('img #img').attr('src',_file);				
+				});			*/									
+					
+								
+		
+			$('#wrapper').css('width', $(window).width() + 'px');
+			$('#wrapper .scroller').css('width',  _width + 'px');
+			//$('#wrapper .scroller .container .row.preview').css('height', parseInt(($(window).height() - 55)/2) + 'px');					
+			//$('#wrapper .scroller .container .row.preview').append(_html);
 			$('#wrapper .scroller .container').append(_html);
-																
+			
 		});
 	}
-
-
-	
-	/*$(document).on('click','[data-touch="post"]', function(e) {
-
-
-		
-		if(_fPreventDefaultClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}						
-		var _post = $(this).data('post');
-		var _html = '';
-		var _width = $(window).width();
-		_oAjax.done(function(_json) {
-		$.each(_json.response, function(_index,_item) {				
-				if (_item.id_post == _post) {
-					_width = parseInt($(window).width() * _item.files.length);
-					$.each(_item.files, function(_index,_file) {
-						_html += '<figure style="width:' + $(window).width() + 'px; float:left;">';														
-							_html += '<img onerror="this.style.display=\'none\'" src="' + _file + '" alt="' +_item.woman.name + '" class="img-rounded" style="max-height:' + parseInt($(window).height() - 55) + 'px;"  />';
-						_html += '</figure>';								
-					});							
-				}				
-			});		
-
-		});
-		
-
-				
-		$('#wrapper2').css('width', $(window).width() + 'px');
-		$('#wrapper2 .scroller').css('width',  _width + 'px');
-		$('#wrapper2 .scroller .container').empty();		
-		$('#wrapper2 .scroller .container').append(_html);
-		$('#wrapper2').attr('class','page transition left');
-		_scroll2.scrollTo(0,0,0);
-		_scroll2.refresh();
-		
-	});*/
 

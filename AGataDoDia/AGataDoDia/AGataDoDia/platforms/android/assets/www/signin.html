@@ -5,11 +5,21 @@
 		<div id="wrapper">
 			<div class="scroller">
 				<div class="container">
+					
 				</div>				
 			</div>	
 		</div>
 		
-		<script type="text/javascript" src="js/posts.js"></script>
+		<script type="text/javascript" src="js/signin.js"></script>
+		<!--script type="text/javascript">								 
+			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});
+			_scroll.on('beforeScrollStart', function () {
+				this.refresh();	
+				$('.row.menu').addClass('hidden');
+			});	
+		</script-->
+
+		  
 		<script type="text/javascript">
 			var _scroll = new IScroll('#wrapper',{
 					scrollX: true,
@@ -25,6 +35,7 @@
 				this.refresh();		
 			});			
 		</script>
+
 	</body>
 	
 </html>

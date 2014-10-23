@@ -2,12 +2,14 @@
 	var _url = 'http://10.0.1.125:9100/garotas';
 	var _jParameters = {client:1};
 	var _jMenu = [];
-	
-	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', json:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', json:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', json:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', json:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-hall-of-fame', title:'Salao da Fama', load:'hall-of-fame.html', glyphicon:'icon-hall-of-fame', json:false, session:false});
+
+	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-hall-of-fame', title:'Salao da Fama', load:'hall-of-fame.html', glyphicon:'icon-hall-of-fame', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signin', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signup', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
 	
 	var _jApp = {
 		
@@ -26,10 +28,11 @@
 		
 		load: function(_index) {
 			
+			
 			try {
-				
+		
 				$('body').removeClass();
-				$('body').addClass('');
+				$('body').addClass(_jMenu[_index].class);
 				$('main').empty();
 				$('main').data('',_index);
 				this.loading();		
@@ -38,7 +41,7 @@
 			} catch(err) {    	
 	  			this.error();
 			}
-			 		       			
+			 		      			
 	  	},
 	  	
 	  	offLine: function() {
@@ -50,9 +53,12 @@
 	  	},
 	  	
 	  	back: function() {
+	  		
 	  		if ($('#wrapper2').hasClass('left')) {						
 				$('#wrapper2').attr('class','page transition right');							
 			}	
+			
+			this.load(0);
 	  	},
 	  	
 	  	black: function(_url) {
@@ -86,21 +92,26 @@
 	});
 
 	$(document).on('click','[data-touch="load"]', function(e) {
-		
-		_jApp.back();
-		
-		/*if(_fPreventDefaultClick(e)){return false;}
+	
+		if(_fPreventDefaultClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		var _load = $(this).data('target');
 		var _woman = $(this).data('woman');
+		var _post = $(this).data('post');
 			
 		if (_woman) {
-			_jParameters.woman.id = _woman;	
+			_jParameters.woman = _woman;	
 		} else {
 			_jParameters.woman  = false;	
 		}
 		
-		_jApp.load(_load);	*/
+		if (_post) {
+			_jParameters.post = _post;	
+		} else {
+			_jParameters.post  = false;	
+		}
+		
+		_jApp.load(_load);
 		
 	});
 
@@ -126,8 +137,5 @@
 	});
 	
 
-
-	
-	
 
 
