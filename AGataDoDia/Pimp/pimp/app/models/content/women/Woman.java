@@ -12,7 +12,9 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by plesse on 9/30/14.
@@ -196,4 +198,12 @@ public class Woman extends HecticusModel {
         return response;
     }
 
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+        List<Woman> women = Woman.finder.all();
+        for(Woman w: women) {
+            options.put(w.getIdWoman().toString(), w.getName());
+        }
+        return options;
+    }
 }
