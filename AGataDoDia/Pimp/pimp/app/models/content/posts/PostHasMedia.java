@@ -45,6 +45,10 @@ public class PostHasMedia extends HecticusModel {
         this.mainScreen = mainScreen;
     }
 
+    public Integer getIdPostHasMedia() {
+        return idPostHasMedia;
+    }
+
     public String getMd5() {
         return md5;
     }

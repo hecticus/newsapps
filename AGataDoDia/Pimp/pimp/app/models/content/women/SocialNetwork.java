@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by plesse on 9/30/14.
@@ -38,6 +40,10 @@ public class SocialNetwork extends HecticusModel{
     public SocialNetwork(String name, String home) {
         this.name = name;
         this.home = home;
+    }
+
+    public Integer getIdSocialNetwork() {
+        return idSocialNetwork;
     }
 
     public String getName() {
@@ -78,5 +84,14 @@ public class SocialNetwork extends HecticusModel{
             response.put("devices", Json.toJson(apps));
         }
         return response;
+    }
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+        List<SocialNetwork> socialNetworks = SocialNetwork.finder.all();
+        for(SocialNetwork sn: socialNetworks) {
+            options.put(sn.getIdSocialNetwork().toString(), sn.getName());
+        }
+        return options;
     }
 }

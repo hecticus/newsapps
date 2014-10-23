@@ -43,6 +43,10 @@ public class PostHasLocalization extends HecticusModel {
         this.content = content;
     }
 
+    public Integer getIdPostHasLocalization() {
+        return idPostHasLocalization;
+    }
+
     public Post getPost() {
         return post;
     }

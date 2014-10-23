@@ -1,0 +1,45 @@
+@(womenViewForm: Form[models.content.women.Woman])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title = "Crear Mujer", nav = "create") {
+    
+     @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    } 
+
+
+    @helper.form(action = controllers.routes.WomenView.submit, 'enctype -> "multipart/form-data") {
+        
+        <fieldset>
+            <legend>Información de la mujer</legend>
+            
+            @inputText(
+                womenViewForm("name"),
+                '_label -> "Nombre", 
+                '_help -> "Ingrese un nombre válido.",
+                '_error -> womenViewForm.globalError
+            )
+               
+			@inputText(
+                womenViewForm("default_photo"),
+                '_label -> "Default photo",
+                 '_help -> "Ingrese una url válida.",
+                '_error -> womenViewForm.globalError
+            )
+            
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Crear este mujer">
+            <a href="@controllers.routes.WomenView.list()" class="btn">Cancelar</a>
+        </div>
+        
+    }
+ 
+}

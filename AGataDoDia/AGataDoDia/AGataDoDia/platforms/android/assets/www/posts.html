@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+	<body>
+		
+		<div id="wrapper">
+			<div class="scroller">
+				<div class="container">
+				</div>				
+			</div>	
+		</div>
+		
+		<script type="text/javascript" src="js/posts.js"></script>
+		<script type="text/javascript">
+			var _scroll = new IScroll('#wrapper',{
+					scrollX: true,
+					scrollY: false,					
+					preventDefault:true, 
+					bounce:false,
+					momentum: false,
+					snap: true,
+					snapSpeed: 400
+				});
+			
+			_scroll.on('beforeScrollStart', function () { 
+				this.refresh();		
+			});			
+		</script>
+	</body>
+	
+</html>

@@ -1,0 +1,34 @@
+@(id: Integer, womenViewForm: Form[models.content.women.Woman])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title = "Editar mujer", nav = "create") {
+    
+    <h1>Edit Woman</h1>
+    
+     @helper.form(controllers.routes.WomenView.update(id), 'enctype -> "multipart/form-data") {
+        
+        <fieldset>
+        	<legend>Informacion de la mujer</legend>
+        	
+        	@inputText(womenViewForm("name"), '_label -> "Nombre", '_help -> "Ingrese un nombre válido.", '_error -> womenViewForm.globalError)
+        	@inputText(womenViewForm("link"), '_label -> "Foto default", '_help -> "Ingrese una url válida.", '_error -> womenViewForm.globalError)
+
+        </fieldset>
+
+        <div class="actions">        	        	 
+            <input type="submit" value="Actualizar esta mujer" onclick="return confirm('¿Por favor confirmar que desea actualizar la información de la mujer?');" class="btn primary">
+            <a href="@controllers.routes.WomenView.list()" class="btn">Cancelar</a>
+        </div>
+            
+    }
+    
+    @form(controllers.routes.WomenView.delete(id), 'class -> "topRight") {
+		<input type="submit" value="Eliminar esta mujer" onclick="return confirm('¿Por favor confirmar que desea eliminar la información de esta mujer?');" class="btn danger">
+		
+    }
+       
+}

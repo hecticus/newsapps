@@ -6,30 +6,76 @@ import com.hecticus.rackspacecloud.Rackspace;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import controllers.HecticusController;
 import controllers.content.women.Women;
+import controllers.routes;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.clients.Client;
 import models.content.posts.*;
+import models.content.women.SocialNetwork;
 import models.content.women.Woman;
+import models.content.women.WomanHasCategory;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.Utils;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static play.data.Form.form;
 
 /**
  * Created by plesse on 10/1/14.
  */
 public class Posts extends HecticusController {
 
+    public final static Form<Post> POST_FORM = form(Post.class);
+
+
+
+
+
+
+//    @Security.Authenticated(Secured.class)
+//    public static Result index() {
+//        return GO_HOME;
+//    }
+//
+////    @Security.Authenticated(Secured.class)
+//    public static Result blank() {
+//        return ok(form.render(POST_FORM));
+//    }
+
+//    public static Result submit() throws IOException {
+//        System.out.println("submit()");
+//        Form<Post> filledForm = POST_FORM.bindFromRequest();
+//
+//        if(filledForm.hasErrors()) {
+//            return badRequest(summary.render(filledForm));
+//        }
+//
+//        Post gfilledForm = filledForm.get();
+//        gfilledForm.setSort(Post.finder.findRowCount());
+//        gfilledForm.save();
+//
+//        flash("success", "El Banner " + gfilledForm.getWoman().getName() + " ha sido creado");
+//        return GO_HOME;
+//
+//    }
+
+
+
+
+
     public static Result create() {
         ObjectNode postData = getJson();
         try{
             ObjectNode response = null;
-            if(postData.has("woman") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") ){
+            if(postData.has("woman") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
                 Woman woman = null;
                 if(postData.get("woman").isInt()){
                     woman = Woman.finder.byId(postData.get("woman").asInt());
@@ -46,11 +92,18 @@ public class Posts extends HecticusController {
                     response = buildBasicResponse(1, "Faltan campos para crear el registro");
                     return ok(response);
                 }
+
+                SocialNetwork socialNetwork = SocialNetwork.finder.byId(postData.get("social_network").asInt());
+                if(socialNetwork == null){
+                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                    return ok(response);
+                }
+
                 TimeZone tz = TimeZone.getDefault();
                 Calendar actualDate = new GregorianCalendar(tz);
                 SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
                 String date = sf.format(actualDate.getTime());
-                Post post = new Post(woman, date, postData.get("source").asText());
+                Post post = new Post(woman, date, postData.get("source").asText(), socialNetwork);
 
                 Iterator<JsonNode> localizationsIterator = postData.get("localizations").elements();
                 ArrayList<PostHasLocalization> localizations = new ArrayList<>();
@@ -380,8 +433,19 @@ public class Posts extends HecticusController {
                 Language language = country.getLanguage();
                 Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage",language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+
+                //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
-                    posts.add(postIterator.next().toJson(language));
+                    Post post = postIterator.next();
+                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
+                    ObjectNode postJson = post.toJson(language);
+                    if(index != -1){
+                        //si la tiene como favorita
+                        postJson.put("starred", true);
+                    }else{
+                        postJson.put("starred", false);
+                    }
+                    posts.add(postJson);
                 }
                 response = buildBasicResponse(0, "OK", Json.toJson(posts));
             } else {
@@ -393,4 +457,88 @@ public class Posts extends HecticusController {
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
+
+    public static Result getListForWoman(Integer id){
+        try {
+            ObjectNode response = null;
+            Woman woman = Woman.finder.byId(id);
+            if(woman != null) {
+                Iterator<Post> postIterator = woman.getPosts().iterator();
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+                while(postIterator.hasNext()){
+                    posts.add(postIterator.next().toJson());
+                }
+                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
+    public static Result getPostForClient(Integer idClient, Integer idPost){
+        try {
+            ObjectNode response = null;
+            Post post = Post.finder.byId(idPost);
+            Client client = Client.finder.byId(idClient);
+            if(post != null && client != null) {
+                response = buildBasicResponse(0, "OK", post.toJson(client.getCountry().getLanguage()));
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + idPost + " para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
+    //obtenemos todos los post por categoria
+    public static Result getPostForCategory(Integer idClient, Integer idCategory, Integer page, Integer pageSize){
+        try {
+            Client client = Client.finder.byId(idClient);
+            ObjectNode response = null;
+            if(client != null) {
+                Country country = client.getCountry();
+                Language language = country.getLanguage();
+                //obtenemos todos los id de las mujeres de una categoria
+                List<WomanHasCategory> womenCat = WomanHasCategory.finder.where().eq("id_category",idCategory).findList();
+                ArrayList women = new ArrayList();
+                for(int i=0; i<womenCat.size(); i++){
+                    women.add(womenCat.get(i).getWoman().getIdWoman());
+                }
+                Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").fetch("woman").where().
+                        eq("countries.country.idCountry", country.getIdCountry()).
+                        eq("localizations.language.idLanguage",language.getIdLanguage()).
+                        in("woman.idWoman",women).
+                        setFirstRow(pageSize*page).setMaxRows(pageSize).orderBy("date desc").findList().iterator();
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+
+                //buscamos sus favoritos tambien y agregamos esa info
+                while(postIterator.hasNext()){
+                    Post post = postIterator.next();
+                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
+                    ObjectNode postJson = post.toJson(language);
+                    if(index != -1){
+                        //si la tiene como favorita
+                        postJson.put("starred", true);
+                    }else{
+                        postJson.put("starred", false);
+                    }
+                    posts.add(postJson);
+                }
+                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+            } else {
+                response = buildBasicResponse(2, "el cliente no existe");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
 }
