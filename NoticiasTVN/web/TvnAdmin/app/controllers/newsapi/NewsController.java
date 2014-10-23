@@ -8,7 +8,6 @@ import models.news.News;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Result;
 import utils.Utils;
 
@@ -169,7 +168,6 @@ public class NewsController extends HecticusController {
         }
     }
 
-    @BodyParser.Of(value = BodyParser.Json.class, maxLength = 1024 * 1024)
     public static Result insert(){
         try {
             ArrayList<News> toInsert = new ArrayList<News>();
