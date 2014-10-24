@@ -18,17 +18,31 @@ GET     /assets/*file                                                           
 
 #WomenView
 # WomenView list (look at the default values for pagination parameters)
-GET     /women/list			    controllers.WomenView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
-GET     /women/lsort		    controllers.WomenView.lsort()
+GET     /women/list			                                                            controllers.WomenView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /women/lsort		                                                            controllers.WomenView.lsort()
 # Add WomenView
-GET     /women/blank		    controllers.WomenView.blank()
-POST    /women				    controllers.WomenView.submit()
+GET     /women/blank		                                                            controllers.WomenView.blank()
+POST    /women				                                                            controllers.WomenView.submit()
 # Edit existing woman
-GET     /women/sort/:ids	    controllers.WomenView.sort(ids:String)
-GET     /women/:id			    controllers.WomenView.edit(id:Integer)
-POST    /women/:id			    controllers.WomenView.update(id:Integer)
+GET     /women/sort/:ids	                                                            controllers.WomenView.sort(ids:String)
+GET     /women/:id			                                                            controllers.WomenView.edit(id:Integer)
+POST    /women/:id			                                                            controllers.WomenView.update(id:Integer)
 # Delete a woman
-POST    /women/:id/delete		controllers.WomenView.delete(id:Integer)
+POST    /women/:id/delete		                                                        controllers.WomenView.delete(id:Integer)
+
+#PostsView
+# PostsView list (look at the default values for pagination parameters)
+GET     /posts/list			                                                            controllers.PostsView.list(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
+GET     /posts/lsort		                                                            controllers.PostsView.lsort()
+# Add PostsView
+GET     /posts/blank		                                                            controllers.PostsView.blank()
+POST    /posts				                                                            controllers.PostsView.submit()
+# Edit existing PostsView
+GET     /posts/sort/:ids	                                                            controllers.PostsView.sort(ids:String)
+GET     /posts/:id			                                                            controllers.PostsView.edit(id:Integer)
+POST    /posts/:id			                                                            controllers.PostsView.update(id:Integer)
+# Delete a PostsView
+POST    /posts/:id/delete		                                                        controllers.PostsView.delete(id:Integer)
 
 
 #SocialNetworks

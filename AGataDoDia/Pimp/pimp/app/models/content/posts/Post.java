@@ -29,7 +29,6 @@ public class Post extends HecticusModel {
     @JoinColumn(name = "id_woman")
     private Woman woman;
 
-    @Constraints.MaxLength(value = 14)
     @Constraints.Required
     private String date;
 
@@ -43,7 +42,6 @@ public class Post extends HecticusModel {
     @Constraints.Required
     private Integer push;
 
-    @Constraints.MaxLength(value = 14)
     @Constraints.Required
     private Long pushDate;
 

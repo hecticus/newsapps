@@ -87,11 +87,16 @@ public class SocialNetwork extends HecticusModel{
     }
 
     public static Map<String,String> options() {
-        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+        LinkedHashMap<String,String> options = new LinkedHashMap<>();
         List<SocialNetwork> socialNetworks = SocialNetwork.finder.all();
         for(SocialNetwork sn: socialNetworks) {
-            options.put(sn.getIdSocialNetwork().toString(), sn.getName());
+            options.put(sn.toJson().toString(), sn.getName());
         }
         return options;
     }
+
+//    public static List<SocialNetwork> options() {
+//        List<SocialNetwork> socialNetworks = SocialNetwork.finder.all();
+//        return socialNetworks;
+//    }
 }
