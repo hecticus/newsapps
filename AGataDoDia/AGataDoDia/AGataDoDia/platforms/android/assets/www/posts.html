@@ -3,16 +3,17 @@
 	<body>
 		
 		<div id="wrapper">
+			
 			<div class="scroller">
 				<div class="container">
 				</div>				
 			</div>
 			
 			 <!-- Controls -->
-		  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		  <a class="left carousel-control hidden" role="button">
 		    <span class="glyphicon glyphicon-chevron-left"></span>
 		  </a>
-		  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		  <a class="right carousel-control hidden" role="button">
 		    <span class="glyphicon glyphicon-chevron-right"></span>
 		  </a>
 				
@@ -22,6 +23,7 @@
 		
 		<script type="text/javascript" src="js/posts.js"></script>
 		<script type="text/javascript">
+
 			var _scroll = new IScroll('#wrapper',{
 					scrollX: true,
 					scrollY: false,					
@@ -32,9 +34,12 @@
 					snapSpeed: 400
 				});
 			
-			_scroll.on('beforeScrollStart', function () { 
-				this.refresh();		
-			});			
+			_scroll.on('beforeScrollStart', function () {
+				this.refresh();
+				//this.currentPage.pageX 
+				//(this.pages.length-1)															
+			});
+
 		</script>
 	</body>
 	

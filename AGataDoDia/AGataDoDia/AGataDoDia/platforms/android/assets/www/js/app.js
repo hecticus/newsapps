@@ -1,5 +1,5 @@
 	
-	var _url = 'http://10.0.1.125:9100/garotas';
+	var _url = 'http://gatadodia.hecticus.com/garotas';
 	var _jParameters = {client:1};
 	var _jMenu = [];
 

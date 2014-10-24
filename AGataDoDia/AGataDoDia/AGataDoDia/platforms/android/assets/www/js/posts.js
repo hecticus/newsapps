@@ -7,6 +7,7 @@
 		var _html = '';
 					
 		_oAjax.done(function(_json) {
+
 			_item = _json.response;		
 			_width = parseInt($(window).width() * _item.files.length);
 			$.each(_item.files, function(_index,_file) {
@@ -14,7 +15,14 @@
 					_html += '<img onerror="this.style.display=\'none\'" src="' + _file.link + '" alt="' +_item.woman.name + '" class="img-rounded" style="margin: auto; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;"   />';
 					
 				_html += '</figure>';								
-			});							
+			});
+
+			if (_item.files.length >= 2) {
+				$('.carousel-control').removeClass('hidden');
+			}
+				
+			
+										
 		});
 		
 		
