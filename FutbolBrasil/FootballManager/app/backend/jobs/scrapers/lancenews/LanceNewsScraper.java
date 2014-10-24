@@ -1,7 +1,6 @@
 package backend.jobs.scrapers.lancenews;
 
 import backend.HecticusThread;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import exceptions.BasicException;
 import exceptions.DownloadFailedException;
 import models.News;
@@ -36,107 +35,49 @@ import java.util.TimeZone;
  */
 public class LanceNewsScraper extends HecticusThread {
 
-    private String hostAddr,
-            username,
-            password,
-            categoryToInsert,
+    private String categoryToInsert,
             toUploadLocation;
 
     private int idLanguage;
 
     public LanceNewsScraper() {
         //set name
+        this.setName("LanceNewsScrapper-" + System.currentTimeMillis());
     }
 
     @Override
     public void process(Map args) {
         try {
             //get params
-            System.out.println("arrancando!");
-            hostAddr = "ftp.hecticus.com";
-            username = "lance";
-            password = "VLxPso0r";
+            System.out.println(System.currentTimeMillis()+" arrancando!");
+
             toUploadLocation = "";
-            //if temp files, process
-            //process temp file
-            parseTextFile("tempFiles/99116SIXFBX1609071.XML");
-            processImage("tempFiles/99117SIISP-1609305.JPG");
-//            ArrayList<String> newsFiles =  ftpDownloader("/texto");
-//            ArrayList<String> imageFiles = ftpDownloader("/images");
-//            for (int i = 0; i < newsFiles.size(); i++){
-//                parseTextFile(newsFiles.get(i));
-//            }
-//            for (int i= 0; i < imageFiles.size(); i++){
-//                processImage(imageFiles.get(i));
-//            }
-//            //upload images to rackspace
-//            //cleanup only image files
-//            for (int i = 0; i < newsFiles.size(); i++){
-//                Utils.delete(newsFiles.get(i));
-//            }
+
+            categoryToInsert = "Futebol";
+            processFolderFiles("tempFiles"); //route to files
+            System.out.println("fin");
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    private ArrayList<String> ftpDownloader(String remoteDirectory, String localRoute) {
-        ArrayList<String> localFileList = new ArrayList<String>();
-        try{
-            FTPClient client = new FTPClient();
-            FileOutputStream fos = null;
-            String localDirectory = "tempFiles" + File.separator + localRoute;
-            boolean successDl = false;
-            client.setActivePortRange(50000, 50100);
-            client.connect(hostAddr);
-            client.enterLocalPassiveMode();
-            //fix for java 7
-            client.setBufferSize(0);
-            if (client.login(username, password)){
-                if (client.changeWorkingDirectory(remoteDirectory)){
-                    FTPFile[] subFiles = client.listFiles(remoteDirectory);
-                    for (int i = 0; i < subFiles.length; i++) {
-                        FTPFile file = subFiles[i];
-                        String currentFileName = file.getName();
-                        try {
-                            if (currentFileName.equals(".") || currentFileName.equals("..")) {
-                                continue;
-                            }
-                            if (file.isFile()){ //get
-                                String actualLocalFile = localDirectory + File.separator +file.getName();
-                                fos = new FileOutputStream(actualLocalFile);
-                                successDl = client.retrieveFile(file.getName(), fos);
-                                fos.close();
-                                if (!successDl){
-                                    int code = client.getReplyCode();
-                                    throw new DownloadFailedException("fallo la descarga del archivo:" + file.getName() +" error:" +code);
-                                }
-                                localFileList.add(actualLocalFile);
-                            }
-                            //if directory skip?
-
-                        }catch (DownloadFailedException ex){
-                            //fallo 1 continue
-                        }
-                    }
-
-                }else {
-                    //el dir no existe}
-                    throw new BasicException("el directorio no existe");
-                }
-            }else {
-                //fallo la conexion al ftp
-                throw new BasicException("fallo la conexion al FTP:" + hostAddr);
+    private void processFolderFiles(String path){
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                if (listOfFiles[i].getName().endsWith("xml") || listOfFiles[i].getName().endsWith("XML")){
+                    parseTextFile(path + File.separator + listOfFiles[i].getName());
+                    Utils.delete(path + File.separator + listOfFiles[i].getName());
+                }else if (listOfFiles[i].getName().endsWith("jpg") || listOfFiles[i].getName().endsWith("JPG")){
+                    processImage(path + File.separator + listOfFiles[i].getName());
+                }//else skip
+            } else if (listOfFiles[i].isDirectory()) {
+                System.out.println("FOLDER!!!!");
+                processFolderFiles(path + File.separator + listOfFiles[i].getName());
             }
-
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }catch (BasicException ex){
-            ex.printStackTrace();
         }
-        //resumen de archivos fallidos?
-
-        return localFileList;
     }
 
     private void parseTextFile(String fileRoute){
@@ -147,10 +88,10 @@ public class LanceNewsScraper extends HecticusThread {
             builder = builderFactory.newDocumentBuilder();
             Document document = builder.parse(new FileInputStream(fileRoute));
             XPath xPath =  XPathFactory.newInstance().newXPath();
-            String timestamp = xPath.compile("news/article/timestamp").evaluate(document),
+            String timestamp = xPath.compile("news/article/timestamp").evaluate(document), //es un epoch
                     language = xPath.compile("news/article/linguagem").evaluate(document), //deberia estar fijo a portugues
                     //local = xPath.compile("news/article/summary").evaluate(document),
-                    publicationDate = xPath.compile("news/article/dataPublicacao").evaluate(document),
+                    publicationDate = convertPublicationDate(xPath.compile("news/article/dataPublicacao").evaluate(document)),
                     title = xPath.compile("news/article/title").evaluate(document),
                     summary = xPath.compile("news/article/summary").evaluate(document),
                     category = xPath.compile("news/article/category").evaluate(document),
@@ -159,32 +100,54 @@ public class LanceNewsScraper extends HecticusThread {
                     author = xPath.compile("news/article/author").evaluate(document),
                     story = xPath.compile("news/article/story").evaluate(document),
                     source = xPath.compile("news/@source").evaluate(document),
-                    lastUpdate = xPath.compile("news/@lastUpdate").evaluate(document);
-            News toInsert = new News();
-            //idLanguage and idApp from job
-            //set values or new contructor
+                    lastUpdate = convertLastUpdate(xPath.compile("news/@lastUpdate").evaluate(document));
+            News toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
+                    lastUpdate ,getIdApp());
+            if (toInsert.isNewsEmpty()){
+                xPath =  XPathFactory.newInstance().newXPath();
+                timestamp = xPath.compile("article/timestamp").evaluate(document); //es un epoch
+                        language = xPath.compile("article/linguagem").evaluate(document); //deberia estar fijo a portugues
+                        //local = xPath.compile("article/summary").evaluate(document),
+                        publicationDate = convertPublicationDate(xPath.compile("article/dataPublicacao").evaluate(document));
+                        title = xPath.compile("article/title").evaluate(document);
+                        summary = xPath.compile("article/summary").evaluate(document);
+                        category = xPath.compile("article/category").evaluate(document);
+                        keyword = xPath.compile("article/keyword").evaluate(document);
+                        search = xPath.compile("article/search").evaluate(document);
+                        author = xPath.compile("article/author").evaluate(document);
+                        story = xPath.compile("article/story").evaluate(document);
+                //source = xPath.compile("@source").evaluate(document);
+                lastUpdate = convertPublicationDate(xPath.compile("article/dataPublicacao").evaluate(document));
+                toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
+                        lastUpdate ,getIdApp());
+            }
+
             //if not ok throw Exception
-            if (toInsert.getCategories().equalsIgnoreCase(categoryToInsert)){ //continue
-                System.out.println("title:" + toInsert.getTitle());
-                News existing = News.getNewsByTitleAndApp();
-                if (existing!=null){
-                    if (Long.parseLong(existing.getUpdatedDate())< Long.parseLong(toInsert.getUpdatedDate())){
+            if (toInsert.getCategories().equalsIgnoreCase(categoryToInsert)
+                    || toInsert.getCategories().contains(categoryToInsert)) { //continue
+                News existing = News.getNewsByTitleAndApp(getIdApp(), toInsert.getTitle());
+                if (existing != null) {
+                    if (Long.parseLong(existing.getUpdatedDate()) < Long.parseLong(toInsert.getUpdatedDate())) {
                         //update
                         toInsert.setIdNews(existing.getIdNews());
+                        //set push values
+                        toInsert.setPushStatus(existing.getPushStatus());
+                        toInsert.setPushDate(existing.getPushDate());
+                        toInsert.setPushStatus(existing.getPushStatus());
+                        //actual update
                         toInsert.update();
                     }//else skip
-                }else { //new
+                } else { //new
                     toInsert.save();
                 }
             }//else skip
         } catch (XPathExpressionException ex){
+            System.out.println("really????");
           //el xml le faltan un tag
-            ex.printStackTrace();
+            //ex.printStackTrace();
         } catch (Exception ex){
-            ex.printStackTrace();
+           // System.out.println("oh fucks:" + fileRoute);
         }
-
-
     }
 
     private void processImage(String fileRoute){
@@ -248,21 +211,104 @@ public class LanceNewsScraper extends HecticusThread {
             if (!Resource.imageExist(imagenToInsert.getFilename(), getIdApp())){
                 imagenToInsert.save();
             }
+            //upload
+            //delete
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    private ArrayList<String> getNewsTempFiles(){
+    private String convertPublicationDate(String originalDate) {
+        try {
+            StringBuilder toReturn = new StringBuilder();
+            toReturn.append("20");
+            toReturn.append(originalDate.substring(6, 8)); //year
+            toReturn.append(originalDate.substring(3, 5)); //month
+            toReturn.append(originalDate.substring(0, 2)); //day
 
-        return null;
+            toReturn.append(originalDate.substring(9, 11)); //hour
+            toReturn.append(originalDate.substring(12, 14)); //minutes
+            toReturn.append("00"); //seconds
+            return toReturn.toString();
+        } catch (Exception ex) {
+            return "" + Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+        }
     }
 
-    private ArrayList<String> getImagesTempFiles(){
-        return null;
+    private String convertLastUpdate(String originalDate) {
+        try {
+            StringBuilder toReturn = new StringBuilder();
+            toReturn.append(originalDate.substring(6, 10)); //year
+            toReturn.append(originalDate.substring(3, 5)); //month
+            toReturn.append(originalDate.substring(0, 2)); //day
+
+            toReturn.append(originalDate.substring(11, 13)); //hour
+            toReturn.append(originalDate.substring(14, 16)); //minutes
+            toReturn.append("00"); //default seconds
+            return toReturn.toString();
+        } catch (Exception ex) {
+            return "" + Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+        }
     }
 
-    private void uploadToCloud(){
+//      funcion comentada por que no es necesaria debe borrarse
+//    private ArrayList<String> ftpDownloader(String remoteDirectory, String localRoute) {
+//        ArrayList<String> localFileList = new ArrayList<String>();
+//        try{
+//            FTPClient client = new FTPClient();
+//            FileOutputStream fos = null;
+//            String localDirectory = "tempFiles" + File.separator + localRoute;
+//            boolean successDl = false;
+//            client.setActivePortRange(50000, 50100);
+//            client.connect(hostAddr);
+//            client.enterLocalPassiveMode();
+//            //fix for java 7
+//            client.setBufferSize(0);
+//            if (client.login(username, password)){
+//                if (client.changeWorkingDirectory(remoteDirectory)){
+//                    FTPFile[] subFiles = client.listFiles(remoteDirectory);
+//                    for (FTPFile file : subFiles) {
+//                        String currentFileName = file.getName();
+//                        try {
+//                            if (currentFileName.equals(".") || currentFileName.equals("..")) {
+//                                continue;
+//                            }
+//                            if (file.isFile()) { //get
+//                                String actualLocalFile = localDirectory + File.separator + file.getName();
+//                                fos = new FileOutputStream(actualLocalFile);
+//                                successDl = client.retrieveFile(file.getName(), fos);
+//                                fos.close();
+//                                if (!successDl) {
+//                                    int code = client.getReplyCode();
+//                                    throw new DownloadFailedException("fallo la descarga del archivo:" + file.getName() + " error:" + code);
+//                                }
+//                                localFileList.add(actualLocalFile);
+//                            }
+//                            //if directory skip?
+//
+//                        } catch (DownloadFailedException ex) {
+//                            //fallo 1 continue
+//                        }
+//                    }
+//
+//                }else {
+//                    //el dir no existe}
+//                    throw new BasicException("el directorio no existe");
+//                }
+//            }else {
+//                //fallo la conexion al ftp
+//                throw new BasicException("fallo la conexion al FTP:" + hostAddr);
+//            }
+//
+//        }catch (IOException ex){
+//            ex.printStackTrace();
+//        }catch (BasicException ex){
+//            ex.printStackTrace();
+//        }
+//        //resumen de archivos fallidos?
+//
+//        return localFileList;
+//    }
 
-    }
+    
 }

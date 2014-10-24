@@ -3,8 +3,10 @@ package backend.jobs;
 import akka.actor.ActorSystem;
 import akka.actor.Cancellable;
 import backend.HecticusThread;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Config;
 import models.Job;
+import org.apache.commons.lang3.StringEscapeUtils;
 import scala.concurrent.duration.Duration;
 import utils.Utils;
 
@@ -39,6 +41,7 @@ public class ThreadSupervisor extends HecticusThread {
         checkAliveThreads();
         //stop jobs
         activateJobs();
+        //check for bad jobs
     }
 
     private void init(){
@@ -74,8 +77,8 @@ public class ThreadSupervisor extends HecticusThread {
             List<Job> currentList = Job.getToActivateJobs();
             if (currentList != null){
                 for (int i = 0 ; i < currentList.size(); i++){
+                    Job actual = currentList.get(i);
                     try {
-                        Job actual = currentList.get(i);
                         //getting class name
                         Class jobClassName = Class.forName(actual.getClassName().trim());
                         final HecticusThread j = (HecticusThread) jobClassName.newInstance();
@@ -83,20 +86,39 @@ public class ThreadSupervisor extends HecticusThread {
                         actual.activateJob();
                         //parse params
                         LinkedHashMap jobParams = null;
-                        Cancellable cancellable = system.scheduler().schedule(Duration.create(10, SECONDS), Duration.create(10, SECONDS), j, system.dispatcher());
+                        if (actual.getParams() != null && !actual.getParams().isEmpty()) {
+                            String tempParams = StringEscapeUtils.unescapeHtml4(actual.getParams());
+                            ObjectMapper mapper = new ObjectMapper();
+                            jobParams = mapper.readValue(tempParams, LinkedHashMap.class);
+                        }
+                        j.setIdApp(actual.getIdApp());
+                        Cancellable cancellable = system.scheduler().schedule(Duration.create(10, SECONDS), Duration.create(15, SECONDS), j, system.dispatcher());
                         j.setCancellable(cancellable);
                         activeJobs.add(j);
                         j.process(jobParams);
                     }catch (Exception ex){
-                        //something when wrong update to 0
-                        ex.printStackTrace();
+                        actual.failedJob();
+                        Utils.printToLog(ThreadSupervisor.class,
+                                "Error en el ThreadSupervisor",
+                                "ocurrio un error activando el job:" + actual.getName() + " id:" + actual.getId() + " el job sera desactivado.",
+                                true,
+                                ex,
+                                "support-level-1",
+                                Config.LOGGER_ERROR);
                     }
                 }
             }
         }catch (Exception ex){
-            ex.printStackTrace();
+            Utils.printToLog(ThreadSupervisor.class,
+                    "Error en el ThreadSupervisor",
+                    "error desconocido en el activate jobs",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
         }
     }
+
 
     private void stopActiveJobs(){
         try {
@@ -118,6 +140,10 @@ public class ThreadSupervisor extends HecticusThread {
         }catch (Exception ex){
 
         }
+    }
+
+    public void removeJob(){
+
     }
 
 }
