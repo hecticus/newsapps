@@ -10,12 +10,13 @@
 	_jMenu.push({index:_jMenu.length, class:'content-hall-of-fame', title:'Salao da Fama', load:'hall-of-fame.html', glyphicon:'icon-hall-of-fame', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-signin', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-signup', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-terms', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
 	
 	var _jApp = {
 		
 		loading: function(_index) {
-			var _html =  "<div class='container'>";
-				_html += '<div class="row"  style="margin-top:100px !important;" >';
+			var _html =  "<div class='container' style='text-align:center;'>";
+				_html += '<div class="row" style="margin-top:100px !important;" >';
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height:' + ($(window).height() - 55) + 'px;" >';
 						_html += '<h1 style="margin: 0 auto;">Loading...</h1>';		
 					_html += '</div>';
