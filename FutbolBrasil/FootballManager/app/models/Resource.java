@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import exceptions.NewsException;
+import play.db.ebean.Model;
 import scala.remote;
 import utils.Utils;
 
@@ -39,6 +40,9 @@ public class Resource extends HecticusModel {
     @JoinColumn(name="news_id_news")
     private News parent;
 
+    private static Model.Finder<Long,Resource> finder =
+            new Model.Finder<Long, Resource>(Long.class, Resource.class);
+
     public Resource(String name, String filename, String remoteLocation, String description, String insertedTime, String creationTime,String metadata, Integer idApp) {
         this.name = name;
         this.filename = filename;
@@ -66,7 +70,12 @@ public class Resource extends HecticusModel {
     }
 
     public static boolean imageExist(String filename, int idApp){
-        return false;
+        boolean tr = false;
+        Resource exist = finder.where().eq("id_app",idApp).eq("filename",filename).setMaxRows(1).findUnique();
+        if (exist != null){
+            tr = true;
+        }
+        return tr;
     }
 
     /**************************** GETTERS AND SETTERS ****************************************************/

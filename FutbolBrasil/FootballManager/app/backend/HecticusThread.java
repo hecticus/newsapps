@@ -126,6 +126,7 @@ public abstract class HecticusThread implements Runnable {
             } finally {
                 setAlive();
                 active = false;
+                markAsFinished();
             }
         }
     }
@@ -153,5 +154,9 @@ public abstract class HecticusThread implements Runnable {
 
     public void setIdApp(int idApp) {
         this.idApp = idApp;
+    }
+
+    public void markAsFinished(){
+        //call thread supervisor and remove from queue
     }
 }

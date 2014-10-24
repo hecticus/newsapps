@@ -6,6 +6,14 @@
 @title = {}
 
 @main(title = "Editar mujer", nav = "create") {
+
+    @if(womenViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            <p>@womenViewForm.errorsAsJson</p>
+        </div>
+    }
     
     <h1>Edit Woman</h1>
     
@@ -14,20 +22,48 @@
         <fieldset>
         	<legend>Informacion de la mujer</legend>
         	
-        	@inputText(womenViewForm("name"), '_label -> "Nombre", '_help -> "Ingrese un nombre válido.", '_error -> womenViewForm.globalError)
-        	@inputText(womenViewForm("link"), '_label -> "Foto default", '_help -> "Ingrese una url válida.", '_error -> womenViewForm.globalError)
+        	@inputText(womenViewForm("name"),
+                '_label -> "Nombre",
+                '_help -> "Ingrese un nombre válido.",
+                'class -> "form-control",
+                '_error -> womenViewForm.globalError)
+
+
+
+            @if(womenViewForm("defaultPhoto").value == null || womenViewForm("defaultPhoto").value.equals("")){
+                <div class="form-group">
+                    <label for="inputFile" class="col-lg-2 control-label">File</label>
+                    <div class="col-lg-10">
+                        <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
+                        <input type="file" id="inputFile" multiple="">
+                    </div>
+                </div>
+            } else {
+                <div class="col-lg-4">
+                    @input(womenViewForm("defaultPhoto"), '_label -> "Foto default") { (id, name, value, _) =>
+                        <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
+                    }
+                </div>
+                <div class="col-lg-8">
+                    @inputText(womenViewForm("defaultPhoto"),
+                        '_label -> "Foto URL",
+                        '_help -> "Ingrese una url válida.",
+                        'class -> "form-control",
+                        '_error -> womenViewForm.globalError)
+                </div>
+            }
 
         </fieldset>
 
         <div class="actions">        	        	 
-            <input type="submit" value="Actualizar esta mujer" onclick="return confirm('¿Por favor confirmar que desea actualizar la información de la mujer?');" class="btn primary">
-            <a href="@controllers.routes.WomenView.list()" class="btn">Cancelar</a>
+            <input type="submit" value="Actualizar esta mujer" onclick="return confirm('¿Por favor confirmar que desea actualizar la información de la mujer?');" class="btn btn-success">
+            <a href="@controllers.routes.WomenView.list()" class="btn btn-primary">Cancelar</a>
         </div>
             
     }
     
     @form(controllers.routes.WomenView.delete(id), 'class -> "topRight") {
-		<input type="submit" value="Eliminar esta mujer" onclick="return confirm('¿Por favor confirmar que desea eliminar la información de esta mujer?');" class="btn danger">
+		<input type="submit" value="Eliminar esta mujer" onclick="return confirm('¿Por favor confirmar que desea eliminar la información de esta mujer?');" class="btn btn-danger">
 		
     }
        

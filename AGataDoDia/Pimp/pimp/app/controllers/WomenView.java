@@ -47,14 +47,14 @@ public class WomenView extends HecticusController {
 		models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
 		if(filledForm.hasErrors()) {
-			//return badRequest(edit.render(id, filledForm));
-            return badRequest();
+			return badRequest(edit.render(id, filledForm));
 		}
 		
-    	models.content.women.Woman gfilledForm = filledForm.get();    	
+    	models.content.women.Woman gfilledForm = filledForm.get();
+        gfilledForm.setIdWoman(id);
     	gfilledForm.update(id);
 		
-		flash("success", "El banner " + gfilledForm.getName() + " se ha eliminado");
+		flash("success", "La mujer " + gfilledForm.getName() + " se ha actualizado");
 		return GO_HOME;
 		
 	}	

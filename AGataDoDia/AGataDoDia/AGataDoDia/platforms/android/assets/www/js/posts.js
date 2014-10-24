@@ -12,6 +12,7 @@
 			$.each(_item.files, function(_index,_file) {
 				_html += '<figure style="width:' + $(window).width() + 'px; height:' + parseInt($(window).height() - 55) + 'px; float:left; " >';														
 					_html += '<img onerror="this.style.display=\'none\'" src="' + _file.link + '" alt="' +_item.woman.name + '" class="img-rounded" style="margin: auto; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;"   />';
+					
 				_html += '</figure>';								
 			});							
 		});

@@ -49,6 +49,10 @@ public class Woman extends HecticusModel {
         this.name = name;
     }
 
+    public void setIdWoman(Integer idWoman) {
+        this.idWoman = idWoman;
+    }
+
     public String getName() {
         return name;
     }

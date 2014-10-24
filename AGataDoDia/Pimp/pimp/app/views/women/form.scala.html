@@ -11,7 +11,15 @@
         <div class="alert-message warning">
             <strong>Error!</strong> @flash.get("success")
         </div>
-    } 
+    }
+
+    @if(womenViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            <p>@womenViewForm.errorsAsJson</p>
+        </div>
+    }
 
 
     @helper.form(action = controllers.routes.WomenView.submit, 'enctype -> "multipart/form-data") {
@@ -23,13 +31,15 @@
                 womenViewForm("name"),
                 '_label -> "Nombre", 
                 '_help -> "Ingrese un nombre válido.",
+                'class -> "form-control",
                 '_error -> womenViewForm.globalError
             )
                
 			@inputText(
                 womenViewForm("default_photo"),
                 '_label -> "Default photo",
-                 '_help -> "Ingrese una url válida.",
+                '_help -> "Ingrese una url válida.",
+                'class -> "form-control",
                 '_error -> womenViewForm.globalError
             )
             
