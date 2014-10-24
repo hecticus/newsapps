@@ -23,8 +23,6 @@ var yo_informo = 'Yo Informo';
 var arrTrendingTopics;
 var arrTrendingNews;
 var categories_yo_informo= '';
-var bannerImages = new Array();
-var bannerLink = "";
 
 var isYoInformo = false;
 
@@ -779,6 +777,7 @@ function initBasicApp(){
 				e.preventDefault();
 				e.stopPropagation();
 				if(liveStreamURL != ""){
+					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "liveTV", liveStreamURL, "external_link", 1);
 					window.videoPlayer.play(liveStreamURL);
 				}else{
 					getAppConfiguration();
@@ -986,9 +985,9 @@ function initBasicApp(){
 				press=false;	
     		}).on('touchend','#bannerSpecial', function() {
     			if (press) {
-    				if(bannerLink != null && bannerLink != ""){
-    					//window.open(bannerLink, '_system');
-    					window.open(bannerLink, '_system', 'closebuttoncaption=regresar');
+    				if(bannerLink != null && bannerLink.length > 0){
+    					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "banner", bannerLink[currentBannerIndex], "external_link", 1);
+    					window.open(bannerLink[currentBannerIndex], '_system', 'closebuttoncaption=regresar');
     				}	
     			}
     		});
@@ -1332,7 +1331,7 @@ function initBasicApp(){
 								//bannerImages.push("https://www.google.com/images/srpr/logo11w.png");
 								if(bannerImages != null && bannerImages.length > 0){
 									$.li+='<li id="bannerSpecial" data-view="banner" >';
-										$.li+='<img src='+bannerImages[0]+' style="width:100%; height:auto; " />';						
+										$.li+='<img id="bannerSpecialImg" src='+bannerImages[currentBannerIndex]+' style="width:100%; height:auto; " />';						
 									$.li+='</li>';
 								}
 											
@@ -2065,13 +2064,19 @@ function errorGetTrendingIndexes(){
 }
 
 //banner
+var bannerImages = new Array();
+var bannerLink = new Array();
+var currentBannerIndex = 0;
+var currentBannerInterval = 60000;
+var bannerChangeInterval = null;
+getBannerSpecial();
 function getBannerSpecial(){
-	var urlBanner = urlServices+'/newsapi/v1/banners/get';
-	//var urlBanner = 'http://10.0.3.142:9007/newsapi/v1/banners/get';
+	var urlBanner = urlServices+'/newsapi/v1/banners/get/all';
 	//console.log("VA AL Banners");
 	$.ajax({
 		url : urlBanner,
 		timeout : 120000,
+		cache : false,
 		success : function(data, status) {
 			loadFirstPage();
 			if(typeof data == "string"){
@@ -2080,29 +2085,57 @@ function getBannerSpecial(){
 			//console.log("Banners DATA: "+JSON.stringify(data));
 			var error = data["error"];
 			if(error == 0){
-				var results = data["response"]["banners"];
-				//console.log("Banners results: "+JSON.stringify(results));
-				if(results != null){
-					if(results.length>0){
-						var banner = results[0];
-						//Guardamos las imagenes del banner y el link
-						bannerImages = new Array();
-						var imagesArray = banner["fileList"];
-						var indexToUse = 0;
-						var minSize = 70000;
-						for(var i=0;i<imagesArray.length;i++){
-							var diff = getScreenWidth() - imagesArray[i]["width"];
-							//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
-							if(diff < 0){
-								diff = diff*(-1);
-							}
-							if(diff < minSize){
-								minSize = diff;
-								indexToUse = i;
-							}
+				if(data["response"] != null){
+					bannerImages = new Array();
+					bannerLink = new Array();
+					currentBannerIndex = 0;
+					
+					if(data["response"]["interval-banner"] != null){
+						currentBannerInterval = data["response"]["interval-banner"];
+						//console.log("Interval! "+currentBannerInterval);
+					}
+					if(bannerChangeInterval != null){
+						clearInterval(bannerChangeInterval);
+					}
+					bannerChangeInterval = window.setInterval(function(){
+						currentBannerIndex = currentBannerIndex+1;
+						if(currentBannerIndex >= bannerImages.length){
+							currentBannerIndex = 0;
 						}
-						bannerImages.push(imagesArray[indexToUse]["location"]);
-						bannerLink = banner["link"];
+						if($('#bannerSpecialImg').length != 0){
+							$('#bannerSpecialImg').attr('src', bannerImages[currentBannerIndex]);
+						}
+						
+					},currentBannerInterval);
+					
+					var results = data["response"]["banners"];
+					//console.log("Banners results: "+JSON.stringify(results));
+					
+					if(results != null && results.length > 0){
+						for(var j=0; j<results.length; j++){
+							var banner = results[j];
+							//Guardamos las imagenes del banner y el link
+							var imagesArray = banner["fileList"];
+							var indexToUse = 0;
+							var minSize = 70000;
+							for(var i=0;i<imagesArray.length;i++){
+								var diff = getScreenWidth() - imagesArray[i]["width"];
+								//console.log("BANNERS: "+getScreenWidth()+" BS: "+imagesArray[i]["width"]);
+								if(diff < 0){
+									diff = diff*(-1);
+								}
+								if(diff < minSize){
+									minSize = diff;
+									indexToUse = i;
+								}
+							}
+							bannerImages.push(imagesArray[indexToUse]["location"]);
+							bannerLink.push(banner["link"]);
+						}
+						
+						if($('#bannerSpecialImg').length != 0){
+							$('#bannerSpecialImg').attr('src', bannerImages[currentBannerIndex]);
+						}
 					}
 				}
 			}
@@ -2113,6 +2146,8 @@ function getBannerSpecial(){
 		}
 	});
 }
+
+
 
 //get configurations (live stream url, etc...)
 var liveStreamURL = "";

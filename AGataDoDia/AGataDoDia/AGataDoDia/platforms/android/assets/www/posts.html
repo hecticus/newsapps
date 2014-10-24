@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<body>
+		
+		<div id="wrapper">
+			<div class="scroller">
+				<div class="container">
+				</div>				
+			</div>
+			
+			 <!-- Controls -->
+		  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		    <span class="glyphicon glyphicon-chevron-left"></span>
+		  </a>
+		  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		    <span class="glyphicon glyphicon-chevron-right"></span>
+		  </a>
+				
+		</div>
+		
+		
+		
+		<script type="text/javascript" src="js/posts.js"></script>
+		<script type="text/javascript">
+			var _scroll = new IScroll('#wrapper',{
+					scrollX: true,
+					scrollY: false,					
+					preventDefault:true, 
+					bounce:false,
+					momentum: false,
+					snap: true,
+					snapSpeed: 400
+				});
+			
+			_scroll.on('beforeScrollStart', function () { 
+				this.refresh();		
+			});			
+		</script>
+	</body>
+	
+</html>

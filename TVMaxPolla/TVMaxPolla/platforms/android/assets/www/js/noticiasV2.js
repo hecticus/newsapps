@@ -247,31 +247,46 @@
 		var bannerLink = new Array();
 		var currentBannerIndex = 0;
 		var currentBannerInterval = 60000;
+		var bannerChangeInterval = null;
 		getBannerSpecial();
 		function getBannerSpecial(){
 			var urlBanner = 'http://polla.tvmax-9.com/tvmax/v1/banners/get/all';
-			//var urlBanner = 'http://10.0.3.142:9002/tvmax/v1/banners/get/all';
 			//console.log("VA AL Banners");
 			$.ajax({
 				url : urlBanner,
 				timeout : 120000,
+				cache : false,
 				success : function(data, status) {
 					if(typeof data == "string"){
 						data = JSON.parse(data);
 					}
-					//console.log("Banners DATA: "+JSON.stringify(data));
 					var error = data["error"];
 					if(error == 0){
 						if(data["response"] != null){
+							bannerImages = new Array();
+							bannerLink = new Array();
+							currentBannerIndex = 0;
 							if(data["response"]["interval-banner"] != null){
 								currentBannerInterval = data["response"]["interval-banner"];
 								//console.log("Interval! "+currentBannerInterval);
 							}
+							if(bannerChangeInterval != null){
+								clearInterval(bannerChangeInterval);
+							}
+							bannerChangeInterval = window.setInterval(function(){
+								currentBannerIndex = currentBannerIndex+1;
+								if(currentBannerIndex >= bannerImages.length){
+									currentBannerIndex = 0;
+								}
+								if($('#banner-main').length != 0){
+									$('footer').css('visibility','visible');
+									$('#banner-main').attr('src', bannerImages[currentBannerIndex]);
+								}
+								
+							},currentBannerInterval);
+							
 							var results = data["response"]["banners"];
 							//console.log("Banners results: "+JSON.stringify(results));
-							bannerImages = new Array();
-							bannerLink = new Array();
-							currentBannerIndex = 0;
 							if(results != null && results.length > 0){
 								for(var j=0; j<results.length; j++){
 									var banner = results[j];

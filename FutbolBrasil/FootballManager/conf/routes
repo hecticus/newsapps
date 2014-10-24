@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+GET      /newsapi/v1/news/search/:idApp                    controllers.news.NewsController.getNews(idApp:Integer, offset: Integer=0, count:Integer=20)
+GET      /newsapi/v1/news/search/:idApp/:offset/:count     controllers.news.NewsController.getNews(idApp:Integer, offset: Integer, count:Integer)
+
+#afp futbol
+#GET     /footballapi/v1/team/get                                controllers.afp.AfpFutbolWs.getTeams()
+#GET     /footballapi/v1/team/get/:id                            controllers.afp.AfpFutbolWs.getTeam(id: Long)
+#GET     /footballapi/v1/phase/getList/:idComp                   controllers.afp.AfpFutbolWs.getPhases(idComp: Long, sd: String?="", end: String?="")
+#GET     /footballapi/v1/phase/get/:id                           controllers.afp.AfpFutbolWs.getPhase(id: Long)
+#GET     /footballapi/v1/matches/get                             controllers.afp.AfpFutbolWs.getGameMatches(phase : Long?=0,sd: String?="",ed: String?="",st: Integer?=0)
+#GET     /footballapi/v1/matches/get/ext/:id                     controllers.afp.AfpFutbolWs.getGameMatchByExternalId(id: Long,events: Boolean?=false)
+#GET     /footballapi/v1/matches/get/fifa/:id                    controllers.afp.AfpFutbolWs.getGameMatchByFifaId(id: Long,events: Boolean?=false)
+#GET     /footballapi/v1/matches/get/:id                         controllers.afp.AfpFutbolWs.getGameMatch(id: Long,events: Boolean?=false)
+#GET     /footballapi/v1/matches/events/get/ext/:id              controllers.afp.AfpFutbolWs.getEventsByExternalMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
+#GET     /footballapi/v1/matches/events/get/fifa/:id             controllers.afp.AfpFutbolWs.getEventsByFifaMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
+#GET     /footballapi/v1/matches/events/get/:id                  controllers.afp.AfpFutbolWs.getEvents(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
+#GET     /footballapi/v1/ranking/get/:id                         controllers.afp.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = false )
+#GET     /footballapi/v1/ranking/get/ext/:id                     controllers.afp.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = true )
+#GET     /footballapi/v1/ranking/get/global/:id                  controllers.afp.AfpFutbolWs.getGlobalRanking(id : Long)
