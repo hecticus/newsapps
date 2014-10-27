@@ -6,6 +6,9 @@ import models.clients.ClientHasWoman;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import scala.Tuple2;
+import scala.collection.JavaConversions;
+import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,6 +38,14 @@ public class FileType extends HecticusModel {
     public FileType(String name, String mimeType) {
         this.name = name;
         this.mimeType = mimeType;
+    }
+
+    public Integer getIdFileType() {
+        return idFileType;
+    }
+
+    public void setIdFileType(Integer idFileType) {
+        this.idFileType = idFileType;
     }
 
     public String getName() {
@@ -75,5 +86,17 @@ public class FileType extends HecticusModel {
         response.put("name", name);
         response.put("mime_type", mimeType);
         return response;
+    }
+
+    public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
+        List<FileType> fileTypes = finder.all();
+        ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
+        for(FileType fileType : fileTypes) {
+            Tuple2<String, String> t = new Tuple2<>(fileType.getIdFileType().toString(), fileType.getName() + " - " + fileType.getMimeType());
+            proxy.add(t);
+        }
+        Buffer<Tuple2<String, String>> fileTypeBuffer = JavaConversions.asScalaBuffer(proxy);
+        scala.collection.immutable.List<Tuple2<String, String>> fileTypeList = fileTypeBuffer.toList();
+        return fileTypeList;
     }
 }

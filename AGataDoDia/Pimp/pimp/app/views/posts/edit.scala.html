@@ -37,23 +37,31 @@
 
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
-        <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
+        <a class="removeMedia btn btn-primary danger pull-right">Remove this media @Html(""+field("fileType").value.getOrElse("NONE"))</a>
+        @select(
+            field("fileType"),
+            models.content.posts.FileType.toSeq,
+            '_label -> "File Type",
+            'class -> "form-control"
+        )
         @if(field("link").value.getOrElse("NONE") == "NONE"){
-            <div class="row-action-primary">
-                <i class="icon-material-photo"></i>
+            <div class="form-group">
+                <label for="inputFile" class="col-lg-2 control-label">File</label>
+                <div class="col-lg-10">
+                    @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
+                        <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                        <input type="file" id="inputFile" multiple="">
+                    }
+
+                </div>
             </div>
         } else {
             @input(field("link"), '_label -> "Media") { (id, name, value, _) =>
+                <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse..." disabled>
                 <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
             }
         }
-        <div class="form-group">
-            <label for="inputFile" class="col-lg-2 control-label">File</label>
-            <div class="col-lg-10">
-                @inputText(postViewForm("link"), '_label -> "Media", '_help -> "Ingrese un archivo local.", '_error -> postViewForm.globalError, 'class -> "form-control floating-label")
-                <input type="file" id="inputFile" multiple="">
-            </div>
-        </div>
+
     </div>
 }
 
@@ -92,7 +100,7 @@
             @inputText(postViewForm("date"), '_label -> "Date", '_help -> "Ingrese una fecha en formato yyyyMMddhhmm.", '_error -> postViewForm.globalError, 'class -> "form-control")
 
             @inputText(postViewForm("source"), '_label -> "Source", '_help -> "Ingrese un link válido.", '_error -> postViewForm.globalError, 'class -> "form-control")
-
+            <p>@Html(postViewForm("socialNetwork").value)</p>
             @select(
                 postViewForm("socialNetwork"),
                 models.content.women.SocialNetwork.toSeq,
@@ -100,7 +108,7 @@
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
-
+            <p>@Html(postViewForm("woman").value)</p>
             @select(
                 postViewForm("woman"),
                 models.content.women.Woman.toSeq,
@@ -196,7 +204,6 @@
     <script type="text/javascript" charset="utf-8">
 
         $(document).on('click','.removeLocalization', function(e) {
-            console.log("ESTO NO LO VEO")
             $(this).parents('.localization').remove()
             renumberLocalizations()
         })
@@ -209,9 +216,11 @@
 
         var renumberLocalizations = function() {
             $('.localization').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
                 $('input', this).each(function() {
                     $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
-
                 })
             })
         }
@@ -230,7 +239,7 @@
 
         var renumberCountries = function() {
             $('.country').each(function(i) {
-                $('input', this).each(function() {
+                $('select', this).each(function() {
                     $(this).attr('name', $(this).attr('name').replace(/countries\[.+?\]/g, 'countries[' + i + ']'))
                 })
             })
@@ -251,7 +260,16 @@
         var renumberMedia = function() {
             $('.media').each(function(i) {
                 $('input', this).each(function() {
-                    $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                        console.log("inputs "+$(this).attr('name'))
+                    }
+                })
+                $('select', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                        console.log("selects "+$(this).attr('name'))
+                    }
                 })
             })
         }

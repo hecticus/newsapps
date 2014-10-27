@@ -25,6 +25,7 @@ public class Post extends HecticusModel {
     @Id
     private Integer idPost;
 
+    @Constraints.Required
     @ManyToOne
     @JoinColumn(name = "id_woman")
     private Woman woman;
@@ -82,6 +83,10 @@ public class Post extends HecticusModel {
         this.push = push;
         this.pushDate = pushDate;
         this.socialNetwork = socialNetwork;
+    }
+
+    public void setIdPost(Integer idPost) {
+        this.idPost = idPost;
     }
 
     public Integer getIdPost() {

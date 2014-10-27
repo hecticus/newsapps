@@ -50,19 +50,24 @@
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
         <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
-        @if(field("link").value.getOrElse("NONE") == "NONE"){
-            <div class="form-group">
-                <label for="inputFile" class="col-lg-2 control-label">File</label>
-                <div class="col-lg-10">
-                    <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
+        @select(
+            field("fileType"),
+            models.content.posts.FileType.toSeq,
+            '_label -> "File Type",
+            'class -> "form-control"
+        )
+        <div class="row-action-primary">
+            <i class="icon-material-photo"></i>
+        </div>
+        <div class="form-group">
+            <label for="inputFile" class="col-lg-2 control-label">File</label>
+            <div class="col-lg-10">
+                @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
+                    <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
                     <input type="file" id="inputFile" multiple="">
-                </div>
+                }
             </div>
-        } else {
-            @input(field("link"), '_label -> "Media") { (id, name, value, _) =>
-                <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
-            }
-        }
+        </div>
     </div>
 }
 
@@ -108,6 +113,13 @@
                 'class -> "form-control"
             )
 
+            @select(
+                postViewForm("woman"),
+                models.content.women.Woman.toSeq,
+                '_label -> "Woman",
+                '_error -> postViewForm.globalError,
+                'class -> "form-control"
+            )
 
 
 
@@ -207,9 +219,12 @@
 
         var renumberLocalizations = function() {
             $('.localization').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                    console.log("renaming")
+                })
                 $('input', this).each(function() {
                     $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
-
                 })
             })
         }
@@ -228,7 +243,7 @@
 
         var renumberCountries = function() {
             $('.country').each(function(i) {
-                $('input', this).each(function() {
+                $('select', this).each(function() {
                     $(this).attr('name', $(this).attr('name').replace(/countries\[.+?\]/g, 'countries[' + i + ']'))
                 })
             })
@@ -249,7 +264,16 @@
         var renumberMedia = function() {
             $('.media').each(function(i) {
                 $('input', this).each(function() {
-                    $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                        console.log("inputs "+$(this).attr('name'))
+                    }
+                })
+                $('select', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                        console.log("selects "+$(this).attr('name'))
+                    }
                 })
             })
         }
