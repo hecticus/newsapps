@@ -33,7 +33,7 @@
 				       break;
 				    case 'twitter': _html2 += '<i class="icon icon-material-post-twitter" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
 				       break;
-				    default: _html2 += '<i class="icon icon-material-link" style="margin-left:2px;"></i>';	
+				    default: _html2 += '<i class="icon icon-material-launch" style="margin-left:2px;"></i>';	
 				       break;
 				}
 

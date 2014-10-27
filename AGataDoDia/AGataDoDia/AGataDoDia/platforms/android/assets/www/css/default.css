@@ -42,7 +42,7 @@ row:not(input):not(textarea) {
 	.hidden { display: none; }
 					
 	i[class *= 'icon'] { 
-		font-size:1.6em; 
+		font-size:1.8em; 
 		color:#000000;
 		vertical-align:middle;
 		margin-left: 2px;
@@ -144,18 +144,25 @@ row:not(input):not(textarea) {
 		width: 100%;  
 		height: auto;
 		min-height: 200px;
-	}			
+	}		
 	
+	body #wrapper .scroller .container .row div img {
+		width: 100%;  
+		height: auto;
+		min-height: 200px;	
+	} 
+
 	body.content-signin main .container .row #wrapper1 .scroller .container figure figcaption,
 	body #wrapper .scroller .container figure figcaption,
-	body #wrapper2 .scroller .container figure figcaption {
-		position: absolute;		
+	body #wrapper2 .scroller .container figure figcaption, .caption {
+		/*position: absolute;*/	
+		margin-top: 0px !important;	
 		width:100%;
 		height: auto;
 	    /*line-height: 40px;*/		
 		text-align: left;	   
 	    background-color:#E2E2E1;	    
-	    bottom: 0;
+	    /*bottom: 0;*/
 	    color: #000000;
 	    opacity: 0.8;	    	
 	}
@@ -171,3 +178,13 @@ row:not(input):not(textarea) {
 	body {
 		background-color: #000000;
 	}
+	
+	.icon-menu {
+		font-size: 3.8em !important;	
+		color:#EC2027;
+	}
+	
+	.glyphicon-remove {
+		color:#000000  !important;
+	}
+
