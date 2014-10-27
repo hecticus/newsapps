@@ -25,7 +25,7 @@
 			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			_scroll.on('beforeScrollStart', function () {
 				this.refresh();	
-				$('.row.menu').addClass('hidden');
+				_jApp.refresh();
 			});	
 				
 			/*var _scroll2 = new IScroll('#wrapper2',{

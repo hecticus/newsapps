@@ -1,8 +1,6 @@
 
-
+	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/list/woman/' + _jParameters.woman);
 	
-	var _oAjax = _fGetAjaxJson(_url + '/v1/posts/get/category/' + _jParameters.client + '/' + _jParameters.category + '/0/10');	
-
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 
@@ -51,7 +49,12 @@
 						});
 					_html += '</div>';
 				_html += '</div>';	
-									
+					
+				$.each(_item.files, function(_index,_file) {					
+					var _img = $('img #img').attr('src',_file);				
+				});												
+					
+								
 			});		
 			
 						
@@ -63,38 +66,3 @@
 
 
 	
-	/*$(document).on('click','[data-touch="post"]', function(e) {
-
-
-		
-		if(_fPreventDefaultClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}						
-		var _post = $(this).data('post');
-		var _html = '';
-		var _width = $(window).width();
-		_oAjax.done(function(_json) {
-		$.each(_json.response, function(_index,_item) {				
-				if (_item.id_post == _post) {
-					_width = parseInt($(window).width() * _item.files.length);
-					$.each(_item.files, function(_index,_file) {
-						_html += '<figure style="width:' + $(window).width() + 'px; float:left;">';														
-							_html += '<img onerror="this.style.display=\'none\'" src="' + _file + '" alt="' +_item.woman.name + '" class="img-rounded" style="max-height:' + parseInt($(window).height() - 55) + 'px;"  />';
-						_html += '</figure>';								
-					});							
-				}				
-			});		
-
-		});
-		
-
-				
-		$('#wrapper2').css('width', $(window).width() + 'px');
-		$('#wrapper2 .scroller').css('width',  _width + 'px');
-		$('#wrapper2 .scroller .container').empty();		
-		$('#wrapper2 .scroller .container').append(_html);
-		$('#wrapper2').attr('class','page transition left');
-		_scroll2.scrollTo(0,0,0);
-		_scroll2.refresh();
-		
-	});*/
-

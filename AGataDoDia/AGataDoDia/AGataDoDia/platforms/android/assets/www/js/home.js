@@ -7,18 +7,14 @@
 			_html = '';
 			$.each(_json.response, function(_index,_item) {
 					
-				_html += '<div class="row"  style="margin-top:5px !important;" >';	
-					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-					
-					 _html += '<figure  data-touch="load" data-target="2" data-post="' + _item.id_post + '" >';				     		
-						_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"   />';		
-						_html += '<figcaption>';
-							_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
-							_html += '<p>' + _item.content + '</p>';
-						_html += '</figcaption>';
-					_html += '</figure>';
-							
-					_html += '</div>';		
+				_html += '<div class="row"  style="margin-top:5px !important;" >';
+					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure">';
+						_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"   data-touch="load" data-target="2" data-post="' + _item.id_post + '" />';									
+					_html += '</div>';
+					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption">';
+						_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
+						_html += '<p>' + _item.content + '</p>';
+					_html += '</div>';
 				_html += '</div>';
 				
 				_html += '<div class="row">';
@@ -36,7 +32,7 @@
 						       break;
 						    case 'twitter': _html += '<i class="icon icon-material-post-twitter" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
 						       break;
-						    default: _html += '<i class="icon icon-material-link" style="margin-left:2px;"></i>';	
+						    default: _html += '<i class="icon icon-material-launch" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
 						       break;
 						}
 
@@ -49,7 +45,7 @@
 				_html += '<div class="row">';
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >';
 						$.each(_item.woman.categories, function(_index,_item) {
-							_html += '<span class="label label-default" data-touch="category" data-category="' + _item.category.id_category + '" style="margin-right:2px;">' + _item.category.name + '</span>';
+							_html += '<span class="label label-default" data-touch="category" data-category="' + _item.category.id_category + '" style="margin-left:2px; margin-right:2px;">' + _item.category.name + '</span>';
 						});
 					_html += '</div>';
 				_html += '</div>';	
@@ -70,43 +66,7 @@
 
 
 	
-	/*$(document).on('click','[data-touch="post"]', function(e) {
-
-
-		
-		if(_fPreventDefaultClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}						
-		var _post = $(this).data('post');
-		
-		
-		
-		var _html = '';
-		var _width = $(window).width();
-		_oAjax.done(function(_json) {
-		$.each(_json.response, function(_index,_item) {				
-				if (_item.id_post == _post) {
-					_width = parseInt($(window).width() * _item.files.length);
-					$.each(_item.files, function(_index,_file) {
-						_html += '<figure style="width:' + $(window).width() + 'px; height:' + parseInt($(window).height() - 55) + 'px; float:left; ">';														
-							_html += '<img onerror="this.style.display=\'none\'" src="' + _file + '" alt="' +_item.woman.name + '" class="img-rounded"   />';
-						_html += '</figure>';								
-					});							
-				}				
-			});		
-
-		});
-		
-
-				
-		$('#wrapper2').css('width', $(window).width() + 'px');
-		$('#wrapper2 .scroller').css('width',  _width + 'px');
-		$('#wrapper2 .scroller .container').empty();		
-		$('#wrapper2 .scroller .container').append(_html);
-		$('#wrapper2').attr('class','page transition left');
-		_scroll2.scrollTo(0,0,0);
-		_scroll2.refresh();
-		
-	});*/
+	
 
 
 

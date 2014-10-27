@@ -7,12 +7,20 @@
 	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-hall-of-fame', title:'Salao da Fama', load:'hall-of-fame.html', glyphicon:'icon-hall-of-fame', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-signin', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-signup', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-terms', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
 	
 	var _jApp = {
+		
+		refresh: function() {
+			
+			$('[data-touch="menu"]').removeClass('glyphicon glyphicon-remove');
+			$('[data-touch="menu"]').addClass('icon-menu');
+			$('.row.menu').addClass('hidden');	
+
+		},
 		
 		loading: function(_index) {
 			var _html =  "<div class='container' style='text-align:center;'>";
@@ -24,7 +32,6 @@
 			_html += '</div>';
 			$('main').empty();
 			$('main').append(_html);
-	
 		},
 		
 		load: function(_index) {
@@ -32,12 +39,16 @@
 			
 			try {
 		
+		
+				this.refresh();
 				$('body').removeClass();
 				$('body').addClass(_jMenu[_index].class);
 				$('main').empty();
 				$('main').data('',_index);
 				this.loading();		
 				$('main').load(_jMenu[_index].load);
+	
+				
 	
 			} catch(err) {    	
 	  			this.error();
@@ -92,6 +103,8 @@
 		
 	});
 
+
+
 	$(document).on('click','[data-touch="load"]', function(e) {
 	
 		if(_fPreventDefaultClick(e)){return false;}
@@ -116,6 +129,22 @@
 		
 	});
 
+	
+	
+	$(document).on('click','[data-touch="menu"]', function(e) {
+
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		
+		if($(this).hasClass('icon-menu')) {		
+			$(this).removeClass('icon-menu');
+			$(this).addClass('glyphicon glyphicon-remove');
+			$('.row.menu').removeClass('hidden');
+		} else{
+			_jApp.refresh();
+		}
+
+	});
 	
 	$(document).on('click','[data-touch="favorite"]', function(e) {
 				
