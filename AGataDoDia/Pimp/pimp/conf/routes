@@ -5,8 +5,8 @@
 # Home page
 #GET     /                                                                              controllers.Application.index()
 
-GET     /                      		                                                    controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-GET     /index                                                                          controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+GET     /                      		                                                    controllers.Application.index(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
+GET     /index                                                                          controllers.Application.index(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
 
 GET     /getImg/*name                                                                   controllers.Application.getImg(name : String)
 
@@ -43,6 +43,34 @@ GET     /posts/:id			                                                           
 POST    /posts/:id			                                                            controllers.PostsView.update(id:Integer)
 # Delete a PostsView
 POST    /posts/:id/delete		                                                        controllers.PostsView.delete(id:Integer)
+
+#LanguagesView
+# LanguagesView list (look at the default values for pagination parameters)
+GET     /languages/list			                                                        controllers.LanguagesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /languages/lsort		                                                        controllers.LanguagesView.lsort()
+# Add LanguagesView
+GET     /languages/blank		                                                        controllers.LanguagesView.blank()
+POST    /languages				                                                        controllers.LanguagesView.submit()
+# Edit existing LanguagesView
+GET     /languages/sort/:ids	                                                        controllers.LanguagesView.sort(ids:String)
+GET     /languages/:id			                                                        controllers.LanguagesView.edit(id:Integer)
+POST    /languages/:id			                                                        controllers.LanguagesView.update(id:Integer)
+# Delete a LanguagesView
+POST    /languages/:id/delete		                                                    controllers.LanguagesView.delete(id:Integer)
+
+#CountriesView
+# CountriesView list (look at the default values for pagination parameters)
+GET     /countries/list			                                                        controllers.CountriesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /countries/lsort		                                                        controllers.CountriesView.lsort()
+# Add CountriesView
+GET     /countries/blank		                                                        controllers.CountriesView.blank()
+POST    /countries				                                                        controllers.CountriesView.submit()
+# Edit existing CountriesView
+GET     /countries/sort/:ids	                                                        controllers.CountriesView.sort(ids:String)
+GET     /countries/:id			                                                        controllers.CountriesView.edit(id:Integer)
+POST    /countries/:id			                                                        controllers.CountriesView.update(id:Integer)
+# Delete a CountriesView
+POST    /countries/:id/delete		                                                    controllers.CountriesView.delete(id:Integer)
 
 
 #SocialNetworks

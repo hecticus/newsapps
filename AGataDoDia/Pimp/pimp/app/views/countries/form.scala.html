@@ -1,0 +1,70 @@
+@(countryViewForm: Form[models.basic.Country])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title = "Crear Country", nav = "create") {
+
+    @if(flash.containsKey("success")) {
+    <div class="alert-message warning">
+        <strong>Error!</strong> @flash.get("success")
+    </div>
+    }
+
+    @if(countryViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            <p>@countryViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(action = controllers.routes.CountriesView.submit) {
+
+        <fieldset>
+            <legend>Información del Country</legend>
+
+            @inputText(
+                countryViewForm("name"),
+                '_label -> "Nombre",
+                '_help -> "Ingrese un nombre válido.",
+                'class -> "form-control",
+                '_error -> countryViewForm.globalError
+            )
+
+            @inputText(
+                countryViewForm("shortName"),
+                '_label -> "Short Name",
+                '_help -> "Ingrese una url válida.",
+                'class -> "form-control",
+                '_error -> countryViewForm.globalError
+            )
+
+            @inputText(
+                countryViewForm("active"),
+                '_label -> "Active",
+                '_help -> "Ingrese 0 o 1.",
+                'class -> "form-control",
+                '_error -> countryViewForm.globalError
+            )
+
+            @select(
+                countryViewForm("language"),
+                models.basic.Language.toSeq,
+                '_label -> "Language",
+                'class -> "form-control"
+            )
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Crear este country">
+            <a href="@controllers.routes.CountriesView.list()" class="btn">Cancelar</a>
+        </div>
+
+    }
+
+}

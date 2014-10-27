@@ -11,7 +11,7 @@
         @if(field("language").value.getOrElse("NONE") == "NONE"){
             @select(
                 field("language"),
-                options = options(models.basic.Language.options),
+                models.basic.Language.toSeq,
                 '_label -> "Language",
                 'class -> "form-control"
             )
@@ -35,7 +35,7 @@
     @if(field("country").value.getOrElse("NONE") == "NONE"){
         @select(
             field("country"),
-            options = options(models.basic.Country.options),
+            models.basic.Country.toSeq,
             '_label -> "Country",
             'class -> "form-control"
         )
@@ -78,11 +78,12 @@
         <div class="alert alert-dismissable alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
             <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            @postViewForm.errorsAsJson
         </div>
     }
 
 
-    @helper.form(action = controllers.routes.PostsView.submit, 'enctype -> "multipart/form-data") {
+    @helper.form(action = controllers.routes.PostsView.submit, 'enctype -> "multipart/form-data", 'id -> "form") {
 
         <fieldset>
             <legend>Información del Post</legend>
@@ -102,7 +103,7 @@
 
             @select(
                 postViewForm("socialNetwork"),
-                options = options(models.content.women.SocialNetwork.options),
+                models.content.women.SocialNetwork.toSeq,
                 '_label -> "Social Network",
                 'class -> "form-control"
             )
@@ -252,6 +253,12 @@
                 })
             })
         }
+
+        $('#form').submit(function() {
+            $('.media_template').remove()
+            $('.country_template').remove()
+            $('.localization_template').remove()
+        })
 
 
     </script>

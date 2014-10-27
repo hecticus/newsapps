@@ -8,18 +8,12 @@
 @localizationGroup(field: Field, className: String = "localization") = {
     <div class="twipsies well @className">
         <a class="removeLocalization btn btn-primary danger pull-right">Remove this Localization @Html(""+field("language").value.getOrElse("NONE"))</a>
-        @if(field("language").value.getOrElse("NONE") == "NONE"){
-            @select(
-                field("language"),
-                options = options(models.basic.Language.options),
-                '_label -> "Language",
-                'class -> "form-control"
-            )
-        } else {
-            @input(field("language.name"), '_label -> "Language") { (id, name, value, _) =>
-                <input type="text" name="@name" value="@value" class="form-control" disabled>
-            }
-        }
+        @select(
+            field("language"),
+            models.basic.Language.toSeq,
+            '_label -> "Language",
+            'class -> "form-control"
+        )
         @input(field("title"), '_label -> "Title") { (id, name, value, _) =>
             <input type="text" name="@name" value="@value" class="form-control" >
         }
@@ -30,39 +24,36 @@
 }
 
 @countryGroup(field: Field, className: String = "country") = {
-<div class="twipsies well @className">
-    <a class="removeCountry btn btn-primary danger pull-right">Remove this Country  @Html(""+field("country").value.getOrElse("NONE"))</a>
-    @if(field("country").value.getOrElse("NONE") == "NONE"){
+    <div class="twipsies well @className">
+        <a class="removeCountry btn btn-primary danger pull-right">Remove this Country  @Html(""+field("country").value.getOrElse("NONE"))</a>
         @select(
             field("country"),
-            options = options(models.basic.Country.options),
+            models.basic.Country.toSeq,
             '_label -> "Country",
             'class -> "form-control"
         )
-    } else {
-        @input(field("country.name"), '_label -> "Country") { (id, name, value, _) =>
-            <input type="text" name="@name" value="@value" class="form-control" disabled>
-        }
-    }
-</div>
+    </div>
 }
 
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
         <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
         @if(field("link").value.getOrElse("NONE") == "NONE"){
-            <div class="form-group">
-                <label for="inputFile" class="col-lg-2 control-label">File</label>
-                <div class="col-lg-10">
-                    <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
-                    <input type="file" id="inputFile" multiple="">
-                </div>
+            <div class="row-action-primary">
+                <i class="icon-material-photo"></i>
             </div>
         } else {
             @input(field("link"), '_label -> "Media") { (id, name, value, _) =>
                 <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
             }
         }
+        <div class="form-group">
+            <label for="inputFile" class="col-lg-2 control-label">File</label>
+            <div class="col-lg-10">
+                @inputText(postViewForm("link"), '_label -> "Media", '_help -> "Ingrese un archivo local.", '_error -> postViewForm.globalError, 'class -> "form-control floating-label")
+                <input type="file" id="inputFile" multiple="">
+            </div>
+        </div>
     </div>
 }
 
@@ -78,7 +69,7 @@
 
     <h1>Edit Post</h1>
 
-    @helper.form(controllers.routes.PostsView.update(id), 'enctype -> "multipart/form-data") {
+    @helper.form(controllers.routes.PostsView.update(id), 'enctype -> "multipart/form-data", 'id -> "form") {
 
         <fieldset>
             <legend>Informacion del Post</legend>
@@ -104,8 +95,16 @@
 
             @select(
                 postViewForm("socialNetwork"),
-                options = options(models.content.women.SocialNetwork.options),
+                models.content.women.SocialNetwork.toSeq,
                 '_label -> "Social Network",
+                '_error -> postViewForm.globalError,
+                'class -> "form-control"
+            )
+
+            @select(
+                postViewForm("woman"),
+                models.content.women.Woman.toSeq,
+                '_label -> "Woman",
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
@@ -123,7 +122,7 @@
 
                 }
                 @localizationGroup(
-                    postViewForm("localizations[0]"),
+                    postViewForm("localizations[x]"),
                     className = "localization_template"
                 )
 
@@ -146,7 +145,7 @@
 
                 }
                 @countryGroup(
-                    postViewForm("countries[0]"),
+                    postViewForm("countries[x]"),
                     className = "country_template"
                 )
 
@@ -170,7 +169,7 @@
 
                 }
                 @mediaGroup(
-                    postViewForm("media[0]"),
+                    postViewForm("media[x]"),
                     className = "media_template"
                 )
 
@@ -257,6 +256,11 @@
             })
         }
 
+        $('#form').submit(function() {
+            $('.media_template').remove()
+            $('.country_template').remove()
+            $('.localization_template').remove()
+        })
 
 
 

@@ -1,11 +1,17 @@
 package controllers;
 
+import models.basic.Country;
+import models.basic.Language;
 import models.content.posts.Post;
+import models.content.women.SocialNetwork;
 import models.content.women.Woman;
 import play.data.Form;
+import play.data.format.Formatters;
 import play.mvc.Result;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Locale;
 
 import static play.data.Form.form;
 
@@ -49,17 +55,75 @@ public class PostsView extends HecticusController {
 
         Post objBanner = Post.finder.byId(id);
 
+        Formatters.register(Language.class, new Formatters.SimpleFormatter<Language>() {
+            @Override
+            public Language parse(String input, Locale arg1) throws ParseException {
+                Language language = Language.finder.byId(new Integer(input));
+                System.out.println("language.parse" + language.getName());
+                return language;
+            }
+
+            @Override
+            public String print(Language language, Locale arg1) {
+                return "" + language.getIdLanguage();
+            }
+        });
+
+        Formatters.register(Country.class, new Formatters.SimpleFormatter<Country>() {
+            @Override
+            public Country parse(String input, Locale arg1) throws ParseException {
+                Country country = Country.finder.byId(new Integer(input));
+                System.out.println("country.parse" + country.getName());
+                return country;
+            }
+
+            @Override
+            public String print(Country country, Locale arg1) {
+                return "" + country.getIdCountry();
+            }
+        });
+
+        Formatters.register(SocialNetwork.class, new Formatters.SimpleFormatter<SocialNetwork>() {
+            @Override
+            public SocialNetwork parse(String input, Locale arg1) throws ParseException {
+                SocialNetwork socialNetwork = SocialNetwork.finder.byId(new Integer(input));
+                System.out.println("socialNetwork.parse" + socialNetwork.getName());
+                return socialNetwork;
+            }
+
+            @Override
+            public String print(SocialNetwork socialNetwork, Locale arg1) {
+                return "" + socialNetwork.getIdSocialNetwork();
+            }
+        });
+
+        Formatters.register(Woman.class, new Formatters.SimpleFormatter<Woman>() {
+            @Override
+            public Woman parse(String input, Locale arg1) throws ParseException {
+                Woman woman = Woman.finder.byId(new Integer(input));
+                System.out.println("woman.parse" + woman.getName());
+                return woman;
+            }
+
+            @Override
+            public String print(Woman woman, Locale arg1) {
+                return "" + woman.getIdWoman();
+            }
+        });
+
         Form<Post> filledForm = PostViewForm.bindFromRequest();
+        System.out.println(filledForm.value());
+
         if(filledForm.hasErrors()) {
-            System.out.println(filledForm.toString());
             return badRequest(edit.render(id, filledForm));
-            //return badRequest();
         }
+
+        System.out.println(filledForm.toString());
 
         Post gfilledForm = filledForm.get();
 //        gfilledForm.update(id);
 
-//        System.out.println("update " + gfilledForm.toJson().toString());
+        System.out.println("update " + gfilledForm.toJson().toString());
 
         flash("success", "El post " + gfilledForm.getWoman().getName() + " se ha actualizado");
         return GO_HOME;
@@ -99,8 +163,9 @@ public class PostsView extends HecticusController {
     public static Result submit() throws IOException {
 
         Form<Post> filledForm = PostViewForm.bindFromRequest();
-
+        System.out.println(filledForm.value());
         if(filledForm.hasErrors()) {
+            System.out.println(filledForm.toString());
             return badRequest(form.render(filledForm));
         }
 

@@ -10,6 +10,9 @@ import models.content.posts.PostHasMedia;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import scala.Tuple2;
+import scala.collection.JavaConversions;
+import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -212,7 +215,19 @@ public class Woman extends HecticusModel {
         return options;
     }
 
-/**
+    public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
+        List<Woman> women = Woman.finder.all();
+        ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
+        for(Woman woman : women) {
+            Tuple2<String, String> t = new Tuple2<>(woman.getIdWoman().toString(), woman.getName());
+            proxy.add(t);
+        }
+        Buffer<Tuple2<String, String>> womanBuffer = JavaConversions.asScalaBuffer(proxy);
+        scala.collection.immutable.List<Tuple2<String, String>> womanList = womanBuffer.toList();
+        return womanList;
+    }
+
+    /**
      * Return a page of women list
      *
      * @param page Page to display
