@@ -7,7 +7,7 @@
 
 @localizationGroup(field: Field, className: String = "localization") = {
     <div class="twipsies well @className">
-        <a class="removeLocalization btn btn-primary danger pull-right">Remove this Localization @Html(""+field("language").value.getOrElse("NONE"))</a>
+        <a class="removeLocalization btn btn-primary danger pull-right">Remove this Localization</a>
         @select(
             field("language"),
             models.basic.Language.toSeq,
@@ -25,7 +25,7 @@
 
 @countryGroup(field: Field, className: String = "country") = {
     <div class="twipsies well @className">
-        <a class="removeCountry btn btn-primary danger pull-right">Remove this Country  @Html(""+field("country").value.getOrElse("NONE"))</a>
+        <a class="removeCountry btn btn-primary danger pull-right">Remove this Country</a>
         @select(
             field("country"),
             models.basic.Country.toSeq,
@@ -37,27 +37,28 @@
 
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
-        <a class="removeMedia btn btn-primary danger pull-right">Remove this media @Html(""+field("fileType").value.getOrElse("NONE"))</a>
+        <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
         @select(
             field("fileType"),
             models.content.posts.FileType.toSeq,
             '_label -> "File Type",
             'class -> "form-control"
         )
+        @inputText(field("mainScreen"), '_label -> "main screen", '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
         @if(field("link").value.getOrElse("NONE") == "NONE"){
             <div class="form-group">
                 <label for="inputFile" class="col-lg-2 control-label">File</label>
                 <div class="col-lg-10">
                     @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
                         <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
-                        <input type="file" id="inputFile" multiple="">
+                        <input type="file" name="@name" value="@value" id="inputFile" multiple="">
                     }
-
                 </div>
             </div>
         } else {
-            @input(field("link"), '_label -> "Media") { (id, name, value, _) =>
-                <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse..." disabled>
+            @inputText(field("md5"), '_label -> "md5 - NO CAMBIAR", '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @input(field("link"), '_label -> "Image - NO CAMBIAR") { (id, name, value, _) =>
+                <input type="text" name="@name" value="@value" class="form-control">
                 <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
             }
         }
@@ -100,7 +101,6 @@
             @inputText(postViewForm("date"), '_label -> "Date", '_help -> "Ingrese una fecha en formato yyyyMMddhhmm.", '_error -> postViewForm.globalError, 'class -> "form-control")
 
             @inputText(postViewForm("source"), '_label -> "Source", '_help -> "Ingrese un link válido.", '_error -> postViewForm.globalError, 'class -> "form-control")
-            <p>@Html(postViewForm("socialNetwork").value)</p>
             @select(
                 postViewForm("socialNetwork"),
                 models.content.women.SocialNetwork.toSeq,
@@ -108,7 +108,6 @@
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
-            <p>@Html(postViewForm("woman").value)</p>
             @select(
                 postViewForm("woman"),
                 models.content.women.Woman.toSeq,

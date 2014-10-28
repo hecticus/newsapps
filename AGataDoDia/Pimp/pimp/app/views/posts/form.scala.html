@@ -50,21 +50,13 @@
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
         <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
-        @select(
-            field("fileType"),
-            models.content.posts.FileType.toSeq,
-            '_label -> "File Type",
-            'class -> "form-control"
-        )
-        <div class="row-action-primary">
-            <i class="icon-material-photo"></i>
-        </div>
+        @inputText(field("mainScreen"), '_label -> "main screen", '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
         <div class="form-group">
-            <label for="inputFile" class="col-lg-2 control-label">File</label>
+            <label for="inputFile" class="col-lg-2 control-label">File NONE</label>
             <div class="col-lg-10">
                 @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
-                    <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
-                    <input type="file" id="inputFile" multiple="">
+                <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                <input type="file" name="@name" value="@value" id="inputFile" multiple="">
                 }
             </div>
         </div>

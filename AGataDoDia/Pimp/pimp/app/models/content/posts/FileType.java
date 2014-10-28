@@ -92,7 +92,7 @@ public class FileType extends HecticusModel {
         List<FileType> fileTypes = finder.all();
         ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
         for(FileType fileType : fileTypes) {
-            Tuple2<String, String> t = new Tuple2<>(fileType.getIdFileType().toString(), fileType.getName() + " - " + fileType.getMimeType());
+            Tuple2<String, String> t = new Tuple2<>(fileType.getIdFileType().toString(), fileType.getName());
             proxy.add(t);
         }
         Buffer<Tuple2<String, String>> fileTypeBuffer = JavaConversions.asScalaBuffer(proxy);

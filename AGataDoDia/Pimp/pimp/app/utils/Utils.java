@@ -260,6 +260,17 @@ public class Utils {
         return checksum;
     }
 
+    public static String getMD5(File file) throws IOException, NoSuchAlgorithmException {
+        String checksum = null;
+        FileInputStream fis = new FileInputStream(file);
+        try {
+            checksum = DigestUtils.md5Hex(fis);
+        } finally {
+            fis.close();
+        }
+        return checksum;
+    }
+
     public static String moveAttachmentForAttachment(String file, int idTrivia) throws IOException {
         File afile =new File(Config.getString("ftp-route") + file);
         File folder =new File(Config.getString("attachments-route") + idTrivia);
@@ -271,13 +282,13 @@ public class Utils {
         return dest.getAbsolutePath();
     }
 
-    public static String uploadAttachment(String file, int idTrivia) throws IOException {
+    public static String uploadAttachment(String file, int idWoman) throws IOException {
         File afile =new File(Config.getString("ftp-route") + file);
-        File folder =new File(Config.getString("attachments-route") + idTrivia);
+        File folder =new File(Config.getString("attachments-route") + idWoman);
         if(!folder.exists()) {
             folder.mkdirs();
         }
-        File dest = new File(Config.getString("attachments-route") + idTrivia + "/" + afile.getName());
+        File dest = new File(Config.getString("attachments-route") + idWoman + "/" + afile.getName());
         FileUtils.copyFile(afile, dest);
 
         String fileName = dest.getName();
@@ -286,9 +297,30 @@ public class Utils {
         UUID idFile = UUID.randomUUID();
         File dest2 = new File(Config.getString("attachments-route")+idFile+fileExtension);
         dest.renameTo(dest2);
-        boolean uploaded = uploadAndPublish(dest2, ""+idTrivia);
+        boolean uploaded = uploadAndPublish(dest2, ""+idWoman);
         if(uploaded){
-            String name = Config.getString("rks-CDN-URL") + idTrivia + "/" + dest2.getName();
+            String name = Config.getString("rks-CDN-URL") + idWoman + "/" + dest2.getName();
+            dest2.delete();
+            return name;
+        }
+        return null;
+//        return dest.getAbsolutePath();
+    }
+
+    public static String uploadAttachment(File file, int idWoman, String fileExtension) throws IOException {
+        File folder =new File(Config.getString("attachments-route") + idWoman);
+        if(!folder.exists()) {
+            folder.mkdirs();
+        }
+        File dest = new File(Config.getString("attachments-route") + idWoman + "/" + file.getName());
+        FileUtils.copyFile(file, dest);
+
+        UUID idFile = UUID.randomUUID();
+        File dest2 = new File(Config.getString("attachments-route")+idFile+fileExtension);
+        dest.renameTo(dest2);
+        boolean uploaded = uploadAndPublish(dest2, ""+idWoman);
+        if(uploaded){
+            String name = Config.getString("rks-CDN-URL") + idWoman + "/" + dest2.getName();
             dest2.delete();
             return name;
         }

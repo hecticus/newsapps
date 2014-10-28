@@ -5,8 +5,13 @@ import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import scala.Tuple2;
+import scala.collection.JavaConversions;
+import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by plesse on 9/30/14.
@@ -43,6 +48,26 @@ public class PostHasMedia extends HecticusModel {
         this.md5 = md5;
         this.link = link;
         this.mainScreen = mainScreen;
+    }
+
+    public void setIdPostHasMedia(Integer idPostHasMedia) {
+        this.idPostHasMedia = idPostHasMedia;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(FileType fileType) {
+        this.fileType = fileType;
     }
 
     public Integer getIdPostHasMedia() {
@@ -104,4 +129,15 @@ public class PostHasMedia extends HecticusModel {
         return response;
     }
 
+    public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
+        List<PostHasMedia> postHasMedias = PostHasMedia.finder.all();
+        ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
+        for(PostHasMedia postHasMedia : postHasMedias) {
+            Tuple2<String, String> t = new Tuple2<>(postHasMedia.getIdPostHasMedia().toString(), postHasMedia.getLink());
+            proxy.add(t);
+        }
+        Buffer<Tuple2<String, String>> postHasMediaBuffer = JavaConversions.asScalaBuffer(proxy);
+        scala.collection.immutable.List<Tuple2<String, String>> postHasMediaList = postHasMediaBuffer.toList();
+        return postHasMediaList;
+    }
 }
