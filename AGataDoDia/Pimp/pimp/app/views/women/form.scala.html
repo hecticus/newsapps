@@ -53,15 +53,15 @@
                     <label for="inputFile" class="col-lg-2 control-label">File</label>
                     <div class="col-lg-10">
                         @input(womenViewForm("defaultPhoto"), '_label -> "Image") { (id, name, value, _) =>
-                        <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
-                        <input type="file" id="inputFile" multiple="">
+                            <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                            <input type="file" name="@name" value="@value" id="inputFile" multiple="">
                         }
                     </div>
                 </div>
             } else {
                 <div class="col-lg-4">
                     @input(womenViewForm("defaultPhoto"), '_label -> "Foto default") { (id, name, value, _) =>
-                    <img class="img-rounded" src="@value" alt="icon" name="@name" style="width: 100px; height: 100px;" >
+                        <img class="img-rounded" src="@value" alt="icon" name="@name" style="width: 100px; height: 100px;" >
                     }
                 </div>
 

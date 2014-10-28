@@ -55,8 +55,8 @@
             <label for="inputFile" class="col-lg-2 control-label">File NONE</label>
             <div class="col-lg-10">
                 @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
-                <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
-                <input type="file" name="@name" value="@value" id="inputFile" multiple="">
+                    <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                    <input type="file" name="@name" value="@value" id="inputFile" multiple="">
                 }
             </div>
         </div>

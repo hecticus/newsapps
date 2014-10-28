@@ -319,7 +319,6 @@ public class PostsView extends HecticusController {
         });
 
         Form<Post> filledForm = PostViewForm.bindFromRequest();
-        System.out.println(filledForm.value());
         if(filledForm.hasErrors()) {
             return badRequest(form.render(filledForm));
         }

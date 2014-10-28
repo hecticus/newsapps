@@ -32,6 +32,22 @@ public class WomanHasCategory extends HecticusModel {
         this.woman = woman;
     }
 
+    public Integer getIdWomanHasCategory() {
+        return idWomanHasCategory;
+    }
+
+    public void setIdWomanHasCategory(Integer idWomanHasCategory) {
+        this.idWomanHasCategory = idWomanHasCategory;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setWoman(Woman woman) {
+        this.woman = woman;
+    }
+
     public Category getCategory() {
         return category;
     }

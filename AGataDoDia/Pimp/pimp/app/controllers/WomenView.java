@@ -2,13 +2,18 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Locale;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.content.posts.FileType;
 import models.content.women.Category;
 import play.data.Form;
 import play.data.format.Formatters;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -146,6 +151,20 @@ public class WomenView extends HecticusController {
 
 	//@Security.Authenticated(Secured.class)
 	public static Result submit() throws IOException {
+        Formatters.register(Category.class, new Formatters.SimpleFormatter<Category>() {
+            @Override
+            public Category parse(String input, Locale arg1) throws ParseException {
+                System.out.println("PASANDO!!! "+input);
+                Category category = Category.finder.byId(new Integer(input));
+                System.out.println("Category!!! "+category.getIdCategory());
+                return category;
+            }
+
+            @Override
+            public String print(Category category, Locale arg1) {
+                return category.getIdCategory().toString();
+            }
+        });
 
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
         System.out.println("FORM!!!! "+filledForm.toString());
@@ -153,12 +172,36 @@ public class WomenView extends HecticusController {
            return badRequest(form.render(filledForm));
 		}
 
-		models.content.women.Woman gfilledForm = filledForm.get();    	   
+
+
+		models.content.women.Woman gfilledForm = filledForm.get();
+
    	  	//gfilledForm.setSort(models.content.women.Woman.finder.findRowCount());
    	  	gfilledForm.save();
 
-   	   flash("success", "El Banner " + gfilledForm.getName() + " ha sido creado");
-   	   return GO_HOME;
+        int i = 0;
+        boolean exists = filledForm.data().containsKey("media[" + i + "].link");
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        ObjectNode data = Json.newObject();
+        String link = "";
+        if(filledForm.data().containsKey("defaultPhoto")){
+            Http.MultipartFormData.FilePart picture = body.getFile("defaultPhoto");
+            String fileName = picture.getFilename();
+            String contentType = picture.getContentType();
+            File file = picture.getFile();
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
+            try {
+                link = Utils.uploadAttachment(file, gfilledForm.getIdWoman().intValue(), fileExtension);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        gfilledForm.setDefaultPhoto(link);
+        gfilledForm.update();
+
+        flash("success", "La mujer " + gfilledForm.getName() + " ha sido creado");
+   	    return GO_HOME;
 		
 	}
 
