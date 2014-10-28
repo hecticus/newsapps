@@ -6,10 +6,15 @@ import models.clients.ClientHasWoman;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import scala.Tuple2;
+import scala.collection.JavaConversions;
+import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by plesse on 9/30/14.
@@ -30,6 +35,14 @@ public class Category extends HecticusModel {
 
     public Category(String name) {
         this.name = name;
+    }
+
+    public Integer getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(Integer idCategory) {
+        this.idCategory = idCategory;
     }
 
     public String getName() {
@@ -63,6 +76,27 @@ public class Category extends HecticusModel {
         response.put("id_category", idCategory);
         response.put("name", name);
         return response;
+    }
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+        List<Category> categories = finder.where().findList();
+        for(Category c: categories) {
+            options.put(c.getIdCategory().toString(), c.getName());
+        }
+        return options;
+    }
+
+    public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
+        List<Category> categories = Category.finder.all();
+        ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
+        for(Category category : categories) {
+            Tuple2<String, String> t = new Tuple2<>(category.getIdCategory().toString(), category.getName());
+            proxy.add(t);
+        }
+        Buffer<Tuple2<String, String>> categoryBuffer = JavaConversions.asScalaBuffer(proxy);
+        scala.collection.immutable.List<Tuple2<String, String>> categoryList = categoryBuffer.toList();
+        return categoryList;
     }
 
 }

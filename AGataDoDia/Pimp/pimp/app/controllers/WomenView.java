@@ -3,8 +3,12 @@ package controllers;
 import static play.data.Form.form;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Locale;
 
+import models.content.women.Category;
 import play.data.Form;
+import play.data.format.Formatters;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -43,9 +47,26 @@ public class WomenView extends HecticusController {
 	
 	//@Security.Authenticated(Secured.class)
 	public static Result update(Integer id) {
+        System.out.println("PASANDO!!! ");
+        Formatters.register(Category.class, new Formatters.SimpleFormatter<Category>() {
+            @Override
+            public Category parse(String input, Locale arg1) throws ParseException {
+                System.out.println("PASANDO!!! "+input);
+                Category category = Category.finder.byId(new Integer(input));
+                System.out.println("Category!!! "+category.getIdCategory());
+                return category;
+            }
+
+            @Override
+            public String print(Category category, Locale arg1) {
+                return category.getIdCategory().toString();
+            }
+        });
 
 		models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
+        System.out.println("IMPRIMIENDO!!!!");
+        System.out.println(filledForm.toString());
 		if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm));
 		}
@@ -127,7 +148,7 @@ public class WomenView extends HecticusController {
 	public static Result submit() throws IOException {
 
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
-
+        System.out.println("FORM!!!! "+filledForm.toString());
 		if(filledForm.hasErrors()) {
            return badRequest(form.render(filledForm));
 		}
