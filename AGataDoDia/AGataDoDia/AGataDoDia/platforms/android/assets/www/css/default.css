@@ -76,58 +76,31 @@ row:not(input):not(textarea) {
 	img {
 		border-radius : 0 !important;	
 	}
-	
-	/*header .container, 
-	header .container div.row,
-	header .container div.row div {
-		padding: 0 !important; 
-		margin:0 !important;
-	}*/
-	
-		
-	header .container div.row:first-child {
-				
+
+	header .container div.row:first-child {				
 		height: 50px;
 		line-height: 50px;
-		text-align: center;			
-		/*background-image: url(../img/dashed.png), url(../img/dashed.png); 
-		background-repeat: repeat-x; 
-		background-position: top, bottom;*/
-	}
-	
-	header .container div.row:first-child {
-		
-		/*border-top-style: dashed;
-		border-top-width: 2px;
-		border-bottom-style: dashed;
-		border-bottom-width: 2px;		
-		margin-top: 5px;
-		margin-bottom: 5px;*/
-	}	
-
-		
-	header .container div.row:last-child {		
-		/*border-bottom-style: dashed;
-		border-bottom-width: 2px;*/	
-							
-		/*background-image: url(../img/dashed.png); 
-		background-repeat: repeat-x; 
-		background-position: bottom;*/
-
-	}
-	
-	header .container div.row:last-child div {		
-		height: 40px;
-		line-height: 40px;
 		text-align: center;
+		background-image: url(../img/line.png), url(../img/line.png); 
+		background-repeat: repeat-x; 
+		background-position: top, bottom;
+		background-attachment: fixed;
+	}
+		
+	header .container div.row:last-child {			
+		height: 50px;
+		line-height: 50px;
+		text-align: center;				
+		background-image: url(../img/line.png); 
+		background-repeat: repeat-x; 	
+		background-position: bottom;
+		background-attachment: fixed;
 		background-color: #E2E2E1;
 		font-size: 0.8em;
-		font-weight: bold;	
-		margin-bottom: 5px;
+		font-weight: bold;
 		color: #ED2226;	
 	}
-	
-	
+
 	body.content-signin main .container .row #wrapper1 .scroller .container figure,
 	body #wrapper .scroller .container figure,
 	body #wrapper2 .scroller .container figure {
@@ -140,7 +113,7 @@ row:not(input):not(textarea) {
 	
 	body.content-signin main .container .row #wrapper1 .scroller .container figure img,
 	body #wrapper .scroller .container figure img,
-	body #wrapper2 .scroller .container figure img { 
+	body #wrapper2 .scroller .container figure img {
 		width: 100%;  
 		height: auto;
 		min-height: 200px;
@@ -155,14 +128,11 @@ row:not(input):not(textarea) {
 	body.content-signin main .container .row #wrapper1 .scroller .container figure figcaption,
 	body #wrapper .scroller .container figure figcaption,
 	body #wrapper2 .scroller .container figure figcaption, .caption {
-		/*position: absolute;*/	
 		margin-top: 0px !important;	
 		width:100%;
 		height: auto;
-	    /*line-height: 40px;*/		
 		text-align: left;	   
-	    background-color:#E2E2E1;	    
-	    /*bottom: 0;*/
+	    background-color:#E2E2E1;
 	    color: #000000;
 	    opacity: 0.8;	    	
 	}
@@ -188,3 +158,13 @@ row:not(input):not(textarea) {
 		color:#000000  !important;
 	}
 
+	.carousel-control.left,
+	.carousel-control.right {
+		background-image: none !important;
+		opacity: 1 !important;
+	}
+	
+	span.glyphicon.glyphicon-chevron-left, 
+	span.glyphicon.glyphicon-chevron-right {
+		font-size:2em !important;		
+	}

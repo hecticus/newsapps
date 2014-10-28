@@ -21,7 +21,7 @@
 			
 			_html2 = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px;" >';
 				_html2 += '<i class="icon icon-material-camera-alt" data-touch="post" data-post="' + _item.id_post + '"></i><span class="badge">' + _item.woman.posts + '</span>';
-				_html2 += '<i class="icon icon-material-person" ></i><span class="badge">' + _item.woman.clients + '</span>';
+				_html2 += '<i class="icon icon-material-group" ></i><span class="badge">' + _item.woman.clients + '</span>';
 			_html2 += '</div>';		
 
 			_html2 += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align:right; height:40px; line-height:40px;">';
