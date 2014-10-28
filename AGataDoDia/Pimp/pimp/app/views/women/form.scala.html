@@ -5,23 +5,17 @@
 
 @title = {}
 
-@categoriesGroup(field: Field, className: String = "categories") = {
-    <div class="twipsies well @className">
-        <a class="removeCategory btn btn-primary danger pull-right">Remove this Category @Html(""+field("category").value.getOrElse("NONE"))</a>
-        @if(field("category.name").value.getOrElse("NONE") == "NONE"){
-        <!--input type="hidden" name=@Html(""+field("idCategory")) value=@Html(""+field("idCategory").value)-->
-
-        } else {
-
-        }
-        @select(
-            field("category"),
-            models.content.women.Category.toSeq,
-            '_label -> "Categoria",
-            'class -> "form-control"
-        )
-        <!--Faltan unas cosas de POSTS -->
-    </div>
+@categoryGroup(field: Field, className: String = "category") = {
+<div class="twipsies well @className">
+    <a class="removeCategory btn btn-primary danger pull-right">Remove this Category: @Html(""+field("category.name").value.getOrElse("NONE"))</a>
+    @select(
+    field("category"),
+    models.content.women.Category.toSeq,
+    '_label -> "Categoria",
+    'class -> "form-control"
+    )
+    <!--Faltan unas cosas de POSTS -->
+</div>
 }
 
 @main(title = "Crear Mujer", nav = "create") {
@@ -89,12 +83,12 @@
 
                 @repeat(womenViewForm("categories")) { category =>
 
-                @categoriesGroup(category)
+                @categoryGroup(category)
 
                 }
-                @categoriesGroup(
+                @categoryGroup(
                 womenViewForm("categories[x]"),
-                className = "categories_template"
+                className = "category_template"
                 )
 
                 <div class="manage">
@@ -116,19 +110,19 @@
 
         $(document).on('click','.removeCategory', function(e) {
             console.log("ESTO NO LO VEO")
-            $(this).parents('.categories').remove()
+            $(this).parents('.category').remove()
             renumberCategories()
         })
 
         $(document).on('click','.addCategory', function(e) {
-            var template = $('.categories_template')
-            template.before('<div class="twipsies well categories">' + template.html() + '</div>')
+            var template = $('.category_template')
+            template.before('<div class="twipsies well category">' + template.html() + '</div>')
             renumberCategories()
         })
 
         var renumberCategories = function() {
         console.log("PASO?????");
-            $('.categories').each(function(i) {
+            $('.category').each(function(i) {
                 $('select', this).each(function() {
                     console.log("PASO "+$(this).attr('name'));
                     $(this).attr('name', $(this).attr('name').replace(/categories\[.+?\]/g, 'categories[' + i + ']'))
@@ -148,7 +142,7 @@
         }
 
         $('#form').submit(function() {
-            $('.categories_template').remove()
+            $('.category_template').remove()
         })
 
     </script>
