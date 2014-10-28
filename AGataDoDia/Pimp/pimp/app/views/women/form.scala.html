@@ -6,16 +6,31 @@
 @title = {}
 
 @categoryGroup(field: Field, className: String = "category") = {
-<div class="twipsies well @className">
-    <a class="removeCategory btn btn-primary danger pull-right">Remove this Category: @Html(""+field("category.name").value.getOrElse("NONE"))</a>
-    @select(
-    field("category"),
-    models.content.women.Category.toSeq,
-    '_label -> "Categoria",
-    'class -> "form-control"
-    )
-    <!--Faltan unas cosas de POSTS -->
-</div>
+    <div class="twipsies well @className">
+        <a class="removeCategory btn btn-primary danger pull-right">Remove this Category: @Html(""+field("category.name").value.getOrElse("NONE"))</a>
+        @select(
+        field("category"),
+        models.content.women.Category.toSeq,
+        '_label -> "Categoria",
+        'class -> "form-control"
+        )
+        <!--Faltan unas cosas de POSTS -->
+    </div>
+}
+
+@socialNetworkGroup(field: Field, className: String = "socialNetwork") = {
+    <div class="twipsies well @className">
+        <a class="removeSocialNetwork btn btn-primary danger pull-right">Remove this Social Network: @Html(""+field("category.name").value.getOrElse("NONE"))</a>
+        @select(
+            field("socialNetwork"),
+            models.content.women.SocialNetwork.toSeq,
+            '_label -> "Categoria",
+            'class -> "form-control"
+        )
+        @input(field("link"), '_label -> "Link") { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+    </div>
 }
 
 @main(title = "Crear Mujer", nav = "create") {
@@ -83,16 +98,34 @@
 
                 @repeat(womenViewForm("categories")) { category =>
 
-                @categoryGroup(category)
+                    @categoryGroup(category)
 
                 }
                 @categoryGroup(
-                womenViewForm("categories[x]"),
-                className = "category_template"
+                    womenViewForm("categories[x]"),
+                    className = "category_template"
                 )
 
                 <div class="manage">
                     <a class="addCategory btn btn-primary success">Add another category</a>
+                </div>
+
+            </div>
+
+            <div id="socialNetworks">
+
+                @repeat(womenViewForm("socialNetworks")) { socialNetwork =>
+
+                    @socialNetworkGroup(socialNetwork)
+
+                }
+                @socialNetworkGroup(
+                    womenViewForm("socialNetworks[x]"),
+                    className = "socialNetworks_template"
+                )
+
+                <div class="manage">
+                    <a class="addSocialNetworks btn btn-primary success">Add another Social Networks</a>
                 </div>
 
             </div>
@@ -121,10 +154,8 @@
         })
 
         var renumberCategories = function() {
-        console.log("PASO?????");
             $('.category').each(function(i) {
                 $('select', this).each(function() {
-                    console.log("PASO "+$(this).attr('name'));
                     $(this).attr('name', $(this).attr('name').replace(/categories\[.+?\]/g, 'categories[' + i + ']'))
                     $(this).attr('id', $(this).attr('id').replace(/categories\_x/g, 'categories_' + i))
 
@@ -143,7 +174,34 @@
 
         $('#form').submit(function() {
             $('.category_template').remove()
+            $('.socialNetworks_template').remove()
         })
+
+        $(document).on('click','.removeSocialNetwork', function(e) {
+            $(this).parents('.socialNetwork').remove()
+            renumberSocialNetworks()
+        })
+
+        $(document).on('click','.addSocialNetworks', function(e) {
+            var template = $('.socialNetworks_template')
+            template.before('<div class="twipsies well socialNetwork">' + template.html() + '</div>')
+            renumberSocialNetworks()
+        })
+
+        var renumberSocialNetworks = function() {
+            $('.socialNetwork').each(function(i) {
+                $('input', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/socialNetworks\[.+?\]/g, 'socialNetworks[' + i + ']'))
+                    }
+                })
+                $('select', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/socialNetworks\[.+?\]/g, 'socialNetworks[' + i + ']'))
+                    }
+                })
+            })
+        }
 
     </script>
  

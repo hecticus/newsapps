@@ -17,6 +17,21 @@
     </div>
 }
 
+@socialNetworkGroup(field: Field, className: String = "socialNetwork") = {
+    <div class="twipsies well @className">
+        <a class="removeSocialNetwork btn btn-primary danger pull-right">Remove this Social Network: @Html(""+field("socialNetwork").value.getOrElse("NONE"))</a>
+        @select(
+            field("socialNetwork"),
+            models.content.women.SocialNetwork.toSeq,
+            '_label -> "Categoria",
+            'class -> "form-control"
+        )
+        @input(field("link"), '_label -> "Link") { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+    </div>
+}
+
 @main(title = "Editar mujer", nav = "create") {
 
     @if(womenViewForm.hasErrors) {
@@ -88,6 +103,24 @@
 
             </div>
 
+            <div id="socialNetworks">
+
+                @repeat(womenViewForm("socialNetworks")) { socialNetwork =>
+
+                    @socialNetworkGroup(socialNetwork)
+
+                }
+                @socialNetworkGroup(
+                    womenViewForm("socialNetworks[x]"),
+                    className = "socialNetworks_template"
+                )
+
+                <div class="manage">
+                    <a class="addSocialNetworks btn btn-primary success">Add another Social Networks</a>
+                </div>
+
+            </div>
+
         </fieldset>
 
         <div class="actions">        	        	 
@@ -139,7 +172,34 @@
 
         $('#form').submit(function() {
             $('.category_template').remove()
+            $('.socialNetworks_template').remove()
         })
+
+        $(document).on('click','.removeSocialNetwork', function(e) {
+            $(this).parents('.socialNetwork').remove()
+            renumberSocialNetworks()
+        })
+
+        $(document).on('click','.addSocialNetworks', function(e) {
+            var template = $('.socialNetworks_template')
+            template.before('<div class="twipsies well socialNetwork">' + template.html() + '</div>')
+            renumberSocialNetworks()
+        })
+
+        var renumberSocialNetworks = function() {
+            $('.socialNetwork').each(function(i) {
+                $('input', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/socialNetworks\[.+?\]/g, 'socialNetworks[' + i + ']'))
+                    }
+                })
+                $('select', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/socialNetworks\[.+?\]/g, 'socialNetworks[' + i + ']'))
+                    }
+                })
+            })
+        }
 
     </script>
        

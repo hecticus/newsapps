@@ -6,11 +6,15 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.hecticus.rackspacecloud.RackspaceDelete;
+import models.basic.Config;
 import models.content.posts.FileType;
 import models.content.women.Category;
+import models.content.women.SocialNetwork;
 import play.data.Form;
 import play.data.format.Formatters;
 import play.libs.Json;
@@ -52,7 +56,6 @@ public class WomenView extends HecticusController {
 	
 	//@Security.Authenticated(Secured.class)
 	public static Result update(Integer id) {
-        System.out.println("PASANDO!!! ");
         Formatters.register(Category.class, new Formatters.SimpleFormatter<Category>() {
             @Override
             public Category parse(String input, Locale arg1) throws ParseException {
@@ -68,6 +71,19 @@ public class WomenView extends HecticusController {
             }
         });
 
+        Formatters.register(SocialNetwork.class, new Formatters.SimpleFormatter<SocialNetwork>() {
+            @Override
+            public SocialNetwork parse(String input, Locale arg1) throws ParseException {
+                SocialNetwork socialNetwork = SocialNetwork.finder.byId(new Integer(input));
+                return socialNetwork;
+            }
+
+            @Override
+            public String print(SocialNetwork socialNetwork, Locale arg1) {
+                return socialNetwork.getIdSocialNetwork().toString();
+            }
+        });
+
 		models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
         System.out.println("IMPRIMIENDO!!!!");
@@ -75,8 +91,29 @@ public class WomenView extends HecticusController {
 		if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm));
 		}
+
+//        Http.MultipartFormData body = request().body().asMultipartFormData();
+//        ObjectNode data = Json.newObject();
+//        String link = "";
+//        boolean change = false;
+//        if(filledForm.data().containsKey("defaultPhoto")){
+//            Http.MultipartFormData.FilePart picture = body.getFile("defaultPhoto");
+//            String fileName = picture.getFilename();
+//            String contentType = picture.getContentType();
+//            File file = picture.getFile();
+//            String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
+//            try {
+//                link = Utils.uploadAttachment(file, id, fileExtension);
+//                change = true;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 		
     	models.content.women.Woman gfilledForm = filledForm.get();
+//        if(change) {
+//            gfilledForm.setDefaultPhoto(link);
+//        }
         gfilledForm.setIdWoman(id);
     	gfilledForm.update(id);
 		
@@ -139,14 +176,22 @@ public class WomenView extends HecticusController {
 
 	//@Security.Authenticated(Secured.class)
 	public static Result delete(Integer id) {
-		
-		/*models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);
-
-		models.content.women.Woman.finder.ref(id).delete();
-		flash("success", "La mujer se ha eliminado");*/
+		models.content.women.Woman woman = models.content.women.Woman.finder.byId(id);
+        ArrayList<String> files = new ArrayList<>();
+        String link = woman.getDefaultPhoto();
+        link = link.substring(link.lastIndexOf("/"));
+        System.out.println(id+link);
+        files.add(id + link);
+        String containerName = Config.getString("cdn-container");
+        String username = Config.getString("rackspace-username");
+        String apiKey = Config.getString("rackspace-apiKey");
+        String provider = Config.getString("rackspace-provider");
+        RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
+        rackspaceDelete.deleteObjectsFromContainer(containerName, files);
+        woman.delete();
+		flash("success", "La mujer se ha eliminado");
 	    return GO_HOME;
-	    
-	}	
+	}
 
 
 	//@Security.Authenticated(Secured.class)
@@ -154,9 +199,7 @@ public class WomenView extends HecticusController {
         Formatters.register(Category.class, new Formatters.SimpleFormatter<Category>() {
             @Override
             public Category parse(String input, Locale arg1) throws ParseException {
-                System.out.println("PASANDO!!! "+input);
                 Category category = Category.finder.byId(new Integer(input));
-                System.out.println("Category!!! "+category.getIdCategory());
                 return category;
             }
 
@@ -166,21 +209,26 @@ public class WomenView extends HecticusController {
             }
         });
 
+        Formatters.register(SocialNetwork.class, new Formatters.SimpleFormatter<SocialNetwork>() {
+            @Override
+            public SocialNetwork parse(String input, Locale arg1) throws ParseException {
+                SocialNetwork socialNetwork = SocialNetwork.finder.byId(new Integer(input));
+                return socialNetwork;
+            }
+
+            @Override
+            public String print(SocialNetwork socialNetwork, Locale arg1) {
+                return socialNetwork.getIdSocialNetwork().toString();
+            }
+        });
+
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
-        System.out.println("FORM!!!! "+filledForm.toString());
-		if(filledForm.hasErrors()) {
+        if(filledForm.hasErrors()) {
            return badRequest(form.render(filledForm));
 		}
-
-
-
-		models.content.women.Woman gfilledForm = filledForm.get();
-
-   	  	//gfilledForm.setSort(models.content.women.Woman.finder.findRowCount());
+        models.content.women.Woman gfilledForm = filledForm.get();
    	  	gfilledForm.save();
 
-        int i = 0;
-        boolean exists = filledForm.data().containsKey("media[" + i + "].link");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         ObjectNode data = Json.newObject();
         String link = "";
