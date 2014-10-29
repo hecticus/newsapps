@@ -152,6 +152,7 @@ main.women=Mujeres
 main.posts=Publicaciones
 main.languages=Idiomas
 main.countries=Paises
+main.categories=Categorias
 main.list=Listar
 main.operations=Operaciones
 main.create=Crear
@@ -213,6 +214,22 @@ countries.language=Idioma
 countries.submit.create=Crear este Pais
 countries.submit.update=Actualizar este Pais
 countries.submit.delete=Eliminar este Pais
+
+categories.list.head=Categorias
+categories.list.title={0,choice,0#No hay Categorias|1#Una categoria encontrada|1<{0,number,integer} categorias encontradas}
+categories.list.filter.name=Filtrar por nombre de la categoria...
+categories.list.new=Agregar nueva categoria
+
+categories.create=Crear categoria
+categories.edit=Editar categoria
+categories.info=Informacion de la categoria
+
+categories.name=Nombre
+categories.name.help=Inserte un nombre valido
+
+categories.submit.create=Crear esta categoria
+categories.submit.update=Actualizar esta categoria
+categories.submit.delete=Eliminar esta categoria
 
 women.list.head=Mujeres
 women.list.title={0,choice,0#No hay Mujeres|1#Una Mujer encontrada|1<{0,number,integer} Mujeres encontradas}

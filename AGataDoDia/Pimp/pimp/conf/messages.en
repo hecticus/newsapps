@@ -154,6 +154,7 @@ main.women=Women
 main.posts=Posts
 main.languages=Languages
 main.countries=Countries
+main.categories=Categories
 main.list=List
 main.operations=Operations
 main.create=Create
@@ -215,6 +216,22 @@ countries.language=Language
 countries.submit.create=Create this Country
 countries.submit.update=Update this Country
 countries.submit.delete=Delete this Country
+
+categories.list.head=Categories
+categories.list.title={0,choice,0#There are no categories|1#One category found|1<{0,number,integer} categories found}
+categories.list.filter.name=Filter by category name...
+categories.list.new=Add new Category
+
+categories.create=Create Category
+categories.edit=Edit Category
+categories.info=Category Data
+
+categories.name=Name
+categories.name.help=Insert a valid name
+
+categories.submit.create=Create this Category
+categories.submit.update=Update this Category
+categories.submit.delete=Delete this Category
 
 women.list.head=Women
 women.list.title={0,choice,0#There are no Women|1#One Woman found|1<{0,number,integer} Women found}

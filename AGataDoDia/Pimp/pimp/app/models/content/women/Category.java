@@ -1,5 +1,6 @@
 package models.content.women;
 
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.clients.ClientHasWoman;
@@ -99,4 +100,7 @@ public class Category extends HecticusModel {
         return categoryList;
     }
 
+    public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return finder.where().orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
 }

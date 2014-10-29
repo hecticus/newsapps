@@ -182,6 +182,9 @@ public class PostsView extends HecticusController {
                     e.printStackTrace();
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
+                } finally {
+                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    return badRequest(edit.render(id, filledForm));
                 }
             }
             ++i;
@@ -252,7 +255,6 @@ public class PostsView extends HecticusController {
             @Override
             public Language parse(String input, Locale arg1) throws ParseException {
                 Language language = Language.finder.byId(new Integer(input));
-                System.out.println("language.parse" + language.getName());
                 return language;
             }
 
@@ -266,7 +268,6 @@ public class PostsView extends HecticusController {
             @Override
             public Country parse(String input, Locale arg1) throws ParseException {
                 Country country = Country.finder.byId(new Integer(input));
-                System.out.println("country.parse" + country.getName());
                 return country;
             }
 
@@ -280,7 +281,6 @@ public class PostsView extends HecticusController {
             @Override
             public SocialNetwork parse(String input, Locale arg1) throws ParseException {
                 SocialNetwork socialNetwork = SocialNetwork.finder.byId(new Integer(input));
-                System.out.println("socialNetwork.parse" + socialNetwork.getName());
                 return socialNetwork;
             }
 
@@ -294,7 +294,6 @@ public class PostsView extends HecticusController {
             @Override
             public Woman parse(String input, Locale arg1) throws ParseException {
                 Woman woman = Woman.finder.byId(new Integer(input));
-                System.out.println("woman.parse" + woman.getName());
                 return woman;
             }
 
@@ -327,8 +326,7 @@ public class PostsView extends HecticusController {
         boolean exists = filledForm.data().containsKey("media[" + i + "].link");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         ObjectNode data = Json.newObject();
-        String woman = filledForm.data().get("woman");
-
+        String woman = filledForm.data().get("woman.idWoman");
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
                 Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
@@ -355,9 +353,11 @@ public class PostsView extends HecticusController {
                 String fileName = picture.getFilename();
                 String contentType = picture.getContentType();
                 File file = picture.getFile();
-                String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
+                String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+
                 try {
                     String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
+                    System.out.println(woman + " " + fileExtension + " " + link);
                     String md5 = Utils.getMD5(file);
                     ObjectNode dataFile = Json.newObject();
                     dataFile.put("md5", md5);
@@ -368,6 +368,9 @@ public class PostsView extends HecticusController {
                     e.printStackTrace();
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
+                } finally {
+                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    return badRequest(form.render(filledForm));
                 }
             }
             ++i;

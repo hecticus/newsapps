@@ -72,6 +72,20 @@ POST    /countries/:id			                                                       
 # Delete a CountriesView
 POST    /countries/:id/delete		                                                    controllers.CountriesView.delete(id:Integer)
 
+#CategoriesView
+# CategoriesView list (look at the default values for pagination parameters)
+GET     /categories/list			                                                    controllers.CategoriesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /categories/lsort		                                                        controllers.CategoriesView.lsort()
+# Add CategoriesView
+GET     /categories/blank		                                                        controllers.CategoriesView.blank()
+POST    /categories				                                                        controllers.CategoriesView.submit()
+# Edit existing CategoriesView
+GET     /categories/sort/:ids	                                                        controllers.CategoriesView.sort(ids:String)
+GET     /categories/:id			                                                        controllers.CategoriesView.edit(id:Integer)
+POST    /categories/:id			                                                        controllers.CategoriesView.update(id:Integer)
+# Delete a CategoriesView
+POST    /categories/:id/delete		                                                    controllers.CategoriesView.delete(id:Integer)
+
 
 #SocialNetworks
 POST    /garotas/v1/socialnetworks/create                                               controllers.content.women.SocialNetworks.create()
