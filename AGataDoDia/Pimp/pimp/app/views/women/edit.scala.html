@@ -9,7 +9,7 @@
     <div class="twipsies well @className">
         <a class="removeCategory btn btn-primary danger pull-right">Remove this Category: @Html(""+field("category.name").value.getOrElse("NONE"))</a>
         @select(
-            field("category"),
+            field("category.idCategory"),
             models.content.women.Category.toSeq,
             '_label -> "Categoria",
             'class -> "form-control"
