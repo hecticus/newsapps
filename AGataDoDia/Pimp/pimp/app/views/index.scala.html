@@ -34,84 +34,12 @@
 		
 	    <div class="row">		    	
 	    	<div class="col-lg-12">
-				<h2>&Uacute;ltimas noticias</h2>
+				<h2>A GataDo Dia</h2>
 			</div>
 	    </div>
 
-	    <div class="row">		    	
-	    	<div class="col-lg-12">
-				<div class="bs-component">
-					<div class="list-group">
-						@for((news, index) <-  currentPage.getList().zipWithIndex) {
-							<div class="list-group-item">
-                                <a href="@controllers.routes.Application.getPost(news.getIdPost())">
-                                    @if(news.getMedia().size >= 1) {
-                                    <div class="row-picture">
-                                        <img class="circle" src="@news.getMedia().get(0).getLink()" alt="icon">
-                                    </div>
-                                    } else {
-                                    <div class="row-action-primary">
-                                        <i class="icon-material-photo"></i>
-                                    </div>
-                                    }
-
-                                    <div class="row-content">
-                                        <h4 class="list-group-item-heading">@Html(""+news.getIdPost()) - @Html(news.getWoman().getName()) <span class="badge">@news.getMedia().size</span></h4>
-                                        <p class="list-group-item-text">@Html(news.getDateFormatted())</p>
-                                    </div>
-                                </a>
-                            </div>
-                        	<div class="list-group-separator">
-                        		<!--separator-->
-                        	</div>
-						}
-					</div>
-				</div>
-			</div>
-	    </div>
-	    
 	</div>
 	
-	<div class="bs-docs-section">
-		<div class="row">		    	
-	    	<div class="col-lg-12">
-	    		
-	    		<ul class="pager">
-	    			
-	    			 @if(currentPage.hasPrev) {
-	    				<li class="previous">
-	    					<a href="@link(currentPage.getPageIndex - 1, null)">← Anterior</a>
-	    				</li> 	
-	    			 } else {
-	    			 	<li class="previous disabled">
-	    			 		<a href="javascript:void(0)">← Anterior</a>
-						</li> 	
-	    			 }
-	    			 
-	    			<li class="current">
-						<a>Listando del @currentPage.getDisplayXtoYofZ(" al "," de ")</a>
-					</li>
-	    			 
-    				@if(currentPage.hasNext) {
-						<li class="next">
-							<a href="@link(currentPage.getPageIndex + 1, null)">Pr&oacute;ximo →</a>
-						</li>
-    				} else {
-    					<li class="next disabled">
-    						<a href="javascript:void(0)">Pr&oacute;ximo →</a>
-						</li>
-    				}
 
-
-				</ul>
-	    	</div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                    <a href="@controllers.routes.Application.getPost(0)" class="btn btn-primary">Add</a>
-            </div>
-        </div>
-
-	</div>
 
 }
