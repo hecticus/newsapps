@@ -1,6 +1,5 @@
 package controllers;
 
-import models.News;
 import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;

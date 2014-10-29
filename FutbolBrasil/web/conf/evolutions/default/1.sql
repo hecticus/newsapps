@@ -3,6 +3,14 @@
 
 # --- !Ups
 
+create table configs (
+  id_config                 bigint auto_increment not null,
+  config_key                varchar(255),
+  value                     varchar(255),
+  description               varchar(255),
+  constraint pk_configs primary key (id_config))
+;
+
 create table linked_account (
   id                        bigint auto_increment not null,
   user_id                   bigint,
@@ -106,6 +114,8 @@ alter table users_user_permission add constraint fk_users_user_permission_user_p
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
+
+drop table configs;
 
 drop table linked_account;
 

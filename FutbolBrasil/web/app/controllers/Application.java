@@ -1,12 +1,7 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import models.*;
 import be.objectify.deadbolt.java.actions.Group;
@@ -17,6 +12,8 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 
+import models.news.News;
+import models.news.Resource;
 import play.*;
 import play.data.Form;
 import play.libs.Json;
@@ -56,78 +53,7 @@ public class Application extends Controller {
     		index.render(News.page(page, 6, sortBy, order, filter),
     				sortBy, order, filter)
     	);    	
-    }    
-	
-    public static Result getNews() {
-    	
-    	List<News> lstNews = News.getAllNews();
-        ArrayList lstData = new ArrayList();
-        if (lstNews != null && !lstNews.isEmpty()){	
-            for (int i = 0; i < lstNews.size(); i++){
-            	lstData.add(lstNews.get(i).toJson());                             
-            }
-            
-        }
-
-        ObjectNode objResponse = Json.newObject();          
-        ObjectNode objItem = Json.newObject();
-        objItem.put("item", Json.toJson((lstData)));
-        objResponse.put("response",objItem);
-        
-        return ok(objResponse);
-        
     }
-	
-	
-    public static Result getNewsById(Long id) {    	
-    	News objNews = News.getNewsById(id);    	
-    	List<Resource> lstResource = Resource.getAllResourcesAvailable();        
-    	//List<Resource> lstResource = Resource.getAllResource();
-        return ok(summary.render(objNews,lstResource));        
-    }
-    
-
-    public static Result getResource() {
-    	
-    	List<Resource> lstResource = Resource.getAllResource();
-    	 ArrayList lstData = new ArrayList();
-        if (lstResource != null && !lstResource.isEmpty()){	
-            for (int i = 0; i < lstResource.size(); i++){
-            	lstData.add(lstResource.get(i).toJson());                             
-            }
-        }
-
-        ObjectNode objResponse = Json.newObject();          
-        ObjectNode objItem = Json.newObject();
-        objItem.put("item", Json.toJson((lstData)));
-        objResponse.put("response",objItem);
-        
-        return ok(objResponse);
-        
-    }
-	
-    public static Result upResource() {
-    	
-    	ObjectNode jData = getJson();
-    	News objNews = new News();
-    	Resource objResource = new Resource();
-    	List<Resource> lstResource = new ArrayList<Resource>();
-
-    	 for (int i = 0; i < jData.get("resources").size(); i++){
-    		 objResource = Resource.getResource(jData.get("resources").get(i).asLong());
-    		 lstResource.add(objResource);    	                          
-         }
-
-    	objNews = News.getNewsById(jData.get("news").asLong());
-    	objNews.setResources(lstResource);
-    	objNews.update();
-     
-	 	ObjectNode jResponse = Json.newObject();
-	    jResponse.put("response",Json.toJson((objNews)));
-	    
-	    return ok(jResponse);
-   	 
-   }
   
     /*Plugin Authenticate*/    
     
@@ -196,6 +122,12 @@ public class Application extends Controller {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}    
     
-    
+    //NEWS VIEW
+    public static Result getNewsById(Long id) {
+        News objNews = News.getNewsById(id);
+        List<Resource> lstResource = Resource.getAllResourcesAvailable();
+        //List<Resource> lstResource = Resource.getAllResource();
+        return ok(summary.render(objNews, lstResource));
+    }
 
 }

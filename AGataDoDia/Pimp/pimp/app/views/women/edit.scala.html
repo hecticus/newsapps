@@ -9,7 +9,7 @@
     <div class="twipsies well @className">
         <a class="removeCategory btn btn-primary danger pull-right">@Messages("women.category.remove")</a>
         @select(
-            field("category"),
+            field("category.idCategory"),
             models.content.women.Category.toSeq,
             '_label -> Messages("women.category"),
             'class -> "form-control"
