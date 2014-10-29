@@ -180,9 +180,10 @@ public class PostsView extends HecticusController {
                     data.put(fileName, dataFile);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    return badRequest(edit.render(id, filledForm));
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
-                } finally {
                     filledForm.reject("Error uploading file", "For file: " + fileName);
                     return badRequest(edit.render(id, filledForm));
                 }
@@ -366,12 +367,13 @@ public class PostsView extends HecticusController {
                     data.put(fileName, dataFile);
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } finally {
                     filledForm.reject("Error uploading file", "For file: " + fileName);
                     return badRequest(form.render(filledForm));
-                }
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    return badRequest(form.render(filledForm));
+                } 
             }
             ++i;
             exists = filledForm.data().containsKey("media[" + i + "].link");
