@@ -1,6 +1,5 @@
 import java.util.Arrays;
 
-import models.News;
 import models.SecurityRole;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -12,7 +11,7 @@ import controllers.*;
 import play.Application;
 import play.GlobalSettings;
 import play.mvc.Call;
-import views.html.*;
+
 public class Global extends GlobalSettings {
 
 	public void onStart(Application app) {

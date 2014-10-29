@@ -28,6 +28,11 @@ public class FutbolBrasil extends CordovaActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        // Clear cache if you want
+     	super.appView.clearCache(true);
+     	super.clearCache();
+     	
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
     }
