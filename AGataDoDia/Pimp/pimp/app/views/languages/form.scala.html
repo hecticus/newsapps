@@ -9,14 +9,14 @@
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
-            <strong>Error!</strong> @flash.get("success")
+            <strong>@Messages("generic.error.title")</strong> @flash.get("success")
         </div>
     }
 
     @if(languageViewForm.hasErrors) {
         <div class="alert alert-dismissable alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
             <p>@languageViewForm.errorsAsJson</p>
         </div>
     }
@@ -25,28 +25,28 @@
     @helper.form(action = controllers.routes.LanguagesView.submit, 'enctype -> "multipart/form-data") {
 
         <fieldset>
-            <legend>Información del language</legend>
+            <legend>@Messages("languages.info")</legend>
 
             @inputText(
                 languageViewForm("name"),
-                '_label -> "Nombre",
-                '_help -> "Ingrese un nombre válido.",
+                '_label -> Messages("languages.name"),
+                '_help -> Messages("languages.name.help"),
                 'class -> "form-control",
                 '_error -> languageViewForm.globalError
             )
 
             @inputText(
                 languageViewForm("shortName"),
-                '_label -> "Default photo",
-                '_help -> "Ingrese una url válida.",
+                '_label -> Messages("languages.shortname"),
+                '_help -> Messages("languages.shortname.help"),
                 'class -> "form-control",
                 '_error -> languageViewForm.globalError
             )
 
             @inputText(
                 languageViewForm("active"),
-                '_label -> "Active",
-                '_help -> "Ingrese 0 o 1.",
+                '_label -> Messages("languages.active"),
+                '_help -> Messages("languages.active.help"),
                 'class -> "form-control",
                 '_error -> languageViewForm.globalError
             )
@@ -54,8 +54,8 @@
         </fieldset>
 
         <div class="actions">
-            <input type="submit" class="btn primary" value="Crear este language">
-            <a href="@controllers.routes.LanguagesView.list()" class="btn">Cancelar</a>
+            <input type="submit" class="btn btn-success" value=@Messages("languages.submit.create")>
+            <a href="@controllers.routes.LanguagesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
 
     }

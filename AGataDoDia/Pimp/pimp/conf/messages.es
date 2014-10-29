@@ -147,4 +147,149 @@ playauthenticate.restricted.secrets=¡Secretos y más secretos!
 
 ### --- play-authenticate END
 
+main.start=Inicio
+main.women=Mujeres
+main.posts=Publicaciones
+main.languages=Idiomas
+main.countries=Paises
+main.list=Listar
+main.operations=Operaciones
+main.create=Crear
+
+generic.error.title=Error
+generic.error.content=Revise los errores y haga la solicitud de nuevo
+generic.cancel=Cancelar
+generic.list.done=Hecho!
+generic.list.apply=Aplicar
+generic.list.empty=No hay nada que mostrar
+generic.list.previous=Anterior
+generic.list.next=Siguiente
+generic.list.listing=Listando del
+generic.list.through=al
+generic.list.of=de
+
+languages.list.head=Idiomas
+languages.list.title={0,choice,0#No hay Idiomas|1#Un Idioma encontrado|1<{0,number,integer} Idiomas encontrados}
+languages.list.filter.name=Filtrar por nombre del Idioma...
+languages.list.new=Agregar nuevo Idioma
+
+languages.create=Crear Idioma
+languages.edit=Editar Idioma
+languages.info=Informacion del Idioma
+
+languages.name=Nombre
+languages.name.help=Inserte un nombre valido
+
+languages.shortname=Nombre corto
+languages.shortname.help=Inserte un nombre valido
+
+languages.active=Activo
+languages.active.help=inserte 0 o 1
+
+languages.submit.create=Crear este idioma
+languages.submit.update=Actualizar este idioma
+languages.submit.delete=Eliminar este idioma
+
+countries.list.head=Paises
+countries.list.title={0,choice,0#No hay Paises|1#Un Pais encontrado|1<{0,number,integer} Paises encontrados}
+countries.list.filter.name=Filtrar por nombre del Pais...
+countries.list.new=Agregar nuevo Pais
+
+countries.create=Crear Pais
+countries.edit=Editar Pais
+countries.info=Informacion del Pais
+
+countries.name=Nombre
+countries.name.help=Inserte un nombre valido
+
+countries.shortname=Nombre corto
+countries.shortname.help=Inserte un nombre valido
+
+countries.active=Activo
+countries.active.help=inserte 0 o 1
+
+countries.language=Idioma
+
+countries.submit.create=Crear este Pais
+countries.submit.update=Actualizar este Pais
+countries.submit.delete=Eliminar este Pais
+
+women.list.head=Mujeres
 women.list.title={0,choice,0#No hay Mujeres|1#Una Mujer encontrada|1<{0,number,integer} Mujeres encontradas}
+women.list.filter.name=Filtrar por nombre de la Mujer...
+women.list.new=Agregar nueva Mujer
+
+women.create=Crear Mujer
+women.edit=Editar Mujer
+women.info=Informacion de la Mujer
+
+women.category=Categoria
+women.category.plural=Categorias
+women.category.remove=Eliminar esta categoria
+women.category.add=Agregar Categoria
+
+women.socialnetwork=Red Social
+women.socialnetwork.plural=Redes Sociales
+women.socialnetwork.remove=Eliminar esta Red Social
+women.socialnetwork.add=Agregar Red Social
+women.socialnetwork.link=Enlace
+
+women.name=Nombre
+women.name.help=Inserte un nombre valido
+
+women.image=Imagen
+women.image.file=Archivo
+
+women.submit.create=Crear esta Mujer
+women.submit.update=Actualizar esta Mujer
+women.submit.delete=Eliminar esta Mujer
+
+
+post.list.head=Publicaciones
+post.list.title={0,choice,0#No hay Publicaciones|1#Una publicacion encontrada|1<{0,number,integer} publicaciones encontradas}
+post.list.filter.name=Filtrar por nombre de la publicacion...
+post.list.new=Agregar nueva publicacion
+
+post.create=Crear Publicacion
+post.edit=Editar Publicacion
+post.info=Informacion de la Publicacion
+
+post.submit.create=Crear esta publicacion
+post.submit.update=Actualizar esta publicacion
+post.submit.delete=Eliminar esta publicacion
+
+post.push.scheduled=Agendado para ser enviado en
+post.push.scheduled.help=Ingrese un epoch, http://www.epochconverter.com/.
+post.push.pushing=Enviando...
+post.push.pushed=Enviado
+
+post.date=Fecha
+post.date.help=Ingrese una fecha en formato yyyyMMddhhmm.
+
+post.source=Fuente
+post.source.help=Inserte una URL valida
+
+post.socialnetwork=Red Social
+
+post.woman=Mujer
+
+post.localization=Traducciones
+post.localization.remove=Eliminar esta Traduccion
+post.localization.add=Agregar Traduccion
+post.localization.language=Idioma
+post.localization.title=Titulo
+post.localization.content=Contenido
+
+post.country=Pais
+post.country.plural=Paises
+post.country.remove=Eliminar este Pais
+post.country.add=Agregar Pais
+
+post.media=Recursos
+post.media.remove=Eliminar este Recurso
+post.media.add=Agregar Recurso
+post.media.file=Archivo
+post.media.file.type=Tipo de archivo
+post.media.file.final=Archivo - NO CAMBIAR
+post.media.md5.final=MD5 - NO CAMBIAR
+post.media.main=Activa para la Pantalla Principal?

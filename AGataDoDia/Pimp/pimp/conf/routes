@@ -32,7 +32,7 @@ POST    /women/:id/delete		                                                     
 
 #PostsView
 # PostsView list (look at the default values for pagination parameters)
-GET     /posts/list			                                                            controllers.PostsView.list(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
+GET     /posts/list			                                                            controllers.PostsView.list(p:Int ?= 0, s ?= "date", o ?= "desc", f ?= "")
 GET     /posts/lsort		                                                            controllers.PostsView.lsort()
 # Add PostsView
 GET     /posts/blank		                                                            controllers.PostsView.blank()

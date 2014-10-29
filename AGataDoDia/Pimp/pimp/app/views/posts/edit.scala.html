@@ -7,17 +7,17 @@
 
 @localizationGroup(field: Field, className: String = "localization") = {
     <div class="twipsies well @className">
-        <a class="removeLocalization btn btn-primary danger pull-right">Remove this Localization</a>
+        <a class="removeLocalization btn btn-primary danger pull-right">@Messages("post.localization.remove")</a>
         @select(
-            field("language"),
+            field("language.idLanguage"),
             models.basic.Language.toSeq,
-            '_label -> "Language",
+            '_label -> Messages("post.localization.language"),
             'class -> "form-control"
         )
-        @input(field("title"), '_label -> "Title") { (id, name, value, _) =>
+        @input(field("title"), '_label -> Messages("post.localization.title")) { (id, name, value, _) =>
             <input type="text" name="@name" value="@value" class="form-control" >
         }
-        @input(field("content"), '_label -> "Content") { (id, name, value, _) =>
+        @input(field("content"), '_label -> Messages("post.localization.content")) { (id, name, value, _) =>
             <input type="text" name="@name" value="@value" class="form-control" >
         }
     </div>
@@ -25,11 +25,11 @@
 
 @countryGroup(field: Field, className: String = "country") = {
     <div class="twipsies well @className">
-        <a class="removeCountry btn btn-primary danger pull-right">Remove this Country</a>
+        <a class="removeCountry btn btn-primary danger pull-right">@Messages("post.country.remove")</a>
         @select(
-            field("country"),
+            field("country.idCountry"),
             models.basic.Country.toSeq,
-            '_label -> "Country",
+            '_label -> Messages("post.country"),
             'class -> "form-control"
         )
     </div>
@@ -37,27 +37,26 @@
 
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
-        <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
+        <a class="removeMedia btn btn-primary danger pull-right">@Messages("post.media.remove")</a>
         @select(
-            field("fileType"),
+            field("fileType.idFileType"),
             models.content.posts.FileType.toSeq,
-            '_label -> "File Type",
+            '_label -> Messages("post.media.file.type"),
             'class -> "form-control"
         )
-        @inputText(field("mainScreen"), '_label -> "main screen", '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
+        @inputText(field("mainScreen"), '_label -> Messages("post.media.main"), '_error -> postViewForm.globalError, 'class -> "form-control")
         @if(field("link").value.getOrElse("NONE") == "NONE"){
             <div class="form-group">
-                <label for="inputFile" class="col-lg-2 control-label">File</label>
                 <div class="col-lg-10">
-                    @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
+                    @input(field("link"), '_label -> Messages("post.media.file")) { (id, name, value, _) =>
                         <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
                         <input type="file" name="@name" value="@value" id="inputFile" multiple="">
                     }
                 </div>
             </div>
         } else {
-            @inputText(field("md5"), '_label -> "md5 - NO CAMBIAR", '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
-            @input(field("link"), '_label -> "Image - NO CAMBIAR") { (id, name, value, _) =>
+            @inputText(field("md5"), '_label -> Messages("post.media.md5.final"), '_help -> "NO CAMBIAR", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @input(field("link"), '_label -> Messages("post.media.file.final")) { (id, name, value, _) =>
                 <input type="text" name="@name" value="@value" class="form-control">
                 <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
             }
@@ -66,59 +65,55 @@
     </div>
 }
 
-@main(title = "Editar post", nav = "create") {
+@main(title = Messages("post.edit"), nav = "create") {
 
     @if(postViewForm.hasErrors) {
         <div class="alert alert-dismissable alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
-            @postViewForm.errorsAsJson
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@postViewForm.errorsAsJson</p>
         </div>
     }
-
-    <h1>Edit Post</h1>
 
     @helper.form(controllers.routes.PostsView.update(id), 'enctype -> "multipart/form-data", 'id -> "form") {
 
         <fieldset>
-            <legend>Informacion del Post</legend>
+            <legend>@Messages("post.info")</legend>
 
 
             @if(postViewForm("push").value == "1"){
-                @inputText(postViewForm("pushDate"), '_label -> "Scheduled to push on", '_help -> "Ingrese un epoch, http://www.epochconverter.com/.", '_error -> postViewForm.globalError, 'class -> "form-control")
+                @inputText(postViewForm("pushDate"), '_label -> Messages("post.push.scheduled"), '_help -> Messages("post.push.scheduled.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
             }else{
                 @if(postViewForm("push").value == "2"){
-                    <p class="text-danger">Pushing...</p>
+                    <p class="text-danger">@Messages("post.push.pushing")</p>
                 }else{
                     @if(postViewForm("push").value == "3"){
-                        <p class="text-success">Pushed on @Html(postViewForm("pushDate").value)</p>
+                        <p class="text-success">@Messages("post.push.pushed") @Html(postViewForm("pushDate").value)</p>
                     }
                 }
             }
 
+            @inputText(postViewForm("date"), '_label -> Messages("post.date"), '_help -> Messages("post.date.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
 
-
-            @inputText(postViewForm("date"), '_label -> "Date", '_help -> "Ingrese una fecha en formato yyyyMMddhhmm.", '_error -> postViewForm.globalError, 'class -> "form-control")
-
-            @inputText(postViewForm("source"), '_label -> "Source", '_help -> "Ingrese un link válido.", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(postViewForm("source"), '_label -> Messages("post.source"), '_help -> Messages("post.source.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
             @select(
-                postViewForm("socialNetwork"),
+                postViewForm("socialNetwork.idSocialNetwork"),
                 models.content.women.SocialNetwork.toSeq,
-                '_label -> "Social Network",
+                '_label -> Messages("post.socialnetwork"),
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
             @select(
-                postViewForm("woman"),
+                postViewForm("woman.idWoman"),
                 models.content.women.Woman.toSeq,
-                '_label -> "Woman",
+                '_label -> Messages("post.woman"),
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Localizations</h2>
+                    <h2>@Messages("post.localization")</h2>
                 </div>
             </div>
             <div id="localizations">
@@ -134,14 +129,14 @@
                 )
 
                 <div class="manage">
-                    <a class="addLocalization btn btn-primary success">Add another Localization</a>
+                    <a class="addLocalization btn btn-primary success">@Messages("post.localization.add")</a>
                 </div>
 
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Countries</h2>
+                    <h2>@Messages("post.country.plural")</h2>
                 </div>
             </div>
             <div id="countries">
@@ -157,7 +152,7 @@
                 )
 
                 <div class="manage">
-                    <a class="addCountry btn btn-primary success">Add another Country</a>
+                    <a class="addCountry btn btn-primary success">@Messages("post.country.add")</a>
                 </div>
 
             </div>
@@ -165,7 +160,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Media</h2>
+                    <h2>@Messages("post.media")</h2>
                 </div>
             </div>
             <div id="Media">
@@ -181,7 +176,7 @@
                 )
 
                 <div class="manage">
-                    <a class="addMedia btn btn-primary success">Add another Media</a>
+                    <a class="addMedia btn btn-primary success">@Messages("post.media.add")</a>
                 </div>
 
             </div>
@@ -189,14 +184,14 @@
         </fieldset>
 
         <div class="actions">
-            <input type="submit" value="Actualizar este post" onclick="return confirm('¿Por favor confirmar que desea actualizar la información del post?');" class="btn btn-primary">
-            <a href="@controllers.routes.PostsView.list()" class="btn">Cancelar</a>
+            <input type="submit" value=@Messages("post.submit.update") class="btn btn-success">
+            <a href="@controllers.routes.PostsView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
 
     }
 
     @form(controllers.routes.PostsView.delete(id), 'class -> "topRight") {
-        <input type="submit" value="Eliminar este post" onclick="return confirm('¿Por favor confirmar que desea eliminar la información de este post?');" class="btn btn-danger">
+        <input type="submit" value=@Messages("post.submit.delete") class="btn btn-danger">
 
     }
 

@@ -7,54 +7,41 @@
 
 @localizationGroup(field: Field, className: String = "localization") = {
     <div class="twipsies well @className">
-        <a class="removeLocalization btn btn-primary danger pull-right">Remove this Localization</a>
-        @if(field("language").value.getOrElse("NONE") == "NONE"){
-            @select(
-                field("language"),
-                models.basic.Language.toSeq,
-                '_label -> "Language",
-                'class -> "form-control"
-            )
-        } else {
-            @input(field("language.name"), '_label -> "Language") { (id, name, value, _) =>
-                <input type="text" name="@name" value="@value" class="form-control" disabled>
-            }
-        }
-        @input(field("title"), '_label -> "Title") { (id, name, value, _) =>
+        <a class="removeLocalization btn btn-primary danger pull-right">@Messages("post.localization.remove")</a>
+        @select(
+            field("language.idLanguage"),
+            models.basic.Language.toSeq,
+            '_label -> Messages("post.localization.language"),
+            'class -> "form-control"
+        )
+        @input(field("title"), '_label -> Messages("post.localization.title")) { (id, name, value, _) =>
             <input type="text" name="@name" value="@value" class="form-control" >
         }
-        @input(field("content"), '_label -> "Content") { (id, name, value, _) =>
+        @input(field("content"), '_label -> Messages("post.localization.content")) { (id, name, value, _) =>
             <input type="text" name="@name" value="@value" class="form-control" >
         }
     </div>
 }
 
 @countryGroup(field: Field, className: String = "country") = {
-<div class="twipsies well @className">
-    <a class="removeCountry btn btn-primary danger pull-right">Remove this Country</a>
-    @if(field("country").value.getOrElse("NONE") == "NONE"){
+    <div class="twipsies well @className">
+        <a class="removeCountry btn btn-primary danger pull-right">@Messages("post.country.remove")</a>
         @select(
-            field("country"),
+            field("country.idCountry"),
             models.basic.Country.toSeq,
-            '_label -> "Country",
+            '_label -> Messages("post.country"),
             'class -> "form-control"
         )
-    } else {
-        @input(field("country.name"), '_label -> "Country") { (id, name, value, _) =>
-            <input type="text" name="@name" value="@value" class="form-control" disabled>
-        }
-    }
-</div>
+    </div>
 }
 
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
-        <a class="removeMedia btn btn-primary danger pull-right">Remove this media</a>
-        @inputText(field("mainScreen"), '_label -> "main screen", '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
+        <a class="removeMedia btn btn-primary danger pull-right">@Messages("post.media.remove")</a>
+        @inputText(field("mainScreen"), '_label -> Messages("post.media.main"), '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
         <div class="form-group">
-            <label for="inputFile" class="col-lg-2 control-label">File NONE</label>
             <div class="col-lg-10">
-                @input(field("link"), '_label -> "Image") { (id, name, value, _) =>
+                @input(field("link"), '_label -> Messages("post.media.file")) { (id, name, value, _) =>
                     <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
                     <input type="file" name="@name" value="@value" id="inputFile" multiple="">
                 }
@@ -63,7 +50,7 @@
     </div>
 }
 
-@main(title = "Crear Post", nav = "create") {
+@main(title = Messages("post.create"), nav = "create") {
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
@@ -74,8 +61,8 @@
     @if(postViewForm.hasErrors) {
         <div class="alert alert-dismissable alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
-            @postViewForm.errorsAsJson
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@postViewForm.errorsAsJson</p>
         </div>
     }
 
@@ -83,32 +70,31 @@
     @helper.form(action = controllers.routes.PostsView.submit, 'enctype -> "multipart/form-data", 'id -> "form") {
 
         <fieldset>
-            <legend>Información del Post</legend>
+            <legend>@Messages("post.info")</legend>
 
-            @inputText(postViewForm("pushDate"), '_label -> "Scheduled to push on", '_help -> "Ingrese un epoch, http://www.epochconverter.com/.", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(postViewForm("pushDate"), '_label -> Messages("post.push.scheduled"), '_help -> Messages("post.push.scheduled.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
 
-            @inputText(postViewForm("date"), '_label -> "Date", '_help -> "Ingrese una fecha en formato yyyyMMddhhmm.", '_error -> postViewForm.globalError, 'class -> "form-control")
-
+            @inputText(postViewForm("date"), '_label -> Messages("post.date"), '_help -> Messages("post.date.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
 
             @inputText(
                 postViewForm("source"),
-                '_label -> "Source",
-                '_help -> "Ingrese un nombre válido.",
+                '_label -> Messages("post.source"),
+                '_help -> Messages("post.source.help"),
                 'class -> "form-control",
                 '_error -> postViewForm.globalError
             )
 
             @select(
-                postViewForm("socialNetwork"),
+                postViewForm("socialNetwork.idSocialNetwork"),
                 models.content.women.SocialNetwork.toSeq,
-                '_label -> "Social Network",
+                '_label -> Messages("post.socialnetwork"),
                 'class -> "form-control"
             )
 
             @select(
-                postViewForm("woman"),
+                postViewForm("woman.idWoman"),
                 models.content.women.Woman.toSeq,
-                '_label -> "Woman",
+                '_label -> Messages("post.woman"),
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
@@ -117,7 +103,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Localizations</h2>
+                    <h2>@Messages("post.localization")</h2>
                 </div>
             </div>
 
@@ -134,14 +120,14 @@
                 )
 
                 <div class="manage">
-                    <a class="addLocalization btn btn-primary success">Add another Localization</a>
+                    <a class="addLocalization btn btn-primary success">@Messages("post.localization.add")</a>
                 </div>
 
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Countries</h2>
+                    <h2>@Messages("post.country.plural")</h2>
                 </div>
             </div>
             <div id="countries">
@@ -157,7 +143,7 @@
                 )
 
                 <div class="manage">
-                    <a class="addCountry btn btn-primary success">Add another Country</a>
+                    <a class="addCountry btn btn-primary success">@Messages("post.country.add")</a>
                 </div>
 
             </div>
@@ -165,7 +151,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Media</h2>
+                    <h2>@Messages("post.media")</h2>
                 </div>
             </div>
             <div id="Media">
@@ -181,7 +167,7 @@
                 )
 
                 <div class="manage">
-                    <a class="addMedia btn btn-primary success">Add another Media</a>
+                    <a class="addMedia btn btn-primary success">@Messages("post.media.add")</a>
                 </div>
 
             </div>
@@ -189,8 +175,8 @@
         </fieldset>
 
         <div class="actions">
-            <input type="submit" class="btn primary" value="Crear este Post">
-            <a href="@controllers.routes.PostsView.list()" class="btn">Cancelar</a>
+            <input type="submit" class="btn btn-success" value=@Messages("post.submit.create")>
+            <a href="@controllers.routes.PostsView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
 
     }
@@ -198,7 +184,6 @@
     <script type="text/javascript" charset="utf-8">
 
         $(document).on('click','.removeLocalization', function(e) {
-            console.log("ESTO NO LO VEO")
             $(this).parents('.localization').remove()
             renumberLocalizations()
         })
@@ -213,7 +198,6 @@
             $('.localization').each(function(i) {
                 $('select', this).each(function() {
                     $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
-                    console.log("renaming")
                 })
                 $('input', this).each(function() {
                     $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
@@ -228,7 +212,6 @@
 
         $(document).on('click','.addCountry', function(e) {
             var template = $('.country_template')
-            console.log(template)
             template.before('<div class="twipsies well country">' + template.html() + '</div>')
             renumberCountries()
         })

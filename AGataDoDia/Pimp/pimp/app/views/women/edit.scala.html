@@ -7,11 +7,11 @@
 
 @categoryGroup(field: Field, className: String = "category") = {
     <div class="twipsies well @className">
-        <a class="removeCategory btn btn-primary danger pull-right">Remove this Category: @Html(""+field("category.name").value.getOrElse("NONE"))</a>
+        <a class="removeCategory btn btn-primary danger pull-right">@Messages("women.category.remove")</a>
         @select(
             field("category"),
             models.content.women.Category.toSeq,
-            '_label -> "Categoria",
+            '_label -> Messages("women.category"),
             'class -> "form-control"
         )
     </div>
@@ -19,70 +19,62 @@
 
 @socialNetworkGroup(field: Field, className: String = "socialNetwork") = {
     <div class="twipsies well @className">
-        <a class="removeSocialNetwork btn btn-primary danger pull-right">Remove this Social Network: @Html(""+field("socialNetwork").value.getOrElse("NONE"))</a>
+        <a class="removeSocialNetwork btn btn-primary danger pull-right">@Messages("women.socialnetwork.remove")</a>
         @select(
             field("socialNetwork"),
             models.content.women.SocialNetwork.toSeq,
-            '_label -> "Categoria",
+            '_label -> Messages("women.socialnetwork"),
             'class -> "form-control"
         )
-        @input(field("link"), '_label -> "Link") { (id, name, value, _) =>
+        @input(field("link"), '_label -> Messages("women.socialnetwork.link")) { (id, name, value, _) =>
             <input type="text" name="@name" value="@value" class="form-control" >
         }
     </div>
 }
 
-@main(title = "Editar mujer", nav = "create") {
+@main(title = Messages("women.edit"), nav = "create") {
 
     @if(womenViewForm.hasErrors) {
         <div class="alert alert-dismissable alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
             <p>@womenViewForm.errorsAsJson</p>
         </div>
     }
     
-    <h1>Edit Woman</h1>
-    
+
      @helper.form(controllers.routes.WomenView.update(id), 'enctype -> "multipart/form-data", 'id -> "form") {
         
         <fieldset>
-        	<legend>Informacion de la mujer</legend>
+        	<legend>@Messages("women.info")</legend>
         	
         	@inputText(womenViewForm("name"),
-                '_label -> "Nombre",
-                '_help -> "Ingrese un nombre válido.",
+                '_label -> Messages("women.name"),
+                '_help -> Messages("women.name.help"),
                 'class -> "form-control",
                 '_error -> womenViewForm.globalError)
 
 
 
-            @if(womenViewForm("defaultPhoto").value == null || womenViewForm("defaultPhoto").value.equals("")){
-                <div class="form-group">
-                    <label for="inputFile" class="col-lg-2 control-label">File</label>
-                    <div class="col-lg-10">
-                        <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
-                        <input type="file" id="inputFile" multiple="">
+            <div class="form-group">
+                <div class="col-lg-4">
+                <label for="inputFile" class="col-lg-2 control-label">@Messages("women.image")</label>
+                    <div class="col-lg-12">
+                        <img class="img-rounded" src=@womenViewForm("defaultPhoto").value alt="icon" style="width: 100px; height: 100px;" >
                     </div>
                 </div>
-            } else {
-                <div class="col-lg-4">
-                    @input(womenViewForm("defaultPhoto"), '_label -> "Foto default") { (id, name, value, _) =>
-                        <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
+                <div class="col-lg-8">
+                    @input(womenViewForm("defaultPhoto"), '_label -> Messages("women.image.file")) { (id, name, value, _) =>
+                        <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                        <input type="file" name="@name" value="@value" id="inputFile" multiple="">
+
                     }
                 </div>
-                <div class="col-lg-8">
-                    @inputText(womenViewForm("defaultPhoto"),
-                        '_label -> "Foto URL",
-                        '_help -> "Ingrese una url válida.",
-                        'class -> "form-control",
-                        '_error -> womenViewForm.globalError)
-                </div>
-            }
+            </div>
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Categories</h2>
+                    <h2>@Messages("women.category.plural")</h2>
                 </div>
             </div>
             <div id="categories">
@@ -98,11 +90,16 @@
                 )
 
                 <div class="manage">
-                    <a class="addCategory btn btn-primary success">Add another category</a>
+                    <a class="addCategory btn btn-primary success">@Messages("women.category.add")</a>
                 </div>
 
             </div>
 
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("women.socialnetwork.plural")</h2>
+                </div>
+            </div>
             <div id="socialNetworks">
 
                 @repeat(womenViewForm("socialNetworks")) { socialNetwork =>
@@ -116,7 +113,7 @@
                 )
 
                 <div class="manage">
-                    <a class="addSocialNetworks btn btn-primary success">Add another Social Networks</a>
+                    <a class="addSocialNetworks btn btn-primary success">@Messages("women.socialnetwork.add")</a>
                 </div>
 
             </div>
@@ -124,14 +121,14 @@
         </fieldset>
 
         <div class="actions">        	        	 
-            <input type="submit" value="Actualizar esta mujer" onclick="return confirm('¿Por favor confirmar que desea actualizar la información de la mujer?');" class="btn btn-success">
-            <a href="@controllers.routes.WomenView.list()" class="btn btn-primary">Cancelar</a>
+            <input type="submit" value=@Messages("women.submit.update") class="btn btn-success">
+            <a href="@controllers.routes.WomenView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
             
     }
     
     @form(controllers.routes.WomenView.delete(id), 'class -> "topRight") {
-		<input type="submit" value="Eliminar esta mujer" onclick="return confirm('¿Por favor confirmar que desea eliminar la información de esta mujer?');" class="btn btn-danger">
+		<input type="submit" value=@Messages("women.submit.delete") class="btn btn-danger">
 		
     }
 
@@ -153,20 +150,10 @@
         console.log("PASO?????");
             $('.category').each(function(i) {
                 $('select', this).each(function() {
-                    console.log("PASO "+$(this).attr('name'));
                     $(this).attr('name', $(this).attr('name').replace(/categories\[.+?\]/g, 'categories[' + i + ']'))
                     $(this).attr('id', $(this).attr('id').replace(/categories\_x/g, 'categories_' + i))
 
                 })
-                /*$('label', this).each(function() {
-                    console.log("PASO1 "+$(this).attr('for'));
-                    $(this).attr('for', $(this).attr('for').replace(/categories\_x/g, 'categories_' + i))
-                })
-
-                $('div', this).each(function() {
-                    console.log("PASO2 "+$(this).attr('id'));
-                    //$(this).attr('id', $(this).attr('id').replace(/categories\_x/g, 'categories_' + i))
-                })*/
             })
         }
 

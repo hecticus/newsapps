@@ -5,7 +5,7 @@
 
 @title = {}
 
-@main(title = "Crear Country", nav = "create") {
+@main(title = Messages("countries.create"), nav = "create") {
 
     @if(flash.containsKey("success")) {
     <div class="alert-message warning">
@@ -16,7 +16,7 @@
     @if(countryViewForm.hasErrors) {
         <div class="alert alert-dismissable alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">Change a few things up</a> and try submitting again.
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
             <p>@countryViewForm.errorsAsJson</p>
         </div>
     }
@@ -25,28 +25,28 @@
     @helper.form(action = controllers.routes.CountriesView.submit) {
 
         <fieldset>
-            <legend>Información del Country</legend>
+            <legend>@Messages("countries.info")</legend>
 
             @inputText(
                 countryViewForm("name"),
-                '_label -> "Nombre",
-                '_help -> "Ingrese un nombre válido.",
+                '_label -> Messages("countries.name"),
+                '_help -> Messages("countries.name.help"),
                 'class -> "form-control",
                 '_error -> countryViewForm.globalError
             )
 
             @inputText(
                 countryViewForm("shortName"),
-                '_label -> "Short Name",
-                '_help -> "Ingrese una url válida.",
+                '_label -> Messages("countries.shortname"),
+                '_help -> Messages("countries.shortname.help"),
                 'class -> "form-control",
                 '_error -> countryViewForm.globalError
             )
 
             @inputText(
                 countryViewForm("active"),
-                '_label -> "Active",
-                '_help -> "Ingrese 0 o 1.",
+                '_label -> Messages("countries.active"),
+                '_help -> Messages("countries.active.help"),
                 'class -> "form-control",
                 '_error -> countryViewForm.globalError
             )
@@ -54,15 +54,15 @@
             @select(
                 countryViewForm("language"),
                 models.basic.Language.toSeq,
-                '_label -> "Language",
+                '_label -> Messages("countries.language"),
                 'class -> "form-control"
             )
 
         </fieldset>
 
         <div class="actions">
-            <input type="submit" class="btn primary" value="Crear este country">
-            <a href="@controllers.routes.CountriesView.list()" class="btn">Cancelar</a>
+            <input type="submit" class="btn btn-success" value=@Messages("countries.submit.create")>
+            <a href="@controllers.routes.CountriesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
 
     }

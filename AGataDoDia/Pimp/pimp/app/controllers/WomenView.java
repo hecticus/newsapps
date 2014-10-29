@@ -84,7 +84,7 @@ public class WomenView extends HecticusController {
             }
         });
 
-		models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);
+		models.content.women.Woman woman = models.content.women.Woman.finder.byId(id);
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
         System.out.println("IMPRIMIENDO!!!!");
         System.out.println(filledForm.toString());
@@ -92,28 +92,30 @@ public class WomenView extends HecticusController {
 			return badRequest(edit.render(id, filledForm));
 		}
 
-//        Http.MultipartFormData body = request().body().asMultipartFormData();
-//        ObjectNode data = Json.newObject();
-//        String link = "";
-//        boolean change = false;
-//        if(filledForm.data().containsKey("defaultPhoto")){
-//            Http.MultipartFormData.FilePart picture = body.getFile("defaultPhoto");
-//            String fileName = picture.getFilename();
-//            String contentType = picture.getContentType();
-//            File file = picture.getFile();
-//            String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
-//            try {
-//                link = Utils.uploadAttachment(file, id, fileExtension);
-//                change = true;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-		
+        boolean change = false;
+        String link = "";
+        if(filledForm.data().containsKey("defaultPhoto")){
+            String defaultPhoto = filledForm.data().get("defaultPhoto");
+            if(!woman.getDefaultPhoto().equalsIgnoreCase(defaultPhoto)){
+                Http.MultipartFormData body = request().body().asMultipartFormData();
+                Http.MultipartFormData.FilePart picture = body.getFile("defaultPhoto");
+                String fileName = picture.getFilename();
+                String contentType = picture.getContentType();
+                File file = picture.getFile();
+                String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
+                try {
+                    link = Utils.uploadAttachment(file, id, fileExtension);
+                    change = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     	models.content.women.Woman gfilledForm = filledForm.get();
-//        if(change) {
-//            gfilledForm.setDefaultPhoto(link);
-//        }
+        if(change) {
+            gfilledForm.setDefaultPhoto(link);
+        }
         gfilledForm.setIdWoman(id);
     	gfilledForm.update(id);
 		

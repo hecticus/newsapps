@@ -39,7 +39,7 @@ public class PostsView extends HecticusController {
     private static final int TTL = 900;
 
     final static Form<Post> PostViewForm = form(Post.class);
-    public static Result GO_HOME = redirect(routes.PostsView.list(0, "date", "asc", ""));
+    public static Result GO_HOME = redirect(routes.PostsView.list(0, "date", "desc", ""));
 
     //@Security.Authenticated(Secured.class)
     public static Result index() {
@@ -220,7 +220,7 @@ public class PostsView extends HecticusController {
 
     //@Security.Authenticated(Secured.class)
     public static Result lsort() {
-        return ok(list.render(Post.page(0, 0,"date", "asc", ""),"date", "asc", "",true));
+        return ok(list.render(Post.page(0, 0,"date", "desc", ""),"date", "desc", "",true));
     }
 
     //@Security.Authenticated(Secured.class)
