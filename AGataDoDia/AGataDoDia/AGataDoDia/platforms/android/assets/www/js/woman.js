@@ -1,2 +1,1 @@
-
-	_fRenderListPost(_url + '/v1/posts/list/woman/' + _jParameters.woman);
+_fRenderListPost(_url + '/v1/posts/get/client/woman/' + _jParameters.client + '/' + _jParameters.woman);

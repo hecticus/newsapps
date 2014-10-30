@@ -2,17 +2,20 @@
 	var _url = 'http://gatadodia.hecticus.com/garotas';
 	var _jParameters = {client:1};
 	var _jMenu = [];
-	
+	var _oAjax = false;
 	var currentScreen = 0;
-
-	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false, exitFromApp:true});
-	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false, exitFromApp:false});
-	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false, exitFromApp:false});
-	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false, exitFromApp:false});
-	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false, exitFromApp:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false, exitFromApp:true});
-	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false, exitFromApp:false});
-	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false, exitFromApp:false});
+	
+	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
+	
+	
 	
 	var _jApp = {
 		
@@ -44,8 +47,9 @@
 				this.refresh();
 				$('body').removeClass();
 				$('body').addClass(_jMenu[_index].class);
-				$('main').empty();
-				$('main').data('',_index);
+				$('main').empty();				
+				$('main').data('referer', $('main').data('index'));				
+				$('main').data('index',_index);
 				this.loading();		
 				$('main').load(_jMenu[_index].load);
 	
@@ -66,17 +70,17 @@
 	  	},
 	  	
 	  	back: function() {
-	  		
+
 	  		if ($('#wrapper2').hasClass('left')) {						
 				$('#wrapper2').attr('class','page transition right');							
+			} else {
+				if(_jMenu[currentScreen].exitFromApp){
+					exitApp();
+				}else{
+					this.load(0);
+				}
 			}
-	  		console.log("BACK!! "+currentScreen);
-	  		//salir de la aplicacion completamente si esta en el home
-	  		if(_jMenu[currentScreen].exitFromApp){
-				exitApp();
-			}else{
-				this.load(0);
-			}
+				
 	  	}
 
 	  	   
@@ -91,6 +95,24 @@
 		
 		return true;	
 	};
+
+
+	$(document).on('click','[data-touch="post"]', function(e) {
+	
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		$('#wrapper2').attr('class','page transition left');
+						
+		var _load = $(this).data('target');
+		var _param = $(this).data('param');
+		var _value = $(this).data('value');
+		
+		if ((_param) || (_value)) {
+			eval('_jParameters.'+ _param +' = ' + _value);			
+			_fRenderPost();	
+		}
+
+	});
 
 
 	$(document).on('click','[data-touch="load"]', function(e) {
@@ -138,8 +160,6 @@
 		if(_fPreventDefaultClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 		
-		alert('HELLO!');
-		
 		var _woman = $(this).data('woman');
 		var _data = {'add_woman': [],'remove_woman': []};
 		
@@ -159,12 +179,15 @@
 
 	var _fRenderListPost =  function(_url) {
 		
-		var _oAjax = _fGetAjaxJson(_url);
+		if ($('main').data('referer') != 2) _oAjax = _fGetAjaxJson(_url);
 	
 		if (_oAjax) {		
 			_oAjax.done(function(_json) {
 
-				_html = '';
+				var _html = '';				
+				_jMenu[$('main').data('index')].data = _json;
+				
+				
 				$.each(_json.response, function(_index,_item) {
 						
 					_html += '<div class="row">';
@@ -179,7 +202,7 @@
 					
 					_html += '<div class="row">';
 						_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px;" >';
-							_html += '<i class="icon icon-material-camera-alt" data-touch="post" data-post="' + _item.id_post + '"></i><span class="badge">' + _item.woman.posts + '</span>';
+							_html += '<i class="icon icon-material-camera-alt" data-touch="post" data-param="post" data-target="2" data-value="' + _item.id_post + '" ></i><span class="badge">' + _item.woman.posts + '</span>';
 							_html += '<i class="icon icon-material-group" ></i><span class="badge">' + _item.woman.clients + '</span>';
 						_html += '</div>';		
 			
@@ -213,10 +236,13 @@
 					_html += '<br />';
 						
 					$.each(_item.files, function(_index,_file) {					
-						var _img = $('img #img').attr('src',_file);				
+						var _img = $('img #img').attr('src',_file);
 					});												
 						
-									
+
+
+					
+				
 				});		
 				
 							
@@ -229,3 +255,71 @@
 		
 		
 	};
+	
+	
+	var _fRenderPost =  function() {
+		
+		if (_oAjax) {
+			
+			var _width = $(window).width();
+			var _html = '';
+						
+			_oAjax.done(function(_json) {
+				var _break = false;
+				$.each(_json.response, function(_index,_item) {
+					
+					if (_item.id_post == _jParameters.post) {
+	
+	
+						_width = parseInt($(window).width() * _item.files.length);
+						$.each(_item.files, function(_index,_file) {
+							
+							_html += '<figure style="width:' + $(window).width() + 'px; height:' + parseInt($(window).height() - 55) + 'px; float:left; " >';
+								_html += '<img onerror="this.style.display=\'none\'" src="' + _file + '" alt="' + _item.woman.name + '" class="img-rounded" style="margin: auto; position: absolute;  z-index: 1; top: 0px; left: 0px; right: 0px;"   />';
+	
+								_html += '<div class="row" style="position: absolute; z-index: 5; top:30px; right:0px; text-align:center;">';
+									_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:5px !important;">';
+										_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+									_html += '</div>';
+									_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
+										_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _file + '\', \'' + _item.source + '\');"></i>';
+									_html += '</div>';
+								_html += '</div>';
+										
+							_html += '</figure>';
+															
+						});
+			
+						if (_item.files.length >= 2) {
+							$('.carousel-control').removeClass('hidden');
+						}
+	
+						_break = true;
+						
+					}	 
+									
+					if (_break) return true;
+									
+				});
+		
+	
+					
+				
+											
+			});
+
+			$('#wrapper2').css('width', $(window).width() + 'px');
+			$('#wrapper2 .scroller').css('width',  _width + 'px');
+			$('#wrapper2 .scroller .container').empty();		
+			$('#wrapper2 .scroller .container').append(_html);
+			
+			
+			_scrollPost.scrollTo(0,0,0);
+			_scrollPost.refresh();
+		
+		}
+	};
+	
+	
+	
+	
