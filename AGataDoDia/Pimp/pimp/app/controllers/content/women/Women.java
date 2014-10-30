@@ -210,4 +210,19 @@ public class Women extends HecticusController {
         woman.save();
         return woman;
     }
+
+    public static Result hallOfFame(){
+        try {
+            Iterator<Woman> womanIterator = Woman.finder.fetch("categories").where().eq("categories.category.idCategory", Config.getInt("id-hall-of-fame")).setFirstRow(0).setMaxRows(10).findList().iterator();
+            ArrayList<ObjectNode> women = new ArrayList<ObjectNode>();
+            while(womanIterator.hasNext()){
+                women.add(womanIterator.next().toJson());
+            }
+            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(women));
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Women.class, "Error manejando garotas", "error listando hall de la fama ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
 }

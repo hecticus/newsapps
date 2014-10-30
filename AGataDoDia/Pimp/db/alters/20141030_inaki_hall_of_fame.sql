@@ -1,0 +1,2 @@
+INSERT INTO `pimp`.`categories` (`id_category`, `name`) VALUES ('7', 'Salon de la Fama');
+INSERT INTO `pimp`.`configs` (`config_key`, `value`, `description`) VALUES ('id-hall-of-fame', '7', 'id del hall de la fama');

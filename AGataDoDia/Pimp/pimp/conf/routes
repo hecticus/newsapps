@@ -8,7 +8,6 @@
 GET     /                      		                                                    controllers.Application.index(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
 GET     /index                                                                          controllers.Application.index(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
 
-GET     /getImg/*name                                                                   controllers.Application.getImg(name : String)
 
 GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
 GET     /garotas/loading                                                                controllers.Application.getAppSettings()
@@ -108,6 +107,7 @@ POST    /garotas/v1/women/delete/:id                                            
 GET     /garotas/v1/women/get/:id                                                       controllers.content.women.Women.get(id : Integer)
 GET     /garotas/v1/women/list                                                          controllers.content.women.Women.list(pageSize: Integer?=0, page: Integer?=0)
 GET     /garotas/v1/women/sort/:ids                                                     controllers.WomenView.sort(ids:String)
+GET     /garotas/v1/women/halloffame                                                    controllers.content.women.Women.hallOfFame()
 
 #FileTypes
 POST    /garotas/v1/filetypes/create                                                    controllers.content.posts.FileTypes.create()
@@ -149,11 +149,6 @@ POST    /garotas/v1/clients/upstream/game/user/subscribe                        
 POST    /garotas/v1/clients/upstream/game/user/login                                    controllers.client.Clients.upstreamFakeLogin()
 POST    /garotas/v1/clients/upstream/game/user/status                                   controllers.client.Clients.upstreamFakeStatus()
 POST    /garotas/v1/clients/upstream/game/user/password                                 controllers.client.Clients.upstreamFakeResetPass()
-
-#view
-
-GET     /posts/:id         			                                                    controllers.Application.getPost(id:Integer)
-
 
 # Authenticate
 GET     /restricted                                                                     controllers.Application.restricted
