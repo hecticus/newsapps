@@ -2,15 +2,17 @@
 	var _url = 'http://gatadodia.hecticus.com/garotas';
 	var _jParameters = {client:1};
 	var _jMenu = [];
+	
+	var currentScreen = 0;
 
-	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false, exitFromApp:true});
+	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false, exitFromApp:false});
+	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false, exitFromApp:false});
+	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false, exitFromApp:false});
+	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false, exitFromApp:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false, exitFromApp:true});
+	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false, exitFromApp:false});
+	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false, exitFromApp:false});
 	
 	var _jApp = {
 		
@@ -36,7 +38,7 @@
 		
 		load: function(_index) {
 			
-			
+			currentScreen = _index;
 			try {
 
 				this.refresh();
@@ -67,9 +69,14 @@
 	  		
 	  		if ($('#wrapper2').hasClass('left')) {						
 				$('#wrapper2').attr('class','page transition right');							
-			}	
-			
-			this.load(0);
+			}
+	  		console.log("BACK!! "+currentScreen);
+	  		//salir de la aplicacion completamente si esta en el home
+	  		if(_jMenu[currentScreen].exitFromApp){
+				exitApp();
+			}else{
+				this.load(0);
+			}
 	  	}
 
 	  	   

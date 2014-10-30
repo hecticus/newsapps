@@ -77,5 +77,13 @@
 	};
 	
 	
-	
+	function exitApp(){
+		try{clearInterval(newsRefreshInterval);}catch(e){}
+		//gaPlugin.exit(successGAHandler, successGAHandler);
+		if (navigator.app) {					
+	        navigator.app.exitApp();				            
+	    } else if (navigator.device) {			        	
+	        navigator.device.exitApp();				            				          
+	    }
+	}
 	
