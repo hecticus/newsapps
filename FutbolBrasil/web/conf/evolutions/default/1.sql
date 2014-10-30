@@ -3,12 +3,71 @@
 
 # --- !Ups
 
+create table clients (
+  id_client                 integer auto_increment not null,
+  user_id                   varchar(255),
+  status                    integer,
+  login                     varchar(255),
+  password                  varchar(255),
+  last_check_date           varchar(255),
+  id_country                integer,
+  constraint pk_clients primary key (id_client))
+;
+
+create table client_has_devices (
+  id_client_has_devices     integer auto_increment not null,
+  id_client                 integer,
+  id_device                 integer,
+  registration_id           varchar(255),
+  constraint pk_client_has_devices primary key (id_client_has_devices))
+;
+
+create table client_has_push_alerts (
+  id_client_has_push_alert  integer auto_increment not null,
+  name                      varchar(255),
+  id_client                 integer,
+  id_push_alert             integer,
+  constraint pk_client_has_push_alerts primary key (id_client_has_push_alert))
+;
+
 create table configs (
   id_config                 bigint auto_increment not null,
   config_key                varchar(255),
   value                     varchar(255),
   description               varchar(255),
   constraint pk_configs primary key (id_config))
+;
+
+create table countries (
+  id_country                integer auto_increment not null,
+  name                      varchar(255),
+  short_name                varchar(255),
+  active                    integer,
+  id_language               integer,
+  constraint pk_countries primary key (id_country))
+;
+
+create table devices (
+  id_device                 integer auto_increment not null,
+  name                      varchar(255),
+  constraint pk_devices primary key (id_device))
+;
+
+create table instances (
+  id_instance               integer auto_increment not null,
+  ip                        varchar(255),
+  name                      varchar(255),
+  running                   integer,
+  test                      integer,
+  constraint pk_instances primary key (id_instance))
+;
+
+create table languages (
+  id_language               integer auto_increment not null,
+  name                      varchar(255),
+  short_name                varchar(255),
+  active                    integer,
+  constraint pk_languages primary key (id_language))
 ;
 
 create table linked_account (
@@ -27,6 +86,14 @@ create table news (
   date                      varchar(255),
   sort                      integer,
   constraint pk_news primary key (id))
+;
+
+create table push_alerts (
+  id_push_alert             integer auto_increment not null,
+  name                      varchar(255),
+  id_ext                    integer,
+  pushable                  tinyint(1) default 0,
+  constraint pk_push_alerts primary key (id_push_alert))
 ;
 
 create table resource (
@@ -92,10 +159,22 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
-alter table linked_account add constraint fk_linked_account_user_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_linked_account_user_1 on linked_account (user_id);
-alter table token_action add constraint fk_token_action_targetUser_2 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_2 on token_action (target_user_id);
+alter table clients add constraint fk_clients_country_1 foreign key (id_country) references countries (id_country) on delete restrict on update restrict;
+create index ix_clients_country_1 on clients (id_country);
+alter table client_has_devices add constraint fk_client_has_devices_client_2 foreign key (id_client) references clients (id_client) on delete restrict on update restrict;
+create index ix_client_has_devices_client_2 on client_has_devices (id_client);
+alter table client_has_devices add constraint fk_client_has_devices_device_3 foreign key (id_device) references devices (id_device) on delete restrict on update restrict;
+create index ix_client_has_devices_device_3 on client_has_devices (id_device);
+alter table client_has_push_alerts add constraint fk_client_has_push_alerts_client_4 foreign key (id_client) references clients (id_client) on delete restrict on update restrict;
+create index ix_client_has_push_alerts_client_4 on client_has_push_alerts (id_client);
+alter table client_has_push_alerts add constraint fk_client_has_push_alerts_pushAlert_5 foreign key (id_push_alert) references push_alerts (id_push_alert) on delete restrict on update restrict;
+create index ix_client_has_push_alerts_pushAlert_5 on client_has_push_alerts (id_push_alert);
+alter table countries add constraint fk_countries_language_6 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_countries_language_6 on countries (id_language);
+alter table linked_account add constraint fk_linked_account_user_7 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_linked_account_user_7 on linked_account (user_id);
+alter table token_action add constraint fk_token_action_targetUser_8 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_8 on token_action (target_user_id);
 
 
 
@@ -115,13 +194,29 @@ alter table users_user_permission add constraint fk_users_user_permission_user_p
 
 SET FOREIGN_KEY_CHECKS=0;
 
+drop table clients;
+
+drop table client_has_devices;
+
+drop table client_has_push_alerts;
+
 drop table configs;
+
+drop table countries;
+
+drop table devices;
+
+drop table instances;
+
+drop table languages;
 
 drop table linked_account;
 
 drop table news;
 
 drop table news_resource;
+
+drop table push_alerts;
 
 drop table resource;
 
