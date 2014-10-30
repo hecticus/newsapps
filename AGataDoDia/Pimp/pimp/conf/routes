@@ -121,8 +121,15 @@ POST    /garotas/v1/posts/create                                                
 POST    /garotas/v1/posts/update/:id                                                    controllers.content.posts.Posts.update(id : Integer)
 POST    /garotas/v1/posts/delete/:id                                                    controllers.content.posts.Posts.delete(id : Integer)
 GET     /garotas/v1/posts/get/:id                                                       controllers.content.posts.Posts.get(id : Integer)
-GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer)
-GET     /garotas/v1/posts/get/client/woman/:id/:idWoman                                 controllers.content.posts.Posts.getRecentPostsForWoman(id : Integer, idWoman : Integer)
+
+GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0)
+GET     /garotas/v1/posts/get/client/up/:id/:postId                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0)
+GET     /garotas/v1/posts/get/client/down/:id/:postId                                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0)
+
+GET     /garotas/v1/posts/get/client/woman/:id/:idWoman                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer)
+GET     /garotas/v1/posts/get/client/up/woman/:id/:postId/:idWoman                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer)
+GET     /garotas/v1/posts/get/client/down/woman/:id/:postId/:idWoman                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer)
+
 GET     /garotas/v1/posts/get/client/:idClient/:idPost                                  controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
 GET     /garotas/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize            controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
 GET     /garotas/v1/posts/list                                                          controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)

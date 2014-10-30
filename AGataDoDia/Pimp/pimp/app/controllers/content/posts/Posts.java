@@ -424,51 +424,40 @@ public class Posts extends HecticusController {
         }
     }
 
-    public static Result getRecentPosts(Integer id){
+    public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idWoman){
         try {
             Client client = Client.finder.byId(id);
-            ObjectNode response = null;
-            if(client != null) {
-                Country country = client.getCountry();
-                Language language = country.getLanguage();
-                Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage",language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
-                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
-
-                //buscamos sus favoritos tambien y agregamos esa info
-                while(postIterator.hasNext()){
-                    Post post = postIterator.next();
-                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
-                    ObjectNode postJson = post.toJson(language);
-                    if(index != -1){
-                        //si la tiene como favorita
-                        postJson.put("starred", true);
-                    }else{
-                        postJson.put("starred", false);
-                    }
-                    posts.add(postJson);
-                }
-                response = buildBasicResponse(0, "OK", Json.toJson(posts));
-            } else {
-                response = buildBasicResponse(2, "el cliente no existe");
+            Woman woman = null;
+            if(idWoman > 0){
+                woman = Woman.finder.byId(idWoman);
             }
-            return ok(response);
-        }catch (Exception e) {
-            Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
-        }
-    }
-
-    public static Result getRecentPostsForWoman(Integer id, Integer idWoman){
-        try {
-            Client client = Client.finder.byId(id);
-            Woman woman = Woman.finder.byId(idWoman);
             ObjectNode response = null;
             if(client != null) {
                 Country country = client.getCountry();
                 Language language = country.getLanguage();
-                Iterator<Post> postIterator = Post.finder.fetch("woman").fetch("countries").fetch("localizations").where().eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage",language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                Iterator<Post> postIterator = null;
+                if(postId > 0) {
+                    if(woman != null) {
+                        if (newest) {
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        } else {
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        }
+                    } else {
+                        if (newest) {
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        } else {
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        }
+                    }
+                } else {
+                    if(woman != null) {
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                    } else {
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                    }
+                }
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
-
                 //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
