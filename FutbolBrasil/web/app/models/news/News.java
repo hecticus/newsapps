@@ -11,12 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import models.HecticusModel;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 @Entity
 @Table(name="news")
-public class News extends Model  {
+public class News extends HecticusModel  {
 	
 	@Id
 	private Long id;

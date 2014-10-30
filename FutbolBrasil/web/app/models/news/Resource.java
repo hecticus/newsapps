@@ -8,13 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import models.HecticusModel;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 
 @Entity
 @Table(name="resource")
-public class Resource extends Model  {
+public class Resource extends HecticusModel {
 	
 	@Id
 	private Long id;	

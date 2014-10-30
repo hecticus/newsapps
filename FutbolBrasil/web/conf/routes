@@ -56,3 +56,23 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 GET     /resource/list   			controllers.news.NewsController.getResource()
 POST    /resource/update            controllers.news.NewsController.upResource()
+
+#Clients
+POST    /futbolbrasil/v1/clients/create                                     controllers.client.Clients.create()
+POST    /futbolbrasil/v1/clients/update/:id                                 controllers.client.Clients.update(id : Integer)
+POST    /futbolbrasil/v1/clients/delete/:id                                 controllers.client.Clients.delete(id : Integer)
+POST    /futbolbrasil/v1/clients/upstream/resetpass                         controllers.client.Clients.resetUpstreamPass()
+GET     /futbolbrasil/v1/clients/get/:id/:upstreamChannel                   controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET     /futbolbrasil/v1/clients/list                                       controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+GET     /futbolbrasil/v1/clients/alerts/:id                                 controllers.client.Clients.getPushAlertsForClient(id : Integer)
+
+#Clients PMC
+GET     /futbolbrasil/v1/clients/pmc/get/:id                                controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
+GET     /futbolbrasil/v1/clients/pmc/list/:page/:pageSize                   controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
+POST    /futbolbrasil/v1/clients/pmc/clean                                  controllers.client.Clients.cleanDevices()
+
+#FAKE UPSTREAM URL
+POST    /futbolbrasil/v1/clients/upstream/game/user/subscribe               controllers.client.Clients.upstreamFakeCreate()
+POST    /futbolbrasil/v1/clients/upstream/game/user/login                   controllers.client.Clients.upstreamFakeLogin()
+POST    /futbolbrasil/v1/clients/upstream/game/user/status                  controllers.client.Clients.upstreamFakeStatus()
+POST    /futbolbrasil/v1/clients/upstream/game/user/password                controllers.client.Clients.upstreamFakeResetPass()
