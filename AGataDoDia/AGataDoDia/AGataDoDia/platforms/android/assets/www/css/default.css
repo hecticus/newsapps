@@ -100,6 +100,14 @@ row:not(input):not(textarea) {
 		font-weight: bold;
 		color: #ED2226;	
 	}
+	
+	
+	.vertical-line {
+		background-image: url(../img/vertical_linea.gif); 
+		background-repeat: no-repeat; 	
+		background-position: left;
+	}
+
 
 	body.content-signin main .container .row #wrapper1 .scroller .container figure,
 	body #wrapper .scroller .container figure,
@@ -157,6 +165,11 @@ row:not(input):not(textarea) {
 	.glyphicon-remove {
 		color:#000000  !important;
 	}
+	
+	.carousel-control {
+		z-index: 2 !important;
+		background-color: red;		
+	}
 
 	.carousel-control.left,
 	.carousel-control.right {
@@ -166,5 +179,5 @@ row:not(input):not(textarea) {
 	
 	span.glyphicon.glyphicon-chevron-left, 
 	span.glyphicon.glyphicon-chevron-right {
-		font-size:2em !important;		
+		font-size:1.6em !important;		
 	}
