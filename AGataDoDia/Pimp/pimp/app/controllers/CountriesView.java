@@ -1,9 +1,12 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import models.basic.Country;
 import models.basic.Language;
 import play.data.Form;
 import play.data.format.Formatters;
+import play.i18n.Messages;
 import play.mvc.Result;
 
 import java.io.IOException;
@@ -23,29 +26,29 @@ public class CountriesView extends HecticusController {
     final static Form<Country> CountryViewForm = form(Country.class);
     public static Result GO_HOME = redirect(routes.CountriesView.list(0, "name", "asc", ""));
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
         return GO_HOME;
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result blank() {
         return ok(form.render(CountryViewForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result list(int page, String sortBy, String order, String filter) {
         return ok(list.render(Country.page(page, 10, sortBy, order, filter), sortBy, order, filter, false));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result edit(Integer id) {
         Country objBanner = Country.finder.byId(id);
         Form<Country> filledForm = CountryViewForm.fill(Country.finder.byId(id));
         return ok(edit.render(id, filledForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result update(Integer id) {
         Formatters.register(Language.class, new Formatters.SimpleFormatter<Language>() {
             @Override
@@ -67,12 +70,12 @@ public class CountriesView extends HecticusController {
         }
         Country gfilledForm = filledForm.get();
         gfilledForm.update(id);
-        flash("success", "El country " + gfilledForm.getName() + " se ha actualizado");
+        flash("success", Messages.get("countries.java.updated", gfilledForm.getName()));
         return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result sort(String ids) {
         String[] aids = ids.split(",");
 
@@ -85,21 +88,21 @@ public class CountriesView extends HecticusController {
         return ok("Fine!");
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result lsort() {
         return ok(list.render(Country.page(0, 0,"name", "asc", ""),"date", "asc", "",true));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result delete(Integer id) {
         Country country = Country.finder.byId(id);
         country.delete();
-		flash("success", "El country " + country.getName() + " se ha eliminado");
-        return GO_HOME;
+        flash("success", Messages.get("countries.java.deleted", country.getName()));
+		return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result submit() throws IOException {
         Formatters.register(Language.class, new Formatters.SimpleFormatter<Language>() {
             @Override
@@ -123,7 +126,7 @@ public class CountriesView extends HecticusController {
 
         Country gfilledForm = filledForm.get();
         gfilledForm.save();
-        flash("success", "El Country " + gfilledForm.getName() + " ha sido creado");
+        flash("success", Messages.get("countries.java.created", gfilledForm.getName()));
         return GO_HOME;
 
     }

@@ -9,24 +9,21 @@ import com.feth.play.module.pa.user.AuthUser;
 import controllers.content.posts.Posts;
 import models.User;
 import models.basic.Config;
-import models.basic.Country;
 import models.basic.Language;
 import models.content.posts.Post;
-import models.content.posts.PostHasMedia;
-import models.content.women.SocialNetwork;
 import models.content.women.Woman;
-import play.*;
 import play.Routes;
-import play.api.*;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.*;
+import play.mvc.Http.Session;
 
 import providers.MyUsernamePasswordAuthProvider;
+import providers.MyUsernamePasswordAuthProvider.MyLogin;
+import providers.MyUsernamePasswordAuthProvider.MySignup;
 import utils.Utils;
 import views.html.*;
 
-import javax.persistence.OrderBy;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -37,10 +34,7 @@ public class Application extends Controller {
     public static final String FLASH_ERROR_KEY = "error";
     public static final String USER_ROLE = "user";
 
-//    public static Result index() {
-//        return ok(index.render("Your new application is ready."));
-//    }
-
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result index(int page, String sortBy, String order, String filter) {
         return ok(
                 index.render(Post.page(page, 6, sortBy, order, filter),sortBy, order, filter)
@@ -84,33 +78,9 @@ public class Application extends Controller {
     }
 
 
-    public static Result getPost(Integer id) {
-        Post post = null;
-        if(id > 0) {
-            post = Post.finder.byId(id);
-        } else {
-            post = new Post();
-        }
-        List<Woman> women = Woman.finder.all();
-        Form<Post> fill = Posts.POST_FORM.fill(post);
-        return ok(summary.render(post, women, fill));
-    }
-
-    public static Result getImg(String name){
-        try{
-//            File file = play.api.Play.application(play.api.Play.current()).getFile(Config.getString("ftp-route") + name);
-            File file = new File(Config.getString("ftp-route") + name);
-            return ok(file);
-        }catch (Exception ex){
-            Utils.printToLog(Application.class, "", "Error en la imagen", false, ex, "", Config.LOGGER_ERROR);
-            return badRequest("Error en la imagen " + name);
-        }
-    }
-
-
     /*Plugin Authenticate*/
 
-    public static User getLocalUser(final Http.Session session) {
+    public static User getLocalUser(final Session session) {
         final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
         final User localUser = User.findByAuthUserIdentity(currentAuthUser);
         return localUser;
@@ -134,7 +104,7 @@ public class Application extends Controller {
 
     public static Result doLogin() {
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-        final Form<MyUsernamePasswordAuthProvider.MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+        final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
                 .bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly
@@ -157,8 +127,9 @@ public class Application extends Controller {
     }
 
     public static Result doSignup() {
+        System.out.println("Application ESTO SE VE!!!!");
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-        final Form<MyUsernamePasswordAuthProvider.MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
+        final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
                 .bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly

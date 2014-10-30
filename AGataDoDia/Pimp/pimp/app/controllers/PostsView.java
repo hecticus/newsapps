@@ -1,5 +1,7 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
@@ -13,6 +15,7 @@ import models.content.women.SocialNetwork;
 import models.content.women.Woman;
 import play.data.Form;
 import play.data.format.Formatters;
+import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -28,6 +31,7 @@ import java.util.Map;
 
 import static play.data.Form.form;
 
+import play.mvc.Security;
 import utils.Utils;
 import views.html.posts.*;
 
@@ -41,28 +45,28 @@ public class PostsView extends HecticusController {
     final static Form<Post> PostViewForm = form(Post.class);
     public static Result GO_HOME = redirect(routes.PostsView.list(0, "date", "desc", ""));
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
         return GO_HOME;
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result blank() {
         return ok(form.render(PostViewForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result list(int page, String sortBy, String order, String filter) {
         return ok(list.render(Post.page(page, 10, sortBy, order, filter), sortBy, order, filter, false));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result edit(Integer id) {
         Form<Post> filledForm = PostViewForm.fill(Post.finder.byId(id));
         return ok(edit.render(id, filledForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result update(Integer id) {
 
         Formatters.register(Language.class, new Formatters.SimpleFormatter<Language>() {
@@ -204,13 +208,12 @@ public class PostsView extends HecticusController {
 
         gfilledForm.setIdPost(id);
         gfilledForm.update(id);
-
-        flash("success", "El post " + gfilledForm.getWoman().getName() + " se ha actualizado");
+        flash("success", Messages.get("post.java.updated", gfilledForm.getWoman().getName()));
         return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result sort(String ids) {
         String[] aids = ids.split(",");
 
@@ -222,12 +225,12 @@ public class PostsView extends HecticusController {
         return ok("Fine!");
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result lsort() {
         return ok(list.render(Post.page(0, 0,"date", "desc", ""),"date", "desc", "",true));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result delete(Integer id) {
         Post post = Post.finder.byId(id);
         ArrayList<String> files = new ArrayList<>();
@@ -245,11 +248,11 @@ public class PostsView extends HecticusController {
             rackspaceDelete.deleteObjectsFromContainer(containerName, files);
         }
         post.delete();
-		flash("success", "El post se ha eliminado");
-        return GO_HOME;
+        flash("success", Messages.get("post.java.deleted", post.getWoman().getName()));
+		return GO_HOME;
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result submit() throws IOException {
 
         Formatters.register(Language.class, new Formatters.SimpleFormatter<Language>() {
@@ -393,8 +396,7 @@ public class PostsView extends HecticusController {
         }
 
         gfilledForm.save();
-
-        flash("success", "El Banner " + gfilledForm.getWoman().getName() + " ha sido creado");
+        flash("success", Messages.get("post.java.created", gfilledForm.getWoman().getName()));
         return GO_HOME;
 
     }

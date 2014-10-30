@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import models.basic.Config;
@@ -17,6 +19,7 @@ import models.content.women.Category;
 import models.content.women.SocialNetwork;
 import play.data.Form;
 import play.data.format.Formatters;
+import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -35,18 +38,18 @@ public class WomenView extends HecticusController {
 	final static Form<models.content.women.Woman> WomenViewForm = form(models.content.women.Woman.class);
 	public static Result GO_HOME = redirect(routes.WomenView.list(0, "name", "asc", ""));
 	
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result index() {
 		return GO_HOME;
 	}	
 	
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result blank() {		
 	    return ok(form.render(WomenViewForm));
 	}
 
 
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result edit(Integer id) {
 		models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);		
         Form<models.content.women.Woman> filledForm = WomenViewForm.fill(models.content.women.Woman.finder.byId(id));
@@ -54,14 +57,12 @@ public class WomenView extends HecticusController {
     }
 	
 	
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result update(Integer id) {
         Formatters.register(Category.class, new Formatters.SimpleFormatter<Category>() {
             @Override
             public Category parse(String input, Locale arg1) throws ParseException {
-                System.out.println("PASANDO!!! "+input);
                 Category category = Category.finder.byId(new Integer(input));
-                System.out.println("Category!!! "+category.getIdCategory());
                 return category;
             }
 
@@ -86,9 +87,7 @@ public class WomenView extends HecticusController {
 
 		models.content.women.Woman woman = models.content.women.Woman.finder.byId(id);
 		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
-        System.out.println("IMPRIMIENDO!!!!");
-        System.out.println(filledForm.toString());
-		if(filledForm.hasErrors()) {
+        if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm));
 		}
 
@@ -118,13 +117,13 @@ public class WomenView extends HecticusController {
         }
         gfilledForm.setIdWoman(id);
     	gfilledForm.update(id);
-		
-		flash("success", "La mujer " + gfilledForm.getName() + " se ha actualizado");
+
+        flash("success", Messages.get("women.java.updated", gfilledForm.getName()));
 		return GO_HOME;
 		
 	}	
 
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
                 list.render(
@@ -134,7 +133,7 @@ public class WomenView extends HecticusController {
         );
     }
 	
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result sort(String ids) {		
 		String[] aids = ids.split(",");
 		
@@ -147,7 +146,7 @@ public class WomenView extends HecticusController {
 		return ok("Fine!");		
 	}
 	
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result lsort() {		 	
 	 	return ok(list.render(models.content.women.Woman.page(0, 0,"name", "asc", ""),"name", "asc", "",true));
 	}	
@@ -176,7 +175,7 @@ public class WomenView extends HecticusController {
 
 	}*/
 
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result delete(Integer id) {
 		models.content.women.Woman woman = models.content.women.Woman.finder.byId(id);
         ArrayList<String> files = new ArrayList<>();
@@ -191,12 +190,12 @@ public class WomenView extends HecticusController {
         RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
         rackspaceDelete.deleteObjectsFromContainer(containerName, files);
         woman.delete();
-		flash("success", "La mujer se ha eliminado");
-	    return GO_HOME;
+        flash("success", Messages.get("women.java.deleted", woman.getName()));
+		return GO_HOME;
 	}
 
 
-	//@Security.Authenticated(Secured.class)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result submit() throws IOException {
         Formatters.register(Category.class, new Formatters.SimpleFormatter<Category>() {
             @Override
@@ -249,9 +248,8 @@ public class WomenView extends HecticusController {
 
         gfilledForm.setDefaultPhoto(link);
         gfilledForm.update();
-
-        flash("success", "La mujer " + gfilledForm.getName() + " ha sido creado");
-   	    return GO_HOME;
+        flash("success", Messages.get("women.java.created", gfilledForm.getName()));
+        return GO_HOME;
 		
 	}
 

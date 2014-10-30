@@ -48,10 +48,11 @@ playauthenticate.change_password.success=La contraseña ha sido cambiada correct
 
 playauthenticate.password.signup.error.passwords_not_same=Las contraseñas no coinciden.
 playauthenticate.password.login.unknown_user_or_pw=Usuario o contraseña incorrectos.
+playauthenticate.email.signup.error.not_valid=Su cuenta de correo no es valida en este sitio
 
-playauthenticate.password.verify_signup.subject=PlayAuthenticate: Complete su registro
-playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirme su dirección de email
-playauthenticate.password.reset_email.subject=PlayAuthenticate: Cómo restablecer su contraseña
+playauthenticate.password.verify_signup.subject=A Gata Do Dia: Complete su registro
+playauthenticate.password.verify_email.subject=A Gata Do Dia: Confirme su dirección de email
+playauthenticate.password.reset_email.subject=A Gata Do Dia: Cómo restablecer su contraseña
 
 # play-authenticate: Additional translations
 
@@ -91,7 +92,7 @@ playauthenticate.link.account.ok=OK
 # play-authenticate: Signup folder translations
 
 playauthenticate.verify.email.title=Verifique su email
-playauthenticate.verify.email.requirement=Antes de usar PlayAuthenticate, debe validar su email.
+playauthenticate.verify.email.requirement=Antes de usar A Gata Do Dia, debe validar su email.
 playauthenticate.verify.email.cta=Se le ha enviado un email a la dirección registrada. Por favor, siga el link de este email para activar su cuenta.
 playauthenticate.password.reset.title=Restablecer contraseña
 playauthenticate.password.reset.cta=Restablecer mi contraseña
@@ -100,7 +101,7 @@ playauthenticate.password.forgot.title=Contraseña olvidada
 playauthenticate.password.forgot.cta=Enviar instrucciones para restablecer la contraseña
 
 playauthenticate.oauth.access.denied.title=Acceso denegado por OAuth
-playauthenticate.oauth.access.denied.explanation=Si quiere usar PlayAuthenticate con OAuth, debe aceptar la conexión.
+playauthenticate.oauth.access.denied.explanation=Si quiere usar A Gata Do Dia con OAuth, debe aceptar la conexión.
 playauthenticate.oauth.access.denied.alternative=Si prefiere no hacerlo, puede también
 playauthenticate.oauth.access.denied.alternative.cta=registrarse con un usuario y una contraseña.
 
@@ -191,6 +192,10 @@ languages.submit.create=Crear este idioma
 languages.submit.update=Actualizar este idioma
 languages.submit.delete=Eliminar este idioma
 
+languages.java.created= El idioma {0} ha sido creado!
+languages.java.updated= El idioma {0} ha sido actualizado!
+languages.java.deleted= El idioma {0} ha sido eliminado!
+
 countries.list.head=Paises
 countries.list.title={0,choice,0#No hay Paises|1#Un Pais encontrado|1<{0,number,integer} Paises encontrados}
 countries.list.filter.name=Filtrar por nombre del Pais...
@@ -215,6 +220,10 @@ countries.submit.create=Crear este Pais
 countries.submit.update=Actualizar este Pais
 countries.submit.delete=Eliminar este Pais
 
+countries.java.created= El pais {0} ha sido creado!
+countries.java.updated= El pais {0} ha sido actualizado!
+countries.java.deleted= El pais {0} ha sido eliminado!
+
 categories.list.head=Categorias
 categories.list.title={0,choice,0#No hay Categorias|1#Una categoria encontrada|1<{0,number,integer} categorias encontradas}
 categories.list.filter.name=Filtrar por nombre de la categoria...
@@ -230,6 +239,10 @@ categories.name.help=Inserte un nombre valido
 categories.submit.create=Crear esta categoria
 categories.submit.update=Actualizar esta categoria
 categories.submit.delete=Eliminar esta categoria
+
+categories.java.created= La categoria {0} ha sido creada!
+categories.java.updated= La categoria {0} ha sido actualizada!
+categories.java.deleted= La categoria {0} ha sido eliminada!
 
 women.list.head=Mujeres
 women.list.title={0,choice,0#No hay Mujeres|1#Una Mujer encontrada|1<{0,number,integer} Mujeres encontradas}
@@ -261,6 +274,9 @@ women.submit.create=Crear esta Mujer
 women.submit.update=Actualizar esta Mujer
 women.submit.delete=Eliminar esta Mujer
 
+women.java.created= La mujer {0} ha sido creada!
+women.java.updated= La mujer {0} ha sido actualizada!
+women.java.deleted= La mujer {0} ha sido eliminada!
 
 post.list.head=Publicaciones
 post.list.title={0,choice,0#No hay Publicaciones|1#Una publicacion encontrada|1<{0,number,integer} publicaciones encontradas}
@@ -310,3 +326,9 @@ post.media.file.type=Tipo de archivo
 post.media.file.final=Archivo - NO CAMBIAR
 post.media.md5.final=MD5 - NO CAMBIAR
 post.media.main=Activa para la Pantalla Principal?
+
+post.java.created= La publicacion {0} ha sido creada!
+post.java.updated= La publicacion {0} ha sido actualizada!
+post.java.deleted= La publicacion {0} ha sido eliminada!
+
+

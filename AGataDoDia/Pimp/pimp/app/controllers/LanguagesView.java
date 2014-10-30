@@ -1,7 +1,10 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import models.basic.Language;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.Result;
 
 import static play.data.Form.form;
@@ -20,30 +23,29 @@ public class LanguagesView extends HecticusController {
     final static Form<Language> LanguageViewForm = form(Language.class);
     public static Result GO_HOME = redirect(routes.LanguagesView.list(0, "name", "asc", ""));
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
         return GO_HOME;
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result blank() {
         return ok(form.render(LanguageViewForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result list(int page, String sortBy, String order, String filter) {
         return ok(list.render(Language.page(page, 10, sortBy, order, filter), sortBy, order, filter, false));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result edit(Integer id) {
         Language objBanner = Language.finder.byId(id);
         Form<Language> filledForm = LanguageViewForm.fill(Language.finder.byId(id));
-//        System.out.println(filledForm.value().get().toJson().toString());
         return ok(edit.render(id, filledForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result update(Integer id) {
 
         Language objBanner = Language.finder.byId(id);
@@ -58,14 +60,12 @@ public class LanguagesView extends HecticusController {
         Language gfilledForm = filledForm.get();
         gfilledForm.update(id);
 
-//        System.out.println("update " + gfilledForm.toJson().toString());
-
-        flash("success", "El language " + gfilledForm.getName() + " se ha actualizado");
+        flash("success", Messages.get("languages.java.updated", gfilledForm.getName()));
         return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result sort(String ids) {
         String[] aids = ids.split(",");
 
@@ -78,23 +78,22 @@ public class LanguagesView extends HecticusController {
         return ok("Fine!");
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result lsort() {
         return ok(list.render(Language.page(0, 0,"name", "asc", ""),"date", "asc", "",true));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result delete(Integer id) {
 
-		/*models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);
-
-		models.content.women.Woman.finder.ref(id).delete();
-		flash("success", "La mujer se ha eliminado");*/
+        Language language = Language.finder.byId(id);
+        language.delete();
+        flash("success", Messages.get("languages.java.deleted", language.getName()));
         return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result submit() throws IOException {
 
         Form<Language> filledForm = LanguageViewForm.bindFromRequest();
@@ -104,10 +103,8 @@ public class LanguagesView extends HecticusController {
         }
 
         Language gfilledForm = filledForm.get();
-        //gfilledForm.setSort(models.content.women.Woman.finder.findRowCount());
         gfilledForm.save();
-
-        flash("success", "El Language " + gfilledForm.getName() + " ha sido creado");
+        flash("success", Messages.get("languages.java.created", gfilledForm.getName()));
         return GO_HOME;
 
     }

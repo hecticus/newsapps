@@ -1,8 +1,11 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import models.content.women.Category;
 import play.data.Form;
 import play.data.format.Formatters;
+import play.i18n.Messages;
 import play.mvc.Result;
 
 import java.io.IOException;
@@ -21,29 +24,29 @@ public class CategoriesView extends HecticusController {
     final static Form<Category> CategoryViewForm = form(Category.class);
     public static Result GO_HOME = redirect(routes.CategoriesView.list(0, "name", "asc", ""));
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
         return GO_HOME;
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result blank() {
         return ok(form.render(CategoryViewForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result list(int page, String sortBy, String order, String filter) {
         return ok(list.render(Category.page(page, 10, sortBy, order, filter), sortBy, order, filter, false));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result edit(Integer id) {
         Category objBanner = Category.finder.byId(id);
         Form<Category> filledForm = CategoryViewForm.fill(Category.finder.byId(id));
         return ok(edit.render(id, filledForm));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result update(Integer id) {
         Form<Category> filledForm = CategoryViewForm.bindFromRequest();
         if(filledForm.hasErrors()) {
@@ -52,12 +55,13 @@ public class CategoriesView extends HecticusController {
         }
         Category gfilledForm = filledForm.get();
         gfilledForm.update(id);
-        flash("success", "La categoria " + gfilledForm.getName() + " se ha actualizado");
+
+        flash("success", Messages.get("categories.java.updated", gfilledForm.getName()));
         return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result sort(String ids) {
         String[] aids = ids.split(",");
 
@@ -70,21 +74,21 @@ public class CategoriesView extends HecticusController {
         return ok("Fine!");
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result lsort() {
         return ok(list.render(Category.page(0, 0,"name", "asc", ""),"date", "asc", "",true));
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result delete(Integer id) {
         Category category = Category.finder.byId(id);
         category.delete();
-        flash("success", "La categoria " + category.getName() + " se ha eliminado");
+        flash("success", Messages.get("categories.java.deleted", category.getName()));
         return GO_HOME;
 
     }
 
-    //@Security.Authenticated(Secured.class)
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result submit() throws IOException {
         Form<Category> filledForm = CategoryViewForm.bindFromRequest();
 
@@ -94,7 +98,7 @@ public class CategoriesView extends HecticusController {
 
         Category gfilledForm = filledForm.get();
         gfilledForm.save();
-        flash("success", "La categoria " + gfilledForm.getName() + " ha sido creado");
+        flash("success", Messages.get("categories.java.created", gfilledForm.getName()));
         return GO_HOME;
 
     }
