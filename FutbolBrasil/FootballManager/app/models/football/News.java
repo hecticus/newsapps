@@ -1,9 +1,10 @@
-package models;
+package models.football;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.SqlUpdate;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.HecticusModel;
+import models.Resource;
 import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
@@ -173,6 +174,11 @@ public class News extends HecticusModel {
         return false;
     }
 
+    /**
+     * not in use
+     * @param list
+     * @throws Exception
+     */
     public static void batchInsertUpdate(ArrayList<News> list) throws Exception {
         EbeanServer server = Ebean.getServer("default");
         try {

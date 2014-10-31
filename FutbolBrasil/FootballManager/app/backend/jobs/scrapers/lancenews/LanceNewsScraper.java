@@ -1,18 +1,13 @@
 package backend.jobs.scrapers.lancenews;
 
 import backend.HecticusThread;
-import exceptions.BasicException;
-import exceptions.DownloadFailedException;
-import models.News;
+import models.Config;
+import models.football.News;
 import models.Resource;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 
 import org.apache.sanselan.Sanselan;
-import org.apache.sanselan.common.IImageMetadata;
 import org.apache.sanselan.common.ImageMetadata;
 import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
-import org.apache.sanselan.formats.tiff.TiffImageMetadata;
 import org.w3c.dom.Document;
 import utils.Utils;
 
@@ -23,8 +18,6 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -58,7 +51,13 @@ public class LanceNewsScraper extends HecticusThread {
             System.out.println("fin");
 
         }catch (Exception ex){
-            ex.printStackTrace();
+            Utils.printToLog(LanceNewsScraper.class,
+                    "Error en el LanceNewsScrapper",
+                    "ocurrio un error inesperado en el LanceNewsScrapper, el proceso no se completo y sera reiniciado el job.",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
         }
     }
 
@@ -74,7 +73,6 @@ public class LanceNewsScraper extends HecticusThread {
                     processImage(path + File.separator + listOfFiles[i].getName());
                 }//else skip
             } else if (listOfFiles[i].isDirectory()) {
-                System.out.println("FOLDER!!!!");
                 processFolderFiles(path + File.separator + listOfFiles[i].getName());
             }
         }
@@ -103,6 +101,7 @@ public class LanceNewsScraper extends HecticusThread {
                     lastUpdate = convertLastUpdate(xPath.compile("news/@lastUpdate").evaluate(document));
             News toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
                     lastUpdate ,getIdApp());
+            //revisar el xml con tag faltante
             if (toInsert.isNewsEmpty()){
                 xPath =  XPathFactory.newInstance().newXPath();
                 timestamp = xPath.compile("article/timestamp").evaluate(document); //es un epoch
@@ -144,9 +143,21 @@ public class LanceNewsScraper extends HecticusThread {
         } catch (XPathExpressionException ex){
             System.out.println("really????");
           //el xml le faltan un tag
-            //ex.printStackTrace();
+            Utils.printToLog(LanceNewsScraper.class,
+                    "Error en el LanceNewsScraper",
+                    "error parseando el xml del archivo:" + fileRoute + " el archivo no se pudo completar, se continua.",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
         } catch (Exception ex){
-           // System.out.println("oh fucks:" + fileRoute);
+            Utils.printToLog(LanceNewsScraper.class,
+                    "Error en el LanceNewsScrapper",
+                    "error inesperado parseando el xml del archivo:" + fileRoute + " el archivo no se pudo completar, se continua.",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
         }
     }
 

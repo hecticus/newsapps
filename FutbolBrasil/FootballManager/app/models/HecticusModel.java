@@ -53,4 +53,6 @@ public abstract class HecticusModel extends Model {
         String tr = DigestUtils.md5Hex(message);
         return tr;
     }
+
+    public static final String DEFAULT_TIMEZONE = "America/Caracas";
 }

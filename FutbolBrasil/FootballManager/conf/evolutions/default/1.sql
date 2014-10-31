@@ -45,6 +45,27 @@ create table countries (
   constraint pk_countries primary key (id_countries))
 ;
 
+create table fixtures (
+  id_fixture                bigint auto_increment not null,
+  external_id               bigint,
+  match_date                varchar(255),
+  phase                     varchar(255),
+  stadium                   varchar(255),
+  local_team                varchar(255),
+  local_team_goals          varchar(255),
+  local_team_penalties      varchar(255),
+  local_team_scoring_players varchar(255),
+  away_team                 varchar(255),
+  away_team_goals           varchar(255),
+  away_team_penalties       varchar(255),
+  away_team_scoring_players varchar(255),
+  match_status              varchar(255),
+  match_description         varchar(255),
+  formated_date             varchar(255),
+  media                     varchar(255),
+  constraint pk_fixtures primary key (id_fixture))
+;
+
 create table game_matches (
   id_game_matches           bigint auto_increment not null,
   id_phases                 bigint,
@@ -168,12 +189,40 @@ create table ranking (
   id_teams                  bigint,
   matches                   bigint,
   matches_won               bigint,
-  matches_drawn             bigint,
+  matches_draw              bigint,
   matches_lost              bigint,
   points                    bigint,
   goals_for                 bigint,
   goal_against              bigint,
   ranking                   bigint,
+  matches_local             integer,
+  matches_visitor           integer,
+  matches_local_won         integer,
+  matches_local_draw        integer,
+  matches_local_lost        integer,
+  matches_visitor_won       integer,
+  matches_visitor_draw      integer,
+  matches_visitor_lost      integer,
+  goals_for_local           integer,
+  goal_against_local        integer,
+  goals_for_visitor         integer,
+  goal_against_visitor      integer,
+  goal_diff                 integer,
+  points_local              integer,
+  points_visitor            integer,
+  yellow_cards              integer,
+  red_cards                 integer,
+  double_yellow_card        integer,
+  penalty_fouls             integer,
+  penalty_hands             integer,
+  fouls_commited            integer,
+  fouls_received            integer,
+  penalty_fouls_received    integer,
+  nivel                     integer,
+  nivel_desc                varchar(255),
+  orden                     integer,
+  orden_desc                varchar(255),
+  streak                    varchar(255),
   constraint pk_ranking primary key (id_ranking))
 ;
 
@@ -193,6 +242,25 @@ create table resources (
   id_app                    integer,
   news_id_news              bigint,
   constraint pk_resources primary key (id_resource))
+;
+
+create table scorers (
+  id_scorer                 integer auto_increment not null,
+  name                      varchar(255),
+  full_name                 varchar(255),
+  nickname                  varchar(255),
+  id_teams                  bigint,
+  goals                     integer,
+  byplay                    integer,
+  header                    integer,
+  free_kick                 integer,
+  penalty                   integer,
+  id_country                bigint,
+  external_id               varchar(255),
+  id_round                  integer,
+  id_competition            bigint,
+  date                      varchar(255),
+  constraint pk_scorers primary key (id_scorer))
 ;
 
 create table teams (
@@ -239,10 +307,14 @@ alter table ranking add constraint fk_ranking_team_12 foreign key (id_teams) ref
 create index ix_ranking_team_12 on ranking (id_teams);
 alter table resources add constraint fk_resources_parent_13 foreign key (news_id_news) references news (id_news) on delete restrict on update restrict;
 create index ix_resources_parent_13 on resources (news_id_news);
-alter table teams add constraint fk_teams_country_14 foreign key (id_countries) references countries (id_countries) on delete restrict on update restrict;
-create index ix_teams_country_14 on teams (id_countries);
-alter table venues add constraint fk_venues_country_15 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
-create index ix_venues_country_15 on venues (id_country);
+alter table scorers add constraint fk_scorers_team_14 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
+create index ix_scorers_team_14 on scorers (id_teams);
+alter table scorers add constraint fk_scorers_country_15 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
+create index ix_scorers_country_15 on scorers (id_country);
+alter table teams add constraint fk_teams_country_16 foreign key (id_countries) references countries (id_countries) on delete restrict on update restrict;
+create index ix_teams_country_16 on teams (id_countries);
+alter table venues add constraint fk_venues_country_17 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
+create index ix_venues_country_17 on venues (id_country);
 
 
 
@@ -259,6 +331,8 @@ drop table competitions;
 drop table configs;
 
 drop table countries;
+
+drop table fixtures;
 
 drop table game_matches;
 
@@ -279,6 +353,8 @@ drop table phases;
 drop table ranking;
 
 drop table resources;
+
+drop table scorers;
 
 drop table teams;
 

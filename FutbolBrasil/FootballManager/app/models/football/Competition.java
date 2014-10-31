@@ -1,4 +1,4 @@
-package models.afpfutbol;
+package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
@@ -24,6 +24,9 @@ public class Competition  extends HecticusModel {
     private String name;
     @Constraints.Required
     private Long extId;
+
+    //folderName
+    //folderLocation
 
     private Integer idApp;
     private Integer status;
@@ -76,6 +79,14 @@ public class Competition  extends HecticusModel {
 
     public static Competition findById(Long id){
         return finder.byId(id);
+    }
+
+    public static List<Competition> getCompetitionsByApp(int idApp){
+        return finder.where().eq("id_app", idApp).findList();
+    }
+
+    public static Competition findByExtId(long id){
+        return finder.where().eq("ext_id", id).findUnique();
     }
 
     @Override

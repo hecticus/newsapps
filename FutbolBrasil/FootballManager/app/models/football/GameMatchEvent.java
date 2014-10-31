@@ -1,4 +1,4 @@
-package models.afpfutbol;
+package models.football;
 
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;

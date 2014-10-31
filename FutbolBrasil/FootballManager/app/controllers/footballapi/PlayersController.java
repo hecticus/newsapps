@@ -1,25 +1,21 @@
-package controllers.news;
+package controllers.footballapi;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
-import models.football.News;
+import models.football.Scorer;
 import play.mvc.Result;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sorcerer on 10/14/14.
+ * Created by sorcerer on 10/28/14.
  */
-public class NewsController extends HecticusController {
+public class PlayersController extends HecticusController {
 
-    /***
-     * get latest news and paginate
-     * @return
-     */
-    public static Result getNews(Integer idApp, Integer offset, Integer count){
+    public static Result getTopScorers(Long idCompetition, String date){
         try {
-            List<News> fullList = News.getLatestNews(idApp,offset,count);
+            List<Scorer> fullList = Scorer.getTournamentScorers(idCompetition,date);
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()){
                 //i got data
@@ -36,12 +32,14 @@ public class NewsController extends HecticusController {
         }
     }
 
-    public static Result getNewsById(Long idNews){
-        try {
-            News toReturn = News.getNews(idNews);
+    public static Result getPlayersByTeam(Long idTeam){
+        try{List<Scorer> fullList = null;
             ArrayList data = new ArrayList();
-            if (toReturn != null){
-                data.add(toReturn.toJson());
+            if (fullList != null && !fullList.isEmpty()){
+                //i got data
+                for (int i = 0; i < fullList.size(); i++){
+                    data.add(fullList.get(i).toJson());
+                }
             }
             //build response
             ObjectNode response;
@@ -51,5 +49,4 @@ public class NewsController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
-
 }

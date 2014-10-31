@@ -1,10 +1,8 @@
 package models;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import exceptions.NewsException;
+import models.football.News;
 import play.db.ebean.Model;
-import scala.remote;
 import utils.Utils;
 
 import javax.persistence.*;

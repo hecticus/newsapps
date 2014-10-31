@@ -1,4 +1,4 @@
-package models.afpfutbol;
+package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
@@ -25,6 +25,8 @@ public class Team extends HecticusModel {
     private Countries country;
     @Constraints.Required
     private Long extId;
+
+    //debe pertenecer a una competicion?
 
     private static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>("afp_futbol",Long.class,Team.class);
 
