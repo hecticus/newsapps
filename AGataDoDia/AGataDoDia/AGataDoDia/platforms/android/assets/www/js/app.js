@@ -2,6 +2,7 @@
 	var _url = 'http://gatadodia.hecticus.com/garotas';
 	var _jParameters = {client:1};
 	var _jMenu = [];
+	var _jData = [];
 	var _oAjax = false;
 	var currentScreen = 0;
 	
@@ -24,6 +25,9 @@
 			$('[data-touch="menu"]').removeClass('glyphicon glyphicon-remove');
 			$('[data-touch="menu"]').addClass('icon-menu');
 			$('.row.menu').addClass('hidden');	
+			$('div.plus i').addClass('icon-material-add-circle');
+			$('div.plus i').empty();		
+
 
 		},
 		
@@ -175,9 +179,19 @@
 		
 	});
 	
+	
+	$(document).on('click','[data-touch="plus"]', function(e) {
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}							
+		$(this).removeClass('icon-material-add-circle');
+		$(this).html('loading...');		
+		_fRenderListPost(_url + '/v1/posts/get/client/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value'));
+				
+	});
 
 
-	var _fRenderListPost =  function(_url) {
+	var _fRenderListPost =  function(_url,_empty) {
+		
 		
 		if ($('main').data('referer') != 2) _oAjax = _fGetAjaxJson(_url);
 	
@@ -185,14 +199,17 @@
 			_oAjax.done(function(_json) {
 
 				var _html = '';				
-				_jMenu[$('main').data('index')].data = _json;
-				
-				
+				//_jMenu[$('main').data('index')].data = _json;
+
 				$.each(_json.response, function(_index,_item) {
-						
-					_html += '<div class="row">';
+
+					_jData.push(_item);
+											
+					_html += '<div class="row post" data-value="' + _item.id_post + '">';
 						_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure">';
-							_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';									
+							_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
+							
+																
 						_html += '</div>';
 						_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption">';
 							_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
@@ -234,28 +251,32 @@
 					_html += '</div>';
 					
 					_html += '<br />';
-						
-					$.each(_item.files, function(_index,_file) {					
-						var _img = $('img #img').attr('src',_file);
-					});												
-						
 
-
-					
-				
 				});		
 				
-							
-				$('#wrapper .scroller .container').empty();
-				$('#wrapper .scroller .container').append(_html);
 
+				_html += '<div class="row plus" >';
+					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';							
+							_html += '<i class="icon icon-material-add-circle" style="font-size:3em; color:' + ((_json.response.length >= 1) ? 'green' : 'red') + ';" data-touch="plus" data-direction="down" ></i>';
+							_html += '<br/>';
+							_html += '<br/>';							
+					_html += '</div>';
+				_html += '</div>';
+
+				if (_empty) $('#wrapper .scroller .container').empty();
+				$('div.plus').remove();
+				$('#wrapper .scroller .container').append(_html);
+					
+				
 
 			});
+
+		} else {
+			_jApp.refresh();
 		}
 		
 		
 	};
-	
 	
 	var _fRenderPost =  function() {
 		
@@ -301,11 +322,7 @@
 					if (_break) return true;
 									
 				});
-		
-	
-					
-				
-											
+								
 			});
 
 			$('#wrapper2').css('width', $(window).width() + 'px');

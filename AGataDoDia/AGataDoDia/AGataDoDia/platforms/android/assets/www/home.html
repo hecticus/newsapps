@@ -14,7 +14,7 @@
 			
 			<div class="scroller">
 				<div class="container">
-				</div>				
+				</div>			
 			</div>
 						
 			<a class="left carousel-control hidden" role="button" >
@@ -32,19 +32,13 @@
 		<script type="text/javascript">
 		
 												 
-			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true,bounce: false});
+			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true});
 			_scroll.on('beforeScrollStart', function () {
 				this.refresh();	
 				_jApp.refresh();
 			});	
-			
-			_scroll.on('scrollEnd', function () {
-				if (this.y == this.minScrollY)
-            		alert('This is the beginning');
-        		if (this.y == this.maxScrollY)
-            		alert('This is the end');
-			});	
-			
+	
+		
 		
 			
 			
