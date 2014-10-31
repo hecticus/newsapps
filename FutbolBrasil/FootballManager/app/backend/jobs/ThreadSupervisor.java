@@ -92,10 +92,11 @@ public class ThreadSupervisor extends HecticusThread {
                             jobParams = mapper.readValue(tempParams, LinkedHashMap.class);
                         }
                         j.setIdApp(actual.getIdApp());
+                        j.setParams(jobParams);
                         Cancellable cancellable = system.scheduler().schedule(Duration.create(10, SECONDS), Duration.create(15, SECONDS), j, system.dispatcher());
                         j.setCancellable(cancellable);
                         activeJobs.add(j);
-                        j.process(jobParams);
+                        //j.process(jobParams);
                     }catch (Exception ex){
                         actual.failedJob();
                         Utils.printToLog(ThreadSupervisor.class,

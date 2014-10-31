@@ -83,6 +83,14 @@ public abstract class HecticusThread implements Runnable {
         this.cancellable = cancellable;
     }
 
+    public Map getParams() {
+        return params;
+    }
+
+    public void setParams(Map params) {
+        this.params = params;
+    }
+
     public void setAlive(){
         prevTime = actTime;
         actTime = System.currentTimeMillis();
