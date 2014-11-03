@@ -1,5 +1,6 @@
 package utils;
 
+import backend.jobs.ThreadSupervisor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Config;
 import models.Instance;
@@ -24,6 +25,7 @@ public class Utils {
     public static String serverIp;
     public static boolean test;
     public static Instance actual;
+    public static ThreadSupervisor supervisor;
 
     public static final TimeZone APP_TIMEZONE = TimeZone.getTimeZone("America/Caracas");
     /**

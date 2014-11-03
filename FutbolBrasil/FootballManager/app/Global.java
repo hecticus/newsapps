@@ -73,6 +73,7 @@ public class Global extends GlobalSettings {
             supervisor = new ThreadSupervisor(run, system);
             Cancellable cancellable = system.scheduler().schedule(Duration.create(1, SECONDS), Duration.create(5, MINUTES), supervisor, system.dispatcher());
             supervisor.setCancellable(cancellable);
+            Utils.supervisor = (ThreadSupervisor)supervisor;
         }
     }
 

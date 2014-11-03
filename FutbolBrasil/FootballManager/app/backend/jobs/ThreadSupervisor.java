@@ -40,6 +40,8 @@ public class ThreadSupervisor extends HecticusThread {
     public void process(Map args) {
         checkAliveThreads();
         //stop jobs
+        stopActiveJobs();
+        //start jobs
         activateJobs();
         //check for bad jobs
     }
@@ -75,6 +77,7 @@ public class ThreadSupervisor extends HecticusThread {
     private void activateJobs() {
         try {
             List<Job> currentList = Job.getToActivateJobs();
+            long jobDelay = Config.getLong("job-delay");
             if (currentList != null){
                 for (int i = 0 ; i < currentList.size(); i++){
                     Job actual = currentList.get(i);
@@ -91,9 +94,16 @@ public class ThreadSupervisor extends HecticusThread {
                             ObjectMapper mapper = new ObjectMapper();
                             jobParams = mapper.readValue(tempParams, LinkedHashMap.class);
                         }
+                        j.setName(actual.getName() + "-" + System.currentTimeMillis());
                         j.setIdApp(actual.getIdApp());
                         j.setParams(jobParams);
-                        Cancellable cancellable = system.scheduler().schedule(Duration.create(10, SECONDS), Duration.create(15, SECONDS), j, system.dispatcher());
+                        j.setJob(actual);
+                        Cancellable cancellable = null;
+                        if(actual.isDaemon()){
+                            cancellable = system.scheduler().schedule(Duration.create(jobDelay, SECONDS), Duration.create(Long.parseLong(actual.getTimeParams()), SECONDS), j, system.dispatcher());
+                        } else {
+                            cancellable = system.scheduler().scheduleOnce(Duration.create(jobDelay, SECONDS), j, system.dispatcher());
+                        }
                         j.setCancellable(cancellable);
                         activeJobs.add(j);
                         //j.process(jobParams);
@@ -122,29 +132,46 @@ public class ThreadSupervisor extends HecticusThread {
 
 
     private void stopActiveJobs(){
-        try {
-            List<Job> currentList = Job.getToStopJobs();
-            if (currentList != null){
-                for (int i = 0 ; i < currentList.size(); i++){
-                    try {
-                        Job actual = currentList.get(i);
-                        for(HecticusThread ht : activeJobs){
-                            //if found stop
+        if(!activeJobs.isEmpty()) {
+            try {
+                List<Job> currentList = Job.getToStopJobs();
+                if (currentList != null) {
+                    for (int i = 0; i < currentList.size(); i++) {
+                        try {
+                            Job actual = currentList.get(i);
+                            for (HecticusThread ht : activeJobs) {
+                                if (ht.getJob().getId() == actual.getId()) {
+                                    ht.cancel();
+                                    activeJobs.remove(ht);
+                                    break;
+                                }
+                            }
+                        } catch (Exception ex) {
+                            Utils.printToLog(ThreadSupervisor.class,
+                                    "Error en el ThreadSupervisor",
+                                    "error desconocido en el apagando jobs",
+                                    true,
+                                    ex,
+                                    "support-level-1",
+                                    Config.LOGGER_ERROR);
                         }
-
-                    }catch (Exception ex){
-
                     }
                 }
+
+            } catch (Exception ex) {
+                Utils.printToLog(ThreadSupervisor.class,
+                        "Error en el ThreadSupervisor",
+                        "error desconocido en el apagando jobs",
+                        true,
+                        ex,
+                        "support-level-1",
+                        Config.LOGGER_ERROR);
             }
-
-        }catch (Exception ex){
-
         }
     }
 
-    public void removeJob(){
-
+    public synchronized void removeJob(HecticusThread job){
+        activeJobs.remove(job);
     }
 
 }
