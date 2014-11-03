@@ -6,14 +6,14 @@ import models.clients.Client;
 import play.data.validation.Constraints;
 import play.libs.Json;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by chrirod on 10/30/14.
  */
+@Entity
+@Table(name="client_bets")
 public class ClientBets extends HecticusModel{
 
     @Id
@@ -36,6 +36,54 @@ public class ClientBets extends HecticusModel{
         this.idTournament = idTournament;
         this.idGameMatch = idGameMatch;
         this.clientBet = clientBet;
+        this.status = status;
+    }
+
+    public Long getIdClientBets() {
+        return idClientBets;
+    }
+
+    public void setIdClientBets(Long idClientBets) {
+        this.idClientBets = idClientBets;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Integer getIdTournament() {
+        return idTournament;
+    }
+
+    public void setIdTournament(Integer idTournament) {
+        this.idTournament = idTournament;
+    }
+
+    public Integer getIdGameMatch() {
+        return idGameMatch;
+    }
+
+    public void setIdGameMatch(Integer idGameMatch) {
+        this.idGameMatch = idGameMatch;
+    }
+
+    public Integer getClientBet() {
+        return clientBet;
+    }
+
+    public void setClientBet(Integer clientBet) {
+        this.clientBet = clientBet;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

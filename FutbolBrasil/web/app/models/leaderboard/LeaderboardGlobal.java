@@ -6,18 +6,18 @@ import models.clients.Client;
 import play.data.validation.Constraints;
 import play.libs.Json;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by chrirod on 10/30/14.
  */
+@Entity
+@Table(name="leaderboard_global")
 public class LeaderboardGlobal extends HecticusModel{
 
     @Id
     private Long idLeaderboardGlobal;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_client")
     private Client client;
 
@@ -34,12 +34,42 @@ public class LeaderboardGlobal extends HecticusModel{
         return finder.where().eq("id_client", idClient).findUnique();
     }
 
+    public Long getIdLeaderboardGlobal() {
+        return idLeaderboardGlobal;
+    }
+
+    public void setIdLeaderboardGlobal(Long idLeaderboardGlobal) {
+        this.idLeaderboardGlobal = idLeaderboardGlobal;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 
     @Override
     public ObjectNode toJson() {
         ObjectNode objNode = Json.newObject();
         objNode.put("id_leaderboard_global",idLeaderboardGlobal);
         objNode.put("client", client.toJsonWithoutRelations());
+        objNode.put("score", score);
+        return objNode;
+    }
+
+    public ObjectNode toJsonClean() {
+        ObjectNode objNode = Json.newObject();
+        objNode.put("id_leaderboard_global",idLeaderboardGlobal);
         objNode.put("score", score);
         return objNode;
     }

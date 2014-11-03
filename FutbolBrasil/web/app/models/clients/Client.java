@@ -3,6 +3,8 @@ package models.clients;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Country;
+import models.leaderboard.Leaderboard;
+import models.leaderboard.LeaderboardGlobal;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import play.data.validation.Constraints;
@@ -44,6 +46,12 @@ public class Client extends HecticusModel {
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasPushAlerts> pushAlerts;
+
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    private List<Leaderboard> leaderboards;
+
+    @OneToOne(mappedBy="client", cascade = CascadeType.ALL)
+    private LeaderboardGlobal leaderboardGlobal;
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
@@ -151,6 +159,22 @@ public class Client extends HecticusModel {
         this.lastCheckDate = lastCheckDate;
     }
 
+    public List<Leaderboard> getLeaderboards() {
+        return leaderboards;
+    }
+
+    public void setLeaderboards(List<Leaderboard> leaderboards) {
+        this.leaderboards = leaderboards;
+    }
+
+    public LeaderboardGlobal getLeaderboardGlobal() {
+        return leaderboardGlobal;
+    }
+
+    public void setLeaderboardGlobal(LeaderboardGlobal leaderboardGlobal) {
+        this.leaderboardGlobal = leaderboardGlobal;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -194,6 +218,14 @@ public class Client extends HecticusModel {
             }
             response.put("push_alerts", Json.toJson(alerts));
         }
+        if(leaderboards != null && !leaderboards.isEmpty()){
+            ArrayList<ObjectNode> alerts = new ArrayList<>();
+            for(Leaderboard ad : leaderboards){
+                alerts.add(ad.toJsonClean());
+            }
+            response.put("leaderboards", Json.toJson(alerts));
+        }
+        response.put("leaderbooard_global", leaderboardGlobal.toJsonClean());
         return response;
     }
 

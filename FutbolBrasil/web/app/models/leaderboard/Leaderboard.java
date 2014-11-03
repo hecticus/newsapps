@@ -7,14 +7,14 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by chrirod on 10/30/14.
  */
+@Entity
+@Table(name="leaderboard")
 public class Leaderboard extends HecticusModel{
 
     @Id
@@ -32,6 +32,38 @@ public class Leaderboard extends HecticusModel{
     public Leaderboard(Client client, Integer idTournament, Integer score) {
         this.client = client;
         this.idTournament = idTournament;
+        this.score = score;
+    }
+
+    public Long getIdLeaderboard() {
+        return idLeaderboard;
+    }
+
+    public void setIdLeaderboard(Long idLeaderboard) {
+        this.idLeaderboard = idLeaderboard;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Integer getIdTournament() {
+        return idTournament;
+    }
+
+    public void setIdTournament(Integer idTournament) {
+        this.idTournament = idTournament;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
         this.score = score;
     }
 
