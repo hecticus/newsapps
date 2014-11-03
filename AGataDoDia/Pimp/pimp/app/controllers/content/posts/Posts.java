@@ -428,10 +428,14 @@ public class Posts extends HecticusController {
         try {
             Client client = Client.finder.byId(id);
             Woman woman = null;
+            ObjectNode response = null;
             if(idWoman > 0){
                 woman = Woman.finder.byId(idWoman);
+                if(woman == null) {
+                    response = buildBasicResponse(2, "la mujer no existe");
+                    return ok(response);
+                }
             }
-            ObjectNode response = null;
             if(client != null) {
                 Country country = client.getCountry();
                 Language language = country.getLanguage();
