@@ -3,6 +3,8 @@ package utils;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspacePublish;
+import job.HecticusThread;
+import job.ThreadSupervisor;
 import models.basic.Config;
 import models.basic.Instance;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -19,13 +21,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class Utils {
-
+    public static AtomicBoolean run;
     public static String serverIp;
     public static Instance actual;
-
+    public static ThreadSupervisor supervisor;
     private static final int TTL = 900;
 
     /**

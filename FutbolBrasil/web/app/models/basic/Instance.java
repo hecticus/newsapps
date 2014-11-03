@@ -30,6 +30,9 @@ public class Instance extends HecticusModel {
     @Constraints.Required
     private int test;
 
+    @Constraints.Required
+    private boolean master;
+
     public static Model.Finder<Integer, Instance> finder = new Model.Finder<Integer, Instance>(Integer.class, Instance.class);
 
     public Instance(String ip, String name, int running) {
@@ -85,6 +88,14 @@ public class Instance extends HecticusModel {
         this.test = test;
     }
 
+    public boolean isMaster() {
+        return master;
+    }
+
+    public void setMaster(boolean master) {
+        this.master = master;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -93,6 +104,7 @@ public class Instance extends HecticusModel {
         response.put("name", name);
         response.put("running", running);
         response.put("test", test);
+        response.put("master", master);
         return response;
     }
 

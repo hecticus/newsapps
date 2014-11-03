@@ -134,6 +134,15 @@ public class Config extends Model{
      * Metodo para obtener el nombre del host actual
      * @return nombre del host actual
      */
+    public static String getFootballManagerHost() {
+        Config c = finder.where().eq("configKey","football-manager-url").findUnique();
+        return c.getValue();
+    }
+
+    /**
+     * Metodo para obtener el nombre del host actual
+     * @return nombre del host actual
+     */
     public static String getKrakenHost() {
         Config c = finder.where().eq("configKey","kraken-url").findUnique();
         return c.getValue();
