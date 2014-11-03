@@ -24,10 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static play.data.Form.form;
 
@@ -136,7 +133,6 @@ public class PostsView extends HecticusController {
 
         Form<Post> filledForm = PostViewForm.bindFromRequest();
 
-
         if(filledForm.hasErrors()) {
             return badRequest(edit.render(id, filledForm));
         }
@@ -149,15 +145,21 @@ public class PostsView extends HecticusController {
 
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                String fileName = picture.getFilename();
-                String contentType = picture.getContentType();
-                FileType fileType = FileType.finder.where().eq("mimeType", contentType).findUnique();
-                if(fileType == null) {
-                    filledForm.reject("Invalid File Type", "For file: " + fileName);
+                try {
+                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
+                    String fileName = picture.getFilename();
+                    String contentType = picture.getContentType();
+                    FileType fileType = FileType.finder.where().eq("mimeType", contentType).findUnique();
+                    if(fileType == null) {
+                        filledForm.reject("Invalid File Type", "For file: " + fileName);
+                        return badRequest(edit.render(id, filledForm));
+                    } else {
+                        System.out.println("Valid " + fileName);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
                     return badRequest(edit.render(id, filledForm));
-                } else {
-                    System.out.println("Valid " + fileName);
                 }
             }
             ++i;
@@ -169,12 +171,12 @@ public class PostsView extends HecticusController {
 
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                String fileName = picture.getFilename();
-                String contentType = picture.getContentType();
-                File file = picture.getFile();
-                String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
                 try {
+                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
+                    String fileName = picture.getFilename();
+                    String contentType = picture.getContentType();
+                    File file = picture.getFile();
+                    String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
                     String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
                     String md5 = Utils.getMD5(file);
                     ObjectNode dataFile = Json.newObject();
@@ -184,11 +186,15 @@ public class PostsView extends HecticusController {
                     data.put(fileName, dataFile);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
                     return badRequest(edit.render(id, filledForm));
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
+                    return badRequest(edit.render(id, filledForm));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
                     return badRequest(edit.render(id, filledForm));
                 }
             }
@@ -196,6 +202,20 @@ public class PostsView extends HecticusController {
             exists = filledForm.data().containsKey("media[" + i + "].link");
         }
         Post gfilledForm = filledForm.get();
+
+        String epochThis = filledForm.data().get("epochThis");
+        if(epochThis != null && !epochThis.isEmpty()) {
+            TimeZone tz = TimeZone.getDefault();
+            Calendar push = new GregorianCalendar(tz);
+            int year = Integer.parseInt(epochThis.substring(0, 4));
+            int month = Integer.parseInt(epochThis.substring(4, 6), 10) - 1;
+            int date = Integer.parseInt(epochThis.substring(6, 8), 10);
+            int hourOfDay = Integer.parseInt(epochThis.substring(8, 10), 10);
+            int minute = Integer.parseInt(epochThis.substring(10), 10);
+            push.set(year, month, date, hourOfDay, minute);
+            gfilledForm.setPushDate(push.getTimeInMillis());
+        }
+
         for(PostHasMedia postHasMedia : gfilledForm.getMedia()){
             if(data.has(postHasMedia.getLink())) {
                 ObjectNode dataFile = (ObjectNode) data.get(postHasMedia.getLink());
@@ -322,6 +342,7 @@ public class PostsView extends HecticusController {
         });
 
         Form<Post> filledForm = PostViewForm.bindFromRequest();
+
         if(filledForm.hasErrors()) {
             return badRequest(form.render(filledForm));
         }
@@ -333,15 +354,21 @@ public class PostsView extends HecticusController {
         String woman = filledForm.data().get("woman.idWoman");
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                String fileName = picture.getFilename();
-                String contentType = picture.getContentType();
-                FileType fileType = FileType.finder.where().eq("mimeType", contentType).findUnique();
-                if(fileType == null) {
-                    filledForm.reject("Invalid File Type", "For file: " + fileName);
+                try {
+                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
+                    String fileName = picture.getFilename();
+                    String contentType = picture.getContentType();
+                    FileType fileType = FileType.finder.where().eq("mimeType", contentType).findUnique();
+                    if(fileType == null) {
+                        filledForm.reject("Invalid File Type", "For file: " + fileName);
+                        return badRequest(form.render(filledForm));
+                    } else {
+                        System.out.println("Valid " + fileName);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().get("media[" + i + "].link"));
                     return badRequest(form.render(filledForm));
-                } else {
-                    System.out.println("Valid " + fileName);
                 }
             }
             ++i;
@@ -353,13 +380,13 @@ public class PostsView extends HecticusController {
 
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                String fileName = picture.getFilename();
-                String contentType = picture.getContentType();
-                File file = picture.getFile();
-                String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-
                 try {
+                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
+                    String fileName = picture.getFilename();
+                    String contentType = picture.getContentType();
+                    File file = picture.getFile();
+                    String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+
                     String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
                     System.out.println(woman + " " + fileExtension + " " + link);
                     String md5 = Utils.getMD5(file);
@@ -370,13 +397,17 @@ public class PostsView extends HecticusController {
                     data.put(fileName, dataFile);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
                     return badRequest(form.render(filledForm));
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + fileName);
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
                     return badRequest(form.render(filledForm));
-                } 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
+                    return badRequest(form.render(filledForm));
+                }
             }
             ++i;
             exists = filledForm.data().containsKey("media[" + i + "].link");
@@ -384,6 +415,19 @@ public class PostsView extends HecticusController {
 
 
         Post gfilledForm = filledForm.get();
+
+        String epochThis = filledForm.data().get("epochThis");
+        if(epochThis != null && !epochThis.isEmpty()) {
+            TimeZone tz = TimeZone.getDefault();
+            Calendar push = new GregorianCalendar(tz);
+            int year = Integer.parseInt(epochThis.substring(0, 4));
+            int month = Integer.parseInt(epochThis.substring(4, 6), 10) - 1;
+            int date = Integer.parseInt(epochThis.substring(6, 8), 10);
+            int hourOfDay = Integer.parseInt(epochThis.substring(8, 10), 10);
+            int minute = Integer.parseInt(epochThis.substring(10), 10);
+            push.set(year, month, date, hourOfDay, minute);
+            gfilledForm.setPushDate(push.getTimeInMillis());
+        }
 
         for(PostHasMedia postHasMedia : gfilledForm.getMedia()){
             if(data.has(postHasMedia.getLink())) {

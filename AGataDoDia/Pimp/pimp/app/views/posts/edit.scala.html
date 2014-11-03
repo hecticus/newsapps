@@ -2,6 +2,7 @@
 
 @import helper._
 @import helper.twitterBootstrap._
+@import tags._
 
 @title = {}
 
@@ -82,7 +83,7 @@
 
 
             @if(postViewForm("push").value == "1"){
-                @inputText(postViewForm("pushDate"), '_label -> Messages("post.push.scheduled"), '_help -> Messages("post.push.scheduled.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
+                @datetimepicker("epochThis", postViewForm("pushDate"), Messages("post.push.scheduled"))
             }else{
                 @if(postViewForm("push").value == "2"){
                     <p class="text-danger">@Messages("post.push.pushing")</p>
@@ -93,7 +94,7 @@
                 }
             }
 
-            @inputText(postViewForm("date"), '_label -> Messages("post.date"), '_help -> Messages("post.date.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
+            @datetimepicker("date", postViewForm("date"), Messages("post.date"))
 
             @inputText(postViewForm("source"), '_label -> Messages("post.source"), '_help -> Messages("post.source.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
             @select(

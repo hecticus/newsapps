@@ -2,6 +2,7 @@
 
 @import helper._
 @import helper.twitterBootstrap._
+@import tags._
 
 @title = {}
 
@@ -72,9 +73,9 @@
         <fieldset>
             <legend>@Messages("post.info")</legend>
 
-            @inputText(postViewForm("pushDate"), '_label -> Messages("post.push.scheduled"), '_help -> Messages("post.push.scheduled.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
+            @datetimepicker("date", postViewForm("date"), Messages("post.date"))
 
-            @inputText(postViewForm("date"), '_label -> Messages("post.date"), '_help -> Messages("post.date.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
+            @datetimepicker("epochThis", postViewForm("epochThis"), Messages("post.push.scheduled"))
 
             @inputText(
                 postViewForm("source"),
