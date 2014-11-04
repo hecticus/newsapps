@@ -295,6 +295,21 @@ public class Clients extends HecticusController {
                     }
                 }
 
+                //si pedimos que se suscriba debe hacerse
+                if(clientData.has("subscribe") && clientData.has("login")){
+                    if(client != null){
+                        if(client.getUserId() == null){
+                            //tratamos de crear al cliente
+                            subscribeUserToUpstream(client,upstreamChannel);
+                            update = true;
+                        }
+                        if(client.getStatus() <= 0){
+                            getStatusFromUpstream(client,upstreamChannel);
+                            update = true;
+                        }
+                    }
+                }
+
                 if(update){
                     client.update();
                 }
