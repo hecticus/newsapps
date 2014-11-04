@@ -76,6 +76,19 @@
 		return _oMoment;
 	};
 	
+	//get device type
+	function getDevice(){
+		/*var devicePlatform = device.platform;
+		//IOS
+		if(devicePlatform == "iOS"){
+			return "iOS";
+		}else{
+			return "android";
+		}*/
+		
+		return "android";
+	}
+	
 	
 	function exitApp(){
 		try{clearInterval(newsRefreshInterval);}catch(e){}

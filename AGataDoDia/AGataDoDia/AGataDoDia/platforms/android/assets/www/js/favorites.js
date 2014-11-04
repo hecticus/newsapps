@@ -1,6 +1,6 @@
 
 	
-	_oAjax = _fGetAjaxJson(_url + '/v1/clients/favorites/' + _jParameters.client);
+	_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + _jParameters.client);
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 

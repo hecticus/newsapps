@@ -1,5 +1,5 @@
 
-	_oAjax = _fGetAjaxJson(_url + '/v1/women/halloffame');
+	_oAjax = _fGetAjaxJson(_url + '/garotas/v1/women/halloffame');
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 

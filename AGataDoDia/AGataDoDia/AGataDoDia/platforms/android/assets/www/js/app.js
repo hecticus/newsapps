@@ -1,22 +1,40 @@
 	
-	var _url = 'http://gatadodia.hecticus.com/garotas';
+	var _url = 'http://gatadodia.hecticus.com';
 	var _jParameters = {client:1};
 	var _jMenu = [];
 	var _jData = [];
 	var _oAjax = false;
 	var currentScreen = 0;
 	
-	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false, exitFromApp:true, returnsTo:-1});
+	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false, exitFromApp:false, returnsTo:0});
+	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false, exitFromApp:false, returnsTo:0});
+	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false, exitFromApp:false, returnsTo:0});
+	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false, exitFromApp:false, returnsTo:0});
+	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false, exitFromApp:true, returnsTo:-1});
+	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false, exitFromApp:false, returnsTo:5});
+	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false, exitFromApp:false, returnsTo:5});
+	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false, exitFromApp:false, returnsTo:0});
 	
-	
+	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
+	function startApp(isActive, status){
+		if(isActive){
+			_jApp.load(0);
+		}else{
+			if(status == 2){
+				//_jApp.load(5); //asi deberia ir
+				_jApp.load(5);
+			}else{
+				//ir a la ventana de signup o mostrar un mensaje y eliminar el boton de prueba
+				_jApp.load(6);
+			}
+		}
+	}
+	//Si ocurrio un error con la carga del cliente se informa aqui
+	function errorStartApp(){
+		alert("Error en la app");
+		_jApp.back();
+	}
 	
 	var _jApp = {
 		
@@ -81,7 +99,10 @@
 				if(_jMenu[currentScreen].exitFromApp){
 					exitApp();
 				}else{
-					this.load(0);
+					$('main').empty();				
+					$('main').data('index', _jMenu[currentScreen].returnsTo);
+					$('main').data('referer', currentScreen);
+					this.load(_jMenu[currentScreen].returnsTo);
 				}
 			}
 				
@@ -175,7 +196,7 @@
 			_data.add_woman.push(_woman);		
 		}
 
-		_fPostAjaxJson(_url + '/v1/clients/update/' + _jParameters.client,_data) ;
+		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + _jParameters.client,_data) ;
 		
 	});
 	
@@ -184,8 +205,8 @@
 		if(_fPreventDefaultClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}							
 		$(this).removeClass('icon-material-add-circle');
-		$(this).html('loading...');		
-		_fRenderListPost(_url + '/v1/posts/get/client/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value'));
+		$(this).html('loading...');	
+		_fRenderListPost(_url + '/garotas/v1/posts/get/client/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value'));
 				
 	});
 

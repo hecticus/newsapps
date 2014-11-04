@@ -1,6 +1,6 @@
 	
 	
-	var _oAjax = _fGetAjaxJson(_url + '/loading');	
+	var _oAjax = _fGetAjaxJson(_url + '/garotas/loading');	
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
 

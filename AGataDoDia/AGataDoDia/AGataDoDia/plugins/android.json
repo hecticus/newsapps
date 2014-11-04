@@ -13,10 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
                             "count": 1
                         },
@@ -30,6 +26,10 @@
                         },
                         {
                             "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -102,9 +102,6 @@
         "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         },
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.hecticus.AGataDoDia"
-        },
         "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         },
@@ -116,6 +113,9 @@
         },
         "nl.x-services.plugins.launchmyapp": {
             "URL_SCHEME": "mycoolapp",
+            "PACKAGE_NAME": "com.hecticus.AGataDoDia"
+        },
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         }
     },

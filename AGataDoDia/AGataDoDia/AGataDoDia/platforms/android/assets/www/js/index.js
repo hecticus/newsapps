@@ -45,9 +45,15 @@ var app = {
 				_jApp.back();								
 			}, false);
     		    			
-    		    		    		
-			_jApp.load(5);
+    		//Se ejecuta dependiendo que que valor tiene el client    		    		
+			//_jApp.load(5);
+    		app.initAllAppData();
     	}
+    },
+    
+    initAllAppData: function() {
+    	//init Push manager this will init the client also
+    	initPush();
     }
 };
 
