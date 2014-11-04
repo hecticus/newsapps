@@ -156,6 +156,7 @@ main.posts=Posts
 main.languages=Languages
 main.countries=Countries
 main.categories=Categories
+main.configurations=Configurations
 main.list=List
 main.operations=Operations
 main.create=Create
@@ -225,6 +226,32 @@ countries.submit.delete=Delete this Country
 countries.java.created= The country {0} has been created!
 countries.java.updated= The country {0} has been updated!
 countries.java.deleted= The country {0} has been deleted!
+
+configs.list.head=Configurations
+configs.list.title={0,choice,0#There are no configurations|1#One configuration found|1<{0,number,integer} configurations found}
+configs.list.filter.name=Filter by Configuration name...
+configs.list.new=Add new Configuration
+
+configs.create=Create Configuration
+configs.edit=Edit Configuration
+configs.info=Configuration Data
+
+configs.key=Key
+configs.key.help=String used to get the configuration value
+
+configs.value=Value
+configs.value.help=value of this configuration
+
+configs.description=Description
+configs.description.help=usage of this configuration
+
+configs.submit.create=Create this Configuration
+configs.submit.update=Update this Configuration
+configs.submit.delete=Delete this Configuration
+
+configs.java.created= The Configuration {0} has been created!
+configs.java.updated= The Configuration {0} has been updated!
+configs.java.deleted= The Configuration {0} has been deleted!
 
 categories.list.head=Categories
 categories.list.title={0,choice,0#There are no categories|1#One category found|1<{0,number,integer} categories found}
