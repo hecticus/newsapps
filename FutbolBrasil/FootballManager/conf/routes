@@ -27,6 +27,9 @@ GET     /footballapi/v1/ranking/get/:id                         controllers.foot
 GET     /footballapi/v1/ranking/get/ext/:id                     controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = true )
 GET     /footballapi/v1/ranking/get/global/:id                  controllers.footballapi.AfpFutbolWs.getGlobalRanking(id : Long)
 
+GET     /footballapi/v1/matches/finished/get/:idCompetition         controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
+GET     /footballapi/v1/matches/finished/get/:idCompetition/:date   controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
+
 
 #new football api
 #players

@@ -45,6 +45,7 @@ public class GameMatch extends HecticusModel {
     private String awayTeamName;
     private Integer homeTeamGoals;
     private Integer awayTeamGoals;
+    @javax.persistence.Column(length=14)
     private String date;
     private String status;
     private Integer started;
@@ -52,6 +53,10 @@ public class GameMatch extends HecticusModel {
     private Integer finished;
     private Integer suspended;
     private Long extId;
+
+    @ManyToOne
+    @JoinColumn(name="id_competition")
+    private Competition competition;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "gameMatch")
     private GameMatchResult result;
@@ -61,7 +66,7 @@ public class GameMatch extends HecticusModel {
     private List<GameMatchEvent> events;
 
     private static Model.Finder<Long,GameMatch> finder = new
-                   Model.Finder<Long,GameMatch>("afp_futbol",Long.class, GameMatch.class);
+                   Model.Finder<Long,GameMatch>(Long.class, GameMatch.class);
 
     public GameMatch(){}
 
@@ -282,5 +287,32 @@ public class GameMatch extends HecticusModel {
         json.put("events", Json.toJson(list));
 
         return  json;
+    }
+
+    public Competition getCompetition() {
+        return competition;
+    }
+
+    public void setCompetition(Competition competition) {
+        this.competition = competition;
+    }
+
+    public static List<GameMatch> getGamematchByDate(Long idCompetition, String date){
+        return finder.findList();
+    }
+
+    public ObjectNode fixtureJson(){
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);//id del juego
+        int value = 0;
+        if (homeTeamGoals > awayTeamGoals){
+            value = 1;
+        }else if (homeTeamGoals < awayTeamGoals){
+            value = 3;
+        }else { //iguales
+            value = 2;
+        }
+        json.put("game_result", value);
+        return json;
     }
 }

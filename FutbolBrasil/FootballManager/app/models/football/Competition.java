@@ -35,7 +35,7 @@ public class Competition  extends HecticusModel {
     public List<Phase> phases;
 
     private static Model.Finder<Long,Competition> finder = new
-            Model.Finder<Long, Competition>("afp_futbol",Long.class, Competition.class);
+            Model.Finder<Long, Competition>(Long.class, Competition.class);
 
     public Long getIdCompetitions() {
         return idCompetitions;

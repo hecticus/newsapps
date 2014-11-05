@@ -39,7 +39,7 @@ public class GameMatchEvent extends HecticusModel {
     private Integer _sort;
 
     private static Model.Finder<Long,GameMatchEvent> finder = new
-                   Model.Finder<Long,GameMatchEvent>("afp_futbol",Long.class,GameMatchEvent.class);
+                   Model.Finder<Long,GameMatchEvent>(Long.class,GameMatchEvent.class);
 
     public Long getIdGameMatchEvents() {
         return idGameMatchEvents;

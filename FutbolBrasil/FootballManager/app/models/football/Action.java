@@ -23,7 +23,7 @@ public class Action extends HecticusModel {
     @OneToMany(mappedBy = "action")
     private List<GameMatchEvent> events;
 
-    private static Model.Finder<Integer,Action> finder = new Model.Finder<Integer,Action>("afp_futbol",Integer.class,Action.class);
+    private static Model.Finder<Integer,Action> finder = new Model.Finder<Integer,Action>(Integer.class,Action.class);
 
     public Action(){}
 

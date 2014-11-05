@@ -23,7 +23,7 @@ public class Period extends HecticusModel {
     @OneToMany(mappedBy = "period")
     private List<GameMatchEvent> events;
 
-    private static Model.Finder<Integer,Period> finder = new Model.Finder<Integer,Period>("afp_futbol",Integer.class,Period.class);
+    private static Model.Finder<Integer,Period> finder = new Model.Finder<Integer,Period>(Integer.class,Period.class);
     public Period(){}
 
     public Integer getIdPeriods() {

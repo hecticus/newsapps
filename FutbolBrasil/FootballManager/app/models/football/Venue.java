@@ -28,7 +28,7 @@ public class Venue extends HecticusModel {
     @OneToMany(mappedBy = "venue")
     private List<GameMatch> matches;
 
-    private static Model.Finder<Long,Venue> finder = new Model.Finder<Long,Venue>("afp_futbol",Long.class,Venue.class);
+    private static Model.Finder<Long,Venue> finder = new Model.Finder<Long,Venue>(Long.class,Venue.class);
 
     public Long getIdVenues() {
         return idVenues;

@@ -106,7 +106,6 @@ public class ThreadSupervisor extends HecticusThread {
                         }
                         j.setCancellable(cancellable);
                         activeJobs.add(j);
-                        //j.process(jobParams);
                     }catch (Exception ex){
                         actual.failedJob();
                         Utils.printToLog(ThreadSupervisor.class,

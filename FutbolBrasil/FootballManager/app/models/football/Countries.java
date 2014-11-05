@@ -26,7 +26,7 @@ public class Countries extends HecticusModel {
     @OneToMany(mappedBy = "country")
     private List<Venue> venues;
 
-    private static Model.Finder<Long,Countries> finder = new Model.Finder<Long,Countries>("afp_futbol",Long.class,Countries.class);
+    private static Model.Finder<Long,Countries> finder = new Model.Finder<Long,Countries>(Long.class,Countries.class);
 
     public Long getIdCountries() {
         return idCountries;

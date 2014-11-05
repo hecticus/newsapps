@@ -182,7 +182,7 @@ public class DataFactoryScraper extends HecticusThread {
                         //tribunal disc
                         streak =  xPath.compile("racha").evaluate(currentTeam);
 
-                System.out.println("id:" + xPath.compile("@key").evaluate(equipos.item(i)));
+                System.out.println("id:" + teamExtId + "::" + teamName);
             }
 
 
@@ -264,6 +264,7 @@ public class DataFactoryScraper extends HecticusThread {
                 //build scorer
                 //getTeam
                 //getCountry
+
 
 
             }

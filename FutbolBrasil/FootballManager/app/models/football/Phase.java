@@ -37,7 +37,7 @@ public class Phase extends HecticusModel {
     @OneToMany(mappedBy = "phase")
     private List<GameMatch> matches;
 
-    private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>("afp_futbol",Long.class,Phase.class);
+    private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
 
     public Long getIdPhases() {
         return idPhases;

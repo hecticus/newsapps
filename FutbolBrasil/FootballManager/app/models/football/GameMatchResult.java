@@ -31,7 +31,7 @@ public class GameMatchResult extends HecticusModel {
     private String  scoreStr;
 
     private static Finder<Long,GameMatchResult> finder = new
-            Finder<Long,GameMatchResult>("afp_futbol",Long.class,GameMatchResult.class);
+            Finder<Long,GameMatchResult>(Long.class,GameMatchResult.class);
 
     public  GameMatchResult(){ }
 

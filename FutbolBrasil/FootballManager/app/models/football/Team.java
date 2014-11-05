@@ -28,7 +28,7 @@ public class Team extends HecticusModel {
 
     //debe pertenecer a una competicion?
 
-    private static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>("afp_futbol",Long.class,Team.class);
+    private static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);
 
     public Long getIdTeams() {
         return idTeams;

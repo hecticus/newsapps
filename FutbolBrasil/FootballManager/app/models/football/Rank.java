@@ -94,7 +94,7 @@ public class Rank  extends HecticusModel {
 
 
     private static Model.Finder<Long,Rank> finder = new
-            Model.Finder<Long,Rank>("afp_futbol",Long.class,Rank.class);
+            Model.Finder<Long,Rank>(Long.class,Rank.class);
 
 
     @Override
