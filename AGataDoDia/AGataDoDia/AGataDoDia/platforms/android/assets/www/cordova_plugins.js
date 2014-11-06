@@ -8,13 +8,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
         "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
         "id": "com.phonegap.plugins.PushPlugin.PushNotification",
         "clobbers": [
@@ -41,6 +34,13 @@ module.exports = [
         "clobbers": [
             "window.plugins.launchmyapp"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
+        "clobbers": [
+            "device"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -48,11 +48,11 @@ module.exports.metadata =
 {
     "org.apache.cordova.console": "0.2.11",
     "org.apache.cordova.inappbrowser": "0.5.2",
-    "org.apache.cordova.device": "0.2.12",
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "nl.x-services.plugins.socialsharing": "4.3.8",
     "org.apache.cordova.splashscreen": "0.3.4",
-    "nl.x-services.plugins.launchmyapp": "3.2.0"
+    "nl.x-services.plugins.launchmyapp": "3.2.0",
+    "org.apache.cordova.device": "0.2.12"
 }
 // BOTTOM OF METADATA
 });

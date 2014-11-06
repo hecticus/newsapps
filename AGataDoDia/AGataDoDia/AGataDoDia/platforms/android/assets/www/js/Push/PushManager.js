@@ -8,7 +8,7 @@ function initPush(){
     	pushNotification = window.plugins.pushNotification;
     	if (device.platform == 'android' || device.platform == 'Android') {
 			//console.log('<li>registering android</li>');
-        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"961052813400","ecb":"onNotificationGCM"});		// required!
+        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"798162798061","ecb":"onNotificationGCM"});		// required!
 		} else {
 			//console.log('<li>registering iOS</li>');
         	pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"true","alert":"true","ecb":"onNotificationAPN"});	// required!
@@ -38,8 +38,10 @@ function onNotificationAPN(e) {
     if (e.badge) {
         pushNotification.setApplicationIconBadgeNumber(successPushHandler, e.badge);
     }*/
+	console.log("LLEGO INFO PUSH");
+	console.log(JSON.stringify(e));
 	if(e["extra_params"] != null && e["extra_params"] != ""){
-		executePushInit(e["extra_params"]);
+		//executePushInit(e["extra_params"]);
 	}
 }
 
@@ -108,6 +110,10 @@ function tokenHandler (result) {
 
 function successPushHandler (result) {
     console.log('<li>success:'+ result +'</li>');
+    if(result != null && result != ""){
+    	regID = result;
+    	updateDeviceToServer();
+    }
 }
 
 function errorPushHandler (error) {
@@ -138,100 +144,8 @@ function updateDeviceToServer(){
 	console.log("revisando version");
 	//TODO: despues de guardar el regID en el servidor se llama a esta funcion
 	pushNotification.registerOnServer(successPushHandlerServer, errorPushHandler, true);
-	/*try {			
-		if(regID != null && regID != ""){
-			var currentRegID = loadRegID();
-			if(currentRegID != null && currentRegID == regID){
-				//same ID and already registered on server
-				//console.log("Registrado en el servidor ya no se vuelve a registrar");
-				return;
-			}
-			//revisamos si tenemos cliente porque sino no podemos registrar nada
-			var client = loadClientData();
-			if(client == null){
-				//lo registramos como un cliente generico
-				_jData.push_id = regID;
-				var devicePlatform = device.platform;
-				//IOS
-				if(devicePlatform == "iOS"){
-					_jData.type = "ios";
-				}else{
-					//ANDROID
-					_jData.type = "droid";
-				}
-				//console.log("DATA TO SEND "+JSON.stringify(_jData));
-				//var _oAjaxCreate = $.fPostAjaXJSONSimple('http://10.0.3.142:9000/KrakenSocialClients/v1/client/create/generic',_jData);
-				var _oAjaxCreate = $.fPostAjaXJSONSimple('http://api.hecticus.com/KrakenSocialClients/v1/client/create/generic',_jData);	
-				if (_oAjaxCreate) {
-
-					_oAjaxCreate.done(function(_json) {
-						//console.log("Respuesta ");
-						//console.log("JSON "+JSON.stringify(_json));
-						if (_json.response.length == 0) {
-							//alert('No existe');
-							//navigator.notification.alert("Error login", doNothing, "Ingresar", "OK");
-						} else {
-							//Actualizamos tambien las categorias de push
-							getClientPushOptions(doNothing,doNothing,false);
-							
-							saveClientData(_json.response[0]);						
-							//SAVE REGID
-							saveRegID(regID);					
-						}			   
-					});
-					
-					_oAjaxCreate.fail(function() {
-						
-					});	
-					
-				}
-			}else{
-				//Actualizamos tambien las categorias de push
-				getClientPushOptions(doNothing,doNothing,false);
-				
-				//var urlUpdate = "http://10.0.3.144:9000/KrakenSocialClients/v1/devices/add";
-				var urlUpdate = "http://api.hecticus.com/KrakenSocialClients/v1/devices/add";
-				var _data = {}
-				_data.socialClientID = client.id_social_clients;
-				_data.push_id = regID;
-				var devicePlatform = device.platform;
-				//IOS
-				if(devicePlatform == "iOS"){
-					_data.type = "ios";
-				}else{
-					//ANDROID
-					_data.type = "droid";
-				}
-				if(currentRegID != null && currentRegID != ""){
-					_data.old_push_id = currentRegID;
-				}
-				//console.log("DATA: "+JSON.stringify(_data));
-			  	$.ajax({
-					url : urlUpdate,
-					data: JSON.stringify(_data),	
-					type: 'POST',
-					contentType: "application/json; charset=utf-8",
-					dataType: 'json',
-					timeout : 60000,
-					success : function(data, status) {
-						if(typeof data == "string"){
-							data = JSON.parse(data);
-						}
-						var code = data.error;
-						if(code == 0){
-							//SAVE REGID
-							saveRegID(regID);
-						}else{
-							console.log("Error guardando device: "+data.description);
-						}
-					},
-					error : function(xhr, ajaxOptions, thrownError) {
-						console.log("error add device");
-					}
-				});
-			}
-		}
-		   
-	} catch (e) {
-	}*/
+	
+	//Una vez tengamos el regID y este todo listo tenemos que revisar si ya existe el cliente o si hay que crear uno generico
+	//init client manager
+	initClientManager(startApp, errorStartApp);
 }

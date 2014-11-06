@@ -17,7 +17,7 @@
     <preference name="useBrowserHistory" value="true" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="universal" />
-    <preference name="fullscreen" value="false" />
+    <preference name="fullscreen" value="true" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
@@ -36,12 +36,12 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
-    <name>Main</name>
+    <name>A Gata Do Dia</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A Gata do Dia app.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="contact@hecticus.com" href="http://www.hecticus.com">
+        Hecticus Software Inc
     </author>
     <content src="index.html" />
     <access origin="*" />
