@@ -23,6 +23,40 @@
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
+		
+		
+		
+		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
+		if (_oAjax) {
+			_oAjax.done(function(_json) {					
+				_jMenu[5].data = _json;
+			});
+		};
+
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + _jParameters.client + '/0');
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				_jMenu[0].data = _json;					
+			});
+		};
+					
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + _jParameters.client);
+		if (_oAjax) {
+			_oAjax.done(function(_json) {					
+				_jMenu[1].data = _json;
+			});
+		};
+	
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/women/halloffame');
+		if (_oAjax) {
+			_oAjax.done(function(_json) {					
+				_jMenu[8].data = _json;
+			});
+		};
+		
+		
+		
+		
 		if(isActive){
 			_jApp.load(0);
 		}else{
@@ -83,7 +117,7 @@
 				$('main').empty();				
 				$('main').data('referer', referer);				
 				$('main').data('index',_index);
-				this.loading();		
+				//this.loading();		
 				$('main').load(_jMenu[_index].load);
 	
 				
@@ -192,6 +226,7 @@
 
 	});
 	
+	
 	$(document).on('click','[data-touch="favorite"]', function(e) {
 				
 		if(_fPreventDefaultClick(e)){return false;}
@@ -199,29 +234,36 @@
 		
 		var _woman = $(this).data('woman');
 		var _data = {'add_woman': [],'remove_woman': []};
+		var _json = _jMenu[0].data;
 		
 		if($(this).hasClass('on')) {
+			
 			$('[data-touch="favorite"][data-woman="' + _woman + '"]').removeClass('on');
-			_data.remove_woman.push(_woman);		
+			_data.remove_woman.push(_woman);
+			
+			$.each(_json.response, function(_index,_item) {
+				if (_item.woman.id_woman == _woman) {
+					_item.starred = false;
+				};
+			});
+
 		} else {
+			
 			$('[data-touch="favorite"][data-woman="' + _woman + '"]').addClass('on');
-			_data.add_woman.push(_woman);		
+			_data.add_woman.push(_woman);
+							
+			$.each(_json.response, function(_index,_item) {			
+				if (_item.woman.id_woman == _woman) {
+					_item.starred = true;		
+				};
+			});
+
 		}
 
-		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + _jParameters.client,_data) ;
+		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + _jParameters.client,_data);									
 		
 	});
 	
-	
-	$(document).on('click','[data-touch="plus"]', function(e) {
-		if(_fPreventDefaultClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}							
-		$(this).removeClass('icon-material-add-circle');
-		$(this).html('loading...');	
-		//setTimeout(function(){_fRenderListPost(_url + '/garotas/v1/posts/get/client/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value'));},10);
-		_fRenderListPost(_url + '/garotas/v1/posts/get/client/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value'));
-	});
-
 
 	var _fRenderListPost =  function(_url,_empty) {
 		
@@ -324,66 +366,7 @@
 		if(!pushItems) setTimeout(function(){_scroll.scrollTo(0,scrollPosition,0);},10);
 		
 	}
-	
-	//NOT USED!!!!!!!!!!!!!!!! ALI PARA QUE ES ESTO?
-	var _fRenderPost =  function() {
-		if (_oAjax) {
-			
-			var _width = $(window).width();
-			var _html = '';
-						
-			_oAjax.done(function(_json) {
-				var _break = false;
-				$.each(_json.response, function(_index,_item) {
-					
-					if (_item.id_post == _jParameters.post) {
-	
-	
-						_width = parseInt($(window).width() * _item.files.length);
-						$.each(_item.files, function(_index,_file) {
-							
-							_html += '<figure style="width:' + $(window).width() + 'px; height:' + parseInt($(window).height() - 55) + 'px; float:left; " >';
-								_html += '<img onerror="this.style.display=\'none\'" src="' + _file + '" alt="' + _item.woman.name + '" class="img-rounded" style="margin: auto; position: absolute;  z-index: 1; top: 0px; left: 0px; right: 0px;"   />';
-	
-								_html += '<div class="row" style="position: absolute; z-index: 5; top:30px; right:0px; text-align:center;">';
-									_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:5px !important;">';
-										_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-									_html += '</div>';
-									_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-										_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _file + '\', \'' + _item.source + '\');"></i>';
-									_html += '</div>';
-								_html += '</div>';
-										
-							_html += '</figure>';
-															
-						});
-			
-						if (_item.files.length >= 2) {
-							$('.carousel-control').removeClass('hidden');
-						}
-	
-						_break = true;
-						
-					}	 
-									
-					if (_break) return true;
-									
-				});
-								
-			});
 
-			$('#wrapper2').css('width', $(window).width() + 'px');
-			$('#wrapper2 .scroller').css('width',  _width + 'px');
-			$('#wrapper2 .scroller .container').empty();		
-			$('#wrapper2 .scroller .container').append(_html);
-			
-			
-			_scrollPost.scrollTo(0,0,0);
-			_scrollPost.refresh();
-		
-		}
-	};
-	
 	//SIMPLE NAVIGATION MANAGER
 	function pushNavigation(_index){
 		if(_index == 0){
