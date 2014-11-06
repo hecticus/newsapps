@@ -140,7 +140,7 @@ row:not(input):not(textarea) {
 		width:100%;
 		height: auto;
 		text-align: left;	   
-	    background-color:#E2E2E1;
+	    /*background-color:#E2E2E1;*/
 	    color: #000000;
 	    opacity: 0.8;	    	
 	}
@@ -150,11 +150,11 @@ row:not(input):not(textarea) {
 		height: auto;		
 	   	margin-top: 0px;
 	    color: #FFFFFF;
-	    background:#000000;
+	    /*background:#000000;*/
 	}
 
 	body {
-		background-color: #000000;
+		/*background-color: #000000;*/
 	}
 	
 	.icon-menu {
