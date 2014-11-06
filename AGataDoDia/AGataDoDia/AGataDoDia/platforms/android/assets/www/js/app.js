@@ -8,6 +8,9 @@
 	var referer = 0;
 	var scrollPosition = 0;
 	
+	//navigation
+	var navigation = [];
+	
 	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false, exitFromApp:true, returnsTo:-1});
 	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false, exitFromApp:false, returnsTo:0});
 	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false, exitFromApp:false, returnsTo:0});
@@ -64,12 +67,12 @@
 		},
 		
 		load: function(_index) {
+			pushNavigation(_index);
+
 			referer = currentScreen;
 			currentScreen = _index;
 			if(currentScreen == 2){
-				console.log("SCROLL ???"+_scroll);
 				scrollPosition = _scroll.y;
-				console.log("SCROLL"+scrollPosition);
 			}
 			try {
 
@@ -100,11 +103,12 @@
 	  	},
 	  	
 	  	back: function() {
-
+	  		var currentPage = popNavigation();
+	  		
 	  		if ($('#wrapper2').hasClass('left')) {						
 				$('#wrapper2').attr('class','page transition right');							
 			} else {
-				if(_jMenu[currentScreen].exitFromApp){
+				if(currentPage == -1){
 					exitApp();
 				}else{
 					$('main').empty();				
@@ -379,6 +383,23 @@
 		
 		}
 	};
+	
+	//SIMPLE NAVIGATION MANAGER
+	function pushNavigation(_index){
+		if(_index == 0){
+			//home screen
+			navigation = [];
+		}
+		navigation.push(_index);
+	}
+	function popNavigation(){
+		var currentPage = -1;
+		if(navigation.length > 1){
+  			currentPage = navigation[navigation.length-1];
+  			navigation.pop();
+  		}
+		return currentPage;
+	}
 	
 	
 	
