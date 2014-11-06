@@ -141,10 +141,8 @@ public class Clients extends HecticusController {
                     String date = sf.format(actualDate.getTime());
 
                     client = new Client(2, login, password, country, date);
-                    getUserIdFromUpstream(client,upstreamChannel);
-                    getStatusFromUpstream(client,upstreamChannel);
-                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                     ArrayList<ClientHasDevices> devices = new ArrayList<>();
+                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                     while (devicesIterator.hasNext()){
                         ObjectNode next = (ObjectNode)devicesIterator.next();
                         if(next.has("device_id") && next.has("registration_id")){
@@ -162,6 +160,9 @@ public class Clients extends HecticusController {
                         return ok(response);
                     }
                     client.setDevices(devices);
+
+                    getUserIdFromUpstream(client,upstreamChannel);
+                    getStatusFromUpstream(client,upstreamChannel);
 
                     if(clientData.has("women")){
                         Iterator<JsonNode> womenIterator = clientData.get("women").elements();
