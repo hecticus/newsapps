@@ -8,7 +8,7 @@ function initPush(){
     	pushNotification = window.plugins.pushNotification;
     	if (device.platform == 'android' || device.platform == 'Android') {
 			//console.log('<li>registering android</li>');
-        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"961052813400","ecb":"onNotificationGCM"});		// required!
+        	pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"798162798061","ecb":"onNotificationGCM"});		// required!
 		} else {
 			//console.log('<li>registering iOS</li>');
         	pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"true","alert":"true","ecb":"onNotificationAPN"});	// required!
@@ -38,8 +38,10 @@ function onNotificationAPN(e) {
     if (e.badge) {
         pushNotification.setApplicationIconBadgeNumber(successPushHandler, e.badge);
     }*/
+	console.log("LLEGO INFO PUSH");
+	console.log(JSON.stringify(e));
 	if(e["extra_params"] != null && e["extra_params"] != ""){
-		executePushInit(e["extra_params"]);
+		//executePushInit(e["extra_params"]);
 	}
 }
 
