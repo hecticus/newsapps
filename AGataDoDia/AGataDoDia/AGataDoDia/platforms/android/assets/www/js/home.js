@@ -13,7 +13,8 @@
 
 			_html += '<div class="row post" data-value="' + _item.id_post + '">';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure">';
-					_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';																					
+					//_html += '<img onerror="this.style.display=\'none\'" src="' + _item.woman.default_photo + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
+					_html += '<img onerror="this.onerror=null;this.src=\''+_item.woman.default_photo+'\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
 				_html += '</div>';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption">';
 					_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
@@ -23,7 +24,8 @@
 			
 			_html += '<div class="row">';
 				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px;" >';										
-					_html += '<i class="icon icon-material-camera-alt" data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" ></i><span class="badge">' + _item.woman.posts + '</span>';
+					//_html += '<i class="icon icon-material-camera-alt" data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" ></i><span class="badge">' + _item.woman.posts + '</span>';
+					_html += '<i class="icon icon-material-camera-alt" data-touch="post" data-param="post" data-target="2" data-value="' + _item.id_post + '" ></i><span class="badge">' + _item.files.length + '</span>';
 					_html += '<i class="icon icon-material-group" ></i><span class="badge">' + _item.woman.clients + '</span>';
 				_html += '</div>';		
 	
@@ -69,7 +71,7 @@
 
 		$('div.plus').remove();		
 		$('#wrapper .scroller .container').append(_html);
-
+		if(!_push) setTimeout(function(){_scroll.scrollTo(0,scrollPosition,0);},10);
 	};
 		
 		
