@@ -87,7 +87,7 @@
 		}*/
 		
 		return "android";
-	}
+	};
 	
 	
 	function exitApp(){
@@ -98,5 +98,9 @@
 	    } else if (navigator.device) {			        	
 	        navigator.device.exitApp();				            				          
 	    }
-	}
+	};
 	
+
+
+	
+
