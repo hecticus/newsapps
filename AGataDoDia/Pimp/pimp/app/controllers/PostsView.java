@@ -20,6 +20,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +32,8 @@ import static play.data.Form.form;
 import play.mvc.Security;
 import utils.Utils;
 import views.html.posts.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * Created by plesse on 10/23/14.
@@ -179,10 +182,13 @@ public class PostsView extends HecticusController {
                     String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
                     String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
                     String md5 = Utils.getMD5(file);
+                    BufferedImage bimg = ImageIO.read(file);
                     ObjectNode dataFile = Json.newObject();
                     dataFile.put("md5", md5);
                     dataFile.put("link", link);
                     dataFile.put("mime_type", contentType);
+                    dataFile.put("width", bimg.getWidth());
+                    dataFile.put("height", bimg.getHeight());
                     data.put(fileName, dataFile);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -221,6 +227,8 @@ public class PostsView extends HecticusController {
                 ObjectNode dataFile = (ObjectNode) data.get(postHasMedia.getLink());
                 postHasMedia.setLink(dataFile.get("link").asText());
                 postHasMedia.setMd5(dataFile.get("md5").asText());
+                postHasMedia.setWidth(dataFile.get("width").asInt());
+                postHasMedia.setHeight(dataFile.get("height").asInt());
                 FileType fileType = FileType.finder.where().eq("mimeType", dataFile.get("mime_type").asText()).findUnique();
                 postHasMedia.setFileType(fileType);
             }
@@ -390,10 +398,13 @@ public class PostsView extends HecticusController {
                     String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
                     System.out.println(woman + " " + fileExtension + " " + link);
                     String md5 = Utils.getMD5(file);
+                    BufferedImage bimg = ImageIO.read(file);
                     ObjectNode dataFile = Json.newObject();
                     dataFile.put("md5", md5);
                     dataFile.put("link", link);
                     dataFile.put("mime_type", contentType);
+                    dataFile.put("width", bimg.getWidth());
+                    dataFile.put("height", bimg.getHeight());
                     data.put(fileName, dataFile);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -434,6 +445,8 @@ public class PostsView extends HecticusController {
                 ObjectNode dataFile = (ObjectNode) data.get(postHasMedia.getLink());
                 postHasMedia.setLink(dataFile.get("link").asText());
                 postHasMedia.setMd5(dataFile.get("md5").asText());
+                postHasMedia.setWidth(dataFile.get("width").asInt());
+                postHasMedia.setHeight(dataFile.get("height").asInt());
                 FileType fileType = FileType.finder.where().eq("mimeType", dataFile.get("mime_type").asText()).findUnique();
                 postHasMedia.setFileType(fileType);
             }

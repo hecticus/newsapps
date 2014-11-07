@@ -23,6 +23,9 @@ import play.mvc.Results;
 import play.mvc.Security;
 import utils.Utils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -146,7 +149,10 @@ public class Posts extends HecticusController {
                         String file = next.get("file").asText();
                         String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
                         String path = Utils.uploadAttachment(file, woman.getIdWoman());
-                        PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen);
+                        BufferedImage bimg = ImageIO.read(new File(file));
+                        int width = bimg.getWidth();
+                        int height  = bimg.getHeight();
+                        PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
                         media.add(phm);
                     }
                 }
@@ -317,7 +323,10 @@ public class Posts extends HecticusController {
                             int index = post.getMediaIndex(md5);
                             if(index == -1){
                                 String path = Utils.uploadAttachment(file, post.getWoman().getIdWoman());
-                                PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen);
+                                BufferedImage bimg = ImageIO.read(new File(file));
+                                int width = bimg.getWidth();
+                                int height  = bimg.getHeight();
+                                PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
                                 post.getMedia().add(phm);
                                 update = true;
                             }

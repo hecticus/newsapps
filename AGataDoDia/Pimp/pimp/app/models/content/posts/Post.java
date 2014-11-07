@@ -260,10 +260,16 @@ public class Post extends HecticusModel {
         response.put("media", media == null?0:media.size());
         if(media != null && !media.isEmpty()){
             ArrayList<String> apps = new ArrayList<>();
+            ArrayList<ObjectNode> resolutions = new ArrayList<>();
             for(PostHasMedia ad : media){
                 apps.add(ad.getLink());
+                ObjectNode resolution = Json.newObject();
+                resolution.put("width", ad.getWidth());
+                resolution.put("height", ad.getHeight());
+                resolutions.add(resolution);
             }
             response.put("files", Json.toJson(apps));
+            response.put("resolutions", Json.toJson(resolutions));
         }
         if(localizations != null && !localizations.isEmpty()){
             for(PostHasLocalization ad : localizations){
