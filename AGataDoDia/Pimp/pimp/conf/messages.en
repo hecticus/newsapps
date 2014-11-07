@@ -355,6 +355,10 @@ post.media.file.type=File Type
 post.media.file.final=File - DO NOT CHANGE
 post.media.md5.final=MD5 - DO NOT CHANGE
 post.media.main=Feature on Main Screen?
+post.media.width=Width
+post.media.width.final=Width - DO NOT CHANGE
+post.media.height=Height
+post.media.height.final=Height - DO NOT CHANGE
 
 post.java.created= The post {0} has been created!
 post.java.updated= The post {0} has been updated!

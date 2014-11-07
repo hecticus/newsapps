@@ -354,6 +354,10 @@ post.media.file.type=Tipo de archivo
 post.media.file.final=Archivo - NO CAMBIAR
 post.media.md5.final=MD5 - NO CAMBIAR
 post.media.main=Activa para la Pantalla Principal?
+post.media.width=Ancho
+post.media.width.final=Ancho - NO CAMBIAR
+post.media.height=Alto
+post.media.height.final=Alto - NO CAMBIAR
 
 post.java.created= La publicacion {0} ha sido creada!
 post.java.updated= La publicacion {0} ha sido actualizada!
