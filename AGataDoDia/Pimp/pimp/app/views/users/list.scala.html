@@ -1,4 +1,4 @@
-@(currentPage: com.avaje.ebean.Page[models.basic.Language], currentSortBy: String, currentOrder: String, currentFilter: String, sortView: Boolean)
+@(currentPage: com.avaje.ebean.Page[models.User], currentSortBy: String, currentOrder: String, currentFilter: String, sortView: Boolean)
 
 @****************************************
 * Helper generating navigation links    *
@@ -22,7 +22,7 @@
     }
 
     // Generate the link
-    controllers.routes.LanguagesView.list(newPage, sortBy, order, currentFilter)
+    controllers.routes.UsersView.list(newPage, sortBy, order, currentFilter)
 
 }
 
@@ -37,12 +37,12 @@
 
 @title = {}
 
-@main(title = Messages("languages.list.head"), nav = "") {
+@main(title = Messages("users.list.head"), nav = "") {
     <div class="bs-docs-section">
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 id="homeTitle">@Messages("languages.list.title", currentPage.getTotalRowCount)</h1>
+                <h1 id="homeTitle">@Messages("users.list.title", currentPage.getTotalRowCount)</h1>
             </div>
         </div>
 
@@ -56,53 +56,43 @@
             <strong>@Messages("generic.list.done")</strong>
         </div>
 
-        <!--ACTIONS-->
-        <div id="actions">
-            <form action='@link(0, "name")' method="GET">
 
-                @if(!sortView) {
-                    <div class="col-lg-6">
-                        <input type="search" class="form-control floating-label" id="searchbox" name="f" placeholder=@Messages("languages.list.filter.name")>
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="submit" id="searchsubmit" value=@Messages("post.list.filter.name") class="btn btn-info">
-                    </div>
-                }
-
-                @if(sortView) {
-                    <a class="btn success" id="ajax" href="#" data-url="/garotas/v1/languages/sort/" >@Messages("generic.list.apply")</a>
-                }
-
-            </form>
-        </div>
 
         @if(currentPage.getTotalRowCount == 0) {
 
-            <div class="well">
-                <em>@Messages("generic.list.empty")</em>
-            </div>
+        <div class="well">
+            <em>@Messages("generic.list.empty")</em>
+        </div>
 
         } else {
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="bs-component">
-                        <div class="list-group">
-                            @for((language, index) <-  currentPage.getList().zipWithIndex) {
-                            <div class="list-group-item">
-                                <a href="@controllers.routes.LanguagesView.edit(language.getIdLanguage())">
-                                    <div class="row-content">
-                                        <h4 class="list-group-item-heading">@Html(""+language.getIdLanguage()) - @Html(language.getName())</h4>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="list-group-separator">
-                                <!--separator-->
-                            </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <div class="list-group">
+                        <table class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th>@Messages("users.name")</th>
+                                <th>@Messages("users.email")</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for((user, index) <-  currentPage.getList().zipWithIndex) {
+                                <tr>
+                                    <td>
+                                        <a href="@controllers.routes.UsersView.edit(user.id)">
+                                            @Html(user.name)
+                                        </a>
+                                    </td>
+                                    <td>@Html(user.email)</td>
+                                </tr>
                             }
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+        </div>
         }
 
     </div>
@@ -143,7 +133,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <a href="@controllers.routes.LanguagesView.blank" class="btn btn-primary">@Messages("languages.list.new")</a>
+                <a href="@controllers.routes.Application.signup" class="btn btn-primary">@Messages("users.list.new")</a>
             </div>
         </div>
 

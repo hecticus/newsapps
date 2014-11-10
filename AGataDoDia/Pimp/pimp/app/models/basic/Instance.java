@@ -2,6 +2,7 @@ package models.basic;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import play.data.validation.Constraints;
@@ -110,4 +111,9 @@ public class Instance extends HecticusModel {
         EbeanServer server = Ebean.getServer("default");
         server.update(i);
     }
+
+    public static Page<Instance> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return finder.where().orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
 }

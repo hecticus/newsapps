@@ -160,6 +160,9 @@ main.configurations=Configurations
 main.list=List
 main.operations=Operations
 main.create=Create
+main.admin=Administration
+main.users=Users
+main.instances=Instances
 
 generic.error.title=Error
 generic.error.content=Change a few things up and try submitting again.
@@ -252,6 +255,35 @@ configs.submit.delete=Delete this Configuration
 configs.java.created= The Configuration {0} has been created!
 configs.java.updated= The Configuration {0} has been updated!
 configs.java.deleted= The Configuration {0} has been deleted!
+
+instances.list.head=Instancies
+instances.list.title={0,choice,0#There are no instances|1#One instance found|1<{0,number,integer} instances found}
+instances.list.filter.name=Filter by instance name...
+instances.list.new=Add new Instance
+
+instances.create=Create Instance
+instances.edit=Edit Instance
+instances.info=Instance Data
+
+instances.ip=Server IP Address
+instances.ip.help=IP of the server
+
+instances.name=Name
+instances.name.help=Name of the instance
+
+instances.running=Running
+instances.running.help=State of the instance
+
+instances.test=Test
+instances.test.help=debug mode
+
+instances.submit.create=Create this Instance
+instances.submit.update=Update this Instance
+instances.submit.delete=Delete this Instance
+
+instances.java.created= The Instance {0} has been created!
+instances.java.updated= The Instance {0} has been updated!
+instances.java.deleted= The Instance {0} has been deleted!
 
 categories.list.head=Categories
 categories.list.title={0,choice,0#There are no categories|1#One category found|1<{0,number,integer} categories found}
@@ -363,3 +395,40 @@ post.media.height.final=Height - DO NOT CHANGE
 post.java.created= The post {0} has been created!
 post.java.updated= The post {0} has been updated!
 post.java.deleted= The post {0} has been deleted!
+
+
+users.list.head=Users
+users.list.title={0,choice,0#There are no users|1#One user found|1<{0,number,integer} users found}
+users.list.filter.name=Filter by User name...
+users.list.new=Add new User
+
+users.create=Create User
+users.edit=Edit User
+users.info=User Data
+
+users.active= Active
+users.active.help=Status of this user
+
+users.name=User Name
+users.name.help=user name
+
+users.email=Email
+users.email.help=email to be used as login
+
+users.firstName=First Name
+users.firstName.help=Name of the user
+
+users.lastName=Last Name
+users.lastName.help=Last Name of the user
+
+users.role=Role
+users.role.add=Add Role
+users.role.remove=Remove Role
+
+users.submit.create=Create this User
+users.submit.update=Update this User
+users.submit.delete=Delete this User
+
+users.java.created= The User {0} has been created!
+users.java.updated= The User {0} has been updated!
+users.java.deleted= The User {0} has been deleted!

@@ -99,6 +99,32 @@ POST    /categories/:id			                                                      
 # Delete a CategoriesView
 POST    /categories/:id/delete		                                                    controllers.CategoriesView.delete(id:Integer)
 
+#UsersView
+# UsersView list (look at the default values for pagination parameters)
+GET     /users/list			                                                controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /users/lsort		                                                    controllers.UsersView.lsort()
+# Add UsersView
+# Edit existing UsersView
+#GET     /users/sort/:ids	                                                    controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                    controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                    controllers.UsersView.update(id:Long)
+# Delete a UsersView
+POST    /users/:id/delete		                                                controllers.UsersView.delete(id:Long)
+
+#InstancesView
+# InstancesView list (look at the default values for pagination parameters)
+GET     /instances/list			                                                        controllers.InstancesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /instances/lsort		                                                        controllers.InstancesView.lsort()
+# Add InstancesView
+GET     /instances/blank		                                                        controllers.InstancesView.blank()
+POST    /instances				                                                        controllers.InstancesView.submit()
+# Edit existing InstancesView
+GET     /instances/sort/:ids	                                                        controllers.InstancesView.sort(ids:String)
+GET     /instances/:id			                                                        controllers.InstancesView.edit(id:Integer)
+POST    /instances/:id			                                                        controllers.InstancesView.update(id:Integer)
+# Delete a InstancesView
+POST    /instances/:id/delete		                                                    controllers.InstancesView.delete(id:Integer)
+
 
 #SocialNetworks
 POST    /garotas/v1/socialnetworks/create                                               controllers.content.women.SocialNetworks.create()
