@@ -158,6 +158,9 @@ main.configurations=Configuraciones
 main.list=Listar
 main.operations=Operaciones
 main.create=Crear
+main.admin=Administracion
+main.users=Usuarios
+main.instances=Instancias
 
 generic.error.title=Error
 generic.error.content=Revise los errores y haga la solicitud de nuevo
@@ -251,6 +254,35 @@ configs.submit.delete=Eliminar esta configuracion
 configs.java.created= La configuracion {0} ha sido creada!
 configs.java.updated= La configuracion {0} ha sido actualizada!
 configs.java.deleted= La configuracion {0} ha sido eliminada!
+
+instances.list.head=Instancias
+instances.list.title={0,choice,0#No hay instancias|1#Una instancia encontrada|1<{0,number,integer} instancias encontradas}
+instances.list.filter.name=Filtrar por nombre de la instancia...
+instances.list.new=Agregar nueva instancia
+
+instances.create=Crear instancia
+instances.edit=Editar instancia
+instances.info=Informacion de la instancia
+
+instances.ip=Direccion IP
+instances.ip.help=IP del servidor
+
+instances.name=Nombre
+instances.name.help=Nombre de la instancia
+
+instances.running=Activa
+instances.running.help=estado de la instancia
+
+instances.test=Prueba
+instances.test.help=mode de prueba
+
+instances.submit.create=Crear esta instancia
+instances.submit.update=Actualizar esta instancia
+instances.submit.delete=Eliminar esta instancia
+
+instances.java.created= La instancia {0} ha sido creada!
+instances.java.updated= La instancia {0} ha sido actualizada!
+instances.java.deleted= La instancia {0} ha sido eliminada!
 
 categories.list.head=Categorias
 categories.list.title={0,choice,0#No hay Categorias|1#Una categoria encontrada|1<{0,number,integer} categorias encontradas}
@@ -354,9 +386,48 @@ post.media.file.type=Tipo de archivo
 post.media.file.final=Archivo - NO CAMBIAR
 post.media.md5.final=MD5 - NO CAMBIAR
 post.media.main=Activa para la Pantalla Principal?
+post.media.width=Ancho
+post.media.width.final=Ancho - NO CAMBIAR
+post.media.height=Alto
+post.media.height.final=Alto - NO CAMBIAR
 
 post.java.created= La publicacion {0} ha sido creada!
 post.java.updated= La publicacion {0} ha sido actualizada!
 post.java.deleted= La publicacion {0} ha sido eliminada!
 
+users.list.head=Usuarios
+users.list.title={0,choice,0#No hay usuarios|1#Un usuario encontrado|1<{0,number,integer} usuarios encontrados}
+users.list.filter.name=Filtrar por nombre del usuario...
+users.list.new=Agregar nuevo usuario
+
+users.create=Crear usuario
+users.edit=Editar usuario
+users.info=Informacion del usuario
+
+users.active=Activo
+users.active.help=Estatus de este usuario
+
+users.name=Nombre de usuario
+users.name.help=Nombre de usuario
+
+users.email=Correo
+users.email.help=correo a ser usado como login
+
+users.firstName=Nombre
+users.firstName.help=nombre de este usuario
+
+users.lastName=Apellido
+users.lastName.help=Apellido de este usuario
+
+users.role=Rol
+users.role.add=Agregar Rol
+users.role.remove=Eliminar Rol
+
+users.submit.create=Crear este usuario
+users.submit.update=Actualizar este usuario
+users.submit.delete=Eliminar este usuario
+
+users.java.created= El usuario {0} ha sido creado!
+users.java.updated= El usuario {0} ha sido creado!
+users.java.deleted= El usuario {0} ha sido creado!
 

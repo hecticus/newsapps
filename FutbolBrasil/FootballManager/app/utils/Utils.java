@@ -2,6 +2,8 @@ package utils;
 
 import backend.jobs.ThreadSupervisor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.hecticus.rackspacecloud.RackspaceCreate;
+import com.hecticus.rackspacecloud.RackspacePublish;
 import models.Config;
 import models.Instance;
 import org.w3c.dom.Document;
@@ -26,6 +28,7 @@ public class Utils {
     public static boolean test;
     public static Instance actual;
     public static ThreadSupervisor supervisor;
+    private static final int TTL = 900;
 
     public static final TimeZone APP_TIMEZONE = TimeZone.getTimeZone("America/Caracas");
     /**
@@ -265,5 +268,60 @@ public class Utils {
             //System.err.println("Unable to delete " + fileName + "("+ e.getMessage() + ")");
             String emsg = "Error el archivo: " + fileName + " no se pudo borrar";
         }
+    }
+
+
+
+    private static boolean uploadAndPublish(File file, String parent){
+        String containerName = Config.getString("cdn-container");
+        String username = Config.getString("rackspace-username");
+        String apiKey = Config.getString("rackspace-apiKey");
+        String provider = Config.getString("rackspace-provider");
+        RackspaceCreate upload = new RackspaceCreate(username, apiKey, provider);
+        RackspacePublish pub = new RackspacePublish(username, apiKey, provider);
+        long init = System.currentTimeMillis();
+        int retry = 3;
+        if(upload == null || pub == null){
+            return false;
+        }
+        try {
+            upload.createContainer(containerName);
+            Utils.printToLog(Utils.class, "", "Creado container " + containerName, false, null, "", Config.LOGGER_INFO);
+            //resources
+            boolean uploaded = uploadFile(upload, retry, containerName, file, parent, init);
+            Utils.printToLog(Utils.class, "", "Archivo" + (!uploaded?" NO":"") + " subido " + file.getAbsolutePath(), false, null, "", Config.LOGGER_INFO);
+            if(uploaded){
+                //publish
+                pub.enableCdnContainer(containerName, TTL);
+                Utils.printToLog(Utils.class, "", "Container CDN enabled", false, null, "", Config.LOGGER_INFO);
+            }
+            return uploaded;
+        }catch (Exception ex){
+            Utils.printToLog(Utils.class, "", "Error subiendo el archivo al CDN", false, ex, "", Config.LOGGER_ERROR);
+            return false;
+        }
+    }
+
+    public static boolean uploadFile(RackspaceCreate upload,int retry,String container, File file, String parent, long init) throws InterruptedException{
+        boolean uploaded = false;
+        while(retry > 0 && !uploaded){
+            Utils.printToLog(Utils.class, "", "Subiendo el archivo " + file.getName() + " intento " + retry, false, null, "", Config.LOGGER_INFO);
+            try {
+//                upload.uploadObject(container,file);
+                upload.uploadObject(container, file, null, parent);
+                uploaded = true;
+            } catch (Exception ex) {
+                Utils.printToLog(Utils.class, "Falla subiendo el archivo " + (System.currentTimeMillis() - init) + " ms", "Se realizará reintento en 3 minutos", false, ex, "", Config.LOGGER_ERROR);
+                Thread.sleep(5000);
+                retry--;
+            }
+        }
+
+        if(!uploaded){
+            Utils.printToLog(Utils.class,"Luego de "+retry+" intentos, el archivo no pudo ser cargado el cloud","-",false,null,"",Config.LOGGER_ERROR);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -227,6 +227,19 @@
                         <ul class="nav navbar-nav">
                             <a class="navbar-brand" href="@controllers.routes.Application.index()">@Messages("main.start")</a>
                             @subjectPresentOr() {
+
+                                @defining(Application.getLocalUser(session())) { user =>
+                                    @if(user.isAdmin()){
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">@Messages("main.admin")<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="@controllers.routes.ConfigsView.list()">@Messages("main.configurations")</a></li>
+                                                <li><a href="@controllers.routes.InstancesView.list()">@Messages("main.instances")</a></li>
+                                                <li><a href="@controllers.routes.UsersView.list()">@Messages("main.users")</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                }
                                 <li class="dropdown">
                                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">@Messages("main.women")<b class="caret"></b></a>
                                     <ul class="dropdown-menu">
@@ -277,15 +290,7 @@
                                     </ul>
                                 </li>
 
-                                <li class="dropdown">
-                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">@Messages("main.configurations")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="@controllers.routes.ConfigsView.list()">@Messages("main.list")</a></li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-header">@Messages("main.operations")</li>
-                                        <li><a href="@controllers.routes.ConfigsView.blank">@Messages("main.create")</a></li>
-                                    </ul>
-                                </li>
+
                             }{<p/>}
                         </ul>
                     </div>

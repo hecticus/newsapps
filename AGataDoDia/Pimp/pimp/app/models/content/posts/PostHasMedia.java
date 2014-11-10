@@ -40,14 +40,20 @@ public class PostHasMedia extends HecticusModel {
     @Constraints.Required
     private Integer mainScreen;
 
+    private Integer width;
+
+    private Integer height;
+
     public static Model.Finder<Integer, PostHasMedia> finder = new Model.Finder<Integer, PostHasMedia>(Integer.class, PostHasMedia.class);
 
-    public PostHasMedia(Post post, FileType fileType, String md5, String link, int mainScreen) {
+    public PostHasMedia(Post post, FileType fileType, String md5, String link, Integer mainScreen, Integer width, Integer height) {
         this.post = post;
         this.fileType = fileType;
         this.md5 = md5;
         this.link = link;
         this.mainScreen = mainScreen;
+        this.width = width;
+        this.height = height;
     }
 
     public void setIdPostHasMedia(Integer idPostHasMedia) {
@@ -98,6 +104,22 @@ public class PostHasMedia extends HecticusModel {
         this.mainScreen = mainScreen;
     }
 
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -107,6 +129,8 @@ public class PostHasMedia extends HecticusModel {
         response.put("md5", md5);
         response.put("link", link);
         response.put("main_screen", mainScreen);
+        response.put("width", width);
+        response.put("height", height);
         return response;
     }
 
@@ -116,6 +140,8 @@ public class PostHasMedia extends HecticusModel {
         response.put("md5", md5);
         response.put("link", link);
         response.put("main_screen", mainScreen);
+        response.put("width", width);
+        response.put("height", height);
         return response;
     }
 
@@ -126,6 +152,8 @@ public class PostHasMedia extends HecticusModel {
         response.put("md5", md5);
         response.put("link", link);
         response.put("main_screen", mainScreen);
+        response.put("width", width);
+        response.put("height", height);
         return response;
     }
 

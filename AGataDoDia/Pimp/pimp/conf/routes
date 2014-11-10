@@ -99,6 +99,32 @@ POST    /categories/:id			                                                      
 # Delete a CategoriesView
 POST    /categories/:id/delete		                                                    controllers.CategoriesView.delete(id:Integer)
 
+#UsersView
+# UsersView list (look at the default values for pagination parameters)
+GET     /users/list			                                                controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /users/lsort		                                                    controllers.UsersView.lsort()
+# Add UsersView
+# Edit existing UsersView
+#GET     /users/sort/:ids	                                                    controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                    controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                    controllers.UsersView.update(id:Long)
+# Delete a UsersView
+POST    /users/:id/delete		                                                controllers.UsersView.delete(id:Long)
+
+#InstancesView
+# InstancesView list (look at the default values for pagination parameters)
+GET     /instances/list			                                                        controllers.InstancesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /instances/lsort		                                                        controllers.InstancesView.lsort()
+# Add InstancesView
+GET     /instances/blank		                                                        controllers.InstancesView.blank()
+POST    /instances				                                                        controllers.InstancesView.submit()
+# Edit existing InstancesView
+GET     /instances/sort/:ids	                                                        controllers.InstancesView.sort(ids:String)
+GET     /instances/:id			                                                        controllers.InstancesView.edit(id:Integer)
+POST    /instances/:id			                                                        controllers.InstancesView.update(id:Integer)
+# Delete a InstancesView
+POST    /instances/:id/delete		                                                    controllers.InstancesView.delete(id:Integer)
+
 
 #SocialNetworks
 POST    /garotas/v1/socialnetworks/create                                               controllers.content.women.SocialNetworks.create()
@@ -136,13 +162,17 @@ POST    /garotas/v1/posts/update/:id                                            
 POST    /garotas/v1/posts/delete/:id                                                    controllers.content.posts.Posts.delete(id : Integer)
 GET     /garotas/v1/posts/get/:id                                                       controllers.content.posts.Posts.get(id : Integer)
 
-GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0)
-GET     /garotas/v1/posts/get/client/up/:id/:postId                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0)
-GET     /garotas/v1/posts/get/client/down/:id/:postId                                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0)
+GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer?=0)
+GET     /garotas/v1/posts/get/client/up/:id/:postId                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0, idCategory: Integer?=0)
+GET     /garotas/v1/posts/get/client/down/:id/:postId                                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer?=0)
 
-GET     /garotas/v1/posts/get/client/woman/:id/:idWoman                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer)
-GET     /garotas/v1/posts/get/client/up/woman/:id/:postId/:idWoman                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer)
-GET     /garotas/v1/posts/get/client/down/woman/:id/:postId/:idWoman                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer)
+GET     /garotas/v1/posts/get/client/woman/:id/:idWoman                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0)
+GET     /garotas/v1/posts/get/client/up/woman/:id/:postId/:idWoman                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer, idCategory: Integer?=0)
+GET     /garotas/v1/posts/get/client/down/woman/:id/:postId/:idWoman                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0)
+
+GET     /garotas/v1/posts/get/client/category/:id/:idCategory                           controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer)
+GET     /garotas/v1/posts/get/client/up/category/:id/:postId/:idCategory                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0, idCategory: Integer)
+GET     /garotas/v1/posts/get/client/down/category/:id/:postId/:idCategory              controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer)
 
 GET     /garotas/v1/posts/get/client/:idClient/:idPost                                  controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
 GET     /garotas/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize            controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)

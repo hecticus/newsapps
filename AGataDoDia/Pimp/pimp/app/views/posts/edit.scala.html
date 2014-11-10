@@ -56,7 +56,9 @@
                 </div>
             </div>
         } else {
-            @inputText(field("md5"), '_label -> Messages("post.media.md5.final"), '_help -> "NO CAMBIAR", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(field("width"), '_label -> Messages("post.media.width"), '_help -> Messages("post.media.width.final"), '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(field("height"), '_label -> Messages("post.media.height"), '_help -> Messages("post.media.height.final"), '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(field("md5"), '_label -> Messages("post.media.md5.final"), '_help -> Messages("post.media.md5.final"), '_error -> postViewForm.globalError, 'class -> "form-control")
             @input(field("link"), '_label -> Messages("post.media.file.final")) { (id, name, value, _) =>
                 <input type="text" name="@name" value="@value" class="form-control">
                 <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >

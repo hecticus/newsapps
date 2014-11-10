@@ -110,15 +110,18 @@ public class Global  extends GlobalSettings {
             Utils.serverIp = br.readLine();
             Instance actual = Instance.finder.where().eq("ip",Utils.serverIp).findUnique();
             if(actual != null) {
+                Utils.test = actual.getTest() == 1;
                 actual.setRunning(1);
                 Instance.update(actual);
                 Utils.actual = actual;
             } else {
+                Utils.test = false;
                 actual = new Instance(Utils.serverIp, Config.getString("app-name")+"-"+Utils.serverIp, 1);
                 Instance.save(actual);
                 Utils.actual = actual;
             }
         } catch (Exception ex) {
+            Utils.test = false;
             Utils.serverIp = null;
             Utils.actual = null;
             Utils.printToLog(Global.class, "Error cargando el IP del servidor", "Ocurrio un error cargando el IP del servidor desde el archivo. El Pimp continuara cuz pimping aint easy", true, ex, "support-level-1", Config.LOGGER_ERROR);
@@ -126,9 +129,9 @@ public class Global  extends GlobalSettings {
             try {if (br != null)br.close();} catch (Exception ex) {}
         }
         if(Utils.actual == null) {
-            Utils.printToLog(Global.class, null, "Arrancando " + Config.getString("app-name") + (Utils.serverIp == null ? "" : "-" + Utils.serverIp), false, null, "support-level-1", Config.LOGGER_INFO);
+            Utils.printToLog(Global.class, null, "Arrancando " + Config.getString("app-name") + (Utils.serverIp == null ? "" : "-" + Utils.serverIp) + " test = " + Utils.test, false, null, "support-level-1", Config.LOGGER_INFO);
         } else {
-            Utils.printToLog(Global.class, null, "Arrancando " + Utils.actual.getName(), false, null, "support-level-1", Config.LOGGER_INFO);
+            Utils.printToLog(Global.class, null, "Arrancando " + Utils.actual.getName() + " test = " + Utils.test, false, null, "support-level-1", Config.LOGGER_INFO);
         }
         ActorSystem system = ActorSystem.create("application");
         run = new AtomicBoolean(true);
@@ -157,11 +160,11 @@ public class Global  extends GlobalSettings {
         }
         super.onStop(application);
         run.set(false);
-//        if(Utils.actual == null) {
-//            Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Config.getString("app-name")+(Utils.serverIp==null?"":"-"+Utils.serverIp)+", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
-//        } else {
-//            Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Utils.actual.getName() + ", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
-//        }
+        if(Utils.actual == null) {
+            Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Config.getString("app-name")+(Utils.serverIp==null?"":"-"+Utils.serverIp)+", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
+        } else {
+            Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Utils.actual.getName() + ", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
+        }
         supervisor.cancel();
     }
 
