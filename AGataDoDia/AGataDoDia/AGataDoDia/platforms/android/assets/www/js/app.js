@@ -1,6 +1,6 @@
 	
 	var _url = 'http://gatadodia.hecticus.com';
-	var _jParameters = {client:1};
+	var _jParameters = {};
 	var _jMenu = [];
 	var _jData = [];
 	var _oAjax = false;
@@ -24,8 +24,6 @@
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
 		
-		
-		
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
@@ -33,14 +31,14 @@
 			});
 		};
 
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + _jParameters.client + '/0');
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + clientID + '/0');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[0].data = _json;					
 			});
 		};
 					
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + _jParameters.client);
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[1].data = _json;
@@ -58,7 +56,7 @@
 		
 		
 		if(isActive){
-			_jApp.load(0);
+			_jApp.load(6);
 		}else{
 			if(status == 2){
 				//_jApp.load(5); //asi deberia ir
@@ -90,13 +88,20 @@
 		},
 		
 		loading: function(_index) {
+			
+			
+		
+			
 			var _html =  "<div class='container' style='text-align:center;'>";
 				_html += '<div class="row" style="margin-top:100px !important;" >';
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height:' + ($(window).height() - 55) + 'px;" >';
-						_html += '<h1 style="margin: 0 auto;">Loading...</h1>';		
+						_html += '<i class="icon icon-material-more-horiz" data-touch="plus" ></i>';
 					_html += '</div>';
 				_html += '</div>';
 			_html += '</div>';
+		
+			
+			
 			$('main').empty();
 			$('main').append(_html);
 		},
@@ -111,17 +116,14 @@
 			}
 			try {
 
-				this.refresh();
-				console.log("REFERER LOAD "+referer);
+				this.refresh();				
 				$('body').removeClass();
 				$('body').addClass(_jMenu[_index].class);
 				$('main').empty();				
 				$('main').data('referer', referer);				
 				$('main').data('index',_index);
-				//this.loading();		
+				this.loading();		
 				$('main').load(_jMenu[_index].load);
-	
-				
 
 			} catch(err) {    	
 	  			this.error();
@@ -261,7 +263,7 @@
 
 		}
 
-		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + _jParameters.client,_data);									
+		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
 		
 	});
 
@@ -273,6 +275,7 @@
 		}
 		navigation.push(_index);
 	}
+	
 	function popNavigation(){
 		var currentPage = -1;
 		if(navigation.length > 1){
@@ -281,6 +284,96 @@
   		}
 		return currentPage;
 	}
+	
+	
+	$(document).on('click','[data-touch="plus"]', function(e) {	
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}									
+		_fTouchPlus($(this));
+	});
+
+	
+	
+	var _fRenderHtmlListPost = function(_json,_push) {
+
+		_html = '';
+		
+		$.each(_json.response, function(__index,_item) {
+
+			if (_push) _jMenu[_index].data.response.push(_item);
+			
+
+			_html += '<div class="row post" data-value="' + _item.id_post + '">';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure">';					
+					_html += '<img onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
+					//_html += '<img style="height:' + _item.resolutions[0].height + 'px;" onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
+				_html += '</div>';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption">';
+					_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
+					_html += '<p>' + _item.content + '</p>';
+				_html += '</div>';
+			_html += '</div>';
+			
+			_html += '<div class="row">';
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px;" >';										
+					_html += '<i class="icon icon-material-camera-alt" data-touch="post" data-param="post" data-target="2" data-value="' + _item.id_post + '" ></i><span class="badge">' + _item.files.length + '</span>';
+					_html += '<i class="icon icon-material-group" ></i><span class="badge">' + _item.woman.clients + '</span>';
+				_html += '</div>';		
+	
+				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align:right; height:40px; line-height:40px;">';
+	
+					switch(_item.social_network.name) {
+					    case 'instagram': _html += '<i class="icon icon-material-post-instagram" style="margin-left:2px;"  onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					       break;
+					    case 'facebook': _html += '<i class="icon icon-material-post-facebook" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					       break;
+					    case 'twitter': _html += '<i class="icon icon-material-post-twitter" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					       break;
+					    default: _html += '<i class="icon icon-material-launch" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					       break;
+					}
+	
+					_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+					_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
+	
+				_html += '</div>';
+			_html += '</div>';
+			
+			_html += '<div class="row">';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >';
+					$.each(_item.woman.categories, function(_index,_item) {
+						_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="margin-left:2px; margin-right:2px;">' + _item.category.name + '</span>';
+					});
+				_html += '</div>';
+			_html += '</div>';
+			
+			_html += '<hr style="margin-bottom:0 !important;" />';
+
+		});
+
+
+	
+		if (_json.response.length == 0) {
+			_html += '<div class="row" >';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
+					_html += '<h4>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h4>';
+				_html += '</div>';
+			_html += '</div>';
+		} else {
+			_html += '<div class="row plus" >';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center; margin-top:10px !important; margin-bottom:10px !important;" >';		
+					_html += '<i class="icon icon-material-add-circle" data-touch="plus" data-direction="down" ></i>';
+				_html += '</div>';
+			_html += '</div>';
+		}
+		
+		
+		return _html;
+		
+		
+	};
+	
+	
 	
 	
 	

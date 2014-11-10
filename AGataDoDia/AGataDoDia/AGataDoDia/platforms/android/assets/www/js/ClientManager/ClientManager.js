@@ -1,10 +1,9 @@
-var clientID = "";
+var clientID = 0;
 
 function initClientManager(callback, errorCallback){
 	try
 	{ 
 		loadClientID();
-		initWomenManager();	//inicializamos el arreglo de las mujeres favoritas si es que no existe ya uno
 		if(clientID != null && clientID != ""){
 			//tenemos client ID asi que solo hacemos get
 			getClientStatus(callback, errorCallback);
@@ -29,7 +28,7 @@ var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
 function saveClientID(_clientID) {
 	try{
 		clientID = _clientID;
-		window.localStorage.setItem(FILE_KEY_CLIENT_ID,clientID);
+		window.localStorage.setItem(FILE_KEY_CLIENT_ID,""+clientID);
 		return true;
 	}catch(err){
 		return false;
@@ -55,7 +54,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		//IOS
 		if(getDevice() == "iOS"){
 			device_id = 2;
-			upstreamChannel = "";
+			upstreamChannel = "IOS";
 		}else{
 			//ANDROID
 			device_id = 1;
@@ -118,7 +117,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								//revisamos el status del cliente para saber si podemos seguir o no
 								if(checkClientStatus(response.status)){
 									//SAVE WOMAN LIST
-									setWomenFromWS(response.women);
+									//initWomenManager(response.women);
 									//SAVE Client ID
 									if(saveClientID(response.id_client)){
 										callback(true,response.status);
@@ -126,7 +125,11 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 										errorCallback();
 									}
 								}else{
-									callback(false,response.status);
+									if(saveClientID(response.id_client)){
+										callback(false,response.status);
+									}else{
+										errorCallback();
+									}
 								}
 							}else{
 								errorCallback();
@@ -169,7 +172,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								//revisamos el status del cliente para saber si podemos seguir o no
 								if(checkClientStatus(response.status)){
 									//SAVE WOMAN LIST
-									setWomenFromWS(response.women);
+									//initWomenManager(response.women);
 									//SAVE Client ID
 									if(saveClientID(response.id_client)){
 										callback(true,response.status);
@@ -177,7 +180,11 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 										errorCallback();
 									}
 								}else{
-									callback(false,response.status);
+									if(saveClientID(response.id_client)){
+										callback(false,response.status);
+									}else{
+										errorCallback();
+									}
 								}
 							}else{
 								errorCallback();
@@ -209,7 +216,7 @@ function getClientStatus(callback, errorCallback){
 	var upstreamChannel = "";
 	//IOS
 	if(getDevice() == "iOS"){
-		upstreamChannel = "";
+		upstreamChannel = "IOS";
 	}else{
 		//ANDROID
 		upstreamChannel = "Android";
@@ -237,6 +244,8 @@ function getClientStatus(callback, errorCallback){
 					if(response != null){
 						//revisamos el status del cliente para saber si podemos seguir o no
 						if(checkClientStatus(response.status)){
+							//SAVE WOMAN LIST
+							//initWomenManager(response.women);
 							//SAVE Client ID
 							if(saveClientID(response.id_client)){
 								callback(true,response.status);
@@ -244,7 +253,11 @@ function getClientStatus(callback, errorCallback){
 								errorCallback();
 							}
 						}else{
-							callback(false,response.status);
+							if(saveClientID(response.id_client)){
+								callback(false,response.status);
+							}else{
+								errorCallback();
+							}
 						}
 					}else{
 						errorCallback();
