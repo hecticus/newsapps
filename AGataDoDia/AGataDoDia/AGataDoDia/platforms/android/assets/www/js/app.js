@@ -38,12 +38,13 @@
 			});
 		};
 					
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
+		/*_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[1].data = _json;
 			});
-		};
+		};*/
+		_jMenu[1].data = womenList;
 	
 		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/women/halloffame');
 		if (_oAjax) {
@@ -239,6 +240,8 @@
 		var _data = {'add_woman': [],'remove_woman': []};
 		var _json = _jMenu[0].data;
 		
+		var index = -1;
+		
 		if($(this).hasClass('on')) {
 			
 			$('[data-touch="favorite"][data-woman="' + _woman + '"]').removeClass('on');
@@ -246,9 +249,14 @@
 			
 			$.each(_json.response, function(_index,_item) {
 				if (_item.woman.id_woman == _woman) {
-					_item.starred = false;
+					//_item.starred = false;
+					index = _index;
 				};
 			});
+			if(index != -1){
+				removeWoman(_json.response[index].woman);
+			}
+			
 
 		} else {
 			
@@ -257,13 +265,16 @@
 							
 			$.each(_json.response, function(_index,_item) {			
 				if (_item.woman.id_woman == _woman) {
-					_item.starred = true;		
+					//_item.starred = true;
+					index = _index;
 				};
 			});
-
+			if(index != -1){
+				addWoman(_json.response[index].woman);
+			}
 		}
 
-		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
+		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
 		
 	});
 
@@ -333,7 +344,8 @@
 					       break;
 					}
 	
-					_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+					//_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+					_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
 					_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
 	
 				_html += '</div>';
