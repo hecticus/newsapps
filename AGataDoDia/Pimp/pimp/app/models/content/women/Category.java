@@ -101,6 +101,6 @@ public class Category extends HecticusModel {
     }
 
     public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+        return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 }

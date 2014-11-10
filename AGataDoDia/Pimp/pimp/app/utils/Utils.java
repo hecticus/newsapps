@@ -31,7 +31,7 @@ public class Utils {
 
     public static String serverIp;
     public static Instance actual;
-
+    public static boolean test;
     private static final int TTL = 900;
 
     /**
@@ -109,7 +109,7 @@ public class Utils {
 				break;
 		}
 
-		if(sendMail){
+		if(!test && sendMail){
             try{
                 if(ex==null){
                     Alarm.sendMail(Config.getStringArray(supportLevel, ";"), title, message.toString());

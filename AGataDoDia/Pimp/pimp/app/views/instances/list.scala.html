@@ -1,13 +1,13 @@
-@(currentPage: com.avaje.ebean.Page[models.content.women.Woman], currentSortBy: String, currentOrder: String, currentFilter: String, sortView: Boolean)
+@(currentPage: com.avaje.ebean.Page[models.basic.Instance], currentSortBy: String, currentOrder: String, currentFilter: String, sortView: Boolean)
 
 @****************************************
 * Helper generating navigation links    *
 ****************************************@
 @link(newPage:Int, newSortBy:String) = @{
-    
+
     var sortBy = currentSortBy
     var order = currentOrder
-    
+
     if(newSortBy != null) {
         sortBy = newSortBy
         if(currentSortBy == newSortBy) {
@@ -20,10 +20,10 @@
             order = "asc"
         }
     }
-    
+
     // Generate the link
-    controllers.routes.WomenView.list(newPage, sortBy, order, currentFilter)
-    
+    controllers.routes.InstancesView.list(newPage, sortBy, order, currentFilter)
+
 }
 
 @**********************************
@@ -37,12 +37,12 @@
 
 @title = {}
 
-@main(title = Messages("women.list.head"), nav = "") {
+@main(title = Messages("instances.list.head"), nav = "") {
     <div class="bs-docs-section">
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 id="homeTitle">@Messages("women.list.title", currentPage.getTotalRowCount)</h1>
+                <h1 id="homeTitle">@Messages("instances.list.title", currentPage.getTotalRowCount)</h1>
             </div>
         </div>
 
@@ -62,16 +62,15 @@
 
                 @if(!sortView) {
                     <div class="col-lg-6">
-                        <input type="search" class="form-control floating-label" id="searchbox" name="f" placeholder=@Messages("women.list.filter.name")>
+                        <input type="search" class="form-control floating-label" id="searchbox" name="f" placeholder=@Messages("instances.list.filter.name")>
                     </div>
                     <div class="col-lg-6">
-                        <input type="submit" id="searchsubmit" value=@Messages("women.list.filter.name") class="btn btn-info">
+                        <input type="submit" id="searchsubmit" value=@Messages("instances.list.filter.name") class="btn btn-info">
                     </div>
-
                 }
 
                 @if(sortView) {
-                    <a class="btn success" id="ajax" href="#" data-url="/garotas/v1/women/sort/" >@Messages("generic.list.apply")</a>
+                    <a class="btn success" id="ajax" href="#" data-url="/garotas/v1/instances/sort/" >@Messages("generic.list.apply")</a>
                 }
 
             </form>
@@ -88,24 +87,13 @@
                 <div class="col-lg-12">
                     <div class="bs-component">
                         <div class="list-group">
-                            @for((women, index) <-  currentPage.getList().zipWithIndex) {
+                            @for((instance, index) <-  currentPage.getList().zipWithIndex) {
                             <div class="list-group-item">
-                                <a href="@controllers.routes.WomenView.edit(women.getIdWoman())">
-                                    @if(women.getDefaultPhoto() != null && women.getDefaultPhoto() != "") {
-                                        <div class="row-picture">
-                                            <img class="circle" src="@women.getDefaultPhoto()" alt="icon">
-                                        </div>
-                                    } else {
-                                        <div class="row-action-primary">
-                                            <i class="icon-material-photo"></i>
-                                        </div>
-                                    }
-
+                                <a href="@controllers.routes.InstancesView.edit(instance.getIdInstance())">
                                     <div class="row-content">
-                                        <h4 class="list-group-item-heading">@Html(""+women.getIdWoman()) - @Html(women.getName()) </h4>
+                                        <h4 class="list-group-item-heading">@Html(""+instance.getIdInstance()) - @Html(instance.getName())</h4>
+                                        <p class="list-group-item-text">@Html(instance.getIp())</p>
                                     </div>
-                                    <!-- Categorias de la chica -->
-
                                 </a>
                             </div>
                             <div class="list-group-separator">
@@ -156,12 +144,10 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <a href="@controllers.routes.WomenView.blank" class="btn btn-primary">@Messages("women.list.new")</a>
+                <a href="@controllers.routes.InstancesView.blank" class="btn btn-primary">@Messages("instances.list.new")</a>
             </div>
         </div>
 
     </div>
 
-
-        
 }
