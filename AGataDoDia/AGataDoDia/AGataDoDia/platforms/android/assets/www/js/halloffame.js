@@ -1,7 +1,6 @@
 
 	var _index = $('main').data('index');
 	var _json = _jMenu[_index].data; 
-	var _html = _jMenu[_index].html;
 		
 	var _fRenderHtml =  function(_json, _push) {
 		_html = '';		
@@ -20,19 +19,22 @@
 					});
 				_html += '</div>';	
 			_html += '</div>';	
-			
-	
+				
 			_html += '<hr />';
 						
 		});	
 	
-		return _html;
+	
+		if (_json.response.length == 0) {
+			_html = '<div class="row" >';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
+					_html += '<h5>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h5>';
+				_html += '</div>';
+			_html += '</div>';
+		}
+	
+		$('#wrapper .scroller .container').append(_html);	
 	
 	};
-		
-	if (_json) {		
-		if (!_html) _html = _fRenderHtml(_json);
-		$('#wrapper .scroller .container').empty();
-		$('#wrapper .scroller .container').append(_html);
-		_jMenu[_index].html = $('#wrapper .scroller .container').html();			
-	}
+	
+	_fRenderHtml(_json);
