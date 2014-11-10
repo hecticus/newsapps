@@ -78,15 +78,15 @@
 	
 	//get device type
 	function getDevice(){
-		/*var devicePlatform = device.platform;
+		var devicePlatform = device.platform;
 		//IOS
 		if(devicePlatform == "iOS"){
 			return "iOS";
 		}else{
 			return "android";
-		}*/
+		}
 		
-		return "android";
+		//return "android";
 	}
 	
 	

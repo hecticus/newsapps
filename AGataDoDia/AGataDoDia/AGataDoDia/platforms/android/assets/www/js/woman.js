@@ -3,7 +3,7 @@
 	var _index = $('main').data('index');
 	
 	
-	_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/woman/' + _jParameters.client + '/' + _jParameters.woman);
+	_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/woman/' + clientID + '/' + _jParameters.woman);
 	
 	
 	if (_oAjax) {
@@ -95,7 +95,7 @@
 		var _this = $(this); 
 		_this.removeClass('icon-material-add-circle');
 		_this.html('loading...');	
-		_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/down/woman/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value') + '/' + _jParameters.woman);		
+		_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/down/woman/' + $(this).data('direction') + '/' + clientID + '/' + $('div.post').last().data('value') + '/' + _jParameters.woman);		
 		if (_oAjax) {
 			_oAjax.done(function(_json) {				
 				 _fRenderHtml(_json,true);				 			

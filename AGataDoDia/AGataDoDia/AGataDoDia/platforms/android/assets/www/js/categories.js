@@ -1,2 +1,2 @@
 
-	_fRenderListPost(_url + '/garotas/v1/posts/get/category/' + _jParameters.client + '/' + _jParameters.category + '/0/10');	
+	_fRenderListPost(_url + '/garotas/v1/posts/get/category/' + clientID + '/' + _jParameters.category + '/0/10');	

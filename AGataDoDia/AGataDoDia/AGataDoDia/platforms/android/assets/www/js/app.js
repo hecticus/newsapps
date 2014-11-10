@@ -1,6 +1,6 @@
 	
 	var _url = 'http://gatadodia.hecticus.com';
-	var _jParameters = {client:1};
+	var _jParameters = {};
 	var _jMenu = [];
 	var _jData = [];
 	var _oAjax = false;
@@ -24,8 +24,6 @@
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
 		
-		
-		
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
@@ -33,14 +31,14 @@
 			});
 		};
 
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + _jParameters.client + '/0');
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + clientID + '/0');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[0].data = _json;					
 			});
 		};
 					
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + _jParameters.client);
+		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[1].data = _json;
@@ -261,7 +259,7 @@
 
 		}
 
-		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + _jParameters.client,_data);									
+		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
 		
 	});
 

@@ -86,7 +86,7 @@
 		_this.removeClass('icon-material-add-circle');
 		_this.html('loading...');	
 		
-		_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + $(this).data('direction') + '/' + _jParameters.client + '/' + $('div.post').last().data('value'));
+		_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + $(this).data('direction') + '/' + clientID + '/' + $('div.post').last().data('value'));
 		if (_oAjax) {
 			_oAjax.done(function(_json) {				
 				 _fRenderHtml(_json,true);				 			
