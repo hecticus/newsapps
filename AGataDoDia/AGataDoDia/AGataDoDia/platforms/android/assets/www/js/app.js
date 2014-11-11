@@ -21,8 +21,16 @@
 	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
 	
+	
+	
+	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
+		
+		$('img.lazy').lazy({
+        	effect: "fadeIn",
+        	effectTime: 1500
+    	});
 		
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
 		if (_oAjax) {
@@ -38,12 +46,6 @@
 			});
 		};
 					
-		/*_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
-		if (_oAjax) {
-			_oAjax.done(function(_json) {					
-				_jMenu[1].data = _json;
-			});
-		};*/
 		_jMenu[1].data = womenList;
 	
 		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/women/halloffame');
@@ -317,12 +319,19 @@
 
 			_html += '<div class="row post" data-value="' + _item.id_post + '">';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure">';					
-					_html += '<img onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
+					_html += '<img onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded lazy"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
 					//_html += '<img style="height:' + _item.resolutions[0].height + 'px;" onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
 				_html += '</div>';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption">';
-					_html += '<h5 style="text-transform: capitalize;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm a') + '</h5>';
-					_html += '<p>' + _item.content + '</p>';
+									
+					
+					//_html += '<h5 style="text-transform: capitalize; padding:5px;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm A') + '</h5>';
+
+					_html += '<p style="padding:5px;">';
+						_html += '<span style="font-size:1.2em; font-weight:bold; ">' + _item.content + '</span><br />';
+						_html += '<span style="text-transform: capitalize;"><i class="icon icon-material-access-time" style="font-size:1.2em; margin-left: 0px !important;"></i>' + _fGetMoment(_item.date, "YYYYMMDD").fromNow();  + '</span>';
+					_html += '</p>';
+					
 				_html += '</div>';
 			_html += '</div>';
 			
@@ -334,28 +343,31 @@
 	
 				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align:right; height:40px; line-height:40px;">';
 	
+					var socialClass = "";
 					switch(_item.social_network.name) {
-					    case 'instagram': _html += '<i class="icon icon-material-post-instagram" style="margin-left:2px;"  onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					    case 'instagram': socialClass = "icon-material-post-instagram";	
 					       break;
-					    case 'facebook': _html += '<i class="icon icon-material-post-facebook" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					    case 'facebook': socialClass = "icon-material-post-facebook";	
 					       break;
-					    case 'twitter': _html += '<i class="icon icon-material-post-twitter" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					    case 'twitter': socialClass = "icon-material-post-twitter";	
 					       break;
-					    default: _html += '<i class="icon icon-material-launch" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
+					    default: socialClass = "icon-material-launch";	
 					       break;
 					}
+					_html += '<i class="icon '+socialClass+'" style="margin-left:2px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';
 	
-					//_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
 					_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
 					_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
 	
 				_html += '</div>';
 			_html += '</div>';
 			
+			_html += '<br />';
+			
 			_html += '<div class="row">';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >';
 					$.each(_item.woman.categories, function(_index,_item) {
-						_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="margin-left:2px; margin-right:2px;">' + _item.category.name + '</span>';
+						_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="font-size:1em; margin-left:2px; margin-right:2px;">' + _item.category.name + '</span>';
 					});
 				_html += '</div>';
 			_html += '</div>';
@@ -367,6 +379,7 @@
 
 	
 		if (_json.response.length == 0) {
+			_infinite = false;
 			_html += '<div class="row" >';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
 					_html += '<h4>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h4>';
