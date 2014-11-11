@@ -11,15 +11,15 @@
 	//navigation
 	var navigation = [];
 	
-	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false, exitFromApp:true, returnsTo:-1});
-	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false, exitFromApp:false, returnsTo:0});
-	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false, exitFromApp:false, returnsTo:0});
-	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false, exitFromApp:false, returnsTo:0});
-	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false, exitFromApp:false, returnsTo:0});
-	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false, exitFromApp:true, returnsTo:-1});
-	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false, exitFromApp:false, returnsTo:5});
-	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false, exitFromApp:false, returnsTo:5});
-	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false, exitFromApp:false, returnsTo:0});
+	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
@@ -38,12 +38,13 @@
 			});
 		};
 					
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
+		/*_oAjax = _fGetAjaxJson(_url + '/garotas/v1/clients/favorites/' + clientID);
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[1].data = _json;
 			});
-		};
+		};*/
+		_jMenu[1].data = womenList;
 	
 		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/women/halloffame');
 		if (_oAjax) {
@@ -56,14 +57,14 @@
 		
 		
 		if(isActive){
-			_jApp.load(6);
+			_jApp.load(6,true);
 		}else{
 			if(status == 2){
 				//_jApp.load(5); //asi deberia ir
-				_jApp.load(5);
+				_jApp.load(5,true);
 			}else{
 				//ir a la ventana de signup o mostrar un mensaje y eliminar el boton de prueba
-				_jApp.load(6);
+				_jApp.load(6,true);
 			}
 		}
 	}
@@ -106,8 +107,9 @@
 			$('main').append(_html);
 		},
 		
-		load: function(_index) {
-			pushNavigation(_index);
+		load: function(_index, pushing) {
+			console.log("GOTO: "+_index);
+			if(pushing) pushNavigation(_index);
 
 			referer = currentScreen;
 			currentScreen = _index;
@@ -149,9 +151,9 @@
 					exitApp();
 				}else{
 					$('main').empty();				
-					$('main').data('index', _jMenu[currentScreen].returnsTo);
+					$('main').data('index', currentPage);
 					$('main').data('referer', currentScreen);
-					this.load(_jMenu[currentScreen].returnsTo);
+					this.load(currentPage,false);
 				}
 			}
 				
@@ -206,7 +208,7 @@
 			eval('_jParameters.'+ _param +' = ' + _value);	
 		}
 		
-		_jApp.load(_load);
+		_jApp.load(_load,true);
 		
 	});
 
@@ -239,6 +241,8 @@
 		var _data = {'add_woman': [],'remove_woman': []};
 		var _json = _jMenu[0].data;
 		
+		var index = -1;
+		
 		if($(this).hasClass('on')) {
 			
 			$('[data-touch="favorite"][data-woman="' + _woman + '"]').removeClass('on');
@@ -246,9 +250,14 @@
 			
 			$.each(_json.response, function(_index,_item) {
 				if (_item.woman.id_woman == _woman) {
-					_item.starred = false;
+					//_item.starred = false;
+					index = _index;
 				};
 			});
+			if(index != -1){
+				removeWoman(_json.response[index].woman);
+			}
+			
 
 		} else {
 			
@@ -257,13 +266,16 @@
 							
 			$.each(_json.response, function(_index,_item) {			
 				if (_item.woman.id_woman == _woman) {
-					_item.starred = true;		
+					//_item.starred = true;
+					index = _index;
 				};
 			});
-
+			if(index != -1){
+				addWoman(_json.response[index].woman);
+			}
 		}
 
-		_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
+		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
 		
 	});
 
@@ -279,8 +291,8 @@
 	function popNavigation(){
 		var currentPage = -1;
 		if(navigation.length > 1){
+			navigation.pop();
   			currentPage = navigation[navigation.length-1];
-  			navigation.pop();
   		}
 		return currentPage;
 	}
@@ -333,7 +345,8 @@
 					       break;
 					}
 	
-					_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+					//_html += '<i class="icon icon-material-favorite ' + (_item.starred ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+					_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
 					_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
 	
 				_html += '</div>';
