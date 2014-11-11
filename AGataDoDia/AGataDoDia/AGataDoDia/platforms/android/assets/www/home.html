@@ -10,27 +10,8 @@
 			</div>
 		</div>
 		
-		<div id="wrapper2" class="page" style="left: 100%;">
-			
-			<div class="scroller">
-				<div class="container">
-				</div>			
-			</div>
-						
-			<a class="left carousel-control hidden" role="button" >
-				<span class="glyphicon glyphicon-chevron-left"></span>
-			</a>
-			  
-			<a class="right carousel-control hidden" role="button">
-				<span class="glyphicon glyphicon-chevron-right"></span>
-			</a>
-				
-		</div>
-		
-		
 		<script type="text/javascript" src="js/home.js"></script>
 		<script type="text/javascript">
-		
 												 
 			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true});
 			_scroll.on('beforeScrollStart', function () {
@@ -38,24 +19,10 @@
 				_jApp.refresh();
 			});	
 
-			var _scrollPost = new IScroll('#wrapper2',{
-					scrollX: true,
-					scrollY: false,
-					click:true,					
-					preventDefault:true, 
-					bounce:false,
-					momentum: false,
-					snap: true,
-					snapSpeed: 400
-				});
-			
-			_scrollPost.on('beforeScrollStart', function () {
-				this.refresh();
-				_jApp.refresh();												
+			_scroll.on('scrollEnd', function () {
+				_fTouchPlus($('i.icon.icon-material-add-circle'));				
 			});
-				
-				
-				
+
 		</script>
 
 		  

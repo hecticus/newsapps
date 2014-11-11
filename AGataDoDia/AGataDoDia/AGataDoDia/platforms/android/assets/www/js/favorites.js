@@ -25,6 +25,16 @@
 			_html += '<hr />';			
 		});	
 	
+	
+		if (womenList.length == 0) {
+			_html = '<div class="row" >';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
+					_html += '<h5>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h5>';
+				_html += '</div>';
+			_html += '</div>';
+		}
+	
+	
 		return _html;
 	
 	};

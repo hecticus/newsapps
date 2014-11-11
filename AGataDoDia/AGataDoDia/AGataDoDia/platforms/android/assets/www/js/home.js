@@ -1,6 +1,7 @@
 	
 	var _index = $('main').data('index');	
 	var _json = _jMenu[_index].data; 
+	var _infinite = true;
 	
 	var _fRenderHtml =  function(_json, _push) {		
 		_html = _fRenderHtmlListPost(_json,_push);
@@ -12,13 +13,23 @@
 		
 	if (_json) _fRenderHtml(_json);			
 
-	var _fTouchPlus =  function(_this) {								
+	var _fTouchPlus =  function(_this) {
+		
 		_this.removeClass('icon-material-add-circle');
-		_this.addClass('icon-material-more-horiz');		
-		_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _this.data('direction') + '/' + clientID + '/' + $('div.post').last().data('value'));
-		if (_oAjax) {
-			_oAjax.done(function(_json) {				
-				 _fRenderHtml(_json,true);				 			
-			});
-		}							
+		_this.addClass('icon-material-more-horiz');
+
+		
+		if (_oAjax.state() != 'pending') {
+			
+			if (_infinite) {
+				_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _this.data('direction') + '/' + clientID + '/' + $('div.post').last().data('value'));
+				if (_oAjax) {
+					_oAjax.done(function(_json) {				
+						 _fRenderHtml(_json,true);				 			
+					});			
+				}	
+			}
+				
+		}									
+						
 	};
