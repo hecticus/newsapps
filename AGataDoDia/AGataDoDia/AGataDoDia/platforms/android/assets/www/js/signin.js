@@ -18,36 +18,12 @@
 				});	
 			_html += '</div>';
 					
-			
-			_html2 = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px;" >';
-				_html2 += '<i class="icon icon-material-camera-alt" data-touch="post" data-post="' + _item.id_post + '"></i><span class="badge">' + _item.woman.posts + '</span>';
-				_html2 += '<i class="icon icon-material-group" ></i><span class="badge">' + _item.woman.clients + '</span>';
-			_html2 += '</div>';		
 
-			_html2 += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align:right; height:40px; line-height:40px;">';
-
-				switch(_item.social_network.name) {
-				    case 'instagram': _html2 += '<i class="icon icon-material-post-instagram" style="margin-left:2px;"  onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
-				       break;
-				    case 'facebook': _html2 += '<i class="icon icon-material-post-facebook" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
-				       break;
-				    case 'twitter': _html2 += '<i class="icon icon-material-post-twitter" style="margin-left:2px;" onclick="window.open(\'' + _item.source + '\', \'_blank\', \'location=yes\');"></i>';	
-				       break;
-				    default: _html2 += '<i class="icon icon-material-launch" style="margin-left:2px;"></i>';	
-				       break;
-				}
-
-				_html2 += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
-
-			_html2 += '</div>';
-								
-
-								
 			$('#wrapper1').css('height',  parseInt(($(window).height()) /2)  + 'px');
 			$('#wrapper1').css('width', $(window).width() + 'px');
 			$('#wrapper1 .scroller').css('width',  _width + 'px');
 			$('#wrapper1 .scroller .container').append(_html);
-			$('.something').append(_html2);
+
 			
 		});
 	}
