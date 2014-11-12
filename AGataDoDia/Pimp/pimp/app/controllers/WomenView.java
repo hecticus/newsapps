@@ -103,7 +103,7 @@ public class WomenView extends HecticusController {
                 File file = picture.getFile();
                 String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
                 try {
-                    link = Utils.uploadAttachment(file, id, fileExtension);
+                    link = Utils.uploadAttachment(file, id, fileExtension, true);
                     change = true;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -240,7 +240,7 @@ public class WomenView extends HecticusController {
             File file = picture.getFile();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
             try {
-                link = Utils.uploadAttachment(file, gfilledForm.getIdWoman().intValue(), fileExtension);
+                link = Utils.uploadAttachment(file, gfilledForm.getIdWoman().intValue(), fileExtension, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

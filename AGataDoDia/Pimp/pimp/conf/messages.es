@@ -161,6 +161,10 @@ main.create=Crear
 main.admin=Administracion
 main.users=Usuarios
 main.instances=Instancias
+main.resolutions=Resoluciones
+main.content=Contenido
+main.basic=Idiomas & Paises
+main.featured=Imagenes Destacadas
 
 generic.error.title=Error
 generic.error.content=Revise los errores y haga la solicitud de nuevo
@@ -431,3 +435,47 @@ users.java.created= El usuario {0} ha sido creado!
 users.java.updated= El usuario {0} ha sido creado!
 users.java.deleted= El usuario {0} ha sido creado!
 
+resolutions.list.head=Resoluciones
+resolutions.list.title={0,choice,0#No hay Resoluciones|1#Una Resolucion encontrada|1<{0,number,integer} Resoluciones encontradas}
+resolutions.list.filter.name=Filtrar por anchura de la resolucion...
+resolutions.list.new=Agregar nueva resolucion
+
+resolutions.create=Crear resolucion
+resolutions.edit=Editar resolucion
+resolutions.info=Informacion de la resolucion
+
+resolutions.width=Anchura
+resolutions.width.help=Inserte un numero
+
+resolutions.height=Altura
+resolutions.height.help=Inserte un numero
+
+resolutions.submit.create=Crear esta resolucion
+resolutions.submit.update=Actualizar esta resolucion
+resolutions.submit.delete=Eliminar esta resolucion
+
+resolutions.java.created= La resolucion {0} ha sido creada!
+resolutions.java.updated= La resolucion {0} ha sido creada!
+resolutions.java.deleted= La resolucion {0} ha sido creada!
+
+
+featured.list.head=Imagenes Destacadas
+featured.list.title={0,choice,0#No hay Imagenes Destacadas|1#Una Imagen Destacada encontrada|1<{0,number,integer} Imagenes Destacadas encontradas}
+featured.list.filter.name=Filtrar por nombre de la Imagen Destacada...
+featured.list.new=Agregar nueva Imagen Destacada
+
+featured.create=Crear Imagen Destacada
+featured.edit=Editar Imagen Destacada
+featured.info=Informacion de la Imagen Destacada
+
+featured.name=Nombre
+featured.width.help=Inserte un nombre
+
+
+featured.submit.create=Crear esta Imagen Destacada
+featured.submit.update=Actualizar esta Imagen Destacada
+featured.submit.delete=Eliminar esta Imagen Destacada
+
+featured.java.created= La Imagen Destacada {0} ha sido creada!
+featured.java.updated= La Imagen Destacada {0} ha sido creada!
+featured.java.deleted= La Imagen Destacada {0} ha sido creada!

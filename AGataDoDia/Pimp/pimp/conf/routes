@@ -101,15 +101,15 @@ POST    /categories/:id/delete		                                                
 
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
-GET     /users/list			                                                controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
-#GET     /users/lsort		                                                    controllers.UsersView.lsort()
+GET     /users/list			                                                            controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /users/lsort		                                                            controllers.UsersView.lsort()
 # Add UsersView
 # Edit existing UsersView
-#GET     /users/sort/:ids	                                                    controllers.UsersView.sort(ids:String)
-GET     /users/:id			                                                    controllers.UsersView.edit(id:Long)
-POST    /users/:id			                                                    controllers.UsersView.update(id:Long)
+#GET     /users/sort/:ids	                                                            controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                            controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                            controllers.UsersView.update(id:Long)
 # Delete a UsersView
-POST    /users/:id/delete		                                                controllers.UsersView.delete(id:Long)
+POST    /users/:id/delete		                                                        controllers.UsersView.delete(id:Long)
 
 #InstancesView
 # InstancesView list (look at the default values for pagination parameters)
@@ -124,6 +124,34 @@ GET     /instances/:id			                                                       
 POST    /instances/:id			                                                        controllers.InstancesView.update(id:Integer)
 # Delete a InstancesView
 POST    /instances/:id/delete		                                                    controllers.InstancesView.delete(id:Integer)
+
+#ResolutionsView
+# ResolutionsView list (look at the default values for pagination parameters)
+GET     /resolutions/list			                                                    controllers.ResolutionsView.list(p:Int ?= 0, s ?= "width", o ?= "asc", f ?= "")
+GET     /resolutions/lsort		                                                        controllers.ResolutionsView.lsort()
+# Add ResolutionsView
+GET     /resolutions/blank		                                                        controllers.ResolutionsView.blank()
+POST    /resolutions				                                                    controllers.ResolutionsView.submit()
+# Edit existing ResolutionsView
+GET     /resolutions/sort/:ids	                                                        controllers.ResolutionsView.sort(ids:String)
+GET     /resolutions/:id			                                                    controllers.ResolutionsView.edit(id:Integer)
+POST    /resolutions/:id			                                                    controllers.ResolutionsView.update(id:Integer)
+# Delete a ResolutionsView
+POST    /resolutions/:id/delete		                                                    controllers.ResolutionsView.delete(id:Integer)
+
+#FeaturedView
+# FeaturedView list (look at the default values for pagination parameters)
+GET     /featured/list			                                                        controllers.FeaturedView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /featured/lsort		                                                            controllers.FeaturedView.lsort()
+# Add FeaturedView
+GET     /featured/blank		                                                            controllers.FeaturedView.blank()
+POST    /featured				                                                        controllers.FeaturedView.submit()
+# Edit existing FeaturedView
+GET     /featured/sort/:ids	                                                            controllers.FeaturedView.sort(ids:String)
+GET     /featured/:id			                                                        controllers.FeaturedView.edit(id:Integer)
+POST    /featured/:id			                                                        controllers.FeaturedView.update(id:Integer)
+# Delete a FeaturedView
+POST    /featured/:id/delete		                                                    controllers.FeaturedView.delete(id:Integer)
 
 
 #SocialNetworks
@@ -155,6 +183,14 @@ POST    /garotas/v1/filetypes/update/:id                                        
 POST    /garotas/v1/filetypes/delete/:id                                                controllers.content.posts.FileTypes.delete(id : Integer)
 GET     /garotas/v1/filetypes/get/:id                                                   controllers.content.posts.FileTypes.get(id : Integer)
 GET     /garotas/v1/filetypes/list                                                      controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
+
+#FeaturedImages
+POST    /garotas/v1/featured/create                                                     controllers.content.feature.FeaturedImages.create()
+POST    /garotas/v1/featured/update/:id                                                 controllers.content.feature.FeaturedImages.update(id : Integer)
+POST    /garotas/v1/featured/delete/:id                                                 controllers.content.feature.FeaturedImages.delete(id : Integer)
+GET     /garotas/v1/featured/get/:id                                                    controllers.content.feature.FeaturedImages.get(id : Integer)
+GET     /garotas/v1/featured/list                                                       controllers.content.feature.FeaturedImages.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /garotas/v1/featured/get/:width/:height                                         controllers.content.feature.FeaturedImages.getRandomImage(width: Integer, height: Integer)
 
 #Posts
 POST    /garotas/v1/posts/create                                                        controllers.content.posts.Posts.create()
