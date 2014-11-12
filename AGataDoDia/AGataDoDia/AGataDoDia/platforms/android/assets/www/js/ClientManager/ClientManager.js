@@ -115,21 +115,17 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 							var response = data.response;
 							if(response != null){
 								//revisamos el status del cliente para saber si podemos seguir o no
+								var isActive = false;
 								if(checkClientStatus(response.status)){
-									//SAVE WOMAN LIST
-									//initWomenManager(response.women);
-									//SAVE Client ID
-									if(saveClientID(response.id_client)){
-										callback(true,response.status);
-									}else{
-										errorCallback();
-									}
+									isActive = true;
+								}
+								//SAVE WOMAN LIST
+								initWomenManager(response.women);
+								//SAVE Client ID
+								if(saveClientID(response.id_client)){
+									callback(isActive,response.status);
 								}else{
-									if(saveClientID(response.id_client)){
-										callback(false,response.status);
-									}else{
-										errorCallback();
-									}
+									errorCallback();
 								}
 							}else{
 								errorCallback();
@@ -170,21 +166,17 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 							var response = data.response;
 							if(response != null){
 								//revisamos el status del cliente para saber si podemos seguir o no
+								var isActive = false;
 								if(checkClientStatus(response.status)){
-									//SAVE WOMAN LIST
-									//initWomenManager(response.women);
-									//SAVE Client ID
-									if(saveClientID(response.id_client)){
-										callback(true,response.status);
-									}else{
-										errorCallback();
-									}
+									isActive = true;
+								}
+								//SAVE WOMAN LIST
+								initWomenManager(response.women);
+								//SAVE Client ID
+								if(saveClientID(response.id_client)){
+									callback(isActive,response.status);
 								}else{
-									if(saveClientID(response.id_client)){
-										callback(false,response.status);
-									}else{
-										errorCallback();
-									}
+									errorCallback();
 								}
 							}else{
 								errorCallback();
@@ -243,21 +235,17 @@ function getClientStatus(callback, errorCallback){
 					var response = data.response;
 					if(response != null){
 						//revisamos el status del cliente para saber si podemos seguir o no
+						var isActive = false;
 						if(checkClientStatus(response.status)){
-							//SAVE WOMAN LIST
-							//initWomenManager(response.women);
-							//SAVE Client ID
-							if(saveClientID(response.id_client)){
-								callback(true,response.status);
-							}else{
-								errorCallback();
-							}
+							isActive = true;
+						}
+						//SAVE WOMAN LIST
+						initWomenManager(response.women);
+						//SAVE Client ID
+						if(saveClientID(response.id_client)){
+							callback(isActive,response.status);
 						}else{
-							if(saveClientID(response.id_client)){
-								callback(false,response.status);
-							}else{
-								errorCallback();
-							}
+							errorCallback();
 						}
 					}else{
 						errorCallback();

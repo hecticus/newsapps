@@ -5,7 +5,6 @@ var FAVORITE_REMOVE = 1;
 
 function initWomenManager(data){
 	try{
-		console.log("Favorites INIT: "+JSON.stringify(womenList));
 		//data[i].woman es el objeto
 		if(data != null && data.length > 0){
 			womenList = []; //vaciamos la lista anterior que tenemos
@@ -64,6 +63,7 @@ function addWoman(woman){
 		return true;
 	}catch (e) {
 		// TODO: handle exception
+		console.log("ERROR ADD "+e);
 		return false;
 	}
 }
@@ -71,11 +71,9 @@ function addWoman(woman){
 function removeWoman(woman){
 	try{
 		var index = -1;
-		var woman = null;
 		for(var i=0; i<womenList.length; i++){
 			if(womenList[i].id_woman == woman.id_woman){
 				index = i;
-				woman = womenList[i];
 				break;
 			}
 		}
@@ -87,11 +85,12 @@ function removeWoman(woman){
 		return true;
 	}catch (e) {
 		// TODO: handle exception
+		console.log("ERROR REMOVE "+e);
 		return false;
 	}
 }
 
-function isWomanFavorite(idWoman){
+function isIDWomanFavorite(idWoman){
 	for(var i=0; i<womenList.length; i++){
 		if(womenList[i].id_woman == idWoman){
 			return true;
@@ -100,13 +99,25 @@ function isWomanFavorite(idWoman){
 	return false;
 }
 
+function isWomanFavorite(woman){
+	for(var i=0; i<womenList.length; i++){
+		if(womenList[i].id_woman == woman.id_woman){
+			return true;
+		}
+	}
+	return false;
+}
+
 function saveFavoritesToClient(woman, type){
-	var jData = {};
+	var jsonData = {};
+	
+	var womanArray = [];
+	womanArray.push(woman.id_woman);
 	
 	if(type == FAVORITE_ADD){
-		jData.add_woman = [woman];
+		jsonData.add_woman = womanArray;
 	}else{
-		jData.remove_woman = [woman];
+		jsonData.remove_woman = womanArray;
 	}
 	
 	//hacemos update
@@ -115,7 +126,7 @@ function saveFavoritesToClient(woman, type){
 	
 	$.ajax({
 		url : urlUpdateClients,
-		data: JSON.stringify(jData),	
+		data: JSON.stringify(jsonData),	
 		type: 'POST',
 		contentType: "application/json; charset=utf-8",
 		dataType: 'json',
@@ -130,7 +141,7 @@ function saveFavoritesToClient(woman, type){
 					var response = data.response;
 					if(response != null){
 						//tenemos que revisar el response? no creo que sea necesario
-						console.log("Guardados los favoritos");
+						console.log("Guardados los favoritos: "+JSON.stringify(response));
 					}else{
 						console.log("Error guardando nuevos favoritos");
 					}

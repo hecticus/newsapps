@@ -5,11 +5,11 @@ row:not(input):not(textarea) {
 
 
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
-	html { -ms-touch-action: none; }
+	html { -ms-touch-action: none; font-family: Helvetica; }
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
 	
 	#wrapper-bootstrap,
-	#wrapper, 
+	#wrapper,
 	#wrapper2 {	
 		position: absolute;
 		z-index: 1;
@@ -19,6 +19,13 @@ row:not(input):not(textarea) {
 		width: 100%;
 		background: #ffffff;
 	}
+	
+	
+	#wrapper-bootstrap {
+		background: #000000;
+		color:#ffffff;
+		bottom: 20px; 
+	}	
 
 	#wrapper .container .row i , 
 	#wrapper2 .container .row i {
@@ -132,7 +139,7 @@ row:not(input):not(textarea) {
 		height: auto;
 		min-height: 200px;	
 	} 
-
+	
 	body.content-signin main .container .row #wrapper1 .scroller .container figure figcaption,
 	body #wrapper .scroller .container figure figcaption,
 	body #wrapper2 .scroller .container figure figcaption, .caption {
@@ -145,6 +152,7 @@ row:not(input):not(textarea) {
 	    opacity: 0.8;	    	
 	}
 
+	body.content-signup main .container,
 	body.content-signin main .container  {		
 		width:100%;
 		height: auto;		
@@ -207,7 +215,11 @@ row:not(input):not(textarea) {
 	}
 	
 	
-	
+	body.content-signin header .container i.icon-menu,
+	body.content-signup header .container i.icon-menu,
+	body.content-init header .container i.icon-menu {
+		display:none;
+	}
 	
 	
 	

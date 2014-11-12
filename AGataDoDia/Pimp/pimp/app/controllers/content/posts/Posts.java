@@ -434,7 +434,7 @@ public class Posts extends HecticusController {
         }
     }
 
-    public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idWoman, Integer idCategory){
+    public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idWoman, Integer idCategory, Boolean onlyMedia){
         try {
             Client client = Client.finder.byId(id);
             Woman woman = null;
@@ -458,42 +458,46 @@ public class Posts extends HecticusController {
                 Country country = client.getCountry();
                 Language language = country.getLanguage();
                 Iterator<Post> postIterator = null;
+                int maxRows = Config.getInt("post-to-deliver");
+                if(onlyMedia){
+                    maxRows = 1;
+                }
                 if(postId > 0) {
                     if(woman != null) {
                         if (newest) {
 //                            System.out.println("WomanPostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("WomanPostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else if (category != null){
                         if (newest) {
 //                            System.out.println("CategoryPostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("CategoryPostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else {
                         if (newest) {
 //                            System.out.println("PostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("PostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     }
                 } else {
                     if(woman != null) {
 //                        System.out.println("WomanPost");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     } else if (category != null){
 //                        System.out.println("CategoryPost");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     } else {
 //                        System.out.println("Post");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(Config.getInt("post-to-deliver")).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     }
                 }
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
@@ -501,7 +505,12 @@ public class Posts extends HecticusController {
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
                     int index = client.getWomanIndex(post.getWoman().getIdWoman());
-                    ObjectNode postJson = post.toJson(language);
+                    ObjectNode postJson;
+                    if(onlyMedia){
+                        postJson = post.toJsonOnlyMedia(language);
+                    }else{
+                        postJson = post.toJson(language);
+                    }
                     if(index != -1){
                         //si la tiene como favorita
                         postJson.put("starred", true);
