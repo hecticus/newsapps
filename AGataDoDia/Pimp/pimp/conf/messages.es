@@ -471,6 +471,9 @@ featured.info=Informacion de la Imagen Destacada
 featured.name=Nombre
 featured.width.help=Inserte un nombre
 
+featured.resolution=Resolucion
+featured.image=Imagen
+featured.file=Archivo
 
 featured.submit.create=Crear esta Imagen Destacada
 featured.submit.update=Actualizar esta Imagen Destacada

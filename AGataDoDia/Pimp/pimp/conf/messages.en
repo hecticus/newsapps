@@ -472,7 +472,9 @@ featured.info=Featured Image Data
 featured.name=Name
 featured.name.help=Insert a valid name
 
-
+featured.resolution=Resolution
+featured.image=Image
+featured.file=File
 
 featured.submit.create=Create this Featured Image
 featured.submit.update=Update this Featured Image
