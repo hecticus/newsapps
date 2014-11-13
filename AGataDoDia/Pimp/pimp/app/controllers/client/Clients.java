@@ -944,7 +944,7 @@ public class Clients extends HecticusController {
         String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
 
         String authString = null;
-        if(username != null && !username.isEmpty() && password != null & !password.isEmpty()){
+        if(username != null && !username.isEmpty() && password != null && !password.isEmpty()){
             authString = username+":"+password;
             byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
             authString = new String(encodedBytes);
