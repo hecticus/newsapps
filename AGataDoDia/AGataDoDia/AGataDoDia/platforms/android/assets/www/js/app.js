@@ -59,7 +59,7 @@
 		
 		
 		if(isActive){
-			_jApp.load(6,true);
+			_jApp.load(0,true);
 		}else{
 			if(status == 2){
 				//_jApp.load(5); //asi deberia ir
@@ -279,6 +279,31 @@
 
 		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
 		
+	});
+	
+	//signup clicks
+	$(document).on('click','[data-touch="send_msisdn"]', function(e) {
+		
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		
+		var msisdn = $('#msisdnInput').val();
+		if(saveClientMSISDN(""+msisdn)){
+			$('#msisdnInputGroup').addClass('hidden');
+			$('#passwordInputGroup').removeClass('hidden');
+			sendInfoSignup(null);
+		}else{
+			alert("MSISDN incorrecto");
+		}
+	});
+	$(document).on('click','[data-touch="send_pass"]', function(e) {
+		
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+		
+		//$('#wrapper2').attr('class','page transition left');
+		var pass = $('#passwordInput').val();
+		sendInfoSignup(pass);
 	});
 
 	//SIMPLE NAVIGATION MANAGER

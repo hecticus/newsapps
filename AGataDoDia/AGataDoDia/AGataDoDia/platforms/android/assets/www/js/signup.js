@@ -28,20 +28,26 @@
 		});
 	}*/
 	
-	function sendInfoSignup(){
-		var msisdn = "";
-		var password = "";
+	function sendInfoSignup(password){
+		console.log("PASO POR EL SIGNUP");
 		var subscribe = true;
 		if(password != null && password != ""){
 			subscribe = false;
 		}
-		createOrUpdateClient(msisdn, password, subscribe, clientUpdatedSignup, errorUpdatingClientSignup);
+		createOrUpdateClient(clientMSISDN, password, subscribe, clientUpdatedSignup, errorUpdatingClientSignup);
 	}
 	
-	function clientUpdatedSignup(){
+	function clientUpdatedSignup(isActive, status){
 		//EXITO ahora ir a pagina principal
+		if(isActive || status == 2){
+			startApp(isActive, status);
+		}else{
+			//error con el cliente, esta vencida su suscripcion
+			alert("Cliente vencido");
+		}
 	}
 	function errorUpdatingClientSignup(){
 		//error
+		alert("Error al crear cliente");
 	}
 

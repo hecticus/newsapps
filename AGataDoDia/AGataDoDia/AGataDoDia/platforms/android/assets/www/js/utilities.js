@@ -89,6 +89,40 @@
 		//return "android";
 	}
 	
+	//REMOVE OLD DATA
+	var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
+	var currentVersion = 0;
+	function checkStoredData(){
+		var storedVersion = loadStoredVersion();
+		if(storedVersion != null && storedVersion != ""){
+			var storedInt = parseInt(storedVersion);
+			if(currentVersion > storedVersion){
+				//borramos todas las configuraciones
+				eraseAllConfigs();
+			}
+		}else{
+			//borramos todas las configs
+			eraseAllConfigs();
+		}
+		saveStoredVersion();
+	}
+	function eraseAllConfigs(){
+		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_REGID);
+	}
+	function saveStoredVersion() {
+		try{
+			window.localStorage.setItem(FILE_KEY_STOREDVERSION,""+currentVersion);
+			return true;
+		}catch(err){
+			return false;
+		}
+	}
+	function loadStoredVersion() {
+		return window.localStorage.getItem(FILE_KEY_STOREDVERSION);
+	}
+	
 	
 	function exitApp(){
 		try{clearInterval(newsRefreshInterval);}catch(e){}
