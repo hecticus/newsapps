@@ -26,9 +26,7 @@
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
-		
-		$('img.lazy').lazy();
-		
+
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
@@ -87,12 +85,12 @@
 			}
 		},
 		
-		loading: function(_index) {
+		loading: function() {
 				
 			var _html =  "<div class='container' style='text-align:center;'>";
 				_html += '<div class="row" style="margin-top:100px !important;" >';
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height:' + ($(window).height() - 55) + 'px;" >';
-						_html += '<i class="icon icon-material-more-horiz" data-touch="plus" ></i>';
+						//_html += '<i class="icon icon-material-more-horiz" data-touch="plus" ></i>';
 					_html += '</div>';
 				_html += '</div>';
 			_html += '</div>';
@@ -121,7 +119,7 @@
 				$('main').empty();				
 				$('main').data('referer', referer);				
 				$('main').data('index',_index);
-				this.loading();		
+				this.loading();	
 				$('main').load(_jMenu[_index].load);
 
 				if (!$('body').hasClass('content-home')) {					
@@ -207,12 +205,11 @@
 		var _load = $(this).data('target');
 		var _param = $(this).data('param');
 		var _value = $(this).data('value');
-		
-		
-		if ((_param) || (_value)) {
-			eval('_jParameters.'+ _param +' = ' + _value);	
-		}
-		
+		var _woman = $(this).data('woman');
+
+		if (_woman) _jParameters.woman =  _woman;	
+		if ((_param) || (_value)) eval('_jParameters.'+ _param +' = ' + _value);	
+
 		_jApp.load(_load,true);
 		
 	});
@@ -345,11 +342,29 @@
 		_fTouchPlus($(this));
 	});
 
-	
+	var _fRenderHtmlListPostError = function() {
+		var _html = '<div class="row" >';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
+					_html += '<h4>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h4>';
+				_html += '</div>';
+			_html += '</div>';
+		
+		return _html;
+	};
+
+	var _fRenderHtmlListPostNone = function() {
+		var _html = '<div class="row plus" >';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center; margin-top:10px !important; margin-bottom:10px !important;" >';		
+					_html += '<i class="icon icon-material-add-circle" data-touch="plus" data-direction="down" ></i>';
+				_html += '</div>';
+			_html += '</div>';
+		
+		return _html;
+	};
 	
 	var _fRenderHtmlListPost = function(_json,_push) {
 
-		_html = '';
+		var _html = '';
 		
 		$.each(_json.response, function(__index,_item) {
 
@@ -361,7 +376,7 @@
 			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';					
-					_html += '<img onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded lazy"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';					
+					_html += '<img  data-woman="' + _item.woman.id_woman + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="0"  />';					
 				_html += '</div>';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';
@@ -383,7 +398,7 @@
 					_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
 						_html += '<p>';					
 							$.each(_item.woman.categories, function(_index,_item) {
-								_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="font-size:1em; margin-right:2px;">' + _item.category.name + '</span>';
+								_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" >' + _item.category.name + '</span>';
 							});					
 						_html += '</p>';
 					_html += '</div>';
@@ -418,22 +433,14 @@
 
 		});
 
-
-	
+		
 		if (_json.response.length == 0) {
 			_infinite = false;
-			_html += '<div class="row" >';
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
-					_html += '<h4>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h4>';
-				_html += '</div>';
-			_html += '</div>';
+			_html += _fRenderHtmlListPostError();	
 		} else {
-			_html += '<div class="row plus" >';
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center; margin-top:10px !important; margin-bottom:10px !important;" >';		
-					_html += '<i class="icon icon-material-add-circle" data-touch="plus" data-direction="down" ></i>';
-				_html += '</div>';
-			_html += '</div>';
+			_html += _fRenderHtmlListPostNone();
 		}
+		
 		
 		
 		return _html;

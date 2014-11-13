@@ -1,12 +1,23 @@
 
 	var _index = $('main').data('index');	
-	var _infinite = true;
-	
+	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
 	
 	var _fRenderHtml =  function(_json, _push) {
 		_html = _fRenderHtmlListPost(_json,_push);
 		$('div.plus').remove();			
 		$('body.content-categories #wrapper .scroller .container').append(_html);
+		
+		$('img.img-rounded').each(function (e) {
+			
+			var _this = $(this);					
+			var _img = new Image();
+    		_img.src = _this.data('src');        		        		         		
+		    _img.onload = function() {		    	
+		    	_this.attr('src',  _this.data('src'));
+		    };
+		    
+		});
+		
 	};
 	
 	var _fTouchPlus =  function(_this) {

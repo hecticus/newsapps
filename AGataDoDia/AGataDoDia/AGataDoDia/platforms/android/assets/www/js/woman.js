@@ -1,12 +1,27 @@
 
 
-	var _index = $('main').data('index');
+	
 	var _infinite = true;
+	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
+	
 	
 	var _fRenderHtml =  function(_json, _push) {
 		_html = _fRenderHtmlListPost(_json,_push);
 		$('div.plus').remove();			
 		$('#wrapper .scroller .container').append(_html);
+		
+		$('img.img-rounded').each(function (e) {
+			
+			var _this = $(this);					
+			var _img = new Image();
+    		_img.src = _this.data('src');        		        		         		
+		    _img.onload = function() {		    	
+		    	_this.attr('src',  _this.data('src'));
+		    };
+		    
+		});
+		
+		
 	};
 		
 
@@ -23,8 +38,7 @@
 				
 				if (_this.data('direction')) _direction = _this.data('direction');
 				if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
-				
-				
+					
 				_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _direction+ '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);		
 				if (_oAjax) {					
 					_oAjax.done(function(_json) {								

@@ -220,21 +220,16 @@ row:not(input):not(textarea) {
 		display:none;
 	}
 	
+	img.img-rounded {
+		background-image: url('../img/ajax-loader.gif');
+    	background-repeat: no-repeat;		
+		background-attachment: fixed;
+    	background-position: center;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	.label.label-default {
+		font-size:0.8em; 
+		margin-right:2px;	
+	}
 	
 	

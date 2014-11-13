@@ -1,6 +1,7 @@
 
 	var _index = $('main').data('index');
 	var _json = _jMenu[_index].data; 
+	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
 		
 	var _fRenderHtml =  function(_json, _push) {
 		_html = '';		
@@ -13,7 +14,7 @@
 					
 					_html += '<p>';					
 						$.each(_item.categories, function(_index,_item) {
-							_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="font-size:1em; margin-right:2px;">' + _item.category.name + '</span>';
+							_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" >' + _item.category.name + '</span>';
 						});					
 					_html += '</p>';
 												
@@ -25,15 +26,8 @@
 						
 		});	
 	
-	
-		if (_json.response.length == 0) {
-			_html = '<div class="row" >';
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
-					_html += '<h5>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h5>';
-				_html += '</div>';
-			_html += '</div>';
-		}
-	
+
+		$('div.plus').remove();
 		$('#wrapper .scroller .container').append(_html);	
 	
 	};

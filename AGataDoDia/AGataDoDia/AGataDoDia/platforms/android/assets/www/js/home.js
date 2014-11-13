@@ -3,10 +3,23 @@
 	var _json = _jMenu[_index].data; 
 	var _infinite = true;
 	
-	var _fRenderHtml =  function(_json, _push) {		
+	var _fRenderHtml =  function(_json, _push) {
+				
 		_html = _fRenderHtmlListPost(_json,_push);
 		$('div.plus').remove();		
 		$('body.content-home #wrapper .scroller .container').append(_html);
+		
+		$('img.img-rounded').each(function (e) {
+			
+			var _this = $(this);					
+			var _img = new Image();
+    		_img.src = _this.data('src');        		        		         		
+		    _img.onload = function() {		    	
+		    	_this.attr('src',  _this.data('src'));
+		    };
+		    
+		});
+				
 		if(!_push) setTimeout(function(){_scroll.scrollTo(0,scrollPosition,0);},10);
 	};
 	
