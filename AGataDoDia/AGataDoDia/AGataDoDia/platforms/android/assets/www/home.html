@@ -20,7 +20,9 @@
 			});	
 
 			_scroll.on('scrollEnd', function () {
-				_fTouchPlus($('i.icon.icon-material-add-circle'));				
+				if (this.y >= (this.maxScrollY - 50)) {
+					_fTouchPlus($('i.icon.icon-material-add-circle'));
+				}	
 			});
 
 		</script>

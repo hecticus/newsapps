@@ -18,8 +18,10 @@
 				this.refresh();	
 			});	
 
-			_scroll.on('scrollEnd', function () {
-				_fTouchPlus($('i.icon.icon-material-add-circle'));				
+			_scroll.on('scrollEnd', function () {				
+				if (this.y >= (this.maxScrollY - 50)) {
+					_fTouchPlus($('i.icon.icon-material-add-circle'));
+				}				
 			});
 			
 		</script>
