@@ -148,8 +148,7 @@ row:not(input):not(textarea) {
 		height: auto;
 		text-align: left;	   
 	    background-color:#E2E2E1;
-	    color: #000000;
-	    opacity: 0.8;	    	
+	    color: #000000;   	
 	}
 
 	body.content-signup main .container,

@@ -14,8 +14,12 @@
 			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});
 			_scroll.on('beforeScrollStart', function () {
 				this.refresh();
-				_jApp.refresh();
 			});	
+			
+			_scroll.on('scrollEnd', function () {
+				_fTouchPlus($('i.icon.icon-material-add-circle'));				
+			});
+			
 		</script>
 
 		  
