@@ -1,0 +1,55 @@
+@(resolutionViewForm: Form[models.content.feature.Resolution])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title = Messages("resolutions.create"), nav = "create") {
+
+    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    }
+
+    @if(resolutionViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@resolutionViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(action = controllers.routes.ResolutionsView.submit) {
+
+        <fieldset>
+            <legend>@Messages("resolutions.info")</legend>
+
+            @inputText(
+                resolutionViewForm("width"),
+                '_label -> Messages("resolutions.width"),
+                '_help -> Messages("resolutions.width.help"),
+                'class -> "form-control",
+                '_error -> resolutionViewForm.globalError
+            )
+
+            @inputText(
+                resolutionViewForm("height"),
+                '_label -> Messages("resolutions.height"),
+                '_help -> Messages("resolutions.height.help"),
+                'class -> "form-control",
+                '_error -> resolutionViewForm.globalError
+            )
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn btn-success" value=@Messages("resolutions.submit.create")>
+            <a href="@controllers.routes.ResolutionsView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+}

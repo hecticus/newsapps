@@ -2,68 +2,28 @@
 <html lang="pt">
 	<body>
 		
-		<div id="wrapper" >
-			
+		<div id="wrapper">			
 			<div class="scroller">
 				<div class="container">
 				</div>				
 			</div>
-			
-			<!-- Controls -->
-			<a class="left carousel-control hidden" role="button" >
-				<span class="glyphicon glyphicon-chevron-left"></span>
-			</a>
-			  
-			<a class="right carousel-control hidden" role="button">
-				<span class="glyphicon glyphicon-chevron-right"></span>
-			</a>
-				
 		</div>
 				
 		
 		<script type="text/javascript" src="js/posts.js"></script>
 		<script type="text/javascript">
-
-			var _scroll = new IScroll('#wrapper',{
-					scrollX: true,
-					scrollY: false,
-					click:true,					
-					preventDefault:true, 
-					bounce:false,
-					momentum: false,
-					snap: true,
-					snapSpeed: 400
-				});
-			
+									
+			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true});
 			_scroll.on('beforeScrollStart', function () {
-				this.refresh();
-				_jApp.refresh();												
+				this.refresh();	
+			});	
+
+			_scroll.on('scrollEnd', function () {
+				_fTouchPlus($('i.icon.icon-material-add-circle'));				
 			});
 			
-			
-			/*_scroll.on('scrollEnd', function () {
-				
-			
-				if (this.currentPage.pageX == (this.pages.length-2)) {
-					
-				}
-			
-				if (this.distX > 0) {
-					var _cloneb = $('#wrapper .scroller .container figure:first').clone().appendTo('#wrapper .scroller .container');
-					$('#wrapper .scroller .container figure:first').remove();
-					_cloneb.prependTo('#wrapper .scroller .container');	
-				} else if (this.distX < 0) {
-					var _clonea = $('#wrapper .scroller .container figure:last').clone();
-					$('#wrapper .scroller .container figure:last').remove();				
-					_clonea.prependTo('#wrapper .scroller .container');	
-				}
-			
-
-			});*/
-
-
-
 		</script>
 	</body>
 	
 </html>
+

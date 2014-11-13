@@ -27,10 +27,7 @@
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
 		
-		$('img.lazy').lazy({
-        	effect: "fadeIn",
-        	effectTime: 1500
-    	});
+		$('img.lazy').lazy();
 		
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
 		if (_oAjax) {
@@ -91,10 +88,7 @@
 		},
 		
 		loading: function(_index) {
-			
-			
-		
-			
+				
 			var _html =  "<div class='container' style='text-align:center;'>";
 				_html += '<div class="row" style="margin-top:100px !important;" >';
 					_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height:' + ($(window).height() - 55) + 'px;" >';
@@ -111,6 +105,7 @@
 		
 		load: function(_index, pushing) {
 			console.log("GOTO: "+_index);
+
 			if(pushing) pushNavigation(_index);
 
 			referer = currentScreen;
@@ -128,6 +123,15 @@
 				$('main').data('index',_index);
 				this.loading();		
 				$('main').load(_jMenu[_index].load);
+
+				if (!$('body').hasClass('content-home')) {					
+					if (!$('body').hasClass('touch-disable')) {
+						$('[data-touch="menu"]').removeClass('icon-menu');
+						$('[data-touch="menu"]').addClass('glyphicon glyphicon-remove'); 
+					}
+				}
+				
+
 
 			} catch(err) {    	
 	  			this.error();
@@ -160,7 +164,6 @@
 			}
 				
 	  	}
-
 	  	   
 	};
 
@@ -221,15 +224,25 @@
 		if(_fPreventDefaultClick(e)){return false;}
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 
-		if (!_fValidateTouch(this)) return false;	
-				
-		if($(this).hasClass('icon-menu')) {		
-			$(this).removeClass('icon-menu');
-			$(this).addClass('glyphicon glyphicon-remove');
-			$('.row.menu').removeClass('hidden');
-		} else{
-			_jApp.refresh();
+		if (!$('body').hasClass('content-home')) {
+			_jApp.load(0,false);
+		} else {
+		
+			if (!_fValidateTouch(this)) return false;	
+					
+			if($(this).hasClass('icon-menu')) {		
+				$(this).removeClass('icon-menu');
+				$(this).addClass('glyphicon glyphicon-remove');
+				$('.row.menu').removeClass('hidden');
+			} else{
+				_jApp.refresh();
+			}
+		
+			
 		}
+
+
+		
 
 	});
 	
@@ -339,65 +352,68 @@
 		
 		$.each(_json.response, function(__index,_item) {
 
-			if (_push) _jMenu[_index].data.response.push(_item);
+			if (_push) {
+				_jMenu[_index].data.response.push(_item);	
+			}
 			
 
-			_html += '<div class="row post" data-value="' + _item.id_post + '">';
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure">';					
-					_html += '<img onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded lazy"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
-					//_html += '<img style="height:' + _item.resolutions[0].height + 'px;" onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';
-				_html += '</div>';
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption">';
-									
-					
-					//_html += '<h5 style="text-transform: capitalize; padding:5px;">' + _fGetMoment(_item.date).format('MMMM, DD YYYY / hh:mm A') + '</h5>';
+			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
-					_html += '<p style="padding:5px;">';
-						_html += '<span style="font-size:1.2em; font-weight:bold; ">' + _item.content + '</span><br />';
-						_html += '<span style="text-transform: capitalize;"><i class="icon icon-material-access-time" style="font-size:1.2em; margin-left: 0px !important;"></i>' + _fGetMoment(_item.date, "YYYYMMDD").fromNow();  + '</span>';
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';					
+					_html += '<img onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" src="' + _item.files[0] + '" alt="' +_item.woman.name + '" class="img-rounded lazy"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post+ '" />';					
+				_html += '</div>';
+
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';
+
+					_html += '<h3 style="margin-top:0px !important;">' + _item.woman.name + '</h3>';
+					_html += '<h5>' + _item.content + '</h5>';
+					
+					_html += '<p>';
+						_html += '<i class="icon icon-material-access-time" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i>' + _fGetMoment(_item.date, "YYYYMMDD").fromNow();
+						_html += ' | <i class="icon icon-material-camera-alt" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i><span class="badge">' + _item.files.length + '</span>';
+						_html += ' | <i class="icon icon-material-favorite-outline" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i><span class="badge">' + _item.woman.clients + '</span>';												
 					_html += '</p>';
+
+				_html += '</div>';
+				
+				
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; ">';
+					
+					_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
+						_html += '<p>';					
+							$.each(_item.woman.categories, function(_index,_item) {
+								_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="font-size:1em; margin-right:2px;">' + _item.category.name + '</span>';
+							});					
+						_html += '</p>';
+					_html += '</div>';
+					
+					_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"  >';
+					
+						_html += '<p style="text-align:right;">';
+						
+							var socialClass = "";
+							switch(_item.social_network.name) {
+							    case 'instagram': socialClass = "icon-material-post-instagram";	
+							       break;
+							    case 'facebook': socialClass = "icon-material-post-facebook";	
+							       break;
+							    case 'twitter': socialClass = "icon-material-post-twitter";	
+							       break;
+							    default: socialClass = "icon-material-launch";	
+							       break;
+							}
+						
+							_html += '<i class="icon '+socialClass+'" style="font-size:1.6em; margin-left:8px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
+							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+							_html += '<i class="icon icon-material-share-alt" style="font-size:1.6em; margin-left:8px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
+		
+						_html += '</p>';
+					
+					_html += '</div>';
 					
 				_html += '</div>';
+
 			_html += '</div>';
-			
-			_html += '<div class="row">';
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height:40px; line-height:40px;" >';										
-					_html += '<i class="icon icon-material-camera-alt" data-touch="post" data-param="post" data-target="2" data-value="' + _item.id_post + '" ></i><span class="badge">' + _item.files.length + '</span>';
-					_html += '<i class="icon icon-material-group" ></i><span class="badge">' + _item.woman.clients + '</span>';
-				_html += '</div>';		
-	
-				_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align:right; height:40px; line-height:40px;">';
-	
-					var socialClass = "";
-					switch(_item.social_network.name) {
-					    case 'instagram': socialClass = "icon-material-post-instagram";	
-					       break;
-					    case 'facebook': socialClass = "icon-material-post-facebook";	
-					       break;
-					    case 'twitter': socialClass = "icon-material-post-twitter";	
-					       break;
-					    default: socialClass = "icon-material-launch";	
-					       break;
-					}
-					_html += '<i class="icon '+socialClass+'" style="margin-left:2px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';
-	
-					_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-					_html += '<i class="icon icon-material-share-alt" style="margin-left:2px; vertical-align:middle;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
-	
-				_html += '</div>';
-			_html += '</div>';
-			
-			_html += '<br />';
-			
-			_html += '<div class="row">';
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >';
-					$.each(_item.woman.categories, function(_index,_item) {
-						_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" style="font-size:1em; margin-left:2px; margin-right:2px;">' + _item.category.name + '</span>';
-					});
-				_html += '</div>';
-			_html += '</div>';
-			
-			_html += '<hr style="margin-bottom:0 !important;" />';
 
 		});
 

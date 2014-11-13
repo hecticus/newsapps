@@ -1,0 +1,81 @@
+@(id: Integer, featuredViewForm: Form[models.content.feature.FeaturedImage])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@mediaGroup(field: Field, className: String = "image") = {
+    <div class="row twipsies well @className">
+        @select(
+            field("resolution.idResolution"),
+            models.content.feature.Resolution.toSeq,
+            '_label -> Messages("featured.resolution"),
+            'readonly -> "readonly",
+            'class -> "form-control",
+            '_error -> featuredViewForm.globalError
+        )
+        @**inputText(field("resolution.idResolution"), '_label -> Messages("featured.resolution"), 'readonly -> "readonly",  '_error -> featuredViewForm.globalError, 'class -> "form-control")*@
+        <div class="form-group">
+            <div class="col-lg-4">
+                <label for="inputFile" class="col-lg-2 control-label">@Messages("featured.image")</label>
+                <div class="col-lg-12">
+                    <img class="img-rounded" src=@field("link").value alt="icon" style="width: 100px; height: 100px;" >
+                </div>
+            </div>
+            <div class="col-lg-8">
+                @input(field("link"), '_label -> Messages("featured.file")) { (id, name, value, _) =>
+                    <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="">
+                    <input type="file" name="@name" value="@value" id="inputFile" multiple="">
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@main(title = Messages("featured.edit"), nav = "create") {
+
+    @if(featuredViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@featuredViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(controllers.routes.FeaturedView.update(id), 'enctype -> "multipart/form-data") {
+
+        <fieldset>
+            <legend>@Messages("featured.info")</legend>
+
+            @inputText(
+                featuredViewForm("name"),
+                '_label -> Messages("featured.name"),
+                '_help -> Messages("featured.name.help"),
+                'class -> "form-control",
+                '_error -> featuredViewForm.globalError
+            )
+
+            @repeat(featuredViewForm("resolutions")) { resolution =>
+
+                @mediaGroup(resolution)
+
+            }
+
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value=@Messages("featured.submit.update") class="btn btn-success">
+            <a href="@controllers.routes.FeaturedView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+    @form(controllers.routes.FeaturedView.delete(id), 'class -> "topRight") {
+        <input type="submit" value=@Messages("featured.submit.delete") class="btn btn-danger">
+
+    }
+
+}

@@ -469,7 +469,7 @@ public class Posts extends HecticusController {
                             postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("WomanPostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else if (category != null){
                         if (newest) {

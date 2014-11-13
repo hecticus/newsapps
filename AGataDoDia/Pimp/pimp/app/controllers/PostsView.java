@@ -180,7 +180,7 @@ public class PostsView extends HecticusController {
                     String contentType = picture.getContentType();
                     File file = picture.getFile();
                     String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
-                    String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
+                    String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension, true);
                     String md5 = Utils.getMD5(file);
                     BufferedImage bimg = ImageIO.read(file);
                     ObjectNode dataFile = Json.newObject();
@@ -395,7 +395,7 @@ public class PostsView extends HecticusController {
                     File file = picture.getFile();
                     String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
 
-                    String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension);
+                    String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension, true);
                     System.out.println(woman + " " + fileExtension + " " + link);
                     String md5 = Utils.getMD5(file);
                     BufferedImage bimg = ImageIO.read(file);
