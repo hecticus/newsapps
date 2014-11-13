@@ -302,9 +302,8 @@
 		
 		var msisdn = $('#msisdnInput').val();
 		if(saveClientMSISDN(""+msisdn)){
-			$('#msisdnInputGroup').addClass('hidden');
-			$('#passwordInputGroup').removeClass('hidden');
-			sendInfoSignup(null);
+			//colocar loading
+			sendInfoSignup(null, true);
 		}else{
 			alert("MSISDN incorrecto");
 		}
@@ -316,7 +315,7 @@
 		
 		//$('#wrapper2').attr('class','page transition left');
 		var pass = $('#passwordInput').val();
-		sendInfoSignup(pass);
+		sendInfoSignup(pass, false);
 	});
 
 	//SIMPLE NAVIGATION MANAGER

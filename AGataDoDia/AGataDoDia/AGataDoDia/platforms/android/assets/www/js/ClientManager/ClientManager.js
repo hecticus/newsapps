@@ -74,7 +74,6 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 	try{
 		//cargamos el id de cliente si existe
 		loadClientID();
-		
 		//traemos el Client por WS si existe, sino con el RegID creamos uno temporal que actualizaremos de nuevo
 		var jData = {};
 		//TODO: cambiar este ID cableado? por ahora no hay pantalla de seleccion de pais
@@ -169,7 +168,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 					}
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
-					console.log("error add client");
+					console.log("error add client1 "+thrownError);
 					errorCallback();
 				}
 			});
@@ -220,7 +219,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 					}
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
-					console.log("error add client");
+					console.log("error add client2 "+thrownError);
 					errorCallback();
 				}
 			});
@@ -290,7 +289,7 @@ function getClientStatus(callback, errorCallback){
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			console.log("error add client");
+			console.log("error get status client "+thrownError);
 			errorCallback();
 		}
 	});

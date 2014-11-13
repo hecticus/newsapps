@@ -28,13 +28,18 @@
 		});
 	}*/
 	
-	function sendInfoSignup(password){
+	function sendInfoSignup(password, putMSISDN){
 		console.log("PASO POR EL SIGNUP");
-		var subscribe = true;
-		if(password != null && password != ""){
-			subscribe = false;
+		if(putMSISDN){
+			createOrUpdateClient(clientMSISDN, password, true, setPasswordScreen, errorUpdatingClientSignup);
+		}else{
+			createOrUpdateClient(clientMSISDN, password, false, clientUpdatedSignup, errorUpdatingClientSignup);
 		}
-		createOrUpdateClient(clientMSISDN, password, subscribe, clientUpdatedSignup, errorUpdatingClientSignup);
+	}
+	
+	function setPasswordScreen(isActive, status){
+		$('#msisdnInputGroup').addClass('hidden');
+		$('#passwordInputGroup').removeClass('hidden');
 	}
 	
 	function clientUpdatedSignup(isActive, status){
@@ -46,8 +51,8 @@
 			alert("Cliente vencido");
 		}
 	}
-	function errorUpdatingClientSignup(){
+	function errorUpdatingClientSignup(err){
 		//error
-		alert("Error al crear cliente");
+		alert("Error al crear cliente "+err);
 	}
 

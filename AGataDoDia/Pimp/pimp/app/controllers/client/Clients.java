@@ -15,6 +15,7 @@ import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSRequestHolder;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.Utils;
@@ -64,7 +65,8 @@ public class Clients extends HecticusController {
                         }
                         update = true;
                     }
-                    if(client.getStatus() <= 0){
+                    //siempre que tengamos login y pass debemos revisar el status de upstream
+                    if(password != null && !password.isEmpty()){
                         getStatusFromUpstream(client,upstreamChannel);
                         update = true;
                     }
@@ -594,7 +596,7 @@ public class Clients extends HecticusController {
                 throw new Exception(errorMessage);
             }
 
-            client.setStatus(1);
+            //client.setStatus(1);//no lo debemos colocar en status 1 hasta que no obtengamos el status del cliente
         }
     }
 
@@ -669,7 +671,7 @@ public class Clients extends HecticusController {
                 errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
                 if(callResult == 0){
                     //TODO: Que se debe hacer en el caso que la desuscripcion sea exitosa, borrar al cliente, ponerlo en status 2 para que con la fecha se actualice?
-                    client.setStatus(2);
+                    client.setStatus(0);
                     client.setUserId("");
                     client.setPassword("");
                 }else{
@@ -680,8 +682,6 @@ public class Clients extends HecticusController {
                 errorMessage = "Web service call to Upstream failed";
                 throw new Exception(errorMessage);
             }
-
-            client.setStatus(1);
         }
     }
 
@@ -768,8 +768,6 @@ public class Clients extends HecticusController {
                 errorMessage = "Web service call to Upstream failed";
                 throw new Exception(errorMessage);
             }
-
-            client.setStatus(1);
         }
     }
 
@@ -814,7 +812,7 @@ public class Clients extends HecticusController {
      *
      */
     private static void getStatusFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() != null && client.getUserId() != null){
+        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
@@ -1011,21 +1009,57 @@ public class Clients extends HecticusController {
       
     //FAKE UPSTREAM RESPONSE
     public static Result upstreamFakeCreate() {
+        Http.Request req = Http.Context.current().request();
+        Map<String, String[]> headerMap = req.headers();
+        boolean hasAuth = false;
+        for (String headerKey : headerMap.keySet()) {
+            if(headerKey.equals("Authorization")){
+                hasAuth = true;
+            }
+            //System.out.println("Key: " + headerKey + " - Value: " + headerMap.get(headerKey)[0]);
+        }
         ObjectNode response = Json.newObject();
         response.put("result",0);
         response.put("user_id","324234345050505");
         return ok(response);
     }
     public static Result upstreamFakeLogin() {
+        Http.Request req = Http.Context.current().request();
+        Map<String, String[]> headerMap = req.headers();
+        boolean hasAuth = false;
+        for (String headerKey : headerMap.keySet()) {
+            if(headerKey.equals("Authorization")){
+                hasAuth = true;
+            }
+            //System.out.println("Key: " + headerKey + " - Value: " + headerMap.get(headerKey)[0]);
+        }
         ObjectNode response = Json.newObject();
-        response.put("result",0);
+        if(!hasAuth){
+            response.put("result",2);
+        }else{
+            response.put("result",0);
+        }
         response.put("user_id","324234345050505");
         return ok(response);
     }
     public static Result upstreamFakeStatus() {
+        Http.Request req = Http.Context.current().request();
+        Map<String, String[]> headerMap = req.headers();
+        boolean hasAuth = false;
+        for (String headerKey : headerMap.keySet()) {
+            if(headerKey.equals("Authorization")){
+                hasAuth = true;
+            }
+            //System.out.println("Key: " + headerKey + " - Value: " + headerMap.get(headerKey)[0]);
+        }
         ObjectNode response = Json.newObject();
+        if(!hasAuth){
+            response.put("eligible",false);
+        }else{
+            response.put("eligible",true);
+        }
         response.put("result",0);
-        response.put("eligible",true);
+
         response.put("credits_left",10);
         return ok(response);
     }
