@@ -225,7 +225,7 @@
 		if(e.type == "touchstart" || e.type == "touchend") {return false;}
 
 		if (!$('body').hasClass('content-home')) {
-			_jApp.load(0,false);
+			_jApp.back();
 		} else {
 		
 			if (!_fValidateTouch(this)) return false;	
@@ -325,7 +325,9 @@
 			//home screen
 			navigation = [];
 		}
-		navigation.push(_index);
+		if(navigation[navigation.length-1] != _index){
+			navigation.push(_index);
+		}
 	}
 	
 	function popNavigation(){
