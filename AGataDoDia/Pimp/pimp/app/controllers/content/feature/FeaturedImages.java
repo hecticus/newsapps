@@ -134,19 +134,17 @@ public class FeaturedImages extends HecticusController {
             List<Resolution> resolutions = Resolution.finder.where().ge("width", width).ge("height", height).orderBy("width asc").findList();
             Resolution resolution = null;
             if(resolutions == null || resolutions.isEmpty()){
-                resolutions = Resolution.finder.all();
-                if(resolutions != null) {
-                    resolution = resolutions.get(resolutions.size()-1);
-                } else {
-                    return ok(buildBasicResponse(1, "No hay imagenes disponibles"));
-                }
-            } else {
-                resolution = resolutions.get(0);
+                resolutions = Resolution.finder.orderBy("width desc").findList();
             }
-            List<FeaturedImageHasResolution> featuredImageHasResolutions = FeaturedImageHasResolution.finder.where().eq("resolution.idResolution", resolution.getIdResolution()).orderBy("rand()").findList();
             ObjectNode response = null;
-            if(featuredImageHasResolutions != null && !featuredImageHasResolutions.isEmpty()){
-                response = buildBasicResponse(0, "OK", featuredImageHasResolutions.get(0).toJson());
+            if(resolutions != null && !resolutions.isEmpty()) {
+                resolution = resolutions.get(0);
+                List<FeaturedImageHasResolution> featuredImageHasResolutions = FeaturedImageHasResolution.finder.where().eq("resolution.idResolution", resolution.getIdResolution()).orderBy("rand()").findList();
+                if(featuredImageHasResolutions != null && !featuredImageHasResolutions.isEmpty()){
+                    response = buildBasicResponse(0, "OK", featuredImageHasResolutions.get(0).toJson());
+                } else {
+                    response = buildBasicResponse(1, "No hay imagenes disponibles");
+                }
             } else {
                 response = buildBasicResponse(1, "No hay imagenes disponibles");
             }
