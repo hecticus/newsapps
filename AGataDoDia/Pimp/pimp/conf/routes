@@ -10,7 +10,8 @@ GET     /index                                                                  
 
 
 GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
-GET     /garotas/loading                                                                controllers.Application.getAppSettings()
+GET     /garotas/loading                                                                controllers.Application.getAppSettings(width: Integer?=0, height: Integer?=0)
+GET     /garotas/loading/:width/:height                                                 controllers.Application.getAppSettings(width: Integer, height: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
