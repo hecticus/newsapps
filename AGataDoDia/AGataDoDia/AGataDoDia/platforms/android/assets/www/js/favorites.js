@@ -4,27 +4,35 @@
 	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
 	
 	var _fRenderHtml =  function(_json, _push) {
-		_html = '';	
+		
+		var _html = '<div class="list-group" style="margin-top:10px;">';	
 		$.each(womenList, function(_index,_item) {
-			
-			_html += '<div class="row" data-touch="load" data-target="4" data-param="woman" data-value="' + _item.id_woman + '">';
-
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:10px !important; ">';
 				
-					_html += '<h3>' + _item.name + '</h3>';							
-					_html += '<p>';					
-						$.each(_item.categories, function(_index,_item) {
+			_html += '<div class="list-group-item" data-touch="load" data-target="4" data-param="woman" data-value="' + _item.id_woman + '">';
+		        _html += '<div class="row-picture">';
+		            _html += '<img class="circle" src="' + _item.default_photo + '" alt="icon" style="border:0;">';
+		        _html += '</div>';
+		        _html += '<div class="row-content">';	
+		            _html += '<h4 class="list-group-item-heading">' + _item.name + '</h4>';
+		            _html += '<p class="list-group-item-text">';
+		            	$.each(_item.categories, function(_index,_item) {
 							_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" >' + _item.category.name + '</span>';
-						});					
-					_html += '</p>';
-
-				_html += '</div>';
-			_html += '</div>';	
-
-			_html += '<hr />';
+						});	
+		            _html += '</p>';		            
+		        _html += '</div>';
+		    _html += '</div>';
+		    _html += '<div class="list-group-separator"></div>';
+		
 			
 		});	
-	
+		
+		
+		_html += '</div>';	
+		
+		
+							    
+							 
+		
 		
 	
 	

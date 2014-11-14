@@ -19,6 +19,12 @@ row:not(input):not(textarea) {
 		width: 100%;
 		background: #ffffff;
 	}
+
+	body.content-posts #wrapper {
+		top: 100px; 
+	}
+	
+	
 	
 	
 	#wrapper-bootstrap {
@@ -221,6 +227,8 @@ row:not(input):not(textarea) {
 	}
 	
 	img.img-rounded {
+		border: 0;
+		background-color: white;
 		background-image: url('../img/ajax-loader.gif');
     	background-repeat: no-repeat;		
 		background-attachment: fixed;

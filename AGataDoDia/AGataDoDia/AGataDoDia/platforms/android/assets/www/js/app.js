@@ -207,8 +207,10 @@
 		var _param = $(this).data('param');
 		var _value = $(this).data('value');
 		var _woman = $(this).data('woman');
+		var _womanName = $(this).data('woman-name');
 
-		if (_woman) _jParameters.woman =  _woman;	
+		if (_woman) _jParameters.woman =  _woman;
+		if (_womanName) _jParameters.womanName =  _womanName;	
 		if ((_param) || (_value)) eval('_jParameters.'+ _param +' = ' + _value);	
 
 		_jApp.load(_load,true);
@@ -384,7 +386,7 @@
 			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';					
-					_html += '<img  data-woman="' + _item.woman.id_woman + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="0"  />';					
+					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="0"  />';					
 				_html += '</div>';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';
@@ -444,7 +446,7 @@
 		
 		if (_json.response.length == 0) {
 			_infinite = false;
-			_html += _fRenderHtmlListPostError();	
+			_html += _fRenderHtmlListPostError();
 		} else {
 			_html += _fRenderHtmlListPostNone();
 		}

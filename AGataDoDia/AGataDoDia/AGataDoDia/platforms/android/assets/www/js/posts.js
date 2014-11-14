@@ -2,7 +2,21 @@
 		
 	var _index = $('main').data('referer');
 	var _infinite = true; 
-	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
+	
+
+	var _html = '<div class="container">';
+		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 3pt solid #777777 !important;" >';
+				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >';
+					_html += '<h4>' + _jParameters.womanName + '</h4>';
+				_html += '</div>';
+				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: right;" >';
+					_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite({id_woman:_jParameters.woman}) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite" data-woman="' + _jParameters.woman + '"></i>';
+				_html += '</div>';
+			_html += '</div>';			
+		_html += '</div>';
+
+	$('body.content-posts main').prepend(_html);
+	$('body.content-posts #wrapper .scroller .container').append(_fRenderHtmlListPostNone());
 	
 	var _fRenderHtml =  function(_json) {
 			
@@ -49,6 +63,10 @@
 	
 	
 	var _fTouchPlus =  function(_this) {
+		
+		
+
+		
 		
 		_this.removeClass('icon-material-add-circle');
 		_this.addClass('icon-material-more-horiz');
