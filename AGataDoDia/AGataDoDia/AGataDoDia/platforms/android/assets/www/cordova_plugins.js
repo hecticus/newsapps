@@ -29,17 +29,17 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/nl.x-services.plugins.launchmyapp/www/android/LaunchMyApp.js",
-        "id": "nl.x-services.plugins.launchmyapp.LaunchMyApp",
-        "clobbers": [
-            "window.plugins.launchmyapp"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.device/www/device.js",
         "id": "org.apache.cordova.device.device",
         "clobbers": [
             "device"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
+        "id": "org.apache.cordova.statusbar.statusbar",
+        "clobbers": [
+            "window.StatusBar"
         ]
     }
 ];
@@ -51,8 +51,8 @@ module.exports.metadata =
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "nl.x-services.plugins.socialsharing": "4.3.8",
     "org.apache.cordova.splashscreen": "0.3.4",
-    "nl.x-services.plugins.launchmyapp": "3.2.0",
-    "org.apache.cordova.device": "0.2.12"
+    "org.apache.cordova.device": "0.2.12",
+    "org.apache.cordova.statusbar": "0.1.8"
 }
 // BOTTOM OF METADATA
 });

@@ -18,7 +18,7 @@
 	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-terms touch-disable', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-terms', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
 	
 	
@@ -27,7 +27,7 @@
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
 
-		_oAjax = _fGetAjaxJson(_url + '/garotas/loading');
+		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+$(window).width()+'/'+$(window).height());
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[5].data = _json;
@@ -112,6 +112,7 @@
 				scrollPosition = _scroll.y;
 			}
 			try {
+				document.body.style.backgroundImage="none";
 
 				this.refresh();				
 				$('body').removeClass();
@@ -237,10 +238,6 @@
 		
 			
 		}
-
-
-		
-
 	});
 	
 	
@@ -288,6 +285,17 @@
 		}
 
 		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
+		
+	});
+	
+	$(document).on('click','[data-touch="back"]', function(e) {
+		
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}
+			 
+		if (!_fValidateTouch(this)) return false;
+	
+		_jApp.back();
 		
 	});
 	

@@ -3,7 +3,7 @@
 	<body>
  
 		<div class="container" >							
-			<div class="row" >
+			<!-- div class="row" >
 		
 				<div id="wrapper1">
 					<div class="scroller">
@@ -13,16 +13,16 @@
 					</div>	
 				</div>
 				
-			</div>
+			</div-->
 												
-			<div class="row" style="text-align: center;">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+			<div class="row" style="text-align: center; background-color:transparent;">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:transparent;">
 					<h3>Gatas melhores todos os dias</h3>
 				</div>
 			</div>
 			
-			<div class="row" style="text-align: center;">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="row" style="text-align: center; background-color:transparent;">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:transparent;">
 					<!--button type="button" class="btn btn-danger touch-enable" data-touch="load" data-target="0">Experimente 7 d&iacute;as gratis!</button-->
 					<button type="button" class="btn btn-danger touch-enable" data-touch="load" data-target="6">Experimente 7 d&iacute;as gratis!</button>
 				</div>
@@ -44,19 +44,7 @@
 		
 		<script type="text/javascript" src="js/signin.js"></script>		  
 		<script type="text/javascript">
-			var _scroll = new IScroll('#wrapper1',{
-					scrollX: true,
-					scrollY: false,					
-					preventDefault:true, 
-					bounce:false,
-					momentum: false,
-					snap: true,
-					snapSpeed: 400
-				});
-			
-			_scroll.on('beforeScrollStart', function () { 
-				this.refresh();
-			});	
+
 		</script>
 
 	</body>

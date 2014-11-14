@@ -53,6 +53,7 @@ var app = {
     },
     
     initAllAppData: function() {
+    	StatusBar.hide();
     	//revisamos que la data que esta guardada este bien
     	checkStoredData();
     	//init Push manager this will init the client also
