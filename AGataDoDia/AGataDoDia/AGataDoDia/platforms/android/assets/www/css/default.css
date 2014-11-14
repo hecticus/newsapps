@@ -9,8 +9,7 @@ row:not(input):not(textarea) {
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
 	
 	#wrapper-bootstrap,
-	#wrapper,
-	#wrapper2 {	
+	#wrapper{	
 		position: absolute;
 		z-index: 1;
 		top: 50px; 
@@ -24,17 +23,14 @@ row:not(input):not(textarea) {
 		top: 100px; 
 	}
 	
-	
-	
-	
+
 	#wrapper-bootstrap {
 		background: #000000;
 		color:#ffffff;
 		bottom: 20px; 
 	}	
 
-	#wrapper .container .row i , 
-	#wrapper2 .container .row i {
+	#wrapper .container .row i {
 		font-size: 2em;
 	}
 
@@ -74,17 +70,6 @@ row:not(input):not(textarea) {
 		padding: 0 !important; 
 		margin: 0 !important; 
 	}
-	
-	
-	body #wrapper2,
-	body #wrapper2 .scroller,
-	body #wrapper2 .scroller .container,    			
-	body #wrapper2 .scroller .container .row,
-	body #wrapper2 .scroller .container .row div { 
-		padding: 0 !important; 
-		margin: 0 !important; 
-	}
-
 
 	img {
 		border-radius : 0 !important;	
@@ -123,8 +108,7 @@ row:not(input):not(textarea) {
 
 
 	body.content-signin main .container .row #wrapper1 .scroller .container figure,
-	body #wrapper .scroller .container figure,
-	body #wrapper2 .scroller .container figure {
+	body #wrapper .scroller .container figure {
 		position:relative;  
 		width: 100%; 
 		height: auto; 
@@ -132,8 +116,7 @@ row:not(input):not(textarea) {
 		bottom: 0;
 	}
 	
-	body #wrapper .scroller .container figure img,
-	body #wrapper2 .scroller .container figure img {
+	body #wrapper .scroller .container figure img {
 		width: 100%;  
 		height: auto;
 		min-height: 200px;
@@ -145,8 +128,7 @@ row:not(input):not(textarea) {
 		min-height: 200px;	
 	} 
 		
-	body #wrapper .scroller .container figure figcaption,
-	body #wrapper2 .scroller .container figure figcaption, .caption {
+	body #wrapper .scroller .container figure figcaption, .caption {
 		margin-top: 0px !important;	
 		width:100%;
 		height: auto;
@@ -207,17 +189,6 @@ row:not(input):not(textarea) {
 	}
 
 
-	body #wrapper2 .icon-material-favorite,
-	body #wrapper2 .icon-material-share-alt {
-		text-shadow: 0 1px 2px rgba(0,0,0,.6);
-		color:#FFFFFF;
-	}
-
-	body #wrapper2 .icon-material-favorite.on {
-		color:#FF0000;
-	}
-	
-	
 	body.content-init header,
 	body.content-signin header {
 		display: none;

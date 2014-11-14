@@ -360,7 +360,7 @@
 	var _fRenderHtmlListPostError = function() {
 		var _html = '<div class="row" >';
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >';
-					_html += '<h4>El resultado de la b&uacute;squeda no gener&oacute; ning&uacute;n resultado</h4>';
+					_html += '<h4>Nenhum resultado encontrado para a sua pesquisa</h4>';
 				_html += '</div>';
 			_html += '</div>';
 		
@@ -451,7 +451,7 @@
 		
 		if (_json.response.length == 0) {
 			_infinite = false;
-			_html += _fRenderHtmlListPostError();
+			if ($('div.post').length == 0) _html += _fRenderHtmlListPostError();
 		} else {
 			_html += _fRenderHtmlListPostNone();
 		}

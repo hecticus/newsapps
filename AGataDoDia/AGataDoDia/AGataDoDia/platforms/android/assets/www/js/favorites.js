@@ -1,8 +1,7 @@
 
 	var _index = $('main').data('index');
 	var _json = _jMenu[_index].data; 
-	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
-	
+
 	var _fRenderHtml =  function(_json, _push) {
 		
 		var _html = '<div class="list-group" style="margin-top:10px;">';	
@@ -28,20 +27,14 @@
 		
 		
 		_html += '</div>';	
-		
-		
-							    
-							 
-		
-		
-	
-	
+
 		return _html;
 	
 	};
 		
-	if (_json) {		
-		_html = _fRenderHtml(_json);
-		$('#wrapper .scroller .container').empty();
-		$('#wrapper .scroller .container').append(_html);	
+
+	if (_json) {					
+		$('#wrapper .scroller .container').append(_fRenderHtml(_json));	
+	} else {		
+		$('#wrapper .scroller .container').append(_fRenderHtmlListPostError());	
 	}

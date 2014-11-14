@@ -23,9 +23,6 @@
 		if(!_push) setTimeout(function(){_scroll.scrollTo(0,scrollPosition,0);},10);
 	};
 	
-		
-	if (_json) _fRenderHtml(_json);			
-
 	var _fTouchPlus =  function(_this) {
 		
 		_this.removeClass('icon-material-add-circle');
@@ -44,3 +41,9 @@
 		}									
 						
 	};
+
+		
+	if (_json) _fRenderHtml(_json);			
+
+	
+	
