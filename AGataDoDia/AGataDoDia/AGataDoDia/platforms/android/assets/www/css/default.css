@@ -132,7 +132,6 @@ row:not(input):not(textarea) {
 		bottom: 0;
 	}
 	
-	body.content-signin main .container .row #wrapper1 .scroller .container figure img,
 	body #wrapper .scroller .container figure img,
 	body #wrapper2 .scroller .container figure img {
 		width: 100%;  
@@ -145,8 +144,7 @@ row:not(input):not(textarea) {
 		height: auto;
 		min-height: 200px;	
 	} 
-	
-	body.content-signin main .container .row #wrapper1 .scroller .container figure figcaption,
+		
 	body #wrapper .scroller .container figure figcaption,
 	body #wrapper2 .scroller .container figure figcaption, .caption {
 		margin-top: 0px !important;	
@@ -163,7 +161,7 @@ row:not(input):not(textarea) {
 		height: auto;		
 	   	margin-top: 0px;
 	    color: #FFFFFF;
-	    background:#000000;
+	   /* background:#000000;*/
 	}
 
 	body {
@@ -219,6 +217,19 @@ row:not(input):not(textarea) {
 		color:#FF0000;
 	}
 	
+	
+	body.content-init header,
+	body.content-signin header {
+		display: none;
+		height: 0;
+		line-height: 0;	
+	}
+	
+	body.content-init header .container,
+	body.content-signin header .container {
+				height: 0;
+		line-height: 0;	
+	}
 	
 	body.content-signin header .container i.icon-menu,
 	body.content-signup header .container i.icon-menu,
