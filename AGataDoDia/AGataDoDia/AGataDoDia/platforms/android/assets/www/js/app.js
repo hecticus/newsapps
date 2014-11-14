@@ -322,7 +322,12 @@
 		
 		//$('#wrapper2').attr('class','page transition left');
 		var pass = $('#passwordInput').val();
-		sendInfoSignup(pass, false);
+		if(pass != null && pass != ""){
+			sendInfoSignup(pass, false);
+		}else{
+			alert("Password incorrecto");
+		}
+		
 	});
 
 	//SIMPLE NAVIGATION MANAGER

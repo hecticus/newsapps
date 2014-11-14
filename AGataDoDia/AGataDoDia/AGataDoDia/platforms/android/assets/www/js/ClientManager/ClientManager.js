@@ -46,7 +46,7 @@ function loadClientID() {
 
 function saveClientMSISDN(_clientMSISDN) {
 	try{
-		if(_clientMSISDN.length < 8 && _clientMSISDN.length > 11){
+		if(_clientMSISDN.length < 8 || _clientMSISDN.length > 11){
 			return false; //el numero esta mal formado
 		}
 		for(var i=0;i<_clientMSISDN.length;++i){
