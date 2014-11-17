@@ -7,9 +7,8 @@ row:not(input):not(textarea) {
 	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 	html { -ms-touch-action: none; font-family: Helvetica; }
 	body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
-	
-	#wrapper-bootstrap,
-	#wrapper{	
+
+	#wrapper {	
 		position: absolute;
 		z-index: 1;
 		top: 50px; 
@@ -19,16 +18,17 @@ row:not(input):not(textarea) {
 		background: #ffffff;
 	}
 
-	body.content-posts #wrapper {
+	body.content-posts #wrapper { 
 		top: 100px; 
 	}
-	
 
-	#wrapper-bootstrap {
+	body.content-init #wrapper , 
+	body.content-terms #wrapper {
 		background: #000000;
 		color:#ffffff;
-		bottom: 20px; 
-	}	
+		top: 0;
+		bottom: 0;
+	}
 
 	#wrapper .container .row i {
 		font-size: 2em;
@@ -107,7 +107,7 @@ row:not(input):not(textarea) {
 	}
 
 
-	body.content-signin main .container .row #wrapper1 .scroller .container figure,
+	body.content-init main .container .row #wrapper1 .scroller .container figure,
 	body #wrapper .scroller .container figure {
 		position:relative;  
 		width: 100%; 
@@ -137,8 +137,8 @@ row:not(input):not(textarea) {
 	    color: #000000;   	
 	}
 
-	body.content-signup main .container,
-	body.content-signin main .container  {		
+	
+	body.content-init main .container  {		
 		width:100%;
 		height: auto;		
 	   	margin-top: 0px;
@@ -190,20 +190,19 @@ row:not(input):not(textarea) {
 
 
 	body.content-init header,
-	body.content-signin header {
+	body.content-terms header {
 		display: none;
 		height: 0;
 		line-height: 0;	
 	}
 	
-	body.content-init header .container,
-	body.content-signin header .container {
-				height: 0;
+	body.content-init header .container {
+		height: 0;
 		line-height: 0;	
 	}
 	
-	body.content-signin header .container i.icon-menu,
 	body.content-signup header .container i.icon-menu,
+	body.content-terms header .container i.icon-menu,
 	body.content-init header .container i.icon-menu {
 		display:none;
 	}

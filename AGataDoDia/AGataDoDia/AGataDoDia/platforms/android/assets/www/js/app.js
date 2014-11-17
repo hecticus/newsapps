@@ -16,13 +16,10 @@
 	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signin touch-disable', title:'', load:'signin.html', glyphicon:'icon-signin', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-signup touch-disable', title:'', load:'signup.html', glyphicon:'icon-signup', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-init touch-disable', title:'', load:'init.html', glyphicon:'icon-init', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'', title:'', load:'', glyphicon:'', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-terms', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
-	
-	
-	
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
@@ -121,7 +118,7 @@
 				$('main').data('referer', referer);				
 				$('main').data('index',_index);
 				this.loading();	
-				$('main').load(_jMenu[_index].load);
+				$('main').load(_jMenu[_index].load).fadeIn(1000);
 
 				if (!$('body').hasClass('content-home')) {					
 					if (!$('body').hasClass('touch-disable')) {
@@ -149,8 +146,8 @@
 	  	back: function() {
 	  		var currentPage = popNavigation();
 	  		
-	  		if ($('#wrapper2').hasClass('left')) {						
-				$('#wrapper2').attr('class','page transition right');							
+	  		if ($('#wrapper').hasClass('left')) {						
+				$('#wrapper').attr('class','page transition right');									
 			} else {
 				if(currentPage == -1){
 					exitApp();
@@ -192,6 +189,14 @@
 			_fRenderPost();	
 		}
 
+	});
+
+	$(document).on('click','[data-touch="page"]', function(e) {
+		
+		if(_fPreventDefaultClick(e)){return false;}
+		if(e.type == "touchstart" || e.type == "touchend") {return false;}					
+		$('#wrapper').attr('class','page transition left');	
+		_scroll.scrollTo(0,0,0);	
 	});
 
 
@@ -314,6 +319,8 @@
 		}else{
 			alert("MSISDN incorrecto");
 		}
+		
+		
 	});
 	$(document).on('click','[data-touch="send_pass"]', function(e) {
 		
@@ -391,7 +398,7 @@
 			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';					
-					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="0"  />';					
+					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';					
 				_html += '</div>';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';
@@ -434,9 +441,9 @@
 							       break;
 							}
 						
-							_html += '<i class="icon '+socialClass+'" style="font-size:1.6em; margin-left:8px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
-							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-							_html += '<i class="icon icon-material-share-alt" style="font-size:1.6em; margin-left:8px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
+							_html += '<i class="icon '+socialClass+'" style="font-size:1.6em; margin-left:15px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
+							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.6em; margin-left:15px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+							_html += '<i class="icon icon-material-share-alt" style="font-size:1.6em; margin-left:15px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
 		
 						_html += '</p>';
 					
@@ -445,6 +452,17 @@
 				_html += '</div>';
 
 			_html += '</div>';
+
+
+			$.each(_item.files, function(_index,_file) {
+				var _this = $(this);					
+				var _img = new Image();
+    			_img.src =  _file;        		        		         		
+		    	_img.onload = function() {		    	
+		    		console.log(_file);
+		    	};				
+			});
+
 
 		});
 

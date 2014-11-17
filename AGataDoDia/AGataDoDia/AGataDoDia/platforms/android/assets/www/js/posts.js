@@ -2,7 +2,7 @@
 		
 	var _index = $('main').data('referer');
 	var _infinite = true; 
-	
+	var _init = true; 
 
 	var _html = '<div class="container">';
 		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 3pt solid #777777 !important; opacity: 0.8;" >';
@@ -21,8 +21,10 @@
 	var _fRenderHtml =  function(_json) {
 			
 		var _html = '';
+	
 		
 		$.each(_json.response, function(_index,_item) {
+		
 			_html += '<div class="row post" data-value="' + _item.id_post + '"  >';				
 				$.each(_item.files, function(_index,_file) {
 						_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" >';						
@@ -34,7 +36,8 @@
 							_html += '</div>';					
 						_html += '</div>';
 				});							
-			_html += '</div>';
+			_html += '</div>';	
+	
 		});
 				
 		if (_json.response.length == 0) {
@@ -67,27 +70,52 @@
 		_this.removeClass('icon-material-add-circle');
 		_this.addClass('icon-material-more-horiz');
 
-		if (_oAjax.state() != 'pending') {			
-			if (_infinite) {
+		if (_init) {
+						
+			var _break = false;
+			
+			$.each(_jMenu[_index].data.response, function(_index,_item) {
 				
-				var _direction = 'down';
-				var _post = _jParameters.post;
-				var _woman = _jParameters.woman;
-				
-				if (_this.data('direction')) _direction = _this.data('direction');
-				if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
-	
-
-				_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/images/get/client/' + _direction + '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);
-				if (_oAjax) {
-					_oAjax.done(function(_json) {										
-					 	_fRenderHtml(_json);				 				 			
-					});			
+				if (_item.id_post == _jParameters.post) {					
+					_fRenderHtml({response:[_item]});	
+					_break = true;
+										
 				}
-				 
-			}
+
+				if (_break) return _break;
 				
-		}									
+			});
+			
+			
+			_init = false;
+				
+		} else {
+			
+			if (_oAjax.state() != 'pending') {			
+				if (_infinite) {
+					
+					var _direction = 'down';
+					var _post = _jParameters.post;
+					var _woman = _jParameters.woman;
+					
+					if (_this.data('direction')) _direction = _this.data('direction');
+					if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
+		
+					
+					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/images/get/client/' + _direction + '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);
+					if (_oAjax) {
+						_oAjax.done(function(_json) {										
+						 	_fRenderHtml(_json);				 				 			
+						});			
+					}
+	
+					 
+				}
+				
+			}	
+		}
+		
+										
 						
 	};
 	
