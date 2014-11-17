@@ -194,7 +194,7 @@
 	$(document).on('click','[data-touch="page"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
-		if(e.type == "touchstart" || e.type == "touchend") {return false;}					
+		if(checkBadTouch(e,true)) {return false;}					
 		$('#wrapper').attr('class','page transition left');	
 		_scroll.scrollTo(0,0,0);	
 	});
