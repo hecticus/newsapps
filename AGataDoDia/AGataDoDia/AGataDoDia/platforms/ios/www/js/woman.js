@@ -1,14 +1,11 @@
 
-
 	
 	var _infinite = true;
-	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
-	
 	
 	var _fRenderHtml =  function(_json, _push) {
 		_html = _fRenderHtmlListPost(_json,_push);
 		$('div.plus').remove();			
-		$('#wrapper .scroller .container').append(_html);
+		$('body.content-woman #wrapper .scroller .container').append(_html);
 		
 		$('img.img-rounded').each(function (e) {
 			
@@ -51,4 +48,5 @@
 							
 	};
 	
+	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
 	_fTouchPlus($('i.icon.icon-material-add-circle'));	

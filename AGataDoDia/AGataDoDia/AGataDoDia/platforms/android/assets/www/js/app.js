@@ -194,7 +194,7 @@
 	$(document).on('click','[data-touch="page"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
-		if(checkBadTouch(e,true)) {return false;}					
+		if(checkBadTouch(e,false)) {return false;}
 		$('#wrapper').attr('class','page transition left');	
 		_scroll.scrollTo(0,0,0);	
 	});
@@ -207,43 +207,32 @@
 			 
 		if (!_fValidateTouch(this)) return false;
 		
-		
-		var _load = $(this).data('target');
-		var _param = $(this).data('param');
-		var _value = $(this).data('value');
-		var _woman = $(this).data('woman');
-		var _womanName = $(this).data('woman-name');
-
-		if (_woman) _jParameters.woman =  _woman;
-		if (_womanName) _jParameters.womanName =  _womanName;	
-		if ((_param) || (_value)) eval('_jParameters.'+ _param +' = ' + _value);	
-
-		_jApp.load(_load,true);
+		loadNextPage($(this)); 
 		
 	});
-//IOS ONLY
+	//IOS ONLY
 	$(document).on('touchend','[data-touch="load-touchend"]', function(e) {
 			   
-			   if(_fPreventDefaultClick(e)){return false;}
-			   if(checkBadTouch(e,false)) {return false;}
-			   
-			   if (!_fValidateTouch(this)) return false;
-			   
-			   
-			   var _load = $(this).data('target');
-			   var _param = $(this).data('param');
-			   var _value = $(this).data('value');
-			   var _woman = $(this).data('woman');
-			   var _womanName = $(this).data('woman-name');
-			   
-			   if (_woman) _jParameters.woman =  _woman;
-			   if (_womanName) _jParameters.womanName =  _womanName;
-			   if ((_param) || (_value)) eval('_jParameters.'+ _param +' = ' + _value);
-			   
-			   _jApp.load(_load,true);
-			   
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,false)) {return false;}
+		   
+		if (!_fValidateTouch(this)) return false;
+		   
+		loadNextPage($(this));  	   
 	});
-
+	function loadNextPage(obj){
+		var _load = obj.data('target');
+		var _param = obj.data('param');
+		var _value = obj.data('value');
+		var _woman = obj.data('woman');
+		var _womanName = obj.data('woman-name');
+		   
+		if (_woman) _jParameters.woman =  _woman;
+		if (_womanName) _jParameters.womanName =  _womanName;
+		if ((_param) || (_value)) eval('_jParameters.'+ _param +' = ' + _value);
+		   
+		_jApp.load(_load,true);
+	}
 	
 	
 	$(document).on('click','[data-touch="menu"]', function(e) {
@@ -275,49 +264,62 @@
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,true)) {return false;}
 		
-		var _woman = $(this).data('woman');
+		setFavorite($(this),"favorite");
+		
+	});
+	//IOS ONLY
+	$(document).on('touchend','[data-touch="favorite-touchend"]', function(e) {
+			   
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,false)) {return false;}
+			   
+		setFavorite($(this),"favorite-touchend");
+			   
+	});
+
+	function setFavorite(favObj,type){
+		var _woman = favObj.data('woman');
 		var _data = {'add_woman': [],'remove_woman': []};
 		var _json = _jMenu[0].data;
 		
 		var index = -1;
 		
-		if($(this).hasClass('on')) {
+		if(favObj.hasClass('on')) {
 			
-			$('[data-touch="favorite"][data-woman="' + _woman + '"]').removeClass('on');
+			$('[data-touch="'+type+'"][data-woman="' + _woman + '"]').removeClass('on');
 			_data.remove_woman.push(_woman);
 			
 			$.each(_json.response, function(_index,_item) {
-				if (_item.woman.id_woman == _woman) {
-					//_item.starred = false;
-					index = _index;
-				};
-			});
+				   if (_item.woman.id_woman == _woman) {
+				   //_item.starred = false;
+				   index = _index;
+				   };
+				   });
 			if(index != -1){
 				removeWoman(_json.response[index].woman);
 			}
 			
-
+			
 		} else {
 			
-			$('[data-touch="favorite"][data-woman="' + _woman + '"]').addClass('on');
+			$('[data-touch="'+type+'"][data-woman="' + _woman + '"]').addClass('on');
 			_data.add_woman.push(_woman);
-							
-			$.each(_json.response, function(_index,_item) {			
-				if (_item.woman.id_woman == _woman) {
-					//_item.starred = true;
-					index = _index;
-				};
-			});
+			
+			$.each(_json.response, function(_index,_item) {
+				   if (_item.woman.id_woman == _woman) {
+				   //_item.starred = true;
+				   index = _index;
+				   };
+				   });
 			if(index != -1){
 				addWoman(_json.response[index].woman);
 			}
 		}
-
-		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);									
 		
-	});
-	
-	$(document).on('click','[data-touch="back"]', function(e) {
+		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);
+	}
+
+	$(document).on('touchend','[data-touch="back"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}

@@ -1,6 +1,6 @@
 
-	var _index = $('main').data('index');	
-	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
+
+	var _infinite = true;
 	
 	var _fRenderHtml =  function(_json, _push) {
 		_html = _fRenderHtmlListPost(_json,_push);
@@ -34,7 +34,7 @@
 				if (_this.data('direction')) _direction = _this.data('direction');
 				if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
 				
-
+				
 				_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _direction + '/category/' + clientID + '/' + _post + '/' + _jParameters.category);		
 				if (_oAjax) {
 					_oAjax.done(function(_json) {				
@@ -47,6 +47,7 @@
 		}
 		
 		
-	};						
-
+	};
+							
+	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
 	_fTouchPlus($('i.icon.icon-material-add-circle'));	
