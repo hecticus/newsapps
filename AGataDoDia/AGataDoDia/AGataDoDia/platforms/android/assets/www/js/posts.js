@@ -1,11 +1,11 @@
 
 		
-	var _index = $('main').data('referer');
+	var _index = $('main').data('referer');	
 	var _infinite = true; 
 	var _init = true; 
 
 	var _html = '<div class="container">';
-		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 3pt solid #777777 !important; opacity: 0.8;" >';
+		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 1pt solid #777777 !important; opacity: 0.8;" >';
 				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >';
 					_html += '<h4>' + _jParameters.womanName + '</h4>';
 				_html += '</div>';
@@ -76,7 +76,7 @@
 			
 			$.each(_jMenu[_index].data.response, function(_index,_item) {
 				
-				if (_item.id_post == _jParameters.post) {					
+				if (_item.id_post == _jParameters.post) {
 					_fRenderHtml({response:[_item]});	
 					_break = true;
 										
