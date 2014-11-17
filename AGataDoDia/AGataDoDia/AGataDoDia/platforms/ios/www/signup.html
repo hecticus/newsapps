@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<body>
+ 
+		<div class="container">							
+			
+			<div class="row" >				
+				<div id="wrapper-bootstrap">
+					<div class="scroller">
+						<div class="container">
+							
+							<div id="msisdnInputGroup">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" text-align: center;">
+									<h4>Para desfrutar dos melhores gatas todos os dias presisa se registrar.</h4>
+									<h4>Digite seu numero de celular.</h4>					
+								</div>
+					
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+									<div class="form-control-wrapper">
+										<input type="tel" class="form-control empty" id="msisdnInput" placeholder="# Numero">
+										<span class="material-input"></span>
+									</div>
+								</div>
+								
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+									<button type="button" class="btn btn-danger touch-enable" data-touch="send_msisdn" data-target="0">Enviar</button>
+								</div>
+							
+							</div>
+							
+							<div id="passwordInputGroup" class="hidden">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" text-align: center;">
+									<h4>Agora introduzca a chave que você</h4>
+									<h4>recebe via mensagem de texto...</h4>					
+								</div>
+								
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+									<div class="form-control-wrapper">
+										<input type="password" class="form-control empty" id="passwordInput" placeholder="Chave">
+										<span class="material-input"></span>
+									</div>
+								</div>
+
+								<div id="passSendButton" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+									<button type="button" class="btn btn-danger touch-enable" data-touch="send_pass" data-target="0">Enviar</button>
+								</div>
+								
+								<div id="resendPassButton" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+									<button type="button" class="btn btn-danger touch-enable" data-touch="resend_pass" data-target="0">Enviar novamente a chave</button>
+								</div>
+							</div>
+							
+						</div>
+					</div>	
+				</div>
+			</div>
+
+			<div class="row" > 
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  touch-enable"  data-touch="load-touchend" data-target="7" style="text-align: center; position: absolute; bottom: 0;">
+					Termos e Condi&ccedil;&otilde;es
+				</div>
+			</div>	
+												
+		</div>
+		
+		<script type="text/javascript" src="js/signup.js"></script>		  
+		<script type="text/javascript">
+			var _scroll = new IScroll('#wrapper-bootstrap',{
+					scrollX: true,
+					scrollY: false,					
+					preventDefault:true, 
+					bounce:false,
+					momentum: false,
+					snap: true,
+					snapSpeed: 400
+				});
+			
+			_scroll.on('beforeScrollStart', function () { 
+				this.refresh();
+			});	
+		</script>
+
+	</body>
+	
+</html>

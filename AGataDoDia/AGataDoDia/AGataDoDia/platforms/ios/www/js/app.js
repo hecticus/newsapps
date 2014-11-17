@@ -241,7 +241,7 @@
 
 	
 	
-	$(document).on('click','[data-touch="menu"]', function(e) {
+	$(document).on('touchend','[data-touch="menu"]', function(e) {
 
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
@@ -312,7 +312,7 @@
 		
 	});
 	
-	$(document).on('click','[data-touch="back"]', function(e) {
+	$(document).on('touchend','[data-touch="back"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
@@ -324,7 +324,7 @@
 	});
 	
 	//signup clicks
-	$(document).on('click','[data-touch="send_msisdn"]', function(e) {
+	$(document).on('touchend','[data-touch="send_msisdn"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
@@ -337,7 +337,7 @@
 			alert("MSISDN incorrecto");
 		}
 	});
-	$(document).on('click','[data-touch="send_pass"]', function(e) {
+	$(document).on('touchend','[data-touch="send_pass"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
@@ -373,7 +373,7 @@
 	}
 	
 	
-	$(document).on('click','[data-touch="plus"]', function(e) {	
+	$(document).on('touchend','[data-touch="plus"]', function(e) {	
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
 		_fTouchPlus($(this));
