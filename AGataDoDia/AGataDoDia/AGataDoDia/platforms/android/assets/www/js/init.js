@@ -1,25 +1,20 @@
-	
+
 	
 	var _oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+$(window).width()+'/'+$(window).height());	
 	if (_oAjax) {		
 		_oAjax.done(function(_json) {
-
 			if (_json.response.feature_image.link != null) {
 				var _img = new Image();
     			_img.src = _json.response.feature_image.link;        		        		         		
 		    	_img.onload = function() {
-		    		document.body.style.backgroundImage="url('"+_json.response.feature_image.link+"')";
-		    		$('.container').removeClass('hidden');		    	
-		    	};
-			}
-			
-		    
-		    
+		    		document.body.style.backgroundImage="url('"+_json.response.feature_image.link+"')";		    		
+		    		$('.container').removeClass('hidden');
+		    	};		    	
+			}  
 		});
 	}
 
-	function sendInfoSignup(password, putMSISDN){
-		console.log("PASO POR EL SIGNUP");
+	function sendInfoSignup(password, putMSISDN){		
 		if(putMSISDN){
 			createOrUpdateClient(clientMSISDN, password, true, setPasswordScreen, errorUpdatingClientSignup);
 		}else{
@@ -36,13 +31,13 @@
 		//EXITO ahora ir a pagina principal
 		if(isActive || status == 2){
 			startApp(isActive, status);
-		}else{
-			//error con el cliente, esta vencida su suscripcion
-			alert("Cliente vencido");
+		}else{			
+			_fAlert('Expirado Cliente');			
 		}
 	}
+	
 	function errorUpdatingClientSignup(err){
 		//error
-		alert("Error al crear cliente "+err);
+		_fAlert('Falha ao criar o cliente, ' + err);
 	}
 

@@ -42,6 +42,15 @@ var app = {
     receivedEvent: function(id) {    	
     	if (id == 'deviceready') {
     		
+    		//Image Cache
+	    	ImgCache.options.debug = true;
+	    	ImgCache.options.localCacheFolder = 'AGataDoDia';
+	      	ImgCache.options.usePersistentCache = true;       	        	    	
+			ImgCache.options.cacheClearSize = 5;
+			ImgCache.init();
+    		
+    		
+    		
     		document.addEventListener('backbutton', function(e) {	  			
 				_jApp.back();								
 			}, false);
