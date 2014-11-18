@@ -109,7 +109,7 @@ public class Woman extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);
         response.put("name", name);
-        if(!posts.isEmpty()){
+        /*if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
             if(!media.isEmpty()){
                 response.put("default_photo", media.get(0).getLink());
@@ -118,7 +118,8 @@ public class Woman extends HecticusModel {
             }
         } else {
             response.put("default_photo", defaultPhoto);
-        }
+        }*/
+        response.put("default_photo", defaultPhoto);
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(WomanHasSocialNetwork ad : socialNetworks){
