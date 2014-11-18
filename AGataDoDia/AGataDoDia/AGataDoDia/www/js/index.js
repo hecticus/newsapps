@@ -19,6 +19,7 @@
 var app = {
     // Application Constructor
     initialize: function() {
+    	
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -27,25 +28,39 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+        
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
+    onDeviceReady: function() {    	
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+    receivedEvent: function(id) {    	
+    	if (id == 'deviceready') {
+    		
+    		document.addEventListener('backbutton', function(e) {	  			
+				_jApp.back();								
+			}, false);
+    		    			
+    		//Se ejecuta dependiendo que que valor tiene el client    		    		
+			//_jApp.load(5);
+    		app.initAllAppData();
+    	}
+    },
+    
+    initAllAppData: function() {
+    	StatusBar.hide();
+    	//revisamos que la data que esta guardada este bien
+    	checkStoredData();
+    	//init Push manager this will init the client also
+    	initPush();
     }
 };
 
 app.initialize();
+
+
