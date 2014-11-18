@@ -341,7 +341,7 @@
 
 	}
 
-	$(document).on('touchend','[data-touch="back"]', function(e) {
+	$(document).on('click','[data-touch="back"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}

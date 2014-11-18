@@ -29,6 +29,7 @@
 	
 	function clientUpdatedSignup(isActive, status){
 		//EXITO ahora ir a pagina principal
+		markClientAsOK();
 		if(isActive || status == 2){
 			startApp(isActive, status);
 		}else{			

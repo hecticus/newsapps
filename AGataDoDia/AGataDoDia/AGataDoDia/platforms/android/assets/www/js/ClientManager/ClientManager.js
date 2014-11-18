@@ -1,5 +1,6 @@
 var clientID = "";
 var clientMSISDN = "";
+var clientDataSafe = false;
 
 function initClientManager(callback, errorCallback){
 	try
@@ -30,6 +31,7 @@ function initClientManager(callback, errorCallback){
 
 var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
 var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
+var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
 
 function saveClientID(_clientID) {
 	try{
@@ -41,7 +43,13 @@ function saveClientID(_clientID) {
 	}
 }
 function loadClientID() {
-	clientID = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+	clientDataSafe = window.localStorage.getItem(FILE_KEY_CLIENT_DATASAFE);
+	if(clientDataSafe == null || clientDataSafe != "true"){
+		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
+	}else{
+		clientID = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+	}
 }
 
 function saveClientMSISDN(_clientMSISDN) {
@@ -66,6 +74,16 @@ function saveClientMSISDN(_clientMSISDN) {
 }
 function loadClientMSISDN() {
 	clientMSISDN = window.localStorage.getItem(FILE_KEY_CLIENT_MSISDN);
+}
+
+function markClientAsOK() {
+	try{
+		clientDataSafe = true;
+		window.localStorage.setItem(FILE_KEY_CLIENT_DATASAFE,"true");
+		return true;
+	}catch(err){
+		return false;
+	}
 }
 
 

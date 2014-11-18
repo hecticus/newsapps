@@ -110,6 +110,7 @@
 		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_REGID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_DATASAFE);
 	}
 	function saveStoredVersion() {
 		try{
