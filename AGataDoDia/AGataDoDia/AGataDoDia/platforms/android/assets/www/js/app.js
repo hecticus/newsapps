@@ -464,10 +464,15 @@
 							    default: socialClass = "icon-material-launch";	
 							       break;
 							}
+							
+							var fileImage = _item.woman.default_photo;
+							if(_item.files[0] != null && _item.files[0] != ""){
+								fileImage = _item.files[0];
+							}
 						
 							_html += '<i class="icon '+socialClass+'" style="font-size:1.8em; margin-left:22px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
 							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.8em; margin-left:22px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
+							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
 		
 						_html += '</p>';
 					

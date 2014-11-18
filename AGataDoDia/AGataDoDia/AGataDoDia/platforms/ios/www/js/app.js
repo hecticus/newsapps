@@ -26,7 +26,7 @@
 
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+$(window).width()+'/'+$(window).height());
 		if (_oAjax) {
-			_oAjax.done(function(_json) {					
+			_oAjax.done(function(_json) {
 				_jMenu[5].data = _json;
 			});
 		};
@@ -34,7 +34,7 @@
 		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + clientID + '/0');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
-				_jMenu[0].data = _json;					
+				_jMenu[0].data = _json;
 			});
 		};
 					
@@ -411,13 +411,13 @@
 	var _fRenderHtmlListPost = function(_json,_push) {
 
 		var _html = '';
-		
+		var _index = $('main').data('index');
+	
 		$.each(_json.response, function(__index,_item) {
 
-			if (_push) {
-				_jMenu[_index].data.response.push(_item);	
+			if (_push) {											
+				_jMenu[_index].data.response.push(_item);				
 			}
-			
 
 			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
@@ -464,10 +464,15 @@
 							    default: socialClass = "icon-material-launch";	
 							       break;
 							}
+							
+							var fileImage = _item.woman.default_photo;
+							if(_item.files[0] != null && _item.files[0] != ""){
+								fileImage = _item.files[0];
+							}
 						
-							_html += '<i class="icon '+socialClass+'" style="font-size:1.6em; margin-left:15px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
-							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.6em; margin-left:15px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-							_html += '<i class="icon icon-material-share-alt" style="font-size:1.6em; margin-left:15px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _item.woman.default_photo + '\', \'' + _item.source + '\');"></i>';
+							_html += '<i class="icon '+socialClass+'" style="font-size:1.8em; margin-left:22px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
+							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.8em; margin-left:22px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
 		
 						_html += '</p>';
 					
