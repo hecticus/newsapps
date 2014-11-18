@@ -1,8 +1,12 @@
 
-	
+
 	var _infinite = true;
-	
+	var _init = true;	
+	var _index = $('main').data('index');
+	var _json = _jMenu[_index].data;	 
+
 	var _fRenderHtml =  function(_json, _push) {
+		_init = false;	
 		_html = _fRenderHtmlListPost(_json,_push);
 		$('div.plus').remove();			
 		$('body.content-woman #wrapper .scroller .container').append(_html);
@@ -32,16 +36,29 @@
 				
 				var _direction = 'down';
 				var _post = 0;
+				var _push = true;
 				
 				if (_this.data('direction')) _direction = _this.data('direction');
 				if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
+
+				if (_init) {
+					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/woman/' + clientID + '/' + _jParameters.woman);
+					_push = false;
 					
-				_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _direction+ '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);		
+				} else {
+					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _direction+ '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);
+					_push = true;
+				}
+
+						
 				if (_oAjax) {					
-					_oAjax.done(function(_json) {								
-						 _fRenderHtml(_json);				 			
+					_oAjax.done(function(_json) {
+						if (_init) _jMenu[_index].data = _json;								
+						_fRenderHtml(_json,_push);						
 					});
 				}
+				
+			
 					
 			}			
 		}
@@ -50,3 +67,5 @@
 	
 	$('#wrapper .scroller .container').append(_fRenderHtmlListPostNone());	
 	_fTouchPlus($('i.icon.icon-material-add-circle'));	
+	
+
