@@ -7,7 +7,7 @@
 	var currentScreen = 0;
 	var referer = 0;
 	var scrollPosition = 0;
-	
+	var _background = false;
 	//navigation
 	var navigation = [];
 	
@@ -27,6 +27,9 @@
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
+
+
+
 
 		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+$(window).width()+'/'+$(window).height());
 		if (_oAjax) {
@@ -362,18 +365,15 @@
 		var _msisdn = $('#msisdnInput').val();
 		
 		if(saveClientMSISDN(""+_msisdn)){
-			if (sendInfoSignup(null, true)) {
-				
+			if (sendInfoSignup(null, true)) {				
 				setTimeout(function(){					
 					_btn.button('reset');	
 				}, 5000);
-
 			} else {
 				setTimeout(function(){					
 					_btn.button('reset');	
 				}, 5000);
-			}
-							
+			}							
 		}else{
 			_fAlert('MSISDN incorreto, Inst&acirc;ncia: #########');
 			_btn.button('reset');			
