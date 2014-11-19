@@ -16,7 +16,7 @@
                     "Social.framework": [
                         {
                             "xml": "true",
-                            "count": 2
+                            "count": 1
                         }
                     ],
                     "AssetsLibrary.framework": [
@@ -43,30 +43,10 @@
                             "count": 1
                         }
                     ],
-                    "libsqlite3.dylib": [
-                        {
-                            "xml": "false",
-                            "count": 1
-                        }
-                    ],
-                    "Accounts.framework": [
-                        {
-                            "xml": "true",
-                            "count": 1
-                        }
-                    ],
-                    "AdSupport.framework": [
-                        {
-                            "xml": "true",
-                            "count": 1
-                        }
-                    ],
-                    "Security.framework": [
-                        {
-                            "xml": "true",
-                            "count": 1
-                        }
-                    ]
+                    "libsqlite3.dylib": [],
+                    "Accounts.framework": [],
+                    "AdSupport.framework": [],
+                    "Security.framework": []
                 }
             },
             "config.xml": {
@@ -105,34 +85,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"ios-package\" value=\"FacebookConnectPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<plugin name=\"FacebookConnectPlugin\" value=\"FacebookConnectPlugin\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://m.facebook.com\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://graph.facebook.com\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://api.facebook.com\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://*.fbcdn.net\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://*.akamaihd.net\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
                             "count": 1
                         }
@@ -141,24 +93,9 @@
             },
             "*-Info.plist": {
                 "parents": {
-                    "FacebookAppID": [
-                        {
-                            "xml": "<string>320314531485580</string>",
-                            "count": 1
-                        }
-                    ],
-                    "FacebookDisplayName": [
-                        {
-                            "xml": "<string>FutbolBrasil</string>",
-                            "count": 1
-                        }
-                    ],
-                    "CFBundleURLTypes": [
-                        {
-                            "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb320314531485580</string></array></dict></array>",
-                            "count": 1
-                        }
-                    ]
+                    "FacebookAppID": [],
+                    "FacebookDisplayName": [],
+                    "CFBundleURLTypes": []
                 }
             }
         }
@@ -192,11 +129,6 @@
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         },
         "org.hygieiasoft.cordova.uid": {
-            "PACKAGE_NAME": "futbolbrasil.hecticus.com"
-        },
-        "com.phonegap.plugins.facebookconnect": {
-            "APP_ID": "320314531485580",
-            "APP_NAME": "FutbolBrasil",
             "PACKAGE_NAME": "futbolbrasil.hecticus.com"
         },
         "com.phonegap.plugins.PushPlugin": {

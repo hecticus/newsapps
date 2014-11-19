@@ -79,18 +79,5 @@
     </array>
     <key>CFBundleShortVersionString</key>
     <string>0.0.1</string>
-    <key>FacebookAppID</key>
-    <string>320314531485580</string>
-    <key>FacebookDisplayName</key>
-    <string>FutbolBrasil</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>fb320314531485580</string>
-        </array>
-      </dict>
-    </array>
   </dict>
 </plist>

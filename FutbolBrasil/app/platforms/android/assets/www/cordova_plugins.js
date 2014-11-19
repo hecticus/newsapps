@@ -218,13 +218,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
-        "clobbers": [
-            "window.facebookConnectPlugin"
-        ]
-    },
-    {
         "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
         "id": "com.phonegap.plugins.PushPlugin.PushNotification",
         "clobbers": [
@@ -245,7 +238,6 @@ module.exports.metadata =
     "org.apache.cordova.videoplayer": "1.0",
     "nl.x-services.plugins.socialsharing": "4.3.6",
     "org.hygieiasoft.cordova.uid": "1.1.0",
-    "com.phonegap.plugins.facebookconnect": "0.8.0",
     "com.phonegap.plugins.PushPlugin": "2.3.1"
 }
 // BOTTOM OF METADATA

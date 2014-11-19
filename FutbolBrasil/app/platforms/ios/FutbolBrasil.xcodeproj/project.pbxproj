@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		01DD76C4627B4AC2A7D0CDA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0680473612EA4AC0AD82DA34 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		15C1DC8773CC4E5397E8E539 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 652C77C44D694A79AAE5D338 /* CDVConnection.m */; };
@@ -29,7 +28,6 @@
 		308D05381370CCF300D202BF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D052F1370CCF300D202BF /* icon.png */; };
 		308D05391370CCF300D202BF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D05301370CCF300D202BF /* icon@2x.png */; };
 		30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FC414816E50CA1004E6F35 /* icon-72@2x.png */; };
-		3E302BFAA48A4059B622D517 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6484BBE263D04C108C40C09E /* libsqlite3.dylib */; };
 		434AD61775644D31A0B0C506 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4771A2C71D3C4A5282AB7AE9 /* CDVSplashScreen.m */; };
 		59E11179E15E41C0806E6DD7 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A8063A401CC2435AA0E8F626 /* CDVLogger.m */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
@@ -50,15 +48,10 @@
 		A9BD6C3618254A2CB24D8F94 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE359B017614BB1AA64F351 /* CDVAssetLibraryFilesystem.m */; };
 		B3C41E92E7CB488FA66E6785 /* Sms.h in Sources */ = {isa = PBXBuildFile; fileRef = 871BCE8ADE414C97A5EFE798 /* Sms.h */; };
 		B5FEB77A0D854B9B8871AFB8 /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = B373BBB1029A4AA8AFB37D96 /* CDVFileTransfer.m */; };
-		C615BFA85E134A488F7FCF1F /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44EE71E00FF5402B8AD7756E /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9EBFC9B347944F89F1C929B /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CBB0619FE34D5083175747 /* CDVInAppBrowser.m */; };
 		CA8CB3CDF6034F789C9C65EA /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F4D16C9C0B4F4E841F8A1B /* CDVReachability.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		DB226198568946EDA8C149E4 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A835D6E0151F45B99758E433 /* CDVDevice.m */; };
-		DF785D7E6E96453ABDFA148D /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 235BA0811F424D3D84BB671A /* FacebookConnectPlugin.m */; };
-		E14D9AAC9F2E4C15BF7230E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA04F6507B3A4A0984CD937A /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		E81C828D9AEC44BEBDAEE8E8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3482DF7C18634631A0987C38 /* FacebookSDK.framework */; };
-		F80DEE9A09E84044AF5D82A0 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F9B33C0CDF431991D3B776 /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FA41BB3A076D4349B345E375 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F19B2370BA4955A3DE438A /* CDVFile.m */; };
 /* End PBXBuildFile section */
 
@@ -170,11 +163,6 @@
 				2C21B02BD01E4FC0BDC109B0 /* MessageUI.framework in Frameworks */,
 				16688E58E32441E6BBD4FFC7 /* Social.framework in Frameworks */,
 				01DD76C4627B4AC2A7D0CDA1 /* SystemConfiguration.framework in Frameworks */,
-				E81C828D9AEC44BEBDAEE8E8 /* FacebookSDK.framework in Frameworks */,
-				3E302BFAA48A4059B622D517 /* libsqlite3.dylib in Frameworks */,
-				F80DEE9A09E84044AF5D82A0 /* Accounts.framework in Frameworks */,
-				C615BFA85E134A488F7FCF1F /* AdSupport.framework in Frameworks */,
-				E14D9AAC9F2E4C15BF7230E1 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +503,6 @@
 				15C1DC8773CC4E5397E8E539 /* CDVConnection.m in Sources */,
 				CA8CB3CDF6034F789C9C65EA /* CDVReachability.m in Sources */,
 				434AD61775644D31A0B0C506 /* CDVSplashScreen.m in Sources */,
-				DF785D7E6E96453ABDFA148D /* FacebookConnectPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

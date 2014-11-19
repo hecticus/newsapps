@@ -1,13 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/com.jsmobile.plugins.sms/www/sms.js",
-        "id": "com.jsmobile.plugins.sms.sms",
-        "clobbers": [
-            "window.sms"
-        ]
-    },
-    {
         "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
         "id": "nl.x-services.plugins.socialsharing.SocialSharing",
         "clobbers": [
@@ -239,17 +232,16 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
+        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
         "clobbers": [
-            "window.facebookConnectPlugin"
+            "PushNotification"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.jsmobile.plugins.sms": "0.0.1",
     "nl.x-services.plugins.socialsharing": "4.3.6",
     "org.apache.cordova.console": "0.2.11",
     "org.apache.cordova.device": "0.2.12",
@@ -260,7 +252,7 @@ module.exports.metadata =
     "org.apache.cordova.splashscreen": "0.3.3",
     "org.apache.cordova.videoplayer": "1.0",
     "org.hygieiasoft.cordova.uid": "1.1.0",
-    "com.phonegap.plugins.facebookconnect": "0.8.0"
+    "com.phonegap.plugins.PushPlugin": "2.3.1"
 }
 // BOTTOM OF METADATA
 });
