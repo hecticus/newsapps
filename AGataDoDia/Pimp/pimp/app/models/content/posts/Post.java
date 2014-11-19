@@ -286,6 +286,7 @@ public class Post extends HecticusModel {
     public ObjectNode toJsonOnlyMedia(Language language) {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
+        response.put("source", source);
         response.put("media", media == null?0:media.size());
         if(media != null && !media.isEmpty()){
             ArrayList<String> apps = new ArrayList<>();
@@ -299,6 +300,15 @@ public class Post extends HecticusModel {
             }
             response.put("files", Json.toJson(apps));
             response.put("resolutions", Json.toJson(resolutions));
+        }
+        if(localizations != null && !localizations.isEmpty()){
+            for(PostHasLocalization ad : localizations){
+                if(ad.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue()){
+                    response.put("title", ad.getTitle());
+                    //response.put("content", ad.getContent());
+                    break;
+                }
+            }
         }
         return response;
     }
