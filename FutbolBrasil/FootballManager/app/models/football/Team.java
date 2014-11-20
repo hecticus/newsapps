@@ -30,6 +30,12 @@ public class Team extends HecticusModel {
 
     private static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);
 
+    public Team(String name, Long extId, Countries country) {
+        this.name = name;
+        this.extId = extId;
+        this.country = country;
+    }
+
     public Long getIdTeams() {
         return idTeams;
     }
@@ -79,5 +85,26 @@ public class Team extends HecticusModel {
         obj.put("country",country.toJson());
 
         return obj;
+    }
+
+    public static Team findByExtId(long extId){
+        return finder.where().eq("ext_id", extId).findUnique();
+    }
+
+    /**
+     * funcion para validar los equipos
+     */
+    public void validateTeam(){
+        Team toValidate = findByExtId(this.extId);
+        if (toValidate != null){
+            //exist
+            this.idTeams = toValidate.idTeams;
+            this.name = toValidate.name;
+            this.extId = toValidate.extId;
+            this.country = toValidate.country;
+        }else {
+            //insert in bd
+            this.save();
+        }
     }
 }

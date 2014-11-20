@@ -70,6 +70,23 @@ public class GameMatch extends HecticusModel {
 
     public GameMatch(){}
 
+    public GameMatch(Phase phase, Team homeTeam, Team awayTeam, Venue venue, String homeTeamName,
+                     String awayTeamName, Integer homeTeamGoals, Integer awayTeamGoals, String date,
+                     String status, Long extId, Competition competition) {
+        this.phase = phase;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.venue = venue;
+        this.homeTeamName = homeTeamName;
+        this.awayTeamName = awayTeamName;
+        this.homeTeamGoals = homeTeamGoals;
+        this.awayTeamGoals = awayTeamGoals;
+        this.date = date;
+        this.status = status;
+        this.extId = extId;
+        this.competition = competition;
+    }
+
     public Long getIdGameMatches() {
         return idGameMatches;
     }
@@ -314,5 +331,9 @@ public class GameMatch extends HecticusModel {
         }
         json.put("game_result", value);
         return json;
+    }
+
+    public void validateGame(){
+
     }
 }

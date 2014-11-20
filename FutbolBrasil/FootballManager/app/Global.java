@@ -34,6 +34,7 @@ public class Global extends GlobalSettings {
     @Override
     public void onStart(Application application) {
         super.onStart(application);
+        //validar existencia de keys de configs
         BufferedReader br = null;
         try {
             //if this instance is master trigger threadsupervisor
@@ -133,6 +134,7 @@ public class Global extends GlobalSettings {
         String invoker = actionMethod.getDeclaringClass().getName();
         String[] octetos = ipString.split("\\.");
         if(invoker.startsWith("controllers.news") ||
+                invoker.startsWith("controllers.footballapi") ||
                 invoker.startsWith("controllers.Application") ||
                 invoker.startsWith("controllers.events")){
             if(ipString.equals("127.0.0.1") || ipString.startsWith("10.0.3")

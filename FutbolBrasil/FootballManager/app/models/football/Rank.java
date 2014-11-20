@@ -75,7 +75,6 @@ public class Rank  extends HecticusModel {
 
     private String streak;
 
-
     /*
     <puntosanterior1>0</puntosanterior1>
     <jugadosanterior1>0</jugadosanterior1>
@@ -91,7 +90,6 @@ public class Rank  extends HecticusModel {
     <descripcionTribDisc/>
     <partidosDefTribDisc/>
     */
-
 
     private static Model.Finder<Long,Rank> finder = new
             Model.Finder<Long,Rank>(Long.class,Rank.class);

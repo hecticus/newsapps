@@ -69,6 +69,32 @@ public class Scorer extends HecticusModel {
         return null;
     }
 
+    /**
+     * funcionn para validar al goleador
+     */
+    public void validateScorer(){
+        Scorer toValidate = getScorer(this.idCompetition, ""+this.externalId);
+        if (toValidate != null){
+            this.idScorer = toValidate.idScorer;
+            this.name = toValidate.name;
+            this.fullName = toValidate.fullName;
+            this.nickname = toValidate.nickname;
+            this.team = toValidate.team;
+            this.goals = toValidate.goals;
+            this.byplay = toValidate.byplay;
+            this.header = toValidate.header;
+            this.freeKick = toValidate.freeKick;
+            this.penalty = toValidate.penalty;
+            this.country = toValidate.country;
+            this.externalId =toValidate.externalId;
+            this.idRound = toValidate.idRound;
+            this.idCompetition = toValidate.idCompetition;
+            this.date = toValidate.date;
+        }else {
+            this.save();
+        }
+
+    }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
 

@@ -220,6 +220,36 @@ public class Fixture extends HecticusModel {
                 .findList();
     }
 
+    public static Fixture getByExtId(long externalId){
+        return finder.where().eq("", "").findUnique();
+    }
+
+    public void validateFixture(){
+        Fixture toValidate = getByExtId(this.externalId);
+        if (toValidate != null){
+            this.idFixture = toValidate.idFixture;
+            this.externalId = toValidate.externalId;
+            this.matchDate = toValidate.matchDate;
+            this.phase = toValidate.phase;
+            this.stadium = toValidate.stadium;
+            this.localTeam = toValidate.localTeam;
+            this.localTeamGoals = toValidate.localTeamGoals;
+            this.localTeamPenalties = toValidate.localTeamPenalties;
+            this.localTeamScoringPlayers = toValidate.localTeamScoringPlayers;
+            this.awayTeam = toValidate.awayTeam;
+            this.awayTeamGoals = toValidate.awayTeamGoals;
+            this.awayTeamPenalties = toValidate.awayTeamPenalties;
+            this.awayTeamScoringPlayers = toValidate.awayTeamScoringPlayers;
+            this.matchStatus = toValidate.matchStatus;
+            this.matchDescription = toValidate.matchDescription;
+            this.formatedDate = toValidate.formatedDate;
+            this.media = toValidate.media;
+            this.gamedata = toValidate.gamedata;
+        }else {
+            this.save();
+        }
+    }
+
     /********************** getters and setters **********************/
 
     public Long getIdFixture() {

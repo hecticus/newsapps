@@ -25,6 +25,8 @@ public class Venue extends HecticusModel {
     private Long extCityId;
     private Long extStadiumId;
 
+    private Long extId;
+
     @OneToMany(mappedBy = "venue")
     private List<GameMatch> matches;
 
@@ -78,6 +80,14 @@ public class Venue extends HecticusModel {
         this.country = country;
     }
 
+    public Long getExtId() {
+        return extId;
+    }
+
+    public void setExtId(Long extId) {
+        this.extId = extId;
+    }
+
     public Venue findById(Long id){
         return finder.byId(id);
     }
@@ -93,5 +103,35 @@ public class Venue extends HecticusModel {
         node.put("ext_stadium_id",extStadiumId);
 
         return node;
+    }
+
+    public Venue findByExtId(long extId){
+        return finder.where().eq("ext_id", extId).findUnique();
+    }
+
+    public Venue(Long extId, String stadiumName, String cityName, Countries country) {
+        this.extId = extId;
+        this.stadiumName = stadiumName;
+        this.cityName = cityName;
+        this.country = country;
+    }
+
+    /**
+     * funcion para validar los venues
+     */
+    public void validateVenue(){
+        Venue toValidate = findByExtId(this.extId);
+        if (toValidate != null){
+            //values
+            this.idVenues = toValidate.idVenues;
+            this.cityName = toValidate.cityName;
+            this.stadiumName = toValidate.stadiumName;
+            this.country = toValidate.country;
+            this.extCityId = toValidate.extCityId;
+            this.extStadiumId = toValidate.extStadiumId;
+            this.extId = toValidate.extId;
+        }else {
+            this.save();
+        }
     }
 }

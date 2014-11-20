@@ -149,4 +149,20 @@ public class Phase extends HecticusModel {
         obj.put("ext_id",extId);
         return obj;
     }
+
+
+    public void validatePhase(){
+        Phase toValidate = findByExtId(this.extId);
+        if (toValidate != null){
+            this.idPhases = toValidate.idPhases;
+            this.comp = toValidate.comp;
+            this.globalName = toValidate.globalName;
+            this.name = toValidate.name;
+            this.startDate = toValidate.startDate;
+            this.endDate = toValidate.endDate;
+            this.extId = toValidate.extId;
+        }else {
+            this.save();
+        }
+    }
 }

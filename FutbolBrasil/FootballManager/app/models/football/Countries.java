@@ -28,6 +28,11 @@ public class Countries extends HecticusModel {
 
     private static Model.Finder<Long,Countries> finder = new Model.Finder<Long,Countries>(Long.class,Countries.class);
 
+    public Countries(String name, Long extId) {
+        this.name = name;
+        this.extId = extId;
+    }
+
     public Long getIdCountries() {
         return idCountries;
     }
@@ -68,6 +73,10 @@ public class Countries extends HecticusModel {
         return finder.byId(id);
     }
 
+    public static Countries findByExtId(long id){
+        return finder.where().eq("ext_id",id).findUnique();
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
@@ -76,5 +85,17 @@ public class Countries extends HecticusModel {
         obj.put("ext_id",extId);
 
         return obj;
+    }
+
+    public void validateCountry(){
+        Countries toValidate =  findByExtId(this.extId);
+        if (toValidate != null){
+            this.idCountries = toValidate.idCountries;
+            this.name = toValidate.name;
+            this.extId = toValidate.extId;
+            this.idCountries = toValidate.idCountries;
+        }else {
+            this.save();
+        }
     }
 }

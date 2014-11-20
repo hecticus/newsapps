@@ -34,6 +34,13 @@ public class Competition  extends HecticusModel {
     @OneToMany(mappedBy="comp")
     public List<Phase> phases;
 
+    public Competition(String name, Long extId, Integer idApp) {
+        this.name = name;
+        this.extId = extId;
+        this.idApp = idApp;
+        this.status = 0;
+    }
+
     private static Model.Finder<Long,Competition> finder = new
             Model.Finder<Long, Competition>(Long.class, Competition.class);
 
@@ -89,13 +96,32 @@ public class Competition  extends HecticusModel {
         return finder.where().eq("ext_id", id).findUnique();
     }
 
+    public static Competition findByCompExt(int idApp, long extId ){
+        return finder.where().eq("id_app", idApp).eq("ext_id", extId).findUnique();
+    }
+
+    public void validateCompetition(){
+        //check if exist
+        Competition fromDb = findByCompExt(this.idApp, this.extId);
+        if ( fromDb != null){
+            //existe
+            this.name = fromDb.name;
+            this.extId = fromDb.extId;
+            this.status = fromDb.status;
+            this.idApp = fromDb.idApp;
+            this.idCompetitions = fromDb.idCompetitions;
+        }else {
+            //insertar
+            this.save();
+        }
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
         obj.put("id_competitions",idCompetitions);
         obj.put("name",name);
         obj.put("ext_id",extId);
-
         return obj;
     }
 }
