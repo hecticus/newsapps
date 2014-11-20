@@ -17,7 +17,7 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<html lang="pt">
+<html lang="pt" ng-app="FutbolBrasil">
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
@@ -33,7 +33,7 @@
         <title>Brasil Futebol</title>
     </head>
     
-    <body class="content-index" style="position: fixed;">
+    <body  style="position: fixed;">
     	
     	<header> 
     		<div class="container">
@@ -48,10 +48,14 @@
     		</div>			  							
     	</header>
 
-    	<main data-page="index" data-referer="none">
+    	<!--main data-page="index" data-referer="none"-->
     		<!-- load html here --> 
-    	</main>
+    	<!--/main-->
     	
+    	<div ng-view>
+    		<!-- load html here -->
+    	</div> 		
+
 
 		<footer>			
 			<div class="container">
@@ -81,14 +85,22 @@
 		</footer>
         
         <script type="text/javascript" src="js/ext/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="js/ext/jquery.touchSwipe.min.js"></script>
+		<!--script type="text/javascript" src="js/ext/jquery.touchSwipe.min.js"></script-->
+		
+		<!--Angular-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+    	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-resource.min.js"></script>
+    	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-route.min.js"></script>    	
+		<!--Angular-->
+		
+
 		<script type="text/javascript" src="js/ext/iscroll-probe.js"></script>
 		<script type="text/javascript" src="js/ext/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/ext/moment.js"></script>
 		<script type="text/javascript" src="js/ext/material.js"></script>
 		
         <script type="text/javascript" src="js/app.js"></script>		
-		<script type="text/javascript" src="js/utilities.js"></script>
+		<!--script type="text/javascript" src="js/utilities.js"></script-->
 		
 		<!-- plugins -->	
         <script type="text/javascript" src="js/plugins/imgcache.js"></script>
