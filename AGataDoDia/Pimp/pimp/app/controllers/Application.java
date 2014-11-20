@@ -10,6 +10,9 @@ import controllers.content.posts.Posts;
 import models.User;
 import models.basic.Config;
 import models.basic.Language;
+import models.content.feature.FeaturedImage;
+import models.content.feature.FeaturedImageHasResolution;
+import models.content.feature.Resolution;
 import models.content.posts.Post;
 import models.content.women.Woman;
 import play.Routes;
@@ -52,21 +55,33 @@ public class Application extends Controller {
         }
     }
 
-    public static Result getAppSettings(){
+    public static Result getAppSettings(Integer width, Integer height){
         try {
-            Iterator<Post> postIterator = Post.finder.where().setMaxRows(Config.getInt("post-to-main")).orderBy("rand()").findList().iterator();
-            Language language = Language.finder.byId(Config.getInt("default-language"));
-            ArrayList<ObjectNode> posts = new ArrayList<>();
-            while(postIterator.hasNext()){
-                posts.add(postIterator.next().toJson(language));
-            }
             ObjectNode data = Json.newObject();
             data.put("app_version",Config.getString("app-version"));
-            data.put("posts",Json.toJson(posts));
+
             ObjectNode response = Json.newObject();
+
+            //feature images
+            List<Resolution> resolutions = Resolution.finder.where().ge("width", width).ge("height", height).orderBy("width asc").findList();
+            Resolution resolution = null;
+            if(resolutions == null || resolutions.isEmpty()){
+                resolutions = Resolution.finder.orderBy("width desc").findList();
+            }
+            if(resolutions != null && !resolutions.isEmpty()) {
+                resolution = resolutions.get(0);
+                List<FeaturedImageHasResolution> featuredImageHasResolutions = FeaturedImageHasResolution.finder.where().eq("resolution.idResolution", resolution.getIdResolution()).orderBy("rand()").findList();
+                if(featuredImageHasResolutions != null && !featuredImageHasResolutions.isEmpty()){
+                    data.put("feature_image", featuredImageHasResolutions.get(0).toJson());
+                } else {
+                }
+            } else {
+            }
+
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");
             response.put(Config.RESPONSE_KEY,data);
+
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Application.class, "Error manejando settings", "obteniendo los settings del app ", true, e, "support-level-1", Config.LOGGER_ERROR);

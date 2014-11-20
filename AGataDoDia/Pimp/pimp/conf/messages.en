@@ -163,6 +163,10 @@ main.create=Create
 main.admin=Administration
 main.users=Users
 main.instances=Instances
+main.resolutions=Resolutions
+main.content=Content
+main.basic=Languages & Countries
+main.featured=Featured Images
 
 generic.error.title=Error
 generic.error.content=Change a few things up and try submitting again.
@@ -432,3 +436,50 @@ users.submit.delete=Delete this User
 users.java.created= The User {0} has been created!
 users.java.updated= The User {0} has been updated!
 users.java.deleted= The User {0} has been deleted!
+
+resolutions.list.head=Resolutions
+resolutions.list.title={0,choice,0#There are no Resolutions|1#One Resolution found|1<{0,number,integer} Resolutions found}
+resolutions.list.filter.name=Filter by Resolution width...
+resolutions.list.new=Add new Resolution
+
+resolutions.create=Create Resolution
+resolutions.edit=Edit Resolution
+resolutions.info=Resolution Data
+
+resolutions.width=Width
+resolutions.width.help=Insert a valid number
+
+resolutions.height=Height
+resolutions.height.help=Insert a valid number
+
+resolutions.submit.create=Create this Resolution
+resolutions.submit.update=Update this Resolution
+resolutions.submit.delete=Delete this Resolution
+
+resolutions.java.created= The resolution {0} has been created!
+resolutions.java.updated= The resolution {0} has been updated!
+resolutions.java.deleted= The resolution {0} has been deleted!
+
+featured.list.head=Featured Images
+featured.list.title={0,choice,0#There are no Featured Images|1#One Featured Image found|1<{0,number,integer} Featured Images found}
+featured.list.filter.name=Filter by Featured Image name...
+featured.list.new=Add new Featured Image
+
+featured.create=Create Featured Image
+featured.edit=Featured Image Resolution
+featured.info=Featured Image Data
+
+featured.name=Name
+featured.name.help=Insert a valid name
+
+featured.resolution=Resolution
+featured.image=Image
+featured.file=File
+
+featured.submit.create=Create this Featured Image
+featured.submit.update=Update this Featured Image
+featured.submit.delete=Delete this Featured Image
+
+featured.java.created= The Featured Image {0} has been created!
+featured.java.updated= The Featured Image {0} has been updated!
+featured.java.deleted= The Featured Image {0} has been deleted!

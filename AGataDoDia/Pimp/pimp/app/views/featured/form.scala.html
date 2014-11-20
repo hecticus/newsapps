@@ -1,0 +1,67 @@
+@(featuredViewForm: Form[models.content.feature.FeaturedImage])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@mediaGroup(field: Field, className: String = "image") = {
+    <div class="row twipsies well @className">
+        @inputText(field("resolution"), '_label -> Messages("featured.resolution"), 'readonly -> "readonly",  '_error -> featuredViewForm.globalError, 'class -> "form-control")
+        <div class="form-group">
+            <div class="col-lg-10">
+                @input(field("link"), '_label -> Messages("post.media.file")) { (id, name, value, _) =>
+                    <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                    <input type="file" name="@name" value="@value" id="inputFile" multiple="">
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@main(title = Messages("featured.create"), nav = "create") {
+
+    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    }
+
+    @if(featuredViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@featuredViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(action = controllers.routes.FeaturedView.submit, 'enctype -> "multipart/form-data", 'id -> "form") {
+
+        <fieldset>
+            <legend>@Messages("featured.info")</legend>
+
+            @inputText(
+                featuredViewForm("name"),
+                '_label -> Messages("featured.name"),
+                '_help -> Messages("featured.name.help"),
+                'class -> "form-control",
+                '_error -> featuredViewForm.globalError
+            )
+            @repeat(featuredViewForm("images")) { localization =>
+
+                @mediaGroup(localization)
+
+            }
+
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn btn-success" value=@Messages("featured.submit.create")>
+            <a href="@controllers.routes.FeaturedView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+}

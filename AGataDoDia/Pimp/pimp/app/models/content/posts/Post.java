@@ -283,6 +283,36 @@ public class Post extends HecticusModel {
         return response;
     }
 
+    public ObjectNode toJsonOnlyMedia(Language language) {
+        ObjectNode response = Json.newObject();
+        response.put("id_post", idPost);
+        response.put("source", source);
+        response.put("media", media == null?0:media.size());
+        if(media != null && !media.isEmpty()){
+            ArrayList<String> apps = new ArrayList<>();
+            ArrayList<ObjectNode> resolutions = new ArrayList<>();
+            for(PostHasMedia ad : media){
+                apps.add(ad.getLink());
+                ObjectNode resolution = Json.newObject();
+                resolution.put("width", ad.getWidth());
+                resolution.put("height", ad.getHeight());
+                resolutions.add(resolution);
+            }
+            response.put("files", Json.toJson(apps));
+            response.put("resolutions", Json.toJson(resolutions));
+        }
+        if(localizations != null && !localizations.isEmpty()){
+            for(PostHasLocalization ad : localizations){
+                if(ad.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue()){
+                    response.put("title", ad.getTitle());
+                    //response.put("content", ad.getContent());
+                    break;
+                }
+            }
+        }
+        return response;
+    }
+
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("woman.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }

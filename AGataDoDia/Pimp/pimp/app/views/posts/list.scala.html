@@ -88,27 +88,27 @@
                 <div class="bs-component">
                     <div class="list-group">
                         @for((post, index) <-  currentPage.getList().zipWithIndex) {
-                        <div class="list-group-item">
-                            <a href="@controllers.routes.PostsView.edit(post.getIdPost())">
-                                @if(post.getMedia().size >= 1) {
-                                    <div class="row-picture">
-                                        <img class="circle" src="@post.getMedia().get(0).getLink()" alt="icon">
-                                    </div>
-                                } else {
-                                    <div class="row-action-primary">
-                                        <i class="icon-material-photo"></i>
-                                    </div>
-                                }
+                            <div class="list-group-item">
+                                <a href="@controllers.routes.PostsView.edit(post.getIdPost())">
+                                    @if(post.getMedia().size >= 1) {
+                                        <div class="row-picture">
+                                            <img class="circle" src="@post.getMedia().get(0).getLink()" alt="icon">
+                                        </div>
+                                    } else {
+                                        <div class="row-action-primary">
+                                            <i class="icon-material-photo"></i>
+                                        </div>
+                                    }
 
-                                <div class="row-content">
-                                    <h4 class="list-group-item-heading">@Html(""+post.getIdPost()) - @Html(post.getWoman().getName()) <span class="badge">@post.getMedia().size</span></h4>
-                                    <p class="list-group-item-text">@Html(post.getDateFormatted())</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="list-group-separator">
-                            <!--separator-->
-                        </div>
+                                    <div class="row-content">
+                                        <h4 class="list-group-item-heading">@Html(""+post.getIdPost()) - @Html(post.getWoman().getName()) <span class="badge">@post.getMedia().size</span></h4>
+                                        <p class="list-group-item-text">@Html(post.getDateFormatted())</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="list-group-separator">
+                                <!--separator-->
+                            </div>
                         }
                     </div>
                 </div>

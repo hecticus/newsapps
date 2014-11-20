@@ -1,16 +1,22 @@
-var clientID = 0;
+var clientID = "";
+var clientMSISDN = "";
+var clientDataSafe = false;
 
 function initClientManager(callback, errorCallback){
 	try
 	{ 
 		loadClientID();
+		console.log("INIT CLIENT: "+clientID+" msisdn:"+clientMSISDN);
 		if(clientID != null && clientID != ""){
 			//tenemos client ID asi que solo hacemos get
 			getClientStatus(callback, errorCallback);
 		}else{
 			//tratamos de crear un cliente generico u obtener uno viejo que desinstalo la aplicacion
 			//callback(false);
-			createOrUpdateClient(null, null, false, callback, errorCallback);
+			//createOrUpdateClient(null, null, false, callback, errorCallback);
+			
+			//NEW: no creamos un cliente generico, esperamos a que se cree con msisdn por lo menos
+			callback(false, 2); //periodo de pruebas mientras pone su informacion
 		}
     }
 	catch(err) 
@@ -24,6 +30,8 @@ function initClientManager(callback, errorCallback){
 }
 
 var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
+var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
+var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
 
 function saveClientID(_clientID) {
 	try{
@@ -34,17 +42,56 @@ function saveClientID(_clientID) {
 		return false;
 	}
 }
-
 function loadClientID() {
-	clientID = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+	clientDataSafe = window.localStorage.getItem(FILE_KEY_CLIENT_DATASAFE);
+	if(clientDataSafe == null || clientDataSafe != "true"){
+		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
+	}else{
+		clientID = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+	}
 }
+
+function saveClientMSISDN(_clientMSISDN) {
+	try{
+		if(_clientMSISDN.length < 8 || _clientMSISDN.length > 11){
+			return false; //el numero esta mal formado
+		}
+		for(var i=0;i<_clientMSISDN.length;++i){
+			parseInt(_clientMSISDN[i],10);
+		}
+		if(_clientMSISDN.indexOf("55") != 0){
+			_clientMSISDN = "55"+_clientMSISDN;
+		}
+		clientMSISDN = _clientMSISDN;
+		console.log("MSISDN FINAL: "+clientMSISDN);
+		window.localStorage.setItem(FILE_KEY_CLIENT_MSISDN,""+clientMSISDN);
+		return true;
+	}catch(err){
+		console.log("ERROR Not a number: "+err);
+		return false;
+	}
+}
+function loadClientMSISDN() {
+	clientMSISDN = window.localStorage.getItem(FILE_KEY_CLIENT_MSISDN);
+}
+
+function markClientAsOK() {
+	try{
+		clientDataSafe = true;
+		window.localStorage.setItem(FILE_KEY_CLIENT_DATASAFE,"true");
+		return true;
+	}catch(err){
+		return false;
+	}
+}
+
 
 //CLIENT MANAGER OPERATIONS
 function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallback){
 	try{
 		//cargamos el id de cliente si existe
 		loadClientID();
-		
 		//traemos el Client por WS si existe, sino con el RegID creamos uno temporal que actualizaremos de nuevo
 		var jData = {};
 		//TODO: cambiar este ID cableado? por ahora no hay pantalla de seleccion de pais
@@ -139,7 +186,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 					}
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
-					console.log("error add client");
+					console.log("error add client1 "+thrownError);
 					errorCallback();
 				}
 			});
@@ -190,7 +237,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 					}
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
-					console.log("error add client");
+					console.log("error add client2 "+thrownError);
 					errorCallback();
 				}
 			});
@@ -260,7 +307,7 @@ function getClientStatus(callback, errorCallback){
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			console.log("error add client");
+			console.log("error get status client "+thrownError);
 			errorCallback();
 		}
 	});

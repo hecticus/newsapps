@@ -1,13 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
         "id": "org.apache.cordova.file.DirectoryEntry",
         "clobbers": [
@@ -154,99 +147,18 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
-        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
         "clobbers": [
-            "window.open"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.network-information/www/network.js",
-        "id": "org.apache.cordova.network-information.network",
-        "clobbers": [
-            "navigator.connection",
-            "navigator.network.connection"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.network-information/www/Connection.js",
-        "id": "org.apache.cordova.network-information.Connection",
-        "clobbers": [
-            "Connection"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
-        "id": "org.apache.cordova.splashscreen.SplashScreen",
-        "clobbers": [
-            "navigator.splashscreen"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransferError.js",
-        "id": "org.apache.cordova.file-transfer.FileTransferError",
-        "clobbers": [
-            "window.FileTransferError"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransfer.js",
-        "id": "org.apache.cordova.file-transfer.FileTransfer",
-        "clobbers": [
-            "window.FileTransfer"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.videoplayer/www/video.js",
-        "id": "org.apache.cordova.videoplayer.VideoPlayer",
-        "clobbers": [
-            "window.videoPlayer"
-        ]
-    },
-    {
-        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
-        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
-        "file": "plugins/org.hygieiasoft.cordova.uid/www/uid.js",
-        "id": "org.hygieiasoft.cordova.uid.uid",
-        "clobbers": [
-            "cordova.plugins.uid"
-        ]
-    },
-    {
-        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
-        "clobbers": [
-            "window.facebookConnectPlugin"
-        ]
-    },
-    {
-        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
-        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
-        "clobbers": [
-            "PushNotification"
+            "device"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.device": "0.2.12",
-    "org.apache.cordova.console": "0.2.11",
     "org.apache.cordova.file": "1.3.1",
-    "org.apache.cordova.inappbrowser": "0.5.2",
-    "org.apache.cordova.network-information": "0.2.12",
-    "org.apache.cordova.splashscreen": "0.3.3",
-    "org.apache.cordova.file-transfer": "0.4.6",
-    "org.apache.cordova.videoplayer": "1.0",
-    "nl.x-services.plugins.socialsharing": "4.3.6",
-    "org.hygieiasoft.cordova.uid": "1.1.0",
-    "com.phonegap.plugins.facebookconnect": "0.8.0",
-    "com.phonegap.plugins.PushPlugin": "2.3.1"
+    "org.apache.cordova.device": "0.2.12"
 }
 // BOTTOM OF METADATA
 });

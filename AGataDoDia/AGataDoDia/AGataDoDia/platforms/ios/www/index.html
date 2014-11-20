@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html lang="pt">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <link rel="stylesheet" type="text/css" href="css/default.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/transition.css">
+        <link rel="stylesheet" href="css/material.min.css">
+        <link rel="stylesheet" href="css/material-wfont.min.css">
+     <link rel="stylesheet" href="css/iconvault-preview.css">
+     
+     
+        <title>A gata do dia</title>
+    </head>
+    
+    <body class="content-init" style="position: fixed; background-color: white;">
+    	
+    	<header>
+    		
+			<div class="container">
+				
+				<div class="row">					
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: left;" data-touch="load" data-target="0">
+						<img src="img/agatadodia.svg" onerror="this.src='img/agatadodia.png'" alt="a gata do dia" style="width:90%; height: auto;">				
+					</div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >						
+						<i class="icon-menu" data-touch="menu" style="color:red;  text-align: center;"></i>						
+					</div>
+				</div>
+				
+				<div class="row menu hidden">
+			
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-touch="load-touchend" data-target="1" >
+						<span>Meu favorito</span>
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-touch="load-touchend" data-target="8"  >
+						<span>Salao de Fama</span>
+					</div>
+							
+				</div>
+				
+				<!--div class="row woman" style="background-color: white; line-height: 50px; height: 50px;">
+					
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
+						Nombre
+					</div>
+
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
+						favorito
+					</div>
+					
+				</div-->
+				
+				
+			</div>
+			
+    	</header>
+
+    	<main data-index="0" data-referer="0">
+    		<!-- load html here --> 
+    	</main>
+    	
+		<footer>			
+			<!-- here code footer -->
+		</footer>
+        
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
+		<script type="text/javascript" src="js/iscroll-probe.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/moment.js"></script>
+		<script type="text/javascript" src="js/utilities.js"></script>
+		<script type="text/javascript" src="js/material.js"></script>
+		<!-- plugins -->	
+        <script type="text/javascript" src="js/imgcache.js"></script>
+		<!-- plugins -->
+		
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        
+        <script type="text/javascript" src="js/Push/PushManager.js"></script>
+		<script type="text/javascript" src="js/ClientManager/ClientManager.js"></script>
+		<script type="text/javascript" src="js/WomenManager/WomenManager.js"></script>
+		<script type="text/javascript" src="js/SocialApps/SocialAppsManager.js"></script>
+
+    </body>
+    
+</html>

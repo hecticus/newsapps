@@ -25,11 +25,19 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" onload=\"true\" value=\"org.apache.cordova.statusbar.StatusBar\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -85,9 +93,14 @@
                             "count": 1
                         }
                     ],
-                    "/*/application/activity": [
+                    "/*/application/activity": [],
+                    "/*": [
                         {
-                            "xml": "<intent-filter><data android:scheme=\"mycoolapp\" /><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /></intent-filter>",
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 1
                         }
                     ]
@@ -111,11 +124,16 @@
         "org.apache.cordova.splashscreen": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         },
-        "nl.x-services.plugins.launchmyapp": {
-            "URL_SCHEME": "mycoolapp",
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         },
-        "org.apache.cordova.device": {
+        "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.hecticus.AGataDoDia"
+        },
+        "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "com.hecticus.AGataDoDia"
+        },
+        "org.apache.cordova.file": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         }
     },

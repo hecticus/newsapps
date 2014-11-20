@@ -10,7 +10,8 @@ GET     /index                                                                  
 
 
 GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
-GET     /garotas/loading                                                                controllers.Application.getAppSettings()
+GET     /garotas/loading                                                                controllers.Application.getAppSettings(width: Integer?=0, height: Integer?=0)
+GET     /garotas/loading/:width/:height                                                 controllers.Application.getAppSettings(width: Integer, height: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
@@ -101,15 +102,15 @@ POST    /categories/:id/delete		                                                
 
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
-GET     /users/list			                                                controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
-#GET     /users/lsort		                                                    controllers.UsersView.lsort()
+GET     /users/list			                                                            controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /users/lsort		                                                            controllers.UsersView.lsort()
 # Add UsersView
 # Edit existing UsersView
-#GET     /users/sort/:ids	                                                    controllers.UsersView.sort(ids:String)
-GET     /users/:id			                                                    controllers.UsersView.edit(id:Long)
-POST    /users/:id			                                                    controllers.UsersView.update(id:Long)
+#GET     /users/sort/:ids	                                                            controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                            controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                            controllers.UsersView.update(id:Long)
 # Delete a UsersView
-POST    /users/:id/delete		                                                controllers.UsersView.delete(id:Long)
+POST    /users/:id/delete		                                                        controllers.UsersView.delete(id:Long)
 
 #InstancesView
 # InstancesView list (look at the default values for pagination parameters)
@@ -124,6 +125,34 @@ GET     /instances/:id			                                                       
 POST    /instances/:id			                                                        controllers.InstancesView.update(id:Integer)
 # Delete a InstancesView
 POST    /instances/:id/delete		                                                    controllers.InstancesView.delete(id:Integer)
+
+#ResolutionsView
+# ResolutionsView list (look at the default values for pagination parameters)
+GET     /resolutions/list			                                                    controllers.ResolutionsView.list(p:Int ?= 0, s ?= "width", o ?= "asc", f ?= "")
+GET     /resolutions/lsort		                                                        controllers.ResolutionsView.lsort()
+# Add ResolutionsView
+GET     /resolutions/blank		                                                        controllers.ResolutionsView.blank()
+POST    /resolutions				                                                    controllers.ResolutionsView.submit()
+# Edit existing ResolutionsView
+GET     /resolutions/sort/:ids	                                                        controllers.ResolutionsView.sort(ids:String)
+GET     /resolutions/:id			                                                    controllers.ResolutionsView.edit(id:Integer)
+POST    /resolutions/:id			                                                    controllers.ResolutionsView.update(id:Integer)
+# Delete a ResolutionsView
+POST    /resolutions/:id/delete		                                                    controllers.ResolutionsView.delete(id:Integer)
+
+#FeaturedView
+# FeaturedView list (look at the default values for pagination parameters)
+GET     /featured/list			                                                        controllers.FeaturedView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /featured/lsort		                                                            controllers.FeaturedView.lsort()
+# Add FeaturedView
+GET     /featured/blank		                                                            controllers.FeaturedView.blank()
+POST    /featured				                                                        controllers.FeaturedView.submit()
+# Edit existing FeaturedView
+GET     /featured/sort/:ids	                                                            controllers.FeaturedView.sort(ids:String)
+GET     /featured/:id			                                                        controllers.FeaturedView.edit(id:Integer)
+POST    /featured/:id			                                                        controllers.FeaturedView.update(id:Integer)
+# Delete a FeaturedView
+POST    /featured/:id/delete		                                                    controllers.FeaturedView.delete(id:Integer)
 
 
 #SocialNetworks
@@ -156,28 +185,40 @@ POST    /garotas/v1/filetypes/delete/:id                                        
 GET     /garotas/v1/filetypes/get/:id                                                   controllers.content.posts.FileTypes.get(id : Integer)
 GET     /garotas/v1/filetypes/list                                                      controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
 
+#FeaturedImages
+POST    /garotas/v1/featured/create                                                     controllers.content.feature.FeaturedImages.create()
+POST    /garotas/v1/featured/update/:id                                                 controllers.content.feature.FeaturedImages.update(id : Integer)
+POST    /garotas/v1/featured/delete/:id                                                 controllers.content.feature.FeaturedImages.delete(id : Integer)
+GET     /garotas/v1/featured/get/:id                                                    controllers.content.feature.FeaturedImages.get(id : Integer)
+GET     /garotas/v1/featured/list                                                       controllers.content.feature.FeaturedImages.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /garotas/v1/featured/get/:width/:height                                         controllers.content.feature.FeaturedImages.getRandomImage(width: Integer, height: Integer)
+
 #Posts
 POST    /garotas/v1/posts/create                                                        controllers.content.posts.Posts.create()
 POST    /garotas/v1/posts/update/:id                                                    controllers.content.posts.Posts.update(id : Integer)
 POST    /garotas/v1/posts/delete/:id                                                    controllers.content.posts.Posts.delete(id : Integer)
 GET     /garotas/v1/posts/get/:id                                                       controllers.content.posts.Posts.get(id : Integer)
 
-GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer?=0)
-GET     /garotas/v1/posts/get/client/up/:id/:postId                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0, idCategory: Integer?=0)
-GET     /garotas/v1/posts/get/client/down/:id/:postId                                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer?=0)
+GET     /garotas/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /garotas/v1/posts/get/client/up/:id/:postId                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /garotas/v1/posts/get/client/down/:id/:postId                                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /garotas/v1/posts/get/client/woman/:id/:idWoman                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0)
-GET     /garotas/v1/posts/get/client/up/woman/:id/:postId/:idWoman                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer, idCategory: Integer?=0)
-GET     /garotas/v1/posts/get/client/down/woman/:id/:postId/:idWoman                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0)
+GET     /garotas/v1/posts/get/client/woman/:id/:idWoman                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /garotas/v1/posts/get/client/up/woman/:id/:postId/:idWoman                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /garotas/v1/posts/get/client/down/woman/:id/:postId/:idWoman                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /garotas/v1/posts/get/client/category/:id/:idCategory                           controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer)
-GET     /garotas/v1/posts/get/client/up/category/:id/:postId/:idCategory                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0, idCategory: Integer)
-GET     /garotas/v1/posts/get/client/down/category/:id/:postId/:idCategory              controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer)
+GET     /garotas/v1/posts/get/client/category/:id/:idCategory                           controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /garotas/v1/posts/get/client/up/category/:id/:postId/:idCategory                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /garotas/v1/posts/get/client/down/category/:id/:postId/:idCategory              controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
 
 GET     /garotas/v1/posts/get/client/:idClient/:idPost                                  controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
 GET     /garotas/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize            controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
 GET     /garotas/v1/posts/list                                                          controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
 GET     /garotas/v1/posts/list/woman/:id                                                controllers.content.posts.Posts.getListForWoman(id : Integer)
+
+#POSTS IMAGES
+GET     /garotas/v1/posts/images/get/client/up/woman/:id/:postId/:idWoman               controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idWoman: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
+GET     /garotas/v1/posts/images/get/client/down/woman/:id/:postId/:idWoman             controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idWoman: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
 
 #Files
 GET     /garotas/v1/files/get                                                           controllers.content.posts.Posts.getPublicImages()

@@ -47,9 +47,13 @@ var app = {
 			ImgCache.options.cacheClearSize = 5;
 			ImgCache.init();
 			
-			_jApp.load(0);
-				
-	    	
+			_jApp.load('news');
+	
+			document.addEventListener('backbutton', function(e) {	  			
+				_jApp.back();								
+			}, false);
+	
+					    	
     	}
 
     }

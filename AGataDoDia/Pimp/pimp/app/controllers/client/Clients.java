@@ -3,9 +3,6 @@ package controllers.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
-import exceptions.InvalidLoginException;
-import exceptions.InvalidPasswordException;
-import exceptions.UpstreamTimeoutException;
 import models.basic.Config;
 import models.basic.Country;
 import models.clients.Client;
@@ -18,6 +15,7 @@ import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSRequestHolder;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.Utils;
@@ -47,6 +45,9 @@ public class Clients extends HecticusController {
             }
             if(clientData.has("login")){
                 login = clientData.get("login").asText();
+
+            }
+            if(clientData.has("password")){
                 password = clientData.get("password").asText();
             }
             if(login != null){
@@ -64,7 +65,8 @@ public class Clients extends HecticusController {
                         }
                         update = true;
                     }
-                    if(client.getStatus() <= 0){
+                    //siempre que tengamos login y pass debemos revisar el status de upstream
+                    if(password != null && !password.isEmpty()){
                         getStatusFromUpstream(client,upstreamChannel);
                         update = true;
                     }
@@ -162,7 +164,7 @@ public class Clients extends HecticusController {
                     client.setDevices(devices);
 
                     getUserIdFromUpstream(client,upstreamChannel);
-                    getStatusFromUpstream(client,upstreamChannel);
+                    getStatusFromUpstream(client, upstreamChannel);
 
                     if(clientData.has("women")){
                         Iterator<JsonNode> womenIterator = clientData.get("women").elements();
@@ -512,14 +514,14 @@ public class Clients extends HecticusController {
      * Funcion que permite suscribir al usuario en Upstream dado su msisdn(username)
      *
      * POST data as JSON:
-     * msisdn       String  mandatory   msisdn from user (login)
-     * google_id    String  optional    push id
-     * password     String  mandatory   password sent from SMS to the user
-     * service_id   String  mandatory   Upstream suscription service
-     * metadata     JSON    optional    extra params
+     * msisdn                   String  mandatory   msisdn from user (login)
+     * push_notification_id     String  optional    push id
+     * password                 String  mandatory   password sent from SMS to the user
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
      *
      * OUTPUT JSON FROM UPSTREAM:
-     * result       int     0-Success, 1-User already subscribed, 2-User cannot be identified, 3-User not Subscribed, 5-Invalid MSISDN, 6-google id already exists, 7-Upstream service no longer available
+     * result       int     0-Success, 1-User already subscribed, 2-User cannot be identified, 3-User not Subscribed, 5-Invalid MSISDN, 6-push_notification_id already exists, 7-Upstream service no longer available
      * user_id      String
      *
      * Example:
@@ -531,7 +533,7 @@ public class Clients extends HecticusController {
      * Body:
      * {"password":"CMSLJMWD","metadata":{"channel":"Android","result":null,"points":null,
      * "app_version":"gamingapi.v1","session_id":null},"service_id":"prototype-app -SubscriptionDefault",
-     * "msisdn":"999000000005","google_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
+     * "msisdn":"999000000005","push_notification_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
      *
      * Response:
      * {
@@ -543,7 +545,7 @@ public class Clients extends HecticusController {
      * Parametros necesarios
      * username  user from the app
      * password  password from the app
-     * googleID  optional, regID of user
+     * push_notification_id  optional, regID of user
      * channel   "Android" or "Web"
      *
      */
@@ -553,10 +555,10 @@ public class Clients extends HecticusController {
         } else {
             String msisdn = client.getLogin();
             String password = client.getPassword();
-            String googleID = null;
+            String push_notification_id = null;
 
             if(upstreamChannel.equalsIgnoreCase("Android")){
-                googleID = getGoogleID(client);
+                push_notification_id = getPushNotificationID(client);
             }
 
             //Data from configs
@@ -566,7 +568,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
             //agregamos el msisdn(username) y el password
             fields.put("password", password);
             fields.put("msisdn", msisdn);
@@ -594,7 +596,7 @@ public class Clients extends HecticusController {
                 throw new Exception(errorMessage);
             }
 
-            client.setStatus(1);
+            //client.setStatus(1);//no lo debemos colocar en status 1 hasta que no obtengamos el status del cliente
         }
     }
 
@@ -602,13 +604,13 @@ public class Clients extends HecticusController {
      * Funcion que permite desuscribir al usuario en Upstream dado su user_id de upstream
      *
      * POST data as JSON:
-     * user_id      String  mandatory   upstream user_id
-     * google_id    String  optional    push id
-     * service_id   String  mandatory   Upstream suscription service
-     * metadata     JSON    optional    extra params
+     * user_id                  String  mandatory   upstream user_id
+     * push_notification_id     String  optional    push id
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
      *
      * OUTPUT JSON FROM UPSTREAM:
-     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 7-Upstream service no longer available
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-push_notification_id missing, 7-Upstream service no longer available
      *
      * Example:
      *
@@ -619,7 +621,7 @@ public class Clients extends HecticusController {
      * Body:
      * {"metadata":{"channel":"Android","result":null,"points":null,
      * "app_version":"gamingapi.v1","session_id":null},"service_id":"prototype-app -SubscriptionDefault",
-     * "user_id":8001,"google_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
+     * "user_id":8001,"push_notification_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
      *
      * Response:
      * {
@@ -631,7 +633,7 @@ public class Clients extends HecticusController {
      * user_id   upstream user_id
      * username  user from the app
      * password  password from the app
-     * googleID  optional, regID of user
+     * push_notification_id  optional, regID of user
      * channel   "Android" or "Web"
      *
      */
@@ -644,9 +646,9 @@ public class Clients extends HecticusController {
             String login = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
-            String googleID = null;
+            String push_notification_id = null;
             if(upstreamChannel.equalsIgnoreCase("Android")){
-                googleID = getGoogleID(client);
+                push_notification_id = getPushNotificationID(client);
             }
 
             //Data from configs
@@ -656,7 +658,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, login, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
             //agregamos el user_id
             fields.put("user_id", userID);
 
@@ -669,7 +671,7 @@ public class Clients extends HecticusController {
                 errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
                 if(callResult == 0){
                     //TODO: Que se debe hacer en el caso que la desuscripcion sea exitosa, borrar al cliente, ponerlo en status 2 para que con la fecha se actualice?
-                    client.setStatus(2);
+                    client.setStatus(0);
                     client.setUserId("");
                     client.setPassword("");
                 }else{
@@ -680,8 +682,6 @@ public class Clients extends HecticusController {
                 errorMessage = "Web service call to Upstream failed";
                 throw new Exception(errorMessage);
             }
-
-            client.setStatus(1);
         }
     }
 
@@ -689,14 +689,14 @@ public class Clients extends HecticusController {
      * Funcion que permite hacer login del usuario en Upstream dado un username y un password
      *
      * POST data as JSON:
-     * username     String  mandatory   user name
-     * google_id    String  optional    push id
-     * password     String  mandatory   password sent from SMS to the user
-     * service_id   String  mandatory   Upstream suscription service
-     * metadata     JSON    optional    extra params
+     * username                 String  mandatory   user name
+     * push_notification_id     String  optional    push id
+     * password                 String  mandatory   password sent from SMS to the user
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
      *
      * OUTPUT JSON FROM UPSTREAM:
-     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 6-google id already exists, 7-Upstream service no longer available
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 6-push_notification_id already exists, 7-Upstream service no longer available
      * user_id      String
      *
      * Example:
@@ -708,7 +708,7 @@ public class Clients extends HecticusController {
      * Body:
      * {"password":"CMSLJMWD","metadata":{"channel":"Android","result":null,"points":null,
      * "app_version":"gamingapi.v1","session_id":null},"service_id":"prototype-app -SubscriptionDefault",
-     * "username":"999000000005","google_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
+     * "username":"999000000005","push_notification_id":"wreuoi24lkjfdlkshjkjq4h35k13jh43kjhfkjqewhrtkqjrewht"}
      *
      * Response:
      * {
@@ -719,7 +719,7 @@ public class Clients extends HecticusController {
      * Parameters required
      * username  user from the app
      * password  password from the app
-     * googleID  optional, regID of user
+     * push_notification_id  optional, regID of user
      * channel   "Android" or "Web"
      *
      */
@@ -730,9 +730,9 @@ public class Clients extends HecticusController {
             String username = client.getLogin();
             String password = client.getPassword();
             //String channel = "Android";
-            String googleID = null;
+            String push_notification_id = null;
             if(upstreamChannel.equalsIgnoreCase("Android")){
-                googleID = getGoogleID(client);
+                push_notification_id = getPushNotificationID(client);
             }
 
             //Data from configs
@@ -742,7 +742,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
             //agregamos el username y el password
             fields.put("password", password);
             fields.put("username", username);
@@ -768,8 +768,6 @@ public class Clients extends HecticusController {
                 errorMessage = "Web service call to Upstream failed";
                 throw new Exception(errorMessage);
             }
-
-            client.setStatus(1);
         }
     }
 
@@ -777,13 +775,13 @@ public class Clients extends HecticusController {
      * Funcion que permite obtener el status de una suscripcion en Upstream
      *
      * POST data as JSON:
-     * user_id      String  mandatory   upstream user_id
-     * google_id    String  optional    push id
-     * service_id   String  mandatory   Upstream suscription service
-     * metadata     JSON    optional    extra params
+     * user_id                  String  mandatory   upstream user_id
+     * push_notification_id     String  optional    push id
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
      *
      * OUTPUT JSON FROM UPSTREAM:
-     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 7-Upstream service no longer available
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-push_notification_id missing, 7-Upstream service no longer available
      * user_id      String
      *
      * Example:
@@ -796,7 +794,7 @@ public class Clients extends HecticusController {
      * Body:
      * {"metadata":{"channel":"Android","result":null,"points":null,"app_version":"gamingapi.v1",
      * "session_id":null},"service_id":"prototype-app -SubscriptionDefault",
-     * "user_id":8001,"google_id":"wreuoi24lkjfdlk13jh45kjhfkjqewhrt34jrewh2"}
+     * "user_id":8001,"push_notification_id":"wreuoi24lkjfdlk13jh45kjhfkjqewhrt34jrewh2"}
      *
      * Response:
      * {
@@ -809,18 +807,18 @@ public class Clients extends HecticusController {
      * userID    upstream user id
      * username  user from the app
      * password  password from the app
-     * googleID  optional, regID of user
+     * push_notification_id  optional, regID of user
      * channel   "Android" or "Web"
      *
      */
     private static void getStatusFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() != null && client.getUserId() != null){
+        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
-            String googleID = null;
+            String push_notification_id = null;
             if(upstreamChannel.equalsIgnoreCase("Android")){
-                googleID = getGoogleID(client);
+                push_notification_id = getPushNotificationID(client);
             }
 
             //Data from configs
@@ -831,7 +829,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
             fields.put("user_id", userID); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -865,10 +863,10 @@ public class Clients extends HecticusController {
      * Funcion que permite que Upstream envie un MT con el password nuevamente al cliente
      *
      * POST data as JSON:
-     * msisdn       String  mandatory   upstream user_id
-     * google_id    String  optional    push id
-     * service_id   String  mandatory   Upstream suscription service
-     * metadata     JSON    optional    extra params
+     * msisdn                   String  mandatory   upstream user_id
+     * push_notification_id     String  optional    push id
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
      *
      * OUTPUT JSON FROM UPSTREAM:
      * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 7-Upstream service no longer available
@@ -891,7 +889,7 @@ public class Clients extends HecticusController {
      * }
      *
      * msisdn    msisdn for upstream client
-     * googleID  optional, regID of user
+     * push_notification_id  optional, regID of user
      * channel   "Android" or "Web"
      *
      */
@@ -901,7 +899,7 @@ public class Clients extends HecticusController {
             String msisdn = client.getLogin();
             String userID = null;
             String password = null;
-            String googleID = null;
+            String push_notification_id = null;
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -911,7 +909,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, googleID);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
             fields.put("msisdn", msisdn); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -944,7 +942,7 @@ public class Clients extends HecticusController {
         String upstreamAppKey = Config.getString("upstreamAppKey"); //DEcxvzx98533fdsagdsfiou
 
         String authString = null;
-        if(username != null && !username.isEmpty() && password != null & !password.isEmpty()){
+        if(username != null && !username.isEmpty() && password != null && !password.isEmpty()){
             authString = username+":"+password;
             byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
             authString = new String(encodedBytes);
@@ -962,48 +960,48 @@ public class Clients extends HecticusController {
         return urlCall;
     }
     //set basic POST data for UPSTREAM
-    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String googleID){
+    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id){
         String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
         String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
 
         ObjectNode fields = Json.newObject();
         ObjectNode metadata = Json.newObject();
         fields.put("service_id", upstreamServiceID);
-        if(googleID != null && !googleID.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")) fields.put("google_id",googleID);
+        if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")) fields.put("push_notification_id",push_notification_id);
         //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
         metadata.put("channel",upstreamChannel);
         metadata.put("app_version",upstreamAppVersion);
         fields.put("metadata",metadata);
         return fields;
     }
-    //get googleID for upstream
-    private static String getGoogleID(Client client){
-        String googleID = null;
+    //get push_notification_id for upstream
+    private static String getPushNotificationID(Client client){
+        String push_notification_id = null;
         try{
             List<ClientHasDevices> devices = client.getDevices();
             for (int i=0; i<devices.size(); i++){
                 if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
-                    //con el primer Google ID nos basta por ahora
-                    googleID = devices.get(i).getRegistrationId();
+                    //con el primer push_notification_id nos basta por ahora
+                    push_notification_id = devices.get(i).getRegistrationId();
                     break;
                 }
             }
         }catch (Exception e){
             //no hacemos nada si esto falla
         }
-        return googleID;
+        return push_notification_id;
     }
 
-    //0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-google id missing, 6-google id already exists, 7-Upstream service no longer available
+    //0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-push_notification_id missing, 6-push_notification_id already exists, 7-Upstream service no longer available
     private static String getUpstreamError(int errorCode){
         switch (errorCode){
             case 0: return "Success";
             case 1: return "User already subscribed";
             case 2: return "User cannot be identified";
             case 3: return "User not Subscribed";
-            case 4: return "Google id missing";
+            case 4: return "Push_notification_id missing";
             case 5: return "Invalid MSISDN";
-            case 6: return "Google id already exists";
+            case 6: return "Push_notification_id already exists";
             case 7: return "Upstream service no longer available";
             default: return "Error not recognized";
         }
@@ -1011,21 +1009,57 @@ public class Clients extends HecticusController {
       
     //FAKE UPSTREAM RESPONSE
     public static Result upstreamFakeCreate() {
+        Http.Request req = Http.Context.current().request();
+        Map<String, String[]> headerMap = req.headers();
+        boolean hasAuth = false;
+        for (String headerKey : headerMap.keySet()) {
+            if(headerKey.equals("Authorization")){
+                hasAuth = true;
+            }
+            //System.out.println("Key: " + headerKey + " - Value: " + headerMap.get(headerKey)[0]);
+        }
         ObjectNode response = Json.newObject();
         response.put("result",0);
         response.put("user_id","324234345050505");
         return ok(response);
     }
     public static Result upstreamFakeLogin() {
+        Http.Request req = Http.Context.current().request();
+        Map<String, String[]> headerMap = req.headers();
+        boolean hasAuth = false;
+        for (String headerKey : headerMap.keySet()) {
+            if(headerKey.equals("Authorization")){
+                hasAuth = true;
+            }
+            //System.out.println("Key: " + headerKey + " - Value: " + headerMap.get(headerKey)[0]);
+        }
         ObjectNode response = Json.newObject();
-        response.put("result",0);
+        if(!hasAuth){
+            response.put("result",2);
+        }else{
+            response.put("result",0);
+        }
         response.put("user_id","324234345050505");
         return ok(response);
     }
     public static Result upstreamFakeStatus() {
+        Http.Request req = Http.Context.current().request();
+        Map<String, String[]> headerMap = req.headers();
+        boolean hasAuth = false;
+        for (String headerKey : headerMap.keySet()) {
+            if(headerKey.equals("Authorization")){
+                hasAuth = true;
+            }
+            //System.out.println("Key: " + headerKey + " - Value: " + headerMap.get(headerKey)[0]);
+        }
         ObjectNode response = Json.newObject();
+        if(!hasAuth){
+            response.put("eligible",false);
+        }else{
+            response.put("eligible",true);
+        }
         response.put("result",0);
-        response.put("eligible",true);
+
         response.put("credits_left",10);
         return ok(response);
     }
