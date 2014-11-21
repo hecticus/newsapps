@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -128,6 +129,16 @@ public class Application extends Controller {
         List<Resource> lstResource = Resource.getAllResourcesAvailable();
         //List<Resource> lstResource = Resource.getAllResource();
         return ok(summary.render(objNews, lstResource));
+    }
+
+    public static Result checkFile(String name){
+        File file = new File(name);
+        //Logger.info("nameFile "+name+", path "+file.getAbsolutePath());
+        if(file.exists()){
+            return ok("OK");
+        }else{
+            return badRequest("file not found");
+        }
     }
 
 }

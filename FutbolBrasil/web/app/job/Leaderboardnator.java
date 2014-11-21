@@ -65,7 +65,7 @@ public class Leaderboardnator extends HecticusThread {
                 }
             }
         } catch (Exception ex) {
-            Utils.printToLog(PushGenerator.class, null, "Error calculando leadeboards", false, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Leaderboardnator.class, null, "Error calculando leadeboards", false, ex, "support-level-1", Config.LOGGER_ERROR);
         }
     }
 
