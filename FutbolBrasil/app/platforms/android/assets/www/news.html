@@ -1,17 +1,30 @@
-<!DOCTYPE html>
-<html lang="pt">
-	<body>
+
 		
 		<div id="wrapper" >
 			<div class="scroller">
+				<div class="container" ng-controller="newsCtrl as news">
+					
+					<div class="row">		
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"  ng-repeat="item in news.item">						
+							<h5 class="title" ng-bind="item.title"></h5>
+							<p class="moment" ng-bind="news.getMoment(item.publicationDate).fromNow()"></p>	
+						</div>
+					</div>
+										 
+				</div>				
+			</div>
+		</div>
+		
+		<div id="wrapper2" class="page" style="left:100%;" >
+			<div class="scroller">
 				<div class="container">
-					<!--Here code-->
+			
 				</div>				
 			</div>
 		</div>
 		
 	
-		<script type="text/javascript" src="js/news.js"></script>
+		
 		<script type="text/javascript">
 												 
 			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
@@ -20,12 +33,10 @@
 				this.refresh();
 			});	
 
+			var _scroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
+			_scroll2.on('beforeScrollStart', function () {
+				this.refresh();
+			});
+
 		</script>
 		
-		
-
-		  
-
-	</body>
-	
-</html>
