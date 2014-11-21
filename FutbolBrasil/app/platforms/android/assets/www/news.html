@@ -1,41 +1,51 @@
-
+	<div ng-controller="newsCtrl as news">
 		
-		<div id="wrapper" >
+		<div id="wrapper">
 			<div class="scroller">
-				<div class="container" ng-controller="newsCtrl as news">
-					
+				<div class="container" >						
 					<div class="row">		
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"  ng-repeat="item in news.item">						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"  ng-repeat="item in news.item" ng-click="news.showContentNews(item)">						
 							<h5 class="title" ng-bind="item.title"></h5>
-							<p class="moment" ng-bind="news.getMoment(item.publicationDate).fromNow()"></p>	
+							<p class="moment" ng-bind="news.fromNow(item.publicationDate)"></p>	
+						</div>
+					</div>											
+				</div>				
+			</div>
+		</div>
+
+		<div id="wrapper2" class="page" style="left: 100%;" >
+			<div class="scroller">
+				<div class="container" >			
+					
+					<div class="row" >								
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"  >																
+							<h3 class="title">{{contentNews.title}}</h3>
+							<p class="moment">{{news.fromNow(contentNews.publicationDate)}}</p>							
+							<h5 class="summary">{{contentNews.summary}}</h5>
+							<p class="body">{{contentNews.body}}</p>																		
 						</div>
 					</div>
-										 
+
 				</div>				
 			</div>
 		</div>
 		
-		<div id="wrapper2" class="page" style="left:100%;" >
-			<div class="scroller">
-				<div class="container">
-			
-				</div>				
-			</div>
-		</div>
-			
+	</div>
+
+	<script type="text/javascript">
+		var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+					
+		_scroll.on('beforeScrollStart', function () {
+			this.refresh();
+		});	
 		
-		<script type="text/javascript">
-												 
-			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-						
-			_scroll.on('beforeScrollStart', function () {
-				this.refresh();
-			});	
+		var _scroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+					
+		_scroll2.on('beforeScrollStart', function () {
+			this.refresh();
+		});	
+		
+	</script>
+		
 
-			var _scroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});
-			_scroll2.on('beforeScrollStart', function () {
-				this.refresh();
-			});
-
-		</script>
 		

@@ -46,14 +46,11 @@ var app = {
 	      	ImgCache.options.usePersistentCache = true;       	        	    	
 			ImgCache.options.cacheClearSize = 5;
 			ImgCache.init();
-			
-			//_jApp.start();
-	
-			/*document.addEventListener('backbutton', function(e) {	  			
-				_jApp.back();								
-			}, false);*/
-	
-					    	
+		   
+		   document.addEventListener('backbutton', function(e) {	  							
+				_app.get('utilities').backButtom();			
+			}, false);
+		    	
     	}
 
     }

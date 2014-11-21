@@ -94,45 +94,45 @@ row:not(input):not(textarea) {
 		border-radius : 0 !important;	
 	}
 
+	.option.active {
+		background-color:#263776;
+	}
 	
 	
-	
-	.content-news #wrapper .scroller .container .row  {padding: 0 20px !important;}
-	.content-news #wrapper .scroller .container .row .news {
+	body.content-news #wrapper .scroller .container .row  {padding: 0 20px !important;}
+	body.content-news #wrapper .scroller .container .row .news {
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
 		border-bottom: solid 1pt #2B2B2B !important;		
 	}
 	
-	.content-news #wrapper .scroller .container .row .news:last-child {border: 0 !important;}
+	body.content-news #wrapper .scroller .container .row .news:last-child {border: 0 !important;}
 	
-	.content-news #wrapper .scroller .container .row .news .title {color:#00102B;}
-	.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
+	body.content-news #wrapper .scroller .container .row .news .title {color:#00102B;}
+	body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
 	
 
-	.content-news #wrapper2 .scroller .container .row .news:last-child {border: 0 !important;}
-	.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
+	body.content-news #wrapper2 .scroller .container .row .news:last-child {border: 0 !important;}
+	body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
 	
-	.content-news #wrapper2 .scroller .container .row .news .moment {
+	body.content-news #wrapper2 .scroller .container .row .news .moment {
 		color:#3B9444;
 		padding-bottom:10px !important;
 	}
 	
-	.content-news #wrapper2 .scroller .container .row .news .summary {
+	body.content-news #wrapper2 .scroller .container .row .news .summary {
 		padding-top:20px !important;
 		padding-bottom:20px !important;
 		border-top: solid 1pt #2B2B2B !important;
 		border-bottom: solid 1pt #2B2B2B !important;
 	}
 	
-	.content-news #wrapper2 .scroller .container .row .news .body {	
+	body.content-news #wrapper2 .scroller .container .row .news .body {	
 		padding-top:10px !important;
 	}
 	
-
-	.option.active {
-		background-color:#263776;
-	}
+	
+	
 	
 	
 	
