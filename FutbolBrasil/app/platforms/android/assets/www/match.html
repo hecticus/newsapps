@@ -1,0 +1,21 @@
+		
+		<div id="wrapper" >
+			<div class="scroller">
+				<div class="container">					
+					<div class="row">		
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">						
+							<h5>PARTIDAS</h5>	
+						</div>
+					</div>
+										 
+				</div>				
+			</div>
+		</div>
+			
+		<script type="text/javascript">												 
+			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});					
+			_scroll.on('beforeScrollStart', function () {
+				this.refresh();
+			});		
+		</script>
+		

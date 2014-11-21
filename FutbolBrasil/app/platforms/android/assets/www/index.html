@@ -33,7 +33,7 @@
         <title>Brasil Futebol</title>
     </head>
     
-    <body  style="position: fixed;">
+    <body class="{{ contentClass }}"  ng-controller="mainCtrl" style="position: fixed;">
     	
     	<header> 
     		<div class="container">
@@ -42,43 +42,48 @@
 						<img src="img/logo.svg" style="width: auto; height: 50px; position: relative;" />		
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-						<!-- here code position-->
+						<!-- load html here -->
 					</div>
 				</div>	
     		</div>			  							
     	</header>
-
-    	<!--main data-page="index" data-referer="none"-->
-    		<!-- load html here --> 
-    	<!--/main-->
     	
     	<div ng-view>
     		<!-- load html here -->
     	</div> 		
 
-
 		<footer>			
 			<div class="container">
     			<div class="row" >
-					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  >
+					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  ng-class="menuClass('match')">
+						<a href="#match">						
 						<span class="glyphicon glyphicon-globe"></span>
 						<span class="glyphicon-class">Partidas</span>
+						</a>	
 					</div>
-					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  >
-						<span class="glyphicon glyphicon-th-list"></span>
-						<span class="glyphicon-class">Tabela</span>						
+					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  ng-class="menuClass('leaderboard')" >
+						<a href="#leaderboard">
+							<span class="glyphicon glyphicon-th-list"></span>
+							<span class="glyphicon-class">Tabela</span>	
+						</a>											
 					</div>
-					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  >
-						<span class="glyphicon glyphicon-book"></span>
-						<span class="glyphicon-class">Noticias</span>		
+					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" ng-class="menuClass('news')" >
+						<a href="#/news">
+							<span class="glyphicon glyphicon-book"></span>
+							<span class="glyphicon-class">Noticias</span>	
+						</a>							
 					</div>
-					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  >
-						<span class="glyphicon glyphicon-user"></span>
-						<span class="glyphicon-class">Artilharia</span>
+					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" ng-class="menuClass('scorers')" >
+						<a href="#/scorers">
+							<span class="glyphicon glyphicon-user"></span>
+							<span class="glyphicon-class">Artilharia</span>
+						</a>			
 					</div>
-					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" >
-						<span class="glyphicon glyphicon-facetime-video"></span>
-						<span class="glyphicon-class">En Vivo</span>			
+					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" ng-class="menuClass('livescore')" >
+						<a href="#/livescore">
+							<span class="glyphicon glyphicon-facetime-video"></span>
+							<span class="glyphicon-class">En Vivo</span>	
+						</a>								
 					</div>
 				</div>	
     		</div>	    	
