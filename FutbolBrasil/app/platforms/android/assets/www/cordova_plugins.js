@@ -152,13 +152,21 @@ module.exports = [
         "clobbers": [
             "device"
         ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "org.apache.cordova.file": "1.3.1",
-    "org.apache.cordova.device": "0.2.12"
+    "org.apache.cordova.device": "0.2.12",
+    "nl.x-services.plugins.socialsharing": "4.3.10"
 }
 // BOTTOM OF METADATA
 });
