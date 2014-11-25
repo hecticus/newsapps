@@ -1,10 +1,11 @@
-var a = false;
 
-
-	angular.module('FutbolBrasil', ['ngRoute','ngTouch'])
+	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
- 		.run(function($rootScope) {
+ 		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';
+			$rootScope.$storage = $localStorage.$default({
+				news: false,
+			});
 		})		
 		
 		
@@ -46,8 +47,7 @@ var a = false;
             	
         	};
     	})
-		
-		
+				
 		.config(function($routeProvider) {
 	  		$routeProvider	    	
 	    	.when('/match', {
@@ -79,7 +79,36 @@ var a = false;
 	      		templateUrl:'livescore.html',
 	      		prev: '/scorers',
 	      		next: '/match'
-	    	})	 	    		    		 	    	    	
+	    	})	 	    		
+	    	
+	    	.when('/prediction', {
+	      		controller:'predictionCtrl',
+	      		templateUrl:'prediction.html',
+	      		prev: '/points',
+	      		next: '/leaderboard'
+	    	})	
+	    	    
+			.when('/leaderboard', {
+	      		controller:'leaderboardCtrl',
+	      		templateUrl:'leaderboard.html',
+	      		prev: '/prediction',
+	      		next: '/friends'
+	    	})		    	    
+
+			.when('/friends', {
+	      		controller:'friendsCtrl',
+	      		templateUrl:'friends.html',
+	      		prev: '/leaderboard',
+	      		next: '/points'
+	    	})
+
+			.when('/points', {
+	      		controller:'pointsCtrl',
+	      		templateUrl:'points.html',
+	      		prev: '/friends',
+	      		next: '/prediction'
+	    	})		    	    
+	    	    		 	    	    	
 	    	.otherwise({	    		
 	    		redirectTo:'/news'									      		
 	    	});
@@ -90,12 +119,12 @@ var a = false;
 			 	
 			$rootScope.$on('$routeChangeStart', 
                  function (event, current, previous, rejection) {
-    			console.log('$routeChangeStart');
+                 //
   			});
   			      
   			$rootScope.$on('$routeChangeSuccess', 
-                 function (event, current, previous, rejection) {      
-    			console.log('$routeChangeSuccess');
+                 function (event, current, previous, rejection) {      	
+                 //
   			});
 
   			$rootScope.menuClass = function(_page) {
@@ -106,18 +135,19 @@ var a = false;
 			$rootScope.showSecction = function(_section) {
 				angular.element('.section').removeClass('active');
 				angular.element('[data-secction="' + _section + '"]').addClass('active');
+				$location.path('/' + _section);				
 			};		
 
-			$rootScope.nextPage = function() {    		
+			$rootScope.nextPage = function() {  		
 				var _this =  angular.element('#wrapper2');
-               if (_this.hasClass('left')) {
-                	_this.attr('class','page transition right');
-               } else{
-         			$location.path($route.current.next);
-               }			    			 
+               if (!_this.hasClass('left')) {
+                	//_this.attr('class','page transition right');
+                	$location.path($route.current.next);
+               } 			    			 
 			};
 
-			$rootScope.prevPage = function() {	
+			$rootScope.prevPage = function() {
+				
 				var _this =  angular.element('#wrapper2');					
 				if (_this.hasClass('left')) {
             		_this.attr('class','page transition right');						
@@ -127,6 +157,27 @@ var a = false;
 			};
 
 		})
+ 
+ 
+ 
+ 		.controller('predictionCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-prediction';
+		}])
+ 
+ 
+ 		.controller('leaderboardCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-leaderboard';
+		}])
+  
+ 		.controller('friendsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-friends';			
+		}])
+		
+		.controller('pointsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-points';			
+		}])
+ 
+ 
  
  		.controller('scorersCtrl', ['$http','$rootScope', function($http, $rootScope) {
 			$rootScope.contentClass = 'content-scorers';
@@ -145,9 +196,8 @@ var a = false;
 			$rootScope.contentClass = 'content-livescore';			
 		}])
 		
- 		.controller('newsCtrl', ['$http','$rootScope','$route','domain','utilities', function($http, $rootScope, $route, domain, utilities,data) {
- 			
-
+ 		.controller('newsCtrl', ['$http','$rootScope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $route,$localStorage,domain,utilities,data) {
  			
 			$rootScope.contentClass = 'content-news';
 
@@ -171,18 +221,15 @@ var a = false;
 				_scroll2.scrollTo(0,0,0);	   							
   			};
 
-			if (!a) {
+			if (!$rootScope.$storage.news) {
 				$http.get(domain.news(1)).success(function(_json) {
 					news.item = _json.response.news;
-					a = _json.response.news;								 
+					$rootScope.$storage.news = JSON.stringify(_json.response.news);
         		});	
 			} else {
-				news.item = a;
+				news.item =  JSON.parse($rootScope.$storage.news);
 			}
-			
- 			 
- 	  		
- 	  
+
 		}]);
  
  	var _app = angular.injector(['FutbolBrasil']);

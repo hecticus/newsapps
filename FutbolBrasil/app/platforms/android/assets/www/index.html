@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="css/ext/material.min.css">
         <link rel="stylesheet" href="css/ext/material-wfont.min.css">
         <link rel="stylesheet" href="css/fonts/iconvault-preview.css">
+
         <title>Brasil Futebol</title>
     </head>
     
@@ -39,14 +40,16 @@
     	<header> 
     		<div class="container">
     			<div class="row" >
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-click="showSecction('news')" style="text-align: left;">
-						<img src="img/logo.svg" style="width: auto; height: 50px; position: relative;" />		
+					<div data-secction="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section active" ng-click="showSecction('news')" style="text-align: left;">
+						<img src="img/logo.svg" style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
+						<span style="font-size: 1.1em; font-weight: bold;  margin: 0 5px;  ">NOTISTASTS</span>		
 					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-click="showSecction('prediction')" style="text-align: right;">
-						<img src="img/palpites.svg" style="width: auto; height: 30px; position: relative; margin-right: 10px; " />
+					<div data-secction="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section" ng-click="showSecction('prediction')" style="text-align: right;">
+						<span style="font-size: 1.1em; font-weight: bold;  margin: 0 5px; ">PALPITES</span>
+						<img src="img/palpites.svg" style="width: auto; height: 30px; position: relative; vertical-align: middle; " />						
 					</div>
-				</div>	
-    		</div>			  							
+				</div>
+    		</div>
     	</header>
     	
     	<div  ng-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" >
@@ -92,7 +95,7 @@
 
 				<div data-secction="prediction" class="row section">
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"  ng-class="menuClass('prediction')">
-						<a href="#match">						
+						<a href="#prediction">						
 						<span class="icon-balon"></span>
 						<span class="glyphicon-class">Predicciones</span>
 						</a>	
@@ -104,13 +107,13 @@
 						</a>											
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option" ng-class="menuClass('friends')" >
-						<a href="#/news">
+						<a href="#/friends">
 							<span class="icon-artilharia"></span>
 							<span class="glyphicon-class">Friends</span>	
 						</a>							
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option" ng-class="menuClass('points')" >
-						<a href="#/scorers">
+						<a href="#/points">
 							<span class="icon-puntos"></span>
 							<span class="glyphicon-class">Puntos</span>
 						</a>			
@@ -126,7 +129,8 @@
 		<!--Angular-->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
     	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-route.min.js"></script>
-    	<!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-animate.min.js"></script-->
+    	<!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-animate.min.js"></script-->    	
+    	<script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
     	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-touch.min.js"></script>    	    	
 		<!--Angular-->
 		
