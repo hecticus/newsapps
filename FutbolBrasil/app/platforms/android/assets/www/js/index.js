@@ -47,10 +47,11 @@ var app = {
 			ImgCache.options.cacheClearSize = 5;
 			ImgCache.init();
 		   
-		   document.addEventListener('backbutton', function(e) {	  							
-				_app.get('utilities').backButtom();			
+		   document.addEventListener('backbutton', function(e) {
+            	_app.get('utilities').backbuttom();							
 			}, false);
-		    	
+			 
+
     	}
 
     }

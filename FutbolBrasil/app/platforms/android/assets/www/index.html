@@ -29,7 +29,8 @@
         <link rel="stylesheet" href="css/ext/animate.css">
         <link rel="stylesheet" href="css/ext/transition.css">
         <link rel="stylesheet" href="css/ext/material.min.css">
-        <link rel="stylesheet" href="css/ext/material-wfont.min.css">     
+        <link rel="stylesheet" href="css/ext/material-wfont.min.css">
+        <link rel="stylesheet" href="css/fonts/iconvault-preview.css">
         <title>Brasil Futebol</title>
     </head>
     
@@ -38,54 +39,84 @@
     	<header> 
     		<div class="container">
     			<div class="row" >
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"  >
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-click="showSecction('news')" style="text-align: left;">
 						<img src="img/logo.svg" style="width: auto; height: 50px; position: relative;" />		
 					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-						<!-- load html here -->
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-click="showSecction('prediction')" style="text-align: right;">
+						<img src="img/palpites.svg" style="width: auto; height: 30px; position: relative; margin-right: 10px; " />
 					</div>
 				</div>	
     		</div>			  							
     	</header>
     	
-    	<div  ng-view>
+    	<div  ng-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" >
     		<!-- load html here -->
     	</div> 		
-
+ 
 		<footer>			
 			<div class="container">
-    			<div class="row" >
+				
+    			<div data-secction="news" class="row section active">
+    				
 					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  ng-class="menuClass('match')">
 						<a href="#match">						
-						<span class="glyphicon glyphicon-globe"></span>
-						<span class="glyphicon-class">Partidas</span>
+							<span class="icon-balon"></span>
+							<span class="glyphicon-class">Partidas</span>
 						</a>	
 					</div>
-					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  ng-class="menuClass('leaderboard')" >
-						<a href="#leaderboard">
-							<span class="glyphicon glyphicon-th-list"></span>
+					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"  ng-class="menuClass('standings')" >
+						<a href="#standings">
+							<span class="icon-tabela"></span>
 							<span class="glyphicon-class">Tabela</span>	
 						</a>											
 					</div>
 					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" ng-class="menuClass('news')" >
 						<a href="#/news">
-							<span class="glyphicon glyphicon-book"></span>
+							<span class="icon-noticias"></span>
 							<span class="glyphicon-class">Noticias</span>	
 						</a>							
 					</div>
 					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" ng-class="menuClass('scorers')" >
 						<a href="#/scorers">
-							<span class="glyphicon glyphicon-user"></span>
+							<span class="icon-artilharia"></span>
 							<span class="glyphicon-class">Artilharia</span>
 						</a>			
 					</div>
 					<div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option" ng-class="menuClass('livescore')" >
 						<a href="#/livescore">
-							<span class="glyphicon glyphicon-facetime-video"></span>
+							<span class="icon-envivo"></span>
 							<span class="glyphicon-class">En Vivo</span>	
 						</a>								
 					</div>
-				</div>	
+				</div>
+
+				<div data-secction="prediction" class="row section">
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"  ng-class="menuClass('prediction')">
+						<a href="#match">						
+						<span class="icon-balon"></span>
+						<span class="glyphicon-class">Predicciones</span>
+						</a>	
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"  ng-class="menuClass('leaderboard')" >
+						<a href="#leaderboard">
+							<span class="icon-tabela"></span>
+							<span class="glyphicon-class">Leaderboards</span>	
+						</a>											
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option" ng-class="menuClass('friends')" >
+						<a href="#/news">
+							<span class="icon-artilharia"></span>
+							<span class="glyphicon-class">Friends</span>	
+						</a>							
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option" ng-class="menuClass('points')" >
+						<a href="#/scorers">
+							<span class="icon-puntos"></span>
+							<span class="glyphicon-class">Puntos</span>
+						</a>			
+					</div>
+				</div>
+					
     		</div>	    	
 		</footer>
         
@@ -95,6 +126,7 @@
 		<!--Angular-->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
     	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-route.min.js"></script>
+    	<!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-animate.min.js"></script-->
     	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-touch.min.js"></script>    	    	
 		<!--Angular-->
 		
