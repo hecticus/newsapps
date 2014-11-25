@@ -46,8 +46,7 @@ var a = false;
             	
         	};
     	})
-		
-		
+				
 		.config(function($routeProvider) {
 	  		$routeProvider	    	
 	    	.when('/match', {
@@ -79,7 +78,36 @@ var a = false;
 	      		templateUrl:'livescore.html',
 	      		prev: '/scorers',
 	      		next: '/match'
-	    	})	 	    		    		 	    	    	
+	    	})	 	    		
+	    	
+	    	.when('/prediction', {
+	      		controller:'predictionCtrl',
+	      		templateUrl:'prediction.html',
+	      		prev: '/points',
+	      		next: '/leaderboard'
+	    	})	
+	    	    
+			.when('/leaderboard', {
+	      		controller:'leaderboardCtrl',
+	      		templateUrl:'leaderboard.html',
+	      		prev: '/prediction',
+	      		next: '/friends'
+	    	})		    	    
+
+			.when('/friends', {
+	      		controller:'friendsCtrl',
+	      		templateUrl:'friends.html',
+	      		prev: '/leaderboard',
+	      		next: '/points'
+	    	})
+
+			.when('/points', {
+	      		controller:'pointsCtrl',
+	      		templateUrl:'points.html',
+	      		prev: '/friends',
+	      		next: '/prediction'
+	    	})		    	    
+	    	    		 	    	    	
 	    	.otherwise({	    		
 	    		redirectTo:'/news'									      		
 	    	});
@@ -106,6 +134,7 @@ var a = false;
 			$rootScope.showSecction = function(_section) {
 				angular.element('.section').removeClass('active');
 				angular.element('[data-secction="' + _section + '"]').addClass('active');
+				$location.path('/' + _section);				
 			};		
 
 			$rootScope.nextPage = function() {    		

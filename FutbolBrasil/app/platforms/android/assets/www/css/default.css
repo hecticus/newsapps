@@ -98,11 +98,19 @@ row:not(input):not(textarea) {
 		background-color:#263776;
 	}
 	
-	.section {
+	header .section {
+		color: #FFFFFF;
+	}
+	
+	header .section.active {
+		color: yellow;
+	}
+	
+	footer .section {
 		display: none;
 	}
 	
-	.section.active {
+	footer .section.active {
 		display:block;
 	}
 	
