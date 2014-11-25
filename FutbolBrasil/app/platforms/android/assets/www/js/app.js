@@ -146,7 +146,7 @@ var a = false;
                }			    			 
 			};
 
-			$rootScope.prevPage = function() {	
+			$rootScope.prevPage = function() {
 				var _this =  angular.element('#wrapper2');					
 				if (_this.hasClass('left')) {
             		_this.attr('class','page transition right');						
@@ -156,6 +156,27 @@ var a = false;
 			};
 
 		})
+ 
+ 
+ 
+ 		.controller('predictionCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-prediction';
+		}])
+ 
+ 
+ 		.controller('leaderboardCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-leaderboard';
+		}])
+  
+ 		.controller('friendsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-friends';			
+		}])
+		
+		.controller('pointsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-points';			
+		}])
+ 
+ 
  
  		.controller('scorersCtrl', ['$http','$rootScope', function($http, $rootScope) {
 			$rootScope.contentClass = 'content-scorers';
