@@ -6,6 +6,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,6 +101,22 @@ public class Rank  extends HecticusModel {
         ObjectNode node = Json.newObject();
         node.put("id_ranking",idRanking);
         node.put("phase",phase.toJson());
+        node.put("team",team.toJson());
+        node.put("matches",matches);
+        node.put("matches_won",matchesWon);
+        node.put("matches_drawn", matchesDraw);
+        node.put("matches_lost",matchesLost);
+        node.put("points",points);
+        node.put("goals_for",goalsFor);
+        node.put("goal_against",goalAgainst);
+        node.put("ranking",ranking);
+        return node;
+    }
+
+    public ObjectNode toJsonPhaseID() {
+        ObjectNode node = Json.newObject();
+        node.put("id_ranking",idRanking);
+        node.put("phase",phase.getIdPhases());
         node.put("team",team.toJson());
         node.put("matches",matches);
         node.put("matches_won",matchesWon);
@@ -426,6 +443,10 @@ public class Rank  extends HecticusModel {
 
     public static List<Rank> getListByIdPhase(long idPhase){
         return finder.where().eq("id_phases", idPhase).orderBy("ranking asc").findList();
+    }
+
+    public static List<Rank> getListByListPhase(ArrayList phases){
+        return finder.where().in("id_phases", phases).orderBy("ranking asc").findList();
     }
 
     public static List<Rank> getListByExtIdPhase(long idExtPhase){

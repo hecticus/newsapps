@@ -47,3 +47,6 @@ GET     /footballapi/v1/calendar/get/:idCompetition                controllers.f
 #GET     /tvmaxfeeds/calendar/today/active           controllers.tvmaxfeeds.MatchController.getActive()
 #GET     /tvmaxfeeds/calendar/today/results          controllers.tvmaxfeeds.MatchController.getResults()
 #GET     /tvmaxfeeds/calendar/getActive              controllers.tvmaxfeeds.MatchController.getActiveMatch()
+
+#football manager
+GET     /api/v1/rankings/get/:idApp                   controllers.footballapi.RankingController.getRankings(idApp: Integer)

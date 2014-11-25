@@ -138,6 +138,10 @@ public class Phase extends HecticusModel {
         return phases.findList();
     }
 
+    public static List<Phase> getAllPhases(Long idCompetition){
+        return finder.where().eq("id_competitions",idCompetition).findList();
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
