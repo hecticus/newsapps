@@ -7,6 +7,8 @@
 			_img.src = _json.response.feature_image.link;        		        		         		
 	    	_img.onload = function() {
 	    		document.body.style.backgroundImage="url('"+_json.response.feature_image.link+"')";
+	    		document.body.style.backgroundSize="cover";
+	    		document.body.style.backgroundRepeat="no-repeat";
 	    		$('.container').removeClass('hidden');
 	    	};		    	
 		};	

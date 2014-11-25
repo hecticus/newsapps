@@ -19,3 +19,10 @@ function openSocialApp(socialNet,source){
 		return false;
 	}
 }
+
+//SHARE POSTS
+function sharePost(title, fileImage, source){
+	//poner loading screen
+	_fAlert("Carregamento...");
+	window.plugins.socialsharing.share(title, "A Gata Do Dia", fileImage, source);
+}

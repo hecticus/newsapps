@@ -216,6 +216,13 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/com.hecticus.cordova.plugins/www/sharedConfigurations.js",
+        "id": "com.hecticus.cordova.plugins.sharedconfigurations",
+        "clobbers": [
+            "SharedConfigurations"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -229,7 +236,8 @@ module.exports.metadata =
     "org.apache.cordova.splashscreen": "0.3.4",
     "org.apache.cordova.statusbar": "0.1.8",
     "org.apache.cordova.network-information": "0.2.13",
-    "org.apache.cordova.file": "1.3.1"
+    "org.apache.cordova.file": "1.3.1",
+    "com.hecticus.cordova.plugins": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

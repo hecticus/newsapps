@@ -51,6 +51,25 @@
         NSURLCache* sharedCache = [[[NSURLCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"] autorelease];
 #endif
     [NSURLCache setSharedURLCache:sharedCache];
+	
+	//colocamos la resolucion final
+	CGRect screenBound = [[UIScreen mainScreen] bounds];
+	CGSize screenSize = screenBound.size;
+	CGFloat screenWidth = screenSize.width;
+	CGFloat screenHeight = screenSize.height;
+	CGFloat screenScale = [[UIScreen mainScreen] scale];
+	screenWidth *= screenScale;
+	screenHeight *= screenScale;
+	if(screenWidth > screenHeight){
+		float temp = screenHeight;
+		screenWidth = screenHeight;
+		screenHeight = temp;
+	}
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];  //load NSUserDefaults
+	[prefs setValue:[NSString stringWithFormat:@"%d", (int)screenWidth] forKey:@"device_width"];
+	[prefs setValue:[NSString stringWithFormat:@"%d", (int)screenHeight] forKey:@"device_height"];
+	
+	[prefs synchronize];
 
     self = [super init];
     return self;

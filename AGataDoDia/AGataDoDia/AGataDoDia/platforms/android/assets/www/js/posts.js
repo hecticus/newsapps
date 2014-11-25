@@ -31,7 +31,7 @@
 							_html += '<img data-src="' + _file + '"  onerror="this.style.display=\'none\'"  alt="" class="img-rounded"  style="border-bottom: 3pt solid #777777 !important; " />';							
 							_html += '<div class="row" style="position: absolute; z-index: 5; top:30px; right:0px; text-align:center;">';																
 								_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-									_html += '<i class="icon icon-material-share-alt" style="margin-right:20px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _file + '\', \'' + _item.source + '\');"></i>';
+									_html += '<i class="icon icon-material-share-alt" style="margin-right:20px;" onclick="sharePost(\'' + _item.title + '\', \'' + _file + '\', \'' + _item.source + '\');"></i>';
 								_html += '</div>';
 							_html += '</div>';					
 						_html += '</div>';

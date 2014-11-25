@@ -19,7 +19,12 @@
 
 package com.hecticus.AGataDoDia;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
+
 import org.apache.cordova.*;
 
 public class Main extends CordovaActivity
@@ -29,6 +34,26 @@ public class Main extends CordovaActivity
     {
     	super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
+    	
+    	//obtenemos los valores de alto y ancho
+    	Display display = getWindowManager().getDefaultDisplay();
+    	Point size = new Point();
+    	display.getSize(size);
+    	int width = size.x;
+    	int height = size.y;
+    	if(width > height){
+    		int temp = height;
+    		height = width;
+    		width = temp;
+    	}
+    	
+    	//colocamos los valores de ancho y alto primero
+    	SharedPreferences sharedPref = this.getActivity().getPreferences(Context.MODE_PRIVATE);
+    	SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("device_width", ""+width);
+        editor.putString("device_height", ""+height);
+        editor.commit();
+        
         loadUrl(launchUrl);
         super.appView.clearCache(true);
      	super.clearCache();

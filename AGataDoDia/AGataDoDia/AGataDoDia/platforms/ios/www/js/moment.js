@@ -4676,19 +4676,19 @@
             sameElse : 'L'
         },
         relativeTime : {
-            future : "en %s",
-            past : "hace %s",
-            s : "unos segundos",
-            m : "un minuto",
+            future : "em %s",
+            past : "há %s",
+            s : "segundo",
+            m : "um minuto",
             mm : "%d minutos",
-            h : "una hora",
+            h : "uma hora",
             hh : "%d horas",
-            d : "un día",
-            dd : "%d días",
-            M : "un mes",
-            MM : "%d meses",
-            y : "un año",
-            yy : "%d años"
+            d : "um dia",
+            dd : "%d dias",
+            M : "um mês",
+            MM : "%d mês",
+            y : "um ano",
+            yy : "%d anos"
         },
         ordinal : '%dº',
         week : {

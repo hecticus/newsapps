@@ -7,7 +7,7 @@
 	var currentScreen = 0;
 	var referer = 0;
 	var scrollPosition = 0;
-	
+	var _background = false;
 	//navigation
 	var navigation = [];
 	
@@ -16,15 +16,26 @@
 	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-init touch-disable', title:'', load:'init.html', glyphicon:'icon-init', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-init not-header', title:'', load:'init.html', glyphicon:'icon-init', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'', title:'', load:'', glyphicon:'', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-terms', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-terms not-header', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-offline not-header', title:'', load:'offline.html', glyphicon:'icon-offline', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-error not-header', title:'', load:'error.html', glyphicon:'icon-error', data:false, session:false});
+	
+	
+	//offline
+	function startAppOffline(){
+		_jApp.offLine();
+	}
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
 
-		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+$(window).width()+'/'+$(window).height());
+
+
+		console.log("LOADING: "+_url + '/garotas/loading/'+getRealWidth()+'/'+getRealHeight());
+		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+getRealWidth()+'/'+getRealHeight());
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[5].data = _json;
@@ -46,10 +57,7 @@
 				_jMenu[8].data = _json;
 			});
 		};
-		
-		
-		
-		
+
 		if(isActive){
 			_jApp.load(0,true);
 		}else{
@@ -63,9 +71,8 @@
 		}
 	}
 	//Si ocurrio un error con la carga del cliente se informa aqui
-	function errorStartApp(){
-		alert("Error en la app");
-		_jApp.back();
+	function errorStartApp(){		
+		_jApp.error();
 	}
 	
 	var _jApp = {
@@ -109,25 +116,30 @@
 				scrollPosition = _scroll.y;
 			}
 			try {
-				document.body.style.backgroundImage="none";
-
-				this.refresh();				
-				$('body').removeClass();
-				$('body').addClass(_jMenu[_index].class);
-				$('main').empty();				
-				$('main').data('referer', referer);				
-				$('main').data('index',_index);
-				this.loading();	
-				$('main').load(_jMenu[_index].load).fadeIn(1000);
-
-				if (!$('body').hasClass('content-home')) {					
-					if (!$('body').hasClass('touch-disable')) {
-						$('[data-touch="menu"]').removeClass('icon-menu');
-						$('[data-touch="menu"]').addClass('glyphicon glyphicon-remove'); 
-					}
-				}
 				
+				document.body.style.backgroundImage="none";
+				
+				if (_fPhonegapIsOnline()) {
+					
+					this.refresh();				
+					$('body').removeClass();
+					$('body').addClass(_jMenu[_index].class);
+					$('main').empty();				
+					$('main').data('referer', referer);				
+					$('main').data('index',_index);
+					this.loading();	
+					$('main').load(_jMenu[_index].load).fadeIn(1000);
+	
+					if (!$('body').hasClass('content-home')) {					
+						if (!$('body').hasClass('touch-disable')) {
+							$('[data-touch="menu"]').removeClass('icon-menu');
+							$('[data-touch="menu"]').addClass('glyphicon glyphicon-remove'); 
+						}
+					}
 
+				} else {
+					this.offLine();	
+				}
 
 			} catch(err) {    	
 	  			this.error();
@@ -136,11 +148,22 @@
 	  	},
 	  	
 	  	offLine: function() {
-	  		
+	  		$('body').removeClass();
+			$('body').addClass(_jMenu[9].class);
+			$('main').empty();				
+			$('main').data('referer', 0);				
+			$('main').data('index',9);
+			$('main').load(_jMenu[9].load).fadeIn(1000);
 	  	},
 	  	
 	  	error: function() {
 	  		
+	  		$('body').removeClass();
+			$('body').addClass(_jMenu[10].class);
+			$('main').empty();				
+			$('main').data('referer', 0);				
+			$('main').data('index',10);
+			$('main').load(_jMenu[10].load).fadeIn(1000);
 	  	},
 	  	
 	  	back: function() {
@@ -172,6 +195,17 @@
 		
 		return true;	
 	};
+
+	$(document).on('click','[data-touch="exit"]', function(e) {
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,true)) {return false;}
+		exitApp();
+	});
+	$(document).on('click','[data-touch="retry"]', function(e) {
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,true)) {return false;}
+		initPush();
+	});
 
 
 	$(document).on('click','[data-touch="post"]', function(e) {
@@ -316,7 +350,7 @@
 			}
 		}
 		
-		//_fPostAjaxJson(_url + '/garotas/v1/clients/update/' + clientID,_data);
+
 	}
 
 	$(document).on('touchend','[data-touch="back"]', function(e) {
@@ -336,28 +370,48 @@
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
 		
-		var msisdn = $('#msisdnInput').val();
-		if(saveClientMSISDN(""+msisdn)){
-			//colocar loading
-			sendInfoSignup(null, true);
+		var _btn = $(this).button('loading');		
+		var _msisdn = $('#msisdnInput').val();
+		
+		if(saveClientMSISDN(""+_msisdn)){
+			if (sendInfoSignup(null, true)) {				
+				setTimeout(function(){					
+					_btn.button('reset');	
+				}, 5000);
+			} else {
+				setTimeout(function(){					
+					_btn.button('reset');	
+				}, 5000);
+			}							
 		}else{
-			alert("MSISDN incorrecto");
+			_fAlert('MSISDN incorreto, Inst&acirc;ncia: #########');
+			_btn.button('reset');			
 		}
-		
-		
+
 	});
 	$(document).on('touchend','[data-touch="send_pass"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}
+
+		var _btn = $(this).button('loading');	
+		var _pass = $('#passwordInput').val();
 		
-		//$('#wrapper2').attr('class','page transition left');
-		var pass = $('#passwordInput').val();
-		if(pass != null && pass != ""){
-			sendInfoSignup(pass, false);
+		if(_pass != null && _pass != ""){
+			if  (sendInfoSignup(_pass, false)) {
+				setTimeout(function(){					
+					_btn.button('reset');	
+				}, 5000);	
+			} else {
+				setTimeout(function(){					
+					_btn.button('reset');	
+				}, 5000);
+			}		
 		}else{
-			alert("Password incorrecto");
+			_fAlert('Senha incorreta');
+			_btn.button('reset');	
 		}
+		
 		
 	});
 
@@ -418,11 +472,13 @@
 			if (_push) {											
 				_jMenu[_index].data.response.push(_item);				
 			}
+	
+			
 
 			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';					
-					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';					
+					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';									
 				_html += '</div>';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';
@@ -472,7 +528,7 @@
 						
 							_html += '<i class="icon '+socialClass+'" style="font-size:1.8em; margin-left:22px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
 							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.8em; margin-left:22px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
+							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="sharePost(\'' + _item.title + '\', \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
 		
 						_html += '</p>';
 					
@@ -484,12 +540,11 @@
 
 
 			$.each(_item.files, function(_index,_file) {
-				var _this = $(this);					
 				var _img = new Image();
     			_img.src =  _file;        		        		         		
-		    	_img.onload = function() {		    	
-		    		console.log(_file);
-		    	};				
+		    	_img.onload = function() {		    				    
+		    		//console.log(_file);
+		    	};
 			});
 
 

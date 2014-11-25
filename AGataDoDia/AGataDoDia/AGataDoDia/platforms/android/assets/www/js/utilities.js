@@ -1,3 +1,5 @@
+	var real_width = 0;
+	var real_height = 0;
 	var _lastClicked = 0;
 	
 	function _fGetCurrentTimeMillis() {
@@ -210,3 +212,37 @@
 			
 		};
 	};
+	
+	function setRealWidth(val){
+		try{
+			if(val != null && val != "" && !isNaN(val)){
+				real_width = parseInt(val);
+			}
+		}catch(e){
+			console.log("Bad width: "+e);
+		}
+	}
+	function setRealHeight(val){
+		try{
+			if(val != null && val != "" && !isNaN(val)){
+				real_height = parseInt(val);
+			}
+		}catch(e){
+			console.log("Bad height: "+e);
+		}
+	}
+	
+	function getRealWidth(){
+		if(real_width != 0){
+			return real_width;
+		}else{
+			return $(window).width();
+		}
+	}
+	function getRealHeight(){
+		if(real_height != 0){
+			return real_height;
+		}else{
+			return $(window).height();
+		}
+	}

@@ -63,12 +63,24 @@ var app = {
     
     initAllAppData: function() {
     	StatusBar.hide();
+    	//window.plugins.sharedConfigurations.addSharedConfigEntry("test","one",setShareOK,errorShareOK);
+    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_width",setRealWidth,errorShareConfigs);
+    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_height",setRealHeight,errorShareConfigs);
+    	
     	//revisamos que la data que esta guardada este bien
     	checkStoredData();
-    	//init Push manager this will init the client also
-    	initPush();
+    	if (_fPhonegapIsOnline()) {
+    		//init Push manager this will init the client also
+    		initPush();
+    	}else{
+    		startAppOffline();
+    	}
     }
 };
+
+function errorShareConfigs(err){
+	console.log("ERROR errorShareConfigs:"+err);
+}
 
 app.initialize();
 

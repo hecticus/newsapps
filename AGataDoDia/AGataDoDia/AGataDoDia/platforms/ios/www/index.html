@@ -36,7 +36,7 @@
         <title>A gata do dia</title>
     </head>
     
-    <body class="content-init" style="position: fixed; background-color: white;">
+    <body class="content-init not-header" style="position: fixed; background-color: white;">
     	
     	<header>
     		
@@ -53,12 +53,14 @@
 				
 				<div class="row menu hidden">
 			
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-touch="load-touchend" data-target="1" >
-						<span>Meu favorito</span>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-touch="load" data-target="1" >
+						<!-- TEXTTAG -->
+						<span>Minhas gatas favoritas</span>
 					</div>
 
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-touch="load-touchend" data-target="8"  >
-						<span>Salao de Fama</span>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-touch="load" data-target="8"  >
+						<!-- TEXTTAG -->
+						<span>Hall da Fama</span>
 					</div>
 							
 				</div>
@@ -83,11 +85,14 @@
     	<main data-index="0" data-referer="0">
     		<!-- load html here --> 
     	</main>
+    
     	
+
 		<footer>			
 			<!-- here code footer -->
 		</footer>
         
+        <script type="text/javascript" src="js/texts.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>

@@ -24,14 +24,18 @@
 	_jMenu.push({index:_jMenu.length, class:'content-error not-header', title:'', load:'error.html', glyphicon:'icon-error', data:false, session:false});
 	
 	
+	//offline
+	function startAppOffline(){
+		_jApp.offLine();
+	}
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
 
 
 
-
-		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+$(window).width()+'/'+$(window).height());
+		console.log("LOADING: "+_url + '/garotas/loading/'+getRealWidth()+'/'+getRealHeight());
+		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+getRealWidth()+'/'+getRealHeight());
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[5].data = _json;
@@ -520,7 +524,7 @@
 						
 							_html += '<i class="icon '+socialClass+'" style="font-size:1.8em; margin-left:22px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
 							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.8em; margin-left:22px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
-							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
+							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="sharePost(\'' + _item.title + '\', \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
 		
 						_html += '</p>';
 					
