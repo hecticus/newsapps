@@ -1,3 +1,5 @@
+//para buscar en html <!-- TEXTTAG --> Loading
+
 //Para desfrutar dos melhores gatas todos os dias precisa se registrar
 var registerText = "Registre-se para acessar as fotos das melhores gatas, todos os dias."; 
 
@@ -7,7 +9,7 @@ var daysFreeText = "Experimente 7 dias grátis";
 //Agora introduzca a chave que você recebe via mensagem de texto...
 var putPasswordText = "Digite a senha recebida por SMS.";
 
-//chave
+//chave Chave
 var passwordText = "senha";
 
 //Enviar novamente a chave

@@ -11,11 +11,7 @@ function initClientManager(callback, errorCallback){
 			//tenemos client ID asi que solo hacemos get
 			getClientStatus(callback, errorCallback);
 		}else{
-			//tratamos de crear un cliente generico u obtener uno viejo que desinstalo la aplicacion
-			//callback(false);
-			//createOrUpdateClient(null, null, false, callback, errorCallback);
-			
-			//NEW: no creamos un cliente generico, esperamos a que se cree con msisdn por lo menos
+			//no creamos un cliente generico, esperamos a que se cree con msisdn por lo menos
 			callback(false, 2); //periodo de pruebas mientras pone su informacion
 		}
     }
@@ -29,6 +25,25 @@ function initClientManager(callback, errorCallback){
 	}
 }
 
+//Si ya tenemos el cliente creado entonces enviamos la info del regID, sino, esperamos que lo haga cuando se suscriba y ya
+function updateRegistrationID(){
+	try
+	{ 
+		loadClientID();
+		if(clientID != null && clientID != ""){
+			if(hasToUpdateRegID()){
+				loadClientMSISDN();
+				//solo actualizamos el regID, lo demas lo dejamos como esta
+				createOrUpdateClient(clientMSISDN,null,false,nocallback,nocallback);
+			}
+		}
+    }
+	catch(err) 
+	{ 
+		
+	}
+}
+
 var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
 var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
 var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
@@ -37,6 +52,8 @@ function saveClientID(_clientID) {
 	try{
 		clientID = _clientID;
 		window.localStorage.setItem(FILE_KEY_CLIENT_ID,""+clientID);
+		//mandamos a guardar tambien el reg ID
+		saveRegID(regID);
 		return true;
 	}catch(err){
 		return false;
@@ -118,9 +135,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 			device.registration_id = regID;
 			devices.push(device);
 		}else{
-			//TODO: llamar a funcion de error
-			errorCallback();
-			return;
+			//Si no tenemos informacion del push no hacemos nada diferente, seguimos y esperamos que cuando llege se mande a actualizar
 		}
 		
 		//formamos la data a enviar
