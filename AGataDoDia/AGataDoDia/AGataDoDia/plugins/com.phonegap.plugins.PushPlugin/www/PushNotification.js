@@ -19,23 +19,6 @@ PushNotification.prototype.register = function(successCallback, errorCallback, o
     cordova.exec(successCallback, errorCallback, "PushPlugin", "register", [options]);
 };
 
-//Call this to register on server for push notifications. Content of [options] depends on whether we are working with APNS (iOS) or GCM (Android)
-PushNotification.prototype.registerOnServer = function(successCallback, errorCallback, serverRegister) {
-    if (errorCallback == null) { errorCallback = function() {}}
-
-    if (typeof errorCallback != "function")  {
-        console.log("PushNotification.registerOnServer failure: failure parameter not a function");
-        return
-    }
-
-    if (typeof successCallback != "function") {
-        console.log("PushNotification.registerOnServer failure: success callback parameter must be a function");
-        return
-    }
-
-    cordova.exec(successCallback, errorCallback, "PushPlugin", "register_on_server", [{serverRegister: serverRegister}]);
-};
-
 // Call this to unregister for push notifications
 PushNotification.prototype.unregister = function(successCallback, errorCallback, options) {
     if (errorCallback == null) { errorCallback = function() {}}

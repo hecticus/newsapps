@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0A805F965DB845E6A584B6C6 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6F01AD5CCF475D864D240F /* CDVInAppBrowser.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -38,7 +37,6 @@
 		6F2CD22E1A1D3D3C0088734C /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2CD2281A1D3D3C0088734C /* CDVConnection.m */; };
 		6F2CD22F1A1D3D3C0088734C /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2CD22A1A1D3D3C0088734C /* CDVReachability.m */; };
 		6F3FAED01A16955F009CDF2A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F3FAECE1A16955F009CDF2A /* Localizable.strings */; };
-		7B95662BB19D4A009305D446 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2A737B62B4A0B9209BA51 /* PushPlugin.m */; };
 		7E7966DE1810823500FA85AD /* icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D41810823500FA85AD /* icon-40.png */; };
 		7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D51810823500FA85AD /* icon-40@2x.png */; };
 		7E7966E01810823500FA85AD /* icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D61810823500FA85AD /* icon-50.png */; };
@@ -53,8 +51,8 @@
 		A9AAC425B55440948F8196ED /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 74895630B82C47B9A9842921 /* CDVStatusBar.m */; };
 		AE7049370854408FAB566A68 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA17FC4B476484CAEC56488 /* SocialSharing.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
-		E95169B9D88A40A89F04CCEB /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D305C1EB474B4DB69DFBE3 /* AppDelegate+notification.m */; };
 		EFC0704D528A40FAA9C14B4F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCD5D839282347AEAE59BF26 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		45C2626A945C48D38B538CDC /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B88F22A7004607B395CF75 /* AppDelegate+notification.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,11 +101,9 @@
 		308D05301370CCF300D202BF /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		30FC414816E50CA1004E6F35 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* A Gata Do Dia-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "A Gata Do Dia-Prefix.pch"; sourceTree = "<group>"; };
-		36D305C1EB474B4DB69DFBE3 /* AppDelegate+notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; };
 		59894A81CB3D4AFCAA6C4044 /* Social.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		5BA2A737B62B4A0B9209BA51 /* PushPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushPlugin.m; path = com.phonegap.plugins.PushPlugin/PushPlugin.m; sourceTree = "<group>"; };
-		6227EF46F323492C9375DA8C /* AppDelegate+notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; };
 		6F2CD21C1A1D3B160088734C /* SharedConfigurations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedConfigurations.h; path = com.hecticus.cordova.plugins/SharedConfigurations.h; sourceTree = "<group>"; };
 		6F2CD21D1A1D3B160088734C /* SharedConfigurations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedConfigurations.m; path = com.hecticus.cordova.plugins/SharedConfigurations.m; sourceTree = "<group>"; };
 		6F2CD2201A1D3D3C0088734C /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
@@ -147,6 +143,8 @@
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "A Gata Do Dia/config.xml"; sourceTree = "<group>"; };
+		77B88F22A7004607B395CF75 /* AppDelegate+notification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		98EF8F2B846D4728923F859F /* AppDelegate+notification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,9 +271,7 @@
 				6F2CD2261A1D3D3C0088734C /* org.apache.cordova.network-information */,
 				6F2CD21C1A1D3B160088734C /* SharedConfigurations.h */,
 				6F2CD21D1A1D3B160088734C /* SharedConfigurations.m */,
-				36D305C1EB474B4DB69DFBE3 /* AppDelegate+notification.m */,
 				5BA2A737B62B4A0B9209BA51 /* PushPlugin.m */,
-				6227EF46F323492C9375DA8C /* AppDelegate+notification.h */,
 				8CF407D744AC4FF8B8154C5F /* PushPlugin.h */,
 				BAA17FC4B476484CAEC56488 /* SocialSharing.m */,
 				A8216A51CBB747979C6465A8 /* SocialSharing.h */,
@@ -289,6 +285,8 @@
 				DA4B78BFABA643EC912B151E /* CDVSplashScreen.h */,
 				74895630B82C47B9A9842921 /* CDVStatusBar.m */,
 				0C2DEBA4D9BA431DBE95F329 /* CDVStatusBar.h */,
+				77B88F22A7004607B395CF75 /* AppDelegate+notification.m */,
+				98EF8F2B846D4728923F859F /* AppDelegate+notification.h */,
 			);
 			name = Plugins;
 			path = "A Gata Do Dia/Plugins";
@@ -499,8 +497,6 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				6F2CD22D1A1D3D3C0088734C /* CDVLocalFilesystem.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				E95169B9D88A40A89F04CCEB /* AppDelegate+notification.m in Sources */,
-				7B95662BB19D4A009305D446 /* PushPlugin.m in Sources */,
 				6F2CD22C1A1D3D3C0088734C /* CDVFile.m in Sources */,
 				6F2CD22F1A1D3D3C0088734C /* CDVReachability.m in Sources */,
 				6F2CD22E1A1D3D3C0088734C /* CDVConnection.m in Sources */,
@@ -512,6 +508,7 @@
 				4900372232EE49D9A7FC15E4 /* CDVSplashScreen.m in Sources */,
 				A9AAC425B55440948F8196ED /* CDVStatusBar.m in Sources */,
 				6F2CD21E1A1D3B160088734C /* SharedConfigurations.m in Sources */,
+				45C2626A945C48D38B538CDC /* AppDelegate+notification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

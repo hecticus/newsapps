@@ -228,7 +228,6 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.phonegap.plugins.PushPlugin": "2.2.1",
     "nl.x-services.plugins.socialsharing": "4.3.8",
     "org.apache.cordova.console": "0.2.11",
     "org.apache.cordova.device": "0.2.12",
@@ -237,7 +236,8 @@ module.exports.metadata =
     "org.apache.cordova.statusbar": "0.1.8",
     "org.apache.cordova.network-information": "0.2.13",
     "org.apache.cordova.file": "1.3.1",
-    "com.hecticus.cordova.plugins": "1.0.0"
+    "com.hecticus.cordova.plugins": "1.0.0",
+    "com.phonegap.plugins.PushPlugin": "2.4.0"
 }
 // BOTTOM OF METADATA
 });
