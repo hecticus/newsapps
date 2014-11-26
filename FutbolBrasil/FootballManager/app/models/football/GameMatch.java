@@ -281,7 +281,9 @@ public class GameMatch extends HecticusModel {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
         json.put("date",date);
-        json.put("id_phase",phase.getIdPhases());
+        if(phase != null) {
+            json.put("phase",phase.getIdPhases());
+        }
         json.put("homeTeam",homeTeam.toJson());
         json.put("awayTeam",awayTeam.toJson());
         json.put("home_team_goals",homeTeamGoals);
@@ -289,7 +291,9 @@ public class GameMatch extends HecticusModel {
         json.put("fifa_match_number",fifaMatchNumber);
         json.put("status",status);
         json.put("ext_id",extId);
-        json.put("results",result.toJson());
+        if(result != null) {
+            json.put("results", result.toJson());
+        }
 
         return json;
     }
@@ -315,7 +319,7 @@ public class GameMatch extends HecticusModel {
     }
 
     public static List<GameMatch> getGamematchByDate(Long idCompetition, String date){
-        return finder.findList();
+        return finder.where().eq("date", date).eq("competition.idCompetitions", idCompetition).findList();
     }
 
     public ObjectNode fixtureJson(){

@@ -5,16 +5,22 @@
 			$rootScope.contentClass = 'content-init';
 			$rootScope.$storage = $localStorage.$default({
 				news: false,
+				leaderboard:false,
 			});
 		})		
 		
 		
 		.factory('domain', function () {
-        	return {
-        		url: 'http://footballmanager.hecticus.com/newsapi/v1/',
+        	return { 
+        		       		
             	news: function (_page) {
-            		return this.url + 'news/search/1/' + _page + '/10';					
-            	}
+            		return 'http://footballmanager.hecticus.com/newsapi/v1/news/search/1/' + _page + '/10';					
+            	},
+            	
+            	standings: function () {
+            		return 'http://footballmanager.hecticus.com/api/v1/rankings/get/1';
+            	},
+            	
         	};
     	})
     	
@@ -115,8 +121,7 @@
 		})
 
  		.controller('mainCtrl', function($rootScope, $location, $route) {
-			
-			 	
+
 			$rootScope.$on('$routeChangeStart', 
                  function (event, current, previous, rejection) {
                  //
@@ -184,8 +189,22 @@
 		}])
  
  
- 		.controller('standingsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+ 		.controller('standingsCtrl',  ['$http','$rootScope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $route,$localStorage,domain,utilities,data) {
+ 			
 			$rootScope.contentClass = 'content-standings';
+			
+			var standings = this;
+			
+			if (!$rootScope.$storage.standings) {
+				$http.get(domain.standings()).success(function(_json) {					
+					standings.item = _json.response.rankings;
+					$rootScope.$storage.standings = JSON.stringify(_json.response.rankings);					
+        		});	
+			} else {
+				standings.item =  JSON.parse($rootScope.$storage.standings);
+			}
+
 		}])
   
  		.controller('matchCtrl', ['$http','$rootScope', function($http, $rootScope) {
@@ -193,7 +212,10 @@
 		}])
 		
 		.controller('livescoreCtrl', ['$http','$rootScope', function($http, $rootScope) {
-			$rootScope.contentClass = 'content-livescore';			
+			
+			$rootScope.contentClass = 'content-livescore';
+			
+			
 		}])
 		
  		.controller('newsCtrl', ['$http','$rootScope','$route','$localStorage','domain','utilities', 

@@ -3,9 +3,8 @@ package models;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.TimeZone;
 
 /**
  * Created by sorcerer on 9/24/14.
@@ -24,8 +23,11 @@ public class Apps extends HecticusModel {
     private Integer type;
     private Integer idLanguage;
 
-    private static Model.Finder<Integer, Apps> finder =
-            new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
+    @OneToOne
+    @JoinColumn(name = "id_timezone")
+    private Timezone timezone;
+
+    private static Model.Finder<Integer, Apps> finder = new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
 
     public Apps() {
         //default
@@ -93,5 +95,21 @@ public class Apps extends HecticusModel {
 
     public void setIdLanguage(Integer idLanguage) {
         this.idLanguage = idLanguage;
+    }
+
+    public Timezone getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(Timezone timezone) {
+        this.timezone = timezone;
+    }
+
+    public static TimeZone getTimezone(int idApp){
+        Apps app = finder.byId(idApp);
+        if(app != null){
+            return app.getTimezone().getTimezone();
+        }
+        return TimeZone.getDefault();
     }
 }
