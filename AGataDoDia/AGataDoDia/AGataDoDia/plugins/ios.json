@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SharedConfigurations\"><param name=\"ios-package\" value=\"SharedConfigurations\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -123,6 +127,9 @@
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         },
         "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.hecticus.AGataDoDia"
+        },
+        "com.hecticus.cordova.plugins": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
         }
     },
