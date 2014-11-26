@@ -1,21 +1,75 @@
-		
+	<div ng-controller="scorersCtrl as _this">
+
 		<div id="wrapper" >
+
 			<div class="scroller">
-				<div class="container">					
-					<div class="row">		
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">						
-							<h5>ARTILHARIA</h5>	
-						</div>
+				<div class="container">
+					<div class="row" style="height: 50px !important;">
+						<span>&nbsp;</span>
 					</div>
-										 
-				</div>				
+
+				 	<div class="row competition" 
+				 		data-index="{{$index}}"
+				 		ng-repeat="item in _this.item.leagues" 
+				 		ng-class="{'active' : $first}"
+				 		ng-if="removeElement(item.scorers)">
+				 		
+				 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="item in item.scorers" >				 				
+				 			<h5 ng-bind="item.name" style="vertical-align: middle;"></h5>				 			
+						</div>
+						
+					</div>
+
+				</div>
 			</div>
-		</div>
 			
-		<script type="text/javascript">												 
-			var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});					
-			_scroll.on('beforeScrollStart', function () {
-				this.refresh();
-			});		
-		</script>
+			
+			<div style="position: absolute; 
+						z-index: 4;
+						top: 0;
+						left:0;
+						right:0;		
+						width: 100%; 
+						height: 50px;
+						line-height: 50px;		
+						background-color: #FFFFFF;			
+						padding: 0 !important; 
+						margin:0 !important;		
+						border: 0;">
+
+					<div class="row">
+
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: right;" ng-click="showCompetition('prev')" >
+							<h5 class="glyphicon glyphicon-chevron-left"></h5>
+						</div>
+
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="text-align: center;">
+
+								<h5 class="competition"
+									data-index="{{$index}}"
+									ng-bind="item.name" 
+									ng-repeat="item in _this.item.leagues" 
+									ng-class="{'active' : $first}"
+				 					ng-if="removeElement(item.scorers)"></h5>	
+																	
+						</div>
+						
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: left;" ng-click="showCompetition('next')">
+							<h5 class="glyphicon glyphicon-chevron-right"></h5>
+						</div>
+						
+					</div>
+			
+			</div>
+			
+			
+		</div>
+		
+	</div>	
+	<script type="text/javascript">												 
+		var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});					
+		_scroll.on('beforeScrollStart', function () {
+			this.refresh();
+		});		
+	</script>
 		
