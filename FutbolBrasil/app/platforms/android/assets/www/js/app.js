@@ -1,19 +1,26 @@
-var a = false;
 
-
-	angular.module('FutbolBrasil', ['ngRoute','ngTouch'])
+	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
- 		.run(function($rootScope) {
+ 		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';
+			$rootScope.$storage = $localStorage.$default({
+				news: false,
+				leaderboard:false,
+			});
 		})		
 		
 		
 		.factory('domain', function () {
-        	return {
-        		url: 'http://footballmanager.hecticus.com/newsapi/v1/',
+        	return { 
+        		       		
             	news: function (_page) {
-            		return this.url + 'news/search/1/' + _page + '/10';					
-            	}
+            		return 'http://footballmanager.hecticus.com/newsapi/v1/news/search/1/' + _page + '/10';					
+            	},
+            	
+            	standings: function () {
+            		return 'http://footballmanager.hecticus.com/api/v1/rankings/get/1';
+            	},
+            	
         	};
     	})
     	
@@ -114,16 +121,15 @@ var a = false;
 		})
 
  		.controller('mainCtrl', function($rootScope, $location, $route) {
-			
-			 	
+
 			$rootScope.$on('$routeChangeStart', 
                  function (event, current, previous, rejection) {
-    			console.log('$routeChangeStart');
+                 //
   			});
   			      
   			$rootScope.$on('$routeChangeSuccess', 
-                 function (event, current, previous, rejection) {      
-    			console.log('$routeChangeSuccess');
+                 function (event, current, previous, rejection) {      	
+                 //
   			});
 
   			$rootScope.menuClass = function(_page) {
@@ -137,16 +143,16 @@ var a = false;
 				$location.path('/' + _section);				
 			};		
 
-			$rootScope.nextPage = function() {    		
+			$rootScope.nextPage = function() {  		
 				var _this =  angular.element('#wrapper2');
-               if (_this.hasClass('left')) {
-                	_this.attr('class','page transition right');
-               } else{
-         			$location.path($route.current.next);
-               }			    			 
+               if (!_this.hasClass('left')) {
+                	//_this.attr('class','page transition right');
+                	$location.path($route.current.next);
+               } 			    			 
 			};
 
-			$rootScope.prevPage = function() {	
+			$rootScope.prevPage = function() {
+				
 				var _this =  angular.element('#wrapper2');					
 				if (_this.hasClass('left')) {
             		_this.attr('class','page transition right');						
@@ -157,13 +163,48 @@ var a = false;
 
 		})
  
+ 
+ 
+ 		.controller('predictionCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-prediction';
+		}])
+ 
+ 
+ 		.controller('leaderboardCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-leaderboard';
+		}])
+  
+ 		.controller('friendsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-friends';			
+		}])
+		
+		.controller('pointsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+			$rootScope.contentClass = 'content-points';			
+		}])
+ 
+ 
+ 
  		.controller('scorersCtrl', ['$http','$rootScope', function($http, $rootScope) {
 			$rootScope.contentClass = 'content-scorers';
 		}])
  
  
- 		.controller('standingsCtrl', ['$http','$rootScope', function($http, $rootScope) {
+ 		.controller('standingsCtrl',  ['$http','$rootScope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $route,$localStorage,domain,utilities,data) {
+ 			
 			$rootScope.contentClass = 'content-standings';
+			
+			var standings = this;
+			
+			if (!$rootScope.$storage.standings) {
+				$http.get(domain.standings()).success(function(_json) {					
+					standings.item = _json.response.rankings;
+					$rootScope.$storage.standings = JSON.stringify(_json.response.rankings);					
+        		});	
+			} else {
+				standings.item =  JSON.parse($rootScope.$storage.standings);
+			}
+
 		}])
   
  		.controller('matchCtrl', ['$http','$rootScope', function($http, $rootScope) {
@@ -171,12 +212,14 @@ var a = false;
 		}])
 		
 		.controller('livescoreCtrl', ['$http','$rootScope', function($http, $rootScope) {
-			$rootScope.contentClass = 'content-livescore';			
+			
+			$rootScope.contentClass = 'content-livescore';
+			
+			
 		}])
 		
- 		.controller('newsCtrl', ['$http','$rootScope','$route','domain','utilities', function($http, $rootScope, $route, domain, utilities,data) {
- 			
-
+ 		.controller('newsCtrl', ['$http','$rootScope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $route,$localStorage,domain,utilities,data) {
  			
 			$rootScope.contentClass = 'content-news';
 
@@ -200,18 +243,15 @@ var a = false;
 				_scroll2.scrollTo(0,0,0);	   							
   			};
 
-			if (!a) {
+			if (!$rootScope.$storage.news) {
 				$http.get(domain.news(1)).success(function(_json) {
 					news.item = _json.response.news;
-					a = _json.response.news;								 
+					$rootScope.$storage.news = JSON.stringify(_json.response.news);
         		});	
 			} else {
-				news.item = a;
+				news.item =  JSON.parse($rootScope.$storage.news);
 			}
-			
- 			 
- 	  		
- 	  
+
 		}]);
  
  	var _app = angular.injector(['FutbolBrasil']);

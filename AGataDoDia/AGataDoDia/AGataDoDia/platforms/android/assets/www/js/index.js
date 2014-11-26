@@ -70,8 +70,10 @@ var app = {
     	//revisamos que la data que esta guardada este bien
     	checkStoredData();
     	if (_fPhonegapIsOnline()) {
-    		//init Push manager this will init the client also
+    		//init Push manager
     		initPush();
+    		//init client manager
+    		initClientManager(startApp, errorStartApp);
     	}else{
     		startAppOffline();
     	}

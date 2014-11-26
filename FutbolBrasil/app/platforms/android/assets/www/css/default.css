@@ -88,6 +88,7 @@ row:not(input):not(textarea) {
 	#wrapper .scroller .container .row div { 
 		padding: 0 !important; 
 		margin: 0 !important; 
+		background-color: #ffffff;
 	}
 
 	img {
@@ -99,11 +100,13 @@ row:not(input):not(textarea) {
 	}
 	
 	header .section {
+		text-shadow: -1px 1px 1px rgba(0,0,0,0.5);
 		color: #FFFFFF;
 	}
 	
 	header .section.active {
-		color: yellow;
+		text-shadow: -1px 1px 1px rgba(0,0,0,0.5);
+		color: #FFDE00;
 	}
 	
 	footer .section {
@@ -115,7 +118,11 @@ row:not(input):not(textarea) {
 	}
 	
 	
-	body.content-news #wrapper .scroller .container .row  {padding: 0 20px !important;}
+	body.content-news #wrapper .scroller .container .row ,
+	body.content-standings #wrapper .scroller .container .row 
+	{padding: 0 20px !important;}
+	
+	
 	body.content-news #wrapper .scroller .container .row .news {
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
@@ -132,20 +139,20 @@ row:not(input):not(textarea) {
 	body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
 	
 	body.content-news #wrapper2 .scroller .container .row .news .moment {
-		color:#3B9444;
-		padding-bottom:10px !important;
-		border-bottom: solid 1pt #2B2B2B !important;
+		color:#3B9444;		
 	}
-	
-	/*body.content-news #wrapper2 .scroller .container .row .news .summary {
-		padding-top:20px !important;
-		padding-bottom:20px !important;
-		border-top: solid 1pt #2B2B2B !important;
-		border-bottom: solid 1pt #2B2B2B !important;
-	}*/
 	
 	body.content-news #wrapper2 .scroller .container .row .news .body {	
-		padding-top:10px !important;
+		margin-top:20px !important;
+		padding-top:20px !important;
+		border-top: solid 1pt #2B2B2B !important;
 	}
 	
+	body.content-standings .standings h4 {
+		text-transform:uppercase;
+		display:none;
+	}
 	
+	body.content-standings .standings h4.active {
+		display:block;
+	}

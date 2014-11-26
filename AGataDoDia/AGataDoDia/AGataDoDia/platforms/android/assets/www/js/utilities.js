@@ -246,3 +246,7 @@
 			return $(window).height();
 		}
 	}
+	
+	function nocallback(){
+		//callback vacio para peticiones que no necesitan callback como tal
+	}
