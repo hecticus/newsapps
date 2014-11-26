@@ -1,11 +1,11 @@
 
 		
-	var _index = $('main').data('referer');
+	var _index = $('main').data('referer');	
 	var _infinite = true; 
 	var _init = true; 
 
 	var _html = '<div class="container">';
-		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 3pt solid #777777 !important; opacity: 0.8;" >';
+		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 1pt solid #777777 !important; opacity: 0.8;" >';
 				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >';
 					_html += '<h4>' + _jParameters.womanName + '</h4>';
 				_html += '</div>';
@@ -28,10 +28,10 @@
 			_html += '<div class="row post" data-value="' + _item.id_post + '"  >';				
 				$.each(_item.files, function(_index,_file) {
 						_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" >';						
-							_html += '<img data-src="' + _file + '"  onerror="this.style.display=\'none\'"  alt="" class="img-rounded"  />';							
+							_html += '<img data-src="' + _file + '"  onerror="this.style.display=\'none\'"  alt="" class="img-rounded"  style="border-bottom: 3pt solid #777777 !important; " />';							
 							_html += '<div class="row" style="position: absolute; z-index: 5; top:30px; right:0px; text-align:center;">';																
 								_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-									_html += '<i class="icon icon-material-share-alt" style="margin-right:20px;" onclick="window.plugins.socialsharing.share(\'' + _item.title + '\', null, \'' + _file + '\', \'' + _item.source + '\');"></i>';
+									_html += '<i class="icon icon-material-share-alt" style="margin-right:20px;" onclick="sharePost(\'' + _item.title + '\', \'' + _file + '\', \'' + _item.source + '\');"></i>';
 								_html += '</div>';
 							_html += '</div>';					
 						_html += '</div>';
@@ -51,14 +51,12 @@
 		$('body.content-posts #wrapper .scroller .container').append(_html);
 		
 		$('img.img-rounded').each(function (e) {
-			
 			var _this = $(this);					
 			var _img = new Image();
     		_img.src = _this.data('src');        		        		         		
 		    _img.onload = function() {		    	
 		    	_this.attr('src',  _this.data('src'));
-		    };
-		    
+		    };		    
 		});
 				
 		
@@ -76,7 +74,7 @@
 			
 			$.each(_jMenu[_index].data.response, function(_index,_item) {
 				
-				if (_item.id_post == _jParameters.post) {					
+				if (_item.id_post == _jParameters.post) {
 					_fRenderHtml({response:[_item]});	
 					_break = true;
 										

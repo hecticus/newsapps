@@ -42,6 +42,15 @@ var app = {
     receivedEvent: function(id) {    	
     	if (id == 'deviceready') {
     		
+    		//Image Cache
+	    	ImgCache.options.debug = true;
+	    	ImgCache.options.localCacheFolder = 'AGataDoDia';
+	      	ImgCache.options.usePersistentCache = true;       	        	    	
+			ImgCache.options.cacheClearSize = 5;
+			ImgCache.init();
+    		
+    		
+    		
     		document.addEventListener('backbutton', function(e) {	  			
 				_jApp.back();								
 			}, false);
@@ -54,12 +63,26 @@ var app = {
     
     initAllAppData: function() {
     	StatusBar.hide();
+    	//window.plugins.sharedConfigurations.addSharedConfigEntry("test","one",setShareOK,errorShareOK);
+    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_width",setRealWidth,errorShareConfigs);
+    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_height",setRealHeight,errorShareConfigs);
+    	
     	//revisamos que la data que esta guardada este bien
     	checkStoredData();
-    	//init Push manager this will init the client also
-    	initPush();
+    	if (_fPhonegapIsOnline()) {
+    		//init Push manager
+    		initPush();
+    		//init client manager
+    		initClientManager(startApp, errorStartApp);
+    	}else{
+    		startAppOffline();
+    	}
     }
 };
+
+function errorShareConfigs(err){
+	console.log("ERROR errorShareConfigs:"+err);
+}
 
 app.initialize();
 

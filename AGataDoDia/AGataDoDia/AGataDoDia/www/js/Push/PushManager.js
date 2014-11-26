@@ -134,18 +134,28 @@ function saveRegID(regID) {
 		return false;
 	}
 }
-
 function loadRegID() {
 	return window.localStorage.getItem(FILE_KEY_CLIENT_REGID);
+}
+
+function hasToUpdateRegID(){
+	var savedRegID = loadRegID();
+	//check RegID
+	if(savedRegID == null || savedRegID == "" || savedRegID != regID){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 //Ahora tratamos de obtener el cliente con el device id para que si no existe se cree y luego vamos al proceso normal
 function updateDeviceToServer(){
 	console.log("revisando version");
 	//TODO: despues de guardar el regID en el servidor se llama a esta funcion
-	pushNotification.registerOnServer(successPushHandlerServer, errorPushHandler, true);
-	
+	if(getDevice() == "android"){
+		pushNotification.registerOnServer(successPushHandlerServer, errorPushHandler, true);
+	}
+
 	//Una vez tengamos el regID y este todo listo tenemos que revisar si ya existe el cliente o si hay que crear uno generico
-	//init client manager
-	initClientManager(startApp, errorStartApp);
+	updateRegistrationID();
 }

@@ -1,3 +1,5 @@
+	var real_width = 0;
+	var real_height = 0;
 	var _lastClicked = 0;
 	
 	function _fGetCurrentTimeMillis() {
@@ -110,6 +112,7 @@
 		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_REGID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_DATASAFE);
 	}
 	function saveStoredVersion() {
 		try{
@@ -155,7 +158,95 @@
 	    }
 	}
 	
+	function _fAlert(_message) {
+		
+
+		var _html = '<div id="alert" class="alert alert-warning alert-dismissible" role="alert">';			
+  			 _html += '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';  			 
+  			 _html += '<span style="color:#ffffff;">' + _message + '</span>';			
+		_html += '</div>';
+		
+		$('#alert').remove();
+		$('body').append(_html);
+		
+		$('#alert').fadeOut(5000, function(){
+			$(this).remove();
+		});
+		
+	};
 
 
+	function _fPhonegapIsOnline(){
+	 	var networkState = navigator.connection.type;
+	 	if(networkState == Connection.NONE || networkState == Connection.UNKNOWN){
+	  		return false;
+	 	}else{
+	  		return true;
+	 	}
+	};
 	
-
+	function _fUseImageCache(_image,_background) {		
+		if (ImgCache.ready) {
+					
+			var _selector = 'img[src="' + _image + '"]';		
+			if (_background) _selector = 'div[data-src="' + _image + '"]';
+	
+			$(_selector).each(function() {
+		    	var _this = $(this);
+				ImgCache.isCached(_this.attr('src'), function(_path, _success) {
+					if(_success) {
+						if(isOffline()) {
+							if (_background) {
+								ImgCache.useCachedBackground(_this);
+							} else {
+								ImgCache.useCachedFile(_this); 
+							};						
+						};
+					} else {
+						ImgCache.cacheFile(_this.attr('src'), function() {
+							ImgCache.useOnlineFile(_this);
+					    });
+					};
+				});                                	
+			});
+			
+		};
+	};
+	
+	function setRealWidth(val){
+		try{
+			if(val != null && val != "" && !isNaN(val)){
+				real_width = parseInt(val);
+			}
+		}catch(e){
+			console.log("Bad width: "+e);
+		}
+	}
+	function setRealHeight(val){
+		try{
+			if(val != null && val != "" && !isNaN(val)){
+				real_height = parseInt(val);
+			}
+		}catch(e){
+			console.log("Bad height: "+e);
+		}
+	}
+	
+	function getRealWidth(){
+		if(real_width != 0){
+			return real_width;
+		}else{
+			return $(window).width();
+		}
+	}
+	function getRealHeight(){
+		if(real_height != 0){
+			return real_height;
+		}else{
+			return $(window).height();
+		}
+	}
+	
+	function nocallback(){
+		//callback vacio para peticiones que no necesitan callback como tal
+	}

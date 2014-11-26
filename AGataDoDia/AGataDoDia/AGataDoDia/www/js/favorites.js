@@ -3,7 +3,7 @@
 	var _json = _jMenu[_index].data; 
 
 	var _fRenderHtml =  function(_json, _push) {
-		console.log("FAVORITES: "+JSON.stringify(_json));
+		
 		var _html = '<div class="list-group" style="margin-top:10px;">';	
 		$.each(womenList, function(_index,_item) {
 				
