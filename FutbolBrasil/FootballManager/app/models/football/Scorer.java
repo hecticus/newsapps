@@ -50,6 +50,7 @@ public class Scorer extends HecticusModel {
         tr.put("fullName",fullName);
         tr.put("nickname",nickname);
         //tr.put("idTeam",idTeam); //team info
+        tr.put("team",team.toJson());
         tr.put("goals",goals);
         tr.put("byplay",byplay);
         tr.put("header",header);
@@ -63,6 +64,10 @@ public class Scorer extends HecticusModel {
 
     public static List<Scorer> getTournamentScorers(Long idCompetition, String date){
         return  finder.where().eq("id_competition", idCompetition).eq("date",date).orderBy("").findList();
+    }
+
+    public static List<Scorer> getTournamentScorers(Long idCompetition){
+        return finder.where().eq("id_competition", idCompetition).setFirstRow(0).setMaxRows(10).orderBy("goals desc").findList();
     }
 
     public static Scorer getScorer(long idCompetition, String externalId){
