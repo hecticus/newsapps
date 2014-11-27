@@ -2,6 +2,7 @@ package models.football;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.Resource;
@@ -10,6 +11,8 @@ import play.libs.Json;
 import utils.Utils;
 
 import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
@@ -211,6 +214,10 @@ public class News extends HecticusModel {
         }
     }
 
+    public static Page<News> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return finder.where().ilike("title", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
     /**************************** GETTERS AND SETTERS ****************************************************/
 
     public Long getIdNews() {
@@ -379,5 +386,31 @@ public class News extends HecticusModel {
 
     public void setPushDate(Long pushDate) {
         this.pushDate = pushDate;
+    }
+
+    public List<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<Resource> resources) {
+        this.resources = resources;
+    }
+
+    public String getDecodedTitle() {
+        try {
+            return URLDecoder.decode(title, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return title;
+    }
+
+    public String getDecodedSummary() {
+        try {
+            return URLDecoder.decode(summary, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return summary;
     }
 }

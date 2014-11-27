@@ -1,11 +1,13 @@
 package models;
 
+import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.football.News;
 import play.db.ebean.Model;
 import utils.Utils;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -74,6 +76,20 @@ public class Resource extends HecticusModel {
             tr = true;
         }
         return tr;
+    }
+
+    public static List<Resource> getAllResource(){
+        return finder.all();
+    }
+
+    public static List<Resource> getAllResourcesAvailable(){
+        return finder.where().eq("news_id_news", null).findList();
+//        com.avaje.ebean.Query<Resource>  query  = com.avaje.ebean.Ebean.createQuery(Resource.class);
+//        return query.where("NOT EXISTS (SELECT * FROM news_resource  WHERE news_resource.resource_id = id)").findList();
+    }
+
+    public static Resource getResource(long idResouce) {
+        return finder.byId(idResouce);
     }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
@@ -180,5 +196,13 @@ public class Resource extends HecticusModel {
 
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public News getParent() {
+        return parent;
+    }
+
+    public void setParent(News parent) {
+        this.parent = parent;
     }
 }

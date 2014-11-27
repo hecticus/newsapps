@@ -10,8 +10,51 @@ GET     /                           controllers.Application.index()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+#ConfigsView
+# ConfigsView list (look at the default values for pagination parameters)
+GET     /configurations/list			                                                controllers.ConfigsView.list(p:Int ?= 0, s ?= "keyName", o ?= "asc", f ?= "")
+GET     /configurations/lsort		                                                    controllers.ConfigsView.lsort()
+# Add ConfigsView
+GET     /configurations/blank		                                                    controllers.ConfigsView.blank()
+POST    /configurations				                                                    controllers.ConfigsView.submit()
+# Edit existing ConfigsView
+GET     /configurations/sort/:ids	                                                    controllers.ConfigsView.sort(ids:String)
+GET     /configurations/:id			                                                    controllers.ConfigsView.edit(id:Long)
+POST    /configurations/:id			                                                    controllers.ConfigsView.update(id:Long)
+# Delete a ConfigsView
+POST    /configurations/:id/delete		                                                controllers.ConfigsView.delete(id:Long)
+
+#NewsView
+# NewsView list (look at the default values for pagination parameters)
+GET     /news/list			                                                            controllers.NewsView.list(p:Int ?= 0, s ?= "title", o ?= "asc", f ?= "")
+GET     /news/lsort		                                                                controllers.NewsView.lsort()
+# Add NewsView
+#GET     /news/blank		                                                                controllers.NewsView.blank()
+#POST    /news				                                                            controllers.NewsView.submit()
+# Edit existing NewsView
+GET     /news/sort/:ids	                                                                controllers.NewsView.sort(ids:String)
+GET     /news/:id			                                                            controllers.NewsView.edit(id:Long)
+#POST    /news/:id			                                                            controllers.NewsView.update(id:Long)
+# Delete a NewsView
+#POST    /news/:id/delete		                                                        controllers.NewsView.delete(id:Long)
+
+
+#UsersView
+# UsersView list (look at the default values for pagination parameters)
+GET     /users/list			                                                controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /users/lsort		                                                    controllers.UsersView.lsort()
+# Add UsersView
+# Edit existing UsersView
+#GET     /users/sort/:ids	                                                    controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                    controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                    controllers.UsersView.update(id:Long)
+# Delete a UsersView
+POST    /users/:id/delete		                                                controllers.UsersView.delete(id:Long)
+
+
 GET      /newsapi/v1/news/search/:idApp                    controllers.news.NewsController.getNews(idApp:Integer, offset: Integer=0, count:Integer=20)
 GET      /newsapi/v1/news/search/:idApp/:offset/:count     controllers.news.NewsController.getNews(idApp:Integer, offset: Integer, count:Integer)
+POST     /newsapi/v1/news/resources/update                 controllers.news.NewsController.updateResources()
 
 #afp futbol
 GET     /footballapi/v1/team/getAll/:idCompetition              controllers.footballapi.AfpFutbolWs.getTeams(idCompetition: Integer)
@@ -52,3 +95,48 @@ GET     /footballapi/v1/calendar/get/:idCompetition                controllers.f
 
 #football manager
 GET     /api/v1/rankings/get/:idApp                   controllers.footballapi.RankingController.getRankings(idApp: Integer)
+
+
+# Authenticate
+GET     /restricted                                                                     controllers.Application.restricted
+GET     /assets/javascript/routes.js                                                    controllers.Application.jsRoutes
+
+GET     /profile                                                                        controllers.Application.profile
+
+GET     /login                                                                          controllers.Application.login
+POST    /login                                                                          controllers.Application.doLogin
+
+GET     /logout                                                                         com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider                                                         com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+
+GET     /signup                                                                         controllers.Application.signup
+POST    /signup                                                                         controllers.Application.doSignup
+
+GET     /accounts/unverified        		                                            controllers.Signup.unverified
+GET     /authenticate/:provider/denied    	                                            controllers.Signup.oAuthDenied(provider: String)
+
+GET     /accounts/verify/:token                                                         controllers.Signup.verify(token: String)
+GET     /accounts/exists                                                                controllers.Signup.exists
+
+GET     /accounts/password/reset/:token                                                 controllers.Signup.resetPassword(token: String)
+POST    /accounts/password/reset                                                        controllers.Signup.doResetPassword
+
+GET    /accounts/password/change                                                        controllers.Account.changePassword
+POST   /accounts/password/change                                                        controllers.Account.doChangePassword
+
+GET     /accounts/verify                                                                controllers.Account.verifyEmail
+
+GET     /accounts/add                                                                   controllers.Account.link
+
+GET     /accounts/link                                                                  controllers.Account.askLink
+POST    /accounts/link                                                                  controllers.Account.doLink
+
+GET     /accounts/merge                                                                 controllers.Account.askMerge
+POST    /accounts/merge                                                                 controllers.Account.doMerge
+
+GET     /login/password/forgot                                                          controllers.Signup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot                                                          controllers.Signup.doForgotPassword
+
+
+
+

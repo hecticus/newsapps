@@ -44,7 +44,9 @@ libraryDependencies ++= Seq(
   "org.reflections" % "reflections" % "0.9.7.RC1",
   "javax.activation" % "activation" % "1.1",
   "javax.mail" % "mail" % "1.4.7",
-  "com.sun.xml.messaging.saaj" % "saaj-impl" % "1.3"
+  "com.sun.xml.messaging.saaj" % "saaj-impl" % "1.3",
+  "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
+  "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT"
 )
 
 resolvers ++= Seq(
