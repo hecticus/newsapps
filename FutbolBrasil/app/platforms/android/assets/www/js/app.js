@@ -1,4 +1,5 @@
 
+	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','ngAnimate'])
 	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
  		.run(function($rootScope,$localStorage) {
@@ -183,8 +184,60 @@
 				}			
 			};
 
+			$rootScope.showError = function(_item, _param) {
+				
+				var _return = true;
+							
+				angular.forEach(_item, function(_item) {
+					if (eval('_item.' + _param)) {
+						if (eval('_item.' + _param + '.length > 0')) {
+  							_return = false;
+  						}
+					}  					  					
+				});
+				
 
-			$rootScope.removeElement = function(_item) {
+				return _return;
+									
+			};
+
+
+			$rootScope.removeHeader = function(_item, _param) {
+				
+				var _return = false;
+											
+				angular.forEach(_item, function(_item) {
+					if (eval('_item.' + _param)) {
+						if (eval('_item.' + _param + '.length > 0')) {
+  							_return  = true;
+  						}
+					}  					  					
+				});
+				
+				return _return;
+									
+			};
+
+
+			$rootScope.removeArrow = function(_item, _param) {
+				
+				var _count = -1;
+							
+				angular.forEach(_item, function(_item) {
+					if (eval('_item.' + _param)) {
+						if (eval('_item.' + _param + '.length > 0')) {
+  							_count ++;
+  						}
+					}  					  					
+				});
+				
+				return _count;
+									
+			};
+
+
+
+			$rootScope.removeElement = function(_item) {				
 				if (_item) {				
 					if (_item.length > 0) {
 						return true;	
@@ -200,20 +253,26 @@
 				
 				var _this = angular.element('.competition.active');
 				var _first = 0;				
-				var _last = (angular.element('h5.competition').length - 1);
-				var _current = angular.element('h5.competition.active').data('index');
-				
+				var _last = (angular.element('span.competition').length - 1);
+				var _current = angular.element('span.competition.active').data('index');
+				_scroll.scrollTo(0,0,0);
 
-				if (_option == 'next') {					
-					if (_current != _last) {
+				if (_option == 'next') {										
+					if (_current == _last) {
 						_this.removeClass('active');
-						_this.next().addClass('active');	
-					}	
+						_this.prevAll().addClass('active flipInX').last();
+					} else {
+						_this.removeClass('active');
+						_this.next().addClass('active flipInX');						
+					}						
 				} else {
-					if (_current != _first) {
+					if (_current == _first) {
+						_this.removeClass('active');							
+						_this.nextAll().addClass('active flipInX').last();						
+					} else {
 						_this.removeClass('active');		
-						_this.prev().addClass('active');	
-					}					
+						_this.prev().addClass('active flipInX');
+					}				
 				}
 				
 				
@@ -261,7 +320,8 @@
 			} else {
 				_this.item = JSON.parse($rootScope.$storage.scorers);
 			}
-					
+			
+								
 		}])
  
  
@@ -309,6 +369,8 @@
 
 	 		var _this = this;
 
+
+
 			_this.backPage = function() {
 				utilities.backbuttom();
 			};
@@ -337,6 +399,10 @@
 			} else {
 				_this.item = JSON.parse($rootScope.$storage.news);
 			}
+
+
+
+
 
 		}]);
  
