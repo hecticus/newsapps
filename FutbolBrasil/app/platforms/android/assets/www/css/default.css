@@ -118,6 +118,8 @@ row:not(input):not(textarea) {
 	}
 	
 	
+	body.content-scorers #wrapper .scroller .container .row ,
+	body.content-match #wrapper .scroller .container .row ,
 	body.content-news #wrapper .scroller .container .row ,
 	body.content-standings #wrapper .scroller .container .row 
 	{padding: 0 20px !important;}
@@ -148,11 +150,16 @@ row:not(input):not(textarea) {
 		border-top: solid 1pt #2B2B2B !important;
 	}
 	
-	body.content-standings .standings h4 {
+	body.content-match .competition,
+	body.content-scorers .competition,
+	body.content-standings .competition  {
 		text-transform:uppercase;
 		display:none;
 	}
 	
-	body.content-standings .standings h4.active {
+	body.content-match .competition.active,
+	body.content-scorers .competition.active,
+	body.content-standings .competition.active {
 		display:block;
 	}
+
