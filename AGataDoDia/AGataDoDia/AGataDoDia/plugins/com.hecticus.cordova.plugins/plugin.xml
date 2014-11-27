@@ -4,7 +4,7 @@
         id="com.hecticus.cordova.plugins"
         version="1.0.0">
 
-  <name>Sharedconfigurations</name>
+  <name>sharedconfigurations</name>
 
   <description>
     Share preferences js-native code
