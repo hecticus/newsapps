@@ -1,20 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
-        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
-        "clobbers": [
-            "PushNotification"
-        ]
-    },
-    {
-        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
-        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.console/www/console-via-logger.js",
         "id": "org.apache.cordova.console.console",
         "clobbers": [
@@ -218,17 +204,30 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
+        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
         "file": "plugins/com.hecticus.cordova.plugins/www/sharedConfigurations.js",
         "id": "com.hecticus.cordova.plugins.sharedconfigurations",
         "clobbers": [
             "SharedConfigurations"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "nl.x-services.plugins.socialsharing": "4.3.8",
     "org.apache.cordova.console": "0.2.11",
     "org.apache.cordova.device": "0.2.12",
     "org.apache.cordova.inappbrowser": "0.5.2",
@@ -236,8 +235,9 @@ module.exports.metadata =
     "org.apache.cordova.statusbar": "0.1.8",
     "org.apache.cordova.network-information": "0.2.13",
     "org.apache.cordova.file": "1.3.1",
+    "com.phonegap.plugins.PushPlugin": "2.4.0",
     "com.hecticus.cordova.plugins": "1.0.0",
-    "com.phonegap.plugins.PushPlugin": "2.4.0"
+    "nl.x-services.plugins.socialsharing": "4.3.10"
 }
 // BOTTOM OF METADATA
 });
