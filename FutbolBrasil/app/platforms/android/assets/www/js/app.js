@@ -13,6 +13,26 @@
 		})		
 		
 		
+		.directive('wrapper', function() {
+    		var directive = {};
+    		directive.restrict = 'E'; /* restrict this directive to elements */
+    		
+			var _html = '<div id="wrapper" >'; 
+					_html += '<div class="scroller">'; 
+						_html += '<div class="container">';
+						
+						
+						 
+						_html += '</div>';
+					_html += '</div>';
+				_html += '</div>';
+				
+    		directive.template = _html;
+    		return directive;
+    		
+		})
+		
+		
 		.factory('domain', function () {
         	return {
         		 
@@ -183,6 +203,14 @@
 					$location.path($route.current.prev);
 				}			
 			};
+
+
+			$rootScope.showErrorNews = function(_item) {				
+				var _return = true;							
+				if (_item.length > 0) _return = false;			
+				return _return;									
+			};
+
 
 			$rootScope.showError = function(_item, _param) {
 				

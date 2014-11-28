@@ -208,6 +208,10 @@ row:not(input):not(textarea) {
 		text-align: left; 
 	}
 	
+	.error {
+		color: #9D9D9D;
+	}
+	
 	
 	
 	

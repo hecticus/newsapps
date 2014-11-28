@@ -1,5 +1,6 @@
 	<div ng-controller="newsCtrl as _this">
 		
+		
 		<div id="wrapper">
 			<div class="scroller">
 				<div class="container" >						
@@ -9,22 +10,20 @@
 							<i class="icon icon-material-access-time " ></i>&nbsp;<span class="moment" ng-bind="_this.fromNow(item.publicationDate)"></span>							
 						</div>
 					</div>	
-					
-					
-					<!--div class="row error" ng-if="showError(_this.item.leagues,'scorers')">
-					
+										
+					<div class="row error" ng-if="showErrorNews(_this.item.news)">
+				
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;" >
 							<span class="icon-noticias" style="font-size: 10em; text-shadow: -1px 1px 1px rgba(0,0,0,0.5);"></span>
 							<h1 style="text-shadow: -1px 1px 1px rgba(0,0,0,0.5);">Conte&uacute;do n&atilde; dispon&iacute;vel</h1>
 						</div>
-					</div-->
+					</div>
 															
 				</div>				
 			</div>
 		</div>
 
 		<div id="wrapper2" class="page" style="left: 100%;" >
-
 			<div class="scroller">
 				<div class="container" >								
 					<div class="row" style="margin-top: 30px !important;" >								
