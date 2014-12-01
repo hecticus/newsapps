@@ -2,6 +2,7 @@ package models.clients;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.basic.Config;
 import models.basic.Country;
 import models.content.women.Woman;
 import play.data.validation.Constraints;
@@ -211,6 +212,7 @@ public class Client extends HecticusModel {
     public ObjectNode toPMCJson() {
         ObjectNode response = Json.newObject();
         response.put("idClient", idClient);
+        response.put("app", Config.getInt("pmc-app-id"));
         ArrayList<String> droid = new ArrayList<>();
         ArrayList<String> ios = new ArrayList<>();
         for(ClientHasDevices chd : devices){
