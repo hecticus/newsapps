@@ -34,6 +34,16 @@
                 '_help -> "Requerido."
             )
             
+             @select(
+                categoryForm("status"), 
+                options("0"-> "No", "1"-> "Si"),
+                '_default -> "--- Seleccione ---",
+                '_label -> "Estatus",
+                '_error -> categoryForm("status").error.map(_.withMessage("Selecciona una opción")),
+                '_help -> "Requerido."
+            )
+            
+            
         </fieldset>
 
         <div class="actions">
