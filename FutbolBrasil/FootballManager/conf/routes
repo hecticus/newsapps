@@ -83,7 +83,7 @@ GET     /footballapi/v1/players/topScorers/:idCompetition/:date         controll
 GET     /footballapi/v1/players/competitions/scorers/:idApp             controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer)
 
 #calendar
-GET     /footballapi/v1/calendar/get/:idCompetition                controllers.footballapi.MatchesController.getFixtures(idCompetition: Long)
+GET     /footballapi/v1/calendar/get/:idCompetition                controllers.footballapi.MatchesController.getAllFixtures(idCompetition: Long)
 
 #tvmax base ws
 #GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()

@@ -62,7 +62,7 @@ public class MatchesController extends HecticusController {
 
     public static Result getAllFixtures(long idCompetition){
         try {
-            List<GameMatch> fullList = null;
+            List<GameMatch> fullList = GameMatch.findAllByIdCompetition(idCompetition);
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()) {
                 //i got data
