@@ -92,6 +92,10 @@ public class Competition  extends HecticusModel {
         return finder.where().eq("id_app", idApp).findList();
     }
 
+    public static List<Competition> getActiveCompetitionsByApp(int idApp){
+        return finder.where().eq("id_app", idApp).eq("status", 1).findList();
+    }
+
     public static Competition findByExtId(long id){
         return finder.where().eq("ext_id", id).findUnique();
     }
