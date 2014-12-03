@@ -214,7 +214,8 @@ module.exports.metadata =
     "com.plugin.datepicker": "0.4.0",
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "org.apache.cordova.network-information": "0.2.13",
-    "org.apache.cordova.statusbar": "0.1.8"
+    "org.apache.cordova.statusbar": "0.1.8",
+    "org.apache.cordova.console": "0.2.11"
 }
 // BOTTOM OF METADATA
 });

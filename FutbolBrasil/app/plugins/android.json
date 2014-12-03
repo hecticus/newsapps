@@ -131,6 +131,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "com.hecticus.FutbolBrasil"
+        },
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.hecticus.FutbolBrasil"
         }
     },
     "dependent_plugins": {}
