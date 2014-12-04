@@ -34,7 +34,6 @@ public class Rank  extends HecticusModel {
     private long points;
     private long goalsFor;
     private long goalAgainst;
-    private long ranking;
 
     private int matchesLocal;
     private int matchesVisitor;
@@ -95,6 +94,53 @@ public class Rank  extends HecticusModel {
     private static Model.Finder<Long,Rank> finder = new
             Model.Finder<Long,Rank>(Long.class,Rank.class);
 
+    public Rank(Phase phase, Team team, long matches, long matchesWon, long matchesDraw, long matchesLost,
+                long points, long goalsFor, long goalAgainst,int matchesLocal, int matchesVisitor,
+                int matchesLocalWon, int matchesLocalDraw, int matchesLocalLost, int matchesVisitorWon,
+                int matchesVisitorDraw, int matchesVisitorLost, int goalsForLocal, int goalAgainstLocal,
+                int goalsForVisitor, int goalAgainstVisitor, int goalDiff, int pointsLocal, int pointsVisitor,
+                int yellowCards, int redCards, int doubleYellowCard, int penaltyFouls, int penaltyHands,
+                int foulsCommited, int foulsReceived, int penaltyFoulsReceived, int nivel, String nivelDesc,
+                int orden, String ordenDesc, String streak) {
+        this.phase = phase;
+        this.team = team;
+        this.matches = matches;
+        this.matchesWon = matchesWon;
+        this.matchesDraw = matchesDraw;
+        this.matchesLost = matchesLost;
+        this.points = points;
+        this.goalsFor = goalsFor;
+        this.goalAgainst = goalAgainst;
+
+        this.matchesLocal = matchesLocal;
+        this.matchesVisitor = matchesVisitor;
+        this.matchesLocalWon = matchesLocalWon;
+        this.matchesLocalDraw = matchesLocalDraw;
+        this.matchesLocalLost = matchesLocalLost;
+        this.matchesVisitorWon = matchesVisitorWon;
+        this.matchesVisitorDraw = matchesVisitorDraw;
+        this.matchesVisitorLost = matchesVisitorLost;
+        this.goalsForLocal = goalsForLocal;
+        this.goalAgainstLocal = goalAgainstLocal;
+        this.goalsForVisitor = goalsForVisitor;
+        this.goalAgainstVisitor = goalAgainstVisitor;
+        this.goalDiff = goalDiff;
+        this.pointsLocal = pointsLocal;
+        this.pointsVisitor = pointsVisitor;
+        this.yellowCards = yellowCards;
+        this.redCards = redCards;
+        this.doubleYellowCard = doubleYellowCard;
+        this.penaltyFouls = penaltyFouls;
+        this.penaltyHands = penaltyHands;
+        this.foulsCommited = foulsCommited;
+        this.foulsReceived = foulsReceived;
+        this.penaltyFoulsReceived = penaltyFoulsReceived;
+        this.nivel = nivel;
+        this.nivelDesc = nivelDesc;
+        this.orden = orden;
+        this.ordenDesc = ordenDesc;
+        this.streak = streak;
+    }
 
     @Override
     public ObjectNode toJson() {
@@ -109,7 +155,7 @@ public class Rank  extends HecticusModel {
         node.put("points",points);
         node.put("goals_for",goalsFor);
         node.put("goal_against",goalAgainst);
-        node.put("ranking",ranking);
+
         return node;
     }
 
@@ -125,7 +171,7 @@ public class Rank  extends HecticusModel {
         node.put("points",points);
         node.put("goals_for",goalsFor);
         node.put("goal_against",goalAgainst);
-        node.put("ranking",ranking);
+
         return node;
     }
 
@@ -207,14 +253,6 @@ public class Rank  extends HecticusModel {
 
     public void setGoalAgainst(long goalAgainst) {
         this.goalAgainst = goalAgainst;
-    }
-
-    public long getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(long ranking) {
-        this.ranking = ranking;
     }
 
     public int getMatchesLocal() {
@@ -455,6 +493,17 @@ public class Rank  extends HecticusModel {
             return null;
 
         return finder.where().eq("id_phases", _phase.getIdPhases()).orderBy("ranking asc").findList();
+    }
+
+    public void validateRank(){
+        //validate using id_phase
+        Rank tr = null;
+        if (tr != null){
+            //update selected values
+        }else {
+            //insert
+            this.save();
+        }
     }
 
 
