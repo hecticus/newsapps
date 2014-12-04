@@ -369,7 +369,7 @@
 		var _msisdn = $('#msisdnInput').val();
 		
 		if(saveClientMSISDN(""+_msisdn)){
-			if (sendInfoSignup(null, true)) {				
+			if (sendInfoSignup(null, true)) {
 				setTimeout(function(){					
 					_btn.button('reset');	
 				}, 5000);
@@ -384,6 +384,29 @@
 		}
 
 	});
+	
+	
+	$(document).on('click','[data-touch="gender"]', function(e) {
+				
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,false)) {return false;}
+		
+		var _btn = $(this).button('loading');
+		var _param = $(this).data('param');
+		var _value = $(this).data('value');
+		
+		if ((_param) || (_value)) {
+			eval('_jParameters.'+ _param +' = ' + _value);						
+		}
+						
+		setTimeout(function(){
+			startApp(true, 2);
+			_btn.button('reset');	
+		}, 1000);							
+		
+		
+	});
+	
 	
 	$(document).on('click','[data-touch="send_pass"]', function(e) {
 		
@@ -473,8 +496,12 @@
 
 			_html += '<div class="row post" data-value="' + _item.id_post + '" style="border-bottom: 3pt solid #777777 !important;" >';
 
-				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';					
-					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded"  data-touch="load" data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';									
+				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 figure" style="border-bottom: 3pt solid #777777 !important;" >';
+				
+					var _load = 'data-touch="load"'; 						
+					if (_item.files.length == 1) _load = '';					
+					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded" ' + _load + '  data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';
+														
 				_html += '</div>';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';

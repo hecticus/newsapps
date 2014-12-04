@@ -4,7 +4,6 @@ import static play.data.Form.form;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -14,29 +13,27 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import models.basic.Config;
-import models.content.posts.FileType;
-import models.content.women.Category;
-import models.content.women.SocialNetwork;
+import models.content.themes.Category;
+import models.content.themes.SocialNetwork;
+import models.content.themes.Theme;
 import play.data.Form;
 import play.data.format.Formatters;
 import play.i18n.Messages;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Security;
 import utils.Utils;
 
-import views.html.women.*;
+import views.html.themes.*;
 
 
 @SuppressWarnings("unused")
-public class WomenView extends HecticusController {
+public class ThemesView extends HecticusController {
 
     private static final int TTL = 900;
 
-	final static Form<models.content.women.Woman> WomenViewForm = form(models.content.women.Woman.class);
-	public static Result GO_HOME = redirect(routes.WomenView.list(0, "name", "asc", ""));
+	final static Form<Theme> ThemesViewForm = form(Theme.class);
+	public static Result GO_HOME = redirect(routes.ThemesView.list(0, "name", "asc", ""));
 	
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result index() {
@@ -45,14 +42,14 @@ public class WomenView extends HecticusController {
 	
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result blank() {		
-	    return ok(form.render(WomenViewForm));
+	    return ok(form.render(ThemesViewForm));
 	}
 
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result edit(Integer id) {
-		models.content.women.Woman objBanner = models.content.women.Woman.finder.byId(id);		
-        Form<models.content.women.Woman> filledForm = WomenViewForm.fill(models.content.women.Woman.finder.byId(id));
+		Theme theme = Theme.finder.byId(id);
+        Form<Theme> filledForm = ThemesViewForm.fill(theme);
         return ok(edit.render(id, filledForm));
     }
 	
@@ -85,8 +82,8 @@ public class WomenView extends HecticusController {
             }
         });
 
-		models.content.women.Woman woman = models.content.women.Woman.finder.byId(id);
-		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
+		Theme theme = Theme.finder.byId(id);
+		Form<Theme> filledForm = ThemesViewForm.bindFromRequest();
         if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm));
 		}
@@ -95,7 +92,7 @@ public class WomenView extends HecticusController {
         String link = "";
         if(filledForm.data().containsKey("defaultPhoto")){
             String defaultPhoto = filledForm.data().get("defaultPhoto");
-            if(!woman.getDefaultPhoto().equalsIgnoreCase(defaultPhoto)){
+            if(!theme.getDefaultPhoto().equalsIgnoreCase(defaultPhoto)){
                 Http.MultipartFormData body = request().body().asMultipartFormData();
                 Http.MultipartFormData.FilePart picture = body.getFile("defaultPhoto");
                 String fileName = picture.getFilename();
@@ -111,14 +108,14 @@ public class WomenView extends HecticusController {
             }
         }
 
-    	models.content.women.Woman gfilledForm = filledForm.get();
+    	Theme gfilledForm = filledForm.get();
         if(change) {
             gfilledForm.setDefaultPhoto(link);
         }
-        gfilledForm.setIdWoman(id);
+        gfilledForm.setIdTheme(id);
     	gfilledForm.update(id);
 
-        flash("success", Messages.get("women.java.updated", gfilledForm.getName()));
+        flash("success", Messages.get("themes.java.updated", gfilledForm.getName()));
 		return GO_HOME;
 		
 	}	
@@ -127,7 +124,7 @@ public class WomenView extends HecticusController {
 	public static Result list(int page, String sortBy, String order, String filter) {
         return ok(
                 list.render(
-                        models.content.women.Woman.page(page, 10, sortBy, order, filter),
+                        Theme.page(page, 10, sortBy, order, filter),
                         sortBy, order, filter, false
                 )
         );
@@ -138,9 +135,9 @@ public class WomenView extends HecticusController {
 		String[] aids = ids.split(",");
 		
 		for (int i=0; i<aids.length; i++) {
-			models.content.women.Woman oWoman = models.content.women.Woman.finder.byId(Integer.parseInt(aids[i]));
-			//oWoman.setSort(i);
-			oWoman.save();
+			Theme oTheme = Theme.finder.byId(Integer.parseInt(aids[i]));
+			//oTheme.setSort(i);
+			oTheme.save();
 		}
 		
 		return ok("Fine!");		
@@ -148,7 +145,7 @@ public class WomenView extends HecticusController {
 	
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result lsort() {		 	
-	 	return ok(list.render(models.content.women.Woman.page(0, 0,"name", "asc", ""),"name", "asc", "",true));
+	 	return ok(list.render(Theme.page(0, 0, "name", "asc", ""),"name", "asc", "",true));
 	}	
 
     /*
@@ -177,9 +174,9 @@ public class WomenView extends HecticusController {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result delete(Integer id) {
-		models.content.women.Woman woman = models.content.women.Woman.finder.byId(id);
+		Theme theme = Theme.finder.byId(id);
         ArrayList<String> files = new ArrayList<>();
-        String link = woman.getDefaultPhoto();
+        String link = theme.getDefaultPhoto();
         link = link.substring(link.lastIndexOf("/"));
         System.out.println(id+link);
         files.add(id + link);
@@ -189,8 +186,8 @@ public class WomenView extends HecticusController {
         String provider = Config.getString("rackspace-provider");
         RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
         rackspaceDelete.deleteObjectsFromContainer(containerName, files);
-        woman.delete();
-        flash("success", Messages.get("women.java.deleted", woman.getName()));
+        theme.delete();
+        flash("success", Messages.get("themes.java.deleted", theme.getName()));
 		return GO_HOME;
 	}
 
@@ -223,11 +220,11 @@ public class WomenView extends HecticusController {
             }
         });
 
-		Form<models.content.women.Woman> filledForm = WomenViewForm.bindFromRequest();
+		Form<Theme> filledForm = ThemesViewForm.bindFromRequest();
         if(filledForm.hasErrors()) {
            return badRequest(form.render(filledForm));
 		}
-        models.content.women.Woman gfilledForm = filledForm.get();
+        Theme gfilledForm = filledForm.get();
    	  	gfilledForm.save();
 
         Http.MultipartFormData body = request().body().asMultipartFormData();
@@ -240,7 +237,7 @@ public class WomenView extends HecticusController {
             File file = picture.getFile();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
             try {
-                link = Utils.uploadAttachment(file, gfilledForm.getIdWoman().intValue(), fileExtension, true);
+                link = Utils.uploadAttachment(file, gfilledForm.getIdTheme().intValue(), fileExtension, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -248,7 +245,7 @@ public class WomenView extends HecticusController {
 
         gfilledForm.setDefaultPhoto(link);
         gfilledForm.update();
-        flash("success", Messages.get("women.java.created", gfilledForm.getName()));
+        flash("success", Messages.get("themes.java.created", gfilledForm.getName()));
         return GO_HOME;
 		
 	}

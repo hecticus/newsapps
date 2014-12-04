@@ -55,8 +55,11 @@
     	
     	<div  ng-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" >
     		<!-- load html here -->
-    	</div> 		
- 
+    	</div>
+    	 		
+ 		<loading></loading>
+ 		<error></error>
+ 		
 		<footer>			
 			<div class="container">
 				
@@ -123,6 +126,8 @@
 					
     		</div>	    	
 		</footer>
+		
+        
         
         <script type="text/javascript" src="js/ext/jquery-2.1.1.min.js"></script>
 		<!--script type="text/javascript" src="js/ext/jquery.touchSwipe.min.js"></script-->

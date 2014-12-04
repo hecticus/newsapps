@@ -39,7 +39,6 @@
 @mediaGroup(field: Field, className: String = "media") = {
     <div class="twipsies well @className">
         <a class="removeMedia btn btn-primary danger pull-right">@Messages("post.media.remove")</a>
-        @inputText(field("mainScreen"), '_label -> Messages("post.media.main"), '_help -> "0 o 1", '_error -> postViewForm.globalError, 'class -> "form-control")
         <div class="form-group">
             <div class="col-lg-10">
                 @input(field("link"), '_label -> Messages("post.media.file")) { (id, name, value, _) =>
@@ -87,20 +86,26 @@
 
             @select(
                 postViewForm("socialNetwork.idSocialNetwork"),
-                models.content.women.SocialNetwork.toSeq,
+                models.content.themes.SocialNetwork.toSeq,
                 '_label -> Messages("post.socialnetwork"),
                 'class -> "form-control"
             )
 
             @select(
-                postViewForm("woman.idWoman"),
-                models.content.women.Woman.toSeq,
-                '_label -> Messages("post.woman"),
+                postViewForm("theme.idTheme"),
+                models.content.themes.Theme.toSeq,
+                '_label -> Messages("post.theme"),
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
 
-
+            @select(
+                postViewForm("gender.idGender"),
+                models.clients.Gender.toSeq,
+                '_label -> Messages("post.gender"),
+                '_error -> postViewForm.globalError,
+                'class -> "form-control"
+            )
 
             <div class="row">
                 <div class="col-lg-12">

@@ -2,31 +2,27 @@ package controllers.content.posts;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hecticus.rackspacecloud.Rackspace;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import controllers.HecticusController;
-import controllers.content.women.Women;
-import controllers.routes;
+import controllers.content.themes.Themes;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.clients.Client;
 import models.content.posts.*;
-import models.content.women.Category;
-import models.content.women.SocialNetwork;
-import models.content.women.Woman;
-import models.content.women.WomanHasCategory;
+import models.content.themes.Category;
+import models.content.themes.SocialNetwork;
+import models.content.themes.Theme;
+import models.content.themes.ThemeHasCategory;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
 import utils.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -80,19 +76,19 @@ public class Posts extends HecticusController {
         try{
             ObjectNode response = null;
             if(postData.has("woman") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
-                Woman woman = null;
+                Theme theme = null;
                 if(postData.get("woman").isInt()){
-                    woman = Woman.finder.byId(postData.get("woman").asInt());
+                    theme = Theme.finder.byId(postData.get("woman").asInt());
                 } else {
                     ObjectNode womanData = (ObjectNode) postData.get("woman");
                     if(womanData.has("name")){
-                        woman = Women.createWoman(womanData);
+                        theme = Themes.createTheme(womanData);
                     } else {
                         response = buildBasicResponse(1, "Faltan campos para crear el registro");
                         return ok(response);
                     }
                 }
-                if(woman == null){
+                if(theme == null){
                     response = buildBasicResponse(1, "Faltan campos para crear el registro");
                     return ok(response);
                 }
@@ -107,7 +103,7 @@ public class Posts extends HecticusController {
                 Calendar actualDate = new GregorianCalendar(tz);
                 SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
                 String date = sf.format(actualDate.getTime());
-                Post post = new Post(woman, date, postData.get("source").asText(), socialNetwork);
+                Post post = new Post(theme, date, postData.get("source").asText(), socialNetwork);
 
                 Iterator<JsonNode> localizationsIterator = postData.get("localizations").elements();
                 ArrayList<PostHasLocalization> localizations = new ArrayList<>();
@@ -148,7 +144,7 @@ public class Posts extends HecticusController {
                         int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
                         String file = next.get("file").asText();
                         String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
-                        String path = Utils.uploadAttachment(file, woman.getIdWoman());
+                        String path = Utils.uploadAttachment(file, theme.getIdTheme());
                         BufferedImage bimg = ImageIO.read(new File(file));
                         int width = bimg.getWidth();
                         int height  = bimg.getHeight();
@@ -196,24 +192,24 @@ public class Posts extends HecticusController {
             if(post != null) {
                 boolean update = false;
                 if(postData.has("woman")){
-                    Woman woman = null;
+                    Theme theme = null;
                     if(postData.get("woman").isInt()){
-                        woman = Woman.finder.byId(postData.get("woman").asInt());
+                        theme = Theme.finder.byId(postData.get("woman").asInt());
                     } else {
                         ObjectNode womanData = (ObjectNode) postData.get("woman");
                         if(womanData.has("name")){
-                            woman = Women.createWoman(womanData);
+                            theme = Themes.createTheme(womanData);
                         } else {
                             response = buildBasicResponse(1, "Faltan campos para crear el registro");
                             return ok(response);
                         }
                     }
-                    if(woman == null){
+                    if(theme == null){
                         response = buildBasicResponse(1, "La modelo especificada no existe");
                         return ok(response);
                     }
-                    if(woman != post.getWoman()){
-                        post.setWoman(woman);
+                    if(theme != post.getTheme()){
+                        post.setTheme(theme);
                         update = true;
                     }
                 }
@@ -322,7 +318,7 @@ public class Posts extends HecticusController {
                             String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
                             int index = post.getMediaIndex(md5);
                             if(index == -1){
-                                String path = Utils.uploadAttachment(file, post.getWoman().getIdWoman());
+                                String path = Utils.uploadAttachment(file, post.getTheme().getIdTheme());
                                 BufferedImage bimg = ImageIO.read(new File(file));
                                 int width = bimg.getWidth();
                                 int height  = bimg.getHeight();
@@ -437,12 +433,12 @@ public class Posts extends HecticusController {
     public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idWoman, Integer idCategory, Boolean onlyMedia){
         try {
             Client client = Client.finder.byId(id);
-            Woman woman = null;
+            Theme theme = null;
             Category category = null;
             ObjectNode response = null;
             if(idWoman > 0){
-                woman = Woman.finder.byId(idWoman);
-                if(woman == null) {
+                theme = Theme.finder.byId(idWoman);
+                if(theme == null) {
                     response = buildBasicResponse(2, "la mujer no existe");
                     return ok(response);
                 }
@@ -462,49 +458,52 @@ public class Posts extends HecticusController {
                 if(onlyMedia){
                     maxRows = 1;
                 }
+                ArrayList<Integer> genders = new ArrayList<>();
+                genders.add(client.getGender().getIdGender());
+                genders.add(3);
                 if(postId > 0) {
-                    if(woman != null) {
+                    if(theme != null) {
                         if (newest) {
 //                            System.out.println("WomanPostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.idWoman", theme.getIdTheme()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("WomanPostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.idWoman", theme.getIdTheme()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else if (category != null){
                         if (newest) {
 //                            System.out.println("CategoryPostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("CategoryPostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else {
                         if (newest) {
 //                            System.out.println("PostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("PostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     }
                 } else {
-                    if(woman != null) {
+                    if(theme != null) {
 //                        System.out.println("WomanPost");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.idWoman", woman.getIdWoman()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.idWoman", theme.getIdTheme()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     } else if (category != null){
 //                        System.out.println("CategoryPost");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("woman.categories.category.idCategory", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     } else {
 //                        System.out.println("Post");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).in("gender.idGender", genders).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     }
                 }
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
                 //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
-                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
+                    int index = client.getWomanIndex(post.getTheme().getIdTheme());
                     ObjectNode postJson;
                     if(onlyMedia){
                         postJson = post.toJsonOnlyMedia(language);
@@ -533,9 +532,9 @@ public class Posts extends HecticusController {
     public static Result getListForWoman(Integer id){
         try {
             ObjectNode response = null;
-            Woman woman = Woman.finder.byId(id);
-            if(woman != null) {
-                Iterator<Post> postIterator = woman.getPosts().iterator();
+            Theme theme = Theme.finder.byId(id);
+            if(theme != null) {
+                Iterator<Post> postIterator = theme.getPosts().iterator();
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
                 while(postIterator.hasNext()){
                     posts.add(postIterator.next().toJson());
@@ -577,10 +576,10 @@ public class Posts extends HecticusController {
                 Country country = client.getCountry();
                 Language language = country.getLanguage();
                 //obtenemos todos los id de las mujeres de una categoria
-                List<WomanHasCategory> womenCat = WomanHasCategory.finder.where().eq("id_category",idCategory).findList();
+                List<ThemeHasCategory> womenCat = ThemeHasCategory.finder.where().eq("id_category",idCategory).findList();
                 ArrayList women = new ArrayList();
                 for(int i=0; i<womenCat.size(); i++){
-                    women.add(womenCat.get(i).getWoman().getIdWoman());
+                    women.add(womenCat.get(i).getTheme().getIdTheme());
                 }
                 Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").fetch("woman").where().
                         eq("countries.country.idCountry", country.getIdCountry()).
@@ -592,7 +591,7 @@ public class Posts extends HecticusController {
                 //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
-                    int index = client.getWomanIndex(post.getWoman().getIdWoman());
+                    int index = client.getWomanIndex(post.getTheme().getIdTheme());
                     ObjectNode postJson = post.toJson(language);
                     if(index != -1){
                         //si la tiene como favorita

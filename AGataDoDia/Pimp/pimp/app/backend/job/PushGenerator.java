@@ -4,10 +4,10 @@ import akka.actor.Cancellable;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Config;
 import models.clients.Client;
-import models.clients.ClientHasWoman;
+import models.clients.ClientHasTheme;
 import models.content.posts.Post;
 import models.content.posts.PostHasLocalization;
-import models.content.women.Woman;
+import models.content.themes.Theme;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PushGenerator extends HecticusThread {
 
-    private ClientHasWomanComparator clientHasWomanComparator;
+    private ClientHasThemeComparator clientHasThemeComparator;
 
     public PushGenerator(String name, AtomicBoolean run, Cancellable cancellable) {
         super("PushGenerator-"+name, run, cancellable);
@@ -38,7 +38,7 @@ public class PushGenerator extends HecticusThread {
 
     public PushGenerator(AtomicBoolean run) {
         super("PushGenerator",run);
-        clientHasWomanComparator = new ClientHasWomanComparator();
+        clientHasThemeComparator = new ClientHasThemeComparator();
     }
 
     @Override
@@ -63,16 +63,16 @@ public class PushGenerator extends HecticusThread {
             for (Post post : push){
                 post.setPush(2);
                 post.update();
-                Woman woman = post.getWoman();
-                List<ClientHasWoman> clientsList = woman.getClients();
-                Collections.sort(clientsList, clientHasWomanComparator);
+                Theme theme = post.getTheme();
+                List<ClientHasTheme> clientsList = theme.getClients();
+                Collections.sort(clientsList, clientHasThemeComparator);
                 List<PostHasLocalization> localizations = post.getLocalizations();
                 for (PostHasLocalization postHasLocalization : localizations){
                     try {
                         clients.clear();
                         boolean found = false;
-                        for(ClientHasWoman clientHasWoman : clientsList){
-                            Client client = clientHasWoman.getClient();
+                        for(ClientHasTheme clientHasTheme : clientsList){
+                            Client client = clientHasTheme.getClient();
                             if(client.getCountry().getLanguage() == postHasLocalization.getLanguage() && client.getDevices() != null && !client.getDevices().isEmpty()){
                                 clients.add(client.getIdClient());
                                 found = true;
@@ -88,7 +88,7 @@ public class PushGenerator extends HecticusThread {
                             event.put("msg", postHasLocalization.getTitle());
                             ObjectNode extraParams = Json.newObject();
                             extraParams.put("id_post", post.getIdPost());
-                            extraParams.put("id_woman", woman.getIdWoman());
+                            extraParams.put("id_theme", theme.getIdTheme());
                             event.put("extra_params", extraParams);
                             event.put("clients", Json.toJson(clients));
                             sendEventToPmc(event);
@@ -104,9 +104,9 @@ public class PushGenerator extends HecticusThread {
     }
 }
 
-class ClientHasWomanComparator implements Comparator<ClientHasWoman> {
+class ClientHasThemeComparator implements Comparator<ClientHasTheme> {
     @Override
-    public int compare(ClientHasWoman a, ClientHasWoman b) {
+    public int compare(ClientHasTheme a, ClientHasTheme b) {
         return a.getClient().getCountry().getLanguage().getIdLanguage() - b.getClient().getCountry().getLanguage().getIdLanguage();
     }
 }

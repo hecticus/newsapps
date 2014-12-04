@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
-import models.content.women.Woman;
+import models.content.themes.Theme;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -39,11 +39,15 @@ public class Client extends HecticusModel {
     @JoinColumn(name = "id_country")
     private Country country;
 
+    @OneToOne
+    @JoinColumn(name = "id_gender")
+    private Gender gender;
+
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasDevices> devices;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    private List<ClientHasWoman> women;
+    private List<ClientHasTheme> women;
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
@@ -77,6 +81,23 @@ public class Client extends HecticusModel {
         this.password = password;
         this.country = country;
         this.lastCheckDate = lastCheckDate;
+    }
+
+    public Client(Integer status, String login, String password, Country country, Gender gender) {
+        this.status = status;
+        this.login = login;
+        this.password = password;
+        this.country = country;
+        this.gender = gender;
+    }
+
+    public Client(Integer status, String login, String password, Country country, String lastCheckDate, Gender gender) {
+        this.status = status;
+        this.login = login;
+        this.password = password;
+        this.country = country;
+        this.lastCheckDate = lastCheckDate;
+        this.gender = gender;
     }
 
     public Integer getIdClient() {
@@ -119,11 +140,11 @@ public class Client extends HecticusModel {
         this.devices = devices;
     }
 
-    public List<ClientHasWoman> getWomen() {
+    public List<ClientHasTheme> getWomen() {
         return women;
     }
 
-    public void setWomen(List<ClientHasWoman> women) {
+    public void setWomen(List<ClientHasTheme> women) {
         this.women = women;
     }
 
@@ -151,6 +172,14 @@ public class Client extends HecticusModel {
         this.lastCheckDate = lastCheckDate;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -160,15 +189,15 @@ public class Client extends HecticusModel {
     }
 
     public int getWomanIndex(int womanId) {
-        Woman woman = Woman.finder.byId(womanId);
-        if(woman == null){
+        Theme theme = Theme.finder.byId(womanId);
+        if(theme == null){
             return -1;
         }
-        ClientHasWoman clientHasWoman = ClientHasWoman.finder.where().eq("client.idClient", idClient).eq("woman.idWoman", woman.getIdWoman()).findUnique();
-        if(clientHasWoman == null){
+        ClientHasTheme clientHasTheme = ClientHasTheme.finder.where().eq("client.idClient", idClient).eq("woman.idWoman", theme.getIdTheme()).findUnique();
+        if(clientHasTheme == null){
             return -1;
         }
-        return women.indexOf(clientHasWoman);
+        return women.indexOf(clientHasTheme);
     }
 
 
@@ -181,6 +210,7 @@ public class Client extends HecticusModel {
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJson());
+        response.put("gender", gender.toJson());
         if(devices != null && !devices.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(ClientHasDevices ad : devices){
@@ -190,10 +220,10 @@ public class Client extends HecticusModel {
         }
         if(women != null && !women.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(ClientHasWoman ad : women){
+            for(ClientHasTheme ad : women){
                 apps.add(ad.toJsonWithoutClient());
             }
-            response.put("women", Json.toJson(apps));
+            response.put("themes", Json.toJson(apps));
         }
         return response;
     }
@@ -206,6 +236,7 @@ public class Client extends HecticusModel {
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJson());
+        response.put("gender", gender.toJson());
         return response;
     }
 

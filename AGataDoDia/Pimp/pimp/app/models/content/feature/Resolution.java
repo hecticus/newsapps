@@ -3,7 +3,6 @@ package models.content.feature;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
-import models.content.women.WomanHasCategory;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;

@@ -2,15 +2,12 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import models.content.women.Category;
+import models.content.themes.Category;
 import play.data.Form;
-import play.data.format.Formatters;
 import play.i18n.Messages;
 import play.mvc.Result;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Locale;
 
 import static play.data.Form.form;
 
