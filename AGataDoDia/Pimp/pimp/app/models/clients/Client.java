@@ -47,7 +47,7 @@ public class Client extends HecticusModel {
     private List<ClientHasDevices> devices;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    private List<ClientHasTheme> women;
+    private List<ClientHasTheme> themes;
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
@@ -140,12 +140,12 @@ public class Client extends HecticusModel {
         this.devices = devices;
     }
 
-    public List<ClientHasTheme> getWomen() {
-        return women;
+    public List<ClientHasTheme> getThemes() {
+        return themes;
     }
 
-    public void setWomen(List<ClientHasTheme> women) {
-        this.women = women;
+    public void setThemes(List<ClientHasTheme> themes) {
+        this.themes = themes;
     }
 
     public String getLogin() {
@@ -188,16 +188,16 @@ public class Client extends HecticusModel {
         return devices.indexOf(clientHasDevice);
     }
 
-    public int getWomanIndex(int womanId) {
-        Theme theme = Theme.finder.byId(womanId);
+    public int getThemeIndex(int themeId) {
+        Theme theme = Theme.finder.byId(themeId);
         if(theme == null){
             return -1;
         }
-        ClientHasTheme clientHasTheme = ClientHasTheme.finder.where().eq("client.idClient", idClient).eq("woman.idWoman", theme.getIdTheme()).findUnique();
+        ClientHasTheme clientHasTheme = ClientHasTheme.finder.where().eq("client.idClient", idClient).eq("theme.idTheme", theme.getIdTheme()).findUnique();
         if(clientHasTheme == null){
             return -1;
         }
-        return women.indexOf(clientHasTheme);
+        return themes.indexOf(clientHasTheme);
     }
 
 
@@ -218,9 +218,9 @@ public class Client extends HecticusModel {
             }
             response.put("devices", Json.toJson(apps));
         }
-        if(women != null && !women.isEmpty()){
+        if(themes != null && !themes.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(ClientHasTheme ad : women){
+            for(ClientHasTheme ad : themes){
                 apps.add(ad.toJsonWithoutClient());
             }
             response.put("themes", Json.toJson(apps));

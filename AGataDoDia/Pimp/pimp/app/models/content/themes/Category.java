@@ -29,7 +29,7 @@ public class Category extends HecticusModel {
     private String name;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
-    private List<ThemeHasCategory> women;
+    private List<ThemeHasCategory> themes;
 
     public static Model.Finder<Integer, Category> finder = new Model.Finder<Integer, Category>(Integer.class, Category.class);
 
@@ -53,17 +53,17 @@ public class Category extends HecticusModel {
         this.name = name;
     }
 
-    public List<ThemeHasCategory> getWomen() {
-        return women;
+    public List<ThemeHasCategory> getThemes() {
+        return themes;
     }
 
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_category", idCategory);
         response.put("name", name);
-        if(women != null && !women.isEmpty()){
+        if(themes != null && !themes.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(ThemeHasCategory ad : women){
+            for(ThemeHasCategory ad : themes){
                 apps.add(ad.toJsonWithoutCategory());
             }
             response.put("themes", Json.toJson(apps));

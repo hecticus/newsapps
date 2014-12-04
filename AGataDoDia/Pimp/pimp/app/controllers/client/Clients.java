@@ -166,18 +166,18 @@ public class Clients extends HecticusController {
                     getStatusFromUpstream(client, upstreamChannel);
 
                     if(clientData.has("themes")){
-                        Iterator<JsonNode> womenIterator = clientData.get("themes").elements();
-                        ArrayList<ClientHasTheme> women = new ArrayList<>();
-                        while (womenIterator.hasNext()){
-                            JsonNode next = womenIterator.next();
+                        Iterator<JsonNode> themesIterator = clientData.get("themes").elements();
+                        ArrayList<ClientHasTheme> themes = new ArrayList<>();
+                        while (themesIterator.hasNext()){
+                            JsonNode next = themesIterator.next();
                             Theme theme = Theme.finder.byId(next.asInt());
                             if(theme != null){
                                 ClientHasTheme chw = new ClientHasTheme(client, theme);
-                                women.add(chw);
+                                themes.add(chw);
                             }
                         }
-                        if(!women.isEmpty()){
-                            client.setWomen(women);
+                        if(!themes.isEmpty()){
+                            client.setThemes(themes);
                         }
                     }
                     client.save();
@@ -264,33 +264,33 @@ public class Clients extends HecticusController {
                     }
                 }
 
-                if(clientData.has("remove_woman")){
-                    Iterator<JsonNode> womanIterator = clientData.get("remove_woman").elements();
-                    while (womanIterator.hasNext()) {
-                        JsonNode next = womanIterator.next();
+                if(clientData.has("remove_theme")){
+                    Iterator<JsonNode> themesIterator = clientData.get("remove_theme").elements();
+                    while (themesIterator.hasNext()) {
+                        JsonNode next = themesIterator.next();
                         Theme theme = Theme.finder.byId(next.asInt());
                         if(theme == null){
                             continue;
                         }
-                        ClientHasTheme clientHasTheme = ClientHasTheme.finder.where().eq("client.idClient", client.getIdClient()).eq("woman.idWoman", theme.getIdTheme()).findUnique();
+                        ClientHasTheme clientHasTheme = ClientHasTheme.finder.where().eq("client.idClient", client.getIdClient()).eq("theme.idTheme", theme.getIdTheme()).findUnique();
                         if(clientHasTheme != null){
-                            client.getWomen().remove(clientHasTheme);
+                            client.getThemes().remove(clientHasTheme);
                             clientHasTheme.delete();
                         }
 
                     }
                 }
 
-                if(clientData.has("add_woman")) {
-                    Iterator<JsonNode> womanIterator = clientData.get("add_woman").elements();
-                    while (womanIterator.hasNext()) {
-                        JsonNode next = womanIterator.next();
-                        int index = client.getWomanIndex(next.asInt());
+                if(clientData.has("add_theme")) {
+                    Iterator<JsonNode> themesIterator = clientData.get("add_theme").elements();
+                    while (themesIterator.hasNext()) {
+                        JsonNode next = themesIterator.next();
+                        int index = client.getThemeIndex(next.asInt());
                         if (index == -1) {
                             Theme theme = Theme.finder.byId(next.asInt());
                             if (theme != null) {
                                 ClientHasTheme chw = new ClientHasTheme(client, theme);
-                                client.getWomen().add(chw);
+                                client.getThemes().add(chw);
                                 update = true;
                             }
                         }
@@ -453,7 +453,7 @@ public class Clients extends HecticusController {
             Client client = Client.finder.byId(id);
             if(client != null) {
                 if(client.getStatus() >= 0) {
-                    List<ClientHasTheme> themes = client.getWomen();
+                    List<ClientHasTheme> themes = client.getThemes();
                     ArrayList jsonThemes = new ArrayList();
                     for(int i=0; i<themes.size(); i++){
                         jsonThemes.add(themes.get(i).toJson());

@@ -75,7 +75,7 @@ public class ClientHasTheme extends HecticusModel {
 
     public ObjectNode toJsonWithoutWoman() {
         ObjectNode response = Json.newObject();
-        response.put("id_client_has_woman", idClientHasTheme);
+        response.put("id_client_has_theme", idClientHasTheme);
         response.put("client", client.toJsonWithoutRelations());
         return response;
     }

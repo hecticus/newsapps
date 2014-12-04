@@ -73,7 +73,7 @@ public class Themes extends HecticusController {
                     Iterator<JsonNode> socialNetworks = themeData.get("remove_social_networks").elements();
                     while (socialNetworks.hasNext()){
                         JsonNode next = socialNetworks.next();
-                        ThemeHasSocialNetwork whsn = ThemeHasSocialNetwork.finder.where().eq("woman.idWoman", theme.getIdTheme()).eq("idWomanHasSocialNetwork", next.asInt()).findUnique();
+                        ThemeHasSocialNetwork whsn = ThemeHasSocialNetwork.finder.where().eq("theme.idTheme", theme.getIdTheme()).eq("idWomanHasSocialNetwork", next.asInt()).findUnique();
                         if(whsn != null){
                             whsn.delete();
                         }
@@ -96,7 +96,7 @@ public class Themes extends HecticusController {
                     Iterator<JsonNode> categories = themeData.get("remove_categories").elements();
                     while (categories.hasNext()){
                         JsonNode next = categories.next();
-                        ThemeHasCategory whc = ThemeHasCategory.finder.where().eq("woman.idWoman", theme.getIdTheme()).eq("idWomanHasCategory", next.asInt()).findUnique();
+                        ThemeHasCategory whc = ThemeHasCategory.finder.where().eq("theme.idTheme", theme.getIdTheme()).eq("idWomanHasCategory", next.asInt()).findUnique();
                         if(whc != null){
                             whc.delete();
                         }
@@ -149,18 +149,18 @@ public class Themes extends HecticusController {
     public static Result list(Integer pageSize,Integer page){
         try {
 
-            Iterator<Theme> womanIterator = null;
+            Iterator<Theme> themeIterator = null;
             if(pageSize == 0){
-                womanIterator = Theme.finder.all().iterator();
+                themeIterator = Theme.finder.all().iterator();
             }else{
-                womanIterator = Theme.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+                themeIterator = Theme.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
             }
 
-            ArrayList<ObjectNode> women = new ArrayList<ObjectNode>();
-            while(womanIterator.hasNext()){
-                women.add(womanIterator.next().toJson());
+            ArrayList<ObjectNode> themes = new ArrayList<ObjectNode>();
+            while(themeIterator.hasNext()){
+                themes.add(themeIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(women));
+            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(themes));
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Themes.class, "Error manejando themes", "error listando las themes con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
@@ -212,12 +212,12 @@ public class Themes extends HecticusController {
 
     public static Result hallOfFame(){
         try {
-            Iterator<Theme> womanIterator = Theme.finder.fetch("categories").where().eq("categories.category.idCategory", Config.getInt("id-hall-of-fame")).setFirstRow(0).setMaxRows(10).findList().iterator();
-            ArrayList<ObjectNode> women = new ArrayList<ObjectNode>();
-            while(womanIterator.hasNext()){
-                women.add(womanIterator.next().toJson());
+            Iterator<Theme> themeIterator = Theme.finder.fetch("categories").where().eq("categories.category.idCategory", Config.getInt("id-hall-of-fame")).setFirstRow(0).setMaxRows(10).findList().iterator();
+            ArrayList<ObjectNode> themes = new ArrayList<ObjectNode>();
+            while(themeIterator.hasNext()){
+                themes.add(themeIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(women));
+            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(themes));
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Themes.class, "Error manejando themes", "error listando hall de la fama ", true, e, "support-level-1", Config.LOGGER_ERROR);

@@ -229,23 +229,23 @@ public class Theme extends HecticusModel {
 
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-        List<Theme> women = Theme.finder.all();
-        for(Theme w: women) {
-            options.put(w.getIdTheme().toString(), w.getName());
+        List<Theme> themes = Theme.finder.all();
+        for(Theme theme: themes) {
+            options.put(theme.getIdTheme().toString(), theme.getName());
         }
         return options;
     }
 
     public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
-        List<Theme> women = Theme.finder.all();
+        List<Theme> themes = Theme.finder.all();
         ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
-        for(Theme theme : women) {
+        for(Theme theme : themes) {
             Tuple2<String, String> t = new Tuple2<>(theme.getIdTheme().toString(), theme.getName());
             proxy.add(t);
         }
-        Buffer<Tuple2<String, String>> womanBuffer = JavaConversions.asScalaBuffer(proxy);
-        scala.collection.immutable.List<Tuple2<String, String>> womanList = womanBuffer.toList();
-        return womanList;
+        Buffer<Tuple2<String, String>> themesBuffer = JavaConversions.asScalaBuffer(proxy);
+        scala.collection.immutable.List<Tuple2<String, String>> themesList = themesBuffer.toList();
+        return themesList;
     }
 
     /**
