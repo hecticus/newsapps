@@ -1,10 +1,9 @@
-package models.content.women;
+package models.content.themes;
 
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
-import models.clients.ClientHasDevices;
-import models.clients.ClientHasWoman;
+import models.clients.ClientHasTheme;
 import models.content.posts.Post;
 import models.content.posts.PostHasMedia;
 import play.data.validation.Constraints;
@@ -24,36 +23,36 @@ import java.util.Map;
  * Created by plesse on 9/30/14.
  */
 @Entity
-@Table(name="women")
-public class Woman extends HecticusModel {
+@Table(name="themes")
+public class Theme extends HecticusModel {
     @Id
-    private Integer idWoman;
+    private Integer idTheme;
     @Constraints.Required
     private String name;
 
     @Constraints.Required
     private String defaultPhoto;
 
-    @OneToMany(mappedBy="woman", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="theme", cascade = CascadeType.ALL)
     private List<Post> posts;
 
-    @OneToMany(mappedBy="woman", cascade = CascadeType.ALL)
-    private List<WomanHasSocialNetwork> socialNetworks;
+    @OneToMany(mappedBy="theme", cascade = CascadeType.ALL)
+    private List<ThemeHasSocialNetwork> socialNetworks;
 
-    @OneToMany(mappedBy="woman", cascade = CascadeType.ALL)
-    private List<ClientHasWoman> clients;
+    @OneToMany(mappedBy="theme", cascade = CascadeType.ALL)
+    private List<ClientHasTheme> clients;
 
-    @OneToMany(mappedBy="woman", cascade = CascadeType.ALL)
-    private List<WomanHasCategory> categories;
+    @OneToMany(mappedBy="theme", cascade = CascadeType.ALL)
+    private List<ThemeHasCategory> categories;
 
-    public static Model.Finder<Integer, Woman> finder = new Model.Finder<Integer, Woman>(Integer.class, Woman.class);
+    public static Model.Finder<Integer, Theme> finder = new Model.Finder<Integer, Theme>(Integer.class, Theme.class);
 
-    public Woman(String name) {
+    public Theme(String name) {
         this.name = name;
     }
 
-    public void setIdWoman(Integer idWoman) {
-        this.idWoman = idWoman;
+    public void setIdTheme(Integer idTheme) {
+        this.idTheme = idTheme;
     }
 
     public String getName() {
@@ -64,8 +63,8 @@ public class Woman extends HecticusModel {
         this.name = name;
     }
 
-    public Integer getIdWoman() {
-        return idWoman;
+    public Integer getIdTheme() {
+        return idTheme;
     }
 
     public String getDefaultPhoto() {
@@ -76,27 +75,27 @@ public class Woman extends HecticusModel {
         this.defaultPhoto = defaultPhoto;
     }
 
-    public List<WomanHasSocialNetwork> getSocialNetworks() {
+    public List<ThemeHasSocialNetwork> getSocialNetworks() {
         return socialNetworks;
     }
 
-    public void setSocialNetworks(List<WomanHasSocialNetwork> socialNetworks) {
+    public void setSocialNetworks(List<ThemeHasSocialNetwork> socialNetworks) {
         this.socialNetworks = socialNetworks;
     }
 
-    public List<WomanHasCategory> getCategories() {
+    public List<ThemeHasCategory> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<WomanHasCategory> categories) {
+    public void setCategories(List<ThemeHasCategory> categories) {
         this.categories = categories;
     }
 
-    public List<ClientHasWoman> getClients() {
+    public List<ClientHasTheme> getClients() {
         return clients;
     }
 
-    public void setClients(List<ClientHasWoman> clients) {
+    public void setClients(List<ClientHasTheme> clients) {
         this.clients = clients;
     }
 
@@ -104,10 +103,14 @@ public class Woman extends HecticusModel {
         return posts;
     }
 
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman", idWoman);
+        response.put("id_theme", idTheme);
         response.put("name", name);
         /*if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
@@ -122,7 +125,7 @@ public class Woman extends HecticusModel {
         response.put("default_photo", defaultPhoto);
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasSocialNetwork ad : socialNetworks){
+            for(ThemeHasSocialNetwork ad : socialNetworks){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("social_networks", Json.toJson(apps));
@@ -138,7 +141,7 @@ public class Woman extends HecticusModel {
         response.put("posts", posts == null?0:posts.size());
         if(categories != null && !categories.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasCategory ad : categories){
+            for(ThemeHasCategory ad : categories){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("categories", Json.toJson(apps));
@@ -148,7 +151,7 @@ public class Woman extends HecticusModel {
 
     public ObjectNode toJsonWithLastPost() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman", idWoman);
+        response.put("id_theme", idTheme);
         response.put("name", name);
         if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
@@ -162,7 +165,7 @@ public class Woman extends HecticusModel {
         }
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasSocialNetwork ad : socialNetworks){
+            for(ThemeHasSocialNetwork ad : socialNetworks){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("social_networks", Json.toJson(apps));
@@ -174,7 +177,7 @@ public class Woman extends HecticusModel {
         }
         if(categories != null && !categories.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasCategory ad : categories){
+            for(ThemeHasCategory ad : categories){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("categories", Json.toJson(apps));
@@ -184,14 +187,14 @@ public class Woman extends HecticusModel {
 
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman", idWoman);
+        response.put("id_theme", idTheme);
         response.put("name", name);
         response.put("clients", clients == null?0:clients.size());
         response.put("posts", posts == null?0:posts.size());
         response.put("default_photo", defaultPhoto);
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasSocialNetwork ad : socialNetworks){
+            for(ThemeHasSocialNetwork ad : socialNetworks){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("social_networks", Json.toJson(apps));
@@ -201,14 +204,14 @@ public class Woman extends HecticusModel {
 
     public ObjectNode toJsonWithNetworks() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman", idWoman);
+        response.put("id_theme", idTheme);
         response.put("name", name);
         response.put("clients", clients == null?0:clients.size());
         response.put("posts", posts == null?0:posts.size());
         response.put("default_photo", defaultPhoto);
         if(socialNetworks != null && !socialNetworks.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasSocialNetwork ad : socialNetworks){
+            for(ThemeHasSocialNetwork ad : socialNetworks){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("social_networks", Json.toJson(apps));
@@ -216,7 +219,7 @@ public class Woman extends HecticusModel {
         //se le agrega tambien las categorias de una vez
         if(categories != null && !categories.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasCategory ad : categories){
+            for(ThemeHasCategory ad : categories){
                 apps.add(ad.toJsonWithoutWoman());
             }
             response.put("categories", Json.toJson(apps));
@@ -226,18 +229,18 @@ public class Woman extends HecticusModel {
 
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-        List<Woman> women = Woman.finder.all();
-        for(Woman w: women) {
-            options.put(w.getIdWoman().toString(), w.getName());
+        List<Theme> women = Theme.finder.all();
+        for(Theme w: women) {
+            options.put(w.getIdTheme().toString(), w.getName());
         }
         return options;
     }
 
     public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
-        List<Woman> women = Woman.finder.all();
+        List<Theme> women = Theme.finder.all();
         ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
-        for(Woman woman : women) {
-            Tuple2<String, String> t = new Tuple2<>(woman.getIdWoman().toString(), woman.getName());
+        for(Theme theme : women) {
+            Tuple2<String, String> t = new Tuple2<>(theme.getIdTheme().toString(), theme.getName());
             proxy.add(t);
         }
         Buffer<Tuple2<String, String>> womanBuffer = JavaConversions.asScalaBuffer(proxy);
@@ -246,15 +249,15 @@ public class Woman extends HecticusModel {
     }
 
     /**
-     * Return a page of women list
+     * Return a page of themes list
      *
      * @param page Page to display
-     * @param pageSize Number of women per page
+     * @param pageSize Number of themes per page
      * @param sortBy Women property used for sorting
      * @param order Sort order (either or asc or desc)
      * @param filter Filter applied on the name column
      */
-    public static Page<Woman> page(int page, int pageSize, String sortBy, String order, String filter) {
+    public static Page<Theme> page(int page, int pageSize, String sortBy, String order, String filter) {
         return
                 finder.where()
                         .ilike("name", "%" + filter + "%")

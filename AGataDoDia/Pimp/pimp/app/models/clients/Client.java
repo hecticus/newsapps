@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
-import models.content.women.Woman;
+import models.content.themes.Theme;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -47,7 +47,7 @@ public class Client extends HecticusModel {
     private List<ClientHasDevices> devices;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    private List<ClientHasWoman> women;
+    private List<ClientHasTheme> women;
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
@@ -140,11 +140,11 @@ public class Client extends HecticusModel {
         this.devices = devices;
     }
 
-    public List<ClientHasWoman> getWomen() {
+    public List<ClientHasTheme> getWomen() {
         return women;
     }
 
-    public void setWomen(List<ClientHasWoman> women) {
+    public void setWomen(List<ClientHasTheme> women) {
         this.women = women;
     }
 
@@ -189,15 +189,15 @@ public class Client extends HecticusModel {
     }
 
     public int getWomanIndex(int womanId) {
-        Woman woman = Woman.finder.byId(womanId);
-        if(woman == null){
+        Theme theme = Theme.finder.byId(womanId);
+        if(theme == null){
             return -1;
         }
-        ClientHasWoman clientHasWoman = ClientHasWoman.finder.where().eq("client.idClient", idClient).eq("woman.idWoman", woman.getIdWoman()).findUnique();
-        if(clientHasWoman == null){
+        ClientHasTheme clientHasTheme = ClientHasTheme.finder.where().eq("client.idClient", idClient).eq("woman.idWoman", theme.getIdTheme()).findUnique();
+        if(clientHasTheme == null){
             return -1;
         }
-        return women.indexOf(clientHasWoman);
+        return women.indexOf(clientHasTheme);
     }
 
 
@@ -220,10 +220,10 @@ public class Client extends HecticusModel {
         }
         if(women != null && !women.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(ClientHasWoman ad : women){
+            for(ClientHasTheme ad : women){
                 apps.add(ad.toJsonWithoutClient());
             }
-            response.put("women", Json.toJson(apps));
+            response.put("themes", Json.toJson(apps));
         }
         return response;
     }

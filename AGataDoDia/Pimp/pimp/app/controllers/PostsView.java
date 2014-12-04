@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import models.basic.Config;
@@ -11,8 +10,8 @@ import models.basic.Language;
 import models.content.posts.FileType;
 import models.content.posts.Post;
 import models.content.posts.PostHasMedia;
-import models.content.women.SocialNetwork;
-import models.content.women.Woman;
+import models.content.themes.SocialNetwork;
+import models.content.themes.Theme;
 import play.data.Form;
 import play.data.format.Formatters;
 import play.i18n.Messages;
@@ -29,7 +28,6 @@ import java.util.*;
 
 import static play.data.Form.form;
 
-import play.mvc.Security;
 import utils.Utils;
 import views.html.posts.*;
 
@@ -108,16 +106,16 @@ public class PostsView extends HecticusController {
             }
         });
 
-        Formatters.register(Woman.class, new Formatters.SimpleFormatter<Woman>() {
+        Formatters.register(Theme.class, new Formatters.SimpleFormatter<Theme>() {
             @Override
-            public Woman parse(String input, Locale arg1) throws ParseException {
-                Woman woman = Woman.finder.byId(new Integer(input));
-                return woman;
+            public Theme parse(String input, Locale arg1) throws ParseException {
+                Theme theme = Theme.finder.byId(new Integer(input));
+                return theme;
             }
 
             @Override
-            public String print(Woman woman, Locale arg1) {
-                return woman.getIdWoman().toString();
+            public String print(Theme theme, Locale arg1) {
+                return theme.getIdTheme().toString();
             }
         });
 
@@ -144,7 +142,7 @@ public class PostsView extends HecticusController {
         boolean exists = filledForm.data().containsKey("media[" + i + "].link");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         ObjectNode data = Json.newObject();
-        String woman = filledForm.data().get("woman");
+        String theme = filledForm.data().get("theme");
 
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
@@ -180,7 +178,7 @@ public class PostsView extends HecticusController {
                     String contentType = picture.getContentType();
                     File file = picture.getFile();
                     String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
-                    String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension, true);
+                    String link = Utils.uploadAttachment(file, Integer.parseInt(theme), fileExtension, true);
                     String md5 = Utils.getMD5(file);
                     BufferedImage bimg = ImageIO.read(file);
                     ObjectNode dataFile = Json.newObject();
@@ -236,7 +234,7 @@ public class PostsView extends HecticusController {
 
         gfilledForm.setIdPost(id);
         gfilledForm.update(id);
-        flash("success", Messages.get("post.java.updated", gfilledForm.getWoman().getName()));
+        flash("success", Messages.get("post.java.updated", gfilledForm.getTheme().getName()));
         return GO_HOME;
 
     }
@@ -276,7 +274,7 @@ public class PostsView extends HecticusController {
             rackspaceDelete.deleteObjectsFromContainer(containerName, files);
         }
         post.delete();
-        flash("success", Messages.get("post.java.deleted", post.getWoman().getName()));
+        flash("success", Messages.get("post.java.deleted", post.getTheme().getName()));
 		return GO_HOME;
     }
 
@@ -322,16 +320,16 @@ public class PostsView extends HecticusController {
             }
         });
 
-        Formatters.register(Woman.class, new Formatters.SimpleFormatter<Woman>() {
+        Formatters.register(Theme.class, new Formatters.SimpleFormatter<Theme>() {
             @Override
-            public Woman parse(String input, Locale arg1) throws ParseException {
-                Woman woman = Woman.finder.byId(new Integer(input));
-                return woman;
+            public Theme parse(String input, Locale arg1) throws ParseException {
+                Theme theme = Theme.finder.byId(new Integer(input));
+                return theme;
             }
 
             @Override
-            public String print(Woman woman, Locale arg1) {
-                return woman.getIdWoman().toString();
+            public String print(Theme theme, Locale arg1) {
+                return theme.getIdTheme().toString();
             }
         });
 
@@ -359,7 +357,7 @@ public class PostsView extends HecticusController {
         boolean exists = filledForm.data().containsKey("media[" + i + "].link");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         ObjectNode data = Json.newObject();
-        String woman = filledForm.data().get("woman.idWoman");
+        String theme = filledForm.data().get("theme.idTheme");
         while(exists) {
             if(!filledForm.data().containsKey("media[" + i + "].md5")){
                 try {
@@ -395,8 +393,8 @@ public class PostsView extends HecticusController {
                     File file = picture.getFile();
                     String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
 
-                    String link = Utils.uploadAttachment(file, Integer.parseInt(woman), fileExtension, true);
-                    System.out.println(woman + " " + fileExtension + " " + link);
+                    String link = Utils.uploadAttachment(file, Integer.parseInt(theme), fileExtension, true);
+                    System.out.println(theme + " " + fileExtension + " " + link);
                     String md5 = Utils.getMD5(file);
                     BufferedImage bimg = ImageIO.read(file);
                     ObjectNode dataFile = Json.newObject();
@@ -453,7 +451,7 @@ public class PostsView extends HecticusController {
         }
 
         gfilledForm.save();
-        flash("success", Messages.get("post.java.created", gfilledForm.getWoman().getName()));
+        flash("success", Messages.get("post.java.created", gfilledForm.getTheme().getName()));
         return GO_HOME;
 
     }

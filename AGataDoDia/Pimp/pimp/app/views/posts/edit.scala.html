@@ -45,7 +45,6 @@
             '_label -> Messages("post.media.file.type"),
             'class -> "form-control"
         )
-        @inputText(field("mainScreen"), '_label -> Messages("post.media.main"), '_error -> postViewForm.globalError, 'class -> "form-control")
         @if(field("link").value.getOrElse("NONE") == "NONE"){
             <div class="form-group">
                 <div class="col-lg-10">
@@ -101,15 +100,15 @@
             @inputText(postViewForm("source"), '_label -> Messages("post.source"), '_help -> Messages("post.source.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
             @select(
                 postViewForm("socialNetwork.idSocialNetwork"),
-                models.content.women.SocialNetwork.toSeq,
+                models.content.themes.SocialNetwork.toSeq,
                 '_label -> Messages("post.socialnetwork"),
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )
             @select(
-                postViewForm("woman.idWoman"),
-                models.content.women.Woman.toSeq,
-                '_label -> Messages("post.woman"),
+                postViewForm("theme.idTheme"),
+                models.content.themes.Theme.toSeq,
+                '_label -> Messages("post.theme"),
                 '_error -> postViewForm.globalError,
                 'class -> "form-control"
             )

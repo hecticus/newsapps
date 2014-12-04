@@ -6,8 +6,8 @@ import models.HecticusModel;
 import models.basic.Country;
 import models.basic.Language;
 import models.clients.Gender;
-import models.content.women.SocialNetwork;
-import models.content.women.Woman;
+import models.content.themes.SocialNetwork;
+import models.content.themes.Theme;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -28,8 +28,8 @@ public class Post extends HecticusModel {
 
     @Constraints.Required
     @ManyToOne
-    @JoinColumn(name = "id_woman")
-    private Woman woman;
+    @JoinColumn(name = "id_theme")
+    private Theme theme;
 
     @Constraints.Required
     private String date;
@@ -74,15 +74,15 @@ public class Post extends HecticusModel {
         localizations = new ArrayList<>();
     }
 
-    public Post(Woman woman, String date, String source, SocialNetwork socialNetwork) {
-        this.woman = woman;
+    public Post(Theme theme, String date, String source, SocialNetwork socialNetwork) {
+        this.theme = theme;
         this.date = date;
         this.source = source;
         this.socialNetwork = socialNetwork;
     }
 
-    public Post(Woman woman, String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
-        this.woman = woman;
+    public Post(Theme theme, String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
+        this.theme = theme;
         this.date = date;
         this.source = source;
         this.push = push;
@@ -90,8 +90,8 @@ public class Post extends HecticusModel {
         this.socialNetwork = socialNetwork;
     }
 
-    public Post(Woman woman, String date, String source, SocialNetwork socialNetwork, Gender gender) {
-        this.woman = woman;
+    public Post(Theme theme, String date, String source, SocialNetwork socialNetwork, Gender gender) {
+        this.theme = theme;
         this.date = date;
         this.source = source;
         this.socialNetwork = socialNetwork;
@@ -106,12 +106,12 @@ public class Post extends HecticusModel {
         return idPost;
     }
 
-    public Woman getWoman() {
-        return woman;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setWoman(Woman woman) {
-        this.woman = woman;
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     public String getDate() {
@@ -226,7 +226,7 @@ public class Post extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
-        response.put("woman", woman.toJsonWithNetworks());
+        response.put("theme", theme.toJsonWithNetworks());
         response.put("date", date);
         response.put("source", source);
         response.put("push", push);
@@ -261,7 +261,7 @@ public class Post extends HecticusModel {
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
-        response.put("woman", woman.toJsonWithoutRelations());
+        response.put("theme", theme.toJsonWithoutRelations());
         response.put("date", date);
         response.put("source", source);
         response.put("push", push);
@@ -275,8 +275,8 @@ public class Post extends HecticusModel {
     public ObjectNode toJson(Language language) {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
-//        response.put("woman", woman.toJsonWithoutRelations());
-        response.put("woman", woman.toJsonWithNetworks());
+//        response.put("theme", theme.toJsonWithoutRelations());
+        response.put("theme", theme.toJsonWithNetworks());
         response.put("date", date);
         response.put("source", source);
         response.put("social_network", socialNetwork.toJson());
@@ -339,6 +339,6 @@ public class Post extends HecticusModel {
     }
 
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().ilike("woman.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+        return finder.where().ilike("theme.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 }

@@ -151,7 +151,7 @@ playauthenticate.restricted.secrets=Secrets, everywhere!
 ### --- play-authenticate END
 
 main.start=Start
-main.women=Women
+main.themes=Themes
 main.posts=Posts
 main.languages=Languages
 main.countries=Countries
@@ -309,39 +309,39 @@ categories.java.created= The category {0} has been created!
 categories.java.updated= The category {0} has been updated!
 categories.java.deleted= The category {0} has been deleted!
 
-women.list.head=Women
-women.list.title={0,choice,0#There are no Women|1#One Woman found|1<{0,number,integer} Women found}
-women.list.filter.name=Filter by Woman name...
-women.list.new=Add new Woman
+themes.list.head=Themes
+themes.list.title={0,choice,0#There are no Themes|1#One Theme found|1<{0,number,integer} Themes found}
+themes.list.filter.name=Filter by Theme name...
+themes.list.new=Add new Theme
 
-women.create=Create Woman
-women.edit=Edit Woman
-women.info=Woman Data
+themes.create=Create Theme
+themes.edit=Edit Theme
+themes.info=Theme Data
 
-women.category=Category
-women.category.plural=Categories
-women.category.remove=Remove this Category
-women.category.add=Add Category
+themes.category=Category
+themes.category.plural=Categories
+themes.category.remove=Remove this Category
+themes.category.add=Add Category
 
-women.socialnetwork=Social Network
-women.socialnetwork.plural=Social Networks
-women.socialnetwork.remove=Remove this Social Network
-women.socialnetwork.add=Add Social Network
-women.socialnetwork.link=Link
+themes.socialnetwork=Social Network
+themes.socialnetwork.plural=Social Networks
+themes.socialnetwork.remove=Remove this Social Network
+themes.socialnetwork.add=Add Social Network
+themes.socialnetwork.link=Link
 
-women.name=Name
-women.name.help=Insert a valid name
+themes.name=Name
+themes.name.help=Insert a valid name
 
-women.image=Image
-women.image.file=File
+themes.image=Image
+themes.image.file=File
 
-women.submit.create=Create this Woman
-women.submit.update=Update this Woman
-women.submit.delete=Delete this Woman
+themes.submit.create=Create this Theme
+themes.submit.update=Update this Theme
+themes.submit.delete=Delete this Theme
 
-women.java.created= The woman {0} has been created!
-women.java.updated= The woman {0} has been updated!
-women.java.deleted= The woman {0} has been deleted!
+themes.java.created= The theme {0} has been created!
+themes.java.updated= The theme {0} has been updated!
+themes.java.deleted= The theme {0} has been deleted!
 
 post.list.head=Posts
 post.list.title={0,choice,0#There are no posts|1#One Post found|1<{0,number,integer} Posts found}
@@ -369,7 +369,7 @@ post.source.help=Insert a valid URL
 
 post.socialnetwork=Social Network
 
-post.woman=Woman
+post.theme=Theme
 
 post.localization=Localizations
 post.localization.remove=Remove this Localization

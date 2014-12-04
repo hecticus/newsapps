@@ -1,31 +1,4 @@
-@(currentPage: com.avaje.ebean.Page[models.content.posts.Post], currentSortBy: String, currentOrder: String, currentFilter: String)
-
-@****************************************
-* Helper generating navigation links    *
-****************************************@
-@link(newPage:Int, newSortBy:String) = @{
-    
-    var sortBy = currentSortBy
-    var order = currentOrder
-    
-    if(newSortBy != null) {
-        sortBy = newSortBy
-        if(currentSortBy == newSortBy) {
-            if(currentOrder == "asc") {
-                order = "desc"
-            } else {
-                order = "asc"
-            }
-        } else {
-            order = "asc"
-        }
-    }
-    
-    // Generate the link
-    //controllers.routes.Application.index(newPage, sortBy, order, currentFilter)
-    
-}
-
+@(message: String)
 
 
 @main("A GataDo Dia") {

@@ -1,11 +1,10 @@
-package controllers.content.women;
+package controllers.content.themes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
 import models.basic.Config;
-import models.clients.Client;
-import models.content.women.*;
+import models.content.themes.*;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -19,97 +18,97 @@ import java.util.Iterator;
 /**
  * Created by plesse on 10/1/14.
  */
-public class Women extends HecticusController {
+public class Themes extends HecticusController {
 
     public static Result create() {
-        ObjectNode womanData = getJson();
+        ObjectNode themeData = getJson();
         try{
             ObjectNode response = null;
-            if(womanData.has("name") && womanData.has("default_photo")){
-                Woman woman = createWoman(womanData);
-                response = buildBasicResponse(0, "OK", woman.toJson());
+            if(themeData.has("name") && themeData.has("default_photo")){
+                Theme theme = createTheme(themeData);
+                response = buildBasicResponse(0, "OK", theme.toJson());
             } else {
                 response = buildBasicResponse(1, "Faltan campos para crear el registro");
             }
             return ok(response);
         } catch (Exception ex) {
-            Utils.printToLog(Women.class, "Error manejando garotas", "error creando con params" + womanData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Themes.class, "Error manejando garotas", "error creando con params" + themeData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
             return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
         }
     }
 
     public static Result update(Integer id) {
-        ObjectNode womanData = getJson();
+        ObjectNode themeData = getJson();
         try{
             ObjectNode response = null;
-            Woman woman = Woman.finder.byId(id);
-            if(woman != null){
-                if(womanData.has("name")){
-                    woman.setName(womanData.get("name").asText());
-                    woman.update();
+            Theme theme = Theme.finder.byId(id);
+            if(theme != null){
+                if(themeData.has("name")){
+                    theme.setName(themeData.get("name").asText());
+                    theme.update();
                 }
 
-                if(womanData.has("default_photo")){
-                    String file = womanData.get("default_photo").asText();
-                    String path = Utils.uploadAttachment(file, woman.getIdWoman());
-                    woman.setDefaultPhoto(path);
-                    woman.update();
+                if(themeData.has("default_photo")){
+                    String file = themeData.get("default_photo").asText();
+                    String path = Utils.uploadAttachment(file, theme.getIdTheme());
+                    theme.setDefaultPhoto(path);
+                    theme.update();
                 }
 
-                if(womanData.has("add_social_networks")){
-                    Iterator<JsonNode> socialNetworks = womanData.get("add_social_networks").elements();
+                if(themeData.has("add_social_networks")){
+                    Iterator<JsonNode> socialNetworks = themeData.get("add_social_networks").elements();
                     while (socialNetworks.hasNext()){
                         ObjectNode next = (ObjectNode)socialNetworks.next();
                         if(next.has("social_network") && next.has("link")){
                             SocialNetwork socialNetwork = SocialNetwork.finder.byId(next.get("social_network").asInt());
                             if(socialNetwork != null){
-                                WomanHasSocialNetwork whsn = new WomanHasSocialNetwork(woman, socialNetwork, next.get("link").asText());
+                                ThemeHasSocialNetwork whsn = new ThemeHasSocialNetwork(theme, socialNetwork, next.get("link").asText());
                                 whsn.save();
                             }
                         }
                     }
                 }
 
-                if(womanData.has("remove_social_networks")){
-                    Iterator<JsonNode> socialNetworks = womanData.get("remove_social_networks").elements();
+                if(themeData.has("remove_social_networks")){
+                    Iterator<JsonNode> socialNetworks = themeData.get("remove_social_networks").elements();
                     while (socialNetworks.hasNext()){
                         JsonNode next = socialNetworks.next();
-                        WomanHasSocialNetwork whsn = WomanHasSocialNetwork.finder.where().eq("woman.idWoman", woman.getIdWoman()).eq("idWomanHasSocialNetwork", next.asInt()).findUnique();
+                        ThemeHasSocialNetwork whsn = ThemeHasSocialNetwork.finder.where().eq("woman.idWoman", theme.getIdTheme()).eq("idWomanHasSocialNetwork", next.asInt()).findUnique();
                         if(whsn != null){
                             whsn.delete();
                         }
                     }
                 }
 
-                if(womanData.has("add_categories")){
-                    Iterator<JsonNode> categories = womanData.get("add_categories").elements();
+                if(themeData.has("add_categories")){
+                    Iterator<JsonNode> categories = themeData.get("add_categories").elements();
                     while (categories.hasNext()){
                         JsonNode next = categories.next();
                         Category category = Category.finder.byId(next.asInt());
                         if(category != null){
-                            WomanHasCategory whc = new WomanHasCategory(category, woman);
+                            ThemeHasCategory whc = new ThemeHasCategory(category, theme);
                             whc.save();
                         }
                     }
                 }
 
-                if(womanData.has("remove_categories")){
-                    Iterator<JsonNode> categories = womanData.get("remove_categories").elements();
+                if(themeData.has("remove_categories")){
+                    Iterator<JsonNode> categories = themeData.get("remove_categories").elements();
                     while (categories.hasNext()){
                         JsonNode next = categories.next();
-                        WomanHasCategory whc = WomanHasCategory.finder.where().eq("woman.idWoman", woman.getIdWoman()).eq("idWomanHasCategory", next.asInt()).findUnique();
+                        ThemeHasCategory whc = ThemeHasCategory.finder.where().eq("woman.idWoman", theme.getIdTheme()).eq("idWomanHasCategory", next.asInt()).findUnique();
                         if(whc != null){
                             whc.delete();
                         }
                     }
                 }
-                response = buildBasicResponse(0, "OK", woman.toJson());
+                response = buildBasicResponse(0, "OK", theme.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a modificar");
             }
             return ok(response);
         } catch (Exception ex) {
-            Utils.printToLog(Women.class, "Error manejando garotas", "error creando con params" + womanData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Themes.class, "Error manejando garotas", "error creando con params" + themeData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
             return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
         }
     }
@@ -117,16 +116,16 @@ public class Women extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            Woman woman = Woman.finder.byId(id);
-            if(woman != null) {
-                woman.delete();
-                response = buildBasicResponse(0, "OK", woman.toJson());
+            Theme theme = Theme.finder.byId(id);
+            if(theme != null) {
+                theme.delete();
+                response = buildBasicResponse(0, "OK", theme.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a eliminar");
             }
             return ok(response);
         } catch (Exception ex) {
-            Utils.printToLog(Women.class, "Error manejando garotas", "error eliminando la garota " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Themes.class, "Error manejando themes", "error eliminando la theme " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
             return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
         }
     }
@@ -134,15 +133,15 @@ public class Women extends HecticusController {
     public static Result get(Integer id){
         try {
             ObjectNode response = null;
-            Woman woman = Woman.finder.byId(id);
-            if(woman != null) {
-                response = buildBasicResponse(0, "OK", woman.toJson());
+            Theme theme = Theme.finder.byId(id);
+            if(theme != null) {
+                response = buildBasicResponse(0, "OK", theme.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a consultar");
             }
             return ok(response);
         }catch (Exception e) {
-            Utils.printToLog(Women.class, "Error manejando garotas", "error buscando la garota " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Themes.class, "Error manejando themes", "error buscando la theme " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
@@ -150,11 +149,11 @@ public class Women extends HecticusController {
     public static Result list(Integer pageSize,Integer page){
         try {
 
-            Iterator<Woman> womanIterator = null;
+            Iterator<Theme> womanIterator = null;
             if(pageSize == 0){
-                womanIterator = Woman.finder.all().iterator();
+                womanIterator = Theme.finder.all().iterator();
             }else{
-                womanIterator = Woman.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+                womanIterator = Theme.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
             }
 
             ArrayList<ObjectNode> women = new ArrayList<ObjectNode>();
@@ -164,56 +163,56 @@ public class Women extends HecticusController {
             ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(women));
             return ok(response);
         }catch (Exception e) {
-            Utils.printToLog(Women.class, "Error manejando garotas", "error listando las garotas con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Themes.class, "Error manejando themes", "error listando las themes con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
-    public static Woman createWoman(ObjectNode data) throws IOException, NoSuchAlgorithmException {
-        Woman woman = new Woman(data.get("name").asText());
+    public static Theme createTheme(ObjectNode data) throws IOException, NoSuchAlgorithmException {
+        Theme theme = new Theme(data.get("name").asText());
         if(data.has("social_networks")){
             Iterator<JsonNode> socialNetworks = data.get("social_networks").elements();
-            ArrayList<WomanHasSocialNetwork> nets = new ArrayList<>();
+            ArrayList<ThemeHasSocialNetwork> nets = new ArrayList<>();
             while (socialNetworks.hasNext()){
                 ObjectNode next = (ObjectNode)socialNetworks.next();
                 if(next.has("social_network") && next.has("link")){
                     SocialNetwork socialNetwork = SocialNetwork.finder.byId(next.get("social_network").asInt());
                     if(socialNetwork != null){
-                        WomanHasSocialNetwork whsn = new WomanHasSocialNetwork(woman, socialNetwork, next.get("link").asText());
+                        ThemeHasSocialNetwork whsn = new ThemeHasSocialNetwork(theme, socialNetwork, next.get("link").asText());
                         nets.add(whsn);
                     }
                 }
             }
-            woman.setSocialNetworks(nets);
+            theme.setSocialNetworks(nets);
         }
 
         if(data.has("categories")){
             Iterator<JsonNode> categories = data.get("categories").elements();
-            ArrayList<WomanHasCategory> cats = new ArrayList<>();
+            ArrayList<ThemeHasCategory> cats = new ArrayList<>();
             while (categories.hasNext()){
                 JsonNode next = categories.next();
                 Category category = Category.finder.byId(next.asInt());
                 if(category != null){
-                    WomanHasCategory whc = new WomanHasCategory(category, woman);
+                    ThemeHasCategory whc = new ThemeHasCategory(category, theme);
                     cats.add(whc);
                 }
             }
-            woman.setCategories(cats);
+            theme.setCategories(cats);
         }
 
         if(data.has("default_photo")){
             String file = data.get("default_photo").asText();
-            String path = Utils.uploadAttachment(file, woman.getIdWoman());
-            woman.setDefaultPhoto(path);
+            String path = Utils.uploadAttachment(file, theme.getIdTheme());
+            theme.setDefaultPhoto(path);
         }
 
-        woman.save();
-        return woman;
+        theme.save();
+        return theme;
     }
 
     public static Result hallOfFame(){
         try {
-            Iterator<Woman> womanIterator = Woman.finder.fetch("categories").where().eq("categories.category.idCategory", Config.getInt("id-hall-of-fame")).setFirstRow(0).setMaxRows(10).findList().iterator();
+            Iterator<Theme> womanIterator = Theme.finder.fetch("categories").where().eq("categories.category.idCategory", Config.getInt("id-hall-of-fame")).setFirstRow(0).setMaxRows(10).findList().iterator();
             ArrayList<ObjectNode> women = new ArrayList<ObjectNode>();
             while(womanIterator.hasNext()){
                 women.add(womanIterator.next().toJson());
@@ -221,7 +220,7 @@ public class Women extends HecticusController {
             ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(women));
             return ok(response);
         }catch (Exception e) {
-            Utils.printToLog(Women.class, "Error manejando garotas", "error listando hall de la fama ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Themes.class, "Error manejando themes", "error listando hall de la fama ", true, e, "support-level-1", Config.LOGGER_ERROR);
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
