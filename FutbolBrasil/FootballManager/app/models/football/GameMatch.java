@@ -276,6 +276,10 @@ public class GameMatch extends HecticusModel {
         return finder.where().eq("fifaMatchNumber",idFifa).findUnique();
     }
 
+    public static List<GameMatch> findAllByIdCompetition(Long idCompetition){
+        return finder.where().eq("id_competition",idCompetition).findList();
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode json = Json.newObject();
@@ -334,6 +338,22 @@ public class GameMatch extends HecticusModel {
             value = 2;
         }
         json.put("game_result", value);
+        json.put("date",date);
+        if(phase != null) {
+            //json.put("phase",phase.getIdPhases());
+            json.put("phase",phase.toJson());
+        }
+        json.put("homeTeam",homeTeam.toJson());
+        json.put("awayTeam",awayTeam.toJson());
+        json.put("home_team_goals",homeTeamGoals);
+        json.put("away_team_goals",awayTeamGoals);
+        json.put("fifa_match_number",fifaMatchNumber);
+        json.put("status",status);
+        json.put("ext_id",extId);
+        if(result != null) {
+            json.put("results", result.toJson());
+        }
+        json.put("venue",venue.toJson());
         return json;
     }
 

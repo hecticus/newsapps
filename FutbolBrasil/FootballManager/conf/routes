@@ -75,6 +75,7 @@ GET     /footballapi/v1/ranking/get/global/:id                  controllers.foot
 GET     /footballapi/v1/matches/finished/get/:idCompetition         controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
 GET     /footballapi/v1/matches/finished/get/:idCompetition/:date   controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
 GET     /footballapi/v1/matches/date/get/:idApp/:date                          controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String)
+GET     /footballapi/v1/competitions/list/ids/:idApp                          controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer)
 
 
 #new football api
@@ -83,7 +84,7 @@ GET     /footballapi/v1/players/topScorers/:idCompetition/:date         controll
 GET     /footballapi/v1/players/competitions/scorers/:idApp             controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer)
 
 #calendar
-GET     /footballapi/v1/calendar/get/:idCompetition                controllers.footballapi.MatchesController.getFixtures(idCompetition: Long)
+GET     /footballapi/v1/calendar/get/:idCompetition                controllers.footballapi.MatchesController.getAllFixtures(idCompetition: Long)
 
 #tvmax base ws
 #GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()

@@ -1,24 +1,16 @@
 	<div ng-controller="newsCtrl as _this">
 		
-		
 		<div id="wrapper">
 			<div class="scroller">
-				<div class="container" >						
+				<div class="container" >
+	
 					<div class="row">		
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news" ng-repeat="item in _this.item.news" ng-click="_this.showContentNews(item)">						
 							<h5 class="title" ng-bind="item.title"></h5>
 							<i class="icon icon-material-access-time " ></i>&nbsp;<span class="moment" ng-bind="_this.fromNow(item.publicationDate)"></span>							
 						</div>
 					</div>	
-										
-					<div class="row error" ng-if="showErrorNews(_this.item.news)">
-				
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;" >
-							<span class="icon-noticias" style="font-size: 10em; text-shadow: -1px 1px 1px rgba(0,0,0,0.5);"></span>
-							<h1 style="text-shadow: -1px 1px 1px rgba(0,0,0,0.5);">Conte&uacute;do n&atilde; dispon&iacute;vel</h1>
-						</div>
-					</div>
-															
+																									
 				</div>				
 			</div>
 		</div>
@@ -70,7 +62,7 @@
 
 	<script type="text/javascript">
 	
-		var _scroll = new IScroll('#wrapper',{click:true, preventDefault:true});				
+		var _scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
 		_scroll.on('beforeScrollStart', function () {
 			this.refresh();			
 		});

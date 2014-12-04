@@ -88,19 +88,10 @@ public class Leaderboardnator extends HecticusThread {
     private ObjectNode getTodayResults(ArrayList<Integer> activeTournaments) {
         ObjectNode results = Json.newObject();
         for(int idTournament : activeTournaments){
-            F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/nombre/del/ws").get();
+            F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/finished/get/"+idTournament).get();
             ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
-            results.put(""+idTournament, response.get("response"));
+            results.put(""+idTournament, response.get("response").get("results").get(0));
         }
-        //fake results
-//        ObjectNode fakeResponse = Json.newObject();
-//        fakeResponse.put("1", 1);
-//        fakeResponse.put("2", 2);
-//        fakeResponse.put("3", 3);
-//        results.put("1", fakeResponse);
-//        fakeResponse.put("1", 3);
-//        results.put("2", fakeResponse);
-        //fake results
         return results;
     }
 
@@ -140,16 +131,12 @@ public class Leaderboardnator extends HecticusThread {
 
     private ArrayList<Integer> getActiveTournaments() {
         ArrayList<Integer> activeTournaments = new ArrayList<>();
-        F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/nombre/del/ws").get();
+        F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/list/ids/" + getIdApp()).get();
         ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
-        Iterator<JsonNode> elements = response.get("response").elements();
+        Iterator<JsonNode> elements = response.get("response").get("ids").elements();
         while (elements.hasNext()) {
             activeTournaments.add(elements.next().asInt());
         }
-        //fake results
-//        activeTournaments.add(1);
-//        activeTournaments.add(2);
-        //fake results
         return activeTournaments;
     }
 }

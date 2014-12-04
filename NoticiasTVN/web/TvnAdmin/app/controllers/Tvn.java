@@ -40,13 +40,19 @@ public class Tvn extends Controller {
 	
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
+		
+			
 		Form<Category> filledForm = categoryForm.bindFromRequest();
 		if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm));
 		}
+		
+		Category oCategory = Category.finder.byId(id);		
+		filledForm.get().setSort(oCategory.getSort()); 
 		filledForm.get().update(id);
 		flash("success", "La categoría " + filledForm.get().name + " ha sido actializada");
 		return GO_HOME;
+		
 	}	
 
 	@Security.Authenticated(Secured.class)

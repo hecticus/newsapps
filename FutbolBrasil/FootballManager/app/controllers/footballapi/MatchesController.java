@@ -29,8 +29,12 @@ public class MatchesController extends HecticusController {
     //todays result
     public static Result getTodayFinished(Long idCompetition){
         try {
-            String todaysDate = "20140613"; //generate todays date
-           return getFinishedByDate(idCompetition, todaysDate);
+            TimeZone timeZone = TimeZone.getDefault();//Apps.getTimezone(idApp);
+            Calendar today = new GregorianCalendar(timeZone);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+            simpleDateFormat.setTimeZone(timeZone);
+            String todaysDate = simpleDateFormat.format(today.getTime());
+            return getFinishedByDate(idCompetition, todaysDate);
         } catch (Exception ex) {
             ex.printStackTrace();
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
@@ -62,7 +66,7 @@ public class MatchesController extends HecticusController {
 
     public static Result getAllFixtures(long idCompetition){
         try {
-            List<GameMatch> fullList = null;
+            List<GameMatch> fullList = GameMatch.findAllByIdCompetition(idCompetition);
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()) {
                 //i got data
@@ -105,6 +109,24 @@ public class MatchesController extends HecticusController {
                 responseData.add(competitionJson);
             }
             response = hecticusResponse(0, "ok", "leagues", responseData);
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getActiveCompetitions(Integer idApp){
+        try {
+            ObjectNode response = null;
+            ArrayList data = new ArrayList();
+            ArrayList responseData = new ArrayList();
+            List<Competition> competitionsByApp = Competition.getActiveCompetitionsByApp(idApp);
+            ArrayList<Long> competitionIDs = new ArrayList<>(competitionsByApp.size());
+            for(Competition competition : competitionsByApp) {
+                competitionIDs.add(competition.getIdCompetitions());
+            }
+            response = hecticusResponse(0, "ok", "ids", competitionIDs);
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();

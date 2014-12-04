@@ -47,6 +47,9 @@ public class Category extends Controller {
 		if(filledForm.hasErrors()) {
 			return badRequest(edit.render(id, filledForm));
 		}
+		
+		TvmaxNewsCategory oCategory = TvmaxNewsCategory.finder.byId(id);
+		filledForm.get().setSort(oCategory.getSort());
 		filledForm.get().update(id);
 		flash("success", "La categoría " + filledForm.get().getDisplayName() + " ha sido actializada");
 		return GO_HOME;
