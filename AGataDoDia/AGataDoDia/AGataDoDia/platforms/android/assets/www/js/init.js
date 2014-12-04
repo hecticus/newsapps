@@ -32,7 +32,8 @@
 		//EXITO ahora ir a pagina principal
 		markClientAsOK();
 		if(isActive || status == 2){
-			startApp(isActive, status);
+			$('#passwordInputGroup').addClass('hidden');
+			$('#gender').removeClass('hidden');			
 		}else{			
 			_fAlert('Expirado Cliente');			
 		}
