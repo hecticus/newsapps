@@ -39,6 +39,10 @@ public class Client extends HecticusModel {
     @JoinColumn(name = "id_country")
     private Country country;
 
+    @OneToOne
+    @JoinColumn(name = "id_gender")
+    private Gender gender;
+
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasDevices> devices;
 
@@ -77,6 +81,23 @@ public class Client extends HecticusModel {
         this.password = password;
         this.country = country;
         this.lastCheckDate = lastCheckDate;
+    }
+
+    public Client(Integer status, String login, String password, Country country, Gender gender) {
+        this.status = status;
+        this.login = login;
+        this.password = password;
+        this.country = country;
+        this.gender = gender;
+    }
+
+    public Client(Integer status, String login, String password, Country country, String lastCheckDate, Gender gender) {
+        this.status = status;
+        this.login = login;
+        this.password = password;
+        this.country = country;
+        this.lastCheckDate = lastCheckDate;
+        this.gender = gender;
     }
 
     public Integer getIdClient() {
@@ -151,6 +172,14 @@ public class Client extends HecticusModel {
         this.lastCheckDate = lastCheckDate;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -181,6 +210,7 @@ public class Client extends HecticusModel {
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJson());
+        response.put("gender", gender.toJson());
         if(devices != null && !devices.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(ClientHasDevices ad : devices){
@@ -206,6 +236,7 @@ public class Client extends HecticusModel {
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJson());
+        response.put("gender", gender.toJson());
         return response;
     }
 

@@ -146,6 +146,42 @@ public class Woman extends HecticusModel {
         return response;
     }
 
+    public ObjectNode toJsonWithLastPost() {
+        ObjectNode response = Json.newObject();
+        response.put("id_woman", idWoman);
+        response.put("name", name);
+        if(!posts.isEmpty()){
+            List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
+            if(!media.isEmpty()){
+                response.put("default_photo", media.get(0).getLink());
+            } else {
+                response.put("default_photo", defaultPhoto);
+            }
+        } else {
+            response.put("default_photo", defaultPhoto);
+        }
+        if(socialNetworks != null && !socialNetworks.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(WomanHasSocialNetwork ad : socialNetworks){
+                apps.add(ad.toJsonWithoutWoman());
+            }
+            response.put("social_networks", Json.toJson(apps));
+        }
+        response.put("clients", clients == null?0:clients.size());
+        response.put("posts", posts == null?0:posts.size());
+        if(posts != null && !posts.isEmpty()){
+            response.put("latest_post", posts.get(posts.size()-1).toJson());
+        }
+        if(categories != null && !categories.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(WomanHasCategory ad : categories){
+                apps.add(ad.toJsonWithoutWoman());
+            }
+            response.put("categories", Json.toJson(apps));
+        }
+        return response;
+    }
+
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
         response.put("id_woman", idWoman);

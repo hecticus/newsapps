@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
 import models.basic.Config;
 import models.basic.Country;
-import models.clients.Client;
-import models.clients.ClientHasDevices;
-import models.clients.ClientHasWoman;
-import models.clients.Device;
+import models.clients.*;
 import models.content.women.Woman;
 import org.apache.commons.codec.binary.Base64;
 import play.libs.F;
@@ -133,16 +130,18 @@ public class Clients extends HecticusController {
                 response = buildBasicResponse(0, "OK", client.toJson());
                 return ok(response);
             }
-            if (clientData.has("country")) {
+            if (clientData.has("country") && clientData.has("gender")) {
                 int countryId = clientData.get("country").asInt();
+                int genderId = clientData.get("gender").asInt();
                 Country country = Country.finder.byId(countryId);
+                Gender gender = Gender.finder.byId(genderId);
                 if (country != null) {
                     TimeZone tz = TimeZone.getDefault();
                     Calendar actualDate = new GregorianCalendar(tz);
                     SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
                     String date = sf.format(actualDate.getTime());
 
-                    client = new Client(2, login, password, country, date);
+                    client = new Client(2, login, password, country, date, gender);
                     ArrayList<ClientHasDevices> devices = new ArrayList<>();
                     Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                     while (devicesIterator.hasNext()){

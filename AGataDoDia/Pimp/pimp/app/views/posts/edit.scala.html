@@ -114,6 +114,14 @@
                 'class -> "form-control"
             )
 
+            @select(
+                postViewForm("gender.idGender"),
+                models.clients.Gender.toSeq,
+                '_label -> Messages("post.gender"),
+                '_error -> postViewForm.globalError,
+                'class -> "form-control"
+            )
+
             <div class="row">
                 <div class="col-lg-12">
                     <h2>@Messages("post.localization")</h2>
