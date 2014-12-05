@@ -325,6 +325,13 @@ public class Clients extends HecticusController {
                     }
                 }
 
+                if (clientData.has("gender")) {
+                    int genderId = clientData.get("gender").asInt();
+                    Gender gender = Gender.finder.byId(genderId);
+                    client.setGender(gender);
+                    update = true;
+                }
+
                 if(update){
                     client.update();
                 }

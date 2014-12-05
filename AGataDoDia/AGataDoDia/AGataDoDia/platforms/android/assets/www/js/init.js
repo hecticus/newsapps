@@ -29,8 +29,8 @@
 	}
 	
 	function clientUpdatedSignup(isActive, status){
-		//EXITO ahora ir a pagina principal
-		markClientAsOK();
+		//EXITO ahora ir a pagina principal, ya no, ahora hay que escojer el gender tambien
+		//markClientAsOK();
 		if(isActive || status == 2){
 			$('#passwordInputGroup').addClass('hidden');
 			$('#gender').removeClass('hidden');			
@@ -42,5 +42,34 @@
 	function errorUpdatingClientSignup(err){
 		//error
 		_fAlert('Falha ao criar o cliente');
+		try{
+			var _btn = $("#msisdnInputGroup").button('loading');
+			_btn.button('reset');
+		}catch(e){
+			
+		}
+		try{
+			var _btn = $("#passSendButton").button('loading');
+			_btn.button('reset');
+		}catch(e){
+			
+		}
+		try{
+			var _btn = $("#gender").button('loading');
+			_btn.button('reset');
+		}catch(e){
+			
+		}
+		
+	}
+	
+	function clientGenderUpdate(isActive, status){
+		//EXITO ahora ir a pagina principal
+		markClientAsOK();
+		if(isActive || status > 0){
+			startApp(isActive, status);
+		}else{
+			_fAlert('Error Cliente');			
+		}
 	}
 

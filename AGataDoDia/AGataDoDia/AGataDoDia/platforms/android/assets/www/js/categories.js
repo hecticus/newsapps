@@ -41,11 +41,11 @@
 				if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
 				
 				if (_init) {
-					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/category/' + clientID + '/' + _jParameters.category);
+					_oAjax = _fGetAjaxJsonAsync(_url + '/api/v1/posts/get/client/category/' + clientID + '/' + _jParameters.category);
 					_push = false;	
 				
 				} else {
-					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _direction + '/category/' + clientID + '/' + _post + '/' + _jParameters.category);
+					_oAjax = _fGetAjaxJsonAsync(_url + '/api/v1/posts/get/client/' + _direction + '/category/' + clientID + '/' + _post + '/' + _jParameters.category);
 					_push = true;						
 				}
 				

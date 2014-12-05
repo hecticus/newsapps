@@ -5,9 +5,9 @@
 	var _fRenderHtml =  function(_json, _push) {
 		
 		var _html = '<div class="list-group" style="margin-top:10px;">';	
-		$.each(womenList, function(_index,_item) {
+		$.each(themesList, function(_index,_item) {
 				
-			_html += '<div class="list-group-item" data-touch="load" data-target="4" data-param="woman" data-value="' + _item.id_woman + '">';
+			_html += '<div class="list-group-item" data-touch="load" data-target="4" data-param="theme" data-value="' + _item.id_theme + '">';
 		        _html += '<div class="row-picture">';
 		            _html += '<img class="circle" src="' + _item.default_photo + '" alt="icon" style="border:0;">';
 		        _html += '</div>';

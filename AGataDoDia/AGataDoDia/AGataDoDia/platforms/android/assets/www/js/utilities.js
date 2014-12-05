@@ -93,7 +93,7 @@
 	
 	//REMOVE OLD DATA
 	var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
-	var currentVersion = 0;
+	var currentVersion = 1;
 	function checkStoredData(){
 		var storedVersion = loadStoredVersion();
 		if(storedVersion != null && storedVersion != ""){
@@ -112,6 +112,7 @@
 		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_REGID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_GENDER);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_DATASAFE);
 	}
 	function saveStoredVersion() {
