@@ -6,15 +6,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
-import controllers.content.posts.Posts;
 import models.User;
 import models.basic.Config;
-import models.basic.Language;
-import models.content.feature.FeaturedImage;
 import models.content.feature.FeaturedImageHasResolution;
 import models.content.feature.Resolution;
 import models.content.posts.Post;
-import models.content.women.Woman;
 import play.Routes;
 import play.data.Form;
 import play.libs.Json;
@@ -25,11 +21,12 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import utils.Utils;
-import views.html.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import views.html.*;
 
 public class Application extends Controller {
 
@@ -39,10 +36,8 @@ public class Application extends Controller {
     public static final String ADMIN_ROLE = "admin";
 
     @Restrict(@Group(Application.USER_ROLE))
-    public static Result index(int page, String sortBy, String order, String filter) {
-        return ok(
-                index.render(Post.page(page, 6, sortBy, order, filter),sortBy, order, filter)
-        );
+    public static Result index() {
+        return ok(index.render("Your new application is ready."));
     }
 
     public static Result checkFile(String name){
@@ -124,7 +119,6 @@ public class Application extends Controller {
                 .bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly
-            System.out.println("AQUI ESTAMOS!!! CON ERROR!");
             return badRequest(login.render(filledForm));
         } else {
             // Everything was filled

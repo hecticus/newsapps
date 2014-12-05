@@ -37,9 +37,6 @@ public class PostHasMedia extends HecticusModel {
     @Constraints.Required
     private String link;
 
-    @Constraints.Required
-    private Integer mainScreen;
-
     private Integer width;
 
     private Integer height;
@@ -51,7 +48,6 @@ public class PostHasMedia extends HecticusModel {
         this.fileType = fileType;
         this.md5 = md5;
         this.link = link;
-        this.mainScreen = mainScreen;
         this.width = width;
         this.height = height;
     }
@@ -96,14 +92,6 @@ public class PostHasMedia extends HecticusModel {
         this.link = link;
     }
 
-    public Integer getMainScreen() {
-        return mainScreen;
-    }
-
-    public void setMainScreen(Integer mainScreen) {
-        this.mainScreen = mainScreen;
-    }
-
     public Integer getWidth() {
         return width;
     }
@@ -128,7 +116,6 @@ public class PostHasMedia extends HecticusModel {
         response.put("file_type", fileType.toJsonWithoutRelations());
         response.put("md5", md5);
         response.put("link", link);
-        response.put("main_screen", mainScreen);
         response.put("width", width);
         response.put("height", height);
         return response;
@@ -139,7 +126,6 @@ public class PostHasMedia extends HecticusModel {
         response.put("id_post_has_media", idPostHasMedia);
         response.put("md5", md5);
         response.put("link", link);
-        response.put("main_screen", mainScreen);
         response.put("width", width);
         response.put("height", height);
         return response;
@@ -151,7 +137,6 @@ public class PostHasMedia extends HecticusModel {
         response.put("file_type", fileType.toJsonWithoutRelations());
         response.put("md5", md5);
         response.put("link", link);
-        response.put("main_screen", mainScreen);
         response.put("width", width);
         response.put("height", height);
         return response;

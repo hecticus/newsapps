@@ -1,4 +1,4 @@
-package models.content.women;
+package models.content.themes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
@@ -12,15 +12,15 @@ import javax.persistence.*;
  * Created by plesse on 9/30/14.
  */
 @Entity
-@Table(name="woman_has_social_network")
-public class WomanHasSocialNetwork extends HecticusModel {
+@Table(name="theme_has_social_network")
+public class ThemeHasSocialNetwork extends HecticusModel {
 
     @Id
-    private Integer idWomanHasSocialNetwork;
+    private Integer idThemeHasSocialNetwork;
 
     @ManyToOne
-    @JoinColumn(name = "id_woman")
-    private Woman woman;
+    @JoinColumn(name = "id_theme")
+    private Theme theme;
 
     @ManyToOne
     @JoinColumn(name = "id_social_network")
@@ -29,20 +29,28 @@ public class WomanHasSocialNetwork extends HecticusModel {
     @Constraints.Required
     private String link;
 
-    public static Model.Finder<Integer, WomanHasSocialNetwork> finder = new Model.Finder<Integer, WomanHasSocialNetwork>(Integer.class, WomanHasSocialNetwork.class);
+    public static Model.Finder<Integer, ThemeHasSocialNetwork> finder = new Model.Finder<Integer, ThemeHasSocialNetwork>(Integer.class, ThemeHasSocialNetwork.class);
 
-    public WomanHasSocialNetwork(Woman woman, SocialNetwork socialNetwork, String link) {
-        this.woman = woman;
+    public ThemeHasSocialNetwork(Theme theme, SocialNetwork socialNetwork, String link) {
+        this.theme = theme;
         this.socialNetwork = socialNetwork;
         this.link = link;
     }
 
-    public Woman getWoman() {
-        return woman;
+    public Integer getIdThemeHasSocialNetwork() {
+        return idThemeHasSocialNetwork;
     }
 
-    public void setWoman(Woman woman) {
-        this.woman = woman;
+    public void setIdThemeHasSocialNetwork(Integer idThemeHasSocialNetwork) {
+        this.idThemeHasSocialNetwork = idThemeHasSocialNetwork;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     public SocialNetwork getSocialNetwork() {
@@ -64,8 +72,8 @@ public class WomanHasSocialNetwork extends HecticusModel {
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman_has_social_network", idWomanHasSocialNetwork);
-        response.put("woman", woman.toJsonWithoutRelations());
+        response.put("id_theme_has_social_network", idThemeHasSocialNetwork);
+        response.put("theme", theme.toJsonWithoutRelations());
         response.put("social_network", socialNetwork.toJson());
         response.put("link", link);
         return response;
@@ -73,7 +81,7 @@ public class WomanHasSocialNetwork extends HecticusModel {
 
     public ObjectNode toJsonWithoutWoman() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman_has_social_network", idWomanHasSocialNetwork);
+        response.put("id_theme_has_social_network", idThemeHasSocialNetwork);
         response.put("social_network", socialNetwork.toJson());
         response.put("link", link);
         return response;
@@ -81,8 +89,8 @@ public class WomanHasSocialNetwork extends HecticusModel {
 
     public ObjectNode toJsonWithoutSocialNetwork() {
         ObjectNode response = Json.newObject();
-        response.put("id_woman_has_social_network", idWomanHasSocialNetwork);
-        response.put("woman", woman.toJsonWithoutRelations());
+        response.put("id_theme_has_social_network", idThemeHasSocialNetwork);
+        response.put("theme", theme.toJsonWithoutRelations());
         response.put("link", link);
         return response;
     }

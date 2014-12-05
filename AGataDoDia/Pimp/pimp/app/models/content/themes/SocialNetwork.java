@@ -1,8 +1,7 @@
-package models.content.women;
+package models.content.themes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
-import models.clients.ClientHasDevices;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -36,7 +35,7 @@ public class SocialNetwork extends HecticusModel{
     private String home;
 
     @OneToMany(mappedBy="socialNetwork")
-    private List<WomanHasSocialNetwork> women;
+    private List<ThemeHasSocialNetwork> theme;
 
     public static Model.Finder<Integer, SocialNetwork> finder = new Model.Finder<Integer, SocialNetwork>(Integer.class, SocialNetwork.class);
 
@@ -69,6 +68,14 @@ public class SocialNetwork extends HecticusModel{
         this.home = home;
     }
 
+    public List<ThemeHasSocialNetwork> getTheme() {
+        return theme;
+    }
+
+    public void setThemes(List<ThemeHasSocialNetwork> theme) {
+        this.theme = theme;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -83,9 +90,9 @@ public class SocialNetwork extends HecticusModel{
         response.put("id_social_network", idSocialNetwork);
         response.put("name", name);
         response.put("home", home);
-        if(women != null && !women.isEmpty()){
+        if(theme != null && !theme.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(WomanHasSocialNetwork ad : women){
+            for(ThemeHasSocialNetwork ad : theme){
                 apps.add(ad.toJsonWithoutSocialNetwork());
             }
             response.put("devices", Json.toJson(apps));

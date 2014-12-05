@@ -1,9 +1,8 @@
-package controllers.content.women;
+package controllers.content.themes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
-import models.content.women.Category;
-import models.content.women.SocialNetwork;
+import models.content.themes.Category;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;

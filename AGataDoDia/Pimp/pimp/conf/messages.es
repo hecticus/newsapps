@@ -149,7 +149,7 @@ playauthenticate.restricted.secrets=¡Secretos y más secretos!
 ### --- play-authenticate END
 
 main.start=Inicio
-main.women=Mujeres
+main.themes=Temas
 main.posts=Publicaciones
 main.languages=Idiomas
 main.countries=Paises
@@ -308,39 +308,39 @@ categories.java.created= La categoria {0} ha sido creada!
 categories.java.updated= La categoria {0} ha sido actualizada!
 categories.java.deleted= La categoria {0} ha sido eliminada!
 
-women.list.head=Mujeres
-women.list.title={0,choice,0#No hay Mujeres|1#Una Mujer encontrada|1<{0,number,integer} Mujeres encontradas}
-women.list.filter.name=Filtrar por nombre de la Mujer...
-women.list.new=Agregar nueva Mujer
+themes.list.head=Temas
+themes.list.title={0,choice,0#No hay Temas|1#Un Tema encontrado|1<{0,number,integer} Temas encontrados}
+themes.list.filter.name=Filtrar por nombre del Tema...
+themes.list.new=Agregar nueva Tema
 
-women.create=Crear Mujer
-women.edit=Editar Mujer
-women.info=Informacion de la Mujer
+themes.create=Crear Tema
+themes.edit=Editar Tema
+themes.info=Informacion del Tema
 
-women.category=Categoria
-women.category.plural=Categorias
-women.category.remove=Eliminar esta categoria
-women.category.add=Agregar Categoria
+themes.category=Categoria
+themes.category.plural=Categorias
+themes.category.remove=Eliminar esta categoria
+themes.category.add=Agregar Categoria
 
-women.socialnetwork=Red Social
-women.socialnetwork.plural=Redes Sociales
-women.socialnetwork.remove=Eliminar esta Red Social
-women.socialnetwork.add=Agregar Red Social
-women.socialnetwork.link=Enlace
+themes.socialnetwork=Red Social
+themes.socialnetwork.plural=Redes Sociales
+themes.socialnetwork.remove=Eliminar esta Red Social
+themes.socialnetwork.add=Agregar Red Social
+themes.socialnetwork.link=Enlace
 
-women.name=Nombre
-women.name.help=Inserte un nombre valido
+themes.name=Nombre
+themes.name.help=Inserte un nombre valido
 
-women.image=Imagen
-women.image.file=Archivo
+themes.image=Imagen
+themes.image.file=Archivo
 
-women.submit.create=Crear esta Mujer
-women.submit.update=Actualizar esta Mujer
-women.submit.delete=Eliminar esta Mujer
+themes.submit.create=Crear esta Tema
+themes.submit.update=Actualizar esta Tema
+themes.submit.delete=Eliminar esta Tema
 
-women.java.created= La mujer {0} ha sido creada!
-women.java.updated= La mujer {0} ha sido actualizada!
-women.java.deleted= La mujer {0} ha sido eliminada!
+themes.java.created= El tema {0} ha sido creada!
+themes.java.updated= El tema {0} ha sido actualizada!
+themes.java.deleted= El tema {0} ha sido eliminada!
 
 post.list.head=Publicaciones
 post.list.title={0,choice,0#No hay Publicaciones|1#Una publicacion encontrada|1<{0,number,integer} publicaciones encontradas}
@@ -368,7 +368,7 @@ post.source.help=Inserte una URL valida
 
 post.socialnetwork=Red Social
 
-post.woman=Mujer
+post.theme=Tema
 
 post.localization=Traducciones
 post.localization.remove=Eliminar esta Traduccion

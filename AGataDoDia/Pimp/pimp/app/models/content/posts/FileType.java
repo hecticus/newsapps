@@ -2,7 +2,6 @@ package models.content.posts;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
-import models.clients.ClientHasWoman;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
