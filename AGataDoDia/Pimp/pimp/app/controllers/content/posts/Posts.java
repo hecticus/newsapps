@@ -459,8 +459,14 @@ public class Posts extends HecticusController {
                     maxRows = 1;
                 }
                 ArrayList<Integer> genders = new ArrayList<>();
-                genders.add(client.getGender().getIdGender());
-                genders.add(3);
+                if(client.getGender().getIdGender() == 3){
+                    genders.add(1);
+                    genders.add(2);
+                    genders.add(3);
+                }else{
+                    genders.add(client.getGender().getIdGender());
+                    genders.add(3);
+                }
                 if(postId > 0) {
                     if(theme != null) {
                         if (newest) {
