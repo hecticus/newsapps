@@ -73,6 +73,12 @@ public class Application extends Controller {
             } else {
             }
 
+            //colocamos la configuracion de upstream para que la tengamos en la app
+            data.put("upstreamAppKey", Config.getString("upstreamAppKey"));
+            data.put("upstreamAppVersion", Config.getString("upstreamAppVersion"));
+            data.put("upstreamServiceID", Config.getString("upstreamServiceID"));
+            data.put("upstreamURL", Config.getString("upstreamURL"));
+
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");
             response.put(Config.RESPONSE_KEY,data);
