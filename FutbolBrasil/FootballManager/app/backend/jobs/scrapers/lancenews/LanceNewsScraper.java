@@ -1,6 +1,7 @@
 package backend.jobs.scrapers.lancenews;
 
 import backend.HecticusThread;
+import exceptions.BadConfigException;
 import models.Config;
 import models.football.News;
 import models.Resource;
@@ -29,9 +30,8 @@ import java.util.TimeZone;
 public class LanceNewsScraper extends HecticusThread {
 
     private String categoryToInsert,
-            toUploadLocation;
-
-    private int idLanguage;
+            toUploadLocation,
+            fileRoute;
 
     public LanceNewsScraper() {
         //set name
@@ -41,16 +41,30 @@ public class LanceNewsScraper extends HecticusThread {
     @Override
     public void process(Map args) {
         try {
-            //get params
-            System.out.println(System.currentTimeMillis()+" arrancando!");
+            Utils.printToLog(LanceNewsScraper.class,null,"Iniciando LanceNewsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
+            //get params from args
+            if (args.containsKey("file_route")) {
+                fileRoute = (String) args.get("");
+            } else throw new BadConfigException("es necesario configurar el parametro file_route");
+
+            if (args.containsKey("category")) {
+                categoryToInsert = (String) args.get("category");
+            } else throw new BadConfigException("es necesario configurar el parametro category");
 
             toUploadLocation = "";
 
-            categoryToInsert = "Futebol";
-            processFolderFiles("tempFiles"); //route to files
-            System.out.println("fin");
+            processFolderFiles(fileRoute); //route to files
 
-        }catch (Exception ex){
+        } catch (BadConfigException ex){
+            //log and deactivate? maybe throw exception
+            Utils.printToLog(LanceNewsScraper.class,
+                    "Error en el LanceNewsScrapper",
+                    "el job esta mal configurado, no puede arrancar.",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
+        } catch (Exception ex){
             Utils.printToLog(LanceNewsScraper.class,
                     "Error en el LanceNewsScrapper",
                     "ocurrio un error inesperado en el LanceNewsScrapper, el proceso no se completo y sera reiniciado el job.",
@@ -59,6 +73,7 @@ public class LanceNewsScraper extends HecticusThread {
                     "support-level-1",
                     Config.LOGGER_ERROR);
         }
+        Utils.printToLog(LanceNewsScraper.class,null,"Finalizando LanceNewsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
     private void processFolderFiles(String path){
@@ -141,7 +156,6 @@ public class LanceNewsScraper extends HecticusThread {
                 }
             }//else skip
         } catch (XPathExpressionException ex){
-            System.out.println("really????");
           //el xml le faltan un tag
             Utils.printToLog(LanceNewsScraper.class,
                     "Error en el LanceNewsScraper",
@@ -171,7 +185,7 @@ public class LanceNewsScraper extends HecticusThread {
             LinkedHashMap metadataJson = new LinkedHashMap();
             String name = imageFile.getName() , fileName = imageFile.getName(),
                     remoteLocation = toUploadLocation + fileName,
-                    insertedTime = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas")),
+                    insertedTime = ""+Utils.currentTimeStamp(Utils.APP_TIMEZONE),
                     creationDate = "",
                     creationTime = "",
                     desc = "Imagen descargada del FTP de LanceNews";
@@ -225,7 +239,13 @@ public class LanceNewsScraper extends HecticusThread {
             //upload
             //delete
         }catch (Exception ex){
-            ex.printStackTrace();
+            Utils.printToLog(LanceNewsScraper.class,
+                    "Error en el LanceNewsScraper",
+                    "ocurrio un error procesando la imagen:" + fileRoute + " el proceso continua",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
         }
     }
 
@@ -242,7 +262,7 @@ public class LanceNewsScraper extends HecticusThread {
             toReturn.append("00"); //seconds
             return toReturn.toString();
         } catch (Exception ex) {
-            return "" + Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+            return "" + Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         }
     }
 
@@ -258,68 +278,8 @@ public class LanceNewsScraper extends HecticusThread {
             toReturn.append("00"); //default seconds
             return toReturn.toString();
         } catch (Exception ex) {
-            return "" + Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+            return "" + Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         }
     }
-
-//      funcion comentada por que no es necesaria debe borrarse
-//    private ArrayList<String> ftpDownloader(String remoteDirectory, String localRoute) {
-//        ArrayList<String> localFileList = new ArrayList<String>();
-//        try{
-//            FTPClient client = new FTPClient();
-//            FileOutputStream fos = null;
-//            String localDirectory = "tempFiles" + File.separator + localRoute;
-//            boolean successDl = false;
-//            client.setActivePortRange(50000, 50100);
-//            client.connect(hostAddr);
-//            client.enterLocalPassiveMode();
-//            //fix for java 7
-//            client.setBufferSize(0);
-//            if (client.login(username, password)){
-//                if (client.changeWorkingDirectory(remoteDirectory)){
-//                    FTPFile[] subFiles = client.listFiles(remoteDirectory);
-//                    for (FTPFile file : subFiles) {
-//                        String currentFileName = file.getName();
-//                        try {
-//                            if (currentFileName.equals(".") || currentFileName.equals("..")) {
-//                                continue;
-//                            }
-//                            if (file.isFile()) { //get
-//                                String actualLocalFile = localDirectory + File.separator + file.getName();
-//                                fos = new FileOutputStream(actualLocalFile);
-//                                successDl = client.retrieveFile(file.getName(), fos);
-//                                fos.close();
-//                                if (!successDl) {
-//                                    int code = client.getReplyCode();
-//                                    throw new DownloadFailedException("fallo la descarga del archivo:" + file.getName() + " error:" + code);
-//                                }
-//                                localFileList.add(actualLocalFile);
-//                            }
-//                            //if directory skip?
-//
-//                        } catch (DownloadFailedException ex) {
-//                            //fallo 1 continue
-//                        }
-//                    }
-//
-//                }else {
-//                    //el dir no existe}
-//                    throw new BasicException("el directorio no existe");
-//                }
-//            }else {
-//                //fallo la conexion al ftp
-//                throw new BasicException("fallo la conexion al FTP:" + hostAddr);
-//            }
-//
-//        }catch (IOException ex){
-//            ex.printStackTrace();
-//        }catch (BasicException ex){
-//            ex.printStackTrace();
-//        }
-//        //resumen de archivos fallidos?
-//
-//        return localFileList;
-//    }
-
     
 }

@@ -54,6 +54,8 @@ public class GameMatch extends HecticusModel {
     private Integer suspended;
     private Long extId;
 
+    private Integer fn;
+
     @ManyToOne
     @JoinColumn(name="id_competition")
     private Competition competition;
@@ -237,6 +239,14 @@ public class GameMatch extends HecticusModel {
 
     public void setEvents(List<GameMatchEvent> events) {
         this.events = events;
+    }
+
+    public Integer getFn() {
+        return fn;
+    }
+
+    public void setFn(Integer fn) {
+        this.fn = fn;
     }
 
     public static List<GameMatch> getList(Long idPhase, String startd, String endd, short status){

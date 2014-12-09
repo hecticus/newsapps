@@ -34,13 +34,29 @@ public class Scorer extends HecticusModel {
 
     private String externalId;
 
-    private Integer idRound;
     private Long idCompetition;
     private String date;
 
     private static Model.Finder<Long,Scorer> finder =
             new Model.Finder<Long, Scorer>(Long.class, Scorer.class);
 
+    public Scorer(String name, String fullName, String nickname, Team team, Integer goals, Integer byplay,
+                  Integer header, Integer freeKick, Integer penalty, Countries country, String externalId,
+                  Long idCompetition, String date) {
+        this.name = name;
+        this.fullName = fullName;
+        this.nickname = nickname;
+        this.team = team;
+        this.goals = goals;
+        this.byplay = byplay;
+        this.header = header;
+        this.freeKick = freeKick;
+        this.penalty = penalty;
+        this.country = country;
+        this.externalId = externalId;
+        this.idCompetition = idCompetition;
+        this.date = date;
+    }
 
     @Override
     public ObjectNode toJson() {
@@ -71,7 +87,7 @@ public class Scorer extends HecticusModel {
     }
 
     public static Scorer getScorer(long idCompetition, String externalId){
-        return null;
+        return finder.where().eq("id_competition", idCompetition).eq("external_id", externalId).findUnique();
     }
 
     /**
@@ -79,7 +95,7 @@ public class Scorer extends HecticusModel {
      */
     public void validateScorer(){
         Scorer toValidate = getScorer(this.idCompetition, ""+this.externalId);
-        if (toValidate != null){
+        if (toValidate != null){// if exist have to update
             this.idScorer = toValidate.idScorer;
             this.name = toValidate.name;
             this.fullName = toValidate.fullName;
@@ -92,7 +108,6 @@ public class Scorer extends HecticusModel {
             this.penalty = toValidate.penalty;
             this.country = toValidate.country;
             this.externalId =toValidate.externalId;
-            this.idRound = toValidate.idRound;
             this.idCompetition = toValidate.idCompetition;
             this.date = toValidate.date;
         }else {
@@ -182,14 +197,6 @@ public class Scorer extends HecticusModel {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
-    }
-
-    public Integer getIdRound() {
-        return idRound;
-    }
-
-    public void setIdRound(Integer idRound) {
-        this.idRound = idRound;
     }
 
     public String getDate() {

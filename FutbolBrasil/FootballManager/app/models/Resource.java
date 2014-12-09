@@ -53,7 +53,7 @@ public class Resource extends HecticusModel {
         this.type = 1;
         this.status = 0;
         if (creationTime.isEmpty()){
-            this.creationTime = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+            this.creationTime = ""+Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         }else {
             this.creationTime = creationTime;
         }

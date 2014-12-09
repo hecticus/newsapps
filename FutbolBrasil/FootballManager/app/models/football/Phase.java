@@ -34,10 +34,30 @@ public class Phase extends HecticusModel {
     private String endDate;
     private Long extId;
 
+    private Integer orden;
+    private Integer nivel;
+    private Integer fn;
+
     @OneToMany(mappedBy = "phase")
     private List<GameMatch> matches;
 
     private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
+
+    public Phase(){
+
+    }
+
+    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, Long extId, Integer order, Integer nivel, Integer fn) {
+        this.comp = comp;
+        this.globalName = globalName;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.extId = extId;
+        this.orden = order;
+        this.nivel = nivel;
+        this.fn = fn;
+    }
 
     public Long getIdPhases() {
         return idPhases;
@@ -93,6 +113,30 @@ public class Phase extends HecticusModel {
 
     public void setExtId(Long extId) {
         this.extId = extId;
+    }
+
+    public Integer getOrder() {
+        return orden;
+    }
+
+    public void setOrder(Integer order) {
+        this.orden = order;
+    }
+
+    public Integer getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Integer nivel) {
+        this.nivel = nivel;
+    }
+
+    public Integer getFn() {
+        return fn;
+    }
+
+    public void setFn(Integer fn) {
+        this.fn = fn;
     }
 
     public List<GameMatch> getMatches() {
