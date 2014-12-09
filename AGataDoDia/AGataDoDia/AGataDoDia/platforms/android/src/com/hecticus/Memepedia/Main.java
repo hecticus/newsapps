@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.hecticus.AGataDoDia;
+package com.hecticus.Memepedia;
 
 import android.content.Context;
 import android.content.SharedPreferences;

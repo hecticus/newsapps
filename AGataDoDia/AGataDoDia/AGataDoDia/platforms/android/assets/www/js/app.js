@@ -31,17 +31,6 @@
 	
 	//Punto de entrada de la aplicacion una vez que carguemos la info del cliente
 	function startApp(isActive, status){
-
-
-
-		console.log("LOADING: "+_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
-		_oAjax = _fGetAjaxJson(_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
-		if (_oAjax) {
-			_oAjax.done(function(_json) {
-				_jMenu[5].data = _json;
-			});
-		};
-
 		_oAjax = _fGetAjaxJson(_url + '/api/v1/posts/get/client/up/' + clientID + '/0');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
@@ -59,6 +48,8 @@
 		};
 
 		if(isActive){
+			//PRUEBA
+			try{sendUpstreamEvent("APP_LAUNCH");}catch(e){console.log("FALLA UPSTREAM");}
 			_jApp.load(0,true);
 		}else{
 			if(status == 2){

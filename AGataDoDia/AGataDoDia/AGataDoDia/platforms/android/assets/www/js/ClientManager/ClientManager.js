@@ -4,6 +4,8 @@ var clientDataSafe = false;
 var clientPassword = "";
 var clientGender = 0;
 
+var clientOBJ = {};
+
 function initClientManager(callback, errorCallback){
 	try
 	{ 
@@ -52,10 +54,16 @@ var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
 var FILE_KEY_CLIENT_GENDER = "APPDATACLIENTGENDER";
 var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
 
-function saveClientID(_clientID) {
+function saveClientID(response, password) {
 	try{
-		clientID = _clientID;
-		window.localStorage.setItem(FILE_KEY_CLIENT_ID,""+clientID);
+		//tenemos todo el objeto
+		clientOBJ.id_client = response.id_client;
+		clientOBJ.user_id = response.user_id;
+		clientOBJ.login = response.login;
+		if(password != null && password != ""){ clientOBJ.password = password; }
+        
+		clientID = clientOBJ.id_client;
+		window.localStorage.setItem(FILE_KEY_CLIENT_ID,JSON.stringify(clientOBJ));
 		//mandamos a guardar tambien el reg ID
 		saveRegID(regID);
 		return true;
@@ -69,7 +77,15 @@ function loadClientID() {
 		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
 	}else{
-		clientID = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+		var clientString = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+		if(clientString != null && clientString != ""){
+			try{
+				clientOBJ = JSON.parse(clientString);
+				clientID = clientOBJ.id_client;
+			}catch(e){
+				
+			}
+		}
 	}
 }
 
@@ -81,11 +97,11 @@ function saveClientMSISDN(_clientMSISDN) {
 		for(var i=0;i<_clientMSISDN.length;++i){
 			parseInt(_clientMSISDN[i],10);
 		}
-		if(_clientMSISDN.indexOf("55") != 0){
-			_clientMSISDN = "55"+_clientMSISDN;
-		}
+//		if(_clientMSISDN.indexOf("55") != 0){
+//			_clientMSISDN = "55"+_clientMSISDN;//PARECE QUE NO ES NECESARIO PARA UPSTREAM
+//		}
 		clientMSISDN = _clientMSISDN;
-		console.log("MSISDN FINAL: "+clientMSISDN);
+		//console.log("MSISDN FINAL: "+clientMSISDN);
 		window.localStorage.setItem(FILE_KEY_CLIENT_MSISDN,""+clientMSISDN);
 		return true;
 	}catch(err){
@@ -167,6 +183,8 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		//colocamos el gender
 		if(clientGender != null && clientGender!= "" && clientGender != 0){
 			jData.gender = clientGender;
+		}else{
+			jData.gender = 3; //TODO; generico?
 		}
 
 		//Dependiendo del caso hacemos create o update
@@ -207,7 +225,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								//SAVE THEME LIST
 								initThemeManager(response.themes);
 								//SAVE Client ID
-								if(saveClientID(response.id_client)){
+								if(saveClientID(response, password)){
 									callback(isActive,response.status);
 								}else{
 									errorCallback();
@@ -258,7 +276,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								//SAVE THEME LIST
 								initThemeManager(response.themes);
 								//SAVE Client ID
-								if(saveClientID(response.id_client)){
+								if(saveClientID(response, password)){
 									callback(isActive,response.status);
 								}else{
 									errorCallback();
@@ -327,7 +345,7 @@ function getClientStatus(callback, errorCallback){
 						//SAVE THEME LIST
 						initThemeManager(response.themes);
 						//SAVE Client ID
-						if(saveClientID(response.id_client)){
+						if(saveClientID(response, null)){
 							callback(isActive,response.status);
 						}else{
 							errorCallback();
@@ -358,4 +376,5 @@ function checkClientStatus(status){
 	}else{
 		return false;
 	}
+	return true;
 }

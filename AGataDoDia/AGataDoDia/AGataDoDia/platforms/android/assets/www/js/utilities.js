@@ -93,7 +93,7 @@
 	
 	//REMOVE OLD DATA
 	var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
-	var currentVersion = 1;
+	var currentVersion = 2;
 	function checkStoredData(){
 		var storedVersion = loadStoredVersion();
 		if(storedVersion != null && storedVersion != ""){
@@ -150,6 +150,8 @@
 	
 	
 	function exitApp(){
+		//PRUEBA
+		try{sendUpstreamEvent("APP_CLOSE");}catch(e){console.log("FALLA UPSTREAM");}
 		try{clearInterval(newsRefreshInterval);}catch(e){}
 		//gaPlugin.exit(successGAHandler, successGAHandler);
 		if (navigator.app) {					

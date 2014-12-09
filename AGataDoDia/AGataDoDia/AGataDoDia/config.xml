@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hecticus.AGataDoDia" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.hecticus.Memepedia" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
@@ -36,9 +36,9 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
-    <name>A Gata Do Dia</name>
+    <name>Memepedia</name>
     <description>
-        A Gata do Dia app.
+        Memepedia app.
     </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc
