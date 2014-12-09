@@ -15,7 +15,7 @@
 	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-categories', title:'Categories', load:'categories.html', glyphicon:'icon-category', data:false, session:false});
-	_jMenu.push({index:_jMenu.length, class:'content-woman', title:'Woman', load:'woman.html', glyphicon:'icon-woman', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-theme', title:'Theme', load:'theme.html', glyphicon:'icon-theme', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-init not-header', title:'', load:'init.html', glyphicon:'icon-init', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'', title:'', load:'', glyphicon:'', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-terms not-header', title:'', load:'terms.html', glyphicon:'icon-terms', data:false, session:false});
@@ -34,24 +34,24 @@
 
 
 
-		console.log("LOADING: "+_url + '/garotas/loading/'+getRealWidth()+'/'+getRealHeight());
-		_oAjax = _fGetAjaxJson(_url + '/garotas/loading/'+getRealWidth()+'/'+getRealHeight());
+		console.log("LOADING: "+_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
+		_oAjax = _fGetAjaxJson(_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[5].data = _json;
 			});
 		};
 
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/posts/get/client/up/' + clientID + '/0');
+		_oAjax = _fGetAjaxJson(_url + '/api/v1/posts/get/client/up/' + clientID + '/0');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {
 				_jMenu[0].data = _json;
 			});
 		};
 					
-		_jMenu[1].data = womenList;
+		_jMenu[1].data = themesList;
 	
-		_oAjax = _fGetAjaxJson(_url + '/garotas/v1/women/halloffame');
+		_oAjax = _fGetAjaxJson(_url + '/api/v1/themes/halloffame');
 		if (_oAjax) {
 			_oAjax.done(function(_json) {					
 				_jMenu[8].data = _json;
@@ -253,11 +253,11 @@
 		var _load = obj.data('target');
 		var _param = obj.data('param');
 		var _value = obj.data('value');
-		var _woman = obj.data('woman');
-		var _womanName = obj.data('woman-name');
+		var _theme = obj.data('theme');
+		var _themeName = obj.data('theme-name');
 		   
-		if (_woman) _jParameters.woman =  _woman;
-		if (_womanName) _jParameters.womanName =  _womanName;
+		if (_theme) _jParameters.theme =  _theme;
+		if (_themeName) _jParameters.themeName =  _themeName;
 		if ((_param) || (_value)) eval('_jParameters.'+ _param +' = ' + _value);
 		   
 		_jApp.load(_load,true);
@@ -307,41 +307,41 @@
 	});
 
 	function setFavorite(favObj,type){
-		var _woman = favObj.data('woman');
-		var _data = {'add_woman': [],'remove_woman': []};
+		var _theme = favObj.data('theme');
+		var _data = {'add_theme': [],'remove_theme': []};
 		var _json = _jMenu[0].data;
 		
 		var index = -1;
 		
 		if(favObj.hasClass('on')) {
 			
-			$('[data-touch="'+type+'"][data-woman="' + _woman + '"]').removeClass('on');
-			_data.remove_woman.push(_woman);
+			$('[data-touch="'+type+'"][data-theme="' + _theme + '"]').removeClass('on');
+			_data.remove_theme.push(_theme);
 			
 			$.each(_json.response, function(_index,_item) {
-				   if (_item.woman.id_woman == _woman) {
+				   if (_item.theme.id_theme == _theme) {
 				   //_item.starred = false;
 				   index = _index;
 				   };
 				   });
 			if(index != -1){
-				removeWoman(_json.response[index].woman);
+				removeTheme(_json.response[index].theme);
 			}
 			
 			
 		} else {
 			
-			$('[data-touch="'+type+'"][data-woman="' + _woman + '"]').addClass('on');
-			_data.add_woman.push(_woman);
+			$('[data-touch="'+type+'"][data-theme="' + _theme + '"]').addClass('on');
+			_data.add_theme.push(_theme);
 			
 			$.each(_json.response, function(_index,_item) {
-				   if (_item.woman.id_woman == _woman) {
+				   if (_item.theme.id_theme == _theme) {
 				   //_item.starred = true;
 				   index = _index;
 				   };
 				   });
 			if(index != -1){
-				addWoman(_json.response[index].woman);
+				addTheme(_json.response[index].theme);
 			}
 		}
 		
@@ -398,13 +398,9 @@
 		if ((_param) || (_value)) {
 			eval('_jParameters.'+ _param +' = ' + _value);						
 		}
-						
-		setTimeout(function(){
-			startApp(true, 2);
-			_btn.button('reset');	
-		}, 1000);							
-		
-		
+		console.log("GENDER VALUE: "+_value)
+		saveClientGender(_value);		
+		createOrUpdateClient(clientMSISDN, clientPassword, false, clientGenderUpdate, errorUpdatingClientSignup);
 	});
 	
 	
@@ -500,19 +496,19 @@
 				
 					var _load = 'data-touch="load"'; 						
 					if (_item.files.length == 1) _load = '';					
-					_html += '<img  data-woman="' + _item.woman.id_woman + '" data-woman-name="' + _item.woman.name + '"  onerror="this.onerror=null;this.src=\''+ _item.woman.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded" ' + _load + '  data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';
+					_html += '<img  data-theme="' + _item.theme.id_theme + '" data-theme-name="' + _item.theme.name + '"  onerror="this.onerror=null;this.src=\''+ _item.theme.default_photo + '\'" data-src="' + _item.files[0] + '" alt="" class="img-rounded" ' + _load + '  data-target="2" data-param="post" data-value="' + _item.id_post + '"  />';
 														
 				_html += '</div>';
 
 				_html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caption" style="padding:10px !important; border-bottom: 1pt solid #777777 !important;">';
 
-					_html += '<h3 style="margin-top:0px !important;">' + _item.woman.name + '</h3>';
+					_html += '<h3 style="margin-top:0px !important;">' + _item.theme.name + '</h3>';
 					_html += '<h5>' + _item.content + '</h5>';
 					
 					_html += '<p>';
 						_html += '<i class="icon icon-material-access-time" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i>' + _fGetMoment(_item.date, "YYYYMMDD").fromNow();
 						_html += ' | <i class="icon icon-material-camera-alt" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i><span class="badge">' + _item.files.length + '</span>';
-						_html += ' | <i class="icon icon-material-favorite-outline" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i><span class="badge">' + _item.woman.clients + '</span>';												
+						_html += ' | <i class="icon icon-material-favorite-outline" style="font-size:1.2em; margin-left: 0px !important; text-transform: capitalize;"></i><span class="badge">' + _item.theme.clients + '</span>';												
 					_html += '</p>';
 
 				_html += '</div>';
@@ -522,7 +518,7 @@
 					
 					_html += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >';
 						_html += '<p>';					
-							$.each(_item.woman.categories, function(_index,_item) {
+							$.each(_item.theme.categories, function(_index,_item) {
 								_html += '<span class="label label-default" data-touch="load" data-target="3" data-param="category" data-value="' + _item.category.id_category + '" >' + _item.category.name + '</span>';
 							});					
 						_html += '</p>';
@@ -544,13 +540,13 @@
 							       break;
 							}
 							
-							var fileImage = _item.woman.default_photo;
+							var fileImage = _item.theme.default_photo;
 							if(_item.files[0] != null && _item.files[0] != ""){
 								fileImage = _item.files[0];
 							}
 						
 							_html += '<i class="icon '+socialClass+'" style="font-size:1.8em; margin-left:22px;" onclick="openSocialApp(\''+_item.social_network.name+'\',\''+ _item.source + '\');"></i>';	
-							_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite(_item.woman) ? 'on' : '') + '" style="font-size:1.8em; margin-left:22px;" data-touch="favorite" data-woman="' + _item.woman.id_woman + '"></i>';
+							_html += '<i class="icon icon-material-favorite ' + (isThemeFavorite(_item.theme) ? 'on' : '') + '" style="font-size:1.8em; margin-left:22px;" data-touch="favorite" data-theme="' + _item.theme.id_theme + '"></i>';
 							_html += '<i class="icon icon-material-share-alt" style="font-size:1.8em; margin-left:22px;" onclick="sharePost(\'' + _item.title + '\', \'' + fileImage + '\', \'' + _item.source + '\');"></i>';
 		
 						_html += '</p>';

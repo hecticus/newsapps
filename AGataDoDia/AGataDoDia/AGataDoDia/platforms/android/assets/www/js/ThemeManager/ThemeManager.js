@@ -1,18 +1,18 @@
-var womenList = [];
+var themesList = [];
 
 var FAVORITE_ADD = 0;
 var FAVORITE_REMOVE = 1;
 
-function initWomenManager(data){
+function initThemeManager(data){
 	try{
-		//data[i].woman es el objeto
+		//data[i].theme es el objeto
 		if(data != null && data.length > 0){
-			womenList = []; //vaciamos la lista anterior que tenemos
+			themesList = []; //vaciamos la lista anterior que tenemos
 			for(var i=0; i<data.length;i++){
-				womenList.push(data[i].woman);
+				themesList.push(data[i].theme);
 			}
 		}
-		console.log("Favorites: "+JSON.stringify(womenList));
+		//console.log("Favorites: "+JSON.stringify(themesList));
 		return true;
 	}catch(err){
 		console.log("Ocurrio un error al crear la lista de mujeres: "+err.message)
@@ -20,45 +20,45 @@ function initWomenManager(data){
 	}
 }
 
-/*var FILE_KEY_WOMEN_LIST = "APPDATAWOMENLIST";
+/*var FILE_KEY_THEME_LIST = "APPDATATHEMELIST";
 
-function saveWomenList() {
+function saveThemeList() {
 	try{
-		var tempString = JSON.stringify(womenList);
-		window.localStorage.setItem(FILE_KEY_WOMEN_LIST,tempString);
+		var tempString = JSON.stringify(themesList);
+		window.localStorage.setItem(FILE_KEY_THEME_LIST,tempString);
 		return true;
 	}catch(err){
 		return false;
 	}
 }
 
-function loadWomenList() {
-	var tempList = window.localStorage.getItem(FILE_KEY_WOMEN_LIST);
+function loadThemeList() {
+	var tempList = window.localStorage.getItem(FILE_KEY_THEME_LIST);
 	if(tempList != null && tempList != ""){
 		try{
-			womenList = JSON.parse(tempList);
+			themesList = JSON.parse(tempList);
 		}catch (e) {
-			womenList = [];
+			themesList = [];
 		}
 	}else{
-		womenList = [];
+		themesList = [];
 	}
 }*/
 
 //Funciones base
-function addWoman(woman){
+function addTheme(theme){
 	try{
 		var found = false;
-		for(var i=0; i<womenList.length; i++){
-			if(womenList[i].id_woman == woman.id_woman){
+		for(var i=0; i<themesList.length; i++){
+			if(themesList[i].id_theme == theme.id_theme){
 				found = true;
 				return true;
 			}
 		}
 		if(!found){
-			womenList.push(woman);
+			themesList.push(theme);
 			//SAVE TO WS
-			saveFavoritesToClient(woman, FAVORITE_ADD);
+			saveFavoritesToClient(theme, FAVORITE_ADD);
 		}
 		return true;
 	}catch (e) {
@@ -68,19 +68,19 @@ function addWoman(woman){
 	}
 }
 
-function removeWoman(woman){
+function removeTheme(theme){
 	try{
 		var index = -1;
-		for(var i=0; i<womenList.length; i++){
-			if(womenList[i].id_woman == woman.id_woman){
+		for(var i=0; i<themesList.length; i++){
+			if(themesList[i].id_theme == theme.id_theme){
 				index = i;
 				break;
 			}
 		}
 		if(index != -1){
-			womenList.splice(index, 1);
+			themesList.splice(index, 1);
 			//SAVE TO WS
-			saveFavoritesToClient(woman, FAVORITE_REMOVE);
+			saveFavoritesToClient(theme, FAVORITE_REMOVE);
 		}
 		return true;
 	}catch (e) {
@@ -90,38 +90,38 @@ function removeWoman(woman){
 	}
 }
 
-function isIDWomanFavorite(idWoman){
-	for(var i=0; i<womenList.length; i++){
-		if(womenList[i].id_woman == idWoman){
+function isIDThemeFavorite(idTheme){
+	for(var i=0; i<themesList.length; i++){
+		if(themesList[i].id_theme == idTheme){
 			return true;
 		}
 	}
 	return false;
 }
 
-function isWomanFavorite(woman){
-	for(var i=0; i<womenList.length; i++){
-		if(womenList[i].id_woman == woman.id_woman){
+function isThemeFavorite(theme){
+	for(var i=0; i<themesList.length; i++){
+		if(themesList[i].id_theme == theme.id_theme){
 			return true;
 		}
 	}
 	return false;
 }
 
-function saveFavoritesToClient(woman, type){
+function saveFavoritesToClient(theme, type){
 	var jsonData = {};
 	
-	var womanArray = [];
-	womanArray.push(woman.id_woman);
+	var themeArray = [];
+	themeArray.push(theme.id_theme);
 	
 	if(type == FAVORITE_ADD){
-		jsonData.add_woman = womanArray;
+		jsonData.add_theme = themeArray;
 	}else{
-		jsonData.remove_woman = womanArray;
+		jsonData.remove_theme = themeArray;
 	}
 	
 	//hacemos update
-	var urlUpdateClients = _url+"/garotas/v1/clients/update";
+	var urlUpdateClients = _url+"/api/v1/clients/update";
 	urlUpdateClients = urlUpdateClients+"/"+clientID;
 	
 	$.ajax({

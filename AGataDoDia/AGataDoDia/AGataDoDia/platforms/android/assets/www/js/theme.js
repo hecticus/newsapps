@@ -9,7 +9,7 @@
 		_init = false;	
 		_html = _fRenderHtmlListPost(_json,_push);
 		$('div.plus').remove();			
-		$('body.content-woman #wrapper .scroller .container').append(_html);
+		$('body.content-theme #wrapper .scroller .container').append(_html);
 		
 		$('img.img-rounded').each(function (e) {
 			
@@ -42,11 +42,11 @@
 				if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
 
 				if (_init) {
-					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/woman/' + clientID + '/' + _jParameters.woman);
+					_oAjax = _fGetAjaxJsonAsync(_url + '/api/v1/posts/get/client/theme/' + clientID + '/' + _jParameters.theme);
 					_push = false;
 					
 				} else {
-					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _direction+ '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);
+					_oAjax = _fGetAjaxJsonAsync(_url + '/api/v1/posts/get/client/' + _direction+ '/theme/' + clientID + '/' + _post + '/' + _jParameters.theme);
 					_push = true;
 				}
 

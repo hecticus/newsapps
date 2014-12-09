@@ -7,10 +7,10 @@
 	var _html = '<div class="container">';
 		_html += '<div class="row" style="width:100%; height: 50px; line-height: 50px; background-color: #ffffff; position: absolute; top:50px; z-index: 5; border-bottom: 1pt solid #777777 !important; opacity: 0.8;" >';
 				_html += '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >';
-					_html += '<h4>' + _jParameters.womanName + '</h4>';
+					_html += '<h4>' + _jParameters.themeName + '</h4>';
 				_html += '</div>';
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: right;" >';
-					_html += '<i class="icon icon-material-favorite ' + (isWomanFavorite({id_woman:_jParameters.woman}) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite" data-woman="' + _jParameters.woman + '"></i>';
+					_html += '<i class="icon icon-material-favorite ' + (isThemeFavorite({id_theme:_jParameters.theme}) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite" data-theme="' + _jParameters.theme + '"></i>';
 				_html += '</div>';
 			_html += '</div>';			
 		_html += '</div>';
@@ -94,13 +94,13 @@
 					
 					var _direction = 'down';
 					var _post = _jParameters.post;
-					var _woman = _jParameters.woman;
+					var _theme = _jParameters.theme;
 					
 					if (_this.data('direction')) _direction = _this.data('direction');
 					if ($('div.post').last().data('value')) _post = $('div.post').last().data('value');
 		
 					
-					_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/images/get/client/' + _direction + '/woman/' + clientID + '/' + _post + '/' + _jParameters.woman);
+					_oAjax = _fGetAjaxJsonAsync(_url + '/api/v1/posts/images/get/client/' + _direction + '/theme/' + clientID + '/' + _post + '/' + _jParameters.theme);
 					if (_oAjax) {
 						_oAjax.done(function(_json) {										
 						 	_fRenderHtml(_json);				 				 			

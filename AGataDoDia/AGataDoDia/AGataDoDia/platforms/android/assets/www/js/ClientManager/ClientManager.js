@@ -1,6 +1,8 @@
 var clientID = "";
 var clientMSISDN = "";
 var clientDataSafe = false;
+var clientPassword = "";
+var clientGender = 0;
 
 function initClientManager(callback, errorCallback){
 	try
@@ -33,6 +35,7 @@ function updateRegistrationID(){
 		if(clientID != null && clientID != ""){
 			if(hasToUpdateRegID()){
 				loadClientMSISDN();
+				loadClientGender();
 				//solo actualizamos el regID, lo demas lo dejamos como esta
 				createOrUpdateClient(clientMSISDN,null,false,nocallback,nocallback);
 			}
@@ -46,6 +49,7 @@ function updateRegistrationID(){
 
 var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
 var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
+var FILE_KEY_CLIENT_GENDER = "APPDATACLIENTGENDER";
 var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
 
 function saveClientID(_clientID) {
@@ -93,6 +97,19 @@ function loadClientMSISDN() {
 	clientMSISDN = window.localStorage.getItem(FILE_KEY_CLIENT_MSISDN);
 }
 
+function saveClientGender(gender) {
+	try{
+		clientGender = gender;
+		window.localStorage.setItem(FILE_KEY_CLIENT_GENDER,""+clientGender);
+		return true;
+	}catch(err){
+		return false;
+	}
+}
+function loadClientGender() {
+	clientGender = window.localStorage.getItem(FILE_KEY_CLIENT_GENDER);
+}
+
 function markClientAsOK() {
 	try{
 		clientDataSafe = true;
@@ -107,6 +124,7 @@ function markClientAsOK() {
 //CLIENT MANAGER OPERATIONS
 function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallback){
 	try{
+		clientPassword = password;
 		//cargamos el id de cliente si existe
 		loadClientID();
 		//traemos el Client por WS si existe, sino con el RegID creamos uno temporal que actualizaremos de nuevo
@@ -142,10 +160,15 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		jData.country = country;
 		if(login != null && login != "")
 			jData.login = login;
-		if(password != null && password != "")
-			jData.password = password;
+		if(clientPassword != null && clientPassword != "")
+			jData.password = clientPassword;
 		jData.upstreamChannel = upstreamChannel;
 		
+		//colocamos el gender
+		if(clientGender != null && clientGender!= "" && clientGender != 0){
+			jData.gender = clientGender;
+		}
+
 		//Dependiendo del caso hacemos create o update
 		if(clientID != null && clientID != ""){
 			//agregamos el device
@@ -157,7 +180,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 			}
 			
 			//hacemos update
-			var urlUpdateClients = _url+"/garotas/v1/clients/update";
+			var urlUpdateClients = _url+"/api/v1/clients/update";
 			urlUpdateClients = urlUpdateClients+"/"+clientID;
 			
 			$.ajax({
@@ -181,8 +204,8 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								if(checkClientStatus(response.status)){
 									isActive = true;
 								}
-								//SAVE WOMAN LIST
-								initWomenManager(response.women);
+								//SAVE THEME LIST
+								initThemeManager(response.themes);
 								//SAVE Client ID
 								if(saveClientID(response.id_client)){
 									callback(isActive,response.status);
@@ -210,7 +233,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 			jData.devices = devices;
 			
 			//creamos un client usando el msisdn y el regID que tenemos
-			var urlCreateClients = _url+"/garotas/v1/clients/create";
+			var urlCreateClients = _url+"/api/v1/clients/create";
 			$.ajax({
 				url : urlCreateClients,
 				data: JSON.stringify(jData),	
@@ -232,8 +255,8 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								if(checkClientStatus(response.status)){
 									isActive = true;
 								}
-								//SAVE WOMAN LIST
-								initWomenManager(response.women);
+								//SAVE THEME LIST
+								initThemeManager(response.themes);
 								//SAVE Client ID
 								if(saveClientID(response.id_client)){
 									callback(isActive,response.status);
@@ -277,7 +300,7 @@ function getClientStatus(callback, errorCallback){
 	}
 	
 	//hacemos get
-	var urlGetClients = _url+"/garotas/v1/clients/get";
+	var urlGetClients = _url+"/api/v1/clients/get";
 	urlGetClients = urlGetClients+"/"+clientID;
 	urlGetClients = urlGetClients+"/"+upstreamChannel;
 	
@@ -301,8 +324,8 @@ function getClientStatus(callback, errorCallback){
 						if(checkClientStatus(response.status)){
 							isActive = true;
 						}
-						//SAVE WOMAN LIST
-						initWomenManager(response.women);
+						//SAVE THEME LIST
+						initThemeManager(response.themes);
 						//SAVE Client ID
 						if(saveClientID(response.id_client)){
 							callback(isActive,response.status);
