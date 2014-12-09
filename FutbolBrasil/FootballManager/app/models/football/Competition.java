@@ -6,10 +6,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -25,20 +22,22 @@ public class Competition  extends HecticusModel {
     @Constraints.Required
     private Long extId;
 
-    //folderName
-    //folderLocation
-
     private Integer idApp;
     private Integer status;
+
+    @ManyToOne
+    @JoinColumn(name = "id_comp_type")
+    private CompetitionType type;
 
     @OneToMany(mappedBy="comp")
     public List<Phase> phases;
 
-    public Competition(String name, Long extId, Integer idApp) {
+    public Competition(String name, Long extId, Integer idApp, CompetitionType type) {
         this.name = name;
         this.extId = extId;
         this.idApp = idApp;
         this.status = 0;
+        this.type = type;
     }
 
     private static Model.Finder<Long,Competition> finder = new
@@ -84,6 +83,14 @@ public class Competition  extends HecticusModel {
         this.status = status;
     }
 
+    public CompetitionType getType() {
+        return type;
+    }
+
+    public void setType(CompetitionType type) {
+        this.type = type;
+    }
+
     public static Competition findById(Long id){
         return finder.byId(id);
     }
@@ -114,6 +121,7 @@ public class Competition  extends HecticusModel {
             this.status = fromDb.status;
             this.idApp = fromDb.idApp;
             this.idCompetitions = fromDb.idCompetitions;
+            this.type = fromDb.type;
         }else {
             //insertar
             this.save();
