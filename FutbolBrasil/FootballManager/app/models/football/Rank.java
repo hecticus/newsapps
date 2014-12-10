@@ -480,11 +480,11 @@ public class Rank  extends HecticusModel {
     }
 
     public static List<Rank> getListByIdPhase(long idPhase){
-        return finder.where().eq("id_phases", idPhase).orderBy("ranking asc").findList();
+        return finder.where().eq("id_phases", idPhase).orderBy("nivel asc, orden asc").findList();
     }
 
     public static List<Rank> getListByListPhase(ArrayList phases){
-        return finder.where().in("id_phases", phases).orderBy("ranking asc").findList();
+        return finder.where().in("id_phases", phases).orderBy("nivel asc, orden asc").findList();
     }
 
     public static List<Rank> getListByExtIdPhase(long idExtPhase){
@@ -492,7 +492,7 @@ public class Rank  extends HecticusModel {
         if(_phase == null)
             return null;
 
-        return finder.where().eq("id_phases", _phase.getIdPhases()).orderBy("ranking asc").findList();
+        return finder.where().eq("id_phases", _phase.getIdPhases()).orderBy("nivel asc, orden asc").findList();
     }
 
     public void validateRank(){

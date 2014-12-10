@@ -290,6 +290,28 @@ public class GameMatch extends HecticusModel {
         return finder.where().eq("id_competition",idCompetition).findList();
     }
 
+    public static List<GameMatch> findAllByIdCompetitionAndDate(Long idCompetition, String date, String operator){
+        if(operator.equalsIgnoreCase("gt")) {
+            return finder.where().eq("id_competition",idCompetition).gt("date", date).orderBy("date asc").findList();
+        } else if(operator.equalsIgnoreCase("lt")){
+            return finder.where().eq("id_competition",idCompetition).lt("date", date).orderBy("date asc").findList();
+        }
+        return finder.where().eq("id_competition",idCompetition).ilike("date", date + "%").orderBy("date asc").findList();
+    }
+
+    public static List<GameMatch> findAllByIdCompetitionAndPhase(Long idCompetition, Long idPhase, String operator){
+        if(operator.equalsIgnoreCase("gt")) {
+            return finder.where().eq("id_competition",idCompetition).gt("id_phases", idPhase).orderBy("date asc, phase.idPhases asc").findList();
+        } else if(operator.equalsIgnoreCase("lt")){
+            return finder.where().eq("id_competition",idCompetition).lt("id_phases", idPhase).orderBy("date asc, phase.idPhases asc").findList();
+        }
+        return finder.where().eq("id_competition",idCompetition).eq("id_phases", idPhase).orderBy("date asc, phase.idPhases asc").findList();
+    }
+
+    public static List<GameMatch> findAllByIdCompetitionOrderedByDate(Long idCompetition){
+        return finder.where().eq("id_competition",idCompetition).orderBy("date asc").findList();
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode json = Json.newObject();

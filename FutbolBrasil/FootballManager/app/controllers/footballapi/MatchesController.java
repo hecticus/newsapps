@@ -1,5 +1,6 @@
 package controllers.footballapi;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.App;
 import controllers.HecticusController;
@@ -127,6 +128,46 @@ public class MatchesController extends HecticusController {
                 competitionIDs.add(competition.getIdCompetitions());
             }
             response = hecticusResponse(0, "ok", "ids", competitionIDs);
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getCalendar(Integer idApp, Integer idCompetition, String date, Long phase, String operator){
+        try {
+            ObjectNode response = null;
+            Competition competitionByApp = Competition.getCompetitionByApp(idApp, idCompetition);
+            if(competitionByApp != null){
+                List<GameMatch> gameMatches = null;
+                if(date != null && !date.isEmpty() && operator != null && !operator.isEmpty()){
+                    gameMatches = GameMatch.findAllByIdCompetitionAndDate(competitionByApp.getIdCompetitions(), date, operator);
+                } else if(phase > 0 && operator != null && !operator.isEmpty()){
+                    gameMatches = GameMatch.findAllByIdCompetitionAndPhase(competitionByApp.getIdCompetitions(), phase, operator);
+                } else {
+                    gameMatches = GameMatch.findAllByIdCompetitionOrderedByDate(competitionByApp.getIdCompetitions());
+                }
+                ArrayList<JsonNode> calendar = new ArrayList<>();
+                if(gameMatches != null && !gameMatches.isEmpty()) {
+                    ArrayList<ObjectNode> day = new ArrayList<>();
+                    GameMatch pivot = gameMatches.get(0);
+                    for (GameMatch gameMatch : gameMatches) {
+                        if(gameMatch.getDate().startsWith(pivot.getDate().substring(0, 8))){
+                            day.add(gameMatch.toJson());
+                        } else {
+                            calendar.add(Json.toJson(day));
+                            day.clear();
+                            pivot = gameMatch;
+                            day.add(gameMatch.toJson());
+                        }
+                    }
+                    calendar.add(Json.toJson(day));
+                }
+                response = hecticusResponse(0, "ok", "days", calendar);
+            } else {
+                response = buildBasicResponse(1, "la competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp);
+            }
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();

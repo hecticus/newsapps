@@ -97,6 +97,14 @@ GET     /footballapi/v1/calendar/get/:idCompetition                controllers.f
 #football manager
 GET     /api/v1/rankings/get/:idApp                   controllers.footballapi.RankingController.getRankings(idApp: Integer)
 
+#calendar
+GET     /api/v1/caledar/get/date/gt/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")
+GET     /api/v1/caledar/get/date/lt/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="lt")
+GET     /api/v1/caledar/get/date/eq/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="eq")
+GET     /api/v1/caledar/get/phase/gt/:idApp/:idCompetition/:phase                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="gt")
+GET     /api/v1/caledar/get/phase/lt/:idApp/:idCompetition/:phase                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="lt")
+GET     /api/v1/caledar/get/phase/eq/:idApp/:idCompetition/:phase                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
+GET     /api/v1/caledar/get/:idApp/:idCompetition                                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
 
 # Authenticate
 GET     /restricted                                                                     controllers.Application.restricted
