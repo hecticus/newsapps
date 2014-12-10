@@ -1,5 +1,5 @@
 	
-	var _url = 'http://gatadodia.hecticus.com';
+	var _url = 'http://memepedia.hecticus.com';
 	var _jParameters = {};
 	var _jMenu = [];
 	var _jData = [];

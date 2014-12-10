@@ -531,6 +531,43 @@ public class Clients extends HecticusController {
         }
     }
 
+    //Events for Upstream
+    public static Result sendEvent() {
+        String user_id = "";
+        String event_type = "";
+        try{
+            ObjectNode response = null;
+            ObjectNode clientData = getJson();
+            Client client = null;
+            //Obtenemos el canal por donde esta llegando el request
+            String upstreamChannel;
+            if(clientData.has("upstreamChannel")){
+                upstreamChannel = clientData.get("upstreamChannel").asText();
+            }else{
+                upstreamChannel = "Android"; //"Android" o "Web"
+            }
+            //buscamos el user_id
+            if(clientData.has("user_id")){
+                user_id = clientData.get("user_id").asText();
+                client = Client.finder.where().eq("user_id",user_id).findUnique();
+            }
+            //buscamos el event_type
+            if(clientData.has("event_type")){
+                event_type = clientData.get("event_type").asText();
+            }
+            if(client != null && (event_type != null || !event_type.isEmpty())) {
+                sendEventForUpstream(client,upstreamChannel,event_type);
+                response = buildBasicResponse(0, "OK", client.toJson());
+            } else {
+                response = buildBasicResponse(2, "no existe el registro para enviar el evento");
+            }
+            return ok(response);
+        } catch (Exception ex) {
+            Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            return Results.badRequest(buildBasicResponse(3, "ocurrio un error enviando evento", ex));
+        }
+    }
+
     //FUNCIONES DE UPSTREAM
 
     /**
@@ -968,6 +1005,116 @@ public class Clients extends HecticusController {
         }
     }
 
+    /**
+     * Funcion que permite enviar un evento de la app a Upstream
+     *
+     * POST data as JSON:
+     * user_id                  String  mandatory   upstream user_id
+     * push_notification_id     String  optional    push id
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
+     * timestamp                String  mandatory   “dd/MM/yy HH:mm:ss.SSS UTC” (TZ is always UTC)
+     * device_id                String  mandatory   device ID for upstream
+     * event_type               String  optional    String with one of the following
+     *
+     * EVENTS
+     *
+     * APP_LAUNCH: Application Launch
+     * LOGIN: Login attempt
+     * GAME_LAUNCH: Game Launch
+     * GAME_END: Game End
+     * APP_CLOSE: Application Close
+     * UPD_POINTS: Points Update
+     * VIEW_SP: View subscription prompt
+     * CLICK_SP: Clicked subscription prompt
+     * CLICK_PN: Clicked Push Notification
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-push_notification_id missing, 7-Upstream service no longer available
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type: application/json
+     * Accept: application/gamingapi.v1+json
+     * x-gameapi-app-key: DEcxvzx98533fdsagdsfiou
+     * Authorization : Basic OTk5MDAwMDIzMzE1OlNSUTcyRktT
+     *
+     * Body:
+     * {"timestamp":"01/01/14 00:00:01.001
+     * UTC","metadata":{"channel":"Android","result":"win","points":[{"type":"expe
+     * rience","value":"100"}],"app_version":"gamingapi.v1","session_id":null},"se
+     * rvice_id":"prototype-app -
+     * SubscriptionDefault","user_id":8001,"push_notification_id":"wreuoi24lkjfdlk
+     * 13jh45kjhfkjqewhrt34jrewh2","event_type":"APP_LAUNCH", "device_id":"user-device-id"}
+     *
+     * Response:
+     * {
+     * "result" : 0
+     * }
+     *
+     * Parametros necesarios
+     * userID    upstream user id
+     * username  user from the app
+     * password  password from the app
+     * push_notification_id  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void sendEventForUpstream(Client client, String upstreamChannel, String event_type) throws Exception{
+        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
+            String username = client.getLogin();
+            String userID = client.getUserId();
+            String password = client.getPassword();
+            String push_notification_id = null;
+            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client);
+            }
+
+            //Data from configs
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/event";
+
+            //Hacemos la llamada con los headers de autenticacion
+            WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            fields.put("user_id", userID); //agregamos el UserID al request
+            fields.put("event_type", event_type); //agregamos el evento
+            fields.put("timestamp", formatDateUpstream()); //agregamos el time
+
+            System.out.println("STATUS FIELDS " + fields.toString());
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)wsResponse.asJson();
+            String errorMessage = "";
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                if(callResult == 0 || callResult == 4){
+                    //Se trajo la informacion con exito
+                    Boolean eligible = fResponse.findValue("eligible").asBoolean();
+                    //TODO: guardar en el userID la info de si esta activo o no
+                    client.setStatus(eligible ? 1 : 0);
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+        }else{
+            //deberia estar en periodo de pruebas 2 o desactivado por tiempo -1 la verificacion se hace despues de la llamada
+            client.setStatus(2);
+        }
+    }
+
     //UPSTREAM COMMONS
     //set headers and url call
     private static WSRequestHolder setUpstreamRequest(String url, String username, String password){
@@ -1062,6 +1209,14 @@ public class Clients extends HecticusController {
                 }
             }
         }
+    }
+
+    //“dd/MM/yy HH:mm:ss.SSS UTC” (TZ is always UTC)
+    private static String formatDateUpstream() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS");
+        String date = sdf.format(new Date());
+        date = date+" UTC";
+        return date;
     }
       
     //FAKE UPSTREAM RESPONSE
