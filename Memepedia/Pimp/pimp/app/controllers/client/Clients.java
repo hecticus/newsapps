@@ -1280,4 +1280,9 @@ public class Clients extends HecticusController {
         response.put("result",0);
         return ok(response);
     }
+    public static Result upstreamFakeEventSend() {
+        ObjectNode response = Json.newObject();
+        response.put("result",0);
+        return ok(response);
+    }
 }

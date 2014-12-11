@@ -228,6 +228,7 @@ POST    /api/v1/clients/create                                                  
 POST    /api/v1/clients/update/:id                                                  controllers.client.Clients.update(id : Integer)
 POST    /api/v1/clients/delete/:id                                                  controllers.client.Clients.delete(id : Integer)
 POST    /api/v1/clients/upstream/resetpass                                          controllers.client.Clients.resetUpstreamPass()
+POST    /api/v1/clients/upstream/events/send                                        controllers.client.Clients.sendEvent()
 GET     /api/v1/clients/get/:id/:upstreamChannel                                    controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
 GET     /api/v1/clients/list                                                        controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 GET     /api/v1/clients/favorites/:id                                               controllers.client.Clients.getStarredThemesForClient(id : Integer)
@@ -242,6 +243,7 @@ POST    /api/v1/clients/upstream/game/user/subscribe                            
 POST    /api/v1/clients/upstream/game/user/login                                    controllers.client.Clients.upstreamFakeLogin()
 POST    /api/v1/clients/upstream/game/user/status                                   controllers.client.Clients.upstreamFakeStatus()
 POST    /api/v1/clients/upstream/game/user/password                                 controllers.client.Clients.upstreamFakeResetPass()
+POST    /api/v1/clients/upstream/game/user/event                                    controllers.client.Clients.upstreamFakeEventSend()
 
 # Authenticate
 GET     /restricted                                                                     controllers.Application.restricted
