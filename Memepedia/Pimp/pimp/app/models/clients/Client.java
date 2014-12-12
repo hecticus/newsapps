@@ -246,15 +246,19 @@ public class Client extends HecticusModel {
         response.put("app", Config.getInt("pmc-app-id"));
         ArrayList<String> droid = new ArrayList<>();
         ArrayList<String> ios = new ArrayList<>();
+        ArrayList<String> web = new ArrayList<>();
         for(ClientHasDevices chd : devices){
             if(chd.getDevice().getName().endsWith("droid")){
                 droid.add(chd.getRegistrationId());
             } else if(chd.getDevice().getName().endsWith("ios")){
                 ios.add(chd.getRegistrationId());
+            } else if(chd.getDevice().getName().endsWith("web")){
+                web.add(chd.getRegistrationId());
             }
         }
         response.put("droid", Json.toJson(droid));
         response.put("ios", Json.toJson(ios));
+        response.put("web", Json.toJson(web));
         return response;
     }
 }
