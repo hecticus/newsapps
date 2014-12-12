@@ -53,8 +53,8 @@ public class Application extends Controller {
     public static Result getAppSettings(Integer width, Integer height){
         try {
             ObjectNode data = Json.newObject();
+            data.put("company_name", Config.getString("company-name"));
             data.put("app_version",Config.getString("app-version"));
-
             ObjectNode response = Json.newObject();
 
             //feature images
@@ -72,12 +72,14 @@ public class Application extends Controller {
                 }
             } else {
             }
-
+            data.put("build_version", Config.getString("build-version"));
             //colocamos la configuracion de upstream para que la tengamos en la app
             data.put("upstreamAppKey", Config.getString("upstreamAppKey"));
             data.put("upstreamAppVersion", Config.getString("upstreamAppVersion"));
             data.put("upstreamServiceID", Config.getString("upstreamServiceID"));
             data.put("upstreamURL", Config.getString("upstreamURL"));
+
+            data.put("server_version", Config.getString("server-version"));
 
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");

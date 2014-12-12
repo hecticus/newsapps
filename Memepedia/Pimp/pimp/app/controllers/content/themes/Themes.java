@@ -3,11 +3,13 @@ package controllers.content.themes;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import controllers.Secured;
 import models.basic.Config;
 import models.content.themes.*;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.Utils;
 
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.Iterator;
 /**
  * Created by plesse on 10/1/14.
  */
+@Security.Authenticated(Secured.class)
 public class Themes extends HecticusController {
 
     public static Result create() {
