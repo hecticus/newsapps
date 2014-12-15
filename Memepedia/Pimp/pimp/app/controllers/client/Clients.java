@@ -3,6 +3,7 @@ package controllers.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
 import models.basic.Config;
 import models.basic.Country;
@@ -17,6 +18,7 @@ import play.libs.ws.WSRequestHolder;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.Utils;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by plesse on 9/30/14.
  */
+//@Security.Authenticated(Secured.class)
 public class Clients extends HecticusController {
 
     //private static final String upstreamUserIDSubscriptionResponseTag = "user_id"; //segun documentacion
@@ -963,7 +966,7 @@ public class Clients extends HecticusController {
      */
     private static void resetPasswordForUpstream(Client client, String upstreamChannel) throws Exception{
         String errorMessage = "";
-        if(client.getLogin() == null){
+        if(client.getLogin() != null){
             String msisdn = client.getLogin();
             String userID = null;
             String password = null;

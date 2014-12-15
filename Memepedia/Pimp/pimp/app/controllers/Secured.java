@@ -31,16 +31,16 @@ public class Secured extends Security.Authenticator {
     @Override
     public String getUsername(Http.Context ctx) {
         Http.Request request = ctx.request();
-        String realOrigin = null;
-        if(request.headers().containsKey("X-Forwarded-For")) {
-            realOrigin = request.headers().get("X-Forwarded-For")[0];
-        }
-        String ipString = request.remoteAddress();
+//        String realOrigin = null;
+//        if(request.headers().containsKey("X-Forwarded-For")) {
+//            realOrigin = request.headers().get("X-Forwarded-For")[0];
+//        }
+//        String ipString = request.remoteAddress();
         boolean secured = true;
 
-        if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10.0.3"))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.0.3") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.0.3")))) {
-            secured = false;
-        }
+//        if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10.0.3"))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.0.3") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.0.3")))) {
+//            secured = false;
+//        }
 
 
 
@@ -49,7 +49,7 @@ public class Secured extends Security.Authenticator {
             if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
                 boolean valid = validateAuthToken(authTokenHeaderValues[0]);
                 if (valid) {
-                    Utils.printToLog(Secured.class, null, "Valid Token", false, null, "support-level-1", Config.LOGGER_INFO);
+                    Utils.printToLog(Secured.class, null, "Valid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
                     return "OK";
                 }
                 Utils.printToLog(Secured.class, null, "Invalid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
@@ -76,7 +76,7 @@ public class Secured extends Security.Authenticator {
         int indexSecond = serverVersion.charAt(0) - 48;
         valid &= validChar(indexFirst, first);
         valid &= validChar(indexSecond, second);
-        System.out.println(keyCompanyName + " " + first + " " + keyBuildVersion  + " " + second + " " + keyServerVersion + " " + indexFirst + " " + indexSecond + " " + valid);
+//        System.out.println(keyCompanyName + " " + first + " " + keyBuildVersion  + " " + second + " " + keyServerVersion + " " + indexFirst + " " + indexSecond + " " + valid);
         return valid;
     }
 
