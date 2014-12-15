@@ -205,6 +205,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 				url : urlUpdateClients,
 				data: JSON.stringify(jData),	
 				type: 'POST',
+				headers: getHeaders(),
 				contentType: "application/json; charset=utf-8",
 				dataType: 'json',
 				timeout : 60000,
@@ -256,6 +257,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 				url : urlCreateClients,
 				data: JSON.stringify(jData),	
 				type: 'POST',
+				headers: getHeaders(),
 				contentType: "application/json; charset=utf-8",
 				dataType: 'json',
 				timeout : 60000,
@@ -325,6 +327,7 @@ function getClientStatus(callback, errorCallback){
 	$.ajax({
 		url : urlGetClients,
 		type: 'GET',
+		headers: getHeaders(),
 		contentType: "application/json; charset=utf-8",
 		cache: false,
 		timeout : 60000,
