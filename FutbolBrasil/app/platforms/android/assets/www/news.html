@@ -5,7 +5,7 @@
 				<div class="container" >
 	
 					<div class="row">		
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news" ng-repeat="item in _this.item.news" ng-click="_this.showContentNews(item)">						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news" ng-repeat="item in _this.item.news" ng-click="_this.showContentNews(item)" my-scroll>						
 							<h5 class="title" ng-bind="item.title"></h5>
 							<i class="icon icon-material-access-time " ></i>&nbsp;<span class="moment" ng-bind="_this.fromNow(item.publicationDate)"></span>							
 						</div>
@@ -59,20 +59,3 @@
 		</div>
 		
 	</div>
-
-	<script type="text/javascript">
-	
-		var _scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
-		_scroll.on('beforeScrollStart', function () {
-			this.refresh();			
-		});
-	
-		var _scroll2 = new IScroll('#wrapper2',{click:true,preventDefault:true});					
-		_scroll2.on('beforeScrollStart', function () {
-			this.refresh();
-		});	
-
-	</script>
-		
-
-		
