@@ -82,6 +82,7 @@ GET     /footballapi/v1/competitions/list/ids/:idApp                          co
 #players
 GET     /footballapi/v1/players/topScorers/:idCompetition/:date         controllers.footballapi.PlayersController.getTopScorers(idCompetition: Long, date: String)
 GET     /footballapi/v1/players/competitions/scorers/:idApp             controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer)
+GET     /footballapi/v1/players/competition/scorers/:idApp/:idCompetition             controllers.footballapi.PlayersController.getCompetitionTopScorers(idApp: Integer, idCompetition: Integer, pageSize: Integer?=0, page: Integer?=0)
 
 #calendar
 GET     /footballapi/v1/calendar/get/:idCompetition                controllers.footballapi.MatchesController.getAllFixtures(idCompetition: Long)

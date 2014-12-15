@@ -86,6 +86,10 @@ public class Scorer extends HecticusModel {
         return finder.where().eq("id_competition", idCompetition).setFirstRow(0).setMaxRows(10).orderBy("goals desc").findList();
     }
 
+    public static List<Scorer> getTournamentScorers(Long idCompetition, int page, int pageSize){
+        return finder.where().eq("id_competition", idCompetition).setFirstRow(page).setMaxRows(pageSize).orderBy("goals desc").findList();
+    }
+
     public static Scorer getScorer(long idCompetition, String externalId){
         return finder.where().eq("id_competition", idCompetition).eq("external_id", externalId).findUnique();
     }
