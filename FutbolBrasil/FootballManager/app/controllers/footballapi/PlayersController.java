@@ -78,4 +78,24 @@ public class PlayersController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
+
+    public static Result getCompetitionTopScorers(Integer idApp, Integer idCompetition, Integer pageSize,Integer page){
+        try {
+            ObjectNode response = null;
+            Competition competition = Competition.getCompetitionByApp(idApp, idCompetition);
+            if(competition != null) {
+                ArrayList<ObjectNode> scorers = new ArrayList<>();
+                List<Scorer> tournamentScorers = Scorer.getTournamentScorers(competition.getIdCompetitions(), page, pageSize);
+                for(Scorer scorer : tournamentScorers) {
+                    scorers.add(scorer.toJson());
+                }
+                response = hecticusResponse(0, "ok", "scorers", scorers);
+            } else {
+                response = buildBasicResponse(1, "La competencia " + idCompetition + " no esta disponible para el app " + idApp);
+            }
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
 }

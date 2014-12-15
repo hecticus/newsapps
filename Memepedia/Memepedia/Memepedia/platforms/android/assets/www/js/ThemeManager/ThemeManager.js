@@ -128,6 +128,7 @@ function saveFavoritesToClient(theme, type){
 		url : urlUpdateClients,
 		data: JSON.stringify(jsonData),	
 		type: 'POST',
+		headers: getHeaders(),
 		contentType: "application/json; charset=utf-8",
 		dataType: 'json',
 		timeout : 60000,

@@ -10,6 +10,9 @@
 	var _background = false;
 	//navigation
 	var navigation = [];
+	var companyName;
+	var buildVersion;
+	var serverVersion;
 	
 	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
@@ -419,6 +422,51 @@
 		}
 		
 		
+	});
+	
+	$(document).on('click','[data-touch="resend_pass"]', function(e) {
+		
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,false)) {return false;}
+
+		var _btn = $(this).button('loading');	
+		if(clientMSISDN == null || clientMSISDN == ""){
+			clientMSISDN = window.localStorage.getItem(FILE_KEY_CLIENT_MSISDN);
+		}
+		var params = { 'upstreamChannel': 'Android', 'msisdn': clientMSISDN};
+		var resetPassUrl = _url + '/api/v1/clients/upstream/resetpass';
+		
+		$.ajax({
+			url : resetPassUrl,
+			data: JSON.stringify(params),	
+			headers: getHeaders(),
+			type: 'POST',
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			timeout : 60000,
+			success : function(data, status) {
+				try{
+					if(typeof data == "string"){
+						data = JSON.parse(data);
+					}
+					var code = data.error;
+					if(code == 0){
+							_fAlert('Sucesso: esperar por uma mensagem de texto');
+							_btn.button('reset');	
+					} else {
+						_fAlert('Erro: tente novamente');
+						_btn.button('reset');	
+					}
+				}catch(e){
+					_fAlert('Erro: tente novamente');
+					_btn.button('reset');	
+				}
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				_fAlert('Erro: tente novamente');
+				_btn.button('reset');	
+			}
+		});
 	});
 
 	//SIMPLE NAVIGATION MANAGER

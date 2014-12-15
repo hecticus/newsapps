@@ -10,8 +10,8 @@ GET     /index                                                                  
 
 
 GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
-GET     /api/loading                                                                controllers.Application.getAppSettings(width: Integer?=0, height: Integer?=0)
-GET     /api/loading/:width/:height                                                 controllers.Application.getAppSettings(width: Integer, height: Integer)
+GET     /api/loading                                                                    controllers.Application.getAppSettings(width: Integer?=0, height: Integer?=0)
+GET     /api/loading/:width/:height                                                     controllers.Application.getAppSettings(width: Integer, height: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
@@ -156,94 +156,94 @@ POST    /featured/:id/delete		                                                  
 
 
 #SocialNetworks
-POST    /api/v1/socialnetworks/create                                               controllers.content.themes.SocialNetworks.create()
-POST    /api/v1/socialnetworks/update/:id                                           controllers.content.themes.SocialNetworks.update(id : Integer)
-POST    /api/v1/socialnetworks/delete/:id                                           controllers.content.themes.SocialNetworks.delete(id : Integer)
-GET     /api/v1/socialnetworks/get/:id                                              controllers.content.themes.SocialNetworks.get(id : Integer)
-GET     /api/v1/socialnetworks/list                                                 controllers.content.themes.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /api/v1/socialnetworks/create                                                   controllers.content.themes.SocialNetworks.create()
+POST    /api/v1/socialnetworks/update/:id                                               controllers.content.themes.SocialNetworks.update(id : Integer)
+POST    /api/v1/socialnetworks/delete/:id                                               controllers.content.themes.SocialNetworks.delete(id : Integer)
+GET     /api/v1/socialnetworks/get/:id                                                  controllers.content.themes.SocialNetworks.get(id : Integer)
+GET     /api/v1/socialnetworks/list                                                     controllers.content.themes.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Categories
-POST    /api/v1/categories/create                                                   controllers.content.themes.Categories.create()
-POST    /api/v1/categories/update/:id                                               controllers.content.themes.Categories.update(id : Integer)
-POST    /api/v1/categories/delete/:id                                               controllers.content.themes.Categories.delete(id : Integer)
-GET     /api/v1/categories/get/:id                                                  controllers.content.themes.Categories.get(id : Integer)
-GET     /api/v1/categories/list                                                     controllers.content.themes.Categories.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /api/v1/categories/create                                                       controllers.content.themes.Categories.create()
+POST    /api/v1/categories/update/:id                                                   controllers.content.themes.Categories.update(id : Integer)
+POST    /api/v1/categories/delete/:id                                                   controllers.content.themes.Categories.delete(id : Integer)
+GET     /api/v1/categories/get/:id                                                      controllers.content.themes.Categories.get(id : Integer)
+GET     /api/v1/categories/list                                                         controllers.content.themes.Categories.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Themes
-POST    /api/v1/themes/create                                                        controllers.content.themes.Themes.create()
-POST    /api/v1/themes/update/:id                                                    controllers.content.themes.Themes.update(id : Integer)
-POST    /api/v1/themes/delete/:id                                                    controllers.content.themes.Themes.delete(id : Integer)
-GET     /api/v1/themes/get/:id                                                       controllers.content.themes.Themes.get(id : Integer)
-GET     /api/v1/themes/list                                                          controllers.content.themes.Themes.list(pageSize: Integer?=0, page: Integer?=0)
-GET     /api/v1/themes/sort/:ids                                                     controllers.ThemesView.sort(ids:String)
-GET     /api/v1/themes/halloffame                                                    controllers.content.themes.Themes.hallOfFame()
+POST    /api/v1/themes/create                                                           controllers.content.themes.Themes.create()
+POST    /api/v1/themes/update/:id                                                       controllers.content.themes.Themes.update(id : Integer)
+POST    /api/v1/themes/delete/:id                                                       controllers.content.themes.Themes.delete(id : Integer)
+GET     /api/v1/themes/get/:id                                                          controllers.content.themes.Themes.get(id : Integer)
+GET     /api/v1/themes/list                                                             controllers.content.themes.Themes.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /api/v1/themes/sort/:ids                                                        controllers.ThemesView.sort(ids:String)
+GET     /api/v1/themes/halloffame                                                       controllers.content.themes.Themes.hallOfFame()
 
 #FileTypes
-POST    /api/v1/filetypes/create                                                    controllers.content.posts.FileTypes.create()
-POST    /api/v1/filetypes/update/:id                                                controllers.content.posts.FileTypes.update(id : Integer)
-POST    /api/v1/filetypes/delete/:id                                                controllers.content.posts.FileTypes.delete(id : Integer)
-GET     /api/v1/filetypes/get/:id                                                   controllers.content.posts.FileTypes.get(id : Integer)
-GET     /api/v1/filetypes/list                                                      controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /api/v1/filetypes/create                                                        controllers.content.posts.FileTypes.create()
+POST    /api/v1/filetypes/update/:id                                                    controllers.content.posts.FileTypes.update(id : Integer)
+POST    /api/v1/filetypes/delete/:id                                                    controllers.content.posts.FileTypes.delete(id : Integer)
+GET     /api/v1/filetypes/get/:id                                                        controllers.content.posts.FileTypes.get(id : Integer)
+GET     /api/v1/filetypes/list                                                          controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
 
 #FeaturedImages
-POST    /api/v1/featured/create                                                     controllers.content.feature.FeaturedImages.create()
-POST    /api/v1/featured/update/:id                                                 controllers.content.feature.FeaturedImages.update(id : Integer)
-POST    /api/v1/featured/delete/:id                                                 controllers.content.feature.FeaturedImages.delete(id : Integer)
-GET     /api/v1/featured/get/:id                                                    controllers.content.feature.FeaturedImages.get(id : Integer)
-GET     /api/v1/featured/list                                                       controllers.content.feature.FeaturedImages.list(pageSize: Integer?=0, page: Integer?=0)
-GET     /api/v1/featured/get/:width/:height                                         controllers.content.feature.FeaturedImages.getRandomImage(width: Integer, height: Integer)
+POST    /api/v1/featured/create                                                         controllers.content.feature.FeaturedImages.create()
+POST    /api/v1/featured/update/:id                                                     controllers.content.feature.FeaturedImages.update(id : Integer)
+POST    /api/v1/featured/delete/:id                                                     controllers.content.feature.FeaturedImages.delete(id : Integer)
+GET     /api/v1/featured/get/:id                                                        controllers.content.feature.FeaturedImages.get(id : Integer)
+GET     /api/v1/featured/list                                                           controllers.content.feature.FeaturedImages.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /api/v1/featured/get/:width/:height                                             controllers.content.feature.FeaturedImages.getRandomImage(width: Integer, height: Integer)
 
 #Posts
-POST    /api/v1/posts/create                                                        controllers.content.posts.Posts.create()
-POST    /api/v1/posts/update/:id                                                    controllers.content.posts.Posts.update(id : Integer)
-POST    /api/v1/posts/delete/:id                                                    controllers.content.posts.Posts.delete(id : Integer)
-GET     /api/v1/posts/get/:id                                                       controllers.content.posts.Posts.get(id : Integer)
+POST    /api/v1/posts/create                                                            controllers.content.posts.Posts.create()
+POST    /api/v1/posts/update/:id                                                        controllers.content.posts.Posts.update(id : Integer)
+POST    /api/v1/posts/delete/:id                                                        controllers.content.posts.Posts.delete(id : Integer)
+GET     /api/v1/posts/get/:id                                                           controllers.content.posts.Posts.get(id : Integer)
 
-GET     /api/v1/posts/get/client/:id                                                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/up/:id/:postId                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/down/:id/:postId                                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/:id                                                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/up/:id/:postId                                         controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/down/:id/:postId                                       controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /api/v1/posts/get/client/theme/:id/:idTheme                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/up/theme/:id/:postId/:idTheme                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/down/theme/:id/:postId/:idTheme                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/theme/:id/:idTheme                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/up/theme/:id/:postId/:idTheme                          controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/down/theme/:id/:postId/:idTheme                        controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /api/v1/posts/get/client/category/:id/:idCategory                           controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/up/category/:id/:postId/:idCategory                controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/down/category/:id/:postId/:idCategory              controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/category/:id/:idCategory                               controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/up/category/:id/:postId/:idCategory                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/down/category/:id/:postId/:idCategory                  controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
 
-GET     /api/v1/posts/get/client/:idClient/:idPost                                  controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
-GET     /api/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize            controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
-GET     /api/v1/posts/list                                                          controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
-GET     /api/v1/posts/list/theme/:id                                                controllers.content.posts.Posts.getListForTheme(id : Integer)
+GET     /api/v1/posts/get/client/:idClient/:idPost                                      controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
+GET     /api/v1/posts/get/category/:idClient/:idCategory/:page/:pageSize                controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
+GET     /api/v1/posts/list                                                              controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /api/v1/posts/list/theme/:id                                                    controllers.content.posts.Posts.getListForTheme(id : Integer)
 
 #POSTS IMAGES
-GET     /api/v1/posts/images/get/client/up/theme/:id/:postId/:idTheme               controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
-GET     /api/v1/posts/images/get/client/down/theme/:id/:postId/:idTheme             controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
+GET     /api/v1/posts/images/get/client/up/theme/:id/:postId/:idTheme                   controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
+GET     /api/v1/posts/images/get/client/down/theme/:id/:postId/:idTheme                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idTheme: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
 
 #Files
-GET     /api/v1/files/get                                                           controllers.content.posts.Posts.getPublicImages()
+GET     /api/v1/files/get                                                               controllers.content.posts.Posts.getPublicImages()
 
 #Clients
-POST    /api/v1/clients/create                                                      controllers.client.Clients.create()
-POST    /api/v1/clients/update/:id                                                  controllers.client.Clients.update(id : Integer)
-POST    /api/v1/clients/delete/:id                                                  controllers.client.Clients.delete(id : Integer)
-POST    /api/v1/clients/upstream/resetpass                                          controllers.client.Clients.resetUpstreamPass()
-POST    /api/v1/clients/upstream/events/send                                        controllers.client.Clients.sendEvent()
-GET     /api/v1/clients/get/:id/:upstreamChannel                                    controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
-GET     /api/v1/clients/list                                                        controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
-GET     /api/v1/clients/favorites/:id                                               controllers.client.Clients.getStarredThemesForClient(id : Integer)
+POST    /api/v1/clients/create                                                          controllers.client.Clients.create()
+POST    /api/v1/clients/update/:id                                                      controllers.client.Clients.update(id : Integer)
+POST    /api/v1/clients/delete/:id                                                      controllers.client.Clients.delete(id : Integer)
+POST    /api/v1/clients/upstream/resetpass                                              controllers.client.Clients.resetUpstreamPass()
+POST    /api/v1/clients/upstream/events/send                                            controllers.client.Clients.sendEvent()
+GET     /api/v1/clients/get/:id/:upstreamChannel                                        controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET     /api/v1/clients/list                                                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+GET     /api/v1/clients/favorites/:id                                                   controllers.client.Clients.getStarredThemesForClient(id : Integer)
 
 #Clients PMC
-GET     /api/v1/clients/pmc/get/:id                                                 controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
-GET     /api/v1/clients/pmc/list/:page/:pageSize                                    controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
-POST    /api/v1/clients/pmc/clean                                                   controllers.client.Clients.cleanDevices()
+GET     /api/v1/clients/pmc/get/:id                                                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
+GET     /api/v1/clients/pmc/list/:page/:pageSize                                        controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
+POST    /api/v1/clients/pmc/clean                                                       controllers.client.Clients.cleanDevices()
 
 #FAKE UPSTREAM URL
-POST    /api/v1/clients/upstream/game/user/subscribe                                controllers.client.Clients.upstreamFakeCreate()
-POST    /api/v1/clients/upstream/game/user/login                                    controllers.client.Clients.upstreamFakeLogin()
-POST    /api/v1/clients/upstream/game/user/status                                   controllers.client.Clients.upstreamFakeStatus()
-POST    /api/v1/clients/upstream/game/user/password                                 controllers.client.Clients.upstreamFakeResetPass()
-POST    /api/v1/clients/upstream/game/user/event                                    controllers.client.Clients.upstreamFakeEventSend()
+POST    /api/v1/clients/upstream/game/user/subscribe                                    controllers.client.Clients.upstreamFakeCreate()
+POST    /api/v1/clients/upstream/game/user/login                                        controllers.client.Clients.upstreamFakeLogin()
+POST    /api/v1/clients/upstream/game/user/status                                       controllers.client.Clients.upstreamFakeStatus()
+POST    /api/v1/clients/upstream/game/user/password                                     controllers.client.Clients.upstreamFakeResetPass()
+POST    /api/v1/clients/upstream/game/user/event                                        controllers.client.Clients.upstreamFakeEventSend()
 
 # Authenticate
 GET     /restricted                                                                     controllers.Application.restricted

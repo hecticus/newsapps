@@ -93,6 +93,9 @@ function loadServerConfigs(){
 			upstreamAppVersion = _json.response.upstreamAppVersion;
 			upstreamServiceID = _json.response.upstreamServiceID;
 			upstreamURL = _json.response.upstreamURL;
+			companyName = _json.response.company_name;
+			buildVersion = _json.response.build_version;
+			serverVersion = _json.response.server_version;
 			console.log("FINISH LOADING");
 			//cuando tengamos todo esto mandamos a inicial los clientes
 			//init client manager
