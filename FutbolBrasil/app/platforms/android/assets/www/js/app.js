@@ -21,10 +21,12 @@
 			return function(scope, element, attrs) {
 			    
 		    if (scope.$last){
+		    		    	
 		      	_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
 				_scroll.on('beforeScrollStart', function () {
-					this.refresh();			
-				});		      
+					this.refresh();		
+				});
+						      
 		    }
 		    
 		  };
@@ -88,8 +90,26 @@
         		 
 				url: 'http://footballmanager.hecticus.com/',
 
-            	news: function (_page) {
-            		return this.url + 'newsapi/v1/news/search/1/' + _page + '/10';					
+				competitions: function () {
+            		return this.url + 'footballapi/v1/competitions/list/ids/1';					
+            	},
+
+            	news: function () {
+            		return {   
+            			         		
+            			index:  this.url + 'newsapi/v1/news/scroll/1',
+            			
+            			up: function (_news) { 
+
+            				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' + _news;
+            			},
+            			
+            			down: function (_news) {
+            				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' + _news;
+            			}
+            			
+            		};
+			
             	},
             	
             	standings: function () {
@@ -106,7 +126,7 @@
             			today: this.url + 'footballapi/v1/matches/date/get/1/today',
             			
             			date: function (_date) {
-            				return this.url + 'http://footballmanager.hecticus.com/footballapi/v1/matches/date/get/1/' + _date;	
+            				return 'http://footballmanager.hecticus.com/footballapi/v1/matches/date/get/1/' + _date;	
             			}
 
             		};            		
@@ -541,14 +561,30 @@
 
 		}])
 
-
+		.directive('onLastRepeat', function() {
+        	return function(scope, element, attrs) {
+            	if (scope.$last) setTimeout(function(){
+                	scope.$emit('onRepeatLast', element, attrs);
+            	}, 1);
+        	};
+    	})
+    	
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
+				
+
 				if (_called) {
 					
+			
 					var _this = this;
+					var _news = 0;
+					
+					$scope.$on('onRepeatLast', function(scope, element, attrs){
+						_news = element.last().data('news');
+				    });
 	
+
 					_this.backPage = function() {
 						utilities.backbuttom();
 					};
@@ -570,7 +606,7 @@
 		  		 	
 	 
 		 			if (!$rootScope.$storage.news) {
-						$http.get(domain.news(1))
+						$http.get(domain.news().index())
 						
 						.success(function(_json) {
 							
@@ -586,8 +622,7 @@
 							
 		        		})	
 		        		
-		        		.error(function() {
-		
+		        		.error(function() {	
 		        			$rootScope.error = true;
 		        			$rootScope.loading = false;
 		        		});
@@ -599,6 +634,85 @@
 					}
 					
 				 
+				 	var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+				 						
+					_scroll.on('beforeScrollStart', function () {
+						this.refresh();						
+					});
+				 
+				 	_scroll.on('scroll', function () {
+
+
+				 		/*if (this.y >= 5 && !$rootScope.loading) {
+				 			
+				 			alert($http.pendingRequests.length);
+				 			
+				 			
+				 			if ($http.pendingRequests.length == 0) {
+									
+								$rootScope.loading = true;		
+								
+								$http.get(domain.news(5,2))
+								.success(function(_json) {									
+									try {		
+										
+										angular.forEach(_json.response.news, function(_item) {			
+											_this.item.news.unshift(_item);
+										});
+										
+										$rootScope.loading = false;
+										
+									} catch(err) {
+																 								
+									}
+									
+				        		})	
+				        		
+				        		.error(function() {	
+				        			
+				        		});
+								
+								
+							}
+				 			
+				 			
+				 		}*/
+				 		
+				 					 	
+					if (this.y >= this.maxScrollY) {
+				
+							if ($http.pendingRequests.length == 0) {
+								
+	
+								//$rootScope.loading = true;		
+								$http.get(domain.news().down(_news))
+								.success(function(_json) {
+									
+									try {	
+										
+										angular.forEach(_json.response.news, function(_item) {			
+											_this.item.news.push(_item);
+										});
+										
+									//	$rootScope.loading = false;
+ 
+									} catch(err) {
+																 								
+									}
+									
+				        		})	
+				        		
+				        		.error(function() {	
+				        			
+				        		});
+								
+								
+							}
+				
+							
+
+						}
+					});
 		 		
 					var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
 					_scroll2.on('beforeScrollStart', function () {
@@ -606,11 +720,16 @@
 					});
 				} 				
 
+
+					
+				 
+					
+
+
+
 				_called = true;
 				
 	 			
 
 		}]);
- 
- 	//var _app = angular.injector(['FutbolBrasil']);
- 
+
