@@ -1,6 +1,9 @@
 
+	var _called = false;
+	var _scroll = false;
+	
 	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','ngAnimate'])
-	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
+	var _app = angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
  		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';
@@ -11,6 +14,21 @@
 				match:false,
 			});
 		})		
+		
+		
+		
+		.directive('myScroll', function() {
+			return function(scope, element, attrs) {
+			    
+		    if (scope.$last){
+		      	_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();			
+				});		      
+		    }
+		    
+		  };
+		})
 		
 
 		.directive('loading', function () {
@@ -132,19 +150,16 @@
 					return _oMoment;
 	 			},
 	 			
-	 			backbuttom: function () {
-	 				            		
+	 			backbuttom: function () {	 				            		
                 	var _this =  angular.element('#wrapper2');  		 		           		
-            		if (_this.hasClass('left')) {
+            		if (_this.hasClass('left')) {            			
             			_this.attr('class','page transition right');				
-            		}	else {
-            			
+            		}	else {            			
 						if (navigator.app) {					
 					        navigator.app.exitApp();				            
 					    } else if (navigator.device) {			        	
 					        navigator.device.exitApp();				            				          
-					   }
-					   
+					   }					   
             		}
             	},
             	
@@ -152,28 +167,25 @@
     	})
 				
 		.config(function($routeProvider) {
-	  		$routeProvider	    	
-	    	.when('/match', {
+			
+	  		$routeProvider
+
+	  		.when('/match', {
 	      		controller:'matchCtrl',
 	      		templateUrl:'match.html',
-	      		prev: '/livescore',
-	      		next: '/standings',
+	      		prev: '/livescore/',
+	      		next: '/standings/',
 	      		_class: 'content-match'
-	    	})	
+	    	})
+	    	
 	    	.when('/standings', {
 	      		controller:'standingsCtrl',
 	      		templateUrl:'standings.html',
 	      		prev: '/match',
 	      		next: '/news',
 	      		contentClass: 'content-standings'
-	    	})	 
-	    	.when('/news', {
-	      		controller:'newsCtrl',
-	      		templateUrl:'news.html',
-	      		prev: '/standings',
-	      		next: '/scorers',
-	      		contentClass: 'content-news'
-	    	})	    
+	    	})
+	    	    
 	    	.when('/scorers', {
 	      		controller:'scorersCtrl',
 	      		templateUrl:'scorers.html',
@@ -181,6 +193,7 @@
 	      		next: '/livescore',
 	      		contentClass: 'content-scorers'
 	    	})
+	    	
 	    	.when('/livescore', {
 	      		controller:'livescoreCtrl',
 	      		templateUrl:'livescore.html',
@@ -220,10 +233,20 @@
 	      		next: '/prediction',
 	      		contentClass: 'content-points'
 	    	})		    	    
+	    	 
+	    	.when('/news', {
+	    		controller:'newsCtrl',
+	      		templateUrl:'news.html',
+	      		prev: '/standings',
+	      		next: '/scorers',
+	      		contentClass: 'content-news'
+	    	})	
 	    	    		 	    	    	
 	    	.otherwise({	    		
-	    		redirectTo:'/news'									      		
+	    		redirectTo:'/news'								      		
 	    	});
+
+	    	
 		})
 
  		.controller('mainCtrl', function($rootScope, $scope, $location, $route, $localStorage, $http) {
@@ -232,14 +255,14 @@
                  function (event, current, previous, rejection) {
                 $rootScope.loading = false;                                
 				$rootScope.error = false;
+				_called = false;					
   			});
   			      
   			$rootScope.$on('$routeChangeSuccess', 
                  function (event, current, previous, rejection) {
-             	if ($route.current.contentClass) {
-             		$rootScope.loading = true;   
+                $rootScope.loading = true;
+             	if ($route.current.contentClass)
              		$rootScope.contentClass = $route.current.contentClass;
-             	}
   			});
 
 
@@ -323,7 +346,7 @@
 			};
 
 			$rootScope.showCompetition = function(_option) {
-				
+
 				var _this = angular.element('.competition.active');
 				var _first = 0;				
 				var _last = (angular.element('span.competition').length - 1);
@@ -331,17 +354,17 @@
 				_scroll.scrollTo(0,0,0);
 
 				if (_option == 'next') {										
-					if (_current == _last) {
-						_this.removeClass('active');
-						_this.prevAll().addClass('active flipInX').last();
+					if (_current == _last) {										
+						//_this.removeClass('active');
+						//_this.siblings('div:first, span:first').addClass('active flipInX');						
 					} else {
 						_this.removeClass('active');
 						_this.next().addClass('active flipInX');						
 					}						
 				} else {
 					if (_current == _first) {
-						_this.removeClass('active');							
-						_this.nextAll().addClass('active flipInX').last();						
+						//_this.removeClass('active');							
+						//_this.siblings('div:last, span:last').addClass('active flipInX');						
 					} else {
 						_this.removeClass('active');		
 						_this.prev().addClass('active flipInX');
@@ -386,112 +409,133 @@
  
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
- 				
- 			var _this = this;
+ 			
+ 			
+ 			if (_called) {
+ 				var _this = this;
 
-			if (!$rootScope.$storage.scorers) {
-				$http.get(domain.scorers())
-				
-				.success(function(_json) {
+				if (!$rootScope.$storage.scorers) {
+					$http.get(domain.scorers())
 					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.scorers = JSON.stringify(_this.item);
+					.success(function(_json) {
+						
+						try {
+			 				_this.item = _json.response;
+							$rootScope.$storage.scorers = JSON.stringify(_this.item);
+							$rootScope.loading = false;
+							$rootScope.error = utilities.error(_this.item.leagues,'scorers');	
+						} catch(err) {
+			 				$rootScope.error = true;	        	
+				        	$rootScope.loading = false;				
+						}
+			
+	        		})
+	        		        		
+	        		.error(function() {
+	        			$rootScope.error = true;	        	
 						$rootScope.loading = false;
-						$rootScope.error = utilities.error(_this.item.leagues,'scorers');	
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-		
-        		})
-        		        		
-        		.error(function() {
-        			$rootScope.error = true;	        	
+	        		});
+	        			
+				} else {
+					_this.item = JSON.parse($rootScope.$storage.scorers);
 					$rootScope.loading = false;
-        		});
-        			
-			} else {
-				_this.item = JSON.parse($rootScope.$storage.scorers);
-				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.leagues,'scorers');
-			}
+					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
+				}
+
+ 			}
+ 				
+ 			_called = true;
 			
 								
 		}])
  
  
  		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) { 				
- 			
- 			var _this = this;
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+ 				 				
+ 			if (_called) {
+ 				
+ 				var _this = this;
 
 			
-			if (!$rootScope.$storage.standings) {
-				$http.get(domain.standings())
-				
-				.success(function(_json) {
+				if (!$rootScope.$storage.standings) {
+					$http.get(domain.standings())
 					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.standings = JSON.stringify(_this.item);
+					.success(function(_json) {
+						
+						try {
+			 				_this.item = _json.response;
+							$rootScope.$storage.standings = JSON.stringify(_this.item);
+							$rootScope.loading = false;
+							$rootScope.error = utilities.error(_this.item.rankings,'ranks');	
+						} catch(err) {
+			 				$rootScope.error = true;	        	
+				        	$rootScope.loading = false;				
+						}
+					
+	        		})
+	        		
+	        		.error(function() {
+	        			$rootScope.error = true;	        	
 						$rootScope.loading = false;
-						$rootScope.error = utilities.error(_this.item.rankings,'ranks');	
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-				
-        		})
-        		
-        		.error(function() {
-        			$rootScope.error = true;	        	
+	        		});
+	        		
+				} else {
+					_this.item = JSON.parse($rootScope.$storage.standings);
 					$rootScope.loading = false;
-        		});
-        		
-			} else {
-				_this.item = JSON.parse($rootScope.$storage.standings);
-				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.rankings,'ranks');
-			}
-			
+					$rootScope.error = utilities.error(_this.item.rankings,'ranks');
+				}
+ 				
+ 				_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();			
+				});
+ 			}
+ 			
+			_called = true;
 			
 		}])
   
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
- 				
-			var _this = this;		
+
+			if (_called) {
+				
+				var _this = this;		
 				
 
-			if (!$rootScope.$storage.match) {
-				$http.get(domain.match().today)
-				
-				.success(function(_json) {		
+				if (!$rootScope.$storage.match) {
+					$http.get(domain.match().today)
 					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.match = JSON.stringify(_this.item);
-						$rootScope.loading = false;					
-						$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-
-        		})
-        		
-        		.error(function() {
-        			$rootScope.error = true;	        	
-					$rootScope.loading = false;	
-        		});
-
-			} else {				
-				_this.item = JSON.parse($rootScope.$storage.match);
-				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');				
+					.success(function(_json) {		
+						
+						try {
+			 				_this.item = _json.response;
+							$rootScope.$storage.match = JSON.stringify(_this.item);
+							$rootScope.loading = false;					
+							$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');
+						} catch(err) {
+			 				$rootScope.error = true;	        	
+				        	$rootScope.loading = false;				
+						}
+	
+	        		})
+	        		
+	        		.error(function() {
+	        			$rootScope.error = true;	        	
+						$rootScope.loading = false;	
+	        		});
+	
+				} else {				
+					_this.item = JSON.parse($rootScope.$storage.match);
+					$rootScope.loading = false;
+					$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');				
+				}
+							
+				
 			}
-			
+
+			_called = true;
 			
 			
 
@@ -501,63 +545,72 @@
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
-
-	 			var _this = this;
-	
-				_this.backPage = function() {
-					utilities.backbuttom();
-				};
+				if (_called) {
 					
-				_this.share = function(_news) {
-					window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
-				};
+					var _this = this;
 	
-				_this.fromNow = function(_date) {
-					return utilities.moment(_date).fromNow();
-				};
-	
-				_this.showContentNews = function(_news) {
-					$rootScope.contentNews = _news;				
-					angular.element('#wrapper2').attr('class','page transition left');
-					_scroll2.scrollTo(0,0,0);
-	  			};
-	  			
-	  		 	
- 
-	 			if (!$rootScope.$storage.news) {
-					$http.get(domain.news(1))
-					
-					.success(function(_json) {
+					_this.backPage = function() {
+						utilities.backbuttom();
+					};
 						
-						try {
-			 				_this.item = _json.response;
-							$rootScope.$storage.news = JSON.stringify(_this.item);
-							$rootScope.loading = false;	
-							$rootScope.error = utilities.error(_this.item.news);	
-						} catch(err) {
-			 				$rootScope.error = true;	        	
-				        	$rootScope.loading = false;				
-						}
-						
-	        		})	
-	        		
-	        		.error(function() {
-	
-	        			$rootScope.error = true;
-	        			$rootScope.loading = false;
-	        		});
-	        		
-				} else {
-					_this.item = JSON.parse($rootScope.$storage.news);
-					$rootScope.loading = false;
-					$rootScope.error = utilities.error(_this.item.news);	
-				}
-				
-			 
- 			
+					_this.share = function(_news) {
+						window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
+					};
 		
+					_this.fromNow = function(_date) {
+						return utilities.moment(_date).fromNow();
+					};
+		
+					_this.showContentNews = function(_news) {
+						$rootScope.contentNews = _news;				
+						angular.element('#wrapper2').attr('class','page transition left');
+						_scroll2.scrollTo(0,0,0);
+		  			};
+		  			
+		  		 	
+	 
+		 			if (!$rootScope.$storage.news) {
+						$http.get(domain.news(1))
+						
+						.success(function(_json) {
+							
+							try {
+				 				_this.item = _json.response;
+								$rootScope.$storage.news = JSON.stringify(_this.item);
+								$rootScope.loading = false;	
+								$rootScope.error = utilities.error(_this.item.news);	
+							} catch(err) {
+				 				$rootScope.error = true;	        	
+					        	$rootScope.loading = false;				
+							}
+							
+		        		})	
+		        		
+		        		.error(function() {
+		
+		        			$rootScope.error = true;
+		        			$rootScope.loading = false;
+		        		});
+		        		
+					} else {
+						_this.item = JSON.parse($rootScope.$storage.news);
+						$rootScope.loading = false;
+						$rootScope.error = utilities.error(_this.item.news);	
+					}
+					
+				 
+		 		
+					var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
+					_scroll2.on('beforeScrollStart', function () {
+						this.refresh();
+					});
+				} 				
+
+				_called = true;
+				
+	 			
 
 		}]);
  
- 	var _app = angular.injector(['FutbolBrasil']);
+ 	//var _app = angular.injector(['FutbolBrasil']);
  

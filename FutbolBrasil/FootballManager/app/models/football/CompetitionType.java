@@ -3,6 +3,7 @@ package models.football;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -72,7 +73,13 @@ public class CompetitionType extends HecticusModel {
 
     @Override
     public ObjectNode toJson() {
-        return null;
+        ObjectNode obj = Json.newObject();
+        obj.put("id_competition_type",idCompType);
+        obj.put("status",status);
+        obj.put("name",name);
+        obj.put("type", type);
+        obj.put("ext_id", extId);
+        return obj;
     }
 
     public static CompetitionType getCompType(long extId){
