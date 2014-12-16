@@ -324,4 +324,14 @@ public class Utils {
 
         return true;
     }
+
+    public static String uploadResource(File imageFile) {
+        boolean uploaded = uploadAndPublish(imageFile, "resources");
+        if(uploaded){
+            String name = Config.getString("rks-CDN-URL") + "resources/" + imageFile.getName();
+            imageFile.delete();
+            return name;
+        }
+        return null;
+    }
 }
