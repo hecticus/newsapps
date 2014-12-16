@@ -117,17 +117,22 @@ public class MatchesController extends HecticusController {
         }
     }
 
-    public static Result getActiveCompetitions(Integer idApp){
+    public static Result getActiveCompetitions(Integer idApp, Boolean ids){
         try {
             ObjectNode response = null;
             ArrayList data = new ArrayList();
             ArrayList responseData = new ArrayList();
             List<Competition> competitionsByApp = Competition.getActiveCompetitionsByApp(idApp);
-            ArrayList<Long> competitionIDs = new ArrayList<>(competitionsByApp.size());
-            for(Competition competition : competitionsByApp) {
-                competitionIDs.add(competition.getIdCompetitions());
+            ArrayList competitions = null;
+            if(ids){
+                competitions = new ArrayList<Long>(competitionsByApp.size());
+            } else {
+                competitions = new ArrayList<ObjectNode>(competitionsByApp.size());
             }
-            response = hecticusResponse(0, "ok", "ids", competitionIDs);
+            for(Competition competition : competitionsByApp) {
+                competitions.add(ids ? competition.getIdCompetitions() : competition.toJson());
+            }
+            response = hecticusResponse(0, "ok", ids?"ids":"competitions", competitions);
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
