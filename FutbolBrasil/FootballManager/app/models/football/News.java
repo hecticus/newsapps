@@ -102,8 +102,7 @@ public class News extends HecticusModel {
 
     }
 
-    private static Model.Finder<Long,News> finder =
-            new Model.Finder<Long, News>(Long.class, News.class);
+    public static Model.Finder<Long,News> finder = new Model.Finder<Long, News>(Long.class, News.class);
 
 
     @Override
@@ -120,8 +119,12 @@ public class News extends HecticusModel {
         tr.put("keyword", keyword);
         tr.put("author", author);
         tr.put("publicationDate", publicationDate);
-        if (resources.size()> 0){
-            tr.put("resorces", Json.toJson((resources)));
+        if (resources != null && !resources.isEmpty()){
+            ArrayList<String> resourcesURLs = new ArrayList<>(resources.size());
+            for(Resource resource : resources) {
+                resourcesURLs.add(resource.getRemoteLocation());
+            }
+            tr.put("resources", Json.toJson((resourcesURLs)));
         }
         //hecticus data??
 

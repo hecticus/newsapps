@@ -56,6 +56,14 @@ GET      /newsapi/v1/news/search/:idApp                    controllers.news.News
 GET      /newsapi/v1/news/search/:idApp/:offset/:count     controllers.news.NewsController.getNews(idApp:Integer, offset: Integer, count:Integer)
 POST     /newsapi/v1/news/resources/update                 controllers.news.NewsController.updateResources()
 
+#NewsScroll
+GET      /newsapi/v1/news/scroll/up/first/:idApp/:newsId               controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/up/rest/:idApp/:newsId                controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=false)
+GET      /newsapi/v1/news/scroll/down/first/:idApp/:newsId             controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/down/rest/:idApp/:newsId              controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=false)
+GET      /newsapi/v1/news/scroll/:idApp                                controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long?=0, newest:Boolean?=false, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/:idApp/:newsId/:newest/:first         controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest:Boolean, first:Boolean)
+
 #afp futbol
 GET     /footballapi/v1/team/getAll/:idCompetition              controllers.footballapi.AfpFutbolWs.getTeams(idCompetition: Integer)
 GET     /footballapi/v1/team/get/:id                            controllers.footballapi.AfpFutbolWs.getTeam(id: Long)
