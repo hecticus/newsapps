@@ -50,10 +50,28 @@ var app = {
 		   document.addEventListener('backbutton', function(e) {
             	_app.get('utilities').backbuttom();							
 			}, false);
-			 
-
+		
+		   //app.initAllAppData();
     	}
 
+    },
+    
+    initAllAppData: function() {
+    	StatusBar.hide();
+    	//window.plugins.sharedConfigurations.addSharedConfigEntry("test","one",setShareOK,errorShareOK);
+    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_width",setRealWidth,errorShareConfigs);
+    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_height",setRealHeight,errorShareConfigs);
+    	
+    	//revisamos que la data que esta guardada este bien
+    	checkStoredData();
+    	if (_fPhonegapIsOnline()) {
+    		//init Push manager
+    		initPush();
+    		//init client manager
+    		initClientManager(startApp, errorStartApp);
+    	}else{
+    		startAppOffline();
+    	}
     }
 };
 
