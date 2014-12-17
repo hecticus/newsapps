@@ -1,9 +1,7 @@
 
-	var _called = false;
 	var _scroll = false;
-	
-	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','ngAnimate'])
-	var _app = angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
+		
+	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
  		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';
@@ -99,12 +97,11 @@
             			         		
             			index:  this.url + 'newsapi/v1/news/scroll/1',
             			
-            			up: function (_news) { 
-
+            			up: function (_news,_limit) { 
             				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' + _news;
             			},
             			
-            			down: function (_news) {
+            			down: function (_news,_limit) {
             				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' + _news;
             			}
             			
@@ -191,7 +188,7 @@
 	  		$routeProvider
 
 	  		.when('/match', {
-	      		controller:'matchCtrl',
+	      		controller:'matchCtrl as _this',
 	      		templateUrl:'match.html',
 	      		prev: '/livescore/',
 	      		next: '/standings/',
@@ -199,7 +196,7 @@
 	    	})
 	    	
 	    	.when('/standings', {
-	      		controller:'standingsCtrl',
+	      		controller:'standingsCtrl  as _this',
 	      		templateUrl:'standings.html',
 	      		prev: '/match',
 	      		next: '/news',
@@ -207,7 +204,7 @@
 	    	})
 	    	    
 	    	.when('/scorers', {
-	      		controller:'scorersCtrl',
+	      		controller:'scorersCtrl  as _this',
 	      		templateUrl:'scorers.html',
 	      		prev: '/news',
 	      		next: '/livescore',
@@ -215,7 +212,7 @@
 	    	})
 	    	
 	    	.when('/livescore', {
-	      		controller:'livescoreCtrl',
+	      		controller:'livescoreCtrl  as _this',
 	      		templateUrl:'livescore.html',
 	      		prev: '/scorers',
 	      		next: '/match',
@@ -223,7 +220,7 @@
 	    	})	 	    		
 	    	
 	    	.when('/prediction', {
-	      		controller:'predictionCtrl',
+	      		controller:'predictionCtrl  as _this',
 	      		templateUrl:'prediction.html',
 	      		prev: '/points',
 	      		next: '/leaderboard',
@@ -231,7 +228,7 @@
 	    	})	
 	    	    
 			.when('/leaderboard', {
-	      		controller:'leaderboardCtrl',
+	      		controller:'leaderboardCtrl  as _this',
 	      		templateUrl:'leaderboard.html',
 	      		prev: '/prediction',
 	      		next: '/friends',
@@ -239,7 +236,7 @@
 	    	})		    	    
 
 			.when('/friends', {
-	      		controller:'friendsCtrl',
+	      		controller:'friendsCtrl  as _this',
 	      		templateUrl:'friends.html',
 	      		prev: '/leaderboard',
 	      		next: '/points',
@@ -247,7 +244,7 @@
 	    	})
 
 			.when('/points', {
-	      		controller:'pointsCtrl',
+	      		controller:'pointsCtrl  as _this',
 	      		templateUrl:'points.html',
 	      		prev: '/friends',
 	      		next: '/prediction',
@@ -255,7 +252,7 @@
 	    	})		    	    
 	    	 
 	    	.when('/news', {
-	    		controller:'newsCtrl',
+	    		controller:'newsCtrl  as _this',
 	      		templateUrl:'news.html',
 	      		prev: '/standings',
 	      		next: '/scorers',
@@ -267,7 +264,7 @@
 	    	});
 
 	    	
-		})
+		}) 
 
  		.controller('mainCtrl', function($rootScope, $scope, $location, $route, $localStorage, $http) {
 
@@ -431,7 +428,7 @@
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
  			
  			
- 			if (_called) {
+ 
  				var _this = this;
 
 				if (!$rootScope.$storage.scorers) {
@@ -462,10 +459,7 @@
 					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
 				}
 
- 			}
- 				
- 			_called = true;
-			
+
 								
 		}])
  
@@ -473,7 +467,7 @@
  		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
  				 				
- 			if (_called) {
+
  				
  				var _this = this;
 
@@ -510,16 +504,14 @@
 				_scroll.on('beforeScrollStart', function () {
 					this.refresh();			
 				});
- 			}
- 			
-			_called = true;
+
 			
 		}])
   
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
-			if (_called) {
+		
 				
 				var _this = this;		
 				
@@ -553,9 +545,7 @@
 				}
 							
 				
-			}
 
-			_called = true;
 			
 			
 
@@ -563,173 +553,154 @@
 
 		.directive('onLastRepeat', function() {
         	return function(scope, element, attrs) {
+        		
             	if (scope.$last) setTimeout(function(){
                 	scope.$emit('onRepeatLast', element, attrs);
             	}, 1);
+            	
+            	if (scope.$first) setTimeout(function(){
+                	scope.$emit('onRepeatFirst', element, attrs);
+            	}, 1);
+            	
         	};
     	})
     	
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
+
+			var _this = this;
+			var _news = {first:0, last:0};
+					
+			$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
+				_news.first = element.first().data('news');
+				$rootScope.loading = false;	
+		    });					
+					
+			$scope.$on('onRepeatLast', function(scope, element, attrs) {
+				_news.last = element.last().data('news');
+				$rootScope.loading = false;	
+		    });
+
+
+			_this.backPage = function() {
+				utilities.backbuttom();
+			};
 				
+			_this.share = function(_news) {
+				window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
+			};
 
-				if (_called) {
-					
-			
-					var _this = this;
-					var _news = 0;
-					
-					$scope.$on('onRepeatLast', function(scope, element, attrs){
-						_news = element.last().data('news');
-				    });
-	
+			_this.fromNow = function(_date) {
+				return utilities.moment(_date).fromNow();
+			};
 
-					_this.backPage = function() {
-						utilities.backbuttom();
-					};
-						
-					_this.share = function(_news) {
-						window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
-					};
-		
-					_this.fromNow = function(_date) {
-						return utilities.moment(_date).fromNow();
-					};
-		
-					_this.showContentNews = function(_news) {
-						$rootScope.contentNews = _news;				
-						angular.element('#wrapper2').attr('class','page transition left');
-						_scroll2.scrollTo(0,0,0);
-		  			};
-		  			
-		  		 	
-	 
-		 			if (!$rootScope.$storage.news) {
-						$http.get(domain.news().index())
-						
-						.success(function(_json) {
-							
-							try {
-				 				_this.item = _json.response;
-								$rootScope.$storage.news = JSON.stringify(_this.item);
-								$rootScope.loading = false;	
-								$rootScope.error = utilities.error(_this.item.news);	
-							} catch(err) {
-				 				$rootScope.error = true;	        	
-					        	$rootScope.loading = false;				
-							}
-							
-		        		})	
-		        		
-		        		.error(function() {	
-		        			$rootScope.error = true;
-		        			$rootScope.loading = false;
-		        		});
-		        		
-					} else {
-						_this.item = JSON.parse($rootScope.$storage.news);
-						$rootScope.loading = false;
+			_this.showContentNews = function(_news) {
+				$rootScope.contentNews = _news;				
+				angular.element('#wrapper2').attr('class','page transition left');
+				_scroll2.scrollTo(0,0,0);
+  			};
+
+ 			if (!$rootScope.$storage.news) {
+				$http.get(domain.news().index)
+				
+				.success(function(_json) {
+					
+					try {
+		 				_this.item = _json.response;
+						$rootScope.$storage.news = JSON.stringify(_this.item);
+						$rootScope.loading = false;	
 						$rootScope.error = utilities.error(_this.item.news);	
+					} catch(err) {
+		 				$rootScope.error = true;	        	
+			        	$rootScope.loading = false;				
 					}
 					
-				 
-				 	var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-				 						
-					_scroll.on('beforeScrollStart', function () {
-						this.refresh();						
-					});
-				 
-				 	_scroll.on('scroll', function () {
+        		})	
+        		
+        		.error(function() {	
+        			$rootScope.error = true;
+        			$rootScope.loading = false;
+        		});
+        		
+			} else {
+				_this.item = JSON.parse($rootScope.$storage.news);
+				$rootScope.loading = false;
+				$rootScope.error = utilities.error(_this.item.news);	
+			}
+			
+		 
+		 	var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
 
+			_scroll.on('beforeScrollStart', function () {
+				this.refresh();						
+			});
+				 
+			_scroll.on('scroll', function () {
 
-				 		/*if (this.y >= 5 && !$rootScope.loading) {
-				 			
-				 			alert($http.pendingRequests.length);
-				 			
-				 			
-				 			if ($http.pendingRequests.length == 0) {
-									
-								$rootScope.loading = true;		
-								
-								$http.get(domain.news(5,2))
-								.success(function(_json) {									
-									try {		
-										
-										angular.forEach(_json.response.news, function(_item) {			
-											_this.item.news.unshift(_item);
-										});
-										
-										$rootScope.loading = false;
-										
-									} catch(err) {
-																 								
-									}
-									
-				        		})	
-				        		
-				        		.error(function() {	
-				        			
-				        		});
-								
-								
-							}
-				 			
-				 			
-				 		}*/
-				 		
-				 					 	
-					if (this.y >= this.maxScrollY) {
-				
-							if ($http.pendingRequests.length == 0) {
-								
-	
-								//$rootScope.loading = true;		
-								$http.get(domain.news().down(_news))
-								.success(function(_json) {
-									
-									try {	
-										
-										angular.forEach(_json.response.news, function(_item) {			
-											_this.item.news.push(_item);
-										});
-										
-									//	$rootScope.loading = false;
- 
-									} catch(err) {
-																 								
-									}
-									
-				        		})	
-				        		
-				        		.error(function() {	
-				        			
-				        		});
-								
-								
-							}
-				
+					if (this.y >= 50 ) {
+						
+						if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
 							
-
+							$rootScope.loading = true;
+							
+							$http.get(domain.news().up(_news.first))
+							.success(function(_json) {
+								try {							
+												
+									angular.forEach(_json.response.news, function(_item) {			
+										_this.item.news.unshift(_item);
+									});		
+									
+									$rootScope.loading = false;	
+								} catch(err) {
+									$rootScope.loading = false;
+								}							
+			        		})			        		
+			        		.error(function() {	
+			        			$rootScope.loading = false;
+			        		});
 						}
-					});
+						
+	            	}
+
+	            if (this.y <= this.maxScrollY) {
+	            						
+	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
+	            			
+	            			$rootScope.loading = true;
+	            			
+	            			$http.get(domain.news().down(_news.last))
+							.success(function(_json) {						
+							try {
+								
+								angular.forEach(_json.response.news, function(_item) {
+									_this.item.news.push(_item);
+								});
+								
+								$rootScope.loading = false;
+								
+							} catch(err) {
+								$rootScope.loading = false;
+							}
+							
+							})	
+				        		
+				        	.error(function() {
+				        		$rootScope.loading = false;
+				        	});
+					}		
+				}
+
+            	
+
+			});
 		 		
-					var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
-					_scroll2.on('beforeScrollStart', function () {
-						this.refresh();
-					});
-				} 				
-
-
-					
-				 
-					
-
-
-
-				_called = true;
-				
-	 			
-
+			var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
+			_scroll2.on('beforeScrollStart', function () {
+				this.refresh();
+			});
+			
 		}]);
 
+	var _app = angular.injector(['FutbolBrasil']);
