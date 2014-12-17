@@ -9,11 +9,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
+import com.hecticus.cordova.plugins.sharedconfigurations.SharedConfigurations;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GCMBaseIntentService {
@@ -70,9 +72,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 			}
 			else {
 				extras.putBoolean("foreground", false);
-
-                // Send a notification if there is a message
-                if (extras.getString("message") != null && extras.getString("message").length() != 0) {
+				SharedPreferences sharedPref = context.getSharedPreferences("Main", Context.MODE_PRIVATE);
+				boolean allow = sharedPref.getBoolean("allow_push", true);
+				// Send a notification if there is a message
+                if (extras.getString("message") != null && extras.getString("message").length() != 0 && allow) {
                     createNotification(context, extras);
                 }
             }

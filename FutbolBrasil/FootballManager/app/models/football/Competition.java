@@ -7,6 +7,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -138,6 +139,14 @@ public class Competition  extends HecticusModel {
         obj.put("id_competitions",idCompetitions);
         obj.put("name",name);
         obj.put("ext_id",extId);
+        obj.put("competiton_type", type.toJson());
+        if(phases != null && !phases.isEmpty()){
+            ArrayList<ObjectNode> phasesList = new ArrayList<>(phases.size());
+            for(Phase phase : phases){
+                phasesList.add(phase.toJson());
+            }
+            obj.put("phases", Json.toJson(phasesList));
+        }
         return obj;
     }
 }

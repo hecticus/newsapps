@@ -3,9 +3,12 @@ package controllers.news;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import models.Config;
 import models.Resource;
 import models.football.News;
+import play.libs.Json;
 import play.mvc.Result;
+import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,6 +81,37 @@ public class NewsController extends HecticusController {
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getRecentNews(Integer idApp, Long newsId, Boolean newest, Boolean first){
+        try {
+            Iterator<News> newsIterator = null;
+            int maxRows = first?Config.getInt("news-to-deliver"):Config.getInt("news-to-deliver-lazy");
+            News news = null;
+            if(newsId > 0) {
+                news = News.finder.byId(newsId);
+            }
+            if(news != null) {
+                if (newest) {
+                    newsIterator = News.finder.where().eq("idApp", idApp).gt("publicationDate", news.getPublicationDate()).setMaxRows(maxRows).orderBy("publicationDate desc").findList().iterator();
+                } else {
+                    newsIterator = News.finder.where().eq("idApp", idApp).lt("publicationDate", news.getPublicationDate()).setMaxRows(maxRows).orderBy("publicationDate desc").findList().iterator();
+                }
+            } else {
+                newsIterator = News.finder.where().eq("idApp", idApp).setFirstRow(0).setMaxRows(maxRows).orderBy("publicationDate desc").findList().iterator();
+            }
+            ArrayList<ObjectNode> newsList = new ArrayList<>();
+            while(newsIterator.hasNext()){
+                News next = newsIterator.next();
+                newsList.add(next.toJson());
+            }
+            ObjectNode response;
+            response = hecticusResponse(0, "ok", "news", newsList);
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(NewsController.class, "Error manejando noticias", "error listando las noticias recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 

@@ -13,7 +13,7 @@
 				 		data-index="{{$index}}"
 				 		ng-repeat="item in _this.item.leagues" 
 				 		ng-class="{'active' : $first}"
-				 		ng-if="removeElement(item.scorers)">
+				 		ng-if="removeElement(item.scorers)" my-scroll>
 				 		
 				 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
 				 			
@@ -27,7 +27,7 @@
 								</thead>
 							    <tbody>
 							    	
-							    	<tr ng-class="{'active' : $odd}" ng-repeat="item in item.scorers">
+							    	<tr ng-class="{'active' : $odd}" ng-repeat="item in item.scorers" >
 							        	<td style="text-align: left;"><span ng-bind="item.name" style="vertical-align: middle;"></span></td>
 							        	<td style="text-align: left;"><span ng-bind="item.team.name" style="vertical-align: middle;"></span></td>
 							          	<td><span ng-bind="item.goals" style="vertical-align: middle;"></span></td>							          	
@@ -72,10 +72,4 @@
 		</div>
 		
 	</div>	
-	<script type="text/javascript">												 
-		var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true});					
-		_scroll.on('beforeScrollStart', function () {
-			this.refresh();
-		});		
-	</script>
-		
+	

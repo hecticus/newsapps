@@ -4,6 +4,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.hecticus.rackspacecloud.RackspaceDelete;
+import models.Config;
 import models.HecticusModel;
 import models.Resource;
 import play.db.ebean.Model;
@@ -100,8 +102,7 @@ public class News extends HecticusModel {
 
     }
 
-    private static Model.Finder<Long,News> finder =
-            new Model.Finder<Long, News>(Long.class, News.class);
+    public static Model.Finder<Long,News> finder = new Model.Finder<Long, News>(Long.class, News.class);
 
 
     @Override
@@ -118,8 +119,12 @@ public class News extends HecticusModel {
         tr.put("keyword", keyword);
         tr.put("author", author);
         tr.put("publicationDate", publicationDate);
-        if (resources.size()> 0){
-            tr.put("resorces", Json.toJson((resources)));
+        if (resources != null && !resources.isEmpty()){
+            ArrayList<String> resourcesURLs = new ArrayList<>(resources.size());
+            for(Resource resource : resources) {
+                resourcesURLs.add(resource.getRemoteLocation());
+            }
+            tr.put("resources", Json.toJson((resourcesURLs)));
         }
         //hecticus data??
 
@@ -144,6 +149,10 @@ public class News extends HecticusModel {
 
     public static News getNewsByTitleAndApp(int idApp, String newsTitle){
         return finder.where().eq("id_app",idApp).eq("title",newsTitle).findUnique();
+    }
+
+    public static List<News> getNewsForNewsCleaner(String date){
+        return finder.where().lt("publicationDate", date).findList();
     }
 
     public static News getNewsToPush(){
@@ -412,5 +421,23 @@ public class News extends HecticusModel {
             e.printStackTrace();
         }
         return summary;
+    }
+
+    public void deleteResources() {
+        ArrayList<String> files = new ArrayList<>();
+        for(Resource resource : resources){
+            String link = resource.getRemoteLocation();
+            link = link.substring(link.lastIndexOf("/")-9);
+            System.out.println(link);
+            files.add(link);
+        }
+        if(!files.isEmpty()){
+            String containerName = Config.getString("cdn-container");
+            String username = Config.getString("rackspace-username");
+            String apiKey = Config.getString("rackspace-apiKey");
+            String provider = Config.getString("rackspace-provider");
+            RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
+            rackspaceDelete.deleteObjectsFromContainer(containerName, files);
+        }
     }
 }

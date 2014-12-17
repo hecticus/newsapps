@@ -34,6 +34,9 @@ public class LanceNewsScraper extends HecticusThread {
             fileRoute;
 
     public LanceNewsScraper() {
+        this.setActTime(System.currentTimeMillis());
+        this.setInitTime(System.currentTimeMillis());
+        this.setPrevTime(System.currentTimeMillis());
         //set name
         this.setName("LanceNewsScrapper-" + System.currentTimeMillis());
     }
@@ -44,12 +47,14 @@ public class LanceNewsScraper extends HecticusThread {
             Utils.printToLog(LanceNewsScraper.class,null,"Iniciando LanceNewsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
             //get params from args
             if (args.containsKey("file_route")) {
-                fileRoute = (String) args.get("");
+                fileRoute = (String) args.get("file_route");
             } else throw new BadConfigException("es necesario configurar el parametro file_route");
 
             if (args.containsKey("category")) {
                 categoryToInsert = (String) args.get("category");
             } else throw new BadConfigException("es necesario configurar el parametro category");
+
+            Utils.printToLog(LanceNewsScraper.class,null,fileRoute + " " + categoryToInsert,false,null,"support-level-1",Config.LOGGER_INFO);
 
             toUploadLocation = "";
 
@@ -230,6 +235,11 @@ public class LanceNewsScraper extends HecticusThread {
                     metadataJson.put("Caption/Abstract", currentItem.getText());
                 } //else skip
             }
+
+
+            remoteLocation = Utils.uploadResource(imageFile);
+
+
             Resource imagenToInsert = new Resource(name, fileName, remoteLocation, desc, insertedTime, creationDate + creationTime,
                     metadataJson.toString(), getIdApp());
             //check if exists in db
@@ -237,6 +247,7 @@ public class LanceNewsScraper extends HecticusThread {
                 imagenToInsert.save();
             }
             //upload
+
             //delete
         }catch (Exception ex){
             Utils.printToLog(LanceNewsScraper.class,

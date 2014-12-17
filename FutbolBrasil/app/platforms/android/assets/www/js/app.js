@@ -1,6 +1,9 @@
 
+	var _called = false;
+	var _scroll = false;
+	
 	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','ngAnimate'])
-	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
+	var _app = angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
  		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';
@@ -11,6 +14,23 @@
 				match:false,
 			});
 		})		
+		
+		
+		
+		.directive('myScroll', function() {
+			return function(scope, element, attrs) {
+			    
+		    if (scope.$last){
+		    		    	
+		      	_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();		
+				});
+						      
+		    }
+		    
+		  };
+		})
 		
 
 		.directive('loading', function () {
@@ -70,8 +90,26 @@
         		 
 				url: 'http://footballmanager.hecticus.com/',
 
-            	news: function (_page) {
-            		return this.url + 'newsapi/v1/news/search/1/' + _page + '/10';					
+				competitions: function () {
+            		return this.url + 'footballapi/v1/competitions/list/ids/1';					
+            	},
+
+            	news: function () {
+            		return {   
+            			         		
+            			index:  this.url + 'newsapi/v1/news/scroll/1',
+            			
+            			up: function (_news) { 
+
+            				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' + _news;
+            			},
+            			
+            			down: function (_news) {
+            				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' + _news;
+            			}
+            			
+            		};
+			
             	},
             	
             	standings: function () {
@@ -88,7 +126,7 @@
             			today: this.url + 'footballapi/v1/matches/date/get/1/today',
             			
             			date: function (_date) {
-            				return this.url + 'http://footballmanager.hecticus.com/footballapi/v1/matches/date/get/1/' + _date;	
+            				return 'http://footballmanager.hecticus.com/footballapi/v1/matches/date/get/1/' + _date;	
             			}
 
             		};            		
@@ -132,19 +170,16 @@
 					return _oMoment;
 	 			},
 	 			
-	 			backbuttom: function () {
-	 				            		
+	 			backbuttom: function () {	 				            		
                 	var _this =  angular.element('#wrapper2');  		 		           		
-            		if (_this.hasClass('left')) {
+            		if (_this.hasClass('left')) {            			
             			_this.attr('class','page transition right');				
-            		}	else {
-            			
+            		}	else {            			
 						if (navigator.app) {					
 					        navigator.app.exitApp();				            
 					    } else if (navigator.device) {			        	
 					        navigator.device.exitApp();				            				          
-					   }
-					   
+					   }					   
             		}
             	},
             	
@@ -152,28 +187,25 @@
     	})
 				
 		.config(function($routeProvider) {
-	  		$routeProvider	    	
-	    	.when('/match', {
+			
+	  		$routeProvider
+
+	  		.when('/match', {
 	      		controller:'matchCtrl',
 	      		templateUrl:'match.html',
-	      		prev: '/livescore',
-	      		next: '/standings',
+	      		prev: '/livescore/',
+	      		next: '/standings/',
 	      		_class: 'content-match'
-	    	})	
+	    	})
+	    	
 	    	.when('/standings', {
 	      		controller:'standingsCtrl',
 	      		templateUrl:'standings.html',
 	      		prev: '/match',
 	      		next: '/news',
 	      		contentClass: 'content-standings'
-	    	})	 
-	    	.when('/news', {
-	      		controller:'newsCtrl',
-	      		templateUrl:'news.html',
-	      		prev: '/standings',
-	      		next: '/scorers',
-	      		contentClass: 'content-news'
-	    	})	    
+	    	})
+	    	    
 	    	.when('/scorers', {
 	      		controller:'scorersCtrl',
 	      		templateUrl:'scorers.html',
@@ -181,6 +213,7 @@
 	      		next: '/livescore',
 	      		contentClass: 'content-scorers'
 	    	})
+	    	
 	    	.when('/livescore', {
 	      		controller:'livescoreCtrl',
 	      		templateUrl:'livescore.html',
@@ -220,10 +253,20 @@
 	      		next: '/prediction',
 	      		contentClass: 'content-points'
 	    	})		    	    
+	    	 
+	    	.when('/news', {
+	    		controller:'newsCtrl',
+	      		templateUrl:'news.html',
+	      		prev: '/standings',
+	      		next: '/scorers',
+	      		contentClass: 'content-news'
+	    	})	
 	    	    		 	    	    	
 	    	.otherwise({	    		
-	    		redirectTo:'/news'									      		
+	    		redirectTo:'/news'								      		
 	    	});
+
+	    	
 		})
 
  		.controller('mainCtrl', function($rootScope, $scope, $location, $route, $localStorage, $http) {
@@ -232,14 +275,14 @@
                  function (event, current, previous, rejection) {
                 $rootScope.loading = false;                                
 				$rootScope.error = false;
+				_called = false;					
   			});
   			      
   			$rootScope.$on('$routeChangeSuccess', 
                  function (event, current, previous, rejection) {
-             	if ($route.current.contentClass) {
-             		$rootScope.loading = true;   
+                $rootScope.loading = true;
+             	if ($route.current.contentClass)
              		$rootScope.contentClass = $route.current.contentClass;
-             	}
   			});
 
 
@@ -323,7 +366,7 @@
 			};
 
 			$rootScope.showCompetition = function(_option) {
-				
+
 				var _this = angular.element('.competition.active');
 				var _first = 0;				
 				var _last = (angular.element('span.competition').length - 1);
@@ -331,17 +374,17 @@
 				_scroll.scrollTo(0,0,0);
 
 				if (_option == 'next') {										
-					if (_current == _last) {
-						_this.removeClass('active');
-						_this.prevAll().addClass('active flipInX').last();
+					if (_current == _last) {										
+						//_this.removeClass('active');
+						//_this.siblings('div:first, span:first').addClass('active flipInX');						
 					} else {
 						_this.removeClass('active');
 						_this.next().addClass('active flipInX');						
 					}						
 				} else {
 					if (_current == _first) {
-						_this.removeClass('active');							
-						_this.nextAll().addClass('active flipInX').last();						
+						//_this.removeClass('active');							
+						//_this.siblings('div:last, span:last').addClass('active flipInX');						
 					} else {
 						_this.removeClass('active');		
 						_this.prev().addClass('active flipInX');
@@ -386,178 +429,307 @@
  
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
- 				
- 			var _this = this;
+ 			
+ 			
+ 			if (_called) {
+ 				var _this = this;
 
-			if (!$rootScope.$storage.scorers) {
-				$http.get(domain.scorers())
-				
-				.success(function(_json) {
+				if (!$rootScope.$storage.scorers) {
+					$http.get(domain.scorers())
 					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.scorers = JSON.stringify(_this.item);
+					.success(function(_json) {
+						
+						try {
+			 				_this.item = _json.response;
+							$rootScope.$storage.scorers = JSON.stringify(_this.item);
+							$rootScope.loading = false;
+							$rootScope.error = utilities.error(_this.item.leagues,'scorers');	
+						} catch(err) {
+			 				$rootScope.error = true;	        	
+				        	$rootScope.loading = false;				
+						}
+			
+	        		})
+	        		        		
+	        		.error(function() {
+	        			$rootScope.error = true;	        	
 						$rootScope.loading = false;
-						$rootScope.error = utilities.error(_this.item.leagues,'scorers');	
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-		
-        		})
-        		        		
-        		.error(function() {
-        			$rootScope.error = true;	        	
+	        		});
+	        			
+				} else {
+					_this.item = JSON.parse($rootScope.$storage.scorers);
 					$rootScope.loading = false;
-        		});
-        			
-			} else {
-				_this.item = JSON.parse($rootScope.$storage.scorers);
-				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.leagues,'scorers');
-			}
+					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
+				}
+
+ 			}
+ 				
+ 			_called = true;
 			
 								
 		}])
  
  
  		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) { 				
- 			
- 			var _this = this;
-
-			
-			if (!$rootScope.$storage.standings) {
-				$http.get(domain.standings())
-				
-				.success(function(_json) {
-					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.standings = JSON.stringify(_this.item);
-						$rootScope.loading = false;
-						$rootScope.error = utilities.error(_this.item.rankings,'ranks');	
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-				
-        		})
-        		
-        		.error(function() {
-        			$rootScope.error = true;	        	
-					$rootScope.loading = false;
-        		});
-        		
-			} else {
-				_this.item = JSON.parse($rootScope.$storage.standings);
-				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.rankings,'ranks');
-			}
-			
-			
-		}])
-  
- 		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+ 				 				
+ 			if (_called) {
  				
-			var _this = this;		
-				
+ 				var _this = this;
 
-			if (!$rootScope.$storage.match) {
-				$http.get(domain.match().today)
-				
-				.success(function(_json) {		
-					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.match = JSON.stringify(_this.item);
-						$rootScope.loading = false;					
-						$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-
-        		})
-        		
-        		.error(function() {
-        			$rootScope.error = true;	        	
-					$rootScope.loading = false;	
-        		});
-
-			} else {				
-				_this.item = JSON.parse($rootScope.$storage.match);
-				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');				
-			}
 			
-			
-			
-
-		}])
-
-
- 		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
-
-
-	 			var _this = this;
-	
-				_this.backPage = function() {
-					utilities.backbuttom();
-				};
-					
-				_this.share = function(_news) {
-					window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
-				};
-	
-				_this.fromNow = function(_date) {
-					return utilities.moment(_date).fromNow();
-				};
-	
-				_this.showContentNews = function(_news) {
-					$rootScope.contentNews = _news;				
-					angular.element('#wrapper2').attr('class','page transition left');
-					_scroll2.scrollTo(0,0,0);
-	  			};
-	  			
-	  		 	
- 
-	 			if (!$rootScope.$storage.news) {
-					$http.get(domain.news(1))
+				if (!$rootScope.$storage.standings) {
+					$http.get(domain.standings())
 					
 					.success(function(_json) {
 						
 						try {
 			 				_this.item = _json.response;
-							$rootScope.$storage.news = JSON.stringify(_this.item);
-							$rootScope.loading = false;	
-							$rootScope.error = utilities.error(_this.item.news);	
+							$rootScope.$storage.standings = JSON.stringify(_this.item);
+							$rootScope.loading = false;
+							$rootScope.error = utilities.error(_this.item.rankings,'ranks');	
 						} catch(err) {
 			 				$rootScope.error = true;	        	
 				        	$rootScope.loading = false;				
 						}
-						
-	        		})	
+					
+	        		})
 	        		
 	        		.error(function() {
-	
-	        			$rootScope.error = true;
-	        			$rootScope.loading = false;
+	        			$rootScope.error = true;	        	
+						$rootScope.loading = false;
 	        		});
 	        		
 				} else {
-					_this.item = JSON.parse($rootScope.$storage.news);
+					_this.item = JSON.parse($rootScope.$storage.standings);
 					$rootScope.loading = false;
-					$rootScope.error = utilities.error(_this.item.news);	
+					$rootScope.error = utilities.error(_this.item.rankings,'ranks');
 				}
-				
-			 
+ 				
+ 				_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();			
+				});
+ 			}
  			
+			_called = true;
+			
+		}])
+  
+ 		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+
+			if (_called) {
+				
+				var _this = this;		
+				
+
+				if (!$rootScope.$storage.match) {
+					$http.get(domain.match().today)
+					
+					.success(function(_json) {		
+						
+						try {
+			 				_this.item = _json.response;
+							$rootScope.$storage.match = JSON.stringify(_this.item);
+							$rootScope.loading = false;					
+							$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');
+						} catch(err) {
+			 				$rootScope.error = true;	        	
+				        	$rootScope.loading = false;				
+						}
+	
+	        		})
+	        		
+	        		.error(function() {
+	        			$rootScope.error = true;	        	
+						$rootScope.loading = false;	
+	        		});
+	
+				} else {				
+					_this.item = JSON.parse($rootScope.$storage.match);
+					$rootScope.loading = false;
+					$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');				
+				}
+							
+				
+			}
+
+			_called = true;
+			
+			
+
+		}])
+
+		.directive('onLastRepeat', function() {
+        	return function(scope, element, attrs) {
+            	if (scope.$last) setTimeout(function(){
+                	scope.$emit('onRepeatLast', element, attrs);
+            	}, 1);
+        	};
+    	})
+    	
+ 		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+
+				
+
+				if (_called) {
+					
+			
+					var _this = this;
+					var _news = 0;
+					
+					$scope.$on('onRepeatLast', function(scope, element, attrs){
+						_news = element.last().data('news');
+				    });
+	
+
+					_this.backPage = function() {
+						utilities.backbuttom();
+					};
+						
+					_this.share = function(_news) {
+						window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
+					};
 		
+					_this.fromNow = function(_date) {
+						return utilities.moment(_date).fromNow();
+					};
+		
+					_this.showContentNews = function(_news) {
+						$rootScope.contentNews = _news;				
+						angular.element('#wrapper2').attr('class','page transition left');
+						_scroll2.scrollTo(0,0,0);
+		  			};
+		  			
+		  		 	
+	 
+		 			if (!$rootScope.$storage.news) {
+						$http.get(domain.news().index())
+						
+						.success(function(_json) {
+							
+							try {
+				 				_this.item = _json.response;
+								$rootScope.$storage.news = JSON.stringify(_this.item);
+								$rootScope.loading = false;	
+								$rootScope.error = utilities.error(_this.item.news);	
+							} catch(err) {
+				 				$rootScope.error = true;	        	
+					        	$rootScope.loading = false;				
+							}
+							
+		        		})	
+		        		
+		        		.error(function() {	
+		        			$rootScope.error = true;
+		        			$rootScope.loading = false;
+		        		});
+		        		
+					} else {
+						_this.item = JSON.parse($rootScope.$storage.news);
+						$rootScope.loading = false;
+						$rootScope.error = utilities.error(_this.item.news);	
+					}
+					
+				 
+				 	var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+				 						
+					_scroll.on('beforeScrollStart', function () {
+						this.refresh();						
+					});
+				 
+				 	_scroll.on('scroll', function () {
+
+
+				 		/*if (this.y >= 5 && !$rootScope.loading) {
+				 			
+				 			alert($http.pendingRequests.length);
+				 			
+				 			
+				 			if ($http.pendingRequests.length == 0) {
+									
+								$rootScope.loading = true;		
+								
+								$http.get(domain.news(5,2))
+								.success(function(_json) {									
+									try {		
+										
+										angular.forEach(_json.response.news, function(_item) {			
+											_this.item.news.unshift(_item);
+										});
+										
+										$rootScope.loading = false;
+										
+									} catch(err) {
+																 								
+									}
+									
+				        		})	
+				        		
+				        		.error(function() {	
+				        			
+				        		});
+								
+								
+							}
+				 			
+				 			
+				 		}*/
+				 		
+				 					 	
+					if (this.y >= this.maxScrollY) {
+				
+							if ($http.pendingRequests.length == 0) {
+								
+	
+								//$rootScope.loading = true;		
+								$http.get(domain.news().down(_news))
+								.success(function(_json) {
+									
+									try {	
+										
+										angular.forEach(_json.response.news, function(_item) {			
+											_this.item.news.push(_item);
+										});
+										
+									//	$rootScope.loading = false;
+ 
+									} catch(err) {
+																 								
+									}
+									
+				        		})	
+				        		
+				        		.error(function() {	
+				        			
+				        		});
+								
+								
+							}
+				
+							
+
+						}
+					});
+		 		
+					var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
+					_scroll2.on('beforeScrollStart', function () {
+						this.refresh();
+					});
+				} 				
+
+
+					
+				 
+					
+
+
+
+				_called = true;
+				
+	 			
 
 		}]);
- 
- 	var _app = angular.injector(['FutbolBrasil']);
- 
+
