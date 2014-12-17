@@ -209,6 +209,13 @@ module.exports = [
         "clobbers": [
             "window.StatusBar"
         ]
+    },
+    {
+        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
+        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
+        "clobbers": [
+            "plugins.CordovaHttpPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -223,7 +230,8 @@ module.exports.metadata =
     "org.apache.cordova.inappbrowser": "0.5.2",
     "org.apache.cordova.network-information": "0.2.13",
     "org.apache.cordova.splashscreen": "0.3.4",
-    "org.apache.cordova.statusbar": "0.1.8"
+    "org.apache.cordova.statusbar": "0.1.8",
+    "com.synconset.cordovaHTTP": "0.1.3"
 }
 // BOTTOM OF METADATA
 });

@@ -84,6 +84,7 @@ var app = {
 
 function loadServerConfigs(){
 	//primero cargamos la configuracion inicial de la app
+	enableCerts(true);
 	console.log("LOADING: "+_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
 	_oAjax = _fGetAjaxJson(_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
 	if (_oAjax) {
