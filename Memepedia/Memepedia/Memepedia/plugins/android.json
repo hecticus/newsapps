@@ -43,6 +43,10 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" onload=\"true\" value=\"org.apache.cordova.statusbar.StatusBar\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CordovaHttpPlugin\"><param name=\"android-package\" value=\"com.synconset.CordovaHttpPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -141,6 +145,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "com.hecticus.AGataDoDia"
+        },
+        "com.synconset.cordovaHTTP": {
+            "PACKAGE_NAME": "com.hecticus.Memepedia"
         }
     },
     "dependent_plugins": {}

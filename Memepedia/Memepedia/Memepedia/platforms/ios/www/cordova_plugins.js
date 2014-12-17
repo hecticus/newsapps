@@ -223,6 +223,13 @@ module.exports = [
         "clobbers": [
             "window.plugins.socialsharing"
         ]
+    },
+    {
+        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
+        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
+        "clobbers": [
+            "plugins.CordovaHttpPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -237,7 +244,8 @@ module.exports.metadata =
     "org.apache.cordova.file": "1.3.1",
     "com.phonegap.plugins.PushPlugin": "2.4.0",
     "com.hecticus.cordova.plugins": "1.0.0",
-    "nl.x-services.plugins.socialsharing": "4.3.10"
+    "nl.x-services.plugins.socialsharing": "4.3.10",
+    "com.synconset.cordovaHTTP": "0.1.3"
 }
 // BOTTOM OF METADATA
 });
