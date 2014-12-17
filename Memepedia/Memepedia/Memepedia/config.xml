@@ -13,7 +13,6 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
-    <preference name="permissions" value="none" />
     <preference name="useBrowserHistory" value="true" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="universal" />
@@ -60,4 +59,7 @@
     <feature name="SharedConfigurations">
         <param name="android-package" value="com.hecticus.cordova.plugins.sharedconfigurations.SharedConfigurations" />
     </feature>
+    
+    <preference name="SplashScreen" value="screen" />
+	<preference name="SplashScreenDelay" value="5000" />
 </widget>
