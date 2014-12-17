@@ -43,20 +43,7 @@
 		//error
 		_fAlert('Falha ao criar o cliente');
 		try{
-			var _btn = $("#msisdnInputGroup").button('loading');
-			_btn.button('reset');
-		}catch(e){
-			
-		}
-		try{
-			var _btn = $("#passSendButton").button('loading');
-			_btn.button('reset');
-		}catch(e){
-			
-		}
-		try{
-			var _btn = $("#gender").button('loading');
-			_btn.button('reset');
+			loadingButton.button('reset');
 		}catch(e){
 			
 		}
