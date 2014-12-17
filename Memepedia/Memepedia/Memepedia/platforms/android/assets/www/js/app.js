@@ -14,6 +14,9 @@
 	var buildVersion;
 	var serverVersion;
 	
+	//loading button
+	var loadingButton;
+	
 	_jMenu.push({index:_jMenu.length, class:'content-home', title:'Inicio', load:'home.html', glyphicon:'icon-home', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-favorites', title:'Meu favorito', load:'favorites.html', glyphicon:'icon-favorites', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-posts', title:'Posts', load:'posts.html', glyphicon:'icon-posts', data:false, session:false});
@@ -25,6 +28,7 @@
 	_jMenu.push({index:_jMenu.length, class:'content-halloffame', title:'', load:'halloffame.html', glyphicon:'icon-halloffame', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-offline not-header', title:'', load:'offline.html', glyphicon:'icon-offline', data:false, session:false});
 	_jMenu.push({index:_jMenu.length, class:'content-error not-header', title:'', load:'error.html', glyphicon:'icon-error', data:false, session:false});
+	_jMenu.push({index:_jMenu.length, class:'content-configs', title:'Configs', load:'configs.html', glyphicon:'icon-configs', data:false, session:false});
 	
 	
 	//offline
@@ -67,6 +71,15 @@
 	//Si ocurrio un error con la carga del cliente se informa aqui
 	function errorStartApp(){		
 		_jApp.error();
+	}
+	
+	function reloadMainJSON(){
+		_oAjax = _fGetAjaxJson(_url + '/api/v1/posts/get/client/up/' + clientID + '/0');
+		if (_oAjax) {
+			_oAjax.done(function(_json) {
+				_jMenu[0].data = _json;
+			});
+		};
 	}
 	
 	var _jApp = {
@@ -362,6 +375,8 @@
 		var _btn = $(this).button('loading');		
 		var _msisdn = $('#msisdnInput').val();
 		
+		loadingButton = _btn;
+		
 		if(saveClientMSISDN(""+_msisdn)){
 			if (sendInfoSignup(null, true)) {
 				setTimeout(function(){					
@@ -389,12 +404,32 @@
 		var _param = $(this).data('param');
 		var _value = $(this).data('value');
 		
+		loadingButton = _btn;
+		
 		if ((_param) || (_value)) {
 			eval('_jParameters.'+ _param +' = ' + _value);						
 		}
 		console.log("GENDER VALUE: "+_value)
 		saveClientGender(_value);		
 		createOrUpdateClient(clientMSISDN, clientPassword, false, clientGenderUpdate, errorUpdatingClientSignup);
+	});
+	$(document).on('click','[data-touch="genderconfig"]', function(e) {
+		
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,false)) {return false;}
+		
+		var _btn = $(this).button('loading');
+		var _param = $(this).data('param');
+		var _value = $(this).data('value');
+		
+		loadingButton = _btn;
+		
+		if ((_param) || (_value)) {
+			eval('_jParameters.'+ _param +' = ' + _value);						
+		}
+		console.log("GENDER VALUE: "+_value)
+		saveClientGender(_value);		
+		createOrUpdateClient(clientMSISDN, clientPassword, false, configClientGenderUpdate, errorUpdatingConfigClientUpdate);
 	});
 	
 	
@@ -405,6 +440,8 @@
 
 		var _btn = $(this).button('loading');	
 		var _pass = $('#passwordInput').val();
+		
+		loadingButton = _btn;
 		
 		if(_pass != null && _pass != ""){
 			if  (sendInfoSignup(_pass, false)) {
