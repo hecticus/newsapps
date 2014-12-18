@@ -24,8 +24,8 @@ row:not(input):not(textarea) {
 
 	body.content-init #wrapper , 
 	body.content-terms #wrapper {
-		background: #000000;
-		color:#ffffff;
+		background: #ffffff;
+		color:#444444;
 		top: 0;
 		bottom: 0;
 	}
@@ -83,6 +83,7 @@ row:not(input):not(textarea) {
 		background-repeat: repeat-x; 
 		background-position: top, bottom;
 		background-attachment: fixed;
+		vertical-align: middle;
 	}
 		
 	header .container div.row:last-child {			
@@ -93,10 +94,10 @@ row:not(input):not(textarea) {
 		background-repeat: repeat-x; 	
 		background-position: bottom;
 		background-attachment: fixed;
-		background-color: #E2E2E1;
-		font-size: 0.8em;
+		background-color: #444444;
+		font-size: 1.2em;
 		font-weight: bold;
-		color: #ED2226;	
+		color: #F6921E;	
 	}
 	
 	
@@ -152,11 +153,11 @@ row:not(input):not(textarea) {
 	
 	.icon-menu {
 		font-size: 3.8em !important;	
-		color:#EC2027;
+		color:#F6921E;
 	}
 	
 	.glyphicon-remove {
-		color:#000000  !important;
+		color:#444444  !important;
 	}
 	
 	

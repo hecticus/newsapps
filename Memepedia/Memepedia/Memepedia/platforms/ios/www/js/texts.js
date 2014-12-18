@@ -1,7 +1,7 @@
 //para buscar en html <!-- TEXTTAG --> Loading
 
 //Para desfrutar dos melhores gatas todos os dias precisa se registrar
-var registerText = "Registre-se para acessar as fotos das melhores gatas, todos os dias."; 
+var registerText = "Registre-se para acessar as fotos das melhores memes, todos os dias.";
 
 //Experimente 7 días gratis
 var daysFreeText = "Experimente 7 dias grátis"; 
@@ -16,7 +16,7 @@ var passwordText = "senha";
 var resendPasswordText = "Enviar novamente a senha";
 
 //Meu Favorito
-var myFavoritesText = "Minhas gatas favoritas";
+var myFavoritesText = "Favoritos";
 
 //Salao da Fama
 var hallOfFameText = "Hall da Fama";

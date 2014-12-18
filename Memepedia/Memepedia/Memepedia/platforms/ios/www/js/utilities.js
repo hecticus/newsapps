@@ -22,7 +22,8 @@
 	var _fGetAjaxJson = function(_url) {
 		try {		
 			return $.ajax({
-					url: _url,			
+					url: _url,
+					headers: getHeaders(),			
 					type: 'GET',          		
 					dataType : 'json',
 					async: false,
@@ -34,11 +35,50 @@
 			return false;
 		}
 	};
+	
+	var getHeaders = function(){
+		var auth = "";
+		try {
+			auth = companyName + getAppender(buildVersion.charAt(0)) + buildVersion + getAppender(serverVersion.charAt(0)) + serverVersion;
+		} catch (e) {
+			auth = companyName + " " + buildVersion + " " + serverVersion;
+		}
+		console.log(auth);
+		return { 'HECTICUS-X-AUTH-TOKEN': auth };
+  }
+  
+  var getAppender = function(index){
+  	   switch (index){
+           case '1':
+               return '|';
+           case '2':
+               return '@';
+           case '3':
+               return '#';
+           case '4':
+               return '$';
+           case '5':
+               return '%';
+           case '6':
+               return '&';
+           case '7':
+               return '/';
+           case '8':
+               return '(';
+           case '9':
+               return ')';
+           case '0':
+               return '=';
+           default:
+               return '-';
+       }
+  }
 		
 	var _fGetAjaxJsonAsync = function(_url) {
 		try {		
 			return $.ajax({
-					url: _url,			
+					url: _url,
+					headers: getHeaders(),			
 					type: 'GET',          		
 					dataType : 'json',
 					async: true,
@@ -53,12 +93,15 @@
 	
 	var _fPostAjaxJson = function(_url, _data) {
 		
-		try {				
+		try {		
+			console.log(_url + " " + JSON.stringify(_data));		
 		  	return $.ajax({
-				url: _url,		
+				url: _url,
+				headers: getHeaders(),		
 				data: JSON.stringify(_data),	
 				type: 'POST',
-				dataType: 'json',				
+				dataType: 'json',
+				async: false,				
 				contentType: "application/json; charset=utf-8",
 			}).fail(function(jqXHR, textStatus, errorThrown) {		
 				return false;
@@ -93,7 +136,7 @@
 	
 	//REMOVE OLD DATA
 	var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
-	var currentVersion = 0;
+	var currentVersion = 2;
 	function checkStoredData(){
 		var storedVersion = loadStoredVersion();
 		if(storedVersion != null && storedVersion != ""){
@@ -112,6 +155,7 @@
 		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_REGID);
+		window.localStorage.removeItem(FILE_KEY_CLIENT_GENDER);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_DATASAFE);
 	}
 	function saveStoredVersion() {
@@ -149,6 +193,8 @@
 	
 	
 	function exitApp(){
+		//PRUEBA
+		try{sendUpstreamEvent("APP_CLOSE");}catch(e){console.log("FALLA UPSTREAM");}
 		try{clearInterval(newsRefreshInterval);}catch(e){}
 		//gaPlugin.exit(successGAHandler, successGAHandler);
 		if (navigator.app) {					
