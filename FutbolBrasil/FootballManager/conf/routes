@@ -2,13 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /check/*name                controllers.Application.checkFile(name: String)
+GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                                                                               controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
 
 #ConfigsView
 # ConfigsView list (look at the default values for pagination parameters)
@@ -29,7 +29,7 @@ POST    /configurations/:id/delete		                                            
 GET     /news/list			                                                            controllers.NewsView.list(p:Int ?= 0, s ?= "title", o ?= "asc", f ?= "")
 GET     /news/lsort		                                                                controllers.NewsView.lsort()
 # Add NewsView
-#GET     /news/blank		                                                                controllers.NewsView.blank()
+#GET     /news/blank		                                                            controllers.NewsView.blank()
 #POST    /news				                                                            controllers.NewsView.submit()
 # Edit existing NewsView
 GET     /news/sort/:ids	                                                                controllers.NewsView.sort(ids:String)
@@ -41,71 +41,72 @@ GET     /news/:id			                                                            
 
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
-GET     /users/list			                                                controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
-#GET     /users/lsort		                                                    controllers.UsersView.lsort()
+GET     /users/list			                                                            controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /users/lsort		                                                            controllers.UsersView.lsort()
 # Add UsersView
 # Edit existing UsersView
-#GET     /users/sort/:ids	                                                    controllers.UsersView.sort(ids:String)
-GET     /users/:id			                                                    controllers.UsersView.edit(id:Long)
-POST    /users/:id			                                                    controllers.UsersView.update(id:Long)
+#GET     /users/sort/:ids	                                                            controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                            controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                            controllers.UsersView.update(id:Long)
 # Delete a UsersView
-POST    /users/:id/delete		                                                controllers.UsersView.delete(id:Long)
+POST    /users/:id/delete		                                                        controllers.UsersView.delete(id:Long)
 
 
-GET      /newsapi/v1/news/search/:idApp                    controllers.news.NewsController.getNews(idApp:Integer, offset: Integer=0, count:Integer=20)
-GET      /newsapi/v1/news/search/:idApp/:offset/:count     controllers.news.NewsController.getNews(idApp:Integer, offset: Integer, count:Integer)
-POST     /newsapi/v1/news/resources/update                 controllers.news.NewsController.updateResources()
+GET      /newsapi/v1/news/search/:idApp                                                 controllers.news.NewsController.getNews(idApp:Integer, offset: Integer=0, count:Integer=20)
+GET      /newsapi/v1/news/search/:idApp/:offset/:count                                  controllers.news.NewsController.getNews(idApp:Integer, offset: Integer, count:Integer)
+POST     /newsapi/v1/news/resources/update                                              controllers.news.NewsController.updateResources()
 
 #NewsScroll
-GET      /newsapi/v1/news/scroll/up/first/:idApp/:newsId               controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=true)
-GET      /newsapi/v1/news/scroll/up/rest/:idApp/:newsId                controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=false)
-GET      /newsapi/v1/news/scroll/down/first/:idApp/:newsId             controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=true)
-GET      /newsapi/v1/news/scroll/down/rest/:idApp/:newsId              controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=false)
-GET      /newsapi/v1/news/scroll/:idApp                                controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long?=0, newest:Boolean?=false, first:Boolean?=true)
-GET      /newsapi/v1/news/scroll/:idApp/:newsId/:newest/:first         controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest:Boolean, first:Boolean)
+GET      /newsapi/v1/news/scroll/up/first/:idApp/:newsId                                controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/up/rest/:idApp/:newsId                                 controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=false)
+GET      /newsapi/v1/news/scroll/down/first/:idApp/:newsId                              controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/down/rest/:idApp/:newsId                               controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=false)
+GET      /newsapi/v1/news/scroll/:idApp                                                 controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long?=0, newest:Boolean?=false, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/:idApp/:newsId/:newest/:first                          controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest:Boolean, first:Boolean)
 
 #afp futbol
-GET     /footballapi/v1/team/getAll/:idCompetition              controllers.footballapi.AfpFutbolWs.getTeams(idCompetition: Integer)
-GET     /footballapi/v1/team/get/:id                            controllers.footballapi.AfpFutbolWs.getTeam(id: Long)
-GET     /footballapi/v1/phase/getList/:idComp                   controllers.footballapi.AfpFutbolWs.getPhases(idComp: Long, sd: String?="", end: String?="")
-GET     /footballapi/v1/phase/get/:id                           controllers.footballapi.AfpFutbolWs.getPhase(id: Long)
-GET     /footballapi/v1/matches/get                             controllers.footballapi.AfpFutbolWs.getGameMatches(phase : Long?=0,sd: String?="",ed: String?="",st: Integer?=0)
-GET     /footballapi/v1/matches/get/ext/:id                     controllers.footballapi.AfpFutbolWs.getGameMatchByExternalId(id: Long,events: Boolean?=false)
-GET     /footballapi/v1/matches/get/fifa/:id                    controllers.footballapi.AfpFutbolWs.getGameMatchByFifaId(id: Long,events: Boolean?=false)
-GET     /footballapi/v1/matches/get/:id                         controllers.footballapi.AfpFutbolWs.getGameMatch(id: Long,events: Boolean?=false)
-GET     /footballapi/v1/matches/events/get/ext/:id              controllers.footballapi.AfpFutbolWs.getEventsByExternalMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
-GET     /footballapi/v1/matches/events/get/fifa/:id             controllers.footballapi.AfpFutbolWs.getEventsByFifaMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
-GET     /footballapi/v1/matches/events/get/:id                  controllers.footballapi.AfpFutbolWs.getEvents(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
-GET     /footballapi/v1/ranking/get/:id                         controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = false )
-GET     /footballapi/v1/ranking/get/ext/:id                     controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = true )
-GET     /footballapi/v1/ranking/get/global/:id                  controllers.footballapi.AfpFutbolWs.getGlobalRanking(id : Long)
+GET     /footballapi/v1/team/getAll/:idCompetition                                      controllers.footballapi.AfpFutbolWs.getTeams(idCompetition: Integer)
+GET     /footballapi/v1/team/get/:id                                                    controllers.footballapi.AfpFutbolWs.getTeam(id: Long)
+GET     /footballapi/v1/phase/getList/:idComp                                           controllers.footballapi.AfpFutbolWs.getPhases(idComp: Long, sd: String?="", end: String?="")
+GET     /footballapi/v1/phase/get/:id                                                   controllers.footballapi.AfpFutbolWs.getPhase(id: Long)
+GET     /footballapi/v1/matches/get                                                     controllers.footballapi.AfpFutbolWs.getGameMatches(phase : Long?=0,sd: String?="",ed: String?="",st: Integer?=0)
+GET     /footballapi/v1/matches/get/ext/:id                                             controllers.footballapi.AfpFutbolWs.getGameMatchByExternalId(id: Long,events: Boolean?=false)
+GET     /footballapi/v1/matches/get/fifa/:id                                            controllers.footballapi.AfpFutbolWs.getGameMatchByFifaId(id: Long,events: Boolean?=false)
+GET     /footballapi/v1/matches/get/:id                                                 controllers.footballapi.AfpFutbolWs.getGameMatch(id: Long,events: Boolean?=false)
+GET     /footballapi/v1/matches/events/get/ext/:id                                      controllers.footballapi.AfpFutbolWs.getEventsByExternalMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
+GET     /footballapi/v1/matches/events/get/fifa/:id                                     controllers.footballapi.AfpFutbolWs.getEventsByFifaMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
+GET     /footballapi/v1/matches/events/get/:id                                          controllers.footballapi.AfpFutbolWs.getEvents(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
+GET     /footballapi/v1/ranking/get/:id                                                 controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = false )
+GET     /footballapi/v1/ranking/get/ext/:id                                             controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = true )
+GET     /footballapi/v1/ranking/get/global/:id                                          controllers.footballapi.AfpFutbolWs.getGlobalRanking(id : Long)
 
-GET     /footballapi/v1/matches/finished/get/:idCompetition         controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
-GET     /footballapi/v1/matches/finished/get/:idCompetition/:date   controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
-GET     /footballapi/v1/matches/date/get/:idApp/:date                          controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String)
-GET     /footballapi/v1/competitions/list/ids/:idApp                          controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=true)
-GET     /footballapi/v1/competitions/list/:idApp                          controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
+GET     /footballapi/v1/matches/finished/get/:idCompetition                             controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
+GET     /footballapi/v1/matches/finished/get/:idCompetition/:date                       controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
+GET     /footballapi/v1/matches/date/get/:idApp/:date                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String)
+GET     /footballapi/v1/competitions/list/ids/:idApp                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=true)
+GET     /footballapi/v1/competitions/list/:idApp                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
 
 
 #new football api
 #players
-GET     /footballapi/v1/players/topScorers/:idCompetition/:date         controllers.footballapi.PlayersController.getTopScorers(idCompetition: Long, date: String)
-GET     /footballapi/v1/players/competitions/scorers/:idApp             controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer)
-GET     /footballapi/v1/players/competition/scorers/:idApp/:idCompetition             controllers.footballapi.PlayersController.getCompetitionTopScorers(idApp: Integer, idCompetition: Integer, pageSize: Integer?=0, page: Integer?=0)
+GET     /footballapi/v1/players/topScorers/:idApp                                       controllers.footballapi.PlayersController.getCompetitionTopScorersForClient(idApp: Integer)
+GET     /footballapi/v1/players/topScorers/:idCompetition/:date                         controllers.footballapi.PlayersController.getTopScorers(idCompetition: Long, date: String)
+GET     /footballapi/v1/players/competitions/scorers/:idApp                             controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer)
+GET     /footballapi/v1/players/competition/scorers/:idApp/:idCompetition               controllers.footballapi.PlayersController.getCompetitionTopScorers(idApp: Integer, idCompetition: Integer, pageSize: Integer?=0, page: Integer?=0)
 
 #calendar
-GET     /footballapi/v1/calendar/get/:idCompetition                controllers.footballapi.MatchesController.getAllFixtures(idCompetition: Long)
+GET     /footballapi/v1/calendar/get/:idCompetition                                     controllers.footballapi.MatchesController.getAllFixtures(idCompetition: Long)
 
 #tvmax base ws
-#GET     /tvmaxfeeds/calendar/get                    controllers.tvmaxfeeds.MatchController.getMatchs()
-#GET     /tvmaxfeeds/calendar/getAll                 controllers.tvmaxfeeds.MatchController.getAllMatchs()
-#GET     /tvmaxfeeds/calendar/today                  controllers.tvmaxfeeds.MatchController.getToday()
-#GET     /tvmaxfeeds/calendar/today/active           controllers.tvmaxfeeds.MatchController.getActive()
-#GET     /tvmaxfeeds/calendar/today/results          controllers.tvmaxfeeds.MatchController.getResults()
-#GET     /tvmaxfeeds/calendar/getActive              controllers.tvmaxfeeds.MatchController.getActiveMatch()
+#GET     /tvmaxfeeds/calendar/get                                                       controllers.tvmaxfeeds.MatchController.getMatchs()
+#GET     /tvmaxfeeds/calendar/getAll                                                    controllers.tvmaxfeeds.MatchController.getAllMatchs()
+#GET     /tvmaxfeeds/calendar/today                                                     controllers.tvmaxfeeds.MatchController.getToday()
+#GET     /tvmaxfeeds/calendar/today/active                                              controllers.tvmaxfeeds.MatchController.getActive()
+#GET     /tvmaxfeeds/calendar/today/results                                             controllers.tvmaxfeeds.MatchController.getResults()
+#GET     /tvmaxfeeds/calendar/getActive                                                 controllers.tvmaxfeeds.MatchController.getActiveMatch()
 
 #football manager
-GET     /api/v1/rankings/get/:idApp                   controllers.footballapi.RankingController.getRankings(idApp: Integer)
+GET     /api/v1/rankings/get/:idApp                                                     controllers.footballapi.RankingController.getRankings(idApp: Integer)
 
 #calendar
 GET     /api/v1/caledar/get/date/gt/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")

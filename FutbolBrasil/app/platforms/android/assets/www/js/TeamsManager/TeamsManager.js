@@ -1,5 +1,5 @@
 var _url = 'http://brazil.footballmanager.hecticus.com';
-var teamList = [];
+var teamList = [{id_push_alert : 1},{id_push_alert : 2}];
 
 var FAVORITE_ADD = 0;
 var FAVORITE_REMOVE = 1;

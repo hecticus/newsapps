@@ -26,7 +26,8 @@ public class Team extends HecticusModel {
     @Constraints.Required
     private Long extId;
 
-    //debe pertenecer a una competicion?
+    @OneToMany(mappedBy="team")
+    private List<TeamHasCompetition> competitions;
 
     private static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);
 
@@ -74,6 +75,14 @@ public class Team extends HecticusModel {
 
     public static Team findById(Long id){
         return finder.byId(id);
+    }
+
+    public List<TeamHasCompetition> getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(List<TeamHasCompetition> competitions) {
+        this.competitions = competitions;
     }
 
     @Override
