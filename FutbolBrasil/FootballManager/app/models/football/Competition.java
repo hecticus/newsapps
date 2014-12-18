@@ -33,6 +33,9 @@ public class Competition  extends HecticusModel {
     @OneToMany(mappedBy="comp")
     public List<Phase> phases;
 
+    @OneToMany(mappedBy="competition")
+    private List<TeamHasCompetition> teams;
+
     public Competition(String name, Long extId, Integer idApp, CompetitionType type) {
         this.name = name;
         this.extId = extId;
@@ -41,8 +44,7 @@ public class Competition  extends HecticusModel {
         this.type = type;
     }
 
-    private static Model.Finder<Long,Competition> finder = new
-            Model.Finder<Long, Competition>(Long.class, Competition.class);
+    public static Model.Finder<Long,Competition> finder = new Model.Finder<Long, Competition>(Long.class, Competition.class);
 
     public Long getIdCompetitions() {
         return idCompetitions;
@@ -94,6 +96,22 @@ public class Competition  extends HecticusModel {
 
     public static Competition findById(Long id){
         return finder.byId(id);
+    }
+
+    public List<Phase> getPhases() {
+        return phases;
+    }
+
+    public void setPhases(List<Phase> phases) {
+        this.phases = phases;
+    }
+
+    public List<TeamHasCompetition> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<TeamHasCompetition> teams) {
+        this.teams = teams;
     }
 
     public static List<Competition> getCompetitionsByApp(int idApp){
