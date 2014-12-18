@@ -10,7 +10,12 @@
 					_html += '<h4>' + _jParameters.themeName + '</h4>';
 				_html += '</div>';
 				_html += '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: right;" >';
+
+				if(getDevice() == "android"){
 					_html += '<i class="icon icon-material-favorite ' + (isThemeFavorite({id_theme:_jParameters.theme}) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite" data-theme="' + _jParameters.theme + '"></i>';
+				}else{
+					_html += '<i class="icon icon-material-favorite ' + (isThemeFavorite({id_theme:_jParameters.theme}) ? 'on' : '') + '" style="font-size:1.6em; margin-left:8px;" data-touch="favorite-touchend" data-theme="' + _jParameters.theme + '"></i>';
+				}
 				_html += '</div>';
 			_html += '</div>';			
 		_html += '</div>';

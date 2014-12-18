@@ -208,6 +208,12 @@
 		if(checkBadTouch(e,true)) {return false;}
 		exitApp();
 	});
+	/*IOS ONLY*/
+	$(document).on('click','[data-touch="retry"]', function(e) {
+		if(_fPreventDefaultClick(e)){return false;}
+		if(checkBadTouch(e,true)) {return false;}
+		initPush();
+	});
 
 
 	$(document).on('click','[data-touch="post"]', function(e) {
@@ -227,6 +233,7 @@
 
 	});
 
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="page"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
@@ -270,7 +277,7 @@
 		_jApp.load(_load,true);
 	}
 	
-	
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="menu"]', function(e) {
 
 		if(_fPreventDefaultClick(e)){return false;}
@@ -355,6 +362,7 @@
 
 	}
 
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="back"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
@@ -366,6 +374,7 @@
 		
 	});
 	
+	/*IOS ONLY touchend*/
 	//signup clicks
 	$(document).on('click','[data-touch="send_msisdn"]', function(e) {
 		
@@ -394,7 +403,7 @@
 
 	});
 	
-	
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="gender"]', function(e) {
 				
 		if(_fPreventDefaultClick(e)){return false;}
@@ -413,6 +422,7 @@
 		saveClientGender(_value);		
 		createOrUpdateClient(clientMSISDN, clientPassword, false, clientGenderUpdate, errorUpdatingClientSignup);
 	});
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="genderconfig"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
@@ -432,7 +442,7 @@
 		createOrUpdateClient(clientMSISDN, clientPassword, false, configClientGenderUpdate, errorUpdatingConfigClientUpdate);
 	});
 	
-	
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="send_pass"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
@@ -461,6 +471,7 @@
 		
 	});
 	
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="resend_pass"]', function(e) {
 		
 		if(_fPreventDefaultClick(e)){return false;}
@@ -526,7 +537,7 @@
 		return currentPage;
 	}
 	
-	
+	/*IOS ONLY touchend*/
 	$(document).on('click','[data-touch="plus"]', function(e) {	
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,false)) {return false;}

@@ -44,7 +44,7 @@ var app = {
     		
     		//Image Cache
 	    	ImgCache.options.debug = true;
-	    	ImgCache.options.localCacheFolder = 'AGataDoDia';
+	    	ImgCache.options.localCacheFolder = 'Memeteca';
 	      	ImgCache.options.usePersistentCache = true;       	        	    	
 			ImgCache.options.cacheClearSize = 5;
 			ImgCache.init();
