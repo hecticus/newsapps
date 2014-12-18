@@ -30,7 +30,7 @@
 
 		if (_oAjax.state() != 'pending') {			
 			if (_infinite) {
-				_oAjax = _fGetAjaxJsonAsync(_url + '/garotas/v1/posts/get/client/' + _this.data('direction') + '/' + clientID + '/' + $('div.post').last().data('value'));
+				_oAjax = _fGetAjaxJsonAsync(_url + '/api/v1/posts/get/client/' + _this.data('direction') + '/' + clientID + '/' + $('div.post').last().data('value'));
 				if (_oAjax) {
 					_oAjax.done(function(_json) {				
 						 _fRenderHtml(_json,true);				 			

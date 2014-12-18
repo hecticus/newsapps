@@ -30,9 +30,9 @@
     <preference name="android-minSdkVersion" value="8" />
     <preference name="android-installLocation" value="auto" />
     <preference name="load-url-timeout" value="100000" />
-    <name>Memepedia</name>
+    <name>Memeteca</name>
     <description>
-        Memepedia app.
+        Memeteca app.
     </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
         Hecticus Software Inc
@@ -70,4 +70,6 @@
     <feature name="CordovaHttpPlugin">
         <param name="android-package" value="com.synconset.CordovaHttpPlugin" />
     </feature>
+    <preference name="SplashScreen" value="screen" />
+	<preference name="SplashScreenDelay" value="5000" />
 </widget>
