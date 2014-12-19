@@ -213,4 +213,13 @@ public class Phase extends HecticusModel {
             this.save();
         }
     }
+
+    public static Phase getPhaseByFn(long idCompetition, int fn){
+        if (fn == 0){
+            return finder.where().eq("id_competitions",idCompetition).orderBy("fn asc").setMaxRows(1).findUnique();
+        }else {
+            return finder.where().eq("id_competitions",idCompetition).eq("fn",fn).setMaxRows(1).findUnique();
+        }
+
+    }
 }

@@ -26,6 +26,12 @@ public class Period extends HecticusModel {
     private static Model.Finder<Integer,Period> finder = new Model.Finder<Integer,Period>(Integer.class,Period.class);
     public Period(){}
 
+    public Period(String name, String shortName, Long extId) {
+        this.name = name;
+        this.shortName = shortName;
+        this.extId = extId;
+    }
+
     public Integer getIdPeriods() {
         return idPeriods;
     }

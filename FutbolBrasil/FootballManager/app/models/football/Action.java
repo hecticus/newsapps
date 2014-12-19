@@ -20,12 +20,18 @@ public class Action extends HecticusModel {
     private Integer idActions;
     private String mnemonic;
     private String description;
+    //private Integer ext_id;
     @OneToMany(mappedBy = "action")
     private List<GameMatchEvent> events;
 
     private static Model.Finder<Integer,Action> finder = new Model.Finder<Integer,Action>(Integer.class,Action.class);
 
     public Action(){}
+
+    public Action(String mnemonic, String description) {
+        this.mnemonic = mnemonic;
+        this.description = description;
+    }
 
     public Integer getIdActions() {
         return idActions;
@@ -67,4 +73,17 @@ public class Action extends HecticusModel {
         node.put("description",description);
         return node;
     }
+
+    public void validate() {
+        Action tr = findByMnemonic(this.mnemonic);
+        if (tr != null) {
+            //existe
+            this.idActions = tr.idActions;
+            this.description = tr.description;
+            this.mnemonic = tr.mnemonic;
+        } else {
+            this.save();
+        }
+    }
+
 }
