@@ -1,0 +1,32 @@
+	<div ng-controller="matchCtrl as _this">
+		<div id="wrapper" >
+			
+			<div class="scroller">
+				<div class="container">					
+					<div class="row" style="height: 35px !important;">
+						<span>&nbsp;</span>
+					</div>					
+				</div>
+			</div>
+			
+			
+			<div class="header" ng-show="removeHeader(_this.item.leagues,'fixtures')">
+				<div class="row">
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 left" ng-click="showCompetition('prev')" >
+						<span class="glyphicon glyphicon-chevron-left" ng-if="removeArrow(_this.item.leagues,'fixtures')"></span>
+					</div>
+					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 center">							
+							<span class="competition"
+								ng-bind="item.name" 
+								ng-repeat="item in _this.item.leagues" 
+								ng-class="{'active' : $first}"
+								ng-if="removeElement(item.fixtures)"></span>
+					</div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 right" ng-click="showCompetition('next')">
+						<span class="glyphicon glyphicon-chevron-right" ng-if="removeArrow(_this.item.leagues,'fixtures')"></span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
