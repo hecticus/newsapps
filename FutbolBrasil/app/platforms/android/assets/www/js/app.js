@@ -11,7 +11,10 @@
 				scorers:false,
 				match:false,
 			});
+
 		})		
+		
+		
 		
 		
 		
@@ -178,8 +181,7 @@
 					        navigator.device.exitApp();				            				          
 					   }					   
             		}
-            	},
-            	
+            	}
         	};
     	})
 				
@@ -193,6 +195,7 @@
 	      		prev: '/livescore/',
 	      		next: '/standings/',
 	      		_class: 'content-match'
+	      		
 	    	})
 	    	
 	    	.when('/standings', {
@@ -266,13 +269,15 @@
 	    	
 		}) 
 
+		
+
+
  		.controller('mainCtrl', function($rootScope, $scope, $location, $route, $localStorage, $http) {
 
 			$rootScope.$on('$routeChangeStart', 
                  function (event, current, previous, rejection) {
                 $rootScope.loading = false;                                
-				$rootScope.error = false;
-				_called = false;					
+				$rootScope.error = false;				
   			});
   			      
   			$rootScope.$on('$routeChangeSuccess', 
@@ -424,176 +429,85 @@
  
  
  
+ 
+ 
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
- 			
- 			
- 
+ 			 		  			
  				var _this = this;
-
-		
-				if (!$rootScope.$storage.scorers) {
-					$http.get(domain.scorers())
-					
-					.success(function(_json) {
-						
-						try {
-							
-			 				_this.item = {leagues:[]};			 				
-			 				angular.forEach(_json.response.leagues, function(_item, _index) {
-								if (_index == 0) _this.item.leagues.push(_item);
-								return true;		
-							});	
-			 				
-							$rootScope.$storage.scorers = JSON.stringify(_json.response);
-							$rootScope.loading = false;
-							$rootScope.error = utilities.error(_this.item.leagues,'scorers');
-								
-						} catch(err) {
-			 				$rootScope.error = true;	        	
-				        	$rootScope.loading = false;				
-						}
-			
-	        		})
-	        		        		
-	        		.error(function() {
-	        			$rootScope.error = true;	        	
-						$rootScope.loading = false;
-	        		});
-	        			
-				} else {
-
-					var _json = JSON.parse($rootScope.$storage.scorers); 
-					_this.item = {leagues:[]};
-					angular.forEach(_json.leagues, function(_item, _index) {
-						if (_index == 0) _this.item.leagues.push(_item);
-						return true;		
-					});		
-					
-					$rootScope.loading = false;
-					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
-				}
-
-	
-				var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
-				});
-
-
-				_scroll.on('scroll', function () {
-	            	if (this.y <= this.maxScrollY) {	            		 
-	            		 $scope.$apply(function () {	            		 		    
-        					var _json = JSON.parse($rootScope.$storage.scorers);	        				
-							angular.forEach(_json.leagues, function(_item, _index) {															
-								if (_index == angular.element('div.scorers').length) {
-									_this.item.leagues.push(_item);
-								}
-							});
-    					});           							            						
-					}            
-				});	
-			 
+				var promise = false;
 				
+ 				if ($rootScope.$storage.scorers) {
+ 					_this.item = JSON.parse($rootScope.$storage.scorers);
+ 					$rootScope.loading = false;
+ 					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
+ 				} else {
+ 					promise = $http({method: 'GET', url: domain.scorers()});
+					promise.then(function(obj) {
+						_this.item =  obj.data.response;
+						$rootScope.$storage.scorers = JSON.stringify(obj.data.response);
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
+					}); 					
+ 				}
+
 								
 		}])
  
  
  		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
- 				 				
 
- 				
  				var _this = this;
-
-			
-				if (!$rootScope.$storage.standings) {
-					$http.get(domain.standings())
-					
-					.success(function(_json) {
-						
-						try {
-			 				_this.item = _json.response;
-							$rootScope.$storage.standings = JSON.stringify(_this.item);
-							$rootScope.loading = false;
-							$rootScope.error = utilities.error(_this.item.rankings,'ranks');	
-						} catch(err) {
-			 				$rootScope.error = true;	        	
-				        	$rootScope.loading = false;				
-						}
-					
-	        		})
-	        		
-	        		.error(function() {
-	        			$rootScope.error = true;	        	
-						$rootScope.loading = false;
-	        		});
-	        		
-				} else {
+ 				var promise = false;
+ 				
+				if ($rootScope.$storage.standings) {
 					_this.item = JSON.parse($rootScope.$storage.standings);
 					$rootScope.loading = false;
 					$rootScope.error = utilities.error(_this.item.rankings,'ranks');
+				} else {
+					promise = $http({method: 'GET', url: domain.standings()});
+					promise.then(function(obj) {
+						_this.item =  obj.data.response;
+						$rootScope.$storage.standings = JSON.stringify(obj.data.response);
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error(_this.item.rankings,'ranks');
+					});	
 				}
- 				
- 				_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();			
-				});
 
-			
 		}])
-  
-  
-  
-  
-  
+
   
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
-		
-				
 				var _this = this;		
-				
-
-				if (!$rootScope.$storage.match) {
-					$http.get(domain.match().today)
+				var promise = false;
 					
-					.success(function(_json) {		
-						
-						try {
-			 				_this.item = _json.response;
-							$rootScope.$storage.match = JSON.stringify(_this.item);
-							$rootScope.loading = false;					
-							$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');
-						} catch(err) {
-			 				$rootScope.error = true;	        	
-				        	$rootScope.loading = false;				
-						}
-	
-	        		})
-	        		
-	        		.error(function() {
-	        			$rootScope.error = true;	        	
-						$rootScope.loading = false;	
-	        		});
-	
-				} else {				
+				if ($rootScope.$storage.match) {
 					_this.item = JSON.parse($rootScope.$storage.match);
 					$rootScope.loading = false;
-					$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');				
+					$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');	
+				} else {				
+					promise = $http({method: 'GET', url: domain.match().today});
+					promise.then(function(obj) {
+						_this.item =  obj.data.response;
+						$rootScope.$storage.match = JSON.stringify(obj.data.response);
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error(_this.item.leagues,'fixtures');
+					});			
 				}
-							
-				
-
-			
-			
 
 		}])
 
+		
+    	
 		.directive('onLastRepeat', function() {
         	return function(scope, element, attrs) {
-        		
+
             	if (scope.$last) setTimeout(function(){
                 	scope.$emit('onRepeatLast', element, attrs);
             	}, 1);
@@ -608,12 +522,10 @@
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
 
-			
-
-
 			var _this = this;
 			var _news = {first:0, last:0};
-					
+			var promise = false;
+				
 			$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
 				_news.first = element.first().data('news');
 				$rootScope.loading = false;	
@@ -643,98 +555,56 @@
 				_scroll2.scrollTo(0,0,0);
   			};
 
- 			if (!$rootScope.$storage.news) {
-				$http.get(domain.news().index)
-				
-				.success(function(_json) {
-					
-					try {
-		 				_this.item = _json.response;
-						$rootScope.$storage.news = JSON.stringify(_this.item);
-						$rootScope.loading = false;	
-						$rootScope.error = utilities.error(_this.item.news);	
-					} catch(err) {
-		 				$rootScope.error = true;	        	
-			        	$rootScope.loading = false;				
-					}
-					
-        		})	
-        		
-        		.error(function() {	
-        			$rootScope.error = true;
-        			$rootScope.loading = false;
-        		});
-        		
-			} else {
-				_this.item = JSON.parse($rootScope.$storage.news);
+ 			if ($rootScope.$storage.news) {
+ 				_this.item = JSON.parse($rootScope.$storage.news);
 				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.news);					
+				$rootScope.error = utilities.error(_this.item.news);	 				
+			} else {
+				promise = $http({method: 'GET', url: domain.news().index});
+				promise.then(function(obj) {
+					_this.item =  obj.data.response;
+					$rootScope.$storage.news = JSON.stringify(obj.data.response);
+				}).finally(function(data) {
+  					$rootScope.loading = false;  					
+  					$rootScope.error = utilities.error(_this.item.news);
+				});			
 			}
 			
 		 
 		 	var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-
 			_scroll.on('beforeScrollStart', function () {
 				this.refresh();						
 			});
 				 
 			_scroll.on('scroll', function () {
 
-					if (this.y >= 50 ) {
-					
-						if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-							
-							$rootScope.loading = true;
-							
-							$http.get(domain.news().up(_news.first))
-							.success(function(_json) {
-								try {							
-												
-									angular.forEach(_json.response.news, function(_item) {			
-										_this.item.news.unshift(_item);
-									});		
-									
-									$rootScope.loading = false;	
-								} catch(err) {
-									$rootScope.loading = false;
-								}							
-			        		})			        		
-			        		.error(function() {	
-			        			$rootScope.loading = false;
-			        		});
-						}
-						
-	            	}
+				if (this.y >= 50 ) {					
+					if ($http.pendingRequests.length == 0 && !$rootScope.loading) {							
+						$rootScope.loading = true;
+						promise = $http({method: 'GET', url: domain.news().up(_news.first)});
+						promise.then(function(obj) {
+							angular.forEach(obj.data.response.news, function(_item) {			
+								_this.item.news.unshift(_item);
+							});
+						}).finally(function(data) {
+							$rootScope.loading = false;  									  					
+						});								
+					}						
+            	}
 
-	            if (this.y <= this.maxScrollY) {
-	            				
-	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-	            			
-	            			$rootScope.loading = true;
-	            			
-	            			$http.get(domain.news().down(_news.last))
-							.success(function(_json) {						
-							try {
-								
-								angular.forEach(_json.response.news, function(_item) {
-									_this.item.news.push(_item);
-								});
-								
-								$rootScope.loading = false;
-								
-							} catch(err) {
-								$rootScope.loading = false;
-							}
-							
-							})	
-				        		
-				        	.error(function() {
-				        		$rootScope.loading = false;
-				        	});
+	            if (this.y <= this.maxScrollY) {	            				
+	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {	            			
+            			$rootScope.loading = true;
+            			promise = $http({method: 'GET', url: domain.news().down(_news.last)});
+						promise.then(function(obj) {
+							angular.forEach(obj.data.response.news, function(_item) {			
+								_this.item.news.unshift(_item);
+							});
+						}).finally(function(data) {
+							$rootScope.loading = false;  									  					
+						});
 					}		
 				}
-
-            	
 
 			});
 		 		
@@ -746,4 +616,11 @@
 			
 		}]);
 
+
+
 	var _app = angular.injector(['FutbolBrasil']);
+
+
+
+	
+
