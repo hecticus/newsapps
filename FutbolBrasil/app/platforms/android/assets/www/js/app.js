@@ -425,22 +425,30 @@
  
  
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
  			
  			
  
  				var _this = this;
 
+		
 				if (!$rootScope.$storage.scorers) {
 					$http.get(domain.scorers())
 					
 					.success(function(_json) {
 						
 						try {
-			 				_this.item = _json.response;
-							$rootScope.$storage.scorers = JSON.stringify(_this.item);
+							
+			 				_this.item = {leagues:[]};			 				
+			 				angular.forEach(_json.response.leagues, function(_item, _index) {
+								if (_index == 0) _this.item.leagues.push(_item);
+								return true;		
+							});	
+			 				
+							$rootScope.$storage.scorers = JSON.stringify(_json.response);
 							$rootScope.loading = false;
-							$rootScope.error = utilities.error(_this.item.leagues,'scorers');	
+							$rootScope.error = utilities.error(_this.item.leagues,'scorers');
+								
 						} catch(err) {
 			 				$rootScope.error = true;	        	
 				        	$rootScope.loading = false;				
@@ -454,12 +462,39 @@
 	        		});
 	        			
 				} else {
-					_this.item = JSON.parse($rootScope.$storage.scorers);
+
+					var _json = JSON.parse($rootScope.$storage.scorers); 
+					_this.item = {leagues:[]};
+					angular.forEach(_json.leagues, function(_item, _index) {
+						if (_index == 0) _this.item.leagues.push(_item);
+						return true;		
+					});		
+					
 					$rootScope.loading = false;
 					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
 				}
 
+	
+				var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();						
+				});
 
+
+				_scroll.on('scroll', function () {
+	            	if (this.y <= this.maxScrollY) {	            		 
+	            		 $scope.$apply(function () {	            		 		    
+        					var _json = JSON.parse($rootScope.$storage.scorers);	        				
+							angular.forEach(_json.leagues, function(_item, _index) {															
+								if (_index == angular.element('div.scorers').length) {
+									_this.item.leagues.push(_item);
+								}
+							});
+    					});           							            						
+					}            
+				});	
+			 
+				
 								
 		}])
  
@@ -507,6 +542,11 @@
 
 			
 		}])
+  
+  
+  
+  
+  
   
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
@@ -566,7 +606,9 @@
     	})
     	
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
+
+			
 
 
 			var _this = this;
@@ -626,7 +668,7 @@
 			} else {
 				_this.item = JSON.parse($rootScope.$storage.news);
 				$rootScope.loading = false;
-				$rootScope.error = utilities.error(_this.item.news);	
+				$rootScope.error = utilities.error(_this.item.news);					
 			}
 			
 		 
@@ -639,7 +681,7 @@
 			_scroll.on('scroll', function () {
 
 					if (this.y >= 50 ) {
-						
+					
 						if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
 							
 							$rootScope.loading = true;
@@ -665,7 +707,7 @@
 	            	}
 
 	            if (this.y <= this.maxScrollY) {
-	            						
+	            				
 	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
 	            			
 	            			$rootScope.loading = true;
@@ -700,6 +742,7 @@
 			_scroll2.on('beforeScrollStart', function () {
 				this.refresh();
 			});
+
 			
 		}]);
 

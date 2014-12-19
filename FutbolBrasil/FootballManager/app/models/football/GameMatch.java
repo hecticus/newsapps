@@ -15,7 +15,8 @@ import java.util.List;
  * Created by karina on 5/20/14.
  */
 @Entity
-@Table(name="game_matches")
+@Table(name="game_matches",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"id_competition, ext_id"}))
 public class GameMatch extends HecticusModel {
 
     public static final short NONE = 0;
@@ -282,6 +283,10 @@ public class GameMatch extends HecticusModel {
         return finder.where().eq("extId",idExt).findUnique();
     }
 
+    public static GameMatch findByIdExternal(String idExt){
+        return finder.where().eq("extId",idExt).findUnique();
+    }
+
     public static GameMatch findByIdFifa(Long idFifa){
         return finder.where().eq("fifaMatchNumber",idFifa).findUnique();
     }
@@ -390,6 +395,12 @@ public class GameMatch extends HecticusModel {
     }
 
     public void validateGame(){
-
+        try {
+            this.save();
+        }catch (PersistenceException ex){
+            //do nothing
+        }catch (Exception ex){
+            //if cant insert due to uniqueness its ok
+        }
     }
 }

@@ -81,8 +81,7 @@ row:not(input):not(textarea) {
 		text-align: center;
 		background-image: url(../img/line.png), url(../img/line.png); 
 		background-repeat: repeat-x; 
-		background-position: top, bottom;
-		background-attachment: fixed;
+		background-position: center top, center bottom;
 		vertical-align: middle;
 	}
 		
@@ -92,8 +91,7 @@ row:not(input):not(textarea) {
 		text-align: center;				
 		background-image: url(../img/line.png); 
 		background-repeat: repeat-x; 	
-		background-position: bottom;
-		background-attachment: fixed;
+		background-position: center bottom;
 		background-color: #444444;
 		font-size: 1.2em;
 		font-weight: bold;

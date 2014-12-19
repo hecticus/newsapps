@@ -28,8 +28,8 @@ function sharePost(title, fileImage, source){
 	image.src = fileImage;
 	var dataImage = getBase64Image(image);
 	//tratamos de acelerar el plugin enviandole la imagen completa como data
-	//window.plugins.socialsharing.share(title, "A Gata Do Dia", fileImage, source);
-	window.plugins.socialsharing.share(title, "A Gata Do Dia", dataImage, source);
+	//window.plugins.socialsharing.share(title, "Memeteca", fileImage, source);
+	window.plugins.socialsharing.share(title, "Memeteca", dataImage, source);
 }
 
 function getBase64Image(img) {

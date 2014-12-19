@@ -76,6 +76,7 @@ create table game_matches (
   ext_id                    bigint,
   fn                        integer,
   id_competition            bigint,
+  constraint uq_game_matches_1 unique (id_competition, ext_id),
   constraint pk_game_matches primary key (id_game_matches))
 ;
 
@@ -90,6 +91,8 @@ create table game_match_events (
   action_minute             integer,
   date                      varchar(255),
   _sort                     integer,
+  ext_id                    bigint,
+  constraint uq_game_match_events_1 unique (ext_id),
   constraint pk_game_match_events primary key (id_game_match_events))
 ;
 
@@ -230,6 +233,7 @@ create table ranking (
   orden                     integer,
   orden_desc                varchar(255),
   streak                    varchar(255),
+  constraint uq_ranking_1 unique (id_phases, id_teams),
   constraint pk_ranking primary key (id_ranking))
 ;
 

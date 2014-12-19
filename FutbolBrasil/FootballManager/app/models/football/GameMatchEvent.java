@@ -14,7 +14,7 @@ import java.util.List;
  * Created by karina on 5/20/14.
  */
 @Entity
-@Table(name="game_match_events")
+@Table(name="game_match_events",uniqueConstraints = @UniqueConstraint(columnNames = {"ext_id"}))
 public class GameMatchEvent extends HecticusModel {
 
     @Id
@@ -38,8 +38,24 @@ public class GameMatchEvent extends HecticusModel {
     private String date;
     private Integer _sort;
 
+    private Long extId;
+
     private static Model.Finder<Long,GameMatchEvent> finder = new
                    Model.Finder<Long,GameMatchEvent>(Long.class,GameMatchEvent.class);
+
+    public GameMatchEvent(GameMatch gameMatch, Period period, Action action, Team team, String playerA, String playerB,
+                          Integer actionMinute, String date, Integer _sort, Long extId) {
+        this.gameMatch = gameMatch;
+        this.period = period;
+        this.action = action;
+        this.team = team;
+        this.playerA = playerA;
+        this.playerB = playerB;
+        this.actionMinute = actionMinute;
+        this.date = date;
+        this._sort = _sort;
+        this.extId = extId;
+    }
 
     public Long getIdGameMatchEvents() {
         return idGameMatchEvents;
@@ -119,6 +135,14 @@ public class GameMatchEvent extends HecticusModel {
 
     public void set_sort(Integer _sort) {
         this._sort = _sort;
+    }
+
+    public Long getExtId() {
+        return extId;
+    }
+
+    public void setExtId(Long extId) {
+        this.extId = extId;
     }
 
     public static List<GameMatchEvent> getList(GameMatch match,String action,
