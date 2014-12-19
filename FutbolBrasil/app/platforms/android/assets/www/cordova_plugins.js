@@ -202,6 +202,13 @@ module.exports = [
         "clobbers": [
             "window.StatusBar"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "clobbers": [
+            "facebookConnectPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -215,7 +222,8 @@ module.exports.metadata =
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "org.apache.cordova.network-information": "0.2.13",
     "org.apache.cordova.statusbar": "0.1.8",
-    "org.apache.cordova.console": "0.2.11"
+    "org.apache.cordova.console": "0.2.11",
+    "com.phonegap.plugins.facebookconnect": "0.11.0"
 }
 // BOTTOM OF METADATA
 });

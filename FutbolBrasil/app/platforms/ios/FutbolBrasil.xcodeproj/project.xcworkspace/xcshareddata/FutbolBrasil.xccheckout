@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>51A7F3F9-B374-4520-A1D5-C5F51B5F59D6</string>
+	<key>IDESourceControlProjectName</key>
+	<string>FutbolBrasil</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E842288AA2CEA519B940B5130D59CED906D885C1</key>
+		<string>github.com:hecticus/newsapps.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>FutbolBrasil/app/platforms/ios/FutbolBrasil.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E842288AA2CEA519B940B5130D59CED906D885C1</key>
+		<string>../../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:hecticus/newsapps.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E842288AA2CEA519B940B5130D59CED906D885C1</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E842288AA2CEA519B940B5130D59CED906D885C1</string>
+			<key>IDESourceControlWCCName</key>
+			<string>newsapps</string>
+		</dict>
+	</array>
+</dict>
+</plist>
