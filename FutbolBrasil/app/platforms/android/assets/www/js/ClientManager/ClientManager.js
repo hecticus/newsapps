@@ -1,8 +1,9 @@
-var _url = 'http://brazil.footballmanager.hecticus.com';
-
 var clientID = "";
 var clientMSISDN = "";
 var clientDataSafe = false;
+var clientPassword = "";
+
+var clientOBJ = {};
 
 function initClientManager(callback, errorCallback){
 	try
@@ -50,10 +51,16 @@ var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
 var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
 var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
 
-function saveClientID(_clientID) {
+function saveClientID(response, password) {
 	try{
-		clientID = _clientID;
-		window.localStorage.setItem(FILE_KEY_CLIENT_ID,""+clientID);
+		//tenemos todo el objeto
+		clientOBJ.id_client = response.id_client;
+		clientOBJ.user_id = response.user_id;
+		clientOBJ.login = response.login;
+		if(password != null && password != ""){ clientOBJ.password = password; }
+        
+		clientID = clientOBJ.id_client;
+		window.localStorage.setItem(FILE_KEY_CLIENT_ID,JSON.stringify(clientOBJ));
 		//mandamos a guardar tambien el reg ID
 		saveRegID(regID);
 		return true;
@@ -67,7 +74,15 @@ function loadClientID() {
 		window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
 		window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
 	}else{
-		clientID = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+		var clientString = window.localStorage.getItem(FILE_KEY_CLIENT_ID);
+		if(clientString != null && clientString != ""){
+			try{
+				clientOBJ = JSON.parse(clientString);
+				clientID = clientOBJ.id_client;
+			}catch(e){
+				
+			}
+		}
 	}
 }
 
@@ -79,11 +94,11 @@ function saveClientMSISDN(_clientMSISDN) {
 		for(var i=0;i<_clientMSISDN.length;++i){
 			parseInt(_clientMSISDN[i],10);
 		}
-		if(_clientMSISDN.indexOf("55") != 0){
-			_clientMSISDN = "55"+_clientMSISDN;
-		}
+//		if(_clientMSISDN.indexOf("55") != 0){
+//			_clientMSISDN = "55"+_clientMSISDN;//PARECE QUE NO ES NECESARIO PARA UPSTREAM
+//		}
 		clientMSISDN = _clientMSISDN;
-		console.log("MSISDN FINAL: "+clientMSISDN);
+		//console.log("MSISDN FINAL: "+clientMSISDN);
 		window.localStorage.setItem(FILE_KEY_CLIENT_MSISDN,""+clientMSISDN);
 		return true;
 	}catch(err){
@@ -109,6 +124,7 @@ function markClientAsOK() {
 //CLIENT MANAGER OPERATIONS
 function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallback){
 	try{
+		clientPassword = password;
 		//cargamos el id de cliente si existe
 		loadClientID();
 		//traemos el Client por WS si existe, sino con el RegID creamos uno temporal que actualizaremos de nuevo
@@ -144,8 +160,8 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		jData.country = country;
 		if(login != null && login != "")
 			jData.login = login;
-		if(password != null && password != "")
-			jData.password = password;
+		if(clientPassword != null && clientPassword != "")
+			jData.password = clientPassword;
 		jData.upstreamChannel = upstreamChannel;
 		
 		//Dependiendo del caso hacemos create o update
@@ -166,6 +182,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 				url : urlUpdateClients,
 				data: JSON.stringify(jData),	
 				type: 'POST',
+				headers: getHeaders(),
 				contentType: "application/json; charset=utf-8",
 				dataType: 'json',
 				timeout : 60000,
@@ -186,7 +203,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								//SAVE TEAM LIST
 								initTeamManager(response.push_alerts);
 								//SAVE Client ID
-								if(saveClientID(response.id_client)){
+								if(saveClientID(response, password)){
 									callback(isActive,response.status);
 								}else{
 									errorCallback();
@@ -217,6 +234,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 				url : urlCreateClients,
 				data: JSON.stringify(jData),	
 				type: 'POST',
+				headers: getHeaders(),
 				contentType: "application/json; charset=utf-8",
 				dataType: 'json',
 				timeout : 60000,
@@ -237,7 +255,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 								//SAVE TEAM LIST
 								initTeamManager(response.push_alert);
 								//SAVE Client ID
-								if(saveClientID(response.id_client)){
+								if(saveClientID(response, password)){
 									callback(isActive,response.status);
 								}else{
 									errorCallback();
@@ -286,6 +304,7 @@ function getClientStatus(callback, errorCallback){
 	$.ajax({
 		url : urlGetClients,
 		type: 'GET',
+		headers: getHeaders(),
 		contentType: "application/json; charset=utf-8",
 		cache: false,
 		timeout : 60000,
@@ -306,7 +325,7 @@ function getClientStatus(callback, errorCallback){
 						//SAVE TEAM LIST
 						initTeamManager(response.push_alert);
 						//SAVE Client ID
-						if(saveClientID(response.id_client)){
+						if(saveClientID(response, null)){
 							callback(isActive,response.status);
 						}else{
 							errorCallback();
@@ -337,4 +356,39 @@ function checkClientStatus(status){
 	}else{
 		return false;
 	}
+}
+
+//REMOVE OLD DATA
+var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
+var currentVersion = 0;
+function checkStoredData(){
+	var storedVersion = loadStoredVersion();
+	if(storedVersion != null && storedVersion != ""){
+		var storedInt = parseInt(storedVersion);
+		if(currentVersion > storedVersion){
+			//borramos todas las configuraciones
+			eraseAllConfigs();
+		}
+	}else{
+		//borramos todas las configs
+		eraseAllConfigs();
+	}
+	saveStoredVersion();
+}
+function eraseAllConfigs(){
+	window.localStorage.removeItem(FILE_KEY_CLIENT_ID);
+	window.localStorage.removeItem(FILE_KEY_CLIENT_MSISDN);
+	window.localStorage.removeItem(FILE_KEY_CLIENT_REGID);
+	window.localStorage.removeItem(FILE_KEY_CLIENT_DATASAFE);
+}
+function saveStoredVersion() {
+	try{
+		window.localStorage.setItem(FILE_KEY_STOREDVERSION,""+currentVersion);
+		return true;
+	}catch(err){
+		return false;
+	}
+}
+function loadStoredVersion() {
+	return window.localStorage.getItem(FILE_KEY_STOREDVERSION);
 }

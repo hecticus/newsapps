@@ -53,29 +53,67 @@ var app = {
             	_app.get('utilities').backbuttom();							
 			}, false);
 		
-		   //app.initAllAppData();
+		   app.initAllAppData();
     	}
 
     },
     
     initAllAppData: function() {
     	StatusBar.hide();
-    	//window.plugins.sharedConfigurations.addSharedConfigEntry("test","one",setShareOK,errorShareOK);
-    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_width",setRealWidth,errorShareConfigs);
-    	window.plugins.sharedConfigurations.getSharedConfigEntry("device_height",setRealHeight,errorShareConfigs);
+
+    	//window.plugins.sharedConfigurations.getSharedConfigEntry("device_width",setRealWidth,errorShareConfigs);
+    	//window.plugins.sharedConfigurations.getSharedConfigEntry("device_height",setRealHeight,errorShareConfigs);
     	
     	//revisamos que la data que esta guardada este bien
     	checkStoredData();
     	if (_fPhonegapIsOnline()) {
+    		//cargamos las configuraciones iniciales al comienzo
+    		loadServerConfigs();
+    		
     		//init Push manager
     		initPush();
-    		//init client manager
-    		initClientManager(startApp, errorStartApp);
     	}else{
     		startAppOffline();
     	}
     }
 };
 
+var _url = 'http://brazil.footballmanager.hecticus.com';
+
+function loadServerConfigs(){
+	//primero cargamos la configuracion inicial de la app
+	enableCerts(true);
+	console.log("LOADING: "+_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
+	_oAjax = _fGetAjaxJson(_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
+	if (_oAjax) {
+		_oAjax.done(function(_json) {
+			_jMenu[5].data = _json;
+			upstreamAppKey = _json.response.upstreamAppKey;
+			upstreamAppVersion = _json.response.upstreamAppVersion;
+			upstreamServiceID = _json.response.upstreamServiceID;
+			upstreamURL = _json.response.upstreamURL;
+			companyName = _json.response.company_name;
+			buildVersion = _json.response.build_version;
+			serverVersion = _json.response.server_version;
+			console.log("FINISH LOADING");
+			//cuando tengamos todo esto mandamos a inicial los clientes
+			//init client manager
+    		initClientManager(startApp, errorStartApp);
+		});
+	};
+}
+
 app.initialize();
+
+//offline
+function startAppOffline(){
+	alert("OFFLINE APP");
+}
+
+function startApp(isActive, status){
+	console.log("START APP: "+isActive+"/"+status);
+}
+function errorStartApp(){
+	console.log("START APP ERROR");
+}
 
