@@ -106,7 +106,7 @@ GET     /footballapi/v1/calendar/get/:idCompetition                             
 #GET     /tvmaxfeeds/calendar/getActive                                                 controllers.tvmaxfeeds.MatchController.getActiveMatch()
 
 #football manager
-GET     /api/v1/rankings/get/:idApp                                                     controllers.footballapi.RankingController.getRankings(idApp: Integer)
+GET     /api/v1/rankings/get/:idApp/:formattedToday                                     controllers.footballapi.RankingController.getRankings(idApp: Integer, formattedToday: String)
 
 #calendar
 GET     /api/v1/caledar/get/date/gt/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")

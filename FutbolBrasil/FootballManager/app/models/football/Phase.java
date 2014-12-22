@@ -8,7 +8,11 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by karina on 5/13/14.
@@ -184,6 +188,18 @@ public class Phase extends HecticusModel {
 
     public static List<Phase> getAllPhases(Long idCompetition){
         return finder.where().eq("id_competitions",idCompetition).findList();
+    }
+
+    public static List<Phase> getTodayPhases(Long idCompetition){
+        Calendar today = new GregorianCalendar(TimeZone.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String formattedToday = simpleDateFormat.format(today.getTime());
+
+        return finder.where().eq("id_competitions",idCompetition).le("startDate", formattedToday).ge("endDate", formattedToday).findList();
+    }
+
+    public static List<Phase> getPhaseByDate(Long idCompetition, String formattedToday){
+        return finder.where().eq("id_competitions",idCompetition).le("startDate", formattedToday).ge("endDate", formattedToday).findList();
     }
 
     @Override
