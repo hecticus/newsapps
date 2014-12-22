@@ -507,14 +507,18 @@ function each(objects, func, context) {
 }
 
 function clobber(obj, key, value) {
-    exports.replaceHookForTesting(obj, key);
-    obj[key] = value;
-    // Getters can only be overridden by getters.
-    if (obj[key] !== value) {
-        utils.defineGetter(obj, key, function() {
-            return value;
-        });
-    }
+	try {
+	  exports.replaceHookForTesting(obj, key);
+	  obj[key] = value;
+	  // Getters can only be overridden by getters.
+	  if (obj[key] !== value) {
+	      utils.defineGetter(obj, key, function() {
+	          return value;
+	      });
+	  }
+  } catch (e){
+      console.error('clobber error '+e+', obj='+JSON.stringify(obj)+', key='+JSON.stringify(key)+', value='+JSON.stringify(value));
+  }
 }
 
 function assignOrWrapInDeprecateGetter(obj, key, value, message) {
