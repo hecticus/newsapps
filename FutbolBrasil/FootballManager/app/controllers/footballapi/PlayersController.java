@@ -66,7 +66,7 @@ public class PlayersController extends HecticusController {
             List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
             for(Competition competition : competitionsByApp) {
                 List<Scorer> fullList = Scorer.getTournamentScorers(competition.getIdCompetitions());
-                ObjectNode competitionJson = competition.toJson();
+                ObjectNode competitionJson = competition.toJsonSimple();
                 if (fullList != null && !fullList.isEmpty()){
                     //i got data
                     for (int i = 0; i < fullList.size(); i++){

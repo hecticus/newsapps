@@ -26,17 +26,23 @@ public class RankingController extends HecticusController {
                 ArrayList phasesIds = new ArrayList();
                 ArrayList phasesObjs = new ArrayList();
                 for(int j=0; j<phases.size(); ++j){
-                    phasesIds.add(phases.get(j).getIdPhases());
-                    phasesObjs.add(phases.get(j).toJson());
+                    List<Rank> ranks = Rank.finder.where().eq("id_phases", phases.get(j).getIdPhases()).orderBy("nivel asc, orden asc").findList();
+                    ObjectNode phase = phases.get(j).toJson();
+                    ArrayList rankingObjs = new ArrayList();
+                    for(int z=0; z<ranks.size(); ++z){
+                        rankingObjs.add(ranks.get(z).toJsonPhaseID());
+                    }
+                    phase.put("ranks",Json.toJson(rankingObjs));
+                    phasesObjs.add(phase);
                 }
                 //obtenemos el ranking por
-                List<Rank> rankings = Rank.getListByListPhase(phasesIds);
-                ArrayList rankingObjs = new ArrayList();
-                for(int z=0; z<rankings.size(); ++z){
-                    rankingObjs.add(rankings.get(z).toJsonPhaseID());
-                }
-                ObjectNode competition = competitions.get(i).toJson();
-                competition.put("ranks",Json.toJson(rankingObjs));
+//                List<Rank> rankings = Rank.getListByListPhase(phasesIds);
+//                ArrayList rankingObjs = new ArrayList();
+//                for(int z=0; z<rankings.size(); ++z){
+//                    rankingObjs.add(rankings.get(z).toJsonPhaseID());
+//                }
+                ObjectNode competition = competitions.get(i).toJsonSimple();
+//                competition.put("ranks",Json.toJson(rankingObjs));
                 competition.put("phases",Json.toJson(phasesObjs));
                 data.add(competition);
             }

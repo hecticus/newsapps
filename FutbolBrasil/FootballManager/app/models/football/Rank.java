@@ -93,8 +93,7 @@ public class Rank  extends HecticusModel {
     <partidosDefTribDisc/>
     */
 
-    private static Model.Finder<Long,Rank> finder = new
-            Model.Finder<Long,Rank>(Long.class,Rank.class);
+    public static Model.Finder<Long,Rank> finder = new Model.Finder<Long,Rank>(Long.class,Rank.class);
 
     public Rank(Phase phase, Team team, long matches, long matchesWon, long matchesDraw, long matchesLost,
                 long points, long goalsFor, long goalAgainst,int matchesLocal, int matchesVisitor,
