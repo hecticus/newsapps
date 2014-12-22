@@ -13,6 +13,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 
+import models.basic.Config;
 import models.news.News;
 import models.news.Resource;
 import play.*;
@@ -23,6 +24,7 @@ import play.mvc.Http.Session;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import utils.Utils;
 import views.html.*;
 
 public class Application extends Controller {
@@ -138,6 +140,38 @@ public class Application extends Controller {
             return ok("OK");
         }else{
             return badRequest("file not found");
+        }
+    }
+
+    //Initial load settings WS for the Mobile App
+    public static Result getAppSettings(Integer width, Integer height){
+        try {
+            ObjectNode data = Json.newObject();
+            data.put("company_name", Config.getString("company-name"));
+            data.put("app_version",Config.getString("app-version"));
+            ObjectNode response = Json.newObject();
+
+            data.put("build_version", Config.getString("build-version"));
+            //colocamos la configuracion de upstream para que la tengamos en la app
+            data.put("upstreamAppKey", Config.getString("upstreamAppKey"));
+            data.put("upstreamAppVersion", Config.getString("upstreamAppVersion"));
+            data.put("upstreamServiceID", Config.getString("upstreamServiceID"));
+            data.put("upstreamURL", Config.getString("upstreamURL"));
+
+            data.put("server_version", Config.getString("server-version"));
+
+            response.put(Config.ERROR_KEY, 0);
+            response.put(Config.DESCRIPTION_KEY, "OK");
+            response.put(Config.RESPONSE_KEY,data);
+
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Application.class, "Error manejando settings", "obteniendo los settings del app ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            ObjectNode response = Json.newObject();
+            response.put(Config.ERROR_KEY, 1);
+            response.put(Config.DESCRIPTION_KEY, "Error buscando el registro");
+            response.put(Config.EXCEPTION_KEY, e.getMessage());
+            return badRequest(response);
         }
     }
 

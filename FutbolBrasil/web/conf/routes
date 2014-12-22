@@ -3,6 +3,7 @@
 # ~~~~
 
 GET     /check/*name                                                        controllers.Application.checkFile(name: String)
+GET     /api/loading/:width/:height                                         controllers.Application.getAppSettings(width: Integer, height: Integer)
 
 # Home page
 

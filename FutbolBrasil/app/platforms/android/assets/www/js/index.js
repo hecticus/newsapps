@@ -59,7 +59,7 @@ var app = {
             	_app.get('utilities').backbuttom();							
 			}, false);
 		
-		   app.initAllAppData();
+		   //app.initAllAppData();
     	}
 
     },
