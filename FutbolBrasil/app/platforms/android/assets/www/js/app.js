@@ -1,7 +1,7 @@
 
 	var _scroll = false;
 		
-	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
+	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','cordovaHTTP'])
  	
  		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';

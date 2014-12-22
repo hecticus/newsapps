@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.hecticus.cordova.plugins/www/sharedConfigurations.js",
+        "id": "com.hecticus.cordova.plugins.sharedconfigurations",
+        "clobbers": [
+            "SharedConfigurations"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
         "id": "org.apache.cordova.file.DirectoryEntry",
         "clobbers": [
@@ -209,6 +216,13 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
+        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
+        "clobbers": [
+            "plugins.CordovaHttpPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -223,7 +237,9 @@ module.exports.metadata =
     "org.apache.cordova.network-information": "0.2.13",
     "org.apache.cordova.statusbar": "0.1.8",
     "org.apache.cordova.console": "0.2.11",
-    "com.phonegap.plugins.facebookconnect": "0.11.0"
+    "com.hecticus.cordova.plugins": "1.0.0",
+    "com.phonegap.plugins.facebookconnect": "0.11.0",
+    "com.synconset.cordovaHTTP": "0.1.3"
 }
 // BOTTOM OF METADATA
 });

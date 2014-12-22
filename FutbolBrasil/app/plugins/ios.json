@@ -8,6 +8,10 @@
             "config.xml": {
                 "parents": {
                     "/*": [
+                    	{
+                            "xml": "<feature name=\"SharedConfigurations\"><param name=\"ios-package\" value=\"SharedConfigurations\" /></feature>",
+                            "count": 1
+                        },
                         {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
                             "count": 1
@@ -79,6 +83,10 @@
                         {
                             "xml": "<access origin=\"https://*.akamaihd.net\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CordovaHttpPlugin\"><param name=\"ios-package\" value=\"CordovaHttpPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -136,6 +144,10 @@
                     "Security.framework": [
                         {
                             "xml": "true",
+                            "count": 1
+                        },
+                        {
+                            "xml": "false",
                             "count": 1
                         }
                     ]
@@ -196,6 +208,9 @@
         "com.phonegap.plugins.facebookconnect": {
             "APP_ID": "320314531485580",
             "APP_NAME": "FutbolBrasil",
+            "PACKAGE_NAME": "com.hecticus.FutbolBrasil"
+        },
+        "com.synconset.cordovaHTTP": {
             "PACKAGE_NAME": "com.hecticus.FutbolBrasil"
         }
     },

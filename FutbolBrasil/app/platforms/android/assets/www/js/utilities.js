@@ -17,6 +17,61 @@
 			return false;
 		}
 	};
+	
+	var _fGetAjaxJson = function(_url) {
+		try {		
+			return $.ajax({
+					url: _url,
+					headers: getHeaders(),			
+					type: 'GET',          		
+					dataType : 'json',
+					async: false,
+					contentType: 'application/json; charset=utf-8',		
+				}).fail(function(jqXHR, textStatus, errorThrown) {		
+					return false;
+				});
+		} catch (e) {
+			return false;
+		}
+	};
+	
+	var _fGetAjaxJsonAsync = function(_url) {
+		try {		
+			return $.ajax({
+					url: _url,
+					headers: getHeaders(),			
+					type: 'GET',          		
+					dataType : 'json',
+					async: true,
+					contentType: 'application/json; charset=utf-8',		
+				}).fail(function(jqXHR, textStatus, errorThrown) {		
+					return false;
+				});
+		} catch (e) {
+			return false;
+		}	
+	};
+	
+	var _fPostAjaxJson = function(_url, _data) {
+		
+		try {		
+			console.log(_url + " " + JSON.stringify(_data));		
+		  	return $.ajax({
+				url: _url,
+				headers: getHeaders(),		
+				data: JSON.stringify(_data),	
+				type: 'POST',
+				dataType: 'json',
+				async: false,				
+				contentType: "application/json; charset=utf-8",
+			}).fail(function(jqXHR, textStatus, errorThrown) {		
+				return false;
+			});			   
+		} catch (e) {
+			return false;
+		}
+		
+	};
 
 	//get device type
 	function getDevice(){

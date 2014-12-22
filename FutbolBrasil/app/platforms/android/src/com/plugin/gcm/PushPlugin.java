@@ -23,6 +23,7 @@ public class PushPlugin extends CordovaPlugin {
 	public static final String TAG = "PushPlugin";
 
 	public static final String REGISTER = "register";
+	public static final String REGISTER_ON_SERVER = "register_on_server";
 	public static final String UNREGISTER = "unregister";
 	public static final String EXIT = "exit";
 
@@ -44,6 +45,7 @@ public class PushPlugin extends CordovaPlugin {
 	public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
 
 		boolean result = false;
+		String isRegister = "";
 
 		Log.v(TAG, "execute: action=" + action);
 
@@ -62,9 +64,17 @@ public class PushPlugin extends CordovaPlugin {
 
 				Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
 
-				GCMRegistrar.register(getApplicationContext(), gSenderID);
+				Log.e(TAG, "REGISTER? "+GCMRegistrar.isRegistered(getApplicationContext()));
+				Log.e(TAG, "REGISTER SERVER? "+GCMRegistrar.isRegisteredOnServer(getApplicationContext()));
+				if(!GCMRegistrar.isRegistered(getApplicationContext()) || !GCMRegistrar.isRegisteredOnServer(getApplicationContext())){
+					Log.e(TAG, "NOT REGISTERED ALREADY");
+					GCMRegistrar.register(getApplicationContext(), gSenderID);
+				}else{
+					isRegister = GCMRegistrar.getRegistrationId(getApplicationContext());
+					Log.e(TAG, "REGISTERED ALREADY");
+				}
 				result = true;
-				callbackContext.success();
+				callbackContext.success(isRegister);
 			} catch (JSONException e) {
 				Log.e(TAG, "execute: Got JSON Exception " + e.getMessage());
 				result = false;
@@ -84,7 +94,18 @@ public class PushPlugin extends CordovaPlugin {
 			Log.v(TAG, "UNREGISTER");
 			result = true;
 			callbackContext.success();
-		} else {
+		} else if (REGISTER_ON_SERVER.equals(action)) {
+			Log.v(TAG, "REGISTER ON SERVER " + data.toString());
+			if(GCMRegistrar.isRegistered(getApplicationContext())){
+				Log.v(TAG, "REGISTER ON SERVER: TRUE");
+				GCMRegistrar.setRegisteredOnServer(getApplicationContext(), true);
+			}else{
+				Log.v(TAG, "REGISTER ON SERVER: FALSE");
+				GCMRegistrar.setRegisteredOnServer(getApplicationContext(), false);
+			}
+			result = true;
+			callbackContext.success();
+		} else{
 			result = false;
 			Log.e(TAG, "Invalid action : " + action);
 			callbackContext.error("Invalid action : " + action);

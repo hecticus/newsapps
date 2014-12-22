@@ -5,13 +5,13 @@
 	var enableCerts = function(all){
 		console.log('WebManager! ' + all);
 		if(all){
-			cordovaHTTP.acceptAllCerts(true, function() {
+			plugins.CordovaHttpPlugin.acceptAllCerts(true, function() {
 				return true;
 			}, function() {
 				return false;
 			});
 		} else {
-			cordovaHTTP.enableSSLPinning(true, function() {
+			plugins.CordovaHttpPlugin.enableSSLPinning(true, function() {
 				return true;
 			}, function() {
 				return false;
