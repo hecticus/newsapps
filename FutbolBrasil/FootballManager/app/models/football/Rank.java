@@ -172,7 +172,8 @@ public class Rank  extends HecticusModel {
         node.put("points",points);
         node.put("goals_for",goalsFor);
         node.put("goal_against",goalAgainst);
-
+        node.put("nivel",nivel);
+        node.put("orden",orden);
         return node;
     }
 

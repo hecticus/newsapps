@@ -68,8 +68,7 @@ public class GameMatch extends HecticusModel {
     @OrderBy("idGameMatchEvents desc")
     private List<GameMatchEvent> events;
 
-    private static Model.Finder<Long,GameMatch> finder = new
-                   Model.Finder<Long,GameMatch>(Long.class, GameMatch.class);
+    public static Model.Finder<Long,GameMatch> finder = new Model.Finder<Long,GameMatch>(Long.class, GameMatch.class);
 
     public GameMatch(){}
 

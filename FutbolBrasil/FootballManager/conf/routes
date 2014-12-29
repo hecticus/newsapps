@@ -86,6 +86,21 @@ GET     /footballapi/v1/matches/date/get/:idApp/:date                           
 GET     /footballapi/v1/competitions/list/ids/:idApp                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=true)
 GET     /footballapi/v1/competitions/list/:idApp                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
 
+#NEW VERSION
+GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition/:idPhase             controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long, way: Integer?=0)
+GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition                      controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long?=0, way: Integer?=0)
+GET     /footballapi/v1/competitions/ranking/next/:idApp/:idCompetition/:idPhase        controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long, way: Integer?=1)
+GET     /footballapi/v1/competitions/ranking/previous/:idApp/:idCompetition/:idPhase    controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long, way: Integer?=-1)
+#GET     /footballapi/v1/calendar/get/date/gt/:idApp/:idCompetition/:date                controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")
+#GET     /footballapi/v1/calendar/get/date/lt/:idApp/:idCompetition/:date                controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="lt")
+#GET     /footballapi/v1/calendar/get/date/eq/:idApp/:idCompetition/:date                controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="eq")
+#GET     /footballapi/v1/calendar/get/phase/gt/:idApp/:idCompetition/:phase              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="gt")
+#GET     /footballapi/v1/calendar/get/phase/lt/:idApp/:idCompetition/:phase              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="lt")
+#GET     /footballapi/v1/calendar/get/phase/eq/:idApp/:idCompetition/:phase              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
+#GET     /footballapi/v1/calendar/get/:idApp/:idCompetition                              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
+
+
+
 
 #new football api
 #players
@@ -109,13 +124,13 @@ GET     /footballapi/v1/calendar/get/:idCompetition                             
 GET     /api/v1/rankings/get/:idApp/:formattedToday                                     controllers.footballapi.RankingController.getRankings(idApp: Integer, formattedToday: String)
 
 #calendar
-GET     /api/v1/caledar/get/date/gt/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")
-GET     /api/v1/caledar/get/date/lt/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="lt")
-GET     /api/v1/caledar/get/date/eq/:idApp/:idCompetition/:date                         controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="eq")
-GET     /api/v1/caledar/get/phase/gt/:idApp/:idCompetition/:phase                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="gt")
-GET     /api/v1/caledar/get/phase/lt/:idApp/:idCompetition/:phase                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="lt")
-GET     /api/v1/caledar/get/phase/eq/:idApp/:idCompetition/:phase                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
-GET     /api/v1/caledar/get/:idApp/:idCompetition                                       controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
+GET     /api/v1/calendar/get/date/gt/:idApp/:idCompetition/:date                        controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")
+GET     /api/v1/calendar/get/date/lt/:idApp/:idCompetition/:date                        controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="lt")
+GET     /api/v1/calendar/get/date/eq/:idApp/:idCompetition/:date                        controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="eq")
+GET     /api/v1/calendar/get/phase/gt/:idApp/:idCompetition/:phase                      controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="gt")
+GET     /api/v1/calendar/get/phase/lt/:idApp/:idCompetition/:phase                      controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="lt")
+GET     /api/v1/calendar/get/phase/eq/:idApp/:idCompetition/:phase                      controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
+GET     /api/v1/calendar/get/:idApp/:idCompetition                                      controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
 
 # Authenticate
 GET     /restricted                                                                     controllers.Application.restricted

@@ -45,7 +45,7 @@ public class Phase extends HecticusModel {
     @OneToMany(mappedBy = "phase")
     private List<GameMatch> matches;
 
-    private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
+    public static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
 
     public Phase(){
 
@@ -211,6 +211,21 @@ public class Phase extends HecticusModel {
         obj.put("start_date",startDate);
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
+
+        return obj;
+    }
+
+
+
+    public ObjectNode toJsonSimple() {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_initial_phases",idPhases);
+        obj.put("competition", comp.toJsonSimple());
+        obj.put("global_name",globalName);
+        obj.put("name",name);
+        obj.put("start_date",startDate);
+        obj.put("end_date",endDate);
+        obj.put("ext_id",extId);
         return obj;
     }
 
@@ -238,4 +253,6 @@ public class Phase extends HecticusModel {
         }
 
     }
+
+
 }

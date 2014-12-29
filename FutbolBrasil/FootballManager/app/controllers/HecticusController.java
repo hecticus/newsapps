@@ -108,4 +108,12 @@ public class HecticusController extends Controller {
         tr.put("response",innerObj);
         return tr;
     }
+
+    public static ObjectNode hecticusResponse(int code, String description, ObjectNode data) {
+        ObjectNode tr = Json.newObject();
+        tr.put("error", code);
+        tr.put("description", description);
+        tr.put("response", data);
+        return tr;
+    }
 }
