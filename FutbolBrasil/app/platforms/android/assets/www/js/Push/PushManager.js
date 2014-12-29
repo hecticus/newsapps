@@ -158,4 +158,18 @@ function updateDeviceToServer(){
 
 	//Una vez tengamos el regID y este todo listo tenemos que revisar si ya existe el cliente o si hay que crear uno generico
 	updateRegistrationID();
+	
+	var doneCreating = function(arg1, arg2){
+		console.log("arg1 = " + arg1);
+		console.log("arg2 = " + arg2);
+	};
+	
+	var errorCreating = function(){
+		console.log("ERROR");
+	};
+	
+	//TEMP PRUEBAS
+	console.log("VA A LLAMAR");
+	createOrUpdateClient("40766666613", "1234", true, doneCreating, errorCreating);
+	console.log("LLAMO");
 }

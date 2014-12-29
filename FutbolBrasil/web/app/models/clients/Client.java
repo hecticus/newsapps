@@ -225,7 +225,9 @@ public class Client extends HecticusModel {
             }
             response.put("leaderboards", Json.toJson(alerts));
         }
-        response.put("leaderbooard_global", leaderboardGlobal.toJsonClean());
+        if(leaderboardGlobal != null) {
+            response.put("leaderbooard_global", leaderboardGlobal.toJsonClean());
+        }
         return response;
     }
 
