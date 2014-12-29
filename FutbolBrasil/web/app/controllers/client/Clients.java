@@ -3,6 +3,7 @@ package controllers.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import exceptions.UpstreamAuthenticationFailureException;
 import models.basic.Config;
 import models.basic.Country;
 import models.clients.Client;
@@ -15,6 +16,7 @@ import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSRequestHolder;
+import play.libs.ws.WSResponse;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -28,6 +30,9 @@ import java.util.concurrent.TimeUnit;
  * Created by plesse on 9/30/14.
  */
 public class Clients extends HecticusController {
+
+    //private static final String upstreamUserIDSubscriptionResponseTag = "user_id"; //segun documentacion
+    private static final String upstreamUserIDSubscriptionResponseTag = "userId"; //segun pruebas
 
     public static Result create() {
         ObjectNode clientData = getJson();
@@ -67,6 +72,7 @@ public class Clients extends HecticusController {
                     }
                     //siempre que tengamos login y pass debemos revisar el status de upstream
                     if(password != null && !password.isEmpty()){
+                        client.setPassword(password);
                         getStatusFromUpstream(client,upstreamChannel);
                         update = true;
                     }
@@ -143,10 +149,8 @@ public class Clients extends HecticusController {
                     String date = sf.format(actualDate.getTime());
 
                     client = new Client(2, login, password, country, date);
-                    getUserIdFromUpstream(client,upstreamChannel);
-                    getStatusFromUpstream(client,upstreamChannel);
-                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                     ArrayList<ClientHasDevices> devices = new ArrayList<>();
+                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                     while (devicesIterator.hasNext()){
                         ObjectNode next = (ObjectNode)devicesIterator.next();
                         if(next.has("device_id") && next.has("registration_id")){
@@ -164,6 +168,13 @@ public class Clients extends HecticusController {
                         return ok(response);
                     }
                     client.setDevices(devices);
+
+                    if(client.getPassword() != null && !client.getPassword().isEmpty()){
+                        getUserIdFromUpstream(client,upstreamChannel);
+                    }else{
+                        subscribeUserToUpstream(client,upstreamChannel);
+                    }
+                    getStatusFromUpstream(client,upstreamChannel);
 
                     if(clientData.has("push_alerts")){
                         Iterator<JsonNode> pushAlertIterator = clientData.get("pushAlerts").elements();
@@ -469,7 +480,7 @@ public class Clients extends HecticusController {
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo la lista de alertas para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return badRequest(buildBasicResponse(1, "Error buscando el registro", e));
         }
     }
 
@@ -504,6 +515,43 @@ public class Clients extends HecticusController {
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error recuperando el password de upstream del client " + msisdn, true, ex, "support-level-1", Config.LOGGER_ERROR);
             return Results.badRequest(buildBasicResponse(3, "ocurrio un error recuperando password", ex));
+        }
+    }
+
+    //Events for Upstream
+    public static Result sendEvent() {
+        String user_id = "";
+        String event_type = "";
+        try{
+            ObjectNode response = null;
+            ObjectNode clientData = getJson();
+            Client client = null;
+            //Obtenemos el canal por donde esta llegando el request
+            String upstreamChannel;
+            if(clientData.has("upstreamChannel")){
+                upstreamChannel = clientData.get("upstreamChannel").asText();
+            }else{
+                upstreamChannel = "Android"; //"Android" o "Web"
+            }
+            //buscamos el user_id
+            if(clientData.has("user_id")){
+                user_id = clientData.get("user_id").asText();
+                client = Client.finder.where().eq("user_id",user_id).findUnique();
+            }
+            //buscamos el event_type
+            if(clientData.has("event_type")){
+                event_type = clientData.get("event_type").asText();
+            }
+            if(client != null && (event_type != null || !event_type.isEmpty())) {
+                sendEventForUpstream(client,upstreamChannel,event_type);
+                response = buildBasicResponse(0, "OK", client.toJson());
+            } else {
+                response = buildBasicResponse(2, "no existe el registro para enviar el evento");
+            }
+            return ok(response);
+        } catch (Exception ex) {
+            Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            return Results.badRequest(buildBasicResponse(3, "ocurrio un error enviando evento", ex));
         }
     }
 
@@ -574,8 +622,10 @@ public class Clients extends HecticusController {
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
             ObjectNode fResponse = Json.newObject();
-            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage="";
             if(fResponse != null){
                 int callResult = fResponse.findValue("result").asInt();
@@ -583,7 +633,7 @@ public class Clients extends HecticusController {
                 //TODO: revisar si todos estos casos devuelven con exito la llamada o algunos si se consideran errores
                 if(callResult == 0 || callResult == 1 || callResult == 0 || callResult == 6){
                     //Se trajo la informacion con exito
-                    String userID = fResponse.findValue("user_id").asText();
+                    String userID = fResponse.findValue(upstreamUserIDSubscriptionResponseTag).asText();
                     //TODO: guardar el userID en la info del cliente
                     client.setUserId(userID);
                 }else{
@@ -663,8 +713,10 @@ public class Clients extends HecticusController {
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
             ObjectNode fResponse = Json.newObject();
-            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            fResponse = (ObjectNode)wsResponse.asJson();
             if(fResponse != null){
                 int callResult = fResponse.findValue("result").asInt();
                 errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
@@ -748,8 +800,10 @@ public class Clients extends HecticusController {
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
             ObjectNode fResponse = Json.newObject();
-            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage="";
             if(fResponse != null){
                 int callResult = fResponse.findValue("result").asInt();
@@ -833,8 +887,10 @@ public class Clients extends HecticusController {
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
             ObjectNode fResponse = Json.newObject();
-            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage = "";
             if(fResponse != null){
                 int callResult = fResponse.findValue("result").asInt();
@@ -894,7 +950,7 @@ public class Clients extends HecticusController {
      */
     private static void resetPasswordForUpstream(Client client, String upstreamChannel) throws Exception{
         String errorMessage = "";
-        if(client.getLogin() == null){
+        if(client.getLogin() != null){
             String msisdn = client.getLogin();
             String userID = null;
             String password = null;
@@ -913,8 +969,10 @@ public class Clients extends HecticusController {
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
             ObjectNode fResponse = Json.newObject();
-            fResponse = (ObjectNode)resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            fResponse = (ObjectNode)wsResponse.asJson();
             if(fResponse != null){
                 int callResult = fResponse.findValue("result").asInt();
                 errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
@@ -931,6 +989,116 @@ public class Clients extends HecticusController {
         }else{
             errorMessage = "No MSISDN for client";
             throw new Exception(errorMessage);
+        }
+    }
+
+    /**
+     * Funcion que permite enviar un evento de la app a Upstream
+     *
+     * POST data as JSON:
+     * user_id                  String  mandatory   upstream user_id
+     * push_notification_id     String  optional    push id
+     * service_id               String  mandatory   Upstream suscription service
+     * metadata                 JSON    optional    extra params
+     * timestamp                String  mandatory   “dd/MM/yy HH:mm:ss.SSS UTC” (TZ is always UTC)
+     * device_id                String  mandatory   device ID for upstream
+     * event_type               String  optional    String with one of the following
+     *
+     * EVENTS
+     *
+     * APP_LAUNCH: Application Launch
+     * LOGIN: Login attempt
+     * GAME_LAUNCH: Game Launch
+     * GAME_END: Game End
+     * APP_CLOSE: Application Close
+     * UPD_POINTS: Points Update
+     * VIEW_SP: View subscription prompt
+     * CLICK_SP: Clicked subscription prompt
+     * CLICK_PN: Clicked Push Notification
+     *
+     * OUTPUT JSON FROM UPSTREAM:
+     * result       int     0-Success, 2-User cannot be identified, 3-User not Subscribed, 4-push_notification_id missing, 7-Upstream service no longer available
+     *
+     * Example:
+     *
+     * Headers:
+     * Content-Type: application/json
+     * Accept: application/gamingapi.v1+json
+     * x-gameapi-app-key: DEcxvzx98533fdsagdsfiou
+     * Authorization : Basic OTk5MDAwMDIzMzE1OlNSUTcyRktT
+     *
+     * Body:
+     * {"timestamp":"01/01/14 00:00:01.001
+     * UTC","metadata":{"channel":"Android","result":"win","points":[{"type":"expe
+     * rience","value":"100"}],"app_version":"gamingapi.v1","session_id":null},"se
+     * rvice_id":"prototype-app -
+     * SubscriptionDefault","user_id":8001,"push_notification_id":"wreuoi24lkjfdlk
+     * 13jh45kjhfkjqewhrt34jrewh2","event_type":"APP_LAUNCH", "device_id":"user-device-id"}
+     *
+     * Response:
+     * {
+     * "result" : 0
+     * }
+     *
+     * Parametros necesarios
+     * userID    upstream user id
+     * username  user from the app
+     * password  password from the app
+     * push_notification_id  optional, regID of user
+     * channel   "Android" or "Web"
+     *
+     */
+    private static void sendEventForUpstream(Client client, String upstreamChannel, String event_type) throws Exception{
+        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
+            String username = client.getLogin();
+            String userID = client.getUserId();
+            String password = client.getPassword();
+            String push_notification_id = null;
+            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client);
+            }
+
+            //Data from configs
+            String upstreamURL = Config.getString("upstreamURL");
+            String url = upstreamURL+"/game/user/event";
+
+            //Hacemos la llamada con los headers de autenticacion
+            WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
+
+            //llenamos el JSON a enviar
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            fields.put("user_id", userID); //agregamos el UserID al request
+            fields.put("event_type", event_type); //agregamos el evento
+            fields.put("timestamp", formatDateUpstream()); //agregamos el time
+
+            System.out.println("STATUS FIELDS " + fields.toString());
+
+            //realizamos la llamada al WS
+            F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
+            WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+            checkUpstreamResponseStatus(wsResponse,client);
+            ObjectNode fResponse = Json.newObject();
+            fResponse = (ObjectNode)wsResponse.asJson();
+            String errorMessage = "";
+            if(fResponse != null){
+                int callResult = fResponse.findValue("result").asInt();
+                errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
+                if(callResult == 0 || callResult == 4){
+                    //Se trajo la informacion con exito
+                    Boolean eligible = fResponse.findValue("eligible").asBoolean();
+                    //TODO: guardar en el userID la info de si esta activo o no
+                    client.setStatus(eligible ? 1 : 0);
+                }else{
+                    //ocurrio un error en la llamada
+                    throw new Exception(errorMessage);
+                }
+            }else{
+                errorMessage = "Web service call to Upstream failed";
+                throw new Exception(errorMessage);
+            }
+        }else{
+            //deberia estar en periodo de pruebas 2 o desactivado por tiempo -1 la verificacion se hace despues de la llamada
+            client.setStatus(2);
         }
     }
 
@@ -956,6 +1124,7 @@ public class Clients extends HecticusController {
 
         //The different versions of the API are defined in the HTTPS Accept header.
         urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+        urlCall.setMethod("POST");
         return urlCall;
     }
     //set basic POST data for UPSTREAM
@@ -966,7 +1135,10 @@ public class Clients extends HecticusController {
         ObjectNode fields = Json.newObject();
         ObjectNode metadata = Json.newObject();
         fields.put("service_id", upstreamServiceID);
-        if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")) fields.put("push_notification_id",push_notification_id);
+        if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")){
+            fields.put("push_notification_id",push_notification_id);
+            fields.put("device_id",push_notification_id);
+        }
         //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
         metadata.put("channel",upstreamChannel);
         metadata.put("app_version",upstreamAppVersion);
@@ -1005,6 +1177,34 @@ public class Clients extends HecticusController {
             default: return "Error not recognized";
         }
     }
+
+    //check response status
+    private static void checkUpstreamResponseStatus(WSResponse wsResponse, Client client) throws Exception {
+        int wsStatus = wsResponse.getStatus();
+        if(wsStatus == 200){
+            //all OK
+        }else{
+            if(wsStatus == 400 || wsStatus == 403 || wsStatus == 404 || wsStatus == 500 || wsStatus == 503){
+                throw new Exception("Upstream service: "+ wsResponse.getUri() +" fails with status: "+wsStatus);
+            }else{
+                if(wsStatus == 401){
+                    //la combinacion login:password es incorrecta, borramos el password
+                    client.setPassword("");
+                    throw new UpstreamAuthenticationFailureException("Upstream service: "+ wsResponse.getUri() +" fails authentication");
+                }else{
+                    throw new Exception("Upstream service: "+ wsResponse.getUri() +" fails with unknown status: "+wsStatus);
+                }
+            }
+        }
+    }
+
+    //“dd/MM/yy HH:mm:ss.SSS UTC” (TZ is always UTC)
+    private static String formatDateUpstream() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS");
+        String date = sdf.format(new Date());
+        date = date+" UTC";
+        return date;
+    }
       
     //FAKE UPSTREAM RESPONSE
     public static Result upstreamFakeCreate() {
@@ -1019,7 +1219,7 @@ public class Clients extends HecticusController {
         }
         ObjectNode response = Json.newObject();
         response.put("result",0);
-        response.put("user_id","324234345050505");
+        response.put(upstreamUserIDSubscriptionResponseTag,"324234345050505");
         return ok(response);
     }
     public static Result upstreamFakeLogin() {
@@ -1063,6 +1263,11 @@ public class Clients extends HecticusController {
         return ok(response);
     }
     public static Result upstreamFakeResetPass() {
+        ObjectNode response = Json.newObject();
+        response.put("result",0);
+        return ok(response);
+    }
+    public static Result upstreamFakeEventSend() {
         ObjectNode response = Json.newObject();
         response.put("result",0);
         return ok(response);
