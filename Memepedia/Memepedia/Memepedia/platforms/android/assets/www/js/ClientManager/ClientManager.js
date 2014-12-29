@@ -10,6 +10,8 @@ function initClientManager(callback, errorCallback){
 	try
 	{ 
 		loadClientID();
+		loadClientMSISDN();
+		loadClientGender();
 		console.log("INIT CLIENT: "+clientID+" msisdn:"+clientMSISDN);
 		if(clientID != null && clientID != ""){
 			//tenemos client ID asi que solo hacemos get
@@ -116,6 +118,7 @@ function loadClientMSISDN() {
 function saveClientGender(gender) {
 	try{
 		clientGender = gender;
+		console.log("SALVO CLIENT GENDER: "+clientGender);
 		window.localStorage.setItem(FILE_KEY_CLIENT_GENDER,""+clientGender);
 		return true;
 	}catch(err){
@@ -124,6 +127,7 @@ function saveClientGender(gender) {
 }
 function loadClientGender() {
 	clientGender = window.localStorage.getItem(FILE_KEY_CLIENT_GENDER);
+	console.log("CARGO CLIENT GENDER: "+clientGender);
 }
 
 function markClientAsOK() {
