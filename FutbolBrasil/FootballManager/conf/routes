@@ -85,6 +85,7 @@ GET     /footballapi/v1/matches/finished/get/:idCompetition/:date               
 GET     /footballapi/v1/matches/date/get/:idApp/:date                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String)
 GET     /footballapi/v1/competitions/list/ids/:idApp                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=true)
 GET     /footballapi/v1/competitions/list/:idApp                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
+GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer)
 
 #NEW VERSION
 GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition/:idPhase             controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long, way: Integer?=0)

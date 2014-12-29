@@ -127,9 +127,63 @@ public class MatchesController extends HecticusController {
                 competitions = new ArrayList<ObjectNode>(competitionsByApp.size());
             }
             for(Competition competition : competitionsByApp) {
-                competitions.add(ids ? competition.getIdCompetitions() : competition.toJson());
+                competitions.add(ids ? competition.getIdCompetitions() : competition.toJsonNoPhases());
             }
             response = hecticusResponse(0, "ok", ids?"ids":"competitions", competitions);
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getPhasesForCompetition(Integer idApp, Integer idCompetition){
+        try {
+            ObjectNode response = null;
+            ArrayList<ObjectNode> responseData = new ArrayList();
+            Competition competition = Competition.getCompetitionByApp(idApp, idCompetition);
+            if(competition != null) {
+                List<Phase> phases = competition.getPhases();
+                if(phases != null && !phases.isEmpty()) {
+                    if(competition.getType().getType() == 0){
+                        for (Phase phase : phases) {
+                            responseData.add(phase.toJson());
+                        }
+                    } else if(competition.getType().getType() == 1){//ARBOL
+                        Phase pivot = phases.get(0);
+                        ArrayList<ObjectNode> subfaces = new ArrayList<>();
+                        for (Phase phase : phases) {
+                            if(!phase.getGlobalName().equalsIgnoreCase(pivot.getGlobalName())){
+                                ObjectNode pivotJson = pivot.toJson();
+                                pivotJson.put("phases", Json.toJson(subfaces));
+                                responseData.add(pivotJson);
+                                pivot = phase;
+                                subfaces.clear();
+                                ObjectNode obj = Json.newObject();
+                                obj.put("id_phases",phase.getIdPhases());
+                                obj.put("name", phase.getName());
+                                subfaces.add(obj);
+                            } else {
+                                ObjectNode obj = Json.newObject();
+                                obj.put("id_phases",phase.getIdPhases());
+                                obj.put("name",phase.getName());
+                                subfaces.add(obj);
+                            }
+                        }
+                        ObjectNode pivotJson = pivot.toJson();
+                        pivotJson.put("phases", Json.toJson(subfaces));
+                        responseData.add(pivotJson);
+                    }
+                    ObjectNode data = Json.newObject();
+                    data.put("tree", competition.getType().getType() == 1);
+                    data.put("phases", Json.toJson(responseData));
+                    response = hecticusResponse(0, "ok", data);
+                } else {
+                    response = buildBasicResponse(0, "La competition " + idCompetition + " no tiene phases");
+                }
+            } else {
+                response = buildBasicResponse(0, "La competition " + idCompetition + " no existe");
+            }
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
