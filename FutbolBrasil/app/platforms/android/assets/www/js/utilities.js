@@ -215,3 +215,6 @@
 	function nocallback(){
 		//callback vacio para peticiones que no necesitan callback como tal
 	}
+	function doNothing(){
+		//callback vacio para peticiones que no necesitan callback como tal
+	}

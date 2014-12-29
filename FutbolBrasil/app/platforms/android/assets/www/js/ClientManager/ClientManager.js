@@ -228,6 +228,8 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 			//agregamos el device al json
 			jData.devices = devices;
 			
+			console.log("ENVIO: "+JSON.stringify(jData));
+			
 			//creamos un client usando el msisdn y el regID que tenemos
 			var urlCreateClients = _url+"/futbolbrasil/v1/clients/create";
 			$.ajax({

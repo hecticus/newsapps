@@ -59,7 +59,7 @@ var app = {
             	_app.get('utilities').backbuttom();							
 			}, false);
 		
-		   //app.initAllAppData();
+		   app.initAllAppData();
     	}
 
     },
@@ -93,7 +93,7 @@ function loadServerConfigs(){
 	_oAjax = _fGetAjaxJson(_url + '/api/loading/'+getRealWidth()+'/'+getRealHeight());
 	if (_oAjax) {
 		_oAjax.done(function(_json) {
-			_jMenu[5].data = _json;
+			console.log("JSON LOAD: "+JSON.stringify(_json));
 			upstreamAppKey = _json.response.upstreamAppKey;
 			upstreamAppVersion = _json.response.upstreamAppVersion;
 			upstreamServiceID = _json.response.upstreamServiceID;
@@ -121,5 +121,12 @@ function startApp(isActive, status){
 }
 function errorStartApp(){
 	console.log("START APP ERROR");
+}
+
+function doneCreating(){
+	console.log("DONE CREATING!!!!");
+}
+function errorCreating(){
+	console.log("ERROR CREATING!!!!");
 }
 
