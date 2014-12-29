@@ -88,7 +88,7 @@
 			
 			$('[data-touch="menu"]').removeClass('glyphicon glyphicon-remove');
 			$('[data-touch="menu"]').addClass('icon-menu');
-			$('.row.menu').addClass('hidden');	
+			$('.row.menu').addClass('hidden');
 			
 			if (_oAjax.state() === 'resolved') {			
 				$('div.plus i').addClass('icon-material-add-circle');
@@ -113,7 +113,7 @@
 		},
 		
 		load: function(_index, pushing) {
-			console.log("GOTO: "+_index);
+			//console.log("GOTO: "+_index);
 
 			if(pushing) pushNavigation(_index);
 
@@ -128,7 +128,7 @@
 				
 				if (_fPhonegapIsOnline()) {
 					
-					this.refresh();				
+					this.refresh();
 					$('body').removeClass();
 					$('body').addClass(_jMenu[_index].class);
 					$('main').empty();				
@@ -299,6 +299,7 @@
 		
 			
 		}
+		
 	});
 	
 	
