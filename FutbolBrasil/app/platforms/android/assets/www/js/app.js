@@ -161,7 +161,7 @@
 						}	
 					} else {
 						
-						alert('será!!!');
+						alert('ser!!!');
 						 
 						_return = false;
 					}

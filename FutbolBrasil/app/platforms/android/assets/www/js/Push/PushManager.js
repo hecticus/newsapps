@@ -27,7 +27,7 @@ function onNotificationAPN(e) {
     /*if (e.alert) {
          //$("#app-status-ul").append('<li>push-notification: ' + e.alert + '</li>');
          //console.log('push-notification: ' + e.alert);
-         navigator.notification.alert(e.alert);
+         alert(e.alert);
     }
         
     if (e.sound) {

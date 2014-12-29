@@ -29,7 +29,7 @@ function getFBLoginStatus() {
 					FRIENDS_LOADER = setInterval(getFBFriends(), FRIENDS_LOADER_TIMER);
 				},
 				function (response) { 
-					navigator.notification.alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
+					alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
 				}
 			);
 		} else {
@@ -37,7 +37,7 @@ function getFBLoginStatus() {
 			FRIENDS_LOADER = setInterval(getFBFriends(), FRIENDS_LOADER_TIMER);	
 		}
 	}catch(e){
-		navigator.notification.alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
+		alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
 	}
 }
 
@@ -74,7 +74,7 @@ function getFBFriends() {
 			saveFBFriends(friends);
 		}, 
 	  function (error) { 
-	  	navigator.notification.alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
+	  	alert("Error durante el login con Facebook", doNothing, "Alerta", "OK");
 	  }
   );
 }

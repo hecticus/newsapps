@@ -255,7 +255,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 									isActive = true;
 								}
 								//SAVE TEAM LIST
-								initTeamManager(response.push_alert);
+								initTeamManager(response.push_alerts);
 								//SAVE Client ID
 								if(saveClientID(response, password)){
 									callback(isActive,response.status);
@@ -325,7 +325,7 @@ function getClientStatus(callback, errorCallback){
 							isActive = true;
 						}
 						//SAVE TEAM LIST
-						initTeamManager(response.push_alert);
+						initTeamManager(response.push_alerts);
 						//SAVE Client ID
 						if(saveClientID(response, null)){
 							callback(isActive,response.status);
