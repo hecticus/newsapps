@@ -12,6 +12,13 @@ GET     /index                                                              cont
 GET     /news/list         			                                        controllers.news.NewsController.getNews()
 GET     /news/:id         			                                        controllers.Application.getNewsById(id:Long)
 
+#FAKE UPSTREAM URL
+POST    /api/v1/clients/upstream/game/user/subscribe                        controllers.client.Clients.upstreamFakeCreate()
+POST    /api/v1/clients/upstream/game/user/login                            controllers.client.Clients.upstreamFakeLogin()
+POST    /api/v1/clients/upstream/game/user/status                           controllers.client.Clients.upstreamFakeStatus()
+POST    /api/v1/clients/upstream/game/user/password                         controllers.client.Clients.upstreamFakeResetPass()
+POST    /api/v1/clients/upstream/game/user/event                            controllers.client.Clients.upstreamFakeEventSend()
+
 # Authenticate
 GET     /restricted                                                         controllers.Application.restricted
 GET     /assets/javascript/routes.js                                        controllers.Application.jsRoutes
@@ -80,5 +87,5 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/login                   cont
 POST    /futbolbrasil/v1/clients/upstream/game/user/status                  controllers.client.Clients.upstreamFakeStatus()
 POST    /futbolbrasil/v1/clients/upstream/game/user/password                controllers.client.Clients.upstreamFakeResetPass()
 
-GET     /futbolbrasil/v1/clients/scorers/:idClient                                 controllers.client.FootballManager.getScorers(idClient : Integer)
+GET     /futbolbrasil/v1/clients/scorers/:idClient                          controllers.client.FootballManager.getScorers(idClient : Integer)
 
