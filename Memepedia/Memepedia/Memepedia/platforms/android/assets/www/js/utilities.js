@@ -43,9 +43,9 @@
 		} catch (e) {
 			auth = companyName + " " + buildVersion + " " + serverVersion;
 		}
-		console.log(auth);
+		//console.log(auth);
 		return { 'HECTICUS-X-AUTH-TOKEN': auth };
-  }
+  };
   
   var getAppender = function(index){
   	   switch (index){
@@ -72,7 +72,7 @@
            default:
                return '-';
        }
-  }
+  };
 		
 	var _fGetAjaxJsonAsync = function(_url) {
 		try {		

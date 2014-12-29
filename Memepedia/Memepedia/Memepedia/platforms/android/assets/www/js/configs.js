@@ -9,6 +9,7 @@
 			console.log("ERROR "+e);
 		}
 		reloadMainJSON();
+		setCheckGender();
 	}
 	
 	function errorUpdatingConfigClientUpdate(err){
@@ -22,4 +23,11 @@
 		}
 		
 	}
-			    
+		
+	function setCheckGender() {	
+		$('button i').remove();
+		$('button[data-value="' + clientGender + '"]').prepend('<i class="icon-material-check" style="font-size: 0.9em; color:#ffffff; margin-right:2px;"></i>');
+	}
+	
+
+	setCheckGender();

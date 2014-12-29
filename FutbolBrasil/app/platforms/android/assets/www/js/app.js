@@ -144,20 +144,28 @@
         		error:function (_item, _param) {
         			
         			var _return = true;
-					
-					if (_param) {
-						angular.forEach(_item, function(_item) {
-							if (eval('_item.' + _param)) {
-								if (eval('_item.' + _param + '.length > 0')) {
-	  								_return = false;
-	  							}
-							}  					  					
-						});							
+        			
+					if (_item) {
+						if (_param) {
+							angular.forEach(_item, function(_item) {
+								if (eval('_item.' + _param)) {
+									if (eval('_item.' + _param + '.length > 0')) {
+		  								_return = false;
+		  							}
+								}  					  					
+							});							
+						} else {
+							if (_item.length > 0) {
+								_return = false;	
+							}						
+						}	
 					} else {
-						if (_item.length > 0) {
-							_return = false;	
-						}						
+						
+						alert('será!!!');
+						 
+						_return = false;
 					}
+					
 
 					return _return;
         			
@@ -431,6 +439,8 @@
  
  
  
+ 
+ 
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
  			 		  			
@@ -456,14 +466,25 @@
 		}])
  
  
- 		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 		/*.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
  				var _this = this;
- 				var promise = false;
+ 				var promise = false; 			
  				
 				if ($rootScope.$storage.standings) {
-					_this.item = JSON.parse($rootScope.$storage.standings);
+					
+					var _json = JSON.parse($rootScope.$storage.standings);
+					_this.item = {rankings:[], competitions:[]};
+
+					
+					angular.forEach(_json.rankings, function(_item, _index) {														
+						//if (_index == 0) _this.item.rankings.push(_item);
+						_this.item.rankings.push(_item);
+						_this.item.competitions.push({id:_item.id_competitions,name:_item.name});
+					});
+										
+					//_this.item = JSON.parse($rootScope.$storage.standings);										
 					$rootScope.loading = false;
 					$rootScope.error = utilities.error(_this.item.rankings,'ranks');
 				} else {
@@ -474,7 +495,34 @@
 					}).finally(function(data) {
 	  					$rootScope.loading = false;  					
 	  					$rootScope.error = utilities.error(_this.item.rankings,'ranks');
-					});	
+					});						
+				}
+
+		}])*/
+ 
+ 
+ 
+ 		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
+
+ 				var _this = this;
+ 				var promise = false; 			
+ 				
+				if ($rootScope.$storage.standings) {				
+					_this.item = JSON.parse($rootScope.$storage.standings);										
+					$rootScope.loading = false;
+					$rootScope.error = false;  	
+					//$rootScope.error = utilities.error(_this.item.rankings,'ranks');
+				} else {
+					promise = $http({method: 'GET', url: domain.standings()});
+					promise.then(function(obj) {
+						_this.item =  obj.data.response;
+						$rootScope.$storage.standings = JSON.stringify(obj.data.response);
+					}).finally(function(data) {
+	  					$rootScope.loading = false;
+	  					$rootScope.error = false;  					
+	  					//$rootScope.error = utilities.error(_this.item.rankings,'ranks');
+					});						
 				}
 
 		}])
@@ -565,8 +613,10 @@
 					_this.item =  obj.data.response;
 					$rootScope.$storage.news = JSON.stringify(obj.data.response);
 				}).finally(function(data) {
-  					$rootScope.loading = false;  					
+  					$rootScope.loading = false;
   					$rootScope.error = utilities.error(_this.item.news);
+				}).catch(function() {
+					$rootScope.error = true;				
 				});			
 			}
 			

@@ -5,3 +5,4 @@ platforms/android/ant-gen/
 platforms/android/CordovaLib/bin/
 platforms/android/CordovaLib/bin
 platforms/android/CordovaLib/gen/
+platforms/android/com.phonegap.plugins.facebookconnect/FacebookLib/bin/

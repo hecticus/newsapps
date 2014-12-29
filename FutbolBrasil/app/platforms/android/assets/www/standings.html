@@ -1,6 +1,73 @@
-
-
 		<div id="wrapper" >
+
+			<div class="scroller">
+				<div class="container">
+					 						
+				 	<div class="row" 
+				 		ng-repeat="competition in _this.item.rankings" my-scroll>
+				 		
+				 		
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="phase in competition.phases">
+							
+							
+							<table class="table">								
+							  	<thead>
+							  		<tr>
+							  			<th colspan="8">
+											<span ng-bind="competition.name"></span>
+							  			</th>
+							  		</tr>
+							  		<tr>
+							  			<th colspan="8">
+											<span ng-bind="phase.global_name"></span>
+							  			</th>
+							  		</tr>
+							  		<tr>
+							  			<th colspan="8">
+											<span ng-bind="phase.name"></span>
+							  			</th>
+							  		</tr>
+							        <tr>
+							        	<th></th>
+							          	<th style="text-align: left;">Classifica&Ccedil;&atilde;o</th>
+							          	<th>p</th>
+							          	<th>j</th>
+							          	<th>v</th>
+							          	<th>e</th>
+							          	<th>d</th>
+										<th>sg</th>
+							        </tr>
+								</thead>
+							    <tbody>
+							    	
+							    	<tr ng-class="{'active' : $odd}" ng-repeat="item in phase.ranks">
+										<td><span ng-bind="item.ranking" style="vertical-align: middle;"></span></td>
+							        	<td style="text-align: left;"><span ng-bind="item.team.name" style="vertical-align: middle;"></span></td>
+							        	<td><span ng-bind="item.points" style="vertical-align: middle;"></span></td>
+							          	<td><span ng-bind="item.matches_won" style="vertical-align: middle;"></span></td>
+							          	<td><span ng-bind="item.matches_drawn" style="vertical-align: middle;"></span></td>
+							          	<td><span ng-bind="item.matches_lost" style="vertical-align: middle;"></span></td>
+							          	<td><span ng-bind="item.goals_for" style="vertical-align: middle;"></span></td>
+							          	<td><span ng-bind="item.goal_against" style="vertical-align: middle;"></span></td>							          	
+							        </tr>
+							    	
+							    </tbody>
+							      
+							</table>
+						
+							
+						</div>	
+						
+
+					</div>
+
+				</div>
+			</div>
+	
+		</div>
+	
+
+		<!--div id="wrapper" >
 
 			<div class="scroller">
 				<div class="container">
@@ -81,6 +148,6 @@
 			</div>
 			
 			
-		</div>
+		</div-->
 	
 		
