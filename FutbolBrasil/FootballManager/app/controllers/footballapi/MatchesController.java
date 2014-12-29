@@ -151,13 +151,28 @@ public class MatchesController extends HecticusController {
                         }
                     } else if(competition.getType().getType() == 1){//ARBOL
                         Phase pivot = phases.get(0);
-                        responseData.add(pivot.toJson());
+                        ArrayList<ObjectNode> subfaces = new ArrayList<>();
                         for (Phase phase : phases) {
                             if(!phase.getGlobalName().equalsIgnoreCase(pivot.getGlobalName())){
-                                responseData.add(phase.toJson());
+                                ObjectNode pivotJson = pivot.toJson();
+                                pivotJson.put("phases", Json.toJson(subfaces));
+                                responseData.add(pivotJson);
                                 pivot = phase;
+                                subfaces.clear();
+                                ObjectNode obj = Json.newObject();
+                                obj.put("id_phases",phase.getIdPhases());
+                                obj.put("name", phase.getName());
+                                subfaces.add(obj);
+                            } else {
+                                ObjectNode obj = Json.newObject();
+                                obj.put("id_phases",phase.getIdPhases());
+                                obj.put("name",phase.getName());
+                                subfaces.add(obj);
                             }
                         }
+                        ObjectNode pivotJson = pivot.toJson();
+                        pivotJson.put("phases", Json.toJson(subfaces));
+                        responseData.add(pivotJson);
                     }
                     ObjectNode data = Json.newObject();
                     data.put("tree", competition.getType().getType() == 1);
