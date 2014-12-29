@@ -136,7 +136,7 @@
 	
 	//REMOVE OLD DATA
 	var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
-	var currentVersion = 3;
+	var currentVersion = 4;
 	function checkStoredData(){
 		var storedVersion = loadStoredVersion();
 		if(storedVersion != null && storedVersion != ""){
