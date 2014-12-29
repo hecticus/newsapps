@@ -168,6 +168,15 @@ public class Competition  extends HecticusModel {
         return obj;
     }
 
+    public ObjectNode toJsonNoPhases() {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_competitions",idCompetitions);
+        obj.put("name",name);
+        obj.put("ext_id",extId);
+        obj.put("competiton_type", type.toJson());
+        return obj;
+    }
+
     public ObjectNode toJsonSimple() {
         ObjectNode obj = Json.newObject();
         obj.put("id_competitions",idCompetitions);
