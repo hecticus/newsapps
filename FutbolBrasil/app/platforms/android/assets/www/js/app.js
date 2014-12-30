@@ -1,7 +1,7 @@
 
 	var _scroll = false;
 		
-	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','cordovaHTTP'])
+	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
  		.run(function($rootScope,$localStorage) {
 			$rootScope.contentClass = 'content-init';
@@ -183,11 +183,7 @@
             		if (_this.hasClass('left')) {            			
             			_this.attr('class','page transition right');				
             		}	else {            			
-						if (navigator.app) {					
-					        navigator.app.exitApp();				            
-					    } else if (navigator.device) {			        	
-					        navigator.device.exitApp();				            				          
-					   }					   
+						exitApp();				   
             		}
             	}
         	};
