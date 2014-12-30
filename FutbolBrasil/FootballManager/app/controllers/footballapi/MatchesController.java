@@ -144,11 +144,17 @@ public class MatchesController extends HecticusController {
             Competition competition = Competition.getCompetitionByApp(idApp, idCompetition);
             if(competition != null) {
                 List<Phase> phases = competition.getPhases();
+                ArrayList<ArrayList<ObjectNode>> groups = new ArrayList<>();
+                ArrayList<ObjectNode> rounds = new ArrayList<>();
                 if(phases != null && !phases.isEmpty()) {
                     if(competition.getType().getType() == 0){
                         for (Phase phase : phases) {
-                            responseData.add(phase.toJson());
+                            rounds.add(phase.toJson());
                         }
+                        groups.add(rounds);
+                        ObjectNode temp = Json.newObject();
+                        temp.put("groups", Json.toJson(groups));
+                        responseData.add(temp);
                     } else if(competition.getType().getType() == 1){//ARBOL
                         Phase pivot = phases.get(0);
                         ArrayList<ObjectNode> subfaces = new ArrayList<>();
@@ -156,7 +162,7 @@ public class MatchesController extends HecticusController {
                             if(!phase.getGlobalName().equalsIgnoreCase(pivot.getGlobalName())){
                                 ObjectNode pivotJson = pivot.toJson();
                                 pivotJson.put("phases", Json.toJson(subfaces));
-                                responseData.add(pivotJson);
+                                rounds.add(pivotJson);
                                 pivot = phase;
                                 subfaces.clear();
                                 ObjectNode obj = Json.newObject();
@@ -172,10 +178,72 @@ public class MatchesController extends HecticusController {
                         }
                         ObjectNode pivotJson = pivot.toJson();
                         pivotJson.put("phases", Json.toJson(subfaces));
-                        responseData.add(pivotJson);
+                        rounds.add(pivotJson);
+                        ObjectNode temp = Json.newObject();
+                        temp.put("tree", Json.toJson(rounds));
+                        responseData.add(temp);
+                    } else if(competition.getType().getType() == 2){//MIXTO
+                        Phase pivot = phases.get(0);
+                        String pivotName = pivot.getName();
+                        String pivotGlobalName = pivot.getGlobalName();
+                        boolean firstStage = true;
+                        ObjectNode treeTemp = null;
+                        ArrayList<ObjectNode> treePhases = new ArrayList<>();
+                        for (Phase phase : phases) {
+                            String name = phase.getName();
+                            String globalName = phase.getGlobalName();
+                            if(!globalName.equalsIgnoreCase(pivotGlobalName)){
+                                if(firstStage) {
+                                    groups.add((ArrayList<ObjectNode>) rounds.clone());
+                                    rounds.clear();
+                                    ObjectNode temp = Json.newObject();
+                                    temp.put("groups", Json.toJson(groups));
+                                    responseData.add(temp);
+                                    groups.clear();
+                                }
+                                firstStage = false;
+                            }
+                            if(firstStage) {
+                                int indexOfDash = pivotName.indexOf("-");
+                                if (indexOfDash > 0 && !name.startsWith(pivotName.substring(0, indexOfDash))) {
+                                    System.out.println("cambiando pivot1 " + name);
+                                    groups.add((ArrayList<ObjectNode>) rounds.clone());
+                                    rounds.clear();
+                                    pivot = phase;
+                                    pivotName = pivot.getName();
+                                    name = phase.getName();
+                                }
+                                rounds.add(phase.toJson());
+                            } else {
+                                if(!globalName.equalsIgnoreCase(pivotGlobalName)){
+                                    if(treeTemp != null) {
+                                        treeTemp.put("phases", Json.toJson(treePhases));
+                                        rounds.add(treeTemp);
+                                    }
+                                    pivot = phase;
+                                    pivotName = pivot.getName();
+                                    pivotGlobalName = pivot.getGlobalName();
+                                    name = phase.getName();
+                                    treeTemp = null;
+                                    treePhases.clear();
+                                }
+                                if(treeTemp == null){
+                                    treeTemp = phase.toJson();
+                                }
+                                ObjectNode obj = Json.newObject();
+                                obj.put("id_phases",phase.getIdPhases());
+                                obj.put("name",phase.getName());
+                                treePhases.add(obj);
+                            }
+                        }
+                        treeTemp.put("phases", Json.toJson(treePhases));
+                        rounds.add(treeTemp);
+                        ObjectNode temp = Json.newObject();
+                        temp.put("tree", Json.toJson(rounds));
+                        responseData.add(temp);
+                        groups.clear();
                     }
                     ObjectNode data = Json.newObject();
-                    data.put("tree", competition.getType().getType() == 1);
                     data.put("phases", Json.toJson(responseData));
                     response = hecticusResponse(0, "ok", data);
                 } else {
