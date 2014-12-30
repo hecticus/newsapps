@@ -51,7 +51,7 @@ var app = {
 			
 			//FB
 			console.log("preFB");
-			initFacebookManager();
+			//initFacebookManager();
 			getFBLoginStatus();
 			console.log("postFB"); 
 		  
@@ -59,7 +59,7 @@ var app = {
             	_app.get('utilities').backbuttom();							
 			}, false);
 		
-		   app.initAllAppData();
+		   setTimeout(function(){app.initAllAppData();},10);
     	}
 
     },
@@ -128,5 +128,19 @@ function doneCreating(){
 }
 function errorCreating(){
 	console.log("ERROR CREATING!!!!");
+}
+
+//EXIT
+function exitApp(){
+	try{
+		clearInterval(INTERVAL_FRIENDS_LOADER);
+	}catch(e){
+		
+	}
+	if (navigator.app) {					
+        navigator.app.exitApp();				            
+    } else if (navigator.device) {			        	
+        navigator.device.exitApp();				            				          
+   }
 }
 
