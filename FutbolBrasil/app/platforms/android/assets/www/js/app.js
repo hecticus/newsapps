@@ -1,16 +1,26 @@
 
 	var _scroll = false;
-		
+	
+	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','cordovaHTTP'])
+	//El modulo cordovaHTTP está generando un error cuando se hace el injector
+			
 	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
- 		.run(function($rootScope,$localStorage) {
+ 		.run(function($rootScope,$localStorage,$http, domain) {
+ 			
 			$rootScope.contentClass = 'content-init';
 			$rootScope.$storage = $localStorage.$default({
 				news: false,
 				leaderboard:false,
 				scorers:false,
 				match:false,
+				competitions:false,
 			});
+			
+			
+			$http({method: 'GET', url:domain.competitions()}).success(function(obj){
+				$rootScope.$storage.competitions = JSON.stringify(obj.response);
+		   	});
 
 		})		
 		
@@ -92,7 +102,7 @@
 				url: 'http://footballmanager.hecticus.com/',
 
 				competitions: function () {
-            		return this.url + 'footballapi/v1/competitions/list/ids/1';					
+            		return this.url + 'footballapi/v1/competitions/list/1';					
             	},
 
             	news: function () {
@@ -115,6 +125,12 @@
             	standings: function () {
             		return this.url + 'api/v1/rankings/get/1';
             	},
+            	
+            	phases: function (_competition) {
+            		return this.url + 'footballapi/v1/competitions/phases/1/' + _competition;
+            	},
+            	
+
             	
             	scorers: function () {
             		return this.url + 'footballapi/v1/players/competitions/scorers/1';
@@ -161,8 +177,7 @@
 						}	
 					} else {
 						
-						alert('ser!!!');
-						 
+
 						_return = false;
 					}
 					
@@ -179,11 +194,17 @@
 	 			},
 	 			
 	 			backbuttom: function () {	 				            		
-                	var _this =  angular.element('#wrapper2');  		 		           		
-            		if (_this.hasClass('left')) {            			
-            			_this.attr('class','page transition right');				
-            		}	else {            			
-						exitApp();				   
+               		 		           		
+            		if (angular.element('#wrapper3').hasClass('left')) {            		                    		
+            			angular.element('#wrapper3').attr('class','page transition right');                    			  			
+					} else if (angular.element('#wrapper2').hasClass('left')) {
+						angular.element('#wrapper2').attr('class','page transition right');						
+            		}else {
+						if (navigator.app) {					
+					        navigator.app.exitApp();				            
+					    } else if (navigator.device) {			        	
+					        navigator.device.exitApp();				            				          
+					   }					   
             		}
             	}
         	};
@@ -203,7 +224,7 @@
 	    	})
 	    	
 	    	.when('/standings', {
-	      		controller:'standingsCtrl  as _this',
+	      		controller:'standingsCtrl as _this',
 	      		templateUrl:'standings.html',
 	      		prev: '/match',
 	      		next: '/news',
@@ -504,7 +525,65 @@
  				var _this = this;
  				var promise = false; 			
  				
-				if ($rootScope.$storage.standings) {				
+				_this.showContentPhases = function(competention) {
+					
+					$rootScope.loading = true;
+					
+						
+					promise = $http({method: 'GET', url: domain.phases(competention)});
+					promise.then(function(obj) {						
+						_this.item.phases =  obj.data.response.phases;
+					}).finally(function(data) {
+	  					$rootScope.loading = false;
+	  					$rootScope.error = false;  						  					
+					});		
+
+					angular.element('#wrapper2').attr('class','page transition left');
+					_scroll2.scrollTo(0,0,0);
+					
+					
+	  			};
+				
+				_this.showContentRanking = function(phase) {
+					
+					/*$rootScope.loading = true;					
+						
+					promise = $http({method: 'GET', url: domain.phases(competention)});
+					promise.then(function(obj) {						
+						_this.item.phases =  obj.data.response.phases;
+					}).finally(function(data) {
+	  					$rootScope.loading = false;
+	  					$rootScope.error = false;  						  					
+					});		*/
+
+					angular.element('#wrapper3').attr('class','page transition left');					
+					_scroll3.scrollTo(0,0,0);
+					
+					
+	  			};
+				
+				
+				_this.item = {competitions: JSON.parse($rootScope.$storage.competitions), phases:false};
+				$rootScope.loading = false;
+				$rootScope.error = false;
+				
+				 var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();						
+				});
+				
+				var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
+				_scroll2.on('beforeScrollStart', function () {
+					this.refresh();
+				});
+				
+				var _scroll3 = new IScroll('#wrapper3',{click:true, preventDefault:true});					
+				_scroll3.on('beforeScrollStart', function () {
+					this.refresh();
+				});
+				
+				
+				/*if ($rootScope.$storage.standings) {				
 					_this.item = JSON.parse($rootScope.$storage.standings);										
 					$rootScope.loading = false;
 					$rootScope.error = false;  	
@@ -519,10 +598,29 @@
 	  					$rootScope.error = false;  					
 	  					//$rootScope.error = utilities.error(_this.item.rankings,'ranks');
 					});						
-				}
+				}*/
 
 		}])
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
