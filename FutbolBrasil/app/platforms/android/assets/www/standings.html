@@ -3,7 +3,7 @@
 				<div class="container" >
 	
 					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 competition" ng-repeat="competition in _this.item.competitions.competitions"  ng-click="_this.showContentPhases(competition.id_competitions)" data-news="{{ competition.id_competitions }}">							
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 competition" ng-repeat="competition in _this.item.competitions"  ng-click="_this.showContentPhases(competition)" data-news="{{ competition.id_competitions }}">							
 							<h3 ng-bind="competition.name"></h3>
 						</div>
 					</div>	
@@ -13,17 +13,26 @@
 		</div>
 
 		<div id="wrapper2" class="page" style="left: 100%;" >
+			
 			<div class="scroller">
 				<div class="container">	
+					
+					<div class="row" >
+	       				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+							<h2 ng-bind="_this.item.competition.name" style="text-align: center;"></h2>	
+						</div>
+		       		</div>
 												
 					<div class="row" >								
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  ng-repeat="phase in _this.item.phases" ng-click="_this.showContentRanking(phase.id_phases)">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  ng-repeat="phase in _this.item.phases" ng-click="_this.showContentRanking(_this.item.competition.id_competitions, phase.id_phases)">
 							<h3 ng-bind="phase.global_name"></h3>
 						</div>
 					</div>
 					
 				</div>				
 			</div>
+			
+			
 		</div>
 		
 		
@@ -31,168 +40,116 @@
 		
 			<div class="scroller" >
 				<div class="container">	
-												
-					<div class="row"  >								
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-							Juegos Oficialmente
+					
+					<div ng-if="_this.item.tree == true ">
+		       			<div class="row" >
+		       				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+								<h2 ng-bind="_this.item.phase.competition.name" style="text-align: center;"></h2>	
+								<h4 ng-bind="_this.item.phase.global_name" style="text-align: center;"></h4>	
+							</div>
+							
+							<div class="row" ng-repeat="rankings in _this.item.ranking">
+								
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="ranking in rankings.ranking">
+									<table class="table" >
+										<thead>
+											<tr> 
+									  			<th colspan="8" style="background-color: #3B9444;">
+									  				<span>{{_this.fromNow(ranking.date)}}</span>
+												</th>
+									  		</tr>
+								  		</thead>
+								  		<tbody>
+								  			<tr>
+								  				<td style="width: 33% !important;">
+								  					<span ng-bind="ranking.homeTeam.name"></span> 
+								  					<br />
+								  					<span ng-bind="ranking.home_team_goals"></span>
+								  				</td>
+								  				<td style="width: 33% !important;">
+								  					<span>VS</span>
+								  					<br />
+								  					<span ng-bind="ranking.status"></span>
+								  				</td>
+								  				<td style="width: 33% !important;">
+								  					<span ng-bind="ranking.awayTeam.name"></span>
+								  					<br />
+								  					<span ng-bind="ranking.away_team_goals"></span>
+								  				</td>
+								  			</tr>
+								  			
+								  		</tbody>
+									</table>
+									
+									
+									
+								</div>
+								
+					
+							</div>
+							
+			       		</div>
+			       	</div>
+			       	
+			       	<div ng-if="_this.item.tree == false ">
+			       		
+			       		<div class="row" >
+			       			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+			       				<h2 ng-bind="_this.item.phase.competition.name" style="text-align: center;"></h2>	
+								<h4 ng-bind="_this.item.phase.global_name" style="text-align: center;"></h4>							
+							</div>
+			       		</div>
+			       		
+				        <div class="row" ng-repeat="rankings in _this.item.ranking">	
+				        	
+				        													
+						
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+	
+								<table class="table" >								
+								  	<thead>
+								  		<tr > 
+								  			<th colspan="8" style="background-color: #3B9444;"><span ng-bind="rankings.group_name"></span></th>
+								  		</tr>
+								        <tr>
+								        	<th></th>
+								          	<th style="text-align: left;">Classifica&ccedil;&atilde;o</th>
+								          	<th>p</th>
+								          	<th>j</th>
+								          	<th>v</th>
+								          	<th>e</th>
+								          	<th>d</th>
+											<th>sg</th>
+								        </tr>
+									</thead>
+								    <tbody>
+								    	
+								    	<tr ng-class="{'active' : $odd}" ng-repeat="ranking in rankings.ranking">
+											<td><span ng-bind="ranking.orden" style="vertical-align: middle;"></span></td>
+								        	<td style="text-align: left;"><span ng-bind="ranking.team.name" style="vertical-align: middle;"></span></td>							        	
+								        	<td><span ng-bind="ranking.points" style="vertical-align: middle;"></span></td>
+								          	<td><span ng-bind="ranking.matches_won" style="vertical-align: middle;"></span></td>
+								          	<td><span ng-bind="ranking.matches_drawn" style="vertical-align: middle;"></span></td>
+								          	<td><span ng-bind="ranking.matches_lost" style="vertical-align: middle;"></span></td>
+								          	<td><span ng-bind="ranking.goals_for" style="vertical-align: middle;"></span></td>
+								          	<td><span ng-bind="ranking.goal_against" style="vertical-align: middle;"></span></td>							          	
+								        </tr>
+								    	
+								    </tbody>
+								      
+								</table>
+					
+							</div>						
 						</div>
-					</div>
+			       	</div>	
+			       												
+					
 					
 				</div>				
 			</div>
 		</div>
 		
 		
-		<!--div id="wrapper" >
-
-			<div class="scroller">
-				<div class="container">
-					 						
-				 	<div class="row" 
-				 		ng-repeat="competition in _this.item.rankings" my-scroll>
-				 		
-				 		
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="phase in competition.phases">
-							
-							
-							<table class="table">								
-							  	<thead>
-							  		<tr>
-							  			<th colspan="8">
-											<span ng-bind="competition.name"></span>
-							  			</th>
-							  		</tr>
-							  		<tr>
-							  			<th colspan="8">
-											<span ng-bind="phase.global_name"></span>
-							  			</th>
-							  		</tr>
-							  		<tr>
-							  			<th colspan="8">
-											<span ng-bind="phase.name"></span>
-							  			</th>
-							  		</tr>
-							        <tr>
-							        	<th></th>
-							          	<th style="text-align: left;">Classifica&Ccedil;&atilde;o</th>
-							          	<th>p</th>
-							          	<th>j</th>
-							          	<th>v</th>
-							          	<th>e</th>
-							          	<th>d</th>
-										<th>sg</th>
-							        </tr>
-								</thead>
-							    <tbody>
-							    	
-							    	<tr ng-class="{'active' : $odd}" ng-repeat="item in phase.ranks">
-										<td><span ng-bind="item.ranking" style="vertical-align: middle;"></span></td>
-							        	<td style="text-align: left;"><span ng-bind="item.team.name" style="vertical-align: middle;"></span></td>
-							        	<td><span ng-bind="item.points" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.matches_won" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.matches_drawn" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.matches_lost" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.goals_for" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.goal_against" style="vertical-align: middle;"></span></td>							          	
-							        </tr>
-							    	
-							    </tbody>
-							      
-							</table>
-						
-							
-						</div>	
-						
-
-					</div>
-
-				</div>
-			</div>
-	
-		</div-->
-	
-
-		<!--div id="wrapper" >
-
-			<div class="scroller">
-				<div class="container">
-
-					<div class="row" style="height: 35px !important;">
-						<span>&nbsp;</span>
-					</div>
- 						
-				 	<div class="row competition animated" 
-
-				 		data-index="{{$index}}"
-				 		ng-repeat="item in _this.item.rankings" 
-				 		ng-class="{'active' : $first}"
-				 		ng-if="removeElement(item.ranks)" my-scroll>
-
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >						
-							<table class="table">								
-							  	<thead>
-							        <tr>
-							        	<th></th>
-							          	<th style="text-align: left;">Classifica&Ccedil;&atilde;o</th>
-							          	<th>p</th>
-							          	<th>j</th>
-							          	<th>v</th>
-							          	<th>e</th>
-							          	<th>d</th>
-										<th>sg</th>
-							        </tr>
-								</thead>
-							    <tbody>
-							    	
-							    	<tr  ng-class="{'active' : $odd}" ng-repeat="item in item.ranks">
-										<td><span ng-bind="item.ranking" style="vertical-align: middle;"></span></td>
-							        	<td style="text-align: left;"><span ng-bind="item.team.name" style="vertical-align: middle;"></span></td>
-							        	<td><span ng-bind="item.points" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.matches_won" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.matches_drawn" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.matches_lost" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.goals_for" style="vertical-align: middle;"></span></td>
-							          	<td><span ng-bind="item.goal_against" style="vertical-align: middle;"></span></td>							          	
-							        </tr>
-							    	
-							    </tbody>
-							      
-							</table>
-						
-							
-						</div>	
-						
-
-					</div>
-
-				</div>
-			</div>
-
-			
-			<div class="header" ng-show="removeHeader(_this.item.rankings,'ranks')">
-				<div class="row">
-					
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 left"  ng-click="showCompetition('prev')" >
-						<span class="glyphicon glyphicon-chevron-left" ng-if="removeArrow(_this.item.rankings,'ranks')"></span>
-					</div>
-
-					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 center">
-						<span class="competition"
-								data-index="{{$index}}"							
-								ng-bind="item.name" 
-								ng-repeat="item in _this.item.rankings" 
-								ng-class="{'active' : $first}"
-								ng-if="removeElement(item.ranks)"></span>
-					</div>
-					
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 right"  ng-click="showCompetition('next')">
-						<span class="glyphicon glyphicon-chevron-right" ng-if="removeArrow(_this.item.rankings,'ranks')"></span>
-					</div>
-					
-				</div>			
-			</div>
-			
-			
-		</div-->
+		
 	
 		

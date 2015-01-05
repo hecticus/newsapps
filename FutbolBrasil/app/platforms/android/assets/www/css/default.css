@@ -91,6 +91,7 @@ row:not(input):not(textarea) {
 		background-color: #ffffff;
 	}
 
+	
 	img {
 		border-radius : 0 !important;	
 	}
