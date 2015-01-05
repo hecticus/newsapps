@@ -74,9 +74,14 @@ public class RankingController extends HecticusController {
                         ranks = Rank.finder.where().eq("id_phases", phase.getIdPhases()).orderBy("points desc, goalDiff desc").findList();
                         if (ranks != null && !ranks.isEmpty()) {
                             ArrayList rankingObjs = new ArrayList();
+                            ArrayList<ObjectNode> group = new ArrayList<>();
                             for (int z = 0; z < ranks.size(); ++z) {
-                                rankingObjs.add(ranks.get(z).toJsonPhaseID());
+                                group.add(ranks.get(z).toJsonPhaseID());
                             }
+                            ObjectNode member = Json.newObject();
+                            member.put("group_name", "GENERAL");
+                            member.put("ranking", Json.toJson(group));
+                            rankingObjs.add(member);
                             data.put("tree", false);
                             data.put("phase", phase.toJsonSimple());
                             data.put("ranking", Json.toJson(rankingObjs));
@@ -148,18 +153,26 @@ public class RankingController extends HecticusController {
                                 ArrayList<ObjectNode> group = new ArrayList<>();
                                 Rank pivot = ranks.get(0);
                                 ArrayList rankingObjs = new ArrayList();
+                                char groupName = 65;
                                 for (Rank rank : ranks) {
                                     if(rank.getNivel() == pivot.getNivel()){
                                         group.add(rank.toJsonPhaseID());
                                     } else {
-                                        rankingObjs.add(Json.toJson(group));
+                                        ObjectNode member = Json.newObject();
+                                        member.put("group_name", ""+groupName);
+                                        member.put("ranking", Json.toJson(group));
+                                        rankingObjs.add(member);
+                                        ++groupName;
                                         group.clear();
                                         group.add(rank.toJsonPhaseID());
                                         pivot = rank;
                                     }
                                 }
                                 if(!group.isEmpty()){
-                                    rankingObjs.add(Json.toJson(group));
+                                    ObjectNode member = Json.newObject();
+                                    member.put("group_name", ""+groupName);
+                                    member.put("ranking", Json.toJson(group));
+                                    rankingObjs.add(member);
                                     group.clear();
                                 }
                                 data.put("tree", phase.getNivel() > 1);
