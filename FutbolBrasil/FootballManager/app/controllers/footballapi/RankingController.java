@@ -115,12 +115,25 @@ public class RankingController extends HecticusController {
                         phase = phases.get(0);
                         List<GameMatch> gameMatches = GameMatch.finder.where().in("phase", phases).orderBy("phase asc").findList();
                         if (gameMatches != null && !gameMatches.isEmpty()) {
+                            GameMatch pivot = gameMatches.get(0);
                             ArrayList rankingObjs = new ArrayList();
                             ArrayList<ObjectNode> group = new ArrayList<>();
-                            for (int z = 0; z < gameMatches.size(); ++z) {
+                            for (GameMatch gameMatch : gameMatches) {
+                                if(gameMatch.getPhase().getIdPhases() == pivot.getPhase().getIdPhases()){
+                                    group.add(gameMatch.toJson());
+                                } else {
+                                    ObjectNode member = Json.newObject();
+                                    member.put("group_name", phase.getGlobalName());
+                                    member.put("ranking", Json.toJson(group));
+                                    rankingObjs.add(member);
+                                    group.clear();
+                                    group.add(gameMatch.toJson());
+                                    pivot = gameMatch;
+                                }
+                            }
+                            if(!group.isEmpty()){
                                 ObjectNode member = Json.newObject();
                                 member.put("group_name", phase.getGlobalName());
-                                group.add(gameMatches.get(z).toJson());
                                 member.put("ranking", Json.toJson(group));
                                 rankingObjs.add(member);
                                 group.clear();
@@ -192,12 +205,25 @@ public class RankingController extends HecticusController {
                             phase = phases.get(0);
                             List<GameMatch> gameMatches = GameMatch.finder.where().in("phase", phases).orderBy("phase asc").findList();
                             if (gameMatches != null && !gameMatches.isEmpty()) {
+                                GameMatch pivot = gameMatches.get(0);
                                 ArrayList rankingObjs = new ArrayList();
                                 ArrayList<ObjectNode> group = new ArrayList<>();
-                                for (int z = 0; z < gameMatches.size(); ++z) {
+                                for (GameMatch gameMatch : gameMatches) {
+                                    if(gameMatch.getPhase().getIdPhases() == pivot.getPhase().getIdPhases()){
+                                        group.add(gameMatch.toJson());
+                                    } else {
+                                        ObjectNode member = Json.newObject();
+                                        member.put("group_name", phase.getGlobalName());
+                                        member.put("ranking", Json.toJson(group));
+                                        rankingObjs.add(member);
+                                        group.clear();
+                                        group.add(gameMatch.toJson());
+                                        pivot = gameMatch;
+                                    }
+                                }
+                                if(!group.isEmpty()){
                                     ObjectNode member = Json.newObject();
                                     member.put("group_name", phase.getGlobalName());
-                                    group.add(gameMatches.get(z).toJson());
                                     member.put("ranking", Json.toJson(group));
                                     rankingObjs.add(member);
                                     group.clear();
