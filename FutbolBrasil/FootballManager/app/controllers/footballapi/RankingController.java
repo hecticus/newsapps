@@ -102,7 +102,6 @@ public class RankingController extends HecticusController {
                         phases = Phase.finder.where().eq("comp", competition).eq("nivel", phase.getNivel()-1).findList();
                     } else if(idPhase > 0) {
                         phase = Phase.finder.byId(idPhase);
-                        System.out.println(phase.toJson().toString());
                         phases = Phase.finder.where().eq("comp", competition).eq("globalName", phase.getGlobalName()).findList();
                     } else {
                         phases = Phase.getPhaseByDate(competition.getIdCompetitions(), formattedToday);
@@ -132,6 +131,60 @@ public class RankingController extends HecticusController {
                         } else {
                             response = buildBasicResponse(4, "La phase " + idPhase + " no existe");
                         }
+                    }
+                } else {
+                    List<Phase> phases = null;
+                    if(idPhase > 0){
+                        phase = Phase.finder.byId(idPhase);
+                        phases = Phase.finder.where().eq("comp", competition).eq("globalName", phase.getGlobalName()).findList();
+                    } else {
+                        phases = Phase.finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).findList();
+                    }
+                    if(phases != null && !phases.isEmpty()) {
+                        phase = phases.get(0);
+                        if (phase.getNivel() == 1) {//TABLA
+                            ranks = Rank.finder.where().in("phase", phases).orderBy("nivel asc, orden asc, points desc, goalDiff desc").findList();
+                            if (ranks != null && !ranks.isEmpty()) {
+                                ArrayList<ObjectNode> group = new ArrayList<>();
+                                Rank pivot = ranks.get(0);
+                                ArrayList rankingObjs = new ArrayList();
+                                for (Rank rank : ranks) {
+                                    if(rank.getNivel() == pivot.getNivel()){
+                                        group.add(rank.toJsonPhaseID());
+                                    } else {
+                                        rankingObjs.add(Json.toJson(group));
+                                        group.clear();
+                                        group.add(rank.toJsonPhaseID());
+                                        pivot = rank;
+                                    }
+                                }
+                                if(!group.isEmpty()){
+                                    rankingObjs.add(Json.toJson(group));
+                                    group.clear();
+                                }
+                                data.put("tree", phase.getNivel() > 1);
+                                data.put("phase", phase.toJsonSimple());
+                                data.put("ranking", Json.toJson(rankingObjs));
+                                response = hecticusResponse(0, "ok", data);
+                            } else {
+                                response = buildBasicResponse(3, "El ranking de la phase " + idPhase + " no existe o esta vacio");
+                            }
+                        } else {//ARBOL
+                            phase = phases.get(0);
+                            List<GameMatch> gameMatches = GameMatch.finder.where().in("phase", phases).orderBy("phase asc").findList();
+                            if (gameMatches != null && !gameMatches.isEmpty()) {
+                                ArrayList rankingObjs = new ArrayList();
+                                for (int z = 0; z < gameMatches.size(); ++z) {
+                                    rankingObjs.add(gameMatches.get(z).toJson());
+                                }
+                                data.put("tree", true);
+                                data.put("phase", phase.toJsonSimple());
+                                data.put("ranking", Json.toJson(rankingObjs));
+                                response = hecticusResponse(0, "ok", data);
+                            }
+                        }
+                    } else {
+                        response = buildBasicResponse(4, "El ranking de la phase " + idPhase + " no existe o esta vacio");
                     }
                 }
             } else {
