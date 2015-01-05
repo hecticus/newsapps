@@ -23,7 +23,8 @@ row:not(input):not(textarea) {
 		width: 100%;
 	}
 
-	#wrapper2 {
+	#wrapper2,
+	#wrapper3 {
 		position: absolute;
 		z-index: 3;
 		top: 0px; 
@@ -31,7 +32,6 @@ row:not(input):not(textarea) {
 		left: 0;  
 		width: 100%;
 	}
-
 
 	header, footer {
 		position: absolute; 
@@ -118,21 +118,27 @@ row:not(input):not(textarea) {
 	}
 	
 	
-
-	body.content-news #wrapper .scroller .container .row   {
+	body.content-news #wrapper .scroller .container .row,
+	body.content-standings #wrapper .scroller .container .row   {
 		padding: 0 20px !important;
 	}
 	
 	
-	body.content-news #wrapper .scroller .container .row .news {
+	body.content-news #wrapper .scroller .container .row .news,
+	body.content-standings #wrapper .scroller .container .row .competition {
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
 		border-bottom: solid 1pt #2B2B2B !important;		
 	}
 	
+	body.content-standings #wrapper .scroller .container .row .competition:last-child,
 	body.content-news #wrapper .scroller .container .row .news:last-child {border: 0 !important;}
 	
+	body.content-standings #wrapper .scroller .container .row .competition .title, 
 	body.content-news #wrapper .scroller .container .row .news .title {color:#00102B;}
+	
+	
+	
 	body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
 	
 
@@ -143,22 +149,22 @@ row:not(input):not(textarea) {
 		color:#3B9444;		
 	}
 	
-	body.content-news #wrapper2 .scroller .container .row .news .body {	
+		
+	body.content-news #wrapper2 .scroller .container .row .news .body,
+	body.content-news #wrapper3 .scroller .container .row .news .body {	
 		margin-top:20px !important;
 		padding-top:20px !important;
 		border-top: solid 1pt #2B2B2B !important;
 	}
 	
 	body.content-match .competition,
-	body.content-scorers .competition,
-	body.content-standings .competition  {
+	body.content-scorers .competition {
 		text-transform:uppercase;
 		display:none;
 	}
 	
 	body.content-match .competition.active,
-	body.content-scorers .competition.active,
-	body.content-standings .competition.active {
+	body.content-scorers .competition.active{
 		display:block;
 	}
 	

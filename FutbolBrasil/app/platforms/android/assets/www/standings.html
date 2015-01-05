@@ -1,4 +1,49 @@
-		<div id="wrapper" >
+		<div id="wrapper">
+			<div class="scroller">
+				<div class="container" >
+	
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 competition" ng-repeat="competition in _this.item.competitions.competitions"  ng-click="_this.showContentPhases(competition.id_competitions)" data-news="{{ competition.id_competitions }}">							
+							<h3 ng-bind="competition.name"></h3>
+						</div>
+					</div>	
+																									
+				</div>				
+			</div>
+		</div>
+
+		<div id="wrapper2" class="page" style="left: 100%;" >
+			<div class="scroller">
+				<div class="container">	
+												
+					<div class="row" >								
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  ng-repeat="phase in _this.item.phases" ng-click="_this.showContentRanking(phase.id_phases)">
+							<h3 ng-bind="phase.global_name"></h3>
+						</div>
+					</div>
+					
+				</div>				
+			</div>
+		</div>
+		
+		
+		<div id="wrapper3" class="page" style="left: 100%;">
+		
+			<div class="scroller" >
+				<div class="container">	
+												
+					<div class="row"  >								
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+							Juegos Oficialmente
+						</div>
+					</div>
+					
+				</div>				
+			</div>
+		</div>
+		
+		
+		<!--div id="wrapper" >
 
 			<div class="scroller">
 				<div class="container">
@@ -64,7 +109,7 @@
 				</div>
 			</div>
 	
-		</div>
+		</div-->
 	
 
 		<!--div id="wrapper" >
