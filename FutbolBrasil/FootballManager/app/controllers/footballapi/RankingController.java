@@ -116,8 +116,14 @@ public class RankingController extends HecticusController {
                         List<GameMatch> gameMatches = GameMatch.finder.where().in("phase", phases).orderBy("phase asc").findList();
                         if (gameMatches != null && !gameMatches.isEmpty()) {
                             ArrayList rankingObjs = new ArrayList();
+                            ArrayList<ObjectNode> group = new ArrayList<>();
                             for (int z = 0; z < gameMatches.size(); ++z) {
-                                rankingObjs.add(gameMatches.get(z).toJson());
+                                ObjectNode member = Json.newObject();
+                                member.put("group_name", phase.getGlobalName());
+                                group.add(gameMatches.get(z).toJson());
+                                member.put("ranking", Json.toJson(group));
+                                rankingObjs.add(member);
+                                group.clear();
                             }
                             data.put("tree", true);
                             data.put("phase", phase.toJsonSimple());
@@ -187,8 +193,14 @@ public class RankingController extends HecticusController {
                             List<GameMatch> gameMatches = GameMatch.finder.where().in("phase", phases).orderBy("phase asc").findList();
                             if (gameMatches != null && !gameMatches.isEmpty()) {
                                 ArrayList rankingObjs = new ArrayList();
+                                ArrayList<ObjectNode> group = new ArrayList<>();
                                 for (int z = 0; z < gameMatches.size(); ++z) {
-                                    rankingObjs.add(gameMatches.get(z).toJson());
+                                    ObjectNode member = Json.newObject();
+                                    member.put("group_name", phase.getGlobalName());
+                                    group.add(gameMatches.get(z).toJson());
+                                    member.put("ranking", Json.toJson(group));
+                                    rankingObjs.add(member);
+                                    group.clear();
                                 }
                                 data.put("tree", true);
                                 data.put("phase", phase.toJsonSimple());
