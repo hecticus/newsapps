@@ -328,22 +328,30 @@
 				$location.path('/' + _section);				
 			};		
 
+
+			
+
+
+
+
+
 			$rootScope.nextPage = function() {  		
 			
-               if (!angular.element('#wrapper2').hasClass('left')) {
+              	/*if (!angular.element('#wrapper2').hasClass('left')) {
                 	$location.path($route.current.next);
-               } 			    			 
+               } */	
+               		    			 
 			};
 
 			$rootScope.prevPage = function() {
 		
-				if (angular.element('#wrapper3').hasClass('left')) {
+				/*if (angular.element('#wrapper3').hasClass('left')) {
             		angular.element('#wrapper3').attr('class','page transition right');
             	} else if (angular.element('#wrapper2').hasClass('left')) {
             		angular.element('#wrapper2').attr('class','page transition right');							
 				} else {
 					$location.path($route.current.prev);
-				}	
+				}*/
 					
 			};
 
@@ -460,23 +468,27 @@
  
  
  
- 
- 
+
  
  
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
- 			 		  			
+ 				
  				var _this = this;
-				var promise = false;
+				var _promise = false;
+				var _element =  angular.element;
+
+				_this.width = window.innerWidth;
+				_this.widthTotal = (window.innerWidth * 11);
+
 				
  				if ($rootScope.$storage.scorers) {
  					_this.item = JSON.parse($rootScope.$storage.scorers);
  					$rootScope.loading = false;
  					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
  				} else {
- 					promise = $http({method: 'GET', url: domain.scorers()});
-					promise.then(function(obj) {
+ 					_promise = $http({method: 'GET', url: domain.scorers()});
+					_promise.then(function(obj) {
 						_this.item =  obj.data.response;
 						$rootScope.$storage.scorers = JSON.stringify(obj.data.response);
 					}).finally(function(data) {
@@ -484,20 +496,32 @@
 	  					$rootScope.error = utilities.error(_this.item.leagues,'scorers');
 					}); 					
  				}
+ 				
+				var _scroll = new IScroll('#wrapperH', { 
+					scrollX: true, 
+					scrollY: false, 
+					mouseWheel: true, 
+					momentum: false,
+					snap: true,
+					snapSpeed: 1000,
+					probeType: 3,
+				});
+				
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();						
+				});	
+				
 
 								
 		}])
  
  
 
- 
- 
- 
  		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
  				var _this = this;
- 				var promise = false; 
+ 				var _promise = false; 
  							
  				$rootScope.loading = false;
 				$rootScope.error = false;
@@ -512,8 +536,8 @@
 					_this.item.ranking = [];
 					_this.item.phases = [];
 					_this.item.competition = false;
-					promise = $http({method: 'GET', url: domain.phases(competition.id_competitions)});
-					promise.then(function(obj) {
+					_promise = $http({method: 'GET', url: domain.phases(competition.id_competitions)});
+					_promise.then(function(obj) {
 						
 						_this.item.phases = obj.data.response.phases;
 						_this.item.competition = competition;	
@@ -539,8 +563,8 @@
 					$rootScope.loading = true;
 					_this.item.phase = false;
 					_this.item.ranking = [];
-					promise = $http({method: 'GET', url: domain.ranking(competition,phase)});
-					promise.then(function(obj) {			
+					_promise = $http({method: 'GET', url: domain.ranking(competition,phase)});
+					_promise.then(function(obj) {			
 										
 						_this.item.tree = obj.data.response.tree;
 						_this.item.phase = obj.data.response.phase;	
@@ -554,9 +578,7 @@
 	  					$rootScope.error = false;  						  					
 					});	
 
-				
-					
-					
+
 					
 	  			};
 				
@@ -602,19 +624,30 @@
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
 				var _this = this;		
-				var promise = false;
+				var _promise = false;
 					
 				if ($rootScope.$storage.match) {
 					_this.item = JSON.parse($rootScope.$storage.match);
 					$rootScope.loading = false;
 					$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');	
 				} else {				
-					promise = $http({method: 'GET', url: domain.match().today});
-					promise.then(function(obj) {
+					_promise = $http({method: 'GET', url: domain.match().today});
+					_promise.then(function(obj) {
 						_this.item =  obj.data.response;
 						$rootScope.$storage.match = JSON.stringify(obj.data.response);
 					}).finally(function(data) {
@@ -646,7 +679,7 @@
 
 			var _this = this;
 			var _news = {first:0, last:0};
-			var promise = false;
+			var _promise = false;
 				
 			$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
 				_news.first = element.first().data('news');
@@ -682,8 +715,8 @@
 				$rootScope.loading = false;
 				$rootScope.error = utilities.error(_this.item.news);	 				
 			} else {
-				promise = $http({method: 'GET', url: domain.news().index});
-				promise.then(function(obj) {
+				_promise = $http({method: 'GET', url: domain.news().index});
+				_promise.then(function(obj) {
 					_this.item =  obj.data.response;
 					$rootScope.$storage.news = JSON.stringify(obj.data.response);
 				}).finally(function(data) {
@@ -702,11 +735,11 @@
 				 
 			_scroll.on('scroll', function () {
 
-				if (this.y >= 50 ) {					
+				if (this.y >= 50 ) {
 					if ($http.pendingRequests.length == 0 && !$rootScope.loading) {							
 						$rootScope.loading = true;
-						promise = $http({method: 'GET', url: domain.news().up(_news.first)});
-						promise.then(function(obj) {
+						_promise = $http({method: 'GET', url: domain.news().up(_news.first)});
+						_promise.then(function(obj) {
 							angular.forEach(obj.data.response.news, function(_item) {			
 								_this.item.news.unshift(_item);
 							});
@@ -719,8 +752,8 @@
 	            if (this.y <= this.maxScrollY) {	            				
 	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {	            			
             			$rootScope.loading = true;
-            			promise = $http({method: 'GET', url: domain.news().down(_news.last)});
-						promise.then(function(obj) {
+            			_promise = $http({method: 'GET', url: domain.news().down(_news.last)});
+						_promise.then(function(obj) {
 							angular.forEach(obj.data.response.news, function(_item) {			
 								_this.item.news.unshift(_item);
 							});
