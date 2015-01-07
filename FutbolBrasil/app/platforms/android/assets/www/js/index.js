@@ -52,14 +52,14 @@ var app = {
 			//FB
 			console.log("preFB");
 			//initFacebookManager();
-			getFBLoginStatus();
+			//getFBLoginStatus();
 			console.log("postFB"); 
 		  
 		   document.addEventListener('backbutton', function(e) {
             	_app.get('utilities').backbuttom();							
 			}, false);
 		
-		   setTimeout(function(){app.initAllAppData();},10);
+		   //setTimeout(function(){app.initAllAppData();},10);
     	}
 
     },
