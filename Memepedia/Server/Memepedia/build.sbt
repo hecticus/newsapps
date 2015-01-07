@@ -1,4 +1,4 @@
-name := """pimp"""
+name := """memepedia"""
 
 version := "1.0-SNAPSHOT"
 

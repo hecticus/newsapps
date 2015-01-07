@@ -124,7 +124,7 @@ public class Global  extends GlobalSettings {
             Utils.test = false;
             Utils.serverIp = null;
             Utils.actual = null;
-            Utils.printToLog(Global.class, "Error cargando el IP del servidor", "Ocurrio un error cargando el IP del servidor desde el archivo. El Pimp continuara cuz pimping aint easy", true, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Global.class, "Error cargando el IP del servidor", "Ocurrio un error cargando el IP del servidor desde el archivo.", true, ex, "support-level-1", Config.LOGGER_ERROR);
         } finally {
             try {if (br != null)br.close();} catch (Exception ex) {}
         }
