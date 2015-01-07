@@ -359,7 +359,7 @@ public class GameMatch extends HecticusModel {
     }
 
     public static List<GameMatch> getGamematchByDate(Long idCompetition, String date){
-        return finder.where().eq("date", date).eq("competition.idCompetitions", idCompetition).findList();
+        return finder.where().ilike("date", date+"%").eq("competition.idCompetitions", idCompetition).findList();
     }
 
     public ObjectNode fixtureJson(){

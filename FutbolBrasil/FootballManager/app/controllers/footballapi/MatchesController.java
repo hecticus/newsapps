@@ -96,7 +96,7 @@ public class MatchesController extends HecticusController {
             List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
             for(Competition competition : competitionsByApp) {
                 List<GameMatch> fullList = GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
-                ObjectNode competitionJson = competition.toJson();
+                ObjectNode competitionJson = competition.toJsonNoPhases();
                 if (fullList != null && !fullList.isEmpty()){
                     for (int i = 0; i < fullList.size(); i++){
                         data.add(fullList.get(i).toJson());
