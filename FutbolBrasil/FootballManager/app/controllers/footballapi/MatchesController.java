@@ -114,6 +114,42 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getFixturesDatePaged(Integer idApp, String date, Integer pageSize,Integer page){
+        try {
+            ObjectNode response = null;
+            if(date == null || date.isEmpty() || date.equalsIgnoreCase("today")){
+                TimeZone timeZone = Apps.getTimezone(idApp);
+                Calendar today = new GregorianCalendar(timeZone);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                simpleDateFormat.setTimeZone(timeZone);
+                date = simpleDateFormat.format(today.getTime());
+            }
+            List<Competition> competitions = Competition.getCompetitionsPage(idApp, page, pageSize);
+            if(competitions != null && !competitions.isEmpty()) {
+                ArrayList data = new ArrayList();
+                ArrayList responseData = new ArrayList();
+                for(Competition competition : competitions) {
+                    List<GameMatch> fullList = GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
+                    if(fullList != null && !fullList.isEmpty()) {
+                        ObjectNode competitionJson = competition.toJsonNoPhases();
+                        for (int i = 0; i < fullList.size(); i++){
+                            data.add(fullList.get(i).toJson());
+                        }
+                        competitionJson.put("fixtures", Json.toJson(data));
+                        data.clear();
+                        responseData.add(competitionJson);
+                    }
+                }
+                response = hecticusResponse(0, "ok", "leagues", responseData);
+            } else {
+                response = buildBasicResponse(1, "No hay competencias para el app " + idApp);
+            }
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
     public static Result getActiveCompetitions(Integer idApp, Boolean ids){
         try {
             ObjectNode response = null;

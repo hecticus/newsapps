@@ -134,6 +134,10 @@ public class Competition  extends HecticusModel {
         return finder.where().eq("id_app", idApp).eq("idCompetitions", idCompetition).eq("status", 1).findUnique();
     }
 
+    public static List<Competition> getCompetitionsPage(int idApp, int page, int pageSize){
+        return finder.where().eq("id_app", idApp).eq("status", 1).setFirstRow(page).setMaxRows(pageSize).findList();
+    }
+
     public void validateCompetition(){
         //check if exist
         Competition fromDb = findByCompExt(this.idApp, this.extId);
