@@ -36,6 +36,9 @@ public class Competition  extends HecticusModel {
     @OneToMany(mappedBy="competition")
     private List<TeamHasCompetition> teams;
 
+    @OneToMany(mappedBy="competition")
+    private List<GameMatch> matches;
+
     public Competition(String name, Long extId, Integer idApp, CompetitionType type) {
         this.name = name;
         this.extId = extId;
@@ -114,6 +117,14 @@ public class Competition  extends HecticusModel {
         this.teams = teams;
     }
 
+    public List<GameMatch> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<GameMatch> matches) {
+        this.matches = matches;
+    }
+
     public static List<Competition> getCompetitionsByApp(int idApp){
         return finder.where().eq("id_app", idApp).findList();
     }
@@ -134,8 +145,8 @@ public class Competition  extends HecticusModel {
         return finder.where().eq("id_app", idApp).eq("idCompetitions", idCompetition).eq("status", 1).findUnique();
     }
 
-    public static List<Competition> getCompetitionsPage(int idApp, int page, int pageSize){
-        return finder.where().eq("id_app", idApp).eq("status", 1).setFirstRow(page).setMaxRows(pageSize).findList();
+    public static List<Competition> getCompetitionsPage(int idApp, int page, int pageSize, String date){
+        return finder.fetch("matches").where().eq("id_app", idApp).eq("status", 1).ilike("matches.date", date+"%").setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
     public void validateCompetition(){

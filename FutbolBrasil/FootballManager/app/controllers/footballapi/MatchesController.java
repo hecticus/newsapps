@@ -124,10 +124,10 @@ public class MatchesController extends HecticusController {
                 simpleDateFormat.setTimeZone(timeZone);
                 date = simpleDateFormat.format(today.getTime());
             }
-            List<Competition> competitions = Competition.getCompetitionsPage(idApp, page, pageSize);
+            ArrayList responseData = new ArrayList();
+            List<Competition> competitions = Competition.getCompetitionsPage(idApp, page, pageSize, date);
             if(competitions != null && !competitions.isEmpty()) {
                 ArrayList data = new ArrayList();
-                ArrayList responseData = new ArrayList();
                 for(Competition competition : competitions) {
                     List<GameMatch> fullList = GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
                     if(fullList != null && !fullList.isEmpty()) {
@@ -140,10 +140,8 @@ public class MatchesController extends HecticusController {
                         responseData.add(competitionJson);
                     }
                 }
-                response = hecticusResponse(0, "ok", "leagues", responseData);
-            } else {
-                response = buildBasicResponse(1, "No hay competencias para el app " + idApp);
             }
+            response = hecticusResponse(0, "ok", "leagues", responseData);
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
