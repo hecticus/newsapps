@@ -594,9 +594,6 @@
   
   
   
-  
-  
-  
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
@@ -604,24 +601,34 @@
 				var _promise = false;
 				var _angular =  angular.element;
 				var _limit = 2;
-				var _date = utilities.moment().subtract(1, 'days').format('YYYYMMDD');
+				var _date = utilities.moment().format('YYYYMMDD');
 				var _currentPage = 0;
+				var _goToPage = true;
+				
+			
+				
+				
+				
 				
 				_this.width = window.innerWidth;
 				
 			
 				_this.pages = [
-					{name:0},
-					{name:1},					
-					{name:2}
+					{name:'Ontem'},
+					{name:'Hoje'},
+					{name:'Amanha'},
 				];
 				
+				
+				
+
+
 				_this.widthTotal = (window.innerWidth * _this.pages.length);
 				
 				var _scroll = new IScroll('#wrapperH', { 
 					scrollX: true, 
 					scrollY: false, 
-					mouseWheel: true, 
+					mouseWheel: false, 
 					momentum: false,
 					snap: true,
 					snapSpeed: 1000,
@@ -629,8 +636,10 @@
 					bounce: false,
 				});
 				
+
+				
 				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
+					this.refresh();				
 				});	
 				
 				_scroll.on('scrollStart', function () {
@@ -640,34 +649,50 @@
 				_scroll.on('scroll', function () {
 
 					if (this.currentPage.pageX != _currentPage) {
-						
-						_currentPage = this.currentPage.pageX;
 
-						/*if (this.directionX != 0) {
-							if (_currentPage  < 3) {
+						if (_currentPage < this.currentPage.pageX) {
+							
+							if (this.currentPage.pageX  == (_this.pages.length - 1)) {
 								$scope.$apply(function () {	
-									_this.pages.unshift({name: _this.pages.length});
+							 		_this.pages.push({name: utilities.moment().add((_this.pages.length - 1), 'days').format('MMM Do YY')});							 		
 									_this.widthTotal = (window.innerWidth * _this.pages.length);
 								});
-							}
-						};*/
-						
-						if (_currentPage  == (_this.pages.length - 1)) {
-							$scope.$apply(function () {	
-						 		_this.pages.push({name: _this.pages.length});
-								_this.widthTotal = (window.innerWidth * _this.pages.length);
-							});
-						};
+							};
+							
+						} else {
+							
+							/*if (this.currentPage.pageX == 0)  {
+								$scope.$apply(function () {
+									_this.pages.unshift({name: utilities.moment().subtract(1, 'days').format('MMM Do YY')});
+									_this.widthTotal = (window.innerWidth * _this.pages.length);
+								});
+							}*/
+
+						}
+
+						_currentPage = this.currentPage.pageX;
 
 					};
 				});
 				
 				_scroll.on('scrollEnd', function () {
-					this.refresh();
+					//this.refresh();
 				});
+		
+				$scope.$on('onRepeatLast', function(scope, element, attrs) {
+					
+	
+					if (_goToPage) {
+						_scroll.refresh();				
+						_scroll.goToPage(1,0);				
+						_goToPage = false;						
+					}	
+						
+			    });
 				
 				 $rootScope.loading = false;  	
-				 							
+				 
+
 				/*_promise = $http({method: 'GET', url: domain.match(_date,_limit,0)});
 				_promise.then(function(obj) {
 					_this.item =  obj.data.response;

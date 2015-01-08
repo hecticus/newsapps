@@ -3,7 +3,7 @@
 		<div id="wrapperH">
 			<div id="scroller" style="width:{{_this.widthTotal}}px;">
 				<ul>
-					<li style="width:{{_this.width}}px;" ng-repeat="page in _this.pages" >
+					<li style="width:{{_this.width}}px;" ng-repeat="page in _this.pages" on-last-repeat >
 						<span ng-bind="page.name"></span>
 						<span ng-bind="page.date"></span>
 					</li>
