@@ -171,8 +171,7 @@ row:not(input):not(textarea) {
 	}
 	
 		
-	body.content-news #wrapper2 .scroller .container .row .news .body,
-	body.content-news #wrapper3 .scroller .container .row .news .body {	
+	body.content-news #wrapper2 .scroller .container .row .news .body {	
 		margin-top:20px !important;
 		padding-top:20px !important;
 		border-top: solid 1pt #2B2B2B !important;
@@ -325,12 +324,25 @@ row:not(input):not(textarea) {
 }
 
 
+.row-back {
+	position: absolute; 
+	z-index: 4;
+	top: 0;
+	left:0;
+	right:0;		
+	width: 100%; 
+	height: 50px;
+	line-height: 50px;		
+	background-color: #FFFFFF;			
+	padding: 0 !important; 
+	margin:0 !important;		
+	border: 0;							
+	
+}
 
-
-
-
-
-
+.row-back.border {
+	border-bottom: solid 1pt #000000 !important;
+}
 
 
 

@@ -23,11 +23,7 @@
 		   	});
 
 		})		
-		
-		
-		
-		
-		
+
 		.directive('myScroll', function() {
 			return function(scope, element, attrs) {
 			    
@@ -42,7 +38,6 @@
 		    
 		  };
 		})
-		
 
 		.directive('loading', function () {
 			
@@ -66,8 +61,6 @@
 			
 		    return directive;
 		})
-		
-		
 		
 		.directive('error', function() {
 
@@ -93,9 +86,7 @@
 		    return directive;
 
 		})
-			
 
-		
 		.factory('domain', function () {
         	return {
         		 
@@ -133,31 +124,18 @@
 				ranking: function (_competition, _phase) {
             		return this.url + 'footballapi/v1/competitions/ranking/1/' + _competition + '/' + _phase;
             	},
-
-
-            	
+	
             	scorers: function () {
             		return this.url + 'footballapi/v1/players/competitions/scorers/1';
             	},
             	
-            	match: function () {
-            		return {
-            			
-            			today: this.url + 'footballapi/v1/matches/date/get/1/today',
-            			
-            			date: function (_date) {
-            				return 'http://footballmanager.hecticus.com/footballapi/v1/matches/date/get/1/' + _date;	
-            			}
-
-            		};            		
+            	match: function (_date, _limit, _page) {    		
+            		return this.url + 'footballapi/v1/matches/date/paged/1/' + _date + '?pageSize=' + _limit + '&page=' + _page;	          		
             	}
-            	
-            	
-            	
+
         	};
     	})
-    	
-	
+
 		.factory('utilities', function () {
         	return {
         		        		
@@ -295,11 +273,7 @@
 	    		redirectTo:'/news'								      		
 	    	});
 
-	    	
 		}) 
-
-		
-
 
  		.controller('mainCtrl', function($rootScope, $scope, $location, $route, $localStorage, $http) {
 
@@ -328,16 +302,9 @@
 				$location.path('/' + _section);				
 			};		
 
-
-			
-
-
-
-
-
 			$rootScope.nextPage = function() {  		
-			
-              	/*if (!angular.element('#wrapper2').hasClass('left')) {
+							
+              /*if (!angular.element('#wrapper2').hasClass('left')) {
                 	$location.path($route.current.next);
                } */	
                		    			 
@@ -345,20 +312,16 @@
 
 			$rootScope.prevPage = function() {
 		
-				/*if (angular.element('#wrapper3').hasClass('left')) {
+				if (angular.element('#wrapper3').hasClass('left')) {
             		angular.element('#wrapper3').attr('class','page transition right');
             	} else if (angular.element('#wrapper2').hasClass('left')) {
             		angular.element('#wrapper2').attr('class','page transition right');							
 				} else {
-					$location.path($route.current.prev);
-				}*/
+					//$location.path($route.current.prev);
+				}
 					
 			};
 
-
-			
-
-	
 			$rootScope.removeHeader = function(_item, _param) {
 				
 				var _return = false;
@@ -392,10 +355,8 @@
 									
 			};
 
-
-
 			$rootScope.removeElement = function(_item) {				
-				if (_item) {				
+				if (_item) {
 					if (_item.length > 0) {
 						return true;	
 					} else {
@@ -505,6 +466,7 @@
 					snap: true,
 					snapSpeed: 1000,
 					probeType: 3,
+					bounce: false,
 				});
 				
 				_scroll.on('beforeScrollStart', function () {
@@ -640,21 +602,114 @@
 
 				var _this = this;		
 				var _promise = false;
-					
-				if ($rootScope.$storage.match) {
-					_this.item = JSON.parse($rootScope.$storage.match);
-					$rootScope.loading = false;
-					$rootScope.error = utilities.error(_this.item.leagues, 'fixtures');	
-				} else {				
-					_promise = $http({method: 'GET', url: domain.match().today});
-					_promise.then(function(obj) {
-						_this.item =  obj.data.response;
-						$rootScope.$storage.match = JSON.stringify(obj.data.response);
-					}).finally(function(data) {
-	  					$rootScope.loading = false;  					
-	  					$rootScope.error = utilities.error(_this.item.leagues,'fixtures');
-					});			
-				}
+				var _angular =  angular.element;
+				var _limit = 2;
+				var _date = utilities.moment().subtract(1, 'days').format('YYYYMMDD');
+				var _currentPage = 0;
+				
+				_this.width = window.innerWidth;
+				
+			
+				_this.pages = [
+					{name:0},
+					{name:1},					
+					{name:2}
+				];
+				
+				_this.widthTotal = (window.innerWidth * _this.pages.length);
+				
+				var _scroll = new IScroll('#wrapperH', { 
+					scrollX: true, 
+					scrollY: false, 
+					mouseWheel: true, 
+					momentum: false,
+					snap: true,
+					snapSpeed: 1000,
+					probeType: 3,
+					bounce: false,
+				});
+				
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();						
+				});	
+				
+				_scroll.on('scrollStart', function () {
+					_currentPage = this.currentPage.pageX;
+				});
+				
+				_scroll.on('scroll', function () {
+
+					if (this.currentPage.pageX != _currentPage) {
+						
+						_currentPage = this.currentPage.pageX;
+
+						/*if (this.directionX != 0) {
+							if (_currentPage  < 3) {
+								$scope.$apply(function () {	
+									_this.pages.unshift({name: _this.pages.length});
+									_this.widthTotal = (window.innerWidth * _this.pages.length);
+								});
+							}
+						};*/
+						
+						if (_currentPage  == (_this.pages.length - 1)) {
+							$scope.$apply(function () {	
+						 		_this.pages.push({name: _this.pages.length});
+								_this.widthTotal = (window.innerWidth * _this.pages.length);
+							});
+						};
+
+					};
+				});
+				
+				_scroll.on('scrollEnd', function () {
+					this.refresh();
+				});
+				
+				 $rootScope.loading = false;  	
+				 							
+				/*_promise = $http({method: 'GET', url: domain.match(_date,_limit,0)});
+				_promise.then(function(obj) {
+					_this.item =  obj.data.response;
+				}).finally(function(data) {
+  					$rootScope.loading = false;  					
+  					$rootScope.error = utilities.error();
+				});
+				
+				var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();						
+				});
+
+				_scroll.on('scroll', function () {
+
+
+	
+		            if (this.y <= this.maxScrollY) {
+		            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
+		            			 
+							var _page = (_angular('div.match').length * _limit);
+							
+							console.log(domain.match(_date,_limit,_page));
+							
+	            			$rootScope.loading = true;
+	            			_promise = $http({method: 'GET', url: domain.match(_date,_limit,_page)});
+							_promise.then(function(obj) {
+								angular.forEach(obj.data.response.leagues, function(_item, _index) {	
+									_this.item.leagues.push(_item);								
+								});
+								
+								
+								_scroll.refresh();								
+							}).finally(function(data) {
+								$rootScope.loading = false;  									  					
+							});
+
+						}		
+					}
+
+				});
+			*/
 
 		}])
 
@@ -692,10 +747,6 @@
 		    });
 
 
-			_this.backPage = function() {
-				utilities.backbuttom();
-			};
-				
 			_this.share = function(_news) {
 				window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
 			};
@@ -755,7 +806,7 @@
             			_promise = $http({method: 'GET', url: domain.news().down(_news.last)});
 						_promise.then(function(obj) {
 							angular.forEach(obj.data.response.news, function(_item) {			
-								_this.item.news.unshift(_item);
+								_this.item.news.push(_item);
 							});
 						}).finally(function(data) {
 							$rootScope.loading = false;  									  					
