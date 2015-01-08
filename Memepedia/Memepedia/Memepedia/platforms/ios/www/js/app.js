@@ -89,8 +89,7 @@
 			$('[data-touch="menu"]').removeClass('glyphicon glyphicon-remove');
 			$('[data-touch="menu"]').addClass('icon-menu');
 			$('.row.menu').addClass('hidden');	
-			
-			if (_oAjax.state() === 'resolved') {			
+            if (_oAjax.state() === 'resolved') {
 				$('div.plus i').addClass('icon-material-add-circle');
 				$('div.plus i').empty();	
 			}
@@ -123,33 +122,28 @@
 				scrollPosition = _scroll.y;
 			}
 			try {
-				
 				document.body.style.backgroundImage="none";
-				
 				if (_fPhonegapIsOnline()) {
-					
-					this.refresh();				
-					$('body').removeClass();
-					$('body').addClass(_jMenu[_index].class);
-					$('main').empty();				
-					$('main').data('referer', referer);				
-					$('main').data('index',_index);
-					this.loading();	
-					$('main').load(_jMenu[_index].load).fadeIn(1000);
-	
-					if (!$('body').hasClass('content-home')) {					
+				    this.refresh();
+                    $('body').removeClass();
+                	$('body').addClass(_jMenu[_index].class);
+                	$('main').empty();
+                	$('main').data('referer', referer);
+                	$('main').data('index',_index);
+                	this.loading();
+                	$('main').load(_jMenu[_index].load).fadeIn(1000);
+                	if (!$('body').hasClass('content-home')) {
 						if (!$('body').hasClass('touch-disable')) {
 							$('[data-touch="menu"]').removeClass('icon-menu');
 							$('[data-touch="menu"]').addClass('glyphicon glyphicon-remove'); 
 						}
 					}
-
-				} else {
-					this.offLine();	
+                } else {
+                    this.offLine();
 				}
 
-			} catch(err) {    	
-	  			this.error();
+			} catch(err) {
+                this.error();
 			}
 			 		      			
 	  	},
@@ -212,7 +206,17 @@
 	$(document).on('click','[data-touch="retry"]', function(e) {
 		if(_fPreventDefaultClick(e)){return false;}
 		if(checkBadTouch(e,true)) {return false;}
-		initPush();
+        loadClientID();
+        _oAjax = _fGetAjaxJson(_url + '/api/v1/posts/get/client/up/' + clientID + '/0');
+        if (_oAjax) {
+            _oAjax.done(function(_json) {
+                _jMenu[0].data = _json;
+            });
+        };
+        _jMenu[1].data = themesList;
+
+        _jApp.load(0,true);
+//		initPush();
 	});
 
 
