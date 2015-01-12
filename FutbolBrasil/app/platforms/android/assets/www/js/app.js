@@ -2,7 +2,7 @@
 	var _scroll = false;
 	
 	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','cordovaHTTP'])
-	//El modulo cordovaHTTP está generando un error cuando se hace el injector
+	//El modulo cordovaHTTP estï¿½ generando un error cuando se hace el injector
 			
 	angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage'])
  	
@@ -22,18 +22,107 @@
 				$rootScope.$storage.competitions = JSON.stringify(obj.response);
 		   	});
 
-		})		
+		})
+		
+		.config(function($routeProvider) {
+			
+	  		$routeProvider
+	  		
+	  		.when('/login', {
+	      		controller:'loginCtrl as login',
+	      		templateUrl:'login.html',
+	      		prev: '/login',
+	      		next: '/login',
+	      		_class: 'content-login'
+	      		
+	    	})
 
+	  		.when('/match', {
+	      		controller:'matchCtrl as _this',
+	      		templateUrl:'match.html',
+	      		prev: '/livescore/',
+	      		next: '/standings/',
+	      		_class: 'content-match'
+	      		
+	    	})
+	    	
+	    	.when('/standings', {
+	      		controller:'standingsCtrl as _this',
+	      		templateUrl:'standings.html',
+	      		prev: '/match',
+	      		next: '/news',
+	      		contentClass: 'content-standings'
+	    	})
+	    	    
+	    	.when('/scorers', {
+	      		controller:'scorersCtrl  as _this',
+	      		templateUrl:'scorers.html',
+	      		prev: '/news',
+	      		next: '/livescore',
+	      		contentClass: 'content-scorers'
+	    	})
+	    	
+	    	.when('/livescore', {
+	      		controller:'livescoreCtrl  as _this',
+	      		templateUrl:'livescore.html',
+	      		prev: '/scorers',
+	      		next: '/match',
+	      		contentClass: 'content-livescore'
+	    	})	 	    		
+	    	
+	    	.when('/prediction', {
+	      		controller:'predictionCtrl  as _this',
+	      		templateUrl:'prediction.html',
+	      		prev: '/points',
+	      		next: '/leaderboard',
+	      		contentClass: 'content-prediction'
+	    	})	
+	    	    
+			.when('/leaderboard', {
+	      		controller:'leaderboardCtrl  as _this',
+	      		templateUrl:'leaderboard.html',
+	      		prev: '/prediction',
+	      		next: '/friends',
+	      		contentClass: 'content-leaderboard'
+	    	})		    	    
+
+			.when('/friends', {
+	      		controller:'friendsCtrl  as _this',
+	      		templateUrl:'friends.html',
+	      		prev: '/leaderboard',
+	      		next: '/points',
+	      		contentClass: 'content-friends'
+	    	})
+
+			.when('/points', {
+	      		controller:'pointsCtrl  as _this',
+	      		templateUrl:'points.html',
+	      		prev: '/friends',
+	      		next: '/prediction',
+	      		contentClass: 'content-points'
+	    	})		    	    
+	    	 
+	    	.when('/news', {
+	    		controller:'newsCtrl  as _this',
+	      		templateUrl:'news.html',
+	      		prev: '/standings',
+	      		next: '/scorers',
+	      		contentClass: 'content-news'
+	    	})	
+	    	    		 	    	    	
+	    	.otherwise({	    		
+	    		redirectTo:'/news'								      		
+	    	});
+		}) 
+		
 		.directive('myScroll', function() {
 			return function(scope, element, attrs) {
 			    
-		    if (scope.$last){
-		    		    	
+		    if (scope.$last){	    	
 		      	_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
 				_scroll.on('beforeScrollStart', function () {
 					this.refresh();		
-				});
-						      
+				});	      
 		    }
 		    
 		  };
@@ -63,7 +152,6 @@
 		})
 		
 		.directive('error', function() {
-
 			var directive = {};
 			directive.restrict = 'E'; /* restrict this directive to elements */
 			directive.replace = true;
@@ -87,6 +175,20 @@
 
 		})
 
+		.directive('onLastRepeat', function() {
+        	return function(scope, element, attrs) {
+
+            	if (scope.$last) setTimeout(function(){
+                	scope.$emit('onRepeatLast', element, attrs);
+            	}, 1);
+            	
+            	if (scope.$first) setTimeout(function(){
+                	scope.$emit('onRepeatFirst', element, attrs);
+            	}, 1);
+            	
+        	};
+    	})
+		
 		.factory('domain', function () {
         	return {
         		 
@@ -102,11 +204,13 @@
             			index:  this.url + 'newsapi/v1/news/scroll/1',
             			
             			up: function (_news,_limit) { 
-            				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' + _news;
+            				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' 
+            				+ _news;
             			},
             			
             			down: function (_news,_limit) {
-            				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' + _news;
+            				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' 
+            					+ _news;
             			}
             			
             		};
@@ -191,97 +295,69 @@
             	}
         	};
     	})
-				
-		.config(function($routeProvider) {
+
+		.controller('loginCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
 			
-	  		$routeProvider
+			$scope.msisdn = '';
+			$scope.password = '';
+			$scope.isPasswordScreenVisible = false;
+			
+			$scope.sendMsisdn = function(){
+				if($scope.msisdn){
+					console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
+					if(saveClientMSISDN($scope.msisdn)){
+	//					createOrUpdateClient($scope.msisdn, null, true
+	//							, $scope.showSetPasswordScreen(), $scope.showClientSignUpError());
+	//					alert('MSISDN Saved');
+						$scope.showPasswordScreen();
+					} else {
+						console.log('Error saving MSISDN');
+						alert('Error saving MSISDN');
+					}
+				} else {
+					alert('Please input your phone number');
+				}
+			};
+			
+			$scope.showPasswordScreen = function(){
+				$scope.isPasswordScreenVisible = true;
+			};
+			
+			$scope.showClientSignUpError = function(){
+				alert('LogIn Error.');
+			};
+			
+			$scope.doMsisdnLogin = function(){
+				if($scope.password){
+					console.log("doMsidnLogin. Init FB Manager.");
+					getFBLoginStatus();
+				} else {
+					alert('doMsidnLogin. Please input password');
+				}
+			};
+			
+			$scope.init = function(){
+				$rootScope.error = false;
+				$rootScope.loading = false;
+				$scope.isPasswordScreenVisible = false;
+				console.log('Inside loginCtrl');
+			}();
+		}])
 
-	  		.when('/match', {
-	      		controller:'matchCtrl as _this',
-	      		templateUrl:'match.html',
-	      		prev: '/livescore/',
-	      		next: '/standings/',
-	      		_class: 'content-match'
-	      		
-	    	})
-	    	
-	    	.when('/standings', {
-	      		controller:'standingsCtrl as _this',
-	      		templateUrl:'standings.html',
-	      		prev: '/match',
-	      		next: '/news',
-	      		contentClass: 'content-standings'
-	    	})
-	    	    
-	    	.when('/scorers', {
-	      		controller:'scorersCtrl  as _this',
-	      		templateUrl:'scorers.html',
-	      		prev: '/news',
-	      		next: '/livescore',
-	      		contentClass: 'content-scorers'
-	    	})
-	    	
-	    	.when('/livescore', {
-	      		controller:'livescoreCtrl  as _this',
-	      		templateUrl:'livescore.html',
-	      		prev: '/scorers',
-	      		next: '/match',
-	      		contentClass: 'content-livescore'
-	    	})	 	    		
-	    	
-	    	.when('/prediction', {
-	      		controller:'predictionCtrl  as _this',
-	      		templateUrl:'prediction.html',
-	      		prev: '/points',
-	      		next: '/leaderboard',
-	      		contentClass: 'content-prediction'
-	    	})	
-	    	    
-			.when('/leaderboard', {
-	      		controller:'leaderboardCtrl  as _this',
-	      		templateUrl:'leaderboard.html',
-	      		prev: '/prediction',
-	      		next: '/friends',
-	      		contentClass: 'content-leaderboard'
-	    	})		    	    
 
-			.when('/friends', {
-	      		controller:'friendsCtrl  as _this',
-	      		templateUrl:'friends.html',
-	      		prev: '/leaderboard',
-	      		next: '/points',
-	      		contentClass: 'content-friends'
-	    	})
+ 		.controller('mainCtrl', ['$rootScope', '$scope', '$location', '$route', '$localStorage', '$http'
+             , function($rootScope, $scope, $location, $route, $localStorage, $http) {
 
-			.when('/points', {
-	      		controller:'pointsCtrl  as _this',
-	      		templateUrl:'points.html',
-	      		prev: '/friends',
-	      		next: '/prediction',
-	      		contentClass: 'content-points'
-	    	})		    	    
-	    	 
-	    	.when('/news', {
-	    		controller:'newsCtrl  as _this',
-	      		templateUrl:'news.html',
-	      		prev: '/standings',
-	      		next: '/scorers',
-	      		contentClass: 'content-news'
-	    	})	
-	    	    		 	    	    	
-	    	.otherwise({	    		
-	    		redirectTo:'/news'								      		
-	    	});
-
-		}) 
-
- 		.controller('mainCtrl', function($rootScope, $scope, $location, $route, $localStorage, $http) {
-
-			$rootScope.$on('$routeChangeStart', 
-                 function (event, current, previous, rejection) {
-                $rootScope.loading = false;                                
-				$rootScope.error = false;				
-  			});
+			$rootScope.$on('$routeChangeStart',  function (event, current, previous, rejection) {
+	                $rootScope.loading = false;                                
+					$rootScope.error = false;	
+					
+					loadClientMSISDN();
+					if(!clientMSISDN){
+						console.log('User not Authenticated');
+						$location.path('/login');
+					}
+			});
   			      
   			$rootScope.$on('$routeChangeSuccess', 
                  function (event, current, previous, rejection) {
@@ -337,7 +413,6 @@
 				return _return;
 									
 			};
-
 
 			$rootScope.removeArrow = function(_item, _param) {
 				
@@ -397,7 +472,7 @@
 			};
 			
 
-		})
+		}])
  
  
  
@@ -426,11 +501,6 @@
 			$rootScope.error = true;	        	
 			$rootScope.loading = false;
 		}])
- 
- 
- 
-
- 
  
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
@@ -472,12 +542,8 @@
 				_scroll.on('beforeScrollStart', function () {
 					this.refresh();						
 				});	
-				
-
-								
+							
 		}])
- 
- 
 
  		.controller('standingsCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
@@ -504,7 +570,8 @@
 						_this.item.phases = obj.data.response.phases;
 						_this.item.competition = competition;	
 						if (_this.item.phases.length == 1) {
-							_this.showContentRanking(_this.item.competition.id_competitions, _this.item.phases[0].id_phases);							
+							_this.showContentRanking(_this.item.competition.id_competitions
+									, _this.item.phases[0].id_phases);							
 						} else {
 							angular.element('#wrapper2').attr('class','page transition left');
 							_scroll2.scrollTo(0,0,0);
@@ -515,9 +582,6 @@
 	  					$rootScope.error = false;  						  					
 					});		
 
-					
-					
-					
 	  			};
 				
 				_this.showContentRanking = function(competition,phase) {
@@ -540,12 +604,9 @@
 	  					$rootScope.error = false;  						  					
 					});	
 
-
-					
 	  			};
 				
 				_this.item = JSON.parse($rootScope.$storage.competitions);
-
 
 				 var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
 				_scroll.on('beforeScrollStart', function () {
@@ -562,37 +623,7 @@
 					this.refresh();
 				});
 				
-
-
 		}])
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
@@ -737,22 +768,6 @@
 			*/
 
 		}])
-
-		
-    	
-		.directive('onLastRepeat', function() {
-        	return function(scope, element, attrs) {
-
-            	if (scope.$last) setTimeout(function(){
-                	scope.$emit('onRepeatLast', element, attrs);
-            	}, 1);
-            	
-            	if (scope.$first) setTimeout(function(){
-                	scope.$emit('onRepeatFirst', element, attrs);
-            	}, 1);
-            	
-        	};
-    	})
     	
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
@@ -846,10 +861,7 @@
 				this.refresh();
 			});
 
-			
 		}]);
-
-
 
 	var _app = angular.injector(['FutbolBrasil']);
 

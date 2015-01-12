@@ -49,11 +49,11 @@ var app = {
 			ImgCache.options.cacheClearSize = 5;
 			ImgCache.init();
 			
-			//FB
-			console.log("preFB");
-			//initFacebookManager();
-			//getFBLoginStatus();
-			console.log("postFB"); 
+//			//FB
+//			console.log("preFB");
+//			//initFacebookManager();
+//			//getFBLoginStatus();
+//			console.log("postFB"); 
 		  
 		   document.addEventListener('backbutton', function(e) {
             	_app.get('utilities').backbuttom();							
