@@ -14,7 +14,7 @@ row:not(input):not(textarea) {
 	a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 
 
-	#wrapper {	
+	#wrapper{	
 		position: absolute;
 		z-index: 1;
 		top: 50px; 
@@ -22,6 +22,9 @@ row:not(input):not(textarea) {
 		left: 0; 
 		width: 100%;
 	}
+
+	
+
 
 	#wrapper2, 
 	#wrapper3 {	
@@ -101,6 +104,8 @@ row:not(input):not(textarea) {
 		background-color: #ffffff;
 	}
 
+	
+
 
 	#wrapper3,
 	#wrapper3 .scroller,
@@ -111,6 +116,8 @@ row:not(input):not(textarea) {
 		margin: 0 !important; 
 		background-color: #ffffff;
 	}
+	
+	
 	
 	img {
 		border-radius : 0 !important;	
@@ -203,6 +210,17 @@ row:not(input):not(textarea) {
 		margin: 0 !important; 
 	}
 	
+	
+	div.headerM {
+		width: 100%; 
+		height: 35px;
+		line-height: 35px;		
+		background-color: #3B9444;			
+		padding: 0 !important; 
+		margin:0 !important;		
+		border: 0;
+		color:#ffffff;
+	}
 	
 	div.header {
 		position: absolute; 
@@ -315,6 +333,7 @@ row:not(input):not(textarea) {
 }
 
 #wrapperH #scroller li {
+	position: relative;
 	display: block;
 	float: left;
 	height: 100%;
@@ -345,12 +364,24 @@ row:not(input):not(textarea) {
 }
 
 
+	.wrapper {
+		position: absolute;
+		z-index: 1;
+		top: 35px; 
+		bottom: 100px; 
+		left: 0; 
+		width: 100%;
+	}
 
-
-
-
-
-
+	.wrapper,
+	.wrapper .scroller,
+	.wrapper .scroller .container,    			
+	.wrapper .scroller .container .row,
+	.wrapper .scroller .container .row div { 
+		padding: 0 !important; 
+		margin: 0 !important; 
+		background-color: #ffffff;
+	}
 
 
 

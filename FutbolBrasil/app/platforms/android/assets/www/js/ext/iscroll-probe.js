@@ -846,7 +846,7 @@ IScroll.prototype = {
 		
 		if (_unshift) {
 			if (x == 0) {
-				x = x-360;
+				x = x-window.innerWidth;
 			}
 		}
 	
@@ -1532,8 +1532,7 @@ IScroll.prototype = {
 			if ( now >= destTime ) {
 					
 				if (_unshift) {
-					console.log('_animate -> 7 ' + startX);	
-					that.currentPage.pageX = 1;	
+					console.log('_animate -> 7 ' + startX);						
 				} 
 
 				that.isAnimating = false;

@@ -37,96 +37,7 @@
 	      		
 	    	})
 
-	  		.when('/match', {
-	      		controller:'matchCtrl as _this',
-	      		templateUrl:'match.html',
-	      		prev: '/livescore/',
-	      		next: '/standings/',
-	      		_class: 'content-match'
-	      		
-	    	})
-	    	
-	    	.when('/standings', {
-	      		controller:'standingsCtrl as _this',
-	      		templateUrl:'standings.html',
-	      		prev: '/match',
-	      		next: '/news',
-	      		contentClass: 'content-standings'
-	    	})
-	    	    
-	    	.when('/scorers', {
-	      		controller:'scorersCtrl  as _this',
-	      		templateUrl:'scorers.html',
-	      		prev: '/news',
-	      		next: '/livescore',
-	      		contentClass: 'content-scorers'
-	    	})
-	    	
-	    	.when('/livescore', {
-	      		controller:'livescoreCtrl  as _this',
-	      		templateUrl:'livescore.html',
-	      		prev: '/scorers',
-	      		next: '/match',
-	      		contentClass: 'content-livescore'
-	    	})	 	    		
-	    	
-	    	.when('/prediction', {
-	      		controller:'predictionCtrl  as _this',
-	      		templateUrl:'prediction.html',
-	      		prev: '/points',
-	      		next: '/leaderboard',
-	      		contentClass: 'content-prediction'
-	    	})	
-	    	    
-			.when('/leaderboard', {
-	      		controller:'leaderboardCtrl  as _this',
-	      		templateUrl:'leaderboard.html',
-	      		prev: '/prediction',
-	      		next: '/friends',
-	      		contentClass: 'content-leaderboard'
-	    	})		    	    
 
-			.when('/friends', {
-	      		controller:'friendsCtrl  as _this',
-	      		templateUrl:'friends.html',
-	      		prev: '/leaderboard',
-	      		next: '/points',
-	      		contentClass: 'content-friends'
-	    	})
-
-			.when('/points', {
-	      		controller:'pointsCtrl  as _this',
-	      		templateUrl:'points.html',
-	      		prev: '/friends',
-	      		next: '/prediction',
-	      		contentClass: 'content-points'
-	    	})		    	    
-	    	 
-	    	.when('/news', {
-	    		controller:'newsCtrl  as _this',
-	      		templateUrl:'news.html',
-	      		prev: '/standings',
-	      		next: '/scorers',
-	      		contentClass: 'content-news'
-	    	})	
-	    	    		 	    	    	
-	    	.otherwise({	    		
-	    		redirectTo:'/news'								      		
-	    	});
-		}) 
-		
-		.directive('myScroll', function() {
-			return function(scope, element, attrs) {
-			    
-		    if (scope.$last){	    	
-		      	_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();		
-				});	      
-		    }
-		    
-		  };
-		})
 
 		.directive('loading', function () {
 			
@@ -631,55 +542,63 @@
 				var _this = this;		
 				var _promise = false;
 				var _angular =  angular.element;
-				var _limit = 2;
-				var _date = utilities.moment().format('YYYYMMDD');
+				var _limit = 100;
 				var _currentPage = 0;
 				var _goToPage = true;
-				
+				var _index = 0;
 				
 				_this.width = window.innerWidth;
 				
+				
 				_this.pagesBefore = [];
-				
-				_this.pages = [
-					{name: utilities.moment().subtract(2, 'days').format('LL')},
-					{name:'Ontem'},
-					{name:'Hoje'},
-					{name:'Amanha'},
-					{name: utilities.moment().add(2, 'days').format('LL')},
-				];
-				
 				_this.pagesAfter = [];
 				
+				_this.pages = [
+					{name: utilities.moment().subtract(2, 'days').format('LL'), date:utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
+					{name:'Ontem', date:utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
+					{name:'Hoje', date:utilities.moment().format('YYYYMMDD')},
+					{name:'Amanha', date:utilities.moment().add(1, 'days').format('YYYYMMDD')},
+					{name: utilities.moment().add(2, 'days').format('LL'), date:utilities.moment().add(2, 'days').format('YYYYMMDD')},
+				];
 				
-
+	
+				
 				_this.widthTotal = (window.innerWidth * _this.pages.length);
 				
+				angular.forEach(_this.pages, function(_item, _index) {
+					_promise = $http({method: 'GET', url: domain.match(_item.date,_limit,0)});
+					_promise.then(function(obj) {
+						
+						_this.pages[_index].matches =  obj.data.response;
+						
+											
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error();
+					});
+				});
+				
+
 				var _scroll = new IScroll('#wrapperH', { 
 					scrollX: true, 
-					scrollY: false, 
+					scrollY: true, 
 					mouseWheel: false, 
 					momentum: false,
 					snap: true,
-					snapSpeed: 100,
+					snapSpeed: 500,
 					probeType: 3,
 					bounce: false
 				});
-
-					
+	
 				_scroll.on('beforeScrollStart', function () {
-					this.refresh();	
-					console.log('beforeScrollStart');	
+					this.refresh();						
 					_unshift= false;			
 				});	
 				
 				_scroll.on('scrollStart', function () {
-					console.log('scrollStart');	
 					_currentPage = this.currentPage.pageX;
 				});
-				
 
-				
 				_scroll.on('scroll', function () {
 	
 					if (this.currentPage.pageX != _currentPage) {
@@ -689,23 +608,53 @@
 							if (this.currentPage.pageX  == (_this.pages.length - 1)) {
 								
 								$scope.$apply(function () {
-									_this.pagesAfter.push({name: utilities.moment().add((_this.pagesAfter.length + 3), 'days').format('LL')});
+					
+									_index = _this.pagesAfter.length + 3;		
+									_this.pagesAfter.push(
+										{
+											name: utilities.moment().add(_index, 'days').format('LL'), 
+										 	date: utilities.moment().add(_index, 'days').format('YYYYMMDD')
+										}
+									);
+
 							 		_this.pages.push((_this.pagesAfter[_this.pagesAfter.length - 1]));							 		
-									_this.widthTotal = (window.innerWidth * _this.pages.length);
+									_this.widthTotal = (window.innerWidth * _this.pages.length);								
+								
+									$rootScope.loading = true;  
+									
+									_index = _this.pages.length - 1;																
+									_promise = $http({method: 'GET', url: domain.match(_this.pages[_index].date,_limit,0)});
+									_promise.then(function(obj) {
+										_this.pages[_index].matches =  obj.data.response;	
+									}).finally(function(data) {
+					  					$rootScope.loading = false;  					
+					  					$rootScope.error = utilities.error();
+									});
+									
+									
 								});
 
 							};
 							
 						} else {
 							
-							if (this.currentPage.pageX == 0)  {
+							/*if (this.currentPage.pageX == 0)  {
 								$scope.$apply(function () {
-									_this.pagesBefore.push({name: utilities.moment().subtract(_this.pagesBefore.length + 3, 'days').format('LL')});
+									
+									_this.pagesBefore.push(
+										{
+											name: utilities.moment().subtract(_this.pagesBefore.length + 3, 'days').format('LL'),
+											date: utilities.moment().subtract(_this.pagesBefore.length + 3, 'days').format('YYYYMMDD')
+										}
+									);
+									
 							 		_this.pages.unshift((_this.pagesBefore[_this.pagesBefore.length - 1]));	
-									_this.widthTotal = (window.innerWidth * _this.pages.length);							
+									_this.widthTotal = (window.innerWidth * _this.pages.length);
+									_scroll.currentPage.pageX = 1;	
+									_unshift = true;						
 								});
 								
-							}
+							}*/
 
 						}
 						
@@ -715,65 +664,34 @@
 				});
 				
 				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
-					console.log('onRepeatFirst');				
-					if (!_goToPage) _unshift = true;	
+					//console.log('onRepeatFirst');
 		    	});
 		
 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
-					console.log('onRepeatLast');					
-					if (_goToPage) {					
+					//console.log('onRepeatLast');					
+					if (_goToPage) {	
+										
 						_scroll.refresh();				
-						_scroll.goToPage(1,0);			
-						_goToPage = false;						
-					}	
+						_scroll.goToPage(2,0);			
+						_goToPage = false;	
 						
+						
+						angular.forEach(_this.pages, function(_item, _index) {
+							var _wrapper = 'wrapper' + _index;
+							window[_wrapper] = new IScroll('#' + _wrapper,{click:true, preventDefault:true});		
+							window[_wrapper].on('beforeScrollStart', function () {
+								this.refresh();		
+							});
+						});
+				
+						
+				
+					}	
+	
 			    });
 				
-				 $rootScope.loading = false;  	
-				 
 
-				/*_promise = $http({method: 'GET', url: domain.match(_date,_limit,0)});
-				_promise.then(function(obj) {
-					_this.item =  obj.data.response;
-				}).finally(function(data) {
-  					$rootScope.loading = false;  					
-  					$rootScope.error = utilities.error();
-				});
 				
-				var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
-				});
-
-				_scroll.on('scroll', function () {
-
-
-	
-		            if (this.y <= this.maxScrollY) {
-		            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-		            			 
-							var _page = (_angular('div.match').length * _limit);
-							
-							console.log(domain.match(_date,_limit,_page));
-							
-	            			$rootScope.loading = true;
-	            			_promise = $http({method: 'GET', url: domain.match(_date,_limit,_page)});
-							_promise.then(function(obj) {
-								angular.forEach(obj.data.response.leagues, function(_item, _index) {	
-									_this.item.leagues.push(_item);								
-								});
-								
-								
-								_scroll.refresh();								
-							}).finally(function(data) {
-								$rootScope.loading = false;  									  					
-							});
-
-						}		
-					}
-
-				});
-			*/
 
 		}])
     	
