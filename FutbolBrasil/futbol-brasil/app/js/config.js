@@ -3,8 +3,8 @@
 // Init the application configuration module for AngularJS application
 var ApplicationConfiguration = (function() {
     // Init module configuration options
-    var applicationModuleName = 'futbol-brasil';
-    var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngAnimate', 'ngTouch', 'ngSanitize'
+    var applicationModuleName = 'FutbolBrasil';
+    var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngStorage', 'ngAnimate', 'ngTouch', 'ngSanitize'
       , 'ui.router', 'ui.bootstrap', 'ui.utils'];
 
     // Add a new vertical module

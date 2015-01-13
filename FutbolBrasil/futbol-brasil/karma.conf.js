@@ -26,6 +26,11 @@ module.exports = function(config) {
             'app/lib/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/lib/angular-ui-utils/ui-utils.js',
             'app/lib/angular-ui-router/release/angular-ui-router.js',
+            'app/lib/ngstorage/ngStorage.js',
+            'app/lib/moment/moment.js',
+            'app/lib/bootstrap-material-design/dist/js/material.js',
+            'app/lib/bootstrap-material-design/dist/js/ripples.js',
+            'app/lib/iscrolltest/build/iscroll.js',
             <!-- endinjector -->
 
             'app/js/config.js',
