@@ -636,23 +636,22 @@
 				var _currentPage = 0;
 				var _goToPage = true;
 				
-			
-				
-				
-				
 				
 				_this.width = window.innerWidth;
 				
-			
+				_this.pagesBefore = [];
+				
 				_this.pages = [
+					{name: utilities.moment().subtract(2, 'days').format('LL')},
 					{name:'Ontem'},
 					{name:'Hoje'},
 					{name:'Amanha'},
+					{name: utilities.moment().add(2, 'days').format('LL')},
 				];
 				
+				_this.pagesAfter = [];
 				
 				
-
 
 				_this.widthTotal = (window.innerWidth * _this.pages.length);
 				
@@ -662,60 +661,69 @@
 					mouseWheel: false, 
 					momentum: false,
 					snap: true,
-					snapSpeed: 1000,
+					snapSpeed: 100,
 					probeType: 3,
-					bounce: false,
+					bounce: false
 				});
-				
 
-				
+					
 				_scroll.on('beforeScrollStart', function () {
-					this.refresh();				
+					this.refresh();	
+					console.log('beforeScrollStart');	
+					_unshift= false;			
 				});	
 				
 				_scroll.on('scrollStart', function () {
+					console.log('scrollStart');	
 					_currentPage = this.currentPage.pageX;
 				});
 				
+
+				
 				_scroll.on('scroll', function () {
-
+	
 					if (this.currentPage.pageX != _currentPage) {
-
+						
 						if (_currentPage < this.currentPage.pageX) {
 							
 							if (this.currentPage.pageX  == (_this.pages.length - 1)) {
-								$scope.$apply(function () {	
-							 		_this.pages.push({name: utilities.moment().add((_this.pages.length - 1), 'days').format('MMM Do YY')});							 		
+								
+								$scope.$apply(function () {
+									_this.pagesAfter.push({name: utilities.moment().add((_this.pagesAfter.length + 3), 'days').format('LL')});
+							 		_this.pages.push((_this.pagesAfter[_this.pagesAfter.length - 1]));							 		
 									_this.widthTotal = (window.innerWidth * _this.pages.length);
 								});
+
 							};
 							
 						} else {
 							
-							/*if (this.currentPage.pageX == 0)  {
+							if (this.currentPage.pageX == 0)  {
 								$scope.$apply(function () {
-									_this.pages.unshift({name: utilities.moment().subtract(1, 'days').format('MMM Do YY')});
-									_this.widthTotal = (window.innerWidth * _this.pages.length);
+									_this.pagesBefore.push({name: utilities.moment().subtract(_this.pagesBefore.length + 3, 'days').format('LL')});
+							 		_this.pages.unshift((_this.pagesBefore[_this.pagesBefore.length - 1]));	
+									_this.widthTotal = (window.innerWidth * _this.pages.length);							
 								});
-							}*/
+								
+							}
 
 						}
-
+						
 						_currentPage = this.currentPage.pageX;
 
 					};
 				});
 				
-				_scroll.on('scrollEnd', function () {
-					//this.refresh();
-				});
+				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
+					console.log('onRepeatFirst');				
+					if (!_goToPage) _unshift = true;	
+		    	});
 		
 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
-					
-	
-					if (_goToPage) {
+					console.log('onRepeatLast');					
+					if (_goToPage) {					
 						_scroll.refresh();				
-						_scroll.goToPage(1,0);				
+						_scroll.goToPage(1,0);			
 						_goToPage = false;						
 					}	
 						

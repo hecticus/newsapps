@@ -1,4 +1,8 @@
 /*! iScroll v5.1.3 ~ (c) 2008-2014 Matteo Spinelli ~ http://cubiq.org/license */
+
+var _unshift = false;
+
+
 (function (window, document, Math) {
 var rAF = window.requestAnimationFrame	||
 	window.webkitRequestAnimationFrame	||
@@ -839,6 +843,13 @@ IScroll.prototype = {
 	},
 
 	_translate: function (x, y) {
+		
+		if (_unshift) {
+			if (x == 0) {
+				x = x-360;
+			}
+		}
+	
 		if ( this.options.useTransform ) {
 
 /* REPLACE START: _translate */
@@ -1505,45 +1516,57 @@ IScroll.prototype = {
 	},
 
 	_animate: function (destX, destY, duration, easingFn) {
+		
 		var that = this,
 			startX = this.x,
 			startY = this.y,
 			startTime = utils.getTime(),
 			destTime = startTime + duration;
-
+		
 		function step () {
+			
 			var now = utils.getTime(),
 				newX, newY,
 				easing;
-
+				
 			if ( now >= destTime ) {
+					
+				if (_unshift) {
+					console.log('_animate -> 7 ' + startX);	
+					that.currentPage.pageX = 1;	
+				} 
+
 				that.isAnimating = false;
 				that._translate(destX, destY);
 				
-				if ( !that.resetPosition(that.options.bounceTime) ) {
+				if ( !that.resetPosition(that.options.bounceTime) ) {					
 					that._execEvent('scrollEnd');
 				}
-
+			
 				return;
 			}
 
+			
 			now = ( now - startTime ) / duration;
 			easing = easingFn(now);
 			newX = ( destX - startX ) * easing + startX;
 			newY = ( destY - startY ) * easing + startY;
+
 			that._translate(newX, newY);
 
-			if ( that.isAnimating ) {
+			if (that.isAnimating) {
 				rAF(step);
 			}
 
 			if ( that.options.probeType == 3 ) {
 				that._execEvent('scroll');
 			}
+
 		}
 
-		this.isAnimating = true;
+		this.isAnimating = true;	
 		step();
+	
 	},
 
 	handleEvent: function (e) {
