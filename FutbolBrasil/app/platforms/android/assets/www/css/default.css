@@ -145,12 +145,14 @@ row:not(input):not(textarea) {
 	
 	
 	body.content-news #wrapper .scroller .container .row,
+	body.content-match #wrapper .scroller .container .row, 
 	body.content-standings #wrapper .scroller .container .row   {
 		padding: 0 20px !important;
 	}
 	
 	
 	body.content-news #wrapper .scroller .container .row .news,
+	body.content-match #wrapper .scroller .container .row .competition,
 	body.content-standings #wrapper .scroller .container .row .competition {
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
@@ -226,6 +228,11 @@ row:not(input):not(textarea) {
 		color:#ffffff;
 	}
 	
+	div.header .caption {
+		text-align: center; 
+		font-weight: bold; 
+		text-transform: capitalize;
+	}
 	
 	
 	div.header .left {

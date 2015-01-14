@@ -1,19 +1,20 @@
 
+	<div id="wrapperH">
+		<div id="scroller" style="width:{{_this.widthTotal}}px;">
+			<ul>
+				<li style="width:{{_this.width}}px;" ng-repeat="page in _this.pages" on-last-repeat >
 
-		<div id="wrapperH">
-			<div id="scroller" style="width:{{_this.widthTotal}}px;">
-				<ul>
-					<li style="width:{{_this.width}}px;" ng-repeat="page in _this.pages" on-last-repeat >
-
-						<div class="row">
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 header" >
-								<span ng-bind="page.name"></span>
+					<div class="container">
+						
+						<div class="row header">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+								<h4 ng-bind="page.name" class="caption"></h4>
 							</div>
 						</div>
 
 						<div class="row" >
-								
-							<div id="wrapperV{{$index}}" class="wrapper" >
+									   
+							<div id="{{_this.wrapper.getName($index)}}" class="wrapper" >
 								<div class="scroller" >
 									<div class="container">
 										
@@ -22,14 +23,14 @@
 											<table class="table" ng-repeat="league in page.matches.leagues">
 												<thead>										
 													<tr> 
-											  			<th colspan="3" style="background-color: #3B5CA9 !important;">
+											  			<th colspan="3">
 											  				<span ng-bind="league.name"></span>
 														</th>
 											  		</tr>
 											  	</thead>
 										  		<tbody>
 										  			
-										  			<tr ng-repeat="match in league.fixtures" >
+										  			<tr ng-repeat="match in league.fixtures" data-match="{{ match.id_game_matches }}">
 										  				
 										  				<td style="width: 33% !important;" ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
 										  					<span ng-bind="match.homeTeam.name"></span> 
@@ -62,13 +63,9 @@
 								</div>	<!--scroller-->
 							</div> <!--wrapper-->											
 						</div> <!--row-->	
-						
-					</li>
-				</ul>
-			</div>
-		</div>
-
-
-
+					</div> <!--container-->
 	
-		
+				</li>
+			</ul>					
+		</div>
+	</div>
