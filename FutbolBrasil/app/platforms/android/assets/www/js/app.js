@@ -625,6 +625,11 @@
  				var _goToPage = true;				
 				var _index = 0;
 				
+				
+				_this.getTime = function(_date) {
+					return utilities.moment(_date).format('H:MM');
+				};
+				
 				_this.width = window.innerWidth;
 				
 				
@@ -658,11 +663,11 @@
 
  				var _scroll = new IScroll('#wrapperH', { 
  					scrollX: true, 
-					scrollY: true, 
+					scrollY: false, 
  					mouseWheel: false, 
  					momentum: false,
  					snap: true,
-					snapSpeed: 500,
+					snapSpeed: 700,
  					probeType: 3,
  					bounce: false
  				});
@@ -740,12 +745,6 @@
 
  				});
 
-
-
-
-
-
-				
 				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
 					//console.log('onRepeatFirst');
  		    	});
@@ -760,7 +759,7 @@
 						_goToPage = false;	
 
 						angular.forEach(_this.pages, function(_item, _index) {
-							var _wrapper = 'wrapper' + _index;
+							var _wrapper = 'wrapperV' + _index;
 							window[_wrapper] = new IScroll('#' + _wrapper,{click:true, preventDefault:true});		
 							window[_wrapper].on('beforeScrollStart', function () {
 								this.refresh();		
@@ -772,6 +771,24 @@
 				
 
 		}])
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
