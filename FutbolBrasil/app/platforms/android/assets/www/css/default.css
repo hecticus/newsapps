@@ -14,7 +14,7 @@ row:not(input):not(textarea) {
 	a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 
 
-	#wrapper {	
+	#wrapper{	
 		position: absolute;
 		z-index: 1;
 		top: 50px; 
@@ -22,6 +22,7 @@ row:not(input):not(textarea) {
 		left: 0; 
 		width: 100%;
 	}
+
 
 	#wrapper2, 
 	#wrapper3 {	
@@ -101,6 +102,8 @@ row:not(input):not(textarea) {
 		background-color: #ffffff;
 	}
 
+	
+
 
 	#wrapper3,
 	#wrapper3 .scroller,
@@ -111,6 +114,8 @@ row:not(input):not(textarea) {
 		margin: 0 !important; 
 		background-color: #ffffff;
 	}
+	
+	
 	
 	img {
 		border-radius : 0 !important;	
@@ -140,12 +145,14 @@ row:not(input):not(textarea) {
 	
 	
 	body.content-news #wrapper .scroller .container .row,
+	body.content-match #wrapper .scroller .container .row, 
 	body.content-standings #wrapper .scroller .container .row   {
 		padding: 0 20px !important;
 	}
 	
 	
 	body.content-news #wrapper .scroller .container .row .news,
+	body.content-match #wrapper .scroller .container .row .competition,
 	body.content-standings #wrapper .scroller .container .row .competition {
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
@@ -204,6 +211,7 @@ row:not(input):not(textarea) {
 	}
 	
 	
+	
 	div.header {
 		position: absolute; 
 		z-index: 4;
@@ -220,6 +228,11 @@ row:not(input):not(textarea) {
 		color:#ffffff;
 	}
 	
+	div.header .caption {
+		text-align: center; 
+		font-weight: bold; 
+		text-transform: capitalize;
+	}
 	
 	
 	div.header .left {
@@ -277,7 +290,7 @@ row:not(input):not(textarea) {
 	bottom: 50px;
 	left: 0;
 	width: 100%;
-	background: #ccc;
+	background:  #FFFFFF;
 	overflow: hidden;
 }
 
@@ -285,9 +298,8 @@ row:not(input):not(textarea) {
 	position: absolute;
 	z-index: 1;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	
 	height: 100%;
-	background-color: #a00;
+	background-color: #FFFFFF;
 	-webkit-transform: translateZ(0);
 	-moz-transform: translateZ(0);
 	-ms-transform: translateZ(0);
@@ -315,12 +327,12 @@ row:not(input):not(textarea) {
 }
 
 #wrapperH #scroller li {
+	position: relative;
 	display: block;
 	float: left;
 	height: 100%;
 	border-right: 1px solid #ccc;
-	background-color: #fafafa;
-	font-size: 14px;
+	background-color: #FFFFFF;
 }
 
 
@@ -345,18 +357,33 @@ row:not(input):not(textarea) {
 }
 
 
+	.wrapper {
+		position: absolute;
+		z-index: 1;
+		top:  36px; 
+		bottom: 0; 
+		left: 0; 
+		width: 100%;
+	}
+
+	.wrapper,
+	.wrapper .scroller,
+	.wrapper .scroller .container,    			
+	.wrapper .scroller .container div { 
+		padding: 0 !important; 
+		margin: 0 !important; 
+		background-color: #ffffff;
+	}
 
 
 
-
-
-
-
-
-
-
-
-
+	.date { font-weight: bold; font-size: 2em; }
+	.winner { font-weight: bold; }
+	.goal { font-size: 1.6em; }
+	.status { color:#000000; font-weight: bold; }
+	.status.encerrado { color:red; }
+	.status.default { color:#FFBF00; }
+	.status.else { color:green; }
 
 
 

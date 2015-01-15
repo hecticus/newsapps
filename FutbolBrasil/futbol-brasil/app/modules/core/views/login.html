@@ -1,0 +1,53 @@
+<div class="container" style="background-color: #000000;">
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+			style="text-align: center; position: absolute; top: 25%;">
+			
+			<form name="msisdnForm" ng-submit="sendMsisdn()">
+				<div>
+					<h4 style="color:#808080; text-shadow: -1px 1px 1px rgba(0,0,0,0.5)" 
+						>Registre-se para acessar as fotos das melhores memes, todos os dias.</h4>
+					<h4 style="color:#808080; text-shadow: -1px 1px 1px rgba(0,0,0,0.5)" 
+						>Digite seu numero de celular.</h4>
+				</div>
+					
+					<div class="form-control-wrapper">
+						<input type="tel" class="form-control empty" 
+							style="color:#808080; text-shadow: -1px 1px 1px rgba(1,1,1,0.5)"
+							ng-model="msisdn"
+							id="msisdnInput" placeholder="# Numero">
+						<span class="material-input"></span>
+					</div>
+							
+					<button data-loading-text="Carregando..."
+						type="submit" class="btn btn-danger touch-enable"
+						style="background-color: #F6921E !important;"
+						>Experimente 7 dias grátis</button>
+			</form>
+				
+			<form name="passwordForm" ng-submit="doMsisdnLogin()">
+				<div id="passwordInputGroup" ng-class="{hidden: !isPasswordScreenVisible}">
+					<h4 style="color:#FFFFFF; text-shadow: -1px 1px 1px rgba(0,0,0,0.5)" 
+						>Digite a senha recebida por SMS.</h4>
+					<div class="form-control-wrapper">
+						<input type="password" class="form-control empty" 
+						style="color:#000000; text-shadow: -1px 1px 1px rgba(1,1,1,0.5)" 
+						id="passwordInput" ng-model="password" placeholder="Senha">
+						<span class="material-input"></span>
+					</div>
+					<div id="passSendButton" >
+						<button data-loading-text="Carregando..." autocomplete="off" type="submit" 
+						class="btn btn-danger touch-enable"   
+						style="background-color: #F6921E !important;">Enviar</button>			
+					</div>
+					<div id="resendPassButton">
+						<button data-loading-text="Carregando..." autocomplete="off" type="button" 
+						class="btn btn-danger touch-enable" ng-click="sendMsisdn()"
+						style="background-color: #F6921E !important;">Enviar novamente a senha</button>	
+					</div>							
+				</div>
+			</form>		
+		</div>
+	</div>											
+</div>

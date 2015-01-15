@@ -1,65 +1,133 @@
 <!doctype html>
-  <html>
+  <html lang="pt">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Brasil Futebol</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <!--TODO Verificar Warning-->
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1
+      , width=device-width, height=device-height" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
 
     <!-- build:css styles/vendor.css -->
         <!-- injector:bowercss -->
         <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/material.css">
+        <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/ripples.css">
         <!-- endinjector -->
     <!-- endbuild -->
 
     <!-- build:css styles/custom.css -->
         <!-- injector:css -->
-        <link rel="stylesheet" href="css/customcordova.css">
-        <link rel="stylesheet" href="css/demo.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/default.css">
+        <link rel="stylesheet" href="css/iconvault-preview.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/transition.css">
         <!-- endinjector -->
     <!-- endbuild -->
+
     <script src="cordova.js"></script>
   </head>
 
-  <body>
-    <!-- =================== Navigation bar =================== -->
-    <header class="navbar navbar-default navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand visible-xs" href="#">
-                        angularjsapp
-                    </a>
-                </div>
-            </div>
+  <body class="{{ contentClass }}" ng-app="FutbolBrasil" ng-controller="MainCtrl" style="position: fixed;">
+
+    <header>
+      <div class="container">
+        <div class="row" >
+          <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section active" ng-click="showSection('news')" style="text-align: left;">
+            <img src="img/logo.svg" onerror="this.src='img/logo.png'" style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
+            <span style="font-size: 1.2em; font-weight: bold;  margin: 0;  ">NOTISTASTS</span>
+          </div>
+          <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section" ng-click="showSection('prediction')" style="text-align: right;">
+            <span style="font-size: 1.2em; font-weight: bold;  margin: 0; ">PALPITES</span>
+            <img src="img/palpites.svg" onerror="this.src='img/palpites.png'" style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
+          </div>
         </div>
+      </div>
     </header>
 
-    <div class="header-placeholder"></div>
-    <div role="main">
-        <header class="bs-header text-center" id="overview">
-            <div class="container">
-                <h1 id="app-heading">
-                    AngularJs Cordova application
-                </h1>
-            </div>
-        </header>
+    <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <section id="uiview" ui-view></section>
-                </div>
-            </div>
-        </div>
-        <!-- /.container -->
-    </div>
-    <!-- /.main -->
+    <loading></loading>
+    <error></error>
 
     <footer class="footer">
-        <div class="container">
-            <p>Code licensed under <a href="https://github.com/keshavos/generator-angularjs-cordova/">MIT License</a>.</p>
+      <!--TODO sacar de footer-->
+      <div class="container">
+        <div data-section="news" class="row section active">
+
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2
+                col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 option"
+               ng-class="menuClass('match')">
+            <a ui-sref="match">
+              <span class="icon-balon"></span>
+              <span class="glyphicon-class">Partidas</span>
+            </a>
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+               ng-class="menuClass('standings')" >
+            <a ui-sref="standings">
+              <span class="icon-tabela"></span>
+              <span class="glyphicon-class">Tabela</span>
+            </a>
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+               ng-class="menuClass('news')" >
+            <a ui-sref="news">
+              <span class="icon-noticias"></span>
+              <span class="glyphicon-class">Noticias</span>
+            </a>
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+               ng-class="menuClass('scorers')" >
+            <a ui-sref="scorers">
+              <span class="icon-artilharia"></span>
+              <span class="glyphicon-class">Artilharia</span>
+            </a>
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+               ng-class="menuClass('livescore')" >
+            <a ui-sref="livescore">
+              <span class="icon-envivo"></span>
+              <span class="glyphicon-class">En Vivo</span>
+            </a>
+          </div>
         </div>
+
+        <div data-section="prediction" class="row section">
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+               ng-class="menuClass('prediction')">
+            <a ui-sref="prediction">
+              <span class="icon-balon"></span>
+              <span class="glyphicon-class">Predicciones</span>
+            </a>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+               ng-class="menuClass('leaderboard')" >
+            <a ui-sref="leaderboard">
+              <span class="icon-tabela"></span>
+              <span class="glyphicon-class">Leaderboards</span>
+            </a>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+               ng-class="menuClass('friends')" >
+            <a ui-sref="friends">
+              <span class="icon-artilharia"></span>
+              <span class="glyphicon-class">Friends</span>
+            </a>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+               ng-class="menuClass('points')" >
+            <a ui-sref="points">
+              <span class="icon-puntos"></span>
+              <span class="glyphicon-class">Puntos</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- build:js scripts/vendor.js -->
@@ -76,16 +144,46 @@
         <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="lib/angular-ui-utils/ui-utils.js"></script>
         <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="lib/ngstorage/ngStorage.js"></script>
+        <script src="lib/moment/moment.js"></script>
+        <script src="lib/bootstrap-material-design/dist/js/material.js"></script>
+        <script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
+        <script src="lib/iscrolltest/build/iscroll-probe.js"></script>
         <!-- endinjector -->
     <!-- endbuild -->
 
     <!-- build:js scripts/custom.js -->
         <!-- injector:js -->
+        <script src="managers/ClientManager/ClientManager.js"></script>
+        <script src="managers/FacebookManager/FacebookManager.js"></script>
+        <script src="managers/Push/PushManager.js"></script>
+        <script src="managers/SocialApps/SocialAppsManager.js"></script>
+        <script src="managers/TeamsManager/TeamsManager.js"></script>
+        <script src="managers/WebManager/WebManager.js"></script>
         <script src="js/config.js"></script>
         <script src="js/application.js"></script>
         <script src="modules/core/core.js"></script>
         <script src="modules/core/config/routes.js"></script>
-        <script src="modules/core/controllers/home.js"></script>
+        <script src="modules/core/services/cordova-app.js"></script>
+        <script src="modules/core/services/cordova-device.js"></script>
+        <script src="modules/core/services/cordova-ready.js"></script>
+        <script src="modules/core/services/domain.js"></script>
+        <script src="modules/core/services/utilities.js"></script>
+        <script src="modules/core/directives/error.js"></script>
+        <script src="modules/core/directives/loading.js"></script>
+        <script src="modules/core/directives/my-scroll.js"></script>
+        <script src="modules/core/directives/on-last-repeat.js"></script>
+        <script src="modules/core/controllers/friends.js"></script>
+        <script src="modules/core/controllers/leaderboard.js"></script>
+        <script src="modules/core/controllers/live-score.js"></script>
+        <script src="modules/core/controllers/login.js"></script>
+        <script src="modules/core/controllers/main.js"></script>
+        <script src="modules/core/controllers/match.js"></script>
+        <script src="modules/core/controllers/news.js"></script>
+        <script src="modules/core/controllers/points.js"></script>
+        <script src="modules/core/controllers/prediction.js"></script>
+        <script src="modules/core/controllers/scorers.js"></script>
+        <script src="modules/core/controllers/standings.js"></script>
         <!-- endinjector -->
     <!-- endbuild -->
 

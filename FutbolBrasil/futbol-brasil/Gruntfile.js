@@ -22,7 +22,14 @@ module.exports = function(grunt) {
             },
 
             js: {
-                files: ['<%= yeoman.app %>/modules/*/*.js', '<%= yeoman.app %>/modules/*/config/*.js', '<%= yeoman.app %>/modules/*/controllers/*.js', '<%= yeoman.app %>/modules/*/services/*.js', '<%= yeoman.app %>/modules/*/directives/*.js', '<%= yeoman.app %>/modules/*/filters/*.js'],
+                files: [
+                  '<%= yeoman.app %>/modules/*/*.js'
+                  , '<%= yeoman.app %>/modules/*/config/*.js'
+                  , '<%= yeoman.app %>/modules/*/controllers/*.js'
+                  , '<%= yeoman.app %>/modules/*/services/*.js'
+                  , '<%= yeoman.app %>/modules/*/directives/*.js'
+                  , '<%= yeoman.app %>/modules/*/filters/*.js'
+                ],
                 tasks: ['newer:jshint:all', 'ngdocs'],
                 options: {
                     livereload: true
@@ -186,7 +193,7 @@ module.exports = function(grunt) {
                     multiline: true
                 },
                 src: [ 'www/scripts/custom.js']
-            },
+            }
         },
 
         //Injects all the scripts into the index html file
@@ -194,11 +201,12 @@ module.exports = function(grunt) {
             options: {
                 addRootSlash: false,
                 ignorePath: 'app/',
-                bowerPrefix: 'bower',
+                bowerPrefix: 'bower'
             },
             localDependencies: {
                 files: {
                     'app/index.html': [
+                        'app/managers/*/*.js',
                         'app/js/config.js',
                         'app/js/application.js',
                         'app/modules/*/*.js',
@@ -213,7 +221,7 @@ module.exports = function(grunt) {
             },
             bowerDependencies: {
                 files: {
-                    'app/index.html': ['bower.json'],
+                    'app/index.html': ['bower.json']
                 }
             },
             karmaDependencies: {
@@ -224,7 +232,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'karma.conf.js': ['bower.json'],
+                    'karma.conf.js': ['bower.json']
                 }
             }
         },
@@ -234,6 +242,7 @@ module.exports = function(grunt) {
                 files: {
                     src: [
                         '<%= yeoman.dist %>/app/js/*.js',
+                        '<%= yeoman.dist %>/app/managers/*.js',
                         '<%= yeoman.dist %>/app/modules/*/*.js',
                         '<%= yeoman.dist %>/app/modules/*/config/*.js',
                         '<%= yeoman.dist %>/app/modules/*/services/*.js',
@@ -315,7 +324,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>',
-                    src: ['*.html', '<%= yeoman.app %>/modules/*/views/*.html'],
+                    src: ['*.html', '<%= yeoman.app %>/modules/*/views/**/*.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -356,6 +365,7 @@ module.exports = function(grunt) {
                         'index.html',
                         'modules/*/views/*.html',
                         'img/{,*/}*.{webp}',
+                        'css/fonts/*',
                         'fonts/*'
                     ]
                 }, {
