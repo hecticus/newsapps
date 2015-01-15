@@ -188,18 +188,19 @@
             	},
 
             	news: function () {
+            		
+            		var _this = this;
+            		
             		return {   
             			         		
-            			index:  this.url + 'newsapi/v1/news/scroll/1',
+            			index:  _this.url + 'newsapi/v1/news/scroll/1',
             			
             			up: function (_news,_limit) { 
-            				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' 
-            				+ _news;
+            				return _this.url + 'newsapi/v1/news/scroll/up/rest/1/' + _news;
             			},
             			
             			down: function (_news,_limit) {
-            				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' 
-            					+ _news;
+            				return   _this.url + 'newsapi/v1/news/scroll/down/rest/1/' + _news;
             			}
             			
             		};
