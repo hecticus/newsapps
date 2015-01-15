@@ -37,11 +37,14 @@
     <header>
       <div class="container">
         <div class="row" >
-          <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section active" ng-click="showSection('news')" style="text-align: left;">
+          <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
+               ng-class="{active : isActive('news')}"
+               ng-click="showSection('news')" style="text-align: left;">
             <img src="img/logo.svg" onerror="this.src='img/logo.png'" style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
             <span style="font-size: 1.2em; font-weight: bold;  margin: 0;  ">NOTISTASTS</span>
           </div>
-          <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section" ng-click="showSection('prediction')" style="text-align: right;">
+          <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
+               ng-click="showSection('prediction')" style="text-align: right;">
             <span style="font-size: 1.2em; font-weight: bold;  margin: 0; ">PALPITES</span>
             <img src="img/palpites.svg" onerror="this.src='img/palpites.png'" style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
           </div>
@@ -61,35 +64,35 @@
 
           <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2
                 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 option"
-               ng-class="menuClass('match')">
+               ng-class="{active: isActive('match')}">
             <a ui-sref="match">
               <span class="icon-balon"></span>
               <span class="glyphicon-class">Partidas</span>
             </a>
           </div>
           <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="menuClass('standings')" >
+               ng-class="{active: isActive('standings')}" >
             <a ui-sref="standings">
               <span class="icon-tabela"></span>
               <span class="glyphicon-class">Tabela</span>
             </a>
           </div>
           <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="menuClass('news')" >
+               ng-class="{active: isActive('news')}" >
             <a ui-sref="news">
               <span class="icon-noticias"></span>
               <span class="glyphicon-class">Noticias</span>
             </a>
           </div>
           <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="menuClass('scorers')" >
+               ng-class="{active: isActive('scorers')}" >
             <a ui-sref="scorers">
               <span class="icon-artilharia"></span>
               <span class="glyphicon-class">Artilharia</span>
             </a>
           </div>
           <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="menuClass('livescore')" >
+               ng-class="{active: isActive('livescore')}" >
             <a ui-sref="livescore">
               <span class="icon-envivo"></span>
               <span class="glyphicon-class">En Vivo</span>
@@ -99,28 +102,28 @@
 
         <div data-section="prediction" class="row section">
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="menuClass('prediction')">
+               ng-class="{active: isActive('prediction')}">
             <a ui-sref="prediction">
               <span class="icon-balon"></span>
               <span class="glyphicon-class">Predicciones</span>
             </a>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="menuClass('leaderboard')" >
+               ng-class="{active: isActive('leaderboard')}" >
             <a ui-sref="leaderboard">
               <span class="icon-tabela"></span>
               <span class="glyphicon-class">Leaderboards</span>
             </a>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="menuClass('friends')" >
+               ng-class="{active: isActive('friends')}" >
             <a ui-sref="friends">
               <span class="icon-artilharia"></span>
               <span class="glyphicon-class">Friends</span>
             </a>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="menuClass('points')" >
+               ng-class="{active: isActive('points')}" >
             <a ui-sref="points">
               <span class="icon-puntos"></span>
               <span class="glyphicon-class">Puntos</span>
@@ -154,7 +157,6 @@
 
     <!-- build:js scripts/custom.js -->
         <!-- injector:js -->
-        <script src="managers/ClientManager/ClientManager.js"></script>
         <script src="managers/FacebookManager/FacebookManager.js"></script>
         <script src="managers/Push/PushManager.js"></script>
         <script src="managers/SocialApps/SocialAppsManager.js"></script>
@@ -164,10 +166,12 @@
         <script src="js/application.js"></script>
         <script src="modules/core/core.js"></script>
         <script src="modules/core/config/routes.js"></script>
+        <script src="modules/core/services/client-manager.js"></script>
         <script src="modules/core/services/cordova-app.js"></script>
         <script src="modules/core/services/cordova-device.js"></script>
         <script src="modules/core/services/cordova-ready.js"></script>
         <script src="modules/core/services/domain.js"></script>
+        <script src="modules/core/services/facebook-manager.js"></script>
         <script src="modules/core/services/utilities.js"></script>
         <script src="modules/core/directives/error.js"></script>
         <script src="modules/core/directives/loading.js"></script>
@@ -179,6 +183,7 @@
         <script src="modules/core/controllers/login.js"></script>
         <script src="modules/core/controllers/main.js"></script>
         <script src="modules/core/controllers/match.js"></script>
+        <script src="modules/core/controllers/news-detail.js"></script>
         <script src="modules/core/controllers/news.js"></script>
         <script src="modules/core/controllers/points.js"></script>
         <script src="modules/core/controllers/prediction.js"></script>

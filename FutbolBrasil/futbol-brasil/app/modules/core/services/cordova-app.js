@@ -13,8 +13,8 @@ angular
 
             /**
              * @ngdoc function
-             * @name cordova.Services.App#method1
-             * @methodOf cordova.Services.App
+             * @name core.Services.CordovaApp#method1
+             * @methodOf core.Services.CordovaApp
              * @return {boolean} Returns a boolean value
              */
             method1: function() {

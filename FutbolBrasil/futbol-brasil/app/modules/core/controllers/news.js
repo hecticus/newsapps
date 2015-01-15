@@ -11,14 +11,16 @@ angular
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
 
-            var _this = this;
             //Indicador de primera y ultima posicion en cache
             var _news = {
                 first : 0,
                 last : 0
             };
-            var _promise = false;
+
             $scope.item = {};
+            $scope.news = [];
+            $scope.contentNews = {};
+            $scope.detailTest = {};
 
             //TODO revisar esto y su directiva
             $rootScope.$on('onRepeatFirst', function(scope, element, attrs) {
@@ -40,13 +42,16 @@ angular
             };
 
             $scope.fromNow = function(_date) {
-                //TODO. Working. revisar moment
                 return Utilities.moment(_date).fromNow();
             };
 
-            //TODO Revisar agregado de clases
+            $scope.setContentNews = function(_news) {
+                $scope.contentNews = _news;
+            };
+
+            //TODO Revisar
             $scope.showContentNews = function(_news) {
-                $rootScope.contentNews = _news;
+                $scope.setContentNews(_news);
                 angular.element('#wrapper2').attr('class','page transition left');
                 $scope._scroll2.scrollTo(0,0,0);
             };
@@ -55,23 +60,25 @@ angular
                 console.log('getNews');
                 if ($rootScope.$storage.news) {
                     console.log('getNews. news on storage');
-                    _this.item = JSON.parse($rootScope.$storage.news);
                     $rootScope.loading = false;
-                    $rootScope.error = !_this.item.hasOwnProperty('news');
+                    $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
+                    $scope.news = JSON.parse($rootScope.$storage.news);
+                    console.log($scope.news);
                 } else {
                     console.log('getNews. news NOT on storage');
                     $http({method: 'GET', url: Domain.news().index})
                         .then(function (obj) {
                             console.log('getNews. GET');
                             console.log(obj);
-                            _this.item = obj.data.response;
-                            $rootScope.$storage.news = JSON.stringify(_this.item);
+                            $scope.news = obj.data.response.news;
+                            $rootScope.$storage.news = JSON.stringify($scope.news);
                         })
                         .finally(function (data) {
                             console.log('finally. ');
-                            console.log(data);
+                            console.log($scope.item);
+                            console.log(!$scope.item.hasOwnProperty('news'));
                             $rootScope.loading = false;
-                            $rootScope.error = _this.item.hasOwnProperty('news');
+                            $rootScope.error = !$scope.news;
                         })
                         .catch(function () {
                             console.log('catch. news. error');
@@ -89,7 +96,7 @@ angular
                         .then(function (obj) {
 //                            console.log(obj);
                             angular.forEach(obj.data.response.news, function (_item) {
-                                _this.item.news.unshift(_item);
+                                $scope.news.unshift(_item);
                             });
                         })
                         .finally(function (data) {
@@ -106,7 +113,7 @@ angular
                         .then(function (obj) {
 //                            console.log(obj);
                             angular.forEach(obj.data.response.news, function (_item) {
-                                _this.item.news.push(_item);
+                                $scope.news.push(_item);
                             });
                         })
                         .finally(function (data) {
@@ -132,7 +139,6 @@ angular
                         $scope.getNewsAfterId(_news.last);
                     }
                 });
-
                 $scope._scroll2 = new IScroll('#wrapper2', {click: true, preventDefault: true});
                 $scope._scroll2.on('beforeScrollStart', function () {
                         this.refresh();
