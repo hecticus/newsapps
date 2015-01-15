@@ -93,7 +93,7 @@
 	      		next: '/points',
 	      		contentClass: 'content-friends'
 	    	})
-
+ 
 			.when('/points', {
 	      		controller:'pointsCtrl  as _this',
 	      		templateUrl:'points.html',
@@ -115,18 +115,7 @@
 	    	});
 		}) 
 		
-		.directive('myScroll', function() {
-			return function(scope, element, attrs) {
-			    
-		    if (scope.$last){	    	
-		      	_scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();		
-				});	      
-		    }
-		    
-		  };
-		})
+
 
 		.directive('loading', function () {
 			
@@ -292,7 +281,22 @@
 					        navigator.device.exitApp();				            				          
 					   }					   
             		}
-            	}
+            	},
+            	
+            	newScroll: {
+            		vertical: function (_wrapper) {            			
+						window[_wrapper] = new IScroll('#' + _wrapper,{click:true, preventDefault:true});		
+						window[_wrapper].on('beforeScrollStart', function () {
+							this.refresh();		
+						});					
+            		},
+            	},
+            	
+            	
+            	
+            	
+            	
+            	
         	};
     	})
 
@@ -497,10 +501,45 @@
 			$rootScope.loading = false;  			
 		}])
  
- 		.controller('livescoreCtrl', ['$http','$rootScope', function($http, $rootScope) {			
-			$rootScope.error = true;	        	
-			$rootScope.loading = false;
+ 
+ 
+ 		.controller('livescoreCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {		
+			
+			
+				var _this = this;		
+ 				var _angular =  angular.element;
+				
+				_this.date = utilities.moment().format('dddd Do YYYY');
+							
+				_this.getTime = function(_date) {
+					return utilities.moment(_date).format('H:MM');
+				};
+
+				$http({method: 'GET', url: domain.match(utilities.moment().format('YYYYMMDD'),100,0)}).then(function(obj) {
+					_this.item =  obj.data.response;
+				}).finally(function(data) {
+  					$rootScope.loading = false;  					
+  					$rootScope.error = utilities.error();
+				});
+
+				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
+					//console.log('onRepeatFirst');
+ 		    	});
+ 		
+ 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
+ 					//console.log('onRepeatLast');								
+				});
+			
+			
+			 	var _scroll = new IScroll('#wrapper', {click:true, preventDefault:true, bounce: true,  probeType: 2});
+				_scroll.on('beforeScrollStart', function () {
+					this.refresh();						
+				});
+	
 		}])
+ 
+ 
  
  		.controller('scorersCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
@@ -508,6 +547,13 @@
  				var _this = this;
 				var _promise = false;
 				var _element =  angular.element;
+
+				_this.wrapper = {
+					name:'wrapperV', 
+					getName : function(_index) {
+						return this.name + _index;
+					} 
+				};
 
 				_this.width = window.innerWidth;
 				_this.widthTotal = (window.innerWidth * 11);
@@ -541,6 +587,12 @@
 				
 				_scroll.on('beforeScrollStart', function () {
 					this.refresh();						
+				});	
+					
+				$scope.$on('onRepeatLast', function(scope, element, attrs) {
+					angular.forEach(_this.item.leagues, function(_item, _index) {							
+						utilities.newScroll.vertical(_this.wrapper.getName(_index));
+					});			
 				});	
 							
 		}])
@@ -628,146 +680,148 @@
  		.controller('matchCtrl',  ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
-				var _this = this;		
-				var _promise = false;
-				var _angular =  angular.element;
-				var _limit = 2;
-				var _date = utilities.moment().format('YYYYMMDD');
-				var _currentPage = 0;
-				var _goToPage = true;
+ 				var _this = this;		
+ 				var _angular =  angular.element;
+				var _limit = 100;
+ 				var _currentPage = 0;
+ 				var _start = true;				
+				var _index = 0;
 				
-			
+				_this.wrapper = {
+					name:'wrapperV', 
+					getName : function(_index) {
+						return this.name + _index;
+					} 
+				};
+				
+				_this.getTime = function(_date) {
+					return utilities.moment(_date).format('H:MM');
+				};
 				
 				
 				
+				
+ 				_this.pagesBefore = [];
+				_this.pagesAfter = [];
+				
+				_this.pages = [
+					{name: utilities.moment().subtract(2, 'days').format('LL'), date:utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
+					{name:'Ontem', date:utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
+					{name:'Hoje', date:utilities.moment().format('YYYYMMDD')},
+					{name:'Amanha', date:utilities.moment().add(1, 'days').format('YYYYMMDD')},
+					{name: utilities.moment().add(2, 'days').format('LL'), date:utilities.moment().add(2, 'days').format('YYYYMMDD')},
+ 				];
 				
 				_this.width = window.innerWidth;
-				
-			
-				_this.pages = [
-					{name:'Ontem'},
-					{name:'Hoje'},
-					{name:'Amanha'},
-				];
-				
-				
-				
-
-
 				_this.widthTotal = (window.innerWidth * _this.pages.length);
 				
-				var _scroll = new IScroll('#wrapperH', { 
-					scrollX: true, 
+				angular.forEach(_this.pages, function(_item, _index) {
+					$http({method: 'GET', url: domain.match(_item.date,_limit,0)})
+					.then(function(obj) {						
+						_this.pages[_index].matches =  obj.data.response;			
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error();
+					});
+				});
+				
+
+ 				var _scroll = new IScroll('#wrapperH', { 
+ 					scrollX: true, 
 					scrollY: false, 
-					mouseWheel: false, 
-					momentum: false,
-					snap: true,
-					snapSpeed: 1000,
-					probeType: 3,
-					bounce: false,
-				});
-				
-
-				
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();				
-				});	
-				
-				_scroll.on('scrollStart', function () {
-					_currentPage = this.currentPage.pageX;
-				});
-				
-				_scroll.on('scroll', function () {
-
-					if (this.currentPage.pageX != _currentPage) {
-
-						if (_currentPage < this.currentPage.pageX) {
-							
-							if (this.currentPage.pageX  == (_this.pages.length - 1)) {
-								$scope.$apply(function () {	
-							 		_this.pages.push({name: utilities.moment().add((_this.pages.length - 1), 'days').format('MMM Do YY')});							 		
-									_this.widthTotal = (window.innerWidth * _this.pages.length);
-								});
-							};
-							
-						} else {
-							
-							/*if (this.currentPage.pageX == 0)  {
-								$scope.$apply(function () {
-									_this.pages.unshift({name: utilities.moment().subtract(1, 'days').format('MMM Do YY')});
-									_this.widthTotal = (window.innerWidth * _this.pages.length);
-								});
-							}*/
-
-						}
-
-						_currentPage = this.currentPage.pageX;
-
-					};
-				});
-				
-				_scroll.on('scrollEnd', function () {
-					//this.refresh();
-				});
-		
-				$scope.$on('onRepeatLast', function(scope, element, attrs) {
-					
+ 					mouseWheel: false, 
+ 					momentum: false,
+ 					snap: true,
+					snapSpeed: 700,
+ 					probeType: 3,
+ 					bounce: false
+ 				});
 	
-					if (_goToPage) {
-						_scroll.refresh();				
-						_scroll.goToPage(1,0);				
-						_goToPage = false;						
-					}	
-						
-			    });
-				
-				 $rootScope.loading = false;  	
-				 
-
-				/*_promise = $http({method: 'GET', url: domain.match(_date,_limit,0)});
-				_promise.then(function(obj) {
-					_this.item =  obj.data.response;
-				}).finally(function(data) {
-  					$rootScope.loading = false;  					
-  					$rootScope.error = utilities.error();
-				});
-				
-				var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-				_scroll.on('beforeScrollStart', function () {
+ 				_scroll.on('beforeScrollStart', function () {
 					this.refresh();						
-				});
+ 					//_unshift= false;			
+ 				});	
+ 				
+ 				_scroll.on('scrollStart', function () {
+ 					_currentPage = this.currentPage.pageX;
+ 				});
 
 				_scroll.on('scroll', function () {
+ 	
+ 					if (this.currentPage.pageX != _currentPage) {
 
+ 						if (this.currentPage.pageX  == (_this.pages.length - 1)) {
 
+							_index = _this.pagesAfter.length + 3;		
+							_this.pagesAfter.push(
+								{
+									name: utilities.moment().add(_index, 'days').format('LL'), 
+								 	date: utilities.moment().add(_index, 'days').format('YYYYMMDD')
+								}
+							);
 	
-		            if (this.y <= this.maxScrollY) {
-		            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-		            			 
-							var _page = (_angular('div.match').length * _limit);
+					 		_this.pages.push((_this.pagesAfter[_this.pagesAfter.length - 1]));							 		
+							_this.widthTotal = (window.innerWidth * _this.pages.length);								
+						
+							$rootScope.loading = true;  
 							
-							console.log(domain.match(_date,_limit,_page));
+							_index = _this.pages.length - 1;
 							
-	            			$rootScope.loading = true;
-	            			_promise = $http({method: 'GET', url: domain.match(_date,_limit,_page)});
-							_promise.then(function(obj) {
-								angular.forEach(obj.data.response.leagues, function(_item, _index) {	
-									_this.item.leagues.push(_item);								
-								});
-								
-								
-								_scroll.refresh();								
+							$http({method: 'GET', url: domain.match(_this.pages[_index].date,_limit,0)}).then(function(obj) {
+								_this.pages[_index].matches =  obj.data.response;										
+								utilities.newScroll.vertical(_this.wrapper.getName(_index));
 							}).finally(function(data) {
-								$rootScope.loading = false;  									  					
+			  					$rootScope.loading = false;  					
+			  					$rootScope.error = utilities.error();
 							});
 
-						}		
-					}
+ 						} 
 
+ 						_currentPage = this.currentPage.pageX;
+ 						
+ 					}
+
+ 				});
+
+				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
+					//console.log('onRepeatFirst');
+ 		    	});
+ 		
+ 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
+ 					//console.log('onRepeatLast');		
+					if (_start) {
+																	
+ 						_scroll.refresh();				
+						_scroll.goToPage(2,0);			
+						_start = false;	
+
+						angular.forEach(_this.pages, function(_item, _index) {							
+							utilities.newScroll.vertical(_this.wrapper.getName(_index));
+						});
+ 			
+					};					
 				});
-			*/
+				
 
 		}])
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
