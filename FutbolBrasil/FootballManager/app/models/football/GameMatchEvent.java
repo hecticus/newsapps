@@ -40,11 +40,9 @@ public class GameMatchEvent extends HecticusModel {
 
     private Long extId;
 
-    private static Model.Finder<Long,GameMatchEvent> finder = new
-                   Model.Finder<Long,GameMatchEvent>(Long.class,GameMatchEvent.class);
+    public static Model.Finder<Long,GameMatchEvent> finder = new Model.Finder<Long,GameMatchEvent>(Long.class,GameMatchEvent.class);
 
-    public GameMatchEvent(GameMatch gameMatch, Period period, Action action, Team team, String playerA, String playerB,
-                          Integer actionMinute, String date, Integer _sort, Long extId) {
+    public GameMatchEvent(GameMatch gameMatch, Period period, Action action, Team team, String playerA, String playerB, Integer actionMinute, String date, Integer _sort, Long extId) {
         this.gameMatch = gameMatch;
         this.period = period;
         this.action = action;
@@ -145,8 +143,7 @@ public class GameMatchEvent extends HecticusModel {
         this.extId = extId;
     }
 
-    public static List<GameMatchEvent> getList(GameMatch match,String action,
-                                               String period,String tstart, String tend, int lastMinute){
+    public static List<GameMatchEvent> getList(GameMatch match,String action, String period,String tstart, String tend, int lastMinute){
 
         ExpressionList<GameMatchEvent> expr = finder.where().eq("gameMatch", match);
         if(!action.isEmpty()){
@@ -182,5 +179,26 @@ public class GameMatchEvent extends HecticusModel {
         json.put("date",date);
         json.put("_sort",_sort);
         return json;
+    }
+
+    public void validate() {
+        GameMatchEvent tr = finder.where().eq("extId", this.extId).findUnique();
+        if (tr != null) {
+            //existe
+            this.idGameMatchEvents = tr.idGameMatchEvents;
+            this.gameMatch = tr.gameMatch;
+            this.period = tr.period;
+            this.action = tr.action;
+            this.team = tr.team;
+            this.playerA = tr.playerA;
+            this.playerB = tr.playerB;
+            this.actionMinute = tr.actionMinute;
+            this. date = tr.date;
+            this._sort = tr._sort;
+            this.extId = tr.extId;
+
+        } else {
+            this.save();
+        }
     }
 }

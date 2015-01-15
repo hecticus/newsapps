@@ -12,8 +12,7 @@ import java.util.List;
  * Created by karina on 5/20/14.
  */
 @Entity
-@Table(name="periods",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"name","short_name"}))
+@Table(name="periods", uniqueConstraints = @UniqueConstraint(columnNames = {"name","short_name"}))
 public class Period extends HecticusModel {
     @Id
     private Integer idPeriods;
@@ -70,6 +69,19 @@ public class Period extends HecticusModel {
 
     public static Period findByShotName(String sn){
         return finder.where().eq("shortName",sn).findUnique();
+    }
+
+    public void validate() {
+        Period tr = findByShotName(this.shortName);
+        if (tr != null) {
+            //existe
+            this.idPeriods = tr.idPeriods;
+            this.name = tr.name;
+            this.shortName = tr.shortName;
+            this.extId = tr.extId;
+        } else {
+            this.save();
+        }
     }
 
     @Override
