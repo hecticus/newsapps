@@ -284,13 +284,36 @@
             	},
             	
             	newScroll: {
-            		vertical: function (_wrapper) {            			
+            		horizontal: function (_wrapper) {
+            			
+            			window[_wrapper] = new IScroll('#' + _wrapper, { 
+		 					scrollX: true, 
+							scrollY: false, 
+		 					mouseWheel: false, 
+		 					momentum: false,
+		 					snap: true,
+							snapSpeed: 700,
+		 					probeType: 3,
+		 					bounce: false
+ 						});
+	
+						window[_wrapper].on('beforeScrollStart', function () {
+							this.refresh();		
+						});	
+						
+						return window[_wrapper];	
+
+            		}
+            		
+            		,vertical: function (_wrapper) {  
+            			          			
 						window[_wrapper] = new IScroll('#' + _wrapper, {click:true,preventDefault:true, bounce: true,  probeType: 2});		
 						window[_wrapper].on('beforeScrollStart', function () {
 							this.refresh();		
 						});	
 						
-						return window[_wrapper];				
+						return window[_wrapper];	
+									
             		},
             	},
             	
@@ -566,20 +589,7 @@
 					}); 					
  				}
  				
-				var _scroll = new IScroll('#wrapperH', { 
-					scrollX: true, 
-					scrollY: false, 
-					mouseWheel: true, 
-					momentum: false,
-					snap: true,
-					snapSpeed: 1000,
-					probeType: 3,
-					bounce: false,
-				});
-				
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
-				});	
+ 				var _scroll = utilities.newScroll.horizontal('wrapperH');
 					
 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
 					angular.forEach(_this.item.leagues, function(_item, _index) {							
@@ -707,22 +717,8 @@
 					});
 				});
 				
-
- 				var _scroll = new IScroll('#wrapperH', { 
- 					scrollX: true, 
-					scrollY: false, 
- 					mouseWheel: false, 
- 					momentum: false,
- 					snap: true,
-					snapSpeed: 700,
- 					probeType: 3,
- 					bounce: false
- 				});
-	
- 				_scroll.on('beforeScrollStart', function () {
-					this.refresh();								
- 				});	
- 				
+				var _scroll = utilities.newScroll.horizontal('wrapperH');
+	 				
  				_scroll.on('scrollStart', function () {
  					_currentPage = this.currentPage.pageX;
  				});
