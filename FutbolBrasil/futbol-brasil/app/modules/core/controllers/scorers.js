@@ -8,29 +8,29 @@
 */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope','$state','$localStorage','Domain','Utilities',
-      function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities) {
+    .controller('ScorersCtrl',  ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
+      function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
 
         var _this = this;
-        var _promise = false;
         var _element =  angular.element;
 
-        _this.width = window.innerWidth;
-        _this.widthTotal = (window.innerWidth * 11);
+        _this.width = $window.innerWidth;
+        _this.widthTotal = ($window.innerWidth * 11);
 
           if ($rootScope.$storage.scorers) {
             _this.item = JSON.parse($rootScope.$storage.scorers);
             $rootScope.loading = false;
             $rootScope.error = Utilities.error(_this.item.leagues,'scorers');
           } else {
-            _promise = $http({method: 'GET', url: Domain.scorers()});
-          _promise.then(function(obj) {
-            _this.item =  obj.data.response;
-            $rootScope.$storage.scorers = JSON.stringify(obj.data.response);
-          }).finally(function(data) {
-              $rootScope.loading = false;
-              $rootScope.error = Utilities.error(_this.item.leagues,'scorers');
-          });
+            $http({method: 'GET', url: Domain.scorers()})
+                .then(function(obj) {
+                    _this.item =  obj.data.response;
+                    $rootScope.$storage.scorers = JSON.stringify(obj.data.response);
+                })
+                .finally(function(data) {
+                  $rootScope.loading = false;
+                  $rootScope.error = _this.item.leagues.hasOwnProperty('news');
+                });
           }
 
         var _scroll = new IScroll('#wrapperH', {
@@ -41,7 +41,7 @@ angular
           snap: true,
           snapSpeed: 1000,
           probeType: 3,
-          bounce: false,
+          bounce: false
         });
 
         _scroll.on('beforeScrollStart', function () {

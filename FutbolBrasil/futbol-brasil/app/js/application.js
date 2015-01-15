@@ -10,8 +10,7 @@ angular
             $locationProvider.hashPrefix('!');
         }
     ])
-    .run(function($rootScope, $localStorage, $http, Domain) {
-      //TODO mover el GET a MainCtrl y convertir Domain en constant
+    .run(function($rootScope, $localStorage, $state) {
 
       $rootScope.contentClass = 'content-init';
       $rootScope.$storage = $localStorage.$default({
@@ -22,10 +21,24 @@ angular
         competitions:false,
       });
 
+      $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.loading = false;
+        $rootScope.error = false;
 
-      $http({method: 'GET', url:Domain.competitions()}).success(function(obj){
-      //TODO revisar esta linea ngStorage
-        $rootScope.$storage.competitions = JSON.stringify(obj.response);
+        loadClientMSISDN();
+        if(!clientMSISDN){
+          console.log('User not Authenticated');
+          if(toState.name !== 'login'){
+            $state.go('login');
+          }
+        }
+      });
+
+      $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.loading = true;
+        if (toState.data.contentClass){
+          $rootScope.contentClass = toState.data.contentClass;
+        }
       });
 
     })
@@ -37,7 +50,5 @@ angular
         if (window.location.hash === '#_=_') {
             window.location.hash = '#!';
         }
-        angular
-            .bootstrap(document,
-                [ApplicationConfiguration.applicationModuleName]);
+        angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
     });

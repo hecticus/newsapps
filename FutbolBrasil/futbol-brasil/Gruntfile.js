@@ -193,7 +193,7 @@ module.exports = function(grunt) {
                     multiline: true
                 },
                 src: [ 'www/scripts/custom.js']
-            },
+            }
         },
 
         //Injects all the scripts into the index html file
@@ -201,7 +201,7 @@ module.exports = function(grunt) {
             options: {
                 addRootSlash: false,
                 ignorePath: 'app/',
-                bowerPrefix: 'bower',
+                bowerPrefix: 'bower'
             },
             localDependencies: {
                 files: {
@@ -221,7 +221,7 @@ module.exports = function(grunt) {
             },
             bowerDependencies: {
                 files: {
-                    'app/index.html': ['bower.json'],
+                    'app/index.html': ['bower.json']
                 }
             },
             karmaDependencies: {
@@ -232,7 +232,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'karma.conf.js': ['bower.json'],
+                    'karma.conf.js': ['bower.json']
                 }
             }
         },

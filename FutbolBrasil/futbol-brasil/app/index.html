@@ -49,8 +49,7 @@
       </div>
     </header>
 
-    <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" >
-    </div>
+    <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
 
     <loading></loading>
     <error></error>
@@ -149,7 +148,7 @@
         <script src="lib/moment/moment.js"></script>
         <script src="lib/bootstrap-material-design/dist/js/material.js"></script>
         <script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
-        <script src="lib/iscrolltest/build/iscroll.js"></script>
+        <script src="lib/iscrolltest/build/iscroll-probe.js"></script>
         <!-- endinjector -->
     <!-- endbuild -->
 
@@ -165,10 +164,15 @@
         <script src="js/application.js"></script>
         <script src="modules/core/core.js"></script>
         <script src="modules/core/config/routes.js"></script>
+        <script src="modules/core/services/cordova-app.js"></script>
+        <script src="modules/core/services/cordova-device.js"></script>
+        <script src="modules/core/services/cordova-ready.js"></script>
         <script src="modules/core/services/domain.js"></script>
         <script src="modules/core/services/utilities.js"></script>
         <script src="modules/core/directives/error.js"></script>
         <script src="modules/core/directives/loading.js"></script>
+        <script src="modules/core/directives/my-scroll.js"></script>
+        <script src="modules/core/directives/on-last-repeat.js"></script>
         <script src="modules/core/controllers/friends.js"></script>
         <script src="modules/core/controllers/leaderboard.js"></script>
         <script src="modules/core/controllers/live-score.js"></script>
@@ -182,9 +186,6 @@
         <script src="modules/core/controllers/standings.js"></script>
         <!-- endinjector -->
     <!-- endbuild -->
-
-    <script src="js/index.js"></script>
-    <script src="js/utilities.js"></script>
 
   </body>
 </html>

@@ -17,50 +17,28 @@
  * under the License.
  */
 var app = {
-    // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
 
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+        document.addEventListener('touchmove'
+          , function (e) {
+              e.preventDefault();
+            }
+          , false);
     },
 
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
     },
 
-    // Update DOM on a Received Event
     receivedEvent: function(id) {
-
     	if (id == 'deviceready') {
-	    	//Image Cache
-	    	ImgCache.options.debug = true;
-	    	ImgCache.options.localCacheFolder = 'FutebolBrasil';
-        ImgCache.options.usePersistentCache = true;
-        ImgCache.options.cacheClearSize = 5;
-        ImgCache.init();
-
-//			//FB
-//			console.log("preFB");
-//			//initFacebookManager();
-//			//getFBLoginStatus();
-//			console.log("postFB");
-
         document.addEventListener('backbutton', function(e) {
           _app.get('utilities').back_button();
         }, false);
-
-		    //setTimeout(function(){app.initAllAppData();},10);
     	}
 
     },

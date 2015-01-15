@@ -29,8 +29,8 @@ angular
                 templateUrl:'/modules/core/views/login.html',
                 controller:'LoginCtrl as login',
                 data:{
-                  prev: '/login',
-                  next: '/login',
+                  prev: 'login',
+                  next: 'login',
                   _class: 'content-login'
                 }
             })
@@ -89,8 +89,8 @@ angular
                 controller:'LeaderboardCtrl  as _this',
                 templateUrl:'modules/core/views/leaderboard.html',
                 data:{
-                  prev: '/prediction',
-                  next: '/friends',
+                  prev: 'prediction',
+                  next: 'friends',
                   contentClass: 'content-leaderboard'
                 }
             })

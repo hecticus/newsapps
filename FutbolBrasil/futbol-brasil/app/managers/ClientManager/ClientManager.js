@@ -7,7 +7,7 @@ var clientOBJ = {};
 
 function initClientManager(callback, errorCallback){
 	try
-	{ 
+	{
 		loadClientID();
 		console.log("INIT CLIENT: "+clientID+" msisdn:"+clientMSISDN);
 		if(clientID != null && clientID != ""){
@@ -18,32 +18,32 @@ function initClientManager(callback, errorCallback){
 			callback(false, 2); //periodo de pruebas mientras pone su informacion
 		}
     }
-	catch(err) 
-	{ 
-		txt="There was an error on this page.\n\n"; 
-		txt+="Error description: " + err.message + "\n\n"; 
+	catch(err)
+	{
+		txt="There was an error on this page.\n\n";
+		txt+="Error description: " + err.message + "\n\n";
 		console.log(txt);
 		errorCallback();
-		//alert(txt); 
+		//alert(txt);
 	}
 }
 
 //Si ya tenemos el cliente creado entonces enviamos la info del regID, sino, esperamos que lo haga cuando se suscriba y ya
 function updateRegistrationID(){
 	try
-	{ 
+	{
 		loadClientID();
 		if(clientID != null && clientID != ""){
 			if(hasToUpdateRegID()){
 				loadClientMSISDN();
 				//solo actualizamos el regID, lo demas lo dejamos como esta
-				createOrUpdateClient(clientMSISDN,null,false,nocallback,nocallback);
+				createOrUpdateClient(clientMSISDN,null,false,doNothing,doNothing);
 			}
 		}
     }
-	catch(err) 
-	{ 
-		
+	catch(err)
+	{
+
 	}
 }
 
@@ -58,7 +58,7 @@ function saveClientID(response, password) {
 		clientOBJ.user_id = response.user_id;
 		clientOBJ.login = response.login;
 		if(password != null && password != ""){ clientOBJ.password = password; }
-        
+
 		clientID = clientOBJ.id_client;
 		window.localStorage.setItem(FILE_KEY_CLIENT_ID,JSON.stringify(clientOBJ));
 		//mandamos a guardar tambien el reg ID
@@ -80,7 +80,7 @@ function loadClientID() {
 				clientOBJ = JSON.parse(clientString);
 				clientID = clientOBJ.id_client;
 			}catch(e){
-				
+
 			}
 		}
 	}
@@ -142,7 +142,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 			device_id = 1;
 			upstreamChannel = "Android";
 		}
-		
+
 		var login = msisdn;
 
 		//Cargamos info de devices (se necesita pasar el ID y no el nombre por el WS de play, quizas esto no sea una buena idea si se migra la BD)
@@ -155,7 +155,7 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		}else{
 			//Si no tenemos informacion del push no hacemos nada diferente, seguimos y esperamos que cuando llege se mande a actualizar
 		}
-		
+
 		//formamos la data a enviar
 		jData.country = country;
 		if(login != null && login != "")
@@ -163,24 +163,24 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		if(clientPassword != null && clientPassword != "")
 			jData.password = clientPassword;
 		jData.upstreamChannel = upstreamChannel;
-		
+
 		//Dependiendo del caso hacemos create o update
 		if(clientID != null && clientID != ""){
 			//agregamos el device
 			jData.add_devices = devices;
-			
+
 			//si viene para suscribir pasamos el flag
 			if(subscribe){
 				jData.subscribe = true;
 			}
-			
+
 			//hacemos update
 			var urlUpdateClients = _url+"/futbolbrasil/v1/clients/update";
 			urlUpdateClients = urlUpdateClients+"/"+clientID;
-			
+
 			$.ajax({
 				url : urlUpdateClients,
-				data: JSON.stringify(jData),	
+				data: JSON.stringify(jData),
 				type: 'POST',
 				headers: getHeaders(),
 				contentType: "application/json; charset=utf-8",
@@ -227,14 +227,14 @@ function createOrUpdateClient(msisdn, password, subscribe, callback, errorCallba
 		}else{
 			//agregamos el device al json
 			jData.devices = devices;
-			
+
 			console.log("ENVIO: "+JSON.stringify(jData));
-			
+
 			//creamos un client usando el msisdn y el regID que tenemos
 			var urlCreateClients = _url+"/futbolbrasil/v1/clients/create";
 			$.ajax({
 				url : urlCreateClients,
-				data: JSON.stringify(jData),	
+				data: JSON.stringify(jData),
 				type: 'POST',
 				headers: getHeaders(),
 				contentType: "application/json; charset=utf-8",
@@ -297,12 +297,12 @@ function getClientStatus(callback, errorCallback){
 		//ANDROID
 		upstreamChannel = "Android";
 	}
-	
+
 	//hacemos get
 	var urlGetClients = _url+"/futbolbrasil/v1/clients/get";
 	urlGetClients = urlGetClients+"/"+clientID;
 	urlGetClients = urlGetClients+"/"+upstreamChannel;
-	
+
 	$.ajax({
 		url : urlGetClients,
 		type: 'GET',
