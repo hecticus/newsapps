@@ -10,7 +10,7 @@ angular
             $locationProvider.hashPrefix('!');
         }
     ])
-    .run(function($rootScope, $localStorage, $state) {
+    .run(function($rootScope, $localStorage, $state, ClientManager) {
 
       $rootScope.contentClass = 'content-init';
       $rootScope.$storage = $localStorage.$default({
@@ -25,13 +25,13 @@ angular
         $rootScope.loading = false;
         $rootScope.error = false;
 
-        loadClientMSISDN();
-        if(!clientMSISDN){
-          console.log('User not Authenticated');
-          if(toState.name !== 'login'){
-            $state.go('login');
-          }
-        }
+//        ClientManager.loadClientMSISDN();
+//        if(!ClientManager.clientMSISDN){
+//          console.log('User not Authenticated');
+//          if(toState.name !== 'login'){
+//            $state.go('login');
+//          }
+//        }
       });
 
       $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {

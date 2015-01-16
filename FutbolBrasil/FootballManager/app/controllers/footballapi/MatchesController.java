@@ -249,74 +249,44 @@ public class MatchesController extends HecticusController {
         }
     }
 
-    /*public static Result getCalendarForCompetition(Integer idApp, Integer idCompetition, String date, Long idPhase, String operator){
+    public static Result getMinuteToMinuteForCompetition(Integer idApp, Integer idCompetition, Long idMatch, Long idEvent, Boolean forward){
         try {
             ObjectNode response = null;
+            ArrayList<ObjectNode> responseData = new ArrayList();
             Competition competition = Competition.getCompetitionByApp(idApp, idCompetition);
             if(competition != null){
-                List<GameMatch> gameMatches = null;
-                if(competition.getType().getType() == 0) {//LIGA
-                    if(date != null && !date.isEmpty() && operator != null && !operator.isEmpty()){
-                        gameMatches = GameMatch.findAllByIdCompetitionAndDate(competition.getIdCompetitions(), date, operator);
-                    } else if(idPhase > 0 && operator != null && !operator.isEmpty()){
-                        gameMatches = GameMatch.findAllByIdCompetitionAndPhase(competition.getIdCompetitions(), idPhase, operator);
+                GameMatch gameMatch = GameMatch.findById(idMatch);
+                if(gameMatch != null){
+                    List<GameMatchEvent> events = null;
+                    if(idEvent == 0){
+                        events = gameMatch.getEvents();
                     } else {
-                        gameMatches = GameMatch.findAllByIdCompetitionOrderedByDate(competition.getIdCompetitions());
-                    }
-                } else if(competition.getType().getType() == 1){//ARBOL
-                    List<Phase> phases = null;
-                    Phase phase = null;
-                    if(operator.equalsIgnoreCase("gt")){
-                        //next
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("nivel", phase.getNivel()+1).findList();
-                    } else if(operator.equalsIgnoreCase("lt")){
-                        //previous
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("nivel", phase.getNivel()-1).findList();
-                    } else {
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("globalName", phase.getGlobalName()).findList();
-                    }
-
-                    if(phases != null && !phases.isEmpty()) {
-                        gameMatches = GameMatch.finder.where().in("phase", phases).orderBy("phase asc").findList();
-                    }
-
-                }
-
-                ArrayList<JsonNode> calendar = new ArrayList<>();
-                if(gameMatches != null && !gameMatches.isEmpty()) {
-                    ArrayList<ObjectNode> day = new ArrayList<>();
-                    GameMatch pivot = gameMatches.get(0);
-                    for (GameMatch gameMatch : gameMatches) {
-                        if(gameMatch.getDate().startsWith(pivot.getDate().substring(0, 8))){
-                            day.add(gameMatch.toJson());
+                        if(forward){
+                            events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).gt("idGameMatchEvents", idEvent).orderBy("id_game_match_events asc").findList();
                         } else {
-                            calendar.add(Json.toJson(day));
-                            day.clear();
-                            pivot = gameMatch;
-                            day.add(gameMatch.toJson());
+                            events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).lt("idGameMatchEvents", idEvent).orderBy("id_game_match_events desc").findList();
                         }
                     }
-                    calendar.add(Json.toJson(day));
+                    if(events != null & !events.isEmpty()) {
+                        for (GameMatchEvent gameMatchEvent : events) {
+                            responseData.add(gameMatchEvent.toJson());
+                        }
+                        response = hecticusResponse(0, "ok", "actions", responseData);
+                    } else {
+                        response = buildBasicResponse(1, "No hay eventos para el partido " + idMatch);
+                    }
+                } else {
+                    response = buildBasicResponse(2, "El partido " + idMatch + " no existe");
                 }
-//                ObjectNode dataJson = Json.newObject();
-//                dataJson.put("tree", competitionByApp.getType().getType() == 1);
-//                dataJson.put("days", Json.toJson(calendar));
-//                response = hecticusResponse(0, "ok", dataJson);
-                response = hecticusResponse(0, "ok", "days", calendar);
             } else {
-                response = buildBasicResponse(1, "la competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp);
+                response = buildBasicResponse(3, "La competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp);
             }
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
-    }*/
-
-
+    }
 
 
 }

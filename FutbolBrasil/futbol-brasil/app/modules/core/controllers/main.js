@@ -13,15 +13,12 @@ angular
 
         $rootScope.$storage = $localStorage;
 
-        $rootScope.menuClass = function(_page) {
-        var _current = $location.path().substring(1);
-        return _page === _current ? "active" : "";
+        $scope.isActive = function(className){
+            return $state.current.name === className;
         },
 
         $rootScope.showSection = function(_section) {
-            angular.element('.section').removeClass('active');
-            angular.element('[data-section="' + _section + '"]').addClass('active');
-            $location.path('/' + _section);
+            $state.go(_section);
         },
 
         $rootScope.nextPage = function() {
@@ -31,13 +28,11 @@ angular
         },
 
         $rootScope.prevPage = function() {
-
+            //TODO $state.go();
             if (angular.element('#wrapper3').hasClass('left')) {
                 angular.element('#wrapper3').attr('class','page transition right');
             } else if (angular.element('#wrapper2').hasClass('left')) {
                 angular.element('#wrapper2').attr('class','page transition right');
-            } else {
-                //$location.path($state.current.prev);
             }
 
         },
@@ -60,9 +55,7 @@ angular
 
         //TODO not being used
         $rootScope.removeArrow = function(_item, _param) {
-
             var _count = -1;
-
             angular.forEach(_item, function(_item) {
                 if (eval('_item.' + _param)) {
                     if (eval('_item.' + _param + '.length > 0')) {
@@ -70,18 +63,13 @@ angular
                     }
                 }
             });
-
             return _count;
 
         },
 
         $rootScope.removeElement = function(_item) {
             if (_item) {
-                if (_item.length > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return _item.length > 0;
             } else {
                 return false;
             }

@@ -1,49 +1,43 @@
+<div>
+    <div id="wrapper" ng-class="{hide: !isActive('news')}">
+        <div class="scroller">
+            <div class="container" >
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"
+                         ng-repeat="item in news"
+                         ng-click="showContentNews(item)" data-news="{{ item.idNews }}" on-last-repeat>
+                        <h5 class="title">{{item.title}}</h5>
+                        <i class="icon mdi-device-access-time"></i>
+                        <span class="moment">{{fromNow(item.publicationDate)}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div id="wrapper">
-			<div class="scroller">
-				<div class="container" >
+    <div id="wrapper2" class="page" style="z-index: 2; left: 100%;" >
+        <div class="row-back" ng-click="prevPage()">
+            <div class="row" style="margin-top: 10px !important;">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+                    <i class="icon mdi-navigation-arrow-back" style="font-size: 1.8em; margin-left: 10px;"></i>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right;" >
+                    <i class="icon mdi-social-share" style="font-size: 1.8em; margin-right: 10px;" ></i>
+                </div>
+            </div>
+        </div>
 
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"
-                 ng-repeat="item in _this.item.news"
-                 ng-click="_this.showContentNews(item)" data-news="{{ item.idNews }}" on-last-repeat >
-							<h5 class="title">{{item.title}}</h5>
-							<i class="icon icon-material-access-time"></i>
-              &nbsp;
-              <span class="moment">{{_this.fromNow(item.publicationDate)}}</span>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-		<div id="wrapper2" class="page" style="left: 100%;" >
-			<div class="scroller">
-				<div class="container" >
-					<div class="row" style="margin-top: 32px !important;" >
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"  >
-							<h3 class="title">{{contentNews.title}}</h3>
-							<i class="icon icon-material-access-time" ></i>
-              &nbsp;
-              <span class="moment">{{_this.fromNow(contentNews.publicationDate)}}</span>
-							<p class="body">{{contentNews.body}}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="row-back" ng-click="prevPage()">
-				<div class="row" style="margin-top: 10px !important;">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-						<i class="icon icon-material-keyboard-arrow-left" style="font-size: 1.8em; margin-left: 10px;"></i>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right;" >
-						<i class="icon icon-material-share-alt" style="font-size: 1.8em; margin-right: 10px;" ></i>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
+        <div class="scroller">
+            <div class="container" >
+                <div class="row" style="margin-top: 32px !important;" >
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"  >
+                        <h3 class="title">{{contentNews.title}}</h3>
+                        <i class="icon mdi-device-access-time"></i>
+                        <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
+                        <p class="body">{{contentNews.body}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -413,17 +413,16 @@ public class DataFactoryScraper extends HecticusThread {
     }
 
     private void parseMinaMin(String fileRoute){
-        DocumentBuilderFactory builderFactory =
-                DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         try {
             builder = builderFactory.newDocumentBuilder();
             Document document = builder.parse(new FileInputStream(fileRoute));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             //get idcompetition
-            String extIdTorneo = xPath.compile("campeonato/@id").evaluate(document),
-                    nombreTorneo = xPath.compile("campeonato").evaluate(document),
-                    extIdPartido = xPath.compile("ficha/fichapartido/partido/@id").evaluate(document);
+            String extIdTorneo = xPath.compile("ficha/campeonato/@id").evaluate(document),
+                    nombreTorneo = xPath.compile("ficha/campeonato").evaluate(document),
+                    extIdPartido = xPath.compile("ficha/fichapartido/@id").evaluate(document);
                     //idPartido = xPath.compile("ficha/fichapartido/partido").evaluate(document);
 
             //categoria
@@ -440,6 +439,7 @@ public class DataFactoryScraper extends HecticusThread {
             GameMatch currentGameMatch = GameMatch.findByIdExternal(extIdPartido);
             if (currentGameMatch != null) {
                 //continue
+                String matchDate = xPath.compile("ficha/fichapartido/@dia").evaluate(document);
                 NodeList equipos = (NodeList) xPath.compile("ficha/fichapartido/equipo").evaluate(document, XPathConstants.NODESET);
                 if (equipos.getLength() > 0) {
                     //team a
@@ -455,29 +455,48 @@ public class DataFactoryScraper extends HecticusThread {
                     if (localTeam != null && awayTeam != null) {
                         //continue
                         //get incidencias
-                        NodeList incidencias = (NodeList) xPath.compile("ficha/fichapartido/incidencias").evaluate(document, XPathConstants.NODESET);
+                        NodeList incidencias = (NodeList) xPath.compile("ficha/fichapartido/incidencias/incidencia").evaluate(document, XPathConstants.NODESET);
                         for (int i = 0; i < incidencias.getLength(); i++) {
-                            Node curr = incidencias.item(i);
-                            String minuto = xPath.compile("minuto").evaluate(curr),
-                                    tiempo = xPath.compile("tiempo").evaluate(curr),
-                                    jugador = xPath.compile("jugador").evaluate(curr),
-                                    jugadorId = xPath.compile("jugador/@id").evaluate(curr),//dont really need this
+                            try {
+                                Node curr = incidencias.item(i);
+                                String minuto = xPath.compile("minuto").evaluate(curr),
+                                        tiempo = xPath.compile("tiempo").evaluate(curr),
+                                        jugador = xPath.compile("jugador").evaluate(curr),
+                                        jugadorId = xPath.compile("jugador/@id").evaluate(curr),//dont really need this
 
-                                    equipoId = xPath.compile("incidencia/key/@id").evaluate(curr),
-                                    equipoNombre = xPath.compile("incidencia/key").evaluate(curr),
+                                        equipoId = xPath.compile("key/@id").evaluate(curr),
+                                        equipoNombre = xPath.compile("key").evaluate(curr),
 
-                                    incidentExtId = xPath.compile("incidencia/@inciid").evaluate(curr), //ext_id
-                                    incidentId = xPath.compile("incidencia/@id").evaluate(curr),
-                                    incidentType = xPath.compile("incidencia/@tipo").evaluate(curr),
-                                    incidentSubType = xPath.compile("incidencia/@subtipo").evaluate(curr),
-                                    incidentOrder = xPath.compile("incidencia/@orden").evaluate(curr);
+                                        incidentExtId = xPath.compile("@inciid").evaluate(curr), //ext_id
+                                        incidentId = xPath.compile("@id").evaluate(curr),
+                                        incidentType = xPath.compile("@tipo").evaluate(curr),
+                                        incidentSubType = xPath.compile("@subtipo").evaluate(curr),
+                                        incidentOrder = xPath.compile("@orden").evaluate(curr);
 
-                            //description: tipo + (if subtipo>0) subtipo
-                            Action ac = new Action("mnemonic","description");
-                            Period incidentPeriod = new Period("name", "shortname", null);
+                                if(incidentExtId != null && !incidentExtId.isEmpty()) {
+                                    long incidentTeam = Long.parseLong(equipoId);
+                                    //description: tipo + (if subtipo>0) subtipo
+                                    Action ac = new Action(incidentType, (incidentSubType.isEmpty()?incidentType:incidentSubType), Integer.parseInt(incidentExtId));
+                                    ac.validate();
 
-                            //GameMatchEvent toInsert = null; //new GameMatchEvent();
-                            //toInsert.save();
+                                    Period incidentPeriod = new Period(tiempo, tiempo, null);
+                                    incidentPeriod.validate();
+
+
+                                    GameMatchEvent gameMatchEvent = new GameMatchEvent(currentGameMatch, incidentPeriod, ac, localTeam.getExtId() == incidentTeam ? localTeam : awayTeam, jugador, null, Integer.parseInt(minuto), matchDate, Integer.parseInt(incidentOrder), Long.parseLong(incidentId));
+                                    gameMatchEvent.validate();
+                                }
+                                //GameMatchEvent toInsert = null; //new GameMatchEvent();
+                                //toInsert.save();
+                            } catch (Exception ex){
+                                Utils.printToLog(DataFactoryScraper.class,
+                                        "Error en DataFactoryScraper",
+                                        "Error inesperado parseando el archivo de minuto a minuto:"  + fileRoute + " el proceso no se pudo completar",
+                                        true,
+                                        ex,
+                                        "support-level-1",
+                                        Config.LOGGER_ERROR);
+                            }
 
                         }
                         //estado del partido
@@ -506,18 +525,21 @@ public class DataFactoryScraper extends HecticusThread {
             File current = listOfFiles[i];
             if (current.isFile()) {
                 String fileName = current.getName();
+                if(fileName.contains("mam")) {
+                    System.out.println(fileName);
+                }
                 if (fileName.contains("fixture")) { //fixture
-                    parseFixture(path + File.separator + fileName);
+//                    parseFixture(path + File.separator + fileName);
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
-                    parsePositions(path + File.separator + fileName);
+//                    parsePositions(path + File.separator + fileName);
                 } else if (fileName.contains("goleadores")) { //goleadores
-                    parseStrikers(path + File.separator + fileName);
-                } else if (fileName.contains("ficha")) { //ficha
+//                    parseStrikers(path + File.separator + fileName);
+//                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto
-                   // parseMinaMin(path + File.separator + fileName);
+                   parseMinaMin(path + File.separator + fileName);
                 } else if (fileName.contains("plantelxcampeonato")) { //plantel
                     //not in use
                 } else { //desconocido

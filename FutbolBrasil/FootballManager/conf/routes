@@ -88,6 +88,12 @@ GET     /footballapi/v1/competitions/list/ids/:idApp                            
 GET     /footballapi/v1/competitions/list/:idApp                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
 GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer)
 
+#MaM
+GET     /footballapi/v1/matches/mam/:idApp/:idCompetition/:idMatch                      controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idEvent: Long?=0, forward: Boolean?=false)
+GET     /footballapi/v1/matches/mam/next/:idApp/:idCompetition/:idMatch/:idEvent        controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idEvent: Long, forward: Boolean?=true)
+GET     /footballapi/v1/matches/mam/previous/:idApp/:idCompetition/:idMatch/:idEvent    controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idEvent: Long, forward: Boolean?=false)
+
+
 #NEW VERSION
 GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition/:idPhase             controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long, way: Integer?=0)
 GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition                      controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idPhase: Long?=0, way: Integer?=0)
@@ -100,8 +106,6 @@ GET     /footballapi/v1/competitions/ranking/previous/:idApp/:idCompetition/:idP
 #GET     /footballapi/v1/calendar/get/phase/lt/:idApp/:idCompetition/:phase              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="lt")
 #GET     /footballapi/v1/calendar/get/phase/eq/:idApp/:idCompetition/:phase              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
 #GET     /footballapi/v1/calendar/get/:idApp/:idCompetition                              controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
-
-
 
 
 #new football api

@@ -1,6 +1,4 @@
 
-	var _scroll = false;
-	
 	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','cordovaHTTP'])
 	//El modulo cordovaHTTP est� generando un error cuando se hace el injector
 			
@@ -188,18 +186,19 @@
             	},
 
             	news: function () {
+            		
+            		var _this = this;
+            		
             		return {   
             			         		
-            			index:  this.url + 'newsapi/v1/news/scroll/1',
+            			index:  _this.url + 'newsapi/v1/news/scroll/1',
             			
             			up: function (_news,_limit) { 
-            				return 'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/up/rest/1/' 
-            				+ _news;
+            				return _this.url + 'newsapi/v1/news/scroll/up/rest/1/' + _news;
             			},
             			
             			down: function (_news,_limit) {
-            				return  'http://footballmanager.hecticus.com/newsapi/v1/news/scroll/down/rest/1/' 
-            					+ _news;
+            				return   _this.url + 'newsapi/v1/news/scroll/down/rest/1/' + _news;
             			}
             			
             		};
@@ -284,11 +283,40 @@
             	},
             	
             	newScroll: {
-            		vertical: function (_wrapper) {            			
-						window[_wrapper] = new IScroll('#' + _wrapper,{click:true, preventDefault:true});		
+            		horizontal: function (_wrapper) {
+            			
+            			delete window[_wrapper] ;
+            			
+            			window[_wrapper] = new IScroll('#' + _wrapper, { 
+		 					scrollX: true, 
+							scrollY: false, 
+		 					mouseWheel: false, 
+		 					momentum: false,
+		 					snap: true,
+							snapSpeed: 700,
+		 					probeType: 3,
+		 					bounce: false
+ 						});
+	
 						window[_wrapper].on('beforeScrollStart', function () {
 							this.refresh();		
-						});					
+						});	
+						
+						return window[_wrapper];	
+
+            		}
+            		
+            		,vertical: function (_wrapper) {  
+            			
+            			delete window[_wrapper] ;    
+            			      			
+						window[_wrapper] = new IScroll('#' + _wrapper, {click:true,preventDefault:true, bounce: true,  probeType: 2});		
+						window[_wrapper].on('beforeScrollStart', function () {
+							this.refresh();		
+						});	
+						
+						return window[_wrapper];	
+									
             		},
             	},
             	
@@ -505,10 +533,10 @@
  
  		.controller('livescoreCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {		
-			
-			
+						
 				var _this = this;		
  				var _angular =  angular.element;
+				var _scroll = utilities.newScroll.vertical('wrapper');
 				
 				_this.date = utilities.moment().format('dddd Do YYYY');
 							
@@ -523,19 +551,8 @@
   					$rootScope.error = utilities.error();
 				});
 
-				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
-					//console.log('onRepeatFirst');
- 		    	});
- 		
- 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
- 					//console.log('onRepeatLast');								
-				});
-			
-			
-			 	var _scroll = new IScroll('#wrapper', {click:true, preventDefault:true, bounce: true,  probeType: 2});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
-				});
+				
+
 	
 		}])
  
@@ -545,8 +562,9 @@
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
  				
  				var _this = this;
+ 				var _element =  angular.element;
 				var _promise = false;
-				var _element =  angular.element;
+				
 
 				_this.wrapper = {
 					name:'wrapperV', 
@@ -574,20 +592,7 @@
 					}); 					
  				}
  				
-				var _scroll = new IScroll('#wrapperH', { 
-					scrollX: true, 
-					scrollY: false, 
-					mouseWheel: true, 
-					momentum: false,
-					snap: true,
-					snapSpeed: 1000,
-					probeType: 3,
-					bounce: false,
-				});
-				
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
-				});	
+ 				var _scroll = utilities.newScroll.horizontal('wrapperH');
 					
 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
 					angular.forEach(_this.item.leagues, function(_item, _index) {							
@@ -601,7 +606,12 @@
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,data) {
 
  				var _this = this;
+ 				var _angular =  angular.element;
  				var _promise = false; 
+ 				
+ 				var _scroll = utilities.newScroll.vertical('wrapper');
+				var _scroll2 = utilities.newScroll.vertical('wrapper2');
+				var _scroll3 = utilities.newScroll.vertical('wrapper3');	
  							
  				$rootScope.loading = false;
 				$rootScope.error = false;
@@ -660,20 +670,7 @@
 				
 				_this.item = JSON.parse($rootScope.$storage.competitions);
 
-				 var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
-				});
-				
-				var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
-				_scroll2.on('beforeScrollStart', function () {
-					this.refresh();
-				});
-				
-				var _scroll3 = new IScroll('#wrapper3',{click:true, preventDefault:true});					
-				_scroll3.on('beforeScrollStart', function () {
-					this.refresh();
-				});
+								
 				
 		}])
   
@@ -698,9 +695,7 @@
 					return utilities.moment(_date).format('H:MM');
 				};
 				
-				
-				
-				
+
  				_this.pagesBefore = [];
 				_this.pagesAfter = [];
 				
@@ -725,23 +720,8 @@
 					});
 				});
 				
-
- 				var _scroll = new IScroll('#wrapperH', { 
- 					scrollX: true, 
-					scrollY: false, 
- 					mouseWheel: false, 
- 					momentum: false,
- 					snap: true,
-					snapSpeed: 700,
- 					probeType: 3,
- 					bounce: false
- 				});
-	
- 				_scroll.on('beforeScrollStart', function () {
-					this.refresh();						
- 					//_unshift= false;			
- 				});	
- 				
+				var _scroll = utilities.newScroll.horizontal('wrapperH');
+	 				
  				_scroll.on('scrollStart', function () {
  					_currentPage = this.currentPage.pageX;
  				});
@@ -782,65 +762,34 @@
  					}
 
  				});
-
-				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
-					//console.log('onRepeatFirst');
- 		    	});
  		
- 				$scope.$on('onRepeatLast', function(scope, element, attrs) {
- 					//console.log('onRepeatLast');		
+ 				$scope.$on('onRepeatLast', function(scope, element, attrs) {	
 					if (_start) {
-																	
+																						
  						_scroll.refresh();				
 						_scroll.goToPage(2,0);			
 						_start = false;	
 
 						angular.forEach(_this.pages, function(_item, _index) {							
 							utilities.newScroll.vertical(_this.wrapper.getName(_index));
-						});
- 			
+						}); 
+									
 					};					
 				});
 				
 
 		}])
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
+
  		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
 
 			var _this = this;
+			var _angular =  angular.element;
 			var _news = {first:0, last:0};
-			var _promise = false;
-				
-			$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
-				_news.first = element.first().data('news');
-				$rootScope.loading = false;	
-		    });					
-					
-			$scope.$on('onRepeatLast', function(scope, element, attrs) {
-				_news.last = element.last().data('news');
-				$rootScope.loading = false;	
-		    });
-
-
+		
+			var _scroll = utilities.newScroll.vertical('wrapper'); 
+			var _scroll2 = utilities.newScroll.vertical('wrapper2');
+							
 			_this.share = function(_news) {
 				window.plugins.socialsharing.share(_news.title,'Brazil Football',null,_news.summary);	
 			};
@@ -860,8 +809,8 @@
 				$rootScope.loading = false;
 				$rootScope.error = utilities.error(_this.item.news);	 				
 			} else {
-				_promise = $http({method: 'GET', url: domain.news().index});
-				_promise.then(function(obj) {
+				$http({method: 'GET', url: domain.news().index})
+				.then(function(obj) {
 					_this.item =  obj.data.response;
 					$rootScope.$storage.news = JSON.stringify(obj.data.response);
 				}).finally(function(data) {
@@ -873,18 +822,15 @@
 			}
 			
 		 
-		 	var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-			_scroll.on('beforeScrollStart', function () {
-				this.refresh();						
-			});
-				 
+
+						  
 			_scroll.on('scroll', function () {
 
 				if (this.y >= 50 ) {
 					if ($http.pendingRequests.length == 0 && !$rootScope.loading) {							
 						$rootScope.loading = true;
-						_promise = $http({method: 'GET', url: domain.news().up(_news.first)});
-						_promise.then(function(obj) {
+						$http({method: 'GET', url: domain.news().up(_news.first)})
+						.then(function(obj) {
 							angular.forEach(obj.data.response.news, function(_item) {			
 								_this.item.news.unshift(_item);
 							});
@@ -897,8 +843,8 @@
 	            if (this.y <= this.maxScrollY) {	            				
 	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {	            			
             			$rootScope.loading = true;
-            			_promise = $http({method: 'GET', url: domain.news().down(_news.last)});
-						_promise.then(function(obj) {
+            			$http({method: 'GET', url: domain.news().down(_news.last)})
+						.then(function(obj) {
 							angular.forEach(obj.data.response.news, function(_item) {			
 								_this.item.news.push(_item);
 							});
@@ -907,13 +853,23 @@
 						});
 					}		
 				}
+				
+				
+				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
+					_news.first = element.first().data('news');
+					$rootScope.loading = false;	
+			    });					
+						
+				$scope.$on('onRepeatLast', function(scope, element, attrs) {
+					_news.last = element.last().data('news');
+					$rootScope.loading = false;	
+			    });
+				
+			});
+			
+		 	
+		 	
 
-			});
-		 		
-			var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});					
-			_scroll2.on('beforeScrollStart', function () {
-				this.refresh();
-			});
 
 		}]);
 

@@ -209,12 +209,12 @@ row:not(input):not(textarea) {
 	}
 
 	.error {
-		position: relative;
+		position: absolute;
 		margin: 0 auto;
-		text-align:center;
+		text-align: center;
 		color: #9D9D9D;
 		width: 100%;
-		height:auto;
+		height: 80px;
 		left: 0;
 		top: 25%;
   		bottom: 0;
