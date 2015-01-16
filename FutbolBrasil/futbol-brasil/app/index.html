@@ -34,104 +34,112 @@
 
   <body class="{{ contentClass }}" ng-app="FutbolBrasil" ng-controller="MainCtrl" style="position: fixed;">
 
-    <header>
-      <div class="container">
-        <div class="row" >
-          <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
-               ng-class="{active : isActive('news')}"
-               ng-click="showSection('news')" style="text-align: left;">
-            <img src="img/logo.svg" onerror="this.src='img/logo.png'" style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
-            <span style="font-size: 1.2em; font-weight: bold;  margin: 0;  ">NOTISTASTS</span>
-          </div>
-          <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
-               ng-click="showSection('prediction')" style="text-align: right;">
-            <span style="font-size: 1.2em; font-weight: bold;  margin: 0; ">PALPITES</span>
-            <img src="img/palpites.svg" onerror="this.src='img/palpites.png'" style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
-          </div>
-        </div>
+  <div class="container-fluid">
+      <div class="row">
+          <nav class="navbar navbar-default" style="margin-bottom: 0;">
+              <div class="navbar-header">
+                  <header>
+                  <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
+                       ng-class="{active : isActive('news')}"
+                       ng-click="showSection('news')" style="text-align: left;">
+                      <img src="img/logo.svg" onerror="this.src='img/logo.png'"
+                           style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
+                      <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">NOTISTASTS</span>
+                  </div>
+                  <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
+                       ng-class="{active : isActive('prediction')}"
+                       ng-click="showSection('prediction')" style="text-align: right;">
+                      <img src="img/palpites.svg" onerror="this.src='img/palpites.png'"
+                           style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
+                      <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">PALPITES</span>
+                  </div>
+                  </header>
+              </div>
+          </nav>
       </div>
-    </header>
 
-    <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
+        <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
+        <loading></loading>
+        <error></error>
 
-    <loading></loading>
-    <error></error>
+        <div class="row">
+            <footer class="footer">
+              <!--TODO sacar de footer-->
+              <div class="container">
+                <div data-section="news" class="row section active">
 
-    <footer class="footer">
-      <!--TODO sacar de footer-->
-      <div class="container">
-        <div data-section="news" class="row section active">
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2
+                        col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 option"
+                       ui-sref-active="active">
+                    <a ui-sref="match">
+                      <span class="icon-balon"></span>
+                      <span class="glyphicon-class">Partidas</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="standings">
+                      <span class="icon-tabela"></span>
+                      <span class="glyphicon-class">Tabela</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="news">
+                      <span class="icon-noticias"></span>
+                      <span class="glyphicon-class">Noticias</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="scorers">
+                      <span class="icon-artilharia"></span>
+                      <span class="glyphicon-class">Artilharia</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="livescore">
+                      <span class="icon-envivo"></span>
+                      <span class="glyphicon-class">En Vivo</span>
+                    </a>
+                  </div>
+                </div>
 
-          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2
-                col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 option"
-               ng-class="{active: isActive('match')}">
-            <a ui-sref="match">
-              <span class="icon-balon"></span>
-              <span class="glyphicon-class">Partidas</span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="{active: isActive('standings')}" >
-            <a ui-sref="standings">
-              <span class="icon-tabela"></span>
-              <span class="glyphicon-class">Tabela</span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="{active: isActive('news')}" >
-            <a ui-sref="news">
-              <span class="icon-noticias"></span>
-              <span class="glyphicon-class">Noticias</span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="{active: isActive('scorers')}" >
-            <a ui-sref="scorers">
-              <span class="icon-artilharia"></span>
-              <span class="glyphicon-class">Artilharia</span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-               ng-class="{active: isActive('livescore')}" >
-            <a ui-sref="livescore">
-              <span class="icon-envivo"></span>
-              <span class="glyphicon-class">En Vivo</span>
-            </a>
-          </div>
+                <div data-section="prediction" class="row section">
+                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                       ui-sref-active="active">
+                    <a ui-sref="prediction">
+                      <span class="icon-balon"></span>
+                      <span class="glyphicon-class">Predicciones</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="leaderboard">
+                      <span class="icon-tabela"></span>
+                      <span class="glyphicon-class">Leaderboards</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="friends">
+                      <span class="icon-artilharia"></span>
+                      <span class="glyphicon-class">Friends</span>
+                    </a>
+                  </div>
+                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                       ui-sref-active="active" >
+                    <a ui-sref="points">
+                      <span class="icon-puntos"></span>
+                      <span class="glyphicon-class">Puntos</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </footer>
         </div>
-
-        <div data-section="prediction" class="row section">
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="{active: isActive('prediction')}">
-            <a ui-sref="prediction">
-              <span class="icon-balon"></span>
-              <span class="glyphicon-class">Predicciones</span>
-            </a>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="{active: isActive('leaderboard')}" >
-            <a ui-sref="leaderboard">
-              <span class="icon-tabela"></span>
-              <span class="glyphicon-class">Leaderboards</span>
-            </a>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="{active: isActive('friends')}" >
-            <a ui-sref="friends">
-              <span class="icon-artilharia"></span>
-              <span class="glyphicon-class">Friends</span>
-            </a>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-               ng-class="{active: isActive('points')}" >
-            <a ui-sref="points">
-              <span class="icon-puntos"></span>
-              <span class="glyphicon-class">Puntos</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    </div>
 
     <!-- build:js scripts/vendor.js -->
         <!-- injector:bowerjs -->
@@ -157,11 +165,6 @@
 
     <!-- build:js scripts/custom.js -->
         <!-- injector:js -->
-        <script src="managers/FacebookManager/FacebookManager.js"></script>
-        <script src="managers/Push/PushManager.js"></script>
-        <script src="managers/SocialApps/SocialAppsManager.js"></script>
-        <script src="managers/TeamsManager/TeamsManager.js"></script>
-        <script src="managers/WebManager/WebManager.js"></script>
         <script src="js/config.js"></script>
         <script src="js/application.js"></script>
         <script src="modules/core/core.js"></script>
@@ -172,7 +175,11 @@
         <script src="modules/core/services/cordova-ready.js"></script>
         <script src="modules/core/services/domain.js"></script>
         <script src="modules/core/services/facebook-manager.js"></script>
+        <script src="modules/core/services/push-manager.js"></script>
+        <script src="modules/core/services/social-apps-manager.js"></script>
+        <script src="modules/core/services/teams-manager.js"></script>
         <script src="modules/core/services/utilities.js"></script>
+        <script src="modules/core/services/web-manager.js"></script>
         <script src="modules/core/directives/error.js"></script>
         <script src="modules/core/directives/loading.js"></script>
         <script src="modules/core/directives/my-scroll.js"></script>

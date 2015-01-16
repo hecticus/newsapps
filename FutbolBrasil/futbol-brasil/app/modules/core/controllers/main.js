@@ -28,7 +28,7 @@ angular
         },
 
         $rootScope.prevPage = function() {
-
+            //TODO $state.go();
             if (angular.element('#wrapper3').hasClass('left')) {
                 angular.element('#wrapper3').attr('class','page transition right');
             } else if (angular.element('#wrapper2').hasClass('left')) {

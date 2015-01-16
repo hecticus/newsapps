@@ -17,21 +17,21 @@ angular
         _this.width = $window.innerWidth;
         _this.widthTotal = ($window.innerWidth * 11);
 
-          if ($rootScope.$storage.scorers) {
-            _this.item = JSON.parse($rootScope.$storage.scorers);
-            $rootScope.loading = false;
-            $rootScope.error = Utilities.error(_this.item.leagues,'scorers');
-          } else {
-            $http({method: 'GET', url: Domain.scorers()})
-                .then(function(obj) {
-                    _this.item =  obj.data.response;
-                    $rootScope.$storage.scorers = JSON.stringify(obj.data.response);
-                })
-                .finally(function(data) {
-                  $rootScope.loading = false;
-                  $rootScope.error = _this.item.leagues.hasOwnProperty('news');
-                });
-          }
+        if ($rootScope.$storage.scorers) {
+        _this.item = JSON.parse($rootScope.$storage.scorers);
+        $rootScope.loading = false;
+        $rootScope.error = Utilities.error(_this.item.leagues,'scorers');
+        } else {
+        $http({method: 'GET', url: Domain.scorers()})
+            .then(function(obj) {
+                _this.item =  obj.data.response;
+                $rootScope.$storage.scorers = JSON.stringify(obj.data.response);
+            })
+            .finally(function(data) {
+              $rootScope.loading = false;
+              $rootScope.error = _this.item.leagues.hasOwnProperty('news');
+            });
+        }
 
         var _scroll = new IScroll('#wrapperH', {
           scrollX: true,
