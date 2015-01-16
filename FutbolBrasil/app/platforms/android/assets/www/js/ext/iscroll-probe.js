@@ -1,8 +1,5 @@
 /*! iScroll v5.1.3 ~ (c) 2008-2014 Matteo Spinelli ~ http://cubiq.org/license */
 
-var _unshift = false;
-
-
 (function (window, document, Math) {
 var rAF = window.requestAnimationFrame	||
 	window.webkitRequestAnimationFrame	||
@@ -844,12 +841,6 @@ IScroll.prototype = {
 
 	_translate: function (x, y) {
 		
-		if (_unshift) {
-			if (x == 0) {
-				x = x-window.innerWidth;
-			}
-		}
-	
 		if ( this.options.useTransform ) {
 
 /* REPLACE START: _translate */
@@ -1530,11 +1521,7 @@ IScroll.prototype = {
 				easing;
 				
 			if ( now >= destTime ) {
-					
-				if (_unshift) {
-					console.log('_animate -> 7 ' + startX);						
-				} 
-
+			
 				that.isAnimating = false;
 				that._translate(destX, destY);
 				
