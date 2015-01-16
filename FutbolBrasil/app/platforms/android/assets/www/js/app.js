@@ -1,6 +1,4 @@
 
-	var _scroll = false;
-	
 	//angular.module('FutbolBrasil', ['ngRoute','ngTouch','ngStorage','cordovaHTTP'])
 	//El modulo cordovaHTTP est� generando un error cuando se hace el injector
 			
