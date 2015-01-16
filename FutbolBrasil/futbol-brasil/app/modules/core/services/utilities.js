@@ -7,7 +7,7 @@
  */
 angular
     .module('core')
-    .factory('Utilities', ['CordovaDevice', function(CordovaDevice) {
+    .factory('Utilities', ['CordovaDevice', 'CordovaApp', 'WebManager', function(CordovaDevice, CordovaApp, WebManager) {
         return {
             _lastClicked : 0,
             /**
@@ -58,12 +58,7 @@ angular
                 } else if (angular.element('#wrapper2').hasClass('left')) {
                     angular.element('#wrapper2').attr('class','page transition right');
                 }else {
-                    //TODO reemplazar por ExitApp de Cordova
-                    if (navigator.app) {
-                        navigator.app.exitApp();
-                    } else if (navigator.device) {
-                        navigator.device.exitApp();
-                    }
+                    CordovaApp.exitApp();
                 }
             },
 
@@ -109,7 +104,7 @@ angular
                 try {
                     return $.ajax({
                         url: _url,
-                        headers: getHeaders(),
+                        headers: WebManager.getHeaders(),
                         type: 'GET',
                         dataType : 'json',
                         async: false,
@@ -126,7 +121,7 @@ angular
                 try {
                     return $.ajax({
                         url: _url,
-                        headers: getHeaders(),
+                        headers: WebManager.getHeaders(),
                         type: 'GET',
                         dataType : 'json',
                         async: true,
@@ -145,7 +140,7 @@ angular
                     console.log(_url + " " + JSON.stringify(_data));
                     return $.ajax({
                         url: _url,
-                        headers: getHeaders(),
+                        headers: WebManager.getHeaders(),
                         data: JSON.stringify(_data),
                         type: 'POST',
                         dataType: 'json',

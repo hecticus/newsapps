@@ -497,63 +497,62 @@ public class Rank  extends HecticusModel {
         return finder.where().eq("id_phases", _phase.getIdPhases()).orderBy("nivel asc, orden asc").findList();
     }
 
-    public static Rank getRankBySomething(){
-        return finder.where().eq("","").findUnique();
+    public static Rank getRankBySomething(long idFase, long idTeam){
+        return finder.where().eq("id_phases",idFase).eq("id_team", idTeam).findUnique();
     }
 
     public void validateRank(){
         try {
-
-        } catch (PersistenceException ex){
+            //validate using id_phase
+            Rank tr = null;//getRankBySomething(this.getPhase().getIdPhases(),this.team.getIdTeams());
+            if (tr != null){
+                //update selected values
+                this.phase = tr.phase;
+                this.team = tr.team;
+                this.matches = tr.matches;
+                this.matchesWon = tr.matchesWon;
+                this.matchesDraw = tr.matchesDraw;
+                this.matchesLost = tr.matchesLost;
+                this.points = tr.points;
+                this.goalsFor = tr.goalsFor;
+                this.goalAgainst = tr.goalAgainst;
+                this.matchesLocal = tr.matchesLocal;
+                this.matchesVisitor = tr.matchesVisitor;
+                this.matchesLocalWon = tr.matchesLocalWon;
+                this.matchesLocalDraw = tr.matchesLocalDraw;
+                this.matchesLocalLost = tr.matchesLocalLost;
+                this.matchesVisitorWon = tr.matchesVisitorWon;
+                this.matchesVisitorDraw = tr.matchesVisitorDraw;
+                this.matchesVisitorLost = tr.matchesVisitorLost;
+                this.goalsForLocal = tr.goalsForLocal;
+                this.goalAgainstLocal = tr.goalAgainstLocal;
+                this.goalsForVisitor = tr.goalsForVisitor;
+                this.goalAgainstVisitor = tr.goalAgainstVisitor;
+                this.goalDiff = tr.goalDiff;
+                this.pointsLocal = tr.pointsLocal;
+                this.pointsVisitor = tr.pointsVisitor;
+                this.yellowCards = tr.yellowCards;
+                this.redCards = tr.redCards;
+                this.doubleYellowCard = tr.doubleYellowCard;
+                this.penaltyFouls = tr.penaltyFouls;
+                this.penaltyHands = tr.penaltyHands;
+                this.foulsCommited = tr.foulsCommited;
+                this.foulsReceived = tr.foulsReceived;
+                this.penaltyFoulsReceived = tr.penaltyFoulsReceived;
+                this.nivel = tr.nivel;
+                this.nivelDesc = tr.nivelDesc;
+                this.orden = tr.orden;
+                this.ordenDesc = tr.ordenDesc;
+                this.streak = tr.streak;
+            }else {
+                //insert
+                this.save();
+            }
+        //} catch (PersistenceException ex){
 
         } catch (Exception ex){
-
-        }
-        //validate using id_phase
-        Rank tr = null;//getRankBySomething();
-        if (tr != null){
-            //update selected values
-            this.phase = tr.phase;
-            this.team = tr.team;
-            this.matches = tr.matches;
-            this.matchesWon = tr.matchesWon;
-            this.matchesDraw = tr.matchesDraw;
-            this.matchesLost = tr.matchesLost;
-            this.points = tr.points;
-            this.goalsFor = tr.goalsFor;
-            this.goalAgainst = tr.goalAgainst;
-            this.matchesLocal = tr.matchesLocal;
-            this.matchesVisitor = tr.matchesVisitor;
-            this.matchesLocalWon = tr.matchesLocalWon;
-            this.matchesLocalDraw = tr.matchesLocalDraw;
-            this.matchesLocalLost = tr.matchesLocalLost;
-            this.matchesVisitorWon = tr.matchesVisitorWon;
-            this.matchesVisitorDraw = tr.matchesVisitorDraw;
-            this.matchesVisitorLost = tr.matchesVisitorLost;
-            this.goalsForLocal = tr.goalsForLocal;
-            this.goalAgainstLocal = tr.goalAgainstLocal;
-            this.goalsForVisitor = tr.goalsForVisitor;
-            this.goalAgainstVisitor = tr.goalAgainstVisitor;
-            this.goalDiff = tr.goalDiff;
-            this.pointsLocal = tr.pointsLocal;
-            this.pointsVisitor = tr.pointsVisitor;
-            this.yellowCards = tr.yellowCards;
-            this.redCards = tr.redCards;
-            this.doubleYellowCard = tr.doubleYellowCard;
-            this.penaltyFouls = tr.penaltyFouls;
-            this.penaltyHands = tr.penaltyHands;
-            this.foulsCommited = tr.foulsCommited;
-            this.foulsReceived = tr.foulsReceived;
-            this.penaltyFoulsReceived = tr.penaltyFoulsReceived;
-            this.nivel = tr.nivel;
-            this.nivelDesc = tr.nivelDesc;
-            this.orden = tr.orden;
-            this.ordenDesc = tr.ordenDesc;
-            this.streak = tr.streak;
-        }else {
-            //insert
-            this.save();
-        }
+            //do nothing
+        } 
     }
 
 

@@ -24,6 +24,7 @@ angular
                 // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
                 link: function(scope, element, attr, controller) {
                     scope.$watch('error', function (val) {
+                        console.log('error: ' + val);
                         if (val)
                             $(element).show();
                         else
