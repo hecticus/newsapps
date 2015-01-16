@@ -529,7 +529,7 @@ public class DataFactoryScraper extends HecticusThread {
                     System.out.println(fileName);
                 }
                 if (fileName.contains("fixture")) { //fixture
-//                    parseFixture(path + File.separator + fileName);
+                    parseFixture(path + File.separator + fileName);
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
