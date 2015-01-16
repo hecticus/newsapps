@@ -74,7 +74,7 @@ public class TvmaxSimpleNews extends HecticusModel implements Comparable<TvmaxSi
         insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
         generationTime = 0l;
         sortableDate = Utils.formatDateLongFromStringNew(receivedDate);
-        System.out.println("receivedDate: "+receivedDate+" sortableDate: "+sortableDate);
+        //System.out.println("receivedDate: "+receivedDate+" sortableDate: "+sortableDate);
 
     }
 
