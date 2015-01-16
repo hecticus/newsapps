@@ -287,6 +287,8 @@
             	newScroll: {
             		horizontal: function (_wrapper) {
             			
+            			delete window[_wrapper] ;
+            			
             			window[_wrapper] = new IScroll('#' + _wrapper, { 
 		 					scrollX: true, 
 							scrollY: false, 
@@ -307,7 +309,9 @@
             		}
             		
             		,vertical: function (_wrapper) {  
-            			          			
+            			
+            			delete window[_wrapper] ;    
+            			      			
 						window[_wrapper] = new IScroll('#' + _wrapper, {click:true,preventDefault:true, bounce: true,  probeType: 2});		
 						window[_wrapper].on('beforeScrollStart', function () {
 							this.refresh();		
