@@ -93,66 +93,73 @@ public class DataFactoryScraper extends HecticusThread {
             //parse fechas
             NodeList fecha = (NodeList) xPath.compile("fixture/fecha").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < fecha.getLength(); i++){
-                Node currentFecha = fecha.item(i);
-                //parse fecha
-                String nombreNivel = xPath.compile("@nombrenivel").evaluate(currentFecha),
-                        nombre= xPath.compile("@nombre").evaluate(currentFecha),
-                        faseId = xPath.compile("@id").evaluate(currentFecha),
-                        fechaDesde = xPath.compile("@fechadesde").evaluate(currentFecha),
-                        fechaHasta = xPath.compile("@fechahasta").evaluate(currentFecha),
-                        nivel = xPath.compile("@nivel").evaluate(currentFecha),
-                        orden = xPath.compile("@orden").evaluate(currentFecha),
-                        fn = xPath.compile("@fn").evaluate(currentFecha);
-                //fase
-                Phase gamePhase = new Phase(compFromFile, nombreNivel, nombre, fechaDesde, fechaHasta, Long.parseLong(faseId),
-                        Integer.parseInt(orden), Integer.parseInt(nivel), Integer.parseInt(fn));
-                gamePhase.validatePhase();
-                NodeList partidos = (NodeList) xPath.compile("partido").evaluate(currentFecha, XPathConstants.NODESET);
-                for (int j = 0; j < partidos.getLength(); j++){
-                    Node currentPartido = partidos.item(j);
-                    String idExtPartido = xPath.compile("@id").evaluate(currentPartido),
-                            actualFecha = xPath.compile("@fecha").evaluate(currentPartido),
-                            hora = xPath.compile("@hora").evaluate(currentPartido),
-                            idEstadio = xPath.compile("@idEstadio").evaluate(currentPartido),
-                            nombreEstadio = xPath.compile("@nombreEstadio").evaluate(currentPartido),
-                            ciudadEstadio = xPath.compile("@lugarCiudad").evaluate(currentPartido),
-                            status = xPath.compile("estado").evaluate(currentPartido),
-                            statusId = xPath.compile("estado/@id").evaluate(currentPartido),
-                            horaEstado = xPath.compile("horaEstado").evaluate(currentPartido),
-                            equipoLocalId = xPath.compile("local/@id").evaluate(currentPartido),
-                            equipoLocalNombre = xPath.compile("local").evaluate(currentPartido),
-                            equipoLocalGoles = xPath.compile("goleslocal").evaluate(currentPartido),
-                            equipoLocalPaisId  = xPath.compile("local/@paisId").evaluate(currentPartido),
-                            equipoLocalPaisNombre = xPath.compile("local/@pais").evaluate(currentPartido),
-                            equipoVisitId = xPath.compile("visitante/@id").evaluate(currentPartido),
-                            equipoVisitNombre = xPath.compile("visitante").evaluate(currentPartido),
-                            equipoVisitGoles = xPath.compile("golesvisitante").evaluate(currentPartido),
-                            equipoVisitPaisId = xPath.compile("visitante/@paisId").evaluate(currentPartido),
-                            equipoVisitPaisNombre = xPath.compile("visitante/@pais").evaluate(currentPartido),
-                            //arbitro = xPath.compile("arbitro").evaluate(currentPartido),
-                            penalesLocal = xPath.compile("golesDefPenaleslocal").evaluate(currentPartido),
-                            penalesVisit = xPath.compile("golesDefPenalesvisitante").evaluate(currentPartido);
+                try{
+                    Node currentFecha = fecha.item(i);
+                    //parse fecha
+                    String nombreNivel = xPath.compile("@nombrenivel").evaluate(currentFecha),
+                            nombre= xPath.compile("@nombre").evaluate(currentFecha),
+                            faseId = xPath.compile("@id").evaluate(currentFecha),
+                            fechaDesde = xPath.compile("@fechadesde").evaluate(currentFecha),
+                            fechaHasta = xPath.compile("@fechahasta").evaluate(currentFecha),
+                            nivel = xPath.compile("@nivel").evaluate(currentFecha),
+                            orden = xPath.compile("@orden").evaluate(currentFecha),
+                            fn = xPath.compile("@fn").evaluate(currentFecha);
+                    //fase
+                    Phase gamePhase = new Phase(compFromFile, nombreNivel, nombre, fechaDesde, fechaHasta, Long.parseLong(faseId),
+                            Integer.parseInt(orden), Integer.parseInt(nivel), Integer.parseInt(fn));
+                    gamePhase.validatePhase();
+                    NodeList partidos = (NodeList) xPath.compile("partido").evaluate(currentFecha, XPathConstants.NODESET);
+                    for (int j = 0; j < partidos.getLength(); j++){
+                        Node currentPartido = partidos.item(j);
+                        String idExtPartido = xPath.compile("@id").evaluate(currentPartido),
+                                actualFecha = xPath.compile("@fecha").evaluate(currentPartido),
+                                hora = xPath.compile("@hora").evaluate(currentPartido),
+                                idEstadio = xPath.compile("@idEstadio").evaluate(currentPartido),
+                                nombreEstadio = xPath.compile("@nombreEstadio").evaluate(currentPartido),
+                                ciudadEstadio = xPath.compile("@lugarCiudad").evaluate(currentPartido),
+                                status = xPath.compile("estado").evaluate(currentPartido),
+                                statusId = xPath.compile("estado/@id").evaluate(currentPartido),
+                                horaEstado = xPath.compile("horaEstado").evaluate(currentPartido),
+                                equipoLocalId = xPath.compile("local/@id").evaluate(currentPartido),
+                                equipoLocalNombre = xPath.compile("local").evaluate(currentPartido),
+                                equipoLocalGoles = xPath.compile("goleslocal").evaluate(currentPartido),
+                                equipoLocalPaisId  = xPath.compile("local/@paisId").evaluate(currentPartido),
+                                equipoLocalPaisNombre = xPath.compile("local/@pais").evaluate(currentPartido),
+                                equipoVisitId = xPath.compile("visitante/@id").evaluate(currentPartido),
+                                equipoVisitNombre = xPath.compile("visitante").evaluate(currentPartido),
+                                equipoVisitGoles = xPath.compile("golesvisitante").evaluate(currentPartido),
+                                equipoVisitPaisId = xPath.compile("visitante/@paisId").evaluate(currentPartido),
+                                equipoVisitPaisNombre = xPath.compile("visitante/@pais").evaluate(currentPartido),
+                                //arbitro = xPath.compile("arbitro").evaluate(currentPartido),
+                                penalesLocal = xPath.compile("golesDefPenaleslocal").evaluate(currentPartido),
+                                penalesVisit = xPath.compile("golesDefPenalesvisitante").evaluate(currentPartido);
 
-                    //set values
-                    Countries localCountry = new Countries(equipoLocalPaisNombre, Long.parseLong(equipoLocalPaisId));
-                    localCountry.validateCountry();
-                    Team localTeam = new Team(equipoLocalNombre, Long.parseLong(equipoLocalId), localCountry);
-                    localTeam.validateTeam();
-                    Countries awayCountry = new Countries(equipoVisitPaisNombre, Long.parseLong(equipoVisitPaisId));
-                    awayCountry.validateCountry();
-                    Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
-                    awayTeam.validateTeam();
+                        //set values
+                        Countries localCountry = new Countries(equipoLocalPaisNombre, Long.parseLong(equipoLocalPaisId));
+                        localCountry.validateCountry();
+                        Team localTeam = new Team(equipoLocalNombre, Long.parseLong(equipoLocalId), localCountry);
+                        localTeam.validateTeam();
+                        Countries awayCountry = new Countries(equipoVisitPaisNombre, Long.parseLong(equipoVisitPaisId));
+                        awayCountry.validateCountry();
+                        Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
+                        awayTeam.validateTeam();
 
-                    Venue gameVenue = new Venue(Long.parseLong(idEstadio),nombreEstadio, ciudadEstadio, localCountry);
-                    gameVenue.validateVenue();
-                    int localGoles = stringIntParser(equipoLocalGoles),
-                            awayGoles = stringIntParser(equipoVisitGoles);
+                        Venue gameVenue = null;
+                        long stadiumId = stringLongParser(idEstadio);
+                        if (stadiumId != 0){
+                            gameVenue = new Venue(stadiumId, nombreEstadio, ciudadEstadio, localCountry);
+                            gameVenue.validateVenue();
+                        }
+                        int localGoles = stringIntParser(equipoLocalGoles),
+                                awayGoles = stringIntParser(equipoVisitGoles);
 
-                    GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, equipoLocalNombre,
-                            equipoVisitNombre, localGoles, awayGoles, actualFecha + cleanHour(hora), status,
-                            Long.parseLong(idExtPartido), compFromFile);
-                    partidoFromFile.validateGame();
-
+                        GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, equipoLocalNombre,
+                                equipoVisitNombre, localGoles, awayGoles, actualFecha + cleanHour(hora), status,
+                                Long.parseLong(idExtPartido), compFromFile);
+                        partidoFromFile.validateGame();
+                    }
+                }catch (Exception ex){
+                    //generic parsing error keep going with next one
                 }
             }
         }catch (Exception ex){
@@ -184,7 +191,7 @@ public class DataFactoryScraper extends HecticusThread {
             String idTorneo = xPath.compile("posiciones/campeonato/@id").evaluate(document),
                     torneoName = xPath.compile("posiciones/campeonato").evaluate(document),
                     fecha = xPath.compile("posiciones/fechaNombre").evaluate(document),
-                    fn = "";
+                    fn = xPath.compile("posiciones/fechaNombre/@fn").evaluate(document);
             Competition torneo = new Competition(torneoName, Long.parseLong(idTorneo), getIdApp(), category);
             torneo.validateCompetition();
             NodeList equipos = (NodeList) xPath.compile("posiciones/equipo").evaluate(document, XPathConstants.NODESET);
@@ -200,7 +207,7 @@ public class DataFactoryScraper extends HecticusThread {
                             playedLocal = xPath.compile("jugadoslocal").evaluate(currentTeam),
                             playedVisitor = xPath.compile("jugadosvisitantes").evaluate(currentTeam),
                             wins = xPath.compile("ganados").evaluate(currentTeam),
-                            draws = xPath.compile("emapatados").evaluate(currentTeam),
+                            draws = xPath.compile("empatados").evaluate(currentTeam),
                             lost = xPath.compile("perdidos").evaluate(currentTeam),
                             localWins = xPath.compile("ganadoslocal").evaluate(currentTeam),
                             localDraws = xPath.compile("ematadoslocal").evaluate(currentTeam),
@@ -522,7 +529,7 @@ public class DataFactoryScraper extends HecticusThread {
                     System.out.println(fileName);
                 }
                 if (fileName.contains("fixture")) { //fixture
-//                    parseFixture(path + File.separator + fileName);
+                    parseFixture(path + File.separator + fileName);
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones

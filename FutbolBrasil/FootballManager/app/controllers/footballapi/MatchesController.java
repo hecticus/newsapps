@@ -252,6 +252,7 @@ public class MatchesController extends HecticusController {
     public static Result getMinuteToMinuteForCompetition(Integer idApp, Integer idCompetition, Long idMatch, Long idEvent, Boolean forward){
         try {
             ObjectNode response = null;
+            ObjectNode resp = Json.newObject();
             ArrayList<ObjectNode> responseData = new ArrayList();
             Competition competition = Competition.getCompetitionByApp(idApp, idCompetition);
             if(competition != null){
@@ -267,11 +268,35 @@ public class MatchesController extends HecticusController {
                             events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).lt("idGameMatchEvents", idEvent).orderBy("id_game_match_events desc").findList();
                         }
                     }
+                    resp.put("home_team", gameMatch.getHomeTeam().toJson());
+                    resp.put("home_team_goals", gameMatch.getHomeTeamGoals());
+                    resp.put("away_team", gameMatch.getAwayTeam().toJson());
+                    resp.put("away_team_goals", gameMatch.getAwayTeamGoals());
                     if(events != null & !events.isEmpty()) {
+                        GameMatchEvent pivot = events.get(0);
+                        ArrayList<ObjectNode> periodData = new ArrayList<>();
                         for (GameMatchEvent gameMatchEvent : events) {
-                            responseData.add(gameMatchEvent.toJson());
+                            if(gameMatchEvent.getPeriod().getIdPeriods() == pivot.getPeriod().getIdPeriods()){
+                                periodData.add(gameMatchEvent.toJsonNoPeriod());
+                            } else {
+                                ObjectNode period = Json.newObject();
+                                period.put("period", pivot.getPeriod().toJson());
+                                period.put("events", Json.toJson(periodData));
+                                periodData.clear();
+                                periodData.add(gameMatchEvent.toJsonNoPeriod());
+                                pivot = gameMatchEvent;
+                                responseData.add(period);
+                            }
                         }
-                        response = hecticusResponse(0, "ok", "actions", responseData);
+                        if(!periodData.isEmpty()){
+                            ObjectNode period = Json.newObject();
+                            period.put("period", pivot.getPeriod().toJson());
+                            period.put("events", Json.toJson(periodData));
+                            periodData.clear();
+                            responseData.add(period);
+                        }
+                        resp.put("actions", Json.toJson(responseData));
+                        response = hecticusResponse(0, "ok", resp);
                     } else {
                         response = buildBasicResponse(1, "No hay eventos para el partido " + idMatch);
                     }
