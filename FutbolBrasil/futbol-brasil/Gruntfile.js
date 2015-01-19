@@ -23,12 +23,12 @@ module.exports = function(grunt) {
 
             js: {
                 files: [
-                  '<%= yeoman.app %>/modules/*/*.js'
-                  , '<%= yeoman.app %>/modules/*/config/*.js'
-                  , '<%= yeoman.app %>/modules/*/controllers/*.js'
-                  , '<%= yeoman.app %>/modules/*/services/*.js'
-                  , '<%= yeoman.app %>/modules/*/directives/*.js'
-                  , '<%= yeoman.app %>/modules/*/filters/*.js'
+                  '<%= yeoman.app %>/modules/*/*.js',
+                  '<%= yeoman.app %>/modules/*/config/*.js',
+                  '<%= yeoman.app %>/modules/*/controllers/*.js',
+                  '<%= yeoman.app %>/modules/*/services/*.js',
+                  '<%= yeoman.app %>/modules/*/directives/*.js',
+                  '<%= yeoman.app %>/modules/*/filters/*.js'
                 ],
                 tasks: ['newer:jshint:all', 'ngdocs'],
                 options: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
             },
 
             styles: {
-                files: ['<%= yeoman.app %>/css/**/*.css'],
+                files: ['<%= yeoman.app %>/styles/**/*.css'],
                 tasks: ['newer:copy:styles', 'autoprefixer']
             },
 
@@ -215,7 +215,7 @@ module.exports = function(grunt) {
                         'app/modules/*/directives/*.js',
                         'app/modules/*/filters/*.js',
                         'app/modules/*/controllers/*.js',
-                        'app/css/**/*.css'
+                        'app/styles/**/*.css'
                     ]
                 }
             },
@@ -249,9 +249,9 @@ module.exports = function(grunt) {
                         '<%= yeoman.dist %>/app/modules/*/directives/*.js',
                         '<%= yeoman.dist %>/app/modules/*/filters/*.js',
                         '<%= yeoman.dist %>/app/modules/*/controllers/*.js',
-                        '<%= yeoman.dist %>/app/css/**/*.css',
+                        '<%= yeoman.dist %>/app/styles/**/*.css',
                         '<%= yeoman.dist %>/app/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= yeoman.dist %>/app/css/fonts/*.{eot,svg,ttf,woff}'
+                        '<%= yeoman.dist %>/app/styles/fonts/*.{eot,svg,ttf,woff}'
                     ]
                 }
             }
@@ -373,7 +373,7 @@ module.exports = function(grunt) {
                     src: ['generated/*']
                 }, {
                     expand: true,
-                    cwd: '<%= yeoman.app %>/css/fonts/',
+                    cwd: '<%= yeoman.app %>/styles/fonts/',
                     dest: '<%= yeoman.dist %>/styles/fonts/',
                     src: ['*']
                 }
@@ -384,6 +384,28 @@ module.exports = function(grunt) {
                 cwd: '<%= yeoman.app %>/css',
                 dest: '.tmp/css/',
                 src: '**/*.css'
+            },
+            debug: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: [
+                        '**/*'
+                    ]
+                }, {
+                    expand: true,
+                    cwd: '.tmp/images',
+                    dest: '<%= yeoman.dist %>/img',
+                    src: ['generated/*']
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/styles/fonts/',
+                    dest: '<%= yeoman.dist %>/styles/fonts/',
+                    src: ['*']
+                }
+                ]
             }
         },
 
@@ -416,6 +438,11 @@ module.exports = function(grunt) {
         if (target === 'dist') {
             console.log('dist serve');
             return grunt.task.run(['build', 'connect:dist:keepalive']);
+        }
+
+        if (target === 'debug') {
+            console.log('debug serve');
+            return grunt.task.run(['debug', 'connect:dist:keepalive']);
         }
 
         grunt.task.run([
@@ -465,6 +492,12 @@ module.exports = function(grunt) {
         'htmlmin',
         'comments:dist'
     ]);
+
+    grunt.registerTask('debug',[
+        'clean:dist',
+        'copy:debug'
+    ]);
+
 
     grunt.registerTask('default', [
         'newer:jshint',

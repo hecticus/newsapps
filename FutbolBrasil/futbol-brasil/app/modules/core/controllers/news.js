@@ -63,7 +63,7 @@ angular
                     console.log($scope.news);
                 } else {
                     console.log('getNews. news NOT on storage');
-                    $http({method: 'GET', url: Domain.news.index})
+                    $http({method: 'GET', url: Domain.news.index()})
                         .then(function (obj) {
                             console.log('getNews. GET');
                             console.log(obj);
