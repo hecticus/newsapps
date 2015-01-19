@@ -148,6 +148,29 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getFixturesByIDs(Integer idApp){
+        try {
+            Map<String, String[]> queryString = request().queryString();
+            String[] matches = queryString.get("match[]");
+            ArrayList<Long> matchesIDs = new ArrayList<>();
+            ArrayList responseData = new ArrayList();
+            ObjectNode response = null;
+            for(String match : matches){
+                matchesIDs.add(Long.parseLong(match));
+            }
+            List<GameMatch> gameMatches = GameMatch.finder.where().in("idGameMatches", matchesIDs).findList();
+            for(GameMatch gameMatch : gameMatches){
+                responseData.add(gameMatch.toJson());
+            }
+            response = hecticusResponse(0, "ok", "matches", responseData);
+            return ok(response);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+
     public static Result getActiveCompetitions(Integer idApp, Boolean ids){
         try {
             ObjectNode response = null;

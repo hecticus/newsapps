@@ -3,6 +3,7 @@ package models.clients;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Country;
+import models.leaderboard.ClientBets;
 import models.leaderboard.Leaderboard;
 import models.leaderboard.LeaderboardGlobal;
 import models.pushalerts.ClientHasPushAlerts;
@@ -13,7 +14,9 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by plesse on 9/30/14.
@@ -52,6 +55,9 @@ public class Client extends HecticusModel {
 
     @OneToOne(mappedBy="client", cascade = CascadeType.ALL)
     private LeaderboardGlobal leaderboardGlobal;
+
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    private List<ClientBets> clientBets;
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
@@ -175,6 +181,14 @@ public class Client extends HecticusModel {
         this.leaderboardGlobal = leaderboardGlobal;
     }
 
+    public List<ClientBets> getClientBets() {
+        return clientBets;
+    }
+
+    public void setClientBets(List<ClientBets> clientBets) {
+        this.clientBets = clientBets;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -193,6 +207,21 @@ public class Client extends HecticusModel {
             return -1;
         }
         return pushAlerts.indexOf(clientHasPushAlert);
+    }
+
+    public void addClientBet(ClientBets bet){
+        if(bet.getIdClientBets() != null && clientBets.contains(bet)){
+            clientBets.remove(bet);
+        }
+        clientBets.add(bet);
+    }
+
+    public Map<Integer, ClientBets> getClientBetsAsMap(){
+        Map<Integer, ClientBets> betsMap = new HashMap<>();
+        for(ClientBets clientBets1 : clientBets){
+            betsMap.put(clientBets1.getIdGameMatch(), clientBets1);
+        }
+        return betsMap;
     }
 
     @Override
