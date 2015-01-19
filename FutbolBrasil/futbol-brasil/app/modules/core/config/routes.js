@@ -71,7 +71,7 @@ angular
                 data:{
                   prev: 'scorers',
                   next: 'match',
-                  contentClass: 'content-livescore',
+                  contentClass: 'content-livescore'
                 }
             })
             .state('prediction', {

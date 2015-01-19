@@ -1,64 +1,11 @@
-
-
-		<div id="wrapperH">
-			<div id="scroller" style="width:{{_this.widthTotal}}px;">
-				<ul>
-					<li style="width:{{_this.width}}px;" ng-repeat="page in _this.pages" on-last-repeat >
-						<span>{{page.name}}</span>
-						<span>{{page.date}}</span>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-
-
-	<!---div id="wrapper" >
-		<div class="scroller">
-			<div class="container">
-
-
-					<div class="row" style="margin: 0 !important; padding: 0 !important;" >
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 match" ng-repeat="league in _this.item.leagues" style="margin: 0 !important; padding: 0 !important;"  >
-
-							<table class="table" >
-								<thead>
-									<tr>
-							  			<th colspan="3" style="background-color: #3B9444;">
-							  				<span ng-bind="league.name"></span>
-										</th>
-							  		</tr>
-							  	</thead>
-						  		<tbody>
-						  			<tr ng-repeat="match in league.fixtures">
-						  				<td style="width: 33% !important;">
-						  					<span ng-bind="match.homeTeam.name"></span>
-						  					<br />
-						  					<span ng-bind="match.home_team_goals"></span>
-						  				</td>
-						  				<td style="width: 33% !important;">
-						  					<span>VS</span>
-						  					<br />
-						  					<span ng-bind="match.status"></span>
-						  				</td>
-						  				<td style="width: 33% !important;">
-						  					<span ng-bind="match.awayTeam.name"></span>
-						  					<br />
-						  					<span ng-bind="match.away_team_goals"></span>
-						  				</td>
-						  			</tr>
-
-						  		</tbody>
-							</table>
-
-
-
-						</div>
-
-
-					</div>
-
-			</div>
-		</div>
-	</div-->
+<div id="wrapperH">
+    <div id="scroller" ng-style="getTotalWidth()">
+        <ul>
+            <li ng-style="getWidth()" ng-repeat="page in _this.pages" on-last-repeat>
+                <span>{{page.name}}</span>
+                <span>{{page.date}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
 

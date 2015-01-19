@@ -84,7 +84,7 @@ angular
                         window.localStorage.setItem(this.FILE_KEY_CLIENT_ID
                             ,JSON.stringify(this.clientOBJ));
                         //mandamos a guardar tambien el reg ID
-                        Pushmanager.saveRegID(regID);
+                        PushManager.saveRegID(regID);
                         return true;
                     } catch(err){
                         return false;

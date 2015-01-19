@@ -37,7 +37,7 @@ angular
                         console.log("Favorites: "+JSON.stringify(teamList));
                         return true;
                     }catch(err){
-                        console.log("Ocurrio un error al crear la lista de mujeres: "+err.message)
+                        console.log("Ocurrio un error al crear la lista de mujeres: "+err.message);
                         return false;
                     }
                 },

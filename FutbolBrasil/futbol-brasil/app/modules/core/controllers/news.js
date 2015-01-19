@@ -16,10 +16,9 @@ angular
                 first : 0,
                 last : 0
             };
-
             $scope.item = {};
             $scope.news = [];
-            $scope.contentNews = {};
+            $scope.contentNews = '';
             $scope.detailTest = {};
 
             //TODO revisar esto y su directiva
@@ -45,13 +44,11 @@ angular
                 return Utilities.moment(_date).fromNow();
             };
 
-            $scope.setContentNews = function(_news) {
-                $scope.contentNews = _news;
-            };
-
             //TODO Revisar
             $scope.showContentNews = function(_news) {
-                $scope.setContentNews(_news);
+                $scope.news.indexOf(_news);
+                $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
+                console.log($scope.contentNews);
                 angular.element('#wrapper2').attr('class','page transition left');
                 $scope._scroll2.scrollTo(0,0,0);
             };
@@ -66,7 +63,7 @@ angular
                     console.log($scope.news);
                 } else {
                     console.log('getNews. news NOT on storage');
-                    $http({method: 'GET', url: Domain.news().index})
+                    $http({method: 'GET', url: Domain.news.index})
                         .then(function (obj) {
                             console.log('getNews. GET');
                             console.log(obj);
@@ -92,7 +89,7 @@ angular
 //                console.log('getNewsPreviousToId. newsId: ' + newsId);
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $rootScope.loading = true;
-                    $http({method: 'GET', url: Domain.news().up(newsId)})
+                    $http({method: 'GET', url: Domain.news.up(newsId)})
                         .then(function (obj) {
 //                            console.log(obj);
                             angular.forEach(obj.data.response.news, function (_item) {
@@ -109,7 +106,7 @@ angular
 //                console.log('getNewsAfterId. newsId: ' + newsId);
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $rootScope.loading = true;
-                    $http({method: 'GET', url: Domain.news().down(newsId)})
+                    $http({method: 'GET', url: Domain.news.down(newsId)})
                         .then(function (obj) {
 //                            console.log(obj);
                             angular.forEach(obj.data.response.news, function (_item) {

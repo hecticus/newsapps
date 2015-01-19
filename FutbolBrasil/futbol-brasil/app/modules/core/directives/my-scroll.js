@@ -24,7 +24,7 @@ angular
                 // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
                 link: function(scope, element, attrs) {
                   if (scope.$last){
-                    _scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
+                    var _scroll = new IScroll('#wrapper',{click:true, preventDefault:true});
                     _scroll.on('beforeScrollStart', function () {
                       this.refresh();
                     });

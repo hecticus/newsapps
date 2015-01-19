@@ -18,7 +18,7 @@ angular
         leaderboard:false,
         scorers:false,
         match:false,
-        competitions:false,
+        competitions:false
       });
 
       $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams) {
@@ -41,7 +41,7 @@ angular
         }
       });
 
-    })
+    });
 
 //Then define the init function for starting up the application
 angular

@@ -1,177 +1,195 @@
-		<div id="wrapper">
-			<div class="scroller">
-				<div class="container" >
-	
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 competition" ng-repeat="competition in _this.item.competitions"  ng-click="_this.showContentPhases(competition)" data-news="{{ competition.id_competitions }}">							
-							<h4 ng-bind="competition.name"></h4>
-						</div>
-					</div>	
-																									
-				</div>				
-			</div>
-		</div>
+<div class="row">
+    <div id="wrapper">
+        <div class="scroller">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 competition"
+                         ng-repeat="competition in _this.item.competitions"
+                         ng-click="_this.showContentPhases(competition)"
+                         data-news="{{ competition.id_competitions }}">
+                        <h4>{{competition.name}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div id="wrapper2" class="page" style="left: 100%;" >
-			
-			<div class="scroller">
-				<div class="container">	
-					
-					<div class="row" style="margin-top: 40px !important;" >
-	       				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-							<span>&nbsp;</span>
-						</div>
-	       			</div>
-												
-					<div class="row">								
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  ng-repeat="phase in _this.item.phases" ng-click="_this.showContentRanking(_this.item.competition.id_competitions, phase.id_phases)">
-							<h4 ng-bind="phase.global_name"></h4>
-						</div>
-					</div>
-					
-				</div>				
-			</div>
+    <div id="wrapper2" class="page" style="left: 100%; z-index: 1;">
+        <div class="scroller">
+            <div class="container">
 
-			<div class="row-back border" ng-click="prevPage()">
-				<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-						<i class="icon icon-material-keyboard-arrow-left" style="font-size: 1.8em; margin-left: 10px;"></i>
-						<span ng-bind="_this.item.competition.name" style="font-size: 2em; margin-left: 10px; font-weight: bold;"></span>	
-					</div>		
-				</div>						
-			</div>
-			
-		</div>
-		
-		
-		<div id="wrapper3" class="page" style="left: 100%;">
-		
-			<div class="scroller" >
-				<div class="container">	
-					
-					<div class="row" style="margin-top: 80px !important;" >
-	       				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-							<span>&nbsp;</span>
-						</div>
-	       			</div>
-	       			
-					<div ng-if="_this.item.tree == true ">
-					
-						
-		       		
-						<div class="row" ng-repeat="rankings in _this.item.ranking" >
-							
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="ranking in rankings.ranking">
-								<table class="table" >
-									<thead>
-										<tr> 
-								  			<th colspan="8" style="background-color: #3B9444;">
-								  				<span>{{_this.fromNow(ranking.date)}}</span>
-											</th>
-								  		</tr>
-							  		</thead>
-							  		<tbody>
-							  			<tr>
-							  				<td style="width: 33% !important;">
-							  					<span ng-bind="ranking.homeTeam.name"></span> 
-							  					<br />
-							  					<span ng-bind="ranking.home_team_goals"></span>
-							  				</td>
-							  				<td style="width: 33% !important;">
-							  					<span>VS</span>
-							  					<br />
-							  					<span ng-bind="ranking.status"></span>
-							  				</td>
-							  				<td style="width: 33% !important;">
-							  					<span ng-bind="ranking.awayTeam.name"></span>
-							  					<br />
-							  					<span ng-bind="ranking.away_team_goals"></span>
-							  				</td>
-							  			</tr>
-							  			
-							  		</tbody>
-								</table>
-								
-								
-								
-							</div>
-							
-				
-						</div>
-						
-		       		</div>
-			       
-			       	
-			       	<div ng-if="_this.item.tree == false ">
-			       		
-			       		
-			       		
-				        <div class="row" ng-repeat="rankings in _this.item.ranking" >	
-				        	
-				        													
-						
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-	
-								<table class="table" >								
-								  	<thead>
-								  		<tr > 
-								  			<th colspan="8" style="background-color: #3B9444;"><span ng-bind="rankings.group_name"></span></th>
-								  		</tr>
-								        <tr>
-								        	<th></th>
-								          	<th style="text-align: left;">Classifica&ccedil;&atilde;o</th>
-								          	<th>p</th>
-								          	<th>j</th>
-								          	<th>v</th>
-								          	<th>e</th>
-								          	<th>d</th>
-											<th>sg</th>
-								        </tr>
-									</thead>
-								    <tbody>
-								    	
-								    	<tr ng-class="{'active' : $odd}" ng-repeat="ranking in rankings.ranking">
-											<td><span ng-bind="ranking.orden" style="vertical-align: middle;"></span></td>
-								        	<td style="text-align: left;"><span ng-bind="ranking.team.name" style="vertical-align: middle;"></span></td>							        	
-								        	<td><span ng-bind="ranking.points" style="vertical-align: middle;"></span></td>
-								          	<td><span ng-bind="ranking.matches_won" style="vertical-align: middle;"></span></td>
-								          	<td><span ng-bind="ranking.matches_drawn" style="vertical-align: middle;"></span></td>
-								          	<td><span ng-bind="ranking.matches_lost" style="vertical-align: middle;"></span></td>
-								          	<td><span ng-bind="ranking.goals_for" style="vertical-align: middle;"></span></td>
-								          	<td><span ng-bind="ranking.goal_against" style="vertical-align: middle;"></span></td>							          	
-								        </tr>
-								    	
-								    </tbody>
-								      
-								</table>
-					
-							</div>						
-						</div>
-			       	</div>	
+                <div class="row" style="margin-top: 40px !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
 
-				</div>				
-			</div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                         ng-repeat="phase in _this.item.phases"
+                         ng-click="_this.showContentRanking(_this.item.competition.id_competitions
+                            , phase.id_phases)">
+                        <h4 ng-bind="phase.global_name"></h4>
+                    </div>
+                </div>
 
-			<div class="row-back border" ng-click="prevPage()">
-				<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-						<i class="icon icon-material-keyboard-arrow-left" style="font-size: 1.8em; margin-left: 10px;"></i>
-						<span ng-bind="_this.item.phase.competition.name" style="font-size: 2em; margin-left: 10px; font-weight: bold;"></span>																				
-					</div>		
-				</div>
-			</div>
+            </div>
+        </div>
 
-			<div class="row-back" style="top:50px !important; background-color: #FAFAFA;">
-				<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;" >		
-						<span ng-bind="_this.item.phase.global_name" style="font-size: 1.6em; font-weight: bold;"></span>														
-					</div>		
-				</div>
-			</div>
+        <div class="row-back border" ng-click="prevPage()">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <i class="icon icon-material-keyboard-arrow-left"
+                       style="font-size: 1.8em; margin-left: 10px;"></i>
+                    <span ng-bind="_this.item.competition.name"
+                          style="font-size: 2em; margin-left: 10px; font-weight: bold;"></span>
+                </div>
+            </div>
+        </div>
 
-		</div>
-		
-		
-		
-	
-		
+    </div>
+
+
+    <div id="wrapper3" class="page" style="left: 100%; z-index: 1;">
+
+        <div class="scroller">
+            <div class="container">
+
+                <div class="row" style="margin-top: 80px !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+
+                <div ng-if="_this.item.tree == true ">
+                    <div class="row" ng-repeat="rankings in _this.item.ranking">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                             ng-repeat="ranking in rankings.ranking">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="8" style="background-color: #3B9444;">
+                                        <span>{{_this.fromNow(ranking.date)}}</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="width: 33% !important;">
+                                        <span ng-bind="ranking.homeTeam.name"></span>
+                                        <br/>
+                                        <span ng-bind="ranking.home_team_goals"></span>
+                                    </td>
+                                    <td style="width: 33% !important;">
+                                        <span>VS</span>
+                                        <br/>
+                                        <span ng-bind="ranking.status"></span>
+                                    </td>
+                                    <td style="width: 33% !important;">
+                                        <span ng-bind="ranking.awayTeam.name"></span>
+                                        <br/>
+                                        <span ng-bind="ranking.away_team_goals"></span>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="_this.item.tree == false ">
+                    <div class="row" ng-repeat="rankings in _this.item.ranking">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="8" style="background-color: #3B9444;"><span
+                                            ng-bind="rankings.group_name"></span></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th style="text-align: left;">Classifica&ccedil;&atilde;o</th>
+                                    <th>p</th>
+                                    <th>j</th>
+                                    <th>v</th>
+                                    <th>e</th>
+                                    <th>d</th>
+                                    <th>sg</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr ng-class="{'active' : $odd}" ng-repeat="ranking in rankings.ranking">
+                                    <td>
+                                        <span ng-bind="ranking.orden"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <span ng-bind="ranking.team.name"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="ranking.points"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="ranking.matches_won"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="ranking.matches_drawn"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="ranking.matches_lost"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="ranking.goals_for"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="ranking.goal_against"
+                                              style="vertical-align: middle;"></span>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-back border" ng-click="prevPage()">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <i class="icon icon-material-keyboard-arrow-left"
+                       style="font-size: 1.8em; margin-left: 10px;"></i>
+                    <span ng-bind="_this.item.phase.competition.name"
+                          style="font-size: 2em; margin-left: 10px; font-weight: bold;"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-back" style="top:50px !important; background-color: #FAFAFA;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+                    <span ng-bind="_this.item.phase.global_name"
+                          style="font-size: 1.6em; font-weight: bold;"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+

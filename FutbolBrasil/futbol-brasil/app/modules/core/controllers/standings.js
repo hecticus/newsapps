@@ -9,14 +9,18 @@
 angular
     .module('core')
     .controller('StandingsCtrl',  ['$http','$rootScope','$scope','$state','$localStorage','Domain','Utilities',
-      function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities, data) {
+      function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities) {
 
         var _this = this;
         var _promise = false;
+          var _scroll;
+          var _scroll2;
+          var _scroll3;
 
         $rootScope.loading = false;
         $rootScope.error = false;
 
+          //TODO Sacar a Service
         _this.fromNow = function(_date) {
           return Utilities.moment(_date).format('MMMM Do YYYY');
         };
@@ -47,13 +51,13 @@ angular
 
         };
 
-        _this.showContentRanking = function(competition,phase) {
+        _this.showContentRanking = function(competition, phase) {
 
-          $rootScope.loading = true;
-          _this.item.phase = false;
-          _this.item.ranking = [];
-          _promise = $http({method: 'GET', url: Domain.ranking(competition,phase)});
-          _promise.then(function(obj) {
+            $rootScope.loading = true;
+            _this.item.phase = false;
+            _this.item.ranking = [];
+            _promise = $http({method: 'GET', url: Domain.ranking(competition,phase)});
+            _promise.then(function(obj) {
 
             _this.item.tree = obj.data.response.tree;
             _this.item.phase = obj.data.response.phase;
@@ -62,29 +66,34 @@ angular
             angular.element('#wrapper3').attr('class','page transition left');
             _scroll3.scrollTo(0,0,0);
 
-          }).finally(function(data) {
+            }).finally(function(data) {
               $rootScope.loading = false;
               $rootScope.error = false;
-          });
+            });
 
         };
 
-        _this.item = JSON.parse($rootScope.$storage.competitions);
+        $scope.init = function(){
+            console.log('standings.init');
+            _this.item = JSON.parse($rootScope.$storage.competitions);
+            console.log(_this.item);
 
-         var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-        _scroll.on('beforeScrollStart', function () {
-          this.refresh();
-        });
+            _scroll = new IScroll('#wrapper'
+                ,{click:true, preventDefault:true, bounce: true, probeType: 2});
+            _scroll.on('beforeScrollStart', function () {
+                this.refresh();
+            });
 
-        var _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});
-        _scroll2.on('beforeScrollStart', function () {
-          this.refresh();
-        });
+            _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});
+            _scroll2.on('beforeScrollStart', function () {
+                this.refresh();
+            });
 
-        var _scroll3 = new IScroll('#wrapper3',{click:true, preventDefault:true});
-        _scroll3.on('beforeScrollStart', function () {
-          this.refresh();
-        });
+            _scroll3 = new IScroll('#wrapper3',{click:true, preventDefault:true});
+            _scroll3.on('beforeScrollStart', function () {
+                this.refresh();
+            });
+        }();
 
       }
 ]);

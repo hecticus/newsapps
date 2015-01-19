@@ -18,13 +18,12 @@ angular
                 // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
                 restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
                 // template: '',
-                templateUrl: '/modules/core/views/templates/error.tpl.html',
+                templateUrl: 'modules/core/views/templates/error.html',
                 replace: true,
                 // transclude: true,
                 // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
                 link: function(scope, element, attr, controller) {
                     scope.$watch('error', function (val) {
-                        console.log('error: ' + val);
                         if (val)
                             $(element).show();
                         else
