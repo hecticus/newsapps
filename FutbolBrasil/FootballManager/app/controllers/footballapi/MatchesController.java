@@ -148,6 +148,29 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getFixturesByIDs(Integer idApp){
+        try {
+            Map<String, String[]> queryString = request().queryString();
+            String[] matches = queryString.get("match[]");
+            ArrayList<Long> matchesIDs = new ArrayList<>();
+            ArrayList responseData = new ArrayList();
+            ObjectNode response = null;
+            for(String match : matches){
+                matchesIDs.add(Long.parseLong(match));
+            }
+            List<GameMatch> gameMatches = GameMatch.finder.where().in("idGameMatches", matchesIDs).findList();
+            for(GameMatch gameMatch : gameMatches){
+                responseData.add(gameMatch.toJson());
+            }
+            response = hecticusResponse(0, "ok", "matches", responseData);
+            return ok(response);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+
     public static Result getActiveCompetitions(Integer idApp, Boolean ids){
         try {
             ObjectNode response = null;
@@ -260,12 +283,12 @@ public class MatchesController extends HecticusController {
                 if(gameMatch != null){
                     List<GameMatchEvent> events = null;
                     if(idEvent == 0){
-                        events = gameMatch.getEvents();
+                        events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).orderBy("_sort desc").findList();
                     } else {
                         if(forward){
-                            events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).gt("idGameMatchEvents", idEvent).orderBy("id_game_match_events asc").findList();
+                            events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).gt("idGameMatchEvents", idEvent).orderBy("_sort desc").findList();
                         } else {
-                            events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).lt("idGameMatchEvents", idEvent).orderBy("id_game_match_events desc").findList();
+                            events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).lt("idGameMatchEvents", idEvent).orderBy("_sort asc").findList();
                         }
                     }
                     resp.put("home_team", gameMatch.getHomeTeam().toJson());

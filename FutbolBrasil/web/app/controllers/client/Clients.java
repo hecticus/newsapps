@@ -9,6 +9,7 @@ import models.basic.Country;
 import models.clients.Client;
 import models.clients.ClientHasDevices;
 import models.clients.Device;
+import models.leaderboard.ClientBets;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
@@ -20,8 +21,10 @@ import play.libs.ws.WSResponse;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import utils.DateAndTime;
 import utils.Utils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -483,6 +486,164 @@ public class Clients extends HecticusController {
             return badRequest(buildBasicResponse(1, "Error buscando el registro", e));
         }
     }
+
+    //ClientBetsWS
+
+
+    public static Result createBet(Integer idClient) {
+        ObjectNode betsData = getJson();
+        try {
+            ObjectNode response = null;
+            Client client = Client.finder.byId(idClient);
+            if(client != null) {
+                Iterator<JsonNode> bets = betsData.get("bets").elements();
+                Map<Integer, ObjectNode> betsMap = new HashMap<>();
+                StringBuilder matchesRequest = new StringBuilder();
+                matchesRequest.append("http://").append(Config.getFootballManagerHost()).append("/footballapi/v1/matches/get/ids/").append(Config.getInt("football-manager-id-app")).append("?");
+                int idTournament = -1, idGameMatch = -1, clientBet = -1;
+                ClientBets clientBets = null;
+                while(bets.hasNext()){
+                    JsonNode bet = bets.next();
+                    idTournament = bet.get("id_tournament").asInt();
+                    idGameMatch = bet.get("id_game_match").asInt();
+                    clientBet = bet.get("client_bet").asInt();
+                    ObjectNode betElement = Json.newObject();
+                    betElement.put("id_tournament", idTournament);
+                    betElement.put("id_game_match", idGameMatch);
+                    betElement.put("client_bet", clientBet);
+                    betsMap.put(idGameMatch, betElement);
+                    matchesRequest.append("match[]=" + idGameMatch + "&");
+                }
+
+                F.Promise<WSResponse> result = WS.url(matchesRequest.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    Map<Integer, ClientBets> clientBetsAsMap = client.getClientBetsAsMap();
+                    JsonNode data = footballResponse.get("response");
+                    Iterator<JsonNode> matches = data.get("matches").elements();
+                    while (matches.hasNext()) {
+                        JsonNode match = matches.next();
+                        idGameMatch = match.get("id_game_matches").asInt();
+                        if (betsMap.containsKey(idGameMatch)) {
+                            ObjectNode betElement = betsMap.get(idGameMatch);
+                            idTournament = betElement.get("id_tournament").asInt();
+                            idGameMatch = betElement.get("id_game_match").asInt();
+                            clientBet = betElement.get("client_bet").asInt();
+                            String dateText = match.get("date").asText();
+                            Date date = DateAndTime.getDate(dateText, dateText.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss");
+                            Date today = new Date(System.currentTimeMillis());
+                            if (date.after(today)) {
+                                if (clientBetsAsMap.containsKey(idGameMatch)) {
+                                    clientBets = clientBetsAsMap.get(idGameMatch);
+                                    clientBets.setClientBet(clientBet);
+                                    client.addClientBet(clientBets);
+                                } else {
+                                    clientBets = new ClientBets(client, idTournament, idGameMatch, clientBet);
+                                    client.addClientBet(clientBets);
+                                }
+                            }
+                        }
+                    }
+                    client.update();
+                    response = buildBasicResponse(0, "done");
+                } else{
+                    response = buildBasicResponse(1, "error vaidando partidos");
+                }
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
+
+    public static Result getBets(Integer idClient) {
+        ObjectNode response = null;
+        try {
+            Client client = Client.finder.byId(idClient);
+            if(client != null) {
+                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/date/get/" + Config.getInt("football-manager-id-app") + "/today";
+
+
+                F.Promise<WSResponse> result = WS.url(teams.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+
+                footballResponse.get("error");
+                JsonNode data = footballResponse.get("response");
+
+                ArrayList<ObjectNode> finalData = new ArrayList<>();
+                ObjectNode responseData = Json.newObject();
+                ArrayList<Integer> matchesIDs = new ArrayList<>();
+                ArrayList<ObjectNode> modifiedFixtures = new ArrayList<>();
+                Map<Integer, ObjectNode> matches = new HashMap<>();
+                Iterator<JsonNode> leagues = data.get("leagues").elements();
+                while(leagues.hasNext()){
+                    ObjectNode league = (ObjectNode) leagues.next();
+                    Iterator<JsonNode> fixtures = league.get("fixtures").elements();
+                    while(fixtures.hasNext()){
+                        ObjectNode fixture = (ObjectNode) fixtures.next();
+                        int idGameMatches = fixture.get("id_game_matches").asInt();
+                        matchesIDs.add(idGameMatches);
+                        matches.put(idGameMatches, fixture);
+                    }
+                    List<ClientBets> list = ClientBets.finder.where().eq("client", client).eq("idTournament", league.get("id_competitions").asInt()).in("idGameMatch", matchesIDs).orderBy("idGameMatch asc").findList();
+                    if(list != null && !list.isEmpty()){
+                        for(ClientBets clientBets : list) {
+                            ObjectNode fixture = matches.get(clientBets.getIdGameMatch());
+                            fixture.put("bet", clientBets.toJsonNoClient());
+                            modifiedFixtures.add(fixture);
+                            matches.remove(clientBets.getIdGameMatch());
+                        }
+                        Set<Integer> keys = matches.keySet();
+                        for(int key :keys){
+                            ObjectNode fixture = matches.get(key);
+                            modifiedFixtures.add(fixture);
+                        }
+                        Collections.sort(modifiedFixtures, new FixturesComparator());
+                        league.remove("fixtures");
+                        league.put("fixtures", Json.toJson(modifiedFixtures));
+                    }
+                    finalData.add(league);
+                    modifiedFixtures.clear();
+                    matchesIDs.clear();
+                    matches.clear();
+                }
+                responseData.put("leagues", Json.toJson(finalData));
+                response = buildBasicResponse(0, "OK", responseData);
+            } else {
+                response = buildBasicResponse(2, "no existe el registro a consultar");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
+    public static class FixturesComparator implements Comparator<ObjectNode> {
+        @Override
+        public int compare(ObjectNode o1, ObjectNode o2) {
+            int result = o1.get("date").asText().compareTo(o2.get("date").asText());
+            if(result == 0){
+                return o1.get("id_game_matches").asInt() - o2.get("id_game_matches").asInt();
+            }
+            return result;
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     //Reset Upstream pass and they send MT to client with new one
     public static Result resetUpstreamPass() {
