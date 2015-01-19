@@ -8,8 +8,9 @@
 */
 angular
     .module('core')
-    .controller('MatchCtrl', ['$http','$rootScope','$scope','$state','$localStorage','Domain','Utilities',
-      function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities, data) {
+    .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
+        ,'Domain','Utilities',
+      function($http, $rootScope, $scope, $window, $state, $localStorage, Domain, Utilities, data) {
 
         var _this = this;
         var _promise = false;
@@ -19,15 +20,22 @@ angular
         var _currentPage = 0;
         var _goToPage = true;
 
-        _this.width = window.innerWidth;
-
         _this.pages = [
           {name:'Ontem'},
           {name:'Hoje'},
-          {name:'Amanha'},
+          {name:'Amanha'}
         ];
 
-        _this.widthTotal = (window.innerWidth * _this.pages.length);
+        _this.width = $window.innerWidth;
+        _this.widthTotal = ($window.innerWidth * _this.pages.length);
+
+        $scope.getWidth = function(){
+          return { 'width': _this.width + ' px'}
+        };
+
+        $scope.getTotalWidth = function(){
+          return { 'width': _this.widthTotal + ' px'}
+        };
 
         var _scroll = new IScroll('#wrapperH', {
           scrollX: true,
@@ -37,7 +45,7 @@ angular
           snap: true,
           snapSpeed: 1000,
           probeType: 3,
-          bounce: false,
+          bounce: false
         });
 
         _scroll.on('beforeScrollStart', function () {
@@ -60,7 +68,7 @@ angular
                     .format('MMM Do YY')});
                   _this.widthTotal = (window.innerWidth * _this.pages.length);
                 });
-              };
+              }
 
             } else {
               /*if (this.currentPage.pageX == 0)  {
@@ -73,7 +81,7 @@ angular
 
             _currentPage = this.currentPage.pageX;
 
-          };
+          }
         });
 
         _scroll.on('scrollEnd', function () {
@@ -90,49 +98,7 @@ angular
         });
 
         $rootScope.loading = false;
-
-          /*_promise = $http({method: 'GET', url: Domain.match(_date,_limit,0)});
-          _promise.then(function(obj) {
-            _this.item =  obj.data.response;
-          }).finally(function(data) {
-              $rootScope.loading = false;
-              $rootScope.error = Utilities.error();
-          });
-
-          var _scroll = new IScroll('#wrapper',{click:true,preventDefault:true, bounce: true,  probeType: 2});
-          _scroll.on('beforeScrollStart', function () {
-            this.refresh();
-          });
-
-          _scroll.on('scroll', function () {
-
-
-
-                if (this.y <= this.maxScrollY) {
-                  if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-
-              var _page = (_angular('div.match').length * _limit);
-
-              console.log(Domain.match(_date,_limit,_page));
-
-                    $rootScope.loading = true;
-                    _promise = $http({method: 'GET', url: Domain.match(_date,_limit,_page)});
-              _promise.then(function(obj) {
-                angular.forEach(obj.data.response.leagues, function(_item, _index) {
-                  _this.item.leagues.push(_item);
-                });
-
-
-                _scroll.refresh();
-              }).finally(function(data) {
-                $rootScope.loading = false;
-              });
-
-            }
-          }
-
-        });
-      */
+          console.log('match');
 
       }
 ]);

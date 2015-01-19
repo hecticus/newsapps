@@ -15,17 +15,17 @@ angular
 
         $scope.isActive = function(className){
             return $state.current.name === className;
-        },
+        };
 
         $rootScope.showSection = function(_section) {
             $state.go(_section);
-        },
+        };
 
         $rootScope.nextPage = function() {
         /*if (!angular.element('#wrapper2').hasClass('left')) {
             $location.path($state.current.next);
          } */
-        },
+        };
 
         $rootScope.prevPage = function() {
             //TODO $state.go();
@@ -35,7 +35,7 @@ angular
                 angular.element('#wrapper2').attr('class','page transition right');
             }
 
-        },
+        };
 
         $rootScope.removeHeader = function(_item, _param) {
 
@@ -51,7 +51,7 @@ angular
 
             return _return;
 
-        },
+        };
 
         //TODO not being used
         $rootScope.removeArrow = function(_item, _param) {
@@ -65,7 +65,7 @@ angular
             });
             return _count;
 
-        },
+        };
 
         $rootScope.removeElement = function(_item) {
             if (_item) {
@@ -73,7 +73,7 @@ angular
             } else {
                 return false;
             }
-        },
+        };
 
         $rootScope.showCompetition = function(_option) {
 
@@ -100,14 +100,14 @@ angular
                     _this.prev().addClass('active flipInX');
                 }
             }
-        },
+        };
 
         $scope.getCompetitions = function(){
             return $http({method: 'GET', url:Domain.competitions()}).success(function(obj){
                 //TODO Usado en StandingsCtrl
                 $rootScope.$storage.competitions = JSON.stringify(obj.response);
             });
-        },
+        };
 
         $scope.init = function(){
             $scope.getCompetitions();

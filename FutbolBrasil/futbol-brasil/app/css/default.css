@@ -153,7 +153,9 @@ row:not(input):not(textarea) {
 	body.content-scorers .competition,
 	body.content-standings .competition  {
 		text-transform:uppercase;
-		display:none;
+		/*TODO revisar*/
+        /*display:none;*/
+
 	}
 
 	body.content-match .competition.active,

@@ -251,7 +251,7 @@ module.exports = function(grunt) {
                         '<%= yeoman.dist %>/app/modules/*/controllers/*.js',
                         '<%= yeoman.dist %>/app/css/**/*.css',
                         '<%= yeoman.dist %>/app/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= yeoman.dist %>/css/fonts/*.{eot,svg,ttf,woff}'
+                        '<%= yeoman.dist %>/app/css/fonts/*.{eot,svg,ttf,woff}'
                     ]
                 }
             }
@@ -288,7 +288,7 @@ module.exports = function(grunt) {
         // The following *-min tasks produce minified files in the dist folder
         cssmin: {
             options: {
-                root: '<%= yeoman.app %>/css/**/*.css'
+                root: ''
             }
         },
 
@@ -364,16 +364,20 @@ module.exports = function(grunt) {
                         '.htaccess',
                         'index.html',
                         'modules/*/views/**/*.html',
-                        'img/{,*/}*.{webp}',
-                        'css/fonts/*',
-                        'fonts/*'
+                        'img/{,*/}*.{webp}'
                     ]
                 }, {
                     expand: true,
                     cwd: '.tmp/images',
                     dest: '<%= yeoman.dist %>/img',
                     src: ['generated/*']
-                }]
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/css/fonts/',
+                    dest: '<%= yeoman.dist %>/styles/fonts/',
+                    src: ['*']
+                }
+                ]
             },
             styles: {
                 expand: true,
