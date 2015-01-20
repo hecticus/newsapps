@@ -60,12 +60,12 @@
 	      		contentClass: 'content-scorers'
 	    	})
 	    	
-	    	.when('/livescore', {
-	      		controller:'livescoreCtrl  as _this',
-	      		templateUrl:'livescore.html',
+	    	.when('/mtm', {
+	      		controller:'mtmCtrl  as _this',
+	      		templateUrl:'mtm.html',
 	      		prev: '/scorers',
 	      		next: '/match',
-	      		contentClass: 'content-livescore'
+	      		contentClass: 'content-mtm'
 	    	})	 	    		
 	    	
 	    	.when('/prediction', {
@@ -223,8 +223,12 @@
             	
             	match: function (_date, _limit, _page) {    		
             		return this.url + 'footballapi/v1/matches/date/paged/1/' + _date + '?pageSize=' + _limit + '&page=' + _page;	          		
-            	}
+            	},
 
+
+				mtm: function () {
+            		return this.url + 'footballapi/v1/matches/mam/1/5/390';
+            	},
         	};
     	})
 
@@ -531,12 +535,13 @@
  
  
  
- 		.controller('livescoreCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 		.controller('mtmCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {		
 						
 				var _this = this;		
  				var _angular =  angular.element;
 				var _scroll = utilities.newScroll.vertical('wrapper');
+				var _scroll2 = utilities.newScroll.vertical('wrapper2');
 				
 				_this.date = utilities.moment().format('dddd Do YYYY');
 							
@@ -551,8 +556,51 @@
   					$rootScope.error = utilities.error();
 				});
 
+				_this.refreshEvents = function() {
+					
+					$rootScope.loading = true; 
+					$http({method: 'GET', url: domain.mtm()}).then(function(obj) {
+						_this.item.mtm =  obj.data.response;						
+						_this.item.match = {
+							home: {name:obj.data.response.home_team.name, goals:obj.data.response.home_team_goals}, 
+							away: {name:obj.data.response.away_team.name, goals:obj.data.response.away_team_goals}
+						};				
+						
+			
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error();
+					});
+					
+					
+				};
 				
-
+				
+				_this.showContentEvents = function(_league, _match) {
+					
+					_this.item.mtm = [];
+					
+					_this.item.league = _league;
+					_this.item.match = {
+						home: {name:_match.homeTeam.name, goals:_match.home_team_goals}, 
+						away: {name:_match.awayTeam.name, goals:_match.away_team_goals}
+					};	
+										
+					angular.element('#wrapper2').attr('class','page transition left');
+					_scroll2.scrollTo(0,0,0);
+						
+					$rootScope.loading = true; 
+					$http({method: 'GET', url: domain.mtm()}).then(function(obj) {
+						_this.item.mtm =  obj.data.response;	
+					}).finally(function(data) {
+	  					$rootScope.loading = false;  					
+	  					$rootScope.error = utilities.error();
+					});
+					
+					
+											
+	  			};
+	  			
 	
 		}])
  
