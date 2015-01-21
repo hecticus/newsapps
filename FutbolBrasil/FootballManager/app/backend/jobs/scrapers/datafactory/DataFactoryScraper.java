@@ -531,9 +531,9 @@ public class DataFactoryScraper extends HecticusThread {
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
-//                    parsePositions(path + File.separator + fileName);
+                    parsePositions(path + File.separator + fileName);
                 } else if (fileName.contains("goleadores")) { //goleadores
-//                    parseStrikers(path + File.separator + fileName);
+                    parseStrikers(path + File.separator + fileName);
 //                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto
@@ -552,6 +552,9 @@ public class DataFactoryScraper extends HecticusThread {
 
     private String cleanHour(String value){
         String tr = value.replaceAll(":", "");
+        if (tr.isEmpty()){
+            tr = "000000";
+        }
         return tr;
     }
 
