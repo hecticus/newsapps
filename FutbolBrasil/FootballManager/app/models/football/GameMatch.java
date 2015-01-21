@@ -397,7 +397,14 @@ public class GameMatch extends HecticusModel {
 
     public void validateGame(){
         try {
-            this.save();
+            GameMatch tr =  finder.where().eq("ext_Id", this.extId).eq("id_competition",this.competition.getIdCompetitions()).findUnique();
+            if (tr != null){ //existe
+                this.setIdGameMatches(tr.idGameMatches);
+                this.update();
+            }else {
+                this.save();
+            }
+
         }catch (PersistenceException ex){
             //do nothing
         }catch (Exception ex){
