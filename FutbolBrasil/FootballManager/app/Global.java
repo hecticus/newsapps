@@ -19,6 +19,8 @@ import play.mvc.Result;
 import scala.concurrent.duration.Duration;
 import utils.Utils;
 import controllers.*;
+import play.libs.F.Promise;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -197,6 +199,20 @@ public class Global extends GlobalSettings {
         }
     };
 
+    private class ActionWrapper extends Action.Simple {
+        public ActionWrapper(Action<?> action) {
+            this.delegate = action;
+        }
+
+        @Override
+        public Promise<Result> call(Http.Context ctx) throws java.lang.Throwable {
+            Promise<Result> result = this.delegate.call(ctx);
+            Http.Response response = ctx.response();
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            return result;
+        }
+    }
+
     @SuppressWarnings("rawtypes")
     @Override
     public Action onRequest(Http.Request request, Method actionMethod) {
@@ -220,14 +236,15 @@ public class Global extends GlobalSettings {
                 if(!invoker.startsWith("controllers.Application")){
                     Logger.info("Pass request from " + ipString + " to " + invoker);
                 }
-                return super.onRequest(request, actionMethod);
+//                return super.onRequest(request, actionMethod);
+                return new ActionWrapper(super.onRequest(request, actionMethod));
             }else{
                 Logger.info("Deny request from " + ipString + " to " + invoker);
-                return newAction;
+                return new ActionWrapper(newAction);
             }
         }else{
             Logger.info("Deny request from " + ipString + " to " + invoker);
-            return newAction;
+            return new ActionWrapper(newAction);
         }
     }
 }

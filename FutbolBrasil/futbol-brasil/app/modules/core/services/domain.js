@@ -7,7 +7,7 @@
  */
 angular
     .module('core')
-    .constant('Domain', (function(){
+    .factory('Domain', function(){
 
         var football_manager_url = 'http://footballmanager.hecticus.com/';
         var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com';
@@ -45,7 +45,7 @@ angular
                 },
 
                 down: function (_news, _limit) {
-                    return  football_manager_url + 'newsapi/v1/news/scroll/down/rest/1/'
+                    return football_manager_url + 'newsapi/v1/news/scroll/down/rest/1/'
                         + _news;
                 }
             },
@@ -72,5 +72,4 @@ angular
                     + '?pageSize=' + _limit + '&page=' + _page;
             }
         };
-    })
-());
+    });

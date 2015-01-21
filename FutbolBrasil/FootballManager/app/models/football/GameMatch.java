@@ -48,7 +48,9 @@ public class GameMatch extends HecticusModel {
     private Integer awayTeamGoals;
     @javax.persistence.Column(length=14)
     private String date;
-    private String status;
+    @ManyToOne
+    @JoinColumn(name="id_game_match_status")
+    private GameMatchStatus status;
     private Integer started;
     private Integer live;
     private Integer finished;
@@ -74,7 +76,7 @@ public class GameMatch extends HecticusModel {
 
     public GameMatch(Phase phase, Team homeTeam, Team awayTeam, Venue venue, String homeTeamName,
                      String awayTeamName, Integer homeTeamGoals, Integer awayTeamGoals, String date,
-                     String status, Long extId, Competition competition) {
+                     GameMatchStatus status, Long extId, Competition competition) {
         this.phase = phase;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -177,11 +179,11 @@ public class GameMatch extends HecticusModel {
         this.date = date;
     }
 
-    public String getStatus() {
+    public GameMatchStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(GameMatchStatus status) {
         this.status = status;
     }
 
@@ -329,7 +331,7 @@ public class GameMatch extends HecticusModel {
         json.put("home_team_goals",homeTeamGoals);
         json.put("away_team_goals",awayTeamGoals);
         json.put("fifa_match_number",fifaMatchNumber);
-        json.put("status",status);
+        json.put("status", status.toJson());
         json.put("ext_id",extId);
         if(result != null) {
             json.put("results", result.toJson());
@@ -384,7 +386,7 @@ public class GameMatch extends HecticusModel {
         json.put("home_team_goals",homeTeamGoals);
         json.put("away_team_goals",awayTeamGoals);
         json.put("fifa_match_number",fifaMatchNumber);
-        json.put("status",status);
+        json.put("status", status.toJson());
         json.put("ext_id",extId);
         if(result != null) {
             json.put("results", result.toJson());

@@ -34,6 +34,15 @@ row:not(input):not(textarea) {
 		width: 100%;
 	}
 
+	body.content-mtm #wrapper2 {
+		position: absolute;
+		z-index: 3;
+		top: 0px; 
+		bottom: 0; 
+		left: 0;  
+		width: 100%;
+	}
+
 	/*#wrapper2,
 	#wrapper3 {
 		position: absolute;
@@ -102,7 +111,15 @@ row:not(input):not(textarea) {
 		background-color: #ffffff;
 	}
 
-	
+	body.content-mtm #wrapper2,
+	body.content-mtm #wrapper2 .scroller,
+	body.content-mtm #wrapper2 .scroller .container,    			
+	body.content-mtm #wrapper2 .scroller .container .row,
+	body.content-mtm #wrapper2 .scroller .container .row div { 
+		padding: 0 !important; 
+		margin: 0 !important; 
+		background-color: #ffffff;
+	}
 
 
 	#wrapper3,
@@ -345,16 +362,40 @@ row:not(input):not(textarea) {
 	width: 100%; 
 	height: 50px;
 	line-height: 50px;		
-	background-color: #FFFFFF;			
+	background-color: #FFFFFF;
+	color: #000000;	
+	padding: 0 !important; 
+	margin:0 !important;		
+	border: 0;
+}
+
+body.content-mtm .row-back {
+	background-color: #D84A38;	
+	color: #ffffff !important;	
+}
+
+
+.row-back.border {
+	border-bottom: solid 1pt #000000 !important;
+}
+
+.row-scoreboard {
+	position: absolute; 
+	z-index: 4;
+	top: 50px;
+	left:0;
+	right:0;		
+	width: 100%; 
+	height: 100px;
+	line-height: 50px;		
+	background-color: #FFFFFF;
+	color: #000000;			
 	padding: 0 !important; 
 	margin:0 !important;		
 	border: 0;							
 	
 }
 
-.row-back.border {
-	border-bottom: solid 1pt #000000 !important;
-}
 
 
 	.wrapper {
@@ -381,11 +422,12 @@ row:not(input):not(textarea) {
 	.winner { font-weight: bold; }
 	.goal { font-size: 1.6em; }
 	.status { color:#000000; font-weight: bold; }
-	.status.encerrado { color:red; }
+	.status.encerrado { color:#D84A38; }
 	.status.default { color:#FFBF00; }
-	.status.else { color:green; }
+	.status.else { color:#3B9444; }
 
-
+	.status.pt { background-color:#3B9444; color: #ffffff;}
+	.status.st { background-color:#FFBF00; color: #000000; }
 
 
 
