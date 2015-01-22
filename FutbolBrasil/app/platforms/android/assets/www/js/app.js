@@ -226,8 +226,8 @@
             	},
 
 
-				mtm: function () {
-            		return this.url + 'footballapi/v1/matches/mam/1/5/390';
+				mtm: function (_event) {
+            		return this.url + 'footballapi/v1/matches/mam/next/1/5/390/' + _event;
             	},
         	};
     	})
@@ -535,13 +535,34 @@
  
  
  
- 		.controller('mtmCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {		
+ 		.controller('mtmCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities','$interval',
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,$interval) {		
+				
+				/* Events */
+				/*
+					'1', 'Gol de jogada'
+					'2', 'Gol de cabeça'
+					'3', 'Gol contra'
+					'4', 'Gol de pênalti'
+					'5', 'Gol de falta'
+					'6', 'Cartão amarelo'
+					'7', 'Substituição'
+					'8', 'Gol por tribunal de disciplina'
+					'9', 'Cartão vermelho'
+					'10', 'Vermelho, duas amarelas'
+				*/
+				/* Events */
 						
 				var _this = this;		
  				var _angular =  angular.element;
 				var _scroll = utilities.newScroll.vertical('wrapper');
-				var _scroll2 = utilities.newScroll.vertical('wrapper2');
+				var _scroll2 = utilities.newScroll.vertical('wrapper2');				
+				var _event = {first:0, last:0};
+
+				
+				
+				
+				_this.interval = false;
 				
 				_this.date = utilities.moment().format('dddd Do YYYY');
 							
@@ -557,16 +578,21 @@
 				});
 
 				_this.refreshEvents = function() {
-					
-					$rootScope.loading = true; 
-					$http({method: 'GET', url: domain.mtm()}).then(function(obj) {
-						_this.item.mtm =  obj.data.response;						
-						_this.item.match = {
-							home: {name:obj.data.response.home_team.name, goals:obj.data.response.home_team_goals}, 
-							away: {name:obj.data.response.away_team.name, goals:obj.data.response.away_team_goals}
-						};				
-						
 			
+					$rootScope.loading = true; 
+					$http({method: 'GET', url: domain.mtm(_event.first)}).then(function(obj) {
+						
+						if (obj.data.error == 0) {
+													
+							_this.item.mtm.actions.unshift(obj.data.response.actions);
+																					
+							_this.item.match = {
+								home: {name:obj.data.response.home_team.name, goals:obj.data.response.home_team_goals}, 
+								away: {name:obj.data.response.away_team.name, goals:obj.data.response.away_team_goals}
+							};	
+													
+						}
+						
 					}).finally(function(data) {
 	  					$rootScope.loading = false;  					
 	  					$rootScope.error = utilities.error();
@@ -581,6 +607,7 @@
 					_this.item.mtm = [];
 					
 					_this.item.league = _league;
+					
 					_this.item.match = {
 						home: {name:_match.homeTeam.name, goals:_match.home_team_goals}, 
 						away: {name:_match.awayTeam.name, goals:_match.away_team_goals}
@@ -590,16 +617,39 @@
 					_scroll2.scrollTo(0,0,0);
 						
 					$rootScope.loading = true; 
-					$http({method: 'GET', url: domain.mtm()}).then(function(obj) {
-						_this.item.mtm =  obj.data.response;	
+					$http({method: 'GET', url: domain.mtm(_event.first)}).then(function(obj) {
+						if (obj.data.error == 0) _this.item.mtm =  obj.data.response;	
 					}).finally(function(data) {
 	  					$rootScope.loading = false;  					
 	  					$rootScope.error = utilities.error();
 					});
 					
-					
-											
+					/*_this.interval = $interval(function () {
+						console.log('_this.refreshEvents() -> ' + _event.first);
+  			 			_this.refreshEvents();
+	  			 	},30000);*/
+					 						
 	  			};
+	  			
+	  			 
+	  			_this.prevPageMtM = function () {
+	  				/*_event.first = 0;
+	  				$rootScope.loading = false;
+	  				$interval.cancel(_this.interval);
+	  				_this.interval = false;*/
+	  				$rootScope.prevPage();
+	  			};
+	  			
+	  			$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
+					_event.first = element.first().data('event');
+					$rootScope.loading = false;	
+			    });					
+						
+				$scope.$on('onRepeatLast', function(scope, element, attrs) {
+					_event.last = element.last().data('event');
+					$rootScope.loading = false;	
+			    });
+	  			
 	  			
 	
 		}])
