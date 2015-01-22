@@ -291,9 +291,9 @@ public class MatchesController extends HecticusController {
                             events = GameMatchEvent.finder.where().eq("gameMatch", gameMatch).lt("idGameMatchEvents", idEvent).orderBy("_sort asc").findList();
                         }
                     }
-                    resp.put("home_team", gameMatch.getHomeTeam().toJson());
+                    resp.put("home_team", gameMatch.getHomeTeam().toJsonSimple());
                     resp.put("home_team_goals", gameMatch.getHomeTeamGoals());
-                    resp.put("away_team", gameMatch.getAwayTeam().toJson());
+                    resp.put("away_team", gameMatch.getAwayTeam().toJsonSimple());
                     resp.put("away_team_goals", gameMatch.getAwayTeamGoals());
                     if(events != null & !events.isEmpty()) {
                         GameMatchEvent pivot = events.get(0);

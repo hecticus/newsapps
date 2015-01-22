@@ -186,7 +186,21 @@ public class GameMatchEvent extends HecticusModel {
         json.put("id_game_match_events",idGameMatchEvents);
         json.put("id_game_matches",gameMatch.getIdGameMatches());
         json.put("action",action.toJson());
-        json.put("id_teams",team.getIdTeams());
+        json.put("teams",team.getName());
+        json.put("player_a",playerA);
+        json.put("player_b",playerB);
+        json.put("action_minute",actionMinute);
+        json.put("date",date);
+        json.put("_sort",_sort);
+        return json;
+    }
+
+    public ObjectNode toJsonMarked(Long homeTeam) {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_match_events",idGameMatchEvents);
+        json.put("id_game_matches",gameMatch.getIdGameMatches());
+        json.put("action",action.toJson());
+        json.put("is_home_team", (team.getIdTeams() == homeTeam));
         json.put("player_a",playerA);
         json.put("player_b",playerB);
         json.put("action_minute",actionMinute);
