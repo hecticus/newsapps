@@ -493,7 +493,7 @@ public class DataFactoryScraper extends HecticusThread {
                                 Utils.printToLog(DataFactoryScraper.class,
                                         "Error en DataFactoryScraper",
                                         "Error inesperado parseando el archivo de minuto a minuto:"  + fileRoute + " el proceso no se pudo completar",
-                                        true,
+                                        false,
                                         ex,
                                         "support-level-1",
                                         Config.LOGGER_ERROR);

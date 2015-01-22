@@ -123,7 +123,7 @@ public class RankingController extends HecticusController {
                                     group.add(gameMatch.toJson());
                                 } else {
                                     ObjectNode member = Json.newObject();
-                                    member.put("group_name", phase.getGlobalName());
+                                    member.put("group_name",  pivot.getPhase().getName());
                                     member.put("ranking", Json.toJson(group));
                                     rankingObjs.add(member);
                                     group.clear();
@@ -133,7 +133,7 @@ public class RankingController extends HecticusController {
                             }
                             if(!group.isEmpty()){
                                 ObjectNode member = Json.newObject();
-                                member.put("group_name", phase.getGlobalName());
+                                member.put("group_name", pivot.getPhase().getName());
                                 member.put("ranking", Json.toJson(group));
                                 rankingObjs.add(member);
                                 group.clear();
