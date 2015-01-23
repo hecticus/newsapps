@@ -191,7 +191,9 @@
             		
             		return {   
             			         		
-            			index:  _this.url + 'newsapi/v1/news/scroll/1',
+            			index:  function (_news,_limit) { 
+            				return _this.url + 'newsapi/v1/news/scroll/1';
+            			},
             			
             			up: function (_news,_limit) { 
             				return _this.url + 'newsapi/v1/news/scroll/up/rest/1/' + _news;
@@ -382,7 +384,7 @@
 
 
  		.controller('mainCtrl', ['$rootScope', '$scope', '$location', '$route', '$localStorage', '$http'
-             , function($rootScope, $scope, $location, $route, $localStorage, $http) {
+             ,function($rootScope, $scope, $location, $route, $localStorage, $http) {
 
 			$rootScope.$on('$routeChangeStart',  function (event, current, previous, rejection) {
 	                $rootScope.loading = false;                                
@@ -423,15 +425,13 @@
 			};
 
 			$rootScope.prevPage = function() {
-		
 				if (angular.element('#wrapper3').hasClass('left')) {
             		angular.element('#wrapper3').attr('class','page transition right');
             	} else if (angular.element('#wrapper2').hasClass('left')) {
             		angular.element('#wrapper2').attr('class','page transition right');							
 				} else {
 					//$location.path($route.current.prev);
-				}
-					
+				}				
 			};
 
 			$rootScope.removeHeader = function(_item, _param) {
@@ -534,9 +534,9 @@
 		}])
  
  
- 
- 		.controller('mtmCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities','$interval',
- 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,$interval) {		
+
+ 		.controller('mtmCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities','$timeout',
+ 			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities,$timeout) {		
 				
 				/* Events */
 				/*
@@ -558,10 +558,7 @@
 				var _scroll = utilities.newScroll.vertical('wrapper');
 				var _scroll2 = utilities.newScroll.vertical('wrapper2');				
 				var _event = {first:0, last:0};
-
-				
-				
-				
+			
 				_this.interval = false;
 				
 				_this.date = utilities.moment().format('dddd Do YYYY');
@@ -571,33 +568,52 @@
 				};
 
 				$http({method: 'GET', url: domain.match(utilities.moment().format('YYYYMMDD'),100,0)}).then(function(obj) {
-					_this.item =  obj.data.response;
+					_this.item =  obj.data.response;						
 				}).finally(function(data) {
   					$rootScope.loading = false;  					
   					$rootScope.error = utilities.error();
 				});
 
 				_this.refreshEvents = function() {
-			
-					$rootScope.loading = true; 
-					$http({method: 'GET', url: domain.mtm(_event.first)}).then(function(obj) {
-						
-						if (obj.data.error == 0) {
-													
-							_this.item.mtm.actions.unshift(obj.data.response.actions);
-																					
-							_this.item.match = {
-								home: {name:obj.data.response.home_team.name, goals:obj.data.response.home_team_goals}, 
-								away: {name:obj.data.response.away_team.name, goals:obj.data.response.away_team_goals}
-							};	
-													
-						}
-						
-					}).finally(function(data) {
-	  					$rootScope.loading = false;  					
-	  					$rootScope.error = utilities.error();
-					});
 					
+					
+					if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
+						
+						$rootScope.loading = true; 
+
+						$http({method: 'GET', url: domain.mtm(_event.first)}).then(function(obj) {
+							
+							if (obj.data.error == 0) {
+								
+								if (_this.item.mtm.length == 0) {
+									_this.item.mtm = obj.data.response;
+								} else {									
+									angular.forEach(obj.data.response.actions[0].events, function(_event, _eIndex) {										
+										_this.item.mtm.actions[0].events.unshift(_event);										
+									});								
+								}
+								
+								_event.first =  obj.data.response.actions[0].events[0].id_game_match_events;													
+								_this.item.match.home.goals = obj.data.response.home_team_goals;
+								_this.item.match.away.goals = obj.data.response.away_team_goals;
+								
+														
+							}
+							
+						}).finally(function(data) {
+		  					$rootScope.loading = false;  					
+		  					$rootScope.error = utilities.error();
+						});
+						
+						
+						
+						
+					}
+					
+					$timeout.cancel(_this.interval);
+					_this.interval = $timeout(function () {
+			 			_this.refreshEvents();
+	  			 	},50000);
 					
 				};
 				
@@ -605,50 +621,28 @@
 				_this.showContentEvents = function(_league, _match) {
 					
 					_this.item.mtm = [];
-					
-					_this.item.league = _league;
-					
+					_this.item.league = _league;					
 					_this.item.match = {
 						home: {name:_match.homeTeam.name, goals:_match.home_team_goals}, 
-						away: {name:_match.awayTeam.name, goals:_match.away_team_goals}
+						away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
+						status: _match.status
 					};	
 										
 					angular.element('#wrapper2').attr('class','page transition left');
 					_scroll2.scrollTo(0,0,0);
-						
-					$rootScope.loading = true; 
-					$http({method: 'GET', url: domain.mtm(_event.first)}).then(function(obj) {
-						if (obj.data.error == 0) _this.item.mtm =  obj.data.response;	
-					}).finally(function(data) {
-	  					$rootScope.loading = false;  					
-	  					$rootScope.error = utilities.error();
-					});
-					
-					/*_this.interval = $interval(function () {
-						console.log('_this.refreshEvents() -> ' + _event.first);
-  			 			_this.refreshEvents();
-	  			 	},30000);*/
+					_this.refreshEvents();	
 					 						
 	  			};
 	  			
 	  			 
 	  			_this.prevPageMtM = function () {
-	  				/*_event.first = 0;
 	  				$rootScope.loading = false;
-	  				$interval.cancel(_this.interval);
-	  				_this.interval = false;*/
+	  				_event = {first:0, last:0};
+	  				$timeout.cancel(_this.interval);
 	  				$rootScope.prevPage();
 	  			};
 	  			
-	  			$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
-					_event.first = element.first().data('event');
-					$rootScope.loading = false;	
-			    });					
-						
-				$scope.$on('onRepeatLast', function(scope, element, attrs) {
-					_event.last = element.last().data('event');
-					$rootScope.loading = false;	
-			    });
+	  
 	  			
 	  			
 	
@@ -878,13 +872,12 @@
 
 		}])
 
- 		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities', 
+ 		.controller('newsCtrl', ['$http','$rootScope','$scope','$route','$localStorage','domain','utilities',
  			function($http, $rootScope, $scope, $route,$localStorage,domain,utilities) {
 
 			var _this = this;
 			var _angular =  angular.element;
 			var _news = {first:0, last:0};
-		
 			var _scroll = utilities.newScroll.vertical('wrapper'); 
 			var _scroll2 = utilities.newScroll.vertical('wrapper2');
 							
@@ -904,12 +897,17 @@
 
  			if ($rootScope.$storage.news) {
  				_this.item = JSON.parse($rootScope.$storage.news);
+ 				_news.first = _this.item.news[0].idNews;
+				_news.last  = _this.item.news[_this.item.news.length-1].idNews;
 				$rootScope.loading = false;
 				$rootScope.error = utilities.error(_this.item.news);	 				
 			} else {
-				$http({method: 'GET', url: domain.news().index})
+				console.log('index-> ' + domain.news().index());
+				$http({method: 'GET', url: domain.news().index()})
 				.then(function(obj) {
 					_this.item =  obj.data.response;
+					_news.first = _this.item.news[0].idNews;
+					_news.last  = _this.item.news[_this.item.news.length-1].idNews;
 					$rootScope.$storage.news = JSON.stringify(obj.data.response);
 				}).finally(function(data) {
   					$rootScope.loading = false;
@@ -919,19 +917,21 @@
 				});			
 			}
 			
-		 
-
-						  
+		  
 			_scroll.on('scroll', function () {
 
 				if (this.y >= 50 ) {
 					if ($http.pendingRequests.length == 0 && !$rootScope.loading) {							
 						$rootScope.loading = true;
+
 						$http({method: 'GET', url: domain.news().up(_news.first)})
 						.then(function(obj) {
-							angular.forEach(obj.data.response.news, function(_item) {			
-								_this.item.news.unshift(_item);
-							});
+							if (obj.data.response.news.length >= 1) {
+								_news.first = obj.data.response.news[0].idNews;
+								angular.forEach(obj.data.response.news, function(_item) {			
+									_this.item.news.unshift(_item);
+								});
+							}							
 						}).finally(function(data) {
 							$rootScope.loading = false;  									  					
 						});								
@@ -941,27 +941,21 @@
 	            if (this.y <= this.maxScrollY) {	            				
 	            	if ($http.pendingRequests.length == 0 && !$rootScope.loading) {	            			
             			$rootScope.loading = true;
+            		
             			$http({method: 'GET', url: domain.news().down(_news.last)})
 						.then(function(obj) {
-							angular.forEach(obj.data.response.news, function(_item) {			
-								_this.item.news.push(_item);
-							});
+							if (obj.data.response.news.length >= 1) {
+								_news.last = obj.data.response.news[obj.data.response.news.length-1].idNews;
+								angular.forEach(obj.data.response.news, function(_item) {			
+									_this.item.news.push(_item);
+								});
+							}							
 						}).finally(function(data) {
 							$rootScope.loading = false;  									  					
 						});
 					}		
 				}
 				
-				
-				$scope.$on('onRepeatFirst', function(scope, element, attrs) {		
-					_news.first = element.first().data('news');
-					$rootScope.loading = false;	
-			    });					
-						
-				$scope.$on('onRepeatLast', function(scope, element, attrs) {
-					_news.last = element.last().data('news');
-					$rootScope.loading = false;	
-			    });
 				
 			});
 			
