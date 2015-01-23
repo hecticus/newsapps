@@ -43,6 +43,7 @@ public class Clients extends HecticusController {
             String password = null;
             //Obtenemos el canal por donde esta llegando el request
             String upstreamChannel;
+            List<ClientHasDevices> otherRegsIDs = null;
             if(clientData.has("upstreamChannel")){
                 upstreamChannel = clientData.get("upstreamChannel").asText();
             }else{
@@ -55,148 +56,132 @@ public class Clients extends HecticusController {
             if(clientData.has("password")){
                 password = clientData.get("password").asText();
             }
-            if(login != null){
-                client = Client.finder.where().eq("login",login).findUnique();
+            if(login != null) {
+                client = Client.finder.where().eq("login", login).findUnique();
                 boolean update = false;
-                if(client != null){
-                    if(client.getUserId() == null){
+                if (client != null) {
+                    if (client.getUserId() == null) {
                         //si tenemos password tratamos de hacer login
-                        if(password != null && !password.isEmpty()){
+                        if (password != null && !password.isEmpty()) {
                             client.setPassword(password);
-                            getUserIdFromUpstream(client,upstreamChannel);
-                        }else{
+                            getUserIdFromUpstream(client, upstreamChannel);
+                        } else {
                             //tratamos de crear al cliente
-                            subscribeUserToUpstream(client,upstreamChannel);
+                            subscribeUserToUpstream(client, upstreamChannel);
                         }
                         update = true;
                     }
                     //siempre que tengamos login y pass debemos revisar el status de upstream
-                    if(password != null && !password.isEmpty()){
+                    if (password != null && !password.isEmpty()) {
                         client.setPassword(password);
-                        getStatusFromUpstream(client,upstreamChannel);
+                        getStatusFromUpstream(client, upstreamChannel);
                         update = true;
                     }
-                    if(update){
+                    if (update) {
                         client.update();
                     }
                 }
-            }
-            //tratamos de buscar un cliente por registrationID si no existe se crea uno
-            if(client == null){
-                Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                while (devicesIterator.hasNext()){
-                    ObjectNode next = (ObjectNode)devicesIterator.next();
-                    if(next.has("device_id") && next.has("registration_id")){
-                        String registrationId = next.get("registration_id").asText();
-                        int deviceId = next.get("device_id").asInt();
-                        ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
-                        if(clientHasDevice != null){
-                            client = clientHasDevice.getClient();
-                            if(login != null && !login.isEmpty()){
-                                if(password != null && !password.isEmpty()){
-                                    client.setLogin(login);
-                                    client.setPassword(password);
-                                    getUserIdFromUpstream(client,upstreamChannel);
-                                    getStatusFromUpstream(client,upstreamChannel);
-                                    client.update();
-                                }else{
-                                    //si no tiene password tratamos de suscribirlo
-                                    client.setLogin(login);
-                                    client.setPassword(password);
-                                    subscribeUserToUpstream(client,upstreamChannel);
-                                    getStatusFromUpstream(client,upstreamChannel);
-                                    client.update();
+
+
+                if (client != null) {
+                    //actualizar regID
+                    if (clientData.has("devices")) {
+                        Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                        update = false;
+                        while (devicesIterator.hasNext()) {
+                            ObjectNode next = (ObjectNode) devicesIterator.next();
+                            if (next.has("device_id") && next.has("registration_id")) {
+                                String registrationId = next.get("registration_id").asText();
+                                int deviceId = next.get("device_id").asInt();
+                                Device device = Device.finder.byId(deviceId);
+                                ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
+                                if (clientHasDevice == null) {
+                                    clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                    client.getDevices().add(clientHasDevice);
+                                    update = true;
+                                }
+                                otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                                if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
+                                    for (ClientHasDevices clientHasDevices : otherRegsIDs) {
+                                        clientHasDevices.delete();
+                                    }
                                 }
                             }
-                            break;
+                        }
+                        if (update) {
+                            client.update();
                         }
                     }
-                }
-            }
-            if(client != null){
-                //actualizar regID
-                if(clientData.has("devices")){
-                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                    boolean update = false;
-                    while (devicesIterator.hasNext()){
-                        ObjectNode next = (ObjectNode)devicesIterator.next();
-                        if(next.has("device_id") && next.has("registration_id")){
-                            String registrationId = next.get("registration_id").asText();
-                            int deviceId = next.get("device_id").asInt();
-                            Device device = Device.finder.byId(deviceId);
-                            ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient",client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
-                            if(clientHasDevice == null){
-                                clientHasDevice = new ClientHasDevices(client, device, registrationId);
-                                client.getDevices().add(clientHasDevice);
-                                update = true;
-                            }
-                        }
-                    }
-                    if(update){
-                        client.update();
-                    }
-                }
-                response = buildBasicResponse(0, "OK", client.toJson());
-                return ok(response);
-            }
-            if (clientData.has("country") && clientData.has("gender")) {
-                int countryId = clientData.get("country").asInt();
-                int genderId = clientData.get("gender").asInt();
-                Country country = Country.finder.byId(countryId);
-                Gender gender = Gender.finder.byId(genderId);
-                if (country != null) {
-                    TimeZone tz = TimeZone.getDefault();
-                    Calendar actualDate = new GregorianCalendar(tz);
-                    SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
-                    String date = sf.format(actualDate.getTime());
-
-                    client = new Client(2, login, password, country, date, gender);
-                    ArrayList<ClientHasDevices> devices = new ArrayList<>();
-                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                    while (devicesIterator.hasNext()){
-                        ObjectNode next = (ObjectNode)devicesIterator.next();
-                        if(next.has("device_id") && next.has("registration_id")){
-                            String registrationId = next.get("registration_id").asText();
-                            int deviceId = next.get("device_id").asInt();
-                            Device device = Device.finder.byId(deviceId);
-                            if(device != null) {
-                                ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
-                                devices.add(clientHasDevice);
-                            }
-                        }
-                    }
-                    if(devices.isEmpty()){
-                        response = buildBasicResponse(4, "Faltan campos para crear el registro");
-                        return ok(response);
-                    }
-                    client.setDevices(devices);
-
-                    if(client.getPassword() != null && !client.getPassword().isEmpty()){
-                        getUserIdFromUpstream(client,upstreamChannel);
-                    }else{
-                        subscribeUserToUpstream(client,upstreamChannel);
-                    }
-                    getStatusFromUpstream(client,upstreamChannel);
-
-                    if(clientData.has("themes")){
-                        Iterator<JsonNode> themesIterator = clientData.get("themes").elements();
-                        ArrayList<ClientHasTheme> themes = new ArrayList<>();
-                        while (themesIterator.hasNext()){
-                            JsonNode next = themesIterator.next();
-                            Theme theme = Theme.finder.byId(next.asInt());
-                            if(theme != null){
-                                ClientHasTheme chw = new ClientHasTheme(client, theme);
-                                themes.add(chw);
-                            }
-                        }
-                        if(!themes.isEmpty()){
-                            client.setThemes(themes);
-                        }
-                    }
-                    client.save();
                     response = buildBasicResponse(0, "OK", client.toJson());
+                    return ok(response);
+                }
+                if (clientData.has("country") && clientData.has("gender")) {
+                    int countryId = clientData.get("country").asInt();
+                    int genderId = clientData.get("gender").asInt();
+                    Country country = Country.finder.byId(countryId);
+                    Gender gender = Gender.finder.byId(genderId);
+                    if (country != null) {
+                        TimeZone tz = TimeZone.getDefault();
+                        Calendar actualDate = new GregorianCalendar(tz);
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+                        String date = sf.format(actualDate.getTime());
+
+                        client = new Client(2, login, password, country, date, gender);
+                        ArrayList<ClientHasDevices> devices = new ArrayList<>();
+                        Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                        while (devicesIterator.hasNext()) {
+                            ObjectNode next = (ObjectNode) devicesIterator.next();
+                            if (next.has("device_id") && next.has("registration_id")) {
+                                String registrationId = next.get("registration_id").asText();
+                                int deviceId = next.get("device_id").asInt();
+                                Device device = Device.finder.byId(deviceId);
+                                if (device != null) {
+                                    ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                    devices.add(clientHasDevice);
+                                    otherRegsIDs = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                                    if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
+                                        for (ClientHasDevices clientHasDevices : otherRegsIDs) {
+                                            clientHasDevices.delete();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (devices.isEmpty()) {
+                            response = buildBasicResponse(4, "Faltan campos para crear el registro");
+                            return ok(response);
+                        }
+                        client.setDevices(devices);
+
+                        if (client.getPassword() != null && !client.getPassword().isEmpty()) {
+                            getUserIdFromUpstream(client, upstreamChannel);
+                        } else {
+                            subscribeUserToUpstream(client, upstreamChannel);
+                        }
+                        getStatusFromUpstream(client, upstreamChannel);
+
+                        if (clientData.has("themes")) {
+                            Iterator<JsonNode> themesIterator = clientData.get("themes").elements();
+                            ArrayList<ClientHasTheme> themes = new ArrayList<>();
+                            while (themesIterator.hasNext()) {
+                                JsonNode next = themesIterator.next();
+                                Theme theme = Theme.finder.byId(next.asInt());
+                                if (theme != null) {
+                                    ClientHasTheme chw = new ClientHasTheme(client, theme);
+                                    themes.add(chw);
+                                }
+                            }
+                            if (!themes.isEmpty()) {
+                                client.setThemes(themes);
+                            }
+                        }
+                        client.save();
+                        response = buildBasicResponse(0, "OK", client.toJson());
+                    } else {
+                        response = buildBasicResponse(3, "pais invalido");
+                    }
                 } else {
-                    response = buildBasicResponse(3, "pais invalido");
+                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
                 }
             } else {
                 response = buildBasicResponse(1, "Faltan campos para crear el registro");
@@ -263,6 +248,7 @@ public class Clients extends HecticusController {
 
                 if(clientData.has("add_devices")) {
                     Iterator<JsonNode> devicesIterator = clientData.get("add_devices").elements();
+                    List<ClientHasDevices> otherRegsIDs = null;
                     while (devicesIterator.hasNext()) {
                         ObjectNode next = (ObjectNode) devicesIterator.next();
                         if (next.has("device_id") && next.has("registration_id")) {
@@ -274,6 +260,12 @@ public class Clients extends HecticusController {
                                     ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
                                     client.getDevices().add(clientHasDevice);
                                     update = true;
+                                }
+                            }
+                            otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                            if(otherRegsIDs != null && !otherRegsIDs.isEmpty()){
+                                for(ClientHasDevices clientHasDevices : otherRegsIDs){
+                                    clientHasDevices.delete();
                                 }
                             }
                         }

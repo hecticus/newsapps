@@ -96,6 +96,13 @@ public class Team extends HecticusModel {
         return obj;
     }
 
+    public ObjectNode toJsonSimple() {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_teams",idTeams);
+        obj.put("name",name);
+        return obj;
+    }
+
     public static Team findByExtId(long extId){
         return finder.where().eq("ext_id", extId).findUnique();
     }

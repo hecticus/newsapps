@@ -73,8 +73,7 @@ public class DataFactoryScraper extends HecticusThread {
 
     //"tempFiles/deportes.afp.brasileirao.fixture.xml"
     private void parseFixture(String fileRoute){
-        DocumentBuilderFactory builderFactory =
-                DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         try {
             builder = builderFactory.newDocumentBuilder();
@@ -117,7 +116,7 @@ public class DataFactoryScraper extends HecticusThread {
                                 idEstadio = xPath.compile("@idEstadio").evaluate(currentPartido),
                                 nombreEstadio = xPath.compile("@nombreEstadio").evaluate(currentPartido),
                                 ciudadEstadio = xPath.compile("@lugarCiudad").evaluate(currentPartido),
-                                status = xPath.compile("estado").evaluate(currentPartido),
+                                statusName = xPath.compile("estado").evaluate(currentPartido),
                                 statusId = xPath.compile("estado/@id").evaluate(currentPartido),
                                 horaEstado = xPath.compile("horaEstado").evaluate(currentPartido),
                                 equipoLocalId = xPath.compile("local/@id").evaluate(currentPartido),
@@ -143,6 +142,8 @@ public class DataFactoryScraper extends HecticusThread {
                         awayCountry.validateCountry();
                         Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
                         awayTeam.validateTeam();
+                        GameMatchStatus status = new GameMatchStatus(statusName, Integer.parseInt(statusId));
+                        status.validate();
 
                         Venue gameVenue = null;
                         long stadiumId = stringLongParser(idEstadio);
@@ -492,7 +493,7 @@ public class DataFactoryScraper extends HecticusThread {
                                 Utils.printToLog(DataFactoryScraper.class,
                                         "Error en DataFactoryScraper",
                                         "Error inesperado parseando el archivo de minuto a minuto:"  + fileRoute + " el proceso no se pudo completar",
-                                        true,
+                                        false,
                                         ex,
                                         "support-level-1",
                                         Config.LOGGER_ERROR);
@@ -525,17 +526,14 @@ public class DataFactoryScraper extends HecticusThread {
             File current = listOfFiles[i];
             if (current.isFile()) {
                 String fileName = current.getName();
-                if(fileName.contains("mam")) {
-                    System.out.println(fileName);
-                }
                 if (fileName.contains("fixture")) { //fixture
                     parseFixture(path + File.separator + fileName);
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
-//                    parsePositions(path + File.separator + fileName);
+                    parsePositions(path + File.separator + fileName);
                 } else if (fileName.contains("goleadores")) { //goleadores
-//                    parseStrikers(path + File.separator + fileName);
+                    parseStrikers(path + File.separator + fileName);
 //                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto
@@ -554,6 +552,9 @@ public class DataFactoryScraper extends HecticusThread {
 
     private String cleanHour(String value){
         String tr = value.replaceAll(":", "");
+        if (tr.isEmpty()){
+            tr = "000000";
+        }
         return tr;
     }
 
