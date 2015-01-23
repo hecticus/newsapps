@@ -39,7 +39,7 @@ angular
                 controller:'MatchCtrl as _this',
                 templateUrl:'modules/core/views/match.html',
                 data:{
-                  prev: 'livescore',
+                  prev: 'mtm',
                   next: 'standings',
                   _class: 'content-match'
                 }
@@ -60,18 +60,18 @@ angular
                 templateUrl:'modules/core/views/scorers.html',
                 data:{
                   prev: 'news',
-                  next: 'livescore',
+                  next: 'mtm',
                   contentClass: 'content-scorers'
                 }
             })
-            .state('livescore', {
-                url: '/livescore',
-                controller:'LiveScoreCtrl  as _this',
-                templateUrl:'modules/core/views/livescore.html',
+            .state('mtm', {
+                url: '/mtm',
+                controller:'MtmCtrl',
+                templateUrl:'modules/core/views/mtm.html',
                 data:{
                   prev: 'scorers',
                   next: 'match',
-                  contentClass: 'content-livescore'
+                  contentClass: 'content-mtm'
                 }
             })
             .state('prediction', {

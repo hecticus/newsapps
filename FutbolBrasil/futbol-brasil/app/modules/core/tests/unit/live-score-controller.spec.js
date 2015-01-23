@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Controller: LiveScoreCtrl', function() {
+describe('Controller: MtmCtrl', function() {
 
     //Load the ui.router module
     beforeEach(module('ui.router'));
     //Load the module
     beforeEach(module('core'));
 
-    var LiveScoreCtrl,
+    var MtmCtrl,
         scope;
 
     beforeEach(inject(function($controller, $rootScope) {
         scope = $rootScope.$new();
-        LiveScoreCtrl = $controller('LiveScoreCtrl', {
+        MtmCtrl = $controller('MtmCtrl', {
         $scope: scope
         });
     }));
