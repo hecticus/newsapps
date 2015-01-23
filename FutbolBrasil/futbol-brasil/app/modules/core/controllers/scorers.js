@@ -18,17 +18,16 @@ angular
                     return this.name + _index;
                 }
             };
-            console.log(_this.wrapper);
 
             _this.width = $window.innerWidth;
             _this.widthTotal = ($window.innerWidth * 11);
 
             $scope.getWidth = function(){
-                return { 'width': _this.width + ' px'}
+                return { 'width': _this.width + 'px'}
             };
 
             $scope.getTotalWidth = function(){
-                return { 'width': _this.widthTotal + ' px'}
+                return { 'width': _this.widthTotal + 'px'}
             };
 
             $scope.init = function(){

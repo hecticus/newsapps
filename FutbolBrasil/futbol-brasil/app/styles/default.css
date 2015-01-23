@@ -386,7 +386,8 @@ body.content-mtm .row-back {
     left:0;
     right:0;
     width: 100%;
-    height: 100px;
+    /*TODO mejorar estilo de clase*/
+    height: 150px;
     line-height: 50px;
     background-color: #FFFFFF;
     color: #000000;
