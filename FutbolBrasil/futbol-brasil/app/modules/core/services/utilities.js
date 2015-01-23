@@ -161,6 +161,44 @@ angular
 
             doNothing : function (){
                 //callback vacio para peticiones que no necesitan callback como tal
+            },
+
+            newScroll: {
+                horizontal: function (_wrapper) {
+
+                    delete window[_wrapper] ;
+
+                    window[_wrapper] = new IScroll('#' + _wrapper, {
+                        scrollX: true,
+                        scrollY: false,
+                        mouseWheel: false,
+                        momentum: false,
+                        snap: true,
+                        snapSpeed: 700,
+                        probeType: 3,
+                        bounce: false
+                    });
+
+                    window[_wrapper].on('beforeScrollStart', function () {
+                        this.refresh();
+                    });
+
+                    return window[_wrapper];
+
+                }
+
+                ,vertical: function (_wrapper) {
+
+                    delete window[_wrapper] ;
+
+                    window[_wrapper] = new IScroll('#' + _wrapper, {click:true,preventDefault:true, bounce: true,  probeType: 2});
+                    window[_wrapper].on('beforeScrollStart', function () {
+                        this.refresh();
+                    });
+
+                    return window[_wrapper];
+
+                },
             }
 
         };

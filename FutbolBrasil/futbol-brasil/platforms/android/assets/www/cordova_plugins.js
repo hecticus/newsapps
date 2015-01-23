@@ -230,6 +230,13 @@ module.exports = [
         "clobbers": [
             "SharedConfigurations"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "clobbers": [
+            "facebookConnectPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -246,7 +253,8 @@ module.exports.metadata =
     "org.apache.cordova.statusbar": "0.1.9",
     "com.synconset.cordovaHTTP": "0.1.4",
     "com.phonegap.plugins.PushPlugin": "2.2.1",
-    "com.hecticus.cordova.plugins.sharedconfigurations": "1.0.0"
+    "com.hecticus.cordova.plugins.sharedconfigurations": "1.0.0",
+    "com.phonegap.plugins.facebookconnect": "0.11.0"
 }
 // BOTTOM OF METADATA
 });
