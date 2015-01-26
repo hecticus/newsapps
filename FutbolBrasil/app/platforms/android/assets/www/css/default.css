@@ -386,8 +386,8 @@ body.content-mtm .row-back {
 	left:0;
 	right:0;		
 	width: 100%; 
-	height: 100px;
-	line-height: 50px;		
+	height: 150px;
+	line-height: 40px;		
 	background-color: #FFFFFF;
 	color: #000000;			
 	padding: 0 !important; 
@@ -397,7 +397,8 @@ body.content-mtm .row-back {
 }
 
 
-
+	
+	 
 	.wrapper {
 		position: absolute;
 		z-index: 1;
@@ -422,12 +423,13 @@ body.content-mtm .row-back {
 	.winner { font-weight: bold; }
 	.goal { font-size: 1.6em; }
 	.status { color:#000000; font-weight: bold; }
-	.status.encerrado { color:#D84A38; }
-	.status.default { color:#FFBF00; }
-	.status.else { color:#3B9444; }
+	
+	.status._0 { color:#FFBF00; }
+	.status._2 { color:#D84A38; }
+	.status._4 { color:#3B9444; }
 
-	.status.pt { background-color:#3B9444; color: #ffffff;}
-	.status.st { background-color:#FFBF00; color: #000000; }
+	.status.PT { background-color:#3B9444; color: #ffffff; }
+	.status.ST { background-color:#FFBF00; color: #000000; }
 
 
 

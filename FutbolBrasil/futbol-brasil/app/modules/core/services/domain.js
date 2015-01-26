@@ -70,6 +70,10 @@ angular
             match: function (_date, _limit, _page) {
                 return football_manager_url + 'footballapi/v1/matches/date/paged/1/' + _date
                     + '?pageSize=' + _limit + '&page=' + _page;
+            },
+
+            mtm: function () {
+                return football_manager_url + 'footballapi/v1/matches/mam/1/5/390';
             }
         };
     });

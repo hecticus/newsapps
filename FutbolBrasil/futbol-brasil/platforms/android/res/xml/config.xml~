@@ -40,14 +40,6 @@
     <feature name="SharedConfigurations">
         <param name="android-package" value="com.hecticus.cordova.plugins.sharedconfigurations.SharedConfigurations" />
     </feature>
-    <feature name="FacebookConnectPlugin">
-        <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
-    </feature>
-    <access origin="https://m.facebook.com" />
-    <access origin="https://graph.facebook.com" />
-    <access origin="https://api.facebook.com" />
-    <access origin="https://*.fbcdn.net" />
-    <access origin="https://*.akamaihd.net" />
     <name>FutbolBrasil</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -57,4 +49,15 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+<<<<<<< HEAD
+=======
+    <feature name="FacebookConnectPlugin">
+        <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
+    </feature>
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
+>>>>>>> c76ac0618d57adecd80a0eddb02754161e5cab8c
 </widget>
