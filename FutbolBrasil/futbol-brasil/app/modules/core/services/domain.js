@@ -72,8 +72,10 @@ angular
                     + '?pageSize=' + _limit + '&page=' + _page;
             },
 
-            mtm: function () {
-                return football_manager_url + 'footballapi/v1/matches/mam/1/5/390';
-            }
+            mtm: function (_event) {
+                return football_manager_url + 'footballapi/v1/matches/mam/next/1/5/390/' + _event;
+            },
+
+
         };
     });
