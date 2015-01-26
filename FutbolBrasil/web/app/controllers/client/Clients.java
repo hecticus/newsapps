@@ -565,48 +565,52 @@ public class Clients extends HecticusController {
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
 
-                footballResponse.get("error");
-                JsonNode data = footballResponse.get("response");
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    JsonNode data = footballResponse.get("response");
 
-                ArrayList<ObjectNode> finalData = new ArrayList<>();
-                ObjectNode responseData = Json.newObject();
-                ArrayList<Integer> matchesIDs = new ArrayList<>();
-                ArrayList<ObjectNode> modifiedFixtures = new ArrayList<>();
-                Map<Integer, ObjectNode> matches = new HashMap<>();
-                Iterator<JsonNode> leagues = data.get("leagues").elements();
-                while(leagues.hasNext()){
-                    ObjectNode league = (ObjectNode) leagues.next();
-                    Iterator<JsonNode> fixtures = league.get("fixtures").elements();
-                    while(fixtures.hasNext()){
-                        ObjectNode fixture = (ObjectNode) fixtures.next();
-                        int idGameMatches = fixture.get("id_game_matches").asInt();
-                        matchesIDs.add(idGameMatches);
-                        matches.put(idGameMatches, fixture);
-                    }
-                    List<ClientBets> list = ClientBets.finder.where().eq("client", client).eq("idTournament", league.get("id_competitions").asInt()).in("idGameMatch", matchesIDs).orderBy("idGameMatch asc").findList();
-                    if(list != null && !list.isEmpty()){
-                        for(ClientBets clientBets : list) {
-                            ObjectNode fixture = matches.get(clientBets.getIdGameMatch());
-                            fixture.put("bet", clientBets.toJsonNoClient());
-                            modifiedFixtures.add(fixture);
-                            matches.remove(clientBets.getIdGameMatch());
+                    ArrayList<ObjectNode> finalData = new ArrayList<>();
+                    ObjectNode responseData = Json.newObject();
+                    ArrayList<Integer> matchesIDs = new ArrayList<>();
+                    ArrayList<ObjectNode> modifiedFixtures = new ArrayList<>();
+                    Map<Integer, ObjectNode> matches = new HashMap<>();
+                    Iterator<JsonNode> leagues = data.get("leagues").elements();
+                    while (leagues.hasNext()) {
+                        ObjectNode league = (ObjectNode) leagues.next();
+                        Iterator<JsonNode> fixtures = league.get("fixtures").elements();
+                        while (fixtures.hasNext()) {
+                            ObjectNode fixture = (ObjectNode) fixtures.next();
+                            int idGameMatches = fixture.get("id_game_matches").asInt();
+                            matchesIDs.add(idGameMatches);
+                            matches.put(idGameMatches, fixture);
                         }
-                        Set<Integer> keys = matches.keySet();
-                        for(int key :keys){
-                            ObjectNode fixture = matches.get(key);
-                            modifiedFixtures.add(fixture);
+                        List<ClientBets> list = ClientBets.finder.where().eq("client", client).eq("idTournament", league.get("id_competitions").asInt()).in("idGameMatch", matchesIDs).orderBy("idGameMatch asc").findList();
+                        if (list != null && !list.isEmpty()) {
+                            for (ClientBets clientBets : list) {
+                                ObjectNode fixture = matches.get(clientBets.getIdGameMatch());
+                                fixture.put("bet", clientBets.toJsonNoClient());
+                                modifiedFixtures.add(fixture);
+                                matches.remove(clientBets.getIdGameMatch());
+                            }
+                            Set<Integer> keys = matches.keySet();
+                            for (int key : keys) {
+                                ObjectNode fixture = matches.get(key);
+                                modifiedFixtures.add(fixture);
+                            }
+                            Collections.sort(modifiedFixtures, new FixturesComparator());
+                            league.remove("fixtures");
+                            league.put("fixtures", Json.toJson(modifiedFixtures));
                         }
-                        Collections.sort(modifiedFixtures, new FixturesComparator());
-                        league.remove("fixtures");
-                        league.put("fixtures", Json.toJson(modifiedFixtures));
+                        finalData.add(league);
+                        modifiedFixtures.clear();
+                        matchesIDs.clear();
+                        matches.clear();
                     }
-                    finalData.add(league);
-                    modifiedFixtures.clear();
-                    matchesIDs.clear();
-                    matches.clear();
+                    responseData.put("leagues", Json.toJson(finalData));
+                    response = buildBasicResponse(0, "OK", responseData);
+                } else {
+                    response = buildBasicResponse(3, "error llamando a footballmanager");
                 }
-                responseData.put("leagues", Json.toJson(finalData));
-                response = buildBasicResponse(0, "OK", responseData);
             } else {
                 response = buildBasicResponse(2, "no existe el registro a consultar");
             }
