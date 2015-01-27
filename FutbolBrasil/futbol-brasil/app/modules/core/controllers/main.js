@@ -18,6 +18,8 @@ angular
         };
 
         $rootScope.showSection = function(_section) {
+            angular.element('.section').removeClass('active');
+            angular.element('[data-section="' + _section + '"]').addClass('active');
             $state.go(_section);
         };
 

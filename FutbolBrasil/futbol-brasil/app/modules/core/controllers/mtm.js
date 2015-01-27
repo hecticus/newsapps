@@ -27,7 +27,7 @@ angular
               if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
 
                   $rootScope.loading = true;
-                  $http({method: 'GET', url: Domain.mtm(_event.first)}).then(function (obj) {
+                  $http({method: 'GET', url: Domain.mtm(5,390,_event.first)}).then(function (obj) {
 
                     if (obj.data.error == 0) {
 
@@ -42,7 +42,7 @@ angular
                       _event.first =  obj.data.response.actions[0].events[0].id_game_match_events;
                       $scope.item.match.home.goals = obj.data.response.home_team_goals;
                       $scope.item.match.away.goals = obj.data.response.away_team_goals;
-                
+
                     }
 
                   }).finally(function(data) {
