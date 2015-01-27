@@ -29,7 +29,7 @@ public class Team extends HecticusModel {
     @OneToMany(mappedBy="team")
     private List<TeamHasCompetition> competitions;
 
-    private static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);
+    public static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);
 
     public Team(String name, Long extId, Countries country) {
         this.name = name;
