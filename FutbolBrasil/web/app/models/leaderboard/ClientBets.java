@@ -121,9 +121,6 @@ public class ClientBets extends HecticusModel{
 
     public ObjectNode toJsonNoClient() {
         ObjectNode objNode = Json.newObject();
-        objNode.put("id_client_bets",idClientBets);
-        objNode.put("id_tournament", idTournament);
-        objNode.put("id_game_match", idGameMatch);
         objNode.put("client_bet", clientBet);
         objNode.put("status", status);
         return objNode;

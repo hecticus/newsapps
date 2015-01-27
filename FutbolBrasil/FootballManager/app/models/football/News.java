@@ -68,6 +68,8 @@ public class News extends HecticusModel {
     @OneToMany (mappedBy = "parent" , cascade=CascadeType.ALL)
     private List<Resource> resources;
 
+    private Boolean generated;
+
     /***
      * constructor para lance news
      * @param title
@@ -99,6 +101,7 @@ public class News extends HecticusModel {
         this.crc = createMd5(title);
         this.pushStatus = 0;
         this.insertedDate = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+        this.generated = false;
 
     }
 
@@ -131,6 +134,13 @@ public class News extends HecticusModel {
         return tr;
     }
 
+    public ObjectNode toJsonPush() {
+        ObjectNode tr = Json.newObject();
+        tr.put("id_news",idNews); //local id
+        tr.put("title", title);
+        return tr;
+    }
+
     public boolean isNewsEmpty(){
         boolean tr = false;
         if (title.isEmpty() && summary.isEmpty() && newsBody.isEmpty()){
@@ -153,6 +163,14 @@ public class News extends HecticusModel {
 
     public static List<News> getNewsForNewsCleaner(String date){
         return finder.where().lt("publicationDate", date).findList();
+    }
+
+    public Boolean getGenerated() {
+        return generated;
+    }
+
+    public void setGenerated(Boolean generated) {
+        this.generated = generated;
     }
 
     public static News getNewsToPush(){

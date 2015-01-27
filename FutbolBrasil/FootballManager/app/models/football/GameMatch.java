@@ -318,6 +318,10 @@ public class GameMatch extends HecticusModel {
         return finder.where().eq("id_competition",idCompetition).orderBy("date asc").findList();
     }
 
+    public static List<GameMatch> findAllByIdCompetitionAndStatusOrderedByDate(Long idCompetition){
+        return finder.where().eq("id_competition",idCompetition).orderBy("date asc").findList();
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode json = Json.newObject();
@@ -337,6 +341,25 @@ public class GameMatch extends HecticusModel {
             json.put("results", result.toJson());
         }
 
+        return json;
+    }
+
+    public ObjectNode toJsonPush() {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        json.put("home_team",homeTeam.toJsonSimple());
+        json.put("away_team",awayTeam.toJsonSimple());
+        return json;
+    }
+
+    public ObjectNode toJsonSimple() {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        json.put("date",date);
+        json.put("home_team",homeTeam.toJsonSimple());
+        json.put("away_team",awayTeam.toJsonSimple());
+        json.put("home_team_goals",homeTeamGoals);
+        json.put("away_team_goals",awayTeamGoals);
         return json;
     }
 
