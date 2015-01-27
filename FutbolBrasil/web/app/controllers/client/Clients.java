@@ -559,16 +559,12 @@ public class Clients extends HecticusController {
         try {
             Client client = Client.finder.byId(idClient);
             if(client != null) {
-                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/date/get/" + Config.getInt("football-manager-id-app") + "/today";
-
-
+                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/date/grouped/" + Config.getInt("football-manager-id-app");
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
-
                 int error = footballResponse.get("error").asInt();
                 if(error == 0) {
                     JsonNode data = footballResponse.get("response");
-
                     ArrayList<ObjectNode> finalData = new ArrayList<>();
                     ObjectNode responseData = Json.newObject();
                     ArrayList<Integer> matchesIDs = new ArrayList<>();
@@ -580,12 +576,18 @@ public class Clients extends HecticusController {
                         Iterator<JsonNode> fixtures = league.get("fixtures").elements();
                         while (fixtures.hasNext()) {
                             ObjectNode fixture = (ObjectNode) fixtures.next();
-                            int idGameMatches = fixture.get("id_game_matches").asInt();
-                            matchesIDs.add(idGameMatches);
-                            matches.put(idGameMatches, fixture);
+                            Iterator<JsonNode> externalMatches = fixture.get("matches").elements();
+                            while (externalMatches.hasNext()){
+                                ObjectNode externalMatch = (ObjectNode) externalMatches.next();
+                                int idGameMatches = externalMatch.get("id_game_matches").asInt();
+                                matchesIDs.add(idGameMatches);
+                                matches.put(idGameMatches, externalMatch);
+                            }
                         }
                         List<ClientBets> list = ClientBets.finder.where().eq("client", client).eq("idTournament", league.get("id_competitions").asInt()).in("idGameMatch", matchesIDs).orderBy("idGameMatch asc").findList();
                         if (list != null && !list.isEmpty()) {
+                            ArrayList<ObjectNode> dataFixture = new ArrayList();
+                            ArrayList<ObjectNode> orderedFixtures = new ArrayList<>();
                             for (ClientBets clientBets : list) {
                                 ObjectNode fixture = matches.get(clientBets.getIdGameMatch());
                                 fixture.put("bet", clientBets.toJsonNoClient());
@@ -598,8 +600,33 @@ public class Clients extends HecticusController {
                                 modifiedFixtures.add(fixture);
                             }
                             Collections.sort(modifiedFixtures, new FixturesComparator());
+
+                            String pivot = modifiedFixtures.get(0).get("date").asText().substring(0, 8);
+                            for (ObjectNode gameMatch : modifiedFixtures){
+                                if(gameMatch.get("date").asText().startsWith(pivot)){
+                                    orderedFixtures.add(gameMatch);
+                                } else {
+                                    ObjectNode round = Json.newObject();
+                                    round.put("date", pivot);
+                                    round.put("matches", Json.toJson(orderedFixtures));
+                                    dataFixture.add(round);
+                                    orderedFixtures.clear();
+                                    orderedFixtures.add(gameMatch);
+                                    pivot = gameMatch.get("date").asText().substring(0, 8);
+                                }
+                            }
+                            if(!orderedFixtures.isEmpty()){
+                                ObjectNode round = Json.newObject();
+                                round.put("date", pivot);
+                                round.put("matches", Json.toJson(orderedFixtures));
+                                dataFixture.add(round);
+                                orderedFixtures.clear();
+                            }
+
                             league.remove("fixtures");
-                            league.put("fixtures", Json.toJson(modifiedFixtures));
+                            league.put("fixtures", Json.toJson(dataFixture));
+                            orderedFixtures.clear();
+                            dataFixture.clear();
                         }
                         finalData.add(league);
                         modifiedFixtures.clear();

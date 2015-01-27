@@ -40,6 +40,8 @@ public class GameMatchEvent extends HecticusModel {
 
     private Long extId;
 
+    private Boolean generated;
+
     public static Model.Finder<Long,GameMatchEvent> finder = new Model.Finder<Long,GameMatchEvent>(Long.class,GameMatchEvent.class);
 
     public GameMatchEvent(GameMatch gameMatch, Period period, Action action, Team team, String playerA, String playerB, Integer actionMinute, String date, Integer _sort, Long extId) {
@@ -53,6 +55,7 @@ public class GameMatchEvent extends HecticusModel {
         this.date = date;
         this._sort = _sort;
         this.extId = extId;
+        this.generated = false;
     }
 
     public Long getIdGameMatchEvents() {
@@ -143,6 +146,14 @@ public class GameMatchEvent extends HecticusModel {
         this.extId = extId;
     }
 
+    public Boolean getGenerated() {
+        return generated;
+    }
+
+    public void setGenerated(Boolean generated) {
+        this.generated = generated;
+    }
+
     public static List<GameMatchEvent> getList(GameMatch match,String action, String period,String tstart, String tend, int lastMinute){
 
         ExpressionList<GameMatchEvent> expr = finder.where().eq("gameMatch", match);
@@ -206,6 +217,16 @@ public class GameMatchEvent extends HecticusModel {
         json.put("action_minute",actionMinute);
         json.put("date",date);
         json.put("_sort",_sort);
+        return json;
+    }
+
+    public ObjectNode toJsonForPush() {
+        ObjectNode json = Json.newObject();
+        json.put("action", action.toJson());
+        json.put("is_home_team", (team.getIdTeams() == gameMatch.getHomeTeam().getIdTeams()));
+        json.put("player_a",playerA);
+        json.put("player_b",playerB);
+        json.put("action_minute",actionMinute);
         return json;
     }
 

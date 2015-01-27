@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.App;
 import controllers.HecticusController;
 import models.Apps;
+import models.Config;
 import models.football.*;
 import play.libs.Json;
 import play.mvc.Result;
@@ -98,8 +99,8 @@ public class MatchesController extends HecticusController {
                 List<GameMatch> fullList = GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
                 ObjectNode competitionJson = competition.toJsonNoPhases();
                 if (fullList != null && !fullList.isEmpty()){
-                    for (int i = 0; i < fullList.size(); i++){
-                        data.add(fullList.get(i).toJson());
+                    for (GameMatch gameMatch : fullList){
+                        data.add(gameMatch.toJson());
                     }
                 }
                 competitionJson.put("fixtures", Json.toJson(data));
@@ -107,6 +108,64 @@ public class MatchesController extends HecticusController {
                 responseData.add(competitionJson);
             }
             response = hecticusResponse(0, "ok", "leagues", responseData);
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getFixturesGroupByDate(Integer idApp){
+        try {
+            ObjectNode response = null;
+            TimeZone timeZone = Apps.getTimezone(idApp);
+            Calendar today = new GregorianCalendar(timeZone);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+            simpleDateFormat.setTimeZone(timeZone);
+            String date = simpleDateFormat.format(today.getTime());
+            ArrayList<ObjectNode> data = new ArrayList();
+            ArrayList responseData = new ArrayList();
+            List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
+            for(Competition competition : competitionsByApp) {
+                List<Phase> phases = Phase.finder.where().eq("comp", competition).ge("start_date", date).findList();
+                if (phases == null || phases.isEmpty()){
+                    phases = Phase.finder.where().eq("comp", competition).orderBy("start_date desc").setFirstRow(0).setMaxRows(1).findList();
+                }
+                if(phases != null & !phases.isEmpty()){
+                    List<GameMatch> gameMatches = GameMatch.finder.where().eq("competition", competition).in("phase", phases).orderBy("date asc").findList();
+                    if (gameMatches != null && !gameMatches.isEmpty()){
+                        ArrayList<ObjectNode> fixtures = new ArrayList<>();
+                        String pivot = gameMatches.get(0).getDate().substring(0, 8);
+                        for (GameMatch gameMatch : gameMatches){
+                            if(gameMatch.getDate().startsWith(pivot)){
+                                fixtures.add(gameMatch.toJsonSimple());
+                            } else {
+                                ObjectNode round = Json.newObject();
+                                round.put("date", pivot);
+                                round.put("matches", Json.toJson(fixtures));
+                                data.add(round);
+                                fixtures.clear();
+                                fixtures.add(gameMatch.toJsonSimple());
+                                pivot = gameMatch.getDate().substring(0, 8);
+                            }
+                        }
+                        if(!fixtures.isEmpty()){
+                            ObjectNode round = Json.newObject();
+                            round.put("date", pivot);
+                            round.put("matches", Json.toJson(fixtures));
+                            data.add(round);
+                            fixtures.clear();
+                        }
+                    }
+                }
+                if(!data.isEmpty()) {
+                    ObjectNode competitionJson = competition.toJsonNoPhases();
+                    competitionJson.put("fixtures", Json.toJson(data));
+                    data.clear();
+                    responseData.add(competitionJson);
+                }
+            }
+            response = hecticusResponse(0, "OK", "leagues", responseData);
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -329,6 +388,87 @@ public class MatchesController extends HecticusController {
             } else {
                 response = buildBasicResponse(3, "La competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp);
             }
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getPushableEventsForApp(Integer idApp){
+        try {
+            ObjectNode response = null;
+            ObjectNode responseData = Json.newObject();
+            List<Competition> competitions = Competition.finder.where().eq("id_app", idApp).eq("status", 1).findList();
+            TimeZone timeZone = TimeZone.getDefault();//Apps.getTimezone(idApp);
+            Calendar today = new GregorianCalendar(timeZone);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+            simpleDateFormat.setTimeZone(timeZone);
+            String todaysDate = simpleDateFormat.format(today.getTime());
+            ArrayList<GameMatch> matches = new ArrayList<>();
+            if(competitions != null && !competitions.isEmpty()) {
+                for(Competition competition : competitions){
+                    List<GameMatch> todayMatches = GameMatch.findAllByIdCompetitionAndDate(competition.getIdCompetitions(), todaysDate, "eq");
+                    if(todayMatches != null && !todayMatches.isEmpty()) {
+                        matches.addAll(todayMatches);
+                    }
+                }
+                if(!matches.isEmpty()){
+                    ArrayList<ObjectNode> minToMin = new ArrayList<>();
+                    ArrayList<ObjectNode> match = new ArrayList<>();
+                    List<GameMatchEvent> eventsToPush = GameMatchEvent.finder.where().in("gameMatch", matches).eq("generated", false).orderBy("gameMatch.idGameMatches asc, _sort asc").findList();
+                    if(eventsToPush != null && !eventsToPush.isEmpty()){
+                        GameMatchEvent pivot = eventsToPush.get(0);
+                        for(GameMatchEvent gameMatchEvent : eventsToPush){
+                            if(gameMatchEvent.getGameMatch().getIdGameMatches() == pivot.getGameMatch().getIdGameMatches()){
+                                match.add(gameMatchEvent.toJsonForPush());
+                            } else {
+                                ObjectNode data = Json.newObject();
+                                data.put("match", pivot.getGameMatch().toJsonPush());
+                                data.put("events", Json.toJson(match));
+                                minToMin.add(data);
+                                match.clear();
+                                match.add(gameMatchEvent.toJsonForPush());
+                                pivot = gameMatchEvent;
+                            }
+                            gameMatchEvent.setGenerated(true);
+                            gameMatchEvent.update();
+                        }
+                        if(!match.isEmpty()){
+                            ObjectNode data = Json.newObject();
+                            data.put("match", pivot.getGameMatch().toJsonPush());
+                            data.put("events", Json.toJson(match));
+                            minToMin.add(data);
+                            match.clear();
+                        }
+                        if(!minToMin.isEmpty()){
+                            responseData.put("min_to_min", Json.toJson(minToMin));
+                        }
+                    }
+                }
+
+            }
+
+            List<News> ungeneratedNews = null;
+            if(Config.getInt("push-all-news") == 1){
+                ungeneratedNews = News.finder.where().eq("id_app", idApp).eq("generated", false).ilike("publicationDate", todaysDate + "%").eq("featured", true).findList();
+            } else {
+                ungeneratedNews = News.finder.where().eq("id_app", idApp).eq("generated", false).ilike("publicationDate", todaysDate + "%").findList();
+            }
+
+            if(ungeneratedNews != null && !ungeneratedNews.isEmpty()) {
+                ArrayList<ObjectNode> newsToPush = new ArrayList<>();
+                for(News news : ungeneratedNews){
+                    newsToPush.add(news.toJsonPush());
+                    news.setGenerated(true);
+                    news.update();
+                }
+                if(!newsToPush.isEmpty()){
+                    responseData.put("news", Json.toJson(newsToPush));
+                }
+            }
+
+            response = hecticusResponse(0, "ok", responseData);
             return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
