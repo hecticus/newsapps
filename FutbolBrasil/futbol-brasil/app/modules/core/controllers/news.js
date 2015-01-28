@@ -16,8 +16,12 @@ angular
                 first : 0,
                 last : 0
             };
+
             $scope.item = {};
             $scope.news = [];
+
+            var _scroll = Utilities.newScroll.vertical('wrapper');
+			      var _scroll2 = Utilities.newScroll.vertical('wrapper2');
 
             $scope.share = function(_news) {
               sharePost(_news.title,'Brazil Football',null,_news.summary);
@@ -31,7 +35,7 @@ angular
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                 angular.element('#wrapper2').attr('class','page transition left');
-                $scope._scroll2.scrollTo(0,0,0);
+                _scroll2.scrollTo(0,0,0);
             };
 
             $scope.getNews = function() {
@@ -109,12 +113,8 @@ angular
 
             $scope.setUpIScroll = function() {
                 console.log('setUpIScroll');
-                $scope._scroll = new IScroll('#wrapper'
-                    , {click: true, preventDefault: true, bounce: true, probeType: 2});
-                $scope._scroll.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
-                $scope._scroll.on('scroll', function () {
+
+                _scroll.on('scroll', function () {
                     if (this.y >= 50) {
                         $scope.getNewsPreviousToId(_news.first);
                     }
@@ -123,11 +123,8 @@ angular
                         $scope.getNewsAfterId(_news.last);
                     }
                 });
-                $scope._scroll2 = new IScroll('#wrapper2', {click: true, preventDefault: true});
-                $scope._scroll2.on('beforeScrollStart', function () {
-                        this.refresh();
-                    }
-                );
+
+
             };
 
             $scope.init = function(){

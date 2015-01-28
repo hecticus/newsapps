@@ -1,10 +1,10 @@
-<div class="row">
+
   <div id="wrapperH">
-    <div id="scroller" style="width:{{_this.widthTotal}}px;">
+    <div id="scroller" style="width:{{widthTotal}}px;">
       <ul>
 
 
-        <li style="width:{{_this.width}}px;" ng-repeat="league in _this.item.leagues" >
+        <li style="width:{{width}}px;" ng-repeat="league in item.leagues" on-last-repeat>
           <div class="container">
 
             <div class="row header">
@@ -15,7 +15,9 @@
 
 
             <div class="row">
-              <div id="{{_this.wrapper.getName($index)}}" class="wrapper" >
+
+
+              <div id="{{wrapper.getName($index)}}" class="wrapper" >
                 <div class="scroller" >
                   <div class="container">
 
@@ -33,24 +35,41 @@
                         </thead>
                         <tbody>
 
-                          <tr  ng-repeat="match in fixture.matches">
-                            <td style="width: 33% !important;" ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
-                              <span ng-bind="match.homeTeam.name"></span>
+                          <tr ng-repeat="match in fixture.matches">
+
+                            <td style="width: 33% !important;"
+                                class= "bet"
+                                ng-click="setBet(league.id_competitions, match.id_game_matches, 0, $parent.$parent.$index,$parent.$index,$index)"
+                                ng-class="{active: match.bet.client_bet == 0}">
+
+                              <span ng-bind="match.home_team.name"></span>
                               <br />
                               <span ng-bind="match.home_team_goals" class="goal"></span>
+
                             </td>
 
-                            <td style="width: 33% !important;">
-                              <span ng-bind="getTime(match.date)" class="date"></span>
+                            <td style="width: 33% !important;"
+                                class = "bet"
+                                ng-click="setBet(league.id_competitions, match.id_game_matches, 1, $parent.$parent.$index,$parent.$index,$index)"
+                                ng-class="{active: match.bet.client_bet == 1}">
+
+                              <span class="date" style="font-weight:bold; font-size:2em;">VS</span>
                               <br />
-                              <span ng-bind="match.status.name" class="status _{{match.status.id_status}}" ></span>
+                              <span ng-bind="getTime(match.date)" class="date"></span>
+
                             </td>
 
-                            <td style="width: 33% !important;" ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
-                              <span ng-bind="match.awayTeam.name"></span>
+                            <td style="width: 33% !important;"
+                                class = "bet"
+                                ng-click="setBet(league.id_competitions, match.id_game_matches, 2, $parent.$parent.$index,$parent.$index,$index)"
+                                ng-class="{active: match.bet.client_bet == 2}">
+
+                              <span ng-bind="match.away_team.name"></span>
                               <br />
                               <span ng-bind="match.away_team_goals" class="goal"></span>
+
                             </td>
+
                           </tr>
 
                         </tbody>
@@ -60,28 +79,6 @@
 
                     </div>
 
-                   <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-
-                     <table class="table">
-                       <thead>
-                       <tr>
-                         <th style="text-align: left;">Nome do jogador</th>
-                         <th style="text-align: left;">Equipe</th>
-                         <th>Goles</th>
-                       </tr>
-                       </thead>
-                       <tbody>
-
-                       <tr ng-class="{'active' : $odd}" ng-repeat="scorer in league.scorers" >
-                         <td style="text-align: left;"><span ng-bind="scorer.name" style="vertical-align: middle;"></span></td>
-                         <td style="text-align: left;"><span ng-bind="scorer.team.name" style="vertical-align: middle;"></span></td>
-                         <td><span ng-bind="scorer.goals" style="vertical-align: middle;"></span></td>
-                       </tr>
-
-                       </tbody>
-                     </table>
-
-                   </div-->
                   </div>	<!--container-->
                 </div>	<!--scroller-->
               </div> <!--wrapper-->
@@ -92,4 +89,4 @@
       </ul>
     </div>
   </div>
-</div>
+
