@@ -71,7 +71,6 @@ public class ClientHasPushAlerts extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_client_has_push_alerts", idClientHasPushAlert);
-        response.put("client", client.toJsonWithoutRelations());
         response.put("push_alert", pushAlert.toJson());
         return response;
     }

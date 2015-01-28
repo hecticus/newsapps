@@ -50,10 +50,10 @@ public class Client extends HecticusModel {
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasPushAlerts> pushAlerts;
 
-    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
     private List<Leaderboard> leaderboards;
 
-    @OneToOne(mappedBy="client", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
     private LeaderboardGlobal leaderboardGlobal;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)

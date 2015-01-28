@@ -65,8 +65,9 @@ GET      /newsapi/v1/news/scroll/:idApp                                         
 GET      /newsapi/v1/news/scroll/:idApp/:newsId/:newest/:first                          controllers.news.NewsController.getRecentNews(idApp:Integer, newsId: Long, newest:Boolean, first:Boolean)
 
 #afp futbol
-GET     /footballapi/v1/team/getAll/:idCompetition                                      controllers.footballapi.AfpFutbolWs.getTeams(idCompetition: Integer)
-GET     /footballapi/v1/team/get/:id                                                    controllers.footballapi.AfpFutbolWs.getTeam(id: Long)
+GET     /footballapi/v1/team/competition/all/:idCompetition                             controllers.footballapi.TeamsController.getTeams(idCompetition: Integer)
+GET     /footballapi/v1/team/app/all/:idApp                                             controllers.footballapi.TeamsController.getTeamsForApp(idApp: Integer, pageSize: Integer?=0, page: Integer?=0)
+GET     /footballapi/v1/team/get/:id                                                    controllers.footballapi.TeamsController.getTeam(id: Long)
 GET     /footballapi/v1/phase/getList/:idComp                                           controllers.footballapi.AfpFutbolWs.getPhases(idComp: Long, sd: String?="", end: String?="")
 GET     /footballapi/v1/phase/get/:id                                                   controllers.footballapi.AfpFutbolWs.getPhase(id: Long)
 GET     /footballapi/v1/matches/get                                                     controllers.footballapi.AfpFutbolWs.getGameMatches(phase : Long?=0,sd: String?="",ed: String?="",st: Integer?=0)
@@ -84,6 +85,7 @@ GET     /footballapi/v1/matches/get/ids/:idApp                                  
 GET     /footballapi/v1/matches/finished/get/:idCompetition                             controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
 GET     /footballapi/v1/matches/finished/get/:idCompetition/:date                       controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
 GET     /footballapi/v1/matches/date/get/:idApp/:date                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String)
+GET     /footballapi/v1/matches/date/grouped/:idApp                                     controllers.footballapi.MatchesController.getFixturesGroupByDate(idApp : Integer)
 GET     /footballapi/v1/matches/date/paged/:idApp/:date                                 controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
 GET     /footballapi/v1/competitions/list/ids/:idApp                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=true)
 GET     /footballapi/v1/competitions/list/:idApp                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
@@ -129,6 +131,9 @@ GET     /footballapi/v1/calendar/get/:idCompetition                             
 
 #football manager
 GET     /api/v1/rankings/get/:idApp/:formattedToday                                     controllers.footballapi.RankingController.getRankings(idApp: Integer, formattedToday: String)
+
+#pushableEvents
+GET     /footballapi/v1/pushable/get/:idApp                                             controllers.footballapi.MatchesController.getPushableEventsForApp(idApp: Integer)
 
 #calendar
 GET     /api/v1/calendar/get/date/gt/:idApp/:idCompetition/:date                        controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")

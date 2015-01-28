@@ -18,26 +18,9 @@ angular
             };
             $scope.item = {};
             $scope.news = [];
-            $scope.contentNews = '';
-            $scope.detailTest = {};
-
-            //TODO revisar esto y su directiva
-            $rootScope.$on('onRepeatFirst', function(scope, element, attrs) {
-                console.log('onRepeatFirst');
-                _news.first = element.first().data('news');
-                $rootScope.loading = false;
-            });
-
-            $rootScope.$on('onRepeatLast', function(scope, element, attrs) {
-                console.log('onRepeatLast');
-                _news.last = element.last().data('news');
-                $rootScope.loading = false;
-            });
-
 
             $scope.share = function(_news) {
-                //funcion en SocialAppsManager
-                sharePost(_news.title,'Brazil Football',null,_news.summary);
+              sharePost(_news.title,'Brazil Football',null,_news.summary);
             };
 
             $scope.fromNow = function(_date) {
@@ -47,7 +30,6 @@ angular
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
-                console.log($scope.contentNews);
                 angular.element('#wrapper2').attr('class','page transition left');
                 $scope._scroll2.scrollTo(0,0,0);
             };
@@ -59,6 +41,8 @@ angular
                     $rootScope.loading = false;
                     $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
                     $scope.news = JSON.parse($rootScope.$storage.news);
+                    _news.first = $scope.news[0].idNews;
+				            _news.last  = $scope.news[$scope.news.length-1].idNews;
                     console.log($scope.news);
                 } else {
                     console.log('getNews. news NOT on storage');
@@ -67,6 +51,8 @@ angular
                             console.log('getNews. GET');
                             console.log(obj);
                             $scope.news = obj.data.response.news;
+                            _news.first = $scope.news[0].idNews;
+                            _news.last  = $scope.news[$scope.news.length-1].idNews;
                             $rootScope.$storage.news = JSON.stringify($scope.news);
                         })
                         .finally(function (data) {
@@ -85,36 +71,38 @@ angular
             };
 
             $scope.getNewsPreviousToId = function(newsId){
-//                console.log('getNewsPreviousToId. newsId: ' + newsId);
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $rootScope.loading = true;
                     $http({method: 'GET', url: Domain.news.up(newsId)})
-                        .then(function (obj) {
-//                            console.log(obj);
-                            angular.forEach(obj.data.response.news, function (_item) {
-                                $scope.news.unshift(_item);
+                      .then(function (obj) {
+                          if (obj.data.response.news.length >= 1) {
+                            _news.first = obj.data.response.news[0].idNews;
+                            angular.forEach(obj.data.response.news, function(_item) {
+                              $scope.news.unshift(_item);
                             });
-                        })
-                        .finally(function (data) {
-                            $rootScope.loading = false;
-                        });
+                          }
+                      })
+                      .finally(function (data) {
+                          $rootScope.loading = false;
+                      });
                 }
             };
 
             $scope.getNewsAfterId = function(newsId){
-//                console.log('getNewsAfterId. newsId: ' + newsId);
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $rootScope.loading = true;
                     $http({method: 'GET', url: Domain.news.down(newsId)})
-                        .then(function (obj) {
-//                            console.log(obj);
-                            angular.forEach(obj.data.response.news, function (_item) {
-                                $scope.news.push(_item);
+                      .then(function (obj) {
+                          if (obj.data.response.news.length >= 1) {
+                            _news.last = obj.data.response.news[obj.data.response.news.length-1].idNews;
+                            angular.forEach(obj.data.response.news, function(_item) {
+                              $scope.news.push(_item);
                             });
-                        })
-                        .finally(function (data) {
-                            $rootScope.loading = false;
-                        }
+                          }
+                      })
+                      .finally(function (data) {
+                          $rootScope.loading = false;
+                      }
                     );
                 }
             };

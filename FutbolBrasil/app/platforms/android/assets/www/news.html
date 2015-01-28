@@ -4,7 +4,7 @@
 				<div class="container" >
 	
 					<div class="row">		
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news" ng-repeat="item in _this.item.news" ng-click="_this.showContentNews(item)" data-news="{{ item.idNews }}"  on-last-repeat >						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news" ng-repeat="item in _this.item.news" ng-click="_this.showContentNews(item)" >						
 							<h5 class="title" ng-bind="item.title"></h5>
 							<i class="icon icon-material-access-time " ></i>&nbsp;<span class="moment" ng-bind="_this.fromNow(item.publicationDate)"></span>							
 						</div>

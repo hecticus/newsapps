@@ -41,8 +41,7 @@
 										  				<td style="width: 33% !important;">
 										  					<span ng-bind="_this.getTime(match.date)" class="date"></span>
 										  					<br />
-										  					<span ng-bind="match.status" class="status" 
-										  						ng-class="match.status == 'Encerrado' ? 'encerrado' : (match.status == 'Default' ? 'default' : 'else')">
+										  					<span ng-bind="match.status.name" class="status _{{match.status.id_status}}">
 										  					</span>
 										  				</td>
 										  				

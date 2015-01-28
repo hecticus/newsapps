@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"
                          ng-repeat="item in news"
-                         ng-click="showContentNews(item)" data-news="{{ item.idNews }}" on-last-repeat>
+                         ng-click="showContentNews(item)">
                         <h5 class="title">{{item.title}}</h5>
                         <i class="icon mdi-device-access-time"></i>
                         <span class="moment">{{fromNow(item.publicationDate)}}</span>

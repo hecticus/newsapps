@@ -65,15 +65,32 @@ angular
 
             scorers: function () {
                 return football_manager_url + 'footballapi/v1/players/competitions/scorers/1';
-            },
+                          },
 
             match: function (_date, _limit, _page) {
                 return football_manager_url + 'footballapi/v1/matches/date/paged/1/' + _date
                     + '?pageSize=' + _limit + '&page=' + _page;
             },
 
-            mtm: function () {
-                return football_manager_url + 'footballapi/v1/matches/mam/1/5/390';
-            }
+            mtm: function (_competition, _game, _event) {
+                return football_manager_url + 'footballapi/v1/matches/mam/next/1/' + _competition + '/' + _game + '/' + _event;
+            },
+
+
+
+            bets: {
+
+                get: function () {
+                  return brazil_football_manager_url + '/futbolbrasil/v1/clients/bets/get/1';
+                },
+
+                create:  function () {
+                  return brazil_football_manager_url + '/futbolbrasil/v1/clients/bets/create/1';
+                }
+
+            },
+
+
+
         };
     });
