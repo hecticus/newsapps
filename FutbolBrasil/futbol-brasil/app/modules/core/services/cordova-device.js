@@ -9,10 +9,11 @@ angular
     .module('core')
     .factory('CordovaDevice',['$window',
         function($window) {
+            var realWidth = 0;
+            var realHeight = 0;
+            var device = device? device : false;
             return {
                 touchType : 'click',
-                real_width : 0,
-                real_height : 0,
 
                 /**
                  * @ngdoc function
@@ -24,31 +25,86 @@ angular
                     return true;
                 },
 
-                getDevice: function (){
-                    var devicePlatform = device.platform;
-                    //IOS
-                    if(devicePlatform == "iOS"){
-                        return "iOS";
-                    }else{
-                        return "android";
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaDevice#isAndroidPlatform
+                 * @methodOf core.Services.CordovaDevice
+                 * @return {boolean} Returns true if running on Android Platform
+                 */
+                isAndroidPlatform: function (){
+                    if(!!device){
+                        return device.platform === "Android";
+                    } else {
+                        return false;
+                    }
+                },
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaDevice#isAndroidPlatform
+                 * @methodOf core.Services.CordovaDevice
+                 * @return {boolean} Returns true if running on iOS Platform
+                 */
+                isIosPlatform: function (){
+                    if(!!device){
+                        return device.platform === "iOS";
+                    } else {
+                        return false;
+                    }
+                },
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaDevice#getUpstreamChannel
+                 * @methodOf core.Services.CordovaDevice
+                 * @return {String} Returns UpstreamChannel for Platform
+                 */
+                getUpstreamChannel: function (){
+                    if(this.isAndroidPlatform()){
+                        return 'Android';
+                    } else if(this.isIosPlatform()){
+                        return 'IOS';
+                    } else {
+                        //TODO handle error
+                        return 'Android';
+                    }
+                },
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaDevice#getDeviceId
+                 * @methodOf core.Services.CordovaDevice
+                 * @return {Integer} Returns Device Id for Platform
+                 */
+                getDeviceId: function (){
+                    if(this.isAndroidPlatform()){
+                        return 1;
+                    } else if(this.isIosPlatform()){
+                        return 2;
+                    } else {
+                        return 0;
                     }
                 },
 
                 checkBadTouch: function (e, onClickEvent){
-                    if(device.platform == "iOS"){
+                    if(this.isIosPlatform()){
                         if(onClickEvent){
                             return e.type == "touchstart" || e.type == "touchend";
                         }else{
                             return e.type == "touchstart";
                         }
-                    }else{
+                    }else if(this.isAndroidPlatform){
+                        return e.type == "touchstart" || e.type == "touchend";
+                    } else {
                         return e.type == "touchstart" || e.type == "touchend";
                     }
                 },
 
                 setTouchType: function (){
-                    if(device.platform == "iOS"){
+                    if(this.isIosPlatform()){
                         this.touchType = "touchend";
+                    }else if(this.isAndroidPlatform){
+                        this.touchType = "click";
                     }else{
                         this.touchType = "click";
                     }
@@ -62,34 +118,34 @@ angular
                 setRealWidth: function (val){
                     try{
                         if(val != null && val != "" && !isNaN(val)){
-                            this.real_width = parseInt(val);
+                            realWidth = parseInt(val);
                         }
                     }catch(e){
-                        console.log("Bad width: "+e);
+                        console.log("Bad width: " + e);
+                    }
+                },
+
+                getRealWidth: function (){
+                    if(realWidth != 0){
+                        return realWidth;
+                    }else{
+                        return $window.width();
                     }
                 },
 
                 setRealHeight: function (val){
                     try{
                         if(val != null && val != "" && !isNaN(val)){
-                            this.real_height = parseInt(val);
+                            realHeight = parseInt(val);
                         }
                     }catch(e){
-                        console.log("Bad height: "+e);
-                    }
-                },
-
-                getRealWidth: function (){
-                    if(this.real_width != 0){
-                        return this.real_width;
-                    }else{
-                        return $window.width();
+                        console.log("Bad height: " + e);
                     }
                 },
 
                 getRealHeight: function (){
-                    if(this.real_height != 0){
-                        return this.real_height;
+                    if(realHeight != 0){
+                        return realHeight;
                     }else{
                         return $window.height();
                     }

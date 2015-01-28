@@ -1,6 +1,6 @@
 <!doctype html>
-  <html lang="pt">
-  <head>
+<html lang="pt">
+<head>
     <meta charset="utf-8">
     <title>Brasil Futebol</title>
     <meta name="description" content="">
@@ -12,193 +12,190 @@
     <meta name="msapplication-tap-highlight" content="no" />
 
     <!-- build:css styles/vendor.css -->
-        <!-- injector:bowercss -->
-        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-        <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/material.css">
-        <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/ripples.css">
-        <!-- endinjector -->
+    <!-- injector:bowercss -->
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/material.css">
+    <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/ripples.css">
+    <!-- endinjector -->
     <!-- endbuild -->
 
     <!-- build:css styles/custom.css -->
-        <!-- injector:css -->
-        <link rel="stylesheet" href="styles/animate.css">
-        <link rel="stylesheet" href="styles/default.css">
-        <link rel="stylesheet" href="styles/iconvault-preview.css">
-        <link rel="stylesheet" href="styles/index.css">
-        <link rel="stylesheet" href="styles/transition.css">
-        <!-- endinjector -->
+    <!-- injector:css -->
+    <link rel="stylesheet" href="styles/animate.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/iconvault-preview.css">
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/transition.css">
+    <!-- endinjector -->
     <!-- endbuild -->
 
     <script src="cordova.js"></script>
-  </head>
+</head>
 
-  <body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;">
+<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;">
 
-  <div class="container-fluid">
-      <div class="row">
-          <nav class="navbar navbar-default" style="margin-bottom: 0;">
-              <div class="navbar-header">
-                  <header>
-                  <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
-                       ng-class="{active : isActive('news')}"
-                       ng-click="showSection('news')" style="text-align: left;">
-                      <img src="img/logo.svg" onerror="this.src='img/logo.png'"
-                           style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
-                      <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">NOTISTASTS</span>
-                  </div>
-                  <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
-                       ng-class="{active : isActive('prediction')}"
-                       ng-click="showSection('prediction')" style="text-align: right;">
-                      <img src="img/palpites.svg" onerror="this.src='img/palpites.png'"
-                           style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
-                      <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">PALPITES</span>
-                  </div>
-                  </header>
-              </div>
-          </nav>
-      </div>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-default" style="margin-bottom: 0;">
+            <div class="navbar-header">
+                <header>
+                    <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
+                         ng-class="{active : isActive('news')}"
+                         ng-click="showSection('news')" style="text-align: left;">
+                        <img src="img/logo.svg" onerror="this.src='img/logo.png'"
+                             style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
+                        <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">NOTISTASTS</span>
+                    </div>
+                    <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
+                         ng-class="{active : isActive('prediction')}"
+                         ng-click="showSection('prediction')" style="text-align: right;">
+                        <img src="img/palpites.svg" onerror="this.src='img/palpites.png'"
+                             style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
+                        <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">PALPITES</span>
+                    </div>
+                </header>
+            </div>
+        </nav>
+    </div>
 
-        <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
-        <loading></loading>
-        <error></error>
+    <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
+    <loading></loading>
+    <error></error>
 
-        <div class="row">
-            <footer class="footer">
-              <!--TODO sacar de footer-->
-              <div class="container">
+    <div class="row">
+        <footer class="footer">
+            <div class="container">
                 <div data-section="news" class="row section active">
 
-                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2
-                        col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 option"
-                       ui-sref-active="active">
-                    <a ui-sref="match">
-                      <span class="icon-balon"></span>
-                      <span class="glyphicon-class">Partidas</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="standings">
-                      <span class="icon-tabela"></span>
-                      <span class="glyphicon-class">Tabela</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="news">
-                      <span class="icon-noticias"></span>
-                      <span class="glyphicon-class">Noticias</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="scorers">
-                      <span class="icon-artilharia"></span>
-                      <span class="glyphicon-class">Artilharia</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="mtm">
-                      <span class="icon-envivo"></span>
-                      <span class="glyphicon-class">En Vivo</span>
-                    </a>
-                  </div>
+                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
+                         ui-sref-active="active">
+                        <a ui-sref="match">
+                            <span class="icon-balon"></span>
+                            <span class="glyphicon-class">Partidas</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="standings">
+                            <span class="icon-tabela"></span>
+                            <span class="glyphicon-class">Tabela</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="news">
+                            <span class="icon-noticias"></span>
+                            <span class="glyphicon-class">Noticias</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="scorers">
+                            <span class="icon-artilharia"></span>
+                            <span class="glyphicon-class">Artilharia</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="mtm">
+                            <span class="icon-envivo"></span>
+                            <span class="glyphicon-class">En Vivo</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div data-section="prediction" class="row section">
-                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                       ui-sref-active="active">
-                    <a ui-sref="prediction">
-                      <span class="icon-balon"></span>
-                      <span class="glyphicon-class">Predicciones</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="leaderboard">
-                      <span class="icon-tabela"></span>
-                      <span class="glyphicon-class">Leaderboards</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="friends">
-                      <span class="icon-artilharia"></span>
-                      <span class="glyphicon-class">Friends</span>
-                    </a>
-                  </div>
-                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                       ui-sref-active="active" >
-                    <a ui-sref="points">
-                      <span class="icon-puntos"></span>
-                      <span class="glyphicon-class">Puntos</span>
-                    </a>
-                  </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                         ui-sref-active="active">
+                        <a ui-sref="prediction">
+                            <span class="icon-balon"></span>
+                            <span class="glyphicon-class">Predicciones</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="leaderboard">
+                            <span class="icon-tabela"></span>
+                            <span class="glyphicon-class">Leaderboards</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="friends">
+                            <span class="icon-artilharia"></span>
+                            <span class="glyphicon-class">Friends</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
+                         ui-sref-active="active" >
+                        <a ui-sref="points">
+                            <span class="icon-puntos"></span>
+                            <span class="glyphicon-class">Puntos</span>
+                        </a>
+                    </div>
                 </div>
-              </div>
-            </footer>
-        </div>
+            </div>
+        </footer>
     </div>
+</div>
 
-    <!-- build:js scripts/vendor.js -->
-        <!-- injector:bowerjs -->
-        <script src="lib/jquery/dist/jquery.js"></script>
-        <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="lib/angular/angular.js"></script>
-        <script src="lib/angular-resource/angular-resource.js"></script>
-        <script src="lib/angular-mocks/angular-mocks.js"></script>
-        <script src="lib/angular-cookies/angular-cookies.js"></script>
-        <script src="lib/angular-animate/angular-animate.js"></script>
-        <script src="lib/angular-touch/angular-touch.js"></script>
-        <script src="lib/angular-sanitize/angular-sanitize.js"></script>
-        <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-        <script src="lib/angular-ui-utils/ui-utils.js"></script>
-        <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="lib/ngstorage/ngStorage.js"></script>
-        <script src="lib/moment/moment.js"></script>
-        <script src="lib/bootstrap-material-design/dist/js/material.js"></script>
-        <script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
-        <script src="lib/iscrolltest/build/iscroll-probe.js"></script>
-        <!-- endinjector -->
-    <!-- endbuild -->
+<!-- build:js scripts/vendor.js -->
+<!-- injector:bowerjs -->
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-resource/angular-resource.js"></script>
+<script src="lib/angular-mocks/angular-mocks.js"></script>
+<script src="lib/angular-cookies/angular-cookies.js"></script>
+<script src="lib/angular-animate/angular-animate.js"></script>
+<script src="lib/angular-touch/angular-touch.js"></script>
+<script src="lib/angular-sanitize/angular-sanitize.js"></script>
+<script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="lib/angular-ui-utils/ui-utils.js"></script>
+<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="lib/ngstorage/ngStorage.js"></script>
+<script src="lib/moment/moment.js"></script>
+<script src="lib/bootstrap-material-design/dist/js/material.js"></script>
+<script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
+<script src="lib/iscrolltest/build/iscroll-probe.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
 
-    <!-- build:js scripts/custom.js -->
-        <!-- injector:js -->
-        <script src="js/config.js"></script>
-        <script src="js/application.js"></script>
-        <script src="modules/core/core.js"></script>
-        <script src="modules/core/config/routes.js"></script>
-        <script src="modules/core/services/client-manager.js"></script>
-        <script src="modules/core/services/cordova-app.js"></script>
-        <script src="modules/core/services/cordova-device.js"></script>
-        <script src="modules/core/services/cordova-ready.js"></script>
-        <script src="modules/core/services/domain.js"></script>
-        <script src="modules/core/services/facebook-manager.js"></script>
-        <script src="modules/core/services/news-service.js"></script>
-        <script src="modules/core/services/push-manager.js"></script>
-        <script src="modules/core/services/social-apps-manager.js"></script>
-        <script src="modules/core/services/teams-manager.js"></script>
-        <script src="modules/core/services/utilities.js"></script>
-        <script src="modules/core/services/web-manager.js"></script>
-        <script src="modules/core/directives/error.js"></script>
-        <script src="modules/core/directives/loading.js"></script>
-        <script src="modules/core/directives/my-scroll.js"></script>
-        <script src="modules/core/directives/on-last-repeat.js"></script>
-        <script src="modules/core/controllers/friends.js"></script>
-        <script src="modules/core/controllers/leaderboard.js"></script>
-        <script src="modules/core/controllers/login.js"></script>
-        <script src="modules/core/controllers/main.js"></script>
-        <script src="modules/core/controllers/match.js"></script>
-        <script src="modules/core/controllers/mtm.js"></script>
-        <script src="modules/core/controllers/news-detail.js"></script>
-        <script src="modules/core/controllers/news.js"></script>
-        <script src="modules/core/controllers/points.js"></script>
-        <script src="modules/core/controllers/prediction.js"></script>
-        <script src="modules/core/controllers/scorers.js"></script>
-        <script src="modules/core/controllers/standings.js"></script>
-        <!-- endinjector -->
-    <!-- endbuild -->
+<!-- build:js scripts/custom.js -->
+<!-- injector:js -->
+<script src="js/config.js"></script>
+<script src="js/application.js"></script>
+<script src="modules/core/core.js"></script>
+<script src="modules/core/config/routes.js"></script>
+<script src="modules/core/services/client-manager.js"></script>
+<script src="modules/core/services/cordova-app.js"></script>
+<script src="modules/core/services/cordova-device.js"></script>
+<script src="modules/core/services/domain.js"></script>
+<script src="modules/core/services/facebook-manager.js"></script>
+<script src="modules/core/services/news-service.js"></script>
+<script src="modules/core/services/push-manager.js"></script>
+<script src="modules/core/services/social-apps-manager.js"></script>
+<script src="modules/core/services/teams-manager.js"></script>
+<script src="modules/core/services/utilities.js"></script>
+<script src="modules/core/services/web-manager.js"></script>
+<script src="modules/core/directives/error.js"></script>
+<script src="modules/core/directives/loading.js"></script>
+<script src="modules/core/directives/my-scroll.js"></script>
+<script src="modules/core/directives/on-last-repeat.js"></script>
+<script src="modules/core/controllers/friends.js"></script>
+<script src="modules/core/controllers/leaderboard.js"></script>
+<script src="modules/core/controllers/login.js"></script>
+<script src="modules/core/controllers/main.js"></script>
+<script src="modules/core/controllers/match.js"></script>
+<script src="modules/core/controllers/mtm.js"></script>
+<script src="modules/core/controllers/news-detail.js"></script>
+<script src="modules/core/controllers/news.js"></script>
+<script src="modules/core/controllers/points.js"></script>
+<script src="modules/core/controllers/prediction.js"></script>
+<script src="modules/core/controllers/scorers.js"></script>
+<script src="modules/core/controllers/standings.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
 
-  </body>
+</body>
 </html>

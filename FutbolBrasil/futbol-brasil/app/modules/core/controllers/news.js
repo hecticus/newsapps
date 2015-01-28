@@ -44,7 +44,6 @@ angular
                 return Utilities.moment(_date).fromNow();
             };
 
-            //TODO Revisar
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];

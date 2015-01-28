@@ -7,39 +7,39 @@
  */
 angular
     .module('core')
-    .factory('PushManager', ['$window',
-        function($window) {
+    .factory('PushManager', ['$window', 'ClientManager', 'CordovaDevice',
+        function($window, ClientManager, CordovaDevice) {
+            var pushNotification = {};
+
             return {
-                pushNotification : {},
-
-                FILE_KEY_CLIENT_REGID : "APPDATACLIENTREGID",
-
-                regID : '',
-
                 /**
                  * @ngdoc function
-                 * @name core.Services.PushManager#method1
+                 * @name core.Services.PushManager#init
                  * @methodOf core.Services.PushManager
                  * @return {boolean} Returns a boolean value
                  */
-                method1: function() {
-                    return true;
-                },
-
-                initPush : function (){
+                init : function (){
                     try {
-                        this.pushNotification = window.plugins.pushNotification;
-                        if (device.platform == 'android' || device.platform == 'Android') {
-                            //console.log('<li>registering android</li>');
-                            pushNotification.register(successPushHandler, errorPushHandler, {"senderID":"961052813400","ecb":"onNotificationGCM"});		// required!
-                        } else {
-                            //console.log('<li>registering iOS</li>');
-                            pushNotification.register(tokenHandler, errorPushHandler, {"badge":"false","sound":"true","alert":"true","ecb":"onNotificationAPN"});	// required!
+                        pushNotification = $window.plugins.pushNotification;
+                        if (CordovaDevice.isAndroidPlatform()) {
+                            pushNotification.register(this.successPushHandler, this.errorPushHandler
+                                , {
+                                    "senderID":"961052813400",
+                                    "ecb":"onNotificationGCM"
+                                }
+                            );
+                        } else if(CordovaDevice.isIosPlatform()){
+                            pushNotification.register(this.tokenHandler, this.errorPushHandler
+                                , {
+                                    "badge":"false",
+                                    "sound":"true",
+                                    "alert":"true",
+                                    "ecb":"onNotificationAPN"
+                                }
+                            );
                         }
-                    }
-                    catch(err)
-                    {
-                        //alert('There was an error on this page.\n\nError description: ' + err.message + '\n\n'';);
+                    } catch(err) {
+                        console.log("PushManager. init. Error. " + err);
                     }
                 },
 
@@ -77,38 +77,28 @@ angular
                             if ( e.regid.length > 0 )
                             {
                                 //console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
-                                // Your GCM push server needs to know the regID before it can push to this device
-                                // here is where you might want to send it the regID for later use.
-                                console.log("regID = " + e.regid);
-                                regID = e.regid;
-                                updateDeviceToServer();
+                                // Your GCM push server needs to know the regID before it can push
+                                // to this device here is where you might want to send it the regID
+                                // for later use.
+                                console.log("PushManager. regID = " + e.regid);
+                                ClientManager.saveRegId(e.regid);
+                                this.updateDeviceToServer();
                             }
                             break;
 
                         case 'message':
-                            // if this flag is set, this notification happened while we were in the foreground.
-                            // you might want to play a sound to get the user's attention, throw up a dialog, etc.
-                            if (e.foreground)
-                            {
+                            // notification happened while we were in the foreground
+                            if (e.foreground) {
                                 //console.log('<li>--INLINE NOTIFICATION--' + '</li>');
-
-                                // if the notification contains a soundname, play it.
-                                /*var my_media = new Media("/android_asset/www/"+e.soundname);
-                                 my_media.play();*/
-                            }
-                            else
-                            {	// otherwise we were launched because the user touched a notification in the notification tray.
+                            } else {
+                                // otherwise we were launched because the user touched a notification
                                 if (e.coldstart){
                                     //console.log('<li>--COLDSTART NOTIFICATION--' + '</li>');
                                 }else{
                                     //console.log('<li>--BACKGROUND NOTIFICATION--' + '</li>');
                                 }
                             }
-                            //console.log('PUSHJS' + JSON.stringify(e.payload));
-                            //window.setTimeout(app.errorNewsSave(),4000);
-                            executePushInit(e.payload["extra_params"]);
-                            //console.log('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
-                            //console.log('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
+//                            executePushInit(e.payload["extra_params"]);
                             break;
 
                         case 'error':
@@ -116,15 +106,17 @@ angular
                             break;
 
                         default:
-                            console.log('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
+                            console.log(
+                                '<li>EVENT -> Unknown, an event was received and we do not know what it is</li>'
+                            );
                             break;
                     }
                 },
 
                 tokenHandler : function (result) {
                     //console.log('<li>token: '+ result +'</li>');
-                    regID = result;
-                    updateDeviceToServer();
+                    ClientManager.saveRegId(result);
+                    this.updateDeviceToServer();
                     // Your iOS push server needs to know the token before it can push to this device
                     // here is where you might want to send it the token for later use.
                 },
@@ -132,8 +124,8 @@ angular
                 successPushHandler : function (result) {
                     console.log('<li>success:'+ result +'</li>');
                     if(result != null && result != ""){
-                        regID = result;
-                        updateDeviceToServer();
+                        ClientManager.saveRegId(result);
+                        this.updateDeviceToServer();
                     }
                 },
 
@@ -145,38 +137,19 @@ angular
                     console.log('<li>success Server:'+ result +'</li>');
                 },
 
-                saveRegID : function (regID) {
-                    try{
-                        window.localStorage.setItem(FILE_KEY_CLIENT_REGID,regID);
-                        return true;
-                    }catch(e){
-                        return false;
-                    }
-                },
-
-                loadRegID : function () {
-                    return window.localStorage.getItem(FILE_KEY_CLIENT_REGID);
-                },
-
-                hasToUpdateRegID : function (){
-                    var savedRegID = loadRegID();
-                    //check RegID
-                    if(savedRegID == null || savedRegID == "" || savedRegID != regID){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                },
-
-                //Ahora tratamos de obtener el cliente con el device id para que si no existe se cree y luego vamos al proceso normal
+                //Ahora tratamos de obtener el cliente con el device id para que si no existe se cree y
+                // luego vamos al proceso normal
                 updateDeviceToServer : function (){
                     console.log("revisando version");
                     //TODO: despues de guardar el regID en el servidor se llama a esta funcion
-                    if(getDevice() == "android"){
-                        pushNotification.registerOnServer(successPushHandlerServer, errorPushHandler, true);
+                    if(CordovaDevice.isAndroidPlatform()){
+                        pushNotification.registerOnServer(this.successPushHandlerServer
+                            , this.errorPushHandler, true);
                     }
 
-                    //Una vez tengamos el regID y este todo listo tenemos que revisar si ya existe el cliente o si hay que crear uno generico
+                    //Una vez tengamos el regID y este todo listo tenemos que revisar si ya existe
+                    // el cliente
+                    // o si hay que crear uno generico
                     this.updateRegistrationID();
 
                     var doneCreating = function(arg1, arg2){
@@ -190,7 +163,8 @@ angular
 
                     //TEMP PRUEBAS
                     console.log("VA A LLAMAR");
-                    createOrUpdateClient("40766666613", "1234", true, doneCreating, errorCreating);
+                    ClientManager.createOrUpdateClient("40766666613", "1234", true
+                        , doneCreating, errorCreating);
                     console.log("LLAMO");
                 }
             };

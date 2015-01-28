@@ -7,18 +7,79 @@
  */
 angular
     .module('core')
-    .factory('ClientManager',['CordovaDevice', 'PushManager', 'WebManager', 'TeamsManager'
+    .factory('ClientManager',['$localStorage', 'CordovaDevice', 'WebManager', 'TeamsManager'
         , 'Domain', 'Utilities',
-        function(CordovaDevice, PushManager, WebManager, TeamsManager, Domain, Utilities) {
+        function($localStorage, CordovaDevice, WebManager, TeamsManager, Domain, Utilities) {
+            var that = this;
+            var regId = '';
+            var clientId = "";
+            var clientMSISDN = "";
+            var clientDataSafe = false;
+            var clientPassword = "";
+            var clientOBJ = {};
+            var currentVersion = 0;
+            var localStorage = $localStorage;
+
+            var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
+            var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
+            var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
+            var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
+            var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";
+
+            /**
+             * @ngdoc function
+             * @name core.Services.CordovaApp#isActiveClient
+             * @description
+             * {
+             *  -1 : Unsuscribed by Upstream,
+             *   0 : Unsuscribed by User,
+             *   1 : Active and Paid,
+             *   2 : Trial period, awaiting confirmation
+             * }
+             * @methodOf core.Services.CordovaApp
+             * @return {boolean} Returns a boolean value
+             */
+            var isActiveClient = function (status){
+                return !!(status > 0 && status != 2);
+            };
+
+            var eraseAllConfigs = function (){
+                delete localStorage[FILE_KEY_CLIENT_ID];
+                delete localStorage[FILE_KEY_CLIENT_MSISDN];
+                delete localStorage[FILE_KEY_CLIENT_REGID];
+                delete localStorage[FILE_KEY_CLIENT_DATASAFE];
+            };
+
+            var saveStoredVersion = function () {
+                try{
+                    localStorage[FILE_KEY_STOREDVERSION] = currentVersion;
+                    return true;
+                }catch(err){
+                    return false;
+                }
+            };
+
+            var loadStoredVersion = function () {
+                return localStorage[FILE_KEY_STOREDVERSION];
+            };
+
             return {
-                clientID : "",
-                clientMSISDN : "",
-                clientDataSafe : false,
-                clientPassword : "",
-                clientOBJ : {},
-                FILE_KEY_CLIENT_ID : "APPDATACLIENTID",
-                FILE_KEY_CLIENT_MSISDN : "APPDATACLIENTMSISDN",
-                FILE_KEY_CLIENT_DATASAFE : "APPDATACLIENTDATASAFE",
+
+                getClientId : function(){
+                    return clientId;
+                },
+                getClientMSISDN : function(){
+                    return clientMSISDN;
+                },
+                getClientDataSafe : function(){
+                    return clientDataSafe;
+                },
+                getClientPassword : function(){
+                    return clientPassword;
+                },
+                getClientOBJ : function(){
+                    return clientOBJ;
+                },
 
                 /**
                  * @ngdoc function
@@ -30,36 +91,35 @@ angular
                     return true;
                 },
 
-                init : function (callback, errorCallback){
-                    try
-                    {
+                init : function (successCallback, errorCallback){
+//                    try {
                         this.loadClientID();
-                        console.log("INIT CLIENT: " + this.clientID + " msisdn:" + this.clientMSISDN);
-                        if(this.clientID != null && this.clientID != ""){
+                        console.log("INIT CLIENT: " + clientId + " msisdn:" + clientMSISDN);
+                        if(clientId){
                             //tenemos client ID asi que solo hacemos get
-                            this.getClientStatus(callback, errorCallback);
+                            this.getClientStatus(successCallback, errorCallback);
                         }else{
                             //no creamos un cliente generico, esperamos a que se cree con msisdn
                             // por lo menos
-                            callback(false, 2); //periodo de pruebas mientras pone su informacion
+                            successCallback(false, 2); //periodo de pruebas mientras pone su informacion
                         }
-                    } catch(err) {
-                        console.log('There was an error on this page.\n\nError description: '
-                            + err.message + '\n\n');
-                        errorCallback();
-                    }
+//                    } catch(err) {
+//                        console.log('There was an error on this page.\n\nError description: '
+//                            + err.message + '\n\n');
+//                        errorCallback();
+//                    }
                 },
 
-                //Si ya tenemos el cliente creado entonces enviamos la info del regID, sino, esperamos que
+                //Si ya tenemos el cliente creado entonces enviamos la info del regId, sino, esperamos que
                 // lo haga cuando se suscriba y ya
                 updateRegistrationID : function (){
                     try {
                         this.loadClientID();
-                        if(this.clientID != null && this.clientID != ""){
-                            if(PushManager.hasToUpdateRegID()){
+                        if(clientId){
+                            if(this.hasToUpdateRegId()){
                                 this.loadClientMSISDN();
-                                //solo actualizamos el regID, lo demas lo dejamos como esta
-                                this.createOrUpdateClient(this.clientMSISDN, null, false
+                                //solo actualizamos el regId, lo demas lo dejamos como esta
+                                this.createOrUpdateClient(clientMSISDN, null, false
                                     , Utilities.doNothing
                                     , Utilities.doNothing);
                             }
@@ -71,20 +131,13 @@ angular
 
                 saveClientID : function (response, password) {
                     try {
-                        //tenemos todo el objeto
-                        this.clientOBJ.id_client = response.id_client;
-                        this.clientOBJ.user_id = response.user_id;
-                        this.clientOBJ.login = response.login;
-                        if(password != null && password != ""){
-                            this.clientOBJ.password = password;
-                        }
-
-                        this.clientID = this.clientOBJ.id_client;
-                        //TODO utilizar ngStorage
-                        window.localStorage.setItem(this.FILE_KEY_CLIENT_ID
-                            ,JSON.stringify(this.clientOBJ));
-                        //mandamos a guardar tambien el reg ID
-                        PushManager.saveRegID(regID);
+                        clientOBJ.id_client = response.id_client;
+                        clientOBJ.user_id = response.user_id;
+                        clientOBJ.login = response.login;
+                        if(password){ clientOBJ.password = password; }
+                        clientId = clientOBJ.id_client;
+                        localStorage[FILE_KEY_CLIENT_ID] = JSON.stringify(clientOBJ);
+                        this.saveRegId(regId);
                         return true;
                     } catch(err){
                         return false;
@@ -92,239 +145,208 @@ angular
                 },
 
                 loadClientID : function () {
-                    //TODO utilizar ngStorage
-                    this.clientDataSafe = window.localStorage.getItem(this.FILE_KEY_CLIENT_DATASAFE);
-                    if(this.clientDataSafe == null || this.clientDataSafe != "true"){
-                        //TODO utilizar ngStorage
-                        window.localStorage.removeItem(this.FILE_KEY_CLIENT_ID);
-                        //TODO utilizar ngStorage
-                        window.localStorage.removeItem(this.FILE_KEY_CLIENT_MSISDN);
+                    clientDataSafe = localStorage[FILE_KEY_CLIENT_DATASAFE];
+                    if(clientDataSafe == null || clientDataSafe != "true"){
+                        delete localStorage[FILE_KEY_CLIENT_ID];
+                        delete localStorage[FILE_KEY_CLIENT_MSISDN];
                     }else{
-                        //TODO utilizar ngStorage
-                        var clientString = window.localStorage.getItem(this.FILE_KEY_CLIENT_ID);
+                        var clientString = localStorage[FILE_KEY_CLIENT_ID];
                         if(clientString != null && clientString != ""){
                             try{
-                                this.clientOBJ = JSON.parse(clientString);
-                                this.clientID = this.clientOBJ.id_client;
+                                clientOBJ = JSON.parse(clientString);
+                                clientId = clientOBJ.id_client;
+                                console.log(this.getClientId());
                             }catch(e){
-
                             }
                         }
                     }
                 },
 
-                saveClientMSISDN : function (_clientMSISDN) {
-                    try{
-                        if(_clientMSISDN.length < 8 || _clientMSISDN.length > 11){
-                            return false; //el numero esta mal formado
+                saveClientMSISDN : function (_clientMSISDN, successCallback, errorCallback) {
+//                    try{
+                        _clientMSISDN = (''+_clientMSISDN).replace(/^\s+|\s+$/g, "");
+                        if(isNaN(_clientMSISDN) && (_clientMSISDN.length < 8 || _clientMSISDN.length > 11)){
+                            errorCallback();
                         }
+
                         for(var i=0;i<_clientMSISDN.length;++i){
                             parseInt(_clientMSISDN[i],10);
                         }
 
-                        this.clientMSISDN = _clientMSISDN;
-                        //TODO utilizar ngStorage
-                        window.localStorage.setItem(this.FILE_KEY_CLIENT_MSISDN,""+this.clientMSISDN);
-                        return true;
-                    } catch(err){
-                        console.log("ERROR Not a number: "+err);
-                        return false;
-                    }
+                        localStorage[FILE_KEY_CLIENT_MSISDN] = _clientMSISDN;
+                        this.loadClientMSISDN();
+                        successCallback();
+//                    } catch(err){
+//                        console.log("Error: Invalid Client MSISDN: " + err);
+//                        errorCallback();
+//                    }
                 },
 
                 loadClientMSISDN : function () {
-                    this.clientMSISDN = window.localStorage.getItem(this.FILE_KEY_CLIENT_MSISDN);
+                    clientMSISDN = localStorage[FILE_KEY_CLIENT_MSISDN];
                 },
 
                 markClientAsOK : function () {
                     try{
-                        this.clientDataSafe = true;
-                        window.localStorage.setItem(this.FILE_KEY_CLIENT_DATASAFE,"true");
+                        clientDataSafe = true;
+                        localStorage[FILE_KEY_CLIENT_DATASAFE] = "true";
                         return true;
                     } catch(err){
                         return false;
                     }
                 },
 
-                //CLIENT MANAGER OPERATIONS
-                createOrUpdateClient : function (msisdn, password, subscribe, callback, errorCallback){
-                    try{
-                        this.clientPassword = password;
-                        //cargamos el id de cliente si existe
+                createOrUpdateClient : function (msisdn, password, subscribe, successCallback, errorCallback){
+//                    try{
                         this.loadClientID();
-                        //traemos el Client por WS si existe, sino con el RegID creamos uno temporal que
-                        // actualizaremos de nuevo
-                        var jData = {};
-                        //TODO: cambiar este ID cableado? por ahora no hay pantalla de seleccion de pais
-                        var country = 3;
-                        var device_id = 0;
-                        var upstreamChannel = "";
-                        //IOS
-                        if(CordovaDevice.getDevice() == "iOS"){
-                            device_id = 2;
-                            upstreamChannel = "IOS";
-                        }else{
-                            //ANDROID
-                            device_id = 1;
-                            upstreamChannel = "Android";
-                        }
-
-                        var login = msisdn;
-
-                        //Cargamos info de devices (se necesita pasar el ID y no el nombre
-                        // por el WS de play, quizas esto no sea una buena idea si se migra la BD)
                         var devices = [];
                         var device = {};
-                        if(regID != null && regID != ""){
-                            device.device_id = device_id;
-                            device.registration_id = regID;
+                        var jData = {
+                            country : 3,
+                            device_id : CordovaDevice.getDeviceId(),
+                            upstreamChannel : CordovaDevice.getUpstreamChannel()
+                        };
+
+                        clientPassword = password;
+
+                        if(regId){
+                            device.device_id = jData.device_id;
+                            device.registration_id = regId;
                             devices.push(device);
                         }else{
                             //Si no tenemos informacion del push no hacemos nada diferente, seguimos y
                             // esperamos que cuando llege se mande a actualizar
                         }
 
-                        //formamos la data a enviar
-                        jData.country = country;
-                        if(login != null && login != "")
-                            jData.login = login;
-                        if(this.clientPassword != null && this.clientPassword != "")
-                            jData.password = this.clientPassword;
-                        jData.upstreamChannel = upstreamChannel;
+                        if(msisdn) { jData.login = msisdn; }
+                        if(password){ jData.password = password; }
 
-                        //Dependiendo del caso hacemos create o update
-                        if(this.clientID != null && this.clientID != ""){
-                            //agregamos el device
+
+                        if(clientId){
                             jData.add_devices = devices;
-
-                            //si viene para suscribir pasamos el flag
                             if(subscribe){
                                 jData.subscribe = true;
                             }
-
-                            //hacemos update
-                            $.ajax({
-                                url : Domain.clients.update(this.clientId),
-                                data: JSON.stringify(jData),
-                                type: 'POST',
-                                headers: WebManager.getHeaders(),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: 'json',
-                                timeout : 60000,
-                                success : function(data, status) {
-                                    try{
-                                        if(typeof data == "string"){
-                                            data = JSON.parse(data);
-                                        }
-                                        var code = data.error;
-                                        if(code == 0){
-                                            var response = data.response;
-                                            if(response != null){
-                                                //revisamos el status del cliente para saber
-                                                // si podemos seguir o no
-                                                var isActive = false;
-                                                if(this.checkClientStatus(response.status)){
-                                                    isActive = true;
-                                                }
-                                                //SAVE TEAM LIST
-                                                TeamsManager.init(response.push_alerts);
-                                                //SAVE Client ID
-                                                if(this.saveClientID(response, password)){
-                                                    callback(isActive,response.status);
-                                                }else{
-                                                    errorCallback();
-                                                }
-                                            }else{
-                                                errorCallback();
-                                            }
-                                        }else{
-                                            console.log("Error guardando cliente: "+data.description);
-                                            errorCallback();
-                                        }
-                                    }catch(e){
-                                        errorCallback();
-                                    }
-                                },
-                                error : function(xhr, ajaxOptions, thrownError) {
-                                    console.log("error add client1 "+thrownError);
-                                    errorCallback();
-                                }
-                            });
+                            this.updateClient(jData, successCallback, errorCallback);
                         }else{
-                            //agregamos el device al json
                             jData.devices = devices;
-
-                            console.log("ENVIO: "+JSON.stringify(jData));
-
-                            //creamos un client usando el msisdn y el regID que tenemos
-                            $.ajax({
-                                url : Domain.clients.create,
-                                data: JSON.stringify(jData),
-                                type: 'POST',
-                                headers: WebManager.getHeaders(),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: 'json',
-                                timeout : 60000,
-                                success : function(data, status) {
-                                    try{
-                                        if(typeof data == "string"){
-                                            data = JSON.parse(data);
-                                        }
-                                        var code = data.error;
-                                        if(code == 0){
-                                            var response = data.response;
-                                            if(response != null){
-                                                //revisamos el status del cliente para saber si podemos
-                                                // seguir o no
-                                                var isActive = false;
-                                                if(this.checkClientStatus(response.status)){
-                                                    isActive = true;
-                                                }
-                                                //SAVE TEAM LIST
-                                                TeamsManager.init(response.push_alerts);
-                                                //SAVE Client ID
-                                                if(this.saveClientID(response, password)){
-                                                    callback(isActive,response.status);
-                                                }else{
-                                                    errorCallback();
-                                                }
-                                            }else{
-                                                errorCallback();
-                                            }
-                                        }else{
-                                            console.log("Error guardando cliente: "
-                                                +data.description);
-                                            errorCallback();
-                                        }
-                                    }catch(e){
-                                        errorCallback();
-                                    }
-                                },
-                                error : function(xhr, ajaxOptions, thrownError) {
-                                    console.log("error add client2 "+thrownError);
-                                    errorCallback();
-                                }
-                            });
+                            this.createClient(jData, successCallback, errorCallback);
                         }
 
                         return true;
-                    }catch(err){
-                        console.log("Ocurrio un error al crear u obtener el cliente: "
-                            +err.message);
-                        errorCallback();
-                        return false;
-                    }
+//                    }catch(err){
+//                        console.log("Ocurrio un error al crear u obtener el cliente: " + err.message);
+//                        errorCallback();
+//                        return false;
+//                    }
                 },
 
-                getClientStatus : function (callback, errorCallback){
-                    var upstreamChannel = "";
-                    //TODO se puede hacer refactor de estos ifs
-                    if(CordovaDevice.getDevice() == "iOS"){
-                        upstreamChannel = "IOS";
-                    }else{
-                        upstreamChannel = "Android";
-                    }
+                createClient: function(jData, successCallback, errorCallback){
+                    console.log("createClient. data: ");
+                    console.log(jData);
+                    $.ajax({
+                        url : Domain.clients.create,
+                        data: JSON.stringify(jData),
+                        type: 'POST',
+                        headers: WebManager.getHeaders(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        timeout : 60000,
+                        success : function(data, status) {
+                            try{
+                                if(typeof data == "string"){
+                                    data = JSON.parse(data);
+                                }
+                                var code = data.error;
+                                if(code == 0){
+                                    var response = data.response;
+                                    if(response != null){
+                                        //revisamos el status del cliente para saber si podemos
+                                        // seguir o no
+                                        var isActive = false;
+                                        if(isActive(response.status)){
+                                            isActive = true;
+                                        }
+                                        //SAVE TEAM LIST
+                                        TeamsManager.init(response.push_alerts);
+                                        //SAVE Client ID
+                                        if(this.saveClientID(response, password)){
+                                            successCallback(isActive,response.status);
+                                        }else{
+                                            errorCallback();
+                                        }
+                                    }else{
+                                        errorCallback();
+                                    }
+                                }else{
+                                    console.log("Error guardando cliente: " + data.description);
+                                    errorCallback();
+                                }
+                            }catch(e){
+                                errorCallback();
+                            }
+                        },
+                        error : function(xhr, ajaxOptions, thrownError) {
+                            console.log("error add client2 "+thrownError);
+                            errorCallback();
+                        }
+                    });
+                },
 
+                updateClient: function(jData, successCallback, errorCallback){
+                    $.ajax({
+                        url : Domain.clients.update(clientId),
+                        data: JSON.stringify(jData),
+                        type: 'POST',
+                        headers: WebManager.getHeaders(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        timeout : 60000,
+                        success : function(data, status) {
+                            try{
+                                if(typeof data == "string"){
+                                    data = JSON.parse(data);
+                                }
+                                var code = data.error;
+                                if(code == 0){
+                                    var response = data.response;
+                                    if(response != null){
+                                        //revisamos el status del cliente para saber
+                                        // si podemos seguir o no
+                                        var isActive = false;
+                                        if(isActive(response.status)){
+                                            isActive = true;
+                                        }
+                                        //TODO Check initialization
+                                        //SAVE TEAM LIST
+                                        TeamsManager.init(response.push_alerts);
+                                        //SAVE Client ID
+                                        if(this.saveClientID(response, password)){
+                                            successCallback(isActive,response.status);
+                                        }else{
+                                            errorCallback();
+                                        }
+                                    }else{
+                                        errorCallback();
+                                    }
+                                }else{
+                                    console.log("Error guardando cliente: "+data.description);
+                                    errorCallback();
+                                }
+                            }catch(e){
+                                errorCallback();
+                            }
+                        },
+                        error : function(xhr, ajaxOptions, thrownError) {
+                            console.log("error add client1 "+thrownError);
+                            errorCallback();
+                        }
+                    });
+                },
+
+                getClientStatus : function (successCallback, errorCallback){
+                    console.log('getClientStatus');
+                    var upstreamChannel = CordovaDevice.getUpstreamChannel();
                     $.ajax({
                         url : Domain.clients.get(clientId, upstreamChannel),
                         type: 'GET',
@@ -338,30 +360,27 @@ angular
                                     data = JSON.parse(data);
                                 }
                                 var code = data.error;
+                                var response = data.response;
                                 if(code == 0){
-                                    var response = data.response;
+//                                    var response = data.response;
+                                }else{
                                     if(response != null){
-                                        //revisamos el status del cliente para saber si
-                                        // podemos seguir o no
-                                        var isActive = false;
-                                        if(this.checkClientStatus(response.status)){
-                                            isActive = true;
-                                        }
+                                        var isActive = isActiveClient(response.status);
+
                                         //SAVE TEAM LIST
                                         TeamsManager.init(response.push_alerts);
                                         //SAVE Client ID
                                         if(this.saveClientID(response, null)){
-                                            callback(isActive,response.status);
+                                            successCallback(isActive, response.status);
                                         }else{
                                             errorCallback();
                                         }
                                     }else{
                                         errorCallback();
                                     }
-                                }else{
                                     //TODO: que hacer en este caso, borrar el registro
                                     // para que empiece de cero?
-                                    console.log("Error guardando cliente: "+data.description);
+                                    console.log("Error. guardando cliente: " + data.description);
                                     errorCallback();
                                 }
                             }catch(e){
@@ -369,59 +388,42 @@ angular
                             }
                         },
                         error : function(xhr, ajaxOptions, thrownError) {
-                            console.log("error get status client "+thrownError);
+                            console.log("Error. Get status client " + thrownError);
                             errorCallback();
                         }
                     });
                 },
 
-                //funciones privadas
-                checkClientStatus : function (status){
-                    if(status > 0 && status != 2){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                },
-
-                //REMOVE OLD DATA
-                FILE_KEY_STOREDVERSION : "APPSTOREDVERSION",
-                currentVersion : 0,
-                checkStoredData : function (){
-                    var storedVersion = this.loadStoredVersion();
-                    if(storedVersion != null && storedVersion != ""){
-                        var storedInt = parseInt(storedVersion);
-                        if(this.currentVersion > storedVersion){
-                            //borramos todas las configuraciones
-                            this.eraseAllConfigs();
-                        }
-                    }else{
-                        //borramos todas las configs
-                        this.eraseAllConfigs();
-                    }
-                    this.saveStoredVersion();
-                },
-
-                eraseAllConfigs : function (){
-                    window.localStorage.removeItem(this.FILE_KEY_CLIENT_ID);
-                    window.localStorage.removeItem(this.FILE_KEY_CLIENT_MSISDN);
-                    window.localStorage.removeItem(PushManager.FILE_KEY_CLIENT_REGID);
-                    window.localStorage.removeItem(this.FILE_KEY_CLIENT_DATASAFE);
-                },
-
-                saveStoredVersion : function () {
+                saveRegId : function (id) {
                     try{
-                        window.localStorage.setItem(this.FILE_KEY_STOREDVERSION,""+this.currentVersion);
+                        regId = id;
+                        localStorage[FILE_KEY_CLIENT_REGID] = id;
                         return true;
-                    }catch(err){
+                    }catch(e){
                         return false;
                     }
                 },
 
-                loadStoredVersion : function () {
-                    return window.localStorage.getItem(this.FILE_KEY_STOREDVERSION);
-                }
+                loadPersistedRegId : function () {
+                    return localStorage[this.FILE_KEY_CLIENT_REGID];
+                },
 
+                getRegId : function(){
+                    return regId;
+                },
+
+                hasToUpdateRegId : function (){
+                    var savedRegID = this.loadPersistedRegId();
+                    return !!(!savedRegID || savedRegID != regId);
+                },
+
+                checkStoredData : function (){
+                    var storedVersion = loadStoredVersion();
+                    if(!storedVersion || currentVersion > storedVersion){
+                        eraseAllConfigs();
+                    }
+                    saveStoredVersion();
+                }
             };
         }
     ]);
