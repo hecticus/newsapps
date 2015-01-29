@@ -30,9 +30,9 @@ module.exports = function(config) {
             'app/lib/moment/moment.js',
             'app/lib/bootstrap-material-design/dist/js/material.js',
             'app/lib/bootstrap-material-design/dist/js/ripples.js',
-            'app/lib/iscrolltest/build/iscroll-probe.js',
             <!-- endinjector -->
 
+            'app/js/iscroll-probe.js',
             'app/js/config.js',
             'app/js/application.js',
 

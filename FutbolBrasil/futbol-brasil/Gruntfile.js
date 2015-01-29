@@ -207,6 +207,7 @@ module.exports = function(grunt) {
                 files: {
                     'app/index.html': [
                         'app/managers/*/*.js',
+                        'app/js/iscroll-probe.js',
                         'app/js/config.js',
                         'app/js/application.js',
                         'app/modules/*/*.js',
