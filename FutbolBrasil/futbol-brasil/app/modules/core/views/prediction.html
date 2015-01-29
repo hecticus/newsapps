@@ -1,9 +1,92 @@
-		
-		<div id="wrapper" >
-			<div class="scroller">
-				<div class="container">					
-					<!-- here code-->
-				</div>				
-			</div>
-		</div>
-	
+
+  <div id="wrapperH">
+    <div id="scroller" style="width:{{widthTotal}}px;">
+      <ul>
+
+
+        <li style="width:{{width}}px;" ng-repeat="league in item.leagues" on-last-repeat>
+          <div class="container">
+
+            <div class="row header">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                <h4 ng-bind="league.name" class="caption"></h4>
+              </div>
+            </div>
+
+
+            <div class="row">
+
+
+              <div id="{{wrapper.getName($index)}}" class="wrapper" >
+                <div class="scroller" >
+                  <div class="container">
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="fixture in league.fixtures" >
+
+
+                      <table class="table" >
+
+                        <thead>
+                        <tr>
+                          <th colspan="3">
+                            <span ng-bind="fixture.date"></span>
+                          </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                          <tr ng-repeat="match in fixture.matches">
+
+                            <td style="width: 33% !important;"
+                                class= "bet"
+                                ng-click="setBet(league.id_competitions, match.id_game_matches, 0, $parent.$parent.$index,$parent.$index,$index)"
+                                ng-class="{active: match.bet.client_bet == 0}">
+
+                              <span ng-bind="match.home_team.name"></span>
+                              <br />
+                              <span ng-bind="match.home_team_goals" class="goal"></span>
+
+                            </td>
+
+                            <td style="width: 33% !important;"
+                                class = "bet"
+                                ng-click="setBet(league.id_competitions, match.id_game_matches, 1, $parent.$parent.$index,$parent.$index,$index)"
+                                ng-class="{active: match.bet.client_bet == 1}">
+
+                              <span class="date" style="font-weight:bold; font-size:2em;">VS</span>
+                              <br />
+                              <span ng-bind="getTime(match.date)" class="date"></span>
+
+                            </td>
+
+                            <td style="width: 33% !important;"
+                                class = "bet"
+                                ng-click="setBet(league.id_competitions, match.id_game_matches, 2, $parent.$parent.$index,$parent.$index,$index)"
+                                ng-class="{active: match.bet.client_bet == 2}">
+
+                              <span ng-bind="match.away_team.name"></span>
+                              <br />
+                              <span ng-bind="match.away_team_goals" class="goal"></span>
+
+                            </td>
+
+                          </tr>
+
+                        </tbody>
+                      </table>
+
+
+
+                    </div>
+
+                  </div>	<!--container-->
+                </div>	<!--scroller-->
+              </div> <!--wrapper-->
+            </div> <!--row-->
+
+          </div> <!--container-->
+        </li>
+      </ul>
+    </div>
+  </div>
+

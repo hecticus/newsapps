@@ -11,7 +11,7 @@ angular
     .module('core')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/news');
+        $urlRouterProvider.otherwise('/login');
 
         /**
          * @ngdoc event
@@ -26,7 +26,7 @@ angular
         $stateProvider
             .state('login', {
                 url: '/login',
-                templateUrl:'/modules/core/views/login.html',
+                templateUrl:'modules/core/views/login.html',
                 controller:'LoginCtrl as login',
                 data:{
                   prev: 'login',

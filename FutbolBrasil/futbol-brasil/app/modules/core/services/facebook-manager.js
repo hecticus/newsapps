@@ -7,12 +7,29 @@
  */
 angular
     .module('core')
-    .factory('FacebookManager',['Utilities',
-        function(Utilities) {
+    .factory('FacebookManager',['$localStorage',
+        function($localStorage) {
+            var that = this;
+            var fbUserId = '';
+            var intervalFriendsLoaderId = '';
+            var localStorage = $localStorage;
+
             return {
 
-                FB_USER_ID : '',
-                INTERVAL_FRIENDS_LOADER : '',
+                getFbUserId : function(){
+                    return fbUserId;
+                },
+                getIntervalFriendsLoader : function(){
+                    return intervalFriendsLoaderId;
+                },
+                setIntervalFriendsLoader : function(){
+                    intervalFriendsLoaderId = setInterval(
+                        that.getFBStatus(), this.INTERVAL_FRIENDS_LOADER_TIMER
+                    );
+                },
+                clearIntervalFriendsLoader : function(){
+                    clearInterval(intervalFriendsLoaderId);
+                },
                 INTERVAL_FRIENDS_LOADER_TIMER : 30000,
                 FILE_KEY_FB_CLIENT_ID : "APPDATAFBCLIENTID",
                 FILE_KEY_FB_FRIENDS : "APPDATAFBFRIENDS",
@@ -35,31 +52,29 @@ angular
                  */
                 getFBLoginStatus : function () {
                     console.log("getFBLoginStatus");
-                    try{
+                    try {
                         this.loadFBClientID();
-                        if(!FB_USER_ID){
-                            var that = this;
-                            facebookConnectPlugin.login( ["email", "user_friends","public_profile"
-                                    , "user_friends"],
-                                function (response) {
+                        if(!fbUserId){
+                            facebookConnectPlugin.login(
+                                ["email", "user_friends", "public_profile", "user_friends"]
+                                , function (response) {
                                     var authResponse = response.authResponse;
-                                    that.FB_USER_ID = authResponse.userID;
-                                    that.saveFBClientID(FB_USER_ID);
-                                    that.INTERVAL_FRIENDS_LOADER = setInterval(getFBStatus
-                                        , that.INTERVAL_FRIENDS_LOADER_TIMER);
-                                },
-                                function (response) {
+                                    fbUserId = authResponse.userID;
+                                    that.saveFBClientID(fbUserId);
+                                    that.setIntervalFriendsLoader();
+                                }
+                                , function (response) {
                                     alert("Error durante el login con Facebook: "+response
-                                        , Utilities.doNothing, "Alerta", "OK");
+                                        , function(){}, "Alerta", "OK");
                                 }
                             );
                         } else {
-                            this.INTERVAL_FRIENDS_LOADER = setInterval(getFBStatus
-                                , this.INTERVAL_FRIENDS_LOADER_TIMER);
+                            this.setIntervalFriendsLoader();
                         }
-                    }catch(e){
+                    } catch(e) {
+                        //TODO revisar, alerts no deben existir
                         alert("Error durante el login con Facebook exp: "+e
-                            , Utilities.doNothing, "Alerta", "OK");
+                            , function(){}, "Alerta", "OK");
                     }
                 },
 
@@ -68,6 +83,47 @@ angular
                         function (response) {},
                         function (response) {}
                     );
+                },
+
+                getFBStatus : function (){
+                    facebookConnectPlugin.getLoginStatus(
+                        function (result) {
+                            try{
+                                if(result.status == "connected"){
+                                    this.getFBFriends();
+                                }else{
+                                    this.deleteFBClientID();
+                                    this.getFBLoginStatus();
+                                }
+
+                            }catch(e){
+                                //TODO revisar, alerts no deben existir
+                                alert("ERROR FACEBOOK STATUS: " + e, function(){}, "Alerta", "OK");
+                            }
+                        },
+                        function (error) {
+                            this.deleteFBClientID();
+                            this.getFBLoginStatus();
+                        });
+                },
+
+                saveFBClientID : function (_fbUserId) {
+                    try{
+                        fbUserId = _fbUserId;
+                        localStorage[this.FILE_KEY_FB_CLIENT_ID] = fbUserId;
+                        return true;
+                    }catch(err){
+                        return false;
+                    }
+                },
+
+                loadFBClientID : function () {
+                    fbUserId = localStorage[this.FILE_KEY_FB_CLIENT_ID];
+                },
+
+                deleteFBClientID : function () {
+                    fbUserId = null;
+                    delete localStorage[this.FILE_KEY_FB_CLIENT_ID];
                 },
 
                 getFBFriends : function () {
@@ -94,77 +150,29 @@ angular
                                     }
                                 });
                             }
-                            saveFBFriends(friends);
+                            this.saveFBFriends(friends);
                         },
                         function (error) {
+                            //TODO revisar, alerts no deben existir
                             alert("Error durante el login con Facebook, friends: "+JSON.stringify(error)
-                                , Utilities.doNothing, "Alerta", "OK");
+                                , function(){}, "Alerta", "OK");
                         }
                     );
                 },
 
-                //get status of facebook account
-                getFBStatus : function (){
-                    facebookConnectPlugin.getLoginStatus(
-                        function (result) {
-                            try{
-                                if(result.status == "connected"){
-                                    //alert("getFriends", doNothing, "Alerta", "OK");
-                                    this.getFBFriends();
-                                }else{
-                                    //try to login again
-                                    //alert("No login Facebook try again", doNothing, "Alerta", "OK");
-                                    this.deleteFBClientID();
-                                    this.getFBLoginStatus();
-                                }
-
-                            }catch(e){
-                                alert("ERROR FACEBOOK STATUS: "+e, Utilities.doNothing, "Alerta", "OK");
-                            }
-                        },
-                        function (error) {
-                            //alert("Error durante el getStatus con Facebook:
-                            // "+JSON.stringify(error), doNothing, "Alerta", "OK");
-                            this.deleteFBClientID();
-                            this.getFBLoginStatus();
-                        });
-                },
-
-                saveFBClientID : function (_clientID) {
-                    try{
-                        this.clientID = _clientID;
-                        window.localStorage.setItem(this.FILE_KEY_FB_CLIENT_ID,""+clientID);
-                        return true;
-                    }catch(err){
-                        return false;
-                    }
-                },
-
-                loadFBClientID : function () {
-
-                    this.FB_USER_ID = window.localStorage.getItem(this.FILE_KEY_FB_CLIENT_ID);
-                },
-
-                deleteFBClientID : function () {
-                    //TODO ngStorage
-                    window.localStorage.removeItem(this.FILE_KEY_FB_CLIENT_ID);
+                getLocalFBFriends : function () {
+                    return localStorage[this.FILE_KEY_FB_FRIENDS];
                 },
 
                 saveFBFriends : function (friends) {
                     try{
-                        //TODO ngStorage
-                        window.localStorage.removeItem(this.FILE_KEY_FB_FRIENDS);
-                        window.localStorage.setItem(this.FILE_KEY_FB_FRIENDS, JSON.stringify(friends));
+                        delete localStorage[this.FILE_KEY_FB_FRIENDS];
+                        localStorage[this.FILE_KEY_FB_FRIENDS] = JSON.stringify(friends);
                         return true;
                     }catch(err){
                         return false;
                     }
-                },
-
-                getLocalFBFriends : function () {
-                        //TODO ngStorage
-                        return window.localStorage.getItem(this.FILE_KEY_FB_FRIENDS);
-                    }
                 }
+            }
         }
     ]);
