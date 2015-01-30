@@ -573,6 +573,8 @@ public class Clients extends HecticusController {
                     Map<Integer, ObjectNode> matches = new HashMap<>();
                     Iterator<JsonNode> leagues = data.get("leagues").elements();
                     while (leagues.hasNext()) {
+                        int maxBetsCount = 0;
+                        int clientBetsCount = 0;
                         ObjectNode league = (ObjectNode) leagues.next();
                         Iterator<JsonNode> fixtures = league.get("fixtures").elements();
                         while (fixtures.hasNext()) {
@@ -585,8 +587,10 @@ public class Clients extends HecticusController {
                                 matches.put(idGameMatches, externalMatch);
                             }
                         }
+                        maxBetsCount = matchesIDs.size();
                         List<ClientBets> list = ClientBets.finder.where().eq("client", client).eq("idTournament", league.get("id_competitions").asInt()).in("idGameMatch", matchesIDs).orderBy("idGameMatch asc").findList();
                         if (list != null && !list.isEmpty()) {
+                            clientBetsCount+=list.size();
                             ArrayList<ObjectNode> dataFixture = new ArrayList();
                             ArrayList<ObjectNode> orderedFixtures = new ArrayList<>();
                             for (ClientBets clientBets : list) {
@@ -629,6 +633,8 @@ public class Clients extends HecticusController {
                             orderedFixtures.clear();
                             dataFixture.clear();
                         }
+                        league.put("total_bets", maxBetsCount);
+                        league.put("client_bets", clientBetsCount);
                         finalData.add(league);
                         modifiedFixtures.clear();
                         matchesIDs.clear();

@@ -85,8 +85,18 @@
             </div> <!--row-->
 
           </div> <!--container-->
+
+          <div id="bet_content_{{$index}}" class="bet-content">
+            <span style="font-size:1.6em;">{{item.leagues[$index].bet.bets}}</span> /
+            <span style="font-size:2em;">{{item.leagues[$index].bet.matches}}</span>
+            <br />
+            <a ng-click="saveBet()" class="btn btn-primary">Salvar</a>
+          </div>
+
         </li>
       </ul>
     </div>
   </div>
+
+
 
