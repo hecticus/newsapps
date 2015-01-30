@@ -460,3 +460,17 @@ body.content-mtm .row-back {
         width: 20%;
     }
 }
+
+
+.bet-content {
+    position: absolute;
+		z-index: 10;
+		left: 0;
+   /* left: 50%;
+    margin-left: -50px;*/
+		bottom:  0;
+		width:  150px;
+    height: 75px;
+    margin: 0 auto;
+    background-color:red;
+}

@@ -13,6 +13,8 @@ import models.leaderboard.ClientBets;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
+import play.api.libs.Jsonp;
+import play.api.libs.json.JsValue;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -29,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static play.libs.Jsonp.jsonp;
+
 /**
  * Created by plesse on 9/30/14.
  */
@@ -40,7 +44,7 @@ public class Clients extends HecticusController {
     public static Result create() {
         ObjectNode clientData = getJson();
         try {
-            ObjectNode response = null;
+            play.libs.Jsonp response = null;
             Client client = null;
             String login = null;
             String password = null;
@@ -115,7 +119,7 @@ public class Clients extends HecticusController {
                             client.update();
                         }
                     }
-                    response = buildBasicResponse(0, "OK", client.toJson());
+                    response = buildBasicJSONPResponse(0, "OK", client.toJson());
                     return ok(response);
                 }
                 if (clientData.has("country")) {
@@ -149,7 +153,7 @@ public class Clients extends HecticusController {
                             }
                         }
                         if (devices.isEmpty()) {
-                            response = buildBasicResponse(4, "Faltan campos para crear el registro");
+                            response = buildBasicJSONPResponse(4, "Faltan campos para crear el registro");
                             return ok(response);
                         }
                         client.setDevices(devices);
@@ -177,27 +181,27 @@ public class Clients extends HecticusController {
                             }
                         }
                         client.save();
-                        response = buildBasicResponse(0, "OK", client.toJson());
+                        response = buildBasicJSONPResponse(0, "OK", client.toJson());
                     } else {
-                        response = buildBasicResponse(3, "pais invalido");
+                        response = buildBasicJSONPResponse(3, "pais invalido");
                     }
                 } else {
-                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                    response = buildBasicJSONPResponse(1, "Faltan campos para crear el registro");
                 }
             } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                response = buildBasicJSONPResponse(1, "Faltan campos para crear el registro");
             }
             return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error creando client con params " + clientData, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return badRequest(buildBasicJSONPResponse(2, "ocurrio un error creando el registro", ex));
         }
     }
 
     public static Result update(Integer id) {
         ObjectNode clientData = getJson();
         try{
-            ObjectNode response = null;
+            play.libs.Jsonp response = null;
             Client client = Client.finder.byId(id);
             if(client != null) {
                 boolean update = false;
@@ -321,9 +325,9 @@ public class Clients extends HecticusController {
                 if(update){
                     client.update();
                 }
-                response = buildBasicResponse(0, "OK", client.toJson());
+                response = buildBasicJSONPResponse(0, "OK", client.toJson());
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                response = buildBasicJSONPResponse(2, "no existe el registro a eliminar");
             }
             return ok(response);
 //        } catch (InvalidLoginException ex) {
@@ -337,24 +341,24 @@ public class Clients extends HecticusController {
 //            return Results.badRequest(buildBasicResponse(6, "ocurrio un error actualizando el registro", ex));
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error actualizando el client " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
+            return badRequest(buildBasicJSONPResponse(3, "ocurrio un error actualizando el registro", ex));
         }
     }
 
     public static Result delete(Integer id) {
         try{
-            ObjectNode response = null;
+            play.libs.Jsonp response = null;
             Client client = Client.finder.byId(id);
             if(client != null) {
                 client.delete();
-                response = buildBasicResponse(0, "OK", client.toJson());
+                response = buildBasicJSONPResponse(0, "OK", client.toJson());
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                response = buildBasicJSONPResponse(2, "no existe el registro a eliminar");
             }
             return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error eliminando el client " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
+            return badRequest(buildBasicJSONPResponse(3, "ocurrio un error eliminando el registro", ex));
         }
     }
 
@@ -485,7 +489,7 @@ public class Clients extends HecticusController {
     public static Result createBet(Integer idClient) {
         ObjectNode betsData = getJson();
         try {
-            ObjectNode response = null;
+            play.libs.Jsonp response = null;
             Client client = Client.finder.byId(idClient);
             if(client != null) {
                 Iterator<JsonNode> bets = betsData.get("bets").elements();
@@ -539,17 +543,17 @@ public class Clients extends HecticusController {
                         }
                     }
                     client.update();
-                    response = buildBasicResponse(0, "done");
+                    response = buildBasicJSONPResponse(0, "done");
                 } else{
-                    response = buildBasicResponse(1, "error vaidando partidos");
+                    response = buildBasicJSONPResponse(1, "error vaidando partidos");
                 }
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                response = buildBasicJSONPResponse(2, "no existe el registro a consultar");
             }
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1, "Error buscando el registro", e));
+            return badRequest(buildBasicJSONPResponse(1, "Error buscando el registro", e));
         }
     }
 
