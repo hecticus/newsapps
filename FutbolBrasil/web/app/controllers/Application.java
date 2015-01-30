@@ -143,6 +143,11 @@ public class Application extends Controller {
         }
     }
 
+    public static Result options(String url){
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        return ok("OK");
+    }
+
     //Initial load settings WS for the Mobile App
     public static Result getAppSettings(Integer width, Integer height){
         try {

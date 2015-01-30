@@ -24,6 +24,11 @@ public class Application extends Controller {
     public static final String USER_ROLE = "user";
     public static final String ADMIN_ROLE = "admin";
 
+    public static Result options(String url){
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        return ok("OK");
+    }
+
     @Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
         return ok(index.render("Your new application is ready."));

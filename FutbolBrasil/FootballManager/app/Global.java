@@ -205,10 +205,11 @@ public class Global extends GlobalSettings {
         }
 
         @Override
-        public Promise<Result> call(Http.Context ctx) throws java.lang.Throwable {
-            Promise<Result> result = this.delegate.call(ctx);
+        public F.Promise<Result> call(Http.Context ctx) throws java.lang.Throwable {
+            F.Promise<Result> result = this.delegate.call(ctx);
             Http.Response response = ctx.response();
             response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, HECTICUS-X-AUTH-TOKEN");
             return result;
         }
     }
