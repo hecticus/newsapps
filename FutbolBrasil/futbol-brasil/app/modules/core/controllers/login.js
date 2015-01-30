@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'FacebookManager', 'PushManager'
-        , function($rootScope, $scope, $state, ClientManager, FacebookManager, PushManager) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager'
+        , function($rootScope, $scope, $state, ClientManager) {
 
             $scope.msisdn = '';
             $scope.password = '';
@@ -21,8 +21,7 @@ angular
                     ClientManager.saveClientMSISDN($scope.msisdn,
                     function(){
                         ClientManager.createOrUpdateClient($scope.msisdn, null, true
-                                , $scope.showPasswordScreen(), $scope.showClientSignUpError());
-//                        $scope.showPasswordScreen();
+                                , $scope.showPasswordScreen, $scope.showClientSignUpError);
                         console.log('ClientManager.clientMSISDN: ');
                         console.log(ClientManager.getClientMSISDN());
                     },
@@ -49,12 +48,11 @@ angular
             };
 
             $scope.onLoginError = function(){
-                console.log('showClientSignUpError. Login Error.');
+                console.log('onLoginError. Login Error.');
             };
 
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
-//                    FacebookManager.getFBLoginStatus();
                     ClientManager.createOrUpdateClient($scope.msisdn, $scope.password, true
                         , $scope.onLoginSuccess, $scope.onLoginError);
                 } else {

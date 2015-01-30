@@ -10,36 +10,83 @@ angular
     .factory('PushManager', ['$window', 'ClientManager', 'CordovaDevice',
         function($window, ClientManager, CordovaDevice) {
             var pushNotification = {};
+            var that = '';
 
             return {
-                /**
-                 * @ngdoc function
-                 * @name core.Services.PushManager#init
-                 * @methodOf core.Services.PushManager
-                 * @return {boolean} Returns a boolean value
-                 */
-                init : function (){
-                    try {
-                        pushNotification = $window.plugins.pushNotification;
-                        if (CordovaDevice.isAndroidPlatform()) {
-                            pushNotification.register(this.successPushHandler, this.errorPushHandler
-                                , {
-                                    "senderID":"961052813400",
-                                    "ecb":"onNotificationGCM"
+
+                tokenHandler : function (result) {
+                    //console.log('<li>token: '+ result +'</li>');
+                    ClientManager.saveRegId(result);
+                },
+
+                successPushHandler : function (result) {
+                    console.log('<li>success:'+ result +'</li>');
+                    if(result != null && result != ""){
+                        ClientManager.saveRegId(result);
+                    }
+                },
+
+                errorPushHandler : function (error) {
+                    console.log('<li>error:'+ error +'</li>');
+                },
+
+                successPushHandlerServer : function (result) {
+                    console.log('<li>success Server:'+ result +'</li>');
+                },
+
+                //Ahora tratamos de obtener el cliente con el device id para que si no existe se cree y
+                // luego vamos al proceso normal
+                updateDeviceToServer : function (){
+                    console.log("updateDeviceToServer. revisando version");
+                    //TODO: despues de guardar el regID en el servidor se llama a esta funcion
+                    if(CordovaDevice.isAndroidPlatform()){
+                        pushNotification.register(this.successPushHandlerServer
+                            , this.errorPushHandler, true);
+                    }
+
+                    ClientManager.updateRegistrationID();
+                },
+
+                // handle GCM notifications for Android
+                onNotificationGCM : function (e) {
+                    console.log('onNotificationGCM.');
+
+                    switch( e.event )
+                    {
+                        case 'registered':
+                            if ( e.regid.length > 0 )
+                            {
+                                console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
+                                console.log("PushManager. regID = " + e.regid);
+                                ClientManager.saveRegId(e.regid);
+                            }
+                            break;
+
+                        case 'message':
+                            // notification happened while we were in the foreground
+                            if (e.foreground) {
+                                //console.log('<li>--INLINE NOTIFICATION--' + '</li>');
+                            } else {
+                                // otherwise we were launched because the user touched a notification
+                                if (e.coldstart){
+                                    //console.log('<li>--COLDSTART NOTIFICATION--' + '</li>');
+                                }else{
+                                    //console.log('<li>--BACKGROUND NOTIFICATION--' + '</li>');
                                 }
+                            }
+                            //TODO executePushInit no esta implementado
+//                            executePushInit(e.payload["extra_params"]);
+                            break;
+
+                        case 'error':
+                            console.log('<li>ERROR -> MSG:' + e.msg + '</li>');
+                            break;
+
+                        default:
+                            console.log(
+                                '<li>EVENT -> Unknown, an event was received and we do not know what it is</li>'
                             );
-                        } else if(CordovaDevice.isIosPlatform()){
-                            pushNotification.register(this.tokenHandler, this.errorPushHandler
-                                , {
-                                    "badge":"false",
-                                    "sound":"true",
-                                    "alert":"true",
-                                    "ecb":"onNotificationAPN"
-                                }
-                            );
-                        }
-                    } catch(err) {
-                        console.log("PushManager. init. Error. " + err);
+                            break;
                     }
                 },
 
@@ -62,110 +109,53 @@ angular
                     console.log("LLEGO INFO PUSH");
                     console.log(JSON.stringify(e));
                     if(e["extra_params"] != null && e["extra_params"] != ""){
+                        //TODO executePushInit no esta implementado
                         //executePushInit(e["extra_params"]);
                     }
                 },
 
-                // handle GCM notifications for Android
-                onNotificationGCM : function (e) {
-                    //$("#app-status-ul").append('<li>EVENT -> RECEIVED:' + e.event + '</li>');
-                    //console.log("EVENT -> RECEIVED:" + e.event);
-
-                    switch( e.event )
-                    {
-                        case 'registered':
-                            if ( e.regid.length > 0 )
-                            {
-                                //console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
-                                // Your GCM push server needs to know the regID before it can push
-                                // to this device here is where you might want to send it the regID
-                                // for later use.
-                                console.log("PushManager. regID = " + e.regid);
-                                ClientManager.saveRegId(e.regid);
-                                this.updateDeviceToServer();
-                            }
-                            break;
-
-                        case 'message':
-                            // notification happened while we were in the foreground
-                            if (e.foreground) {
-                                //console.log('<li>--INLINE NOTIFICATION--' + '</li>');
-                            } else {
-                                // otherwise we were launched because the user touched a notification
-                                if (e.coldstart){
-                                    //console.log('<li>--COLDSTART NOTIFICATION--' + '</li>');
-                                }else{
-                                    //console.log('<li>--BACKGROUND NOTIFICATION--' + '</li>');
+                /**
+                 * @ngdoc function
+                 * @name core.Services.PushManager#init
+                 * @methodOf core.Services.PushManager
+                 * @return {boolean} Returns a boolean value
+                 */
+                init : function (){
+                    that = this;
+                    try {
+                        pushNotification = $window.plugins.pushNotification;
+                        if (CordovaDevice.isAndroidPlatform()) {
+                            console.log('PushManager. isAndroid');
+                            pushNotification.register(
+                                function(result){
+                                    that.successPushHandler(result);
+                                }, function(result){
+                                    that.errorPushHandler(result);
+                                },
+                                {
+                                    "senderID":"961052813400",
+                                    "ecb":"angular.element('body').injector().get('PushManager').onNotificationGCM"
                                 }
-                            }
-//                            executePushInit(e.payload["extra_params"]);
-                            break;
-
-                        case 'error':
-                            console.log('<li>ERROR -> MSG:' + e.msg + '</li>');
-                            break;
-
-                        default:
-                            console.log(
-                                '<li>EVENT -> Unknown, an event was received and we do not know what it is</li>'
                             );
-                            break;
+                        } else if(CordovaDevice.isIosPlatform()){
+                            console.log('PushManager. isIOS');
+                            pushNotification.register(
+                                function(){
+                                    that.tokenHandler();
+                                }, function(){
+                                    that.errorPushHandler();
+                                },
+                                {
+                                    "badge":"false",
+                                    "sound":"true",
+                                    "alert":"true",
+                                    "ecb":"angular.element('body').injector().get('PushManager').onNotificationAPN"
+                                }
+                            );
+                        }
+                    } catch(err) {
+                        console.log("PushManager. init. Error. " + err);
                     }
-                },
-
-                tokenHandler : function (result) {
-                    //console.log('<li>token: '+ result +'</li>');
-                    ClientManager.saveRegId(result);
-                    this.updateDeviceToServer();
-                    // Your iOS push server needs to know the token before it can push to this device
-                    // here is where you might want to send it the token for later use.
-                },
-
-                successPushHandler : function (result) {
-                    console.log('<li>success:'+ result +'</li>');
-                    if(result != null && result != ""){
-                        ClientManager.saveRegId(result);
-                        this.updateDeviceToServer();
-                    }
-                },
-
-                errorPushHandler : function (error) {
-                    console.log('<li>error:'+ error +'</li>');
-                },
-
-                successPushHandlerServer : function (result) {
-                    console.log('<li>success Server:'+ result +'</li>');
-                },
-
-                //Ahora tratamos de obtener el cliente con el device id para que si no existe se cree y
-                // luego vamos al proceso normal
-                updateDeviceToServer : function (){
-                    console.log("revisando version");
-                    //TODO: despues de guardar el regID en el servidor se llama a esta funcion
-                    if(CordovaDevice.isAndroidPlatform()){
-                        pushNotification.registerOnServer(this.successPushHandlerServer
-                            , this.errorPushHandler, true);
-                    }
-
-                    //Una vez tengamos el regID y este todo listo tenemos que revisar si ya existe
-                    // el cliente
-                    // o si hay que crear uno generico
-                    this.updateRegistrationID();
-
-                    var doneCreating = function(arg1, arg2){
-                        console.log("arg1 = " + arg1);
-                        console.log("arg2 = " + arg2);
-                    };
-
-                    var errorCreating = function(){
-                        console.log("ERROR");
-                    };
-
-                    //TEMP PRUEBAS
-                    console.log("VA A LLAMAR");
-                    ClientManager.createOrUpdateClient("40766666613", "1234", true
-                        , doneCreating, errorCreating);
-                    console.log("LLAMO");
                 }
             };
         }

@@ -8,8 +8,8 @@
 */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain'
-      , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain', 'ClientManager'
+      , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain, ClientManager) {
 
         $rootScope.$storage = $localStorage;
 
@@ -18,8 +18,6 @@ angular
         };
 
         $rootScope.showSection = function(_section) {
-            angular.element('.section').removeClass('active');
-            angular.element('[data-section="' + _section + '"]').addClass('active');
             $state.go(_section);
         };
 
@@ -49,6 +47,12 @@ angular
 
         $scope.init = function(){
             $scope.getCompetitions();
+//            ClientManager.getClientStatus(
+//                function(){
+//                    console.log();
+//                },
+//                function(){}
+//            );
         }();
     }
 ]);

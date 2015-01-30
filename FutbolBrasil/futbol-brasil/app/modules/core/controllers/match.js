@@ -78,11 +78,6 @@ angular
                 console.log($window.innerWidth + ' * ' + $scope.pages.length);
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
 
-                console.log('$scope.getWidth: ');
-                console.log($scope.getWidth());
-                console.log('$scope.getTotalWidth: ');
-                console.log($scope.getTotalWidth());
-
                 var _scroll = new IScroll('#wrapperH', {
                     scrollX: true,
                     scrollY: false,

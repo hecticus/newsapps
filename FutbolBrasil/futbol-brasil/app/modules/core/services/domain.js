@@ -11,6 +11,7 @@ angular
 
         var football_manager_url = 'http://footballmanager.hecticus.com/';
         var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com';
+//        var brazil_football_manager_url = 'http://10.0.3.127:9000';
 
         return {
 
@@ -21,6 +22,7 @@ angular
 
             clients: {
                 create: brazil_football_manager_url + "/futbolbrasil/v1/clients/create",
+//                create: brazil_football_manager_url + "/futbolbrasil/v1/clients/create?callback=JSON_CALLBACK",
                 update: function (clientId) {
                     return brazil_football_manager_url + "/futbolbrasil/v1/clients/update/" + clientId;
                 },
@@ -76,21 +78,13 @@ angular
                 return football_manager_url + 'footballapi/v1/matches/mam/next/1/' + _competition + '/' + _game + '/' + _event;
             },
 
-
-
             bets: {
-
                 get: function () {
                   return brazil_football_manager_url + '/futbolbrasil/v1/clients/bets/get/1';
                 },
-
                 create:  function () {
                   return brazil_football_manager_url + '/futbolbrasil/v1/clients/bets/create/1';
                 }
-
-            },
-
-
-
+            }
         };
     });

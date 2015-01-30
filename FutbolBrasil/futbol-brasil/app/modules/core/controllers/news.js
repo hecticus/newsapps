@@ -42,7 +42,7 @@ angular
                     $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
                     $scope.news = JSON.parse($rootScope.$storage.news);
                     _news.first = $scope.news[0].idNews;
-				            _news.last  = $scope.news[$scope.news.length-1].idNews;
+                    _news.last  = $scope.news[$scope.news.length-1].idNews;
                     console.log($scope.news);
                 } else {
                     console.log('getNews. news NOT on storage');
