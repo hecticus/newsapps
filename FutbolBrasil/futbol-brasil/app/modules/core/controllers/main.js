@@ -8,8 +8,8 @@
 */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain'
-      , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain', '$timeout'
+      , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain, $timeout) {
 
         $rootScope.$storage = $localStorage;
 
@@ -18,25 +18,30 @@ angular
         };
 
         $rootScope.showSection = function(_section) {
-            angular.element('.section').removeClass('active');
-            angular.element('[data-section="' + _section + '"]').addClass('active');
-            $state.go(_section);
+            angular.element('#wrapperM').attr('class','page transition left');
+            $timeout(function() {
+              angular.element('.section').removeClass('active');
+              angular.element('[data-section="' + _section + '"]').addClass('active');
+              $state.go(_section);
+            },300);
         };
 
         $rootScope.nextPage = function() {
             console.log('nextPage');
-        /*if (!angular.element('#wrapper2').hasClass('left')) {
-            $location.path($state.current.next);
-         } */
+            if (angular.element('#wrapperM').hasClass('right')) {
+              angular.element('#wrapperM').attr('class','page transition left');
+            }
         };
 
         $rootScope.prevPage = function() {
             console.log('prevPage');
             if (angular.element('#wrapper3').hasClass('left')) {
-                angular.element('#wrapper3').attr('class','page transition right');
+              angular.element('#wrapper3').attr('class','page transition right');
             } else if (angular.element('#wrapper2').hasClass('left')) {
-                angular.element('#wrapper2').attr('class','page transition right');
-            }
+              angular.element('#wrapper2').attr('class','page transition right');
+            }/* else if (angular.element('#wrapperM').hasClass('left')) {
+              angular.element('#wrapperM').attr('class','page transition right');
+            }*/
 
         };
 
@@ -45,6 +50,14 @@ angular
                 //TODO Usado en StandingsCtrl
                 $rootScope.$storage.competitions = JSON.stringify(obj.response);
             });
+        };
+
+        $scope.showMenu = function(e) {
+          if ($('#wrapperM').hasClass('right')) {
+            angular.element('#wrapperM').attr('class','page transition left');
+          } else {
+            angular.element('#wrapperM').attr('class','page transition right');
+          }
         };
 
         $scope.init = function(){
