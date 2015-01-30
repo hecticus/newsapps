@@ -14,7 +14,7 @@ row:not(input):not(textarea) {
 	a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 
 
-	#wrapper{
+	#wrapper, #wrapperM{
 		position: absolute;
 		z-index: 1;
 		top: 50px;
@@ -429,7 +429,7 @@ body.content-mtm .row-back {
 	.status.PT { background-color:#3B9444; color: #ffffff; }
 	.status.ST { background-color:#FFBF00; color: #000000; }
 
-  .bet.active {background-color:#D84A38  !important;}
+  .bet.active {background-color:#f2f2f2  !important;}
 
 /* From ext/bootstrap.css */
 .col-xs-15,
@@ -474,3 +474,12 @@ body.content-mtm .row-back {
     margin: 0 auto;
     background-color:red;
 }
+
+
+/*menu*/
+
+  .content-menu {background:#fffff; height; 50px; line-height:50px; font-size: 1.4em;}
+	.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}
+	.content-menu {border-bottom: solid 1pt #E0E0E0;}
+
+/*menu*/
