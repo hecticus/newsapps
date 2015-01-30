@@ -360,6 +360,7 @@ public class GameMatch extends HecticusModel {
         json.put("away_team",awayTeam.toJsonSimple());
         json.put("home_team_goals",homeTeamGoals);
         json.put("away_team_goals",awayTeamGoals);
+        json.put("status", status.toJson());
         return json;
     }
 
