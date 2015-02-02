@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Brasil Futebol</title>
+
     <meta name="description" content="">
     <!--TODO Verificar Warning-->
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
@@ -32,35 +33,34 @@
     <script src="cordova.js"></script>
 </head>
 
-<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;">
+<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;" ng-swipe-right="prevPage()" ng-swipe-left="nextPage()">
 
 <div class="container-fluid">
     <div class="row">
         <nav class="navbar navbar-default" style="margin-bottom: 0;">
             <div class="navbar-header">
                 <header>
-                    <div data-section="news" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
-                         ng-class="{active : isActive('news')}"
-                         ng-click="showSection('news')" style="text-align: left;">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                       ng-click="showMenu()" style="text-align: left;">
                         <img src="img/logo.svg" onerror="this.src='img/logo.png'"
                              style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
-                        <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">NOTISTASTS</span>
-                    </div>
-                    <div data-section="prediction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 section"
-                         ng-class="{active : isActive('prediction')}"
-                         ng-click="showSection('prediction')" style="text-align: right;">
-                        <img src="img/palpites.svg" onerror="this.src='img/palpites.png'"
-                             style="width: auto; height: 30px; position: relative; vertical-align: middle; " />
-                        <span style="font-size: 1.2em; font-weight: bold;  margin: 0;">PALPITES</span>
-                    </div>
+                  </div>
                 </header>
             </div>
         </nav>
     </div>
 
-    <div ui-view ng-swipe-right="prevPage()" ng-swipe-left="nextPage()" ></div>
+    <div ui-view  >
+    </div>
+
     <loading></loading>
     <error></error>
+    <menu ng-swipe-right="prevPage()">
+      <menu-item section="news" icon="mdi-action-label">NOTISTASTS</menu-item>
+      <menu-item section="prediction" icon="mdi-action-event">PALPITES</menu-item>
+      <menu-item section="settings" icon="mdi-action-settings">DEFINI&#199;&#213;ES</menu-item>
+    </menu>
+
 
     <div class="row">
         <footer class="footer">
@@ -180,6 +180,8 @@
         <script src="modules/core/services/web-manager.js"></script>
         <script src="modules/core/directives/error.js"></script>
         <script src="modules/core/directives/loading.js"></script>
+        <script src="modules/core/directives/menu-item.js"></script>
+        <script src="modules/core/directives/menu.js"></script>
         <script src="modules/core/directives/my-scroll.js"></script>
         <script src="modules/core/directives/on-last-repeat.js"></script>
         <script src="modules/core/controllers/friends.js"></script>
