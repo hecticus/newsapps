@@ -8,8 +8,8 @@
 */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain', '$timeout'
-      , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain, $timeout) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain', '$timeout','CordovaApp'
+      , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain, $timeout,CordovaApp) {
 
         $rootScope.$storage = $localStorage;
 
@@ -17,8 +17,20 @@ angular
             return $state.current.name === className;
         };
 
+        $rootScope.runBackButton = function() {
+            if (angular.element('.page.back.left:last').hasClass('left')) {
+              $rootScope.transitionPage('.page.back.left:last', 'right')
+            } else if ($('#wrapperM').hasClass('right')) {
+              $rootScope.transitionPage('#wrapperM', 'left');
+            } else {
+                if (confirm('Para sair da aplicação')) {
+                    CordovaApp.exitApp();
+                };
+            };
+        };
+
         $rootScope.showSection = function(_section) {
-            angular.element('#wrapperM').attr('class','page transition left');
+            $rootScope.runBackButton();
             $timeout(function() {
               angular.element('.section').removeClass('active');
               angular.element('[data-section="' + _section + '"]').addClass('active');
@@ -26,23 +38,20 @@ angular
             },300);
         };
 
+        $rootScope.transitionPage = function(_wrapper, _direction, _class) {
+            if (!_class) _class = '';
+            angular.element(_wrapper).attr('class', _class + ' page transition ' + _direction);
+        }
+
+        $rootScope.transitionPageBack = function(_wrapper, _direction) {
+          $rootScope.transitionPage(_wrapper,_direction, 'back')
+        }
         $rootScope.nextPage = function() {
-            console.log('nextPage');
-            if (angular.element('#wrapperM').hasClass('right')) {
-              angular.element('#wrapperM').attr('class','page transition left');
-            }
+            $rootScope.runBackButton();
         };
 
         $rootScope.prevPage = function() {
-            console.log('prevPage');
-            if (angular.element('#wrapper3').hasClass('left')) {
-              angular.element('#wrapper3').attr('class','page transition right');
-            } else if (angular.element('#wrapper2').hasClass('left')) {
-              angular.element('#wrapper2').attr('class','page transition right');
-            }/* else if (angular.element('#wrapperM').hasClass('left')) {
-              angular.element('#wrapperM').attr('class','page transition right');
-            }*/
-
+            $rootScope.runBackButton();
         };
 
         $scope.getCompetitions = function(){
@@ -52,11 +61,11 @@ angular
             });
         };
 
-        $scope.showMenu = function(e) {
+        $scope.showMenu = function() {
           if ($('#wrapperM').hasClass('right')) {
-            angular.element('#wrapperM').attr('class','page transition left');
+            $rootScope.transitionPage('#wrapperM', 'left');
           } else {
-            angular.element('#wrapperM').attr('class','page transition right');
+            $rootScope.transitionPage('#wrapperM', 'right');
           }
         };
 
