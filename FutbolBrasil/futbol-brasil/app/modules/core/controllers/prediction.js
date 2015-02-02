@@ -30,18 +30,18 @@ angular
 
                   if (_jMatch.bet) {
 
-                     if (_jMatch.bet.client_bet == _bet) {
+                     /*if (_jMatch.bet.client_bet == _bet) {
                         _jMatch.bet.client_bet = -1;
                         _jLeagues.client_bets = _jLeagues.client_bets - 1;
                      } else {
 
                           if (_jMatch.bet.client_bet == -1) {
                             _jLeagues.client_bets = _jLeagues.client_bets + 1;
-                          }
+                          }*/
 
                           _jMatch.bet.client_bet = _bet;
 
-                     }
+                     //}
 
                   } else {
                     _jMatch.bet = {client_bet:_bet};
