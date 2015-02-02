@@ -77,21 +77,6 @@ angular
                     }
                 },
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.CordovaApp#back_button
-                 * @methodOf core.Services.CordovaApp
-                 */
-                backButton: function () {
-                    if (angular.element('#wrapper3').hasClass('left')) {
-                        angular.element('#wrapper3').attr('class','page transition right');
-                    } else if (angular.element('#wrapper2').hasClass('left')) {
-                        angular.element('#wrapper2').attr('class','page transition right');
-                    }else {
-                        this.exitApp();
-                    }
-                },
-
                 startAppOffline : function (){
                     console.log("startAppOffline. App Offline");
                 },

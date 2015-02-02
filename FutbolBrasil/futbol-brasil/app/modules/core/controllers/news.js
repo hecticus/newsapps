@@ -8,8 +8,10 @@
  */
 angular
     .module('core')
-    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
+    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
+            ,'Utilities', 'SocialAppsManager',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities
+            , SocialAppsManager) {
 
             //Indicador de primera y ultima posicion en cache
             var _news = {
@@ -20,7 +22,7 @@ angular
             $scope.news = [];
 
             $scope.share = function(_news) {
-              sharePost(_news.title,'Brazil Football',null,_news.summary);
+              SocialAppsManager.sharePost(_news.title,'Brazil Football',null,_news.summary);
             };
 
             $scope.fromNow = function(_date) {
@@ -30,7 +32,7 @@ angular
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
-                angular.element('#wrapper2').attr('class','page transition left');
+                $rootScope.transitionPageBack('#wrapper2', 'left');
                 $scope._scroll2.scrollTo(0,0,0);
             };
 
