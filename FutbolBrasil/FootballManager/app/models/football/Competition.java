@@ -1,5 +1,6 @@
 package models.football;
 
+import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import play.data.validation.Constraints;
@@ -47,7 +48,7 @@ public class Competition  extends HecticusModel {
         this.type = type;
     }
 
-    public static Model.Finder<Long,Competition> finder = new Model.Finder<Long, Competition>(Long.class, Competition.class);
+    private static Model.Finder<Long,Competition> finder = new Model.Finder<Long, Competition>(Long.class, Competition.class);
 
     public Long getIdCompetitions() {
         return idCompetitions;
@@ -126,7 +127,11 @@ public class Competition  extends HecticusModel {
     }
 
     public static List<Competition> getCompetitionsByApp(int idApp){
-        return finder.where().eq("id_app", idApp).findList();
+        return finder.where().eq("id_app", idApp).eq("status", 1).findList();
+    }
+
+    public static List<Competition> getCompetitionsByAppNotIn(int idApp, ArrayList<Long> competitionsIDs){
+        return finder.where().eq("id_app", idApp).eq("status", 1).not(Expr.in("idCompetitions", competitionsIDs)).findList();
     }
 
     public static List<Competition> getActiveCompetitionsByApp(int idApp){

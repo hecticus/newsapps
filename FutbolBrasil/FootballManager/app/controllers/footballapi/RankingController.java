@@ -66,9 +66,9 @@ public class RankingController extends HecticusController {
                 String formattedToday = simpleDateFormat.format(today.getTime());
                 if(competition.getType().getType() == 0){//LIGA
                     if(idPhase > 0){
-                        phase = Phase.finder.byId(idPhase);
+                        phase = Phase.findById(idPhase);
                     } else {
-                        phase = Phase.finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).findUnique();
+                        phase = Phase.getUniquePhaseByDate(competition, formattedToday);
                     }
                     if(phase != null){
                         ranks = Rank.finder.where().eq("id_phases", phase.getIdPhases()).orderBy("points desc, goalDiff desc").findList();
@@ -99,15 +99,15 @@ public class RankingController extends HecticusController {
                         phases = null;
                     } else if(way == 1){
                         //next
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("nivel", phase.getNivel()+1).findList();
+                        phase = Phase.findById(idPhase);
+                        phases = Phase.findByNivel(competition, phase.getNivel()+1);
                     } else if(way == -1){
                         //previous
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("nivel", phase.getNivel()-1).findList();
+                        phase = Phase.findById(idPhase);
+                        phases = Phase.findByNivel(competition, phase.getNivel()-1);
                     } else if(idPhase > 0) {
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("globalName", phase.getGlobalName()).findList();
+                        phase = Phase.findById(idPhase);
+                        phases = Phase.findByGlobalName(competition, phase.getGlobalName());
                     } else {
                         phases = Phase.getPhaseByDate(competition.getIdCompetitions(), formattedToday);
                     }
@@ -159,10 +159,10 @@ public class RankingController extends HecticusController {
                 } else {
                     List<Phase> phases = null;
                     if(idPhase > 0){
-                        phase = Phase.finder.byId(idPhase);
-                        phases = Phase.finder.where().eq("comp", competition).eq("globalName", phase.getGlobalName()).findList();
+                        phase = Phase.findById(idPhase);
+                        phases = Phase.findByGlobalName(competition, phase.getGlobalName());
                     } else {
-                        phases = Phase.finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).findList();
+                        phases = Phase.getPhaseByDate(competition.getIdCompetitions(), formattedToday);
                     }
                     if(phases != null && !phases.isEmpty()) {
                         phase = phases.get(0);

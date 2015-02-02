@@ -127,9 +127,9 @@ public class MatchesController extends HecticusController {
             ArrayList responseData = new ArrayList();
             List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
             for(Competition competition : competitionsByApp) {
-                List<Phase> phases = Phase.finder.where().eq("comp", competition).ge("start_date", date).findList();
+                List<Phase> phases = Phase.getPhasesFromDate(competition, date);
                 if (phases == null || phases.isEmpty()){
-                    phases = Phase.finder.where().eq("comp", competition).orderBy("start_date desc").setFirstRow(0).setMaxRows(1).findList();
+                    phases = Phase.getLatestPhasesPaged(competition, 0, 1);
                 }
                 if(phases != null & !phases.isEmpty()){
                     List<GameMatch> gameMatches = GameMatch.finder.where().eq("competition", competition).in("phase", phases).orderBy("date asc").findList();
@@ -399,7 +399,7 @@ public class MatchesController extends HecticusController {
         try {
             ObjectNode response = null;
             ObjectNode responseData = Json.newObject();
-            List<Competition> competitions = Competition.finder.where().eq("id_app", idApp).eq("status", 1).findList();
+            List<Competition> competitions = Competition.getCompetitionsByApp(idApp);
             TimeZone timeZone = TimeZone.getDefault();//Apps.getTimezone(idApp);
             Calendar today = new GregorianCalendar(timeZone);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");

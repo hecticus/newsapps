@@ -45,7 +45,7 @@ public class Phase extends HecticusModel {
     @OneToMany(mappedBy = "phase")
     private List<GameMatch> matches;
 
-    public static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
+    private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
 
     public Phase(){
 
@@ -159,6 +159,14 @@ public class Phase extends HecticusModel {
         return finder.where().eq("extId",idExt).findUnique();
     }
 
+    public static List<Phase> findByNivel(Competition competition, int nivel){
+        return finder.where().eq("comp", competition).eq("nivel", nivel).findList();
+    }
+
+    public static List<Phase> findByGlobalName(Competition competition, String globalName){
+        return finder.where().eq("comp", competition).eq("globalName", globalName).findList();
+    }
+
     public static List<Phase> getList(Long idCompetition,String sd, String end){
         //System.out.println("Phase idCompetition:"+idCompetition);
         //if(sd.isEmpty() && end.isEmpty()) return finder.all();
@@ -200,6 +208,18 @@ public class Phase extends HecticusModel {
 
     public static List<Phase> getPhaseByDate(Long idCompetition, String formattedToday){
         return finder.where().eq("id_competitions",idCompetition).le("startDate", formattedToday).ge("endDate", formattedToday).findList();
+    }
+
+    public static Phase getUniquePhaseByDate(Competition competition, String formattedToday){
+        return finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).findUnique();
+    }
+
+    public static List<Phase> getPhasesFromDate(Competition competition, String date){
+        return finder.where().eq("comp", competition).ge("start_date", date).findList();
+    }
+
+    public static List<Phase> getLatestPhasesPaged(Competition competition, int index, int size) {
+        return finder.where().eq("comp", competition).orderBy("start_date desc").setFirstRow(index).setMaxRows(size).findList();
     }
 
     @Override

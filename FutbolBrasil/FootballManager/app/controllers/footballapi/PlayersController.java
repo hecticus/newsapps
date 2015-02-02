@@ -127,9 +127,9 @@ public class PlayersController extends HecticusController {
 
             List<Competition> otherCompetitions = null;
             if(competitionsIDs != null && !competitionsIDs.isEmpty()){
-                otherCompetitions = Competition.finder.where().eq("idApp", idApp).not(Expr.in("idCompetitions", competitionsIDs)).findList();
+                otherCompetitions = Competition.getCompetitionsByAppNotIn(idApp, competitionsIDs);
             } else {
-                otherCompetitions = Competition.finder.where().eq("idApp", idApp).findList();
+                otherCompetitions = Competition.getCompetitionsByApp(idApp);
             }
             if(otherCompetitions != null && !otherCompetitions.isEmpty()){
                 for(Competition competition : otherCompetitions){
