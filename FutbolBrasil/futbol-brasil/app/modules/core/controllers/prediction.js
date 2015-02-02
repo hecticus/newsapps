@@ -23,25 +23,36 @@ angular
             $scope.widthTotal = ($window.innerWidth * 11);
 
             $scope.setBet = function (_tournament, _game, _status, _bet, _iLeague ,_iFixture, _iMatch) {
+
+                var _jLeagues = $scope.item.leagues[_iLeague];
+                var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
+
                 if (_status == 0) {
-                  if ($scope.item.leagues[_iLeague].fixtures[_iFixture].matches[_iMatch].bet) {
-                     if ($scope.item.leagues[_iLeague].fixtures[_iFixture].matches[_iMatch].bet.client_bet == _bet) {
-                        $scope.item.leagues[_iLeague].fixtures[_iFixture].matches[_iMatch].bet.client_bet = -1;
-                        $scope.item.leagues[_iLeague].client_bets = $scope.item.leagues[_iLeague].client_bets - 1;
+
+                  if (_jMatch.bet) {
+
+                     if (_jMatch.bet.client_bet == _bet) {
+                        _jMatch.bet.client_bet = -1;
+                        _jLeagues.client_bets = _jLeagues.client_bets - 1;
                      } else {
-                          if ($scope.item.leagues[_iLeague].fixtures[_iFixture].matches[_iMatch].bet.client_bet == -1) {
-                            $scope.item.leagues[_iLeague].client_bets = $scope.item.leagues[_iLeague].client_bets + 1;
+
+                          if (_jMatch.bet.client_bet == -1) {
+                            _jLeagues.client_bets = _jLeagues.client_bets + 1;
                           }
-                          $scope.item.leagues[_iLeague].fixtures[_iFixture].matches[_iMatch].bet.client_bet = _bet;
+
+                          _jMatch.bet.client_bet = _bet;
 
                      }
                   } else {
-                    $scope.item.leagues[_iLeague].fixtures[_iFixture].matches[_iMatch].bet = {client_bet:_bet};
-                    if ($scope.item.leagues[_iLeague].total_bets > $scope.item.leagues[_iLeague].client_bets){
-                      $scope.item.leagues[_iLeague].client_bets = $scope.item.leagues[_iLeague].client_bets + 1;
+                    _jMatch.bet = {client_bet:_bet};
+                    if (_jLeagues.total_bets > _jLeagues.client_bets){
+                      _jLeagues.client_bets = _jLeagues.client_bets + 1;
                     }
                   }
                 }
+
+                _jLeagues.fixtures[_iFixture].matches[_iMatch] = _jMatch;
+                $scope.item.leagues[_iLeague] = _jLeagues;
             };
 
             $scope.saveBet = function (_iLeague, _tournament) {
