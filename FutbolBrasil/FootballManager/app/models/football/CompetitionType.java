@@ -5,9 +5,8 @@ import models.HecticusModel;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by sorcerer on 12/1/14.
@@ -29,8 +28,10 @@ public class CompetitionType extends HecticusModel {
     private Integer type;
     private Long extId;
 
-    private static Model.Finder<Long,CompetitionType> finder = new
-            Model.Finder<Long, CompetitionType>(Long.class, CompetitionType.class);
+    @OneToMany(mappedBy="type", cascade = CascadeType.ALL)
+    private List<Competition> competitions;
+
+    private static Model.Finder<Long,CompetitionType> finder = new Model.Finder<Long, CompetitionType>(Long.class, CompetitionType.class);
 
     public CompetitionType(String name, Long extId) {
         this.status = status; //1
@@ -71,6 +72,22 @@ public class CompetitionType extends HecticusModel {
         this.extId = extId;
     }
 
+    public Integer getIdCompType() {
+        return idCompType;
+    }
+
+    public void setIdCompType(Integer idCompType) {
+        this.idCompType = idCompType;
+    }
+
+    public List<Competition> getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(List<Competition> competitions) {
+        this.competitions = competitions;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
@@ -97,5 +114,9 @@ public class CompetitionType extends HecticusModel {
         }else {
             this.save();
         }
+    }
+
+    public static List<CompetitionType> getAll(){
+        return finder.all();
     }
 }

@@ -240,23 +240,27 @@ public class Client extends HecticusModel {
             }
             response.put("devices", Json.toJson(apps));
         }
+
+        ArrayList<ObjectNode> alerts = new ArrayList<>();
         if(pushAlerts != null && !pushAlerts.isEmpty()){
-            ArrayList<ObjectNode> alerts = new ArrayList<>();
             for(ClientHasPushAlerts ad : pushAlerts){
                 alerts.add(ad.toJson());
             }
-            response.put("push_alerts", Json.toJson(alerts));
         }
+        response.put("push_alerts", Json.toJson(alerts));
+
+        ArrayList<ObjectNode> leaderBoard = new ArrayList<>();
         if(leaderboards != null && !leaderboards.isEmpty()){
-            ArrayList<ObjectNode> alerts = new ArrayList<>();
             for(Leaderboard ad : leaderboards){
-                alerts.add(ad.toJsonClean());
+                leaderBoard.add(ad.toJsonClean());
             }
-            response.put("leaderboards", Json.toJson(alerts));
         }
+        response.put("leaderboards", Json.toJson(leaderBoard));
+
         if(leaderboardGlobal != null) {
             response.put("leaderbooard_global", leaderboardGlobal.toJsonClean());
         }
+
         return response;
     }
 

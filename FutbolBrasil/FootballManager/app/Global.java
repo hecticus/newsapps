@@ -174,7 +174,9 @@ public class Global extends GlobalSettings {
         } else {
             Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Utils.actual.getName() + ", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
         }
-        supervisor.cancel();
+        if(supervisor != null) {
+            supervisor.cancel();
+        }
     }
 
     @SuppressWarnings("rawtypes")

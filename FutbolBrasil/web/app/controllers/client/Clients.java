@@ -162,9 +162,9 @@ public class Clients extends HecticusController {
                         }
                         getStatusFromUpstream(client, upstreamChannel);
 
+                        ArrayList<ClientHasPushAlerts> pushAlerts = new ArrayList<>();
                         if (clientData.has("push_alerts")) {
                             Iterator<JsonNode> pushAlertIterator = clientData.get("pushAlerts").elements();
-                            ArrayList<ClientHasPushAlerts> pushAlerts = new ArrayList<>();
                             while (pushAlertIterator.hasNext()) {
                                 JsonNode next = pushAlertIterator.next();
                                 PushAlerts pushAlert = PushAlerts.finder.byId(next.asInt());
@@ -173,10 +173,28 @@ public class Clients extends HecticusController {
                                     pushAlerts.add(chpa);
                                 }
                             }
-                            if (!pushAlerts.isEmpty()) {
-                                client.setPushAlerts(pushAlerts);
-                            }
                         }
+
+
+                        int newsPushId = Config.getInt("news-push-id");
+                        int betsPushId = Config.getInt("bets-push-id");
+                        PushAlerts newsPushAlert = PushAlerts.finder.byId(newsPushId);
+                        if (newsPushAlert != null) {
+                            ClientHasPushAlerts chpa = new ClientHasPushAlerts(client, newsPushAlert);
+                            pushAlerts.add(chpa);
+                        }
+                        PushAlerts betsPushAlert = PushAlerts.finder.byId(betsPushId);
+                        if (betsPushAlert != null) {
+                            ClientHasPushAlerts chpa = new ClientHasPushAlerts(client, betsPushAlert);
+                            pushAlerts.add(chpa);
+                        }
+
+
+                        if (!pushAlerts.isEmpty()) {
+                            client.setPushAlerts(pushAlerts);
+                        }
+
+
                         client.save();
                         response = buildBasicResponse(0, "OK", client.toJson());
                     } else {
