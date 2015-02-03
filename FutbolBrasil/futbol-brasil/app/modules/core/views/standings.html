@@ -39,8 +39,6 @@
         <div class="row-back border" ng-click="prevPage()">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <i class="icon mdi-hardware-keyboard-arrow-left"
-                       style="font-size: 2em; margin-left: 10px; vertical-align: baseline;"></i>
                     <span ng-bind="_this.item.competition.name"
                           style="font-size: 2em; margin-left: 10px; font-weight: bold; vertical-align: baseline;"></span>
                 </div>
@@ -84,7 +82,7 @@
                                     <td style="width: 33% !important;">
                                         <span>VS</span>
                                         <br/>
-                                        <span ng-bind="ranking.status"></span>
+                                        <span ng-bind="ranking.status.name"></span>
                                     </td>
                                     <td style="width: 33% !important;">
                                         <span ng-bind="ranking.awayTeam.name"></span>
@@ -169,8 +167,6 @@
         <div class="row-back border" ng-click="prevPage()">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <i class="icon mdi-hardware-keyboard-arrow-left"
-                       style="font-size: 2em; margin-left: 10px; vertical-align: baseline;"></i>
                     <span ng-bind="_this.item.phase.competition.name"
                           style="font-size: 2em; margin-left: 10px; font-weight: bold;"></span>
                 </div>

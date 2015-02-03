@@ -69,17 +69,10 @@ angular
                 status: _match.status
               };
 
-              angular.element('#wrapper2').attr('class','page transition left');
+              $rootScope.transitionPageBack('#wrapper2','left');
               _scroll2.scrollTo(0,0,0);
               $scope.refreshEvents();
 
-            };
-
-            $scope.prevPageMtM = function () {
-              $rootScope.loading = false;
-              _event = {first:0, last:0};
-              $timeout.cancel($scope.interval);
-              $rootScope.prevPage();
             };
 
             $scope.init = function(){

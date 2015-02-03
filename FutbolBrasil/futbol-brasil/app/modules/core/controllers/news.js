@@ -11,6 +11,8 @@ angular
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
 
+
+
             //Indicador de primera y ultima posicion en cache
             var _news = {
                 first : 0,
@@ -34,7 +36,7 @@ angular
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
-                angular.element('#wrapper2').attr('class','page transition left');
+                $rootScope.transitionPageBack('#wrapper2', 'left');
                 _scroll2.scrollTo(0,0,0);
             };
 

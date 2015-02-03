@@ -40,7 +40,7 @@ angular
                         _this.showContentRanking(_this.item.competition.id_competitions
                             , _this.item.phases[0].id_phases);
                     } else {
-                        angular.element('#wrapper2').attr('class','page transition left');
+                         $rootScope.transitionPageBack('#wrapper2', 'left');
                         _scroll2.scrollTo(0,0,0);
                     }
 
@@ -62,8 +62,7 @@ angular
                     _this.item.tree = obj.data.response.tree;
                     _this.item.phase = obj.data.response.phase;
                     _this.item.ranking =  obj.data.response.ranking;
-
-                    angular.element('#wrapper3').attr('class','page transition left');
+                    $rootScope.transitionPageBack('#wrapper3', 'left');
                     _scroll3.scrollTo(0,0,0);
 
                 }).finally(function(data) {
