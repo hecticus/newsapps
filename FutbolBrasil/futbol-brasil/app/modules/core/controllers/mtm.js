@@ -60,7 +60,7 @@ angular
             };
 
             $scope.showContentEvents = function (_league, _match) {
-
+              _event = {first:0, last:0};
               $scope.item.mtm = [];
               $scope.item.league = _league;
               $scope.item.match = {
