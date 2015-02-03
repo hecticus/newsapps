@@ -39,27 +39,9 @@ angular
                 {name: Utilities.moment().add(2, 'days').format('LL'), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
             ];
 
-            $scope.width = 0;
-            $scope.widthTotal = 0;
+            $scope.width = $window.innerWidth;
+            $scope.widthTotal = ($window.innerWidth * 11);
 
-            $scope.getWidth = function(){
-                return { 'width': $scope.width + 'px'}
-            };
-
-            $scope.getTotalWidth = function(){
-                return { 'width': $scope.widthTotal + 'px'}
-            };
-
-            $scope.getMatchStatusClass = function(match){
-                if(match.status == 'Encerrado') {
-                    return 'encerrado';
-                }else if(match.status == 'Default'){
-                    return 'default';
-                } else {
-                    //TODO WTF?!
-                    return 'else';
-                }
-            };
 
             $scope.init = function(){
                 $rootScope.loading = false;
@@ -75,13 +57,8 @@ angular
                 });
 
                 $scope.width = $window.innerWidth;
-                console.log($window.innerWidth + ' * ' + $scope.pages.length);
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
 
-                console.log('$scope.getWidth: ');
-                console.log($scope.getWidth());
-                console.log('$scope.getTotalWidth: ');
-                console.log($scope.getTotalWidth());
 
                 var _scroll = new IScroll('#wrapperH', {
                     scrollX: true,
