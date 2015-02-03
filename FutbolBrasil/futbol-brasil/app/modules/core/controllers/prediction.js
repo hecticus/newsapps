@@ -103,6 +103,7 @@ angular
                   $scope.item =  obj.data.response;
                   //$scope.processDataBet();
                   $rootScope.$storage.bet = JSON.stringify($scope.item);
+                  $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
 
                 })
                 .finally(function(data) {

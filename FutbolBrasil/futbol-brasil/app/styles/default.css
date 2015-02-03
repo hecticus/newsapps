@@ -34,14 +34,14 @@ row:not(input):not(textarea) {
 		width: 100%;
 	}
 
-	body.content-mtm #wrapper2 {
+	/*body.content-mtm #wrapper2 {
 		position: absolute;
 		z-index: 3;
 		top: 0px;
 		bottom: 0;
 		left: 0;
 		width: 100%;
-	}
+	}*/
 
 	/*#wrapper2,
 	#wrapper3 {
@@ -483,3 +483,16 @@ body.content-mtm .row-back {
 	.content-menu {border-bottom: solid 1pt #E0E0E0;}
 
 /*menu*/
+
+  i.back-button {
+      visibility: hidden;
+	}
+
+	i.back-button.active {
+		 visibility: visible;
+	}
+
+  .tabs {
+    opacity: 0.5;
+    text-transform: capitalize;
+  }
