@@ -2,11 +2,17 @@ package backend.job;
 
 import akka.actor.ActorSystem;
 import akka.actor.Cancellable;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import models.Job;
 import models.basic.Config;
+import org.apache.commons.lang3.StringEscapeUtils;
 import scala.concurrent.duration.Duration;
 import utils.Utils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.concurrent.TimeUnit.HOURS;
@@ -18,15 +24,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  */
 public class ThreadSupervisor extends HecticusThread {
 
+    private ArrayList<HecticusThread> activeJobs = null;
     private ActorSystem system = null;
-    private ArrayList<HecticusThread> generators = null;
-
-    public ThreadSupervisor(String name, AtomicBoolean run, Cancellable cancellable, ActorSystem system) {
-        super("ThreadSupervisor-"+name, run, cancellable);
-        this.system = system;
-        init();
-    }
-
+    
     public ThreadSupervisor(AtomicBoolean run, ActorSystem system) {
         super("ThreadSupervisor",run);
         this.system = system;
@@ -34,53 +34,142 @@ public class ThreadSupervisor extends HecticusThread {
     }
 
     @Override
-    public void process() {
-        checkPushGeneratorsQuantity();
+    public void process(Map args) {
+        checkAliveThreads();
+        //stop jobs
+        stopActiveJobs();
+        //start jobs
+        activateJobs();
+        //check for bad jobs
     }
 
     private void init(){
-        generators = new ArrayList<>();
-        int pushGenerators = Config.getInt("push-generators");
-        Utils.printToLog(ThreadSupervisor.class, null, "Arrancando " + pushGenerators + " PushGenerators", false, null, "support-level-1", Config.LOGGER_INFO);
-        for(int i = 0; i < pushGenerators; ++i){
-            HecticusThread pushGenerator = new PushGenerator(getRun());
-            Cancellable cancellable = system.scheduler().schedule(Duration.create(30, SECONDS), Duration.create(1, MINUTES), pushGenerator, system.dispatcher());
-            pushGenerator.setCancellable(cancellable);
-            generators.add(pushGenerator);
-        }
-
+        //start things and
+        activeJobs = new ArrayList<HecticusThread>();
+        //reset status de jobs
+        Job.resetJobsOnStart();
     }
 
-    private void checkPushGeneratorsQuantity() {
-        int eventConsumers = Config.getInt("push-generators");
-        if(eventConsumers > generators.size()){
-            int toStart = eventConsumers - generators.size();
-            Utils.printToLog(ThreadSupervisor.class, null, "Arrancando " + toStart + " PushGenerators", false, null, "support-level-1", Config.LOGGER_INFO);
-            for(int i = 0; isAlive() && i <  toStart; ++i){
-                HecticusThread event = new PushGenerator(getRun());
-                Cancellable cancellable = system.scheduler().schedule(Duration.create(1, SECONDS), Duration.create(1, MINUTES), event, system.dispatcher());
-                event.setCancellable(cancellable);
-                generators.add(event);
-            }
-        } else if(eventConsumers < generators.size()){
-            int toStop = generators.size() - eventConsumers;
-            for(int i = 0; isAlive() && i <  toStop; ++i){
-                HecticusThread event = generators.get(0);
-                event.cancel();
-                generators.remove(0);
-            }
-            Utils.printToLog(ThreadSupervisor.class, null, "Quedan " + generators.size() + " PushGenerators", false, null, "support-level-1", Config.LOGGER_INFO);
-        }
-    }
+
 
     @Override
     public void stop() {
-        if(generators != null && !generators.isEmpty()){
-            for(HecticusThread ht : generators){
+        if(activeJobs != null && !activeJobs.isEmpty()){
+            for(HecticusThread ht : activeJobs){
                 ht.cancel();
             }
-            Utils.printToLog(ThreadSupervisor.class, null, "Apagados " + generators.size() + " PushGenerators", false, null, "support-level-1", Config.LOGGER_INFO);
-            generators.clear();
+            Utils.printToLog(ThreadSupervisor.class, null, "Apagados " + activeJobs.size() + " EventManagers", false, null, "support-level-1", Config.LOGGER_INFO);
+            activeJobs.clear();
         }
     }
+
+    private void checkAliveThreads() {
+        long allowedTime = Config.getLong("jobs-keep-alive-allowed");
+        for(HecticusThread ht : activeJobs){
+            long threadTime = ht.runningTime();
+            if(isAlive() && ht.isActive() && threadTime > allowedTime){
+                Utils.printToLog(ThreadSupervisor.class, "Job Bloqueado", "El job " + ht.getName() + " lleva " + threadTime + " sin pasar por un setAlive()", false, null, "support-level-1", Config.LOGGER_ERROR);
+            }
+        }
+    }
+
+    private void activateJobs() {
+        try {
+            List<Job> currentList = Job.getToActivateJobs();
+            long jobDelay = Config.getLong("job-delay");
+            if (currentList != null){
+                for (int i = 0 ; i < currentList.size(); i++){
+                    Job actual = currentList.get(i);
+                    try {
+                        //getting class name
+                        Class jobClassName = Class.forName(actual.getClassName().trim());
+                        final HecticusThread j = (HecticusThread) jobClassName.newInstance();
+                        //update to running
+                        actual.activateJob();
+                        //parse params
+                        LinkedHashMap jobParams = null;
+                        if (actual.getParams() != null && !actual.getParams().isEmpty()) {
+                            String tempParams = StringEscapeUtils.unescapeHtml4(actual.getParams());
+                            ObjectMapper mapper = new ObjectMapper();
+                            jobParams = mapper.readValue(tempParams, LinkedHashMap.class);
+                        }
+                        j.setName(actual.getName() + "-" + System.currentTimeMillis());
+                        j.setIdApp(actual.getIdApp());
+                        j.setParams(jobParams);
+                        j.setJob(actual);
+                        Cancellable cancellable = null;
+                        if(actual.isDaemon()){
+                            cancellable = system.scheduler().schedule(Duration.create(jobDelay, SECONDS), Duration.create(Long.parseLong(actual.getTimeParams()), SECONDS), j, system.dispatcher());
+                        } else {
+                            cancellable = system.scheduler().scheduleOnce(Duration.create(jobDelay, SECONDS), j, system.dispatcher());
+                        }
+                        j.setCancellable(cancellable);
+                        activeJobs.add(j);
+                    }catch (Exception ex){
+                        actual.failedJob();
+                        Utils.printToLog(ThreadSupervisor.class,
+                                "Error en el ThreadSupervisor",
+                                "ocurrio un error activando el job:" + actual.getName() + " id:" + actual.getId() + " el job sera desactivado.",
+                                true,
+                                ex,
+                                "support-level-1",
+                                Config.LOGGER_ERROR);
+                    }
+                }
+            }
+        }catch (Exception ex){
+            Utils.printToLog(ThreadSupervisor.class,
+                    "Error en el ThreadSupervisor",
+                    "error desconocido en el activate jobs",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
+        }
+    }
+
+
+    private void stopActiveJobs(){
+        if(!activeJobs.isEmpty()) {
+            try {
+                List<Job> currentList = Job.getToStopJobs();
+                if (currentList != null) {
+                    for (int i = 0; i < currentList.size(); i++) {
+                        try {
+                            Job actual = currentList.get(i);
+                            for (HecticusThread ht : activeJobs) {
+                                if (ht.getJob().getId() == actual.getId()) {
+                                    ht.cancel();
+                                    activeJobs.remove(ht);
+                                    break;
+                                }
+                            }
+                        } catch (Exception ex) {
+                            Utils.printToLog(ThreadSupervisor.class,
+                                    "Error en el ThreadSupervisor",
+                                    "error desconocido en el apagando jobs",
+                                    true,
+                                    ex,
+                                    "support-level-1",
+                                    Config.LOGGER_ERROR);
+                        }
+                    }
+                }
+
+            } catch (Exception ex) {
+                Utils.printToLog(ThreadSupervisor.class,
+                        "Error en el ThreadSupervisor",
+                        "error desconocido en el apagando jobs",
+                        true,
+                        ex,
+                        "support-level-1",
+                        Config.LOGGER_ERROR);
+            }
+        }
+    }
+
+    public synchronized void removeJob(HecticusThread job){
+        activeJobs.remove(job);
+    }
+
 }

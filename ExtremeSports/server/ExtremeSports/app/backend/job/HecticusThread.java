@@ -1,9 +1,12 @@
 package backend.job;
 
 import akka.actor.Cancellable;
+import models.Job;
 import models.basic.Config;
 import utils.Utils;
 
+import javax.persistence.OptimisticLockException;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -18,7 +21,15 @@ public abstract class HecticusThread implements Runnable {
     private long prevTime;
     private long actTime;
     private boolean active;
+    private Map params;
+    private int idApp;
     private Cancellable cancellable;
+    private Job job;
+
+    public HecticusThread() {
+        this.name = "";
+        run = Utils.run;
+    }
 
     protected HecticusThread(String name,  AtomicBoolean run, Cancellable cancellable) {
         this.initTime = this.actTime = this.prevTime = System.currentTimeMillis();
@@ -45,7 +56,7 @@ public abstract class HecticusThread implements Runnable {
     /**
      * Metodo que ejecuta la funcionalidad real de un HecticusThread
      */
-    public abstract void process();
+    public abstract void process(Map args);
 
     public String getName() {
         return name;
@@ -75,9 +86,49 @@ public abstract class HecticusThread implements Runnable {
         this.cancellable = cancellable;
     }
 
+    public Map getParams() {
+        return params;
+    }
+
+    public void setParams(Map params) {
+        this.params = params;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public void setRun(AtomicBoolean run) {
+        this.run = run;
+    }
+
     public void setAlive(){
         prevTime = actTime;
         actTime = System.currentTimeMillis();
+    }
+
+    public void setInitTime(long initTime) {
+        this.initTime = initTime;
+    }
+
+    public long getPrevTime() {
+        return prevTime;
+    }
+
+    public void setPrevTime(long prevTime) {
+        this.prevTime = prevTime;
+    }
+
+    public long getActTime() {
+        return actTime;
+    }
+
+    public void setActTime(long actTime) {
+        this.actTime = actTime;
     }
 
     /**
@@ -112,18 +163,26 @@ public abstract class HecticusThread implements Runnable {
         if(isAlive() && !active){
             try{
                 active = true;
-                process();
+                process(params);
             } catch (Throwable t){
                 Utils.printToLog(HecticusThread.class, "Error en el HecticusThread", "Ocurrio un error que llego hasta el HecticusThread: " + name, true, t, "support-level-1", Config.LOGGER_ERROR);
             } finally {
                 setAlive();
                 active = false;
+                markAsFinished();
             }
         }
     }
 
     public void stop() {
-        //doSomething...
+        try{
+            if(job != null) {
+                job.rollTimestamp();
+                job.update();
+            }
+        } catch (OptimisticLockException t){
+            //ignore
+        }
     }
 
     public void cancel() {
@@ -133,9 +192,28 @@ public abstract class HecticusThread implements Runnable {
             if(cancellable != null) {
                 cancellable.cancel();
             }
-            Utils.printToLog(HecticusThread.class, null, "Apagado " + name + " vivio " + (System.currentTimeMillis() - initTime), false, null, "support-level-1", Config.LOGGER_INFO);
+            Utils.printToLog(HecticusThread.class, null, "Apagado " + name + " alive time: " + (System.currentTimeMillis() - initTime), false, null, "support-level-1", Config.LOGGER_INFO);
         } catch (Throwable t){
             Utils.printToLog(HecticusThread.class, "Error en el HecticusThread", "Ocurrio cancelando el HecticusThread: " + name, true, t, "support-level-1", Config.LOGGER_ERROR);
+        }
+    }
+
+    public int getIdApp() {
+        return idApp;
+    }
+
+    public void setIdApp(int idApp) {
+        this.idApp = idApp;
+    }
+
+    public void markAsFinished(){
+        if(job != null && !job.isDaemon()) {
+            job.deActivateJob();
+            Utils.supervisor.removeJob(this);
+            if(cancellable != null) {
+                cancellable.cancel();
+            }
+            Utils.printToLog(HecticusThread.class, null, "Apagado " + name + " vivio " + (System.currentTimeMillis() - initTime), false, null, "support-level-1", Config.LOGGER_INFO);
         }
     }
 

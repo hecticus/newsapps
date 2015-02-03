@@ -36,7 +36,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Global  extends GlobalSettings {
 
     public static AtomicBoolean run = null;
-    HecticusThread supervisor = null;
+    private static boolean isMaster = false;
+    private HecticusThread supervisor = null;
 
     private void initialData() {
         if (SecurityRole.find.findRowCount() == 0) {
@@ -114,6 +115,7 @@ public class Global  extends GlobalSettings {
                 actual.setRunning(1);
                 Instance.update(actual);
                 Utils.actual = actual;
+                isMaster = actual.isMaster();
             } else {
                 Utils.test = false;
                 actual = new Instance(Utils.serverIp, Config.getString("app-name")+"-"+Utils.serverIp, 1);
@@ -133,12 +135,16 @@ public class Global  extends GlobalSettings {
         } else {
             Utils.printToLog(Global.class, null, "Arrancando " + Utils.actual.getName() + " test = " + Utils.test, false, null, "support-level-1", Config.LOGGER_INFO);
         }
-        ActorSystem system = ActorSystem.create("application");
         run = new AtomicBoolean(true);
-        Utils.printToLog(Global.class, null, "Arrancando ThreadSupervisor", false, null, "support-level-1", Config.LOGGER_INFO);
-        supervisor = new ThreadSupervisor(run, system);
-        Cancellable cancellable = system.scheduler().schedule(Duration.create(1, SECONDS), Duration.create(5, MINUTES), supervisor, system.dispatcher());
-        supervisor.setCancellable(cancellable);
+        Utils.run = run;
+        if (isMaster){
+            ActorSystem system = ActorSystem.create("application");
+            Utils.printToLog(Global.class, null, "Arrancando ThreadSupervisor", false, null, "support-level-1", Config.LOGGER_INFO);
+            supervisor = new ThreadSupervisor(run, system);
+            Cancellable cancellable = system.scheduler().schedule(Duration.create(1, SECONDS), Duration.create(5, MINUTES), supervisor, system.dispatcher());
+            supervisor.setCancellable(cancellable);
+            Utils.supervisor = (ThreadSupervisor)supervisor;
+        }
     }
 
     @Override
@@ -165,7 +171,9 @@ public class Global  extends GlobalSettings {
         } else {
             Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Utils.actual.getName() + ", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
         }
-        supervisor.cancel();
+        if(supervisor != null) {
+            supervisor.cancel();
+        }
     }
 
     @SuppressWarnings("rawtypes")

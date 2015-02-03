@@ -87,7 +87,23 @@ create table instances (
   name                      varchar(255),
   running                   integer,
   test                      integer,
+  master                    tinyint(1) default 0,
   constraint pk_instances primary key (id_instance))
+;
+
+create table jobs (
+  id                        bigint auto_increment not null,
+  status                    integer,
+  class_name                varchar(255),
+  name                      varchar(255),
+  params                    varchar(255),
+  id_app                    integer,
+  next_timestamp            bigint,
+  time                      varchar(255),
+  time_params               varchar(255),
+  frequency                 integer,
+  daemon                    tinyint(1) default 0,
+  constraint pk_jobs primary key (id))
 ;
 
 create table languages (
@@ -281,6 +297,8 @@ drop table devices;
 drop table file_types;
 
 drop table instances;
+
+drop table jobs;
 
 drop table languages;
 

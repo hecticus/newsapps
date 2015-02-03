@@ -10,6 +10,7 @@ import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import backend.job.ThreadSupervisor;
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspacePublish;
 import models.basic.Config;
@@ -28,12 +29,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class Utils {
-
+    public static AtomicBoolean run;
     public static String serverIp;
-    public static Instance actual;
     public static boolean test;
+    public static Instance actual;
+    public static ThreadSupervisor supervisor;
     private static final int TTL = 900;
 
+    public static final TimeZone APP_TIMEZONE = TimeZone.getTimeZone("America/Caracas");
     /**
      * Data para el generador de cadenas alfanumericas
      */

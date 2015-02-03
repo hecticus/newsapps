@@ -14,10 +14,7 @@ import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import utils.Utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -42,7 +39,7 @@ public class PushGenerator extends HecticusThread {
     }
 
     @Override
-    public void process() {
+    public void process(Map args) {
         try {
             getEventsToGenerate();
         } catch (Exception ex) {
