@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', '$timeout'
-        , 'Domain', 'ClientManager','CordovaApp'
-        , function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, Domain, ClientManager, CordovaApp) {
+        , 'Domain', 'ClientManager','CordovaApp',
+        function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, Domain, ClientManager, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
 
@@ -18,13 +18,12 @@ angular
                 return $state.current.name === className;
             };
 
-            $rootScope.runBackButton = function() {
+            $rootScope.runBackButton = function(_exit) {
                 if (angular.element('.page.back.left:last').hasClass('left')) {
                     $rootScope.transitionPage('.page.back.left:last', 'right')
                 } else if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
-                } else if (
-                    confirm('Para sair da aplicação')) {
+                } else if (_exit && confirm('Para sair da aplicação')) {
                     CordovaApp.exitApp();
                 }
             };
@@ -47,11 +46,11 @@ angular
                 $rootScope.transitionPage(_wrapper,_direction, 'back')
             };
             $rootScope.nextPage = function() {
-                $rootScope.runBackButton();
+                $rootScope.runBackButton(false);
             };
 
             $rootScope.prevPage = function() {
-                $rootScope.runBackButton();
+                $rootScope.runBackButton(false);
             };
 
             $scope.getCompetitions = function(){

@@ -37,11 +37,21 @@ a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 body.content-mtm #wrapper2 {
     position: absolute;
     z-index: 3;
-    top: 0px;
+    top: 0;
     bottom: 0;
     left: 0;
     width: 100%;
 }
+
+/*#wrapper2,
+#wrapper3 {
+    position: absolute;
+    z-index: 3;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}*/
 
 header, footer {
     position: absolute;
@@ -59,10 +69,7 @@ header, footer {
 
 header {
     top: 0;
-    background-image: url(../img/bg.png);
-    background-color: #313f75;
-    background-repeat: repeat-x;
-    background-attachment: fixed;
+    background: #313f75 url(../img/bg.png) repeat-x fixed;
 }
 
 footer {
@@ -286,11 +293,6 @@ div.header .right {
     font-size:1.8em;
 }
 
-
-
-
-
-
 #wrapperH {
     position: absolute;
     z-index: 1;
@@ -451,51 +453,25 @@ body.content-mtm .row-back {
     }
 }
 
-.search-bar{
+
+.bet-content {
     position: absolute;
-    z-index: 2;
-    background-color: #FFF;
-    margin: 0;
-    padding: 12px;
-    font-size: 20px;
+    z-index: 10;
+    left: 0;
+    /* left: 50%;
+     margin-left: -50px;*/
+    bottom:  0;
+    width:  150px;
+    height: 75px;
+    margin: 0 auto;
+    background-color:red;
 }
 
-.team-info{
-    display: inline-block;
-}
-
-.team-logo{
-    /*display: inline-block;*/
-}
-
-.btn-delete-item {
-    background-color: #f44336 !important;
-    border-radius: 100%;
-    font-size: 12px;
-    padding: 6px;
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
-    line-height: 10px;
-    position: absolute;
-    top: -12px;
-    right: 16px;
-}
 
 /*menu*/
 
-.content-menu {
-    background: #ffffff;
-    height: 50px;
-    line-height:50px;
-    font-size: 1.4em;
-}
-.content-menu span:last-child {
-    margin-left: 10px;
-    color:#4D4D4D;
-}
-.content-menu {
-    border-bottom: solid 1pt #E0E0E0;
-}
+.content-menu {background:#ffffff; height: 50px; line-height:50px; font-size: 1.4em;}
+.content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}
+.content-menu {border-bottom: solid 1pt #E0E0E0;}
 
 /*menu*/
