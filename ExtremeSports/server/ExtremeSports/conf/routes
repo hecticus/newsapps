@@ -1,0 +1,144 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
+
+#SocialNetworks
+POST    /api/v1/socialnetworks/create                                                   controllers.content.athletes.SocialNetworks.create()
+POST    /api/v1/socialnetworks/update/:id                                               controllers.content.athletes.SocialNetworks.update(id : Integer)
+POST    /api/v1/socialnetworks/delete/:id                                               controllers.content.athletes.SocialNetworks.delete(id : Integer)
+GET     /api/v1/socialnetworks/get/:id                                                  controllers.content.athletes.SocialNetworks.get(id : Integer)
+GET     /api/v1/socialnetworks/list                                                     controllers.content.athletes.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
+
+#Categories
+POST    /api/v1/sports/create                                                           controllers.content.athletes.Sports.create()
+POST    /api/v1/sports/update/:id                                                       controllers.content.athletes.Sports.update(id : Integer)
+POST    /api/v1/sports/delete/:id                                                       controllers.content.athletes.Sports.delete(id : Integer)
+GET     /api/v1/sports/get/:id                                                          controllers.content.athletes.Sports.get(id : Integer)
+GET     /api/v1/sports/list                                                             controllers.content.athletes.Sports.list(pageSize: Integer?=0, page: Integer?=0)
+
+#Athletes
+POST    /api/v1/athletes/create                                                         controllers.content.athletes.Athletes.create()
+POST    /api/v1/athletes/update/:id                                                     controllers.content.athletes.Athletes.update(id : Integer)
+POST    /api/v1/athletes/delete/:id                                                     controllers.content.athletes.Athletes.delete(id : Integer)
+GET     /api/v1/athletes/get/:id                                                        controllers.content.athletes.Athletes.get(id : Integer)
+GET     /api/v1/athletes/list                                                           controllers.content.athletes.Athletes.list(pageSize: Integer?=0, page: Integer?=0)
+
+#FileTypes
+POST    /api/v1/filetypes/create                                                        controllers.content.posts.FileTypes.create()
+POST    /api/v1/filetypes/update/:id                                                    controllers.content.posts.FileTypes.update(id : Integer)
+POST    /api/v1/filetypes/delete/:id                                                    controllers.content.posts.FileTypes.delete(id : Integer)
+GET     /api/v1/filetypes/get/:id                                                       controllers.content.posts.FileTypes.get(id : Integer)
+GET     /api/v1/filetypes/list                                                          controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
+
+#Posts
+POST    /api/v1/posts/create                                                            controllers.content.posts.Posts.create()
+POST    /api/v1/posts/update/:id                                                        controllers.content.posts.Posts.update(id : Integer)
+POST    /api/v1/posts/delete/:id                                                        controllers.content.posts.Posts.delete(id : Integer)
+GET     /api/v1/posts/get/:id                                                           controllers.content.posts.Posts.get(id : Integer)
+
+GET     /api/v1/posts/get/client/:id                                                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idSport: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/up/:id/:postId                                         controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idSport: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/down/:id/:postId                                       controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer?=0, idSport: Integer?=0, onlyMedia: Boolean?=false)
+
+GET     /api/v1/posts/get/client/athlete/:id/:idAthlete                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer, idSport: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/up/athlete/:id/:postId/:idAthlete                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer, idSport: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/down/athlete/:id/:postId/:idAthlete                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer, idSport: Integer?=0, onlyMedia: Boolean?=false)
+
+GET     /api/v1/posts/get/client/sport/:id/:idSport                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idSport: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/up/sport/:id/:postId/:idSport                          controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idSport: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/posts/get/client/down/sport/:id/:postId/:idSport                        controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer?=0, idSport: Integer, onlyMedia: Boolean?=false)
+
+GET     /api/v1/posts/get/client/:idClient/:idPost                                      controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
+GET     /api/v1/posts/get/sport/:idClient/:idSport/:page/:pageSize                      controllers.content.posts.Posts.getPostForSport(idClient : Integer, idSport : Integer, page: Integer, pageSize: Integer)
+GET     /api/v1/posts/list                                                              controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /api/v1/posts/list/athlete/:id                                                  controllers.content.posts.Posts.getListForAthlete(id : Integer)
+
+#POSTS IMAGES
+GET     /api/v1/posts/images/get/client/up/athlete/:id/:postId/:idAthlete               controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer, idSport: Integer?=0, onlyMedia: Boolean?=true)
+GET     /api/v1/posts/images/get/client/down/athlete/:id/:postId/:idAthlete             controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer, idSport: Integer?=0, onlyMedia: Boolean?=true)
+
+
+#Clients
+POST    /api/v1/clients/create                                                          controllers.client.Clients.create()
+POST    /api/v1/clients/update/:id                                                      controllers.client.Clients.update(id : Integer)
+POST    /api/v1/clients/delete/:id                                                      controllers.client.Clients.delete(id : Integer)
+POST    /api/v1/clients/upstream/resetpass                                              controllers.client.Clients.resetUpstreamPass()
+POST    /api/v1/clients/upstream/events/send                                            controllers.client.Clients.sendEvent()
+GET     /api/v1/clients/get/:id/:upstreamChannel                                        controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET     /api/v1/clients/list                                                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+GET     /api/v1/clients/favorites/:id                                                   controllers.client.Clients.getStarredAthletesForClient(id : Integer)
+
+#Clients PMC
+GET     /api/v1/clients/pmc/get/:id                                                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
+GET     /api/v1/clients/pmc/list/:page/:pageSize                                        controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
+POST    /api/v1/clients/pmc/clean                                                       controllers.client.Clients.cleanDevices()
+
+#FAKE UPSTREAM URL
+POST    /api/v1/clients/upstream/game/user/subscribe                                    controllers.client.Clients.upstreamFakeCreate()
+POST    /api/v1/clients/upstream/game/user/login                                        controllers.client.Clients.upstreamFakeLogin()
+POST    /api/v1/clients/upstream/game/user/status                                       controllers.client.Clients.upstreamFakeStatus()
+POST    /api/v1/clients/upstream/game/user/password                                     controllers.client.Clients.upstreamFakeResetPass()
+POST    /api/v1/clients/upstream/game/user/event                                        controllers.client.Clients.upstreamFakeEventSend()
+
+
+
+#UsersView
+# UsersView list (look at the default values for pagination parameters)
+GET     /users/list			                                                            controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET    /users/lsort		                                                            controllers.UsersView.lsort()
+# Add UsersView
+# Edit existing UsersView
+#GET    /users/sort/:ids	                                                            controllers.UsersView.sort(ids:String)
+GET     /users/:id			                                                            controllers.UsersView.edit(id:Long)
+POST    /users/:id			                                                            controllers.UsersView.update(id:Long)
+# Delete a UsersView
+POST    /users/:id/delete		                                                        controllers.UsersView.delete(id:Long)
+
+# Authenticate
+GET     /restricted                                                                     controllers.Application.restricted
+GET     /assets/javascript/routes.js                                                    controllers.Application.jsRoutes
+
+GET     /profile                                                                        controllers.Application.profile
+
+GET     /login                                                                          controllers.Application.login
+POST    /login                                                                          controllers.Application.doLogin
+
+GET     /logout                                                                         com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider                                                         com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+
+GET     /signup                                                                         controllers.Application.signup
+POST    /signup                                                                         controllers.Application.doSignup
+
+GET     /accounts/unverified        		                                            controllers.Signup.unverified
+GET     /authenticate/:provider/denied    	                                            controllers.Signup.oAuthDenied(provider: String)
+
+GET     /accounts/verify/:token                                                         controllers.Signup.verify(token: String)
+GET     /accounts/exists                                                                controllers.Signup.exists
+
+GET     /accounts/password/reset/:token                                                 controllers.Signup.resetPassword(token: String)
+POST    /accounts/password/reset                                                        controllers.Signup.doResetPassword
+
+GET    /accounts/password/change                                                        controllers.Account.changePassword
+POST   /accounts/password/change                                                        controllers.Account.doChangePassword
+
+GET     /accounts/verify                                                                controllers.Account.verifyEmail
+
+GET     /accounts/add                                                                   controllers.Account.link
+
+GET     /accounts/link                                                                  controllers.Account.askLink
+POST    /accounts/link                                                                  controllers.Account.doLink
+
+GET     /accounts/merge                                                                 controllers.Account.askMerge
+POST    /accounts/merge                                                                 controllers.Account.doMerge
+
+GET     /login/password/forgot                                                          controllers.Signup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot                                                          controllers.Signup.doForgotPassword
+
