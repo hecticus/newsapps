@@ -14,6 +14,7 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 
 import models.basic.Config;
+import models.basic.Language;
 import models.news.News;
 import models.news.Resource;
 import play.*;
@@ -164,6 +165,9 @@ public class Application extends Controller {
             data.put("upstreamURL", Config.getString("upstreamURL"));
 
             data.put("server_version", Config.getString("server-version"));
+
+            Language language = Language.finder.byId(Config.getInt("default-language"));
+            data.put("default_language", language.toJson());
 
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");

@@ -89,6 +89,13 @@ public class Country extends HecticusModel {
         return response;
     }
 
+    public ObjectNode toJsonSimple() {
+        ObjectNode response = Json.newObject();
+        response.put("id_country", idCountry);
+        response.put("short_name", shortName);
+        return response;
+    }
+
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         List<Country> countries = Country.finder.all();

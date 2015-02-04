@@ -3,6 +3,7 @@ package models.clients;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Country;
+import models.basic.Language;
 import models.leaderboard.ClientBets;
 import models.leaderboard.Leaderboard;
 import models.leaderboard.LeaderboardGlobal;
@@ -44,6 +45,10 @@ public class Client extends HecticusModel {
     @JoinColumn(name = "id_country")
     private Country country;
 
+    @OneToOne
+    @JoinColumn(name = "id_language")
+    private Language language;
+
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasDevices> devices;
 
@@ -61,36 +66,40 @@ public class Client extends HecticusModel {
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
-    public Client(Integer status, String login, String password, Country country) {
+    public Client(Integer status, String login, String password, Country country, Language language) {
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
+        this.language = language;
     }
 
-    public Client(String userId, Integer status, String login, String password, Country country) {
+    public Client(String userId, Integer status, String login, String password, Country country, Language language) {
         this.userId = userId;
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
+        this.language = language;
     }
 
-    public Client(Integer status, String login, String password, Country country, String lastCheckDate) {
+    public Client(Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
         this.lastCheckDate = lastCheckDate;
+        this.language = language;
     }
 
-    public Client(String userId, Integer status, String login, String password, Country country, String lastCheckDate) {
+    public Client(String userId, Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
         this.userId = userId;
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
         this.lastCheckDate = lastCheckDate;
+        this.language = language;
     }
 
     public Integer getIdClient() {
@@ -181,6 +190,14 @@ public class Client extends HecticusModel {
         this.leaderboardGlobal = leaderboardGlobal;
     }
 
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
     public List<ClientBets> getClientBets() {
         return clientBets;
     }
@@ -232,7 +249,8 @@ public class Client extends HecticusModel {
         response.put("login", login);
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
-        response.put("country", country.toJson());
+        response.put("country", country.toJsonSimple());
+        response.put("language", language.toJson());
         if(devices != null && !devices.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(ClientHasDevices ad : devices){
@@ -244,7 +262,7 @@ public class Client extends HecticusModel {
         ArrayList<ObjectNode> alerts = new ArrayList<>();
         if(pushAlerts != null && !pushAlerts.isEmpty()){
             for(ClientHasPushAlerts ad : pushAlerts){
-                alerts.add(ad.toJson());
+                alerts.add(ad.getPushAlert().toJson());
             }
         }
         response.put("push_alerts", Json.toJson(alerts));
@@ -271,7 +289,8 @@ public class Client extends HecticusModel {
         response.put("login", login);
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
-        response.put("country", country.toJson());
+        response.put("country", country.toJsonSimple());
+        response.put("language", language.toJson());
         return response;
     }
 
