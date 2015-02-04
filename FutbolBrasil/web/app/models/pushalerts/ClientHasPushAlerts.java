@@ -28,11 +28,14 @@ public class ClientHasPushAlerts extends HecticusModel {
     @JoinColumn(name = "id_push_alert")
     private PushAlerts pushAlert;
 
+    private boolean status;
+
     public static Model.Finder<Integer, ClientHasPushAlerts> finder = new Model.Finder<Integer, ClientHasPushAlerts>(Integer.class, ClientHasPushAlerts.class);
 
     public ClientHasPushAlerts(Client client, PushAlerts pushAlert) {
         this.client = client;
         this.pushAlert = pushAlert;
+        this.status = true;
     }
 
     public Integer getIdClientHasPushAlert() {
@@ -67,11 +70,27 @@ public class ClientHasPushAlerts extends HecticusModel {
         this.pushAlert = pushAlert;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_client_has_push_alerts", idClientHasPushAlert);
         response.put("push_alert", pushAlert.toJson());
+        response.put("status", status);
+        return response;
+    }
+
+    public ObjectNode toJsonSimple() {
+        ObjectNode response = Json.newObject();
+        response.put("push_alert", pushAlert.toJson());
+        response.put("status", status);
         return response;
     }
 }

@@ -259,13 +259,19 @@ public class Client extends HecticusModel {
             response.put("devices", Json.toJson(apps));
         }
 
-        ArrayList<ObjectNode> alerts = new ArrayList<>();
+        ArrayList<ObjectNode> alertsInfo = new ArrayList<>();
+        ArrayList<ObjectNode> alertsTeams = new ArrayList<>();
         if(pushAlerts != null && !pushAlerts.isEmpty()){
             for(ClientHasPushAlerts ad : pushAlerts){
-                alerts.add(ad.getPushAlert().toJson());
+                if(ad.getPushAlert().getIdExt() > 0) {
+                    alertsTeams.add(ad.toJsonSimple());
+                } else {
+                    alertsInfo.add(ad.toJsonSimple());
+                }
             }
         }
-        response.put("push_alerts", Json.toJson(alerts));
+        response.put("push_alerts_teams", Json.toJson(alertsTeams));
+        response.put("push_alerts_info", Json.toJson(alertsInfo));
 
         ArrayList<ObjectNode> leaderBoard = new ArrayList<>();
         if(leaderboards != null && !leaderboards.isEmpty()){
