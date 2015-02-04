@@ -13,7 +13,10 @@ angular
 
             var _scroll = Utilities.newScroll.vertical('wrapper');
             var _scroll2 = Utilities.newScroll.vertical('wrapper2');
-				    var _event = {first:0, last:0};
+				    var _event = {first:0, last:0, reset: function() {
+				        _event.first = 0;
+				        _event.last = 0;
+				    }};
 
             $scope.interval = false;
             $scope.date = Utilities.moment().format('dddd Do YYYY');
@@ -60,7 +63,7 @@ angular
             };
 
             $scope.showContentEvents = function (_league, _match) {
-
+              _event.reset();
               $scope.item.mtm = [];
               $scope.item.league = _league;
               $scope.item.match = {

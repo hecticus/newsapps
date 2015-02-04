@@ -6,6 +6,7 @@ import controllers.HecticusController;
 import exceptions.UpstreamAuthenticationFailureException;
 import models.basic.Config;
 import models.basic.Country;
+import models.basic.Language;
 import models.clients.Client;
 import models.clients.ClientHasDevices;
 import models.clients.Device;
@@ -119,16 +120,18 @@ public class Clients extends HecticusController {
                     response = buildBasicResponse(0, "OK", client.toJson());
                     return ok(response);
                 }
-                if (clientData.has("country")) {
+                if (clientData.has("country") && clientData.has("language")) {
                     int countryId = clientData.get("country").asInt();
                     Country country = Country.finder.byId(countryId);
+                    int languageId = clientData.get("language").asInt();
+                    Language language = Language.finder.byId(languageId);
                     if (country != null) {
                         TimeZone tz = TimeZone.getDefault();
                         Calendar actualDate = new GregorianCalendar(tz);
                         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
                         String date = sf.format(actualDate.getTime());
 
-                        client = new Client(2, login, password, country, date);
+                        client = new Client(2, login, password, country, date, language);
                         ArrayList<ClientHasDevices> devices = new ArrayList<>();
                         Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                         while (devicesIterator.hasNext()) {
@@ -243,6 +246,15 @@ public class Clients extends HecticusController {
                     getStatusFromUpstream(client,upstreamChannel);
                 }
 
+                if(clientData.has("language")){
+                    int languageId = clientData.get("language").asInt();
+                    Language language = Language.finder.byId(languageId);
+                    if(language != null){
+                        client.setLanguage(language);
+                        update = true;
+                    }
+                }
+
                 if(clientData.has("remove_devices")){
                     Iterator<JsonNode> devicesIterator = clientData.get("remove_devices").elements();
                     ArrayList<ClientHasDevices> devices = new ArrayList<>();
@@ -297,12 +309,14 @@ public class Clients extends HecticusController {
                         if(pushAlert == null){
                             continue;
                         }
-                        ClientHasPushAlerts clientHasPushAlerts = ClientHasPushAlerts.finder.where().eq("client.idClient", client.getIdClient()).eq("pushAlert.idPushAlert", pushAlert.getIdPushAlert()).findUnique();
-                        if(clientHasPushAlerts != null){
-                            client.getPushAlerts().remove(clientHasPushAlerts);
-                            clientHasPushAlerts.delete();
+                        List<ClientHasPushAlerts> clientHasPushAlerts = ClientHasPushAlerts.finder.where().eq("client.idClient", client.getIdClient()).eq("pushAlert.idPushAlert", pushAlert.getIdPushAlert()).findList();
+                        if(clientHasPushAlerts != null && !clientHasPushAlerts.isEmpty()){
+                            for(ClientHasPushAlerts clientHasPushAlert : clientHasPushAlerts) {
+                                client.getPushAlerts().remove(clientHasPushAlert);
+                                clientHasPushAlert.delete();
+                            }
+                            update = true;
                         }
-
                     }
                 }
 
@@ -312,7 +326,7 @@ public class Clients extends HecticusController {
                         JsonNode next = alertsIterator.next();
                         int index = client.getPushAlertIndex(next.asInt());
                         if (index == -1) {
-                            PushAlerts pushAlert = PushAlerts.finder.byId(next.asInt());
+                            PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", next.asInt()).findUnique();
                             if (pushAlert != null) {
                                 ClientHasPushAlerts chpa = new ClientHasPushAlerts(client, pushAlert);
                                 client.getPushAlerts().add(chpa);
@@ -685,6 +699,27 @@ public class Clients extends HecticusController {
     }
 
 
+    public static Result getActiveLanguages(){
+        try {
+            ObjectNode response = null;
+            List<Language> activeLanguages = Language.finder.where().eq("active", 1).findList();
+            if(activeLanguages != null && !activeLanguages.isEmpty()) {
+                ArrayList<ObjectNode> languages = new ArrayList<>();
+                for(Language language : activeLanguages){
+                    languages.add(language.toJson());
+                }
+                ObjectNode responseData = Json.newObject();
+                responseData.put("languages", Json.toJson(languages));
+                response = buildBasicResponse(0, "OK", responseData);
+            } else {
+                response = buildBasicResponse(2, "no hay idiomas activos");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
 
 
 

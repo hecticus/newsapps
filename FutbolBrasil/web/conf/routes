@@ -93,3 +93,4 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/password                cont
 
 GET     /futbolbrasil/v1/clients/scorers/:idClient                          controllers.client.FootballManager.getScorers(idClient : Integer)
 
+GET     /futbolbrasil/v1/languages                                          controllers.client.Clients.getActiveLanguages()

@@ -32,11 +32,11 @@ angular
             $scope.pagesAfter = [];
 
             $scope.pages = [
-                {name: Utilities.moment().subtract(2, 'days').format('LL'), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
+                {name: Utilities.moment().subtract(2, 'days').format('ll'), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
                 {name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
                 {name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
                 {name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
-                {name: Utilities.moment().add(2, 'days').format('LL'), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
+                {name: Utilities.moment().add(2, 'days').format('ll'), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
             ];
 
             $scope.width = $window.innerWidth;

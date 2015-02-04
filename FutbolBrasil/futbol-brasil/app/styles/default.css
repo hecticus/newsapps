@@ -204,7 +204,7 @@ row:not(input):not(textarea) {
 
 	body.content-match .competition,
 	body.content-scorers .competition {
-		text-transform:uppercase;
+		/*text-transform:uppercase;*/
 		display:none;
 	}
 
@@ -249,7 +249,7 @@ row:not(input):not(textarea) {
 	div.header .caption {
 		text-align: center;
 		font-weight: bold;
-		text-transform: capitalize;
+	/*text-transform: capitalize;*/
 	}
 
 
@@ -494,5 +494,5 @@ body.content-mtm .row-back {
 
   .tabs {
     opacity: 0.5;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
   }
