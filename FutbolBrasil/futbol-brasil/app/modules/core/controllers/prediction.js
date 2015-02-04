@@ -58,11 +58,13 @@ angular
 
             $scope.saveBet = function (_iLeague, _tournament) {
 
-                var _jBets = [];
-                angular.forEach($scope.item.leagues[_iLeague].fixtures, function(_fixture) {
-                    angular.forEach(_fixture.matches, function(_match) {
-                        if (_match.bet) {
-                            _jBets.push({
+              $scope.$emit('load');
+
+              var _jBets = [];
+              angular.forEach($scope.item.leagues[_iLeague].fixtures, function(_fixture) {
+                angular.forEach(_fixture.matches, function(_match) {
+                  if (_match.bet) {
+                    _jBets.push({
                                 'id_tournament': _tournament,
                                 'id_game_match': _match.id_game_matches,
                                 'client_bet': _match.bet.client_bet
@@ -71,15 +73,14 @@ angular
                     });
                 });
 
-                console.log(JSON.stringify({bets:_jBets}));
-
-                $http.post(Domain.bets.create(), {bets:_jBets}).
-                    success(function(data) {
-                        alert('success');
-                    }).
-                    error(function (data) {
-                        alert('error')
-                    });
+              $http.post(Domain.bets.create(), {bets:_jBets}).
+              success(function(data) {
+                alert('success');
+                $scope.$emit('unload');
+              }).
+              error(function (data) {
+                alert('error')
+              })
 
             };
 
@@ -94,24 +95,17 @@ angular
 
 
             $scope.init = function(){
-                $http({method: 'GET', url: Domain.bets.get()})
-                    .then(function(obj) {
-                        $scope.item =  obj.data.response;
-                        //$scope.processDataBet();
-                        $rootScope.$storage.bet = JSON.stringify($scope.item);
-                        $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-                    })
-                    .finally(function(data) {
-                        $rootScope.loading = false;
-                        $rootScope.error = false;
-                    });
-
-                var _scroll = Utilities.newScroll.horizontal('wrapperH');
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    angular.forEach(_this.item.leagues, function(_item, _index) {
-                        Utilities.newScroll.vertical(_this.wrapper.getName(_index));
-                    });
-                });
+              $scope.$emit('load');
+              $http({method: 'GET', url: Domain.bets.get()})
+              .then(function(obj) {
+                $scope.item =  obj.data.response;
+                $rootScope.$storage.bet = JSON.stringify($scope.item);
+                $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
+              })
+              .finally(function(data) {
+                  $scope.$emit('unload');
+                  $rootScope.error = false;
+              });
 
             }();
 
