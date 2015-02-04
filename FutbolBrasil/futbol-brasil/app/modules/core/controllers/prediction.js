@@ -85,7 +85,7 @@ angular
             };
 
             $scope.getDate = function (_date) {
-                return Utilities.moment(_date).format('LL');
+                return Utilities.moment(_date).format('ll');
             };
 
 
