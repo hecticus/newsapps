@@ -11,71 +11,68 @@ angular
     .controller('StandingsCtrl',  ['$http','$rootScope','$scope','$state','$localStorage','Domain','Utilities',
         function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities) {
 
-            var _this = this;
             var _promise = false;
             var _scroll;
             var _scroll2;
             var _scroll3;
 
-            $rootScope.loading = false;
-            $rootScope.error = false;
+
 
             //TODO Sacar a Service
-            _this.fromNow = function(_date) {
+            $scope.fromNow = function(_date) {
                 return Utilities.moment(_date).format('MMMM Do YYYY');
             };
 
-            _this.showContentPhases = function(competition) {
+            $scope.showContentPhases = function(competition) {
 
                 $rootScope.loading = true;
-                _this.item.ranking = [];
-                _this.item.phases = [];
-                _this.item.competition = false;
+                $scope.item.ranking = [];
+                $scope.item.phases = [];
+                $scope.item.competition = false;
                 _promise = $http({method: 'GET', url: Domain.phases(competition.id_competitions)});
                 _promise.then(function(obj) {
 
-                    _this.item.phases = obj.data.response.phases;
-                    _this.item.competition = competition;
-                    if (_this.item.phases.length == 1) {
-                        _this.showContentRanking(_this.item.competition.id_competitions
-                            , _this.item.phases[0].id_phases);
+                    $scope.item.phases = obj.data.response.phases;
+                    $scope.item.competition = competition;
+                    if ($scope.item.phases.length == 1) {
+                        $scope.showContentRanking($scope.item.competition.id_competitions
+                            , $scope.item.phases[0].id_phases);
                     } else {
                          $rootScope.transitionPageBack('#wrapper2', 'left');
                         _scroll2.scrollTo(0,0,0);
                     }
 
                 }).finally(function(data) {
-                    $rootScope.loading = false;
+                    $scope.$emit('unload');
                     $rootScope.error = false;
                 });
 
             };
 
-            _this.showContentRanking = function(competition, phase) {
+            $scope.showContentRanking = function(competition, phase) {
 
-                $rootScope.loading = true;
-                _this.item.phase = false;
-                _this.item.ranking = [];
+                $scope.$emit('load');
+                $scope.item.phase = false;
+                $scope.item.ranking = [];
                 _promise = $http({method: 'GET', url: Domain.ranking(competition,phase)});
                 _promise.then(function(obj) {
 
-                    _this.item.tree = obj.data.response.tree;
-                    _this.item.phase = obj.data.response.phase;
-                    _this.item.ranking =  obj.data.response.ranking;
+                    $scope.item.tree = obj.data.response.tree;
+                    $scope.item.phase = obj.data.response.phase;
+                    $scope.item.ranking =  obj.data.response.ranking;
                     $rootScope.transitionPageBack('#wrapper3', 'left');
                     _scroll3.scrollTo(0,0,0);
 
                 }).finally(function(data) {
-                    $rootScope.loading = false;
+                    $scope.$emit('unload');
                     $rootScope.error = false;
                 });
 
             };
 
             $scope.init = function(){
-                console.log('standings.init');
-                _this.item = JSON.parse($rootScope.$storage.competitions);
-                console.log(_this.item);
+
+                $scope.item = JSON.parse($rootScope.$storage.competitions);
 
                 _scroll = new IScroll('#wrapper'
                     ,{click:true, preventDefault:true, bounce: true, probeType: 2});
@@ -93,6 +90,7 @@ angular
                     this.refresh();
                 });
             }();
+
 
         }
     ]);

@@ -18,6 +18,7 @@ angular
 				        _event.last = 0;
 				    }};
 
+
             $scope.interval = false;
             $scope.date = Utilities.moment().format('dddd Do YYYY');
             $scope.getTime = function (_date) {
@@ -29,7 +30,7 @@ angular
 
               if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
 
-                  $rootScope.loading = true;
+                  $scope.$emit('load');
                   $http({method: 'GET', url: Domain.mtm(5,390,_event.first)}).then(function (obj) {
 
                     if (obj.data.error == 0) {
@@ -49,7 +50,7 @@ angular
                     }
 
                   }).finally(function(data) {
-                      $rootScope.loading = false;
+                      $scope.$emit('unload');
                       $rootScope.error = Utilities.error();
                   });
 
@@ -79,11 +80,12 @@ angular
             };
 
             $scope.init = function(){
+              $scope.$emit('load');
               $http({method: 'GET', url: Domain.match(Utilities.moment().format('YYYYMMDD'), 100, 0)})
                 .then(function (obj) {
                     $scope.item = obj.data.response;
                 }).finally(function (data) {
-                    $rootScope.loading = false;
+                    $scope.$emit('unload');
                     $rootScope.error = Utilities.error();
                 });
             }();

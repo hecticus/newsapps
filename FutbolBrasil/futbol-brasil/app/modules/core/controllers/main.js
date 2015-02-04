@@ -11,6 +11,14 @@ angular
     .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', 'Domain', '$timeout','CordovaApp'
       , function($rootScope, $scope, $location, $state, $localStorage, $http, Domain, $timeout,CordovaApp) {
 
+        $scope.$on('load', function(){
+          $scope.loading = true;
+          $scope.error = false;
+        });
+
+        $scope.$on('unload', function(){ $scope.loading = false;  });
+        $scope.$on('error', function(){ $scope.error = true;  });
+
         $rootScope.$storage = $localStorage;
 
         $scope.isActive = function(className){
