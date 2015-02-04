@@ -25,7 +25,7 @@
                         <h3 class="title">{{contentNews.title}}</h3>
                         <i class="icon mdi-device-access-time"></i>
                         <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
-                        <p class="body">{{contentNews.body}}</p>
+                        <p class="body" ng-bind-html="contentNews.body"> </p>
                     </div>
                 </div>
             </div>

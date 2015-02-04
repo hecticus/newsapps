@@ -33,9 +33,12 @@ angular
                 return Utilities.moment(_date).fromNow();
             };
 
+
+
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
+                $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                 $rootScope.transitionPageBack('#wrapper2', 'left');
                 _scroll2.scrollTo(0,0,0);
             };
