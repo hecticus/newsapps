@@ -312,7 +312,7 @@ public class Clients extends HecticusController {
                         JsonNode next = alertsIterator.next();
                         int index = client.getPushAlertIndex(next.asInt());
                         if (index == -1) {
-                            PushAlerts pushAlert = PushAlerts.finder.byId(next.asInt());
+                            PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", next.asInt()).findUnique();
                             if (pushAlert != null) {
                                 ClientHasPushAlerts chpa = new ClientHasPushAlerts(client, pushAlert);
                                 client.getPushAlerts().add(chpa);
