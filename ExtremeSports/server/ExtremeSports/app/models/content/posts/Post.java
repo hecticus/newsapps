@@ -6,6 +6,7 @@ import models.HecticusModel;
 import models.basic.Country;
 import models.basic.Language;
 import models.content.athletes.Athlete;
+import models.content.athletes.Category;
 import models.content.athletes.SocialNetwork;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -28,7 +29,9 @@ public class Post extends HecticusModel {
     @Constraints.Required
     @ManyToOne
     @JoinColumn(name = "id_athlete")
-    private Athlete athlete;
+    private List<Athlete> athletes;
+
+    private List<Category> categories;
 
     @Constraints.Required
     private String date;
@@ -69,15 +72,15 @@ public class Post extends HecticusModel {
         localizations = new ArrayList<>();
     }
 
-    public Post(Athlete theme, String date, String source, SocialNetwork socialNetwork) {
-        this.athlete = theme;
+    public Post(List<Athlete> athletes, String date, String source, SocialNetwork socialNetwork) {
+        this.athletes = athletes;
         this.date = date;
         this.source = source;
         this.socialNetwork = socialNetwork;
     }
 
-    public Post(Athlete theme, String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
-        this.athlete = theme;
+    public Post(List<Athlete> athletes, String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
+        this.athletes = athletes;
         this.date = date;
         this.source = source;
         this.push = push;
@@ -93,12 +96,12 @@ public class Post extends HecticusModel {
         return idPost;
     }
 
-    public Athlete getAthlete() {
-        return athlete;
+    public List<Athlete> getAthletes() {
+        return athletes;
     }
 
-    public void setAthlete(Athlete athlete) {
-        this.athlete = athlete;
+    public void setAthletes(List<Athlete> athletes) {
+        this.athletes = athletes;
     }
 
     public String getDate() {
@@ -205,7 +208,7 @@ public class Post extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
-        response.put("athlete", athlete.toJsonWithNetworks());
+        //response.put("athletes", athletes.toJsonWithNetworks());
         response.put("date", date);
         response.put("source", source);
         response.put("push", push);
@@ -239,7 +242,7 @@ public class Post extends HecticusModel {
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
-        response.put("athlete", athlete.toJsonWithoutRelations());
+        //response.put("athletes", athletes.toJsonWithoutRelations());
         response.put("date", date);
         response.put("source", source);
         response.put("push", push);
@@ -252,8 +255,8 @@ public class Post extends HecticusModel {
     public ObjectNode toJson(Language language) {
         ObjectNode response = Json.newObject();
         response.put("id_post", idPost);
-//        response.put("athlete", athlete.toJsonWithoutRelations());
-        response.put("athlete", athlete.toJsonWithNetworks());
+//        response.put("athletes", athletes.toJsonWithoutRelations());
+        //response.put("athletes", athletes.toJsonWithNetworks());
         response.put("date", date);
         response.put("source", source);
         response.put("social_network", socialNetwork.toJson());
@@ -314,6 +317,6 @@ public class Post extends HecticusModel {
     }
 
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().ilike("athlete.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+        return finder.where().ilike("athletes.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 }

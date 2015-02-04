@@ -87,9 +87,9 @@ public class Athletes extends HecticusController {
                     Iterator<JsonNode> categories = athleteData.get("add_categories").elements();
                     while (categories.hasNext()){
                         JsonNode next = categories.next();
-                        Sport category = Sport.finder.byId(next.asInt());
+                        Category category = Category.finder.byId(next.asInt());
                         if(category != null){
-                            AthleteHasSport whc = new AthleteHasSport(category, athlete);
+                            AthleteHasCategory whc = new AthleteHasCategory(category, athlete);
                             whc.save();
                         }
                     }
@@ -99,7 +99,7 @@ public class Athletes extends HecticusController {
                     Iterator<JsonNode> categories = athleteData.get("remove_categories").elements();
                     while (categories.hasNext()){
                         JsonNode next = categories.next();
-                        AthleteHasSport whc = AthleteHasSport.finder.where().eq("athlete.idAthlete", athlete.getIdAthlete()).eq("idWomanHasSport", next.asInt()).findUnique();
+                        AthleteHasCategory whc = AthleteHasCategory.finder.where().eq("athlete.idAthlete", athlete.getIdAthlete()).eq("idWomanHasSport", next.asInt()).findUnique();
                         if(whc != null){
                             whc.delete();
                         }
@@ -191,16 +191,15 @@ public class Athletes extends HecticusController {
 
         if(data.has("categories")){
             Iterator<JsonNode> categories = data.get("categories").elements();
-            ArrayList<AthleteHasSport> cats = new ArrayList<>();
+            ArrayList<AthleteHasCategory> cats = new ArrayList<>();
             while (categories.hasNext()){
                 JsonNode next = categories.next();
-                Sport category = Sport.finder.byId(next.asInt());
+                Category category = Category.finder.byId(next.asInt());
                 if(category != null){
-                    AthleteHasSport whc = new AthleteHasSport(category, athlete);
+                    AthleteHasCategory whc = new AthleteHasCategory(category, athlete);
                     cats.add(whc);
                 }
             }
-            athlete.setSports(cats);
         }
 
         if(data.has("default_photo")){

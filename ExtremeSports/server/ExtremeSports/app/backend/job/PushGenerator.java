@@ -53,51 +53,51 @@ public class PushGenerator extends HecticusThread {
     }
 
     private void getEventsToGenerate() {
-        int idApp = Config.getInt("pmc-app-id");
-        List<Post> push = Post.finder.where().eq("push", 1).lt("pushDate", System.currentTimeMillis()).findList();
-        ArrayList<Integer> clients = new ArrayList<>();
-        if(push != null && !push.isEmpty()){
-            for (Post post : push){
-                post.setPush(2);
-                post.update();
-                Athlete theme = post.getAthlete();
-                List<ClientHasAthlete> clientsList = theme.getClients();
-                Collections.sort(clientsList, clientHasThemeComparator);
-                List<PostHasLocalization> localizations = post.getLocalizations();
-                for (PostHasLocalization postHasLocalization : localizations){
-                    try {
-                        clients.clear();
-                        boolean found = false;
-                        for(ClientHasAthlete clientHasTheme : clientsList){
-                            Client client = clientHasTheme.getClient();
-                            if(client.getCountry().getLanguage() == postHasLocalization.getLanguage() && client.getDevices() != null && !client.getDevices().isEmpty()){
-                                clients.add(client.getIdClient());
-                                found = true;
-                            } else {
-                                if(found){
-                                    break;
-                                }
-                            }
-                        }
-                        if(!clients.isEmpty()) {
-                            ObjectNode event = Json.newObject();
-                            event.put("app", idApp);
-                            event.put("msg", postHasLocalization.getTitle());
-                            ObjectNode extraParams = Json.newObject();
-                            extraParams.put("id_post", post.getIdPost());
-                            extraParams.put("id_theme", theme.getIdAthlete());
-                            event.put("extra_params", extraParams);
-                            event.put("clients", Json.toJson(clients));
-                            sendEventToPmc(event);
-                        }
-                    } catch (Exception ex) {
-                        Utils.printToLog(PushGenerator.class, null, "Error generando push", false, ex, "support-level-1", Config.LOGGER_ERROR);
-                    }
-                }
-                post.setPush(3);
-                post.update();
-            }
-        }
+//        int idApp = Config.getInt("pmc-app-id");
+//        List<Post> push = Post.finder.where().eq("push", 1).lt("pushDate", System.currentTimeMillis()).findList();
+//        ArrayList<Integer> clients = new ArrayList<>();
+//        if(push != null && !push.isEmpty()){
+//            for (Post post : push){
+//                post.setPush(2);
+//                post.update();
+//                Athlete theme = post.getAthletes();
+//                List<ClientHasAthlete> clientsList = theme.getClients();
+//                Collections.sort(clientsList, clientHasThemeComparator);
+//                List<PostHasLocalization> localizations = post.getLocalizations();
+//                for (PostHasLocalization postHasLocalization : localizations){
+//                    try {
+//                        clients.clear();
+//                        boolean found = false;
+//                        for(ClientHasAthlete clientHasTheme : clientsList){
+//                            Client client = clientHasTheme.getClient();
+//                            if(client.getCountry().getLanguage() == postHasLocalization.getLanguage() && client.getDevices() != null && !client.getDevices().isEmpty()){
+//                                clients.add(client.getIdClient());
+//                                found = true;
+//                            } else {
+//                                if(found){
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                        if(!clients.isEmpty()) {
+//                            ObjectNode event = Json.newObject();
+//                            event.put("app", idApp);
+//                            event.put("msg", postHasLocalization.getTitle());
+//                            ObjectNode extraParams = Json.newObject();
+//                            extraParams.put("id_post", post.getIdPost());
+//                            extraParams.put("id_theme", theme.getIdAthlete());
+//                            event.put("extra_params", extraParams);
+//                            event.put("clients", Json.toJson(clients));
+//                            sendEventToPmc(event);
+//                        }
+//                    } catch (Exception ex) {
+//                        Utils.printToLog(PushGenerator.class, null, "Error generando push", false, ex, "support-level-1", Config.LOGGER_ERROR);
+//                    }
+//                }
+//                post.setPush(3);
+//                post.update();
+//            }
+//        }
     }
 }
 

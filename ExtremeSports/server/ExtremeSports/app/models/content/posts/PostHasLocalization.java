@@ -32,6 +32,7 @@ public class PostHasLocalization extends HecticusModel {
     private String title;
 
     @Constraints.Required
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     public static Model.Finder<Integer, PostHasLocalization> finder = new Model.Finder<Integer, PostHasLocalization>(Integer.class, PostHasLocalization.class);

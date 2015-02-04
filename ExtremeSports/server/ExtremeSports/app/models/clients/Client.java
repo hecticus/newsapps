@@ -43,7 +43,7 @@ public class Client extends HecticusModel {
     private List<ClientHasDevices> devices;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    private List<ClientHasAthlete> athletes;
+    private List<ClientHasAthlete> athletes;//eliminar???
 
     public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 

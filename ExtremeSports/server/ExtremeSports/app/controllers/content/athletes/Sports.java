@@ -2,7 +2,7 @@ package controllers.content.athletes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
-import models.content.athletes.Sport;
+import models.content.athletes.Category;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -20,9 +20,9 @@ public class Sports extends HecticusController {
             ObjectNode sportData = getJson();
             ObjectNode response = null;
             if(sportData.has("name")){
-                Sport sport = new Sport(sportData.get("name").asText());
-                sport.save();
-                response = buildBasicResponse(0, "OK", sport.toJson());
+                Category category = new Category(sportData.get("name").asText());
+                category.save();
+                response = buildBasicResponse(0, "OK", category.toJson());
             } else {
                 response = buildBasicResponse(1, "Faltan campos para crear el registro");
             }
@@ -36,17 +36,17 @@ public class Sports extends HecticusController {
         try{
             ObjectNode sportData = getJson();
             ObjectNode response = null;
-            Sport sport = Sport.finder.byId(id);
-            if(sport != null) {
+            Category category = Category.finder.byId(id);
+            if(category != null) {
                 boolean save = false;
                 if (sportData.has("name") ) {
-                    sport.setName(sportData.get("name").asText());
+                    category.setName(sportData.get("name").asText());
                     save = true;
                 }
                 if(save){
-                    sport.update();
+                    category.update();
                 }
-                response = buildBasicResponse(0, "OK", sport.toJson());
+                response = buildBasicResponse(0, "OK", category.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a modificar");
             }
@@ -59,10 +59,10 @@ public class Sports extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            Sport sport = Sport.finder.byId(id);
-            if(sport != null) {
-                sport.delete();
-                response = buildBasicResponse(0, "OK", sport.toJson());
+            Category category = Category.finder.byId(id);
+            if(category != null) {
+                category.delete();
+                response = buildBasicResponse(0, "OK", category.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a eliminar");
             }
@@ -75,9 +75,9 @@ public class Sports extends HecticusController {
     public static Result get(Integer id){
         try {
             ObjectNode response = null;
-            Sport sport = Sport.finder.byId(id);
-            if(sport != null) {
-                response = buildBasicResponse(0, "OK", sport.toJson());
+            Category category = Category.finder.byId(id);
+            if(category != null) {
+                response = buildBasicResponse(0, "OK", category.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a consultar");
             }
@@ -91,11 +91,11 @@ public class Sports extends HecticusController {
     public static Result list(Integer pageSize,Integer page){
         try {
 
-            Iterator<Sport> sportIterator = null;
+            Iterator<Category> sportIterator = null;
             if(pageSize == 0){
-                sportIterator = Sport.finder.all().iterator();
+                sportIterator = Category.finder.all().iterator();
             }else{
-                sportIterator = Sport.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+                sportIterator = Category.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
             }
 
             ArrayList<ObjectNode> categories = new ArrayList<ObjectNode>();

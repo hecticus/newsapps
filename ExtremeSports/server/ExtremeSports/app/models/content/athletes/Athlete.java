@@ -40,10 +40,7 @@ public class Athlete extends HecticusModel {
     private List<AthleteHasSocialNetwork> socialNetworks;
 
     @OneToMany(mappedBy="athlete", cascade = CascadeType.ALL)
-    private List<ClientHasAthlete> clients;
-
-    @OneToMany(mappedBy="athlete", cascade = CascadeType.ALL)
-    private List<AthleteHasSport> sports;
+    private List<ClientHasAthlete> clients;//eliminar???
 
     public static Model.Finder<Integer, Athlete> finder = new Model.Finder<Integer, Athlete>(Integer.class, Athlete.class);
 
@@ -81,14 +78,6 @@ public class Athlete extends HecticusModel {
 
     public void setSocialNetworks(List<AthleteHasSocialNetwork> socialNetworks) {
         this.socialNetworks = socialNetworks;
-    }
-
-    public List<AthleteHasSport> getSports() {
-        return sports;
-    }
-
-    public void setSports(List<AthleteHasSport> sports) {
-        this.sports = sports;
     }
 
     public List<ClientHasAthlete> getClients() {
@@ -139,13 +128,6 @@ public class Athlete extends HecticusModel {
 //        }
         response.put("clients", clients == null?0:clients.size());
         response.put("posts", posts == null?0:posts.size());
-        if(sports != null && !sports.isEmpty()){
-            ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(AthleteHasSport ad : sports){
-                apps.add(ad.toJsonWithoutWoman());
-            }
-            response.put("sports", Json.toJson(apps));
-        }
         return response;
     }
 
@@ -175,13 +157,7 @@ public class Athlete extends HecticusModel {
         if(posts != null && !posts.isEmpty()){
             response.put("latest_post", posts.get(posts.size()-1).toJson());
         }
-        if(sports != null && !sports.isEmpty()){
-            ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(AthleteHasSport ad : sports){
-                apps.add(ad.toJsonWithoutWoman());
-            }
-            response.put("sports", Json.toJson(apps));
-        }
+
         return response;
     }
 
@@ -216,14 +192,7 @@ public class Athlete extends HecticusModel {
             }
             response.put("social_networks", Json.toJson(apps));
         }
-        //se le agrega tambien las categorias de una vez
-        if(sports != null && !sports.isEmpty()){
-            ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(AthleteHasSport ad : sports){
-                apps.add(ad.toJsonWithoutWoman());
-            }
-            response.put("sports", Json.toJson(apps));
-        }
+
         return response;
     }
 

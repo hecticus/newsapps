@@ -9,12 +9,11 @@ import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.clients.Client;
+import models.content.athletes.AthleteHasCategory;
+import models.content.athletes.Category;
 import models.content.posts.*;
-import models.content.athletes.Sport;
 import models.content.athletes.SocialNetwork;
 import models.content.athletes.Athlete;
-import models.content.athletes.AthleteHasSport;
-import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -37,20 +36,20 @@ public class Posts extends HecticusController {
         ObjectNode postData = getJson();
         try{
             ObjectNode response = null;
-            if(postData.has("theme") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
-                Athlete theme = null;
-                if(postData.get("theme").isInt()){
-                    theme = Athlete.finder.byId(postData.get("theme").asInt());
+            if(postData.has("athlete") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
+                List<Athlete> athlete = null;
+                if(postData.get("athlete").isInt()){
+                    //athlete = Athlete.finder.byId(postData.get("athlete");
                 } else {
-                    ObjectNode themeData = (ObjectNode) postData.get("theme");
-                    if(themeData.has("name")){
-                        theme = Athletes.createAthlete(themeData);
+                    ObjectNode athleteData = (ObjectNode) postData.get("athlete");
+                    if(athleteData.has("name")){
+                        //athlete = Athletes.createAthlete(athleteData);
                     } else {
                         response = buildBasicResponse(1, "Faltan campos para crear el registro");
                         return ok(response);
                     }
                 }
-                if(theme == null){
+                if(athlete == null){
                     response = buildBasicResponse(1, "Faltan campos para crear el registro");
                     return ok(response);
                 }
@@ -65,7 +64,7 @@ public class Posts extends HecticusController {
                 Calendar actualDate = new GregorianCalendar(tz);
                 SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
                 String date = sf.format(actualDate.getTime());
-                Post post = new Post(theme, date, postData.get("source").asText(), socialNetwork);
+                Post post = new Post(athlete, date, postData.get("source").asText(), socialNetwork);
 
                 Iterator<JsonNode> localizationsIterator = postData.get("localizations").elements();
                 ArrayList<PostHasLocalization> localizations = new ArrayList<>();
@@ -106,12 +105,12 @@ public class Posts extends HecticusController {
                         int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
                         String file = next.get("file").asText();
                         String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
-                        String path = Utils.uploadAttachment(file, theme.getIdAthlete());
+                        //String path = Utils.uploadAttachment(file, athlete.getIdAthlete());
                         BufferedImage bimg = ImageIO.read(new File(file));
                         int width = bimg.getWidth();
                         int height  = bimg.getHeight();
-                        PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
-                        media.add(phm);
+                        //PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
+                        //media.add(phm);
                     }
                 }
                 if(media.isEmpty()){
@@ -153,25 +152,25 @@ public class Posts extends HecticusController {
             Post post = Post.finder.byId(id);
             if(post != null) {
                 boolean update = false;
-                if(postData.has("theme")){
-                    Athlete theme = null;
-                    if(postData.get("theme").isInt()){
-                        theme = Athlete.finder.byId(postData.get("theme").asInt());
+                if(postData.has("athlete")){
+                    Athlete athlete = null;
+                    if(postData.get("athlete").isInt()){
+                        athlete = Athlete.finder.byId(postData.get("athlete").asInt());
                     } else {
-                        ObjectNode themeData = (ObjectNode) postData.get("theme");
-                        if(themeData.has("name")){
-                            theme = Athletes.createAthlete(themeData);
+                        ObjectNode athleteData = (ObjectNode) postData.get("athlete");
+                        if(athleteData.has("name")){
+                            athlete = Athletes.createAthlete(athleteData);
                         } else {
                             response = buildBasicResponse(1, "Faltan campos para crear el registro");
                             return ok(response);
                         }
                     }
-                    if(theme == null){
+                    if(athlete == null){
                         response = buildBasicResponse(1, "La modelo especificada no existe");
                         return ok(response);
                     }
-                    if(theme != post.getAthlete()){
-                        post.setAthlete(theme);
+                    if(athlete != post.getAthletes()){
+                        //post.setAthletes(athlete);
                         update = true;
                     }
                 }
@@ -280,12 +279,12 @@ public class Posts extends HecticusController {
                             String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
                             int index = post.getMediaIndex(md5);
                             if(index == -1){
-                                String path = Utils.uploadAttachment(file, post.getAthlete().getIdAthlete());
+                                //String path = Utils.uploadAttachment(file, post.getAthletes().getIdAthlete());
                                 BufferedImage bimg = ImageIO.read(new File(file));
                                 int width = bimg.getWidth();
                                 int height  = bimg.getHeight();
-                                PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
-                                post.getMedia().add(phm);
+                                //PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
+                                //post.getMedia().add(phm);
                                 update = true;
                             }
                         }
@@ -395,17 +394,17 @@ public class Posts extends HecticusController {
     public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idAthlete, Integer idSport, Boolean onlyMedia){
         try {
             Client client = Client.finder.byId(id);
-            Athlete theme = null;
-            Sport category = null;
+            Athlete athlete = null;
+            Category category = null;
             ObjectNode response = null;
             if(idAthlete > 0){
-                theme = Athlete.finder.byId(idAthlete);
-                if(theme == null) {
+                athlete = Athlete.finder.byId(idAthlete);
+                if(athlete == null) {
                     response = buildBasicResponse(2, "la mujer no existe");
                     return ok(response);
                 }
             } else if(idSport > 0){
-                category = Sport.finder.byId(idSport);
+                category = Category.finder.byId(idSport);
                 if(category == null) {
                     response = buildBasicResponse(2, "la categoria no existe");
                     return ok(response);
@@ -421,21 +420,21 @@ public class Posts extends HecticusController {
                     maxRows = 1;
                 }
                 if(postId > 0) {
-                    if(theme != null) {
+                    if(athlete != null) {
                         if (newest) {
 //                            System.out.println("AthletePostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("theme.idAthlete", theme.getIdAthlete()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("athlete.idAthlete", athlete.getIdAthlete()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("AthletePostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("theme.idAthlete", theme.getIdAthlete()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("athlete.idAthlete", athlete.getIdAthlete()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else if (category != null){
                         if (newest) {
 //                            System.out.println("SportPostNewest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("theme.categories.category.idSport", category.getIdSport()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("athlete.categories.category.idSport", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         } else {
 //                            System.out.println("SportPostOldest");
-                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("theme.categories.category.idSport", category.getIdSport()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                            postIterator = Post.finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("athlete.categories.category.idSport", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                         }
                     } else {
                         if (newest) {
@@ -447,12 +446,12 @@ public class Posts extends HecticusController {
                         }
                     }
                 } else {
-                    if(theme != null) {
+                    if(athlete != null) {
 //                        System.out.println("AthletePost");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("theme.idAthlete", theme.getIdAthlete()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("athlete.idAthlete", athlete.getIdAthlete()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     } else if (category != null){
 //                        System.out.println("SportPost");
-                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("theme.categories.category.idSport", category.getIdSport()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                        postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("athlete.categories.category.idSport", category.getIdCategory()).eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                     } else {
 //                        System.out.println("Post");
                         postIterator = Post.finder.fetch("countries").fetch("localizations").where().eq("countries.country.idCountry", country.getIdCountry()).eq("localizations.language.idLanguage", language.getIdLanguage()).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
@@ -462,7 +461,7 @@ public class Posts extends HecticusController {
                 //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
-                    int index = client.getAthleteIndex(post.getAthlete().getIdAthlete());
+                    int index = 0;//client.getAthleteIndex(post.getAthletes().getIdAthlete());
                     ObjectNode postJson;
                     if(onlyMedia){
                         postJson = post.toJsonOnlyMedia(language);
@@ -491,9 +490,9 @@ public class Posts extends HecticusController {
     public static Result getListForAthlete(Integer id){
         try {
             ObjectNode response = null;
-            Athlete theme = Athlete.finder.byId(id);
-            if(theme != null) {
-                Iterator<Post> postIterator = theme.getPosts().iterator();
+            Athlete athlete = Athlete.finder.byId(id);
+            if(athlete != null) {
+                Iterator<Post> postIterator = athlete.getPosts().iterator();
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
                 while(postIterator.hasNext()){
                     posts.add(postIterator.next().toJson());
@@ -535,22 +534,22 @@ public class Posts extends HecticusController {
                 Country country = client.getCountry();
                 Language language = country.getLanguage();
                 //obtenemos todos los id de las mujeres de una categoria
-                List<AthleteHasSport> athletesCat = AthleteHasSport.finder.where().eq("id_category",idSport).findList();
+                List<AthleteHasCategory> athletesCat = AthleteHasCategory.finder.where().eq("id_category",idSport).findList();
                 ArrayList athletes = new ArrayList();
                 for(int i=0; i<athletesCat.size(); i++){
                     athletes.add(athletesCat.get(i).getAthlete().getIdAthlete());
                 }
-                Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").fetch("theme").where().
+                Iterator<Post> postIterator = Post.finder.fetch("countries").fetch("localizations").fetch("athlete").where().
                         eq("countries.country.idCountry", country.getIdCountry()).
                         eq("localizations.language.idLanguage",language.getIdLanguage()).
-                        in("theme.idAthlete",athletes).
+                        in("athlete.idAthlete",athletes).
                         setFirstRow(pageSize*page).setMaxRows(pageSize).orderBy("date desc").findList().iterator();
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
 
                 //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
-                    int index = client.getAthleteIndex(post.getAthlete().getIdAthlete());
+                    int index = 0; // client.getAthleteIndex(post.getAthletes().getIdAthlete());
                     ObjectNode postJson = post.toJson(language);
                     if(index != -1){
                         //si la tiene como favorita
