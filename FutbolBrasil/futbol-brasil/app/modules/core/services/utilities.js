@@ -40,9 +40,8 @@ angular
              * @return {boolean} Returns a boolean value
              */
             moment:function (_date) {
-                var _oMoment = moment();
+                var _oMoment = moment().lang('pt-br');
                 if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm');
-                _oMoment.locale('es');
                 return _oMoment;
             },
 

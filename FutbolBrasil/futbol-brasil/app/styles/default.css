@@ -34,14 +34,14 @@ a:active { color: #FFFFFF !important; text-decoration: none  !important; }
     width: 100%;
 }
 
-body.content-mtm #wrapper2 {
+/*body.content-mtm #wrapper2 {
     position: absolute;
     z-index: 3;
-    top: 0;
+    top: 0px;
     bottom: 0;
     left: 0;
     width: 100%;
-}
+}*/
 
 /*#wrapper2,
 #wrapper3 {
@@ -69,7 +69,10 @@ header, footer {
 
 header {
     top: 0;
-    background: #313f75 url(../img/bg.png) repeat-x fixed;
+    background-image: url(../img/bg.png);
+    background-color: #313f75;
+    background-repeat: repeat-x;
+    background-attachment: fixed;
 }
 
 footer {
@@ -181,6 +184,117 @@ body.content-standings #wrapper .scroller .container .row .competition .title,
 body.content-news #wrapper .scroller .container .row .news .title {color:#00102B;}
 
 
+
+body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
+
+
+body.content-news #wrapper2 .scroller .container .row .news:last-child {border: 0 !important;}
+body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
+
+body.content-news #wrapper2 .scroller .container .row .news .moment {
+    color:#3B9444;
+}
+
+
+body.content-news #wrapper2 .scroller .container .row .news .body {
+    margin-top:20px !important;
+    padding-top:20px !important;
+    border-top: solid 1pt #2B2B2B !important;
+}
+
+body.content-match .competition,
+body.content-scorers .competition {
+    /*text-transform:uppercase;*/
+    display:none;
+}
+
+body.content-match .competition.active,
+body.content-scorers .competition.active{
+    display:block;
+}
+
+
+
+table thead tr th {
+    text-align: center;
+    color: #ffffff;
+    background: #3B5CA9;
+    margin: 0 !important;
+}
+
+table tbody tr td {
+    text-align: center;
+    font-size: 0.8em;
+    margin: 0 !important;
+}
+
+
+
+div.header {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left:0;
+    right:0;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background-color: #3B9444;
+    padding: 0 !important;
+    margin:0 !important;
+    border: 0;
+    color:#ffffff;
+}
+
+div.header .caption {
+    text-align: center;
+    font-weight: bold;
+    /*text-transform: capitalize;*/
+}
+
+
+div.header .left {
+    text-align: right;
+}
+
+div.header .center {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+div.header .right {
+    text-align: left;
+}
+
+.error {
+    position: relative;
+    margin: 0 auto;
+    text-align:center;
+    color: #9D9D9D;
+    width: 100%;
+    height:auto;
+    left: 0;
+    top: 25%;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+}
+
+
+.loading {
+    position: absolute;
+    margin: 0 auto;
+    text-align:center;
+    width: 100%;
+    height:auto;
+    left: 0;
+    top: 45%;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    font-size:1.8em;
+}
 
 body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
 
@@ -407,8 +521,6 @@ body.content-mtm .row-back {
     background-color: #ffffff;
 }
 
-
-
 .date { font-weight: bold; font-size: 2em; }
 .winner { font-weight: bold; }
 .goal { font-size: 1.6em; }
@@ -453,7 +565,6 @@ body.content-mtm .row-back {
     }
 }
 
-
 .bet-content {
     position: absolute;
     z-index: 10;
@@ -466,7 +577,6 @@ body.content-mtm .row-back {
     margin: 0 auto;
     background-color:red;
 }
-
 
 /*menu*/
 
@@ -486,5 +596,5 @@ i.back-button.active {
 
 .tabs {
     opacity: 0.5;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
 }
