@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('PushManager', ['$window', 'ClientManager', 'CordovaDevice',
-        function($window, ClientManager, CordovaDevice) {
+    .factory('PushManager', ['$window', 'ClientManager', 'Client', 'CordovaDevice',
+        function($window, ClientManager, Client, CordovaDevice) {
             var pushNotification = {};
             var that = '';
 
@@ -16,13 +16,13 @@ angular
 
                 tokenHandler : function (result) {
                     //console.log('<li>token: '+ result +'</li>');
-                    ClientManager.saveRegId(result);
+                    Client.setRegId(result);
                 },
 
                 successPushHandler : function (result) {
                     console.log('<li>success:'+ result +'</li>');
                     if(result != null && result != ""){
-                        ClientManager.saveRegId(result);
+                        Client.setRegId(result);
                     }
                 },
 
@@ -58,7 +58,7 @@ angular
                             {
                                 console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
                                 console.log("PushManager. regID = " + e.regid);
-                                ClientManager.saveRegId(e.regid);
+                                Client.setRegId(e.regid);
                             }
                             break;
 

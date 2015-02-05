@@ -10,24 +10,23 @@ angular
     .factory('Domain', function(){
 
         var football_manager_url = 'http://footballmanager.hecticus.com/';
-        var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com';
+        var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
 //        var brazil_football_manager_url = 'http://10.0.3.127:9000';
 
         return {
 
             loading: function (width, height) {
-                return brazil_football_manager_url + '/api/loading/'
+                return brazil_football_manager_url + 'api/loading/'
                     + width + '/' + height;
             },
 
             clients: {
-                create: brazil_football_manager_url + "/futbolbrasil/v1/clients/create",
-//                create: brazil_football_manager_url + "/futbolbrasil/v1/clients/create?callback=JSON_CALLBACK",
+                create: brazil_football_manager_url + "futbolbrasil/v1/clients/create",
                 update: function (clientId) {
-                    return brazil_football_manager_url + "/futbolbrasil/v1/clients/update/" + clientId;
+                    return brazil_football_manager_url + "futbolbrasil/v1/clients/update/" + clientId;
                 },
                 get: function (clientId, upstreamChannel) {
-                    return brazil_football_manager_url + "/futbolbrasil/v1/clients/get/"
+                    return brazil_football_manager_url + "futbolbrasil/v1/clients/get/"
                         + clientId + '/' + upstreamChannel;
                 }
             },
@@ -50,6 +49,10 @@ angular
                     return football_manager_url + 'newsapi/v1/news/scroll/down/rest/1/'
                         + _news;
                 }
+            },
+
+            teams:{
+                index: football_manager_url + 'footballapi/v1/team/app/all/1'
             },
 
             standings: function () {
@@ -80,10 +83,10 @@ angular
 
             bets: {
                 get: function () {
-                  return brazil_football_manager_url + '/futbolbrasil/v1/clients/bets/get/1';
+                  return brazil_football_manager_url + 'futbolbrasil/v1/clients/bets/get/1';
                 },
                 create:  function () {
-                  return brazil_football_manager_url + '/futbolbrasil/v1/clients/bets/create/1';
+                  return brazil_football_manager_url + 'futbolbrasil/v1/clients/bets/create/1';
                 }
             }
         };

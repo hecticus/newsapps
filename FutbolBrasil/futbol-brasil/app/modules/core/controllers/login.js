@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager'
-        , function($rootScope, $scope, $state, ClientManager) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'Client'
+        , function($rootScope, $scope, $state, ClientManager, Client) {
 
             $scope.msisdn = '';
             $scope.password = '';
@@ -18,17 +18,13 @@ angular
             $scope.sendMsisdn = function(){
                 if($scope.msisdn){
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
-                    ClientManager.saveClientMSISDN($scope.msisdn,
+                    Client.setMsisdn($scope.msisdn,
                     function(){
                         ClientManager.createOrUpdateClient($scope.msisdn, null, true
                                 , $scope.showPasswordScreen, $scope.showClientSignUpError);
-                        console.log('ClientManager.clientMSISDN: ');
-                        console.log(ClientManager.getClientMSISDN());
                     },
                     function(){
                         console.log('Error saving MSISDN');
-                        console.log('ClientManager.clientMSISDN: ');
-                        console.log(ClientManager.getClientMSISDN());
                     });
                 } else {
                     alert('Please input your phone number');

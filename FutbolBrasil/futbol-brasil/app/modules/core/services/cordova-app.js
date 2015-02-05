@@ -8,8 +8,9 @@
 angular
     .module('core')
     .factory('CordovaApp',['Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
-        , 'FacebookManager',
-        function(Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager) {
+        , 'FacebookManager', 'Client', 'Settings',
+        function(Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
+            , Client, Settings) {
             var that = this;
 
             return {
@@ -46,7 +47,7 @@ angular
                     if(!!StatusBar) {
                         StatusBar.hide();
                     }
-                    ClientManager.checkStoredData();
+                    Settings.init();
                     ClientManager.init(that.startApp, that.errorStartApp);
                     if (CordovaDevice.phonegapIsOnline()) {
                         WebManager.loadServerConfigs(

@@ -36,7 +36,7 @@ angular
         ]);
     }
     ])
-    .run(function($rootScope, $localStorage, $state, ClientManager, CordovaApp) {
+    .run(function($rootScope, $localStorage, $state, CordovaApp, ClientManager, Client) {
         CordovaApp.init();
         $rootScope.contentClass = 'content-init';
         $rootScope.$storage = $localStorage.$default({
@@ -52,12 +52,12 @@ angular
             $rootScope.error = false;
 
             if(toState.name !== 'login'){
-                if(!ClientManager.isClientOk()){
+                if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(CordovaApp.startApp, CordovaApp.errorStartApp);
                 }
 
-                if(!ClientManager.isClientOk() && toState.name !== 'login'){
+                if(!Client.isClientOk() && toState.name !== 'login'){
                     console.log('User not Authenticated');
                     event.preventDefault();
                     $state.go('login');
