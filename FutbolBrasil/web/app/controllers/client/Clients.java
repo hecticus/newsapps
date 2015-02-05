@@ -305,7 +305,7 @@ public class Clients extends HecticusController {
                     Iterator<JsonNode> alertsIterator = clientData.get("remove_push_alert").elements();
                     while (alertsIterator.hasNext()) {
                         JsonNode next = alertsIterator.next();
-                        PushAlerts pushAlert = PushAlerts.finder.byId(next.asInt());
+                        PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", next.asInt()).findUnique();
                         if(pushAlert == null){
                             continue;
                         }

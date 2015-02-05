@@ -215,11 +215,11 @@ public class Client extends HecticusModel {
     }
 
     public int getPushAlertIndex(int pushAlertId) {
-        PushAlerts pushAlert = PushAlerts.finder.byId(pushAlertId);
+        PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", pushAlertId).findUnique();
         if(pushAlert == null){
             return -1;
         }
-        ClientHasPushAlerts clientHasPushAlert = ClientHasPushAlerts.finder.where().eq("client.idClient", idClient).eq("pushAlert.idPushAlert", pushAlert.getIdPushAlert()).findUnique();
+        ClientHasPushAlerts clientHasPushAlert = ClientHasPushAlerts.finder.where().eq("client", this).eq("pushAlert", pushAlert).findUnique();
         if(clientHasPushAlert == null){
             return -1;
         }
