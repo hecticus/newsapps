@@ -59,6 +59,8 @@ angular
 
             $scope.saveBet = function (_iLeague, _tournament) {
 
+
+
               $scope.$emit('load');
 
               var _jBets = [];
@@ -74,6 +76,7 @@ angular
                 });
               });
 
+              console.log(JSON.stringify(_jBets));
 
               $http.post(Domain.bets.create(), {bets:_jBets}).
               success(function(data) {
