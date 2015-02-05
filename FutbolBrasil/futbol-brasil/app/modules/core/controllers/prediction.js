@@ -59,6 +59,8 @@ angular
 
             $scope.saveBet = function (_iLeague, _tournament) {
 
+              $scope.$emit('load');
+
               var _jBets = [];
               angular.forEach($scope.item.leagues[_iLeague].fixtures, function(_fixture) {
                 angular.forEach(_fixture.matches, function(_match) {
@@ -72,15 +74,15 @@ angular
                 });
               });
 
-              console.log(JSON.stringify({bets:_jBets}));
 
               $http.post(Domain.bets.create(), {bets:_jBets}).
               success(function(data) {
                 alert('success');
+                $scope.$emit('unload');
               }).
               error(function (data) {
                 alert('error')
-              });
+              })
 
             };
 
@@ -96,20 +98,17 @@ angular
 
             $scope.init = function(){
 
-
-                $http({method: 'GET', url: Domain.bets.get()})
-                .then(function(obj) {
-
-                  $scope.item =  obj.data.response;
-                  //$scope.processDataBet();
-                  $rootScope.$storage.bet = JSON.stringify($scope.item);
-                  $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-
-                })
-                .finally(function(data) {
-                    $rootScope.loading = false;
-                    $rootScope.error = false;
-                });
+              $scope.$emit('load');
+              $http({method: 'GET', url: Domain.bets.get()})
+              .then(function(obj) {
+                $scope.item =  obj.data.response;
+                $rootScope.$storage.bet = JSON.stringify($scope.item);
+                $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
+              })
+              .finally(function(data) {
+                  $scope.$emit('unload');
+                  $rootScope.error = false;
+              });
 
               var _scroll = Utilities.newScroll.horizontal('wrapperH');
               $scope.$on('onRepeatLast', function(scope, element, attrs) {

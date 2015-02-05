@@ -12,6 +12,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
 
 
+            $rootScope.$storage.scorers = false;
             $scope.wrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
@@ -23,9 +24,9 @@ angular
             $scope.widthTotal = ($window.innerWidth * 11);
 
             $scope.init = function(){
+                $scope.$emit('load');
                 if ($rootScope.$storage.scorers) {
                     $scope.item = JSON.parse($rootScope.$storage.scorers);
-                    $rootScope.loading = false;
                     $rootScope.error = Utilities.error($scope.item.leagues,'scorers');
                 } else {
                     $http({method: 'GET', url: Domain.scorers()})
@@ -35,7 +36,7 @@ angular
                             $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
                         })
                         .finally(function(data) {
-                            $rootScope.loading = false;
+                            $scope.$emit('unload');
                             $rootScope.error = $scope.item.leagues.hasOwnProperty('news');
                         });
                 }
@@ -46,7 +47,9 @@ angular
                     angular.forEach($scope.item.leagues, function(_item, _index) {
                         utilities.newScroll.vertical($scope.wrapper.getName(_index));
                     });
+
                 });
+
             }();
 
         }

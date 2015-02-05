@@ -12,6 +12,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
 
 
+            $rootScope.$storage.news = false;
 
             //Indicador de primera y ultima posicion en cache
             var _news = {
@@ -44,17 +45,13 @@ angular
             };
 
             $scope.getNews = function() {
-                console.log('getNews');
                 if ($rootScope.$storage.news) {
-                    console.log('getNews. news on storage');
-                    $rootScope.loading = false;
                     $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
                     $scope.news = JSON.parse($rootScope.$storage.news);
                     _news.first = $scope.news[0].idNews;
 				            _news.last  = $scope.news[$scope.news.length-1].idNews;
-                    console.log($scope.news);
+                    //$scope.$emit('unload');
                 } else {
-                    console.log('getNews. news NOT on storage');
                     $http({method: 'GET', url: Domain.news.index()})
                         .then(function (obj) {
                             console.log('getNews. GET');
@@ -65,14 +62,10 @@ angular
                             $rootScope.$storage.news = JSON.stringify($scope.news);
                         })
                         .finally(function (data) {
-                            console.log('finally. ');
-                            console.log($scope.item);
-                            console.log(!$scope.item.hasOwnProperty('news'));
-                            $rootScope.loading = false;
                             $rootScope.error = !$scope.news;
+                            $scope.$emit('unload');
                         })
                         .catch(function () {
-                            console.log('catch. news. error');
                             $rootScope.error = true;
                         }
                     );
@@ -81,7 +74,7 @@ angular
 
             $scope.getNewsPreviousToId = function(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-                    $rootScope.loading = true;
+                    $scope.$emit('load');
                     $http({method: 'GET', url: Domain.news.up(newsId)})
                       .then(function (obj) {
                           if (obj.data.response.news.length >= 1) {
@@ -92,14 +85,14 @@ angular
                           }
                       })
                       .finally(function (data) {
-                          $rootScope.loading = false;
+                          $scope.$emit('unload');
                       });
                 }
             };
 
             $scope.getNewsAfterId = function(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
-                    $rootScope.loading = true;
+                    $scope.$emit('load');
                     $http({method: 'GET', url: Domain.news.down(newsId)})
                       .then(function (obj) {
                           if (obj.data.response.news.length >= 1) {
@@ -110,7 +103,7 @@ angular
                           }
                       })
                       .finally(function (data) {
-                          $rootScope.loading = false;
+                         $scope.$emit('unload');
                       }
                     );
                 }
@@ -133,9 +126,13 @@ angular
             };
 
             $scope.init = function(){
-                console.log('init');
+                $scope.$emit('load');
                 $scope.getNews();
                 $scope.setUpIScroll();
             }();
+
+
+
+
         }
     ]);

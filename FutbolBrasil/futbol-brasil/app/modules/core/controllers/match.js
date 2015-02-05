@@ -17,6 +17,7 @@ angular
             var _start = true;
             var _index = 0;
 
+            $scope.$emit('load');
             $scope.wrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
@@ -44,14 +45,12 @@ angular
 
 
             $scope.init = function(){
-                $rootScope.loading = false;
-
                 angular.forEach($scope.pages, function(_item, _index) {
                     $http({method: 'GET', url: Domain.match(_item.date,_limit,0)})
                         .then(function(obj) {
                             $scope.pages[_index].matches =  obj.data.response;
                         }).finally(function(data) {
-                            $rootScope.loading = false;
+                            $scope.$emit('unload');
                             $rootScope.error = Utilities.error();
                         });
                 });
@@ -117,7 +116,7 @@ angular
                             $scope.pages.push(($scope.pagesAfter[$scope.pagesAfter.length - 1]));
                             $scope.widthTotal = (window.innerWidth * $scope.pages.length);
 
-                            $rootScope.loading = true;
+                            $scope.$emit('load');
 
                             _index = $scope.pages.length - 1;
 
@@ -125,7 +124,7 @@ angular
                                 $scope.pages[_index].matches =  obj.data.response;
                                 Utilities.newScroll.vertical($scope.wrapper.getName(_index));
                             }).finally(function(data) {
-                                $rootScope.loading = false;
+                                $scope.$emit('unload');
                                 $rootScope.error = Utilities.error();
                             });
 
