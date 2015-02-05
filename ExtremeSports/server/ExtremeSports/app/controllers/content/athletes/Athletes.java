@@ -6,6 +6,7 @@ import controllers.HecticusController;
 import controllers.Secured;
 import models.basic.Config;
 import models.content.athletes.*;
+import models.content.posts.Category;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -44,7 +45,7 @@ public class Athletes extends HecticusController {
         ObjectNode athleteData = getJson();
         try{
             ObjectNode response = null;
-            Athlete athlete = Athlete.finder.byId(id);
+            Athlete athlete = Athlete.getByID(id);
             if(athlete != null){
                 if(athleteData.has("name")){
                     athlete.setName(athleteData.get("name").asText());
@@ -83,28 +84,6 @@ public class Athletes extends HecticusController {
                     }
                 }
 
-                if(athleteData.has("add_categories")){
-                    Iterator<JsonNode> categories = athleteData.get("add_categories").elements();
-                    while (categories.hasNext()){
-                        JsonNode next = categories.next();
-                        Category category = Category.finder.byId(next.asInt());
-                        if(category != null){
-                            AthleteHasCategory whc = new AthleteHasCategory(category, athlete);
-                            whc.save();
-                        }
-                    }
-                }
-
-                if(athleteData.has("remove_categories")){
-                    Iterator<JsonNode> categories = athleteData.get("remove_categories").elements();
-                    while (categories.hasNext()){
-                        JsonNode next = categories.next();
-                        AthleteHasCategory whc = AthleteHasCategory.finder.where().eq("athlete.idAthlete", athlete.getIdAthlete()).eq("idWomanHasSport", next.asInt()).findUnique();
-                        if(whc != null){
-                            whc.delete();
-                        }
-                    }
-                }
                 response = buildBasicResponse(0, "OK", athlete.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro a modificar");
@@ -119,7 +98,7 @@ public class Athletes extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            Athlete athlete = Athlete.finder.byId(id);
+            Athlete athlete = Athlete.getByID(id);
             if(athlete != null) {
                 athlete.delete();
                 response = buildBasicResponse(0, "OK", athlete.toJson());
@@ -136,7 +115,7 @@ public class Athletes extends HecticusController {
     public static Result get(Integer id){
         try {
             ObjectNode response = null;
-            Athlete athlete = Athlete.finder.byId(id);
+            Athlete athlete = Athlete.getByID(id);
             if(athlete != null) {
                 response = buildBasicResponse(0, "OK", athlete.toJson());
             } else {
@@ -151,14 +130,7 @@ public class Athletes extends HecticusController {
 
     public static Result list(Integer pageSize,Integer page){
         try {
-
-            Iterator<Athlete> athleteIterator = null;
-            if(pageSize == 0){
-                athleteIterator = Athlete.finder.all().iterator();
-            }else{
-                athleteIterator = Athlete.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
-            }
-
+            Iterator<Athlete> athleteIterator = Athlete.getPage(pageSize, page);
             ArrayList<ObjectNode> athletes = new ArrayList<ObjectNode>();
             while(athleteIterator.hasNext()){
                 athletes.add(athleteIterator.next().toJson());
@@ -187,19 +159,6 @@ public class Athletes extends HecticusController {
                 }
             }
             athlete.setSocialNetworks(nets);
-        }
-
-        if(data.has("categories")){
-            Iterator<JsonNode> categories = data.get("categories").elements();
-            ArrayList<AthleteHasCategory> cats = new ArrayList<>();
-            while (categories.hasNext()){
-                JsonNode next = categories.next();
-                Category category = Category.finder.byId(next.asInt());
-                if(category != null){
-                    AthleteHasCategory whc = new AthleteHasCategory(category, athlete);
-                    cats.add(whc);
-                }
-            }
         }
 
         if(data.has("default_photo")){

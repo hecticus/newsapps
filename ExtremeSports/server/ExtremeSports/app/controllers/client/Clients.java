@@ -161,7 +161,7 @@ public class Clients extends HecticusController {
                             ArrayList<ClientHasAthlete> athletes = new ArrayList<>();
                             while (athletesIterator.hasNext()) {
                                 JsonNode next = athletesIterator.next();
-                                Athlete athlete = Athlete.finder.byId(next.asInt());
+                                Athlete athlete = Athlete.getByID(next.asInt());
                                 if (athlete != null) {
                                     ClientHasAthlete chw = new ClientHasAthlete(client, athlete);
                                     athletes.add(chw);
@@ -272,7 +272,7 @@ public class Clients extends HecticusController {
                     Iterator<JsonNode> athletesIterator = clientData.get("remove_athlete").elements();
                     while (athletesIterator.hasNext()) {
                         JsonNode next = athletesIterator.next();
-                        Athlete athlete = Athlete.finder.byId(next.asInt());
+                        Athlete athlete = Athlete.getByID(next.asInt());
                         if(athlete == null){
                             continue;
                         }
@@ -291,7 +291,7 @@ public class Clients extends HecticusController {
                         JsonNode next = athletesIterator.next();
                         int index = client.getAthleteIndex(next.asInt());
                         if (index == -1) {
-                            Athlete athlete = Athlete.finder.byId(next.asInt());
+                            Athlete athlete = Athlete.getByID(next.asInt());
                             if (athlete != null) {
                                 ClientHasAthlete chw = new ClientHasAthlete(client, athlete);
                                 client.getAthletes().add(chw);

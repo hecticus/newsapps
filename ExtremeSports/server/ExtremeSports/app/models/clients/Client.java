@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
+import models.basic.Language;
 import models.content.athletes.Athlete;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -38,6 +39,10 @@ public class Client extends HecticusModel {
     @OneToOne
     @JoinColumn(name = "id_country")
     private Country country;
+
+    @OneToOne
+    @JoinColumn(name = "id_language")
+    private Language language;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasDevices> devices;
@@ -151,6 +156,14 @@ public class Client extends HecticusModel {
         this.lastCheckDate = lastCheckDate;
     }
 
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -160,11 +173,11 @@ public class Client extends HecticusModel {
     }
 
     public int getAthleteIndex(int athleteId) {
-        Athlete athlete = Athlete.finder.byId(athleteId);
+        Athlete athlete = Athlete.getByID(athleteId);
         if(athlete == null){
             return -1;
         }
-        ClientHasAthlete clientHasAthlete = ClientHasAthlete.finder.where().eq("client.idClient", idClient).eq("athlete", athlete).findUnique();
+        ClientHasAthlete clientHasAthlete = ClientHasAthlete.finder.where().eq("client", this).eq("athlete", athlete).findUnique();
         if(clientHasAthlete == null){
             return -1;
         }

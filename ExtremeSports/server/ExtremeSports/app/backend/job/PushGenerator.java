@@ -60,7 +60,7 @@ public class PushGenerator extends HecticusThread {
 //            for (Post post : push){
 //                post.setPush(2);
 //                post.update();
-//                Athlete theme = post.getAthletes();
+//                Athlete theme = post.getPosts();
 //                List<ClientHasAthlete> clientsList = theme.getClients();
 //                Collections.sort(clientsList, clientHasThemeComparator);
 //                List<PostHasLocalization> localizations = post.getLocalizations();
@@ -70,7 +70,7 @@ public class PushGenerator extends HecticusThread {
 //                        boolean found = false;
 //                        for(ClientHasAthlete clientHasTheme : clientsList){
 //                            Client client = clientHasTheme.getClient();
-//                            if(client.getCountry().getLanguage() == postHasLocalization.getLanguage() && client.getDevices() != null && !client.getDevices().isEmpty()){
+//                            if(client.getAthlete().getLanguage() == postHasLocalization.getLanguage() && client.getDevices() != null && !client.getDevices().isEmpty()){
 //                                clients.add(client.getIdClient());
 //                                found = true;
 //                            } else {

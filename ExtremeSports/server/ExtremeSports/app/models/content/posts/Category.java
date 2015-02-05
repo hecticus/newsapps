@@ -1,4 +1,4 @@
-package models.content.athletes;
+package models.content.posts;
 
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,10 +11,7 @@ import scala.collection.JavaConversions;
 import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by plesse on 9/30/14.
@@ -29,9 +26,9 @@ public class Category extends HecticusModel {
     private String name;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
-    private List<AthleteHasCategory> athletes;//cambiar por posts
+    private List<PostHasCategory> posts;//cambiar por posts
 
-    public static Model.Finder<Integer, Category> finder = new Model.Finder<Integer, Category>(Integer.class, Category.class);
+    private static Model.Finder<Integer, Category> finder = new Model.Finder<Integer, Category>(Integer.class, Category.class);
 
     public Category(String name) {
         this.name = name;
@@ -53,20 +50,20 @@ public class Category extends HecticusModel {
         this.name = name;
     }
 
-    public List<AthleteHasCategory> getAthletes() {
-        return athletes;
+    public List<PostHasCategory> getPosts() {
+        return posts;
     }
 
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_category", idCategory);
         response.put("name", name);
-        if(athletes != null && !athletes.isEmpty()){
+        if(posts != null && !posts.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
-            for(AthleteHasCategory ad : athletes){
-                apps.add(ad.toJsonWithoutCategory());
+            for(PostHasCategory ad : posts){
+                apps.add(ad.toJson());
             }
-            response.put("athletes", Json.toJson(apps));
+            response.put("posts", Json.toJson(apps));
         }
         return response;
     }
@@ -101,5 +98,21 @@ public class Category extends HecticusModel {
 
     public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    //Finder Operations
+
+    public static Category getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Category> getPage(int pageSize, int page){
+        Iterator<Category> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 }

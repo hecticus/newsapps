@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.clients.ClientHasAthlete;
 import models.content.posts.Post;
+import models.content.posts.PostHasAthlete;
 import models.content.posts.PostHasMedia;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -14,10 +15,7 @@ import scala.collection.JavaConversions;
 import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by plesse on 9/30/14.
@@ -34,7 +32,7 @@ public class Athlete extends HecticusModel {
     private String defaultPhoto;
 
     @OneToMany(mappedBy="athlete", cascade = CascadeType.ALL)
-    private List<Post> posts;
+    private List<PostHasAthlete> posts;
 
     @OneToMany(mappedBy="athlete", cascade = CascadeType.ALL)
     private List<AthleteHasSocialNetwork> socialNetworks;
@@ -42,7 +40,7 @@ public class Athlete extends HecticusModel {
     @OneToMany(mappedBy="athlete", cascade = CascadeType.ALL)
     private List<ClientHasAthlete> clients;//eliminar???
 
-    public static Model.Finder<Integer, Athlete> finder = new Model.Finder<Integer, Athlete>(Integer.class, Athlete.class);
+    private static Model.Finder<Integer, Athlete> finder = new Model.Finder<Integer, Athlete>(Integer.class, Athlete.class);
 
     public Athlete(String name) {
         this.name = name;
@@ -88,11 +86,11 @@ public class Athlete extends HecticusModel {
         this.clients = clients;
     }
 
-    public List<Post> getPosts() {
+    public List<PostHasAthlete> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(List<PostHasAthlete> posts) {
         this.posts = posts;
     }
 
@@ -136,7 +134,7 @@ public class Athlete extends HecticusModel {
         response.put("id_theme", idAthlete);
         response.put("name", name);
         if(!posts.isEmpty()){
-            List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
+            List<PostHasMedia> media = posts.get(posts.size() - 1).getPost().getMedia();
             if(!media.isEmpty()){
                 response.put("default_photo", media.get(0).getLink());
             } else {
@@ -227,11 +225,22 @@ public class Athlete extends HecticusModel {
      * @param filter Filter applied on the name column
      */
     public static Page<Athlete> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return
-                finder.where()
-                        .ilike("name", "%" + filter + "%")
-                        .orderBy(sortBy + " " + order)
-                        .findPagingList(pageSize)
-                        .getPage(page);
+        return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    //Finder Operations
+
+    public static Athlete getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Athlete> getPage(int pageSize, int page){
+        Iterator<Athlete> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 }

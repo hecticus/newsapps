@@ -3,10 +3,10 @@ package models.content.posts;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.content.athletes.Athlete;
-import models.content.athletes.Category;
 import models.content.athletes.SocialNetwork;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -26,12 +26,11 @@ public class Post extends HecticusModel {
     @Id
     private Integer idPost;
 
-    @Constraints.Required
-    @ManyToOne
-    @JoinColumn(name = "id_athlete")
-    private List<Athlete> athletes;
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+    private List<PostHasAthlete> athletes;
 
-    private List<Category> categories;
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+    private List<PostHasCategory> categories;
 
     @Constraints.Required
     private String date;
@@ -58,7 +57,7 @@ public class Post extends HecticusModel {
     @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
     private List<PostHasLocalization> localizations;
 
-    public static Model.Finder<Integer, Post> finder = new Model.Finder<Integer, Post>(Integer.class, Post.class);
+    private static Model.Finder<Integer, Post> finder = new Model.Finder<Integer, Post>(Integer.class, Post.class);
 
     public Post() {
         TimeZone tz = TimeZone.getDefault();
@@ -72,15 +71,13 @@ public class Post extends HecticusModel {
         localizations = new ArrayList<>();
     }
 
-    public Post(List<Athlete> athletes, String date, String source, SocialNetwork socialNetwork) {
-        this.athletes = athletes;
+    public Post(String date, String source, SocialNetwork socialNetwork) {
         this.date = date;
         this.source = source;
         this.socialNetwork = socialNetwork;
     }
 
-    public Post(List<Athlete> athletes, String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
-        this.athletes = athletes;
+    public Post(String date, String source, Integer push, Long pushDate, SocialNetwork socialNetwork) {
         this.date = date;
         this.source = source;
         this.push = push;
@@ -96,11 +93,11 @@ public class Post extends HecticusModel {
         return idPost;
     }
 
-    public List<Athlete> getAthletes() {
+    public List<PostHasAthlete> getAthletes() {
         return athletes;
     }
 
-    public void setAthletes(List<Athlete> athletes) {
+    public void setAthletes(List<PostHasAthlete> athletes) {
         this.athletes = athletes;
     }
 
@@ -168,6 +165,14 @@ public class Post extends HecticusModel {
         this.socialNetwork = socialNetwork;
     }
 
+    public List<PostHasCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<PostHasCategory> categories) {
+        this.categories = categories;
+    }
+
     public String getPushDateAsString() {
         Date expiry = new Date(pushDate);
         SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
@@ -181,15 +186,31 @@ public class Post extends HecticusModel {
 
 
     public int getLocalizationIndex(Language language) {
-        PostHasLocalization phl = PostHasLocalization.finder.where().eq("post.idPost", idPost).eq("language.idLanguage", language.getIdLanguage()).findUnique();
+        PostHasLocalization phl = PostHasLocalization.finder.where().eq("post", this).eq("language", language).findUnique();
         if(phl == null){
             return -1;
         }
         return localizations.indexOf(phl);
     }
 
+    public int getAthleteIndex(Athlete athlete) {
+        PostHasAthlete pha = PostHasAthlete.finder.where().eq("post", this).eq("athlete", athlete).findUnique();
+        if(pha == null){
+            return -1;
+        }
+        return athletes.indexOf(pha);
+    }
+
+    public int getCategoryIndex(Category category) {
+        PostHasCategory phc = PostHasCategory.finder.where().eq("post", this).eq("category", category).findUnique();
+        if(phc == null){
+            return -1;
+        }
+        return categories.indexOf(phc);
+    }
+
     public int getCountryIndex(Country country) {
-        PostHasCountry phc = PostHasCountry.finder.where().eq("post.idPost", idPost).eq("country.idCountry", country.getIdCountry()).findUnique();
+        PostHasCountry phc = PostHasCountry.finder.where().eq("post", this).eq("country", country).findUnique();
         if(phc == null){
             return -1;
         }
@@ -197,7 +218,7 @@ public class Post extends HecticusModel {
     }
 
     public int getMediaIndex(String md5) {
-        PostHasMedia phm = PostHasMedia.finder.where().eq("post.idPost", idPost).eq("md5", md5).findUnique();
+        PostHasMedia phm = PostHasMedia.finder.where().eq("post", this).eq("md5", md5).findUnique();
         if(phm == null){
             return -1;
         }
@@ -318,5 +339,67 @@ public class Post extends HecticusModel {
 
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("athletes.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+
+
+    //Finder Operations
+
+    public static Post getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Post> getPage(int pageSize, int page){
+        Iterator<Post> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
+
+    public static Iterator<Post> getPosts(Athlete athlete, Category category, Country country, Language language, int postId, boolean onlyMedia, boolean newest){
+        Iterator<Post> iterator = null;
+        ArrayList<Athlete> athletesToCompare = null;
+        if(athlete != null){
+            athletesToCompare = new ArrayList<>();
+            athletesToCompare.add(athlete);
+        }
+        int maxRows = Config.getInt("post-to-deliver");
+        if(onlyMedia){
+            maxRows = 1;
+        }
+        if(postId > 0) {
+            if(athlete != null) {
+                if (newest) {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().gt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                } else {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().lt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                }
+            } else if (category != null){
+                if (newest) {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("categories").where().gt("idPost", postId).eq("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                } else {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("categories").where().lt("idPost", postId).eq("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                }
+            } else {
+                if (newest) {
+                    iterator = finder.fetch("countries").fetch("localizations").where().gt("idPost", postId).eq("countries.country", country).eq("localizations.language", language).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                } else {
+                    iterator = finder.fetch("countries").fetch("localizations").where().lt("idPost", postId).eq("countries.country", country).eq("localizations.language", language).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                }
+            }
+        } else {
+            if(athlete != null) {
+                iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+            } else if (category != null){
+                iterator = finder.fetch("countries").fetch("localizations").fetch("categories").where().eq("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+            } else {
+                iterator = finder.fetch("countries").fetch("localizations").where().eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+            }
+        }
+
+        return iterator;
     }
 }

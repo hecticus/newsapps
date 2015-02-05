@@ -1,8 +1,8 @@
-package controllers.content.athletes;
+package controllers.content.posts;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
-import models.content.athletes.Category;
+import models.content.posts.Category;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -13,14 +13,14 @@ import java.util.Iterator;
 /**
  * Created by plesse on 10/1/14.
  */
-public class Sports extends HecticusController {
+public class Categories extends HecticusController {
 
     public static Result create() {
         try{
-            ObjectNode sportData = getJson();
+            ObjectNode categoryData = getJson();
             ObjectNode response = null;
-            if(sportData.has("name")){
-                Category category = new Category(sportData.get("name").asText());
+            if(categoryData.has("name")){
+                Category category = new Category(categoryData.get("name").asText());
                 category.save();
                 response = buildBasicResponse(0, "OK", category.toJson());
             } else {
@@ -34,13 +34,13 @@ public class Sports extends HecticusController {
 
     public static Result update(Integer id) {
         try{
-            ObjectNode sportData = getJson();
+            ObjectNode categoryData = getJson();
             ObjectNode response = null;
-            Category category = Category.finder.byId(id);
+            Category category = Category.getByID(id);
             if(category != null) {
                 boolean save = false;
-                if (sportData.has("name") ) {
-                    category.setName(sportData.get("name").asText());
+                if (categoryData.has("name") ) {
+                    category.setName(categoryData.get("name").asText());
                     save = true;
                 }
                 if(save){
@@ -59,7 +59,7 @@ public class Sports extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            Category category = Category.finder.byId(id);
+            Category category = Category.getByID(id);
             if(category != null) {
                 category.delete();
                 response = buildBasicResponse(0, "OK", category.toJson());
@@ -75,7 +75,7 @@ public class Sports extends HecticusController {
     public static Result get(Integer id){
         try {
             ObjectNode response = null;
-            Category category = Category.finder.byId(id);
+            Category category = Category.getByID(id);
             if(category != null) {
                 response = buildBasicResponse(0, "OK", category.toJson());
             } else {
@@ -90,17 +90,10 @@ public class Sports extends HecticusController {
 
     public static Result list(Integer pageSize,Integer page){
         try {
-
-            Iterator<Category> sportIterator = null;
-            if(pageSize == 0){
-                sportIterator = Category.finder.all().iterator();
-            }else{
-                sportIterator = Category.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
-            }
-
+            Iterator<Category> categoryIterator = Category.getPage(pageSize, page);
             ArrayList<ObjectNode> categories = new ArrayList<ObjectNode>();
-            while(sportIterator.hasNext()){
-                categories.add(sportIterator.next().toJson());
+            while(categoryIterator.hasNext()){
+                categories.add(categoryIterator.next().toJson());
             }
             ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(categories));
             return ok(response);

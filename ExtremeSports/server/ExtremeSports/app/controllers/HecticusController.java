@@ -1,9 +1,7 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 
 import javax.persistence.MappedSuperclass;
@@ -15,6 +13,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Config;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 
 
 @MappedSuperclass
@@ -52,6 +51,50 @@ public class HecticusController extends Controller {
         if(invoker == null) setInvoker();
 		return jsonInfo;
 	}
+
+
+
+    public static Map<String, Object> getJsonWithFiles(){
+        ObjectNode jsonInfo = Json.newObject();
+        Http.MultipartFormData multipartFormData = request().body().asMultipartFormData();
+        if(multipartFormData == null){
+            return null;
+        }
+
+
+
+        Map<String,String[]> b = multipartFormData.asFormUrlEncoded();
+        List<Http.MultipartFormData.FilePart> files = multipartFormData.getFiles();
+        ArrayList<File> filesToReturn = new ArrayList<>(files.size());
+        File dest = null;
+        String attachmentsRoute = Config.getString("attachments-route");
+        for(Http.MultipartFormData.FilePart file : files){
+            dest = new File(attachmentsRoute+file.getFilename());
+            file.getFile().renameTo(dest);
+            filesToReturn.add(dest);
+        }
+
+        Set<String> keys = b.keySet();
+        Iterator<String> it = keys.iterator();
+        while(it.hasNext()){
+            String key = (String)it.next();
+            jsonInfo.put(key, Json.toJson(b.get(key)[0]));
+        }
+        if(jsonInfo != null){
+            if(jsonInfo.has("invoker")){
+                invoker = new StringBuilder(jsonInfo.get("invoker").asText());
+            } else {
+                invoker = null;
+            }
+        }
+        if(invoker == null) setInvoker();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("json", jsonInfo);
+        data.put("files", filesToReturn);
+
+        return data;
+    }
 	
 	public static ObjectNode buildBasicResponse(int code, String responseMsg) {
 		ObjectNode responseNode = Json.newObject();
