@@ -113,11 +113,11 @@
 
           </div> <!--container-->
 
-          <div class="bet-content">
+          <div class="bet-content"  ng-click="saveBet($index, league.id_competitions)">
             <span style="font-size:1.6em;">{{item.leagues[$index].client_bets}}</span> /
             <span style="font-size:2em;">{{item.leagues[$index].total_bets}}</span>
             <br />
-            <a ng-click="saveBet($index, league.id_competitions)" class="btn btn-primary">Salvar</a>
+            <button class="btn btn-primary">Salvar</button>
           </div>
         </li>
       </ul>

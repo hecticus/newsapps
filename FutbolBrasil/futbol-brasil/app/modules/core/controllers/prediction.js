@@ -57,14 +57,12 @@ angular
             };
 
             $scope.saveBet = function (_iLeague, _tournament) {
-
-              $scope.$emit('load');
-
-              var _jBets = [];
-              angular.forEach($scope.item.leagues[_iLeague].fixtures, function(_fixture) {
-                angular.forEach(_fixture.matches, function(_match) {
-                  if (_match.bet) {
-                    _jBets.push({
+                $scope.$emit('load');
+                var _jBets = [];
+                angular.forEach($scope.item.leagues[_iLeague].fixtures, function (_fixture) {
+                    angular.forEach(_fixture.matches, function (_match) {
+                        if (_match.bet) {
+                            _jBets.push({
                                 'id_tournament': _tournament,
                                 'id_game_match': _match.id_game_matches,
                                 'client_bet': _match.bet.client_bet
@@ -73,15 +71,16 @@ angular
                     });
                 });
 
-              $http.post(Domain.bets.create(), {bets:_jBets}).
-              success(function(data) {
-                alert('success');
-                $scope.$emit('unload');
-              }).
-              error(function (data) {
-                alert('error')
-              })
+                console.log(JSON.stringify(_jBets));
 
+                $http.post(Domain.bets.create(), {bets: _jBets}).
+                    success(function (data) {
+                        alert('success');
+                        $scope.$emit('unload');
+                    }).
+                    error(function (data) {
+                        alert('error')
+                    });
             };
 
             $scope.getDate = function (_date) {
@@ -95,19 +94,19 @@ angular
 
 
             $scope.init = function(){
-              $scope.$emit('load');
-              $http({method: 'GET', url: Domain.bets.get()})
-              .then(function(obj) {
-                $scope.item =  obj.data.response;
-                $rootScope.$storage.bet = JSON.stringify($scope.item);
-                $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-              })
-              .finally(function(data) {
-                  $scope.$emit('unload');
-                  $rootScope.error = false;
-              });
+                $scope.$emit('load');
+                $http({method: 'GET', url: Domain.bets.get()})
+                    .then(function(obj) {
+                        $scope.item =  obj.data.response;
+                        $rootScope.$storage.bet = JSON.stringify($scope.item);
+                        $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
+                    })
+                    .finally(function(data) {
+                        $scope.$emit('unload');
+                        $rootScope.error = false;
+                    });
 
             }();
 
-        }
-    ]);
+            }
+]);
