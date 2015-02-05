@@ -55,7 +55,7 @@ public class Posts extends HecticusController {
             if(postData.has("athletes") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
 
 
-                SocialNetwork socialNetwork = SocialNetwork.finder.byId(postData.get("social_network").asInt());
+                SocialNetwork socialNetwork = SocialNetwork.getByID(postData.get("social_network").asInt());
                 if(socialNetwork == null){
                     response = buildBasicResponse(1, "Faltan campos para crear el registro");
                     return ok(response);
@@ -133,7 +133,7 @@ public class Posts extends HecticusController {
                 ArrayList<PostHasCategory> categories = new ArrayList<>();
                 while (countriesIterator.hasNext()){
                     JsonNode next = categoriesIterator.next();
-                    Category category = Category.finder.byId(next.asInt());
+                    Category category = Category.getByID(next.asInt());
                     PostHasCategory phc = new PostHasCategory(post, category);
                     categories.add(phc);
                 }
@@ -166,7 +166,7 @@ public class Posts extends HecticusController {
                 while (mediaIterator.hasNext()){
                     ObjectNode next = (ObjectNode)mediaIterator.next();
                     if(next.has("file") && next.has("file_type")){
-                        FileType fileType = FileType.finder.byId(next.get("file_type").asInt());
+                        FileType fileType = FileType.getByID(next.get("file_type").asInt());
                         int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
                         String file = next.get("file").asText();
                         String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
@@ -289,7 +289,7 @@ public class Posts extends HecticusController {
                     Iterator<JsonNode> removeCategories = postData.get("remove_categories").elements();
                     while (removeCategories.hasNext()){
                         JsonNode next = removeCategories.next();
-                        Category category = Category.finder.byId(next.asInt());
+                        Category category = Category.getByID(next.asInt());
                         if(category != null){
                             int index = post.getCategoryIndex(category);
                             if(index > -1){
@@ -304,7 +304,7 @@ public class Posts extends HecticusController {
                     Iterator<JsonNode> addCategories = postData.get("add_categories").elements();
                     while (addCategories.hasNext()){
                         JsonNode next = addCategories.next();
-                        Category category = Category.finder.byId(next.asInt());
+                        Category category = Category.getByID(next.asInt());
                         int index = post.getCategoryIndex(category);
                         if(index == -1){
                             PostHasCategory phc = new PostHasCategory(post, category);
@@ -376,7 +376,7 @@ public class Posts extends HecticusController {
                     while (addMedia.hasNext()){
                         ObjectNode next = (ObjectNode)addMedia.next();
                         if(next.has("file") && next.has("file_type")){
-                            FileType fileType = FileType.finder.byId(next.get("file_type").asInt());
+                            FileType fileType = FileType.getByID(next.get("file_type").asInt());
                             int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
                             String file = next.get("file").asText();
                             String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
@@ -490,7 +490,7 @@ public class Posts extends HecticusController {
 
     public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idAthlete, Integer idCategory, Boolean onlyMedia){
         try {
-            Client client = Client.finder.byId(id);
+            Client client = Client.getByID(id);
             Athlete athlete = null;
             Category category = null;
             ObjectNode response = null;
@@ -501,7 +501,7 @@ public class Posts extends HecticusController {
                     return ok(response);
                 }
             } else if(idCategory > 0){
-                category = Category.finder.byId(idCategory);
+                category = Category.getByID(idCategory);
                 if(category == null) {
                     response = buildBasicResponse(2, "la categoria no existe");
                     return ok(response);
@@ -567,7 +567,7 @@ public class Posts extends HecticusController {
         try {
             ObjectNode response = null;
             Post post = Post.getByID(idPost);
-            Client client = Client.finder.byId(idClient);
+            Client client = Client.getByID(idClient);
             if(post != null && client != null) {
                 response = buildBasicResponse(0, "OK", post.toJson(client.getCountry().getLanguage()));
             } else {
@@ -583,7 +583,7 @@ public class Posts extends HecticusController {
     //obtenemos todos los post por categoria
     public static Result getPostForCategory(Integer idClient, Integer idCategory, Integer page, Integer pageSize){
         try {
-            Client client = Client.finder.byId(idClient);
+            Client client = Client.getByID(idClient);
             ObjectNode response = null;
 //            if(client != null) {
 //                Country country = client.getCountry();

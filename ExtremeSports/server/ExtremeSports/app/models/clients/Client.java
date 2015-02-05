@@ -12,6 +12,7 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public class Client extends HecticusModel {
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasAthlete> athletes;//eliminar???
 
-    public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
+    private static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
     public Client(Integer status, String login, String password, Country country) {
         this.status = status;
@@ -242,5 +243,29 @@ public class Client extends HecticusModel {
         response.put("ios", Json.toJson(ios));
         response.put("web", Json.toJson(web));
         return response;
+    }
+
+    //Finder Operations
+
+    public static Client getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Client> getPage(int pageSize, int page){
+        Iterator<Client> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
+
+    public static Client getByLogin(String login){
+        return finder.where().eq("login", login).findUnique();
+    }
+
+    public static Client getByUserId(String login){
+        return finder.where().eq("user_id", login).findUnique();
     }
 }

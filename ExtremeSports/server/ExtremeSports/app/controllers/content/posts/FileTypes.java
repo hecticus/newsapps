@@ -36,7 +36,7 @@ public class FileTypes extends HecticusController {
         try{
             ObjectNode fileTypeData = getJson();
             ObjectNode response = null;
-            FileType fileType = FileType.finder.byId(id);
+            FileType fileType = FileType.getByID(id);
             if(fileType != null) {
                 boolean save = false;
                 if (fileTypeData.has("name") ) {
@@ -63,7 +63,7 @@ public class FileTypes extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            FileType fileType = FileType.finder.byId(id);
+            FileType fileType = FileType.getByID(id);
             if(fileType != null) {
                 fileType.delete();
                 response = buildBasicResponse(0, "OK", fileType.toJson());
@@ -79,7 +79,7 @@ public class FileTypes extends HecticusController {
     public static Result get(Integer id){
         try {
             ObjectNode response = null;
-            FileType fileType = FileType.finder.byId(id);
+            FileType fileType = FileType.getByID(id);
             if(fileType != null) {
                 response = buildBasicResponse(0, "OK", fileType.toJson());
             } else {
@@ -94,14 +94,7 @@ public class FileTypes extends HecticusController {
 
     public static Result list(Integer pageSize,Integer page){
         try {
-
-            Iterator<FileType> fileTypeIterator = null;
-            if(pageSize == 0){
-                fileTypeIterator = FileType.finder.all().iterator();
-            }else{
-                fileTypeIterator = FileType.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
-            }
-
+            Iterator<FileType> fileTypeIterator = FileType.getPage(pageSize, page);
             ArrayList<ObjectNode> fileTypes = new ArrayList<ObjectNode>();
             while(fileTypeIterator.hasNext()){
                 fileTypes.add(fileTypeIterator.next().toJson());

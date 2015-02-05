@@ -7,6 +7,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.Iterator;
 
 /**
  * Created by plesse on 9/30/14.
@@ -29,7 +30,7 @@ public class AthleteHasSocialNetwork extends HecticusModel {
     @Constraints.Required
     private String link;
 
-    public static Model.Finder<Integer, AthleteHasSocialNetwork> finder = new Model.Finder<Integer, AthleteHasSocialNetwork>(Integer.class, AthleteHasSocialNetwork.class);
+    private static Model.Finder<Integer, AthleteHasSocialNetwork> finder = new Model.Finder<Integer, AthleteHasSocialNetwork>(Integer.class, AthleteHasSocialNetwork.class);
 
     public AthleteHasSocialNetwork(Athlete theme, SocialNetwork socialNetwork, String link) {
         this.athlete = theme;
@@ -94,4 +95,27 @@ public class AthleteHasSocialNetwork extends HecticusModel {
         response.put("link", link);
         return response;
     }
+
+
+    //Finder Operations
+
+    public static AthleteHasSocialNetwork getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<AthleteHasSocialNetwork> getPage(int pageSize, int page){
+        Iterator<AthleteHasSocialNetwork> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
+
+    public static AthleteHasSocialNetwork getForAthlete(Athlete athlete, SocialNetwork socialNetwork){
+        return AthleteHasSocialNetwork.finder.where().eq("athlete", athlete).eq("socialNetwork", socialNetwork).findUnique();
+    }
+
+
 }

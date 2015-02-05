@@ -13,10 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by plesse on 9/30/14.
@@ -37,7 +34,7 @@ public class SocialNetwork extends HecticusModel{
     @OneToMany(mappedBy="socialNetwork")
     private List<AthleteHasSocialNetwork> theme;
 
-    public static Model.Finder<Integer, SocialNetwork> finder = new Model.Finder<Integer, SocialNetwork>(Integer.class, SocialNetwork.class);
+    private static Model.Finder<Integer, SocialNetwork> finder = new Model.Finder<Integer, SocialNetwork>(Integer.class, SocialNetwork.class);
 
     public SocialNetwork(String name, String home) {
         this.name = name;
@@ -125,4 +122,20 @@ public class SocialNetwork extends HecticusModel{
 //        List<SocialNetwork> socialNetworks = SocialNetwork.finder.all();
 //        return socialNetworks;
 //    }
+
+    //Finder Operations
+
+    public static SocialNetwork getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<SocialNetwork> getPage(int pageSize, int page){
+        Iterator<SocialNetwork> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
 }

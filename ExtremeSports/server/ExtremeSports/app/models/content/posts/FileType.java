@@ -11,6 +11,7 @@ import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class FileType extends HecticusModel {
     @OneToMany(mappedBy="fileType", cascade = CascadeType.ALL)
     private List<PostHasMedia> media;
 
-    public static Model.Finder<Integer, FileType> finder = new Model.Finder<Integer, FileType>(Integer.class, FileType.class);
+    private static Model.Finder<Integer, FileType> finder = new Model.Finder<Integer, FileType>(Integer.class, FileType.class);
 
     public FileType(String name, String mimeType) {
         this.name = name;
@@ -97,5 +98,21 @@ public class FileType extends HecticusModel {
         Buffer<Tuple2<String, String>> fileTypeBuffer = JavaConversions.asScalaBuffer(proxy);
         scala.collection.immutable.List<Tuple2<String, String>> fileTypeList = fileTypeBuffer.toList();
         return fileTypeList;
+    }
+
+    //Finder Operations
+
+    public static FileType getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<FileType> getPage(int pageSize, int page){
+        Iterator<FileType> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 }

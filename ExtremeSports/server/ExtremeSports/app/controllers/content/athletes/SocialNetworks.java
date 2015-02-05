@@ -36,7 +36,7 @@ public class SocialNetworks extends HecticusController {
         try{
             ObjectNode socialNetworkData = getJson();
             ObjectNode response = null;
-            SocialNetwork socialNetwork = SocialNetwork.finder.byId(id);
+            SocialNetwork socialNetwork = SocialNetwork.getByID(id);
             if(socialNetwork != null) {
                 boolean save = false;
                 if (socialNetworkData.has("name") ) {
@@ -63,7 +63,7 @@ public class SocialNetworks extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            SocialNetwork socialNetwork = SocialNetwork.finder.byId(id);
+            SocialNetwork socialNetwork = SocialNetwork.getByID(id);
             if(socialNetwork != null) {
                 socialNetwork.delete();
                 response = buildBasicResponse(0, "OK", socialNetwork.toJson());
@@ -79,7 +79,7 @@ public class SocialNetworks extends HecticusController {
     public static Result get(Integer id){
         try {
             ObjectNode response = null;
-            SocialNetwork socialNetwork = SocialNetwork.finder.byId(id);
+            SocialNetwork socialNetwork = SocialNetwork.getByID(id);
             if(socialNetwork != null) {
                 response = buildBasicResponse(0, "OK", socialNetwork.toJson());
             } else {
@@ -94,14 +94,7 @@ public class SocialNetworks extends HecticusController {
 
     public static Result list(Integer pageSize,Integer page){
         try {
-
-            Iterator<SocialNetwork> socialNetworkIterator = null;
-            if(pageSize == 0){
-                socialNetworkIterator = SocialNetwork.finder.all().iterator();
-            }else{
-                socialNetworkIterator = SocialNetwork.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
-            }
-
+            Iterator<SocialNetwork> socialNetworkIterator = SocialNetwork.getPage(pageSize, page);
             ArrayList<ObjectNode> socialNetworks = new ArrayList<ObjectNode>();
             while(socialNetworkIterator.hasNext()){
                 socialNetworks.add(socialNetworkIterator.next().toJson());

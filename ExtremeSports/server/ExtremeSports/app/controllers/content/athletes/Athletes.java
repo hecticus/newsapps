@@ -64,7 +64,7 @@ public class Athletes extends HecticusController {
                     while (socialNetworks.hasNext()){
                         ObjectNode next = (ObjectNode)socialNetworks.next();
                         if(next.has("social_network") && next.has("link")){
-                            SocialNetwork socialNetwork = SocialNetwork.finder.byId(next.get("social_network").asInt());
+                            SocialNetwork socialNetwork = SocialNetwork.getByID(next.get("social_network").asInt());
                             if(socialNetwork != null){
                                 AthleteHasSocialNetwork whsn = new AthleteHasSocialNetwork(athlete, socialNetwork, next.get("link").asText());
                                 whsn.save();
@@ -77,9 +77,12 @@ public class Athletes extends HecticusController {
                     Iterator<JsonNode> socialNetworks = athleteData.get("remove_social_networks").elements();
                     while (socialNetworks.hasNext()){
                         JsonNode next = socialNetworks.next();
-                        AthleteHasSocialNetwork whsn = AthleteHasSocialNetwork.finder.where().eq("athlete.idAthlete", athlete.getIdAthlete()).eq("idWomanHasSocialNetwork", next.asInt()).findUnique();
-                        if(whsn != null){
-                            whsn.delete();
+                        SocialNetwork socialNetwork = SocialNetwork.getByID(next.asInt());
+                        if(socialNetwork != null) {
+                            AthleteHasSocialNetwork whsn = AthleteHasSocialNetwork.getForAthlete(athlete, socialNetwork);
+                            if (whsn != null) {
+                                whsn.delete();
+                            }
                         }
                     }
                 }
@@ -151,7 +154,7 @@ public class Athletes extends HecticusController {
             while (socialNetworks.hasNext()){
                 ObjectNode next = (ObjectNode)socialNetworks.next();
                 if(next.has("social_network") && next.has("link")){
-                    SocialNetwork socialNetwork = SocialNetwork.finder.byId(next.get("social_network").asInt());
+                    SocialNetwork socialNetwork = SocialNetwork.getByID(next.get("social_network").asInt());
                     if(socialNetwork != null){
                         AthleteHasSocialNetwork whsn = new AthleteHasSocialNetwork(athlete, socialNetwork, next.get("link").asText());
                         nets.add(whsn);

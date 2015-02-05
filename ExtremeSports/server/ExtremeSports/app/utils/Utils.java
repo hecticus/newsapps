@@ -285,13 +285,13 @@ public class Utils {
         return dest.getAbsolutePath();
     }
 
-    public static String uploadAttachment(String file, int idWoman) throws IOException {
+    public static String uploadAttachment(String file, int idFolder) throws IOException {
         File afile =new File(Config.getString("ftp-route") + file);
-        File folder =new File(Config.getString("attachments-route") + idWoman);
+        File folder =new File(Config.getString("attachments-route") + idFolder);
         if(!folder.exists()) {
             folder.mkdirs();
         }
-        File dest = new File(Config.getString("attachments-route") + idWoman + "/" + afile.getName());
+        File dest = new File(Config.getString("attachments-route") + idFolder + "/" + afile.getName());
         FileUtils.copyFile(afile, dest);
 
         String fileName = dest.getName();
@@ -300,9 +300,9 @@ public class Utils {
         UUID idFile = UUID.randomUUID();
         File dest2 = new File(Config.getString("attachments-route")+idFile+fileExtension);
         dest.renameTo(dest2);
-        boolean uploaded = uploadAndPublish(dest2, ""+idWoman);
+        boolean uploaded = uploadAndPublish(dest2, ""+idFolder);
         if(uploaded){
-            String name = Config.getString("rks-CDN-URL") + idWoman + "/" + dest2.getName();
+            String name = Config.getString("rks-CDN-URL") + idFolder + "/" + dest2.getName();
             dest2.delete();
             return name;
         }

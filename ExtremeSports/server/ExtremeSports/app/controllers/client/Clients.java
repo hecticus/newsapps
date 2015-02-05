@@ -55,7 +55,7 @@ public class Clients extends HecticusController {
                 password = clientData.get("password").asText();
             }
             if(login != null) {
-                client = Client.finder.where().eq("login", login).findUnique();
+                client = Client.getByLogin(login);
                 boolean update = false;
                 if (client != null) {
                     if (client.getUserId() == null) {
@@ -196,7 +196,7 @@ public class Clients extends HecticusController {
         ObjectNode clientData = getJson();
         try{
             ObjectNode response = null;
-            Client client = Client.finder.byId(id);
+            Client client = Client.getByID(id);
             if(client != null) {
                 boolean update = false;
                 boolean loginAgain = false;
@@ -346,7 +346,7 @@ public class Clients extends HecticusController {
     public static Result delete(Integer id) {
         try{
             ObjectNode response = null;
-            Client client = Client.finder.byId(id);
+            Client client = Client.getByID(id);
             if(client != null) {
                 client.delete();
                 response = buildBasicResponse(0, "OK", client.toJson());
@@ -363,7 +363,7 @@ public class Clients extends HecticusController {
     public static Result get(Integer id, String upstreamChannel, Boolean pmc){
         try {
             ObjectNode response = null;
-            Client client = Client.finder.byId(id);
+            Client client = Client.getByID(id);
             if(client != null) {
                 if(client.getStatus() >= 0 && !pmc) {
                     String lcd = client.getLastCheckDate();
@@ -399,14 +399,7 @@ public class Clients extends HecticusController {
 
     public static Result list(Integer pageSize,Integer page, Boolean pmc){
         try {
-
-            Iterator<Client> clientIterator = null;
-            if(pageSize == 0){
-                clientIterator = Client.finder.all().iterator();
-            }else{
-                clientIterator = Client.finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
-            }
-
+            Iterator<Client> clientIterator = Client.getPage(pageSize, page);
             ArrayList<ObjectNode> clients = new ArrayList<ObjectNode>();
             while(clientIterator.hasNext()){
                 clients.add(pmc?clientIterator.next().toPMCJson():clientIterator.next().toJson());
@@ -458,7 +451,7 @@ public class Clients extends HecticusController {
     public static Result getStarredAthletesForClient(Integer id) {
         try {
             ObjectNode response = null;
-            Client client = Client.finder.byId(id);
+            Client client = Client.getByID(id);
             if(client != null) {
                 if(client.getStatus() >= 0) {
                     List<ClientHasAthlete> athletes = client.getAthletes();
@@ -498,7 +491,7 @@ public class Clients extends HecticusController {
             //buscamos el msisdn
             if(clientData.has("msisdn")){
                 msisdn = clientData.get("msisdn").asText();
-                client = Client.finder.where().eq("login",msisdn).findUnique();
+                client = Client.getByLogin(msisdn);
             }
             if(client != null) {
                 resetPasswordForUpstream(client,upstreamChannel);
@@ -533,7 +526,7 @@ public class Clients extends HecticusController {
             //buscamos el user_id
             if(clientData.has("user_id")){
                 user_id = clientData.get("user_id").asText();
-                client = Client.finder.where().eq("user_id",user_id).findUnique();
+                client = Client.getByUserId(user_id);
             }
             //buscamos el event_type
             if(clientData.has("event_type")){
