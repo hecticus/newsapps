@@ -1,8 +1,8 @@
 
 <div id="wrapperH">
-    <div id="scroller" style="width:{{widthTotal}}px;">
+    <div id="scroller" ng-style="getTotalWidth()">
         <ul>
-            <li style="width:{{width}}px;" ng-repeat="page in pages" on-last-repeat >
+            <li ng-style="getWidth()" ng-repeat="page in pages" on-last-repeat>
 
                 <div class="container">
 

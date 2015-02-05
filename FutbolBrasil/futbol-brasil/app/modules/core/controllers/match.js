@@ -42,6 +42,24 @@ angular
             $scope.width = $window.innerWidth;
             $scope.widthTotal = ($window.innerWidth * 11);
 
+            $scope.getWidth = function(){
+                return { 'width': $scope.width + 'px'}
+            };
+
+            $scope.getTotalWidth = function(){
+                return { 'width': $scope.widthTotal + 'px'}
+            };
+
+            $scope.getMatchStatusClass = function(match){
+                if(match.status == 'Encerrado') {
+                    return 'encerrado';
+                }else if(match.status == 'Default'){
+                    return 'default';
+                } else {
+                    //TODO WTF?!
+                    return 'else';
+                }
+            };
 
             $scope.init = function(){
                 $rootScope.loading = false;
@@ -58,11 +76,6 @@ angular
 
                 $scope.width = $window.innerWidth;
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
-
-<<<<<<< HEAD
-=======
-
->>>>>>> ea4054e... FUTBOL BRASIL: Mejoras evento swipe con el menu, trim de código y scrolling tabs bases
                 var _scroll = new IScroll('#wrapperH', {
                     scrollX: true,
                     scrollY: false,

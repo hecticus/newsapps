@@ -475,3 +475,16 @@ body.content-mtm .row-back {
 .content-menu {border-bottom: solid 1pt #E0E0E0;}
 
 /*menu*/
+
+i.back-button {
+    visibility: hidden;
+}
+
+i.back-button.active {
+    visibility: visible;
+}
+
+.tabs {
+    opacity: 0.5;
+    text-transform: capitalize;
+}
