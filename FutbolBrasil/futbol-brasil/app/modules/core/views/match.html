@@ -8,16 +8,16 @@
 
                     <div class="row header">
 
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs" style="text-align:left;">
-                          <span ng-bind="pages[$index-1].name"></span>
+                        <div  class="col-xs-4 col-sm-4 col-md-4 col-lg-4 tabs" style="text-align:left;" ng-click="prevPage()">
+                          <button ng-bind="pages[$index-1].name" ></button>
                         </div>
 
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-                            <span ng-bind="page.name"></span>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+                            <span ng-bind="page.name" style="font-size:1em;"></span>
                         </div>
 
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs" style="text-align:right;" >
-                          <span ng-bind="pages[$index+1].name"></span>
+                        <div  class="col-xs-4 col-sm-4 col-md-4 col-lg-4 tabs" style="text-align:right;" ng-click="nextPage()">
+                          <button ng-bind="pages[$index+1].name" ></button>
                         </div>
 
                     </div>

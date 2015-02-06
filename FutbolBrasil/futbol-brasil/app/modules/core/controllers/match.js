@@ -16,6 +16,7 @@ angular
             var _currentPage = 0;
             var _start = true;
             var _index = 0;
+            var _formatDate = 'MMM Do YY';
 
             $scope.$emit('load');
             $scope.wrapper = {
@@ -33,15 +34,16 @@ angular
             $scope.pagesAfter = [];
 
             $scope.pages = [
-                {name: Utilities.moment().subtract(2, 'days').format('ll'), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
+                {name: Utilities.moment().subtract(2, 'days').format(_formatDate), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
                 {name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
                 {name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
                 {name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
-                {name: Utilities.moment().add(2, 'days').format('ll'), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
+                {name: Utilities.moment().add(2, 'days').format(_formatDate), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
             ];
 
             $scope.width = $window.innerWidth;
             $scope.widthTotal = ($window.innerWidth * 11);
+
 
 
             $scope.init = function(){
@@ -108,7 +110,7 @@ angular
                             _index = $scope.pagesAfter.length + 3;
                             $scope.pagesAfter.push(
                                 {
-                                    name: Utilities.moment().add(_index, 'days').format('LL'),
+                                    name: Utilities.moment().add(_index, 'days').format(_formatDate),
                                     date: Utilities.moment().add(_index, 'days').format('YYYYMMDD')
                                 }
                             );
@@ -134,6 +136,16 @@ angular
 
                     }
                 });
+
+                $scope.nextPage = function(){
+                  _scroll.next();
+                };
+
+                $scope.prevPage = function(){
+                  _scroll.prev();
+                };
+
+
             }();
 
         }

@@ -120,6 +120,14 @@ angular
                   });
               });
 
+              $scope.nextPage = function(){
+                _scroll.next();
+              };
+
+              $scope.prevPage = function(){
+                _scroll.prev();
+              };
+
             }();
 
     }

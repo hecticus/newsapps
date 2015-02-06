@@ -494,5 +494,11 @@ body.content-mtm .row-back {
 
   .tabs {
     opacity: 0.5;
+    font-size: 0.9em;
     /*text-transform: capitalize;*/
   }
+
+ .tabs button {
+    background: none;
+    border: 0;
+ }
