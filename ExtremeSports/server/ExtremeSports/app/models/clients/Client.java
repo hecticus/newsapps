@@ -213,6 +213,7 @@ public class Client extends HecticusModel {
             }
             response.put("athletes", Json.toJson(apps));
         }
+        response.put("language", language.toJson());
         return response;
     }
 
