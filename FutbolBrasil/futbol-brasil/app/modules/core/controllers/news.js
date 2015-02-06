@@ -9,7 +9,7 @@
 angular
     .module('core')
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
-            ,'Utilities', 'SocialAppsManager',
+        ,'Utilities', 'SocialAppsManager',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities
             , SocialAppsManager) {
             $rootScope.$storage.news = false;
@@ -23,14 +23,12 @@ angular
             $scope.news = [];
 
             $scope.share = function(_news) {
-              SocialAppsManager.sharePost(_news.title,'Brazil Football',null,_news.summary);
+                SocialAppsManager.sharePost(_news.title,'Brazil Football',null,_news.summary);
             };
 
             $scope.fromNow = function(_date) {
                 return Utilities.moment(_date).fromNow();
             };
-
-
 
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
@@ -72,17 +70,17 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http({method: 'GET', url: Domain.news.up(newsId)})
-                      .then(function (obj) {
-                          if (obj.data.response.news.length >= 1) {
-                            _news.first = obj.data.response.news[0].idNews;
-                            angular.forEach(obj.data.response.news, function(_item) {
-                              $scope.news.unshift(_item);
-                            });
-                          }
-                      })
-                      .finally(function (data) {
-                          $scope.$emit('unload');
-                      });
+                        .then(function (obj) {
+                            if (obj.data.response.news.length >= 1) {
+                                _news.first = obj.data.response.news[0].idNews;
+                                angular.forEach(obj.data.response.news, function(_item) {
+                                    $scope.news.unshift(_item);
+                                });
+                            }
+                        })
+                        .finally(function (data) {
+                            $scope.$emit('unload');
+                        });
                 }
             };
 
@@ -90,17 +88,17 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http({method: 'GET', url: Domain.news.down(newsId)})
-                      .then(function (obj) {
-                          if (obj.data.response.news.length >= 1) {
-                            _news.last = obj.data.response.news[obj.data.response.news.length-1].idNews;
-                            angular.forEach(obj.data.response.news, function(_item) {
-                              $scope.news.push(_item);
-                            });
-                          }
-                      })
-                      .finally(function (data) {
-                         $scope.$emit('unload');
-                      }
+                        .then(function (obj) {
+                            if (obj.data.response.news.length >= 1) {
+                                _news.last = obj.data.response.news[obj.data.response.news.length-1].idNews;
+                                angular.forEach(obj.data.response.news, function(_item) {
+                                    $scope.news.push(_item);
+                                });
+                            }
+                        })
+                        .finally(function (data) {
+                            $scope.$emit('unload');
+                        }
                     );
                 }
             };
