@@ -10,6 +10,8 @@ import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+import java.util.Iterator;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="configs")
@@ -98,7 +100,7 @@ public class Config extends Model{
 		this.description = description;
 	}
 	
-	public static Config getConfigByKey(String key){
+	private static Config getConfigByKey(String key){
 		return finder.where().eq("configKey", key).findUnique();
 	}
 	
@@ -152,6 +154,22 @@ public class Config extends Model{
 
     public static Page<Config> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("configKey", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    //Finder Operations
+
+    public static Config getByID(long id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Config> getPage(int pageSize, int page){
+        Iterator<Config> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 
 }

@@ -8,10 +8,12 @@ import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Iterator;
 
 /**
  * Created by plesse on 8/8/14.
@@ -34,7 +36,7 @@ public class Instance extends HecticusModel {
     @Constraints.Required
     private boolean master;
 
-    public static Model.Finder<Integer, Instance> finder = new Model.Finder<Integer, Instance>(Integer.class, Instance.class);
+    private static Model.Finder<Integer, Instance> finder = new Model.Finder<Integer, Instance>(Integer.class, Instance.class);
 
     public Instance(String ip, String name, int running) {
         this.ip = ip;
@@ -130,6 +132,26 @@ public class Instance extends HecticusModel {
 
     public static Page<Instance> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    //Finder Operations
+
+    public static Instance getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Instance> getPage(int pageSize, int page){
+        Iterator<Instance> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
+
+    public static Instance getByServerIP() {
+        return finder.where().eq("ip", Utils.serverIp).findUnique();
     }
 
 }

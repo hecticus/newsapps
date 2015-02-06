@@ -7,6 +7,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.Iterator;
 
 /**
  * Created by plesse on 9/30/14.
@@ -26,7 +27,7 @@ public class ClientHasAthlete extends HecticusModel {
     @JoinColumn(name = "id_athlete")
     private Athlete athlete;
 
-    public static Model.Finder<Integer, ClientHasAthlete> finder = new Model.Finder<Integer, ClientHasAthlete>(Integer.class, ClientHasAthlete.class);
+    private static Model.Finder<Integer, ClientHasAthlete> finder = new Model.Finder<Integer, ClientHasAthlete>(Integer.class, ClientHasAthlete.class);
 
     public ClientHasAthlete(Client client, Athlete theme) {
         this.client = client;
@@ -73,10 +74,32 @@ public class ClientHasAthlete extends HecticusModel {
         return response;
     }
 
-    public ObjectNode toJsonWithoutWoman() {
+    public ObjectNode toJsonWithoutAthlete() {
         ObjectNode response = Json.newObject();
         response.put("id_client_has_athlete", idClientHasTheme);
         response.put("client", client.toJsonWithoutRelations());
         return response;
     }
+
+    //Finder Operations
+
+    public static ClientHasAthlete getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<ClientHasAthlete> getPage(int pageSize, int page){
+        Iterator<ClientHasAthlete> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
+
+    public static ClientHasAthlete getByClientAthlete(Client client, Athlete athlete){
+        return finder.where().eq("client", client).eq("athlete", athlete).findUnique();
+    }
+
+
 }

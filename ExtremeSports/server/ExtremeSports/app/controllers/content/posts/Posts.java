@@ -119,7 +119,7 @@ public class Posts extends HecticusController {
                 ArrayList<PostHasCountry> countries = new ArrayList<>();
                 while (countriesIterator.hasNext()){
                     JsonNode next = countriesIterator.next();
-                    Country country = Country.finder.byId(next.asInt());
+                    Country country = Country.getByID(next.asInt());
                     PostHasCountry phc = new PostHasCountry(post, country);
                     countries.add(phc);
                 }
@@ -337,7 +337,7 @@ public class Posts extends HecticusController {
                     Iterator<JsonNode> addCountries = postData.get("add_countries").elements();
                     while (addCountries.hasNext()){
                         JsonNode next = addCountries.next();
-                        Country country = Country.finder.byId(next.asInt());
+                        Country country = Country.getByID(next.asInt());
                         int index = post.getCountryIndex(country);
                         if(index == -1){
                             PostHasCountry phc = new PostHasCountry(post, country);

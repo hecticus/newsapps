@@ -11,10 +11,7 @@ import scala.collection.JavaConversions;
 import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by plesse on 9/30/14.
@@ -36,7 +33,7 @@ public class Country extends HecticusModel {
     @JoinColumn(name = "id_language")
     private Language language;
 
-    public static Model.Finder<Integer, Country> finder = new Model.Finder<Integer, Country>(Integer.class, Country.class);
+    private static Model.Finder<Integer, Country> finder = new Model.Finder<Integer, Country>(Integer.class, Country.class);
 
     public Integer getIdCountry() {
         return idCountry;
@@ -112,5 +109,21 @@ public class Country extends HecticusModel {
 
     public static Page<Country> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    //Finder Operations
+
+    public static Country getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Country> getPage(int pageSize, int page){
+        Iterator<Country> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 }

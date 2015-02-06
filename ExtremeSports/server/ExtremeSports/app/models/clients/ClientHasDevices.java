@@ -2,11 +2,14 @@ package models.clients;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.content.athletes.Athlete;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by plesse on 9/30/14.
@@ -29,7 +32,7 @@ public class ClientHasDevices extends HecticusModel {
     @Constraints.Required
     private String registrationId;
 
-    public static Model.Finder<Integer, ClientHasDevices> finder = new Model.Finder<Integer, ClientHasDevices>(Integer.class, ClientHasDevices.class);
+    private static Model.Finder<Integer, ClientHasDevices> finder = new Model.Finder<Integer, ClientHasDevices>(Integer.class, ClientHasDevices.class);
 
     public ClientHasDevices(Client client, Device device, String registrationId) {
         this.client = client;
@@ -85,5 +88,41 @@ public class ClientHasDevices extends HecticusModel {
         response.put("client", client.toJsonWithoutRelations());
         response.put("registration_id", registrationId);
         return response;
+    }
+
+    //Finder Operations
+
+    public static ClientHasDevices getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<ClientHasDevices> getPage(int pageSize, int page){
+        Iterator<ClientHasDevices> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
+    }
+
+    public static ClientHasDevices getByRegistrationIdDevice(String registrationId, Device device){
+        return ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device", device).findUnique();
+    }
+
+    public static ClientHasDevices getByForClientRegistrationIdDevice(Client client, String registrationId, Device device) {
+        return finder.where().eq("client", client).eq("registrationId", registrationId).eq("device", device).findUnique();
+    }
+
+    public static List<ClientHasDevices> getByNotForClientRegistrationIdDevice(Client client, String registrationId, Device device) {
+        return finder.where().ne("client", client).eq("registrationId", registrationId).eq("device", device).findList();
+    }
+
+    public static List<ClientHasDevices> getListByRegistrationIdDevice(String registrationId, Device device) {
+        return finder.where().eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+    }
+
+    public static List<ClientHasDevices> getListByRegistrationIdDeviceName(String registrationId, String device) {
+        return finder.where().eq("registrationId", registrationId).eq("device.name", device).findList();
     }
 }

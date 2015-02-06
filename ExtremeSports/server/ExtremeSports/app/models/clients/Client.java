@@ -169,8 +169,8 @@ public class Client extends HecticusModel {
         this.language = language;
     }
 
-    public int getDeviceIndex(String registrationId, int deviceId) {
-        ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
+    public int getDeviceIndex(String registrationId, Device device) {
+        ClientHasDevices clientHasDevice = ClientHasDevices.getByRegistrationIdDevice(registrationId, device);
         if(clientHasDevice == null){
             return -1;
         }
@@ -182,7 +182,7 @@ public class Client extends HecticusModel {
         if(athlete == null){
             return -1;
         }
-        ClientHasAthlete clientHasAthlete = ClientHasAthlete.finder.where().eq("client", this).eq("athlete", athlete).findUnique();
+        ClientHasAthlete clientHasAthlete = ClientHasAthlete.getByClientAthlete(this, athlete);
         if(clientHasAthlete == null){
             return -1;
         }

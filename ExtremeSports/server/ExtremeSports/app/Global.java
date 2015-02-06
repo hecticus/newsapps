@@ -109,7 +109,7 @@ public class Global  extends GlobalSettings {
         try {
             br = new BufferedReader(new FileReader(Config.getString("server-ip-file")));
             Utils.serverIp = br.readLine();
-            Instance actual = Instance.finder.where().eq("ip",Utils.serverIp).findUnique();
+            Instance actual = Instance.getByServerIP();
             if(actual != null) {
                 Utils.test = actual.getTest() == 1;
                 actual.setRunning(1);
@@ -151,7 +151,7 @@ public class Global  extends GlobalSettings {
     public void onStop(Application application) {
         try {
             if(Utils.serverIp != null) {
-                Instance actual = Instance.finder.where().eq("ip", Utils.serverIp).findUnique();
+                Instance actual = Instance.getByServerIP();
                 if (actual != null) {
                     actual.setRunning(0);
                     Instance.update(actual);

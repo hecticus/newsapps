@@ -92,14 +92,14 @@ public class Clients extends HecticusController {
                             if (next.has("device_id") && next.has("registration_id")) {
                                 String registrationId = next.get("registration_id").asText();
                                 int deviceId = next.get("device_id").asInt();
-                                Device device = Device.finder.byId(deviceId);
-                                ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
+                                Device device = Device.getByID(deviceId);
+                                ClientHasDevices clientHasDevice = ClientHasDevices.getByForClientRegistrationIdDevice(client, registrationId, device);
                                 if (clientHasDevice == null) {
                                     clientHasDevice = new ClientHasDevices(client, device, registrationId);
                                     client.getDevices().add(clientHasDevice);
                                     update = true;
                                 }
-                                otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                                otherRegsIDs = ClientHasDevices.getByNotForClientRegistrationIdDevice(client, registrationId, device);
                                 if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
                                     for (ClientHasDevices clientHasDevices : otherRegsIDs) {
                                         clientHasDevices.delete();
@@ -116,7 +116,7 @@ public class Clients extends HecticusController {
                 }
                 if (clientData.has("country") && clientData.has("language")) {
                     int countryId = clientData.get("country").asInt();
-                    Country country = Country.finder.byId(countryId);
+                    Country country = Country.getByID(countryId);
                     int languageId = clientData.get("language").asInt();
                     Language language = Language.getByID(languageId);
                     if (country != null && language != null) {
@@ -133,11 +133,11 @@ public class Clients extends HecticusController {
                             if (next.has("device_id") && next.has("registration_id")) {
                                 String registrationId = next.get("registration_id").asText();
                                 int deviceId = next.get("device_id").asInt();
-                                Device device = Device.finder.byId(deviceId);
+                                Device device = Device.getByID(deviceId);
                                 if (device != null) {
                                     ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
                                     devices.add(clientHasDevice);
-                                    otherRegsIDs = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                                    otherRegsIDs = ClientHasDevices.getListByRegistrationIdDevice(registrationId, device);
                                     if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
                                         for (ClientHasDevices clientHasDevices : otherRegsIDs) {
                                             clientHasDevices.delete();
@@ -242,9 +242,9 @@ public class Clients extends HecticusController {
                         if (next.has("device_id") && next.has("registration_id")) {
                             String registrationId = next.get("registration_id").asText();
                             int deviceId = next.get("device_id").asInt();
-                            Device device = Device.finder.byId(deviceId);
+                            Device device = Device.getByID(deviceId);
                             if (device != null) {
-                                int index = client.getDeviceIndex(registrationId, deviceId);
+                                int index = client.getDeviceIndex(registrationId, device);
                                 if(index != -1) {
                                     client.getDevices().remove(index);
                                     update = true;
@@ -262,15 +262,15 @@ public class Clients extends HecticusController {
                         if (next.has("device_id") && next.has("registration_id")) {
                             String registrationId = next.get("registration_id").asText();
                             int deviceId = next.get("device_id").asInt();
-                            Device device = Device.finder.byId(deviceId);
+                            Device device = Device.getByID(deviceId);
                             if (device != null) {
-                                if(client.getDeviceIndex(registrationId, deviceId) == -1) {
+                                if(client.getDeviceIndex(registrationId, device) == -1) {
                                     ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
                                     client.getDevices().add(clientHasDevice);
                                     update = true;
                                 }
                             }
-                            otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                            otherRegsIDs = ClientHasDevices.getByNotForClientRegistrationIdDevice(client, registrationId, device);
                             if(otherRegsIDs != null && !otherRegsIDs.isEmpty()){
                                 for(ClientHasDevices clientHasDevices : otherRegsIDs){
                                     clientHasDevices.delete();
@@ -288,7 +288,7 @@ public class Clients extends HecticusController {
                         if(athlete == null){
                             continue;
                         }
-                        ClientHasAthlete clientHasAthlete = ClientHasAthlete.finder.where().eq("client.idClient", client.getIdClient()).eq("athlete.idAthlete", athlete.getIdAthlete()).findUnique();
+                        ClientHasAthlete clientHasAthlete = ClientHasAthlete.getByClientAthlete(client, athlete);
                         if(clientHasAthlete != null){
                             client.getAthletes().remove(clientHasAthlete);
                             clientHasAthlete.delete();
@@ -434,7 +434,7 @@ public class Clients extends HecticusController {
                     String type = operation.get("type").asText();
                     String actualId = operation.get("actual_id").asText();
                     String action = operation.get("operation").asText();
-                    List<ClientHasDevices> devs = ClientHasDevices.finder.where().eq("registrationId", actualId).eq("device.name",type).findList();
+                    List<ClientHasDevices> devs = ClientHasDevices.getListByRegistrationIdDeviceName(actualId,type);
                     for(ClientHasDevices d : devs) {
                         if(action.equalsIgnoreCase("UPDATE")){
                             d.setRegistrationId(operation.get("new_id").asText());
@@ -444,7 +444,7 @@ public class Clients extends HecticusController {
                         }
                     }
                     if(operation.has("new_id")) {
-                        devs = ClientHasDevices.finder.where().eq("registrationId", operation.get("new_id").asText()).eq("device.name",type).findList();
+                        devs = ClientHasDevices.getListByRegistrationIdDeviceName(operation.get("new_id").asText(), type);
                         if(devs != null && !devs.isEmpty()){
                             for(int i = 1; i < devs.size(); ++i){
                                 devs.get(i).delete();

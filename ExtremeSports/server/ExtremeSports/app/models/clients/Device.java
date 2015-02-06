@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class Device extends HecticusModel {
     @OneToMany(mappedBy="device")
     private List<ClientHasDevices> clients;
 
-    public static Model.Finder<Integer, Device> finder = new Model.Finder<Integer, Device>(Integer.class, Device.class);
+    private static Model.Finder<Integer, Device> finder = new Model.Finder<Integer, Device>(Integer.class, Device.class);
 
     public Device(String name) {
         this.name = name;
@@ -70,5 +71,21 @@ public class Device extends HecticusModel {
             response.put("clients", Json.toJson(apps));
         }
         return response;
+    }
+
+    //Finder Operations
+
+    public static Device getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Device> getPage(int pageSize, int page){
+        Iterator<Device> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 }
