@@ -3,6 +3,7 @@ package models.content.posts;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.*;
 
@@ -57,6 +58,8 @@ public class PostHasCategory extends HecticusModel {
 
     @Override
     public ObjectNode toJson() {
-        return null;
+        ObjectNode response = Json.newObject();
+        response.put("id_post", post.getIdPost());
+        return response;
     }
 }

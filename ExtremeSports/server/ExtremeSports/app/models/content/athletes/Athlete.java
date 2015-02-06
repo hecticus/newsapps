@@ -97,7 +97,7 @@ public class Athlete extends HecticusModel {
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
-        response.put("id_theme", idAthlete);
+        response.put("id_athlete", idAthlete);
         response.put("name", name);
         /*if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getMedia();
@@ -131,7 +131,7 @@ public class Athlete extends HecticusModel {
 
     public ObjectNode toJsonWithLastPost() {
         ObjectNode response = Json.newObject();
-        response.put("id_theme", idAthlete);
+        response.put("id_athlete", idAthlete);
         response.put("name", name);
         if(!posts.isEmpty()){
             List<PostHasMedia> media = posts.get(posts.size() - 1).getPost().getMedia();
@@ -161,7 +161,7 @@ public class Athlete extends HecticusModel {
 
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
-        response.put("id_theme", idAthlete);
+        response.put("id_athlete", idAthlete);
         response.put("name", name);
         response.put("clients", clients == null?0:clients.size());
         response.put("posts", posts == null?0:posts.size());
@@ -178,7 +178,7 @@ public class Athlete extends HecticusModel {
 
     public ObjectNode toJsonWithNetworks() {
         ObjectNode response = Json.newObject();
-        response.put("id_theme", idAthlete);
+        response.put("id_athlete", idAthlete);
         response.put("name", name);
         response.put("clients", clients == null?0:clients.size());
         response.put("posts", posts == null?0:posts.size());
@@ -196,23 +196,23 @@ public class Athlete extends HecticusModel {
 
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-        List<Athlete> themes = Athlete.finder.all();
-        for(Athlete theme: themes) {
-            options.put(theme.getIdAthlete().toString(), theme.getName());
+        List<Athlete> athletes = Athlete.finder.all();
+        for(Athlete athlete: athletes) {
+            options.put(athlete.getIdAthlete().toString(), athlete.getName());
         }
         return options;
     }
 
     public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
-        List<Athlete> themes = Athlete.finder.all();
+        List<Athlete> athletes = Athlete.finder.all();
         ArrayList<Tuple2<String, String>> proxy = new ArrayList<>();
-        for(Athlete theme : themes) {
-            Tuple2<String, String> t = new Tuple2<>(theme.getIdAthlete().toString(), theme.getName());
+        for(Athlete athlete : athletes) {
+            Tuple2<String, String> t = new Tuple2<>(athlete.getIdAthlete().toString(), athlete.getName());
             proxy.add(t);
         }
-        Buffer<Tuple2<String, String>> themesBuffer = JavaConversions.asScalaBuffer(proxy);
-        scala.collection.immutable.List<Tuple2<String, String>> themesList = themesBuffer.toList();
-        return themesList;
+        Buffer<Tuple2<String, String>> athletesBuffer = JavaConversions.asScalaBuffer(proxy);
+        scala.collection.immutable.List<Tuple2<String, String>> athletesList = athletesBuffer.toList();
+        return athletesList;
     }
 
     /**

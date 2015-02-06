@@ -28,6 +28,9 @@ public class Category extends HecticusModel {
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     private List<PostHasCategory> posts;//cambiar por posts
 
+    @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
+    private List<CategoryHasLocalization> localizations;
+
     private static Model.Finder<Integer, Category> finder = new Model.Finder<Integer, Category>(Integer.class, Category.class);
 
     public Category(String name) {
@@ -54,6 +57,18 @@ public class Category extends HecticusModel {
         return posts;
     }
 
+    public void setPosts(List<PostHasCategory> posts) {
+        this.posts = posts;
+    }
+
+    public List<CategoryHasLocalization> getLocalizations() {
+        return localizations;
+    }
+
+    public void setLocalizations(List<CategoryHasLocalization> localizations) {
+        this.localizations = localizations;
+    }
+
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_category", idCategory);
@@ -65,6 +80,15 @@ public class Category extends HecticusModel {
             }
             response.put("posts", Json.toJson(apps));
         }
+
+        if(localizations != null && !localizations.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(CategoryHasLocalization ad : localizations){
+                apps.add(ad.toJson());
+            }
+            response.put("localizations", Json.toJson(apps));
+        }
+
         return response;
     }
 

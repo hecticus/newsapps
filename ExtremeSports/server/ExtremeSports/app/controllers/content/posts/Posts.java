@@ -104,7 +104,7 @@ public class Posts extends HecticusController {
                 while (localizationsIterator.hasNext()){
                     ObjectNode next = (ObjectNode)localizationsIterator.next();
                     if(next.has("language") && next.has("title") && next.has("content")){
-                        Language language = Language.finder.byId(next.get("language").asInt());
+                        Language language = Language.getByID(next.get("language").asInt());
                         PostHasLocalization phl = new PostHasLocalization(post, language, next.get("title").asText(), next.get("content").asText());
                         localizations.add(phl);
                     }
@@ -131,7 +131,7 @@ public class Posts extends HecticusController {
 
                 Iterator<JsonNode> categoriesIterator = postData.get("categories").elements();
                 ArrayList<PostHasCategory> categories = new ArrayList<>();
-                while (countriesIterator.hasNext()){
+                while (categoriesIterator.hasNext()){
                     JsonNode next = categoriesIterator.next();
                     Category category = Category.getByID(next.asInt());
                     PostHasCategory phc = new PostHasCategory(post, category);
@@ -170,10 +170,14 @@ public class Posts extends HecticusController {
                         int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
                         String file = next.get("file").asText();
                         String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
-                        String path = Utils.uploadAttachment(file, post.getIdPost());
-                        BufferedImage bimg = ImageIO.read(new File(file));
-                        int width = bimg.getWidth();
-                        int height  = bimg.getHeight();
+                        String path = Utils.uploadAttachment(file, "Post-"+post.getIdPost());
+                        int width = 0;
+                        int height = 0;
+                        if(fileType.getMimeType().startsWith("image")){
+                            BufferedImage bimg = ImageIO.read(new File(Config.getString("ftp-route") + file));
+                            width = bimg.getWidth();
+                            height = bimg.getHeight();
+                        }
                         PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
                         media.add(phm);
                     }
@@ -189,7 +193,7 @@ public class Posts extends HecticusController {
                     post.setMedia(media);
                 }
 
-
+                post.update();
 
                 response = buildBasicResponse(0, "OK", post.toJson());
             } else {
@@ -258,7 +262,7 @@ public class Posts extends HecticusController {
                     Iterator<JsonNode> removeLocalizations = postData.get("remove_localizations").elements();
                     while (removeLocalizations.hasNext()){
                         JsonNode next = removeLocalizations.next();
-                        Language language = Language.finder.byId(next.asInt());
+                        Language language = Language.getByID(next.asInt());
                         if(language != null){
                             int index = post.getLocalizationIndex(language);
                             if(index > -1){
@@ -274,7 +278,7 @@ public class Posts extends HecticusController {
                     while (addLocalizations.hasNext()){
                         ObjectNode next = (ObjectNode)addLocalizations.next();
                         if(next.has("language") && next.has("title") && next.has("content")){
-                            Language language = Language.finder.byId(next.get("language").asInt());
+                            Language language = Language.getByID(next.get("language").asInt());
                             int index = post.getLocalizationIndex(language);
                             if(index == -1){
                                 PostHasLocalization phl = new PostHasLocalization(post, language, next.get("title").asText(), next.get("content").asText());
@@ -318,7 +322,7 @@ public class Posts extends HecticusController {
                     Iterator<JsonNode> removeCountries = postData.get("remove_countries").elements();
                     while (removeCountries.hasNext()){
                         JsonNode next = removeCountries.next();
-                        Language language = Language.finder.byId(next.asInt());
+                        Language language = Language.getByID(next.asInt());
                         if(language != null){
                             int index = post.getLocalizationIndex(language);
                             if(index > -1){
@@ -382,7 +386,7 @@ public class Posts extends HecticusController {
                             String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
                             int index = post.getMediaIndex(md5);
                             if(index == -1){
-                                String path = Utils.uploadAttachment(file, post.getIdPost());
+                                String path = Utils.uploadAttachment(file, "Post-"+post.getIdPost());
                                 BufferedImage bimg = ImageIO.read(new File(file));
                                 int width = bimg.getWidth();
                                 int height  = bimg.getHeight();

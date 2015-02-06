@@ -6,6 +6,7 @@ import controllers.HecticusController;
 import exceptions.UpstreamAuthenticationFailureException;
 import models.basic.Config;
 import models.basic.Country;
+import models.basic.Language;
 import models.clients.*;
 import models.content.athletes.Athlete;
 import org.apache.commons.codec.binary.Base64;
@@ -113,16 +114,18 @@ public class Clients extends HecticusController {
                     response = buildBasicResponse(0, "OK", client.toJson());
                     return ok(response);
                 }
-                if (clientData.has("country")) {
+                if (clientData.has("country") && clientData.has("language")) {
                     int countryId = clientData.get("country").asInt();
                     Country country = Country.finder.byId(countryId);
-                    if (country != null) {
+                    int languageId = clientData.get("language").asInt();
+                    Language language = Language.getByID(languageId);
+                    if (country != null && language != null) {
                         TimeZone tz = TimeZone.getDefault();
                         Calendar actualDate = new GregorianCalendar(tz);
                         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
                         String date = sf.format(actualDate.getTime());
 
-                        client = new Client(2, login, password, country, date);
+                        client = new Client(2, login, password, country, date, language);
                         ArrayList<ClientHasDevices> devices = new ArrayList<>();
                         Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                         while (devicesIterator.hasNext()) {
@@ -220,6 +223,15 @@ public class Clients extends HecticusController {
                 if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
                     getUserIdFromUpstream(client,upstreamChannel);
                     getStatusFromUpstream(client,upstreamChannel);
+                }
+
+                if(clientData.has("language")){
+                    int languageId = clientData.get("language").asInt();
+                    Language language = Language.getByID(languageId);
+                    if(language != null){
+                        client.setLanguage(language);
+                        update = true;
+                    }
                 }
 
                 if(clientData.has("remove_devices")){

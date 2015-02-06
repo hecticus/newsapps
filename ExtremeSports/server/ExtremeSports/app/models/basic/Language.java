@@ -3,15 +3,15 @@ package models.basic;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.clients.Client;
+import models.content.posts.CategoryHasLocalization;
+import models.content.posts.PostHasLocalization;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import scala.Tuple2;
 import scala.collection.JavaConversions;
@@ -35,8 +35,16 @@ public class Language extends HecticusModel {
     @Constraints.Required
     private Integer active;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="language", cascade = CascadeType.ALL)
+    private List<CategoryHasLocalization> categories;
 
-    public static Model.Finder<Integer, Language> finder = new Model.Finder<Integer, Language>(Integer.class, Language.class);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="language", cascade = CascadeType.ALL)
+    private List<PostHasLocalization> posts;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="language", cascade = CascadeType.ALL)
+    private List<Client> clients;
+
+    private static Model.Finder<Integer, Language> finder = new Model.Finder<Integer, Language>(Integer.class, Language.class);
 
     public Integer getIdLanguage() {
         return idLanguage;
@@ -68,6 +76,34 @@ public class Language extends HecticusModel {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public void setIdLanguage(Integer idLanguage) {
+        this.idLanguage = idLanguage;
+    }
+
+    public List<CategoryHasLocalization> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryHasLocalization> categories) {
+        this.categories = categories;
+    }
+
+    public List<PostHasLocalization> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostHasLocalization> posts) {
+        this.posts = posts;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 
     @Override
@@ -103,5 +139,21 @@ public class Language extends HecticusModel {
 
     public static Page<Language> page(int page, int pageSize, String sortBy, String order, String filter) {
         return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    //Finder Operations
+
+    public static Language getByID(int id){
+        return finder.byId(id);
+    }
+
+    public static Iterator<Language> getPage(int pageSize, int page){
+        Iterator<Language> iterator = null;
+        if(pageSize == 0){
+            iterator = finder.all().iterator();
+        }else{
+            iterator = finder.where().setFirstRow(page).setMaxRows(pageSize).findList().iterator();
+        }
+        return  iterator;
     }
 }

@@ -257,6 +257,15 @@ public class Post extends HecticusModel {
             }
             response.put("localizations", Json.toJson(apps));
         }
+
+        if(categories != null && !categories.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(PostHasCategory ad : categories){
+                apps.add(ad.getCategory().toJsonWithoutRelations());
+            }
+            response.put("categories", Json.toJson(apps));
+        }
+
         return response;
     }
 

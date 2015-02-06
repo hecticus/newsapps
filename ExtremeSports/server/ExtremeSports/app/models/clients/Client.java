@@ -53,36 +53,40 @@ public class Client extends HecticusModel {
 
     private static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
 
-    public Client(Integer status, String login, String password, Country country) {
+    public Client(Integer status, String login, String password, Country country, Language language) {
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
+        this.language = language;
     }
 
-    public Client(String userId, Integer status, String login, String password, Country country) {
+    public Client(String userId, Integer status, String login, String password, Country country, Language language) {
         this.userId = userId;
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
+        this.language = language;
     }
 
-    public Client(Integer status, String login, String password, Country country, String lastCheckDate) {
+    public Client(Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
         this.lastCheckDate = lastCheckDate;
+        this.language = language;
     }
 
-    public Client(String userId, Integer status, String login, String password, Country country, String lastCheckDate) {
+    public Client(String userId, Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
         this.userId = userId;
         this.status = status;
         this.login = login;
         this.password = password;
         this.country = country;
         this.lastCheckDate = lastCheckDate;
+        this.language = language;
     }
 
     public Integer getIdClient() {

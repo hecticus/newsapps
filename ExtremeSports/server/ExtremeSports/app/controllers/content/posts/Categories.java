@@ -1,8 +1,11 @@
 package controllers.content.posts;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import models.basic.Language;
 import models.content.posts.Category;
+import models.content.posts.CategoryHasLocalization;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -19,8 +22,23 @@ public class Categories extends HecticusController {
         try{
             ObjectNode categoryData = getJson();
             ObjectNode response = null;
-            if(categoryData.has("name")){
+            if(categoryData.has("name") && categoryData.has("localizations")){
                 Category category = new Category(categoryData.get("name").asText());
+                Iterator<JsonNode> localizationsIterator = categoryData.get("localizations").elements();
+                ArrayList<CategoryHasLocalization> localizations = new ArrayList<>();
+                CategoryHasLocalization categoryHasLocalization = null;
+                Language language = null;
+                while(localizationsIterator.hasNext()){
+                    JsonNode next = localizationsIterator.next();
+                    if(next.has("language") && next.has("localization")){
+                        language = Language.getByID(next.get("language").asInt());
+                        if(language != null){
+                            categoryHasLocalization = new CategoryHasLocalization(category, language, next.get("localization").asText());
+                            localizations.add(categoryHasLocalization);
+                        }
+                    }
+                }
+                category.setLocalizations(localizations);
                 category.save();
                 response = buildBasicResponse(0, "OK", category.toJson());
             } else {

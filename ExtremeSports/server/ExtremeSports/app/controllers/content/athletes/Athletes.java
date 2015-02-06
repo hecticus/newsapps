@@ -21,7 +21,7 @@ import java.util.Iterator;
 /**
  * Created by plesse on 10/1/14.
  */
-@Security.Authenticated(Secured.class)
+//@Security.Authenticated(Secured.class)
 public class Athletes extends HecticusController {
 
     public static Result create() {
@@ -54,7 +54,7 @@ public class Athletes extends HecticusController {
 
                 if(athleteData.has("default_photo")){
                     String file = athleteData.get("default_photo").asText();
-                    String path = Utils.uploadAttachment(file, athlete.getIdAthlete());
+                    String path = Utils.uploadAttachment(file, "Athlete-"+athlete.getIdAthlete());
                     athlete.setDefaultPhoto(path);
                     athlete.update();
                 }
@@ -164,13 +164,15 @@ public class Athletes extends HecticusController {
             athlete.setSocialNetworks(nets);
         }
 
+        athlete.save();
+
         if(data.has("default_photo")){
             String file = data.get("default_photo").asText();
-            String path = Utils.uploadAttachment(file, athlete.getIdAthlete());
+            String path = Utils.uploadAttachment(file, "Athlete-"+athlete.getIdAthlete());
             athlete.setDefaultPhoto(path);
         }
 
-        athlete.save();
+        athlete.update();
         return athlete;
     }
 

@@ -285,7 +285,7 @@ public class Utils {
         return dest.getAbsolutePath();
     }
 
-    public static String uploadAttachment(String file, int idFolder) throws IOException {
+    public static String uploadAttachment(String file, String idFolder) throws IOException {
         File afile =new File(Config.getString("ftp-route") + file);
         File folder =new File(Config.getString("attachments-route") + idFolder);
         if(!folder.exists()) {
