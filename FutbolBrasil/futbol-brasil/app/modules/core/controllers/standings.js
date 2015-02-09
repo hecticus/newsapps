@@ -58,7 +58,7 @@ angular
                 $http.get(Domain.ranking(competition,phase))
                 .success(function (data, status, headers, config) {
 
-alert(JSON.stringify(data.response.ranking));
+
 
                     $scope.item.tree = data.response.tree;
                     $scope.item.phase = data.response.phase;
