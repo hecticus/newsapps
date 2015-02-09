@@ -102,7 +102,7 @@ angular
               $scope.$emit('load');
               $http.get(Domain.bets.get())
               .success(function (data, status, headers, config) {
-                $scope.item =  obj.data.response;
+                $scope.item = data.response;
                 $rootScope.$storage.bet = JSON.stringify($scope.item);
                 $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
               }).catch(function () {
