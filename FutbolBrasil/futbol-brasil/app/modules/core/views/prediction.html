@@ -1,10 +1,10 @@
 <div class="row">
   <div id="wrapperH">
-    <div id="scroller" style="width:{{_this.widthTotal}}px;">
+    <div id="scroller" ng-style="getTotalWidth()">
       <ul>
 
 
-        <li style="width:{{_this.width}}px;" ng-repeat="league in _this.item.leagues" >
+        <li ng-style="getWidth()" ng-repeat="league in item.leagues" >
           <div class="container">
 
             <div class="row header">
@@ -83,29 +83,6 @@
                         </tbody>
                       </table>
                     </div>
-
-                   <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-
-                     <table class="table">
-                       <thead>
-                       <tr>
-                         <th style="text-align: left;">Nome do jogador</th>
-                         <th style="text-align: left;">Equipe</th>
-                         <th>Goles</th>
-                       </tr>
-                       </thead>
-                       <tbody>
-
-                       <tr ng-class="{'active' : $odd}" ng-repeat="scorer in league.scorers" >
-                         <td style="text-align: left;"><span ng-bind="scorer.name" style="vertical-align: middle;"></span></td>
-                         <td style="text-align: left;"><span ng-bind="scorer.team.name" style="vertical-align: middle;"></span></td>
-                         <td><span ng-bind="scorer.goals" style="vertical-align: middle;"></span></td>
-                       </tr>
-
-                       </tbody>
-                     </table>
-
-                   </div-->
                   </div>	<!--container-->
                 </div>	<!--scroller-->
               </div> <!--wrapper-->
@@ -116,7 +93,7 @@
           <div class="bet-content"  ng-click="saveBet($index, league.id_competitions)">
             <span style="font-size:1.6em;">{{item.leagues[$index].client_bets}}</span> /
             <span style="font-size:2em;">{{item.leagues[$index].total_bets}}</span>
-            <br />
+            <br/>
             <button class="btn btn-primary">Salvar</button>
           </div>
         </li>

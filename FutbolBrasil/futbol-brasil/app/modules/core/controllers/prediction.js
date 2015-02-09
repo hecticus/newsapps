@@ -22,6 +22,14 @@ angular
             $scope.width = $window.innerWidth;
             $scope.widthTotal = ($window.innerWidth * 11);
 
+            $scope.getWidth = function(){
+                return { 'width': $scope.width + 'px'}
+            };
+
+            $scope.getTotalWidth = function(){
+                return { 'width': $scope.widthTotal + 'px'}
+            };
+
             $scope.setBet = function (_tournament, _game, _status, _bet, _iLeague ,_iFixture, _iMatch) {
 
                 var _jLeagues = $scope.item.leagues[_iLeague];

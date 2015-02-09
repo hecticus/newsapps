@@ -586,15 +586,53 @@ body.content-mtm .row-back {
 
 /*menu*/
 
-i.back-button {
-    visibility: hidden;
-}
+/* Reemplazado funcion que maneja ng-class en main */
+/*i.back-button {*/
+    /*visibility: hidden;*/
+/*}*/
 
-i.back-button.active {
-    visibility: visible;
-}
+/*i.back-button.active {*/
+    /*visibility: visible;*/
+/*}*/
 
 .tabs {
     opacity: 0.5;
     /*text-transform: capitalize;*/
+}
+
+.team-info{
+    display: inline-block;
+}
+
+.team-logo{
+    /*display: inline-block;*/
+}
+
+.btn-delete-item {
+    background-color: #f44336 !important;
+    border-radius: 100%;
+    font-size: 12px;
+    padding: 6px;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    line-height: 10px;
+    position: absolute;
+    top: -12px;
+    right: 16px;
+}
+
+.drawer-icon {
+    vertical-align: middle;
+    font-size: 2.5em;
+}
+
+.drawer-title{
+    vertical-align: middle;
+    font-size: 1.2em;
+    color: #FFF;
+}
+
+.icon-white {
+    color: #FFF;
 }

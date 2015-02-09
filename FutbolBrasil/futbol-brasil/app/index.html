@@ -6,7 +6,8 @@
 
     <meta name="description" content="">
     <!--TODO Verificar Warning-->
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes.
+    See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1
       , width=device-width, height=device-height" />
     <meta name="format-detection" content="telephone=no" />
@@ -33,17 +34,25 @@
     <script src="cordova.js"></script>
 </head>
 
-<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;" ng-swipe-right="prevPage()" ng-swipe-left="nextPage()">
+<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;"
+      ng-swipe-right="prevPage()"
+      ng-swipe-left="nextPage()">
 
 <div class="container-fluid">
     <div class="row">
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <header>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left" >
-                        <i ng-click="runBackButton(true)" class="icon mdi-navigation-arrow-back back-button {{isActiveButton}}" style="font-size: 1.8em; margin-left: 10px;"></i>
-                        <img  ng-click="showMenu()" src="img/logo.svg" onerror="this.src='img/logo.png'"
-                              style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                        <i class="icon drawer-icon icon-white"
+                           ng-class="getDrawerIcon()"
+                           ng-click="runBackButton()"></i>
+                        <span class="drawer-title">
+                            <img  ng-click="showMenu()" src="img/logo.svg" onerror="this.src='img/logo.png'"
+                                  style="width: auto; height: 30px;  position: relative;
+                                  vertical-align: middle;"/>
+                            {{strings.MENU_NOTISTATS}}
+                        </span>
                     </div>
                 </header>
             </div>
@@ -56,10 +65,16 @@
     <loading></loading>
     <error></error>
     <menu>
-        <menu-item section="news" icon="mdi-action-label">NOTISTASTS</menu-item>
-        <menu-item section="prediction" icon="mdi-action-event">PALPITES</menu-item>
-        <menu-item section="settings" icon="mdi-action-settings">DEFINI&#199;&#213;ES</menu-item>
+        <menu-item section="news" icon="mdi-action-label">{{strings.MENU_NOTISTATS}}</menu-item>
+        <menu-item section="prediction" icon="mdi-action-event">{{strings.MENU_BETS}}</menu-item>
+        <menu-item section="settings" icon="mdi-action-settings">{{strings.MENU_SETTINGS}}</menu-item>
     </menu>
+
+    <!--<menu>-->
+        <!--<menu-item section="news" icon="mdi-action-label">NOTISTASTS</menu-item>-->
+        <!--<menu-item section="prediction" icon="mdi-action-event">PALPITES</menu-item>-->
+        <!--<menu-item section="settings" icon="mdi-action-settings">DEFINI&#199;&#213;ES</menu-item>-->
+    <!--</menu>-->
 
 
     <div class="row">

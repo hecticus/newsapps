@@ -12,28 +12,63 @@ angular
         , 'Domain', 'ClientManager','CordovaApp',
         function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, Domain, ClientManager, CordovaApp) {
 
+            $rootScope.$storage = $localStorage;
+            $scope.strings = {
+                MENU_NOTISTATS : 'NotiStats',
+                MENU_BETS : 'Palpites',
+                MENU_SETTINGS : 'Definições'
+//                DEFINI&#199;&#213;ES
+            };
+
             $scope.$on('load', function(){
                 $scope.loading = true;
                 $scope.error = false;
             });
 
-            $scope.$on('unload', function(){ $scope.loading = false;  });
-            $scope.$on('error', function(){ $scope.error = true;  });
-
-            $rootScope.$storage = $localStorage;
+            $scope.$on('unload', function(){$scope.loading = false;});
+            $scope.$on('error', function(){$scope.error = true;});
+            CordovaApp.setBackButtonCallback(function(){
+                if(angular.element('.page.back.left:last').hasClass('left')){
+                    $scope.runBackButton();
+                } else {
+                    var EXIT_APP_TITLE = 'Sair do Aplicativo';
+                    var EXIT_APP_MSG = 'Tem certeza de que deseja sair do aplicativo?';
+                    var ok = 'Ok';
+                    var cancel = 'Cancelar';
+                    if (!!navigator.notification) {
+                        navigator.notification.confirm(EXIT_APP_MSG, CordovaApp.exitApp(), EXIT_APP_TITLE, [ok, cancel]);
+                    } else if (confirm(EXIT_APP_MSG)) {
+                        CordovaApp.exitApp();
+                    }
+                }
+            });
 
             $scope.isActive = function(className){
                 return $state.current.name === className;
             };
 
-            $rootScope.runBackButton = function(_exit) {
+            $scope.getDrawerIcon = function(){
+                var classStr = 'icon ';
+                if(angular.element('.page.back.left:last').hasClass('left')){
+                    classStr += 'mdi-navigation-arrow-back ';
+                } else {
+                    classStr += 'mdi-navigation-menu';
+                }
+                return classStr;
+            };
+
+            $rootScope.runBackButton = function() {
                 if (angular.element('.page.back.left:last').hasClass('left')) {
                     $rootScope.transitionPage('.page.back.left:last', 'right')
                 } else if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
-                } else if (_exit && confirm('Para sair da aplicação')) {
-                    CordovaApp.exitApp();
+                } else {
+                    $scope.showMenu();
                 }
+                //TODO reemplazar por escucha de botón back
+//                } else if (_exit && confirm('Para sair da aplicação')) {
+//                    CordovaApp.exitApp();
+//                }
             };
 
             $rootScope.showSection = function(_section) {
@@ -51,14 +86,15 @@ angular
             };
 
             $rootScope.transitionPageBack = function(_wrapper, _direction) {
-                $rootScope.transitionPage(_wrapper,_direction, 'back')
+                $rootScope.transitionPage(_wrapper, _direction, 'back')
             };
+
             $rootScope.nextPage = function() {
-                $rootScope.runBackButton(false);
+                $rootScope.runBackButton();
             };
 
             $rootScope.prevPage = function() {
-                $rootScope.runBackButton(false);
+                $rootScope.runBackButton();
             };
 
             $scope.getCompetitions = function(){

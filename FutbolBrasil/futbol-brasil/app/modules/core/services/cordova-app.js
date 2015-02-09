@@ -13,7 +13,15 @@ angular
             , Client, Settings) {
             var that = this;
 
+            var onBackButtonPressed = function(){
+
+            };
+
             return {
+                setBackButtonCallback: function(callback){
+                    if(typeof callback === 'function')
+                    onBackButtonPressed = callback;
+                },
 
                 bindEvents : function() {
                     console.log('CordovaApp. bindEvents. ');
@@ -35,7 +43,7 @@ angular
                     console.log('CordovaApp. receivedEvent. ');
                     if (id === 'deviceready') {
                         document.addEventListener('backbutton', function(e) {
-                            that.backButton();
+                            onBackButtonPressed();
                         }, false);
                     }
 
@@ -70,6 +78,7 @@ angular
 
                     }
 
+                    //Legacy
                     if (navigator.app) {
                         navigator.app.exitApp();
                     } else if (navigator.device) {
