@@ -11,7 +11,6 @@ angular
     .controller('StandingsCtrl',  ['$http','$rootScope','$scope','$state','$localStorage','Domain','Utilities',
         function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities) {
 
-            var _promise = false;
             var _scroll;
             var _scroll2;
             var _scroll3;
@@ -29,10 +28,9 @@ angular
                 $scope.item.ranking = [];
                 $scope.item.phases = [];
                 $scope.item.competition = false;
-                _promise = $http({method: 'GET', url: Domain.phases(competition.id_competitions)});
-                _promise.then(function(obj) {
-
-                    $scope.item.phases = obj.data.response.phases;
+                $http.get(Domain.phases(competition.id_competitions))
+                .success(function (data, status, headers, config) {
+                    $scope.item.phases = data.response.phases;
                     $scope.item.competition = competition;
                     if ($scope.item.phases.length == 1) {
                         $scope.showContentRanking($scope.item.competition.id_competitions
@@ -41,10 +39,10 @@ angular
                          $rootScope.transitionPageBack('#wrapper2', 'left');
                         _scroll2.scrollTo(0,0,0);
                     }
-
+                }).catch(function () {
+                    $scope.$emit('error');
                 }).finally(function(data) {
                     $scope.$emit('unload');
-                    $rootScope.error = false;
                 });
 
             };
@@ -54,18 +52,17 @@ angular
                 $scope.$emit('load');
                 $scope.item.phase = false;
                 $scope.item.ranking = [];
-                _promise = $http({method: 'GET', url: Domain.ranking(competition,phase)});
-                _promise.then(function(obj) {
-
-                    $scope.item.tree = obj.data.response.tree;
-                    $scope.item.phase = obj.data.response.phase;
-                    $scope.item.ranking =  obj.data.response.ranking;
+                $http.get(Domain.ranking(competition,phase))
+                .success(function (data, status, headers, config) {
+                    $scope.item.tree = data.response.tree;
+                    $scope.item.phase = data.response.phase;
+                    $scope.item.ranking =  data.response.ranking;
                     $rootScope.transitionPageBack('#wrapper3', 'left');
                     _scroll3.scrollTo(0,0,0);
-
+                }).catch(function () {
+                    $scope.$emit('error');
                 }).finally(function(data) {
                     $scope.$emit('unload');
-                    $rootScope.error = false;
                 });
 
             };

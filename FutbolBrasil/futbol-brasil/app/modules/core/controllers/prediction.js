@@ -79,16 +79,13 @@ angular
                     });
                 });
 
-                console.log(JSON.stringify(_jBets));
-
-                $http.post(Domain.bets.create(), {bets: _jBets}).
-                    success(function (data) {
-                        alert('success');
-                        $scope.$emit('unload');
-                    }).
-                    error(function (data) {
-                        alert('error')
-                    });
+              $http.post(Domain.bets.create(), {bets:_jBets}).
+              success(function(data) {
+                alert('success');
+                $scope.$emit('unload');
+              }).catch(function () {
+                alert('error')
+              });
             };
 
             $scope.getDate = function (_date) {
@@ -102,17 +99,32 @@ angular
 
 
             $scope.init = function(){
-                $scope.$emit('load');
-                $http({method: 'GET', url: Domain.bets.get()})
-                    .then(function(obj) {
-                        $scope.item =  obj.data.response;
-                        $rootScope.$storage.bet = JSON.stringify($scope.item);
-                        $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-                    })
-                    .finally(function(data) {
-                        $scope.$emit('unload');
-                        $rootScope.error = false;
-                    });
+              $scope.$emit('load');
+              $http.get(Domain.bets.get())
+              .success(function (data, status, headers, config) {
+                $scope.item =  obj.data.response;
+                $rootScope.$storage.bet = JSON.stringify($scope.item);
+                $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
+              }).catch(function () {
+                  $scope.$emit('error');
+              }).finally(function(data) {
+                  $scope.$emit('unload');
+              });
+
+              var _scroll = Utilities.newScroll.horizontal('wrapperH');
+              $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                  angular.forEach($scope.item.leagues, function(_item, _index) {
+                      Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                  });
+              });
+
+              $scope.nextPage = function(){
+                _scroll.next();
+              };
+
+              $scope.prevPage = function(){
+                _scroll.prev();
+              };
 
             }();
 

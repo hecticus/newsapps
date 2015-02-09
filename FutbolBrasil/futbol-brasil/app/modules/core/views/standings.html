@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 competition"
-                         ng-repeat="competition in item.competitions"
+                         ng-repeat="competition in item.competitions track by competition.id_competitions"
                          ng-click="showContentPhases(competition)"
                          data-news="{{ competition.id_competitions }}">
                         <h4>{{competition.name}}</h4>
@@ -26,7 +26,7 @@
 
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                         ng-repeat="phase in item.phases"
+                         ng-repeat="phase in item.phases track by phase.id_competitions"
                          ng-click="showContentRanking(item.competition.id_competitions
                             , phase.id_phases)">
                         <h4 ng-bind="phase.global_name"></h4>

@@ -31,24 +31,25 @@ angular
               if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
 
                   $scope.$emit('load');
-                  $http({method: 'GET', url: Domain.mtm(5,390,_event.first)}).then(function (obj) {
+                  $http.get(Domain.mtm(5,390,_event.first)).success(function (data, status, headers, config) {
 
-                    if (obj.data.error == 0) {
+                    if (data.error == 0) {
 
                       if ($scope.item.mtm.length == 0) {
-                        $scope.item.mtm = obj.data.response;
+                        $scope.item.mtm = data.response;
                       } else {
-                        angular.forEach(obj.data.response.actions[0].events, function(_event, _eIndex) {
+                        angular.forEach(data.response.actions[0].events, function(_event, _eIndex) {
                           $scope.item.mtm.actions[0].events.unshift(_event);
                         });
                       }
 
-                      _event.first =  obj.data.response.actions[0].events[0].id_game_match_events;
-                      $scope.item.match.home.goals = obj.data.response.home_team_goals;
-                      $scope.item.match.away.goals = obj.data.response.away_team_goals;
+                      _event.first = data.response.actions[0].events[0].id_game_match_events;
+                      $scope.item.match.home.goals = data.response.home_team_goals;
+                      $scope.item.match.away.goals = data.response.away_team_goals;
 
                     }
-
+                  }).catch(function () {
+                    $scope.$emit('error');
                   }).finally(function(data) {
                       $scope.$emit('unload');
                       $rootScope.error = Utilities.error();
@@ -81,9 +82,11 @@ angular
 
             $scope.init = function(){
               $scope.$emit('load');
-              $http({method: 'GET', url: Domain.match(Utilities.moment().format('YYYYMMDD'), 100, 0)})
-                .then(function (obj) {
-                    $scope.item = obj.data.response;
+              $http.get(Domain.match(Utilities.moment().format('YYYYMMDD'), 100, 0))
+                .success(function (data, status, headers, config) {
+                    $scope.item = data.response;
+                }).catch(function () {
+                    $scope.$emit('error');
                 }).finally(function (data) {
                     $scope.$emit('unload');
                     $rootScope.error = Utilities.error();

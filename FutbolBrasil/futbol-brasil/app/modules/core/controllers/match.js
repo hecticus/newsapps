@@ -64,12 +64,14 @@ angular
 
             $scope.init = function(){
                 angular.forEach($scope.pages, function(_item, _index) {
-                    $http({method: 'GET', url: Domain.match(_item.date,_limit,0)})
-                        .then(function(obj) {
-                            $scope.pages[_index].matches =  obj.data.response;
+                    $http.get(Domain.match(_item.date,_limit,0))
+                        .success(function (data, status, headers, config) {
+                           $scope.pages[_index].matches = data.response;
+                        }).catch(function () {
+                            $scope.$emit('error');
                         }).finally(function(data) {
-                            $scope.$emit('unload');
-                            $rootScope.error = Utilities.error();
+                           $scope.$emit('unload');
+                           $rootScope.error = Utilities.error();
                         });
                 });
 
@@ -136,13 +138,16 @@ angular
 
                             _index = $scope.pages.length - 1;
 
-                            $http({method: 'GET', url: Domain.match($scope.pages[_index].date,_limit,0)}).then(function(obj) {
-                                $scope.pages[_index].matches =  obj.data.response;
-                                Utilities.newScroll.vertical($scope.wrapper.getName(_index));
-                            }).finally(function(data) {
-                                $scope.$emit('unload');
-                                $rootScope.error = Utilities.error();
-                            });
+                            $http.get(Domain.match($scope.pages[_index].date,_limit,0))
+                              .success(function (data, status, headers, config) {
+                                  $scope.pages[_index].matches = data.response;
+                                  Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                              }).catch(function () {
+                                $scope.$emit('error');
+                              }).finally(function(data) {
+                                  $scope.$emit('unload');
+                                  $rootScope.error = Utilities.error();
+                              });
 
                         }
 

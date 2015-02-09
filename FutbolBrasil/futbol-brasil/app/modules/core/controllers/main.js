@@ -26,7 +26,11 @@ angular
             });
 
             $scope.$on('unload', function(){$scope.loading = false;});
-            $scope.$on('error', function(){$scope.error = true;});
+            $scope.$on('error', function(){
+                $scope.error = true;
+                $scope.loading = false;
+            }
+            );
             CordovaApp.setBackButtonCallback(function(){
                 if(angular.element('.page.back.left:last').hasClass('left')){
                     $scope.runBackButton();
