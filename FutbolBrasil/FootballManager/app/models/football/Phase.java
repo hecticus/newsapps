@@ -42,6 +42,8 @@ public class Phase extends HecticusModel {
     private Integer nivel;
     private Integer fn;
 
+    private boolean pushed;
+
     @OneToMany(mappedBy = "phase")
     private List<GameMatch> matches;
 
@@ -151,6 +153,22 @@ public class Phase extends HecticusModel {
         this.matches = matches;
     }
 
+    public Integer getOrden() {
+        return orden;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
+    }
+
+    public boolean isPushed() {
+        return pushed;
+    }
+
+    public void setPushed(boolean pushed) {
+        this.pushed = pushed;
+    }
+
     public static Phase findById(Long id){
         return finder.byId(id);
     }
@@ -231,7 +249,7 @@ public class Phase extends HecticusModel {
         obj.put("start_date",startDate);
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
-
+        obj.put("pushed", pushed);
         return obj;
     }
 
@@ -246,6 +264,16 @@ public class Phase extends HecticusModel {
         obj.put("start_date",startDate);
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
+        obj.put("pushed", pushed);
+        return obj;
+    }
+
+    public ObjectNode toJsonToPush() {
+        ObjectNode obj = Json.newObject();
+        obj.put("competition_id", comp.getIdCompetitions());
+        obj.put("competition_name", comp.getName());
+        obj.put("global_name",globalName);
+        obj.put("name",name);
         return obj;
     }
 
@@ -271,7 +299,11 @@ public class Phase extends HecticusModel {
         }else {
             return finder.where().eq("id_competitions",idCompetition).eq("fn",fn).setMaxRows(1).findUnique();
         }
+    }
 
+
+    public static List<Phase> getPhasesToPush(Competition competition, String date){
+        return finder.where().eq("pushed", false).eq("comp", competition).le("end_date", date).orderBy("end_date desc").findList();
     }
 
 

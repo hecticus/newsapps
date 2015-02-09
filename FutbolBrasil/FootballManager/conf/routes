@@ -91,6 +91,7 @@ GET     /footballapi/v1/matches/date/grouped/:idApp                             
 GET     /footballapi/v1/matches/date/paged/:idApp/:date                                 controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
 GET     /footballapi/v1/competitions/list/ids/:idApp                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=true)
 GET     /footballapi/v1/competitions/list/:idApp                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, ids: Boolean?=false)
+GET     /footballapi/v1/competitions/phases/notify/:idApp                               controllers.footballapi.MatchesController.getPhasesToNotify(idApp : Integer)
 GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer)
 
 #MaM

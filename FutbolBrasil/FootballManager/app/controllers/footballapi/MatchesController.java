@@ -291,6 +291,40 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getPhasesToNotify(Integer idApp){
+        try {
+            ObjectNode response = null;
+            ArrayList<ObjectNode> responseData = new ArrayList();
+            List<Competition> competitions = Competition.getActiveCompetitionsByApp(idApp);
+            if(competitions != null && !competitions.isEmpty()) {
+                TimeZone timeZone = Apps.getTimezone(idApp);
+                Calendar today = new GregorianCalendar(timeZone);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                simpleDateFormat.setTimeZone(timeZone);
+                String date = simpleDateFormat.format(today.getTime());
+                for(Competition competition : competitions) {
+                    List<Phase> phases = Phase.getPhasesToPush(competition, date);
+                    if (phases != null && !phases.isEmpty()) {
+                        responseData.add(phases.get(0).toJsonToPush());
+                        for(Phase phase : phases){
+                            phase.setPushed(true);
+                            phase.update();
+                        }
+                    }
+                }
+                ObjectNode data = Json.newObject();
+                data.put("phases", Json.toJson(responseData));
+                response = hecticusResponse(0, "ok", data);
+            } else {
+                response = buildBasicResponse(0, "La app " + idApp + " no tiene competencia");
+            }
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
     public static Result getCalendar(Integer idApp, Integer idCompetition, String date, Long phase, String operator){
         try {
             ObjectNode response = null;
