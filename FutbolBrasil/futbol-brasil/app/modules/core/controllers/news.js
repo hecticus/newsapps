@@ -108,7 +108,6 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-                console.log('setUpIScroll');
 
                 _scroll.on('scroll', function () {
                     if (this.y >= 50) {

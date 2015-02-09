@@ -2,7 +2,7 @@
 <div id="wrapperH">
     <div id="scroller" style="width:{{widthTotal}}px;">
         <ul>
-            <li style="width:{{width}}px;" ng-repeat="page in pages" on-last-repeat >
+            <li style="width:{{width}}px;" ng-repeat="page in pages track by page.id" on-last-repeat >
 
                 <div class="container">
 
