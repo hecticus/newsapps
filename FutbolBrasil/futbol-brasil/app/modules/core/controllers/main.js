@@ -17,7 +17,10 @@ angular
         });
 
         $scope.$on('unload', function(){ $scope.loading = false;  });
-        $scope.$on('error', function(){ $scope.error = true;  });
+        $scope.$on('error', function(){
+          $scope.error = true;
+          $scope.loading = false;
+        });
 
         $rootScope.$storage = $localStorage;
 

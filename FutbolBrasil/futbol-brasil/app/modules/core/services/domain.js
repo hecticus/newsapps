@@ -50,10 +50,6 @@ angular
                 }
             },
 
-            standings: function () {
-                return football_manager_url + 'api/v1/rankings/get/1';
-            },
-
             phases: function (_competition) {
                 return football_manager_url + 'footballapi/v1/competitions/phases/1/' + _competition;
             },

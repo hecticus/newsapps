@@ -82,10 +82,9 @@ angular
               success(function(data) {
                 alert('success');
                 $scope.$emit('unload');
-              }).
-              error(function (data) {
+              }).catch(function () {
                 alert('error')
-              })
+              });
 
             };
 
@@ -102,15 +101,15 @@ angular
             $scope.init = function(){
 
               $scope.$emit('load');
-              $http({method: 'GET', url: Domain.bets.get()})
-              .then(function(obj) {
+              $http.get(Domain.bets.get())
+              .success(function (data, status, headers, config) {
                 $scope.item =  obj.data.response;
                 $rootScope.$storage.bet = JSON.stringify($scope.item);
                 $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-              })
-              .finally(function(data) {
+              }).catch(function () {
+                  $scope.$emit('error');
+              }).finally(function(data) {
                   $scope.$emit('unload');
-                  $rootScope.error = false;
               });
 
               var _scroll = Utilities.newScroll.horizontal('wrapperH');

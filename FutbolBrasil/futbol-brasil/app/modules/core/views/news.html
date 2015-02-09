@@ -1,10 +1,10 @@
 <div>
-    <div id="wrapper" ng-class="{hide: !isActive('news')}">
+    <div id="wrapper">
         <div class="scroller">
             <div class="container" >
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"
-                         ng-repeat="item in news"
+                         ng-repeat="item in news track by item.idNews"
                          ng-click="showContentNews(item)">
                         <h5 class="title">{{item.title}}</h5>
                         <i class="icon mdi-device-access-time"></i>
