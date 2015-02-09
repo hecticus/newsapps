@@ -49,16 +49,23 @@ angular
 
             $scope.showContentRanking = function(competition, phase) {
 
+
+
+
                 $scope.$emit('load');
                 $scope.item.phase = false;
                 $scope.item.ranking = [];
                 $http.get(Domain.ranking(competition,phase))
                 .success(function (data, status, headers, config) {
+
+alert(JSON.stringify(data.response.ranking));
+
                     $scope.item.tree = data.response.tree;
                     $scope.item.phase = data.response.phase;
                     $scope.item.ranking =  data.response.ranking;
                     $rootScope.transitionPageBack('#wrapper3', 'left');
                     _scroll3.scrollTo(0,0,0);
+
                 }).catch(function () {
                     $scope.$emit('error');
                 }).finally(function(data) {

@@ -33,11 +33,11 @@ angular
             $scope.pagesAfter = [];
 
             $scope.pages = [
-                {name: Utilities.moment().subtract(2, 'days').format('ll'), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
-                {name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
-                {name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
-                {name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
-                {name: Utilities.moment().add(2, 'days').format('ll'), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
+                {id: 1, name: Utilities.moment().subtract(2, 'days').format(_formatDate), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
+                {id: 2, name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
+                {id: 3, name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
+                {id: 4, name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
+                {id: 5, name: Utilities.moment().add(2, 'days').format(_formatDate), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
             ];
 
             $scope.width = $window.innerWidth;
@@ -126,7 +126,8 @@ angular
                             _index = $scope.pagesAfter.length + 3;
                             $scope.pagesAfter.push(
                                 {
-                                    name: Utilities.moment().add(_index, 'days').format('LL'),
+                                    id: ($scope.pages.length + 1),
+                                    name: Utilities.moment().add(_index, 'days').format(_formatDate),
                                     date: Utilities.moment().add(_index, 'days').format('YYYYMMDD')
                                 }
                             );
