@@ -166,5 +166,25 @@ public class Config extends Model{
         return c.getValue();
     }
 
+    public static String getAndroidVersion() {
+        Config c = finder.where().eq("configKey","android-version").findUnique();
+        return c.getValue();
+    }
+
+    public static String getAndroidVersionURL() {
+        Config c = finder.where().eq("configKey","android-version-url").findUnique();
+        return c.getValue();
+    }
+
+    public static String getiOSVersion() {
+        Config c = finder.where().eq("configKey","ios-version").findUnique();
+        return c.getValue();
+    }
+
+    public static String getiOSVersionURL() {
+        Config c = finder.where().eq("configKey","ios-version-url").findUnique();
+        return c.getValue();
+    }
+
 
 }

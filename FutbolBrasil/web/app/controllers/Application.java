@@ -150,7 +150,7 @@ public class Application extends Controller {
     }
 
     //Initial load settings WS for the Mobile App
-    public static Result getAppSettings(Integer width, Integer height){
+    public static Result getAppSettings(Integer width, Integer height, String version, String so){
         try {
             ObjectNode data = Json.newObject();
             data.put("company_name", Config.getString("company-name"));
@@ -168,6 +168,50 @@ public class Application extends Controller {
 
             Language language = Language.finder.byId(Config.getInt("default-language"));
             data.put("default_language", language.toJson());
+
+
+
+
+
+            ObjectNode versionObject = Json.newObject();
+
+            String lastVersion = null;
+            String lastVersionURL = null;
+            if(so.equalsIgnoreCase("android")){
+                lastVersion = Config.getAndroidVersion();
+                lastVersionURL = Config.getAndroidVersionURL();
+            } else {
+                lastVersion = Config.getiOSVersion();
+                lastVersionURL = Config.getiOSVersionURL();
+            }
+
+            if(lastVersion != null && lastVersionURL != null) {
+                int updateAvailable = 0; //There isn't update available
+                int mandatory = 0; //The update isn't mandatory
+                if(lastVersion.compareTo(version) > 0){
+                    //There is update available
+                    updateAvailable = 1;
+                    String firstLastVersionToken = lastVersion.substring(0,lastVersion.indexOf("."));
+                    String firstVersionToken = version.substring(0,version.indexOf("."));
+
+                    if(firstLastVersionToken.compareTo(firstVersionToken)>0){
+                        mandatory = 1;
+                    }
+                }
+
+                versionObject.put("update",updateAvailable);
+                versionObject.put("mandatory",mandatory);
+                if(updateAvailable>0){
+                    versionObject.put("download",lastVersionURL);
+                }
+            } else {
+                versionObject.put("update",0);
+            }
+
+            data.put("version", versionObject);
+
+
+
 
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");
