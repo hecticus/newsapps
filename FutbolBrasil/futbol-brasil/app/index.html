@@ -6,7 +6,8 @@
 
     <meta name="description" content="">
     <!--TODO Verificar Warning-->
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes.
+    See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1
       , width=device-width, height=device-height" />
     <meta name="format-detection" content="telephone=no" />
@@ -33,33 +34,40 @@
     <script src="cordova.js"></script>
 </head>
 
-<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;" ng-swipe-right="prevPage()" ng-swipe-left="nextPage()">
+<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;"
+      ng-swipe-right="prevPage()"
+      ng-swipe-left="nextPage()">
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="navbar navbar-default" style="margin-bottom: 0;">
+        <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <header>
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                       style="text-align: left;">
-                        <i ng-click="runBackButton(true)" class="icon mdi-navigation-arrow-back back-button {{isActiveButton}}" style="font-size: 1.8em; margin-left: 10px;"></i>
-                        <img  ng-click="showMenu()" src="img/logo.svg" onerror="this.src='img/logo.png'"
-                             style="width: auto; height: 30px;  position: relative; vertical-align: middle;" />
-                  </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                        <i class="icon drawer-icon icon-white"
+                           ng-class="getDrawerIcon()"
+                           ng-click="runBackButton()"></i>
+                        <span class="drawer-title">
+                            <img ng-click="showMenu()" src="img/logo.svg" onerror="this.src='img/logo.png'"
+                                  style="width: auto; height: 30px;  position: relative;
+                                  vertical-align: middle;"/>
+                            {{strings.MENU_NOTISTATS}}
+                        </span>
+                    </div>
                 </header>
             </div>
         </nav>
     </div>
 
-    <div ui-view  >
+    <div ui-view >
     </div>
 
     <loading></loading>
     <error></error>
     <menu>
-      <menu-item section="news" icon="mdi-action-label">NOTISTASTS</menu-item>
-      <menu-item section="prediction" icon="mdi-action-event">PALPITES</menu-item>
-      <menu-item section="settings" icon="mdi-action-settings">DEFINI&#199;&#213;ES</menu-item>
+        <menu-item section="news" icon="mdi-action-label">{{strings.MENU_NOTISTATS}}</menu-item>
+        <menu-item section="prediction" icon="mdi-action-event">{{strings.MENU_BETS}}</menu-item>
+        <menu-item section="settings" icon="mdi-action-settings">{{strings.MENU_SETTINGS}}</menu-item>
     </menu>
 
 
@@ -140,66 +148,70 @@
     </div>
 </div>
 
-    <!-- build:js scripts/vendor.js -->
-        <!-- injector:bowerjs -->
-        <script src="lib/jquery/dist/jquery.js"></script>
-        <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="lib/angular/angular.js"></script>
-        <script src="lib/angular-resource/angular-resource.js"></script>
-        <script src="lib/angular-mocks/angular-mocks.js"></script>
-        <script src="lib/angular-cookies/angular-cookies.js"></script>
-        <script src="lib/angular-animate/angular-animate.js"></script>
-        <script src="lib/angular-touch/angular-touch.js"></script>
-        <script src="lib/angular-sanitize/angular-sanitize.js"></script>
-        <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-        <script src="lib/angular-ui-utils/ui-utils.js"></script>
-        <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="lib/ngstorage/ngStorage.js"></script>
-        <script src="lib/moment/moment.js"></script>
-        <script src="lib/bootstrap-material-design/dist/js/material.js"></script>
-        <script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
-        <!-- endinjector -->
-    <!-- endbuild -->
+<!-- build:js scripts/vendor.js -->
+<!-- injector:bowerjs -->
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-resource/angular-resource.js"></script>
+<script src="lib/angular-mocks/angular-mocks.js"></script>
+<script src="lib/angular-cookies/angular-cookies.js"></script>
+<script src="lib/angular-animate/angular-animate.js"></script>
+<script src="lib/angular-touch/angular-touch.js"></script>
+<script src="lib/angular-sanitize/angular-sanitize.js"></script>
+<script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="lib/angular-ui-utils/ui-utils.js"></script>
+<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="lib/ngstorage/ngStorage.js"></script>
+<script src="lib/moment/moment.js"></script>
+<script src="lib/bootstrap-material-design/dist/js/material.js"></script>
+<script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
+<script src="lib/iscrolltest/build/iscroll-probe.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
 
-    <!-- build:js scripts/custom.js -->
-        <!-- injector:js -->
-        <script src="js/iscroll-probe.js"></script>
-        <script src="js/pt-br.js"></script>
-        <script src="js/config.js"></script>
-        <script src="js/application.js"></script>
-        <script src="modules/core/core.js"></script>
-        <script src="modules/core/config/routes.js"></script>
-        <script src="modules/core/services/client-manager.js"></script>
-        <script src="modules/core/services/cordova-app.js"></script>
-        <script src="modules/core/services/cordova-device.js"></script>
-        <script src="modules/core/services/domain.js"></script>
-        <script src="modules/core/services/facebook-manager.js"></script>
-        <script src="modules/core/services/news-service.js"></script>
-        <script src="modules/core/services/push-manager.js"></script>
-        <script src="modules/core/services/social-apps-manager.js"></script>
-        <script src="modules/core/services/teams-manager.js"></script>
-        <script src="modules/core/services/utilities.js"></script>
-        <script src="modules/core/services/web-manager.js"></script>
-        <script src="modules/core/directives/error.js"></script>
-        <script src="modules/core/directives/loading.js"></script>
-        <script src="modules/core/directives/menu-item.js"></script>
-        <script src="modules/core/directives/menu.js"></script>
-        <script src="modules/core/directives/my-scroll.js"></script>
-        <script src="modules/core/directives/on-last-repeat.js"></script>
-        <script src="modules/core/controllers/friends.js"></script>
-        <script src="modules/core/controllers/leaderboard.js"></script>
-        <script src="modules/core/controllers/login.js"></script>
-        <script src="modules/core/controllers/main.js"></script>
-        <script src="modules/core/controllers/match.js"></script>
-        <script src="modules/core/controllers/mtm.js"></script>
-        <script src="modules/core/controllers/news-detail.js"></script>
-        <script src="modules/core/controllers/news.js"></script>
-        <script src="modules/core/controllers/points.js"></script>
-        <script src="modules/core/controllers/prediction.js"></script>
-        <script src="modules/core/controllers/scorers.js"></script>
-        <script src="modules/core/controllers/standings.js"></script>
-        <!-- endinjector -->
-    <!-- endbuild -->
+<!-- build:js scripts/custom.js -->
+<!-- injector:js -->
+<script src="js/pt-br.js"></script>
+<script src="js/config.js"></script>
+<script src="js/application.js"></script>
+<script src="modules/core/core.js"></script>
+<script src="modules/core/config/routes.js"></script>
+<script src="modules/core/services/client-manager.js"></script>
+<script src="modules/core/services/client.js"></script>
+<script src="modules/core/services/cordova-app.js"></script>
+<script src="modules/core/services/cordova-device.js"></script>
+<script src="modules/core/services/domain.js"></script>
+<script src="modules/core/services/facebook-manager.js"></script>
+<script src="modules/core/services/news-service.js"></script>
+<script src="modules/core/services/push-manager.js"></script>
+<script src="modules/core/services/settings.js"></script>
+<script src="modules/core/services/social-apps-manager.js"></script>
+<script src="modules/core/services/teams-manager.js"></script>
+<script src="modules/core/services/utilities.js"></script>
+<script src="modules/core/services/web-manager.js"></script>
+<script src="modules/core/directives/error.js"></script>
+<script src="modules/core/directives/loading.js"></script>
+<script src="modules/core/directives/menu-item.js"></script>
+<script src="modules/core/directives/menu.js"></script>
+<script src="modules/core/directives/my-scroll.js"></script>
+<script src="modules/core/directives/on-last-repeat.js"></script>
+<script src="modules/core/controllers/friends.js"></script>
+<script src="modules/core/controllers/leaderboard.js"></script>
+<script src="modules/core/controllers/login.js"></script>
+<script src="modules/core/controllers/main.js"></script>
+<script src="modules/core/controllers/match.js"></script>
+<script src="modules/core/controllers/mtm.js"></script>
+<script src="modules/core/controllers/news-detail.js"></script>
+<script src="modules/core/controllers/news.js"></script>
+<script src="modules/core/controllers/points.js"></script>
+<script src="modules/core/controllers/prediction.js"></script>
+<script src="modules/core/controllers/scorers.js"></script>
+<script src="modules/core/controllers/settings.js"></script>
+<script src="modules/core/controllers/standings.js"></script>
+<script src="modules/core/controllers/team-selection.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
 
 </body>
 </html>

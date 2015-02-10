@@ -33,32 +33,52 @@ angular
             $scope.pagesAfter = [];
 
             $scope.pages = [
-                {name: Utilities.moment().subtract(2, 'days').format('ll'), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
-                {name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
-                {name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
-                {name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
-                {name: Utilities.moment().add(2, 'days').format('ll'), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
+                {id: 1, name: Utilities.moment().subtract(2, 'days').format(_formatDate), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
+                {id: 2, name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
+                {id: 3, name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
+                {id: 4, name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
+                {id: 5, name: Utilities.moment().add(2, 'days').format(_formatDate), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
             ];
 
             $scope.width = $window.innerWidth;
             $scope.widthTotal = ($window.innerWidth * 11);
 
+            $scope.getWidth = function(){
+                return { 'width': $scope.width + 'px'}
+            };
+
+            $scope.getTotalWidth = function(){
+                return { 'width': $scope.widthTotal + 'px'}
+            };
+
+            $scope.getMatchStatusClass = function(match){
+                if(match.status == 'Encerrado') {
+                    return 'encerrado';
+                }else if(match.status == 'Default'){
+                    return 'default';
+                } else {
+                    //TODO WTF?!
+                    return 'else';
+                }
+            };
 
             $scope.init = function(){
+                $rootScope.loading = false;
+
                 angular.forEach($scope.pages, function(_item, _index) {
-                    $http({method: 'GET', url: Domain.match(_item.date,_limit,0)})
-                        .then(function(obj) {
-                            $scope.pages[_index].matches =  obj.data.response;
+                    $http.get(Domain.match(_item.date,_limit,0))
+                        .success(function (data, status, headers, config) {
+                           $scope.pages[_index].matches = data.response;
+                        }).catch(function () {
+                            $scope.$emit('error');
                         }).finally(function(data) {
-                            $scope.$emit('unload');
-                            $rootScope.error = Utilities.error();
+                           $scope.$emit('unload');
+                           $rootScope.error = Utilities.error();
                         });
                 });
 
                 $scope.width = $window.innerWidth;
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
-
-
                 var _scroll = new IScroll('#wrapperH', {
                     scrollX: true,
                     scrollY: false,
@@ -108,7 +128,8 @@ angular
                             _index = $scope.pagesAfter.length + 3;
                             $scope.pagesAfter.push(
                                 {
-                                    name: Utilities.moment().add(_index, 'days').format('LL'),
+                                    id: ($scope.pages.length + 1),
+                                    name: Utilities.moment().add(_index, 'days').format(_formatDate),
                                     date: Utilities.moment().add(_index, 'days').format('YYYYMMDD')
                                 }
                             );
@@ -120,13 +141,16 @@ angular
 
                             _index = $scope.pages.length - 1;
 
-                            $http({method: 'GET', url: Domain.match($scope.pages[_index].date,_limit,0)}).then(function(obj) {
-                                $scope.pages[_index].matches =  obj.data.response;
-                                Utilities.newScroll.vertical($scope.wrapper.getName(_index));
-                            }).finally(function(data) {
-                                $scope.$emit('unload');
-                                $rootScope.error = Utilities.error();
-                            });
+                            $http.get(Domain.match($scope.pages[_index].date,_limit,0))
+                              .success(function (data, status, headers, config) {
+                                  $scope.pages[_index].matches = data.response;
+                                  Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                              }).catch(function () {
+                                $scope.$emit('error');
+                              }).finally(function(data) {
+                                  $scope.$emit('unload');
+                                  $rootScope.error = Utilities.error();
+                              });
 
                         }
 

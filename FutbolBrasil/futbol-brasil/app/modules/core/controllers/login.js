@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'FacebookManager', 'PushManager'
-        , function($rootScope, $scope, $state, ClientManager, FacebookManager, PushManager) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'Client'
+        , function($rootScope, $scope, $state, ClientManager, Client) {
 
             $scope.msisdn = '';
             $scope.password = '';
@@ -18,18 +18,13 @@ angular
             $scope.sendMsisdn = function(){
                 if($scope.msisdn){
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
-                    ClientManager.saveClientMSISDN($scope.msisdn,
+                    Client.setMsisdn($scope.msisdn,
                     function(){
                         ClientManager.createOrUpdateClient($scope.msisdn, null, true
-                                , $scope.showPasswordScreen(), $scope.showClientSignUpError());
-//                        $scope.showPasswordScreen();
-                        console.log('ClientManager.clientMSISDN: ');
-                        console.log(ClientManager.getClientMSISDN());
+                                , $scope.showPasswordScreen, $scope.showClientSignUpError);
                     },
                     function(){
                         console.log('Error saving MSISDN');
-                        console.log('ClientManager.clientMSISDN: ');
-                        console.log(ClientManager.getClientMSISDN());
                     });
                 } else {
                     alert('Please input your phone number');
@@ -49,14 +44,13 @@ angular
             };
 
             $scope.onLoginError = function(){
-                console.log('showClientSignUpError. Login Error.');
+                console.log('onLoginError. Login Error.');
             };
 
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
-//                    FacebookManager.getFBLoginStatus();
                     ClientManager.createOrUpdateClient($scope.msisdn, $scope.password, true
-                        , $scope.onLoginSuccess, $scope.onLoginError);
+                        , $scope.onLoginSuccess(), $scope.onLoginError());
                 } else {
                     alert('doMsisdnLogin. Please input password');
                 }

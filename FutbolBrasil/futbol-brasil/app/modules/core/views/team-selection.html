@@ -1,0 +1,32 @@
+
+        <div class="row">
+            <form class="form-horizontal" style="margin-top: -20px;">
+                <div class="form-group search-bar well" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Find your Team" ng-model="searchQuery">
+                        <span class="input-group-addon"><i class="icon mdi-action-search"></i></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div id="wrapper" style="margin-top: 68px !important;">
+                <div class="scroller">
+                    <div class="list-group">
+                        <div ng-repeat="team in teams | filter: searchQuery">
+                            <div class="list-group-item" ng-click="teamSelected(team)">
+                                <div class="row-action-primary">
+                                    <i ng-class="getTeamClass(team)"></i>
+                                </div>
+                                <div class="row-content">
+                                    <h6 class="list-group-item-heading">{{getTeamName(team)}}</h6>
+                                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                                </div>
+                            </div>
+                            <div class="list-group-separator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

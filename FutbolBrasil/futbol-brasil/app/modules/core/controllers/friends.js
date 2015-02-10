@@ -9,7 +9,6 @@
 angular
     .module('core')
     .controller('FriendsCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
-       $rootScope.error = true;
-       $rootScope.loading = false;
+        $scope.$emit('error');
      }
 ]);

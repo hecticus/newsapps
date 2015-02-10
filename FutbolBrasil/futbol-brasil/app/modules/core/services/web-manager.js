@@ -7,8 +7,17 @@
  */
 angular
     .module('core')
-    .factory('WebManager',
-        function() {
+    .factory('WebManager',['$http', 'CordovaDevice', 'Domain',
+        function($http, CordovaDevice, Domain) {
+            var that = this;
+            var upstreamAppKey = '';
+            var upstreamAppVersion = '';
+            var upstreamServiceID = '';
+            var upstreamURL = '';
+            var companyName = '';
+            var buildVersion = '';
+            var serverVersion = '';
+
             return {
 
                 /**
@@ -21,13 +30,8 @@ angular
                     return true;
                 },
 
-                companyName: '',
-                buildVersion: '',
-                serverVersion: '',
-
-                //TODO revisar uso de CordovaHttpPlugin
                 enableCerts: function (all) {
-                    console.log('WebManager! ' + all);
+                    console.log('WebManager. all: ' + all);
                     if (all) {
                         plugins.CordovaHttpPlugin.acceptAllCerts(true, function () {
                             return true;
@@ -44,15 +48,19 @@ angular
                 },
 
                 getHeaders: function () {
+                    var headers = {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    };
                     var auth = "";
                     try {
-                        auth = this.companyName + this.getAppender(this.buildVersion.charAt(0))
-                            + this.buildVersion + this.getAppender(this.serverVersion.charAt(0)) + this.serverVersion;
+                        auth = that.companyName + this.getAppender(that.buildVersion.charAt(0))
+                            + that.buildVersion + this.getAppender(that.serverVersion.charAt(0))
+                            + that.serverVersion;
+                        headers['HECTICUS-X-AUTH-TOKEN'] = auth;
                     } catch (e) {
-                        auth = this.companyName + " " + this.buildVersion + " " + this.serverVersion;
+                        console.log('Error setting HECTICUS-X-AUTH-TOKEN');
                     }
-                    console.log(auth);
-                    return { 'HECTICUS-X-AUTH-TOKEN': auth };
+                    return headers;
                 },
 
                 getAppender: function (index) {
@@ -80,6 +88,25 @@ angular
                         default:
                             return '-';
                     }
+                },
+
+                loadServerConfigs : function (successCallback, errorCallback){
+                    var url = Domain.loading(CordovaDevice.getRealWidth() , CordovaDevice.getRealHeight());
+//                    this.enableCerts(true);
+                    $http.get(url).success(function(_json) {
+                            var response = _json.response;
+                            that.upstreamAppKey = response.upstreamAppKey;
+                            that.upstreamAppVersion = response.upstreamAppVersion;
+                            that.upstreamServiceID = response.upstreamServiceID;
+                            that.upstreamURL = response.upstreamURL;
+                            that.companyName = response.company_name;
+                            that.buildVersion = response.build_version;
+                            that.serverVersion = response.server_version;
+                            successCallback();
+                        }).error(function(){
+                            errorCallback();
+                        });
                 }
             }
-    });
+    }
+]);
