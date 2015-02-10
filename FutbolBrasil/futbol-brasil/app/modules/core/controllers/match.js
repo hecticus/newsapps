@@ -16,6 +16,7 @@ angular
             var _currentPage = 0;
             var _start = true;
             var _index = 0;
+            var _formatDate = 'MMM Do YY';
 
             $scope.$emit('load');
             $scope.wrapper = {
