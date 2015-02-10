@@ -50,7 +50,7 @@ angular
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
                     ClientManager.createOrUpdateClient($scope.msisdn, $scope.password, true
-                        , $scope.onLoginSuccess, $scope.onLoginError);
+                        , $scope.onLoginSuccess(), $scope.onLoginError());
                 } else {
                     alert('doMsisdnLogin. Please input password');
                 }
