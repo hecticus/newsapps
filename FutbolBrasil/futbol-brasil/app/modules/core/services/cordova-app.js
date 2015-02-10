@@ -91,7 +91,6 @@ angular
                 },
 
                 startApp : function (isActive, status){
-                    console.log(this);
                     console.log("startApp. Starting App: Client Active: " + isActive
                         + ". Client Status: " + status);
                 },

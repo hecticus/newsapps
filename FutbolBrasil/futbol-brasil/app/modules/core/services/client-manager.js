@@ -61,13 +61,13 @@ angular
 
 
                     var url = '';
-                    if(!Client.getClientId()){
+                    if(Client.getClientId()){
+                        url = Domain.clients.update(Client.getClientId());
+                        jData.add_devices = devices;
+                    } else {
                         url = Domain.clients.create;
                         jData.devices = devices;
                         if(subscribe){ jData.subscribe = true; }
-                    }else{
-                        url = Domain.clients.update(Client.getClientId());
-                        jData.add_devices = devices;
                     }
 
                     $http({

@@ -57,7 +57,12 @@ angular
                  */
                 init : function() {
                     this.checkStoredData();
-                    clientDataSafe = localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true';
+                    console.log('localStorage[FILE_KEY_CLIENT_DATASAFE]: ' + localStorage[FILE_KEY_CLIENT_DATASAFE]);
+                    console.log('localStorage[FILE_KEY_CLIENT_DATASAFE] typeof: ' + (typeof localStorage[FILE_KEY_CLIENT_DATASAFE]));
+                    console.log('localStorage[FILE_KEY_CLIENT_DATASAFE] (Object): ');
+                    console.log(localStorage[FILE_KEY_CLIENT_DATASAFE]);
+
+                    clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
                     if(clientDataSafe){
                         var clientString = localStorage[FILE_KEY_CLIENT_ID];
                         if(!!clientString && clientString != ""){
@@ -138,7 +143,6 @@ angular
                     return clientDataSafe;
                 },
 
-
                 getMsisdn: function(){
                     return msisdn;
                 },
@@ -168,13 +172,9 @@ angular
                 },
 
                 markClientAsOk : function () {
-                    try{
-                        clientDataSafe = true;
-                        localStorage[FILE_KEY_CLIENT_DATASAFE] = "true";
-                        return true;
-                    } catch(err){
-                        return false;
-                    }
+                    clientDataSafe = true;
+                    localStorage[FILE_KEY_CLIENT_DATASAFE] = 'true';
+                    return true;
                 },
 
                 setRegId : function (id) {

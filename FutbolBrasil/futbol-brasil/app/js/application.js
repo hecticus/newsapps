@@ -58,14 +58,17 @@ angular
             if(toState.name !== 'login'){
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
-                    ClientManager.init(CordovaApp.startApp, CordovaApp.errorStartApp);
+                    ClientManager.init(function(){
+                        CordovaApp.startApp();
+                        if(!Client.isClientOk()){
+                            console.log('User not Authenticated');
+                            event.preventDefault();
+                            $state.go('login');
+                        }
+                    }, CordovaApp.errorStartApp);
                 }
 
-                if(!Client.isClientOk() && toState.name !== 'login'){
-                    console.log('User not Authenticated');
-                    event.preventDefault();
-                    $state.go('login');
-                }
+
                 $rootScope.isActiveButton = 'active';
             } else {
                 $rootScope.isActiveButton = '';

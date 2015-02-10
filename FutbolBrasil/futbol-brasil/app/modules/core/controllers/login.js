@@ -11,6 +11,18 @@ angular
     .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'Client'
         , function($rootScope, $scope, $state, ClientManager, Client) {
 
+            $scope.strings = {
+                PASSWORD_HOLDER: 'Senha',
+                PASSWORD_LABEL: 'Digite a senha recebida por SMS.',
+                LOADING_MESSAGE: 'Carregando...',
+                START_TRIAL_MESSAGE: 'Experimente 7 dias grátis',
+                SEND_MESSAGE: 'Enviar',
+                RESEND_MESSAGE: 'Enviar novamente a senha',
+                MSISDN_HELPER: 'Digite seu numero de celular.',
+                MSISDN_HOLDER: '# Numero',
+                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de futebol do dia, todos os dias.',
+
+            };
             $scope.msisdn = '';
             $scope.password = '';
             $scope.isPasswordScreenVisible = false;
