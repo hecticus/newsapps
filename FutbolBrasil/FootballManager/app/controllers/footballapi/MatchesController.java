@@ -279,10 +279,10 @@ public class MatchesController extends HecticusController {
                     data.put("phases", Json.toJson(responseData));
                     response = hecticusResponse(0, "ok", data);
                 } else {
-                    response = buildBasicResponse(0, "La competition " + idCompetition + " no tiene phases");
+                    response = buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases");
                 }
             } else {
-                response = buildBasicResponse(0, "La competition " + idCompetition + " no existe");
+                response = buildBasicResponse(1, "La competition " + idCompetition + " no existe");
             }
             return ok(response);
         } catch (Exception ex) {

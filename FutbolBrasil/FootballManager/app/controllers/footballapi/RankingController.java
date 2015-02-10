@@ -144,14 +144,14 @@ public class RankingController extends HecticusController {
                             response = hecticusResponse(0, "ok", data);
                         } else {
                             if(way != 0){
-                                response = buildBasicResponse(0, "La phase " + idPhase + " no tiene siguiente");
+                                response = buildBasicResponse(6, "La phase " + idPhase + " no tiene siguiente");
                             } else {
                                 response = buildBasicResponse(3, "El ranking de la phase " + idPhase + " no existe o esta vacio");
                             }
                         }
                     } else {
                         if(way != 0){
-                            response = buildBasicResponse(0, "La phase " + idPhase + " no tiene anterior");
+                            response = buildBasicResponse(5, "La phase " + idPhase + " no tiene anterior");
                         } else {
                             response = buildBasicResponse(4, "La phase " + idPhase + " no existe");
                         }
