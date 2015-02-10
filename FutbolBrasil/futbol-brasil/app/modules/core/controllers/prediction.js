@@ -11,8 +11,7 @@ angular
     .controller('PredictionCtrl',  ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
 
-            var _this = this;
-            _this.wrapper = {
+            $scope.wrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
                     return this.name + _index;
@@ -105,6 +104,7 @@ angular
                 $http.get(Domain.bets.get())
                     .success(function (data, status, headers, config) {
                         $scope.item = data.response;
+                        console.log($scope.item.leagues);
                         $rootScope.$storage.bet = JSON.stringify($scope.item);
                         $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
                     }).catch(function () {

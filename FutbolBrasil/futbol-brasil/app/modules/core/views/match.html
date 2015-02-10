@@ -1,28 +1,34 @@
-
 <div id="wrapperH">
-    <div id="scroller" style="width:{{widthTotal}}px;">
+    <div id="scroller" ng-style="getTotalWidth()">
         <ul>
-            <li ng-style="getWidth()" ng-repeat="page in pages track by page.id" on-last-repeat>
+            <li ng-style="getWidth()" ng-repeat="page in pages track by page.id" on-last-repeat >
+
                 <div class="container">
+
                     <div class="row header">
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs" style="text-align:left;">
-                            <span ng-bind="pages[$index-1].name"></span>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 tabs" style="text-align:left;" ng-click="prevPage()">
+                            <button ng-bind="pages[$index-1].name" ></button>
                         </div>
 
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-                            <span ng-bind="page.name"></span>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+                            <span ng-bind="page.name" style="font-size:1em;"></span>
                         </div>
 
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs" style="text-align:right;" >
-                            <span ng-bind="pages[$index+1].name"></span>
+                        <div  class="col-xs-4 col-sm-4 col-md-4 col-lg-4 tabs" style="text-align:right;" ng-click="nextPage()">
+                            <button ng-bind="pages[$index+1].name" ></button>
                         </div>
+
                     </div>
 
                     <div class="row" >
+
                         <div id="{{wrapper.getName($index)}}" class="wrapper" >
                             <div class="scroller" >
                                 <div class="container">
+
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+
                                         <table class="table" ng-repeat="league in page.matches.leagues">
                                             <thead>
                                             <tr>
@@ -53,17 +59,21 @@
                                                     <br />
                                                     <span ng-bind="match.away_team_goals" class="goal"></span>
                                                 </td>
+
                                             </tr>
+
                                             </tbody>
                                         </table>
+
                                     </div>
+
                                 </div>	<!--container-->
                             </div>	<!--scroller-->
                         </div> <!--wrapper-->
                     </div> <!--row-->
                 </div> <!--container-->
+
             </li>
         </ul>
     </div>
 </div>
-

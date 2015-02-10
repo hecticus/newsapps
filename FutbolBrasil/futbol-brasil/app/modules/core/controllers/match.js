@@ -91,6 +91,14 @@ angular
                     bounce: false
                 });
 
+                $scope.nextPage = function(){
+                    _scroll.next();
+                };
+
+                $scope.prevPage = function(){
+                    _scroll.prev();
+                };
+
                 _scroll.on('scrollEnd', function () {
                     //this.refresh();
                 });

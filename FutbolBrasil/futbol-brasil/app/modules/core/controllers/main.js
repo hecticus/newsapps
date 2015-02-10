@@ -60,7 +60,7 @@ angular
             };
 
             $rootScope.showSection = function(_section) {
-//                $rootScope.runBackButton();
+                $rootScope.runBackButton();
                 $timeout(function() {
                     angular.element('.section').removeClass('active');
                     angular.element('[data-section="' + _section + '"]').addClass('active');
@@ -97,6 +97,12 @@ angular
                     $rootScope.transitionPage('#wrapperM', 'left');
                 } else {
                     $rootScope.transitionPage('#wrapperM', 'right');
+                }
+            };
+
+            $scope.hideMenu = function() {
+                if ($('#wrapperM').hasClass('right')) {
+                    $rootScope.transitionPage('#wrapperM', 'left');
                 }
             };
 

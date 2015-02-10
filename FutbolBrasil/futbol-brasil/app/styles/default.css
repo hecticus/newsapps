@@ -607,6 +607,11 @@ body.content-mtm .row-back {
     /*text-transform: capitalize;*/
 }
 
+.tabs button {
+    background: none;
+    border: 0;
+}
+
 .team-info{
     display: inline-block;
 }

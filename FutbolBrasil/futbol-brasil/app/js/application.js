@@ -51,6 +51,9 @@ angular
 
             $rootScope.loading = false;
             $rootScope.error = false;
+            if($rootScope.hideMenu) {
+                $rootScope.hideMenu();
+            }
 
             if(toState.name !== 'login'){
                 if(!Client.isClientOk()){

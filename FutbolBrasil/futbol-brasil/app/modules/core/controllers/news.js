@@ -117,10 +117,10 @@ angular
                     }
                 });
                 $scope._scroll2 = Utilities.newScroll.vertical('wrapper2');
-//                $scope._scroll2.on('beforeScrollStart', function () {
-//                        this.refresh();
-//                    }
-//                );
+                $scope._scroll2.on('beforeScrollStart', function () {
+                        this.refresh();
+                    }
+                );
             };
 
             $scope.init = function(){

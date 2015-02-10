@@ -2,28 +2,28 @@
     <div id="wrapperH">
         <div id="scroller" ng-style="getTotalWidth()">
             <ul>
-                <li ng-style="getWidth()" ng-repeat="league in _this.item.leagues" >
+                <li ng-style="getWidth()" ng-repeat="league in item.leagues" >
                     <div class="container">
 
                         <div class="row header">
 
-                          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs" style="text-align:left;" ng-click="prevPage()">
-                            <button ng-bind="item.leagues[$index-1].name" ></button>
+                          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs text-left" ng-click="prevPage()">
+                            <span ng-bind="item.leagues[$index-1].name"></span>
                           </div>
 
                           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
                             <h4 ng-bind="league.name" class="caption"></h4>
                           </div>
 
-                          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs" style="text-align:right;" ng-click="nextPage()">
-                            <button ng-bind="item.leagues[$index+1].name" ></button>
+                          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs text-right" ng-click="nextPage()">
+                            <span ng-bind="item.leagues[$index+1].name"></span>
                           </div>
 
                         </div>
 
 
                         <div class="row">
-                            <div id="{{_this.wrapper.getName($index)}}" class="wrapper" >
+                            <div id="{{wrapper.getName($index)}}" class="wrapper" >
                                 <div class="scroller" >
                                     <div class="container">
 

@@ -1,10 +1,10 @@
 <div>
-    <div id="wrapper" ng-class="{hide: !isActive('news')}">
+    <div id="wrapper">
         <div class="scroller">
             <div class="container" >
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news"
-                         ng-repeat="item in news"
+                         ng-repeat="item in news track by item.idNews"
                          ng-click="showContentNews(item)">
                         <h5 class="title">{{item.title}}</h5>
                         <i class="icon mdi-device-access-time"></i>
@@ -15,14 +15,8 @@
         </div>
     </div>
 
-    <div id="wrapper2" class="page" style="z-index: 2; left: 100%;" >
-        <div class="row-back">
-            <div class="row" style="margin-top: 10px !important;">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 pull-right text-right" >
-                    <i class="icon mdi-social-share" style="font-size: 1.8em; margin-right: 10px;" ></i>
-                </div>
-            </div>
-        </div>
+    <div id="wrapper2" class="page" style="left: 100%;" >
+
 
         <div class="scroller">
             <div class="container" >
@@ -31,10 +25,20 @@
                         <h3 class="title">{{contentNews.title}}</h3>
                         <i class="icon mdi-device-access-time"></i>
                         <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
-                        <p class="body" ng-bind-html="contentNews.body"></p>
+                        <p class="body" ng-bind-html="contentNews.body"> </p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row-back">
+            <div class="row" style="margin-top: 10px !important;">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: right;" >
+                    <i class="icon mdi-social-share" style="font-size: 1.8em; margin-right: 10px;" ></i>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
