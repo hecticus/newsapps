@@ -17,7 +17,6 @@ angular
                 MENU_NOTISTATS : 'NotiStats',
                 MENU_BETS : 'Palpites',
                 MENU_SETTINGS : 'Definições'
-//                DEFINI&#199;&#213;ES
             };
 
             $scope.$on('load', function(){
@@ -31,21 +30,6 @@ angular
                 $scope.loading = false;
             }
             );
-            CordovaApp.setBackButtonCallback(function(){
-                if(angular.element('.page.back.left:last').hasClass('left')){
-                    $scope.runBackButton();
-                } else {
-                    var EXIT_APP_TITLE = 'Sair do Aplicativo';
-                    var EXIT_APP_MSG = 'Tem certeza de que deseja sair do aplicativo?';
-                    var ok = 'Ok';
-                    var cancel = 'Cancelar';
-                    if (!!navigator.notification) {
-                        navigator.notification.confirm(EXIT_APP_MSG, CordovaApp.exitApp(), EXIT_APP_TITLE, [ok, cancel]);
-                    } else if (confirm(EXIT_APP_MSG)) {
-                        CordovaApp.exitApp();
-                    }
-                }
-            });
 
             $scope.isActive = function(className){
                 return $state.current.name === className;
@@ -76,7 +60,7 @@ angular
             };
 
             $rootScope.showSection = function(_section) {
-                $rootScope.runBackButton();
+//                $rootScope.runBackButton();
                 $timeout(function() {
                     angular.element('.section').removeClass('active');
                     angular.element('[data-section="' + _section + '"]').addClass('active');
@@ -94,11 +78,11 @@ angular
             };
 
             $rootScope.nextPage = function() {
-                $rootScope.runBackButton();
+//                $rootScope.runBackButton();
             };
 
             $rootScope.prevPage = function() {
-                $rootScope.runBackButton();
+//                $rootScope.runBackButton();
             };
 
             $scope.getCompetitions = function(){
@@ -117,6 +101,21 @@ angular
             };
 
             $scope.init = function(){
+                CordovaApp.setBackButtonCallback(function(){
+                    if(angular.element('.page.back.left:last').hasClass('left')){
+                        $scope.runBackButton();
+                    } else {
+                        var EXIT_APP_TITLE = 'Sair do Aplicativo';
+                        var EXIT_APP_MSG = 'Tem certeza de que deseja sair do aplicativo?';
+                        var ok = 'Ok';
+                        var cancel = 'Cancelar';
+                        if (!!navigator.notification) {
+                            navigator.notification.confirm(EXIT_APP_MSG, CordovaApp.exitApp(), EXIT_APP_TITLE, [ok, cancel]);
+                        } else if (confirm(EXIT_APP_MSG)) {
+                            CordovaApp.exitApp();
+                        }
+                    }
+                });
                 $scope.getCompetitions();
 //            ClientManager.getClientStatus(
 //                function(){

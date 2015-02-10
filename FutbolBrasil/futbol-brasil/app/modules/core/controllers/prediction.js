@@ -20,7 +20,7 @@ angular
             };
 
             $scope.width = $window.innerWidth;
-            $scope.widthTotal = ($window.innerWidth * 11);
+            $scope.widthTotal = $window.innerWidth;
 
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
@@ -79,13 +79,15 @@ angular
                     });
                 });
 
-              $http.post(Domain.bets.create(), {bets:_jBets}).
-              success(function(data) {
-                alert('success');
-                $scope.$emit('unload');
-              }).catch(function () {
-                alert('error')
-              });
+                $http.post(Domain.bets.create(), {bets:_jBets}).
+                    success(function(data) {
+                        alert('success');
+                        $scope.$emit('unload');
+                    })
+                    .catch(function () {
+                        alert('error');
+                        $scope.$emit('error');
+                    });
             };
 
             $scope.getDate = function (_date) {
@@ -99,34 +101,34 @@ angular
 
 
             $scope.init = function(){
-              $scope.$emit('load');
-              $http.get(Domain.bets.get())
-              .success(function (data, status, headers, config) {
-                $scope.item = data.response;
-                $rootScope.$storage.bet = JSON.stringify($scope.item);
-                $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-              }).catch(function () {
-                  $scope.$emit('error');
-              }).finally(function(data) {
-                  $scope.$emit('unload');
-              });
+                $scope.$emit('load');
+                $http.get(Domain.bets.get())
+                    .success(function (data, status, headers, config) {
+                        $scope.item = data.response;
+                        $rootScope.$storage.bet = JSON.stringify($scope.item);
+                        $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
+                    }).catch(function () {
+                        $scope.$emit('error');
+                    }).finally(function(data) {
+                        $scope.$emit('unload');
+                    });
 
-              var _scroll = Utilities.newScroll.horizontal('wrapperH');
-              $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                  angular.forEach($scope.item.leagues, function(_item, _index) {
-                      Utilities.newScroll.vertical($scope.wrapper.getName(_index));
-                  });
-              });
+                var _scroll = Utilities.newScroll.horizontal('wrapperH');
+                $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    angular.forEach($scope.item.leagues, function(_item, _index) {
+                        Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                    });
+                });
 
-              $scope.nextPage = function(){
-                _scroll.next();
-              };
+                $scope.nextPage = function(){
+                    _scroll.next();
+                };
 
-              $scope.prevPage = function(){
-                _scroll.prev();
-              };
+                $scope.prevPage = function(){
+                    _scroll.prev();
+                };
 
             }();
 
         }
-]);
+    ]);
