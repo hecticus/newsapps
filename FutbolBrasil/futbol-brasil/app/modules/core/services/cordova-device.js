@@ -29,7 +29,7 @@ angular
                     if(typeof device !== "undefined"){
                         return device.platform;
                     } else {
-                        return "undefined";
+                        return "Android";
                     }
                 },
 

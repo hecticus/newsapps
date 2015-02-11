@@ -7,17 +7,8 @@
  */
 angular
     .module('core')
-    .factory('WebManager',['$http', 'CordovaDevice', 'Domain',
-        function($http, CordovaDevice, Domain) {
-            var that = this;
-            var upstreamAppKey = '';
-            var upstreamAppVersion = '';
-            var upstreamServiceID = '';
-            var upstreamURL = '';
-            var companyName = '';
-            var buildVersion = '';
-            var serverVersion = '';
-
+    .factory('WebManager',['$http', 'CordovaDevice', 'Domain', 'App',
+        function($http, CordovaDevice, Domain, App) {
             return {
 
                 /**
@@ -48,14 +39,17 @@ angular
                 },
 
                 getHeaders: function () {
+                    var companyName = App.getCompanyName();
+                    var buildVersion = App.getBuildVersion();
+                    var serverVersion = App.getServerVersion();
                     var headers = {
                         'Content-Type': 'application/json; charset=utf-8'
                     };
                     var auth = "";
                     try {
-                        auth = that.companyName + this.getAppender(that.buildVersion.charAt(0))
-                            + that.buildVersion + this.getAppender(that.serverVersion.charAt(0))
-                            + that.serverVersion;
+                        auth = companyName + this.getAppender(buildVersion.charAt(0))
+                            + buildVersion + this.getAppender(serverVersion.charAt(0))
+                            + serverVersion;
                         headers['HECTICUS-X-AUTH-TOKEN'] = auth;
                     } catch (e) {
                         console.log('Error setting HECTICUS-X-AUTH-TOKEN');
@@ -91,17 +85,19 @@ angular
                 },
 
                 loadServerConfigs : function (successCallback, errorCallback){
-                    var url = Domain.loading(CordovaDevice.getRealWidth() , CordovaDevice.getRealHeight());
+
+                    var url = Domain.loading(CordovaDevice.getRealWidth() , CordovaDevice.getRealHeight()
+                        , App.getBundleVersion(), CordovaDevice.getPlatform());
 //                    this.enableCerts(true);
                     $http.get(url).success(function(_json) {
                             var response = _json.response;
-                            that.upstreamAppKey = response.upstreamAppKey;
-                            that.upstreamAppVersion = response.upstreamAppVersion;
-                            that.upstreamServiceID = response.upstreamServiceID;
-                            that.upstreamURL = response.upstreamURL;
-                            that.companyName = response.company_name;
-                            that.buildVersion = response.build_version;
-                            that.serverVersion = response.server_version;
+                            App.setUpstreamAppKey(response.upstreamAppKey);
+                            App.setUpstreamAppVersion(response.upstreamAppVersion);
+                            App.setUpstreamServiceId(response.upstreamServiceID);
+                            App.setUpstreamUrl(response.upstreamURL);
+                            App.setCompanyName(response.company_name);
+                            App.setBuildVersion(response.build_version);
+                            App.setServerVersion(response.server_version);
                             successCallback();
                         }).error(function(){
                             errorCallback();

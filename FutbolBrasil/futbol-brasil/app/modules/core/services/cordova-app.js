@@ -7,10 +7,10 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
-        , 'FacebookManager', 'Client', 'Settings',
-        function(Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
-            , Client, Settings) {
+    .factory('CordovaApp',['$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
+        , 'FacebookManager', 'Client', 'Settings', 'App',
+        function($window, Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
+            , Client, Settings, App) {
             var that = this;
 
             var onBackButtonPressed = function(){
@@ -24,7 +24,7 @@ angular
                 },
 
                 bindEvents : function() {
-                    console.log('CordovaApp. bindEvents. ');
+//                    console.log('CordovaApp. bindEvents. ');
                     document.addEventListener('deviceready', that.onDeviceReady, false);
                     document.addEventListener('touchmove', function (e) {
                         e.preventDefault();
@@ -34,23 +34,24 @@ angular
                 },
 
                 onDeviceReady : function() {
-                    console.log('CordovaApp. onDeviceReady. ');
+//                    console.log('CordovaApp. onDeviceReady. ');
                     that.receivedEvent('deviceready');
                     that.initAllAppData();
                 },
 
                 receivedEvent : function(id) {
-                    console.log('CordovaApp. receivedEvent. ');
+//                    console.log('CordovaApp. receivedEvent. ');
                     if (id === 'deviceready') {
                         document.addEventListener('backbutton', function(e) {
                             onBackButtonPressed();
                         }, false);
+                        this.getVersion();
                     }
 
                 },
 
                 initAllAppData : function() {
-                    console.log('CordovaApp. initAllAppData. ');
+//                    console.log('CordovaApp. initAllAppData. ');
                     var StatusBar = StatusBar? StatusBar: undefined;
                     if(!!StatusBar) {
                         StatusBar.hide();
@@ -106,13 +107,23 @@ angular
                     console.log("ERROR CREATING!!!!");
                 },
 
+                getVersion: function(){
+                    if(!!$window.wizUtils){
+                        $window.wizUtils.getBundleVersion(function(result){
+                            App.setBundleVersion(result);
+                        });
+                    }else{
+                        console.log('$window.wizUtils Object not available');
+                    }
+                },
+
                 /**
                  * @ngdoc function
                  * @name core.Services.CordovaApp#init
                  * @methodOf core.Services.CordovaApp
                  */
                 init : function() {
-                    console.log('Ready. initialize. ');
+//                    console.log('Ready. initialize. ');
                     that = this;
                     this.bindEvents();
                 }

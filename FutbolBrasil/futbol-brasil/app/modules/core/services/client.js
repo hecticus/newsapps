@@ -57,11 +57,6 @@ angular
                  */
                 init : function() {
                     this.checkStoredData();
-                    console.log('localStorage[FILE_KEY_CLIENT_DATASAFE]: ' + localStorage[FILE_KEY_CLIENT_DATASAFE]);
-                    console.log('localStorage[FILE_KEY_CLIENT_DATASAFE] typeof: ' + (typeof localStorage[FILE_KEY_CLIENT_DATASAFE]));
-                    console.log('localStorage[FILE_KEY_CLIENT_DATASAFE] (Object): ');
-                    console.log(localStorage[FILE_KEY_CLIENT_DATASAFE]);
-
                     clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
                     if(clientDataSafe){
                         var clientString = localStorage[FILE_KEY_CLIENT_ID];
@@ -75,7 +70,6 @@ angular
                     }
 
                     this.loadClientMSISDN();
-                    console.log("Client. init. clientId: " + clientId + " msisdn:" + msisdn);
                     return true;
                 },
 

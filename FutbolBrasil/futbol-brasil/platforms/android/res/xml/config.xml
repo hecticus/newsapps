@@ -48,6 +48,9 @@
     <access origin="https://api.facebook.com" />
     <access origin="https://*.fbcdn.net" />
     <access origin="https://*.akamaihd.net" />
+    <feature name="WizUtilsPlugin">
+        <param name="android-package" value="jp.wizcorp.phonegap.plugin.wizUtilsPlugin.WizUtilsPlugin" />
+    </feature>
     <name>FutbolBrasil</name>
     <description>
 		FutbolBrasil app.

@@ -164,13 +164,13 @@ angular
             },
 
             setFavoriteTeamsFromServer : function(pushAlerts){
-                if(!pushAlerts){ return;}
+                if(!pushAlerts){ return; }
                 var favoriteTeams = teams.filter(function(element){
                     var teamId = element.id_teams;
                     var found = false;
                     pushAlerts.forEach(function(pushAlert){
                         var pushAlertId = pushAlert.push_alert.id_ext;
-                        found |= pushAlertId == teamId;
+                        found |= pushAlertId === teamId;
                     });
                     return found;
                 });

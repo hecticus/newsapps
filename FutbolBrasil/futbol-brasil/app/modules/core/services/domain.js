@@ -15,9 +15,9 @@ angular
 
         return {
 
-            loading: function (width, height) {
+            loading: function (width, height, appVersion, platform) {
                 return brazil_football_manager_url + 'api/loading/'
-                    + width + '/' + height;
+                    + width + '/' + height + '/' + appVersion + '/' + platform;
             },
 
             clients: {

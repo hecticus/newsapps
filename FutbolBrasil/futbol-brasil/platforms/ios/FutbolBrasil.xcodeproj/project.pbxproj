@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0011C67DEF99436EAFA2001A /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 27C11F6DB9544592AA969268 /* CDVNotification.bundle */; };
 		0598130271BF4F12B3AE7387 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 2251D4F6D44E41798CA30F9C /* CDVLogger.m */; };
@@ -79,6 +78,8 @@
 		D1BC8804F9E34506B8D315B3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5796D6D91A4D42B379C6C7 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		FB096CD43F0A4F5EBDBD8E28 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE14DE4B333240D88D256948 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1A256B025AEB45B2A537D1F2 /* WizUtilsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E004E62FDB242048F41BE39 /* WizUtilsPlugin.m */; settings = {COMPILER_FLAGS = -fno-objc-arc; }; };
+		40314AD789E74D16A487323F /* WizDebugLog.h in Resources */ = {isa = PBXBuildFile; fileRef = DF931240098E42489883D996 /* WizDebugLog.h */; settings = {COMPILER_FLAGS = -fno-objc-arc; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,6 +211,9 @@
 		FC27EE2946FD43F4B5EF6FEB /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = com.synconset.cordovaHTTP/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		FD7A9CA1ED8B4456984A2F74 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = org.apache.cordova.file/CDVLocalFilesystem.h; sourceTree = "<group>"; };
 		FDD76D481659422799892732 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLSessionManager.h; path = com.synconset.cordovaHTTP/AFURLSessionManager.h; sourceTree = "<group>"; };
+		2E004E62FDB242048F41BE39 /* WizUtilsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "WizUtilsPlugin.m"; path = "jp.wizcorp.phonegap.plugin.wizUtilsPlugin/WizUtilsPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		DF931240098E42489883D996 /* WizDebugLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WizDebugLog.h"; path = "jp.wizcorp.phonegap.plugin.wizUtilsPlugin/WizDebugLog.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		15B5D54CFA164730BCBC6551 /* WizUtilsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WizUtilsPlugin.h"; path = "jp.wizcorp.phonegap.plugin.wizUtilsPlugin/WizUtilsPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +388,9 @@
 				F0553EEA4C9C442D8BFFC59A /* CDVStatusBar.h */,
 				551327722BAD4082B20D5DF8 /* FacebookConnectPlugin.m */,
 				0AA2EB6A8EED472BA07FE024 /* FacebookConnectPlugin.h */,
+				2E004E62FDB242048F41BE39 /* WizUtilsPlugin.m */,
+				DF931240098E42489883D996 /* WizDebugLog.h */,
+				15B5D54CFA164730BCBC6551 /* WizUtilsPlugin.h */,
 			);
 			name = Plugins;
 			path = FutbolBrasil/Plugins;
@@ -604,6 +611,8 @@
 				986F7A5DB67240E1B4BDF5CA /* CDVSplashScreen.m in Sources */,
 				8CCF77D875FD46778ABE864B /* CDVStatusBar.m in Sources */,
 				81EBACCB22B840FD816AD0AB /* FacebookConnectPlugin.m in Sources */,
+				1A256B025AEB45B2A537D1F2 /* WizUtilsPlugin.m in Sources */,
+				40314AD789E74D16A487323F /* WizDebugLog.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
