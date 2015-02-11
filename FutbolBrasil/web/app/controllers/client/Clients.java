@@ -342,15 +342,19 @@ public class Clients extends HecticusController {
                 if(clientData.has("receive_news")) {
                     boolean receiveNews = clientData.get("receive_news").asBoolean();
                     int index = client.getPushAlertIndex(newsPushId);
-                    client.getPushAlerts().get(index).setStatus(receiveNews);
-                    update = true;
+                    if(index > -1) {
+                        client.getPushAlerts().get(index).setStatus(receiveNews);
+                        update = true;
+                    }
                 }
 
                 if(clientData.has("receive_bets")) {
                     boolean receiveBets = clientData.get("receive_bets").asBoolean();
                     int index = client.getPushAlertIndex(betsPushId);
-                    client.getPushAlerts().get(index).setStatus(receiveBets);
-                    update = true;
+                    if(index > -1) {
+                        client.getPushAlerts().get(index).setStatus(receiveBets);
+                        update = true;
+                    }
                 }
 
                 if(clientData.has("receive_min")) {
