@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class DataFactoryScraper extends HecticusThread {
 
     private String fileRoute;
+    private int idLanguage;
 
     /*
         archivos que va a manejar
@@ -47,9 +48,10 @@ public class DataFactoryScraper extends HecticusThread {
         try {
             Utils.printToLog(DataFactoryScraper.class,null,"Iniciando DataFactoryScraper",false,null,"support-level-1",Config.LOGGER_INFO);
             //read folder files
-            if (args.containsKey("file_route")){
+            if (args.containsKey("file_route") && args.containsKey("language")){
                 fileRoute = (String) args.get("file_route");
-            }else throw new BadConfigException("es necesario el valor file_route");
+                idLanguage = Integer.parseInt((String) args.get("language"));
+            }else throw new BadConfigException("es necesario el valor file_route y el language");
             processFolder(fileRoute);
         } catch (BadConfigException ex){
             Utils.printToLog(DataFactoryScraper.class,
@@ -143,7 +145,7 @@ public class DataFactoryScraper extends HecticusThread {
                         Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
                         awayTeam.validateTeam();
                         GameMatchStatus status = new GameMatchStatus(statusName, Integer.parseInt(statusId));
-                        status.validate();
+                        status.validate(idLanguage);
 
                         Venue gameVenue = null;
                         long stadiumId = stringLongParser(idEstadio);
@@ -161,6 +163,7 @@ public class DataFactoryScraper extends HecticusThread {
                     }
                 }catch (Exception ex){
                     //generic parsing error keep going with next one
+                    ex.printStackTrace();
                 }
             }
         }catch (Exception ex){
@@ -531,13 +534,13 @@ public class DataFactoryScraper extends HecticusThread {
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
-                    parsePositions(path + File.separator + fileName);
+//                    parsePositions(path + File.separator + fileName);
                 } else if (fileName.contains("goleadores")) { //goleadores
                     parseStrikers(path + File.separator + fileName);
 //                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto
-                   parseMinaMin(path + File.separator + fileName);
+//                   parseMinaMin(path + File.separator + fileName);
                 } else if (fileName.contains("plantelxcampeonato")) { //plantel
                     //not in use
                 } else { //desconocido

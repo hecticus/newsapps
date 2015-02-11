@@ -2,10 +2,12 @@ package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +24,9 @@ public class GameMatchStatus extends HecticusModel {
 
     @OneToMany(mappedBy = "status")
     private List<GameMatch> matches;
+
+    @OneToMany(mappedBy = "status")
+    private List<GameMatchStatusHasLocalization> localizations;
 
     private static Model.Finder<Integer,GameMatchStatus> finder = new Model.Finder<Integer,GameMatchStatus>(Integer.class,GameMatchStatus.class);
 
@@ -62,23 +67,47 @@ public class GameMatchStatus extends HecticusModel {
         this.matches = matches;
     }
 
+    public List<GameMatchStatusHasLocalization> getLocalizations() {
+        return localizations;
+    }
+
+    public void setLocalizations(List<GameMatchStatusHasLocalization> localizations) {
+        this.localizations = localizations;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode node = Json.newObject();
         node.put("id_status", extId);
         node.put("name", name);
+        if(localizations != null && !localizations.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(GameMatchStatusHasLocalization ad : localizations){
+                apps.add(ad.toJson());
+            }
+            node.put("localizations", Json.toJson(apps));
+        }
         return node;
     }
 
-    public void validate() {
+    public void validate(int idLanguage) {
         GameMatchStatus tr = finder.where().eq("extId",extId).findUnique();
+        Language language = Language.getByID(idLanguage);
+        GameMatchStatusHasLocalization gameMatchStatusHasLocalization = new GameMatchStatusHasLocalization(this, language, this.name);
         if (tr != null) {
             //existe
             this.idGameMatchStatus = tr.idGameMatchStatus;
             this.name = tr.name;
             this.extId = tr.extId;
+            this.localizations = tr.localizations;
         } else {
             this.save();
+        }
+        if(!GameMatchStatusHasLocalization.exists(gameMatchStatusHasLocalization)){
+            System.out.println("no existe " + this.getName() + " " + language.getName());
+            this.localizations.add(gameMatchStatusHasLocalization);
+            gameMatchStatusHasLocalization.save();
+            this.update();
         }
     }
 }
