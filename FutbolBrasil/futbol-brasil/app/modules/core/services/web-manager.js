@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('WebManager',
-        function() {
+    .factory('WebManager',['$http', 'CordovaDevice', 'Domain', 'App',
+        function($http, CordovaDevice, Domain, App) {
             return {
 
                 /**
@@ -21,13 +21,8 @@ angular
                     return true;
                 },
 
-                companyName: '',
-                buildVersion: '',
-                serverVersion: '',
-
-                //TODO revisar uso de CordovaHttpPlugin
                 enableCerts: function (all) {
-                    console.log('WebManager! ' + all);
+                    console.log('WebManager. all: ' + all);
                     if (all) {
                         plugins.CordovaHttpPlugin.acceptAllCerts(true, function () {
                             return true;
@@ -44,15 +39,22 @@ angular
                 },
 
                 getHeaders: function () {
+                    var companyName = App.getCompanyName();
+                    var buildVersion = App.getBuildVersion();
+                    var serverVersion = App.getServerVersion();
+                    var headers = {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    };
                     var auth = "";
                     try {
-                        auth = this.companyName + this.getAppender(this.buildVersion.charAt(0))
-                            + this.buildVersion + this.getAppender(this.serverVersion.charAt(0)) + this.serverVersion;
+                        auth = companyName + this.getAppender(buildVersion.charAt(0))
+                            + buildVersion + this.getAppender(serverVersion.charAt(0))
+                            + serverVersion;
+                        headers['HECTICUS-X-AUTH-TOKEN'] = auth;
                     } catch (e) {
-                        auth = this.companyName + " " + this.buildVersion + " " + this.serverVersion;
+                        console.log('Error setting HECTICUS-X-AUTH-TOKEN');
                     }
-                    console.log(auth);
-                    return { 'HECTICUS-X-AUTH-TOKEN': auth };
+                    return headers;
                 },
 
                 getAppender: function (index) {
@@ -80,6 +82,27 @@ angular
                         default:
                             return '-';
                     }
+                },
+
+                loadServerConfigs : function (successCallback, errorCallback){
+
+                    var url = Domain.loading(CordovaDevice.getRealWidth() , CordovaDevice.getRealHeight()
+                        , App.getBundleVersion(), CordovaDevice.getPlatform());
+//                    this.enableCerts(true);
+                    $http.get(url).success(function(_json) {
+                            var response = _json.response;
+                            App.setUpstreamAppKey(response.upstreamAppKey);
+                            App.setUpstreamAppVersion(response.upstreamAppVersion);
+                            App.setUpstreamServiceId(response.upstreamServiceID);
+                            App.setUpstreamUrl(response.upstreamURL);
+                            App.setCompanyName(response.company_name);
+                            App.setBuildVersion(response.build_version);
+                            App.setServerVersion(response.server_version);
+                            successCallback();
+                        }).error(function(){
+                            errorCallback();
+                        });
                 }
             }
-    });
+    }
+]);

@@ -23,6 +23,14 @@ angular
             $scope.width = $window.innerWidth;
             $scope.widthTotal = ($window.innerWidth * 11);
 
+            $scope.getWidth = function(){
+                return { 'width': $scope.width + 'px'}
+            };
+
+            $scope.getTotalWidth = function(){
+                return { 'width': $scope.widthTotal + 'px'}
+            };
+
             $scope.init = function(){
                 $scope.$emit('load');
                 if ($rootScope.$storage.scorers) {
@@ -30,16 +38,16 @@ angular
                     $rootScope.error = Utilities.error($scope.item.leagues,'scorers');
                 } else {
                     $http.get(Domain.scorers())
-                    .success(function (data, status, headers, config) {
-                        $scope.item =  data.response;
-                        $rootScope.$storage.scorers = JSON.stringify(data.response);
-                        $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-                    }).catch(function () {
-                        $scope.$emit('error');
-                    }).finally(function(data) {
-                        $scope.$emit('unload');
-                        $rootScope.error = $scope.item.leagues.hasOwnProperty('news');
-                    });
+                        .success(function (data, status, headers, config) {
+                            $scope.item =  data.response;
+                            $rootScope.$storage.scorers = JSON.stringify(data.response);
+                            $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
+                        }).catch(function () {
+                            $scope.$emit('error');
+                        }).finally(function(data) {
+                            $scope.$emit('unload');
+                            $rootScope.error = $scope.item.leagues.hasOwnProperty('news');
+                        });
                 }
 
                 var _scroll = Utilities.newScroll.horizontal('wrapperH');
@@ -52,11 +60,11 @@ angular
                 });
 
                 $scope.nextPage = function(){
-                  _scroll.next();
+                    _scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                  _scroll.prev();
+                    _scroll.prev();
                 };
 
             }();

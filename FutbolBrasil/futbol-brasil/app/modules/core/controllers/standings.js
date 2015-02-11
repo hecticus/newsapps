@@ -14,8 +14,7 @@ angular
             var _scroll;
             var _scroll2;
             var _scroll3;
-
-
+            $scope.item = {};
 
             //TODO Sacar a Service
             $scope.fromNow = function(_date) {
@@ -30,6 +29,7 @@ angular
                 $scope.item.competition = false;
                 $http.get(Domain.phases(competition.id_competitions))
                 .success(function (data, status, headers, config) {
+                    console.log(data);
                     $scope.item.phases = data.response.phases;
                     $scope.item.competition = competition;
                     if ($scope.item.phases.length == 1) {

@@ -11,7 +11,7 @@ angular
     .module('core')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/news');
 
         /**
          * @ngdoc event
@@ -32,6 +32,26 @@ angular
                   prev: 'login',
                   next: 'login',
                   _class: 'content-login'
+                }
+            })
+            .state('settings', {
+                url: '/settings',
+                templateUrl:'modules/core/views/settings.html',
+                controller:'SettingsController',
+                data:{
+                    prev: 'news',
+                    next: 'news',
+                    _class: 'content-settings'
+                }
+            })
+            .state('team-selection', {
+                url: '/team-selection',
+                templateUrl:'modules/core/views/team-selection.html',
+                controller:'TeamSelectionController',
+                data:{
+                    prev: 'login',
+                    next: 'news',
+                    _class: 'content-team-selection'
                 }
             })
             .state('match', {

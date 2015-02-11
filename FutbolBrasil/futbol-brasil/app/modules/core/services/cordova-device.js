@@ -11,7 +11,7 @@ angular
         function($window) {
             var realWidth = 0;
             var realHeight = 0;
-            var device = device? device : false;
+//            var device = device? device : false;
             return {
                 touchType : 'click',
 
@@ -25,6 +25,14 @@ angular
                     return true;
                 },
 
+                getPlatform: function (){
+                    if(typeof device !== "undefined"){
+                        return device.platform;
+                    } else {
+                        return "Android";
+                    }
+                },
+
                 /**
                  * @ngdoc function
                  * @name core.Services.CordovaDevice#isAndroidPlatform
@@ -32,7 +40,7 @@ angular
                  * @return {boolean} Returns true if running on Android Platform
                  */
                 isAndroidPlatform: function (){
-                    if(!!device){
+                    if(typeof device !== "undefined"){
                         return device.platform === "Android";
                     } else {
                         return false;
@@ -46,7 +54,7 @@ angular
                  * @return {boolean} Returns true if running on iOS Platform
                  */
                 isIosPlatform: function (){
-                    if(!!device){
+                    if(typeof device !== "undefined"){
                         return device.platform === "iOS";
                     } else {
                         return false;
@@ -82,7 +90,7 @@ angular
                     } else if(this.isIosPlatform()){
                         return 2;
                     } else {
-                        return 0;
+                        return 1;
                     }
                 },
 
@@ -111,8 +119,12 @@ angular
                 },
 
                 phonegapIsOnline: function (){
-                    var networkState = navigator.connection.type;
-                    return !(networkState == Connection.NONE || networkState == Connection.UNKNOWN);
+                    if(navigator.connection){
+                        var networkState = navigator.connection.type;
+                        return !(networkState == Connection.NONE || networkState == Connection.UNKNOWN);
+                    } else {
+                        return true;
+                    }
                 },
 
                 setRealWidth: function (val){
@@ -129,7 +141,7 @@ angular
                     if(realWidth != 0){
                         return realWidth;
                     }else{
-                        return $window.width();
+                        return $window.innerWidth;
                     }
                 },
 
@@ -147,7 +159,7 @@ angular
                     if(realHeight != 0){
                         return realHeight;
                     }else{
-                        return $window.height();
+                        return $window.innerHeight;
                     }
                 }
             };

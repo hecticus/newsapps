@@ -8,10 +8,10 @@
  */
 angular
     .module('core')
-    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
-
-
+    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
+        ,'Utilities', 'SocialAppsManager',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities
+            , SocialAppsManager) {
             $rootScope.$storage.news = false;
 
             //Indicador de primera y ultima posicion en cache
@@ -19,29 +19,23 @@ angular
                 first : 0,
                 last : 0
             };
-
             $scope.item = {};
             $scope.news = [];
 
-            var _scroll = Utilities.newScroll.vertical('wrapper');
-			      var _scroll2 = Utilities.newScroll.vertical('wrapper2');
-
             $scope.share = function(_news) {
-              sharePost(_news.title,'Brazil Football',null,_news.summary);
+                SocialAppsManager.sharePost(_news.title,'Brazil Football',null,_news.summary);
             };
 
             $scope.fromNow = function(_date) {
                 return Utilities.moment(_date).fromNow();
             };
 
-
-
             $scope.showContentNews = function(_news) {
                 $scope.news.indexOf(_news);
                 $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                 $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                 $rootScope.transitionPageBack('#wrapper2', 'left');
-                _scroll2.scrollTo(0,0,0);
+                $scope._scroll2.scrollTo(0,0,0);
             };
 
             $scope.getNews = function() {
@@ -49,7 +43,7 @@ angular
                     $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
                     $scope.news = JSON.parse($rootScope.$storage.news);
                     _news.first = $scope.news[0].idNews;
-				            _news.last  = $scope.news[$scope.news.length-1].idNews;
+                    _news.last  = $scope.news[$scope.news.length-1].idNews;
                     //$scope.$emit('unload');
                 } else {
                     $http.get(Domain.news.index())
@@ -108,8 +102,12 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-
-                _scroll.on('scroll', function () {
+                console.log('setUpIScroll');
+                $scope._scroll = Utilities.newScroll.vertical('wrapper');
+                $scope._scroll.on('beforeScrollStart', function () {
+                    this.refresh();
+                });
+                $scope._scroll.on('scroll', function () {
                     if (this.y >= 50) {
                         $scope.getNewsPreviousToId(_news.first);
                     }
@@ -118,8 +116,11 @@ angular
                         $scope.getNewsAfterId(_news.last);
                     }
                 });
-
-
+                $scope._scroll2 = Utilities.newScroll.vertical('wrapper2');
+                $scope._scroll2.on('beforeScrollStart', function () {
+                        this.refresh();
+                    }
+                );
             };
 
             $scope.init = function(){
@@ -127,9 +128,5 @@ angular
                 $scope.getNews();
                 $scope.setUpIScroll();
             }();
-
-
-
-
         }
     ]);

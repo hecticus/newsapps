@@ -8,9 +8,21 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'FacebookManager', 'PushManager'
-        , function($rootScope, $scope, $state, ClientManager, FacebookManager, PushManager) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'Client'
+        , function($rootScope, $scope, $state, ClientManager, Client) {
 
+            $scope.strings = {
+                PASSWORD_HOLDER: 'Senha',
+                PASSWORD_LABEL: 'Digite a senha recebida por SMS.',
+                LOADING_MESSAGE: 'Carregando...',
+                START_TRIAL_MESSAGE: 'Experimente 7 dias grátis',
+                SEND_MESSAGE: 'Enviar',
+                RESEND_MESSAGE: 'Enviar novamente a senha',
+                MSISDN_HELPER: 'Digite seu numero de celular.',
+                MSISDN_HOLDER: '# Numero',
+                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de futebol do dia, todos os dias.',
+
+            };
             $scope.msisdn = '';
             $scope.password = '';
             $scope.isPasswordScreenVisible = false;
@@ -18,18 +30,13 @@ angular
             $scope.sendMsisdn = function(){
                 if($scope.msisdn){
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
-                    ClientManager.saveClientMSISDN($scope.msisdn,
+                    Client.setMsisdn($scope.msisdn,
                     function(){
                         ClientManager.createOrUpdateClient($scope.msisdn, null, true
-                                , $scope.showPasswordScreen(), $scope.showClientSignUpError());
-//                        $scope.showPasswordScreen();
-                        console.log('ClientManager.clientMSISDN: ');
-                        console.log(ClientManager.getClientMSISDN());
+                                , $scope.showPasswordScreen, $scope.showClientSignUpError);
                     },
                     function(){
                         console.log('Error saving MSISDN');
-                        console.log('ClientManager.clientMSISDN: ');
-                        console.log(ClientManager.getClientMSISDN());
                     });
                 } else {
                     alert('Please input your phone number');
@@ -49,14 +56,13 @@ angular
             };
 
             $scope.onLoginError = function(){
-                console.log('showClientSignUpError. Login Error.');
+                console.log('onLoginError. Login Error.');
             };
 
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
-//                    FacebookManager.getFBLoginStatus();
                     ClientManager.createOrUpdateClient($scope.msisdn, $scope.password, true
-                        , $scope.onLoginSuccess, $scope.onLoginError);
+                        , $scope.onLoginSuccess(), $scope.onLoginError());
                 } else {
                     alert('doMsisdnLogin. Please input password');
                 }
