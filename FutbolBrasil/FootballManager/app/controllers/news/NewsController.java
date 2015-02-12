@@ -45,13 +45,14 @@ public class NewsController extends HecticusController {
     public static Result getNewsById(Long idNews){
         try {
             News toReturn = News.getNews(idNews);
+            ObjectNode response;
             ArrayList data = new ArrayList();
             if (toReturn != null){
                 data.add(toReturn.toJson());
+                response = hecticusResponse(0, "ok", toReturn.toJson());
+            } else {
+                response = buildBasicResponse(1, "La noticia " + idNews + " no existe");
             }
-            //build response
-            ObjectNode response;
-            response = hecticusResponse(0, "ok", "news", data);
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));

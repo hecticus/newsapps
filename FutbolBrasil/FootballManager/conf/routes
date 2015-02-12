@@ -53,7 +53,7 @@ POST    /users/:id			                                                           
 # Delete a UsersView
 POST    /users/:id/delete		                                                        controllers.UsersView.delete(id:Long)
 
-
+GET      /newsapi/v1/news/get/:idNews                                                   controllers.news.NewsController.getNewsById(idNews:Long)
 GET      /newsapi/v1/news/search/:idApp                                                 controllers.news.NewsController.getNews(idApp:Integer, offset: Integer=0, count:Integer=20)
 GET      /newsapi/v1/news/search/:idApp/:offset/:count                                  controllers.news.NewsController.getNews(idApp:Integer, offset: Integer, count:Integer)
 POST     /newsapi/v1/news/resources/update                                              controllers.news.NewsController.updateResources()
