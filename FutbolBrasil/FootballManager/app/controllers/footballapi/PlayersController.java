@@ -63,7 +63,17 @@ public class PlayersController extends HecticusController {
             ObjectNode response = null;
             ArrayList data = new ArrayList();
             ArrayList responseData = new ArrayList();
-            List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
+            List<Team> teams = null;
+            String[] favorites = getFromQueryString("teams[]");
+            if(favorites != null && favorites.length > 0){
+                teams = Team.finder.where().in("idTeams", favorites).findList();
+            }
+            List<Competition> competitionsByApp = null;
+            if(teams != null && !teams.isEmpty()){
+                competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(idApp, teams);
+            }else{
+                competitionsByApp = Competition.getActiveCompetitionsByApp(idApp);
+            }
             for(Competition competition : competitionsByApp) {
                 List<Scorer> fullList = Scorer.getTournamentScorers(competition.getIdCompetitions());
                 ObjectNode competitionJson = competition.toJsonSimple();

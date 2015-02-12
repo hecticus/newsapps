@@ -44,9 +44,29 @@ angular
             $scope.width = $window.innerWidth;
             $scope.widthTotal = ($window.innerWidth * 11);
 
+            $scope.getWidth = function(){
+                return { 'width': $scope.width + 'px'}
+            };
+
+            $scope.getTotalWidth = function(){
+                return { 'width': $scope.widthTotal + 'px'}
+            };
+
+            $scope.getMatchStatusClass = function(match){
+                if(match.status == 'Encerrado') {
+                    return 'encerrado';
+                }else if(match.status == 'Default'){
+                    return 'default';
+                } else {
+                    //TODO WTF?!
+                    return 'else';
+                }
+            };
 
 
             $scope.init = function(){
+                $rootScope.loading = false;
+
                 angular.forEach($scope.pages, function(_item, _index) {
                     $http.get(Domain.match(_item.date,_limit,0))
                         .success(function (data, status, headers, config) {
@@ -61,8 +81,6 @@ angular
 
                 $scope.width = $window.innerWidth;
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
-
-
                 var _scroll = new IScroll('#wrapperH', {
                     scrollX: true,
                     scrollY: false,
@@ -73,6 +91,14 @@ angular
                     probeType: 3,
                     bounce: false
                 });
+
+                $scope.nextPage = function(){
+                    _scroll.next();
+                };
+
+                $scope.prevPage = function(){
+                    _scroll.prev();
+                };
 
                 _scroll.on('scrollEnd', function () {
                     //this.refresh();

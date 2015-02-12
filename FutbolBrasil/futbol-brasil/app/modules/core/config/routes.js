@@ -11,7 +11,7 @@ angular
     .module('core')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/news');
 
         /**
          * @ngdoc event
@@ -34,6 +34,26 @@ angular
                   _class: 'content-login'
                 }
             })
+            .state('settings', {
+                url: '/settings',
+                templateUrl:'modules/core/views/settings.html',
+                controller:'SettingsController',
+                data:{
+                    prev: 'news',
+                    next: 'news',
+                    _class: 'content-settings'
+                }
+            })
+            .state('team-selection', {
+                url: '/team-selection',
+                templateUrl:'modules/core/views/team-selection.html',
+                controller:'TeamSelectionController',
+                data:{
+                    prev: 'login',
+                    next: 'news',
+                    _class: 'content-team-selection'
+                }
+            })
             .state('match', {
                 url: '/match',
                 controller:'MatchCtrl as _this',
@@ -54,6 +74,26 @@ angular
                   contentClass: 'content-standings'
                 }
             })
+            .state('news', {
+                url: '/news',
+                controller:'NewsCtrl  as _this',
+                templateUrl:'modules/core/views/news.html',
+                data:{
+                    prev: 'standings',
+                    next: 'scorers',
+                    contentClass: 'content-news'
+                }
+            })
+//            .state('news.detail', {
+//                url: '/:idNews',
+//                controller:'NewsDetailCtrl  as _this',
+//                templateUrl:'modules/core/views/news-detail.html',
+////                data:{
+////                    prev: 'news',
+////                    next: 'scorers',
+////                    contentClass: 'content-news'
+////                }
+//            })
             .state('scorers', {
                 url: '/scorers',
                 controller:'ScorersCtrl  as _this',
@@ -113,26 +153,6 @@ angular
                   next: 'prediction',
                   contentClass: 'content-points'
                 }
-            })
-            .state('news', {
-                url: '/news',
-                controller:'NewsCtrl  as _this',
-                templateUrl:'modules/core/views/news.html',
-                data:{
-                    prev: 'standings',
-                    next: 'scorers',
-                    contentClass: 'content-news'
-                }
             });
-//            .state('news.detail', {
-//                url: '/:idNews',
-//                controller:'NewsDetailCtrl  as _this',
-//                templateUrl:'modules/core/views/news-detail.html',
-////                data:{
-////                    prev: 'news',
-////                    next: 'scorers',
-////                    contentClass: 'content-news'
-////                }
-//            })
         }
     ]);

@@ -237,6 +237,13 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/jp.wizcorp.phonegap.plugin.wizUtilsPlugin/www/phonegap/plugin/wizUtils/wizUtils.js",
+        "id": "jp.wizcorp.phonegap.plugin.wizUtilsPlugin.wizUtilsPlugin",
+        "clobbers": [
+            "window.wizUtils"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -254,7 +261,8 @@ module.exports.metadata =
     "com.synconset.cordovaHTTP": "0.1.4",
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "com.hecticus.cordova.plugins.sharedconfigurations": "1.0.0",
-    "com.phonegap.plugins.facebookconnect": "0.11.0"
+    "com.phonegap.plugins.facebookconnect": "0.11.0",
+    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

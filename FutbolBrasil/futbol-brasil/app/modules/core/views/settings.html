@@ -1,0 +1,85 @@
+<!--TODO extraer estilos-->
+<div id="wrapper" style="margin-top: 10px !important; background-color: transparent; ">
+    <div class="scroller" style="background-color: transparent; position: absolute;">
+        <div class="col-xs-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{strings.FAVORITE_TEAMS_TITLE}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4 text-center" ng-repeat="team in favoriteTeams">
+                            <i class="btn btn-fab btn-raised text-center"
+                               ng-class="getTeamClasses(team, $index)"
+                               ng-click="teamSelected(team)"></i>
+                            <i class="btn btn-delete-item btn-raised mdi-content-clear"
+                               ng-click="removeTeam(team)"
+                               ng-show="!isEmptySlot(team)"></i>
+                            <div class="team-name text-muted" ng-click="teamSelected(team)">
+                                {{getTeamName(team)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{strings.PUSH_SETTINGS_TITLE}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="togglebutton">
+                                    <label>
+                                        <input type="checkbox" ng-checked="toggles.bets" ng-model="toggles.bets" ng-click="toggleBets()">
+                                        <div class="toggle"></div>
+                                        {{strings.TOGGLE_BETS}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="togglebutton">
+                                    <label>
+                                        <input type="checkbox" ng-checked="toggles.news" ng-click="toggleNews()">
+                                        <div class="toggle"></div>
+                                        {{strings.TOGGLE_NEWS}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="togglebutton">
+                                    <label>
+                                        <input type="checkbox" ng-checked="toggles.mtm" ng-click="toggleMtm()">
+                                        <div class="toggle"></div>
+                                        {{strings.TOGGLE_MTM}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{strings.SOCIAL_ACCOUNTS_TITLE}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="btn btn-info text-center">{{strings.CONNECT_FACEBOOK}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

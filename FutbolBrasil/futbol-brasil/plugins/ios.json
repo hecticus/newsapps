@@ -91,6 +91,14 @@
                         {
                             "xml": "<access origin=\"https://*.akamaihd.net\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<plugin name=\"WizUtilsPlugin\" value=\"WizUtilsPlugin\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"WizUtilsPlugin\"><param name=\"ios-package\" value=\"WizUtilsPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -224,6 +232,9 @@
         "com.phonegap.plugins.facebookconnect": {
             "APP_ID": "320314531485580",
             "APP_NAME": "FutbolBrasil",
+            "PACKAGE_NAME": "com.hecticus.futbolbrasil"
+        },
+        "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": {
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         }
     },

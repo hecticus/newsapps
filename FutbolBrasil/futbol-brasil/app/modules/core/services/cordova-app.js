@@ -7,58 +7,68 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
-        , 'FacebookManager',
-        function(Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager) {
+    .factory('CordovaApp',['$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
+        , 'FacebookManager', 'Client', 'Settings', 'App',
+        function($window, Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
+            , Client, Settings, App) {
             var that = this;
-            var upstreamAppKey = '';
-            var upstreamAppVersion = '';
-            var upstreamServiceID = '';
-            var upstreamURL = '';
-            var companyName = '';
-            var buildVersion = '';
-            var serverVersion = '';
+
+            var onBackButtonPressed = function(){
+
+            };
 
             return {
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.CordovaApp#init
-                 * @methodOf core.Services.CordovaApp
-                 */
-                init : function() {
-                    console.log('Ready. initialize. ');
-                    that = this;
-                    this.bindEvents();
+                setBackButtonCallback: function(callback){
+                    if(typeof callback === 'function')
+                    onBackButtonPressed = callback;
                 },
 
                 bindEvents : function() {
+//                    console.log('CordovaApp. bindEvents. ');
                     document.addEventListener('deviceready', that.onDeviceReady, false);
                     document.addEventListener('touchmove', function (e) {
                         e.preventDefault();
                     }, false);
+                    var event = new CustomEvent("deviceready", { "detail": "Example of an event" });
+                    document.dispatchEvent(event);
                 },
 
                 onDeviceReady : function() {
+//                    console.log('CordovaApp. onDeviceReady. ');
                     that.receivedEvent('deviceready');
                     that.initAllAppData();
                 },
 
                 receivedEvent : function(id) {
+//                    console.log('CordovaApp. receivedEvent. ');
                     if (id === 'deviceready') {
                         document.addEventListener('backbutton', function(e) {
-                            that.backButton();
+                            onBackButtonPressed();
                         }, false);
+                        this.getVersion();
                     }
 
                 },
 
                 initAllAppData : function() {
-                    StatusBar.hide();
-                    ClientManager.checkStoredData();
+                    if(!!$window.StatusBar){
+                        StatusBar.hide();
+                    }else{
+                        console.log('$window.StatusBar Object not available');
+                    }
+
+                    Settings.init();
+                    ClientManager.init(that.startApp, that.errorStartApp);
+
                     if (CordovaDevice.phonegapIsOnline()) {
-                        this.loadServerConfigs();
-                        PushManager.init();
+                        WebManager.loadServerConfigs(
+                            function(){
+                                console.log("loadServerConfigs successCallback. Starting PushManager");
+                                PushManager.init();
+                            }, function(){
+                                console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
+                            }
+                        );
                     }else{
                         this.startAppOffline();
                     }
@@ -71,6 +81,7 @@ angular
 
                     }
 
+                    //Legacy
                     if (navigator.app) {
                         navigator.app.exitApp();
                     } else if (navigator.device) {
@@ -79,12 +90,12 @@ angular
                 },
 
                 startAppOffline : function (){
-                    alert("OFFLINE APP");
+                    console.log("startAppOffline. App Offline");
                 },
 
                 startApp : function (isActive, status){
-                    console.log(this);
-                    console.log("startApp. Starting App: Client Active: " + isActive + ". Client Status: " + status);
+                    console.log("startApp. Starting App: Client Active: " + isActive
+                        + ". Client Status: " + status);
                 },
                 errorStartApp : function (){
                     console.log("errorStartApp. Error. Couldn't Start Application");
@@ -98,22 +109,25 @@ angular
                     console.log("ERROR CREATING!!!!");
                 },
 
-                loadServerConfigs : function (){
-                    WebManager.enableCerts(true);
-                    console.log("LOADING: " + Domain.loading(CordovaDevice.getRealWidth(), CordovaDevice.getRealHeight()));
-                    Utilities._fGetAjaxJson(Domain.loading(CordovaDevice.getRealWidth(), CordovaDevice.getRealHeight()))
-                        .done(function(_json) {
-                            console.log("JSON LOAD: "+JSON.stringify(_json));
-                            upstreamAppKey = _json.response.upstreamAppKey;
-                            upstreamAppVersion = _json.response.upstreamAppVersion;
-                            upstreamServiceID = _json.response.upstreamServiceID;
-                            upstreamURL = _json.response.upstreamURL;
-                            companyName = _json.response.company_name;
-                            buildVersion = _json.response.build_version;
-                            serverVersion = _json.response.server_version;
-                            console.log("FINISH LOADING");
-                            ClientManager.init(this.startApp, this.errorStartApp);
+                getVersion: function(){
+                    if(!!$window.wizUtils){
+                        $window.wizUtils.getBundleVersion(function(result){
+                            App.setBundleVersion(result);
                         });
+                    }else{
+                        console.log('$window.wizUtils Object not available');
+                    }
+                },
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaApp#init
+                 * @methodOf core.Services.CordovaApp
+                 */
+                init : function() {
+//                    console.log('Ready. initialize. ');
+                    that = this;
+                    this.bindEvents();
                 }
             };
         }

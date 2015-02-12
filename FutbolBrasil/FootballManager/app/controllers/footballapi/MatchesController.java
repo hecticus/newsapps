@@ -94,7 +94,17 @@ public class MatchesController extends HecticusController {
             }
             ArrayList data = new ArrayList();
             ArrayList responseData = new ArrayList();
-            List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
+            List<Team> teams = null;
+            String[] favorites = getFromQueryString("teams[]");
+            if(favorites != null && favorites.length > 0){
+                teams = Team.finder.where().in("idTeams", favorites).findList();
+            }
+            List<Competition> competitionsByApp = null;
+            if(teams != null && !teams.isEmpty()){
+                competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(idApp, teams);
+            }else {
+                competitionsByApp = Competition.getCompetitionsByApp(idApp);
+            }
             for(Competition competition : competitionsByApp) {
                 List<GameMatch> fullList = GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
                 ObjectNode competitionJson = competition.toJsonNoPhases();
@@ -125,7 +135,17 @@ public class MatchesController extends HecticusController {
             String date = simpleDateFormat.format(today.getTime());
             ArrayList<ObjectNode> data = new ArrayList();
             ArrayList responseData = new ArrayList();
-            List<Competition> competitionsByApp = Competition.getCompetitionsByApp(idApp);
+            List<Team> teams = null;
+            String[] favorites = getFromQueryString("teams[]");
+            if(favorites != null && favorites.length > 0){
+                teams = Team.finder.where().in("idTeams", favorites).findList();
+            }
+            List<Competition> competitionsByApp = null;
+            if(teams != null && !teams.isEmpty()){
+                competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(idApp, teams);
+            }else {
+                competitionsByApp = Competition.getCompetitionsByApp(idApp);
+            }
             for(Competition competition : competitionsByApp) {
                 List<Phase> phases = Phase.getPhasesFromDate(competition, date);
                 if (phases == null || phases.isEmpty()){
@@ -184,7 +204,17 @@ public class MatchesController extends HecticusController {
                 date = simpleDateFormat.format(today.getTime());
             }
             ArrayList responseData = new ArrayList();
-            List<Competition> competitions = Competition.getCompetitionsPage(idApp, page, pageSize, date);
+            List<Team> teams = null;
+            String[] favorites = getFromQueryString("teams[]");
+            if(favorites != null && favorites.length > 0){
+                teams = Team.finder.where().in("idTeams", favorites).findList();
+            }
+            List<Competition> competitions = null;
+            if(teams != null && !teams.isEmpty()){
+                competitions = Competition.getCompetitionsPage(idApp, page, pageSize, date, teams);
+            }else{
+                competitions = Competition.getCompetitionsPage(idApp, page, pageSize, date);
+            }
             if(competitions != null && !competitions.isEmpty()) {
                 ArrayList data = new ArrayList();
                 for(Competition competition : competitions) {
@@ -235,7 +265,17 @@ public class MatchesController extends HecticusController {
             ObjectNode response = null;
             ArrayList data = new ArrayList();
             ArrayList responseData = new ArrayList();
-            List<Competition> competitionsByApp = Competition.getActiveCompetitionsByApp(idApp);
+            List<Team> teams = null;
+            String[] favorites = getFromQueryString("teams[]");
+            if(favorites != null && favorites.length > 0){
+                teams = Team.finder.where().in("idTeams", favorites).findList();
+            }
+            List<Competition> competitionsByApp = null;
+            if(teams != null && !teams.isEmpty()){
+                competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(idApp, teams);
+            }else{
+                competitionsByApp = Competition.getActiveCompetitionsByApp(idApp);
+            }
             ArrayList competitions = null;
             if(ids){
                 competitions = new ArrayList<Long>(competitionsByApp.size());
