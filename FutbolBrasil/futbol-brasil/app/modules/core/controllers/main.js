@@ -8,9 +8,10 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http', '$timeout'
-        , 'Domain', 'ClientManager','CordovaApp',
-        function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, Domain, ClientManager, CordovaApp) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http'
+        , '$timeout', '$window', 'Domain', 'ClientManager','CordovaApp'
+        , function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, $window, Domain
+            , ClientManager, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
             $scope.strings = {
@@ -28,7 +29,7 @@ angular
             $scope.$on('error', function(){
                 $scope.error = true;
                 $scope.loading = false;
-            }
+                }
             );
 
             $scope.isActive = function(className){
@@ -45,12 +46,34 @@ angular
                 return classStr;
             };
 
+            $rootScope.showMenu = function() {
+                if ($('#wrapperM').hasClass('left')) {
+                    console.log('showMenu. invisible. showing');
+                    $window.addEventListener('touchmove', function(){
+                        $scope.hideMenu();
+                        $window.removeEventListener('touchmove');
+                    });
+                    $rootScope.transitionPage('#wrapperM', 'right');
+                } /*else {
+                    console.log('showMenu. visible. hiding');
+                    $scope.hideMenu();
+                }*/
+            };
+
+            $rootScope.hideMenu = function() {
+                if ($('#wrapperM').hasClass('right')) {
+                    console.log('hideMenu. visible. hiding');
+                    $rootScope.transitionPage('#wrapperM', 'left');
+                }
+            };
+
             $rootScope.runBackButton = function() {
+                console.log('runBackButton.');
                 if (angular.element('.page.back.left:last').hasClass('left')) {
                     $rootScope.transitionPage('.page.back.left:last', 'right')
                 } else if ($('#wrapperM').hasClass('right')) {
-                    $rootScope.transitionPage('#wrapperM', 'left');
-                } else {
+                   $scope.hideMenu();
+                } else if ($('#wrapperM').hasClass('left')){
                     $scope.showMenu();
                 }
                 //TODO reemplazar por escucha de botón back
@@ -60,10 +83,10 @@ angular
             };
 
             $rootScope.showSection = function(_section) {
-                $rootScope.runBackButton();
                 $timeout(function() {
                     angular.element('.section').removeClass('active');
                     angular.element('[data-section="' + _section + '"]').addClass('active');
+                    $scope.hideMenu();
                     $state.go(_section);
                 },300);
             };
@@ -78,11 +101,11 @@ angular
             };
 
             $rootScope.nextPage = function() {
-//                $rootScope.runBackButton();
+                $scope.hideMenu();
             };
 
             $rootScope.prevPage = function() {
-//                $rootScope.runBackButton();
+                $scope.hideMenu();
             };
 
             $scope.getCompetitions = function(){
@@ -90,20 +113,6 @@ angular
                     //TODO Usado en StandingsCtrl
                     $rootScope.$storage.competitions = JSON.stringify(obj.response);
                 });
-            };
-
-            $scope.showMenu = function() {
-                if ($('#wrapperM').hasClass('right')) {
-                    $rootScope.transitionPage('#wrapperM', 'left');
-                } else {
-                    $rootScope.transitionPage('#wrapperM', 'right');
-                }
-            };
-
-            $scope.hideMenu = function() {
-                if ($('#wrapperM').hasClass('right')) {
-                    $rootScope.transitionPage('#wrapperM', 'left');
-                }
             };
 
             $scope.init = function(){
@@ -123,12 +132,14 @@ angular
                     }
                 });
                 $scope.getCompetitions();
-//            ClientManager.getClientStatus(
-//                function(){
-//                    console.log();
-//                },
-//                function(){}
-//            );
+                ClientManager.getClientStatus(
+                    function(isActive, status){
+                        console.log('getClientStatus. callback. isActive: ' + isActive + ' status: ' + status);
+                    },
+                    function(){
+                        console.log('getClientStatus. callback. error');
+                    }
+                );
             }();
         }
     ]);

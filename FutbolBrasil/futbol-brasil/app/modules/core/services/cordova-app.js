@@ -51,13 +51,15 @@ angular
                 },
 
                 initAllAppData : function() {
-//                    console.log('CordovaApp. initAllAppData. ');
-                    var StatusBar = StatusBar? StatusBar: undefined;
-                    if(!!StatusBar) {
+                    if(!!$window.StatusBar){
                         StatusBar.hide();
+                    }else{
+                        console.log('$window.StatusBar Object not available');
                     }
+
                     Settings.init();
                     ClientManager.init(that.startApp, that.errorStartApp);
+
                     if (CordovaDevice.phonegapIsOnline()) {
                         WebManager.loadServerConfigs(
                             function(){

@@ -43,11 +43,11 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <header>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                    <div class="col-xs-12 text-left">
                         <i class="icon drawer-icon icon-white"
                            ng-class="getDrawerIcon()"
                            ng-click="runBackButton()"></i>
-                        <span class="drawer-title">
+                        <span class="drawer-title" ng-cloak>
                             <img ng-click="showMenu()" src="img/logo.svg" onerror="this.src='img/logo.png'"
                                   style="width: auto; height: 30px;  position: relative;
                                   vertical-align: middle;"/>
@@ -64,7 +64,7 @@
 
     <loading></loading>
     <error></error>
-    <menu>
+    <menu ng-cloak>
         <menu-item section="news" icon="mdi-action-label">{{strings.MENU_NOTISTATS}}</menu-item>
         <menu-item section="prediction" icon="mdi-action-event">{{strings.MENU_BETS}}</menu-item>
         <menu-item section="settings" icon="mdi-action-settings">{{strings.MENU_SETTINGS}}</menu-item>
@@ -75,37 +75,31 @@
         <footer class="footer">
             <div class="container">
                 <div data-section="news" class="row section active">
-
-                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
-                         ui-sref-active="active">
+                    <div class="col-xs-15 option" ui-sref-active="active">
                         <a ui-sref="match">
                             <span class="icon-balon"></span>
                             <span class="glyphicon-class">Partidas</span>
                         </a>
                     </div>
-                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-15 option" ui-sref-active="active">
                         <a ui-sref="standings">
                             <span class="icon-tabela"></span>
                             <span class="glyphicon-class">Tabela</span>
                         </a>
                     </div>
-                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-15 option" ui-sref-active="active" >
                         <a ui-sref="news">
                             <span class="icon-noticias"></span>
                             <span class="glyphicon-class">Noticias</span>
                         </a>
                     </div>
-                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-15 option" ui-sref-active="active" >
                         <a ui-sref="scorers">
                             <span class="icon-artilharia"></span>
                             <span class="glyphicon-class">Artilharia</span>
                         </a>
                     </div>
-                    <div class="col-xs-15 col-sm-15 col-md-15 col-lg-15 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-15 option" ui-sref-active="active" >
                         <a ui-sref="mtm">
                             <span class="icon-envivo"></span>
                             <span class="glyphicon-class">En Vivo</span>
@@ -114,29 +108,25 @@
                 </div>
 
                 <div data-section="prediction" class="row section">
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                         ui-sref-active="active">
+                    <div class="col-xs-3 option" ui-sref-active="active">
                         <a ui-sref="prediction">
                             <span class="icon-balon"></span>
                             <span class="glyphicon-class">Predicciones</span>
                         </a>
                     </div>
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-3 option" ui-sref-active="active" >
                         <a ui-sref="leaderboard">
                             <span class="icon-tabela"></span>
                             <span class="glyphicon-class">Leaderboards</span>
                         </a>
                     </div>
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-3 option" ui-sref-active="active" >
                         <a ui-sref="friends">
                             <span class="icon-artilharia"></span>
                             <span class="glyphicon-class">Friends</span>
                         </a>
                     </div>
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 option"
-                         ui-sref-active="active" >
+                    <div class="col-xs-3 option" ui-sref-active="active" >
                         <a ui-sref="points">
                             <span class="icon-puntos"></span>
                             <span class="glyphicon-class">Puntos</span>

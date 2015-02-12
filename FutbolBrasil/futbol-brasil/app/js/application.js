@@ -48,9 +48,8 @@ angular
         });
 
         $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.$emit('unload');
 
-            $rootScope.loading = false;
-            $rootScope.error = false;
             if($rootScope.hideMenu) {
                 $rootScope.hideMenu();
             }
@@ -59,7 +58,7 @@ angular
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(function(){
-                        CordovaApp.startApp();
+//                        CordovaApp.startApp();
                         if(!Client.isClientOk()){
                             console.log('User not Authenticated');
                             event.preventDefault();
