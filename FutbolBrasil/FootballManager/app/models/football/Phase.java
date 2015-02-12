@@ -3,6 +3,7 @@ package models.football;
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -46,6 +47,9 @@ public class Phase extends HecticusModel {
 
     @OneToMany(mappedBy = "phase")
     private List<GameMatch> matches;
+
+    @OneToMany(mappedBy = "phase")
+    private List<PhaseHasLocalization> localizations;
 
     private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
 
@@ -169,6 +173,14 @@ public class Phase extends HecticusModel {
         this.pushed = pushed;
     }
 
+    public List<PhaseHasLocalization> getLocalizations() {
+        return localizations;
+    }
+
+    public void setLocalizations(List<PhaseHasLocalization> localizations) {
+        this.localizations = localizations;
+    }
+
     public static Phase findById(Long id){
         return finder.byId(id);
     }
@@ -278,7 +290,7 @@ public class Phase extends HecticusModel {
     }
 
 
-    public void validatePhase(){
+    public void validate(Language language){
         Phase toValidate = findByExtId(this.extId);
         if (toValidate != null){
             this.idPhases = toValidate.idPhases;
@@ -288,8 +300,17 @@ public class Phase extends HecticusModel {
             this.startDate = toValidate.startDate;
             this.endDate = toValidate.endDate;
             this.extId = toValidate.extId;
+            this.localizations = toValidate.localizations;
         }else {
             this.save();
+        }
+
+        PhaseHasLocalization phaseHasLocalization = new PhaseHasLocalization(this, language, this.globalName, this.name);
+        if(!PhaseHasLocalization.exists(phaseHasLocalization)){
+            System.out.println("no existe " + this.getName() + " " + language.getName());
+            this.localizations.add(phaseHasLocalization);
+            phaseHasLocalization.save();
+            this.update();
         }
     }
 

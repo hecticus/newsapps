@@ -34,10 +34,11 @@ public class PeriodHasLocalization extends HecticusModel {
 
     private static Model.Finder<Integer, PeriodHasLocalization> finder = new Model.Finder<Integer, PeriodHasLocalization>(Integer.class, PeriodHasLocalization.class);
 
-    public PeriodHasLocalization(Period period, Language language, String name) {
+    public PeriodHasLocalization(Period period, Language language, String name, String shortName) {
         this.period = period;
         this.language = language;
         this.name = name;
+        this.shortName = shortName;
     }
 
     public Integer getIdPeriodHasLocalization() {

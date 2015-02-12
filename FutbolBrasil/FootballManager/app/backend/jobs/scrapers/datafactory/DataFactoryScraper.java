@@ -1,18 +1,13 @@
 package backend.jobs.scrapers.datafactory;
 
-import akka.actor.Cancellable;
 import backend.HecticusThread;
 import exceptions.BadConfigException;
-import exceptions.DownloadFailedException;
-import exceptions.KyubiParsingException;
 import models.Config;
+import models.Language;
 import models.football.*;
-import org.apache.commons.net.ftp.FTPClient;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import utils.Utils;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,7 +17,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by sorcerer on 9/24/14.
@@ -30,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class DataFactoryScraper extends HecticusThread {
 
     private String fileRoute;
-    private int idLanguage;
+    private Language language;
 
     /*
         archivos que va a manejar
@@ -50,8 +44,13 @@ public class DataFactoryScraper extends HecticusThread {
             //read folder files
             if (args.containsKey("file_route") && args.containsKey("language")){
                 fileRoute = (String) args.get("file_route");
-                idLanguage = Integer.parseInt((String) args.get("language"));
-            }else throw new BadConfigException("es necesario el valor file_route y el language");
+            }else throw new BadConfigException("es necesario el valor file_route");
+
+            if (args.containsKey("language")) {
+                language = Language.getByID(Integer.parseInt((String) args.get("language")));
+                if(language == null) throw new BadConfigException("language no existente");
+            } else throw new BadConfigException("es necesario configurar el parametro language");
+
             processFolder(fileRoute);
         } catch (BadConfigException ex){
             Utils.printToLog(DataFactoryScraper.class,
@@ -85,12 +84,12 @@ public class DataFactoryScraper extends HecticusThread {
             String categoria = xPath.compile("fixture/categoria").evaluate(document),
                     extCategoria = xPath.compile("fixture/categoria/@id").evaluate(document);
             CompetitionType category = new CompetitionType(categoria, Long.parseLong(extCategoria));
-            category.validate();
+            category.validate(language);
             String extIdCompetition = xPath.compile("fixture/campeonato/@id").evaluate(document);
             String competitionName = xPath.compile("fixture/campeonato").evaluate(document);
             //BUILD competition
             Competition compFromFile = new Competition(competitionName, Long.parseLong(extIdCompetition), getIdApp(), category);
-            compFromFile.validateCompetition();
+            compFromFile.validate(language);
             //parse fechas
             NodeList fecha = (NodeList) xPath.compile("fixture/fecha").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < fecha.getLength(); i++){
@@ -108,7 +107,7 @@ public class DataFactoryScraper extends HecticusThread {
                     //fase
                     Phase gamePhase = new Phase(compFromFile, nombreNivel, nombre, fechaDesde, fechaHasta, Long.parseLong(faseId),
                             Integer.parseInt(orden), Integer.parseInt(nivel), Integer.parseInt(fn));
-                    gamePhase.validatePhase();
+                    gamePhase.validate(language);
                     NodeList partidos = (NodeList) xPath.compile("partido").evaluate(currentFecha, XPathConstants.NODESET);
                     for (int j = 0; j < partidos.getLength(); j++){
                         Node currentPartido = partidos.item(j);
@@ -145,7 +144,7 @@ public class DataFactoryScraper extends HecticusThread {
                         Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
                         awayTeam.validateTeam();
                         GameMatchStatus status = new GameMatchStatus(statusName, Integer.parseInt(statusId));
-                        status.validate(idLanguage);
+                        status.validate(language);
 
                         Venue gameVenue = null;
                         long stadiumId = stringLongParser(idEstadio);
@@ -191,13 +190,13 @@ public class DataFactoryScraper extends HecticusThread {
             String categoria = xPath.compile("posiciones/categoria").evaluate(document),
                     extCategoria = xPath.compile("posiciones/categoria/@id").evaluate(document);
             CompetitionType category = new CompetitionType(categoria, Long.parseLong(extCategoria));
-            category.validate();
+            category.validate(language);
             String idTorneo = xPath.compile("posiciones/campeonato/@id").evaluate(document),
                     torneoName = xPath.compile("posiciones/campeonato").evaluate(document),
                     fecha = xPath.compile("posiciones/fechaNombre").evaluate(document),
                     fn = xPath.compile("posiciones/fechaNombre/@fn").evaluate(document);
             Competition torneo = new Competition(torneoName, Long.parseLong(idTorneo), getIdApp(), category);
-            torneo.validateCompetition();
+            torneo.validate(language);
             NodeList equipos = (NodeList) xPath.compile("posiciones/equipo").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < equipos.getLength(); i++) {
                 try {
@@ -354,12 +353,12 @@ public class DataFactoryScraper extends HecticusThread {
             String categoria = xPath.compile("goleadores/categoria").evaluate(document),
                     extCategoria = xPath.compile("goleadores/categoria/@id").evaluate(document);
             CompetitionType category = new CompetitionType(categoria, Long.parseLong(extCategoria));
-            category.validate();
+            category.validate(language);
             String idTorneo = xPath.compile("goleadores/campeonato/@id").evaluate(document),
                     torneoName = xPath.compile("goleadores/campeonato").evaluate(document),
                     fecha = xPath.compile("goleadores/fechaActual").evaluate(document);
             Competition currentCompetition = new Competition(torneoName, Long.parseLong(idTorneo), getIdApp(), category);
-            currentCompetition.validateCompetition();
+            currentCompetition.validate(language);
             NodeList jugadores = (NodeList) xPath.compile("goleadores/persona").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < jugadores.getLength(); i++) {
                 try {
@@ -433,11 +432,11 @@ public class DataFactoryScraper extends HecticusThread {
             String categoria = xPath.compile("ficha/categoria").evaluate(document),
                     extCategoria = xPath.compile("ficha/categoria/@id").evaluate(document);
             CompetitionType category = new CompetitionType(categoria, Long.parseLong(extCategoria));
-            category.validate();
+            category.validate(language);
 
             //get competencia
             Competition currentComp = new Competition(nombreTorneo, Long.parseLong(extIdTorneo), getIdApp(), category);
-            currentComp.validateCompetition();
+            currentComp.validate(language);
 
             //get juego with id
             GameMatch currentGameMatch = GameMatch.findByIdExternal(extIdPartido);
@@ -481,10 +480,10 @@ public class DataFactoryScraper extends HecticusThread {
                                     long incidentTeam = Long.parseLong(equipoId);
                                     //description: tipo + (if subtipo>0) subtipo
                                     Action ac = new Action(incidentType, (incidentSubType.isEmpty()?incidentType:incidentSubType), Integer.parseInt(incidentExtId));
-                                    ac.validate();
+                                    ac.validate(language);
 
                                     Period incidentPeriod = new Period(tiempo, tiempo, null);
-                                    incidentPeriod.validate();
+                                    incidentPeriod.validate(language);
 
 
                                     GameMatchEvent gameMatchEvent = new GameMatchEvent(currentGameMatch, incidentPeriod, ac, localTeam.getExtId() == incidentTeam ? localTeam : awayTeam, jugador, null, Integer.parseInt(minuto), matchDate, Integer.parseInt(incidentOrder), Long.parseLong(incidentId));
@@ -536,7 +535,7 @@ public class DataFactoryScraper extends HecticusThread {
                 } else if (fileName.contains("posiciones")) { //posiciones
 //                    parsePositions(path + File.separator + fileName);
                 } else if (fileName.contains("goleadores")) { //goleadores
-                    parseStrikers(path + File.separator + fileName);
+//                    parseStrikers(path + File.separator + fileName);
 //                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto

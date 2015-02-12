@@ -32,7 +32,7 @@ public class Language extends HecticusModel {
     @OneToMany(fetch = FetchType.LAZY, mappedBy="language", cascade = CascadeType.ALL)
     private List<GameMatchStatusHasLocalization> gameMatchStatus;
 
-    private static Model.Finder<Integer, Language> finder = new Model.Finder<Integer, Language>(Integer.class, Language.class);
+    private static Finder<Integer, Language> finder = new Model.Finder<Integer, Language>(Integer.class, Language.class);
 
     public Integer getIdLanguage() {
         return idLanguage;

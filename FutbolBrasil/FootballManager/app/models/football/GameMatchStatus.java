@@ -90,10 +90,8 @@ public class GameMatchStatus extends HecticusModel {
         return node;
     }
 
-    public void validate(int idLanguage) {
+    public void validate(Language language) {
         GameMatchStatus tr = finder.where().eq("extId",extId).findUnique();
-        Language language = Language.getByID(idLanguage);
-        GameMatchStatusHasLocalization gameMatchStatusHasLocalization = new GameMatchStatusHasLocalization(this, language, this.name);
         if (tr != null) {
             //existe
             this.idGameMatchStatus = tr.idGameMatchStatus;
@@ -103,8 +101,8 @@ public class GameMatchStatus extends HecticusModel {
         } else {
             this.save();
         }
+        GameMatchStatusHasLocalization gameMatchStatusHasLocalization = new GameMatchStatusHasLocalization(this, language, this.name);
         if(!GameMatchStatusHasLocalization.exists(gameMatchStatusHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(gameMatchStatusHasLocalization);
             gameMatchStatusHasLocalization.save();
             this.update();

@@ -2,7 +2,9 @@ package models.football;
 
 import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Apps;
 import models.HecticusModel;
+import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -24,6 +26,10 @@ public class Competition  extends HecticusModel {
     @Constraints.Required
     private Long extId;
 
+//    @ManyToOne
+//    @JoinColumn(name = "id_app")
+//    private Apps app;
+
     private Integer idApp;
     private Integer status;
 
@@ -39,6 +45,9 @@ public class Competition  extends HecticusModel {
 
     @OneToMany(mappedBy="competition")
     private List<GameMatch> matches;
+
+    @OneToMany(mappedBy = "competition")
+    private List<CompetitionHasLocalization> localizations;
 
     public Competition(String name, Long extId, Integer idApp, CompetitionType type) {
         this.name = name;
@@ -154,7 +163,7 @@ public class Competition  extends HecticusModel {
         return finder.fetch("matches").where().eq("id_app", idApp).eq("status", 1).ilike("matches.date", date+"%").setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
-    public void validateCompetition(){
+    public void validate(Language language){
         //check if exist
         Competition fromDb = findByCompExt(this.idApp, this.extId);
         if ( fromDb != null){
@@ -165,9 +174,17 @@ public class Competition  extends HecticusModel {
             this.idApp = fromDb.idApp;
             this.idCompetitions = fromDb.idCompetitions;
             this.type = fromDb.type;
+            this.localizations = fromDb.localizations;
         }else {
             //insertar
             this.save();
+        }
+        CompetitionHasLocalization competitionHasLocalization = new CompetitionHasLocalization(this, language, this.name);
+        if(!CompetitionHasLocalization.exists(competitionHasLocalization)){
+            System.out.println("no existe " + this.getName() + " " + language.getName());
+            this.localizations.add(competitionHasLocalization);
+            competitionHasLocalization.save();
+            this.update();
         }
     }
 

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import models.Config;
 import models.HecticusModel;
+import models.Language;
 import models.Resource;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -45,7 +46,6 @@ public class News extends HecticusModel {
     @javax.persistence.Column(length=14)
     private String updatedDate;
 
-    private Integer language;
     private String source;
 
     private Boolean featured;
@@ -58,7 +58,10 @@ public class News extends HecticusModel {
     //hecticus fields
     private Long idCategory; //local id category
     private Integer idApp; //id de la aplicacion
-    private Integer idLanguage; //id de idioma
+
+    @ManyToOne
+    @JoinColumn(name = "id_language")
+    private Language language;
 
     //auto generated
     @javax.persistence.Column(length=32)
@@ -84,7 +87,7 @@ public class News extends HecticusModel {
      * @param idApp
      */
     public News(String title, String summary, String categories, String keyword, String author, String newsBody,
-                String publicationDate, String source, String updatedDate, Integer idApp) {
+                String publicationDate, String source, String updatedDate, Integer idApp, Language language) {
         this.title = encode(title);
         this.summary = encode(summary);
         this.categories = encode(categories);
@@ -102,7 +105,7 @@ public class News extends HecticusModel {
         this.pushStatus = 0;
         this.insertedDate = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
         this.generated = false;
-
+        this.language = language;
     }
 
     public static Model.Finder<Long,News> finder = new Model.Finder<Long, News>(Long.class, News.class);
@@ -335,11 +338,11 @@ public class News extends HecticusModel {
         this.updatedDate = updatedDate;
     }
 
-    public Integer getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(Integer language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 
@@ -381,14 +384,6 @@ public class News extends HecticusModel {
 
     public void setIdApp(Integer idApp) {
         this.idApp = idApp;
-    }
-
-    public Integer getIdLanguage() {
-        return idLanguage;
-    }
-
-    public void setIdLanguage(Integer idLanguage) {
-        this.idLanguage = idLanguage;
     }
 
     public String getCrc() {

@@ -3,6 +3,7 @@ package backend.jobs.scrapers.lancenews;
 import backend.HecticusThread;
 import exceptions.BadConfigException;
 import models.Config;
+import models.Language;
 import models.football.News;
 import models.Resource;
 
@@ -32,6 +33,7 @@ public class LanceNewsScraper extends HecticusThread {
     private String categoryToInsert,
             toUploadLocation,
             fileRoute;
+    private Language finalLanguage;
 
     public LanceNewsScraper() {
         this.setActTime(System.currentTimeMillis());
@@ -53,6 +55,11 @@ public class LanceNewsScraper extends HecticusThread {
             if (args.containsKey("category")) {
                 categoryToInsert = (String) args.get("category");
             } else throw new BadConfigException("es necesario configurar el parametro category");
+
+            if (args.containsKey("language")) {
+                finalLanguage = Language.getByID(Integer.parseInt((String) args.get("language")));
+                if(finalLanguage == null) throw new BadConfigException("language no existente");
+            } else throw new BadConfigException("es necesario configurar el parametro language");
 
             Utils.printToLog(LanceNewsScraper.class,null,fileRoute + " " + categoryToInsert,false,null,"support-level-1",Config.LOGGER_INFO);
 
@@ -120,7 +127,7 @@ public class LanceNewsScraper extends HecticusThread {
                     source = xPath.compile("news/@source").evaluate(document),
                     lastUpdate = convertLastUpdate(xPath.compile("news/@lastUpdate").evaluate(document));
             News toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
-                    lastUpdate ,getIdApp());
+                    lastUpdate ,getIdApp(), finalLanguage);
             //revisar el xml con tag faltante
             if (toInsert.isNewsEmpty()){
                 xPath =  XPathFactory.newInstance().newXPath();
@@ -138,7 +145,7 @@ public class LanceNewsScraper extends HecticusThread {
                 //source = xPath.compile("@source").evaluate(document);
                 lastUpdate = convertPublicationDate(xPath.compile("article/dataPublicacao").evaluate(document));
                 toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
-                        lastUpdate ,getIdApp());
+                        lastUpdate ,getIdApp(), finalLanguage);
             }
 
             //if not ok throw Exception

@@ -2,6 +2,7 @@ package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -23,6 +24,9 @@ public class Action extends HecticusModel {
     //private Integer ext_id;
     @OneToMany(mappedBy = "action")
     private List<GameMatchEvent> events;
+
+    @OneToMany(mappedBy = "action")
+    private List<ActionHasLocalization> localizations;
 
     private static Model.Finder<Integer,Action> finder = new Model.Finder<Integer,Action>(Integer.class,Action.class);
 
@@ -95,7 +99,7 @@ public class Action extends HecticusModel {
         return node;
     }
 
-    public void validate() {
+    public void validate(Language language) {
         Action tr = findByExtId(this.extId);
         if (tr != null) {
             //existe
@@ -103,8 +107,16 @@ public class Action extends HecticusModel {
             this.description = tr.description;
             this.mnemonic = tr.mnemonic;
             this.extId = tr.extId;
+            this.localizations = tr.localizations;
         } else {
             this.save();
+        }
+        ActionHasLocalization actionHasLocalization = new ActionHasLocalization(this, language, this.mnemonic, this.description);
+        if(!ActionHasLocalization.exists(actionHasLocalization)){
+            System.out.println("no existe " + this.getDescription() + " " + language.getName());
+            this.localizations.add(actionHasLocalization);
+            actionHasLocalization.save();
+            this.update();
         }
     }
 
