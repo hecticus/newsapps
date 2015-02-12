@@ -138,6 +138,10 @@ public class Competition  extends HecticusModel {
         return finder.where().eq("id_app", idApp).eq("status", 1).findList();
     }
 
+    public static List<Competition> getActiveCompetitionsByAppAndTeams(int idApp, List<Team> teams){
+        return finder.fetch("teams").where().eq("id_app", idApp).eq("status", 1).in("teams.team", teams).findList();
+    }
+
     public static Competition findByExtId(long id){
         return finder.where().eq("ext_id", id).findUnique();
     }
@@ -152,6 +156,10 @@ public class Competition  extends HecticusModel {
 
     public static List<Competition> getCompetitionsPage(int idApp, int page, int pageSize, String date){
         return finder.fetch("matches").where().eq("id_app", idApp).eq("status", 1).ilike("matches.date", date+"%").setFirstRow(page).setMaxRows(pageSize).findList();
+    }
+
+    public static List<Competition> getCompetitionsPage(int idApp, int page, int pageSize, String date, List<Team> teams){
+        return finder.fetch("teams").fetch("matches").where().eq("id_app", idApp).eq("status", 1).ilike("matches.date", date+"%").in("teams.team", teams).setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
     public void validateCompetition(){
