@@ -85,7 +85,6 @@ angular
              * @methodOf core.Services.TeamsManager
              */
             init : function (){
-                console.log('TeamsManager. init');
                 remoteTeams = [];
                 loadPersistedTeams();
                 loadPersistedFavoriteTeams();

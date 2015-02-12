@@ -74,6 +74,26 @@ angular
                   contentClass: 'content-standings'
                 }
             })
+            .state('news', {
+                url: '/news',
+                controller:'NewsCtrl  as _this',
+                templateUrl:'modules/core/views/news.html',
+                data:{
+                    prev: 'standings',
+                    next: 'scorers',
+                    contentClass: 'content-news'
+                }
+            })
+//            .state('news.detail', {
+//                url: '/:idNews',
+//                controller:'NewsDetailCtrl  as _this',
+//                templateUrl:'modules/core/views/news-detail.html',
+////                data:{
+////                    prev: 'news',
+////                    next: 'scorers',
+////                    contentClass: 'content-news'
+////                }
+//            })
             .state('scorers', {
                 url: '/scorers',
                 controller:'ScorersCtrl  as _this',
@@ -133,26 +153,6 @@ angular
                   next: 'prediction',
                   contentClass: 'content-points'
                 }
-            })
-            .state('news', {
-                url: '/news',
-                controller:'NewsCtrl  as _this',
-                templateUrl:'modules/core/views/news.html',
-                data:{
-                    prev: 'standings',
-                    next: 'scorers',
-                    contentClass: 'content-news'
-                }
             });
-//            .state('news.detail', {
-//                url: '/:idNews',
-//                controller:'NewsDetailCtrl  as _this',
-//                templateUrl:'modules/core/views/news-detail.html',
-////                data:{
-////                    prev: 'news',
-////                    next: 'scorers',
-////                    contentClass: 'content-news'
-////                }
-//            })
         }
     ]);

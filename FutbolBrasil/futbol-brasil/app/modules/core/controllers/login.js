@@ -51,8 +51,12 @@ angular
                 console.log('showClientSignUpError. Login Error.');
             };
 
-            $scope.onLoginSuccess = function(){
-                $state.go('news');
+            $scope.onLoginSuccess = function(isNewClient){
+                if(isNewClient){
+                    $state.go('settings');
+                } else {
+                    $state.go('news');
+                }
             };
 
             $scope.onLoginError = function(){
