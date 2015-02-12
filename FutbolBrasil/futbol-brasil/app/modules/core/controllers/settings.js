@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'Settings',
-        function($scope, $rootScope, $state, ClientManager, TeamsManager, Settings) {
+        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'Settings', 'Utilities',
+        function($scope, $rootScope, $state, ClientManager, TeamsManager, Settings, Utilities) {
             $scope.favoriteTeams = [undefined, undefined, undefined];
             $scope.strings = {
                 'PUSH_SETTINGS_TITLE': 'Push Notifications',
@@ -19,7 +19,9 @@ angular
                 'TOGGLE_BETS': 'Toggle Bets',
                 'TOGGLE_MTM': 'Toggle MTM',
                 'TOGGLE_NEWS': 'Toggle News',
-                'CONNECT_FACEBOOK': 'Connect With Facebook'
+                'CONNECT_FACEBOOK': 'Connect With Facebook',
+                'ADD_TEAM': 'Add Team',
+                'NOT_AVAILABLE': 'Not Available'
             };
 
             $scope.toggles = {
@@ -36,9 +38,10 @@ angular
 
             $scope.removeTeam = function(team){
                 if(team){
-                    console.log('removeTeam: ');
-                    console.log(team);
+//                    console.log('removeTeam: ');
+//                    console.log(team);
                     TeamsManager.removeFavoriteTeam(team, $scope.getFavoriteTeams);
+                    $scope.favoriteTeams[$scope.favoriteTeams.indexOf(team)] = {isEmpty: true};
                 }
             };
 
@@ -57,9 +60,9 @@ angular
 
             $scope.getTeamName = function(team){
                 if(team && typeof team.name != 'undefined'){
-                    return team.name !== ''? team.name : 'Not Available';
+                    return team.name !== ''? team.name : $scope.strings.NOT_AVAILABLE;
                 }else{
-                    return 'Add Team';
+                    return $scope.strings.ADD_TEAM;
                 }
             };
 
@@ -81,19 +84,19 @@ angular
 
             $scope.toggleBets = function(){
                 $scope.toggles.bets = !$scope.toggles.bets;
-                console.log('toggleBets. ' + $scope.toggles.bets);
+//                console.log('toggleBets. ' + $scope.toggles.bets);
                 Settings.toggleBetsPush($scope.toggles.bets);
             };
 
             $scope.toggleNews = function(){
                 $scope.toggles.news = !$scope.toggles.news;
-                console.log('toggleNews. ' + $scope.toggles.news);
+//                console.log('toggleNews. ' + $scope.toggles.news);
                 Settings.toggleNewsPush($scope.toggles.news);
             };
 
             $scope.toggleMtm = function(){
                 $scope.toggles.mtm = !$scope.toggles.mtm;
-                console.log('toggleMtm. ' + $scope.toggles.mtm);
+//                console.log('toggleMtm. ' + $scope.toggles.mtm);
                 Settings.toggleMtmPush($scope.toggles.mtm);
             };
 
@@ -103,11 +106,18 @@ angular
                 $scope.toggles.mtm = Settings.isMtmPushActive();
             };
 
+            $scope.setUpIScroll = function() {
+                $scope._scroll = Utilities.newScroll.vertical('wrapper');
+                $scope._scroll.on('beforeScrollStart', function () {
+                    this.refresh();
+                });
+            };
+
             $scope.init = function(){
-                console.log('init');
+                $scope.setUpIScroll();
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
-                $rootScope.loading = false;
+                $scope.$emit('unload');
             }();
 
         }

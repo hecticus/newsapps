@@ -15,6 +15,8 @@ angular
             $scope.searchQuery = '';
 
             $scope.teamSelected = function(team){
+//                console.log('teamSelected: ');
+//                console.log(team);
                 TeamsManager.addFavoriteTeam(team, function(){
                     $state.go('settings');
                 });
@@ -22,8 +24,6 @@ angular
 
             $scope.getTeams = function(){
                 $scope.teams = TeamsManager.getTeams(0, 200);
-                console.log('$scope.teams: ');
-                console.log($scope.teams);
                 var favTeams = TeamsManager.getFavoriteTeams();
                 favTeams.forEach(function(elem){
                     var index = $scope.teams.indexOf(elem);
