@@ -5,10 +5,7 @@ import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
-import models.Config;
-import models.HecticusModel;
-import models.Language;
-import models.Resource;
+import models.*;
 import play.db.ebean.Model;
 import play.libs.Json;
 import utils.Utils;
@@ -57,7 +54,9 @@ public class News extends HecticusModel {
 
     //hecticus fields
     private Long idCategory; //local id category
-    private Integer idApp; //id de la aplicacion
+    @ManyToOne
+    @JoinColumn(name = "id_app")
+    private Apps app;
 
     @ManyToOne
     @JoinColumn(name = "id_language")
@@ -84,10 +83,10 @@ public class News extends HecticusModel {
      * @param publicationDate
      * @param source
      * @param updatedDate
-     * @param idApp
+     * @param app
      */
     public News(String title, String summary, String categories, String keyword, String author, String newsBody,
-                String publicationDate, String source, String updatedDate, Integer idApp, Language language) {
+                String publicationDate, String source, String updatedDate, Apps app, Language language) {
         this.title = encode(title);
         this.summary = encode(summary);
         this.categories = encode(categories);
@@ -97,7 +96,7 @@ public class News extends HecticusModel {
         this.publicationDate = publicationDate;
         this.source = source;
         this.updatedDate = updatedDate;
-        this.idApp = idApp;
+        this.app = app;
         //automatic values
         this.status = 0;
         this.featured = false;
@@ -378,12 +377,12 @@ public class News extends HecticusModel {
         this.idCategory = idCategory;
     }
 
-    public Integer getIdApp() {
-        return idApp;
+    public Apps getApp() {
+        return app;
     }
 
-    public void setIdApp(Integer idApp) {
-        this.idApp = idApp;
+    public void setApp(Apps app) {
+        this.app = app;
     }
 
     public String getCrc() {

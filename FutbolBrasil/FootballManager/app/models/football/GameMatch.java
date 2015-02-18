@@ -2,14 +2,15 @@ package models.football;
 
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
+import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by karina on 5/20/14.
@@ -63,11 +64,11 @@ public class GameMatch extends HecticusModel {
     @JoinColumn(name="id_competition")
     private Competition competition;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "gameMatch")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "gameMatch", cascade = CascadeType.ALL)
     private GameMatchResult result;
 
-    @OneToMany(mappedBy = "gameMatch")
-    @OrderBy("idGameMatchEvents desc")
+    @OneToMany(mappedBy = "gameMatch", cascade = CascadeType.ALL)
+    @OrderBy("_sort asc")
     private List<GameMatchEvent> events;
 
     public static Model.Finder<Long,GameMatch> finder = new Model.Finder<Long,GameMatch>(Long.class, GameMatch.class);
@@ -434,5 +435,45 @@ public class GameMatch extends HecticusModel {
         }catch (Exception ex){
             //if cant insert due to uniqueness its ok
         }
+    }
+
+
+    public List<GameMatchEvent> getEventsNoDB(final long idEvent, boolean forward){
+        List<GameMatchEvent> tr = null;
+        try {
+            if(idEvent == 0){
+                tr = events;
+            } else {
+                GameMatchEvent gameMatchEvent = Iterables.find(events, new Predicate<GameMatchEvent>() {
+                    public boolean apply(GameMatchEvent gameMatchEvent) {
+                        return gameMatchEvent.getIdGameMatchEvents().intValue() == idEvent;
+                    }
+                });
+                int eventIndex = events.indexOf(gameMatchEvent);
+                if(forward){
+                    tr = events.subList(eventIndex+1, events.size());
+                } else {
+                    tr = events.subList(0, eventIndex);
+                }
+                Collections.sort(tr, forward?new GameMatchEventComparatorDesc():new GameMatchEventComparatorAsc());
+            }
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+}
+
+class GameMatchEventComparatorDesc implements Comparator<GameMatchEvent> {
+    @Override
+    public int compare(GameMatchEvent c1, GameMatchEvent c2) {
+        return c2.get_sort() - c1.get_sort();
+    }
+}
+
+class GameMatchEventComparatorAsc implements Comparator<GameMatchEvent> {
+    @Override
+    public int compare(GameMatchEvent c1, GameMatchEvent c2) {
+        return c1.get_sort() - c2.get_sort();
     }
 }

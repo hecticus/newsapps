@@ -1,6 +1,8 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
 import models.Language;
 import play.db.ebean.Model;
@@ -8,6 +10,7 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by sorcerer on 12/1/14.
@@ -32,7 +35,7 @@ public class CompetitionType extends HecticusModel {
     @OneToMany(mappedBy="type", cascade = CascadeType.ALL)
     private List<Competition> competitions;
 
-    @OneToMany(mappedBy = "competitionType")
+    @OneToMany(mappedBy = "competitionType", cascade = CascadeType.ALL)
     private List<CompetitionTypeHasLocalization> localizations;
 
     private static Model.Finder<Long,CompetitionType> finder = new Model.Finder<Long, CompetitionType>(Long.class, CompetitionType.class);
@@ -98,6 +101,34 @@ public class CompetitionType extends HecticusModel {
         obj.put("id_competition_type",idCompType);
         obj.put("status",status);
         obj.put("name",name);
+        obj.put("type", type);
+        obj.put("ext_id", extId);
+        return obj;
+    }
+
+    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_competition_type",idCompType);
+        obj.put("status",status);
+        CompetitionTypeHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<CompetitionTypeHasLocalization>() {
+                public boolean apply(CompetitionTypeHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<CompetitionTypeHasLocalization>() {
+                    public boolean apply(CompetitionTypeHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
         obj.put("type", type);
         obj.put("ext_id", extId);
         return obj;

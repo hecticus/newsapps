@@ -1,10 +1,17 @@
 package models;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import models.football.*;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.TimeZone;
 
 /**
@@ -32,7 +39,13 @@ public class Apps extends HecticusModel {
     @JoinColumn(name = "id_timezone")
     private Timezone timezone;
 
-    private static Model.Finder<Integer, Apps> finder = new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
+    private List<Competition> competitions;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
+    private List<Job> jobs;
+
+    private static Finder<Integer, Apps> finder = new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
 
     public Apps() {
         //default
@@ -115,7 +128,51 @@ public class Apps extends HecticusModel {
         this.timezone = timezone;
     }
 
-    public static TimeZone getTimezone(int idApp){
+    public List<Competition> getCompetitions() {
+        List<Competition> tr;
+        try {
+            Predicate<Competition> validObjs = new Predicate<Competition>() {
+                public boolean apply(Competition obj) {
+                    return obj.getStatus().intValue() == 1;
+                }
+            };
+            Collection<Competition> result = Utils.filterCollection(competitions, validObjs);
+            tr = (List<Competition>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public void setCompetitions(List<Competition> competitions) {
+        this.competitions = competitions;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
+    public Competition getCompetition(final long idCompetition){
+        Competition tr = null;
+        try {
+            tr = Iterables.find(competitions, new Predicate<Competition>() {
+                public boolean apply(Competition obj) {
+                    return obj.getIdCompetitions().longValue() == idCompetition;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    /**************************** FINDER ****************************************************/
+
+    public static TimeZone getTimezone(Integer idApp){
         Apps app = finder.byId(idApp);
         if(app != null){
             return app.getTimezone().getTimezone();
@@ -124,7 +181,7 @@ public class Apps extends HecticusModel {
     }
 
 
-    public static Apps findId(int id){
+    public static Apps findId(Integer id){
         return finder.byId(id);
     }
 }

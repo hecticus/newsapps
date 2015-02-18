@@ -1,6 +1,9 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import models.HecticusModel;
 import models.Language;
 import play.db.ebean.Model;
@@ -8,6 +11,7 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by karina on 5/20/14.
@@ -25,7 +29,7 @@ public class Action extends HecticusModel {
     @OneToMany(mappedBy = "action")
     private List<GameMatchEvent> events;
 
-    @OneToMany(mappedBy = "action")
+    @OneToMany(mappedBy = "action", cascade = CascadeType.ALL)
     private List<ActionHasLocalization> localizations;
 
     private static Model.Finder<Integer,Action> finder = new Model.Finder<Integer,Action>(Integer.class,Action.class);
@@ -99,6 +103,32 @@ public class Action extends HecticusModel {
         return node;
     }
 
+    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+        ObjectNode node = Json.newObject();
+        node.put("id_action",idActions);
+        ActionHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<ActionHasLocalization>() {
+                public boolean apply(ActionHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<ActionHasLocalization>() {
+                    public boolean apply(ActionHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        node.put("mnemonic", clientLanguage!=null?clientLanguage.getMnemonic():mnemonic);
+        node.put("description", clientLanguage!=null?clientLanguage.getDescription():description);
+        return node;
+    }
+
     public void validate(Language language) {
         Action tr = findByExtId(this.extId);
         if (tr != null) {
@@ -113,7 +143,6 @@ public class Action extends HecticusModel {
         }
         ActionHasLocalization actionHasLocalization = new ActionHasLocalization(this, language, this.mnemonic, this.description);
         if(!ActionHasLocalization.exists(actionHasLocalization)){
-            System.out.println("no existe " + this.getDescription() + " " + language.getName());
             this.localizations.add(actionHasLocalization);
             actionHasLocalization.save();
             this.update();

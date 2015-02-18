@@ -1,6 +1,8 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
 import models.Language;
 import play.db.ebean.Model;
@@ -8,6 +10,7 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by karina on 5/20/14.
@@ -20,10 +23,10 @@ public class Period extends HecticusModel {
     private String name;
     private String shortName;
     private Long extId;
-    @OneToMany(mappedBy = "period")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "period", cascade = CascadeType.ALL)
     private List<GameMatchEvent> events;
 
-    @OneToMany(mappedBy = "period")
+    @OneToMany(mappedBy = "period", cascade = CascadeType.ALL)
     private List<PeriodHasLocalization> localizations;
 
     private static Model.Finder<Integer,Period> finder = new Model.Finder<Integer,Period>(Integer.class,Period.class);
@@ -113,11 +116,37 @@ public class Period extends HecticusModel {
 
     @Override
     public ObjectNode toJson() {
-
-        ObjectNode node = Json.newObject();
-        node.put("id_periods",idPeriods);
-        node.put("name",name);
-        node.put("short_name",shortName);
-        return node;
+        ObjectNode obj = Json.newObject();
+        obj.put("id_periods",idPeriods);
+        obj.put("name",name);
+        obj.put("short_name",shortName);
+        return obj;
     }
+
+    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_periods", idPeriods);
+        PeriodHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<PeriodHasLocalization>() {
+                public boolean apply(PeriodHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<PeriodHasLocalization>() {
+                    public boolean apply(PeriodHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
+        obj.put("short_name",clientLanguage!=null?clientLanguage.getShortName():shortName);
+        return obj;
+    }
+
 }

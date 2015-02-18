@@ -2,6 +2,7 @@ package utils;
 
 import backend.jobs.ThreadSupervisor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspacePublish;
 import models.Config;
@@ -14,10 +15,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Random;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -333,5 +331,15 @@ public class Utils {
             return name;
         }
         return null;
+    }
+
+    public static <T> Collection<T> filterCollection(Collection<T> col, Predicate<T> predicate) {
+        Collection<T> result = new ArrayList<T>();
+        for (T element: col) {
+            if (predicate.apply(element)) {
+                result.add(element);
+            }
+        }
+        return result;
     }
 }

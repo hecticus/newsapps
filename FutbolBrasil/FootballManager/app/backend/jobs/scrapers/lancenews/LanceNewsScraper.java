@@ -127,7 +127,7 @@ public class LanceNewsScraper extends HecticusThread {
                     source = xPath.compile("news/@source").evaluate(document),
                     lastUpdate = convertLastUpdate(xPath.compile("news/@lastUpdate").evaluate(document));
             News toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
-                    lastUpdate ,getIdApp(), finalLanguage);
+                    lastUpdate ,getApp(), finalLanguage);
             //revisar el xml con tag faltante
             if (toInsert.isNewsEmpty()){
                 xPath =  XPathFactory.newInstance().newXPath();
@@ -145,7 +145,7 @@ public class LanceNewsScraper extends HecticusThread {
                 //source = xPath.compile("@source").evaluate(document);
                 lastUpdate = convertPublicationDate(xPath.compile("article/dataPublicacao").evaluate(document));
                 toInsert = new News(title, summary, category, keyword, author, story, publicationDate, source,
-                        lastUpdate ,getIdApp(), finalLanguage);
+                        lastUpdate ,getApp(), finalLanguage);
             }
 
             //if not ok throw Exception

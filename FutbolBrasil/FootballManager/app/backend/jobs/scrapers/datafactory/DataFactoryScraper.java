@@ -88,7 +88,7 @@ public class DataFactoryScraper extends HecticusThread {
             String extIdCompetition = xPath.compile("fixture/campeonato/@id").evaluate(document);
             String competitionName = xPath.compile("fixture/campeonato").evaluate(document);
             //BUILD competition
-            Competition compFromFile = new Competition(competitionName, Long.parseLong(extIdCompetition), getIdApp(), category);
+            Competition compFromFile = new Competition(competitionName, Long.parseLong(extIdCompetition), getApp(), category);
             compFromFile.validate(language);
             //parse fechas
             NodeList fecha = (NodeList) xPath.compile("fixture/fecha").evaluate(document, XPathConstants.NODESET);
@@ -195,7 +195,7 @@ public class DataFactoryScraper extends HecticusThread {
                     torneoName = xPath.compile("posiciones/campeonato").evaluate(document),
                     fecha = xPath.compile("posiciones/fechaNombre").evaluate(document),
                     fn = xPath.compile("posiciones/fechaNombre/@fn").evaluate(document);
-            Competition torneo = new Competition(torneoName, Long.parseLong(idTorneo), getIdApp(), category);
+            Competition torneo = new Competition(torneoName, Long.parseLong(idTorneo), getApp(), category);
             torneo.validate(language);
             NodeList equipos = (NodeList) xPath.compile("posiciones/equipo").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < equipos.getLength(); i++) {
@@ -357,7 +357,7 @@ public class DataFactoryScraper extends HecticusThread {
             String idTorneo = xPath.compile("goleadores/campeonato/@id").evaluate(document),
                     torneoName = xPath.compile("goleadores/campeonato").evaluate(document),
                     fecha = xPath.compile("goleadores/fechaActual").evaluate(document);
-            Competition currentCompetition = new Competition(torneoName, Long.parseLong(idTorneo), getIdApp(), category);
+            Competition currentCompetition = new Competition(torneoName, Long.parseLong(idTorneo), getApp(), category);
             currentCompetition.validate(language);
             NodeList jugadores = (NodeList) xPath.compile("goleadores/persona").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < jugadores.getLength(); i++) {
@@ -387,10 +387,9 @@ public class DataFactoryScraper extends HecticusThread {
                     playerTeam.validateTeam();
                     //String date = "" + Utils.currentTimeStamp(Utils.APP_TIMEZONE);
 
-                    long idCompetition = currentCompetition.getIdCompetitions();
                     Scorer ti = new Scorer(name, fullname, nickmane, playerTeam, Integer.parseInt(goals),
                             Integer.parseInt(byplay), Integer.parseInt(hearder), Integer.parseInt(freeKick),
-                            Integer.parseInt(penalty), playerCountry, externalId, idCompetition, fecha);
+                            Integer.parseInt(penalty), playerCountry, externalId, currentCompetition, fecha);
                     ti.validateScorer();
 
                 } catch (Exception ex) {
@@ -435,7 +434,7 @@ public class DataFactoryScraper extends HecticusThread {
             category.validate(language);
 
             //get competencia
-            Competition currentComp = new Competition(nombreTorneo, Long.parseLong(extIdTorneo), getIdApp(), category);
+            Competition currentComp = new Competition(nombreTorneo, Long.parseLong(extIdTorneo), getApp(), category);
             currentComp.validate(language);
 
             //get juego with id
@@ -529,7 +528,7 @@ public class DataFactoryScraper extends HecticusThread {
             if (current.isFile()) {
                 String fileName = current.getName();
                 if (fileName.contains("fixture")) { //fixture
-                    parseFixture(path + File.separator + fileName);
+//                    parseFixture(path + File.separator + fileName);
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
@@ -539,7 +538,7 @@ public class DataFactoryScraper extends HecticusThread {
 //                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto
-//                   parseMinaMin(path + File.separator + fileName);
+                   parseMinaMin(path + File.separator + fileName);
                 } else if (fileName.contains("plantelxcampeonato")) { //plantel
                     //not in use
                 } else { //desconocido

@@ -26,7 +26,7 @@ public class Team extends HecticusModel {
     @Constraints.Required
     private Long extId;
 
-    @OneToMany(mappedBy="team")
+    @OneToMany(mappedBy="team", cascade = CascadeType.ALL)
     private List<TeamHasCompetition> competitions;
 
     public static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);

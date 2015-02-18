@@ -3,11 +3,13 @@ package models.football;
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
+import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -192,11 +194,11 @@ public class GameMatchEvent extends HecticusModel {
         return json;
     }
 
-    public ObjectNode toJsonNoPeriod() {
+    public ObjectNode toJsonNoPeriod(Language language, Language defaultLanguage) {
         ObjectNode json = Json.newObject();
         json.put("id_game_match_events",idGameMatchEvents);
         json.put("id_game_matches",gameMatch.getIdGameMatches());
-        json.put("action",action.toJson());
+        json.put("action",action.toJson(language, defaultLanguage));
         json.put("teams",team.getName());
         json.put("player_a",playerA);
         json.put("player_b",playerB);
@@ -249,5 +251,19 @@ public class GameMatchEvent extends HecticusModel {
         } else {
             this.save();
         }
+    }
+
+    public static List<GameMatchEvent> getEventsForMatch(GameMatch gameMatch, long idEvent, boolean forward, ArrayList<Language> languages){
+        List<GameMatchEvent> events = null;
+        if(idEvent == 0){
+            events = finder.fetch("action").where().eq("gameMatch", gameMatch).in("action.localizations.language", languages).orderBy("_sort desc").findList();
+        } else {
+            if(forward){
+                events = finder.fetch("action").where().eq("gameMatch", gameMatch).in("action.localizations.language", languages).gt("idGameMatchEvents", idEvent).orderBy("_sort desc").findList();
+            } else {
+                events = finder.fetch("action").where().eq("gameMatch", gameMatch).in("action.localizations.language", languages).lt("idGameMatchEvents", idEvent).orderBy("_sort asc").findList();
+            }
+        }
+        return events;
     }
 }

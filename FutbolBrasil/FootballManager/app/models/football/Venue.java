@@ -27,7 +27,7 @@ public class Venue extends HecticusModel {
 
     private Long extId;
 
-    @OneToMany(mappedBy = "venue")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "venue", cascade = CascadeType.ALL)
     private List<GameMatch> matches;
 
     private static Model.Finder<Long,Venue> finder = new Model.Finder<Long,Venue>(Long.class,Venue.class);
@@ -86,6 +86,14 @@ public class Venue extends HecticusModel {
 
     public void setExtId(Long extId) {
         this.extId = extId;
+    }
+
+    public List<GameMatch> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<GameMatch> matches) {
+        this.matches = matches;
     }
 
     public Venue findById(Long id){

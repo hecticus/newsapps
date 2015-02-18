@@ -1,6 +1,8 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
 import models.Language;
 import play.db.ebean.Model;
@@ -9,6 +11,7 @@ import play.libs.Json;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by plesse on 1/20/15.
@@ -22,10 +25,10 @@ public class GameMatchStatus extends HecticusModel {
     private String name;
     private Integer extId;
 
-    @OneToMany(mappedBy = "status")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "status", cascade = CascadeType.ALL)
     private List<GameMatch> matches;
 
-    @OneToMany(mappedBy = "status")
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     private List<GameMatchStatusHasLocalization> localizations;
 
     private static Model.Finder<Integer,GameMatchStatus> finder = new Model.Finder<Integer,GameMatchStatus>(Integer.class,GameMatchStatus.class);
@@ -77,17 +80,42 @@ public class GameMatchStatus extends HecticusModel {
 
     @Override
     public ObjectNode toJson() {
-        ObjectNode node = Json.newObject();
-        node.put("id_status", extId);
-        node.put("name", name);
+        ObjectNode obj = Json.newObject();
+        obj.put("id_status", extId);
+        obj.put("name", name);
         if(localizations != null && !localizations.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(GameMatchStatusHasLocalization ad : localizations){
                 apps.add(ad.toJson());
             }
-            node.put("localizations", Json.toJson(apps));
+            obj.put("localizations", Json.toJson(apps));
         }
-        return node;
+        return obj;
+    }
+
+    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_status", extId);
+        GameMatchStatusHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<GameMatchStatusHasLocalization>() {
+                public boolean apply(GameMatchStatusHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<GameMatchStatusHasLocalization>() {
+                    public boolean apply(GameMatchStatusHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
+        return obj;
     }
 
     public void validate(Language language) {
