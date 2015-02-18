@@ -7,172 +7,163 @@
  */
 angular
     .module('core')
-    .factory('FacebookManager',['$localStorage',
-        function($localStorage) {
+    .factory('FacebookManager',['$localStorage', '$http',
+        function($localStorage, $http) {
             var that = this;
+            var INTERVAL_FRIENDS_LOADER_TIMER = 30000;
+            var FILE_KEY_FB_USER_ID = "APPDATAFBUSERID";
+            var FILE_KEY_FB_FRIENDS = "APPDATAFBFRIENDS";
             var fbUserId = '';
             var intervalFriendsLoaderId = '';
             var localStorage = $localStorage;
 
+            var saveUserId = function (_fbUserId) {
+                try{
+                    fbUserId = _fbUserId;
+                    localStorage[FILE_KEY_FB_USER_ID] = fbUserId;
+                    return true;
+                }catch(err){
+                    return false;
+                }
+            };
+
+            var loadUserId = function () {
+                fbUserId = localStorage[FILE_KEY_FB_USER_ID];
+            };
+
+            var deleteUserId = function () {
+                fbUserId = null;
+                delete localStorage[FILE_KEY_FB_USER_ID];
+            };
+
+            var getLocalFriends = function () {
+                console.log("FacebookManager. getLocalFriends: "
+                    + JSON.stringify(JSON.parse(localStorage[FILE_KEY_FB_FRIENDS]), undefined, 1));
+                return JSON.parse(localStorage[FILE_KEY_FB_FRIENDS]);
+            };
+
+            var saveFriends = function (friends) {
+                if(friends){
+                    delete localStorage[FILE_KEY_FB_FRIENDS];
+                    localStorage[FILE_KEY_FB_FRIENDS] = friends;
+                    return true;
+                } else {
+                    console.log('FacebookManager. saveFriends. error. Invalid friends');
+                    return false;
+                }
+            };
+
+            var getMoreFriends = function(url, callback){
+                $http.get(url, {timeout: 60000}).success(function(result, status) {
+                    var more = result.paging.hasOwnProperty('next');
+                    var friends = result.data;
+
+                    if(friends.length > 0){
+                        friends = getLocalFriends().concat(friends);
+                        saveFriends(friends);
+                        if(more){
+                            getMoreFriends(callback);
+                        } else {
+                            typeof callback == 'function' && callback();
+                        }
+                    }
+                });
+            };
+
             return {
 
-                getFbUserId : function(){
+                getUserId : function(){
                     return fbUserId;
                 },
+
                 getIntervalFriendsLoader : function(){
                     return intervalFriendsLoaderId;
                 },
+
                 setIntervalFriendsLoader : function(){
+                    var that = this;
                     intervalFriendsLoaderId = setInterval(
-                        that.getFBStatus(), this.INTERVAL_FRIENDS_LOADER_TIMER
+                        that.getStatus(), INTERVAL_FRIENDS_LOADER_TIMER
                     );
                 },
+
                 clearIntervalFriendsLoader : function(){
                     clearInterval(intervalFriendsLoaderId);
                 },
-                INTERVAL_FRIENDS_LOADER_TIMER : 30000,
-                FILE_KEY_FB_CLIENT_ID : "APPDATAFBCLIENTID",
-                FILE_KEY_FB_FRIENDS : "APPDATAFBFRIENDS",
 
                 /**
                  * @ngdoc function
-                 * @name core.Services.FacebookManager#method1
+                 * @name core.Services.FacebookManager#login
                  * @methodOf core.Services.FacebookManager
                  * @return {boolean} Returns a boolean value
                  */
-                method1: function() {
-                    return true;
-                },
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.FacebookManager#getFBLoginStatus
-                 * @methodOf core.Services.FacebookManager
-                 * @return {boolean} Returns a boolean value
-                 */
-                getFBLoginStatus : function () {
-                    console.log("getFBLoginStatus");
-                    try {
-                        this.loadFBClientID();
-                        if(!fbUserId){
-                            facebookConnectPlugin.login(
-                                ["email", "user_friends", "public_profile", "user_friends"]
-                                , function (response) {
-                                    var authResponse = response.authResponse;
-                                    fbUserId = authResponse.userID;
-                                    that.saveFBClientID(fbUserId);
-                                    that.setIntervalFriendsLoader();
-                                }
-                                , function (response) {
-                                    alert("Error durante el login con Facebook: "+response
-                                        , function(){}, "Alerta", "OK");
-                                }
-                            );
-                        } else {
-                            this.setIntervalFriendsLoader();
+                login : function () {
+                    var that = this;
+                    facebookConnectPlugin.login(
+                        ["email", "user_friends", "public_profile", "user_friends"]
+                        , function (response) {
+                            console.log(JSON.stringify(response, undefined, 1));
+                            var authResponse = response.authResponse;
+                            fbUserId = authResponse.userID;
+                            saveUserId(fbUserId);
+                            that.setIntervalFriendsLoader();
+                            that.getFriends();
                         }
-                    } catch(e) {
-                        //TODO revisar, alerts no deben existir
-                        alert("Error durante el login con Facebook exp: "+e
-                            , function(){}, "Alerta", "OK");
-                    }
-                },
-
-                logout: function () {
-                    facebookConnectPlugin.logout(
-                        function (response) {},
-                        function (response) {}
+                        , function (response) {
+                            console.log("FacebookManager. login. Error: "
+                                + JSON.stringify(response, undefined, 1));
+                        }
                     );
                 },
 
-                getFBStatus : function (){
+                logout: function (successCallback, errorCallback) {
+                    facebookConnectPlugin.logout(successCallback, errorCallback);
+                },
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.FacebookManager#login
+                 * @description Posible status values:
+                 * - connected: The person is logged into Facebook, and has logged into your app.
+                 * - not_authorized: The person is logged into Facebook, but has not logged into your app.
+                 * - unknown: The person is not logged into Facebook, so
+                 * you don't know if they've logged into your app.
+                 * @methodOf core.Services.FacebookManager
+                 * @return {boolean} Returns a boolean value
+                */
+                getStatus : function (callback){
+                    console.log("FacebookManager. getStatus.");
                     facebookConnectPlugin.getLoginStatus(
                         function (result) {
-                            try{
-                                if(result.status == "connected"){
-                                    this.getFBFriends();
-                                }else{
-                                    this.deleteFBClientID();
-                                    this.getFBLoginStatus();
-                                }
-
-                            }catch(e){
-                                //TODO revisar, alerts no deben existir
-                                alert("ERROR FACEBOOK STATUS: " + e, function(){}, "Alerta", "OK");
-                            }
+                            typeof callback == 'function' && callback(result);
                         },
                         function (error) {
-                            this.deleteFBClientID();
-                            this.getFBLoginStatus();
+                            deleteUserId();
+                            typeof callback == 'function' && callback(null);
                         });
                 },
 
-                saveFBClientID : function (_fbUserId) {
-                    try{
-                        fbUserId = _fbUserId;
-                        localStorage[this.FILE_KEY_FB_CLIENT_ID] = fbUserId;
-                        return true;
-                    }catch(err){
-                        return false;
-                    }
-                },
-
-                loadFBClientID : function () {
-                    fbUserId = localStorage[this.FILE_KEY_FB_CLIENT_ID];
-                },
-
-                deleteFBClientID : function () {
-                    fbUserId = null;
-                    delete localStorage[this.FILE_KEY_FB_CLIENT_ID];
-                },
-
-                getFBFriends : function () {
+                getFriends : function (callback) {
                     facebookConnectPlugin.api('/me/friends?fields=picture,name'
                         , ["public_profile", "user_friends"],
                         function (result) {
+                            console.log('FacebookManager.getFriends. result: ');
+                            console.log(JSON.stringify(result, undefined, 1));
                             var friends = result.data;
-                            var more = 'next' in result.paging;
-                            while(more){
-                                $.ajax({
-                                    url : result.paging.next,
-                                    type: 'GET',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: 'json',
-                                    timeout : 60000,
-                                    async: false,
-                                    success : function(data, status) {
-                                        result = data;
-                                        more = 'next' in result.paging;
-                                        friends = friends.concat(result.data);
-                                    },
-                                    error : function(xhr, ajaxOptions, thrownError) {
-                                        more = false;
-                                    }
-                                });
+                            saveFriends(friends);
+                            var more = result.paging.hasOwnProperty('next');
+                            if(more){
+                                getMoreFriends(result.paging.next, callback);
                             }
-                            this.saveFBFriends(friends);
                         },
                         function (error) {
-                            //TODO revisar, alerts no deben existir
-                            alert("Error durante el login con Facebook, friends: "+JSON.stringify(error)
-                                , function(){}, "Alerta", "OK");
+                            console.log("FacebookManager. getFriends. Error: "
+                                + JSON.stringify(error, undefined, 1));
                         }
                     );
                 },
 
-                getLocalFBFriends : function () {
-                    return localStorage[this.FILE_KEY_FB_FRIENDS];
-                },
-
-                saveFBFriends : function (friends) {
-                    try{
-                        delete localStorage[this.FILE_KEY_FB_FRIENDS];
-                        localStorage[this.FILE_KEY_FB_FRIENDS] = JSON.stringify(friends);
-                        return true;
-                    }catch(err){
-                        return false;
-                    }
-                }
+                getLocalFriends : getLocalFriends
             }
         }
     ]);

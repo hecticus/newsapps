@@ -9,9 +9,8 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'Settings', 'Utilities',
-        function($scope, $rootScope, $state, ClientManager, TeamsManager, Settings, Utilities) {
-            $scope.favoriteTeams = [undefined, undefined, undefined];
+        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'FacebookManager', 'Settings', 'Utilities',
+        function($scope, $rootScope, $state, ClientManager, TeamsManager, FacebookManager, Settings, Utilities) {
             $scope.strings = {
                 'PUSH_SETTINGS_TITLE': 'Push Notifications',
                 'FAVORITE_TEAMS_TITLE': 'My Favorite Teams',
@@ -20,9 +19,19 @@ angular
                 'TOGGLE_MTM': 'Toggle MTM',
                 'TOGGLE_NEWS': 'Toggle News',
                 'CONNECT_FACEBOOK': 'Connect With Facebook',
+                'CONNECTED_FACEBOOK': 'Connected to Facebook',
                 'ADD_TEAM': 'Add Team',
                 'NOT_AVAILABLE': 'Not Available'
             };
+
+            $scope.vScroll = null;
+
+            $scope.fbObject = {
+                fbStatus: null,
+                fbButtonMsg: $scope.strings.CONNECT_FACEBOOK
+            };
+
+            $scope.favoriteTeams = [undefined, undefined, undefined];
 
             $scope.toggles = {
                 bets: false,
@@ -32,14 +41,13 @@ angular
 
             $scope.teamSelected = function(team){
                 if($scope.isEmptySlot(team)){
+                    $scope.$emit('load');
                     $state.go('team-selection');
                 }
             };
 
             $scope.removeTeam = function(team){
                 if(team){
-//                    console.log('removeTeam: ');
-//                    console.log(team);
                     TeamsManager.removeFavoriteTeam(team, $scope.getFavoriteTeams);
                     $scope.favoriteTeams[$scope.favoriteTeams.indexOf(team)] = {isEmpty: true};
                 }
@@ -107,16 +115,46 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-                $scope._scroll = Utilities.newScroll.vertical('wrapper');
-                $scope._scroll.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
+                $scope.vScroll = Utilities.newScroll.vertical('wrapper');
+            };
+
+            $scope.onFbButtonClick = function(){
+                if($scope.fbObject.fbStatus !== 'connected'){
+                    FacebookManager.login();
+                }
+                $scope.setFbButtonMsg();
+            };
+
+            $scope.getStatus = function(){
+                console.log('Settings.getStatus. ');
+//                FacebookManager.getStatus(function(result){
+//                    if(result){
+//                        $scope.fbObject.fbStatus = result.status;
+//                        console.log('Settings.getStatus. $scope.fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
+//                        $scope.setFbButtonMsg();
+//                    }
+//                });
+                setTimeout(function(){
+                    $scope.fbObject.fbStatus = 'connected';
+                    $scope.setFbButtonMsg();
+                }, 2000);
+            };
+
+            $scope.setFbButtonMsg = function(){
+                if($scope.fbObject.fbStatus === 'connected'){
+                    $scope.fbObject.fbButtonMsg = $scope.strings.CONNECTED_FACEBOOK;
+                } else{
+                    $scope.fbObject.fbButtonMsg = $scope.strings.CONNECT_FACEBOOK;
+                }
+                $scope.$apply();
+                console.log('setFbButtonMsg. fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
             };
 
             $scope.init = function(){
                 $scope.setUpIScroll();
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
+                $scope.getStatus();
                 $scope.$emit('unload');
             }();
 
