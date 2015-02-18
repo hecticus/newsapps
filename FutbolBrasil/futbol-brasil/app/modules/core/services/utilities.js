@@ -174,7 +174,13 @@ angular
 
                     delete window[_wrapper] ;
 
-                    window[_wrapper] = new IScroll('#' + _wrapper, {click:true,preventDefault:true, bounce: true,  probeType: 2});
+                    window[_wrapper] = new IScroll('#' + _wrapper, {
+                        click : false,
+                        preventDefault : true,
+                        bounce : true,
+                        probeType: 2,
+                        preventDefaultException: { tagName:/.*/ }
+                    });
                     window[_wrapper].on('beforeScrollStart', function () {
                         this.refresh();
                     });

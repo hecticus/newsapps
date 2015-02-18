@@ -31,7 +31,7 @@ angular
                         $scope.teams.splice(index, 1);
                     }
                 });
-                $rootScope.loading = false;
+                $scope.$emit('unload');
             };
 
             $scope.getTeamClass = function(team){
