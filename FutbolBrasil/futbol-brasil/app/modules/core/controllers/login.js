@@ -53,8 +53,10 @@ angular
 
             $scope.onLoginSuccess = function(isNewClient){
                 if(isNewClient){
+                    console.log('new client. going to settings');
                     $state.go('settings');
                 } else {
+                    console.log('existing client. going to news');
                     $state.go('news');
                 }
             };
