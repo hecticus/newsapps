@@ -18,7 +18,7 @@ angular
         var teams = [];
         var favTeams = [];
         var remoteTeams = [];
-        var getTeamsFromServer = function(done){
+        var getTeamsFromServer = function(isDone){
             var page = 0;
             var pageSize = 200;
             $http.get(Domain.teams.index,
@@ -28,12 +28,12 @@ angular
                         pageSize: pageSize
                     }
                 }).success(function(data, status){
-                    done = data.response.teams.length < pageSize;
+                    isDone = data.response.teams.length < pageSize;
                     remoteTeams = remoteTeams.concat(data.response.teams);
-                    if(done){
+                    if(isDone){
                         persistTeams(remoteTeams);
                     } else {
-                        getTeamsFromServer(done);
+                        getTeamsFromServer(isDone);
                     }
                 })
                 .error(function(data, status){
@@ -68,9 +68,11 @@ angular
         var loadPersistedFavoriteTeams = function(){
             if($localStorage[KEY_FAVORITE_TEAMS_LIST]) {
                 favTeams = JSON.parse($localStorage[KEY_FAVORITE_TEAMS_LIST]);
+                Client.setHasFavorites(true);
             } else {
                 console.log('loadPersistedFavoriteTeams. No records found for favorite teams.');
                 favTeams = [];
+                Client.setHasFavorites(false);
             }
         };
 

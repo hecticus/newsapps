@@ -13,14 +13,44 @@ angular
             , Client, Settings, App) {
             var that = this;
 
-            var onBackButtonPressed = function(){
+            var strings = {
+                EXIT_APP_TITLE : 'Sair do Aplicativo',
+                EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',
+                OK : 'Ok',
+                CANCEL : 'Cancelar'
+            };
 
+            var exitApp = function (){
+                try{
+                    FacebookManager.clearIntervalFriendsLoader();
+                } catch(e){
+
+                }
+
+                //Legacy
+                if (navigator.app) {
+                    navigator.app.exitApp();
+                } else if (navigator.device) {
+                    navigator.device.exitApp();
+                }
+            };
+
+            var backButtonCallback = null;
+
+            var onBackButtonPressed = function(){
+                if(angular.element('.page.back.left:last').hasClass('left')){
+                    typeof backButtonCallback === 'function' && backButtonCallback();
+                } else if (!!navigator.notification) {
+                    navigator.notification.confirm(strings.EXIT_APP_MSG, exitApp(), strings.EXIT_APP_TITLE
+                        , [strings.OK, strings.CANCEL]);
+                } else if (confirm(strings.EXIT_APP_MSG)) {
+                    exitApp();
+                }
             };
 
             return {
                 setBackButtonCallback: function(callback){
-                    if(typeof callback === 'function')
-                    onBackButtonPressed = callback;
+                    backButtonCallback = callback;
                 },
 
                 bindEvents : function() {
@@ -29,7 +59,7 @@ angular
                     document.addEventListener('touchmove', function (e) {
                         e.preventDefault();
                     }, false);
-                    var event = new CustomEvent("deviceready", { "detail": "Example of an event" });
+                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
                     document.dispatchEvent(event);
                 },
 
@@ -74,21 +104,6 @@ angular
                     }
                 },
 
-                exitApp : function (){
-                    try{
-                        FacebookManager.clearIntervalFriendsLoader();
-                    } catch(e){
-
-                    }
-
-                    //Legacy
-                    if (navigator.app) {
-                        navigator.app.exitApp();
-                    } else if (navigator.device) {
-                        navigator.device.exitApp();
-                    }
-                },
-
                 startAppOffline : function (){
                     console.log("startAppOffline. App Offline");
                 },
@@ -99,14 +114,6 @@ angular
                 },
                 errorStartApp : function (){
                     console.log("errorStartApp. Error. Couldn't Start Application");
-                },
-
-                doneCreating : function (){
-                    console.log("DONE CREATING!!!!");
-                },
-
-                errorCreating : function (){
-                    console.log("ERROR CREATING!!!!");
                 },
 
                 getVersion: function(){

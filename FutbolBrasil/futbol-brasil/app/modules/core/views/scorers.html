@@ -4,57 +4,57 @@
             <ul>
                 <li ng-style="getWidth()" ng-repeat="league in item.leagues" >
                     <div class="container">
-
                         <div class="row header">
-
-                          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs text-left" ng-click="prevPage()">
+                          <div class="col-xs-3 tabs text-left" ng-click="prevPage()">
                             <span ng-bind="item.leagues[$index-1].name"></span>
                           </div>
 
-                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+                          <div class="col-xs-6">
                             <h4 ng-bind="league.name" class="caption"></h4>
                           </div>
 
-                          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 tabs text-right" ng-click="nextPage()">
+                          <div class="col-xs-3 tabs text-right" ng-click="nextPage()">
                             <span ng-bind="item.leagues[$index+1].name"></span>
                           </div>
-
                         </div>
-
 
                         <div class="row">
                             <div id="{{wrapper.getName($index)}}" class="wrapper" >
                                 <div class="scroller" >
                                     <div class="container">
-
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-
+                                        <div class="col-xs-12" >
                                             <table class="table">
                                                 <thead>
                                                 <tr>
-                                                    <th style="text-align: left;">Nome do jogador</th>
-                                                    <th style="text-align: left;">Equipe</th>
-                                                    <th>Goles</th>
+                                                    <th ng-bind="strings.PLAYER_NAME_LABEL"></th>
+                                                    <th ng-bind="strings.TEAM_LABEL"></th>
+                                                    <th ng-bind="strings.GOALS_LABEL"></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
 
-                                                <tr ng-class="{'active' : $odd}" ng-repeat="scorer in league.scorers" >
-                                                    <td style="text-align: left;"><span ng-bind="scorer.name" style="vertical-align: middle;"></span></td>
-                                                    <td style="text-align: left;"><span ng-bind="scorer.team.name" style="vertical-align: middle;"></span></td>
-                                                    <td><span ng-bind="scorer.goals" style="vertical-align: middle;"></span></td>
+                                                <tr ng-repeat="scorer in league.scorers"
+                                                    ng-class="{'active' : $odd}" >
+                                                    <td class="text-left">
+                                                        <span class="text-center-vertical"
+                                                              ng-bind="getScorerName(scorer)" ></span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span class="text-center-vertical"
+                                                              ng-bind="scorer.team.name"></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-center-vertical"
+                                                              ng-bind="scorer.goals"></span>
+                                                    </td>
                                                 </tr>
-
                                                 </tbody>
                                             </table>
-
                                         </div>
-
                                     </div>	<!--container-->
                                 </div>	<!--scroller-->
                             </div> <!--wrapper-->
                         </div> <!--row-->
-
                     </div> <!--container-->
                 </li>
             </ul>

@@ -61,6 +61,5 @@ angular
                 $scope.setUpIScroll();
                 $scope.getTeams();
             }();
-
         }
 ]);

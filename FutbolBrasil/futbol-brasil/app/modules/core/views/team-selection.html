@@ -1,8 +1,8 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <form class="form-horizontal" style="margin-top: -20px; position: absolute; z-index: 2;">
-                    <div class="form-group search-bar well">
+                <form class="form-horizontal" style="position: absolute; z-index: 2;">
+                    <div class="form-group well search-bar">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Find your Team" ng-model="searchQuery">
                             <span class="input-group-addon"><i class="icon mdi-action-search" style="font-size:1.8em;"></i></span>
@@ -13,10 +13,10 @@
         </div>
 
         <div class="row">
-            <div id="wrapper" style="margin-top: 68px !important;">
+            <div id="wrapper" class="search-list-wrapper">
                 <div class="scroller">
                     <div class="list-group">
-                        <div ng-repeat="team in teams track by team.id_teams | filter: searchQuery">
+                        <div ng-repeat="team in teams | filter: searchQuery">
                             <div class="list-group-item" ng-click="teamSelected(team)">
                                 <div class="row-action-primary">
                                     <i ng-class="getTeamClass(team)"></i>

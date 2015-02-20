@@ -111,19 +111,19 @@
                                 <tr>
                                     <th></th>
                                     <th style="text-align: left;">Classifica&ccedil;&atilde;o</th>
-                                    <th>p</th>
-                                    <th>j</th>
-                                    <th>v</th>
-                                    <th>e</th>
-                                    <th>d</th>
-                                    <th>sg</th>
+                                    <th>P</th>
+                                    <th>J</th>
+                                    <th>V</th>
+                                    <th>E</th>
+                                    <th>D</th>
+                                    <th>SG</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
                                 <tr ng-class="{'active' : $odd}" ng-repeat="ranking in rankings.ranking">
                                     <td>
-                                        <span ng-bind="ranking.orden"
+                                        <span ng-bind="$index+1"
                                               style="vertical-align: middle;"></span>
                                     </td>
                                     <td style="text-align: left;">

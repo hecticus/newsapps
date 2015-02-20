@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'FacebookManager', 'Settings', 'Utilities',
-        function($scope, $rootScope, $state, ClientManager, TeamsManager, FacebookManager, Settings, Utilities) {
+        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'FacebookManager', 'Settings', 'Utilities', 'Client',
+        function($scope, $rootScope, $state, ClientManager, TeamsManager, FacebookManager, Settings, Utilities, Client) {
             $scope.strings = {
                 'PUSH_SETTINGS_TITLE': 'Push Notifications',
                 'FAVORITE_TEAMS_TITLE': 'My Favorite Teams',
@@ -21,7 +21,8 @@ angular
                 'CONNECT_FACEBOOK': 'Connect With Facebook',
                 'CONNECTED_FACEBOOK': 'Connected to Facebook',
                 'ADD_TEAM': 'Add Team',
-                'NOT_AVAILABLE': 'Not Available'
+                'NOT_AVAILABLE': 'Not Available',
+                'LANGUAGES': 'Languages'
             };
 
             $scope.vScroll = null;
@@ -55,10 +56,12 @@ angular
 
             $scope.getFavoriteTeams = function(){
                 var teams = TeamsManager.getFavoriteTeams();
+                $scope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
                     if(teams[i]) {
                         $scope.favoriteTeams[i] = teams[i];
                         $scope.favoriteTeams[i].isEmpty = false;
+                        $scope.hasFavorites = true;
                     } else {
                         $scope.favoriteTeams[i] = {};
                         $scope.favoriteTeams[i].isEmpty = true;
@@ -92,19 +95,16 @@ angular
 
             $scope.toggleBets = function(){
                 $scope.toggles.bets = !$scope.toggles.bets;
-//                console.log('toggleBets. ' + $scope.toggles.bets);
                 Settings.toggleBetsPush($scope.toggles.bets);
             };
 
             $scope.toggleNews = function(){
                 $scope.toggles.news = !$scope.toggles.news;
-//                console.log('toggleNews. ' + $scope.toggles.news);
                 Settings.toggleNewsPush($scope.toggles.news);
             };
 
             $scope.toggleMtm = function(){
                 $scope.toggles.mtm = !$scope.toggles.mtm;
-//                console.log('toggleMtm. ' + $scope.toggles.mtm);
                 Settings.toggleMtmPush($scope.toggles.mtm);
             };
 
@@ -115,10 +115,11 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-                $scope.vScroll = Utilities.newScroll.vertical('wrapper');
+                $scope.vScroll = Utilities.newScroll.verticalForm('wrapper');
             };
 
             $scope.onFbButtonClick = function(){
+                if(!window.facebookConnectPlugin){ return;}
                 if($scope.fbObject.fbStatus !== 'connected'){
                     FacebookManager.login();
                 }
@@ -126,21 +127,22 @@ angular
             };
 
             $scope.getStatus = function(){
-                console.log('Settings.getStatus. ');
-//                FacebookManager.getStatus(function(result){
-//                    if(result){
-//                        $scope.fbObject.fbStatus = result.status;
+                if(!window.facebookConnectPlugin){ return;}
+                FacebookManager.getStatus(function(result){
+                    if(result){
+                        $scope.fbObject.fbStatus = result.status;
 //                        console.log('Settings.getStatus. $scope.fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
-//                        $scope.setFbButtonMsg();
-//                    }
-//                });
-                setTimeout(function(){
-                    $scope.fbObject.fbStatus = 'connected';
-                    $scope.setFbButtonMsg();
-                }, 2000);
+                        $scope.setFbButtonMsg();
+                    }
+                });
+//                setTimeout(function(){
+//                    $scope.fbObject.fbStatus = 'connected';
+//                    $scope.setFbButtonMsg();
+//                }, 2000);
             };
 
             $scope.setFbButtonMsg = function(){
+                if(!window.facebookConnectPlugin){ return;}
                 if($scope.fbObject.fbStatus === 'connected'){
                     $scope.fbObject.fbButtonMsg = $scope.strings.CONNECTED_FACEBOOK;
                 } else{
@@ -148,6 +150,20 @@ angular
                 }
                 $scope.$apply();
                 console.log('setFbButtonMsg. fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
+            };
+
+            $scope.selectLanguage = function(team){
+                $scope.$emit('load');
+                $state.go('language-selection');
+            };
+
+            $scope.getClientLanguage = function(){
+                var lang = Client.getLanguage();
+                if(lang){
+                    return lang.name;
+                } else {
+                    return 'No Language Selected';
+                }
             };
 
             $scope.init = function(){

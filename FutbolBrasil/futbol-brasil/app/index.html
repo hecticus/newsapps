@@ -43,7 +43,7 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <header>
-                    <div class="col-xs-12 text-left">
+                    <div class="col-xs-10 text-left">
                         <i class="icon drawer-icon icon-white"
                            ng-class="getDrawerIcon()"
                            ng-click="runBackButton()"></i>
@@ -53,6 +53,12 @@
                                   vertical-align: middle;"/>
                             {{strings.MENU_NOTISTATS}}
                         </span>
+                    </div>
+                    <div class="col-xs-2">
+                        <i class="icon drawer-icon icon-white"
+                           ng-class="getFavoritesClass()"
+                           ng-show="hasFavorites"
+                           ng-click="toggleFavorites()"></i>
                     </div>
                 </header>
             </div>
@@ -64,7 +70,7 @@
 
     <loading></loading>
     <error></error>
-    <menu ng-cloak>
+    <menu ng-cloak="">
         <menu-item section="news" icon="mdi-action-label">{{strings.MENU_NOTISTATS}}</menu-item>
         <menu-item section="prediction" icon="mdi-action-event">{{strings.MENU_BETS}}</menu-item>
         <menu-item section="settings" icon="mdi-action-settings">{{strings.MENU_SETTINGS}}</menu-item>
@@ -73,65 +79,63 @@
 
     <div class="row">
         <footer class="footer">
-            <div class="container">
-                <div data-section="news" class="row section active">
-                    <div class="col-xs-15 option" ui-sref-active="active">
-                        <a ui-sref="match">
-                            <span class="icon-balon"></span>
-                            <span class="glyphicon-class">Partidas</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-15 option" ui-sref-active="active">
-                        <a ui-sref="standings">
-                            <span class="icon-tabela"></span>
-                            <span class="glyphicon-class">Tabela</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-15 option" ui-sref-active="active" >
-                        <a ui-sref="news">
-                            <span class="icon-noticias"></span>
-                            <span class="glyphicon-class">Noticias</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-15 option" ui-sref-active="active" >
-                        <a ui-sref="scorers">
-                            <span class="icon-artilharia"></span>
-                            <span class="glyphicon-class">Artilharia</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-15 option" ui-sref-active="active" >
-                        <a ui-sref="mtm">
-                            <span class="icon-envivo"></span>
-                            <span class="glyphicon-class">En Vivo</span>
-                        </a>
-                    </div>
+            <div data-section="news" class="row section" ng-class="{active: section === 'notistats', hide: section !== 'notistats'}">
+                <div class="col-xs-15 option" ui-sref-active="active">
+                    <a ui-sref="match">
+                        <span class="icon-balon"></span>
+                        <span class="glyphicon-class">Partidas</span>
+                    </a>
                 </div>
+                <div class="col-xs-15 option" ui-sref-active="active">
+                    <a ui-sref="standings">
+                        <span class="icon-tabela"></span>
+                        <span class="glyphicon-class">Tabela</span>
+                    </a>
+                </div>
+                <div class="col-xs-15 option" ui-sref-active="active" >
+                    <a ui-sref="news">
+                        <span class="icon-noticias"></span>
+                        <span class="glyphicon-class">Noticias</span>
+                    </a>
+                </div>
+                <div class="col-xs-15 option" ui-sref-active="active" >
+                    <a ui-sref="scorers">
+                        <span class="icon-artilharia"></span>
+                        <span class="glyphicon-class">Artilharia</span>
+                    </a>
+                </div>
+                <div class="col-xs-15 option" ui-sref-active="active" >
+                    <a ui-sref="mtm">
+                        <span class="icon-envivo"></span>
+                        <span class="glyphicon-class">En Vivo</span>
+                    </a>
+                </div>
+            </div>
 
-                <div data-section="prediction" class="row section">
-                    <div class="col-xs-3 option" ui-sref-active="active">
-                        <a ui-sref="prediction">
-                            <span class="icon-balon"></span>
-                            <span class="glyphicon-class">Predicciones</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-3 option" ui-sref-active="active" >
-                        <a ui-sref="leaderboard">
-                            <span class="icon-tabela"></span>
-                            <span class="glyphicon-class">Leaderboards</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-3 option" ui-sref-active="active" >
-                        <a ui-sref="friends">
-                            <span class="icon-artilharia"></span>
-                            <span class="glyphicon-class">Friends</span>
-                        </a>
-                    </div>
-                    <div class="col-xs-3 option" ui-sref-active="active" >
-                        <a ui-sref="points">
-                            <span class="icon-puntos"></span>
-                            <span class="glyphicon-class">Puntos</span>
-                        </a>
-                    </div>
+            <div data-section="prediction" class="row section" ng-class="{active: section === 'palpites', hide: section !== 'palpites'}">
+                <div class="col-xs-3 option" ui-sref-active="active">
+                    <a ui-sref="prediction">
+                        <span class="icon-balon"></span>
+                        <span class="glyphicon-class">Predicciones</span>
+                    </a>
+                </div>
+                <div class="col-xs-3 option" ui-sref-active="active" >
+                    <a ui-sref="leaderboard">
+                        <span class="icon-tabela"></span>
+                        <span class="glyphicon-class">Leaderboards</span>
+                    </a>
+                </div>
+                <div class="col-xs-3 option" ui-sref-active="active" >
+                    <a ui-sref="friends">
+                        <span class="icon-artilharia"></span>
+                        <span class="glyphicon-class">Friends</span>
+                    </a>
+                </div>
+                <div class="col-xs-3 option" ui-sref-active="active" >
+                    <a ui-sref="points">
+                        <span class="icon-puntos"></span>
+                        <span class="glyphicon-class">Puntos</span>
+                    </a>
                 </div>
             </div>
         </footer>
@@ -157,6 +161,8 @@
 <script src="lib/bootstrap-material-design/dist/js/material.js"></script>
 <script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
 <script src="lib/iscrolltest/build/iscroll-probe.js"></script>
+<script src="lib/angular-translate/angular-translate.js"></script>
+<script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
 
@@ -168,12 +174,14 @@
 <script src="modules/core/core.js"></script>
 <script src="modules/core/config/routes.js"></script>
 <script src="modules/core/services/app.js"></script>
+<script src="modules/core/services/bets.js"></script>
 <script src="modules/core/services/client-manager.js"></script>
 <script src="modules/core/services/client.js"></script>
 <script src="modules/core/services/cordova-app.js"></script>
 <script src="modules/core/services/cordova-device.js"></script>
 <script src="modules/core/services/domain.js"></script>
 <script src="modules/core/services/facebook-manager.js"></script>
+<script src="modules/core/services/i18n.js"></script>
 <script src="modules/core/services/news-service.js"></script>
 <script src="modules/core/services/push-manager.js"></script>
 <script src="modules/core/services/settings.js"></script>
@@ -188,6 +196,7 @@
 <script src="modules/core/directives/my-scroll.js"></script>
 <script src="modules/core/directives/on-last-repeat.js"></script>
 <script src="modules/core/controllers/friends.js"></script>
+<script src="modules/core/controllers/language-selection.js"></script>
 <script src="modules/core/controllers/leaderboard.js"></script>
 <script src="modules/core/controllers/login.js"></script>
 <script src="modules/core/controllers/main.js"></script>

@@ -10,18 +10,18 @@ angular
     .directive('menuItem', ['$rootScope', '$state',
         function($rootScope, $state) {
             return {
-               restrict: "E",
+                restrict: "E",
                 templateUrl: 'modules/core/views/templates/menu-item.html',
-               transclude: true,
-               scope: {
-                  section: "@",
-                  icon: "@"
-               },
-               link: function($scope) {
-                   $scope.navigate = function(_section) {
-                      $rootScope.showSection(_section);
-                   }
-               }
+                transclude: true,
+                scope: {
+                    section: "@",
+                    icon: "@"
+                },
+                link: function($scope) {
+                    $scope.navigate = function(_section) {
+                        $rootScope.showSection(_section);
+                    }
+                }
             };
         }
     ]);

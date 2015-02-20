@@ -1,10 +1,10 @@
 <!--TODO extraer estilos-->
-<div id="wrapper" style="margin-top: 10px !important; background-color: transparent; ">
+<div id="wrapper" class="settings-wrapper">
     <div class="scroller" style="background-color: transparent; position: absolute;">
         <div class="col-xs-12">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{strings.FAVORITE_TEAMS_TITLE}}</h3>
+                    <h3 class="panel-title" translate>SETTINGS.FAVORITE_TEAMS_TITLE</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -66,6 +66,21 @@
                                     </label>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="mdi-action-language"></span> {{strings.LANGUAGES}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-success text-center"
+                                    ng-click="selectLanguage()" ng-bind="getClientLanguage">
+                            </button>
                         </div>
                     </div>
                 </div>
