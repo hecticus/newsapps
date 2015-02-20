@@ -9,28 +9,18 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager', 'FacebookManager', 'Settings', 'Utilities', 'Client',
-        function($scope, $rootScope, $state, ClientManager, TeamsManager, FacebookManager, Settings, Utilities, Client) {
-            $scope.strings = {
-                'PUSH_SETTINGS_TITLE': 'Push Notifications',
-                'FAVORITE_TEAMS_TITLE': 'My Favorite Teams',
-                'SOCIAL_ACCOUNTS_TITLE': 'Social Accounts',
-                'TOGGLE_BETS': 'Toggle Bets',
-                'TOGGLE_MTM': 'Toggle MTM',
-                'TOGGLE_NEWS': 'Toggle News',
-                'CONNECT_FACEBOOK': 'Connect With Facebook',
-                'CONNECTED_FACEBOOK': 'Connected to Facebook',
-                'ADD_TEAM': 'Add Team',
-                'NOT_AVAILABLE': 'Not Available',
-                'LANGUAGES': 'Languages'
-            };
-
+        '$scope', '$rootScope', '$state', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
+            'Settings', 'Utilities', 'Client',
+        function($scope, $rootScope, $state, $translate, ClientManager, TeamsManager, FacebookManager,
+                 Settings, Utilities, Client) {
             $scope.vScroll = null;
 
             $scope.fbObject = {
                 fbStatus: null,
                 fbButtonMsg: $scope.strings.CONNECT_FACEBOOK
             };
+
+            $scope.lang = '';
 
             $scope.favoriteTeams = [undefined, undefined, undefined];
 
@@ -127,29 +117,31 @@ angular
             };
 
             $scope.getStatus = function(){
-                if(!window.facebookConnectPlugin){ return;}
-                FacebookManager.getStatus(function(result){
-                    if(result){
-                        $scope.fbObject.fbStatus = result.status;
-//                        console.log('Settings.getStatus. $scope.fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
-                        $scope.setFbButtonMsg();
-                    }
-                });
-//                setTimeout(function(){
-//                    $scope.fbObject.fbStatus = 'connected';
-//                    $scope.setFbButtonMsg();
-//                }, 2000);
+                setTimeout(function(){
+                    $scope.fbObject.fbStatus = 'connected';
+                    $scope.setFbButtonMsg();
+                }, 1000);
+//                if(!window.facebookConnectPlugin){ return;}
+//                FacebookManager.getStatus(function(result){
+//                    if(result){
+//                        $scope.fbObject.fbStatus = result.status;
+////                        console.log('Settings.getStatus. $scope.fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
+//                        $scope.setFbButtonMsg();
+//                    }
+//                });
             };
 
             $scope.setFbButtonMsg = function(){
-                if(!window.facebookConnectPlugin){ return;}
-                if($scope.fbObject.fbStatus === 'connected'){
-                    $scope.fbObject.fbButtonMsg = $scope.strings.CONNECTED_FACEBOOK;
-                } else{
-                    $scope.fbObject.fbButtonMsg = $scope.strings.CONNECT_FACEBOOK;
-                }
+                $translate(['SETTINGS.FACEBOOK.CONNECT', 'SETTINGS.FACEBOOK.CONNECTED'])
+                    .then(function(translations){
+                        if($scope.fbObject.fbStatus === 'connected'){
+                            $scope.fbObject.fbButtonMsg = translations['SETTINGS.FACEBOOK.CONNECTED'];
+                        } else{
+                            $scope.fbObject.fbButtonMsg = translations['SETTINGS.FACEBOOK.CONNECT'];
+                        }
+                    }
+                );
                 $scope.$apply();
-                console.log('setFbButtonMsg. fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
             };
 
             $scope.selectLanguage = function(team){
@@ -158,11 +150,15 @@ angular
             };
 
             $scope.getClientLanguage = function(){
-                var lang = Client.getLanguage();
-                if(lang){
-                    return lang.name;
+                $scope.lang = Client.getLanguage();
+                if($scope.lang){
+                    $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
+                    $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
+                        $scope.lang.translation = translation;
+                        });
                 } else {
-                    return 'No Language Selected';
+                    $scope.lang = {};
+                    $scope.lang.translation =  'No Language Selected';
                 }
             };
 
@@ -171,6 +167,7 @@ angular
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
                 $scope.getStatus();
+                $scope.getClientLanguage();
                 $scope.$emit('unload');
             }();
 

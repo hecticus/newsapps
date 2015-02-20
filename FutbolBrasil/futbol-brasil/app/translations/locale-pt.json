@@ -1,15 +1,26 @@
 {
+    "NEWS" : {
+        "TITLE" : "Notícias"
+
+    },
     "SETTINGS": {
-        "PUSH_TITLE": "Push Notifications",
-        "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
-        "SOCIAL_ACCOUNTS_TITLE": "Social Accounts",
-        "TOGGLE_BETS": "Toggle Bets",
-        "TOGGLE_MTM": "Toggle MTM",
-        "TOGGLE_NEWS": "Toggle News",
-        "CONNECT_FACEBOOK": "Connect With Facebook",
-        "CONNECTED_FACEBOOK": "Connected to Facebook",
-        "ADD_TEAM": "Add Team",
-        "NOT_AVAILABLE": "Not Available",
-        "LANGUAGES": "Languages"
+        "PUSH_TITLE": "Notificações Push",
+        "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
+        "LANGUAGES_TITLE": "Idiomas",
+        "SOCIAL_ACCOUNTS_TITLE": "Contas Sociais",
+        "TOGGLE" : {
+            "BETS" : "Palpites",
+            "MTM" : "Ao Minuto",
+            "NEWS" : "Notícias"
+        },
+        "FACEBOOK" : {
+            "CONNECT" : "Conectar com Facebook",
+            "CONNECTED" : "Conectado ao Facebook"
+        },
+        "ADD_TEAM": "Adicionar Equipe",
+        "NOT_AVAILABLE": "Não Disponível"
+    },
+    "LANGUAGE" : {
+        "PT" : "Português"
     }
 }

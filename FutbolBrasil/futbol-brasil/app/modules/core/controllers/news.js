@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
-        ,'Utilities', 'SocialAppsManager',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities
+        ,'Utilities', 'Moment', 'SocialAppsManager',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities, Moment
             , SocialAppsManager) {
             $rootScope.$storage.news = false;
 

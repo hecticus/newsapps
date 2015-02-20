@@ -1,0 +1,22 @@
+{
+    "SETTINGS": {
+        "PUSH_TITLE": "Push Notifications",
+        "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
+        "LANGUAGES_TITLE": "Languages",
+        "SOCIAL_ACCOUNTS_TITLE": "Social Accounts",
+        "TOGGLE" : {
+            "BETS" : "Bets",
+            "MTM" : "MTM",
+            "NEWS" : "News"
+        },
+        "FACEBOOK" : {
+            "CONNECT" : "Connect With Facebook",
+            "CONNECTED" : "Connected to Facebook"
+        },
+        "ADD_TEAM": "Add Team",
+        "NOT_AVAILABLE": "Not Available"
+    },
+    "LANGUAGE" : {
+        "PT" : "Portuguese"
+    }
+}

@@ -38,7 +38,7 @@ a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 #wrapper2,
 #wrapper3 {
     position: absolute;
-    z-index: 1;
+    z-index: 6;
     top: 50px;
     bottom: 50px;
     left: 0;
@@ -470,12 +470,12 @@ div.header .right {
 
 .row-back {
     position: absolute;
-    z-index: 4;
+    z-index: 9;
     top: 0;
     left:0;
     right:0;
     width: 100%;
-    height: 50px;
+    height: 35px;
     line-height: 50px;
     background-color: #FFFFFF;
     color: #000000;
@@ -700,9 +700,73 @@ body.content-mtm .row-back {
 .lang-tag {
     font-weight: bold;
     font-style: normal;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 100%;
+    text-align: center;
+    line-height: 56px;
+    font-size: 20px;
+    color: white;
+    width: 56px;
+    height: 56px;
+}
+
+.lang-name {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 16px;
 }
 
 .settings-wrapper {
     top: 65px !important;
     background-color: transparent !important;
+}
+
+.row-news-header {
+    position: absolute;
+    z-index: 4;
+    top: 50px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #3B5CA9;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.news-header .title {
+    margin-top: 0;
+    line-height: 35px;
+    color: #ffffff;
+    font-weight: bold !important;
+}
+
+.row-news-detail-header {
+    position: absolute;
+    z-index: 6;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #3B9444;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.news .moment {
+    color:#3B9444;
+}
+
+.news .body {
+    margin-top:20px !important;
+    padding-top:20px !important;
+    border-top: solid 1pt #2B2B2B !important;
 }
