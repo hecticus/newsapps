@@ -9,17 +9,11 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http'
-        , '$timeout', '$window', 'Domain', 'Client', 'ClientManager','CordovaApp'
-        , function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, $window, Domain
-            , Client, ClientManager, CordovaApp) {
+        , '$timeout', '$window', '$translate', 'Domain', 'Client', 'ClientManager','CordovaApp'
+        , function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, $window, $translate,
+                   Domain, Client, ClientManager, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
-            $scope.strings = {
-                MENU_NOTISTATS : 'NotiStats',
-                MENU_BETS : 'Palpites',
-                MENU_SETTINGS : 'Definições',
-                TOGGLE_FAVORITES: 'Favoritos'
-            };
 
             $scope.toggles = {
                 favorites: true
@@ -100,8 +94,8 @@ angular
 
             $rootScope.showSection = function(_section) {
                 $timeout(function() {
-                    angular.element('.section').removeClass('active');
-                    angular.element('[data-section="' + _section + '"]').addClass('active');
+//                    angular.element('.section').removeClass('active');
+//                    angular.element('[data-section="' + _section + '"]').addClass('active');
                     $scope.hideMenu();
                     $state.go(_section);
                 },300);
@@ -128,7 +122,6 @@ angular
                 CordovaApp.setBackButtonCallback($scope.runBackButton);
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
-                    console.log('$watch hasFavorites: ' + Client.getHasFavorites());
                     $scope.hasFavorites = Client.getHasFavorites();
                 });
             }();

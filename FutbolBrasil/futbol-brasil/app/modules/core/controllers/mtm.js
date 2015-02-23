@@ -18,6 +18,8 @@ angular
                 _event.last = 0;
             }};
 
+            $scope.hasGamesForToday = true;
+
             $scope.interval = false;
             $scope.date = Utilities.moment().format('dddd Do YYYY');
             $scope.getTime = function (_date) {
@@ -28,10 +30,10 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+
+                    //TODO check request cableado, no se valida que venga vacio data.response
                     $http.get(Domain.mtm(5,390,_event.first), config).success(function (data, status) {
-
-                        if (data.error == 0) {
-
+                        if (data.error === 0) {
                             if ($scope.item.mtm.length == 0) {
                                 $scope.item.mtm = data.response;
                             } else {
@@ -39,11 +41,9 @@ angular
                                     $scope.item.mtm.actions[0].events.unshift(_event);
                                 });
                             }
-
                             _event.first = data.response.actions[0].events[0].id_game_match_events;
                             $scope.item.match.home.goals = data.response.home_team_goals;
                             $scope.item.match.away.goals = data.response.away_team_goals;
-
                         }
                     }).catch(function () {
                         $scope.$emit('error');
@@ -85,22 +85,31 @@ angular
             };
 
             $scope.getTeamName = function(team){
-                return team.name !== ''? team.name : 'Name Not Available';
+                return team && team.name !== ''? team.name : 'Name Not Available';
             };
 
             $scope.init = function(){
                 $scope.$emit('load');
+                var date = Utilities.moment().format('YYYYMMDD');
+//                date = "20150222";
                 var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
                 config.params.pageSize = 100;
                 config.params.page = 0;
-                $http.get(Domain.match(Utilities.moment().format('YYYYMMDD')), config)
+                $http.get(Domain.match(date), config)
                     .success(function (data, status) {
-                        $scope.item = data.response;
-                    }).catch(function () {
-                        $scope.$emit('error');
-                    }).finally(function (data) {
+//                        console.log(data);
+                        if(data.response && data.response.leagues.length == 0){
+                            $scope.hasGamesForToday = false;
+                            console.log('No info on response');
+                        } else {
+                            $scope.hasGamesForToday = true;
+                            $scope.item = data.response;
+                        }
                         $scope.$emit('unload');
-                        $rootScope.error = Utilities.error();
+                    }).error(function (data) {
+                        console.log(data);
+                        $scope.$emit('error');
+//                        $rootScope.error = Utilities.error();
                     });
             }();
         }

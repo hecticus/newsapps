@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('LanguageSelectionController', [
-        '$scope', '$state', 'i18n', 'Client',
-        function($scope, $state, i18n, Client) {
+        '$scope', '$state', '$translate', 'i18n', 'Client',
+        function($scope, $state, $translate, i18n, Client) {
             $scope.languages = [];
             $scope.searchQuery = '';
 
@@ -24,6 +24,7 @@ angular
             $scope.getLanguages = function(){
                 i18n.getAvailableLanguages().then(function(languages){
                     $scope.languages = languages;
+                    $scope.translate();
                 },function(response){
                     console.log('getLanguages. Error getting languages from server. ' +
                         'Falling back to persisted data');
@@ -40,6 +41,17 @@ angular
                 }else{
                     return 'mdi-action-favorite-outline';
                 }
+            };
+
+            $scope.translate = function(){
+                $scope.languages.forEach(function(lang){
+                    $translate('LANGUAGE.' + lang.short_name.toUpperCase()).then(function(translation){
+                        lang.translation = translation;
+                        console.log($scope.languages);
+                    }, function(){
+                        lang.translation = lang.name;
+                    });
+                });
             };
 
             $scope.setUpIScroll = function() {

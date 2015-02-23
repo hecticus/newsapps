@@ -1,7 +1,30 @@
 {
+    "SECTIONS" : {
+        "NOTISTATS" : {
+            "NOTISTATS" : "Notistats",
+            "MATCHES": "Partidas",
+            "STANDINGS": "Tabela",
+            "NEWS": "Noticias",
+            "SCORERS": "Artilharia",
+            "LIVE": "Ao Minuto"
+        },
+        "BETS" : {
+            "BETS": "Palpites",
+            "PREDICTIONS" : "Predições",
+            "LEADERBOARDS" : "Leaderboards",
+            "FRIENDS" : "Amigos",
+            "POINTS" : "Pontos"
+        },
+        "SETTINGS": "Definições"
+    },
     "NEWS" : {
         "TITLE" : "Notícias"
 
+    },
+    "PALPITES" : {
+    },
+    "EMPTY_STATES" : {
+        "LIVE" : "Não há jogos para hoje"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificações Push",
@@ -18,9 +41,14 @@
             "CONNECTED" : "Conectado ao Facebook"
         },
         "ADD_TEAM": "Adicionar Equipe",
-        "NOT_AVAILABLE": "Não Disponível"
+        "NOT_AVAILABLE": "Não Disponível",
+        "LANGUAGE_SEARCH_HELPER" : "Encontre o seu idioma",
+        "TEAM_SEARCH_HELPER" : "Encontre o seu equipe"
     },
     "LANGUAGE" : {
-        "PT" : "Português"
-    }
+        "PT" : "Português",
+        "EN" : "Inglês",
+        "ES" : "Espanhol"
+    },
+    "LOADING" : "A Carregar"
 }

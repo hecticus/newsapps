@@ -1,4 +1,22 @@
 {
+    "SECTIONS" : {
+        "NOTISTATS" : {
+            "NOTISTATS" : "Notistats",
+            "MATCHES": "Matches",
+            "STANDINGS": "Standings",
+            "NEWS": "News",
+            "SCORERS": "Scorers",
+            "LIVE": "Live"
+        },
+        "BETS" : {
+            "BETS": "Bets",
+            "PREDICTIONS" : "Predictions",
+            "LEADERBOARDS" : "Leaderboards",
+            "FRIENDS" : "Friends",
+            "POINTS" : "Points"
+        },
+        "SETTINGS": "Settings"
+    },
     "SETTINGS": {
         "PUSH_TITLE": "Push Notifications",
         "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
@@ -14,9 +32,17 @@
             "CONNECTED" : "Connected to Facebook"
         },
         "ADD_TEAM": "Add Team",
-        "NOT_AVAILABLE": "Not Available"
+        "NOT_AVAILABLE": "Not Available",
+        "LANGUAGE_SEARCH_HELPER" : "Find your language",
+        "TEAM_SEARCH_HELPER" : "Find your team"
+    },
+    "EMPTY_STATES" : {
+        "LIVE" : "There are no games for today"
     },
     "LANGUAGE" : {
-        "PT" : "Portuguese"
-    }
+        "PT" : "Portuguese",
+        "EN" : "English",
+        "ES" : "Spanish"
+    },
+    "LOADING" : "Loading"
 }

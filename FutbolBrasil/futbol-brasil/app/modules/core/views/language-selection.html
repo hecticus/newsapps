@@ -4,7 +4,7 @@
             <div class="form-group well search-bar">
                 <div class="input-group">
                     <input type="text" class="form-control"
-                           placeholder="Find your Language" ng-model="searchQuery">
+                           placeholder="{{'SETTINGS.LANGUAGE_SEARCH_HELPER' | translate}}" ng-model="searchQuery">
                     <span class="input-group-addon">
                         <i class="icon mdi-action-search" style="font-size:1.8em;"></i>
                     </span>
@@ -24,7 +24,7 @@
                             <i class="lang-tag">{{language.short_name | uppercase}}</i>
                         </div>
                         <div class="row-content" style="margin-top: 5px;">
-                            <h6 class="list-group-item-heading">{{language.name}}</h6>
+                            <h6 class="list-group-item-heading">{{language.translation}}</h6>
                         </div>
                     </div>
                     <div class="list-group-separator"></div>

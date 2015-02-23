@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .directive('menuItem', ['$rootScope', '$state',
-        function($rootScope, $state) {
+    .directive('menuItem', ['$rootScope',
+        function($rootScope) {
             return {
                 restrict: "E",
                 templateUrl: 'modules/core/views/templates/menu-item.html',

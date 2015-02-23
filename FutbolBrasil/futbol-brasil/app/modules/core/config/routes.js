@@ -141,7 +141,7 @@ angular
                     prev: 'points',
                     next: 'leaderboard',
                     contentClass: 'content-prediction',
-                    section: 'palpites'
+                    section: 'bets'
                 }
             })
             .state('leaderboard', {
@@ -152,7 +152,7 @@ angular
                     prev: 'prediction',
                     next: 'friends',
                     contentClass: 'content-leaderboard',
-                    section: 'palpites'
+                    section: 'bets'
                 }
             })
             .state('friends', {
@@ -163,7 +163,7 @@ angular
                     prev: 'leaderboard',
                     next: 'points',
                     contentClass: 'content-friends',
-                    section: 'palpites'
+                    section: 'bets'
                 }
             })
             .state('points', {
@@ -174,7 +174,7 @@ angular
                     prev: 'friends',
                     next: 'prediction',
                     contentClass: 'content-points',
-                    section: 'palpites'
+                    section: 'bets'
                 }
             });
     }

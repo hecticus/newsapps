@@ -84,7 +84,7 @@ angular
                     if(!!$window.StatusBar){
                         StatusBar.hide();
                     }else{
-                        console.log('$window.StatusBar Object not available');
+                        console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                     }
 
                     Settings.init();
@@ -93,7 +93,7 @@ angular
                     if (CordovaDevice.phonegapIsOnline()) {
                         WebManager.loadServerConfigs(
                             function(){
-                                console.log("loadServerConfigs successCallback. Starting PushManager");
+//                                console.log("loadServerConfigs successCallback. Starting PushManager");
                                 PushManager.init();
                             }, function(){
                                 console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
@@ -109,8 +109,8 @@ angular
                 },
 
                 startApp : function (isActive, status){
-                    console.log("startApp. Starting App: Client Active: " + isActive
-                        + ". Client Status: " + status);
+//                    console.log("startApp. Starting App: Client Active: " + isActive
+//                        + ". Client Status: " + status);
                 },
                 errorStartApp : function (){
                     console.log("errorStartApp. Error. Couldn't Start Application");
@@ -122,7 +122,7 @@ angular
                             App.setBundleVersion(result);
                         });
                     }else{
-                        console.log('$window.wizUtils Object not available');
+                        console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                     }
                 },
 

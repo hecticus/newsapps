@@ -15,9 +15,14 @@ angular
                  Settings, Utilities, Client) {
             $scope.vScroll = null;
 
+            $scope.strings = {
+                ADD_TEAM : '',
+                NOT_AVAILABLE : ''
+            };
+
             $scope.fbObject = {
                 fbStatus: null,
-                fbButtonMsg: $scope.strings.CONNECT_FACEBOOK
+                fbButtonMsg: ''
             };
 
             $scope.lang = '';
@@ -152,18 +157,28 @@ angular
             $scope.getClientLanguage = function(){
                 $scope.lang = Client.getLanguage();
                 if($scope.lang){
+                    //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
-                    $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
-                        $scope.lang.translation = translation;
+                    $translate.use($scope.lang.short_name.toLowerCase());
+                    $translate.refresh().then(function(){
+                        $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
+                            //noinspection JSPrimitiveTypeWrapperUsage
+                            $scope.lang.translation = translation;
                         });
+                    });
                 } else {
                     $scope.lang = {};
+                    //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.translation =  'No Language Selected';
                 }
             };
 
             $scope.init = function(){
                 $scope.setUpIScroll();
+                $translate(['SETTINGS.ADD_TEAM', 'SETTINGS.NOT_AVAILABLE']).then(function(translations){
+                    $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
+                    $scope.strings.NOT_AVAILABLE = translations['SETTINGS.NOT_AVAILABLE'];
+                });
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
                 $scope.getStatus();

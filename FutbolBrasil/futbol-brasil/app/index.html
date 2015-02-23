@@ -48,10 +48,9 @@
                            ng-class="getDrawerIcon()"
                            ng-click="runBackButton()"></i>
                         <span class="drawer-title" ng-cloak>
-                            <img ng-click="showMenu()" src="img/logo.svg" onerror="this.src='img/logo.png'"
-                                  style="width: auto; height: 30px;  position: relative;
-                                  vertical-align: middle;"/>
-                            {{strings.MENU_NOTISTATS}}
+                            <img class="drawer-app-logo" src="img/logo.svg"
+                                 ng-click="showMenu()" onerror="this.src='img/logo.png'"/>
+                            {{sectionTranslation}}
                         </span>
                     </div>
                     <div class="col-xs-2">
@@ -65,76 +64,76 @@
         </nav>
     </div>
 
-    <div ui-view >
-    </div>
+    <div ui-view ></div>
 
     <loading></loading>
     <error></error>
-    <menu ng-cloak="">
-        <menu-item section="news" icon="mdi-action-label">{{strings.MENU_NOTISTATS}}</menu-item>
-        <menu-item section="prediction" icon="mdi-action-event">{{strings.MENU_BETS}}</menu-item>
-        <menu-item section="settings" icon="mdi-action-settings">{{strings.MENU_SETTINGS}}</menu-item>
+    <menu ng-cloak>
+        <menu-item section="news" icon="mdi-action-label">{{'SECTIONS.NOTISTATS' | translate}}</menu-item>
+        <menu-item section="prediction" icon="mdi-action-event">{{'SECTIONS.BETS' | translate}}</menu-item>
+        <menu-item section="settings" icon="mdi-action-settings">{{'SECTIONS.SETTINGS' | translate}}</menu-item>
     </menu>
 
-
     <div class="row">
-        <footer class="footer">
-            <div data-section="news" class="row section" ng-class="{active: section === 'notistats', hide: section !== 'notistats'}">
+        <footer class="footer" ng-hide="section === 'settings'">
+            <div data-section="notistats" class="row"
+                 ng-class="{active: section === 'notistats', hide: section !== 'notistats'}">
                 <div class="col-xs-15 option" ui-sref-active="active">
                     <a ui-sref="match">
                         <span class="icon-balon"></span>
-                        <span class="glyphicon-class">Partidas</span>
+                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.MATCHES</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active">
                     <a ui-sref="standings">
                         <span class="icon-tabela"></span>
-                        <span class="glyphicon-class">Tabela</span>
+                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.STANDINGS</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active" >
                     <a ui-sref="news">
                         <span class="icon-noticias"></span>
-                        <span class="glyphicon-class">Noticias</span>
+                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.NEWS</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active" >
                     <a ui-sref="scorers">
                         <span class="icon-artilharia"></span>
-                        <span class="glyphicon-class">Artilharia</span>
+                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.SCORERS</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active" >
                     <a ui-sref="mtm">
                         <span class="icon-envivo"></span>
-                        <span class="glyphicon-class">En Vivo</span>
+                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.LIVE</span>
                     </a>
                 </div>
             </div>
 
-            <div data-section="prediction" class="row section" ng-class="{active: section === 'palpites', hide: section !== 'palpites'}">
+            <div data-section="bets" class="row"
+                 ng-class="{active: section === 'bets', hide: section !== 'bets'}">
                 <div class="col-xs-3 option" ui-sref-active="active">
                     <a ui-sref="prediction">
                         <span class="icon-balon"></span>
-                        <span class="glyphicon-class">Predicciones</span>
+                        <span class="glyphicon-class" translate>SECTIONS.BETS.PREDICTIONS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
                     <a ui-sref="leaderboard">
                         <span class="icon-tabela"></span>
-                        <span class="glyphicon-class">Leaderboards</span>
+                        <span class="glyphicon-class" translate>SECTIONS.BETS.LEADERBOARDS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
                     <a ui-sref="friends">
                         <span class="icon-artilharia"></span>
-                        <span class="glyphicon-class">Friends</span>
+                        <span class="glyphicon-class" translate>SECTIONS.BETS.FRIENDS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
                     <a ui-sref="points">
                         <span class="icon-puntos"></span>
-                        <span class="glyphicon-class">Puntos</span>
+                        <span class="glyphicon-class" translate>SECTIONS.BETS.POINTS</span>
                     </a>
                 </div>
             </div>

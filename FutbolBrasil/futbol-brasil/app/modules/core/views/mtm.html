@@ -6,7 +6,7 @@
 <div id="wrapper">
     <div class="scroller">
         <div class="container" >
-            <div class="row">
+            <div class="row" ng-show="hasGamesForToday">
                 <div class="col-xs-12">
                     <table class="table" ng-repeat="league in item.leagues">
                         <thead>
@@ -43,6 +43,14 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="row" ng-hide="hasGamesForToday">
+                <div class="col-xs-12">
+                    <div class="no-content-panel">
+                        <i class="mdi-action-info-outline"></i>
+                        <div class="no-content-panel-title" translate>EMPTY_STATES.LIVE</div>
+                    </div>
                 </div>
             </div>
         </div>

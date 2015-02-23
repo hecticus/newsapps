@@ -18,19 +18,6 @@ angular
                             config.headers = $.extend(config.headers, WebManager.getHeaders());
                             return config;
                         }
-    //                    ,response: function (response) {
-    //                        if (response.status == 200
-    //                            && response.headers('Content-Type').indexOf('application/json')!=-1
-    //                            && response.data.hasOwnProperty('key')
-    //                            && response.data.key === 'AuthorizationFailure'){
-    //                            var Auth = Auth || $injector.get('Auth');
-    //                            console.log('Auth Interceptor triggered, invalidating session: ');
-    //                            console.log(response.data);
-    //                            Auth.invalidateSession();
-    //                            return $q.reject(response);
-    //                        }
-    //                        return response || $q.when(response);
-    //                    }
                     };
                 }
             ]);
@@ -44,7 +31,7 @@ angular
             $translateProvider.usePostCompiling(true);
         }
     ])
-    .run(function($rootScope, $localStorage, $state, CordovaApp, ClientManager, Client) {
+    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client) {
         CordovaApp.init();
         $rootScope.contentClass = 'content-init';
         $rootScope.$storage = $localStorage.$default({
@@ -83,7 +70,10 @@ angular
 
         $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
             $rootScope.section = !!toState.data.section ? toState.data.section : '';
-            if (toState.data.contentClass){
+            $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
+                $rootScope.sectionTranslation = translate;
+            });
+            if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }
         });
