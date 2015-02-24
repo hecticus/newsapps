@@ -3,6 +3,14 @@
 
 # --- !Ups
 
+create table actions (
+  id_action                 integer auto_increment not null,
+  name                      varchar(255),
+  msg                       varchar(255),
+  ext_id                    integer,
+  constraint pk_actions primary key (id_action))
+;
+
 create table clients (
   id_client                 integer auto_increment not null,
   user_id                   varchar(255),
@@ -240,6 +248,8 @@ alter table users_user_permission add constraint fk_users_user_permission_user_p
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
+
+drop table actions;
 
 drop table clients;
 

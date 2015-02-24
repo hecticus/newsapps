@@ -20,14 +20,16 @@ public class LeaderboardGlobal extends HecticusModel{
     @OneToOne
     @JoinColumn(name = "id_client")
     private Client client;
-
+    @Constraints.Required
+    private Integer idTournament;
     private Integer score;
 
     public static Finder<Integer, LeaderboardGlobal> finder = new Finder<Integer, LeaderboardGlobal>(Integer.class, LeaderboardGlobal.class);
 
-    public LeaderboardGlobal(Client client, Integer score) {
+    public LeaderboardGlobal(Client client, Integer idTournament, Integer score) {
         this.client = client;
         this.score = score;
+        this.idTournament = idTournament;
     }
 
     public static LeaderboardGlobal getLeaderboardByClient(Integer idClient){
@@ -58,11 +60,20 @@ public class LeaderboardGlobal extends HecticusModel{
         this.score = score;
     }
 
+    public Integer getIdTournament() {
+        return idTournament;
+    }
+
+    public void setIdTournament(Integer idTournament) {
+        this.idTournament = idTournament;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode objNode = Json.newObject();
         objNode.put("id_leaderboard_global",idLeaderboardGlobal);
         objNode.put("client", client.toJsonWithoutRelations());
+        objNode.put("id_tournament", idTournament);
         objNode.put("score", score);
         return objNode;
     }
@@ -70,6 +81,7 @@ public class LeaderboardGlobal extends HecticusModel{
     public ObjectNode toJsonClean() {
         ObjectNode objNode = Json.newObject();
         objNode.put("id_leaderboard_global",idLeaderboardGlobal);
+        objNode.put("id_tournament", idTournament);
         objNode.put("score", score);
         return objNode;
     }

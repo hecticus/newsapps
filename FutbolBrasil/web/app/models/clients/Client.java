@@ -1,6 +1,8 @@
 package models.clients;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
 import models.basic.Country;
 import models.basic.Language;
@@ -11,13 +13,11 @@ import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.libs.F;
 import play.libs.Json;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by plesse on 9/30/14.
@@ -56,10 +56,12 @@ public class Client extends HecticusModel {
     private List<ClientHasPushAlerts> pushAlerts;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
+    @OrderBy("idTournament asc, idPhase asc")
     private List<Leaderboard> leaderboards;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
-    private LeaderboardGlobal leaderboardGlobal;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
+    @OrderBy("idTournament asc, score desc")
+    private List<LeaderboardGlobal> leaderboardGlobal;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientBets> clientBets;
@@ -182,11 +184,11 @@ public class Client extends HecticusModel {
         this.leaderboards = leaderboards;
     }
 
-    public LeaderboardGlobal getLeaderboardGlobal() {
+    public List<LeaderboardGlobal> getLeaderboardGlobal() {
         return leaderboardGlobal;
     }
 
-    public void setLeaderboardGlobal(LeaderboardGlobal leaderboardGlobal) {
+    public void setLeaderboardGlobal(List<LeaderboardGlobal> leaderboardGlobal) {
         this.leaderboardGlobal = leaderboardGlobal;
     }
 
@@ -241,6 +243,56 @@ public class Client extends HecticusModel {
         return betsMap;
     }
 
+    public Leaderboard getLeaderboard(final int idTournament, final int idPhase){
+        Leaderboard tr = null;
+        try {
+            tr = Iterables.find(leaderboards, new Predicate<Leaderboard>() {
+                public boolean apply(Leaderboard obj) {
+                    return obj.getIdTournament().intValue() ==  idTournament && obj.getIdPhase().intValue() == idPhase;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public void addLeaderboard(final Leaderboard leaderboard){
+        Leaderboard tr = null;
+        try {
+            tr = Iterables.find(leaderboards, new Predicate<Leaderboard>() {
+                public boolean apply(Leaderboard obj) {
+                    return (obj.getIdTournament().intValue() == leaderboard.getIdTournament()) && (obj.getIdPhase().intValue() == leaderboard.getIdTournament());
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+
+        if(tr != null){
+            leaderboards.remove(tr);
+        }
+        leaderboards.add(leaderboard);
+    }
+
+    public LeaderboardGlobal getLeaderboardGlobal(final int idTournament){
+        LeaderboardGlobal tr = null;
+        try {
+            tr = Iterables.find(leaderboardGlobal, new Predicate<LeaderboardGlobal>() {
+                public boolean apply(LeaderboardGlobal obj) {
+                    return obj.getIdTournament().intValue() ==  idTournament;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public void addLeaderboardGlobal(LeaderboardGlobal newLeaderboardGlobal) {
+        leaderboardGlobal.add(newLeaderboardGlobal);
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -281,9 +333,13 @@ public class Client extends HecticusModel {
         }
         response.put("leaderboards", Json.toJson(leaderBoard));
 
-        if(leaderboardGlobal != null) {
-            response.put("leaderbooard_global", leaderboardGlobal.toJsonClean());
+        ArrayList<ObjectNode> leaderBoardGlobal = new ArrayList<>();
+        if(leaderboardGlobal != null && !leaderboardGlobal.isEmpty()){
+            for(LeaderboardGlobal ad : leaderboardGlobal){
+                leaderBoardGlobal.add(ad.toJsonClean());
+            }
         }
+        response.put("leaderboard_global", Json.toJson(leaderBoardGlobal));
 
         return response;
     }
@@ -316,4 +372,6 @@ public class Client extends HecticusModel {
         response.put("ios", Json.toJson(ios));
         return response;
     }
+
+
 }

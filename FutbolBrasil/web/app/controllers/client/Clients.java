@@ -11,6 +11,7 @@ import models.clients.Client;
 import models.clients.ClientHasDevices;
 import models.clients.Device;
 import models.leaderboard.ClientBets;
+import models.leaderboard.Leaderboard;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
@@ -556,7 +557,7 @@ public class Clients extends HecticusController {
                 Map<Integer, ObjectNode> betsMap = new HashMap<>();
                 StringBuilder matchesRequest = new StringBuilder();
                 matchesRequest.append("http://").append(Config.getFootballManagerHost()).append("/footballapi/v1/matches/get/ids/").append(Config.getInt("football-manager-id-app")).append("?");
-                int idTournament = -1, idGameMatch = -1, clientBet = -1;
+                int idTournament = -1, idPhase = -1, idGameMatch = -1, clientBet = -1;
                 ClientBets clientBets = null;
                 while(bets.hasNext()){
                     JsonNode bet = bets.next();
@@ -585,6 +586,7 @@ public class Clients extends HecticusController {
                         if (betsMap.containsKey(idGameMatch)) {
                             ObjectNode betElement = betsMap.get(idGameMatch);
                             idTournament = betElement.get("id_tournament").asInt();
+                            idPhase = match.get("phase").asInt();
                             idGameMatch = betElement.get("id_game_match").asInt();
                             clientBet = betElement.get("client_bet").asInt();
                             String dateText = match.get("date").asText();
@@ -596,7 +598,7 @@ public class Clients extends HecticusController {
                                     clientBets.setClientBet(clientBet);
                                     client.addClientBet(clientBets);
                                 } else {
-                                    clientBets = new ClientBets(client, idTournament, idGameMatch, clientBet);
+                                    clientBets = new ClientBets(client, idTournament, idPhase, idGameMatch, clientBet);
                                     client.addClientBet(clientBets);
                                 }
                             }
@@ -752,6 +754,44 @@ public class Clients extends HecticusController {
         }
     }
 
+    public static Result getLeaderboardForClient(Integer idClient, Integer idTournament, Integer idPhase){
+        try {
+            ObjectNode response = null;
+            ObjectNode responseData = Json.newObject();
+            Client client = Client.finder.byId(idClient);
+            if(client != null){
+                int leaderboardSize = Config.getInt("leaderboard-size");
+                Leaderboard clientLeaderboard = null;
+                List<Leaderboard> leaderboards = null;
+                if(idPhase > 0) {
+                    leaderboards = Leaderboard.finder.where().eq("idTournament", idTournament).eq("idPhase", idPhase).orderBy("score desc").findList();
+                    clientLeaderboard = client.getLeaderboard(idTournament, idPhase);
+                    if(leaderboards != null && !leaderboards.isEmpty()) {
+                        int index = leaderboards.indexOf(clientLeaderboard);
+                        ArrayList<ObjectNode> leaderboardsJson = new ArrayList<>();
+                        for(int i = 0; i < leaderboardSize; ++i){
+                            leaderboardsJson.add(leaderboards.get(i).toJsonSimple());
+                        }
+                        ObjectNode clientLeaderboardJson = clientLeaderboard.toJsonSimple();
+                        clientLeaderboardJson.put("index", index);
+                        responseData.put("leaderboard", Json.toJson(leaderboardsJson));
+                        responseData.put("client", clientLeaderboardJson);
+                        response = buildBasicResponse(0, "OK", responseData);
+                    } else {
+                        response = buildBasicResponse(3, "leaderboard vacio");
+                    }
+                } else {
+
+                }
+            } else {
+                response = buildBasicResponse(2, "no existe el cliente");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
 
 
 

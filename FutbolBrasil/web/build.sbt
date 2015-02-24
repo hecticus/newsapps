@@ -15,6 +15,7 @@ val appDependencies = Seq(
   	cache,
   	javaWs,  
   	"mysql" % "mysql-connector-java" % "5.1.26",
+  	"com.google.guava" % "guava" % "15.0",
 	"net.vz.mongodb.jackson" %% "play-mongo-jackson-mapper" % "1.1.0",
 	"org.apache.commons" % "commons-io" % "1.3.2",
 	"org.apache.jclouds.driver" % "jclouds-slf4j" % "1.8.0",

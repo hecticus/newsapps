@@ -80,6 +80,8 @@ GET     /futbolbrasil/v1/clients/alerts/:id                                 cont
 GET     /futbolbrasil/v1/clients/bets/get/:idClient                         controllers.client.Clients.getBets(idClient : Integer)
 POST    /futbolbrasil/v1/clients/bets/create/:idClient                      controllers.client.Clients.createBet(idClient : Integer)
 
+GET     /futbolbrasil/v1/clients/leaderboard/get/:idClient/:idTournament/:idPhase                         controllers.client.Clients.getLeaderboardForClient(idClient : Integer, idTournament : Integer, idPhase : Integer)
+
 #Clients PMC
 GET     /futbolbrasil/v1/clients/pmc/get/:id                                controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
 GET     /futbolbrasil/v1/clients/pmc/list/:page/:pageSize                   controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)

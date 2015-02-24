@@ -24,15 +24,18 @@ public class Leaderboard extends HecticusModel{
     private Client client;
     @Constraints.Required
     private Integer idTournament;
+    @Constraints.Required
+    private Integer idPhase;
 
     private Integer score;
 
     public static Model.Finder<Integer, Leaderboard> finder = new Model.Finder<Integer, Leaderboard>(Integer.class, Leaderboard.class);
 
-    public Leaderboard(Client client, Integer idTournament, Integer score) {
+    public Leaderboard(Client client, Integer idTournament, Integer idPhase, Integer score) {
         this.client = client;
         this.idTournament = idTournament;
         this.score = score;
+        this.idPhase = idPhase;
     }
 
     public Long getIdLeaderboard() {
@@ -67,6 +70,14 @@ public class Leaderboard extends HecticusModel{
         this.score = score;
     }
 
+    public Integer getIdPhase() {
+        return idPhase;
+    }
+
+    public void setIdPhase(Integer idPhase) {
+        this.idPhase = idPhase;
+    }
+
     public static Leaderboard getLeaderboardByClientAndTournament(Integer idClient, Integer idTournament){
         return finder.where().eq("id_client", idClient).eq("id_tournament",idTournament).findUnique();
     }
@@ -89,6 +100,13 @@ public class Leaderboard extends HecticusModel{
         ObjectNode objNode = Json.newObject();
         objNode.put("id_leaderboard",idLeaderboard);
         objNode.put("id_tournament", idTournament);
+        objNode.put("score", score);
+        return objNode;
+    }
+
+    public ObjectNode toJsonSimple() {
+        ObjectNode objNode = Json.newObject();
+        objNode.put("client", client.getLogin());
         objNode.put("score", score);
         return objNode;
     }

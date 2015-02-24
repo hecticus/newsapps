@@ -24,6 +24,8 @@ public class ClientBets extends HecticusModel{
     @Constraints.Required
     private Integer idTournament;
     @Constraints.Required
+    private Integer idPhase;
+    @Constraints.Required
     private Integer idGameMatch;
 
     private Integer clientBet;
@@ -31,17 +33,19 @@ public class ClientBets extends HecticusModel{
 
     public static Finder<Integer, ClientBets> finder = new Finder<Integer, ClientBets>(Integer.class, ClientBets.class);
 
-    public ClientBets(Client client, Integer idTournament, Integer idGameMatch, Integer clientBet, Integer status) {
+    public ClientBets(Client client, Integer idTournament, Integer idPhase, Integer idGameMatch, Integer clientBet, Integer status) {
         this.client = client;
         this.idTournament = idTournament;
+        this.idPhase = idPhase;
         this.idGameMatch = idGameMatch;
         this.clientBet = clientBet;
         this.status = status;
     }
 
-    public ClientBets(Client client, Integer idTournament, Integer idGameMatch, Integer clientBet) {
+    public ClientBets(Client client, Integer idTournament, Integer idPhase, Integer idGameMatch, Integer clientBet) {
         this.client = client;
         this.idTournament = idTournament;
+        this.idPhase = idPhase;
         this.idGameMatch = idGameMatch;
         this.clientBet = clientBet;
         this.status = 0;
@@ -95,6 +99,14 @@ public class ClientBets extends HecticusModel{
         this.status = status;
     }
 
+    public Integer getIdPhase() {
+        return idPhase;
+    }
+
+    public void setIdPhase(Integer idPhase) {
+        this.idPhase = idPhase;
+    }
+
     public static ClientBets getClientBetForMatch(Integer idClient, Integer idTournament, Integer idGameMatch){
         return finder.where().eq("id_client", idClient).eq("id_tournament", idTournament).eq("id_game_match", idGameMatch).findUnique();
     }
@@ -113,6 +125,7 @@ public class ClientBets extends HecticusModel{
         objNode.put("id_client_bets",idClientBets);
         objNode.put("client", client.toJsonWithoutRelations());
         objNode.put("id_tournament", idTournament);
+        objNode.put("id_phase", idPhase);
         objNode.put("id_game_match", idGameMatch);
         objNode.put("client_bet", clientBet);
         objNode.put("status", status);
