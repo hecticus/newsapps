@@ -749,6 +749,25 @@ body.content-mtm .row-back {
     border-top: solid 1pt #2B2B2B !important;
 }
 
+/*Standings*/
+
+.row-standings-header {
+    position: absolute;
+    z-index: 4;
+    top: 50px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #DFC502;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
 /*No Content "Component"*/
 
 .no-content-panel {
