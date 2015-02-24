@@ -9,9 +9,7 @@ import org.h2.tools.Server;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.*;
 
 /**
@@ -28,15 +26,16 @@ public class Job extends HecticusModel {
     private String className;
     private String name;
     private String params;
-    private Integer idApp;
+    @ManyToOne
+    @JoinColumn(name = "id_app")
+    private Apps app;
     private Long nextTimestamp;
     private String time;
     private String timeParams;
     private Integer frequency;
     private boolean daemon;
 
-    private static Model.Finder<Long,Job> finder =
-            new Model.Finder<Long, Job>(Long.class, Job.class);
+    private static Model.Finder<Long,Job> finder = new Model.Finder<Long, Job>(Long.class, Job.class);
 
     @Override
     public ObjectNode toJson() {
@@ -46,7 +45,7 @@ public class Job extends HecticusModel {
         tr.put("className", className);
         tr.put("name",name);
         //params
-        tr.put("idApp",idApp);
+        tr.put("idApp",app.toJson());
         return tr;
     }
 
@@ -281,12 +280,12 @@ public class Job extends HecticusModel {
         this.params = params;
     }
 
-    public Integer getIdApp() {
-        return idApp;
+    public Apps getApp() {
+        return app;
     }
 
-    public void setIdApp(Integer idApp) {
-        this.idApp = idApp;
+    public void setApp(Apps app) {
+        this.app = app;
     }
 
     public Long getNextTimestamp() {

@@ -1,10 +1,13 @@
 package backend;
 
 import akka.actor.Cancellable;
+import models.Apps;
 import models.Config;
 import models.Job;
 import utils.Utils;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OptimisticLockException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,7 +25,9 @@ public abstract class HecticusThread implements Runnable {
     private long actTime;
     private boolean active;
     private Map params;
-    private int idApp;
+    @ManyToOne
+    @JoinColumn(name = "id_app")
+    private Apps app;
     private Cancellable cancellable;
     private Job job;
 
@@ -199,11 +204,15 @@ public abstract class HecticusThread implements Runnable {
     }
 
     public int getIdApp() {
-        return idApp;
+        return app.getIdApp();
     }
 
-    public void setIdApp(int idApp) {
-        this.idApp = idApp;
+    public Apps getApp() {
+        return app;
+    }
+
+    public void setApp(Apps app) {
+        this.app = app;
     }
 
     public void markAsFinished(){

@@ -31,9 +31,7 @@ angular
                 }
             },
 
-            competitions: function () {
-                return football_manager_url + 'footballapi/v1/competitions/list/1';
-            },
+            competitions: football_manager_url + 'footballapi/v1/competitions/list/1',
 
             news: {
                 index: function () {
@@ -72,9 +70,8 @@ angular
                 return football_manager_url + 'footballapi/v1/players/competitions/scorers/1';
                           },
 
-            match: function (_date, _limit, _page) {
-                return football_manager_url + 'footballapi/v1/matches/date/paged/1/' + _date
-                    + '?pageSize=' + _limit + '&page=' + _page;
+            match: function (_date) {
+                return football_manager_url + 'footballapi/v1/matches/date/paged/1/' + _date;
             },
 
             mtm: function (_competition, _game, _event) {
@@ -82,12 +79,10 @@ angular
             },
 
             bets: {
-                get: function () {
-                  return brazil_football_manager_url + 'futbolbrasil/v1/clients/bets/get/1';
-                },
-                create:  function () {
-                  return brazil_football_manager_url + 'futbolbrasil/v1/clients/bets/create/1';
-                }
-            }
+                get: brazil_football_manager_url + 'futbolbrasil/v1/clients/bets/get/1',
+                create:  brazil_football_manager_url + 'futbolbrasil/v1/clients/bets/create/1'
+            },
+
+            languages: brazil_football_manager_url + 'futbolbrasil/v1/languages'
         };
     });

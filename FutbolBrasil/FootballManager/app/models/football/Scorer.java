@@ -34,7 +34,9 @@ public class Scorer extends HecticusModel {
 
     private String externalId;
 
-    private Long idCompetition;
+    @ManyToOne
+    @JoinColumn(name = "id_competition")
+    private Competition comp;
     private String date;
 
     private static Model.Finder<Long,Scorer> finder =
@@ -42,7 +44,7 @@ public class Scorer extends HecticusModel {
 
     public Scorer(String name, String fullName, String nickname, Team team, Integer goals, Integer byplay,
                   Integer header, Integer freeKick, Integer penalty, Countries country, String externalId,
-                  Long idCompetition, String date) {
+                  Competition comp, String date) {
         this.name = name;
         this.fullName = fullName;
         this.nickname = nickname;
@@ -54,7 +56,7 @@ public class Scorer extends HecticusModel {
         this.penalty = penalty;
         this.country = country;
         this.externalId = externalId;
-        this.idCompetition = idCompetition;
+        this.comp = comp;
         this.date = date;
     }
 
@@ -73,7 +75,7 @@ public class Scorer extends HecticusModel {
         tr.put("freeKick",freeKick);
         tr.put("penalty",penalty);
         //tr.put("idCountry",idCountry); //country info
-        tr.put("idCompetition", idCompetition);
+        tr.put("idCompetition", comp.getIdCompetitions());
         tr.put("externalId",externalId);
         return tr;
     }
@@ -90,15 +92,15 @@ public class Scorer extends HecticusModel {
         return finder.where().eq("id_competition", idCompetition).setFirstRow(page).setMaxRows(pageSize).orderBy("goals desc").findList();
     }
 
-    public static Scorer getScorer(long idCompetition, String externalId){
-        return finder.where().eq("id_competition", idCompetition).eq("external_id", externalId).findUnique();
+    public static Scorer getScorer(Competition competition, String externalId){
+        return finder.where().eq("comp", competition).eq("external_id", externalId).findUnique();
     }
 
     /**
      * funcionn para validar al goleador
      */
     public void validateScorer(){
-        Scorer toValidate = getScorer(this.idCompetition, ""+this.externalId);
+        Scorer toValidate = getScorer(this.comp, ""+this.externalId);
         if (toValidate != null){// if exist have to update
             this.idScorer = toValidate.idScorer;
             this.name = toValidate.name;
@@ -112,7 +114,7 @@ public class Scorer extends HecticusModel {
             this.penalty = toValidate.penalty;
             this.country = toValidate.country;
             this.externalId =toValidate.externalId;
-            this.idCompetition = toValidate.idCompetition;
+            this.comp = toValidate.comp;
             this.date = toValidate.date;
         }else {
             this.save();
@@ -211,12 +213,12 @@ public class Scorer extends HecticusModel {
         this.date = date;
     }
 
-    public Long getIdCompetition() {
-        return idCompetition;
+    public Competition getCompetition() {
+        return comp;
     }
 
-    public void setIdCompetition(Long idCompetition) {
-        this.idCompetition = idCompetition;
+    public void setCompetition(Competition comp) {
+        this.comp = comp;
     }
 
     public Team getTeam() {

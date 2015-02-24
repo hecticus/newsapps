@@ -2,6 +2,7 @@ package controllers.footballapi;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import models.Apps;
 import models.Config;
 import models.football.Competition;
 import models.football.Scorer;
@@ -21,6 +22,7 @@ public class TeamsController  extends HecticusController {
 
     public static Result getTeamsForApp(Integer idApp, Integer pageSize, Integer page){
         try {
+            Apps app = Apps.findId(idApp);
             ObjectNode response = null;
             ArrayList data = new ArrayList();
             ArrayList responseData = new ArrayList();
@@ -28,7 +30,7 @@ public class TeamsController  extends HecticusController {
             if(pageSize == 0){
                 teams = Team.finder.all();
             } else {
-                teams = Team.finder.fetch("competitions").where().eq("competitions.competition.idApp", idApp).orderBy("name asc").setFirstRow(page).setMaxRows(pageSize).findList();
+                teams = Team.finder.fetch("competitions").where().eq("competitions.competition.app", app).orderBy("name asc").setFirstRow(page).setMaxRows(pageSize).findList();
             }
             for(Team team : teams){
                 responseData.add(team.toJsonSimple());

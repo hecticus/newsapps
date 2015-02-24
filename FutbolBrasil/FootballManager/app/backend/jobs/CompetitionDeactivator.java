@@ -2,7 +2,6 @@ package backend.jobs;
 
 import akka.actor.Cancellable;
 import backend.HecticusThread;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Apps;
 import models.Config;
 import models.football.Competition;
@@ -11,7 +10,6 @@ import models.football.Phase;
 import utils.DateAndTime;
 import utils.Utils;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -55,7 +53,7 @@ public class CompetitionDeactivator  extends HecticusThread {
                 Collections.sort(competitions, new CompetitionsComparator());
                 for(int i = 0; i < competitions.size(); ++i){
                     Competition competition = competitions.get(i);
-                    timeZone = Apps.getTimezone(competition.getIdApp());
+                    timeZone = competition.getApp().getTimezone().getTimezone();
                     List<Phase> phases = competition.getPhases();
                     Collections.sort(phases, new PhasesComparator());
                     if(!phases.isEmpty()){

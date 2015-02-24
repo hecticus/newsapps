@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
-        ,'Domain','Utilities',
-        function($http, $rootScope, $scope, $window, $state, $localStorage, Domain, Utilities) {
+        ,'WebManager', 'Domain','Utilities',
+        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager, Domain, Utilities) {
 
             var _limit = 100;
             var _currentPage = 0;
@@ -66,10 +66,14 @@ angular
 
             $scope.init = function(){
                 $rootScope.loading = false;
-
                 angular.forEach($scope.pages, function(_item, _index) {
-                    $http.get(Domain.match(_item.date,_limit,0))
-                        .success(function (data, status, headers, config) {
+
+                    var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                    config.params.pageSize=_limit;
+                    config.params.page = 0;
+
+                    $http.get(Domain.match(_item.date), config)
+                        .success(function (data, status) {
                            $scope.pages[_index].matches = data.response;
                         }).catch(function () {
                             $scope.$emit('error');
@@ -151,8 +155,11 @@ angular
 
                             _index = $scope.pages.length - 1;
 
-                            $http.get(Domain.match($scope.pages[_index].date,_limit,0))
-                              .success(function (data, status, headers, config) {
+                            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                            config.params.pageSize=_limit;
+                            config.params.page = 0;
+                            $http.get(Domain.match($scope.pages[_index].date), config)
+                              .success(function (data, status) {
                                   $scope.pages[_index].matches = data.response;
                                   Utilities.newScroll.vertical($scope.wrapper.getName(_index));
                               }).catch(function () {

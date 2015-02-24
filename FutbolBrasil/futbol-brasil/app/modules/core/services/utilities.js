@@ -138,14 +138,6 @@ angular
 
             },
 
-            errorShareConfigs : function (err){
-                console.log("ERROR errorShareConfigs:"+err);
-            },
-
-            doNothing : function (){
-                //callback vacio para peticiones que no necesitan callback como tal
-            },
-
             newScroll: {
                 horizontal: function (_wrapper) {
 
@@ -171,6 +163,25 @@ angular
                 }
 
                 ,vertical: function (_wrapper) {
+
+                    delete window[_wrapper] ;
+
+                    window[_wrapper] = new IScroll('#' + _wrapper, {
+                        click : true,
+                        preventDefault : true,
+                        bounce : true,
+                        probeType: 2,
+                        preventDefaultException: { tagName:/.*/ }
+                    });
+                    window[_wrapper].on('beforeScrollStart', function () {
+                        this.refresh();
+                    });
+
+                    return window[_wrapper];
+
+                }
+
+                ,verticalForm: function (_wrapper) {
 
                     delete window[_wrapper] ;
 

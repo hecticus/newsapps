@@ -95,7 +95,7 @@ public class ThreadSupervisor extends HecticusThread {
                             jobParams = mapper.readValue(tempParams, LinkedHashMap.class);
                         }
                         j.setName(actual.getName() + "-" + System.currentTimeMillis());
-                        j.setIdApp(actual.getIdApp());
+                        j.setApp(actual.getApp());
                         j.setParams(jobParams);
                         j.setJob(actual);
                         Cancellable cancellable = null;

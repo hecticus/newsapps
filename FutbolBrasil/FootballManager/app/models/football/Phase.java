@@ -2,17 +2,17 @@ package models.football;
 
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
+import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Created by karina on 5/13/14.
@@ -44,8 +44,15 @@ public class Phase extends HecticusModel {
 
     private boolean pushed;
 
-    @OneToMany(mappedBy = "phase")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "phase", cascade = CascadeType.ALL)
     private List<GameMatch> matches;
+
+    @OneToMany(mappedBy = "phase", cascade = CascadeType.ALL)
+    private List<PhaseHasLocalization> localizations;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="phase", cascade = CascadeType.ALL)
+    @OrderBy("points desc, goalDiff desc")
+    private List<Rank> ranks;
 
     private static Model.Finder<Long,Phase> finder = new Model.Finder<Long,Phase>(Long.class,Phase.class);
 
@@ -85,11 +92,61 @@ public class Phase extends HecticusModel {
         return globalName;
     }
 
+    public String getGlobalName(final Language language, final Language defaultLanguage) {
+        PhaseHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                public boolean apply(PhaseHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                    public boolean apply(PhaseHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        if(clientLanguage != null){
+            return clientLanguage.getGlobalName();
+        }
+        return globalName;
+    }
+
     public void setGlobalName(String globalName) {
         this.globalName = globalName;
     }
 
     public String getName() {
+        return name;
+    }
+
+    public String getName(final Language language, final Language defaultLanguage) {
+        PhaseHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                public boolean apply(PhaseHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                    public boolean apply(PhaseHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        if(clientLanguage != null){
+            return clientLanguage.getName();
+        }
         return name;
     }
 
@@ -169,8 +226,24 @@ public class Phase extends HecticusModel {
         this.pushed = pushed;
     }
 
+    public List<PhaseHasLocalization> getLocalizations() {
+        return localizations;
+    }
+
+    public void setLocalizations(List<PhaseHasLocalization> localizations) {
+        this.localizations = localizations;
+    }
+
     public static Phase findById(Long id){
         return finder.byId(id);
+    }
+
+    public List<Rank> getRanks() {
+        return ranks;
+    }
+
+    public void setRanks(List<Rank> ranks) {
+        this.ranks = ranks;
     }
 
     public static Phase findByExtId(Long idExt){
@@ -253,8 +326,6 @@ public class Phase extends HecticusModel {
         return obj;
     }
 
-
-
     public ObjectNode toJsonSimple() {
         ObjectNode obj = Json.newObject();
         obj.put("id_initial_phases",idPhases);
@@ -277,8 +348,68 @@ public class Phase extends HecticusModel {
         return obj;
     }
 
+    public ObjectNode toJsonSimple(final Language language, final Language defaultLanguage) {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_initial_phases",idPhases);
+        obj.put("competition", comp.toJsonSimple(language, defaultLanguage));
+        PhaseHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                public boolean apply(PhaseHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                    public boolean apply(PhaseHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        obj.put("global_name",clientLanguage!=null?clientLanguage.getGlobalName():globalName);
+        obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
+        obj.put("start_date",startDate);
+        obj.put("end_date",endDate);
+        obj.put("ext_id",extId);
+        obj.put("pushed", pushed);
+        return obj;
+    }
 
-    public void validatePhase(){
+    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+        ObjectNode obj = Json.newObject();
+        obj.put("id_phases",idPhases);
+        PhaseHasLocalization clientLanguage = null;
+        try {
+            clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                public boolean apply(PhaseHasLocalization obj) {
+                    return obj.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue();
+                }
+            });
+        } catch (NoSuchElementException e){
+            try {
+                clientLanguage = Iterables.find(localizations, new Predicate<PhaseHasLocalization>() {
+                    public boolean apply(PhaseHasLocalization obj) {
+                        return obj.getLanguage().getIdLanguage().intValue() == defaultLanguage.getIdLanguage().intValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                clientLanguage = null;
+            }
+        }
+        obj.put("global_name",clientLanguage!=null?clientLanguage.getGlobalName():globalName);
+        obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
+        obj.put("start_date",startDate);
+        obj.put("end_date",endDate);
+        obj.put("ext_id",extId);
+        obj.put("pushed", pushed);
+        return obj;
+    }
+
+    public void validate(Language language){
         Phase toValidate = findByExtId(this.extId);
         if (toValidate != null){
             this.idPhases = toValidate.idPhases;
@@ -288,8 +419,17 @@ public class Phase extends HecticusModel {
             this.startDate = toValidate.startDate;
             this.endDate = toValidate.endDate;
             this.extId = toValidate.extId;
+            this.localizations = toValidate.localizations;
         }else {
             this.save();
+        }
+
+        PhaseHasLocalization phaseHasLocalization = new PhaseHasLocalization(this, language, this.globalName, this.name);
+        if(!PhaseHasLocalization.exists(phaseHasLocalization)){
+            System.out.println("no existe " + this.getName() + " " + language.getName());
+            this.localizations.add(phaseHasLocalization);
+            phaseHasLocalization.save();
+            this.update();
         }
     }
 

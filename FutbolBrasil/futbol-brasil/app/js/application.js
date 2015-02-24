@@ -6,37 +6,32 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
-    .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
-        $locationProvider.hashPrefix('!');
-        $httpProvider.defaults.useXDomain = true;
+    .config(['$locationProvider', '$httpProvider', '$translateProvider',
+        function($locationProvider, $httpProvider, $translateProvider) {
+            $locationProvider.hashPrefix('!');
+            $httpProvider.defaults.useXDomain = true;
+            $httpProvider.interceptors.push(['$q', '$location', '$injector',
+                function ($q, $location, $injector) {
+                    return {
+                        request: function (config) {
+                            var WebManager = WebManager || $injector.get('WebManager');
+                            config.headers = $.extend(config.headers, WebManager.getHeaders());
+                            return config;
+                        }
+                    };
+                }
+            ]);
 
-        $httpProvider.interceptors.push(['$q', '$location', '$injector',
-            function ($q, $location, $injector) {
-                return {
-                    request: function (config) {
-                        var WebManager = WebManager || $injector.get('WebManager');
-                        config.headers = $.extend(config.headers, WebManager.getHeaders());
-                        return config;
-                    }
-//                    ,response: function (response) {
-//                        if (response.status == 200
-//                            && response.headers('Content-Type').indexOf('application/json')!=-1
-//                            && response.data.hasOwnProperty('key')
-//                            && response.data.key === 'AuthorizationFailure'){
-//                            var Auth = Auth || $injector.get('Auth');
-//                            console.log('Auth Interceptor triggered, invalidating session: ');
-//                            console.log(response.data);
-//                            Auth.invalidateSession();
-//                            return $q.reject(response);
-//                        }
-//                        return response || $q.when(response);
-//                    }
-                };
-            }
-        ]);
-    }
+            $translateProvider.useStaticFilesLoader({
+                prefix: '../translations/locale-',
+                suffix: '.json'
+            });
+            $translateProvider.preferredLanguage('pt');
+            $translateProvider.use('pt');
+            $translateProvider.usePostCompiling(true);
+        }
     ])
-    .run(function($rootScope, $localStorage, $state, CordovaApp, ClientManager, Client) {
+    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client) {
         CordovaApp.init();
         $rootScope.contentClass = 'content-init';
         $rootScope.$storage = $localStorage.$default({
@@ -49,7 +44,6 @@ angular
 
         $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams) {
             $rootScope.$emit('unload');
-
             if($rootScope.hideMenu) {
                 $rootScope.hideMenu();
             }
@@ -67,7 +61,6 @@ angular
                     }, CordovaApp.errorStartApp);
                 }
 
-
                 $rootScope.isActiveButton = 'active';
             } else {
                 $rootScope.isActiveButton = '';
@@ -76,7 +69,11 @@ angular
         });
 
         $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
-            if (toState.data.contentClass){
+            $rootScope.section = !!toState.data.section ? toState.data.section : '';
+            $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
+                $rootScope.sectionTranslation = translate;
+            });
+            if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }
         });

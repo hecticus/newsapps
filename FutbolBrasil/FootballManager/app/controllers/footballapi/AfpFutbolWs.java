@@ -2,6 +2,7 @@ package controllers.footballapi;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import models.Apps;
 import models.Config;
 import models.football.*;
 import play.libs.Json;
@@ -24,7 +25,8 @@ public class AfpFutbolWs extends HecticusController {
 
     public static Result getCompetition(Integer idApp){
         try {
-            List<Competition> fullList = Competition.getCompetitionsByApp(idApp);
+            Apps app = Apps.findId(idApp);
+            List<Competition> fullList = Competition.getCompetitionsByApp(app);
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()){
                 //i got data

@@ -1,8 +1,8 @@
 package controllers.footballapi;
 
-import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
+import models.Apps;
 import models.Config;
 import models.football.Competition;
 import models.football.Scorer;
@@ -61,33 +61,38 @@ public class PlayersController extends HecticusController {
     public static Result getTopScorersByCompetition(Integer idApp){
         try {
             ObjectNode response = null;
-            ArrayList data = new ArrayList();
-            ArrayList responseData = new ArrayList();
-            List<Team> teams = null;
-            String[] favorites = getFromQueryString("teams[]");
-            if(favorites != null && favorites.length > 0){
-                teams = Team.finder.where().in("idTeams", favorites).findList();
-            }
-            List<Competition> competitionsByApp = null;
-            if(teams != null && !teams.isEmpty()){
-                competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(idApp, teams);
-            }else{
-                competitionsByApp = Competition.getActiveCompetitionsByApp(idApp);
-            }
-            for(Competition competition : competitionsByApp) {
-                List<Scorer> fullList = Scorer.getTournamentScorers(competition.getIdCompetitions());
-                ObjectNode competitionJson = competition.toJsonSimple();
-                if (fullList != null && !fullList.isEmpty()){
-                    //i got data
-                    for (int i = 0; i < fullList.size(); i++){
-                        data.add(fullList.get(i).toJson());
-                    }
-                    competitionJson.put("scorers", Json.toJson(data));
-                    data.clear();
+            Apps app = Apps.findId(idApp);
+            if(app != null) {
+                ArrayList data = new ArrayList();
+                ArrayList responseData = new ArrayList();
+                List<Team> teams = null;
+                String[] favorites = getFromQueryString("teams[]");
+                if (favorites != null && favorites.length > 0) {
+                    teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
-                responseData.add(competitionJson);
+                List<Competition> competitionsByApp = null;
+                if (teams != null && !teams.isEmpty()) {
+                    competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(app, teams);
+                } else {
+                    competitionsByApp = app.getCompetitions();//Competition.getActiveCompetitionsByApp(app);
+                }
+                for (Competition competition : competitionsByApp) {
+                    List<Scorer> fullList = competition.getScorers();//Scorer.getTournamentScorers(competition.getIdCompetitions());
+                    ObjectNode competitionJson = competition.toJsonSimple();
+                    if (fullList != null && !fullList.isEmpty()) {
+                        //i got data
+                        for (int i = 0; i < fullList.size(); i++) {
+                            data.add(fullList.get(i).toJson());
+                        }
+                        competitionJson.put("scorers", Json.toJson(data));
+                        data.clear();
+                    }
+                    responseData.add(competitionJson);
+                }
+                response = hecticusResponse(0, "ok", "leagues", responseData);
+            } else {
+                response = buildBasicResponse(1, "El app " + idApp + " no existe");
             }
-            response = hecticusResponse(0, "ok", "leagues", responseData);
             return ok(response);
         }catch (Exception ex){
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
@@ -97,7 +102,8 @@ public class PlayersController extends HecticusController {
     public static Result getCompetitionTopScorers(Integer idApp, Integer idCompetition, Integer pageSize,Integer page){
         try {
             ObjectNode response = null;
-            Competition competition = Competition.getCompetitionByApp(idApp, idCompetition);
+            Apps app = Apps.findId(idApp);
+            Competition competition = Competition.getCompetitionByApp(app, idCompetition);
             if(competition != null) {
                 ArrayList<ObjectNode> scorers = new ArrayList<>();
                 List<Scorer> tournamentScorers = Scorer.getTournamentScorers(competition.getIdCompetitions(), page, pageSize);
@@ -116,6 +122,7 @@ public class PlayersController extends HecticusController {
 
     public static Result getCompetitionTopScorersForClient(Integer idApp){
         try {
+            Apps app = Apps.findId(idApp);
             int scorersToDeliver = Config.getInt("scorers-to-deliver");
             Map<String, String[]> requestMap = request().queryString();
             String[] teamsArray = requestMap.get("teams[]");
@@ -126,7 +133,7 @@ public class PlayersController extends HecticusController {
                 if(team != null){
                     for(TeamHasCompetition teamHasCompetition : team.getCompetitions()){
                         Competition competition = teamHasCompetition.getCompetition();
-                        if(competition.getIdApp() == idApp && !competitionsIDs.contains(competition.getIdCompetitions())){
+                        if(competition.getApp().getIdApp() == app.getIdApp() && !competitionsIDs.contains(competition.getIdCompetitions())){
                             competitionsIDs.add(teamHasCompetition.getCompetition().getIdCompetitions());
                         }
                     }
@@ -137,9 +144,9 @@ public class PlayersController extends HecticusController {
 
             List<Competition> otherCompetitions = null;
             if(competitionsIDs != null && !competitionsIDs.isEmpty()){
-                otherCompetitions = Competition.getCompetitionsByAppNotIn(idApp, competitionsIDs);
+                otherCompetitions = Competition.getCompetitionsByAppNotIn(app, competitionsIDs);
             } else {
-                otherCompetitions = Competition.getCompetitionsByApp(idApp);
+                otherCompetitions = Competition.getCompetitionsByApp(app);
             }
             if(otherCompetitions != null && !otherCompetitions.isEmpty()){
                 for(Competition competition : otherCompetitions){

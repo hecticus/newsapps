@@ -29,9 +29,10 @@ angular
                 templateUrl:'modules/core/views/login.html',
                 controller:'LoginCtrl as login',
                 data:{
-                  prev: 'login',
-                  next: 'login',
-                  _class: 'content-login'
+                    prev: 'login',
+                    next: 'login',
+                    _class: 'content-login',
+                    section: 'settings'
                 }
             })
             .state('settings', {
@@ -41,7 +42,8 @@ angular
                 data:{
                     prev: 'news',
                     next: 'news',
-                    _class: 'content-settings'
+                    _class: 'content-settings',
+                    section: 'settings'
                 }
             })
             .state('team-selection', {
@@ -49,9 +51,21 @@ angular
                 templateUrl:'modules/core/views/team-selection.html',
                 controller:'TeamSelectionController',
                 data:{
-                    prev: 'login',
+                    prev: 'settings',
                     next: 'news',
-                    _class: 'content-team-selection'
+                    _class: 'content-team-selection',
+                    section: 'settings'
+                }
+            })
+            .state('language-selection', {
+                url: '/language-selection',
+                templateUrl:'modules/core/views/language-selection.html',
+                controller:'LanguageSelectionController',
+                data:{
+                    prev: 'settings',
+                    next: 'news',
+                    _class: 'content-language-selection',
+                    section: 'settings'
                 }
             })
             .state('match', {
@@ -59,9 +73,10 @@ angular
                 controller:'MatchCtrl as _this',
                 templateUrl:'modules/core/views/match.html',
                 data:{
-                  prev: 'mtm',
-                  next: 'standings',
-                  _class: 'content-match'
+                    prev: 'mtm',
+                    next: 'standings',
+                    _class: 'content-match',
+                    section: 'notistats'
                 }
             })
             .state('standings', {
@@ -69,9 +84,10 @@ angular
                 controller:'StandingsCtrl as _this',
                 templateUrl:'modules/core/views/standings.html',
                 data:{
-                  prev: 'match',
-                  next: 'news',
-                  contentClass: 'content-standings'
+                    prev: 'match',
+                    next: 'news',
+                    contentClass: 'content-standings',
+                    section: 'notistats'
                 }
             })
             .state('news', {
@@ -81,7 +97,8 @@ angular
                 data:{
                     prev: 'standings',
                     next: 'scorers',
-                    contentClass: 'content-news'
+                    contentClass: 'content-news',
+                    section: 'notistats'
                 }
             })
 //            .state('news.detail', {
@@ -99,9 +116,10 @@ angular
                 controller:'ScorersCtrl  as _this',
                 templateUrl:'modules/core/views/scorers.html',
                 data:{
-                  prev: 'news',
-                  next: 'mtm',
-                  contentClass: 'content-scorers'
+                    prev: 'news',
+                    next: 'mtm',
+                    contentClass: 'content-scorers',
+                    section: 'notistats'
                 }
             })
             .state('mtm', {
@@ -109,9 +127,10 @@ angular
                 controller:'MtmCtrl',
                 templateUrl:'modules/core/views/mtm.html',
                 data:{
-                  prev: 'scorers',
-                  next: 'match',
-                  contentClass: 'content-mtm'
+                    prev: 'scorers',
+                    next: 'match',
+                    contentClass: 'content-mtm',
+                    section: 'notistats'
                 }
             })
             .state('prediction', {
@@ -119,9 +138,10 @@ angular
                 controller:'PredictionCtrl  as _this',
                 templateUrl:'modules/core/views/prediction.html',
                 data:{
-                  prev: 'points',
-                  next: 'leaderboard',
-                  contentClass: 'content-prediction'
+                    prev: 'points',
+                    next: 'leaderboard',
+                    contentClass: 'content-prediction',
+                    section: 'bets'
                 }
             })
             .state('leaderboard', {
@@ -129,9 +149,10 @@ angular
                 controller:'LeaderboardCtrl  as _this',
                 templateUrl:'modules/core/views/leaderboard.html',
                 data:{
-                  prev: 'prediction',
-                  next: 'friends',
-                  contentClass: 'content-leaderboard'
+                    prev: 'prediction',
+                    next: 'friends',
+                    contentClass: 'content-leaderboard',
+                    section: 'bets'
                 }
             })
             .state('friends', {
@@ -139,9 +160,10 @@ angular
                 controller:'FriendsCtrl  as _this',
                 templateUrl:'modules/core/views/friends.html',
                 data:{
-                  prev: 'leaderboard',
-                  next: 'points',
-                  contentClass: 'content-friends'
+                    prev: 'leaderboard',
+                    next: 'points',
+                    contentClass: 'content-friends',
+                    section: 'bets'
                 }
             })
             .state('points', {
@@ -149,10 +171,11 @@ angular
                 controller:'PointsCtrl  as _this',
                 templateUrl:'modules/core/views/points.html',
                 data:{
-                  prev: 'friends',
-                  next: 'prediction',
-                  contentClass: 'content-points'
+                    prev: 'friends',
+                    next: 'prediction',
+                    contentClass: 'content-points',
+                    section: 'bets'
                 }
             });
-        }
+    }
     ]);

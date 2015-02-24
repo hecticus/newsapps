@@ -6,6 +6,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -23,7 +24,7 @@ public class Countries extends HecticusModel {
     private String name;
     @Constraints.Required
     private Long extId;
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<Venue> venues;
 
     private static Model.Finder<Long,Countries> finder = new Model.Finder<Long,Countries>(Long.class,Countries.class);

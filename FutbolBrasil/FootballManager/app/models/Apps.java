@@ -1,9 +1,17 @@
 package models;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import models.football.*;
 import play.db.ebean.Model;
+import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.TimeZone;
 
 /**
@@ -21,30 +29,45 @@ public class Apps extends HecticusModel {
     private Integer status;
     private Boolean debug;
     private Integer type;
-    private Integer idLanguage;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_language")
+    private Language language;
 
     @OneToOne
     @JoinColumn(name = "id_timezone")
     private Timezone timezone;
 
-    private static Model.Finder<Integer, Apps> finder = new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
+    private List<Competition> competitions;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
+    private List<Job> jobs;
+
+    private static Finder<Integer, Apps> finder = new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
 
     public Apps() {
         //default
     }
 
-    public Apps(Integer idApp, String name, Integer status, Boolean debug, Integer type, Integer idLanguage) {
+    public Apps(Integer idApp, String name, Integer status, Boolean debug, Integer type, Language language) {
         this.idApp = idApp;
         this.name = name;
         this.status = status;
         this.debug = debug;
         this.type = type;
-        this.idLanguage = idLanguage;
+        this.language = language;
     }
 
     @Override
     public ObjectNode toJson() {
-        return null;
+        ObjectNode obj = Json.newObject();
+        obj.put("id_app", idApp);
+        obj.put("name",name);
+        obj.put("status", status);
+        obj.put("language", language.toJson());
+        return obj;
     }
 
     /**************************** GETTERS AND SETTERS ****************************************************/
@@ -89,12 +112,12 @@ public class Apps extends HecticusModel {
         this.type = type;
     }
 
-    public Integer getIdLanguage() {
-        return idLanguage;
+    public Language getLanguage() {
+        return language;
     }
 
-    public void setIdLanguage(Integer idLanguage) {
-        this.idLanguage = idLanguage;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public Timezone getTimezone() {
@@ -105,11 +128,60 @@ public class Apps extends HecticusModel {
         this.timezone = timezone;
     }
 
-    public static TimeZone getTimezone(int idApp){
+    public List<Competition> getCompetitions() {
+        List<Competition> tr;
+        try {
+            Predicate<Competition> validObjs = new Predicate<Competition>() {
+                public boolean apply(Competition obj) {
+                    return obj.getStatus().intValue() == 1;
+                }
+            };
+            Collection<Competition> result = Utils.filterCollection(competitions, validObjs);
+            tr = (List<Competition>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public void setCompetitions(List<Competition> competitions) {
+        this.competitions = competitions;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
+    public Competition getCompetition(final long idCompetition){
+        Competition tr = null;
+        try {
+            tr = Iterables.find(competitions, new Predicate<Competition>() {
+                public boolean apply(Competition obj) {
+                    return obj.getIdCompetitions().longValue() == idCompetition;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    /**************************** FINDER ****************************************************/
+
+    public static TimeZone getTimezone(Integer idApp){
         Apps app = finder.byId(idApp);
         if(app != null){
             return app.getTimezone().getTimezone();
         }
         return TimeZone.getDefault();
+    }
+
+
+    public static Apps findId(Integer id){
+        return finder.byId(id);
     }
 }
