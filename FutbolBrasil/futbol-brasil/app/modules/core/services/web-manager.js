@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('WebManager',['$http', 'CordovaDevice', 'Domain', 'App',
-        function($http, CordovaDevice, Domain, App) {
+    .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain', 'App', 'i18n',
+        function($http, CordovaDevice, TeamsManager, Domain, App, i18n) {
             return {
 
                 /**
@@ -98,10 +98,21 @@ angular
                             App.setCompanyName(response.company_name);
                             App.setBuildVersion(response.build_version);
                             App.setServerVersion(response.server_version);
+                            i18n.setDefaultLanguage(response.default_language);
                             successCallback();
                         }).error(function(){
                             errorCallback();
                         });
+                },
+
+                getFavoritesConfig : function(isFilterActive){
+                    var httpConfig = {params:{}};
+                    if(isFilterActive){
+                        httpConfig.params.teams = TeamsManager.getFavoriteTeams().map(function(elem){
+                            return elem.id_teams;
+                        });
+                    }
+                    return httpConfig;
                 }
             }
     }

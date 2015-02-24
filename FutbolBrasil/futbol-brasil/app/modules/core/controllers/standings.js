@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('StandingsCtrl',  ['$http','$rootScope','$scope','$state','$localStorage','Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, Domain, Utilities) {
-
+    .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', 'Domain', 'WebManager',
+        'TeamsManager', 'Utilities',
+        function($http, $rootScope, $scope, $state, $localStorage, Domain, WebManager, TeamsManager, Utilities) {
             var _scroll;
             var _scroll2;
             var _scroll3;
@@ -22,7 +22,6 @@ angular
             };
 
             $scope.showContentPhases = function(competition) {
-
                 $rootScope.loading = true;
                 $scope.item.ranking = [];
                 $scope.item.phases = [];
@@ -48,36 +47,34 @@ angular
             };
 
             $scope.showContentRanking = function(competition, phase) {
-
-
-
-
                 $scope.$emit('load');
                 $scope.item.phase = false;
                 $scope.item.ranking = [];
+
                 $http.get(Domain.ranking(competition,phase))
-                .success(function (data, status, headers, config) {
-
-
-
+                .success(function (data, status) {
                     $scope.item.tree = data.response.tree;
                     $scope.item.phase = data.response.phase;
                     $scope.item.ranking =  data.response.ranking;
+                    console.log(data.response.ranking);
                     $rootScope.transitionPageBack('#wrapper3', 'left');
                     _scroll3.scrollTo(0,0,0);
-
                 }).catch(function () {
                     $scope.$emit('error');
                 }).finally(function(data) {
                     $scope.$emit('unload');
                 });
-
             };
 
-            $scope.init = function(){
+            $scope.getCompetitions = function(){
+                var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                $http.get(Domain.competitions, config).success(function(obj){
+                    $rootScope.$storage.competitions = JSON.stringify(obj.response);
+                    $scope.item = obj.response;
+                });
+            };
 
-                $scope.item = JSON.parse($rootScope.$storage.competitions);
-
+            $scope.setUpIScroll = function(){
                 _scroll = new IScroll('#wrapper'
                     ,{click:true, preventDefault:true, bounce: true, probeType: 2});
                 _scroll.on('beforeScrollStart', function () {
@@ -93,8 +90,14 @@ angular
                 _scroll3.on('beforeScrollStart', function () {
                     this.refresh();
                 });
+            };
+
+            $scope.init = function(){
+                $scope.setUpIScroll();
+                if($rootScope.$storage.competitions){
+                    $scope.item = JSON.parse($rootScope.$storage.competitions);
+                }
+                $scope.getCompetitions();
             }();
-
-
         }
     ]);

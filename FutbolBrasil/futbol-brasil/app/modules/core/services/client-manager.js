@@ -160,8 +160,8 @@ angular
                 /**
                  * @ngdoc function
                  * @name core.Services.ClientManager#updateRegistrationID
-                 * @description Triggers a Client info update on the server if the local RegId differs from
-                 * the one on the server
+                 * @description Triggers a Client info update on the server if the remote RegId differs from
+                 * local RegId
                  * @methodOf core.Services.ClientManager
                  */
                 updateRegistrationID : function (){

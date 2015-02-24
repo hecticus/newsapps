@@ -17,7 +17,7 @@ a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 #wrapper, #wrapperM{
     position: absolute;
     z-index: 1;
-    top: 50px;
+    top: 90px;
     bottom: 50px;
     left: 0;
     width: 100%;
@@ -25,6 +25,7 @@ a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 
 #wrapperM {
     z-index:9;
+    top: 50px;
     width: 80%;
     left: -80%;
     height: 100%;
@@ -37,31 +38,12 @@ a:active { color: #FFFFFF !important; text-decoration: none  !important; }
 #wrapper2,
 #wrapper3 {
     position: absolute;
-    z-index: 1;
+    z-index: 6;
     top: 50px;
     bottom: 50px;
     left: 0;
     width: 100%;
 }
-
-/*body.content-mtm #wrapper2 {
-    position: absolute;
-    z-index: 3;
-    top: 0px;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}*/
-
-/*#wrapper2,
-#wrapper3 {
-    position: absolute;
-    z-index: 3;
-    top: 0px;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}*/
 
 header, footer {
     position: absolute;
@@ -140,8 +122,6 @@ body.content-mtm #wrapper2 .scroller .container .row div {
     background-color: #ffffff;
 }
 
-
-
 img {
     border-radius : 0 !important;
 }
@@ -164,7 +144,7 @@ footer .section {
     display: none;
 }
 
-footer .section.active {
+footer .section .active {
     display:block;
 }
 
@@ -174,7 +154,6 @@ body.content-match #wrapper .scroller .container .row,
 body.content-standings #wrapper .scroller .container .row   {
     padding: 0 20px !important;
 }
-
 
 body.content-news #wrapper .scroller .container .row .news,
 body.content-match #wrapper .scroller .container .row .competition,
@@ -190,10 +169,7 @@ body.content-news #wrapper .scroller .container .row .news:last-child {border: 0
 body.content-standings #wrapper .scroller .container .row .competition .title,
 body.content-news #wrapper .scroller .container .row .news .title {color:#00102B;}
 
-
-
 body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
-
 
 body.content-news #wrapper2 .scroller .container .row .news:last-child {border: 0 !important;}
 body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
@@ -201,7 +177,6 @@ body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102
 body.content-news #wrapper2 .scroller .container .row .news .moment {
     color:#3B9444;
 }
-
 
 body.content-news #wrapper2 .scroller .container .row .news .body {
     margin-top:20px !important;
@@ -220,8 +195,6 @@ body.content-scorers .competition.active{
     display:block;
 }
 
-
-
 table thead tr th {
     text-align: center;
     color: #ffffff;
@@ -234,8 +207,6 @@ table tbody tr td {
     font-size: 0.8em;
     margin: 0 !important;
 }
-
-
 
 div.header {
     position: absolute;
@@ -256,9 +227,7 @@ div.header {
 div.header .caption {
     text-align: center;
     font-weight: bold;
-    /*text-transform: capitalize;*/
 }
-
 
 div.header .left {
     text-align: right;
@@ -287,7 +256,6 @@ div.header .right {
     right: 0;
     z-index: 8;
 }
-
 
 .loading {
     position: absolute;
@@ -469,12 +437,12 @@ div.header .right {
 
 .row-back {
     position: absolute;
-    z-index: 4;
+    z-index: 9;
     top: 0;
     left:0;
     right:0;
     width: 100%;
-    height: 50px;
+    height: 35px;
     line-height: 50px;
     background-color: #FFFFFF;
     color: #000000;
@@ -593,15 +561,6 @@ body.content-mtm .row-back {
 
 /*menu*/
 
-/* Reemplazado funcion que maneja ng-class en main */
-/*i.back-button {*/
-    /*visibility: hidden;*/
-/*}*/
-
-/*i.back-button.active {*/
-    /*visibility: visible;*/
-/*}*/
-
 .tabs {
     opacity: 0.5;
     /*text-transform: capitalize;*/
@@ -634,6 +593,8 @@ body.content-mtm .row-back {
     right: 16px;
 }
 
+/*Drawer*/
+
 .drawer-icon {
     vertical-align: middle;
     font-size: 2.5em;
@@ -641,8 +602,16 @@ body.content-mtm .row-back {
 
 .drawer-title{
     vertical-align: middle;
-    font-size: 1.2em;
+    font-size: 18px;
     color: #FFF;
+    font-weight: bold;
+}
+
+.drawer-app-logo {
+    width: auto;
+    height: 30px;
+    position: relative;
+    vertical-align: middle;
 }
 
 .icon-white {
@@ -651,4 +620,186 @@ body.content-mtm .row-back {
 
 .btn-orange {
     background-color: #F6921E !important;
+}
+
+.text-center-vertical{
+    vertical-align: middle;
+}
+
+.navbar{
+    margin-bottom: 0;
+}
+
+/*Sections*/
+
+.section-header {
+    line-height: 35px;
+    background-color: #3B9444;
+    color: #FFF;
+}
+
+.section-header .caption{
+    font-weight: bold;
+}
+
+.section-refresh {
+    position: absolute;
+    right: 0;
+    padding: 6px;
+}
+
+.section-refresh .icon {
+    font-size: 2.5em;
+    margin-right: 10px;
+    color: #ffffff !important;
+}
+
+/*Search Lists (Team/Language Selection)*/
+
+.search-bar {
+    margin-bottom: 0 !important;
+}
+
+.search-list-wrapper {
+    top: 125px !important;
+}
+
+.search-list-item {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+/*Settings*/
+
+.settings-wrapper {
+    top: 65px !important;
+    background-color: transparent !important;
+}
+
+/*Settings Language*/
+
+.lang-tag {
+    font-weight: bold;
+    font-style: normal;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 100%;
+    text-align: center;
+    line-height: 56px;
+    font-size: 20px;
+    color: white;
+    width: 56px;
+    height: 56px;
+}
+
+.lang-name {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 16px;
+}
+
+/*News */
+
+.row-news-header {
+    position: absolute;
+    z-index: 4;
+    top: 50px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #3B5CA9;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.news-header .title {
+    margin-top: 0;
+    line-height: 35px;
+    color: #ffffff;
+    font-weight: bold !important;
+}
+
+.row-news-detail-header {
+    position: absolute;
+    z-index: 6;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #3B9444;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.news .moment {
+    color:#3B9444;
+}
+
+.news .body {
+    margin-top:20px !important;
+    padding-top:20px !important;
+    border-top: solid 1pt #2B2B2B !important;
+}
+
+/*Standings*/
+
+.row-standings-header {
+    position: absolute;
+    z-index: 4;
+    top: 50px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #DFC502;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/*No Content "Component"*/
+
+.no-content-panel {
+    color: #777;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 8;
+}
+
+.no-content-panel i{
+    font-size: 6em;
+
+}
+
+.no-content-panel .no-content-panel-title{
+    position: relative;
+    font-size: 24px;
+    text-align: center;
+}
+
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
 }

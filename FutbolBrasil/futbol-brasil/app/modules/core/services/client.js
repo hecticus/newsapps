@@ -7,11 +7,11 @@
  */
 angular
     .module('core')
-    .factory('Client', ['$localStorage',
-        function($localStorage) {
+    .factory('Client', ['$localStorage','$injector',
+        function($localStorage, $injector) {
 
             var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
-            var FILE_KEY_CLIENT_ID = "APPDATACLIENTID";
+            var FILE_KEY_CLIENT = "APPDATACLIENT";
             var FILE_KEY_CLIENT_PUSH_ALERTS = "APPDATACLIENTPUSHALERTS";
             var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
             var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
@@ -24,14 +24,21 @@ angular
             var clientDataSafe = false;
             var clientPassword = "";
             var clientObj = {};
+            var hasFavorites = false;
+            var isFavoritesFilterActive = false;
+            var language = '';
             var currentVersion = 0;
             var localStorage = $localStorage;
 
             var eraseAllConfigs = function (){
-                delete localStorage[FILE_KEY_CLIENT_ID];
+                delete localStorage[FILE_KEY_CLIENT];
                 delete localStorage[FILE_KEY_CLIENT_MSISDN];
                 delete localStorage[FILE_KEY_CLIENT_REGID];
                 delete localStorage[FILE_KEY_CLIENT_DATASAFE];
+            };
+
+            var saveClient = function(){
+                localStorage[FILE_KEY_CLIENT] = JSON.stringify(clientObj);
             };
 
             var saveStoredVersion = function () {
@@ -59,13 +66,19 @@ angular
                     this.checkStoredData();
                     clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
                     if(clientDataSafe){
-                        var clientString = localStorage[FILE_KEY_CLIENT_ID];
+                        var clientString = localStorage[FILE_KEY_CLIENT];
                         if(!!clientString && clientString != ""){
                             clientObj = JSON.parse(clientString);
+                            if(clientObj.language){
+                                language = clientObj.language;
+                            } else {
+                                this.setLanguage($injector.get('i18n').getDefaultLanguage());
+                            }
                             clientId = clientObj.id_client;
+                            isFavoritesFilterActive = clientObj.isFavoritesFilterActive;
                         }
                     }else{
-                        delete localStorage[FILE_KEY_CLIENT_ID];
+                        delete localStorage[FILE_KEY_CLIENT];
                         delete localStorage[FILE_KEY_CLIENT_MSISDN];
                     }
 
@@ -78,7 +91,9 @@ angular
                     clientObj = {
                         id_client : data.id_client,
                         user_id : data.user_id,
-                        login : data.login
+                        login : data.login,
+                        language : language,
+                        isFavoritesFilterActive : isFavoritesFilterActive
                     };
 
                     if(password){
@@ -86,7 +101,8 @@ angular
                         this.markClientAsOk();
                     }
 
-                    localStorage[FILE_KEY_CLIENT_ID] = JSON.stringify(clientObj);
+                    saveClient();
+
                     if(msisdn && msisdn !== ''){
                         localStorage[FILE_KEY_CLIENT_MSISDN] = msisdn;
                     }
@@ -191,6 +207,35 @@ angular
                         eraseAllConfigs();
                     }
                     saveStoredVersion();
+                },
+
+                setHasFavorites: function(value){
+                    hasFavorites = value;
+                },
+
+                getHasFavorites : function(){
+                    return hasFavorites;
+                },
+
+                enableFavoritesFilter: function(value){
+                    isFavoritesFilterActive = value;
+                    clientObj.isFavoritesFilterActive = value;
+                    saveClient();
+                },
+
+                isFavoritesFilterActive : function(){
+                    return isFavoritesFilterActive;
+                },
+
+                setLanguage : function(lang, callback){
+                    language = lang;
+                    clientObj.language = language;
+                    saveClient();
+                    typeof callback === 'function' && callback();
+                },
+
+                getLanguage : function(){
+                    return language;
                 }
 
             };

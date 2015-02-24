@@ -8,11 +8,17 @@
  */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities) {
-
+    .controller('ScorersCtrl',  ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'WebManager', 'Domain','Utilities',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, WebManager, Domain, Utilities) {
 
             $rootScope.$storage.scorers = false;
+
+            $scope.strings = {
+                PLAYER_NAME_LABEL: 'Nome do jogador',
+                TEAM_LABEL: 'Equipe',
+                GOALS_LABEL: 'Goles'
+            };
+
             $scope.wrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
@@ -31,15 +37,25 @@ angular
                 return { 'width': $scope.widthTotal + 'px'}
             };
 
+            $scope.getScorerName = function(scorer){
+                if(scorer.nickname && scorer.nickname != ''){
+                    return scorer.nickname;
+                } else {
+                    return scorer.name;
+                }
+            };
+
             $scope.init = function(){
                 $scope.$emit('load');
                 if ($rootScope.$storage.scorers) {
                     $scope.item = JSON.parse($rootScope.$storage.scorers);
                     $rootScope.error = Utilities.error($scope.item.leagues,'scorers');
                 } else {
-                    $http.get(Domain.scorers())
+                    var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                    $http.get(Domain.scorers(), config)
                         .success(function (data, status, headers, config) {
                             $scope.item =  data.response;
+                            console.log(data.response);
                             $rootScope.$storage.scorers = JSON.stringify(data.response);
                             $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
                         }).catch(function () {
