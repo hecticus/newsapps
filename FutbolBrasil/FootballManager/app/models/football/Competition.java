@@ -413,6 +413,22 @@ public class Competition  extends HecticusModel {
         return tr;
     }
 
+    public List<GameMatch> getMatchesByDate(final String date, int page, int pageSize){
+        List<GameMatch> tr;
+        try {
+            Predicate<GameMatch> validObjs = new Predicate<GameMatch>() {
+                public boolean apply(GameMatch obj) {
+                    return obj.getDate().startsWith(date);
+                }
+            };
+            Collection<GameMatch> result = Utils.filterCollection(matches, validObjs, page, pageSize);
+            tr = (List<GameMatch>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
 }
 
 //class GameMatchComparatorDesc implements Comparator<GameMatch> {

@@ -59,11 +59,17 @@ GET      /newsapi/v1/news/search/:idApp/:offset/:count                          
 POST     /newsapi/v1/news/resources/update                                                          controllers.news.NewsController.updateResources()
 
 #NewsScroll
+GET      /newsapi/v1/news/scroll/up/first/:idApp/:newsId                                            controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer?=405, newsId: Long, newest: Boolean?=true, first:Boolean?=true)
 GET      /newsapi/v1/news/scroll/up/first/:idApp/:idLanguage/:newsId                                controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/up/rest/:idApp/:newsId                                             controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer?=405, newsId: Long, newest: Boolean?=true, first:Boolean?=false)
 GET      /newsapi/v1/news/scroll/up/rest/:idApp/:idLanguage/:newsId                                 controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer, newsId: Long, newest: Boolean?=true, first:Boolean?=false)
+GET      /newsapi/v1/news/scroll/down/first/:idApp/:newsId                                          controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer?=405, newsId: Long, newest: Boolean?=false, first:Boolean?=true)
 GET      /newsapi/v1/news/scroll/down/first/:idApp/:idLanguage/:newsId                              controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/down/rest/:idApp/:newsId                                           controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer?=405, newsId: Long, newest: Boolean?=false, first:Boolean?=false)
 GET      /newsapi/v1/news/scroll/down/rest/:idApp/:idLanguage/:newsId                               controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer, newsId: Long, newest: Boolean?=false, first:Boolean?=false)
+GET      /newsapi/v1/news/scroll/:idApp                                                             controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer?=405, newsId: Long?=0, newest:Boolean?=false, first:Boolean?=true)
 GET      /newsapi/v1/news/scroll/:idApp/:idLanguage                                                 controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer, newsId: Long?=0, newest:Boolean?=false, first:Boolean?=true)
+GET      /newsapi/v1/news/scroll/:idApp/:newsId/:newest/:first                                      controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer?=405, newsId: Long, newest:Boolean, first:Boolean)
 GET      /newsapi/v1/news/scroll/:idApp/:idLanguage/:newsId/:newest/:first                          controllers.news.NewsController.getRecentNews(idApp:Integer, idLanguage : Integer, newsId: Long, newest:Boolean, first:Boolean)
 
 #afp futbol
@@ -86,24 +92,38 @@ GET     /footballapi/v1/ranking/get/global/:id                                  
 GET     /footballapi/v1/matches/get/ids/:idApp                                                      controllers.footballapi.MatchesController.getFixturesByIDs(idApp : Integer)
 GET     /footballapi/v1/matches/finished/get/:idCompetition                                         controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
 GET     /footballapi/v1/matches/finished/get/:idCompetition/:date                                   controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
+GET     /footballapi/v1/matches/date/get/:idApp/:date                                               controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer?=405)
 GET     /footballapi/v1/matches/date/get/:idApp/:date/:idLanguage                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer)
 GET     /footballapi/v1/matches/date/grouped/:idApp                                                 controllers.footballapi.MatchesController.getFixturesGroupByDate(idApp : Integer)
+GET     /footballapi/v1/matches/date/paged/:idApp/:date                                             controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer?=405, date : String, pageSize: Integer?=0, page: Integer?=0)
 GET     /footballapi/v1/matches/date/paged/:idApp/:idLanguage/:date                                 controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
+
+GET     /footballapi/v1/matches/competition/date/paged/:idApp/:idCompetition/:date                  controllers.footballapi.MatchesController.getFixturesCompetitionDatePaged(idApp: Integer, idCompetition: Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
+
 GET     /footballapi/v1/competitions/list/ids/:idApp                                                controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, idLanguage : Integer?=0, ids: Boolean?=true)
+GET     /footballapi/v1/competitions/list/:idApp                                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, idLanguage : Integer?=405, ids: Boolean?=false)
 GET     /footballapi/v1/competitions/list/:idApp/:idLanguage                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, idLanguage : Integer, ids: Boolean?=false)
 GET     /footballapi/v1/competitions/phases/notify/:idApp                                           controllers.footballapi.MatchesController.getPhasesToNotify(idApp : Integer)
+GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                                   controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405)
 GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition/:idLanguage                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer)
 
 #MaM
+GET     /footballapi/v1/matches/mam/:idApp/:idCompetition/:idMatch                                  controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer?=405, idEvent: Long?=0, forward: Boolean?=false)
 GET     /footballapi/v1/matches/mam/:idApp/:idCompetition/:idMatch/:idLanguage                      controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer, idEvent: Long?=0, forward: Boolean?=false)
+GET     /footballapi/v1/matches/mam/next/:idApp/:idCompetition/:idMatch/:idEvent                    controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer?=405, idEvent: Long, forward: Boolean?=true)
 GET     /footballapi/v1/matches/mam/next/:idApp/:idCompetition/:idMatch/:idLanguage/:idEvent        controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer, idEvent: Long, forward: Boolean?=true)
+GET     /footballapi/v1/matches/mam/previous/:idApp/:idCompetition/:idMatch/:idEvent                controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer?=405, idEvent: Long, forward: Boolean?=false)
 GET     /footballapi/v1/matches/mam/previous/:idApp/:idCompetition/:idMatch/:idLanguage/:idEvent    controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer, idEvent: Long, forward: Boolean?=false)
 
 
 #NEW VERSION
+GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition/:idPhase                         controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405, idPhase: Long, way: Integer?=0)
 GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition/:idLanguage/:idPhase             controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer, idPhase: Long, way: Integer?=0)
+GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition                                  controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405, idPhase: Long?=0, way: Integer?=0)
 GET     /footballapi/v1/competitions/ranking/:idApp/:idCompetition/:idLanguage                      controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer, idPhase: Long?=0, way: Integer?=0)
+GET     /footballapi/v1/competitions/ranking/next/:idApp/:idCompetition/:idPhase                    controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405, idPhase: Long, way: Integer?=1)
 GET     /footballapi/v1/competitions/ranking/next/:idApp/:idCompetition/:idLanguage/:idPhase        controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer, idPhase: Long, way: Integer?=1)
+GET     /footballapi/v1/competitions/ranking/previous/:idApp/:idCompetition/:idPhase                controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405, idPhase: Long, way: Integer?=-1)
 GET     /footballapi/v1/competitions/ranking/previous/:idApp/:idCompetition/:idLanguage/:idPhase    controllers.footballapi.RankingController.getRankingsForPhase(idApp : Integer, idCompetition: Integer, idLanguage : Integer, idPhase: Long, way: Integer?=-1)
 #GET     /footballapi/v1/calendar/get/date/gt/:idApp/:idCompetition/:date                            controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="gt")
 #GET     /footballapi/v1/calendar/get/date/lt/:idApp/:idCompetition/:date                            controllers.footballapi.MatchesController.getCalendarForCompetition(idApp: Integer, idCompetition: Integer, date: String, phase: Long?=0, operator: String?="lt")
@@ -133,6 +153,7 @@ GET     /footballapi/v1/calendar/get/:idCompetition                             
 #GET     /tvmaxfeeds/calendar/getActive                                                             controllers.tvmaxfeeds.MatchController.getActiveMatch()
 
 #football manager
+GET     /api/v1/rankings/get/:idApp/:formattedToday                                                 controllers.footballapi.RankingController.getRankings(idApp: Integer, idLanguage : Integer?=405, formattedToday: String)
 GET     /api/v1/rankings/get/:idApp/:idLanguage/:formattedToday                                     controllers.footballapi.RankingController.getRankings(idApp: Integer, idLanguage : Integer, formattedToday: String)
 
 #pushableEvents
