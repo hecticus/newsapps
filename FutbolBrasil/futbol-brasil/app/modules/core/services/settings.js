@@ -36,8 +36,7 @@ angular
                     "receive_news": settings[KEY_NEWS_PUSH],
                     "receive_min": settings[KEY_MTM_PUSH]
                 };
-                $http.post(Domain.clients.update(Client.getClientId()), jsonData, {timeout : 60000}
-                )
+                $http.post(Domain.client.update(Client.getClientId()), jsonData, {timeout : 60000})
                     .success(function(data, status) {
                         var errorCode = data.error;
                         var response = data.response;

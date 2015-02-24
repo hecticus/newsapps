@@ -143,7 +143,7 @@ angular
             },
 
             saveFavoriteTeamToServer : function (jsonData, callback){
-                $http.post(Domain.clients.update(Client.getClientId()), jsonData, {timeout : 60000}
+                $http.post(Domain.client.update(Client.getClientId()), jsonData, {timeout : 60000}
                 )
                 .success(function(data, status) {
                     if(typeof data == "string"){

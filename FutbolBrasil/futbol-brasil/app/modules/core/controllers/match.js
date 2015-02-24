@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
-        ,'WebManager', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager, Domain, Utilities) {
+        ,'WebManager', 'Domain','Utilities', 'Client',
+        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager, Domain, Utilities, Client) {
 
             var _limit = 100;
             var _currentPage = 0;
