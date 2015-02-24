@@ -7,6 +7,7 @@ import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspacePublish;
 import models.Config;
 import models.Instance;
+import models.football.GameMatch;
 import org.w3c.dom.Document;
 import play.Logger;
 import play.libs.Json;
@@ -15,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.net.ftp.FTPClient;
@@ -338,6 +340,22 @@ public class Utils {
         for (T element: col) {
             if (predicate.apply(element)) {
                 result.add(element);
+            }
+        }
+        return result;
+    }
+
+    public static <T> Collection<T> filterCollection(List<T> col, Predicate<T> predicate, int page, int pageSize) {
+        Collection<T> result = new ArrayList<T>();
+        int n = 0, k = 0;
+        for (int i = 0; n < pageSize && i < col.size(); ++i) {
+            T element = col.get(i);
+            if (predicate.apply(element)) {
+                ++k;
+                if(k > page) {
+                    ++n;
+                    result.add(element);
+                }
             }
         }
         return result;

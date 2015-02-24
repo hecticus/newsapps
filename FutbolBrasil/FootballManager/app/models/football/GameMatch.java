@@ -345,6 +345,27 @@ public class GameMatch extends HecticusModel {
         return json;
     }
 
+    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        json.put("date",date);
+        if(phase != null) {
+            json.put("phase",phase.getIdPhases());
+        }
+        json.put("homeTeam",homeTeam.toJson());
+        json.put("awayTeam",awayTeam.toJson());
+        json.put("home_team_goals",homeTeamGoals);
+        json.put("away_team_goals",awayTeamGoals);
+        json.put("fifa_match_number",fifaMatchNumber);
+        json.put("id_status", status.getExtId());//.toJson(language, defaultLanguage));
+        json.put("ext_id",extId);
+        if(result != null) {
+            json.put("results", result.toJson());
+        }
+
+        return json;
+    }
+
     public ObjectNode toJsonPush() {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);

@@ -114,7 +114,8 @@ public class GameMatchStatus extends HecticusModel {
                 clientLanguage = null;
             }
         }
-        obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
+        String loc = clientLanguage!=null?clientLanguage.getName():name;
+        obj.put("name",loc.isEmpty()?"Não Disponível":loc);
         return obj;
     }
 

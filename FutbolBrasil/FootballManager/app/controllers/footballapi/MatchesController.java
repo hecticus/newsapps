@@ -249,7 +249,7 @@ public class MatchesController extends HecticusController {
                         if (fullList != null && !fullList.isEmpty()) {
                             ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
                             for (int i = 0; i < fullList.size(); i++) {
-                                data.add(fullList.get(i).toJson());
+                                data.add(fullList.get(i).toJson(requestLanguage, app.getLanguage()));
                             }
                             competitionJson.put("fixtures", Json.toJson(data));
                             data.clear();
@@ -258,6 +258,47 @@ public class MatchesController extends HecticusController {
                     }
                 }
                 response = hecticusResponse(0, "ok", "leagues", responseData);
+            } else {
+                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+            }
+            return ok(response);
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getFixturesCompetitionDatePaged(Integer idApp, Integer idCompetition, String date, Integer pageSize, Integer page){
+        try {
+            ObjectNode response = null;
+            Apps app = Apps.findId(idApp);
+            if(app != null) {
+                if (date == null || date.isEmpty() || date.equalsIgnoreCase("today")) {
+                    TimeZone timeZone = Apps.getTimezone(idApp);
+                    Calendar today = new GregorianCalendar(timeZone);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                    simpleDateFormat.setTimeZone(timeZone);
+                    date = simpleDateFormat.format(today.getTime());
+                }
+                ArrayList responseData = new ArrayList();
+                Competition competition = app.getCompetition(idCompetition);
+                if(competition != null){
+                    List<GameMatch> matchesByDate = competition.getMatchesByDate(date, page, pageSize);
+                    if (matchesByDate != null && !matchesByDate.isEmpty()) {
+                        ArrayList data = new ArrayList();
+                        for (int i = 0; i < matchesByDate.size(); i++) {
+                            data.add(matchesByDate.get(i).toJson());
+                        }
+                        ObjectNode matches = Json.newObject();
+                        matches.put("fixtures", Json.toJson(data));
+                        data.clear();
+                        responseData.add(matches);
+                        response = hecticusResponse(0, "ok", matches);
+                    } else {
+                        response = buildBasicResponse(3, "No hay partidos para la fecha " + date);
+                    }
+                } else {
+                    response = buildBasicResponse(2, "La competencia " + idCompetition + " no existe");
+                }
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
             }
