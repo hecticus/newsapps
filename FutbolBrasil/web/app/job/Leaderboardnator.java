@@ -1,6 +1,7 @@
 package job;
 
 import akka.actor.Cancellable;
+import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -53,28 +54,28 @@ public class Leaderboardnator extends HecticusThread {
     @Override
     public void process(Map args) {
         try {
+            Utils.printToLog(Leaderboardnator.class, null, "Iniciando Leaderboardnator", false, null, "support-level-1", Config.LOGGER_INFO);
             clientsPoints = new HashMap<>();
             pmcIdApp = Config.getInt("pmc-id-app");
             idAction = Integer.parseInt(""+args.get("id_action"));
             int winnerPoints = Integer.parseInt(""+args.get("winner"));
             int loserPoints = Integer.parseInt(""+args.get("loser"));
             ArrayList<Integer> activeTournaments = getActiveTournaments();
-            System.out.println("activeTournaments = " + activeTournaments.size());
             if(activeTournaments != null && !activeTournaments.isEmpty()){
                 ObjectNode results = getTodayResults(activeTournaments);
                 if(results != null) {
-//                    ArrayList<Client> clients = calculateBets(activeTournaments, results, winnerPoints, loserPoints);
-                    Map<Integer, Client> clients = calculateBets(activeTournaments, results, winnerPoints, loserPoints);
+                    Set<Integer> clients = calculateBets(activeTournaments, results, winnerPoints, loserPoints);
                     if(!clients.isEmpty()) {
                         calculateGlobalLeaderboard(clients);
                         clients.clear();
                     }
-//                    if(!clientsPoints.isEmpty()){
-//                        processPushData();
-//                        clientsPoints.clear();
-//                    }
+                    if(!clientsPoints.isEmpty()){
+                        processPushData();
+                        clientsPoints.clear();
+                    }
                 }
             }
+            Utils.printToLog(Leaderboardnator.class, null, "Terminando Leaderboardnator", false, null, "support-level-1", Config.LOGGER_INFO);
         } catch (Exception ex) {
             Utils.printToLog(Leaderboardnator.class, null, "Error calculando leadeboards", false, ex, "support-level-1", Config.LOGGER_ERROR);
         }
@@ -124,48 +125,38 @@ public class Leaderboardnator extends HecticusThread {
     }
 
     private void sendPush(ObjectNode event) {
-//        F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
-//        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+        F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
+        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
     }
 
-//    private void calculateGlobalLeaderboard(ArrayList<Client> clients) {
-    private void calculateGlobalLeaderboard(Map<Integer, Client> clients) {
-        System.out.println("---------------------");
-        Set<Integer> clientIDs = clients.keySet();
-        Client client = null;
-        for(int clientID : clientIDs){
-            client = clients.get(clientID);
+    private void calculateGlobalLeaderboard(Set<Integer> clientIDs) {
+        List<Client> clients = Client.finder.where().in("idClient", clientIDs).findList();
+        for(Client client : clients){
             int points = 0;
             List<Leaderboard> clientLeaderboards = client.getLeaderboards();
             if(clientLeaderboards != null && !clientLeaderboards.isEmpty()) {
                 int pivot = clientLeaderboards.get(0).getIdTournament();
-                System.out.println("client = " + client.getIdClient() + " leaderboards = " + clientLeaderboards.size());
                 for (Leaderboard leaderboard : clientLeaderboards) {
-                    System.out.println(" - " + leaderboard.getIdTournament() + " " + leaderboard.getIdPhase() + " pivot = " + pivot);
                     if(leaderboard.getIdTournament() == pivot) {
                         points += leaderboard.getScore();
                     } else {
                         LeaderboardGlobal leaderboardGlobal = client.getLeaderboardGlobal(pivot);
                         if (leaderboardGlobal == null) {
-                            System.out.println(" - new global");
                             leaderboardGlobal = new LeaderboardGlobal(client, pivot, points);
                             client.addLeaderboardGlobal(leaderboardGlobal);
                         } else {
-                            System.out.println(" - old global");
                             leaderboardGlobal.setScore(points);
                         }
                         pivot = leaderboard.getIdTournament();
-                        points = 0;
+                        points = leaderboard.getScore();
                     }
                 }
                 if(pivot > 0){
                     LeaderboardGlobal leaderboardGlobal = client.getLeaderboardGlobal(pivot);
                     if (leaderboardGlobal == null) {
-                        System.out.println(" - new global");
                         leaderboardGlobal = new LeaderboardGlobal(client, pivot, points);
                         client.addLeaderboardGlobal(leaderboardGlobal);
                     } else {
-                        System.out.println(" - old global");
                         leaderboardGlobal.setScore(points);
                     }
                 }
@@ -190,11 +181,8 @@ public class Leaderboardnator extends HecticusThread {
         return results;
     }
 
-//    private ArrayList<Client> calculateBets(ArrayList<Integer> activeTournaments, ObjectNode results, int winnerPoints, int loserPoints) {
-    private Map<Integer, Client> calculateBets(ArrayList<Integer> activeTournaments, ObjectNode results, int winnerPoints, int loserPoints) {
-//        ArrayList<Client> calculated = new ArrayList<>();
-        Map<Integer, Client> calculated =  new HashMap<>();
-        Client pivot = null;
+    private Set<Integer> calculateBets(ArrayList<Integer> activeTournaments, ObjectNode results, int winnerPoints, int loserPoints) {
+        Collection<Integer> calculated =  new HashSet<>();
         int idPhase = -1;
         for(int idTournament : activeTournaments){
             JsonNode tournametResults = results.get("" + idTournament);
@@ -227,17 +215,13 @@ public class Leaderboardnator extends HecticusThread {
                             client.update();
                             clientBets.setStatus(3);
                             clientBets.update();
-                            System.out.println("client = " + client.getIdClient() + " leaderboards = " + client.getLeaderboards().size());
-//                            if (!calculated.contains(client)) {
-//                                calculated.add(client);
-//                            }
-                            calculated.put(client.getIdClient(), client);
+                            calculated.add(client.getIdClient());
                         }
                     }
                 }
             }
         }
-        return calculated;
+        return (Set)calculated;
     }
 
     private ArrayList<Integer> getActiveTournaments() {

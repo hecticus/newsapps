@@ -85,4 +85,11 @@ public class LeaderboardGlobal extends HecticusModel{
         objNode.put("score", score);
         return objNode;
     }
+
+    public ObjectNode toJsonSimple() {
+        ObjectNode objNode = Json.newObject();
+        objNode.put("client", client.getLogin());
+        objNode.put("score", score);
+        return objNode;
+    }
 }

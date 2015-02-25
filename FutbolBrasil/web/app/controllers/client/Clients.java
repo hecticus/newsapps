@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
 import exceptions.UpstreamAuthenticationFailureException;
+import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
@@ -12,9 +13,11 @@ import models.clients.ClientHasDevices;
 import models.clients.Device;
 import models.leaderboard.ClientBets;
 import models.leaderboard.Leaderboard;
+import models.leaderboard.LeaderboardGlobal;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
+import play.db.ebean.Model;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -761,14 +764,16 @@ public class Clients extends HecticusController {
             Client client = Client.finder.byId(idClient);
             if(client != null){
                 int leaderboardSize = Config.getInt("leaderboard-size");
-                Leaderboard clientLeaderboard = null;
-                List<Leaderboard> leaderboards = null;
+
                 if(idPhase > 0) {
+                    Leaderboard clientLeaderboard = null;
+                    List<Leaderboard> leaderboards = null;
                     leaderboards = Leaderboard.finder.where().eq("idTournament", idTournament).eq("idPhase", idPhase).orderBy("score desc").findList();
                     clientLeaderboard = client.getLeaderboard(idTournament, idPhase);
                     if(leaderboards != null && !leaderboards.isEmpty()) {
                         int index = leaderboards.indexOf(clientLeaderboard);
                         ArrayList<ObjectNode> leaderboardsJson = new ArrayList<>();
+                        leaderboardSize = leaderboardSize>leaderboards.size()?leaderboards.size():leaderboardSize;
                         for(int i = 0; i < leaderboardSize; ++i){
                             leaderboardsJson.add(leaderboards.get(i).toJsonSimple());
                         }
@@ -781,7 +786,25 @@ public class Clients extends HecticusController {
                         response = buildBasicResponse(3, "leaderboard vacio");
                     }
                 } else {
-
+                    LeaderboardGlobal clientLeaderboardGlobal = null;
+                    List<LeaderboardGlobal> globalLeaderboards = null;
+                    globalLeaderboards = LeaderboardGlobal.finder.where().eq("idTournament", idTournament).orderBy("score desc").findList();
+                    clientLeaderboardGlobal = client.getLeaderboardGlobal(idTournament);
+                    if(globalLeaderboards != null && !globalLeaderboards.isEmpty()) {
+                        int index = globalLeaderboards.indexOf(clientLeaderboardGlobal);
+                        ArrayList<ObjectNode> leaderboardsJson = new ArrayList<>();
+                        leaderboardSize = leaderboardSize>globalLeaderboards.size()?globalLeaderboards.size():leaderboardSize;
+                        for(int i = 0; i < leaderboardSize; ++i){
+                            leaderboardsJson.add(globalLeaderboards.get(i).toJsonSimple());
+                        }
+                        ObjectNode clientLeaderboardJson = clientLeaderboardGlobal.toJsonSimple();
+                        clientLeaderboardJson.put("index", index);
+                        responseData.put("leaderboard", Json.toJson(leaderboardsJson));
+                        responseData.put("client", clientLeaderboardJson);
+                        response = buildBasicResponse(0, "OK", responseData);
+                    } else {
+                        response = buildBasicResponse(3, "leaderboard vacio");
+                    }
                 }
             } else {
                 response = buildBasicResponse(2, "no existe el cliente");
