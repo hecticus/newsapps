@@ -10,9 +10,9 @@ angular
     .factory('Domain', ['Client',
         function(Client){
 
-//            var football_manager_url = 'http://footballmanager.hecticus.com/';
+            var football_manager_url = 'http://footballmanager.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
-            var football_manager_url = 'http://10.0.3.129:9001/';
+//            var football_manager_url = 'http://10.0.3.129:9001/';
             var appId = '1';
             var apiVersion = 'v1';
             var getLang = function(){
