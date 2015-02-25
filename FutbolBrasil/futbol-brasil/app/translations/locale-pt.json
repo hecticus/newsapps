@@ -21,6 +21,23 @@
         "TITLE" : "Notícias"
 
     },
+    "MATCH" : {
+        "STATUS" : {
+            "0" : "Sem Jogar",
+            "1" : "!Primer tiempo",
+            "2" : "Encerrado",
+            "3" : "Adiado",
+            "4" : "!Postergado",
+            "5" : "!Entetiempo",
+            "6" : "!Segundo Tiempo",
+            "7" : "!Fin de Tiempo Reglamentario",
+            "8" : "!Alargue 1",
+            "9" : "!Fin de Alargue 1",
+            "10" : "!Alarge 2",
+            "11" : "!Fin alargue 2",
+            "12" : "!Definicion por penales"
+        }
+    },
     "PALPITES" : {
     },
     "EMPTY_STATES" : {

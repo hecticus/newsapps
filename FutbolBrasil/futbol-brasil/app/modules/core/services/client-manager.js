@@ -64,11 +64,11 @@ angular
 
                     var url = '';
                     if(Client.getClientId()){
-                        url = Domain.clients.update(Client.getClientId());
+                        url = Domain.client.update(Client.getClientId());
                         jData.add_devices = devices;
                         isNewClient = false;
                     } else {
-                        url = Domain.clients.create;
+                        url = Domain.client.create;
                         jData.devices = devices;
                         if(subscribe){ jData.subscribe = true; }
                         isNewClient = true;
@@ -125,7 +125,7 @@ angular
                         return;
                     }
 
-                    $http.get(Domain.clients.get(clientId, upstreamChannel),
+                    $http.get(Domain.client.get(clientId, upstreamChannel),
                         {cache: false, timeout : 60000})
                     .success(function(data, status) {
                         if(typeof data == "string"){
