@@ -42,6 +42,8 @@ public class Client extends HecticusModel {
     @Constraints.MaxLength(value = 10)
     private String lastCheckDate;
 
+    private String facebookId;
+
     @OneToOne
     @JoinColumn(name = "id_country")
     private Country country;
@@ -209,6 +211,14 @@ public class Client extends HecticusModel {
         this.clientBets = clientBets;
     }
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -314,6 +324,7 @@ public class Client extends HecticusModel {
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_client", idClient);
+        response.put("facebook_id", facebookId);
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);
@@ -364,6 +375,7 @@ public class Client extends HecticusModel {
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
         response.put("id_client", idClient);
+        response.put("facebook_id", facebookId);
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);

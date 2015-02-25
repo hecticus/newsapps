@@ -51,6 +51,10 @@ public class HecticusController extends Controller {
 		return jsonInfo;
 	}
 
+    public static String[] getFromQueryString(String key){
+        return request().queryString().get(key);
+    }
+
     public static String getJSONPCallback(){
         String callback = request().queryString().get("callback")[0];
         return callback;

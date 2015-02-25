@@ -156,25 +156,16 @@ public class Application extends Controller {
             data.put("company_name", Config.getString("company-name"));
             data.put("app_version",Config.getString("app-version"));
             ObjectNode response = Json.newObject();
-
             data.put("build_version", Config.getString("build-version"));
             //colocamos la configuracion de upstream para que la tengamos en la app
             data.put("upstreamAppKey", Config.getString("upstreamAppKey"));
             data.put("upstreamAppVersion", Config.getString("upstreamAppVersion"));
             data.put("upstreamServiceID", Config.getString("upstreamServiceID"));
             data.put("upstreamURL", Config.getString("upstreamURL"));
-
             data.put("server_version", Config.getString("server-version"));
-
             Language language = Language.finder.byId(Config.getInt("default-language"));
             data.put("default_language", language.toJson());
-
-
-
-
-
             ObjectNode versionObject = Json.newObject();
-
             String lastVersion = null;
             String lastVersionURL = null;
             if(so.equalsIgnoreCase("android")){
@@ -184,7 +175,6 @@ public class Application extends Controller {
                 lastVersion = Config.getiOSVersion();
                 lastVersionURL = Config.getiOSVersionURL();
             }
-
             if(lastVersion != null && lastVersionURL != null) {
                 int updateAvailable = 0; //There isn't update available
                 int mandatory = 0; //The update isn't mandatory
@@ -207,16 +197,11 @@ public class Application extends Controller {
             } else {
                 versionObject.put("update",0);
             }
-
             data.put("version", versionObject);
-
-
-
-
+            data.put("max_news", Config.getString("max-news"));
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");
             response.put(Config.RESPONSE_KEY,data);
-
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Application.class, "Error manejando settings", "obteniendo los settings del app ", true, e, "support-level-1", Config.LOGGER_ERROR);

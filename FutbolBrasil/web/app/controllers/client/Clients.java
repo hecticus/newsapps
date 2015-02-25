@@ -183,6 +183,10 @@ public class Clients extends HecticusController {
                             }
                         }
 
+                        if(clientData.has("facebook_id")){
+                            client.setFacebookId(clientData.get("facebook_id").asText());
+                        }
+
 
                         int newsPushId = Config.getInt("news-push-id");
                         int betsPushId = Config.getInt("bets-push-id");
@@ -338,6 +342,15 @@ public class Clients extends HecticusController {
                                 update = true;
                             }
                         }
+                    }
+                }
+
+                if(clientData.has("facebook_id")){
+                    String facebookId = clientData.get("facebook_id").asText();
+                    String clientFacebookId = client.getFacebookId();
+                    if(clientFacebookId == null || !facebookId.equalsIgnoreCase(clientFacebookId)) {
+                        client.setFacebookId(facebookId);
+                        update = true;
                     }
                 }
 
@@ -766,10 +779,21 @@ public class Clients extends HecticusController {
             if(client != null){
                 int leaderboardSize = Config.getInt("leaderboard-size");
 
+                List<Client> friends = null;
+                String[] friendsArray = getFromQueryString("friends[]");
+                if (friendsArray != null && friendsArray.length > 0) {
+                    friends = Client.finder.where().in("facebookId", friendsArray).findList();
+                }
+
                 if(idPhase > 0) {
                     Leaderboard clientLeaderboard = null;
                     List<Leaderboard> leaderboards = null;
-                    leaderboards = Leaderboard.finder.where().eq("idTournament", idTournament).eq("idPhase", idPhase).orderBy("score desc").findList();
+                    if(friends != null && !friends.isEmpty()){
+                        friends.add(client);
+                        leaderboards = Leaderboard.finder.where().in("client", friends).eq("idTournament", idTournament).eq("idPhase", idPhase).orderBy("score desc").findList();
+                    } else {
+                        leaderboards = Leaderboard.finder.where().eq("idTournament", idTournament).eq("idPhase", idPhase).orderBy("score desc").findList();
+                    }
                     clientLeaderboard = client.getLeaderboard(idTournament, idPhase);
                     if(leaderboards != null && !leaderboards.isEmpty()) {
                         int index = leaderboards.indexOf(clientLeaderboard);
@@ -789,7 +813,12 @@ public class Clients extends HecticusController {
                 } else {
                     LeaderboardGlobal clientLeaderboardGlobal = null;
                     List<LeaderboardGlobal> globalLeaderboards = null;
-                    globalLeaderboards = LeaderboardGlobal.finder.where().eq("idTournament", idTournament).orderBy("score desc").findList();
+                    if(friends != null && !friends.isEmpty()){
+                        friends.add(client);
+                        globalLeaderboards = LeaderboardGlobal.finder.where().in("client", friends).eq("idTournament", idTournament).orderBy("score desc").findList();
+                    } else {
+                        globalLeaderboards = LeaderboardGlobal.finder.where().eq("idTournament", idTournament).orderBy("score desc").findList();
+                    }
                     clientLeaderboardGlobal = client.getLeaderboardGlobal(idTournament);
                     if(globalLeaderboards != null && !globalLeaderboards.isEmpty()) {
                         int index = globalLeaderboards.indexOf(clientLeaderboardGlobal);
