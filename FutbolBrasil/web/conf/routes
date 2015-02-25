@@ -82,6 +82,8 @@ POST    /futbolbrasil/v1/clients/bets/create/:idClient                          
 
 GET     /futbolbrasil/v1/clients/leaderboard/get/:idClient/:idTournament/:idPhase                           controllers.client.Clients.getLeaderboardForClient(idClient : Integer, idTournament : Integer, idPhase : Integer)
 GET     /futbolbrasil/v1/clients/leaderboard/global/get/:idClient/:idTournament                             controllers.client.Clients.getLeaderboardForClient(idClient : Integer, idTournament : Integer, idPhase : Integer?=0)
+GET     /futbolbrasil/v1/clients/leaderboard/personal/tournament/:idClient                                  controllers.client.Clients.getPersonalLeaderboardForClient(idClient: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
+GET     /futbolbrasil/v1/clients/leaderboard/personal/phase/:idClient                                       controllers.client.Clients.getPersonalLeaderboardForClient(idClient: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
 
 #Clients PMC
 GET     /futbolbrasil/v1/clients/pmc/get/:id                                                                controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)

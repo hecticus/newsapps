@@ -15,6 +15,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.F;
 import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.*;
 import java.util.*;
@@ -257,6 +258,22 @@ public class Client extends HecticusModel {
         return tr;
     }
 
+    public List<Leaderboard> getLeaderboard(final int idTournament){
+        List<Leaderboard> tr;
+        try {
+            Predicate<Leaderboard> validObjs = new Predicate<Leaderboard>() {
+                public boolean apply(Leaderboard obj) {
+                    return obj.getIdTournament().intValue() == idTournament;
+                }
+            };
+            Collection<Leaderboard> result = Utils.filterCollection(leaderboards, validObjs);
+            tr = (List<Leaderboard>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
     public void addLeaderboard(final Leaderboard leaderboard){
         Leaderboard tr = null;
         try {
@@ -375,3 +392,4 @@ public class Client extends HecticusModel {
 
 
 }
+

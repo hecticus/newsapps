@@ -2,6 +2,7 @@ package controllers.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
 import controllers.HecticusController;
 import exceptions.UpstreamAuthenticationFailureException;
 import models.HecticusModel;
@@ -816,6 +817,77 @@ public class Clients extends HecticusController {
         }
     }
 
+    public static Result getPersonalLeaderboardForClient(Integer idClient, Integer idTournament, final Integer idPhase, Boolean global){
+        try {
+            ObjectNode response = null;
+            Client client = Client.finder.byId(idClient);
+            if(client != null){
+                ArrayList<ObjectNode> leaderboardsJson = new ArrayList<>();
+                if(global){
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        leaderboardsJson.add(leaderboardGlobal.toJsonClean());
+                    }
+                } else {
+                    List<Leaderboard> leaderboards = null;
+                    ArrayList<ObjectNode> phasesJson = new ArrayList<>();
+                    if (idTournament > 0) {
+                        leaderboards = client.getLeaderboard(idTournament);
+                        if(leaderboards != null && !leaderboards.isEmpty()){
+                            if(idPhase > 0){
+                                Predicate<Leaderboard> validObjs = new Predicate<Leaderboard>() {
+                                    public boolean apply(Leaderboard obj) {
+                                        return obj.getIdPhase() > idPhase;
+                                    }
+                                };
+                                leaderboards = (List<Leaderboard>) Utils.filterCollection(leaderboards, validObjs);
+                            }
+                            for(Leaderboard leaderboard : leaderboards){
+                                phasesJson.add(leaderboard.toJsonClean());
+                            }
+                            ObjectNode tournament = Json.newObject();
+                            tournament.put("id_tournament", idTournament);
+                            tournament.put("phases", Json.toJson(phasesJson));
+                            leaderboardsJson.add(tournament);
+                        }
+                    } else {
+                        leaderboards = client.getLeaderboards();
+                        if(leaderboards != null && !leaderboards.isEmpty()){
+                            int pivot = leaderboards.get(0).getIdTournament();
+                            for(Leaderboard leaderboard : leaderboards){
+                                if(leaderboard.getIdTournament() == pivot){
+                                    phasesJson.add(leaderboard.toJsonClean());
+                                } else {
+                                    System.out.println("now " + leaderboard.getIdTournament());
+                                    ObjectNode tournament = Json.newObject();
+                                    tournament.put("id_tournament", pivot);
+                                    tournament.put("phases", Json.toJson(phasesJson));
+                                    leaderboardsJson.add(tournament);
+                                    phasesJson.clear();
+                                    pivot = leaderboard.getIdTournament();
+                                    phasesJson.add(leaderboard.toJsonClean());
+                                }
+                            }
+                            if(!leaderboardsJson.isEmpty()){
+                                ObjectNode tournament = Json.newObject();
+                                tournament.put("id_tournament", pivot);
+                                tournament.put("phases", Json.toJson(phasesJson));
+                                leaderboardsJson.add(tournament);
+                                phasesJson.clear();
+                            }
+                        }
+                    }
+                }
+                response = hecticusResponse(0, "ok", "leaderboard", leaderboardsJson);
+            } else {
+                response = buildBasicResponse(2, "no existe el cliente");
+            }
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
 
 
 

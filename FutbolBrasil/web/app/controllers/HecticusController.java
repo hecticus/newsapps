@@ -128,6 +128,16 @@ public class HecticusController extends Controller {
         return responseNode;
     }
 
+    public static ObjectNode hecticusResponse(int code, String description, String parentObj, ArrayList data) {
+        ObjectNode tr = Json.newObject();
+        tr.put("error", code);
+        tr.put("description", description);
+        ObjectNode innerObj = Json.newObject();
+        innerObj.put(parentObj, Json.toJson((data)));
+        tr.put("response",innerObj);
+        return tr;
+    }
+
     /**
      * Metodo para validar que el json tenga por lo menos un campo
      *

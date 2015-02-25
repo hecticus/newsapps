@@ -98,8 +98,8 @@ public class Leaderboard extends HecticusModel{
 
     public ObjectNode toJsonClean() {
         ObjectNode objNode = Json.newObject();
-        objNode.put("id_leaderboard",idLeaderboard);
         objNode.put("id_tournament", idTournament);
+        objNode.put("id_phase", idPhase);
         objNode.put("score", score);
         return objNode;
     }
