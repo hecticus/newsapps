@@ -67,7 +67,7 @@ angular
                       .success(function (data, status, headers, config) {
                            if (data.error == 0) {
                             $scope.item.competitions[_index].phase = data.response.phases[data.response.phases.length-1].id_phases
-                            $scope.getCompetition(0);
+                            $scope.getCompetition();
                            }
                       }).catch(function () {
                           $scope.$emit('error');
@@ -116,35 +116,48 @@ angular
                 }
             });
 
-            $scope.getPhase = function(_index){
+            $scope.getLeaderboardIndex = function(_url){
 
-               $scope.setActive('phase');
+               var _page = _scroll.currentPage.pageX;
                $scope.$emit('load');
-               $scope.item.competitions[_index].leaderboard = [];
-               $http.get(Domain.leaderboard.phase($scope.item.competitions[_index].id_competitions,$scope.item.competitions[_index].phase), config)
+               $scope.item.competitions[_page].leaderboard = [];
+               $http.get(_url, config)
                .success(function (data, status, headers, config) {
-                    if (data.error == 0) $scope.item.competitions[_index].leaderboard = data.response.leaderboard;
+                    if (data.error == 0) {
+
+                      angular.forEach(data.response.leaderboard, function(_item, _index) {
+                        data.response.leaderboard[_index].index = (_index+1)
+                      });
+
+                      $scope.item.competitions[_page].leaderboard = data.response.leaderboard;
+                      $scope.item.competitions[_page].client = data.response.client;
+
+                      // Esta condición se debe ajustar a partir de un parametro de configuración
+                      if (data.response.leaderboard.length >= data.response.leaderboard.length) {
+                        $scope.item.competitions[_page].leaderboard.push({client:'...',score:'...', index: '...'});
+                        $scope.item.competitions[_page].leaderboard.push(data.response.client)
+                      }
+
+                    }
                }).catch(function () {
                    $scope.$emit('error');
                }).finally(function(data) {
                    $scope.$emit('unload');
                });
 
+
+            }
+
+            $scope.getPhase = function(){
+               //console.log(Domain.leaderboard.phase($scope.item.competitions[_scroll.currentPage.pageX].id_competitions,$scope.item.competitions[_index].phase));
+               $scope.setActive('phase');
+               $scope.getLeaderboardIndex(Domain.leaderboard.phase($scope.item.competitions[_scroll.currentPage.pageX].id_competitions,$scope.item.competitions[_index].phase));
             };
 
-            $scope.getCompetition = function(_index){
+            $scope.getCompetition = function(){
+              //console.log(Domain.leaderboard.competition($scope.item.competitions[_scroll.currentPage.pageX].id_competitions));
               $scope.setActive('competition');
-              $scope.$emit('load');
-              $scope.item.competitions[_index].leaderboard = [];
-              $http.get(Domain.leaderboard.competition($scope.item.competitions[_index].id_competitions), config)
-              .success(function (data, status, headers, config) {
-                   if (data.error == 0) $scope.item.competitions[_index].leaderboard = data.response.leaderboard;
-              }).catch(function () {
-                  $scope.$emit('error');
-              }).finally(function(data) {
-                  $scope.$emit('unload');
-              });
-
+              $scope.getLeaderboardIndex(Domain.leaderboard.competition($scope.item.competitions[_scroll.currentPage.pageX].id_competitions));
             };
 
           }();
