@@ -112,7 +112,20 @@ angular
                         + apiVersion + '/clients/bets/get/' + appId,
                     create:  brazil_football_manager_url + 'futbolbrasil/'
                         + apiVersion + '/clients/bets/create/' + appId
+                },
+
+                leaderboard:  {
+
+                  phase: function (_competition, _phase) {
+                    return brazil_football_manager_url+ 'futbolbrasil/v1/clients/leaderboard/get/' + Client.getClientId() + '/' + _competition + '/' + _phase
+                  },
+
+                  competition: function (_competition) {
+                    return brazil_football_manager_url +'futbolbrasil/v1/clients/leaderboard/global/get/' + Client.getClientId() + '/' + _competition
+                  }
+
                 }
+
             };
         }
     ]);
