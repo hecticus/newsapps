@@ -161,8 +161,13 @@ public class DataFactoryScraper extends HecticusThread {
                         partidoFromFile.validateGame();
                     }
                 }catch (Exception ex){
-                    //generic parsing error keep going with next one
-                    ex.printStackTrace();
+                    Utils.printToLog(DataFactoryScraper.class,
+                            "Error en DataFactoryScraper",
+                            "Error inesperado parseando el archivo fixtures",
+                            false,
+                            ex,
+                            "support-level-1",
+                            Config.LOGGER_ERROR);
                 }
             }
         }catch (Exception ex){
@@ -298,7 +303,7 @@ public class DataFactoryScraper extends HecticusThread {
                     Utils.printToLog(DataFactoryScraper.class,
                             "Error en DataFactoryScraper",
                             "Error inesperado parseando las posiciones del los equipos, el proceso continua " ,
-                            true,
+                            false,
                             ex,
                             "support-level-1",
                             Config.LOGGER_ERROR);
@@ -528,13 +533,13 @@ public class DataFactoryScraper extends HecticusThread {
             if (current.isFile()) {
                 String fileName = current.getName();
                 if (fileName.contains("fixture")) { //fixture
-//                    parseFixture(path + File.separator + fileName);
+                    parseFixture(path + File.separator + fileName);
                 } else if (fileName.contains("calendario")) {//calendario
                     //not in use
                 } else if (fileName.contains("posiciones")) { //posiciones
-//                    parsePositions(path + File.separator + fileName);
+                    parsePositions(path + File.separator + fileName);
                 } else if (fileName.contains("goleadores")) { //goleadores
-//                    parseStrikers(path + File.separator + fileName);
+                    parseStrikers(path + File.separator + fileName);
 //                } else if (fileName.contains("ficha")) { //ficha
                     //not in use
                 } else if (fileName.contains("mam")) { //ficha minuto a minuto

@@ -89,11 +89,6 @@ class CompetitionsComparator implements Comparator<Competition> {
 class PhasesComparator implements Comparator<Phase> {
     @Override
     public int compare(Phase c1, Phase c2) {
-//        int order = c2.getOrder() - c1.getOrder();
-//        if(order == 0){
-//            order = c2.getFn() - c1.getFn();
-//        }
-//        return order;
         return c2.getNivel() - c1.getNivel();
     }
 }

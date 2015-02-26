@@ -48,7 +48,7 @@ public class ClientBets extends HecticusModel{
         this.idPhase = idPhase;
         this.idGameMatch = idGameMatch;
         this.clientBet = clientBet;
-        this.status = 0;
+        this.status = 1;
     }
 
     public Long getIdClientBets() {

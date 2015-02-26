@@ -473,7 +473,7 @@ public class Clients extends HecticusController {
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return badRequest(buildBasicResponse(-1,"Error buscando el registro",e));
         }
     }
 
@@ -495,7 +495,7 @@ public class Clients extends HecticusController {
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error listando clients con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return badRequest(buildBasicResponse(-1,"Error buscando el registro",e));
         }
     }
 
