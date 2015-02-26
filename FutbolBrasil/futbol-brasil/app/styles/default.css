@@ -803,3 +803,8 @@ body.content-mtm .row-back {
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
 }
+.client {
+  color:#ff5722 !important;
+  font-weight: bold;
+  font-size: 1.2em;
+}
