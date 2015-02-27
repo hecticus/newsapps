@@ -24,12 +24,15 @@ public class LeaderboardGlobal extends HecticusModel{
     private Integer idTournament;
     private Integer score;
 
+    private Integer correctBets;
+
     public static Finder<Integer, LeaderboardGlobal> finder = new Finder<Integer, LeaderboardGlobal>(Integer.class, LeaderboardGlobal.class);
 
-    public LeaderboardGlobal(Client client, Integer idTournament, Integer score) {
+    public LeaderboardGlobal(Client client, Integer idTournament, Integer score, Integer correctBets) {
         this.client = client;
         this.score = score;
         this.idTournament = idTournament;
+        this.correctBets = correctBets;
     }
 
     public static LeaderboardGlobal getLeaderboardByClient(Integer idClient){
@@ -68,6 +71,18 @@ public class LeaderboardGlobal extends HecticusModel{
         this.idTournament = idTournament;
     }
 
+    public Integer getCorrectBets() {
+        return correctBets;
+    }
+
+    public void setCorrectBets(Integer correctBets) {
+        this.correctBets = correctBets;
+    }
+
+    public void increaseCorrectBets() {
+        this.correctBets++;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode objNode = Json.newObject();
@@ -75,6 +90,7 @@ public class LeaderboardGlobal extends HecticusModel{
         objNode.put("client", client.toJsonWithoutRelations());
         objNode.put("id_tournament", idTournament);
         objNode.put("score", score);
+        objNode.put("hits", correctBets);
         return objNode;
     }
 
@@ -82,6 +98,7 @@ public class LeaderboardGlobal extends HecticusModel{
         ObjectNode objNode = Json.newObject();
         objNode.put("id_tournament", idTournament);
         objNode.put("score", score);
+        objNode.put("hits", correctBets);
         return objNode;
     }
 
@@ -89,6 +106,7 @@ public class LeaderboardGlobal extends HecticusModel{
         ObjectNode objNode = Json.newObject();
         objNode.put("client", client.getLogin());
         objNode.put("score", score);
+        objNode.put("hits", correctBets);
         return objNode;
     }
 }

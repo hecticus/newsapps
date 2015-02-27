@@ -133,31 +133,36 @@ public class Leaderboardnator extends HecticusThread {
         List<Client> clients = Client.finder.where().in("idClient", clientIDs).findList();
         for(Client client : clients){
             int points = 0;
+            int correctBets = 0;
             List<Leaderboard> clientLeaderboards = client.getLeaderboards();
             if(clientLeaderboards != null && !clientLeaderboards.isEmpty()) {
                 int pivot = clientLeaderboards.get(0).getIdTournament();
                 for (Leaderboard leaderboard : clientLeaderboards) {
                     if(leaderboard.getIdTournament() == pivot) {
                         points += leaderboard.getScore();
+                        correctBets += leaderboard.getCorrectBets();
                     } else {
                         LeaderboardGlobal leaderboardGlobal = client.getLeaderboardGlobal(pivot);
                         if (leaderboardGlobal == null) {
-                            leaderboardGlobal = new LeaderboardGlobal(client, pivot, points);
+                            leaderboardGlobal = new LeaderboardGlobal(client, pivot, points, correctBets);
                             client.addLeaderboardGlobal(leaderboardGlobal);
                         } else {
                             leaderboardGlobal.setScore(points);
+                            leaderboardGlobal.setCorrectBets(correctBets);
                         }
                         pivot = leaderboard.getIdTournament();
                         points = leaderboard.getScore();
+                        correctBets = leaderboard.getCorrectBets();
                     }
                 }
                 if(pivot > 0){
                     LeaderboardGlobal leaderboardGlobal = client.getLeaderboardGlobal(pivot);
                     if (leaderboardGlobal == null) {
-                        leaderboardGlobal = new LeaderboardGlobal(client, pivot, points);
+                        leaderboardGlobal = new LeaderboardGlobal(client, pivot, points, correctBets);
                         client.addLeaderboardGlobal(leaderboardGlobal);
                     } else {
                         leaderboardGlobal.setScore(points);
+                        leaderboardGlobal.setCorrectBets(correctBets);
                     }
                 }
                 client.update();
@@ -184,6 +189,7 @@ public class Leaderboardnator extends HecticusThread {
     private Set<Integer> calculateBets(ArrayList<Integer> activeTournaments, ObjectNode results, int winnerPoints, int loserPoints) {
         Collection<Integer> calculated =  new HashSet<>();
         int idPhase = -1;
+        boolean isCorrect = false;
         for(int idTournament : activeTournaments){
             JsonNode tournametResults = results.get("" + idTournament);
             PagingList<ClientBets> pagingList = ClientBets.finder.where().eq("idTournament", idTournament).eq("status", 1).orderBy("client.idClient asc, idPhase asc").findPagingList(100);
@@ -196,7 +202,14 @@ public class Leaderboardnator extends HecticusThread {
                         if (tournametResults.has("" + clientBets.getIdGameMatch())) {
                             idPhase = clientBets.getIdPhase();
                             int result = tournametResults.get("" + clientBets.getIdGameMatch()).asInt();
-                            int points = result == clientBets.getClientBet() ? winnerPoints : loserPoints;
+                            int points = 0;
+                            if(result == clientBets.getClientBet()) {
+                                points = winnerPoints;
+                                isCorrect = true;
+                            } else {
+                                points = loserPoints;
+                                isCorrect = false;
+                            }
 
                             if(clientsPoints.containsKey(client.getIdClient())){
                                 int temp = points + clientsPoints.get(client.getIdClient());
@@ -208,8 +221,11 @@ public class Leaderboardnator extends HecticusThread {
                             if (leaderboard != null) {
                                 points += leaderboard.getScore();
                                 leaderboard.setScore(points);
+                                if(isCorrect){
+                                    leaderboard.increaseCorrectBets();
+                                }
                             } else {
-                                leaderboard = new Leaderboard(client, idTournament, idPhase, points);
+                                leaderboard = new Leaderboard(client, idTournament, idPhase, points, isCorrect?1:0);
                             }
                             client.addLeaderboard(leaderboard);
                             client.update();

@@ -29,13 +29,16 @@ public class Leaderboard extends HecticusModel{
 
     private Integer score;
 
+    private Integer correctBets;
+
     public static Model.Finder<Integer, Leaderboard> finder = new Model.Finder<Integer, Leaderboard>(Integer.class, Leaderboard.class);
 
-    public Leaderboard(Client client, Integer idTournament, Integer idPhase, Integer score) {
+    public Leaderboard(Client client, Integer idTournament, Integer idPhase, Integer score, Integer correctBets) {
         this.client = client;
         this.idTournament = idTournament;
         this.score = score;
         this.idPhase = idPhase;
+        this.correctBets = correctBets;
     }
 
     public Long getIdLeaderboard() {
@@ -78,6 +81,18 @@ public class Leaderboard extends HecticusModel{
         this.idPhase = idPhase;
     }
 
+    public Integer getCorrectBets() {
+        return correctBets;
+    }
+
+    public void setCorrectBets(Integer correctBets) {
+        this.correctBets = correctBets;
+    }
+
+    public void increaseCorrectBets() {
+        this.correctBets++;
+    }
+
     public static Leaderboard getLeaderboardByClientAndTournament(Integer idClient, Integer idTournament){
         return finder.where().eq("id_client", idClient).eq("id_tournament",idTournament).findUnique();
     }
@@ -93,6 +108,7 @@ public class Leaderboard extends HecticusModel{
         objNode.put("client", client.toJsonWithoutRelations());
         objNode.put("id_tournament", idTournament);
         objNode.put("score", score);
+        objNode.put("hits", correctBets);
         return objNode;
     }
 
@@ -101,6 +117,7 @@ public class Leaderboard extends HecticusModel{
         objNode.put("id_tournament", idTournament);
         objNode.put("id_phase", idPhase);
         objNode.put("score", score);
+        objNode.put("hits", correctBets);
         return objNode;
     }
 
@@ -108,6 +125,7 @@ public class Leaderboard extends HecticusModel{
         ObjectNode objNode = Json.newObject();
         objNode.put("client", client.getLogin());
         objNode.put("score", score);
+        objNode.put("hits", correctBets);
         return objNode;
     }
 }
