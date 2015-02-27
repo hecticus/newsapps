@@ -289,7 +289,9 @@ public class MatchesController extends HecticusController {
                         for (int i = 0; i < matchesByDate.size(); i++) {
                             data.add(matchesByDate.get(i).toJson());
                         }
+                        int totalMatches = competition.countMatchesByDate(date);
                         ObjectNode matches = Json.newObject();
+                        matches.put("total", totalMatches);
                         matches.put("fixtures", Json.toJson(data));
                         data.clear();
                         responseData.add(matches);
