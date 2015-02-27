@@ -16,7 +16,13 @@ angular
             var appId = '1';
             var apiVersion = 'v1';
             var getLang = function(){
+                if(!Client.getClientId()){
+                    Client.init()
+                }
                 return Client.getLanguage().id_language;
+            };
+            var getClientId = function(){
+                return Client.getClientId();
             };
 
             return {
@@ -115,14 +121,36 @@ angular
                 },
 
                 leaderboard:  {
+                    //TODO cambiar version
+                    phase: function (_competition, _phase) {
+                        return brazil_football_manager_url+ 'futbolbrasil/v1/clients/leaderboard/get/'
+                            + Client.getClientId() + '/' + _competition + '/' + _phase
+                    },
 
-                  phase: function (_competition, _phase) {
-                    return brazil_football_manager_url+ 'futbolbrasil/v1/clients/leaderboard/get/' + Client.getClientId() + '/' + _competition + '/' + _phase
-                  },
+                    competition: function (_competition) {
+                        return brazil_football_manager_url + 'futbolbrasil/v1/clients/leaderboard/global/get/'
+                            + Client.getClientId() + '/' + _competition
+                    },
 
-                  competition: function (_competition) {
-                    return brazil_football_manager_url +'futbolbrasil/v1/clients/leaderboard/global/get/' + Client.getClientId() + '/' + _competition
-                  }
+                    personal : {
+                        competition: function() {
+                            return brazil_football_manager_url
+                                + "futbolbrasil/v1/clients/leaderboard/personal/tournament/"
+                                + getClientId();
+                        },
+                        phase: {
+                            index : function(){
+                                return brazil_football_manager_url
+                                    + "futbolbrasil/v1/clients/leaderboard/personal/phase/"
+                                    + getClientId();
+                            },
+                            latest: function(idCompetition, date){
+                                return football_manager_url + 'footballapi/' + apiVersion
+                                + '/competitions/phases/latest/' +  appId + '/'
+                                + idCompetition + '/' + date + '/' + getLang();
+                            }
+                        }
+                    }
 
                 }
 

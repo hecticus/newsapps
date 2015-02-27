@@ -38,7 +38,14 @@
             "12" : "!Definicion por penales"
         }
     },
-    "PALPITES" : {
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Torneo",
+        "PHASE" : "Jornada",
+        "PLAYER" : "Jogador",
+        "POINTS" : "Pontos",
+        "HITS" : "Sucessos",
+        "MY_POINTS" : "Os Meus Pontos",
+        "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
         "LIVE" : "Não há jogos para hoje"

@@ -1,85 +1,74 @@
 <div class="row">
-  <div id="wrapperH">
-    <div id="scroller" ng-style="getTotalWidth()">
-      <ul>
-        <li ng-style="getWidth()" ng-repeat="competition in item.competitions" >
-          <div class="container">
+    <div id="wrapperH">
+        <div id="scroller" ng-style="getTotalWidth()">
+            <ul>
+                <li ng-style="getWidth()" ng-repeat="competition in item.competitions" >
+                    <div class="container">
+                        <div class="row header" style="height: 50px;">
+                            <div class="col-xs-3 tabs text-left" ng-click="prevPage()">
+                                <span ng-bind="item.competitions[$index-1].name"></span>
+                            </div>
+                            <div class="col-xs-6">
+                                <h4 ng-bind="competition.name" class="caption"></h4>
+                            </div>
+                            <div class="col-xs-3 tabs text-right" ng-click="nextPage()">
+                                <span ng-bind="item.competitions[$index+1].name"></span>
+                            </div>
+                        </div>
 
+                        <div class="row" style="margin-top:50px !important;">
+                            <div class="col-xs-6" >
+                                <span class="btn btn-success btn-filter-{{$index}} disabled"
+                                      ng-class="{'disabled': isActive('competition')}"
+                                      ng-click="getCompetition()" translate>LEADERBOARD.TOURNAMENT</span>
+                            </div>
+                            <div class="col-xs-6" >
+                                <span class="btn btn-success btn-filter-{{$index}}"
+                                      ng-class="{'disabled': isActive('phase')}"
+                                      ng-click="getPhase()" translate>LEADERBOARD.PHASE</span>
+                            </div>
+                        </div>
 
-
-            <div class="row header">
-              <div class="col-xs-3 tabs text-left" ng-click="prevPage()">
-                <span ng-bind="item.competitions[$index-1].name"></span>
-              </div>
-
-              <div class="col-xs-6">
-                <h4 ng-bind="competition.name" class="caption"></h4>
-              </div>
-
-              <div class="col-xs-3 tabs text-right" ng-click="nextPage()">
-                <span ng-bind="item.competitions[$index+1].name"></span>
-              </div>
-            </div>
-
-            <div class="row" style="margin-top:35px !important;">
-
-              <div class="col-xs-6" >
-                <span class="btn btn-success btn-filter-{{$index}} disabled" ng-class="{'disabled': isActive('competition')}" ng-click="getCompetition()">Competition</span>
-              </div>
-
-              <div class="col-xs-6" >
-                <span class="btn btn-success btn-filter-{{$index}}" ng-class="{'disabled': isActive('phase')}" ng-click="getPhase()">Phase</span>
-              </div>
-
-            </div>
-
-
-            <div class="row">
-              <div id="{{wrapper.getName($index)}}" class="wrapper" style="margin-top:100px !important;">
-                <div class="scroller" >
-                  <div class="container">
-                    <div class="col-xs-12" >
-                      <table class="table">
-
-                        <thead>
-                          <tr>
-                            <th ng-bind="strings.PLAYER_NAME_LABEL"></th>
-                            <th ng-bind="strings.TEAM_LABEL"></th>
-                            <th ng-bind="strings.GOALS_LABEL"></th>
-                          </tr>
-                        </thead>
-
-                        <tbody >
-
-
-                            <tr ng-repeat="leader in competition.leaderboard" ng-class="{'active' : $odd,  'client' : competition.client.client == leader.client }">
-                              <td>
-                                <span class="text-center-vertical" ng-bind="leader.index" ></span>
-                              </td>
-                              <td>
-                                <span class="text-center-vertical" ng-bind="leader.client"></span>
-                              </td>
-                              <td>
-                                <span class="text-center-vertical" ng-bind="leader.score"></span>
-                              </td>
-                            </tr>
-
-
-
-
-                        </tbody>
-
-                      </table>
+                        <div class="row">
+                            <div id="{{wrapper.getName($index)}}" class="wrapper"
+                                 style="margin-top:100px !important;">
+                                <div class="scroller" style="position: relative;">
+                                    <div class="container">
+                                        <div class="col-xs-12" >
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>##</th>
+                                                        <th translate>LEADERBOARD.PLAYER</th>
+                                                        <th translate>LEADERBOARD.POINTS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody >
+                                                    <tr ng-repeat="leader in competition.leaderboard"
+                                                        ng-class="{'active' : $odd,  'client' : competition.client.client == leader.client }">
+                                                        <td>
+                                                            <span class="text-center-vertical"
+                                                                  ng-bind="leader.index" ></span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-center-vertical"
+                                                                  ng-bind="leader.client"></span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-center-vertical"
+                                                                  ng-bind="leader.score"></span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>	<!--container-->
-                </div>	<!--scroller-->
-              </div> <!--wrapper-->
-            </div> <!--row-->
-
-
-          </div> <!--container-->
-        </li>
-      </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </div>

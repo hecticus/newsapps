@@ -25,13 +25,6 @@ angular
               return type === $scope.active;
           };
 
-
-          $scope.strings = {
-            PLAYER_NAME_LABEL: '##',
-            TEAM_LABEL: 'Jugador',
-            GOALS_LABEL: 'Puntos'
-          };
-
           $scope.wrapper = {
               name:'wrapperV',
               getName : function(_index) {
@@ -66,7 +59,7 @@ angular
                      $http.get(Domain.phases($scope.item.competitions[_index].id_competitions), config)
                       .success(function (data, status, headers, config) {
                            if (data.error == 0) {
-                            $scope.item.competitions[_index].phase = data.response.phases[data.response.phases.length-1].id_phases
+                            $scope.item.competitions[_index].phase = data.response.phases[data.response.phases.length-1].id_phases;
                             $scope.getCompetition();
                            }
                       }).catch(function () {
@@ -85,7 +78,18 @@ angular
             });
 
             $scope.item = JSON.parse($rootScope.$storage.scorers);
-            var _scroll = Utilities.newScroll.horizontal('wrapperH');
+//            var _scroll = Utilities.newScroll.horizontal('wrapperH');
+            var _scroll = new IScroll('#' + 'wrapperH', {
+                scrollX: true,
+                scrollY: false,
+                mouseWheel: false,
+                momentum: false,
+                snap: true,
+                snapSpeed: 700,
+                probeType: 3,
+                bounce: false,
+                click: true
+            });
             $scope.$on('onRepeatLast', function(scope, element, attrs) {
                 angular.forEach($scope.item.competitions, function(_item, _index) {
                     Utilities.newScroll.vertical($scope.wrapper.getName(_index));
@@ -124,7 +128,8 @@ angular
                $http.get(_url, config)
                .success(function (data, status, headers, config) {
                     if (data.error == 0) {
-
+                        console.log(_url);
+                        console.log(data.response);
                       angular.forEach(data.response.leaderboard, function(_item, _index) {
                         data.response.leaderboard[_index].index = (_index+1)
                       });
@@ -146,18 +151,21 @@ angular
                });
 
 
-            }
+            };
 
             $scope.getPhase = function(){
-               //console.log(Domain.leaderboard.phase($scope.item.competitions[_scroll.currentPage.pageX].id_competitions,$scope.item.competitions[_index].phase));
+                console.log('getPhase');
                $scope.setActive('phase');
-               $scope.getLeaderboardIndex(Domain.leaderboard.phase($scope.item.competitions[_scroll.currentPage.pageX].id_competitions,$scope.item.competitions[_index].phase));
+                var idCompetitions = $scope.item.competitions[_scroll.currentPage.pageX].id_competitions;
+                var phase = $scope.item.competitions[_scroll.currentPage.pageX].phase;
+               $scope.getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
             };
 
             $scope.getCompetition = function(){
-              //console.log(Domain.leaderboard.competition($scope.item.competitions[_scroll.currentPage.pageX].id_competitions));
+                console.log('getCompetition');
               $scope.setActive('competition');
-              $scope.getLeaderboardIndex(Domain.leaderboard.competition($scope.item.competitions[_scroll.currentPage.pageX].id_competitions));
+              var idCompetition = $scope.item.competitions[_scroll.currentPage.pageX].id_competitions;
+              $scope.getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
             };
 
           }();

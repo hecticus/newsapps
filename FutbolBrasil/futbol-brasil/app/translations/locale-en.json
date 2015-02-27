@@ -38,7 +38,13 @@
             "12" : "Penalty Shootouts"
         }
     },
-    "PALPITES" : {
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Tournament",
+        "PHASE" : "Phase",
+        "PLAYER" : "Player",
+        "POINTS" : "Points",
+        "HITS" : "Hits",
+        "MY_POINTS" : "My Points"
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today"

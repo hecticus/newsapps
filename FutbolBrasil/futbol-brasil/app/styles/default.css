@@ -795,6 +795,69 @@ body.content-mtm .row-back {
     text-align: center;
 }
 
+/*Leaderboars*/
+
+.row-header {
+    position: relative;
+    z-index: 4;
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    width: 100%;
+    height: 50px;
+    line-height: 35px;
+    background-color: transparent;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.row-header-primary {
+    background-color: #2196F3;
+    /*background-color: #808080;*/
+}
+
+.row-header .title {
+    text-align: center;
+    font-size : 1em;
+    padding: 8px;
+}
+
+.wrapper {
+    position: absolute;
+    z-index: 1;
+    /*top:  0;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #ffffff;
+}
+
+.wrapper-full{
+    top: 50px;
+}
+
+.wrapper-row {
+    top: 100px;
+}
+
+.scroller {
+    position: absolute;
+}
+
+.own-player {
+    font-weight: bold;
+    background-color: #2196F3 !important;
+}
+
+.own-player td {
+    background-color: #2196F3 !important;
+}
+
 /*
   Allow angular.js to be loaded in body, hiding cloaked elements until
   templates compile.  The !important is important given that there may be

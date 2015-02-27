@@ -63,6 +63,7 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 init : function() {
+                    console.log('Client.init');
                     this.checkStoredData();
                     clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
                     if(clientDataSafe){

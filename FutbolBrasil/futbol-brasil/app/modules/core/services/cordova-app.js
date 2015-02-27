@@ -8,9 +8,9 @@
 angular
     .module('core')
     .factory('CordovaApp',['$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
-        , 'FacebookManager', 'Client', 'Settings', 'App',
+        , 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App',
         function($window, Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
-            , Client, Settings, App) {
+            , Client, Settings, Competitions, App) {
             var that = this;
 
             var strings = {
@@ -86,8 +86,8 @@ angular
                     }else{
                         console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                     }
-
                     Settings.init();
+                    Competitions.init();
                     ClientManager.init(that.startApp, that.errorStartApp);
 
                     if (CordovaDevice.phonegapIsOnline()) {
