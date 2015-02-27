@@ -863,12 +863,12 @@ public class Clients extends HecticusController {
                     if (idTournament > 0) {
                         leaderboards = client.getLeaderboard(idTournament);
                         if(leaderboards != null && !leaderboards.isEmpty()){
-                            final String[] phasesArray = getFromQueryString("phases[]");
+                            final String[] phasesArray = getFromQueryString("phases");
                             if(phasesArray != null && phasesArray.length > 0) {
                                 Predicate<Leaderboard> validObjs = new Predicate<Leaderboard>() {
                                     public boolean apply(Leaderboard obj) {
                                         for(int i = 0; i < phasesArray.length; ++i){
-                                            if(obj.getIdPhase() == Integer.parseInt(phasesArray[i])){
+                                            if(obj.getIdPhase().intValue() == Integer.parseInt(phasesArray[i])){
                                                 return true;
                                             }
                                         }
@@ -879,7 +879,7 @@ public class Clients extends HecticusController {
                             } else if(idPhase > 0) {
                                 Predicate<Leaderboard> validObjs = new Predicate<Leaderboard>() {
                                     public boolean apply(Leaderboard obj) {
-                                        return obj.getIdPhase() > idPhase;
+                                        return obj.getIdPhase().intValue() > idPhase;
                                     }
                                 };
                                 leaderboards = (List<Leaderboard>) Utils.filterCollection(leaderboards, validObjs);
@@ -900,7 +900,6 @@ public class Clients extends HecticusController {
                                 if(leaderboard.getIdTournament() == pivot){
                                     phasesJson.add(leaderboard.toJsonClean());
                                 } else {
-                                    System.out.println("now " + leaderboard.getIdTournament());
                                     ObjectNode tournament = Json.newObject();
                                     tournament.put("id_tournament", pivot);
                                     tournament.put("phases", Json.toJson(phasesJson));
