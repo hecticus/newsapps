@@ -10,6 +10,7 @@ import models.Language;
 import models.football.*;
 import play.libs.Json;
 import play.mvc.Result;
+import utils.DateAndTime;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -412,6 +413,48 @@ public class MatchesController extends HecticusController {
                     } else {
                         response = buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases");
                     }
+                } else {
+                    response = buildBasicResponse(1, "La competition " + idCompetition + " no existe");
+                }
+            } else {
+                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+            }
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getCurrentAndLastPhaseForCompetition(Integer idApp, Integer idCompetition, String date, Integer idLanguage){
+        try {
+            ObjectNode response = null;
+            Apps app = Apps.findId(idApp);
+            if(app != null) {
+                ArrayList<ObjectNode> responseData = new ArrayList();
+                Competition competition = app.getCompetition(idCompetition);
+                if (competition != null) {
+                    Language requestLanguage = null;
+                    if(idLanguage > 0) {
+                        requestLanguage = Language.getByID(idLanguage);
+                    }
+                    if (idLanguage <= 0 || requestLanguage == null){
+                        requestLanguage = app.getLanguage();
+                    }
+                    Calendar dateCalendar = new GregorianCalendar(app.getTimezone().getTimezone());
+                    Date dateDate = DateAndTime.getDate(date, "yyyyMMdd");
+                    dateCalendar.setTime(dateDate);
+                    Phase activePhase = competition.getActivePhase(dateCalendar, app.getTimezone().getTimezone());
+                    List<Phase> latestPhases = competition.getLatestPhases(dateCalendar, app.getTimezone().getTimezone());
+                    ObjectNode data = Json.newObject();
+                    if(activePhase != null) {
+                        data.put("active_phase", activePhase.toJson(requestLanguage, app.getLanguage()));
+                    }
+                    if(latestPhases != null && !latestPhases.isEmpty()){
+                        Phase phase = latestPhases.get(latestPhases.size() - 1);
+                        data.put("last_phase", phase.toJson(requestLanguage, app.getLanguage()));
+                    }
+                    response = hecticusResponse(0, "ok", data);
                 } else {
                     response = buildBasicResponse(1, "La competition " + idCompetition + " no existe");
                 }

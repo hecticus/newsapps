@@ -106,6 +106,8 @@ GET     /footballapi/v1/competitions/list/:idApp/:idLanguage                    
 GET     /footballapi/v1/competitions/phases/notify/:idApp                                           controllers.footballapi.MatchesController.getPhasesToNotify(idApp : Integer)
 GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                                   controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405)
 GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition/:idLanguage                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer)
+GET     /footballapi/v1/competitions/phases/latest/:idApp/:idCompetition/:date                      controllers.footballapi.MatchesController.getCurrentAndLastPhaseForCompetition(idApp : Integer, idCompetition: Integer, date : String, idLanguage : Integer?=405)
+GET     /footballapi/v1/competitions/phases/latest/:idApp/:idCompetition/:date/:idLanguage          controllers.footballapi.MatchesController.getCurrentAndLastPhaseForCompetition(idApp : Integer, idCompetition: Integer, date : String, idLanguage : Integer)
 
 #MaM
 GET     /footballapi/v1/matches/mam/:idApp/:idCompetition/:idMatch                                  controllers.footballapi.MatchesController.getMinuteToMinuteForCompetition(idApp : Integer, idCompetition: Integer, idMatch : Long, idLanguage : Integer?=405, idEvent: Long?=0, forward: Boolean?=false)

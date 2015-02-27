@@ -863,7 +863,20 @@ public class Clients extends HecticusController {
                     if (idTournament > 0) {
                         leaderboards = client.getLeaderboard(idTournament);
                         if(leaderboards != null && !leaderboards.isEmpty()){
-                            if(idPhase > 0){
+                            final String[] phasesArray = getFromQueryString("phases[]");
+                            if(phasesArray != null && phasesArray.length > 0) {
+                                Predicate<Leaderboard> validObjs = new Predicate<Leaderboard>() {
+                                    public boolean apply(Leaderboard obj) {
+                                        for(int i = 0; i < phasesArray.length; ++i){
+                                            if(obj.getIdPhase() == Integer.parseInt(phasesArray[i])){
+                                                return true;
+                                            }
+                                        }
+                                        return false;
+                                    }
+                                };
+                                leaderboards = (List<Leaderboard>) Utils.filterCollection(leaderboards, validObjs);
+                            } else if(idPhase > 0) {
                                 Predicate<Leaderboard> validObjs = new Predicate<Leaderboard>() {
                                     public boolean apply(Leaderboard obj) {
                                         return obj.getIdPhase() > idPhase;

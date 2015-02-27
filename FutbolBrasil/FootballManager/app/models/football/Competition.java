@@ -10,9 +10,11 @@ import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.DateAndTime;
 import utils.Utils;
 
 import javax.persistence.*;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -38,6 +40,7 @@ public class Competition  extends HecticusModel {
     private CompetitionType type;
 
     @OneToMany(mappedBy="comp", cascade = CascadeType.ALL)
+    @OrderBy("nivel asc")
     public List<Phase> phases;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="competition", cascade = CascadeType.ALL)
@@ -371,6 +374,55 @@ public class Competition  extends HecticusModel {
             Predicate<Phase> validObjs = new Predicate<Phase>() {
                 public boolean apply(Phase obj) {
                     return obj.getNivel().intValue() == nivel;
+                }
+            };
+            Collection<Phase> result = Utils.filterCollection(phases, validObjs);
+            tr = (List<Phase>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public Phase getActivePhase(final Calendar date, final TimeZone timeZone){
+        Phase tr = null;
+        try {
+            tr = Iterables.find(phases, new Predicate<Phase>() {
+                public boolean apply(Phase obj) {
+                    Calendar startCalendar = new GregorianCalendar(timeZone);
+                    Calendar endCalendar = new GregorianCalendar(timeZone);
+                    try {
+                        Date startDate = DateAndTime.getDate(obj.getStartDate(), "yyyyMMdd");
+                        startCalendar.setTime(startDate);
+                        Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
+                        endCalendar.setTime(endDate);
+                        return date.equals(startCalendar) || date.equals(endCalendar) || (date.after(startCalendar) && date.before(endCalendar));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public List<Phase> getLatestPhases(final Calendar date, final TimeZone timeZone){
+        List<Phase> tr;
+        try {
+            Predicate<Phase> validObjs = new Predicate<Phase>() {
+                public boolean apply(Phase obj) {
+                    Calendar endCalendar = new GregorianCalendar(timeZone);
+                    try {
+                        Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
+                        endCalendar.setTime(endDate);
+                        return endCalendar.before(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
                 }
             };
             Collection<Phase> result = Utils.filterCollection(phases, validObjs);
