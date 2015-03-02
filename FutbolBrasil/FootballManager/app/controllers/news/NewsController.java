@@ -10,7 +10,9 @@ import models.Language;
 import models.Resource;
 import models.football.News;
 
+import play.libs.Json;
 import play.mvc.Result;
+import utils.DateAndTime;
 import utils.Utils;
 
 import java.util.*;
@@ -92,9 +94,8 @@ public class NewsController extends HecticusController {
             ObjectNode response = null;
             if(app != null) {
                 List<News> newsList = null;
-                Iterator<News> newsIterator = null;
                 int maxRows = first ? Config.getInt("news-to-deliver") : Config.getInt("news-to-deliver-lazy");
-
+                int totalNews = 0;
                 Language requestLanguage = null;
                 if (idLanguage > 0) {
                     requestLanguage = Language.getByID(idLanguage);
@@ -108,49 +109,34 @@ public class NewsController extends HecticusController {
                     news = News.finder.byId(newsId);
                 }
                 if (news != null) {
-                    if (newest) {
-                        newsList = News.finder.where().eq("app", app).gt("publicationDate", news.getPublicationDate()).setMaxRows(maxRows).orderBy("publicationDate desc").findList();
-                    } else {
-                        newsList = News.finder.where().eq("app", app).lt("publicationDate", news.getPublicationDate()).setMaxRows(maxRows).orderBy("publicationDate desc").findList();
+                    Calendar newsCalendar = new GregorianCalendar(app.getTimezone().getTimezone());
+                    Date newsDate = DateAndTime.getDate(news.getPublicationDate(), "yyyyMMddhhmmss");
+                    newsCalendar.setTime(newsDate);
+                    newsList = app.getNews(newsCalendar, newest, maxRows, requestLanguage.getIdLanguage());
+                    totalNews = app.countNews(newsCalendar, newest, requestLanguage.getIdLanguage());
+                    if(newsList == null){
+                        newsList = app.getNews(newsCalendar, newest, maxRows, app.getLanguage().getIdLanguage());
+                        totalNews = app.countNews(newsCalendar, newest, app.getLanguage().getIdLanguage());
                     }
                 } else {
-                    newsList = News.finder.where().eq("app", app).setFirstRow(0).setMaxRows(maxRows).orderBy("publicationDate desc").findList();
-                }
-
-                Collection<News> result = null;
-                try {
-                    final Language finalRequestLanguage = requestLanguage;
-                    Predicate<News> validNews = new Predicate<News>() {
-                        public boolean apply(News n) {
-                            return n.getLanguage().getIdLanguage().intValue() == finalRequestLanguage.getIdLanguage().intValue();
-                        }
-                    };
-                    result = Utils.filterCollection(newsList, validNews);
-                } catch (NoSuchElementException ex){
-                    try {
-                        final Language finalAppLanguage = app.getLanguage();
-                        Predicate<News> validNews = new Predicate<News>() {
-                            public boolean apply(News n) {
-                                return n.getLanguage().getIdLanguage().intValue() == finalAppLanguage.getIdLanguage().intValue();
-                            }
-                        };
-                        result = Utils.filterCollection(newsList, validNews);
-                    } catch (NoSuchElementException e){
-                        result = null;
+                    newsList = app.getNews(null, newest, maxRows, requestLanguage.getIdLanguage());
+                    totalNews = app.countNews(null, newest, requestLanguage.getIdLanguage());
+                    if(newsList == null){
+                        newsList = app.getNews(null, newest, maxRows, app.getLanguage().getIdLanguage());
+                        totalNews = app.countNews(null, newest, app.getLanguage().getIdLanguage());
                     }
                 }
-                if(result != null && !result.isEmpty()) {
-                    newsIterator = result.iterator();
-                } else {
-                    newsIterator =  newsList.iterator();
-                }
 
+                Iterator<News> newsIterator = newsList.iterator();
                 ArrayList<ObjectNode> newsListResult = new ArrayList<>();
                 while (newsIterator.hasNext()) {
                     News next = newsIterator.next();
                     newsListResult.add(next.toJson());
                 }
-                response = hecticusResponse(0, "ok", "news", newsListResult);
+                ObjectNode data = Json.newObject();
+                data.put("total", totalNews);
+                data.put("news", Json.toJson(newsListResult));
+                response = hecticusResponse(0, "ok", data);
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
             }

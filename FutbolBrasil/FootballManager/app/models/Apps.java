@@ -6,13 +6,13 @@ import com.google.common.collect.Iterables;
 import models.football.*;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.DateAndTime;
 import utils.Utils;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.TimeZone;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by sorcerer on 9/24/14.
@@ -44,6 +44,10 @@ public class Apps extends HecticusModel {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
     private List<Job> jobs;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
+    @OrderBy("publicationDate desc")
+    private List<News> news;
 
     private static Finder<Integer, Apps> finder = new Model.Finder<Integer, Apps>(Integer.class, Apps.class);
 
@@ -156,6 +160,14 @@ public class Apps extends HecticusModel {
         this.jobs = jobs;
     }
 
+    public List<News> getNews() {
+        return news;
+    }
+
+    public void setNews(List<News> news) {
+        this.news = news;
+    }
+
     public Competition getCompetition(final long idCompetition){
         Competition tr = null;
         try {
@@ -166,6 +178,82 @@ public class Apps extends HecticusModel {
             });
         } catch (NoSuchElementException ex){
             tr = null;
+        }
+        return tr;
+    }
+
+    public News getNews(final long idNews){
+        News tr = null;
+        try {
+            tr = Iterables.find(news, new Predicate<News>() {
+                public boolean apply(News obj) {
+                    return obj.getIdNews() == idNews;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public List<News> getNews(final Calendar pivotNewsCalendar, final boolean newest, int maxSize, final int idLanguage){
+        List<News> tr;
+        final TimeZone timeZone = this.timezone.getTimezone();
+        try {
+            Predicate<News> validObjs = new Predicate<News>() {
+                public boolean apply(News obj) {
+                    if(pivotNewsCalendar != null){
+                        Calendar publicationDateCalendar = new GregorianCalendar(timeZone);
+                        try {
+                            Date publicationDate = DateAndTime.getDate(obj.getPublicationDate(), "yyyyMMddhhmmss");
+                            publicationDateCalendar.setTime(publicationDate);
+                            if(newest){
+                                return publicationDateCalendar.after(pivotNewsCalendar) && obj.getLanguage().getIdLanguage().intValue() == idLanguage;
+                            }
+                            return publicationDateCalendar.before(pivotNewsCalendar) && obj.getLanguage().getIdLanguage().intValue() == idLanguage;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            return false;
+                        }
+                    }
+                    return obj.getLanguage().getIdLanguage().intValue() == idLanguage;
+                }
+            };
+            Collection<News> result = Utils.filterCollection(news, validObjs, 0, maxSize);
+            tr = (List<News>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public int countNews(final Calendar pivotNewsCalendar, final boolean newest, final int idLanguage){
+        int tr;
+        final TimeZone timeZone = this.timezone.getTimezone();
+        try {
+            Predicate<News> validObjs = new Predicate<News>() {
+                public boolean apply(News obj) {
+                    if(pivotNewsCalendar != null){
+                        Calendar publicationDateCalendar = new GregorianCalendar(timeZone);
+                        try {
+                            Date publicationDate = DateAndTime.getDate(obj.getPublicationDate(), "yyyyMMddhhmmss");
+                            publicationDateCalendar.setTime(publicationDate);
+                            if(newest){
+                                return publicationDateCalendar.after(pivotNewsCalendar) && obj.getLanguage().getIdLanguage().intValue() == idLanguage;
+                            }
+                            return publicationDateCalendar.before(pivotNewsCalendar) && obj.getLanguage().getIdLanguage().intValue() == idLanguage;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            return false;
+                        }
+                    }
+                    return  obj.getLanguage().getIdLanguage().intValue() == idLanguage;
+                }
+            };
+            Collection<News> result = Utils.filterCollection(news, validObjs);
+            tr = result.size();
+        } catch (NoSuchElementException e){
+            tr = 0;
         }
         return tr;
     }
