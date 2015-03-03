@@ -776,7 +776,9 @@ body.content-mtm .row-back {
     width: 100%;
     height: auto;
     position: absolute;
-    margin: 0 auto;
+    /*margin: 0 auto !important;*/
+    margin-top: 120px !important;
+    padding: 24px !important;
     left: 0;
     top: 0;
     bottom: 0;
@@ -847,6 +849,7 @@ body.content-mtm .row-back {
 
 .scroller {
     position: absolute;
+    width: 100%;
 }
 
 .own-player {

@@ -7,9 +7,17 @@
  */
 angular
     .module('core')
-    .factory('ClientManager',['$http', 'CordovaDevice', 'WebManager', 'TeamsManager'
-        , 'Client', 'Domain', 'Utilities',
-        function($http, CordovaDevice, WebManager, TeamsManager, Client, Domain, Utilities) {
+    .factory('ClientManager',['$http', '$translate', 'CordovaDevice', 'WebManager', 'TeamsManager'
+        , 'Client', 'Domain', 'i18n',
+        function($http, $translate, CordovaDevice, WebManager, TeamsManager, Client, Domain, i18n) {
+
+            var setLanguage = function(){
+                var lang = Client.getLanguage();
+                if(!lang){
+                    lang = i18n.getDefaultLanguage();
+                }
+                $translate.use(lang.short_name.toLowerCase());
+            };
 
             return {
 
@@ -20,6 +28,8 @@ angular
                  */
                 init : function (successCallback, errorCallback){
                     Client.init();
+                    setLanguage();
+
                     if(Client.getClientId()){
                         TeamsManager.init();
                         this.getClientStatus(successCallback, errorCallback);

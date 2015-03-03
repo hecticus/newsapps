@@ -48,7 +48,8 @@
         "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "Não há jogos para hoje"
+        "LIVE" : "Não há jogos para hoje",
+        "NEWS" : "Não há notícias disponíveis"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificações Push",

@@ -47,7 +47,8 @@
         "MY_POINTS" : "My Points"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "There are no games for today"
+        "LIVE" : "There are no games for today",
+        "NEWS" : "There are no news available"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Push Notifications",

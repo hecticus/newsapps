@@ -12,7 +12,9 @@ angular
         ,'Utilities', 'Moment', 'SocialAppsManager',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities, Moment
             , SocialAppsManager) {
+
             $rootScope.$storage.news = false;
+            $scope.hasNews = true;
 
             //Indicador de primera y ultima posicion en cache
             var _news = {
@@ -47,13 +49,15 @@ angular
                     //$scope.$emit('unload');
                 } else {
                     $http.get(Domain.news.index())
-                        .success(function (data, status, headers, config) {
+                        .success(function (data, status) {
                             if(data.response.total > 0){
+                                $scope.hasNews = true;
                                 $scope.news = data.response.news;
                                 _news.first = $scope.news[0].idNews;
                                 _news.last  = $scope.news[$scope.news.length-1].idNews;
                                 $rootScope.$storage.news = JSON.stringify($scope.news);
                             } else {
+                                $scope.hasNews = false;
                                 console.log('No News Available');
                             }
                         }).finally(function (data) {

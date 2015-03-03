@@ -49,7 +49,8 @@ var translationsEn = {
         "MY_POINTS" : "My Points"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "There are no games for today"
+        "LIVE" : "There are no games for today",
+        "NEWS" : "There are no news available"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Push Notifications",
@@ -77,7 +78,84 @@ var translationsEn = {
     },
     "LOADING" : "Loading"
 };
-var translationsEs = {};
+var translationsEs = {
+    "SECTIONS" : {
+        "NOTISTATS" : {
+            "NOTISTATS" : "Notistats",
+            "MATCHES": "Partidos",
+            "STANDINGS": "Clasificación",
+            "NEWS": "Noticias",
+            "SCORERS": "Goleadores",
+            "LIVE": "En Vivo"
+        },
+        "BETS" : {
+            "BETS": "Apuestas",
+            "PREDICTIONS" : "Prediccines",
+            "LEADERBOARDS" : "Leaderboards",
+            "FRIENDS" : "Amigos",
+            "POINTS" : "Puntos"
+        },
+        "SETTINGS": "Configuraciónes"
+    },
+    "NEWS" : {
+        "TITLE" : "Noticias"
+
+    },
+    "MATCH" : {
+        "STATUS" : {
+            "0" : "Sin Jugar",
+            "1" : "Primer Tiempo",
+            "2" : "Final",
+            "3" : "Suspendido",
+            "4" : "Postpuesto",
+            "5" : "Medio Tiempo",
+            "6" : "Segundo Tiempo",
+            "7" : "Tiempo Completo",
+            "8" : "Extra tiempo 1",
+            "9" : "Fin de Extra tiempo 1",
+            "10" : "Extra tiempo 2",
+            "11" : "Fin de Extra tiempo 2",
+            "12" : "Penales"
+        }
+    },
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Torneo",
+        "PHASE" : "Jornada",
+        "PLAYER" : "Jugador",
+        "POINTS" : "Puntos",
+        "HITS" : "Aciertos",
+        "MY_POINTS" : "Mis Puntos"
+    },
+    "EMPTY_STATES" : {
+        "LIVE" : "No hay juegos programados para hoy",
+        "NEWS" : "No hay noticias disponibles"
+    },
+    "SETTINGS": {
+        "PUSH_TITLE": "Notificaciones Push",
+        "FAVORITE_TEAMS_TITLE": "Mis Equipos Favoritos",
+        "LANGUAGES_TITLE": "Idiomas",
+        "SOCIAL_ACCOUNTS_TITLE": "Cuentas Sociales",
+        "TOGGLE" : {
+            "BETS" : "Apuestas",
+            "MTM" : "En Vivo",
+            "NEWS" : "Noticias"
+        },
+        "FACEBOOK" : {
+            "CONNECT" : "Conectar con Facebook",
+            "CONNECTED" : "Conectado con Facebook"
+        },
+        "ADD_TEAM": "Agregar Equipo",
+        "NOT_AVAILABLE": "No Disponible",
+        "LANGUAGE_SEARCH_HELPER" : "Encuentra tu idioma",
+        "TEAM_SEARCH_HELPER" : "Encuentra tu equipo"
+    },
+    "LANGUAGE" : {
+        "PT" : "Portugués",
+        "EN" : "Inglés",
+        "ES" : "Español"
+    },
+    "LOADING" : "Cargando"
+};
 var translationsPt = {
     "SECTIONS" : {
         "NOTISTATS" : {
@@ -128,7 +206,8 @@ var translationsPt = {
         "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "Não há jogos para hoje"
+        "LIVE" : "Não há jogos para hoje",
+        "NEWS" : "Não há notícias disponíveis"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificações Push",
@@ -184,8 +263,8 @@ angular
 //                suffix: '.json'
 //            });
             $translateProvider.translations('en', translationsEn);
+            $translateProvider.translations('es', translationsEs);
             $translateProvider.translations('pt', translationsPt);
-//            $translateProvider.translations('es', translations);
             $translateProvider.preferredLanguage('pt');
             $translateProvider.use('pt');
             $translateProvider.usePostCompiling(true);

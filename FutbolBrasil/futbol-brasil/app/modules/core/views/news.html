@@ -6,16 +6,24 @@
     </div>
 </div>
 
-<div id="wrapper">
+<div id="wrapper" class="wrapper wrapper-full">
     <div class="scroller">
         <div class="container" >
-            <div class="row">
+            <div class="row" ng-show="hasNews">
                 <div class="col-xs-12 news"
                      ng-repeat="item in news track by item.idNews"
                      ng-click="showContentNews(item)">
                     <h5 class="title">{{item.title}}</h5>
                     <i class="icon mdi-device-access-time"></i>
                     <span class="moment">{{fromNow(item.publicationDate)}}</span>
+                </div>
+            </div>
+            <div class="row" ng-hide="hasNews">
+                <div class="col-xs-12 news">
+                    <div class="no-content-panel" style="margin-top: 120px !important;">
+                        <i class="mdi-action-info-outline"></i>
+                        <div class="no-content-panel-title" translate>EMPTY_STATES.NEWS</div>
+                    </div>
                 </div>
             </div>
         </div>
