@@ -106,7 +106,7 @@ public class MatchesController extends HecticusController {
                 ArrayList data = new ArrayList();
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -152,7 +152,7 @@ public class MatchesController extends HecticusController {
                 ArrayList<ObjectNode> data = new ArrayList();
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -226,7 +226,7 @@ public class MatchesController extends HecticusController {
                 }
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -348,7 +348,7 @@ public class MatchesController extends HecticusController {
                 if (idLanguage <= 0 || requestLanguage == null){
                     requestLanguage = app.getLanguage();
                 }
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }

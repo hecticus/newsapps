@@ -780,7 +780,7 @@ public class Clients extends HecticusController {
                 int leaderboardSize = Config.getInt("leaderboard-size");
 
                 List<Client> friends = null;
-                String[] friendsArray = getFromQueryString("friends[]");
+                String[] friendsArray = getFromQueryString("friends");
                 if (friendsArray != null && friendsArray.length > 0) {
                     friends = Client.finder.where().in("facebookId", friendsArray).findList();
                 }
