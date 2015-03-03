@@ -48,10 +48,14 @@ angular
                 } else {
                     $http.get(Domain.news.index())
                         .success(function (data, status, headers, config) {
-                            $scope.news = data.response.news;
-                            _news.first = $scope.news[0].idNews;
-                            _news.last  = $scope.news[$scope.news.length-1].idNews;
-                            $rootScope.$storage.news = JSON.stringify($scope.news);
+                            if(data.response.total > 0){
+                                $scope.news = data.response.news;
+                                _news.first = $scope.news[0].idNews;
+                                _news.last  = $scope.news[$scope.news.length-1].idNews;
+                                $rootScope.$storage.news = JSON.stringify($scope.news);
+                            } else {
+                                console.log('No News Available');
+                            }
                         }).finally(function (data) {
                             $rootScope.error = !$scope.news;
                             $scope.$emit('unload');

@@ -22,16 +22,8 @@ angular
             };
 
             $scope.getLanguages = function(){
-                i18n.getAvailableLanguages().then(function(languages){
-                    $scope.languages = languages;
-                    $scope.translate();
-                },function(response){
-                    console.log('getLanguages. Error getting languages from server. ' +
-                        'Falling back to persisted data');
-                    if(response.languages){
-                        $scope.languages = response.languages;
-                    }
-                });
+                $scope.languages = i18n.getAvailableLanguages();
+                $scope.translate();
                 $scope.$emit('unload');
             };
 

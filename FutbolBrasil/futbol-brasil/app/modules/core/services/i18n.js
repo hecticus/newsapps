@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('i18n',['$http', '$q', '$localStorage', 'Domain', 'Client',
-        function($http, $q, $localStorage, Domain, Client) {
+    .factory('i18n',['$q', '$localStorage',
+        function($q, $localStorage) {
             var FILE_KEY_LANGUAGES = 'APPLANGUAGES';
             var FILE_KEY_LANGUAGE_DEFAULT = 'APPLANGUAGEDEFAULT';
             var availableLanguages = [];
@@ -36,8 +36,11 @@ angular
                  */
                 getAvailableLanguages: function() {
                     if(!availableLanguages){ loadLanguages(); }
+                    return availableLanguages;
+                },
 
-                    return $http.get(Domain.languages).then(
+                setAvailableLanguages : function(http){
+                    http.then(
                         function(response){
                             response = response.data;
                             if(response.error) {
@@ -63,7 +66,7 @@ angular
                 },
 
                 getDefaultLanguage : function(){
-                    if(!defaultLanguage){
+                    if(!defaultLanguage && $localStorage[FILE_KEY_LANGUAGE_DEFAULT]){
                         defaultLanguage = JSON.parse($localStorage[FILE_KEY_LANGUAGE_DEFAULT]);
                     }
                     return defaultLanguage;

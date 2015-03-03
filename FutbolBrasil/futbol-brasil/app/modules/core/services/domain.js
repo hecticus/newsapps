@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Domain', ['Client',
-        function(Client){
+    .factory('Domain', ['Client', 'i18n',
+        function(Client, i18n){
 
             var football_manager_url = 'http://footballmanager.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
@@ -16,10 +16,14 @@ angular
             var appId = '1';
             var apiVersion = 'v1';
             var getLang = function(){
-                if(!Client.getClientId()){
-                    Client.init()
+                if(!Client.getLanguage() && i18n.getDefaultLanguage()){
+//                    Client.init();
+                    return i18n.getDefaultLanguage().id_language;
+                } else if(Client.getLanguage()){
+                    return Client.getLanguage().id_language;
+                } else {
+                    return 405;
                 }
-                return Client.getLanguage().id_language;
             };
             var getClientId = function(){
                 return Client.getClientId();

@@ -13,6 +13,7 @@ angular
             , Client, Settings, Competitions, App) {
             var that = this;
 
+            //TODO i18n-alizar
             var strings = {
                 EXIT_APP_TITLE : 'Sair do Aplicativo',
                 EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',

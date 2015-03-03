@@ -157,8 +157,8 @@ angular
             })
             .state('friends', {
                 url: '/friends',
-                controller:'FriendsCtrl  as _this',
-                templateUrl:'modules/core/views/friends.html',
+                controller:'LeaderboardCtrl  as _this',
+                templateUrl:'modules/core/views/leaderboard.html',
                 data:{
                     prev: 'leaderboard',
                     next: 'points',

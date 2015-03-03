@@ -98,7 +98,10 @@ angular
                             App.setCompanyName(response.company_name);
                             App.setBuildVersion(response.build_version);
                             App.setServerVersion(response.server_version);
+
                             i18n.setDefaultLanguage(response.default_language);
+                            i18n.setAvailableLanguages($http.get(Domain.languages));
+
                             successCallback();
                         }).error(function(){
                             errorCallback();

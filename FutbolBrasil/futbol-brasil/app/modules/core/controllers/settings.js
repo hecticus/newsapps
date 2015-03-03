@@ -160,14 +160,16 @@ angular
                     //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
                     $translate.use($scope.lang.short_name.toLowerCase());
-                    $translate.refresh().then(function(){
+//                    $translate.refresh().then(function(){
                         $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
                             //noinspection JSPrimitiveTypeWrapperUsage
                             $scope.lang.translation = translation;
                         });
-                    });
+//                    });
                 } else {
                     $scope.lang = {};
+                    //noinspection JSPrimitiveTypeWrapperUsage
+                    $scope.lang.short_name = 'NA';
                     //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.translation =  'No Language Selected';
                 }

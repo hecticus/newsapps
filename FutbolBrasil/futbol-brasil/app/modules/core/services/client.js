@@ -7,38 +7,54 @@
  */
 angular
     .module('core')
-    .factory('Client', ['$localStorage','$injector',
-        function($localStorage, $injector) {
-
+    .factory('Client', ['$localStorage',
+        function($localStorage) {
             var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
             var FILE_KEY_CLIENT = "APPDATACLIENT";
             var FILE_KEY_CLIENT_PUSH_ALERTS = "APPDATACLIENTPUSHALERTS";
-            var FILE_KEY_CLIENT_MSISDN = "APPDATACLIENTMSISDN";
             var FILE_KEY_CLIENT_DATASAFE = "APPDATACLIENTDATASAFE";
-            var FILE_KEY_CLIENT_REGID = "APPDATACLIENTREGID";
 
-            var regId = '';
-            var clientId = "";
-            var clientPushAlerts = [];
-            var msisdn = "";
-            var clientDataSafe = false;
-            var clientPassword = "";
-            var clientObj = {};
-            var hasFavorites = false;
-            var isFavoritesFilterActive = false;
-            var language = '';
-            var currentVersion = 0;
             var localStorage = $localStorage;
+            var hasToUpdateRegId = false;
+            var clientPushAlerts = [];
+            var clientDataSafe = false;
+            var client = {};
+            var currentVersion = 0;
+
+            var checkStoredData = function (){
+                var storedVersion = loadStoredVersion();
+                if(!!storedVersion || currentVersion > storedVersion){
+                    eraseAllConfigs();
+                }
+                saveStoredVersion();
+            };
 
             var eraseAllConfigs = function (){
                 delete localStorage[FILE_KEY_CLIENT];
-                delete localStorage[FILE_KEY_CLIENT_MSISDN];
-                delete localStorage[FILE_KEY_CLIENT_REGID];
                 delete localStorage[FILE_KEY_CLIENT_DATASAFE];
             };
 
-            var saveClient = function(){
-                localStorage[FILE_KEY_CLIENT] = JSON.stringify(clientObj);
+            var loadClient = function(){
+                checkStoredData();
+                clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
+                if(clientDataSafe){
+                    var clientString = localStorage[FILE_KEY_CLIENT];
+                    if(!!clientString && clientString != ''){
+                        client = JSON.parse(clientString);
+                    }
+                }else{
+                    eraseAllConfigs();
+                }
+            };
+
+            var saveClient = function () {
+                localStorage[FILE_KEY_CLIENT] = JSON.stringify(client);
+            };
+
+            var markClientAsOk = function () {
+                clientDataSafe = true;
+                localStorage[FILE_KEY_CLIENT_DATASAFE] = 'true';
+                return true;
             };
 
             var saveStoredVersion = function () {
@@ -64,51 +80,20 @@ angular
                  */
                 init : function() {
                     console.log('Client.init');
-                    this.checkStoredData();
-                    clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
-                    if(clientDataSafe){
-                        var clientString = localStorage[FILE_KEY_CLIENT];
-                        if(!!clientString && clientString != ""){
-                            clientObj = JSON.parse(clientString);
-                            if(clientObj.language){
-                                language = clientObj.language;
-                            } else {
-                                this.setLanguage($injector.get('i18n').getDefaultLanguage());
-                            }
-                            clientId = clientObj.id_client;
-                            isFavoritesFilterActive = clientObj.isFavoritesFilterActive;
-                        }
-                    }else{
-                        delete localStorage[FILE_KEY_CLIENT];
-                        delete localStorage[FILE_KEY_CLIENT_MSISDN];
-                    }
-
-                    this.loadClientMSISDN();
+                    loadClient();
                     return true;
                 },
 
-                saveClient : function (data, password) {
-                    clientId = data.id_client;
-                    clientObj = {
-                        id_client : data.id_client,
-                        user_id : data.user_id,
-                        login : data.login,
-                        language : language,
-                        isFavoritesFilterActive : isFavoritesFilterActive
-                    };
+                updateClient : function (data, password) {
+                    client.id_client = data.id_client;
+                    client.user_id = data.user_id;
+                    client.login = data.login;
 
-                    if(password){
-                        clientObj.password = password;
-                        this.markClientAsOk();
+                    if(!!password){
+                        client.password = password;
+                        markClientAsOk();
                     }
-
                     saveClient();
-
-                    if(msisdn && msisdn !== ''){
-                        localStorage[FILE_KEY_CLIENT_MSISDN] = msisdn;
-                    }
-
-                    this.setRegId(regId);
                     return true;
                 },
 
@@ -128,24 +113,20 @@ angular
                 isActiveClient : function (status){
                     return !!(status > 0 && status != 2);
                 },
-
                 getClientId : function(){
-                    return clientId;
-                },
-                getRegId : function(){
-                    return regId;
-                },
-                getClientDataSafe : function(){
-                    return clientDataSafe;
+                    return client.id_client;
                 },
                 getPassword : function(){
-                    return clientPassword;
+                    return client.password;
                 },
                 setPassword : function(password){
-                    clientPassword = password;
+                    if(!!password){
+                        client.password = password;
+                        saveClient();
+                    }
                 },
                 getClientObj : function(){
-                    return clientObj;
+                    return client;
                 },
                 getClientPushAlerts : function(){
                     return clientPushAlerts;
@@ -153,92 +134,108 @@ angular
                 isClientOk : function(){
                     return clientDataSafe;
                 },
-
                 getMsisdn: function(){
-                    return msisdn;
+                    return client.msisdn;
                 },
-
-                setMsisdn : function (clientMsisdn, successCallback, errorCallback) {
+                setMsisdn : function (msisdn, successCallback, errorCallback) {
                     try{
-                        clientMsisdn = (''+clientMsisdn).replace(/^\s+|\s+$/g, "");
-                        if(isNaN(clientMsisdn) && (clientMsisdn.length < 8 || clientMsisdn.length > 11)){
+                        msisdn = (''+msisdn).replace(/^\s+|\s+$/g, "");
+                        if(isNaN(msisdn) && (msisdn.length < 8 || msisdn.length > 11)){
                             typeof errorCallback == "function" && errorCallback();
                         }
 
-                        for(var i=0;i<clientMsisdn.length;++i){
-                            parseInt(clientMsisdn[i],10);
+                        for(var i = 0; i < msisdn.length; ++i){
+                            parseInt(msisdn[i],10);
                         }
+                        client.msisdn = msisdn;
+                        saveClient();
+                        console.log(client);
 
-                        localStorage[FILE_KEY_CLIENT_MSISDN] = clientMsisdn;
-                        msisdn = clientMsisdn;
-                        typeof errorCallback == "function" && successCallback();
+                        typeof successCallback == "function" && successCallback();
                     } catch(err){
                         console.log("setMsisdn. Error. Invalid MSISDN: " + err);
                         typeof errorCallback == "function" && errorCallback();
                     }
                 },
 
-                loadClientMSISDN : function () {
-                    msisdn = localStorage[FILE_KEY_CLIENT_MSISDN];
-                },
-
-                markClientAsOk : function () {
-                    clientDataSafe = true;
-                    localStorage[FILE_KEY_CLIENT_DATASAFE] = 'true';
-                    return true;
+                getRegId : function(){
+                    return client.regId;
                 },
 
                 setRegId : function (id) {
-                    regId = id;
-                    localStorage[FILE_KEY_CLIENT_REGID] = id;
-                },
-
-                getPersistedRegId : function () {
-                    return localStorage[FILE_KEY_CLIENT_REGID];
+                    console.log('Client.setregId: ' + id);
+                    hasToUpdateRegId = true;
+                    client.regId = id;
+                    saveClient();
                 },
 
                 hasToUpdateRegId : function (){
-                    var savedRegID = this.getPersistedRegId();
-                    return !!(!savedRegID || savedRegID != regId);
-                },
-
-                checkStoredData : function (){
-                    var storedVersion = loadStoredVersion();
-                    if(!!storedVersion || currentVersion > storedVersion){
-                        eraseAllConfigs();
-                    }
-                    saveStoredVersion();
+                    return hasToUpdateRegId;
                 },
 
                 setHasFavorites: function(value){
-                    hasFavorites = value;
+                    client.hasFavorites = value;
+                    saveClient();
                 },
 
                 getHasFavorites : function(){
-                    return hasFavorites;
+                    if(!client.hasFavorites){
+                        loadClient();
+                    }
+                    return client.hasFavorites;
                 },
 
                 enableFavoritesFilter: function(value){
-                    isFavoritesFilterActive = value;
-                    clientObj.isFavoritesFilterActive = value;
+                    client.isFavoritesFilterActive = value;
                     saveClient();
                 },
 
                 isFavoritesFilterActive : function(){
-                    return isFavoritesFilterActive;
+                    if(!client.isFavoritesFilterActive){
+                        loadClient();
+                    }
+                    return client.isFavoritesFilterActive;
                 },
 
-                setLanguage : function(lang, callback){
-                    language = lang;
-                    clientObj.language = language;
+                setLanguage : function(language, callback){
+                    client.language = language;
                     saveClient();
                     typeof callback === 'function' && callback();
                 },
 
                 getLanguage : function(){
-                    return language;
-                }
+                    if(!client.language){
+                        loadClient();
+                    }
+                    return client.language;
+                },
 
+                getFriends : function(){
+                    if(!client.friends){
+                        loadClient();
+                    }
+                    return client.friends;
+                },
+
+                getFriendsIds : function(){
+                    var idFriends = [];
+                    if(!client.friends){
+                        loadClient();
+                    }
+
+                    if(client.friends){
+                        idFriends = client.friends.map(function(friend){
+                            return friend.id;
+                        });
+                    }
+
+                    return idFriends;
+                },
+
+                setFriends : function(pFriends){
+                    client.friends = pFriends;
+                    saveClient();
+                }
             };
         }
     ]);
