@@ -411,4 +411,14 @@ public class Post extends HecticusModel {
 
         return iterator;
     }
+
+    public List<Post> relatedByAthletes(List<Athlete> athlete, Country country, Language language) {
+        int maxRelated = 3;
+        return finder.fetch("countries").fetch("localizations").fetch("athletes").where().ne("idPost",this.idPost).in("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
+    }
+
+    public List<Post> relatedByCategory(List<Category> category, Country country, Language language){
+        int maxRelated = 3;
+        return finder.fetch("countries").fetch("localizations").fetch("categories").where().ne("idPost",this.idPost).in("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
+    }
 }

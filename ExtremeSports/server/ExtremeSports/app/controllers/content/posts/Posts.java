@@ -52,7 +52,8 @@ public class Posts extends HecticusController {
         ObjectNode postData = getJson();
         try{
             ObjectNode response = null;
-            if(postData.has("athletes") && postData.has("localizations") && postData.has("media") && postData.has("countries") && postData.has("source") && postData.has("social_network")){
+            if(postData.has("athletes") && postData.has("localizations") && postData.has("countries")
+                    && postData.has("source") && postData.has("social_network")){
 
 
                 SocialNetwork socialNetwork = SocialNetwork.getByID(postData.get("social_network").asInt());
@@ -87,12 +88,6 @@ public class Posts extends HecticusController {
                         athletes.add(postHasAthlete);
                     }
                 }
-
-//                if(athletes.isEmpty()){
-//                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
-//                    return ok(response);
-//                }
-//                post.setAthletes(athletes);
 
                 if(!athletes.isEmpty()){
                     post.setAthletes(athletes);
@@ -161,36 +156,31 @@ public class Posts extends HecticusController {
 
                 post.save();
 
-                Iterator<JsonNode> mediaIterator = postData.get("media").elements();
-                ArrayList<PostHasMedia> media = new ArrayList<>();
-                while (mediaIterator.hasNext()){
-                    ObjectNode next = (ObjectNode)mediaIterator.next();
-                    if(next.has("file") && next.has("file_type")){
-                        FileType fileType = FileType.getByID(next.get("file_type").asInt());
-                        int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
-                        String file = next.get("file").asText();
-                        String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
-                        String path = Utils.uploadAttachment(file, "Post-"+post.getIdPost());
-                        int width = 0;
-                        int height = 0;
-                        if(fileType.getMimeType().startsWith("image")){
-                            BufferedImage bimg = ImageIO.read(new File(Config.getString("ftp-route") + file));
-                            width = bimg.getWidth();
-                            height = bimg.getHeight();
+                if (postData.has("media")){
+                    Iterator<JsonNode> mediaIterator = postData.get("media").elements();
+                    ArrayList<PostHasMedia> media = new ArrayList<>();
+                    while (mediaIterator.hasNext()){
+                        ObjectNode next = (ObjectNode)mediaIterator.next();
+                        if(next.has("file") && next.has("file_type")){
+                            FileType fileType = FileType.getByID(next.get("file_type").asInt());
+                            int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
+                            String file = next.get("file").asText();
+                            String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
+                            String path = Utils.uploadAttachment(file, "Post-"+post.getIdPost());
+                            int width = 0;
+                            int height = 0;
+                            if(fileType.getMimeType().startsWith("image")){
+                                BufferedImage bimg = ImageIO.read(new File(Config.getString("ftp-route") + file));
+                                width = bimg.getWidth();
+                                height = bimg.getHeight();
+                            }
+                            PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
+                            media.add(phm);
                         }
-                        PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
-                        media.add(phm);
                     }
-                }
-
-//                if(media.isEmpty()){
-//                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
-//                    return ok(response);
-//                }
-//                post.setMedia(media);
-
-                if(!media.isEmpty()){
-                    post.setMedia(media);
+                    if(!media.isEmpty()){
+                        post.setMedia(media);
+                    }
                 }
 
                 post.update();
@@ -522,6 +512,25 @@ public class Posts extends HecticusController {
                     Post post = postIterator.next();
                     int index = 0;//client.getAthleteIndex(post.getPosts().getIdAthlete());
                     ObjectNode postJson;
+                    List athleteList = new ArrayList();
+                    for (int i = 0; i < post.getAthletes().size(); i++){
+                        athleteList.add(post.getAthletes().get(i).getAthlete());
+                    }
+                    List categoryList = new ArrayList();
+                    for (int i= 0; i < post.getCategories().size(); i++){
+                        categoryList.add(post.getCategories().get(i).getCategory());
+                    }
+                    List<Post> athleteRelated = post.relatedByAthletes(athleteList, country, language);
+                    ArrayList<ObjectNode> actualRelatedAthlete = new ArrayList<>();
+                    for (int i= 0; i < athleteRelated.size();i++){
+                        actualRelatedAthlete.add(athleteRelated.get(i).toJson());
+                    }
+                    List<Post> categoryRelated = post.relatedByCategory(categoryList, country, language);
+                    ArrayList<ObjectNode> actualRelatedCategory = new ArrayList<>();
+                    for (int i = 0; i < actualRelatedCategory.size(); i++){
+                        actualRelatedCategory.add(athleteRelated.get(i).toJson());
+                    }
+
                     if(onlyMedia){
                         postJson = post.toJsonOnlyMedia(language);
                     }else{
@@ -533,6 +542,8 @@ public class Posts extends HecticusController {
                     }else{
                         postJson.put("starred", false);
                     }
+                    postJson.put("athlete_related", Json.toJson(actualRelatedAthlete));
+                    postJson.put("category_related", Json.toJson(actualRelatedCategory));
                     posts.add(postJson);
                 }
                 response = buildBasicResponse(0, "OK", Json.toJson(posts));
