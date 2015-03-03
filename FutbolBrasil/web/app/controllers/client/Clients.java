@@ -802,8 +802,18 @@ public class Clients extends HecticusController {
                         for(int i = 0; i < leaderboardSize; ++i){
                             leaderboardsJson.add(leaderboards.get(i).toJsonSimple());
                         }
-                        ObjectNode clientLeaderboardJson = clientLeaderboard.toJsonSimple();
-                        clientLeaderboardJson.put("index", index);
+                        ObjectNode clientLeaderboardJson = null;
+                        if(clientLeaderboard != null) {
+                            clientLeaderboardJson = clientLeaderboard.toJsonSimple();
+                            clientLeaderboardJson.put("index", index);
+                        } else {
+                            clientLeaderboardJson = Json.newObject();
+                            clientLeaderboardJson.put("client", client.getLogin());
+                            clientLeaderboardJson.put("score", 0);
+                            clientLeaderboardJson.put("hits", 0);
+                            clientLeaderboardJson.put("index", leaderboards.size());
+                        }
+
                         responseData.put("leaderboard", Json.toJson(leaderboardsJson));
                         responseData.put("client", clientLeaderboardJson);
                         response = buildBasicResponse(0, "OK", responseData);
@@ -827,8 +837,17 @@ public class Clients extends HecticusController {
                         for(int i = 0; i < leaderboardSize; ++i){
                             leaderboardsJson.add(globalLeaderboards.get(i).toJsonSimple());
                         }
-                        ObjectNode clientLeaderboardJson = clientLeaderboardGlobal.toJsonSimple();
-                        clientLeaderboardJson.put("index", index);
+                        ObjectNode clientLeaderboardJson = null;
+                        if(clientLeaderboardGlobal != null) {
+                            clientLeaderboardJson = clientLeaderboardGlobal.toJsonSimple();
+                            clientLeaderboardJson.put("index", index);
+                        } else {
+                            clientLeaderboardJson = Json.newObject();
+                            clientLeaderboardJson.put("client", client.getLogin());
+                            clientLeaderboardJson.put("score", 0);
+                            clientLeaderboardJson.put("hits", 0);
+                            clientLeaderboardJson.put("index", globalLeaderboards.size());
+                        }
                         responseData.put("leaderboard", Json.toJson(leaderboardsJson));
                         responseData.put("client", clientLeaderboardJson);
                         response = buildBasicResponse(0, "OK", responseData);
