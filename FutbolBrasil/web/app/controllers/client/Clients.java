@@ -615,7 +615,7 @@ public class Clients extends HecticusController {
                                     clientBets.setClientBet(clientBet);
                                     client.addClientBet(clientBets);
                                 } else {
-                                    clientBets = new ClientBets(client, idTournament, idPhase, idGameMatch, clientBet);
+                                    clientBets = new ClientBets(client, idTournament, idPhase, idGameMatch, clientBet, dateText);
                                     client.addClientBet(clientBets);
                                 }
                             }

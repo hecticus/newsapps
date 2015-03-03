@@ -1,34 +1,27 @@
 package job;
 
 import akka.actor.Cancellable;
-import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagingList;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Action;
 import models.basic.Config;
-import models.clients.Client;
-import models.leaderboard.ClientBets;
-import models.leaderboard.Leaderboard;
-import models.leaderboard.LeaderboardGlobal;
-import play.libs.F;
+import models.leaderboard.LeaderboardPush;
+import play.db.DB;
 import play.libs.Json;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
 import utils.Utils;
 
 import java.net.URLEncoder;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by plesse on 10/30/14.
  */
 public class Leaderboardnator extends HecticusThread {
-    private Map<Integer, Integer> clientsPoints = null;
-    private int pmcIdApp;
-    private int idAction;
 
     public Leaderboardnator() {
         setRun(Utils.run);
@@ -55,69 +48,78 @@ public class Leaderboardnator extends HecticusThread {
     public void process(Map args) {
         try {
             Utils.printToLog(Leaderboardnator.class, null, "Iniciando Leaderboardnator", false, null, "support-level-1", Config.LOGGER_INFO);
-            clientsPoints = new HashMap<>();
-            pmcIdApp = Config.getInt("pmc-id-app");
-            idAction = Integer.parseInt(""+args.get("id_action"));
-            int winnerPoints = Integer.parseInt(""+args.get("winner"));
-            int loserPoints = Integer.parseInt(""+args.get("loser"));
-            ArrayList<Integer> activeTournaments = getActiveTournaments();
-            if(activeTournaments != null && !activeTournaments.isEmpty()){
-                ObjectNode results = getTodayResults(activeTournaments);
-                if(results != null) {
-                    Set<Integer> clients = calculateBets(activeTournaments, results, winnerPoints, loserPoints);
-                    if(!clients.isEmpty()) {
-                        calculateGlobalLeaderboard(clients);
-                        clients.clear();
-                    }
-                    if(!clientsPoints.isEmpty()){
-                        processPushData();
-                        clientsPoints.clear();
-                    }
-                }
-            }
+            int pmcIdApp = Config.getInt("pmc-id-app");
+            int idAction = Integer.parseInt(""+args.get("id_action"));
+            int pageSize = Integer.parseInt(""+args.get("page_size"));
+            int points = Integer.parseInt(""+args.get("points"));
+            executeLeaderboardnator(points);
+            processPushEvents(pmcIdApp, pageSize, idAction);
             Utils.printToLog(Leaderboardnator.class, null, "Terminando Leaderboardnator", false, null, "support-level-1", Config.LOGGER_INFO);
         } catch (Exception ex) {
             Utils.printToLog(Leaderboardnator.class, null, "Error calculando leadeboards", false, ex, "support-level-1", Config.LOGGER_ERROR);
         }
     }
 
-    private void processPushData() {
-        Map<Integer, ArrayList<Integer>> pointClients = new HashMap<>();
-        Set<Integer> clients = clientsPoints.keySet();
-        for(int client : clients){
-            int points = clientsPoints.get(client);
-            if(pointClients.containsKey(points)){
-                pointClients.get(points).add(client);
-            } else {
-                ArrayList<Integer> temp = new ArrayList<Integer>();
-                temp.add(client);
-                pointClients.put(points, temp);
-            }
-        }
-        ObjectNode event = Json.newObject();
-        ObjectNode extraParams = Json.newObject();
-        Set<Integer> points = pointClients.keySet();
-        for(int point : points){
-            try {
-                String msg = resolvePointsMessage(point);
-                event.put("msg", URLEncoder.encode(msg, "UTF-8"));
-                event.put("clients", Json.toJson(pointClients.get(point)));
-                event.put("app", pmcIdApp);
-                extraParams.put("is_news", false);
-                extraParams.put("is_info", true);
-                event.put("extra_params", extraParams);
-                sendPush(event);
-            } catch (Exception e){
-                e.printStackTrace();
-            } finally {
-                event.removeAll();
-                extraParams.removeAll();
-            }
-        }
-        pointClients.clear();
+    private void executeLeaderboardnator(int points) throws SQLException {
+        TimeZone timeZone = TimeZone.getDefault();
+        Calendar today = new GregorianCalendar(timeZone);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+        simpleDateFormat.setTimeZone(timeZone);
+        String date = simpleDateFormat.format(today.getTime());
+
+        Connection connection = DB.getConnection();
+        CallableStatement cs = connection.prepareCall("call leaderboardnator(?,?)");
+        cs.setString(1, date);
+        cs.setInt(2, points);
+        cs.execute();
     }
 
-    private String resolvePointsMessage(int point) {
+    private void processPushEvents(int pmcIdApp, int pageSize, int idAction){
+        PagingList<LeaderboardPush> pushPager = LeaderboardPush.finder.where().orderBy("score asc").findPagingList(pageSize);
+        int totalPageCount = pushPager.getTotalPageCount();
+        if(totalPageCount > 0) {
+            Map<Integer, ArrayList<Integer>> pointClients = new HashMap<>();
+            for (int i = 0; i < totalPageCount; i++) {
+                List<LeaderboardPush> pushPage = pushPager.getPage(i).getList();
+                for(LeaderboardPush leaderboardPush : pushPage){
+                    int points = leaderboardPush.getScore();
+                    int client = leaderboardPush.getClient().getIdClient();
+                    if(pointClients.containsKey(points)){
+                        pointClients.get(points).add(client);
+                    } else {
+                        ArrayList<Integer> temp = new ArrayList<Integer>();
+                        temp.add(client);
+                        pointClients.put(points, temp);
+                    }
+                    leaderboardPush.delete();
+                }
+
+                ObjectNode event = Json.newObject();
+                ObjectNode extraParams = Json.newObject();
+                Set<Integer> points = pointClients.keySet();
+                for(int point : points){
+                    try {
+                        String msg = resolvePointsMessage(point, idAction);
+                        event.put("msg", URLEncoder.encode(msg, "UTF-8"));
+                        event.put("clients", Json.toJson(pointClients.get(point)));
+                        event.put("app", pmcIdApp);
+                        extraParams.put("is_news", false);
+                        extraParams.put("is_info", true);
+                        event.put("extra_params", extraParams);
+                        sendPush(event);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    } finally {
+                        event.removeAll();
+                        extraParams.removeAll();
+                    }
+                }
+                pointClients.clear();
+            }
+        }
+    }
+
+    private String resolvePointsMessage(int point, int idAction) {
         Action action = Action.finder.where().eq("idAction", idAction).findUnique();
         String msg = action.getMsg();
         msg = msg.replaceFirst("%POINTS%", ""+point);
@@ -125,135 +127,10 @@ public class Leaderboardnator extends HecticusThread {
     }
 
     private void sendPush(ObjectNode event) {
-        F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
-        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+        System.out.println(event);
+//        F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
+//        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
     }
 
-    private void calculateGlobalLeaderboard(Set<Integer> clientIDs) {
-        List<Client> clients = Client.finder.where().in("idClient", clientIDs).findList();
-        for(Client client : clients){
-            int points = 0;
-            int correctBets = 0;
-            List<Leaderboard> clientLeaderboards = client.getLeaderboards();
-            if(clientLeaderboards != null && !clientLeaderboards.isEmpty()) {
-                int pivot = clientLeaderboards.get(0).getIdTournament();
-                for (Leaderboard leaderboard : clientLeaderboards) {
-                    if(leaderboard.getIdTournament() == pivot) {
-                        points += leaderboard.getScore();
-                        correctBets += leaderboard.getCorrectBets();
-                    } else {
-                        LeaderboardGlobal leaderboardGlobal = client.getLeaderboardGlobal(pivot);
-                        if (leaderboardGlobal == null) {
-                            leaderboardGlobal = new LeaderboardGlobal(client, pivot, points, correctBets);
-                            client.addLeaderboardGlobal(leaderboardGlobal);
-                        } else {
-                            leaderboardGlobal.setScore(points);
-                            leaderboardGlobal.setCorrectBets(correctBets);
-                        }
-                        pivot = leaderboard.getIdTournament();
-                        points = leaderboard.getScore();
-                        correctBets = leaderboard.getCorrectBets();
-                    }
-                }
-                if(pivot > 0){
-                    LeaderboardGlobal leaderboardGlobal = client.getLeaderboardGlobal(pivot);
-                    if (leaderboardGlobal == null) {
-                        leaderboardGlobal = new LeaderboardGlobal(client, pivot, points, correctBets);
-                        client.addLeaderboardGlobal(leaderboardGlobal);
-                    } else {
-                        leaderboardGlobal.setScore(points);
-                        leaderboardGlobal.setCorrectBets(correctBets);
-                    }
-                }
-                client.update();
-            }
-        }
-    }
 
-    private ObjectNode getTodayResults(ArrayList<Integer> activeTournaments) {
-        ObjectNode results = Json.newObject();
-        for(int idTournament : activeTournaments){
-            try {
-                F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/finished/get/" + idTournament).get();
-                ObjectNode response = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
-                if(response.get("error").asInt() == 0) {
-                    results.put("" + idTournament, response.get("response").get("results").get(0));
-                }
-            } catch (Exception e){
-
-            }
-        }
-        return results;
-    }
-
-    private Set<Integer> calculateBets(ArrayList<Integer> activeTournaments, ObjectNode results, int winnerPoints, int loserPoints) {
-        Collection<Integer> calculated =  new HashSet<>();
-        int idPhase = -1;
-        boolean isCorrect = false;
-        for(int idTournament : activeTournaments){
-            JsonNode tournametResults = results.get("" + idTournament);
-            PagingList<ClientBets> pagingList = ClientBets.finder.where().eq("idTournament", idTournament).eq("status", 1).orderBy("client.idClient asc, idPhase asc").findPagingList(100);
-            int totalPageCount = pagingList.getTotalPageCount();
-            for(int i = 0; i < totalPageCount; i++){
-                List<ClientBets> bets = pagingList.getPage(i).getList();
-                if(bets !=  null && !bets.isEmpty()) {
-                    for (ClientBets clientBets : bets) {
-                        Client client = clientBets.getClient();
-                        if (tournametResults.has("" + clientBets.getIdGameMatch())) {
-                            idPhase = clientBets.getIdPhase();
-                            int result = tournametResults.get("" + clientBets.getIdGameMatch()).asInt();
-                            int points = 0;
-                            if(result == clientBets.getClientBet()) {
-                                points = winnerPoints;
-                                isCorrect = true;
-                            } else {
-                                points = loserPoints;
-                                isCorrect = false;
-                            }
-
-                            if(clientsPoints.containsKey(client.getIdClient())){
-                                int temp = points + clientsPoints.get(client.getIdClient());
-                                clientsPoints.put(client.getIdClient(), temp);
-                            } else {
-                                clientsPoints.put(client.getIdClient(), points);
-                            }
-                            Leaderboard leaderboard = client.getLeaderboard(idTournament, idPhase);
-                            if (leaderboard != null) {
-                                points += leaderboard.getScore();
-                                leaderboard.setScore(points);
-                                if(isCorrect){
-                                    leaderboard.increaseCorrectBets();
-                                }
-                            } else {
-                                leaderboard = new Leaderboard(client, idTournament, idPhase, points, isCorrect?1:0);
-                            }
-                            client.addLeaderboard(leaderboard);
-                            client.update();
-                            clientBets.setStatus(3);
-                            clientBets.update();
-                            calculated.add(client.getIdClient());
-                        }
-                    }
-                }
-            }
-        }
-        return (Set)calculated;
-    }
-
-    private ArrayList<Integer> getActiveTournaments() {
-        ArrayList<Integer> activeTournaments = new ArrayList<>();
-        try {
-            F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/list/ids/" + getIdApp()).get();
-            ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
-            if(response.get("error").asInt() == 0) {
-                Iterator<JsonNode> elements = response.get("response").get("ids").elements();
-                while (elements.hasNext()) {
-                    activeTournaments.add(elements.next().asInt());
-                }
-            }
-        } catch (Exception e){
-
-        }
-        return activeTournaments;
-    }
 }

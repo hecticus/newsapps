@@ -28,27 +28,32 @@ public class ClientBets extends HecticusModel{
     @Constraints.Required
     private Integer idGameMatch;
 
+    @Constraints.Required
+    private String gameMatchDate;
+
     private Integer clientBet;
     private Integer status;
 
     public static Finder<Integer, ClientBets> finder = new Finder<Integer, ClientBets>(Integer.class, ClientBets.class);
 
-    public ClientBets(Client client, Integer idTournament, Integer idPhase, Integer idGameMatch, Integer clientBet, Integer status) {
+    public ClientBets(Client client, Integer idTournament, Integer idPhase, Integer idGameMatch, Integer clientBet, Integer status, String gameMatchDate) {
         this.client = client;
         this.idTournament = idTournament;
         this.idPhase = idPhase;
         this.idGameMatch = idGameMatch;
         this.clientBet = clientBet;
         this.status = status;
+        this.gameMatchDate = gameMatchDate;
     }
 
-    public ClientBets(Client client, Integer idTournament, Integer idPhase, Integer idGameMatch, Integer clientBet) {
+    public ClientBets(Client client, Integer idTournament, Integer idPhase, Integer idGameMatch, Integer clientBet, String gameMatchDate) {
         this.client = client;
         this.idTournament = idTournament;
         this.idPhase = idPhase;
         this.idGameMatch = idGameMatch;
         this.clientBet = clientBet;
         this.status = 1;
+        this.gameMatchDate = gameMatchDate;
     }
 
     public Long getIdClientBets() {
@@ -105,6 +110,14 @@ public class ClientBets extends HecticusModel{
 
     public void setIdPhase(Integer idPhase) {
         this.idPhase = idPhase;
+    }
+
+    public String getGameMatchDate() {
+        return gameMatchDate;
+    }
+
+    public void setGameMatchDate(String gameMatchDate) {
+        this.gameMatchDate = gameMatchDate;
     }
 
     public static ClientBets getClientBetForMatch(Integer idClient, Integer idTournament, Integer idGameMatch){
