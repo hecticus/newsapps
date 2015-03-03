@@ -17,6 +17,7 @@ angular
             var _scroll = null;
             var _currentPage = 0;
             $scope.item = {};
+            $scope.hasFriends = true;
 
             $rootScope.$storage.leaderboard = false;
             $scope.friendsMode = false;
@@ -59,6 +60,9 @@ angular
                             console.log(Client.getFriends());
                             console.log('getFriends Callback. Client.friendsIds: ');
                             console.log(Client.getFriendsIds());
+                            $scope.hasFriends = friends && (Client.getFriendsIds().length > 0);
+                            console.log('friendsMode && !hasFriends');
+                            console.log($scope.friendsMode && !$scope.hasFriends);
                         });
                         config.params.friends = Client.getFriendsIds();
                     } else {
@@ -163,7 +167,7 @@ angular
                                 competition.leaderboard = data.response.leaderboard;
                                 competition.client = data.response.client;
 
-                                if(competition.client.index > competition.leaderboard.length){
+                                if(competition.client.index >= competition.leaderboard.length){
                                 // Esta condición se debe ajustar a partir de un parametro de configuración
 //                                if (data.response.leaderboard.length >= data.response.leaderboard.length) {
                                     competition.leaderboard.push({client:'...',score:'...', index: '...'});

@@ -90,6 +90,7 @@ angular
             $scope.toggleFavorites = function(){
                 $scope.toggles.favorites =! $scope.toggles.favorites;
                 Client.enableFavoritesFilter($scope.toggles.favorites);
+                $state.reload();
             };
 
             $rootScope.showSection = function(_section) {

@@ -2,7 +2,7 @@
     <div id="wrapperH">
         <div id="scroller" ng-style="getTotalWidth()">
             <ul>
-                <li ng-style="getWidth()" ng-repeat="league in item.leagues" >
+                <li ng-style="getWidth()" ng-repeat="league in item.leagues" on-last-repeat>
                     <div class="container">
                         <div class="row header">
                           <div class="col-xs-3 tabs text-left" ng-click="prevPage()">

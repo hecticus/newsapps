@@ -167,6 +167,7 @@ angular
                         function (error) {
                             console.log("FacebookManager. getFriends. Error: "
                                 + JSON.stringify(error, undefined, 1));
+                            typeof callback == 'function' && callback(null);
                         }
                     );
                 },

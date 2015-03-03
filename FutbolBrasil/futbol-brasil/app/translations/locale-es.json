@@ -48,7 +48,8 @@
     },
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",
-        "NEWS" : "No hay noticias disponibles"
+        "NEWS" : "No hay noticias disponibles",
+        "POINTS" : "Usted no tiene información de puntos disponible"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificaciones Push",

@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-hide="friendsMode && !hasFriends">
     <div id="wrapperH">
         <div id="scroller" ng-style="getTotalWidth()">
             <ul>
@@ -69,6 +69,14 @@
                     </div>
                 </li>
             </ul>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="friendsMode && !hasFriends">
+    <div class="col-xs-12 news">
+        <div class="no-content-panel" style="margin-top: 120px !important;">
+            <i class="mdi-action-info-outline"></i>
+            <div class="no-content-panel-title" translate>EMPTY_STATES.POINTS</div>
         </div>
     </div>
 </div>

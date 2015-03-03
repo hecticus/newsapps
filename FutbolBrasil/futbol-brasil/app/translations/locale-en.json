@@ -48,7 +48,8 @@
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",
-        "NEWS" : "There are no news available"
+        "NEWS" : "There are no news available",
+        "POINTS" : "You don't have points info available"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Push Notifications",

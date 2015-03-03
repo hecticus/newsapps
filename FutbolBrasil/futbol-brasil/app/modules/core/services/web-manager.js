@@ -115,6 +115,8 @@ angular
                         httpConfig.params.teams = TeamsManager.getFavoriteTeams().map(function(elem){
                             return elem.id_teams;
                         });
+                        console.log('httpConfig.params.teams: ');
+                        console.log(httpConfig.params.teams);
                     }
                     return httpConfig;
                 }

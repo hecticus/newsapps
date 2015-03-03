@@ -13,7 +13,7 @@ angular
         function($rootScope, $scope, $window, $translate, $q, Competitions, Utilities) {
 
             $scope.tournaments = [];
-
+            $scope.hasScore = true;
             $scope.tournamentScroll = null;
             $scope.tournamentScrollId = 'tournamentScroll';
 
@@ -36,6 +36,11 @@ angular
             $scope.getPoints = function(){
                 Competitions.leaderboard.personal.tournament().then(function(response){
                     $scope.tournaments = response;
+                    if($scope.tournaments.length <= 0){
+                        $scope.hasScore = false;
+                    } else {
+                        $scope.hasScore = true;
+                    }
                     var date = Utilities.moment().format('YYYYMMDD');
                     $scope.tournaments.forEach(function(tournament){
                         Competitions.leaderboard.personal.phase.latest(tournament.id_tournament, date)

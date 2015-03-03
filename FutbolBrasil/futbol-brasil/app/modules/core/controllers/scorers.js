@@ -70,6 +70,7 @@ angular
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     angular.forEach($scope.item.leagues, function(_item, _index) {
+                        console.log('vScroll for ' + $scope.wrapper.getName(_index));
                         Utilities.newScroll.vertical($scope.wrapper.getName(_index));
                     });
 

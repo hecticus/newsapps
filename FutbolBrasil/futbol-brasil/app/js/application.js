@@ -50,7 +50,8 @@ var translationsEn = {
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",
-        "NEWS" : "There are no news available"
+        "NEWS" : "There are no news available",
+        "POINTS" : "You don't have points info available"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Push Notifications",
@@ -128,7 +129,8 @@ var translationsEs = {
     },
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",
-        "NEWS" : "No hay noticias disponibles"
+        "NEWS" : "No hay noticias disponibles",
+        "POINTS" : "Usted no tiene información de puntos disponible"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificaciones Push",
@@ -207,7 +209,8 @@ var translationsPt = {
     },
     "EMPTY_STATES" : {
         "LIVE" : "Não há jogos para hoje",
-        "NEWS" : "Não há notícias disponíveis"
+        "NEWS" : "Não há notícias disponíveis",
+        "POINTS" : "Você não tem informação de pontos disponível"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificações Push",
