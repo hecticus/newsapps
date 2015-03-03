@@ -16,7 +16,9 @@ angular
                 if(!lang){
                     lang = i18n.getDefaultLanguage();
                 }
-                $translate.use(lang.short_name.toLowerCase());
+                if(lang){
+                    $translate.use(lang.short_name.toLowerCase());
+                }
             };
 
             return {

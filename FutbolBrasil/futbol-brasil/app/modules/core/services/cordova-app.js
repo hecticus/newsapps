@@ -87,13 +87,14 @@ angular
                     }else{
                         console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                     }
-                    Settings.init();
-                    Competitions.init();
+
                     ClientManager.init(that.startApp, that.errorStartApp);
 
                     if (CordovaDevice.phonegapIsOnline()) {
                         WebManager.loadServerConfigs(
                             function(){
+                                Settings.init();
+                                Competitions.init();
 //                                console.log("loadServerConfigs successCallback. Starting PushManager");
                                 PushManager.init();
                             }, function(){

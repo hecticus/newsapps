@@ -123,6 +123,7 @@ angular
                     if(!!password){
                         client.password = password;
                         saveClient();
+                        markClientAsOk();
                     }
                 },
                 getClientObj : function(){
