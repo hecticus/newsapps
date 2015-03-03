@@ -412,4 +412,12 @@ public class Utils {
         }
         return result;
     }
+
+    public static void uploadLocalResources(File toUpload, String parent) throws Exception {
+        boolean uploaded = uploadAndPublish(toUpload, parent);
+        if(!uploaded){
+            //throw error
+            throw new Exception("El archivo" + toUpload.getName() +" no se pudo subir al cloud");
+        }
+    }
 }
