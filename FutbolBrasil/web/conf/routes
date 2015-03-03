@@ -99,3 +99,8 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/password                    
 GET     /futbolbrasil/v1/clients/scorers/:idClient                                                          controllers.client.FootballManager.getScorers(idClient : Integer)
 
 GET     /futbolbrasil/v1/languages                                                                          controllers.client.Clients.getActiveLanguages()
+
+#funciones para obtener imagenes locales
+#GET     /futbolbrasil/v1/localimages/:file/:size                            controllers.ImageProcessing.getLocalResourceBySize(file : String, size : String)
+#imagen width and height
+GET     /futbolbrasil/v1/localimages/:file/:width                           controllers.ImageProcessing.getLocalResourceByWidth(file : String, width : Integer)
