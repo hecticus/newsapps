@@ -44,9 +44,15 @@ angular
                 }
             );
 
+            $scope.isUtilitySection = function(){
+                return $rootScope.section === 'settings' || $rootScope.section === 'login';
+            };
+
             $scope.getDrawerIcon = function(){
                 var classStr = 'icon ';
                 if(angular.element('.page.back.left:last').hasClass('left')){
+                    classStr += 'mdi-navigation-arrow-back ';
+                } else if($scope.isUtilitySection()){
                     classStr += 'mdi-navigation-arrow-back ';
                 } else {
                     classStr += 'mdi-navigation-menu';
@@ -73,11 +79,17 @@ angular
 
             $rootScope.runBackButton = function() {
 
-                if($rootScope.section !== 'settings' && $rootScope.section !== 'login'){
+                if($scope.isUtilitySection()){
+                   console.log('$state.current.data.prev: ');
+                   console.log($state.current.data.prev);
+                    if($state.current.data){
+                        $state.go($state.current.data.prev);
+                    }
+                } else{
                     if (angular.element('.page.back.left:last').hasClass('left')) {
                         $rootScope.transitionPage('.page.back.left:last', 'right')
                     } else if ($('#wrapperM').hasClass('right')) {
-                       $scope.hideMenu();
+                        $scope.hideMenu();
                     } else if ($('#wrapperM').hasClass('left')){
                         $scope.showMenu();
                     }
