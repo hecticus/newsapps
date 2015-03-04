@@ -476,10 +476,12 @@ public class GameMatch extends HecticusModel {
                 } else {
                     tr = events.subList(0, eventIndex);
                 }
-                Collections.sort(tr, forward?new GameMatchEventComparatorDesc():new GameMatchEventComparatorAsc());
             }
         } catch (NoSuchElementException ex){
             tr = null;
+        }
+        if(tr != null){
+            Collections.sort(tr, forward?new GameMatchEventComparatorDesc():new GameMatchEventComparatorAsc());
         }
         return tr;
     }
