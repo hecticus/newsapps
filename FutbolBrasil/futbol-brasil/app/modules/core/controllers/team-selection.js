@@ -15,8 +15,6 @@ angular
             $scope.searchQuery = '';
 
             $scope.teamSelected = function(team){
-//                console.log('teamSelected: ');
-//                console.log(team);
                 TeamsManager.addFavoriteTeam(team, function(){
                     $state.go('settings');
                 });
@@ -43,7 +41,7 @@ angular
             };
 
             $scope.getTeamName = function(team){
-                return team.name !== ''? team.name : 'Team Name Not Available';
+                return team.name !== ''? team.name : $scope.strings.NOT_AVAILABLE;
             };
 
             $scope.setUpIScroll = function() {
@@ -52,9 +50,6 @@ angular
                 $scope._scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
-//                $scope._scroll.on('scroll', function () {
-//
-//                });
             };
 
             $scope.init = function(){

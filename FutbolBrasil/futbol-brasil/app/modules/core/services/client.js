@@ -79,7 +79,7 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 init : function() {
-                    console.log('Client.init');
+//                    console.log('Client.init');
                     loadClient();
                     return true;
                 },
@@ -183,7 +183,7 @@ angular
                     if(!client.hasFavorites){
                         loadClient();
                     }
-                    return client.hasFavorites;
+                    return client.hasFavorites === true;
                 },
 
                 enableFavoritesFilter: function(value){

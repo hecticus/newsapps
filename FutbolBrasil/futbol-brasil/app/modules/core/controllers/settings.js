@@ -9,16 +9,11 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
+        '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
             'Settings', 'Utilities', 'Client',
-        function($scope, $rootScope, $state, $translate, ClientManager, TeamsManager, FacebookManager,
+        function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager, FacebookManager,
                  Settings, Utilities, Client) {
             $scope.vScroll = null;
-
-            $scope.strings = {
-                ADD_TEAM : '',
-                NOT_AVAILABLE : ''
-            };
 
             $scope.fbObject = {
                 fbStatus: null,
@@ -44,19 +39,19 @@ angular
 
             $scope.removeTeam = function(team){
                 if(team){
-                    TeamsManager.removeFavoriteTeam(team, $scope.getFavoriteTeams);
+                    TeamsManager.removeFavoriteTeam(team, function(){ $state.reload(); });
                     $scope.favoriteTeams[$scope.favoriteTeams.indexOf(team)] = {isEmpty: true};
                 }
             };
 
             $scope.getFavoriteTeams = function(){
                 var teams = TeamsManager.getFavoriteTeams();
-                $scope.hasFavorites = false;
+                $rootScope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
                     if(teams[i]) {
                         $scope.favoriteTeams[i] = teams[i];
                         $scope.favoriteTeams[i].isEmpty = false;
-                        $scope.hasFavorites = true;
+                        $rootScope.hasFavorites = true;
                     } else {
                         $scope.favoriteTeams[i] = {};
                         $scope.favoriteTeams[i].isEmpty = true;
@@ -66,7 +61,7 @@ angular
 
             $scope.getTeamName = function(team){
                 if(team && typeof team.name != 'undefined'){
-                    return team.name !== ''? team.name : $scope.strings.NOT_AVAILABLE;
+                    return team.name !== '' ? team.name : $scope.strings.NOT_AVAILABLE;
                 }else{
                     return $scope.strings.ADD_TEAM;
                 }
@@ -122,7 +117,7 @@ angular
             };
 
             $scope.getStatus = function(){
-                setTimeout(function(){
+                $timeout(function(){
                     $scope.fbObject.fbStatus = 'connected';
                     $scope.setFbButtonMsg();
                 }, 1000);
@@ -177,9 +172,8 @@ angular
 
             $scope.init = function(){
                 $scope.setUpIScroll();
-                $translate(['SETTINGS.ADD_TEAM', 'SETTINGS.NOT_AVAILABLE']).then(function(translations){
+                $translate(['SETTINGS.ADD_TEAM']).then(function(translations){
                     $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
-                    $scope.strings.NOT_AVAILABLE = translations['SETTINGS.NOT_AVAILABLE'];
                 });
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();

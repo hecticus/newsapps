@@ -21,6 +21,11 @@
         "TITLE" : "Noticias"
 
     },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Jugador",
+        "TEAM_LABEL" : "Equipo",
+        "GOALS_LABEL" : "Goles"
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Sin Jugar",
@@ -75,5 +80,6 @@
         "EN" : "Inglés",
         "ES" : "Español"
     },
-    "LOADING" : "Cargando"
+    "LOADING" : "Cargando",
+    "NOT_AVAILABLE": "No Disponible"
 }

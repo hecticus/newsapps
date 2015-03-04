@@ -15,7 +15,7 @@ angular
             var competitions = [];
 
             var saveCompetitions = function (comps) {
-                console.log('Competitions.saveCompetitions');
+//                console.log('Competitions.saveCompetitions');
                 if(comps){
                     competitions = comps;
                 }
@@ -23,8 +23,8 @@ angular
             };
 
             var loadCompetitions = function () {
-                console.log('Competitions.loadCompetitions');
-                console.log('hasPersistedCompetitions: ' + !!localStorage[FILE_KEY_COMPETITIONS]);
+//                console.log('Competitions.loadCompetitions');
+//                console.log('hasPersistedCompetitions: ' + !!localStorage[FILE_KEY_COMPETITIONS]);
                 if(localStorage[FILE_KEY_COMPETITIONS]){
                     competitions = localStorage[FILE_KEY_COMPETITIONS];
                 } else {
@@ -34,7 +34,6 @@ angular
             };
 
             var getCompetitions = function() {
-                console.log('Competitions.getCompetitions');
                 return $http.get(Domain.competitions).then(function(response, status){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
@@ -53,7 +52,7 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 init: function() {
-                    console.log('Competitions.init');
+//                    console.log('Competitions.init');
                     loadCompetitions();
                 },
 

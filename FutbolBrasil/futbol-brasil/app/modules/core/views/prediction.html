@@ -2,22 +2,22 @@
     <div id="scroller" ng-style="getTotalWidth()">
         <ul>
             <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions" on-last-repeat>
-                <div class="row header">
+                <div class="row row-header row-header-competition">
                     <div class="col-xs-4 tabs text-left" ng-click="prevPage($index)">
-                        <button ng-bind="leagues[$index-1].name"></button>
+                        <h6 ng-bind="leagues[$index-1].name"></h6>
                     </div>
 
                     <div class="col-xs-4 text-center">
-                        <span ng-bind="league.name"  style="font-size:1em;"></span>
+                        <h5 ng-bind="league.name" class="caption"></h5>
                     </div>
 
                     <div class="col-xs-4 tabs text-right" ng-click="nextPage($index)">
-                        <button ng-bind="leagues[$index+1].name"></button>
+                        <h6 ng-bind="leagues[$index+1].name"></h6>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div id="{{vWrapper.getName($index)}}" class="wrapper">
+                    <div id="{{vWrapper.getName($index)}}" class="wrapper wrapper-full">
                         <div class="scroller" >
                             <div class="container">
                                 <div class="col-xs-12" ng-repeat="fixture in league.fixtures track by fixture.date" >

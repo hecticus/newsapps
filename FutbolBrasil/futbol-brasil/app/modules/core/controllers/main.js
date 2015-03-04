@@ -19,18 +19,25 @@ angular
                 favorites: true
             };
 
+            $scope.strings = {};
+
             $scope.isFavoritesFilterActive = function(){
                 return $scope.toggles.favorites;
             };
 
-            $scope.hasFavorites = false;
+            $rootScope.hasFavorites = false;
 
             $scope.$on('load', function(){
                 $scope.loading = true;
                 $scope.error = false;
             });
 
-            $scope.$on('unload', function(){$scope.loading = false;});
+            $scope.$on('unload', function(){
+                    $timeout(function(){
+                        $scope.loading = false;
+                    }, 200);
+                }
+            );
             $scope.$on('error', function(){
                 $scope.error = true;
                 $scope.loading = false;
@@ -119,11 +126,27 @@ angular
                 $scope.hideMenu();
             };
 
+            /**
+             * Function that gets and updates the app's common usage Strings
+             * to minimize the number of requests across  modules and improve
+             * performance
+             */
+            $scope.getTranslations = function(){
+                $translate('NOT_AVAILABLE').then(function(translation){
+                    $scope.strings.NOT_AVAILABLE = translation;
+                });
+            };
+
             $scope.init = function(){
                 CordovaApp.setBackButtonCallback($scope.runBackButton);
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
-                    $scope.hasFavorites = Client.getHasFavorites();
+                    $rootScope.hasFavorites = Client.getHasFavorites();
+//                    console.log('Client.getHasFavorites(): ' + $rootScope.hasFavorites);
+                });
+                $scope.getTranslations();
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    $scope.getTranslations();
                 });
             }();
         }

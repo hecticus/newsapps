@@ -41,7 +41,6 @@ angular
 
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
                 console.log('setBet.');
-                //match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index
                 var _jLeagues = $scope.leagues[_iLeague];
                 var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
                 if (_status == 0) {
@@ -83,7 +82,6 @@ angular
             $scope.getBets = function(){
                 $scope.$emit('load');
                 Bets.get(function(data){
-//                    $scope.leagues = data.splice(0, 3);
                     $scope.leagues = data;
                     console.log(data);
                     $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
@@ -101,18 +99,12 @@ angular
                         Utilities.newScroll.vertical($scope.vWrapper.getName(_index));
                     });
                 });
-                $scope.nextPage = function(_index){
-//                    console.log('nextPage. index: ' + _index);
+                $scope.nextPage = function(){
                     $scope.hSroll.next();
-//                    angular.element($scope.vWrapper.getName(_index)).attr('class', ' hide');
-//                    angular.element($scope.vWrapper.getName(_index + 1)).attr('class', ' page transition right');
                 };
 
-                $scope.prevPage = function(_index){
-//                    console.log('prevPage. index: ' + _index);
+                $scope.prevPage = function(){
                     $scope.hSroll.prev();
-//                    angular.element($scope.vWrapper.getName(_index)).attr('class', ' page transition right');
-//                    angular.element($scope.vWrapper.getName(_index -1)).attr('class', ' page transition left');
                 };
             };
 

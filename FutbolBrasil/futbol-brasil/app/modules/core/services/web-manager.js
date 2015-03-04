@@ -100,7 +100,7 @@ angular
                             App.setServerVersion(response.server_version);
 
                             i18n.setDefaultLanguage(response.default_language);
-                            console.log('WebManager. making languages request');
+//                            console.log('WebManager. making languages request');
                             i18n.setAvailableLanguages($http.get(Domain.languages));
 
                             successCallback();

@@ -23,6 +23,11 @@ var translationsEn = {
         "TITLE" : "Notícias"
 
     },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Player",
+        "TEAM_LABEL" : "Team",
+        "GOALS_LABEL" : "Goals"
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",
@@ -77,7 +82,8 @@ var translationsEn = {
         "EN" : "English",
         "ES" : "Spanish"
     },
-    "LOADING" : "Loading"
+    "LOADING" : "Loading",
+    "NOT_AVAILABLE": "Not Available"
 };
 var translationsEs = {
     "SECTIONS" : {
@@ -101,6 +107,11 @@ var translationsEs = {
     "NEWS" : {
         "TITLE" : "Noticias"
 
+    },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Jugador",
+        "TEAM_LABEL" : "Equipo",
+        "GOALS_LABEL" : "Goles"
     },
     "MATCH" : {
         "STATUS" : {
@@ -156,7 +167,8 @@ var translationsEs = {
         "EN" : "Inglés",
         "ES" : "Español"
     },
-    "LOADING" : "Cargando"
+    "LOADING" : "Cargando",
+    "NOT_AVAILABLE": "No Disponible"
 };
 var translationsPt = {
     "SECTIONS" : {
@@ -180,6 +192,11 @@ var translationsPt = {
     "NEWS" : {
         "TITLE" : "Notícias"
 
+    },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Nome do jogador",
+        "TEAM_LABEL" : "Equipe",
+        "GOALS_LABEL" : "Goles"
     },
     "MATCH" : {
         "STATUS" : {
@@ -236,7 +253,8 @@ var translationsPt = {
         "EN" : "Inglês",
         "ES" : "Espanhol"
     },
-    "LOADING" : "A Carregar"
+    "LOADING" : "A Carregar",
+    "NOT_AVAILABLE": "Não Disponível"
 };
 
 angular
@@ -292,7 +310,7 @@ angular
             }
 
             if(toState.name !== 'login'){
-                console.log('Client.isClientOk: ' + Client.isClientOk());
+//                console.log('Client.isClientOk: ' + Client.isClientOk());
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(function(){

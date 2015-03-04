@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .directive('onLastRepeat', [
-        function() {
+    .directive('onLastRepeat', ['$timeout',
+        function($timeout) {
             return {
                 // name: '',
                 // priority: 1,
@@ -23,11 +23,11 @@ angular
                 // transclude: true,
                 // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
                 link: function(scope, element, attrs) {
-                  if (scope.$last) setTimeout(function(){
+                  if (scope.$last) $timeout(function(){
                       scope.$emit('onRepeatLast', element, attrs);
                   }, 1);
 
-                  if (scope.$first) setTimeout(function(){
+                  if (scope.$first) $timeout(function(){
                       scope.$emit('onRepeatFirst', element, attrs);
                   }, 1);
                 }

@@ -21,6 +21,11 @@
         "TITLE" : "Notícias"
 
     },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Player",
+        "TEAM_LABEL" : "Team",
+        "GOALS_LABEL" : "Goals"
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",
@@ -75,5 +80,6 @@
         "EN" : "English",
         "ES" : "Spanish"
     },
-    "LOADING" : "Loading"
+    "LOADING" : "Loading",
+    "NOT_AVAILABLE": "Not Available"
 }

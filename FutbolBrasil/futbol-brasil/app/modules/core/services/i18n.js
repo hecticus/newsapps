@@ -40,16 +40,16 @@ angular
                 },
 
                 setAvailableLanguages : function(http){
-                    console.log('i18n. setAvailableLanguages.');
+//                    console.log('i18n. setAvailableLanguages.');
                     http.then(
                         function(response){
                             response = response.data;
-                            console.log(response);
+//                            console.log(response);
                             if(response.error) {
-                                console.log('i18n. setAvailableLanguages. error');
+//                                console.log('i18n. setAvailableLanguages. error');
                                 return $q.reject(response.data);
                             } else {
-                                console.log('i18n. setAvailableLanguages. success');
+//                                console.log('i18n. setAvailableLanguages. success');
                                 response = response.response;
                                 persistLanguages(response.languages);
                                 return availableLanguages;
