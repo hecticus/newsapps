@@ -306,7 +306,7 @@ public class Phase extends HecticusModel {
     }
 
     public static List<Phase> getPhasesFromDate(Competition competition, String date){
-        return finder.where().eq("comp", competition).ge("start_date", date).findList();
+        return finder.where().eq("comp", competition).ge("start_date", date).orderBy("start_date asc").setMaxRows(1).findList();
     }
 
     public static List<Phase> getLatestPhasesPaged(Competition competition, int index, int size) {
