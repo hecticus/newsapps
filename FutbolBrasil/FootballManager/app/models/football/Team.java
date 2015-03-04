@@ -1,6 +1,8 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -8,6 +10,7 @@ import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by karina on 5/13/14.
@@ -110,7 +113,7 @@ public class Team extends HecticusModel {
     /**
      * funcion para validar los equipos
      */
-    public void validateTeam(){
+    public void validateTeam(final Competition competition){
         Team toValidate = findByExtId(this.extId);
         if (toValidate != null){
             //exist
@@ -118,7 +121,29 @@ public class Team extends HecticusModel {
             this.name = toValidate.name;
             this.extId = toValidate.extId;
             this.country = toValidate.country;
+            this.competitions = toValidate.competitions;
+
+            TeamHasCompetition teamHasCompetition = null;
+
+            try {
+                teamHasCompetition = Iterables.find(competitions, new Predicate<TeamHasCompetition>() {
+                    public boolean apply(TeamHasCompetition obj) {
+                        return obj.getCompetition().getIdCompetitions().longValue() == competition.getIdCompetitions().longValue();
+                    }
+                });
+            } catch (NoSuchElementException ex){
+                teamHasCompetition = null;
+            }
+
+            if(teamHasCompetition == null){
+                teamHasCompetition = new TeamHasCompetition(this, competition);
+                competitions.add(teamHasCompetition);
+                this.update();
+            }
+
         }else {
+            TeamHasCompetition teamHasCompetition = new TeamHasCompetition(this, competition);
+            competitions.add(teamHasCompetition);
             //insert in bd
             this.save();
         }

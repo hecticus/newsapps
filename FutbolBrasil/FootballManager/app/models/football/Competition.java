@@ -233,6 +233,21 @@ public class Competition  extends HecticusModel {
             }
             obj.put("phases", Json.toJson(phasesList));
         }
+        if(teams != null && !teams.isEmpty()){
+            ArrayList<ObjectNode> phasesList = new ArrayList<>(teams.size());
+            for(TeamHasCompetition phase : teams){
+                phasesList.add(phase.getTeam().toJson());
+            }
+            obj.put("teams", Json.toJson(phasesList));
+        }
+
+        if(matches != null && !matches.isEmpty()){
+            ArrayList<ObjectNode> phasesList = new ArrayList<>(matches.size());
+            for(GameMatch phase : matches){
+                phasesList.add(phase.toJson());
+            }
+            obj.put("matches", Json.toJson(phasesList));
+        }
         return obj;
     }
 
