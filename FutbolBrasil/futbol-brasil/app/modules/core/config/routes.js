@@ -32,7 +32,7 @@ angular
                     prev: 'login',
                     next: 'login',
                     _class: 'content-login',
-                    section: 'settings'
+                    section: 'login'
                 }
             })
             .state('settings', {

@@ -45,7 +45,7 @@
                 <header>
                     <div class="col-xs-10 text-left">
                         <i class="icon drawer-icon icon-white"
-                           ng-hide=""
+                           ng-hide="section === 'login'"
                            ng-class="getDrawerIcon()"
                            ng-click="runBackButton()"></i>
                         <span class="drawer-title" ng-cloak>
@@ -57,7 +57,7 @@
                     <div class="col-xs-2">
                         <i class="icon drawer-icon icon-white"
                            ng-class="getFavoritesClass()"
-                           ng-show="hasFavorites"
+                           ng-show="hasFavorites && (section !== 'settings' && section !== 'login')"
                            ng-click="toggleFavorites()"></i>
                     </div>
                 </header>

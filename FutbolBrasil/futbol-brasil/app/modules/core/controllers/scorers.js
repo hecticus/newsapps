@@ -38,6 +38,8 @@ angular
                     $rootScope.error = Utilities.error($scope.item.leagues,'scorers');
                 } else {
                     var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                    config.params.page = 0;
+                    config.params.pageSize = 20;
                     $http.get(Domain.scorers(), config)
                         .success(function (data, status, headers, config) {
                             $scope.item =  data.response;

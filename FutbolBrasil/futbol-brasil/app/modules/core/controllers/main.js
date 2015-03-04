@@ -72,13 +72,15 @@ angular
             };
 
             $rootScope.runBackButton = function() {
-//                console.log('runBackButton.');
-                if (angular.element('.page.back.left:last').hasClass('left')) {
-                    $rootScope.transitionPage('.page.back.left:last', 'right')
-                } else if ($('#wrapperM').hasClass('right')) {
-                   $scope.hideMenu();
-                } else if ($('#wrapperM').hasClass('left')){
-                    $scope.showMenu();
+
+                if($rootScope.section !== 'settings' && $rootScope.section !== 'login'){
+                    if (angular.element('.page.back.left:last').hasClass('left')) {
+                        $rootScope.transitionPage('.page.back.left:last', 'right')
+                    } else if ($('#wrapperM').hasClass('right')) {
+                       $scope.hideMenu();
+                    } else if ($('#wrapperM').hasClass('left')){
+                        $scope.showMenu();
+                    }
                 }
                 //TODO reemplazar por escucha de botón back
 //                } else if (_exit && confirm('Para sair da aplicação')) {

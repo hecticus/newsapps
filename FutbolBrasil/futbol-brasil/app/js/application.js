@@ -17,7 +17,8 @@ var translationsEn = {
             "FRIENDS" : "Friends",
             "POINTS" : "Points"
         },
-        "SETTINGS": "Settings"
+        "SETTINGS": "Settings",
+        "LOGIN" : "Login"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -102,7 +103,8 @@ var translationsEs = {
             "FRIENDS" : "Amigos",
             "POINTS" : "Puntos"
         },
-        "SETTINGS": "Configuraciónes"
+        "SETTINGS": "Configuraciónes",
+        "LOGIN" : "Login"
     },
     "NEWS" : {
         "TITLE" : "Noticias"
@@ -187,7 +189,8 @@ var translationsPt = {
             "FRIENDS" : "Amigos",
             "POINTS" : "Pontos"
         },
-        "SETTINGS": "Definições"
+        "SETTINGS": "Definições",
+        "LOGIN" : "Login"
     },
     "NEWS" : {
         "TITLE" : "Notícias"

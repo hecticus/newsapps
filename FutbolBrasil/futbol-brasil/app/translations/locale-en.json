@@ -15,7 +15,8 @@
             "FRIENDS" : "Friends",
             "POINTS" : "Points"
         },
-        "SETTINGS": "Settings"
+        "SETTINGS": "Settings",
+        "LOGIN" : "Login"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
