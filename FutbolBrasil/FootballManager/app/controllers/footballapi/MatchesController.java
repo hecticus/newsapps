@@ -386,7 +386,11 @@ public class MatchesController extends HecticusController {
                 ArrayList<ObjectNode> responseData = new ArrayList();
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
-                    List<Phase> phases = competition.getPhases();
+                    TimeZone timeZone = app.getTimezone().getTimezone();
+                    Calendar today = new GregorianCalendar(timeZone);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                    simpleDateFormat.setTimeZone(timeZone);
+                    List<Phase> phases = competition.getPhases(today);
                     if (phases != null && !phases.isEmpty()) {
                         Language requestLanguage = null;
                         if(idLanguage > 0) {
@@ -560,7 +564,7 @@ public class MatchesController extends HecticusController {
                 if (competition != null) {
                     GameMatch gameMatch = competition.getMatch(idMatch);
                     if (gameMatch != null) {
-                        List<GameMatchEvent> events = gameMatch.getEventsNoDB(idEvent, forward);
+                        List<GameMatchEvent> events = gameMatch.getEventsNoDB(idEvent, !forward);
                         if (events != null & !events.isEmpty()) {
                             ObjectNode resp = Json.newObject();
                             Language requestLanguage = Language.getByID(idLanguage);

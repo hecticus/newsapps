@@ -209,6 +209,32 @@ public class Competition  extends HecticusModel {
         return result;
     }
 
+    public List<Phase> getPhases(final Calendar today){
+        List<Phase> tr;
+        final TimeZone timeZone = today.getTimeZone();
+        try {
+            Predicate<Phase> validObjs = new Predicate<Phase>() {
+                public boolean apply(Phase obj) {
+                    Calendar startDateCalendar = new GregorianCalendar(timeZone);
+                    try {
+                        Date startDate = DateAndTime.getDate(obj.getStartDate(), "yyyyMMdd");
+                        startDateCalendar.setTime(startDate);
+                        return (startDateCalendar.before(today) || startDateCalendar.equals(today));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+
+                }
+            };
+            Collection<Phase> result = Utils.filterCollection(phases, validObjs);
+            tr = (List<Phase>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
     public void validate(Language language){
         //check if exist
         Competition fromDb = findByCompExt(this.app, this.extId);
