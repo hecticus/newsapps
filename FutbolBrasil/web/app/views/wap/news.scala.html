@@ -1,0 +1,43 @@
+@(HD: models.HandsetDetection)(jNews: com.fasterxml.jackson.databind.JsonNode)(view: String) @if(HD.getLevelSupport() ==  models.HandsetDetection.XHTML_SIMPLE){@xml}
+@xml = {<?xml version="1.0" encoding="UTF-8"?>}
+
+@if((HD.getLevelSupport() ==  models.HandsetDetection.XHTML_SIMPLE)
+    || (HD.getLevelSupport() ==  models.HandsetDetection.XHTML_ADV)) {
+    @xhtmlmp("xhtmlmp"){
+        @if(view == "summary") {
+            <h3>@jNews.get("title").asText()</h3>
+            <p style="font-size: small;">
+                @jNews.get("summary").asText()
+            </p>
+        } else {
+            @for(item <- jNews.iterator()) {
+                <p style="font-size: small;">
+                    <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
+                </p>
+            }
+        }
+    }
+} else {
+
+    @if(HD.getLevelSupport() ==  models.HandsetDetection.HTML4) {
+
+        @html4("html4"){
+            @if(view == "summary") {
+                <h3>@jNews.get("title").asText()</h3>
+                <p>
+                    @jNews.get("summary").asText()
+                </p>
+            } else {
+                @for(item <- jNews.iterator()) {
+                    <p>
+                        <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
+                    </p>
+                }
+            }
+        }
+
+    } else {
+       HTML5
+    }
+
+}

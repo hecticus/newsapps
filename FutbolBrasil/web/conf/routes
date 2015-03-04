@@ -99,3 +99,10 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/password                    
 GET     /futbolbrasil/v1/clients/scorers/:idClient                                                          controllers.client.FootballManager.getScorers(idClient : Integer)
 
 GET     /futbolbrasil/v1/languages                                                                          controllers.client.Clients.getActiveLanguages()
+
+GET     /news/              controllers.Wap.index()
+GET     /news/:id/          controllers.Wap.news(id:Integer)
+GET     /matches/           controllers.Wap.matches(id:Integer, page: Integer)
+GET     /competitions/      controllers.Wap.competitions(route:String)
+GET     /scorers/           controllers.Wap.scorers(id:Integer)
+GET     /mtm/               controllers.Wap.mtm(id:Integer, match:Integer, event: Integer)

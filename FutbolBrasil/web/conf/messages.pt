@@ -147,3 +147,14 @@ playauthenticate.index.details=Ver detalhes
 playauthenticate.restricted.secrets=Segredos, por todo o lado!
 
 ### --- play-authenticate END
+
+### -- <wap> --- ###
+MATCH_LABEL=partidas
+SCORERS_LABEL=artilharia
+NEWS_LABEL=notícia
+
+PLAYER_LABEL=jogador
+TEAM_LABEL=equipe
+GOALS_LABEL=goles
+MTM_LABEL=En vivo
+### -- </wap> --- ###

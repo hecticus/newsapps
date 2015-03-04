@@ -1,0 +1,66 @@
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+html { -ms-touch-action: none; font-family: Helvetica; }
+body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
+
+
+
+.header {
+    position: relative;
+    z-index: 10;
+    left:0;
+    right:0;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: #FFFFFF;
+    padding: 0 !important;
+    margin:0 !important;
+    border: 0;
+    color:#ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #313f75 url(/assets/images/wap/bg.png) repeat-x fixed;
+}
+
+
+.container,
+.container .row,
+.container .row div {
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #ffffff;
+}
+
+table thead tr th {
+    text-align: center;
+    color: #ffffff;
+    background: #3B5CA9;
+    margin: 0 !important;
+}
+
+table tbody tr td {
+    text-align: center;
+    font-size: 0.8em;
+    margin: 0 !important;
+}
+
+.date { font-weight: bold; font-size: 2em; }
+.winner { font-weight: bold; }
+.goal { font-size: 1.6em; }
+.status { color:#000000; font-weight: bold; }
+
+.status._0 { color:#FFBF00; }
+.status._2 { color:#D84A38; }
+.status._4 { color:#3B9444; }
+
+.status.PT { background-color:#3B9444; color: #ffffff; }
+.status.ST { background-color:#FFBF00; color: #000000; }
+
+.option {
+    padding: 5px !important;
+    text-align: center !important;
+}
+
+.option.active {
+    background-color:#263776 !important;
+}
