@@ -194,6 +194,21 @@ public class Competition  extends HecticusModel {
         return finder.fetch("teams").fetch("matches").where().eq("app", app).eq("status", 1).ilike("matches.date", date + "%").in("teams.team", teams).setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
+    public List<Scorer> getScorers(Integer page, Integer pageSize) {
+        Collections.sort(scorers, new ScorersComparator());
+        List<Scorer> result = new ArrayList<>();
+        int n = 0, k = 0;
+        for (int i = 0; n < pageSize && i < scorers.size(); ++i) {
+            Scorer element = scorers.get(i);
+            ++k;
+            if(k > page) {
+                ++n;
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
     public void validate(Language language){
         //check if exist
         Competition fromDb = findByCompExt(this.app, this.extId);
@@ -512,6 +527,13 @@ public class Competition  extends HecticusModel {
         return tr;
     }
 
+}
+
+class ScorersComparator implements Comparator<Scorer> {
+    @Override
+    public int compare(Scorer c1, Scorer c2) {
+        return c2.getGoals() - c1.getGoals();
+    }
 }
 
 //class GameMatchComparatorDesc implements Comparator<GameMatch> {
