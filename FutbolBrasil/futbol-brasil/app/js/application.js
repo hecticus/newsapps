@@ -333,7 +333,12 @@ angular
         });
 
         $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
+            if(fromState.name && fromState.data.section !== 'settings'){
+                $rootScope.previousSection = fromState.name;
+            }
+
             $rootScope.section = !!toState.data.section ? toState.data.section : '';
+
             $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
                 $rootScope.sectionTranslation = translate;
             });

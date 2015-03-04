@@ -80,9 +80,9 @@ angular
             $rootScope.runBackButton = function() {
 
                 if($scope.isUtilitySection()){
-                   console.log('$state.current.data.prev: ');
-                   console.log($state.current.data.prev);
-                    if($state.current.data){
+                    if($state.current.name === 'settings' && $rootScope.previousSection){
+                        $state.go($rootScope.previousSection);
+                    } else if($state.current.data){
                         $state.go($state.current.data.prev);
                     }
                 } else{
