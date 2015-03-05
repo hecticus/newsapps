@@ -12,56 +12,60 @@ GET     /assets/*file                                                           
 
 GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
 
-#SocialNetworks
-POST    /api/v1/socialnetworks/create                                                   controllers.content.athletes.SocialNetworks.create()
-POST    /api/v1/socialnetworks/update/:id                                               controllers.content.athletes.SocialNetworks.update(id : Integer)
-POST    /api/v1/socialnetworks/delete/:id                                               controllers.content.athletes.SocialNetworks.delete(id : Integer)
-GET     /api/v1/socialnetworks/get/:id                                                  controllers.content.athletes.SocialNetworks.get(id : Integer)
-GET     /api/v1/socialnetworks/list                                                     controllers.content.athletes.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
+#Post
+POST    /api/v1/socialnetwork								controllers.content.athletes.SocialNetworks.create()
+PUT     /api/v1/socialnetwork/:id							controllers.content.athletes.SocialNetworks.update(id : Integer)
+DELETE  /api/v1/socialnetwork/:id							controllers.content.athletes.SocialNetworks.delete(id : Integer)
+GET     /api/v1/socialnetwork/:id							controllers.content.athletes.SocialNetworks.get(id : Integer)
+GET     /api/v1/socialnetworks								controllers.content.athletes.SocialNetworks.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Athletes
-POST    /api/v1/athletes/create                                                         controllers.content.athletes.Athletes.create()
-POST    /api/v1/athletes/update/:id                                                     controllers.content.athletes.Athletes.update(id : Integer)
-POST    /api/v1/athletes/delete/:id                                                     controllers.content.athletes.Athletes.delete(id : Integer)
-GET     /api/v1/athletes/get/:id                                                        controllers.content.athletes.Athletes.get(id : Integer)
-GET     /api/v1/athletes/list                                                           controllers.content.athletes.Athletes.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /api/v1/athlete		                                controllers.content.athletes.Athletes.create()
+PUT    	/api/v1/athlete/:id     	                        controllers.content.athletes.Athletes.update(id : Integer)
+DELETE 	/api/v1/athlete/:id     	                        controllers.content.athletes.Athletes.delete(id : Integer)
+GET     /api/v1/athlete/:id	    	                        controllers.content.athletes.Athletes.get(id : Integer)
+GET     /api/v1/athletes	                                controllers.content.athletes.Athletes.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Categories
-POST    /api/v1/categories/create                                                           controllers.content.posts.Categories.create()
-POST    /api/v1/categories/update/:id                                                       controllers.content.posts.Categories.update(id : Integer)
-POST    /api/v1/categories/delete/:id                                                       controllers.content.posts.Categories.delete(id : Integer)
-GET     /api/v1/categories/get/:id                                                          controllers.content.posts.Categories.get(id : Integer)
-GET     /api/v1/categories/list                                                             controllers.content.posts.Categories.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /api/v1/category                                    controllers.content.posts.Categories.create()
+PUT    	/api/v1/category/:id                                controllers.content.posts.Categories.update(id : Integer)
+DELETE  /api/v1/category/:id                                controllers.content.posts.Categories.delete(id : Integer)
+GET     /api/v1/category/:id                                controllers.content.posts.Categories.get(id : Integer)
+GET     /api/v1/categories                                  controllers.content.posts.Categories.list(pageSize: Integer?=0, page: Integer?=0)
 
 #FileTypes
-POST    /api/v1/filetypes/create                                                        controllers.content.posts.FileTypes.create()
-POST    /api/v1/filetypes/update/:id                                                    controllers.content.posts.FileTypes.update(id : Integer)
-POST    /api/v1/filetypes/delete/:id                                                    controllers.content.posts.FileTypes.delete(id : Integer)
-GET     /api/v1/filetypes/get/:id                                                       controllers.content.posts.FileTypes.get(id : Integer)
-GET     /api/v1/filetypes/list                                                          controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
+POST    /api/v1/filetype                                    controllers.content.posts.FileTypes.create()
+PUT    	/api/v1/filetype/:id                                controllers.content.posts.FileTypes.update(id : Integer)
+DELETE  /api/v1/filetype/:id                                controllers.content.posts.FileTypes.delete(id : Integer)
+GET     /api/v1/filetype/:id                                controllers.content.posts.FileTypes.get(id : Integer)
+GET     /api/v1/filetypes                                   controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
 
 #Posts
-POST    /api/v1/posts/create                                                            controllers.content.posts.Posts.create()
-POST    /api/v1/posts/update/:id                                                        controllers.content.posts.Posts.update(id : Integer)
-POST    /api/v1/posts/delete/:id                                                        controllers.content.posts.Posts.delete(id : Integer)
-GET     /api/v1/posts/get/:id                                                           controllers.content.posts.Posts.get(id : Integer)
+POST    /api/v1/post                                        controllers.content.posts.Posts.create()
+PUT    	/api/v1/post/:id                                    controllers.content.posts.Posts.update(id : Integer)
+DELETE  /api/v1/post/:id                                    controllers.content.posts.Posts.delete(id : Integer)
+GET     /api/v1/post/:id                                    controllers.content.posts.Posts.get(id : Integer)
 
-GET     /api/v1/posts/get/client/:id                                                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/up/:id/:postId                                         controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/down/:id/:postId                                       controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/post/get/client/:id                         controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/post/get/client/:id/:postId/up              controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/post/get/client/:id/:postId/down            controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /api/v1/posts/get/client/athlete/:id/:idAthlete                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/up/athlete/:id/:postId/:idAthlete                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/down/athlete/:id/:postId/:idAthlete                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /api/v1/posts/get/client/sport/:id/:idCategory                                  controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/up/sport/:id/:postId/:idCategory                       controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
-GET     /api/v1/posts/get/client/down/sport/:id/:postId/:idCategory                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/post/get/client/:id/athlete/:idAthlete                                 controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
 
-GET     /api/v1/posts/get/client/:idClient/:idPost                                      controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
-GET     /api/v1/posts/get/sport/:idClient/:idCategory/:page/:pageSize                   controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
-GET     /api/v1/posts/list                                                              controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
-GET     /api/v1/posts/list/athlete/:id                                                  controllers.content.posts.Posts.getListForAthlete(id : Integer)
+#tochange
+GET     /api/v1/post/get/client/up/athlete/:id/:postId/:idAthlete                      controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+GET     /api/v1/post/get/client/down/athlete/:id/:postId/:idAthlete                    controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=false)
+
+GET     /api/v1/post/get/client/:id/Category/:idCategory                                  controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+#to change
+GET     /api/v1/post/get/client/up/sport/:id/:postId/:idCategory                       controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+GET     /api/v1/post/get/client/down/sport/:id/:postId/:idCategory                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer, onlyMedia: Boolean?=false)
+
+GET     /api/v1/post/get/client/:idClient/:idPost                                      controllers.content.posts.Posts.getPostForClient(idClient : Integer,idPost : Integer)
+GET     /api/v1/post/get/sport/:idClient/:idCategory/:page/:pageSize                   controllers.content.posts.Posts.getPostForCategory(idClient : Integer, idCategory : Integer, page: Integer, pageSize: Integer)
+GET     /api/v1/post/list                                                              controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
+GET     /api/v1/post/list/athlete/:id                                                  controllers.content.posts.Posts.getListForAthlete(id : Integer)
 
 #POSTS IMAGES
 GET     /api/v1/posts/images/get/client/up/athlete/:id/:postId/:idAthlete               controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer, idCategory: Integer?=0, onlyMedia: Boolean?=true)
@@ -69,19 +73,19 @@ GET     /api/v1/posts/images/get/client/down/athlete/:id/:postId/:idAthlete     
 
 
 #Clients
-POST    /api/v1/clients/create                                                          controllers.client.Clients.create()
-POST    /api/v1/clients/update/:id                                                      controllers.client.Clients.update(id : Integer)
-POST    /api/v1/clients/delete/:id                                                      controllers.client.Clients.delete(id : Integer)
-POST    /api/v1/clients/upstream/resetpass                                              controllers.client.Clients.resetUpstreamPass()
-POST    /api/v1/clients/upstream/events/send                                            controllers.client.Clients.sendEvent()
-GET     /api/v1/clients/get/:id/:upstreamChannel                                        controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
-GET     /api/v1/clients/list                                                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
-GET     /api/v1/clients/favorites/:id                                                   controllers.client.Clients.getStarredAthletesForClient(id : Integer)
+POST    /api/v1/client                                      controllers.client.Clients.create()
+PUT    	/api/v1/client/:id                                  controllers.client.Clients.update(id : Integer)
+DELETE  /api/v1/client/:id                                  controllers.client.Clients.delete(id : Integer)
+POST    /api/v1/client/upstream/resetpass                   controllers.client.Clients.resetUpstreamPass()
+POST    /api/v1/client/upstream/events/send                 controllers.client.Clients.sendEvent()
+GET     /api/v1/client/:id/:upstreamChannel                 controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET     /api/v1/clients                                     controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+GET     /api/v1/client/:id/favorite                         controllers.client.Clients.getStarredAthletesForClient(id : Integer)
 
 #Clients PMC
-GET     /api/v1/clients/pmc/get/:id                                                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
-GET     /api/v1/clients/pmc/list/:page/:pageSize                                        controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
-POST    /api/v1/clients/pmc/clean                                                       controllers.client.Clients.cleanDevices()
+GET     /api/v1/clients/pmc/get/:id                         controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
+GET     /api/v1/clients/pmc/list/:page/:pageSize            controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
+POST    /api/v1/clients/pmc/clean                           controllers.client.Clients.cleanDevices()
 
 #FAKE UPSTREAM URL
 POST    /api/v1/clients/upstream/game/user/subscribe                                    controllers.client.Clients.upstreamFakeCreate()
