@@ -188,11 +188,12 @@ public class Application extends Controller {
                         mandatory = 1;
                     }
                 }
-
+                
                 versionObject.put("update",updateAvailable);
                 versionObject.put("mandatory",mandatory);
                 if(updateAvailable>0){
                     versionObject.put("download",lastVersionURL);
+                    versionObject.put("new_version",lastVersion);
                 }
             } else {
                 versionObject.put("update",0);
