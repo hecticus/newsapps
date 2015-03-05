@@ -114,14 +114,14 @@ public class NewsController extends HecticusController {
                     newsCalendar.setTime(newsDate);
                     newsList = app.getNews(newsCalendar, newest, maxRows, requestLanguage.getIdLanguage());
                     totalNews = app.countNews(newsCalendar, newest, requestLanguage.getIdLanguage());
-                    if(newsList == null){
+                    if(newsList == null || newsList.isEmpty()){
                         newsList = app.getNews(newsCalendar, newest, maxRows, app.getLanguage().getIdLanguage());
                         totalNews = app.countNews(newsCalendar, newest, app.getLanguage().getIdLanguage());
                     }
                 } else {
                     newsList = app.getNews(null, newest, maxRows, requestLanguage.getIdLanguage());
                     totalNews = app.countNews(null, newest, requestLanguage.getIdLanguage());
-                    if(newsList == null){
+                    if(newsList == null || newsList.isEmpty()){
                         newsList = app.getNews(null, newest, maxRows, app.getLanguage().getIdLanguage());
                         totalNews = app.countNews(null, newest, app.getLanguage().getIdLanguage());
                     }
