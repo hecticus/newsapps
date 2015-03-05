@@ -40,7 +40,7 @@ public class Competition  extends HecticusModel {
     private CompetitionType type;
 
     @OneToMany(mappedBy="comp", cascade = CascadeType.ALL)
-    @OrderBy("nivel asc")
+    @OrderBy("orden asc, nivel asc")
     public List<Phase> phases;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="competition", cascade = CascadeType.ALL)
@@ -475,6 +475,30 @@ public class Competition  extends HecticusModel {
                         Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
                         endCalendar.setTime(endDate);
                         return endCalendar.before(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+            };
+            Collection<Phase> result = Utils.filterCollection(phases, validObjs);
+            tr = (List<Phase>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public List<Phase> getPhasesByGlobalNameAndDate(final String globalName, final Calendar date, final TimeZone timeZone){
+        List<Phase> tr;
+        try {
+            Predicate<Phase> validObjs = new Predicate<Phase>() {
+                public boolean apply(Phase obj) {
+                    Calendar endCalendar = new GregorianCalendar(timeZone);
+                    try {
+                        Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
+                        endCalendar.setTime(endDate);
+                        return endCalendar.before(date) && obj.getGlobalName().equalsIgnoreCase(globalName);
                     } catch (ParseException e) {
                         e.printStackTrace();
                         return false;

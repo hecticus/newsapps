@@ -27,6 +27,10 @@ public class Rank  extends HecticusModel {
     @JoinColumn(name = "id_teams")
     private Team team;
 
+    @ManyToOne
+    @JoinColumn(name = "id_group")
+    private Group group;
+
     private long matches;
     private long matchesWon;
     private long matchesDraw;
@@ -102,7 +106,7 @@ public class Rank  extends HecticusModel {
                 int goalsForVisitor, int goalAgainstVisitor, int goalDiff, int pointsLocal, int pointsVisitor,
                 int yellowCards, int redCards, int doubleYellowCard, int penaltyFouls, int penaltyHands,
                 int foulsCommited, int foulsReceived, int penaltyFoulsReceived, int nivel, String nivelDesc,
-                int orden, String ordenDesc, String streak) {
+                int orden, String ordenDesc, String streak, Group group) {
         this.phase = phase;
         this.team = team;
         this.matches = matches;
@@ -141,6 +145,7 @@ public class Rank  extends HecticusModel {
         this.orden = orden;
         this.ordenDesc = ordenDesc;
         this.streak = streak;
+        this.group = group;
     }
 
     @Override
@@ -479,6 +484,14 @@ public class Rank  extends HecticusModel {
 
     public void setStreak(String streak) {
         this.streak = streak;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public static List<Rank> getListByIdPhase(long idPhase){

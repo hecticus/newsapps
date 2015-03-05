@@ -206,6 +206,13 @@ public class DataFactoryScraper extends HecticusThread {
             for (int i = 0; i < equipos.getLength(); i++) {
                 try {
                     Node currentTeam = equipos.item(i);
+                    String groupName = null;
+                    try {
+                        groupName = xPath.compile("@zona").evaluate(currentTeam);
+                        System.out.println(groupName);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                     String teamExtId = xPath.compile("@id").evaluate(currentTeam);
                     String teamName = xPath.compile("nombre").evaluate(currentTeam),
                             countryName = xPath.compile("@paisSigla").evaluate(currentTeam),
@@ -257,6 +264,12 @@ public class DataFactoryScraper extends HecticusThread {
                     //get phase
                     Phase phaseToInsert = Phase.getPhaseByFn(torneo.getIdCompetitions(), stringIntParser(fn));
 
+                    Group group = null;
+                    if(groupName != null && !groupName.isEmpty()){
+                        group = new Group(torneo, groupName);
+                        group.validate(language);
+                    }
+
                     //values to int and long
                     long matches = stringLongParser(played),
                             matchesWon = stringLongParser(wins),
@@ -297,7 +310,7 @@ public class DataFactoryScraper extends HecticusThread {
                             matchesLocalLost,matchesVisitorWon, matchesVisitorDraw, matchesVisitorLost, goalsForLocal,
                             goalsAgainstLocal, goalsForVisitor, goalsAgainstVisitor, goalDiffV, pointsLocal, pointsVisitor,
                             yellowCardsV, redCardsV,doubleYellowCard,penaltyFoulsV, penaltyHandsV, foulsCommited,
-                            foulsReceived, penaltyFoulsReceivedV, nivelV, nivelDesc, orderV,orderDesc, streak);
+                            foulsReceived, penaltyFoulsReceivedV, nivelV, nivelDesc, orderV,orderDesc, streak, group);
                     toInsert.validateRank();
                 }catch (Exception ex){
                     Utils.printToLog(DataFactoryScraper.class,
