@@ -77,7 +77,7 @@ POST    /futbolbrasil/v1/clients/upstream/resetpass                             
 GET     /futbolbrasil/v1/clients/get/:id/:upstreamChannel                                                   controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
 GET     /futbolbrasil/v1/clients/list                                                                       controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 GET     /futbolbrasil/v1/clients/alerts/:id                                                                 controllers.client.Clients.getPushAlertsForClient(id : Integer)
-GET     /futbolbrasil/v1/clients/bets/get/competition/:idClient/:idCompetition                                          controllers.client.Clients.getBetsForCompetition(idClient : Integer, idCompetition : Integer)
+GET     /futbolbrasil/v1/clients/bets/get/:idClient/:idCompetition                                          controllers.client.Clients.getBetsForCompetition(idClient : Integer, idCompetition : Integer)
 GET     /futbolbrasil/v1/clients/bets/get/:idClient                                                         controllers.client.Clients.getBets(idClient : Integer)
 POST    /futbolbrasil/v1/clients/bets/create/:idClient                                                      controllers.client.Clients.createBet(idClient : Integer)
 
