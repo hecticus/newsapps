@@ -195,7 +195,7 @@ public class MatchesController extends HecticusController {
                         }
                     }
                     if (!data.isEmpty()) {
-                        ObjectNode competitionJson = competition.toJsonNoPhases();
+                        ObjectNode competitionJson = competition.toJsonSimple();
                         competitionJson.put("fixtures", Json.toJson(data));
                         data.clear();
                         responseData.add(competitionJson);
@@ -258,7 +258,7 @@ public class MatchesController extends HecticusController {
                             }
                         }
                     }
-                    ObjectNode competitionJson = competition.toJsonNoPhases();
+                    ObjectNode competitionJson = competition.toJsonSimple();
                     competitionJson.put("fixtures", Json.toJson(data));
                     data.clear();
                     response = hecticusResponse(0, "OK", competitionJson);
