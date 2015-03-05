@@ -20,3 +20,14 @@ CREATE TABLE `group_has_localization` (
   CONSTRAINT `fk_group_loc_group` FOREIGN KEY (`id_group`) REFERENCES `groups` (`id_group`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_group_loc_language` FOREIGN KEY (`id_language`) REFERENCES `languages` (`id_language`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `football_manager`.`ranking` 
+ADD COLUMN `id_group` INT NULL AFTER `streak`,
+ADD INDEX `fk_ranking_group_idx` (`id_group` ASC);
+ALTER TABLE `football_manager`.`ranking` 
+ADD CONSTRAINT `fk_ranking_group`
+  FOREIGN KEY (`id_group`)
+  REFERENCES `football_manager`.`groups` (`id_group`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
