@@ -17,6 +17,7 @@ angular
             var buildVersion = '';
             var serverVersion = '';
             var bundleVersion = '0.0.2';
+            var updateInfo = {};
 
             return {
 
@@ -92,6 +93,14 @@ angular
 
                 setBundleVersion: function(version){
                     bundleVersion = version;
+                },
+
+                getUpdateInfo: function(){
+                    return updateInfo;
+                },
+
+                setUpdateInfo: function(info){
+                    updateInfo = info;
                 }
             };
     });

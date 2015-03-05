@@ -32,9 +32,8 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row row-list-item" ng-repeat="phase in item.phases">
                     <div class="col-xs-12"
-                         ng-repeat="phase in item.phases"
                          ng-click="showContentRanking(item.competition.id_competitions
                             , phase.id_phases)">
                         <h4 ng-bind="phase.global_name"></h4>
@@ -145,6 +144,10 @@
                                               class="text-center-vertical"></span>
                                     </td>
                                     <td>
+                                        <span ng-bind="ranking.matches"
+                                              class="text-center-vertical"></span>
+                                    </td>
+                                    <td>
                                         <span ng-bind="ranking.matches_won"
                                               class="text-center-vertical"></span>
                                     </td>
@@ -158,10 +161,6 @@
                                     </td>
                                     <td>
                                         <span ng-bind="ranking.goals_for"
-                                              class="text-center-vertical"></span>
-                                    </td>
-                                    <td>
-                                        <span ng-bind="ranking.goal_against"
                                               class="text-center-vertical"></span>
                                     </td>
                                 </tr>

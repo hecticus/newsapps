@@ -797,13 +797,20 @@ body.content-mtm .row-back {
     text-align: center;
 }
 
+/*Lists*/
+.row-list-item{
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border-bottom: solid 1pt #2B2B2B !important;
+}
+
 /*Leaderboars*/
 
 .row-header {
     position: absolute;
     /*position: relative;*/
     z-index: 4;
-    top: 0;
+    /*top: 0;*/
     left: 0;
     right: 0;
     width: 100%;

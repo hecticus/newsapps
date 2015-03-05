@@ -50,7 +50,8 @@
         "PLAYER" : "Player",
         "POINTS" : "Points",
         "HITS" : "Hits",
-        "MY_POINTS" : "My Points"
+        "MY_POINTS" : "My Points",
+        "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",

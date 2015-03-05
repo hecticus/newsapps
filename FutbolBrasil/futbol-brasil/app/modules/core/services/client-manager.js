@@ -7,9 +7,10 @@
  */
 angular
     .module('core')
-    .factory('ClientManager',['$http', '$translate', 'CordovaDevice', 'WebManager', 'TeamsManager'
-        , 'Client', 'Domain', 'i18n',
-        function($http, $translate, CordovaDevice, WebManager, TeamsManager, Client, Domain, i18n) {
+    .factory('ClientManager',['$http', '$translate', 'CordovaDevice', 'WebManager', 'FacebookManager',
+        'TeamsManager', 'Client', 'Domain', 'i18n',
+        function($http, $translate, CordovaDevice, WebManager, FacebookManager,
+                 TeamsManager, Client, Domain, i18n) {
 
             var setLanguage = function(){
                 var lang = Client.getLanguage();
@@ -58,6 +59,9 @@ angular
                         upstreamChannel : CordovaDevice.getUpstreamChannel()
                     };
                     var isNewClient = true;
+                    if(FacebookManager.getUserId()){
+                        jData.facebook_id = FacebookManager.getUserId();
+                    }
 
                     Client.setPassword(password);
                     //TODO Solo para Debug en Web

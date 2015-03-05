@@ -52,7 +52,8 @@ var translationsEn = {
         "PLAYER" : "Player",
         "POINTS" : "Points",
         "HITS" : "Hits",
-        "MY_POINTS" : "My Points"
+        "MY_POINTS" : "My Points",
+        "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",
@@ -138,7 +139,8 @@ var translationsEs = {
         "PLAYER" : "Jugador",
         "POINTS" : "Puntos",
         "HITS" : "Aciertos",
-        "MY_POINTS" : "Mis Puntos"
+        "MY_POINTS" : "Mis Puntos",
+        "SCORE" : "Puntuación"
     },
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",
@@ -225,7 +227,7 @@ var translationsPt = {
         "POINTS" : "Pontos",
         "HITS" : "Sucessos",
         "MY_POINTS" : "Os Meus Pontos",
-        "SCORE" : "Score"
+        "SCORE" : "Pontos"
     },
     "EMPTY_STATES" : {
         "LIVE" : "Não há jogos para hoje",
@@ -334,12 +336,15 @@ angular
 
         $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
             if(fromState.name && fromState.data.section !== 'settings'){
-                $rootScope.previousSection = fromState.name;
+//                $rootScope.previousSection = fromState.name;
+                CordovaApp.setPreviousSection(fromState.name);
             }
 
-            $rootScope.section = !!toState.data.section ? toState.data.section : '';
+//            $rootScope.section = !!toState.data.section ? toState.data.section : '';
+            CordovaApp.setCurrentSection(!!toState.data.section ? toState.data.section : '');
 
-            $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
+//            $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
+            $translate('SECTIONS.' + CordovaApp.getCurrentSection().toUpperCase()).then(function(translate){
                 $rootScope.sectionTranslation = translate;
             });
             if (toState.data && toState.data.contentClass){

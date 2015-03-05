@@ -8,10 +8,10 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http'
-        , '$timeout', '$window', '$translate', 'Domain', 'Client', 'ClientManager','CordovaApp'
-        , function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, $window, $translate,
-                   Domain, Client, ClientManager, CordovaApp) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage'
+        , '$timeout', '$window', '$translate', 'Client', 'CordovaApp'
+        , function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
+                   Client, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
 
@@ -27,79 +27,6 @@ angular
 
             $rootScope.hasFavorites = false;
 
-            $scope.$on('load', function(){
-                $scope.loading = true;
-                $scope.error = false;
-            });
-
-            $scope.$on('unload', function(){
-                    $timeout(function(){
-                        $scope.loading = false;
-                    }, 200);
-                }
-            );
-            $scope.$on('error', function(){
-                $scope.error = true;
-                $scope.loading = false;
-                }
-            );
-
-            $scope.isUtilitySection = function(){
-                return $rootScope.section === 'settings' || $rootScope.section === 'login';
-            };
-
-            $scope.getDrawerIcon = function(){
-                var classStr = 'icon ';
-                if(angular.element('.page.back.left:last').hasClass('left')){
-                    classStr += 'mdi-navigation-arrow-back ';
-                } else if($scope.isUtilitySection()){
-                    classStr += 'mdi-navigation-arrow-back ';
-                } else {
-                    classStr += 'mdi-navigation-menu';
-                }
-                return classStr;
-            };
-
-            $rootScope.showMenu = function() {
-                if ($('#wrapperM').hasClass('left')) {
-                    $window.addEventListener('touchmove', function(){
-                        $scope.hideMenu();
-                        $window.removeEventListener('touchmove');
-                    });
-                    $rootScope.transitionPage('#wrapperM', 'right');
-                }
-            };
-
-            $rootScope.hideMenu = function() {
-                if ($('#wrapperM').hasClass('right')) {
-//                    console.log('hideMenu. visible. hiding');
-                    $rootScope.transitionPage('#wrapperM', 'left');
-                }
-            };
-
-            $rootScope.runBackButton = function() {
-
-                if($scope.isUtilitySection()){
-                    if($state.current.name === 'settings' && $rootScope.previousSection){
-                        $state.go($rootScope.previousSection);
-                    } else if($state.current.data){
-                        $state.go($state.current.data.prev);
-                    }
-                } else{
-                    if (angular.element('.page.back.left:last').hasClass('left')) {
-                        $rootScope.transitionPage('.page.back.left:last', 'right')
-                    } else if ($('#wrapperM').hasClass('right')) {
-                        $scope.hideMenu();
-                    } else if ($('#wrapperM').hasClass('left')){
-                        $scope.showMenu();
-                    }
-                }
-                //TODO reemplazar por escucha de botón back
-//                } else if (_exit && confirm('Para sair da aplicação')) {
-//                    CordovaApp.exitApp();
-//                }
-            };
-
             $scope.getFavoritesClass = function(){
                 if($scope.toggles.favorites){
                     return 'mdi-action-favorite';
@@ -114,13 +41,71 @@ angular
                 $state.reload();
             };
 
-            $rootScope.showSection = function(_section) {
-                $timeout(function() {
-//                    angular.element('.section').removeClass('active');
-//                    angular.element('[data-section="' + _section + '"]').addClass('active');
+            $scope.$on('load', function(){
+                $scope.loading = true;
+                $scope.error = false;
+            });
+
+            $scope.$on('unload', function(){
+                    $timeout(function(){
+                        $scope.loading = false;
+                    }, 200);
+                }
+            );
+            $scope.$on('error', function(){
+                    $scope.error = true;
+                    $scope.loading = false;
+                }
+            );
+
+            $scope.getSection = function (){
+              return CordovaApp.getCurrentSection();
+            };
+
+            $scope.getDrawerIcon = function(){
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
+                    return 'icon mdi-navigation-arrow-back ';
+                } else {
+                    return 'icon mdi-navigation-menu';
+                }
+            };
+
+            $rootScope.showMenu = function() {
+                if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
+                    $window.addEventListener('touchmove', function(){
+                        $scope.hideMenu();
+                        $window.removeEventListener('touchmove');
+                    });
+                    $rootScope.transitionPage('#wrapperM', 'right');
+                }
+            };
+
+            $rootScope.hideMenu = function() {
+                if ($('#wrapperM').hasClass('right')) {
+                    $rootScope.transitionPage('#wrapperM', 'left');
+                }
+            };
+
+            $rootScope.onMenuButtonPressed = function(){
+                var menuWrapper = $('#wrapperM');
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                if(hasPreviousSubsection) {
+                    CordovaApp.onBackButtonPressed();
+                } else if (menuWrapper.hasClass('left')) {
+                    $scope.showMenu();
+                } else if (menuWrapper.hasClass('right')) {
                     $scope.hideMenu();
+                }
+            };
+
+            $rootScope.showSection = function(_section) {
+//                $timeout(function() {
+                    if ($('#wrapperM').hasClass('right')) {
+                        $scope.hideMenu();
+                    }
                     $state.go(_section);
-                },300);
+//                },300);
             };
 
             $rootScope.transitionPage = function(_wrapper, _direction, _class) {
@@ -156,7 +141,6 @@ angular
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();
-//                    console.log('Client.getHasFavorites(): ' + $rootScope.hasFavorites);
                 });
                 $scope.getTranslations();
                 $rootScope.$on('$translateChangeSuccess', function () {

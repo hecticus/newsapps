@@ -7,11 +7,15 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
-        , 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App',
-        function($window, Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
-            , Client, Settings, Competitions, App) {
+    .factory('CordovaApp',['$state', '$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager',
+        'PushManager', 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App',
+        function($state, $window, Domain, Utilities, CordovaDevice, WebManager, ClientManager,
+                 PushManager, FacebookManager, Client, Settings, Competitions, App) {
+
             var that = this;
+            var backButtonCallback = null;
+            var currentSection = '';
+            var prevSection = '';
 
             //TODO i18n-alizar
             var strings = {
@@ -19,6 +23,25 @@ angular
                 EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',
                 OK : 'Ok',
                 CANCEL : 'Cancelar'
+            };
+
+            var checkUpdate = function(){
+                var bundleVersion = App.getBundleVersion();
+                var updateInfo = App.getUpdateInfo();
+//                var updateInfo = {
+//                    mandatory : 1,
+//                    update: 1,
+//                    new_version : '0.0.4'
+//                };
+                console.log(bundleVersion);
+                console.log(updateInfo);
+                if(updateInfo.update === 1){
+                    if(updateInfo.mandatory === 1){
+                        console.log('New Update. Mandatory Version ' + updateInfo.new_version + ' is now Available');
+                    } else {
+                        console.log('New Update. Version ' + updateInfo.new_version + ' is now Available');
+                    }
+                }
             };
 
             var exitApp = function (){
@@ -36,21 +59,59 @@ angular
                 }
             };
 
-            var backButtonCallback = null;
+            var hideMenu = function() {
+                var menuWrapper = $('#wrapperM');
+                if (menuWrapper.hasClass('right')) {
+                    menuWrapper.attr('class', ' page transition left');
+                }
+            };
 
             var onBackButtonPressed = function(){
-                if(angular.element('.page.back.left:last').hasClass('left')){
-                    typeof backButtonCallback === 'function' && backButtonCallback();
-                } else if (!!navigator.notification) {
-                    navigator.notification.confirm(strings.EXIT_APP_MSG, exitApp(), strings.EXIT_APP_TITLE
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                var hasNotificationPlugin = !!navigator.notification;
+
+                if ($('#wrapperM').hasClass('right')) {
+                    hideMenu();
+                } else if(isOnUtilitySection()){
+                    if($state.current.name === 'settings' && prevSection){
+                        $state.go(prevSection);
+                    } else if($state.current.data){
+                        $state.go($state.current.data.prev);
+                    }
+                } else if(hasPreviousSubsection){
+                    angular.element('.page.back.left:last')
+                        .attr('class', ' page transition right');
+//                    typeof backButtonCallback === 'function' && backButtonCallback();
+                } else if (hasNotificationPlugin) {
+                    navigator.notification
+                        .confirm(strings.EXIT_APP_MSG
+                        , function(btnIndex){
+                            switch (btnIndex) {
+                                case 1:
+                                    console.log('Ok selected');
+                                    exitApp();
+                                    break;
+                                case 2:
+                                    console.log('Cancelled by User');
+                                    break;
+                                default:
+                            }
+                        }
+                        , strings.EXIT_APP_TITLE
                         , [strings.OK, strings.CANCEL]);
                 } else if (confirm(strings.EXIT_APP_MSG)) {
+                    console.log('onBackButtonPressed. exitApp');
                     exitApp();
                 }
             };
 
+            var isOnUtilitySection = function(){
+                return (currentSection === 'settings' || currentSection === 'login');
+            };
+
             return {
                 setBackButtonCallback: function(callback){
+                    console.log('setBackButtonCallback');
                     backButtonCallback = callback;
                 },
 
@@ -74,6 +135,7 @@ angular
 //                    console.log('CordovaApp. receivedEvent. ');
                     if (id === 'deviceready') {
                         document.addEventListener('backbutton', function(e) {
+                            console.log('backbutton event');
                             onBackButtonPressed();
                         }, false);
                         this.getVersion();
@@ -95,8 +157,8 @@ angular
                             function(){
                                 Settings.init();
                                 Competitions.init();
-//                                console.log("loadServerConfigs successCallback. Starting PushManager");
                                 PushManager.init();
+                                checkUpdate();
                             }, function(){
                                 console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                             }
@@ -127,6 +189,24 @@ angular
                         console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                     }
                 },
+
+                setCurrentSection : function(sect){
+                    currentSection = sect;
+                },
+                getCurrentSection : function(){
+                    return currentSection;
+                },
+
+                setPreviousSection : function(sect){
+                    prevSection = sect;
+                },
+                getPreviousSection : function(){
+                    return prevSection;
+                },
+
+                isOnUtilitySection : isOnUtilitySection,
+
+                onBackButtonPressed: onBackButtonPressed,
 
                 /**
                  * @ngdoc function

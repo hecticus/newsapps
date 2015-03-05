@@ -49,7 +49,8 @@
         "PLAYER" : "Jugador",
         "POINTS" : "Puntos",
         "HITS" : "Aciertos",
-        "MY_POINTS" : "Mis Puntos"
+        "MY_POINTS" : "Mis Puntos",
+        "SCORE" : "Puntuación"
     },
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",

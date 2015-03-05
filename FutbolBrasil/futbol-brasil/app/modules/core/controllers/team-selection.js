@@ -22,6 +22,11 @@ angular
 
             $scope.getTeams = function(){
                 $scope.teams = TeamsManager.getTeams(0, 200);
+                $scope.teams.map(function(team){
+                    if(team.name === '' || !team.name){
+                        team.name = $scope.strings.NOT_AVAILABLE;
+                    }
+                });
                 var favTeams = TeamsManager.getFavoriteTeams();
                 favTeams.forEach(function(elem){
                     var index = $scope.teams.indexOf(elem);
@@ -38,10 +43,6 @@ angular
                 }else{
                     return 'mdi-action-favorite-outline';
                 }
-            };
-
-            $scope.getTeamName = function(team){
-                return team.name !== ''? team.name : $scope.strings.NOT_AVAILABLE;
             };
 
             $scope.setUpIScroll = function() {

@@ -45,12 +45,13 @@
                 <header>
                     <div class="col-xs-10 text-left">
                         <i class="icon drawer-icon icon-white"
-                           ng-hide="section === 'login'"
+                           ng-hide="getSection() === 'login'"
                            ng-class="getDrawerIcon()"
-                           ng-click="runBackButton()"></i>
+                           ng-click="onMenuButtonPressed()"></i>
+
                         <span class="drawer-title" ng-cloak>
                             <img class="drawer-app-logo" src="img/logo.svg"
-                                 ng-click="showMenu()" onerror="this.src='img/logo.png'"/>
+                                 onerror="this.src='img/logo.png'"/>
                             {{sectionTranslation}}
                         </span>
                     </div>
@@ -76,9 +77,9 @@
     </menu>
 
     <div class="row">
-        <footer class="footer" ng-hide="section === 'settings'">
+        <footer class="footer" ng-hide="getSection() === 'settings'">
             <div data-section="notistats" class="row"
-                 ng-class="{active: section === 'notistats', hide: section !== 'notistats'}">
+                 ng-class="{active: getSection() === 'notistats', hide: getSection() !== 'notistats'}">
                 <div class="col-xs-15 option" ui-sref-active="active">
                     <a ui-sref="match">
                         <span class="icon-balon"></span>
@@ -112,7 +113,7 @@
             </div>
 
             <div data-section="bets" class="row"
-                 ng-class="{active: section === 'bets', hide: section !== 'bets'}">
+                 ng-class="{active: getSection() === 'bets', hide: getSection() !== 'bets'}">
                 <div class="col-xs-3 option" ui-sref-active="active">
                     <a ui-sref="prediction">
                         <span class="icon-balon"></span>

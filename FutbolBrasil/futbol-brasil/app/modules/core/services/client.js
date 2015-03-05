@@ -150,7 +150,7 @@ angular
                         }
                         client.msisdn = msisdn;
                         saveClient();
-                        console.log(client);
+//                        console.log(client);
 
                         typeof successCallback == "function" && successCallback();
                     } catch(err){

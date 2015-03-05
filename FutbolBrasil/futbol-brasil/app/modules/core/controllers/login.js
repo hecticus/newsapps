@@ -28,6 +28,7 @@ angular
             $scope.isPasswordScreenVisible = false;
 
             $scope.sendMsisdn = function(){
+                $scope.$emit('load');
                 if($scope.msisdn){
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
                     Client.setMsisdn($scope.msisdn,
@@ -45,6 +46,7 @@ angular
             };
 
             $scope.showPasswordScreen = function(){
+                $scope.$emit('unload');
                 $scope.isPasswordScreenVisible = true;
             };
 
@@ -77,8 +79,7 @@ angular
             };
 
             $scope.init = function(){
-                $rootScope.error = false;
-                $rootScope.loading = false;
+                $scope.$emit('unload');
                 $scope.isPasswordScreenVisible = false;
             }();
         }
