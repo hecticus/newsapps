@@ -127,8 +127,15 @@ angular
             };
 
             $scope.goToStore = function(){
-                if($window.cordova && $window.cordova.plugins && cordova.plugins.market) {
-                    $window.cordova.plugins.market.open($scope.updateInfo.download);
+                if($window.cordova && $window.cordova.plugins && $window.cordova.plugins.market) {
+                    $window.cordova.plugins.market.open($scope.updateInfo.download, {
+                        success: function() {
+                            console.log("Redirect to App Store Successful");
+                        },
+                        failure: function() {
+                            console.log("Couldn't open App Store to update App");
+                        }
+                    });
                 } else {
                     console.log('$window.cordova.plugins.market Object not available. Are you directly on a browser?');
                 }
@@ -157,7 +164,7 @@ angular
                     updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
 
                     $scope.updateInfo = updateInfo;
-                    console.log($scope.updateInfo);
+
                     $('#update-modal').modal({
                         backdrop: !!updateInfo.mandatory? 'static' : true,
                         keyboard: false,

@@ -2,19 +2,19 @@
 
 /**
  * @ngdoc service
- * @name core.Services.NewsService
- * @description NewsService Factory
+ * @name core.Services.News
+ * @description News Factory
  */
 angular
     .module('core')
-    .factory('NewsService',
+    .factory('News',
         function() {
             return {
 
                 /**
                  * @ngdoc function
-                 * @name core.Services.NewsService#method1
-                 * @methodOf core.Services.NewsService
+                 * @name core.Services.News#method1
+                 * @methodOf core.Services.News
                  * @return {boolean} Returns a boolean value
                  */
                 method1: function() {
@@ -23,8 +23,8 @@ angular
 
                 /**
                  * @ngdoc function
-                 * @name core.Services.NewsService#method2
-                 * @methodOf core.Services.NewsService
+                 * @name core.Services.News#method2
+                 * @methodOf core.Services.News
                  * @return {boolean} Returns a boolean value
                  */
                 method2: function() {
