@@ -9,16 +9,15 @@
 angular
     .module('core')
     .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$timeout', '$state', '$localStorage', 'Domain', 'WebManager',
-        'TeamsManager', 'Utilities',
-        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Utilities) {
+        'TeamsManager', 'Moment',
+        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Moment) {
             var _scroll;
             var _scroll2;
             var _scroll3;
             $scope.item = {};
 
-            //TODO Sacar a Service
             $scope.fromNow = function(_date) {
-                return Utilities.moment(_date).format('MMMM Do YYYY');
+                return Moment.date(_date).format('MMMM Do YYYY');
             };
 
             $scope.showContentPhases = function(competition) {
@@ -45,23 +44,6 @@ angular
                     console.log('showContentPhases. error');
                     $scope.$emit('error');
                 });
-//                .success(function (data, status, headers, config) {
-//                    console.log(data);
-//                    $scope.item.phases = data.response.phases;
-//                    $scope.item.competition = competition;
-//                    if ($scope.item.phases.length == 1) {
-//                        $scope.showContentRanking($scope.item.competition.id_competitions
-//                            , $scope.item.phases[0].id_phases);
-//                    } else {
-//                        $rootScope.transitionPageBack('#wrapper2', 'left');
-//                        _scroll2.scrollTo(0,0,0);
-//                    }
-//                    $scope.$emit('unload');
-//                }).catch(function () {
-//                    $scope.$emit('error');
-//                }).finally(function(data) {
-//                    $scope.$emit('unload');
-//                });
 
             };
 
@@ -95,6 +77,7 @@ angular
                 });
             };
 
+            //TODO migrar a servicio de iScroll
             $scope.setUpIScroll = function(){
                 _scroll = new IScroll('#wrapper'
                     ,{click:true, preventDefault:true, bounce: true, probeType: 2});

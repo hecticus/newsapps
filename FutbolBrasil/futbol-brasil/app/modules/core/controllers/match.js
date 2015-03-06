@@ -9,8 +9,9 @@
 angular
     .module('core')
     .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
-        ,'WebManager', 'Domain','Utilities', 'Client',
-        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager, Domain, Utilities, Client) {
+        ,'WebManager', 'Domain', 'Moment', 'Utilities',
+        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager,
+                 Domain, Moment, Utilities) {
 
             var _limit = 100;
             var _currentPage = 0;
@@ -27,18 +28,18 @@ angular
             };
 
             $scope.getTime = function(_date) {
-                return Utilities.moment(_date).format('H:MM');
+                return Moment.date(_date).format('H:MM');
             };
 
             $scope.pagesBefore = [];
             $scope.pagesAfter = [];
 
             $scope.pages = [
-                {id: 1, name: Utilities.moment().subtract(2, 'days').format(_formatDate), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
-                {id: 2, name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
-                {id: 3, name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
-                {id: 4, name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
-                {id: 5, name: Utilities.moment().add(2, 'days').format(_formatDate), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
+                {id: 1, name: Moment.date().subtract(2, 'days').format(_formatDate), date:Moment.date().subtract(2, 'days').format('YYYYMMDD')},
+                {id: 2, name:'Ontem', date:Moment.date().subtract(1, 'days').format('YYYYMMDD')},
+                {id: 3, name:'Hoje', date:Moment.date().format('YYYYMMDD')},
+                {id: 4, name:'Amanha', date:Moment.date().add(1, 'days').format('YYYYMMDD')},
+                {id: 5, name: Moment.date().add(2, 'days').format(_formatDate), date:Moment.date().add(2, 'days').format('YYYYMMDD')}
             ];
 
             $scope.width = $window.innerWidth;
@@ -96,7 +97,7 @@ angular
                 };
 
 //                _scroll.on('scrollEnd', function () {
-//                    //this.refresh();
+//                    this.refresh();
 //                });
 //
 //                $scope.$on('onRepeatFirst', function(scope, element, attrs) {
@@ -134,8 +135,8 @@ angular
                             $scope.pagesAfter.push(
                                 {
                                     id: ($scope.pages.length + 1),
-                                    name: Utilities.moment().add(_index, 'days').format(_formatDate),
-                                    date: Utilities.moment().add(_index, 'days').format('YYYYMMDD')
+                                    name: Moment.date().add(_index, 'days').format(_formatDate),
+                                    date: Moment.date().add(_index, 'days').format('YYYYMMDD')
                                 }
                             );
 

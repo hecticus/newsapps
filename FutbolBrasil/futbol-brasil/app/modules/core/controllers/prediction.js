@@ -9,14 +9,17 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
-        '$window', 'Domain','Utilities', 'Bets',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities, Bets) {
+        '$window', 'Domain', 'Moment', 'iScroll', 'Bets',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain,Moment,
+                 iScroll, Bets) {
+
             $scope.vWrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
                     return this.name + _index;
                 }
             };
+
             $scope.hScroll = null;
             $scope.width = $window.innerWidth;
             $scope.widthTotal = $window.innerWidth;
@@ -32,11 +35,11 @@ angular
             };
 
             $scope.getDate = function (_date) {
-                return Utilities.moment(_date).format('ll');
+                return Moment.date(_date).format('ll');
             };
 
             $scope.getTime = function (_date) {
-                return Utilities.moment(_date).format('H:MM');
+                return Moment.date(_date).format('H:MM');
             };
 
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
@@ -93,10 +96,10 @@ angular
             };
 
             $scope.setUpIScroll = function(){
-                $scope.hSroll = Utilities.newScroll.horizontal('wrapperH');
+                $scope.hSroll = iScroll.horizontal('wrapperH');
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     angular.forEach($scope.leagues, function(_item, _index) {
-                        Utilities.newScroll.vertical($scope.vWrapper.getName(_index));
+                        iScroll.vertical($scope.vWrapper.getName(_index));
                     });
                 });
                 $scope.nextPage = function(){

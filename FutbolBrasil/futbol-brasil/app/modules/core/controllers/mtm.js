@@ -8,22 +8,27 @@
  */
 angular
     .module('core')
-    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage','WebManager', 'Domain','Utilities','$timeout',
-        function($http, $rootScope, $scope, $state, $localStorage, WebManager, Domain, Utilities,$timeout) {
+    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage','WebManager', 'Domain',
+        'Moment', 'iScroll', '$timeout',
+        function($http, $rootScope, $scope, $state, $localStorage, WebManager, Domain, Moment, iScroll, $timeout) {
 
-            var _scroll = Utilities.newScroll.vertical('wrapper');
-            var _scroll2 = Utilities.newScroll.vertical('wrapper2');
-            var _event = {first:0, last:0, reset: function() {
-                _event.first = 0;
-                _event.last = 0;
-            }};
+            var _scroll = iScroll.vertical('wrapper');
+            var _scroll2 = iScroll.vertical('wrapper2');
+            var _event = {
+                first: 0,
+                last: 0,
+                reset: function() {
+                    _event.first = 0;
+                    _event.last = 0;
+                }
+            };
 
             $scope.hasGamesForToday = true;
 
             $scope.interval = false;
-            $scope.date = Utilities.moment().format('dddd Do YYYY');
+            $scope.date = Moment.date().format('dddd Do YYYY');
             $scope.getTime = function (_date) {
-                return Utilities.moment(_date).format('H:MM');
+                return Moment.date(_date).format('H:MM');
             };
 
             $scope.refreshEvents = function () {
@@ -32,7 +37,8 @@ angular
                     var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
                     //TODO check request cableado, no se valida que venga vacio data.response
-                    $http.get(Domain.mtm(16, 3321, _event.first), config).success(function (data, status) {
+                    $http.get(Domain.mtm(16, 3321, _event.first), config)
+                    .success(function (data, status) {
                         console.log(data);
                         if (data.error === 0) {
                             if ($scope.item.mtm.length == 0) {
@@ -48,9 +54,8 @@ angular
                         }
                     }).catch(function () {
                         $scope.$emit('error');
-                    }).finally(function(data) {
+                    }).finally(function() {
                         $scope.$emit('unload');
-                        $rootScope.error = Utilities.error();
                     });
 
                 }
@@ -78,13 +83,6 @@ angular
 
             };
 
-            $scope.prevPageMtM = function () {
-                $rootScope.loading = false;
-                _event = {first:0, last:0};
-                $timeout.cancel($scope.interval);
-                $rootScope.prevPage();
-            };
-
             $scope.mapLeagues = function(leagues){
                 leagues.forEach(function(league){
                     league.fixtures.map(function(match){
@@ -101,7 +99,7 @@ angular
 
             $scope.init = function(){
                 $scope.$emit('load');
-                var date = Utilities.moment().format('YYYYMMDD');
+                var date = Moment.date().format('YYYYMMDD');
 //                date = "20150222";
 
                 var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());

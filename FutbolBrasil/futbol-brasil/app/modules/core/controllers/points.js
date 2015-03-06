@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('PointsCtrl', ['$rootScope', '$scope', '$window', '$translate', '$q', 'Competitions',
-        'Utilities',
-        function($rootScope, $scope, $window, $translate, $q, Competitions, Utilities) {
+        'Moment', 'iScroll',
+        function($rootScope, $scope, $window, $translate, $q, Competitions, Moment, iScroll) {
 
             $scope.tournaments = [];
             $scope.hasScore = true;
@@ -41,7 +41,7 @@ angular
                     } else {
                         $scope.hasScore = true;
                     }
-                    var date = Utilities.moment().format('YYYYMMDD');
+                    var date = Moment.date().format('YYYYMMDD');
                     $scope.tournaments.forEach(function(tournament){
                         Competitions.leaderboard.personal.phase.latest(tournament.id_tournament, date)
                             .then(function(result){
@@ -91,7 +91,7 @@ angular
 
             $scope.init = function(){
                 $scope.getPoints();
-                $scope.tournamentScroll = Utilities.newScroll.vertical($scope.tournamentScrollId);
+                $scope.tournamentScroll = iScroll.vertical($scope.tournamentScrollId);
             }();
         }
     ]);

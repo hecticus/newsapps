@@ -97,6 +97,10 @@ angular
                     return true;
                 },
 
+                isGuest : function(){
+                    return true;
+                },
+
                 /**
                  * @ngdoc function
                  * @name core.Services.ClientManager#isActiveClient
