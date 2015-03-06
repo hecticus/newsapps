@@ -7,11 +7,16 @@ row:not(input):not(textarea) {
 html { -ms-touch-action: none; font-family: Helvetica; }
 body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
 
-a { color: #FFFFFF !important; text-decoration: none  !important; }
-a:link {color: #FFFFFF !important; text-decoration: none  !important; }
-a:visited {color: #FFFFFF !important; text-decoration: none  !important; }
-a:hover {color: #FFFFFF !important; text-decoration: none  !important; }
-a:active { color: #FFFFFF !important; text-decoration: none  !important; }
+/*a { color: #FFFFFF !important; text-decoration: none  !important; }*/
+/*a:link {color: #FFFFFF !important; text-decoration: none  !important; }*/
+/*a:visited {color: #FFFFFF !important; text-decoration: none  !important; }*/
+/*a:hover {color: #FFFFFF !important; text-decoration: none  !important; }*/
+/*a:active { color: #FFFFFF !important; text-decoration: none  !important; }*/
+.footer-section{ color: #FFFFFF !important; text-decoration: none  !important; }
+.footer-section:link {color: #FFFFFF !important; text-decoration: none  !important; }
+.footer-section:visited {color: #FFFFFF !important; text-decoration: none  !important; }
+.footer-section:hover {color: #FFFFFF !important; text-decoration: none  !important; }
+.footer-section:active { color: #FFFFFF !important; text-decoration: none  !important; }
 
 
 #wrapper, #wrapperM{

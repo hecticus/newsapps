@@ -14,6 +14,7 @@ angular
                    Client, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
+            $scope.updateInfo = {};
 
             $scope.toggles = {
                 favorites: true
@@ -90,7 +91,7 @@ angular
             $rootScope.onMenuButtonPressed = function(){
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                if(hasPreviousSubsection) {
+                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
                 } else if (menuWrapper.hasClass('left')) {
                     $scope.showMenu();
@@ -125,6 +126,14 @@ angular
                 $scope.hideMenu();
             };
 
+            $scope.goToStore = function(){
+                if($window.cordova && $window.cordova.plugins && cordova.plugins.market) {
+                    $window.cordova.plugins.market.open($scope.updateInfo.download);
+                } else {
+                    console.log('$window.cordova.plugins.market Object not available. Are you directly on a browser?');
+                }
+            };
+
             /**
              * Function that gets and updates the app's common usage Strings
              * to minimize the number of requests across  modules and improve
@@ -138,6 +147,24 @@ angular
 
             $scope.init = function(){
                 CordovaApp.setBackButtonCallback($scope.runBackButton);
+                CordovaApp.setUpdateCallback(function(updateInfo){
+                    //TODO for debugging only
+                    updateInfo.mandatory = 0;
+
+                    updateInfo.title = 'Update Info';
+                    updateInfo.html = '<p class="text-success">New Update</p><p>- ';
+                    if(updateInfo.mandatory === 1){ updateInfo.html += 'Mandatory '; }
+                    updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
+
+                    $scope.updateInfo = updateInfo;
+                    console.log($scope.updateInfo);
+                    $('#update-modal').modal({
+                        backdrop: !!updateInfo.mandatory? 'static' : true,
+                        keyboard: false,
+                        show: false})
+                        .modal('show');
+                });
+
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();

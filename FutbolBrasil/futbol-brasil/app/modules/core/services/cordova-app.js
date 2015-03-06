@@ -14,6 +14,7 @@ angular
 
             var that = this;
             var backButtonCallback = null;
+            var updateCallback = null;
             var currentSection = '';
             var prevSection = '';
 
@@ -26,21 +27,11 @@ angular
             };
 
             var checkUpdate = function(){
-                var bundleVersion = App.getBundleVersion();
                 var updateInfo = App.getUpdateInfo();
-//                var updateInfo = {
-//                    mandatory : 1,
-//                    update: 1,
-//                    new_version : '0.0.4'
-//                };
-                console.log(bundleVersion);
-                console.log(updateInfo);
+                updateInfo.current_version = App.getBundleVersion();
+                updateInfo.bundle_id = App.getBundleId();
                 if(updateInfo.update === 1){
-                    if(updateInfo.mandatory === 1){
-                        console.log('New Update. Mandatory Version ' + updateInfo.new_version + ' is now Available');
-                    } else {
-                        console.log('New Update. Version ' + updateInfo.new_version + ' is now Available');
-                    }
+                    updateCallback(updateInfo);
                 }
             };
 
@@ -52,10 +43,12 @@ angular
                 }
 
                 //Legacy
-                if (navigator.app) {
+                if (!!navigator.app) {
                     navigator.app.exitApp();
-                } else if (navigator.device) {
+                } else if (!!navigator.device) {
                     navigator.device.exitApp();
+                } else {
+                    console.log("Couldn't close app");
                 }
             };
 
@@ -111,8 +104,11 @@ angular
 
             return {
                 setBackButtonCallback: function(callback){
-                    console.log('setBackButtonCallback');
                     backButtonCallback = callback;
+                },
+
+                setUpdateCallback: function(callback){
+                    updateCallback = callback;
                 },
 
                 bindEvents : function() {
@@ -185,6 +181,9 @@ angular
                         $window.wizUtils.getBundleVersion(function(result){
                             App.setBundleVersion(result);
                         });
+                        $window.wizUtils.getBundleIdentifier(function(id){
+                            App.setBundleId(id);
+                        });
                     }else{
                         console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                     }
@@ -214,7 +213,6 @@ angular
                  * @methodOf core.Services.CordovaApp
                  */
                 init : function() {
-//                    console.log('Ready. initialize. ');
                     that = this;
                     this.bindEvents();
                 }
