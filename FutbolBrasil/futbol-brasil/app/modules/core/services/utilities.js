@@ -151,7 +151,8 @@ angular
                         snap: true,
                         snapSpeed: 700,
                         probeType: 3,
-                        bounce: false
+                        bounce: false,
+                        click: true
                     });
 
                     window[_wrapper].on('beforeScrollStart', function () {

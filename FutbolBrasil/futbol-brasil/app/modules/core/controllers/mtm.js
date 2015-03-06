@@ -32,7 +32,8 @@ angular
                     var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
                     //TODO check request cableado, no se valida que venga vacio data.response
-                    $http.get(Domain.mtm(5,390,_event.first), config).success(function (data, status) {
+                    $http.get(Domain.mtm(16, 3321, _event.first), config).success(function (data, status) {
+                        console.log(data);
                         if (data.error === 0) {
                             if ($scope.item.mtm.length == 0) {
                                 $scope.item.mtm = data.response;
@@ -84,24 +85,37 @@ angular
                 $rootScope.prevPage();
             };
 
-            $scope.getTeamName = function(team){
-                return team && team.name !== ''? team.name : 'Name Not Available';
+            $scope.mapLeagues = function(leagues){
+                leagues.forEach(function(league){
+                    league.fixtures.map(function(match){
+                        if(!match.awayTeam.name){
+                            match.awayTeam.name = $scope.strings.NOT_AVAILABLE;
+                        }
+                        if(!match.homeTeam.name){
+                            match.homeTeam.name = $scope.strings.NOT_AVAILABLE;
+                        }
+                        match.status = 'MATCH.STATUS.' + match.id_status;
+                    });
+                });
             };
 
             $scope.init = function(){
                 $scope.$emit('load');
                 var date = Utilities.moment().format('YYYYMMDD');
 //                date = "20150222";
+
                 var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
                 config.params.pageSize = 100;
                 config.params.page = 0;
+
                 $http.get(Domain.match(date), config)
                     .success(function (data, status) {
-//                        console.log(data);
+                        console.log(data.response);
                         if(data.response && data.response.leagues.length == 0){
                             $scope.hasGamesForToday = false;
                             console.log('No info on response');
                         } else {
+                            $scope.mapLeagues(data.response.leagues);
                             $scope.hasGamesForToday = true;
                             $scope.item = data.response;
                         }
@@ -109,7 +123,6 @@ angular
                     }).error(function (data) {
                         console.log(data);
                         $scope.$emit('error');
-//                        $rootScope.error = Utilities.error();
                     });
             }();
         }

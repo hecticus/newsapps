@@ -85,16 +85,7 @@ angular
 
                 $scope.width = $window.innerWidth;
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
-                var _scroll = new IScroll('#wrapperH', {
-                    scrollX: true,
-                    scrollY: false,
-                    mouseWheel: false,
-                    momentum: false,
-                    snap: true,
-                    snapSpeed: 700,
-                    probeType: 3,
-                    bounce: false
-                });
+                var _scroll = Utilities.newScroll.horizontal('wrapperH');
 
                 $scope.nextPage = function(){
                     _scroll.next();
@@ -104,13 +95,13 @@ angular
                     _scroll.prev();
                 };
 
-                _scroll.on('scrollEnd', function () {
-                    //this.refresh();
-                });
-
-                $scope.$on('onRepeatFirst', function(scope, element, attrs) {
-                    //console.log('onRepeatFirst');
-                });
+//                _scroll.on('scrollEnd', function () {
+//                    //this.refresh();
+//                });
+//
+//                $scope.$on('onRepeatFirst', function(scope, element, attrs) {
+//                    //console.log('onRepeatFirst');
+//                });
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     if (_start) {
@@ -170,21 +161,9 @@ angular
                               });
 
                         }
-
                         _currentPage = this.currentPage.pageX;
-
                     }
                 });
-
-                $scope.nextPage = function(){
-                  _scroll.next();
-                };
-
-                $scope.prevPage = function(){
-                  _scroll.prev();
-                };
-
-
             }();
 
         }

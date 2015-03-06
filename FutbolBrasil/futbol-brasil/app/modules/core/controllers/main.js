@@ -8,76 +8,25 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$location', '$state', '$localStorage', '$http'
-        , '$timeout', '$window', '$translate', 'Domain', 'Client', 'ClientManager','CordovaApp'
-        , function($rootScope, $scope, $location, $state, $localStorage, $http, $timeout, $window, $translate,
-                   Domain, Client, ClientManager, CordovaApp) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage'
+        , '$timeout', '$window', '$translate', 'Client', 'CordovaApp'
+        , function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
+                   Client, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
+            $scope.updateInfo = {};
 
             $scope.toggles = {
                 favorites: true
             };
 
+            $scope.strings = {};
+
             $scope.isFavoritesFilterActive = function(){
                 return $scope.toggles.favorites;
             };
 
-            $scope.hasFavorites = false;
-
-            $scope.$on('load', function(){
-                $scope.loading = true;
-                $scope.error = false;
-            });
-
-            $scope.$on('unload', function(){$scope.loading = false;});
-            $scope.$on('error', function(){
-                $scope.error = true;
-                $scope.loading = false;
-                }
-            );
-
-            $scope.getDrawerIcon = function(){
-                var classStr = 'icon ';
-                if(angular.element('.page.back.left:last').hasClass('left')){
-                    classStr += 'mdi-navigation-arrow-back ';
-                } else {
-                    classStr += 'mdi-navigation-menu';
-                }
-                return classStr;
-            };
-
-            $rootScope.showMenu = function() {
-                if ($('#wrapperM').hasClass('left')) {
-                    $window.addEventListener('touchmove', function(){
-                        $scope.hideMenu();
-                        $window.removeEventListener('touchmove');
-                    });
-                    $rootScope.transitionPage('#wrapperM', 'right');
-                }
-            };
-
-            $rootScope.hideMenu = function() {
-                if ($('#wrapperM').hasClass('right')) {
-//                    console.log('hideMenu. visible. hiding');
-                    $rootScope.transitionPage('#wrapperM', 'left');
-                }
-            };
-
-            $rootScope.runBackButton = function() {
-//                console.log('runBackButton.');
-                if (angular.element('.page.back.left:last').hasClass('left')) {
-                    $rootScope.transitionPage('.page.back.left:last', 'right')
-                } else if ($('#wrapperM').hasClass('right')) {
-                   $scope.hideMenu();
-                } else if ($('#wrapperM').hasClass('left')){
-                    $scope.showMenu();
-                }
-                //TODO reemplazar por escucha de botón back
-//                } else if (_exit && confirm('Para sair da aplicação')) {
-//                    CordovaApp.exitApp();
-//                }
-            };
+            $rootScope.hasFavorites = false;
 
             $scope.getFavoritesClass = function(){
                 if($scope.toggles.favorites){
@@ -90,15 +39,74 @@ angular
             $scope.toggleFavorites = function(){
                 $scope.toggles.favorites =! $scope.toggles.favorites;
                 Client.enableFavoritesFilter($scope.toggles.favorites);
+                $state.reload();
+            };
+
+            $scope.$on('load', function(){
+                $scope.loading = true;
+                $scope.error = false;
+            });
+
+            $scope.$on('unload', function(){
+                    $timeout(function(){
+                        $scope.loading = false;
+                    }, 200);
+                }
+            );
+            $scope.$on('error', function(){
+                    $scope.error = true;
+                    $scope.loading = false;
+                }
+            );
+
+            $scope.getSection = function (){
+              return CordovaApp.getCurrentSection();
+            };
+
+            $scope.getDrawerIcon = function(){
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
+                    return 'icon mdi-navigation-arrow-back ';
+                } else {
+                    return 'icon mdi-navigation-menu';
+                }
+            };
+
+            $rootScope.showMenu = function() {
+                if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
+                    $window.addEventListener('touchmove', function(){
+                        $scope.hideMenu();
+                        $window.removeEventListener('touchmove');
+                    });
+                    $rootScope.transitionPage('#wrapperM', 'right');
+                }
+            };
+
+            $rootScope.hideMenu = function() {
+                if ($('#wrapperM').hasClass('right')) {
+                    $rootScope.transitionPage('#wrapperM', 'left');
+                }
+            };
+
+            $rootScope.onMenuButtonPressed = function(){
+                var menuWrapper = $('#wrapperM');
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
+                    CordovaApp.onBackButtonPressed();
+                } else if (menuWrapper.hasClass('left')) {
+                    $scope.showMenu();
+                } else if (menuWrapper.hasClass('right')) {
+                    $scope.hideMenu();
+                }
             };
 
             $rootScope.showSection = function(_section) {
-                $timeout(function() {
-//                    angular.element('.section').removeClass('active');
-//                    angular.element('[data-section="' + _section + '"]').addClass('active');
-                    $scope.hideMenu();
+//                $timeout(function() {
+                    if ($('#wrapperM').hasClass('right')) {
+                        $scope.hideMenu();
+                    }
                     $state.go(_section);
-                },300);
+//                },300);
             };
 
             $rootScope.transitionPage = function(_wrapper, _direction, _class) {
@@ -118,11 +126,59 @@ angular
                 $scope.hideMenu();
             };
 
+            $scope.goToStore = function(){
+                if($window.cordova && $window.cordova.plugins && $window.cordova.plugins.market) {
+                    $window.cordova.plugins.market.open($scope.updateInfo.download, {
+                        success: function() {
+                            console.log("Redirect to App Store Successful");
+                        },
+                        failure: function() {
+                            console.log("Couldn't open App Store to update App");
+                        }
+                    });
+                } else {
+                    console.log('$window.cordova.plugins.market Object not available. Are you directly on a browser?');
+                }
+            };
+
+            /**
+             * Function that gets and updates the app's common usage Strings
+             * to minimize the number of requests across  modules and improve
+             * performance
+             */
+            $scope.getTranslations = function(){
+                $translate('NOT_AVAILABLE').then(function(translation){
+                    $scope.strings.NOT_AVAILABLE = translation;
+                });
+            };
+
             $scope.init = function(){
                 CordovaApp.setBackButtonCallback($scope.runBackButton);
+                CordovaApp.setUpdateCallback(function(updateInfo){
+                    //TODO for debugging only
+                    updateInfo.mandatory = 0;
+
+                    updateInfo.title = 'Update Info';
+                    updateInfo.html = '<p class="text-success">New Update</p><p>- ';
+                    if(updateInfo.mandatory === 1){ updateInfo.html += 'Mandatory '; }
+                    updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
+
+                    $scope.updateInfo = updateInfo;
+
+                    $('#update-modal').modal({
+                        backdrop: !!updateInfo.mandatory? 'static' : true,
+                        keyboard: false,
+                        show: false})
+                        .modal('show');
+                });
+
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
-                    $scope.hasFavorites = Client.getHasFavorites();
+                    $rootScope.hasFavorites = Client.getHasFavorites();
+                });
+                $scope.getTranslations();
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    $scope.getTranslations();
                 });
             }();
         }

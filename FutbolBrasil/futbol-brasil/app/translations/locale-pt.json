@@ -15,11 +15,17 @@
             "FRIENDS" : "Amigos",
             "POINTS" : "Pontos"
         },
-        "SETTINGS": "Definições"
+        "SETTINGS": "Definições",
+        "LOGIN" : "Login"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
 
+    },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Nome do jogador",
+        "TEAM_LABEL" : "Equipe",
+        "GOALS_LABEL" : "Goles"
     },
     "MATCH" : {
         "STATUS" : {
@@ -38,10 +44,19 @@
             "12" : "!Definicion por penales"
         }
     },
-    "PALPITES" : {
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Torneo",
+        "PHASE" : "Jornada",
+        "PLAYER" : "Jogador",
+        "POINTS" : "Pontos",
+        "HITS" : "Sucessos",
+        "MY_POINTS" : "Os Meus Pontos",
+        "SCORE" : "Pontos"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "Não há jogos para hoje"
+        "LIVE" : "Não há jogos para hoje",
+        "NEWS" : "Não há notícias disponíveis",
+        "POINTS" : "Você não tem informação de pontos disponível"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Notificações Push",
@@ -67,5 +82,6 @@
         "EN" : "Inglês",
         "ES" : "Espanhol"
     },
-    "LOADING" : "A Carregar"
+    "LOADING" : "A Carregar",
+    "NOT_AVAILABLE": "Não Disponível"
 }

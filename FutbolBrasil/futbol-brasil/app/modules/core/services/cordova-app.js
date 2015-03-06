@@ -7,17 +7,32 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager'
-        , 'FacebookManager', 'Client', 'Settings', 'App',
-        function($window, Domain, Utilities, CordovaDevice, WebManager, ClientManager, PushManager, FacebookManager
-            , Client, Settings, App) {
-            var that = this;
+    .factory('CordovaApp',['$state', '$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager',
+        'PushManager', 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App',
+        function($state, $window, Domain, Utilities, CordovaDevice, WebManager, ClientManager,
+                 PushManager, FacebookManager, Client, Settings, Competitions, App) {
 
+            var that = this;
+            var backButtonCallback = null;
+            var updateCallback = null;
+            var currentSection = '';
+            var prevSection = '';
+
+            //TODO i18n-alizar
             var strings = {
                 EXIT_APP_TITLE : 'Sair do Aplicativo',
                 EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',
                 OK : 'Ok',
                 CANCEL : 'Cancelar'
+            };
+
+            var checkUpdate = function(){
+                var updateInfo = App.getUpdateInfo();
+                updateInfo.current_version = App.getBundleVersion();
+                updateInfo.bundle_id = App.getBundleId();
+                if(updateInfo.update === 1){
+                    updateCallback(updateInfo);
+                }
             };
 
             var exitApp = function (){
@@ -28,29 +43,72 @@ angular
                 }
 
                 //Legacy
-                if (navigator.app) {
+                if (!!navigator.app) {
                     navigator.app.exitApp();
-                } else if (navigator.device) {
+                } else if (!!navigator.device) {
                     navigator.device.exitApp();
+                } else {
+                    console.log("Couldn't close app");
                 }
             };
 
-            var backButtonCallback = null;
+            var hideMenu = function() {
+                var menuWrapper = $('#wrapperM');
+                if (menuWrapper.hasClass('right')) {
+                    menuWrapper.attr('class', ' page transition left');
+                }
+            };
 
             var onBackButtonPressed = function(){
-                if(angular.element('.page.back.left:last').hasClass('left')){
-                    typeof backButtonCallback === 'function' && backButtonCallback();
-                } else if (!!navigator.notification) {
-                    navigator.notification.confirm(strings.EXIT_APP_MSG, exitApp(), strings.EXIT_APP_TITLE
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                var hasNotificationPlugin = !!navigator.notification;
+
+                if ($('#wrapperM').hasClass('right')) {
+                    hideMenu();
+                } else if(isOnUtilitySection()){
+                    if($state.current.name === 'settings' && prevSection){
+                        $state.go(prevSection);
+                    } else if($state.current.data){
+                        $state.go($state.current.data.prev);
+                    }
+                } else if(hasPreviousSubsection){
+                    angular.element('.page.back.left:last')
+                        .attr('class', ' page transition right');
+//                    typeof backButtonCallback === 'function' && backButtonCallback();
+                } else if (hasNotificationPlugin) {
+                    navigator.notification
+                        .confirm(strings.EXIT_APP_MSG
+                        , function(btnIndex){
+                            switch (btnIndex) {
+                                case 1:
+                                    console.log('Ok selected');
+                                    exitApp();
+                                    break;
+                                case 2:
+                                    console.log('Cancelled by User');
+                                    break;
+                                default:
+                            }
+                        }
+                        , strings.EXIT_APP_TITLE
                         , [strings.OK, strings.CANCEL]);
                 } else if (confirm(strings.EXIT_APP_MSG)) {
+                    console.log('onBackButtonPressed. exitApp');
                     exitApp();
                 }
+            };
+
+            var isOnUtilitySection = function(){
+                return (currentSection === 'settings' || currentSection === 'login');
             };
 
             return {
                 setBackButtonCallback: function(callback){
                     backButtonCallback = callback;
+                },
+
+                setUpdateCallback: function(callback){
+                    updateCallback = callback;
                 },
 
                 bindEvents : function() {
@@ -73,6 +131,7 @@ angular
 //                    console.log('CordovaApp. receivedEvent. ');
                     if (id === 'deviceready') {
                         document.addEventListener('backbutton', function(e) {
+                            console.log('backbutton event');
                             onBackButtonPressed();
                         }, false);
                         this.getVersion();
@@ -87,14 +146,15 @@ angular
                         console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                     }
 
-                    Settings.init();
                     ClientManager.init(that.startApp, that.errorStartApp);
 
                     if (CordovaDevice.phonegapIsOnline()) {
                         WebManager.loadServerConfigs(
                             function(){
-//                                console.log("loadServerConfigs successCallback. Starting PushManager");
+                                Settings.init();
+                                Competitions.init();
                                 PushManager.init();
+                                checkUpdate();
                             }, function(){
                                 console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                             }
@@ -121,10 +181,31 @@ angular
                         $window.wizUtils.getBundleVersion(function(result){
                             App.setBundleVersion(result);
                         });
+                        $window.wizUtils.getBundleIdentifier(function(id){
+                            App.setBundleId(id);
+                        });
                     }else{
                         console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                     }
                 },
+
+                setCurrentSection : function(sect){
+                    currentSection = sect;
+                },
+                getCurrentSection : function(){
+                    return currentSection;
+                },
+
+                setPreviousSection : function(sect){
+                    prevSection = sect;
+                },
+                getPreviousSection : function(){
+                    return prevSection;
+                },
+
+                isOnUtilitySection : isOnUtilitySection,
+
+                onBackButtonPressed: onBackButtonPressed,
 
                 /**
                  * @ngdoc function
@@ -132,7 +213,6 @@ angular
                  * @methodOf core.Services.CordovaApp
                  */
                 init : function() {
-//                    console.log('Ready. initialize. ');
                     that = this;
                     this.bindEvents();
                 }

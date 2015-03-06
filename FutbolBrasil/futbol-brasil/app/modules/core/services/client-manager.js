@@ -7,9 +7,20 @@
  */
 angular
     .module('core')
-    .factory('ClientManager',['$http', 'CordovaDevice', 'WebManager', 'TeamsManager'
-        , 'Client', 'Domain', 'Utilities',
-        function($http, CordovaDevice, WebManager, TeamsManager, Client, Domain, Utilities) {
+    .factory('ClientManager',['$http', '$translate', 'CordovaDevice', 'WebManager', 'FacebookManager',
+        'TeamsManager', 'Client', 'Domain', 'i18n',
+        function($http, $translate, CordovaDevice, WebManager, FacebookManager,
+                 TeamsManager, Client, Domain, i18n) {
+
+            var setLanguage = function(){
+                var lang = Client.getLanguage();
+                if(!lang){
+                    lang = i18n.getDefaultLanguage();
+                }
+                if(lang){
+                    $translate.use(lang.short_name.toLowerCase());
+                }
+            };
 
             return {
 
@@ -20,6 +31,8 @@ angular
                  */
                 init : function (successCallback, errorCallback){
                     Client.init();
+                    setLanguage();
+
                     if(Client.getClientId()){
                         TeamsManager.init();
                         this.getClientStatus(successCallback, errorCallback);
@@ -46,6 +59,9 @@ angular
                         upstreamChannel : CordovaDevice.getUpstreamChannel()
                     };
                     var isNewClient = true;
+                    if(FacebookManager.getUserId()){
+                        jData.facebook_id = FacebookManager.getUserId();
+                    }
 
                     Client.setPassword(password);
                     //TODO Solo para Debug en Web
@@ -89,7 +105,7 @@ angular
                         if(errorCode == 0 && response != null){
                             var isActive = Client.isActiveClient(response.status);
                             TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
-                            if(Client.saveClient(response, Client.getPassword())){
+                            if(Client.updateClient(response, null)){
                                 console.log('saveClient: true');
                                 typeof successCallback == "function" && successCallback(isNewClient);
                             }else{
@@ -136,7 +152,7 @@ angular
                         if(errorCode == 0 && response != null){
                             var isActive = Client.isActiveClient(response.status);
                             TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
-                            if(Client.saveClient(response, null)){
+                            if(Client.updateClient(response, null)){
                                 typeof successCallback == "function"
                                     && successCallback(isActive, response.status);
                             }else{

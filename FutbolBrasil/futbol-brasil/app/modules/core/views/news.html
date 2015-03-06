@@ -6,10 +6,10 @@
     </div>
 </div>
 
-<div id="wrapper">
+<div id="wrapper" class="wrapper wrapper-full">
     <div class="scroller">
-        <div class="container" >
-            <div class="row">
+        <div class="container">
+            <div class="row" ng-show="hasNews">
                 <div class="col-xs-12 news"
                      ng-repeat="item in news track by item.idNews"
                      ng-click="showContentNews(item)">
@@ -18,27 +18,34 @@
                     <span class="moment">{{fromNow(item.publicationDate)}}</span>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div id="wrapper2" class="page" style="left: 100%;" >
-    <div class="container" >
-    <div class="row row-news-detail-header">
-        <div class="col-xs-12 text-right">
-            <i class="mdi-social-share" style="font-size: 1.8em; line-height: 1.8em;"></i>
-        </div>
-    </div>
-
-    <div class="scroller">
-            <div class="row" style="margin-top: 35px !important;" >
-                <div class="col-xs-12 news"  >
-                    <h3 class="title">{{contentNews.title}}</h3>
-                    <i class="icon mdi-device-access-time"></i>
-                    <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
-                    <p class="body" ng-bind-html="contentNews.body"> </p>
+            <div class="row" ng-hide="hasNews">
+                <div class="col-xs-12 news">
+                    <div class="no-content-panel" style="margin-top: 120px !important;">
+                        <i class="mdi-action-info-outline"></i>
+                        <div class="no-content-panel-title" translate>EMPTY_STATES.NEWS</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div id="wrapper2" class="wrapper wrapper-row page" style="left: 100%;" >
+    <div class="scroller">
+        <div class="container">
+            <div class="row row-news-detail-header">
+                <div class="col-xs-12 text-right">
+                    <i class="mdi-social-share" style="font-size: 1.8em; line-height: 1.8em;"></i>
+                </div>
+            </div>
+                <div class="row" style="margin-top: 35px !important;" >
+                    <div class="col-xs-12 news"  >
+                        <h3 class="title">{{contentNews.title}}</h3>
+                        <i class="icon mdi-device-access-time"></i>
+                        <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
+                        <p class="body" style="margin: 0 18px 0 0;" ng-bind-html="contentNews.body"> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>

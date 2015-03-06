@@ -56,9 +56,12 @@ angular
                         case 'registered':
                             if ( e.regid.length > 0 )
                             {
-                                console.log('<li>REGISTERED -> REGID:' + e.regid + "</li>");
-                                console.log("PushManager. regID = " + e.regid);
-                                Client.setRegId(e.regid);
+                                var regId = e.regid;
+                                console.log('<li>REGISTERED -> REGID:' + regId + "</li>");
+                                console.log("PushManager. regID = " + regId);
+                                console.log('onNotificationGCM event: ');
+                                console.log(e);
+                                Client.setRegId(regId);
                             }
                             break;
 

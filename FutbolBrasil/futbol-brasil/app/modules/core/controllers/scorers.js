@@ -8,16 +8,10 @@
  */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'WebManager', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, WebManager, Domain, Utilities) {
+    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','Utilities',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, Utilities) {
 
             $rootScope.$storage.scorers = false;
-
-            $scope.strings = {
-                PLAYER_NAME_LABEL: 'Nome do jogador',
-                TEAM_LABEL: 'Equipe',
-                GOALS_LABEL: 'Goles'
-            };
 
             $scope.wrapper = {
                 name:'wrapperV',
@@ -37,14 +31,6 @@ angular
                 return { 'width': $scope.widthTotal + 'px'}
             };
 
-            $scope.getScorerName = function(scorer){
-                if(scorer.nickname && scorer.nickname != ''){
-                    return scorer.nickname;
-                } else {
-                    return scorer.name;
-                }
-            };
-
             $scope.init = function(){
                 $scope.$emit('load');
                 if ($rootScope.$storage.scorers) {
@@ -52,10 +38,21 @@ angular
                     $rootScope.error = Utilities.error($scope.item.leagues,'scorers');
                 } else {
                     var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                    config.params.page = 0;
+                    config.params.pageSize = 20;
                     $http.get(Domain.scorers(), config)
                         .success(function (data, status, headers, config) {
                             $scope.item =  data.response;
-                            console.log(data.response);
+                            //Map for empty team names
+                            var leagues = data.response.leagues;
+                            leagues.forEach(function(league){
+                                league.scorers.map(function(scorer){
+                                    if(!scorer.team.name){
+                                        scorer.team.name = $scope.strings.NOT_AVAILABLE;
+                                    }
+                                });
+                            });
+                            //End Map for empty team names
                             $rootScope.$storage.scorers = JSON.stringify(data.response);
                             $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
                         }).catch(function () {
@@ -76,17 +73,15 @@ angular
                 });
 
                 $scope.nextPage = function(){
+                    console.log('nextPage');
                     _scroll.next();
                 };
 
                 $scope.prevPage = function(){
+                    console.log('prevPage');
                     _scroll.prev();
                 };
 
             }();
-
-
-
-
         }
     ]);

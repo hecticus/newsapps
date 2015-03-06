@@ -99,6 +99,10 @@
                         {
                             "xml": "<feature name=\"WizUtilsPlugin\"><param name=\"ios-package\" value=\"WizUtilsPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Market\"><param name=\"ios-package\" value=\"CDVMarket\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -235,6 +239,9 @@
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         },
         "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": {
+            "PACKAGE_NAME": "com.hecticus.futbolbrasil"
+        },
+        "com.xmartlabs.cordova.market": {
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         }
     },

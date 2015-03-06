@@ -15,11 +15,17 @@
             "FRIENDS" : "Friends",
             "POINTS" : "Points"
         },
-        "SETTINGS": "Settings"
+        "SETTINGS": "Settings",
+        "LOGIN" : "Login"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
 
+    },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Player",
+        "TEAM_LABEL" : "Team",
+        "GOALS_LABEL" : "Goals"
     },
     "MATCH" : {
         "STATUS" : {
@@ -38,10 +44,19 @@
             "12" : "Penalty Shootouts"
         }
     },
-    "PALPITES" : {
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Tournament",
+        "PHASE" : "Phase",
+        "PLAYER" : "Player",
+        "POINTS" : "Points",
+        "HITS" : "Hits",
+        "MY_POINTS" : "My Points",
+        "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "There are no games for today"
+        "LIVE" : "There are no games for today",
+        "NEWS" : "There are no news available",
+        "POINTS" : "You don't have points info available"
     },
     "SETTINGS": {
         "PUSH_TITLE": "Push Notifications",
@@ -67,5 +82,6 @@
         "EN" : "English",
         "ES" : "Spanish"
     },
-    "LOADING" : "Loading"
+    "LOADING" : "Loading",
+    "NOT_AVAILABLE": "Not Available"
 }

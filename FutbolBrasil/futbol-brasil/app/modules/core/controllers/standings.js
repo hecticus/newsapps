@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', 'Domain', 'WebManager',
+    .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$timeout', '$state', '$localStorage', 'Domain', 'WebManager',
         'TeamsManager', 'Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, Domain, WebManager, TeamsManager, Utilities) {
+        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Utilities) {
             var _scroll;
             var _scroll2;
             var _scroll3;
@@ -22,13 +22,13 @@ angular
             };
 
             $scope.showContentPhases = function(competition) {
-                $rootScope.loading = true;
+                $scope.$emit('load');
                 $scope.item.ranking = [];
                 $scope.item.phases = [];
                 $scope.item.competition = false;
                 $http.get(Domain.phases(competition.id_competitions))
-                .success(function (data, status, headers, config) {
-                    console.log(data);
+                .then(function (data) {
+                    data = data.data;
                     $scope.item.phases = data.response.phases;
                     $scope.item.competition = competition;
                     if ($scope.item.phases.length == 1) {
@@ -38,11 +38,30 @@ angular
                          $rootScope.transitionPageBack('#wrapper2', 'left');
                         _scroll2.scrollTo(0,0,0);
                     }
-                }).catch(function () {
+                    $timeout(function(){
+                        $scope.$emit('unload');
+                    }, 500);
+                },function () {
+                    console.log('showContentPhases. error');
                     $scope.$emit('error');
-                }).finally(function(data) {
-                    $scope.$emit('unload');
                 });
+//                .success(function (data, status, headers, config) {
+//                    console.log(data);
+//                    $scope.item.phases = data.response.phases;
+//                    $scope.item.competition = competition;
+//                    if ($scope.item.phases.length == 1) {
+//                        $scope.showContentRanking($scope.item.competition.id_competitions
+//                            , $scope.item.phases[0].id_phases);
+//                    } else {
+//                        $rootScope.transitionPageBack('#wrapper2', 'left');
+//                        _scroll2.scrollTo(0,0,0);
+//                    }
+//                    $scope.$emit('unload');
+//                }).catch(function () {
+//                    $scope.$emit('error');
+//                }).finally(function(data) {
+//                    $scope.$emit('unload');
+//                });
 
             };
 
@@ -53,6 +72,8 @@ angular
 
                 $http.get(Domain.ranking(competition,phase))
                 .success(function (data, status) {
+                    console.log('data: ');
+                    console.log(data);
                     $scope.item.tree = data.response.tree;
                     $scope.item.phase = data.response.phase;
                     $scope.item.ranking =  data.response.ranking;

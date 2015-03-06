@@ -20,7 +20,7 @@
 
                         <tr ng-repeat="match in league.fixtures"  ng-click="showContentEvents(league, match)">
                             <td style="width: 33% !important;" ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
-                                <span ng-bind="getTeamName(match.homeTeam)"></span>
+                                <span ng-bind="match.homeTeam.name"></span>
                                 <br />
                                 <span ng-bind="match.home_team_goals" class="goal"></span>
                             </td>
@@ -28,14 +28,13 @@
                             <td style="width: 33% !important;">
                                 <span ng-bind="getTime(match.date)" class="date"></span>
                                 <br/>
-                                <span ng-bind="match.status.name"
-                                      class="status _{{match.status.id_status}}" >
+                                <span class="status _{{match.id_status}}">{{ match.status | translate}}
                                 </span>
                             </td>
 
                             <td style="width: 33% !important;"
                                 ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
-                                <span ng-bind="getTeamName(match.awayTeam)"></span>
+                                <span ng-bind="match.awayTeam.name"></span>
                                 <br />
                                 <span ng-bind="match.away_team_goals" class="goal"></span>
                             </td>
@@ -47,7 +46,7 @@
             </div>
             <div class="row" ng-hide="hasGamesForToday">
                 <div class="col-xs-12">
-                    <div class="no-content-panel">
+                    <div class="no-content-panel" style="margin-top: 120px !important;">
                         <i class="mdi-action-info-outline"></i>
                         <div class="no-content-panel-title" translate>EMPTY_STATES.LIVE</div>
                     </div>
@@ -60,14 +59,14 @@
 <div id="wrapper2" class="page" style="left: 100%;" >
     <div class="scroller">
         <div class="container" >
-            <div class="row" style="height: 200px; margin-bottom: 1px !important;" >
+            <!--TODO fix this-->
+            <div class="row" style="height: 150px; margin-bottom: 1px !important;" >
                 <div class="col-xs-12">
                     <span>&nbsp;</span>
                 </div>
             </div>
 
             <div class="row" >
-
                 <div class="col-xs-12" >
                     <table class="table" ng-repeat="action in item.mtm.actions"  >
                         <thead>
@@ -96,7 +95,7 @@
 
         </div>
     </div>
-    <div class="row row-back">
+    <div class="row row-header row-header-live">
         <div class="col-xs-12 text-center text-center-vertical">
             <span ng-bind="item.league.name" style="font-size: 1.2em; font-weight: bold;"></span>
             <span class="section-refresh" ng-click="refreshEvents()">
@@ -108,21 +107,26 @@
     <div class="row-scoreboard">
         <div class="row text-center">
             <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}">
-                <span ng-bind="getTeamName(item.match.home)" style="font-size: 1.4em;"></span>
-                <br />
+                <span ng-bind="item.match.home.name" style="font-size: 1.2em;"></span>
+            </div>
+            <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}">
+                <span ng-bind="item.match.away.name" style="font-size: 1.2em;"></span>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}">
                 <span ng-bind="item.match.home.goals" class="goal"></span>
             </div>
             <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}">
-                <span ng-bind="getTeamName(item.match.away)" style="font-size: 1.4em;"></span>
-                <br />
                 <span ng-bind="item.match.away.goals" class="goal"></span>
             </div>
         </div>
         <div class="row text-center">
             <div class="col-xs-12">
                 <span class="status _{{item.match.status.id_status}}"
-                    ng-bind="item.match.status.name" style="font-size: 1.2em;"></span>
+                      ng-bind="item.match.status.name" style="font-size: 1.2em;"></span>
             </div>
         </div>
+
     </div>
 </div>

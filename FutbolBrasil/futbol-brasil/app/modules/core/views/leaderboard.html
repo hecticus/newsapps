@@ -1,8 +1,82 @@
-		
-		<div id="wrapper" >
-			<div class="scroller">
-				<div class="container">					
-					<!-- here code-->
-				</div>				
-			</div>
-		</div>
+<div class="row" ng-hide="friendsMode && !hasFriends">
+    <div id="wrapperH">
+        <div id="scroller" ng-style="getTotalWidth()">
+            <ul>
+                <li ng-style="getWidth()" ng-repeat="competition in item.competitions" >
+                    <div class="container">
+                        <div class="row row-header row-header-competition">
+                            <div class="col-xs-4 tabs text-left" ng-click="prevPage()">
+                                <h6 ng-bind="item.competitions[$index-1].name"></h6>
+                            </div>
+                            <div class="col-xs-4">
+                                <h5 ng-bind="competition.name" class="caption"></h5>
+                            </div>
+                            <div class="col-xs-4 tabs text-right" ng-click="nextPage()">
+                                <h6 ng-bind="item.competitions[$index+1].name"></h6>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:50px !important;">
+                            <div class="col-xs-6" >
+                                <span class="btn btn-success btn-filter-{{$index}} disabled"
+                                      ng-class="{'disabled': isActive('competition')}"
+                                      ng-click="getCompetition()" translate>LEADERBOARD.TOURNAMENT</span>
+                            </div>
+                            <div class="col-xs-6" >
+                                <span class="btn btn-success btn-filter-{{$index}}"
+                                      ng-class="{'disabled': isActive('phase')}"
+                                      ng-click="getPhase()" translate>LEADERBOARD.PHASE</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="{{wrapper.getName($index)}}" class="wrapper"
+                                 style="margin-top:100px !important;">
+                                <div class="scroller" style="position: relative;">
+                                    <div class="container">
+                                        <div class="col-xs-12" >
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>##</th>
+                                                        <th translate>LEADERBOARD.PLAYER</th>
+                                                        <th translate>LEADERBOARD.POINTS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody >
+                                                    <tr ng-repeat="leader in competition.leaderboard"
+                                                        ng-class="{'active' : $odd,  'client' : competition.client.client == leader.client }">
+                                                        <td>
+                                                            <span class="text-center-vertical"
+                                                                  ng-bind="leader.index" ></span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-center-vertical"
+                                                                  ng-bind="leader.client"></span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-center-vertical"
+                                                                  ng-bind="leader.score"></span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="friendsMode && !hasFriends">
+    <div class="col-xs-12 news">
+        <div class="no-content-panel" style="margin-top: 120px !important;">
+            <i class="mdi-action-info-outline"></i>
+            <div class="no-content-panel-title" translate>EMPTY_STATES.POINTS</div>
+        </div>
+    </div>
+</div>
