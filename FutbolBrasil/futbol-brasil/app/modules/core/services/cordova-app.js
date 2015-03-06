@@ -76,8 +76,12 @@ angular
                         .attr('class', ' page transition right');
 //                    typeof backButtonCallback === 'function' && backButtonCallback();
                 } else {
-                    showNotificationDialog(strings.EXIT_APP_TITLE, strings.EXIT_APP_MSG
-                        , strings.OK, strings.CANCEL,
+                    showNotificationDialog({
+                            title: strings.EXIT_APP_TITLE,
+                            message: strings.EXIT_APP_MSG,
+                            confirm: strings.OK,
+                            cancel: strings.CANCEL
+                        },
                         function(){
                             console.log('Ok selected');
                             exitApp();

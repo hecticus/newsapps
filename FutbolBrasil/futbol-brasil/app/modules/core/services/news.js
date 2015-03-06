@@ -16,7 +16,7 @@ angular
                     count: 0,
                     history: [],
                     maxNews: 5,
-                    timeStamp: ''
+                    timestamp: ''
                 }
             };
 
