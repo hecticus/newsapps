@@ -316,6 +316,20 @@ public class Client extends HecticusModel {
         return tr;
     }
 
+    public ClientBets getBet(final int idTournament, final int idPhase, final int idGameMatch){
+        ClientBets tr = null;
+        try {
+            tr = Iterables.find(clientBets, new Predicate<ClientBets>() {
+                public boolean apply(ClientBets obj) {
+                    return obj.getIdTournament().intValue() ==  idTournament && obj.getIdPhase().intValue() == idPhase && obj.getIdGameMatch().intValue() == idGameMatch;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
     public void addLeaderboardGlobal(LeaderboardGlobal newLeaderboardGlobal) {
         leaderboardGlobal.add(newLeaderboardGlobal);
     }

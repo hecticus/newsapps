@@ -636,6 +636,56 @@ public class Clients extends HecticusController {
         }
     }
 
+    public static Result createSingleBet(Integer idClient) {
+        ObjectNode betData = getJson();
+        try {
+            Client client = Client.finder.byId(idClient);
+            if(client != null) {
+                ObjectNode bet = (ObjectNode) betData.get("bet");
+                int idTournament = -1, idPhase = -1, idGameMatch = -1, clientBet = -1;
+                ClientBets clientBets = null;
+                idGameMatch = bet.get("id_game_match").asInt();
+                StringBuilder matchesRequest = new StringBuilder();
+                matchesRequest.append("http://").append(Config.getFootballManagerHost()).append("/footballapi/v2/").append(Config.getInt("football-manager-id-app")).append("/match/").append(idGameMatch);
+
+                F.Promise<WSResponse> result = WS.url(matchesRequest.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    ObjectNode match = (ObjectNode) footballResponse.get("response");
+                    idGameMatch = match.get("id_game_matches").asInt();
+
+                    idTournament = bet.get("id_tournament").asInt();
+                    idPhase = match.get("phase").asInt();
+                    clientBet = bet.get("client_bet").asInt();
+
+                    String dateText = match.get("date").asText();
+                    Date date = DateAndTime.getDate(dateText, dateText.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss");
+                    Date today = new Date(System.currentTimeMillis());
+                    if (date.after(today)) {
+                        clientBets = client.getBet(idTournament, idPhase, idGameMatch);
+                        if (clientBets != null) {
+                            clientBets.setClientBet(clientBet);
+                        } else {
+                            clientBets = new ClientBets(client, idTournament, idPhase, idGameMatch, clientBet, dateText);
+                        }
+                        client.addClientBet(clientBets);
+                    }
+                    client.update();
+                    return ok(buildBasicResponse(0, "ok", clientBets.toJsonNoClient()));
+                } else {
+                    return (error > 0)?notFound(footballResponse):internalServerError(footballResponse);
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente" + idClient));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
 
     public static Result getBets(Integer idClient) {
         ObjectNode response = null;

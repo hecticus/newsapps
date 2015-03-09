@@ -395,6 +395,25 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getFixturesByID(Integer idApp, Integer idGameMatch){
+        try {
+            Apps app = Apps.findId(idApp);
+            if(app != null){
+                GameMatch gameMatch = GameMatch.finder.where().eq("idGameMatches", idGameMatch).findUnique();
+                if(gameMatch != null) {
+                    return ok(hecticusResponse(0, "ok", gameMatch.toJson()));
+                } else {
+                    return notFound(buildBasicResponse(1, "El match " + idGameMatch + " no existe"));
+                }
+            } else {
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
 
     public static Result getActiveCompetitions(Integer idApp, Integer idLanguage, Boolean ids){
         try {
