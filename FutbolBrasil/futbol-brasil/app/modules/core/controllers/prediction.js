@@ -21,14 +21,12 @@ angular
                 }
             };
 
-            var _scroll = null;
             var _currentPage = 0;
 
             $scope.width = $window.innerWidth;
             $scope.widthTotal = $window.innerWidth;
 
             $scope.leagues = [];
-            $scope.data = [];
 
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
@@ -83,7 +81,7 @@ angular
 
             $scope.getBets = function(){
 
-                var _index = _scroll.currentPage.pageX;
+                var _index =  $scope.scroll.currentPage.pageX;
 
                 if (!$scope.leagues[_index].fixtures) {
 
@@ -91,7 +89,17 @@ angular
                   $http.get(Domain.bets.get($scope.leagues[_index].id_competitions), config)
                   .success(function (data, status, headers, config) {
                       if (data.error == 0) {
+
                         data = data.response;
+                        data.fixtures.forEach(function(fixture){
+                            fixture.matches.map(function(match){
+                                if(!match.home_team.name)
+                                  match.home_team.name = $scope.strings.NOT_AVAILABLE;
+                                if(!match.away_team.name)
+                                  match.away_team.name = $scope.strings.NOT_AVAILABLE;
+                            });
+                        });
+
                         $scope.leagues[_index].fixtures = data.fixtures;
                         $scope.leagues[_index].bet = {total_bets: data.total_bets, client_bets : data.client_bets}
                       }
@@ -105,9 +113,9 @@ angular
 
             };
 
-            $scope.setScroll = function(_competition){
+            $scope.setScroll = function() {
 
-               _scroll = new IScroll('#' + 'wrapperH', {
+                $scope.scroll = new IScroll('#' + 'wrapperH', {
                                                     scrollX: true,
                                                     scrollY: false,
                                                     mouseWheel: false,
@@ -126,22 +134,22 @@ angular
                 });
 
                 $scope.nextPage = function(){
-                    _scroll.next();
+                     $scope.scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                    _scroll.prev();
+                     $scope.scroll.prev();
                 };
 
-                _scroll.on('beforeScrollStart', function () {
+                 $scope.scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                _scroll.on('scrollStart', function () {
+                 $scope.scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                _scroll.on('scroll', function () {
+                 $scope.scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                          $scope.getBets();
                         _currentPage = this.currentPage.pageX;
