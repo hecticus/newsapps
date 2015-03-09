@@ -118,22 +118,24 @@ angular
                 },
 
                 bets: {
-                    get: brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/bets/get/' + appId,
-                    create:  brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/bets/create/' + appId
+                    get: function (_competition) {
+                      return brazil_football_manager_url + 'futbolbrasil/'
+                                            + apiVersion + '/clients/bets/get/' + appId + '/' + _competition
+                    },
+                    create:  brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/bet'
+
                 },
 
                 leaderboard:  {
                     //TODO cambiar version
                     phase: function (_competition, _phase) {
                         return brazil_football_manager_url+ 'futbolbrasil/v1/clients/leaderboard/get/'
-                            + Client.getClientId() + '/' + _competition + '/' + _phase
+                            + getClientId() + '/' + _competition + '/' + _phase
                     },
 
                     competition: function (_competition) {
                         return brazil_football_manager_url + 'futbolbrasil/v1/clients/leaderboard/global/get/'
-                            + Client.getClientId() + '/' + _competition
+                            + getClientId() + '/' + _competition
                     },
 
                     personal : {
