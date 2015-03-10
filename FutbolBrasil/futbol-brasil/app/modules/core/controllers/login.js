@@ -33,7 +33,7 @@ angular
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
                     Client.setMsisdn($scope.msisdn,
                         function(){
-                            ClientManager.createOrUpdateClient($scope.msisdn, null, true
+                            ClientManager.createOrUpdateClient({'msisdn' : $scope.msisdn}, true
                                     , $scope.showPasswordScreen, $scope.showClientSignUpError);
                         },
                         function(){
@@ -73,7 +73,12 @@ angular
 
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
-                    ClientManager.createOrUpdateClient($scope.msisdn, $scope.password, true
+                    var client = {
+                        'msisdn' : $scope.msisdn,
+                        'password' : $scope.password
+                    };
+
+                    ClientManager.createOrUpdateClient(client, true
                         , $scope.onLoginSuccess(), $scope.onLoginError());
                 } else {
                     alert('doMsisdnLogin. Please input password');

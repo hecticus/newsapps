@@ -21,6 +21,7 @@ angular
             };
 
             $scope.lang = '';
+            $scope.nickname = '';
 
             $scope.favoriteTeams = [undefined, undefined, undefined];
 
@@ -28,6 +29,20 @@ angular
                 bets: false,
                 news: false,
                 mtm: false
+            };
+
+            $scope.isEditing = false;
+
+            $scope.saveNickname = function(){
+                if(!$scope.isEditing){
+                    $scope.isEditing = true;
+                } else if ($scope.nickname){
+                    $scope.isEditing = false;
+                    console.log('Saving nickName: ' + $scope.nickname);
+                    ClientManager.createOrUpdateClient({ 'nickname' : $scope.nickname });
+                } else {
+                    console.log('Please input a valid nickName');
+                }
             };
 
             $scope.teamSelected = function(team){
@@ -178,6 +193,7 @@ angular
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
                 $scope.getStatus();
+                $scope.nickname = Client.getNickname();
                 $scope.getClientLanguage();
                 $scope.$emit('unload');
             }();

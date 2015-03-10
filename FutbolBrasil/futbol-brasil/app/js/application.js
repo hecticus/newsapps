@@ -61,6 +61,8 @@ var translationsEn = {
         "POINTS" : "You don't have points info available"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Nickname",
+        "NICKNAME_PLACEHOLDER": "Choose your Nickname",
         "PUSH_TITLE": "Push Notifications",
         "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
         "LANGUAGES_TITLE": "Languages",
@@ -148,6 +150,8 @@ var translationsEs = {
         "POINTS" : "Usted no tiene información de puntos disponible"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apodo",
+        "NICKNAME_PLACEHOLDER": "Introduzca su Apodo",
         "PUSH_TITLE": "Notificaciones Push",
         "FAVORITE_TEAMS_TITLE": "Mis Equipos Favoritos",
         "LANGUAGES_TITLE": "Idiomas",
@@ -235,6 +239,8 @@ var translationsPt = {
         "POINTS" : "Você não tem informação de pontos disponível"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apelido",
+        "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",

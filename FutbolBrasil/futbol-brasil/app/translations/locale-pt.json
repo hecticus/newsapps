@@ -59,6 +59,8 @@
         "POINTS" : "Você não tem informação de pontos disponível"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apelido",
+        "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",

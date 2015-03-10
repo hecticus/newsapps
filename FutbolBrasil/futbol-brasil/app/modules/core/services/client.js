@@ -120,6 +120,12 @@ angular
                 getClientId : function(){
                     return client.id_client;
                 },
+                setNickname : function(nickname){
+                    client.nickname = nickname;
+                },
+                getNickname : function(){
+                    return client.nickname;
+                },
                 getPassword : function(){
                     return client.password;
                 },
