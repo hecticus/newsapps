@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
-        ,'Utilities', 'Moment', 'SocialAppsManager',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Utilities, Moment
-            , SocialAppsManager) {
+        ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaApp',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Moment,
+                 iScroll, SocialAppsManager, News, CordovaApp) {
 
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
@@ -29,15 +29,26 @@ angular
             };
 
             $scope.fromNow = function(_date) {
-                return Utilities.moment(_date).fromNow();
+                return Moment.date(_date).fromNow();
             };
 
             $scope.showContentNews = function(_news) {
-                $scope.news.indexOf(_news);
-                $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
-                $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
-                $rootScope.transitionPageBack('#wrapper2', 'left');
-                $scope._scroll2.scrollTo(0,0,0);
+                if(!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))){
+                    $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
+                    $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
+                    $rootScope.transitionPageBack('#wrapper2', 'left');
+                    $scope._scroll2.scrollTo(0,0,0);
+                } else {
+                    CordovaApp.showNotificationDialog(
+                        {
+                            title: 'Daily News Limit Exceeded',
+                            message: 'You have exceeded your free daily news limit',
+                            confirm: 'Ok',
+                            cancel: 'Cancel'
+                        }
+                    );
+                    console.log('Daily News Limit Exceeded');
+                }
             };
 
             $scope.getNews = function() {
@@ -49,7 +60,8 @@ angular
                     //$scope.$emit('unload');
                 } else {
                     $http.get(Domain.news.index())
-                        .success(function (data, status) {
+                        .then(function (data, status) {
+                            data = data.data;
                             if(data.response.total > 0){
                                 $scope.hasNews = true;
                                 $scope.news = data.response.news;
@@ -60,13 +72,12 @@ angular
                                 $scope.hasNews = false;
                                 console.log('No News Available');
                             }
-                        }).finally(function (data) {
                             $rootScope.error = !$scope.news;
                             $scope.$emit('unload');
-                        }).catch(function () {
-                          $scope.$emit('error');
-                        }
-                    );
+                        }, function () {
+                            $scope.$emit('unload');
+                            $scope.$emit('error');
+                        });
                 }
             };
 
@@ -74,18 +85,19 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http.get(Domain.news.up(newsId))
-                      .success(function (data, status, headers, config) {
-                          if (data.response.news.length >= 1) {
-                            _news.first = data.response.news[0].idNews;
-                            angular.forEach(data.response.news, function(_item) {
-                              $scope.news.unshift(_item);
-                            });
-                          }
-                      }).catch(function () {
-                        $scope.$emit('error');
-                      }).finally(function (data) {
-                          $scope.$emit('unload');
-                      });
+                        .then(function (data) {
+                            data = data.data;
+                            if (data.response.news.length >= 1) {
+                                _news.first = data.response.news[0].idNews;
+                                angular.forEach(data.response.news, function(_item) {
+                                    $scope.news.unshift(_item);
+                                });
+                            }
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.$emit('error');
+                            $scope.$emit('unload');
+                        });
                 }
             };
 
@@ -93,25 +105,24 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http.get(Domain.news.down(newsId))
-                      .success(function (data, status, headers, config) {
-                          if (data.response.news.length >= 1) {
-                            _news.last = data.response.news[data.response.news.length-1].idNews;
-                            angular.forEach(data.response.news, function(_item) {
-                              $scope.news.push(_item);
-                            });
-                          }
-                      }).catch(function () {
-                          $scope.$emit('error');
-                      }).finally(function (data) {
-                         $scope.$emit('unload');
-                      }
-                    );
+                        .then(function (data) {
+                            if (data.response.news.length >= 1) {
+                                _news.last = data.response.news[data.response.news.length-1].idNews;
+                                angular.forEach(data.response.news, function(_item) {
+                                    $scope.news.push(_item);
+                                });
+                            }
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.$emit('unload');
+                            $scope.$emit('error');
+                        });
                 }
             };
 
             $scope.setUpIScroll = function() {
                 console.log('setUpIScroll');
-                $scope._scroll = Utilities.newScroll.vertical('wrapper');
+                $scope._scroll = iScroll.vertical('wrapper');
                 $scope._scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
@@ -124,7 +135,7 @@ angular
                         $scope.getNewsAfterId(_news.last);
                     }
                 });
-                $scope._scroll2 = Utilities.newScroll.vertical('wrapper2');
+                $scope._scroll2 = iScroll.vertical('wrapper2');
                 $scope._scroll2.on('beforeScrollStart', function () {
                         this.refresh();
                     }

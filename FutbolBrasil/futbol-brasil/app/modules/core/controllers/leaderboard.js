@@ -83,22 +83,26 @@ angular
 
                             $scope.item.competitions.forEach(function(competition, index) {
                                 $http.get(Domain.phases(competition.id_competitions), config)
-                                .success(function (data, status) {
+                                .then(function (data, status) {
+                                        data = data.data;
                                     if (data.error == 0) {
                                         var phases = data.response.phases;
                                         competition.phase = phases[phases.length - 1].id_phases;
                                         $scope.getCompetition();
                                     }
-                                }).catch(function () {
+                                    $scope.$emit('unload');
+//                                }).catch(function() {
+//                                    $scope.$emit('error');
+//                                }).finally(function(data) {
+//                                    $scope.$emit('unload');
+                                }, function(){
                                     $scope.$emit('error');
-                                }).finally(function(data) {
                                     $scope.$emit('unload');
                                 });
                             });
                         }
-                    }).catch(function () {
+                    }, function(){
                         $scope.$emit('error');
-                    }).finally(function(data) {
                         $scope.$emit('unload');
                     });
 
@@ -175,9 +179,8 @@ angular
                                 }
 
                             }
-                        }).catch(function () {
+                        }, function(){
                             $scope.$emit('error');
-                        }).finally(function(data) {
                             $scope.$emit('unload');
                         });
                 };

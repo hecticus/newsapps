@@ -75,26 +75,49 @@ angular
                     angular.element('.page.back.left:last')
                         .attr('class', ' page transition right');
 //                    typeof backButtonCallback === 'function' && backButtonCallback();
-                } else if (hasNotificationPlugin) {
+                } else {
+                    showNotificationDialog({
+                            title: strings.EXIT_APP_TITLE,
+                            message: strings.EXIT_APP_MSG,
+                            confirm: strings.OK,
+                            cancel: strings.CANCEL
+                        },
+                        function(){
+                            console.log('Ok selected');
+                            exitApp();
+                        },
+                        function(){
+                            console.log('Cancelled by User');
+                        });
+                }
+            };
+
+            var showNotificationDialog = function(data,
+                  confirmCallback, cancelCallback){
+                var hasNotificationPlugin = !!navigator.notification;
+                if (hasNotificationPlugin) {
                     navigator.notification
-                        .confirm(strings.EXIT_APP_MSG
+                        .confirm(data.message
                         , function(btnIndex){
                             switch (btnIndex) {
                                 case 1:
-                                    console.log('Ok selected');
-                                    exitApp();
+                                    typeof confirmCallback === 'function' && confirmCallback();
                                     break;
                                 case 2:
-                                    console.log('Cancelled by User');
+                                    typeof cancelCallback === 'function' && cancelCallback();
                                     break;
                                 default:
                             }
                         }
-                        , strings.EXIT_APP_TITLE
-                        , [strings.OK, strings.CANCEL]);
-                } else if (confirm(strings.EXIT_APP_MSG)) {
-                    console.log('onBackButtonPressed. exitApp');
-                    exitApp();
+                        , data.title
+                        , [data.confirm, data.cancel]);
+                } else {
+                    var confirmFallback = confirm(data.message);
+                    if (confirmFallback === true) {
+                        typeof confirmCallback === 'function' && confirmCallback();
+                    } else {
+                        typeof cancelCallback === 'function' && cancelCallback();
+                    }
                 }
             };
 
@@ -117,8 +140,11 @@ angular
                     document.addEventListener('touchmove', function (e) {
                         e.preventDefault();
                     }, false);
-                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-                    document.dispatchEvent(event);
+
+                    if(typeof CustomEvent === 'function'){
+                        var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
+                        document.dispatchEvent(event);
+                    }
                 },
 
                 onDeviceReady : function() {
@@ -206,6 +232,8 @@ angular
                 isOnUtilitySection : isOnUtilitySection,
 
                 onBackButtonPressed: onBackButtonPressed,
+
+                showNotificationDialog: showNotificationDialog,
 
                 /**
                  * @ngdoc function
