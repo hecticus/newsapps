@@ -9,9 +9,11 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
-        '$window', 'Domain', 'Moment', 'iScroll', 'Bets',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain,Moment,
-                 iScroll, Bets) {
+            'Client', 'WebManager', '$window', 'Domain','Utilities', 'Bets', 'Moment', 'iScroll',
+            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Utilities, Bets, Moment, iScroll) {
+
+
+            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
             $scope.vWrapper = {
                 name:'wrapperV',
