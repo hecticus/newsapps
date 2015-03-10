@@ -99,9 +99,13 @@ angular
                         + appId + '/' + _competition + '/' + getLang() + '/' + _phase;
                 },
 
-                scorers: function () {
-                    return football_manager_url + 'footballapi/'
-                        + apiVersion + '/players/competitions/scorers/' + appId;
+                scorers: function (_competition) {
+                  return football_manager_url + 'footballapi/'
+                          + apiVersion + '/players/competition/scorers/'
+                          + appId + '/'
+                          + _competition
+                          + '?pageSize=10'
+                          + '&page=0';
                 },
 
                 match: function (_date) {
@@ -118,22 +122,24 @@ angular
                 },
 
                 bets: {
-                    get: brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/bets/get/' + appId,
-                    create:  brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/bets/create/' + appId
+                    get: function (_competition) {
+                      return brazil_football_manager_url + 'futbolbrasil/'
+                                            + apiVersion + '/clients/bets/get/' + appId + '/' + _competition
+                    },
+                    create:  brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/bet'
+
                 },
 
                 leaderboard:  {
                     //TODO cambiar version
                     phase: function (_competition, _phase) {
                         return brazil_football_manager_url+ 'futbolbrasil/v1/clients/leaderboard/get/'
-                            + Client.getClientId() + '/' + _competition + '/' + _phase
+                            + getClientId() + '/' + _competition + '/' + _phase
                     },
 
                     competition: function (_competition) {
                         return brazil_football_manager_url + 'futbolbrasil/v1/clients/leaderboard/global/get/'
-                            + Client.getClientId() + '/' + _competition
+                            + getClientId() + '/' + _competition
                     },
 
                     personal : {

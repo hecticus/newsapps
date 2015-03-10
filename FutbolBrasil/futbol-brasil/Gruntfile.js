@@ -207,7 +207,8 @@ module.exports = function(grunt) {
                 files: {
                     'app/index.html': [
                         'app/managers/*/*.js',
-                        'app/js/pt-br.js',
+                        'app/js/pt.js',
+                        'app/js/es.js',
                         'app/js/config.js',
                         'app/js/application.js',
                         'app/modules/*/*.js',

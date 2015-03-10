@@ -9,11 +9,9 @@
 angular
     .module('core')
     .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$timeout', '$state', '$localStorage', 'Domain', 'WebManager',
-        'TeamsManager', 'Moment',
-        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Moment) {
-            var _scroll;
-            var _scroll2;
-            var _scroll3;
+        'TeamsManager', 'Moment', 'iScroll',
+        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Moment, iScroll) {
+
             $scope.item = {};
 
             $scope.fromNow = function(_date) {
@@ -34,8 +32,8 @@ angular
                         $scope.showContentRanking($scope.item.competition.id_competitions
                             , $scope.item.phases[0].id_phases);
                     } else {
-                         $rootScope.transitionPageBack('#wrapper2', 'left');
-                        _scroll2.scrollTo(0,0,0);
+                        $rootScope.transitionPageBack('#wrapper2', 'left');
+                        $scope.scroll2.scrollTo(0,0,0);
                     }
                     $timeout(function(){
                         $scope.$emit('unload');
@@ -62,7 +60,7 @@ angular
                         $scope.item.ranking =  data.response.ranking;
                         console.log(data.response.ranking);
                         $rootScope.transitionPageBack('#wrapper3', 'left');
-                        _scroll3.scrollTo(0,0,0);
+                        $scope.scroll3.scrollTo(0,0,0);
                         $scope.$emit('unload');
                     }, function () {
                         $scope.$emit('unload');
@@ -78,23 +76,10 @@ angular
                 });
             };
 
-            //TODO migrar a servicio de iScroll
             $scope.setUpIScroll = function(){
-                _scroll = new IScroll('#wrapper'
-                    ,{click:true, preventDefault:true, bounce: true, probeType: 2});
-                _scroll.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
-
-                _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});
-                _scroll2.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
-
-                _scroll3 = new IScroll('#wrapper3',{click:true, preventDefault:true});
-                _scroll3.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
+                $scope.scroll = iScroll.vertical('wrapper');
+                $scope.scroll2 = iScroll.vertical('wrapper2');
+                $scope.scroll3 = iScroll.vertical('wrapper3');
             };
 
             $scope.init = function(){

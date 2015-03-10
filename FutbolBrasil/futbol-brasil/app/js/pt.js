@@ -1,6 +1,6 @@
 // moment.js locale configuration
-// locale : brazilian portuguese (pt-br)
-// author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
+// locale : portuguese (pt)
+// author : Jefferson : https://github.com/jalex79
 
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
@@ -11,7 +11,7 @@
         factory((typeof global !== 'undefined' ? global : this).moment); // node or other global
     }
 }(function (moment) {
-    return moment.defineLocale('pt-br', {
+    return moment.defineLocale('pt', {
         months : 'janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro'.split('_'),
         monthsShort : 'jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez'.split('_'),
         weekdays : 'domingo_segunda-feira_terça-feira_quarta-feira_quinta-feira_sexta-feira_sábado'.split('_'),
@@ -22,8 +22,8 @@
             LTS : 'LT:ss',
             L : 'DD/MM/YYYY',
             LL : 'D [de] MMMM [de] YYYY',
-            LLL : 'D [de] MMMM [de] YYYY [às] LT',
-            LLLL : 'dddd, D [de] MMMM [de] YYYY [às] LT'
+            LLL : 'D [de] MMMM [de] YYYY LT',
+            LLLL : 'dddd, D [de] MMMM [de] YYYY LT'
         },
         calendar : {
             sameDay: '[Hoje às] LT',
@@ -39,7 +39,7 @@
         },
         relativeTime : {
             future : 'em %s',
-            past : '%s atrás',
+            past : 'há %s',
             s : 'segundos',
             m : 'um minuto',
             mm : '%d minutos',
@@ -53,6 +53,10 @@
             yy : '%d anos'
         },
         ordinalParse: /\d{1,2}º/,
-        ordinal : '%dº'
+        ordinal : '%dº',
+        week : {
+            dow : 1, // Monday is the first day of the week.
+            doy : 4  // The week that contains Jan 4th is the first week of the year.
+        }
     });
 }));

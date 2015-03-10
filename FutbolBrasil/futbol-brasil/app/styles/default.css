@@ -813,14 +813,13 @@ body.content-mtm .row-back {
 
 .row-header {
     position: absolute;
-    /*position: relative;*/
     z-index: 4;
     /*top: 0;*/
     left: 0;
     right: 0;
     width: 100%;
     height: 50px;
-    line-height: 35px;
+    /*line-height: 35px;*/
     background-color: transparent;
     padding: 0 !important;
     margin: 0 !important;
@@ -831,12 +830,30 @@ body.content-mtm .row-back {
 
 .row-header-primary {
     background-color: #2196F3;
-    /*background-color: #808080;*/
 }
 
 .row-header-competition {
     background-color: #3B9444;
 }
+
+.content-prediction
+  .row-header {
+    height: 85px;
+  }
+
+.content-prediction
+  .row-header-competition {
+    height: 55px;
+  }
+
+.content-prediction
+  .row-header-reference {
+    height: 30px;
+    background-color:#D84A38;
+    color:#000000;
+  }
+
+
 
 .row-header-live {
     background-color: #D84A38;
@@ -847,6 +864,7 @@ body.content-mtm .row-back {
     font-size : 1em;
     padding: 8px;
 }
+
 
 .wrapper {
     position: absolute;
