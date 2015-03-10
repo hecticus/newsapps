@@ -42,6 +42,8 @@ public class Client extends HecticusModel {
     @Constraints.MaxLength(value = 10)
     private String lastCheckDate;
 
+    private String nickname;
+
     private String facebookId;
 
     @OneToOne
@@ -219,6 +221,14 @@ public class Client extends HecticusModel {
         this.facebookId = facebookId;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -339,6 +349,7 @@ public class Client extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_client", idClient);
         response.put("facebook_id", facebookId);
+        response.put("nickname", nickname);
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);
@@ -390,6 +401,7 @@ public class Client extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_client", idClient);
         response.put("facebook_id", facebookId);
+        response.put("nickname", nickname);
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);
