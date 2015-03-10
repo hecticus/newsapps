@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Utilities', ['CordovaDevice', 'WebManager', 'i18n'
-        , function(CordovaDevice, WebManager, i18n) {
+    .factory('Utilities', ['CordovaDevice', 'WebManager', 'Client', 'i18n'
+        ,function(CordovaDevice, WebManager, Client, i18n) {
         return {
             _lastClicked : 0,
             /**
@@ -40,10 +40,14 @@ angular
              * @return {boolean} Returns a boolean value
              */
             moment:function (_date) {
-                var _oMoment = moment().locale(i18n.getDefaultLanguage().short_name);
-                if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm');
-                console.log(i18n.getDefaultLanguage().short_name);
-                return _oMoment;
+
+              var oLang = Client.getLanguage();
+              if (!oLang) oLang = i18n.getDefaultLanguage();
+              console.log(oLang.short_name.toLowerCase());
+              var _oMoment = moment().locale(oLang.short_name.toLowerCase());
+              if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(oLang.short_name.toLowerCase());
+              return _oMoment;
+
             },
 
             /**
