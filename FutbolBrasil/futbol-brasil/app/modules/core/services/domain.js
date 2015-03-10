@@ -99,9 +99,13 @@ angular
                         + appId + '/' + _competition + '/' + getLang() + '/' + _phase;
                 },
 
-                scorers: function () {
-                    return football_manager_url + 'footballapi/'
-                        + apiVersion + '/players/competitions/scorers/' + appId;
+                scorers: function (_competition) {
+                  return football_manager_url + 'footballapi/'
+                          + apiVersion + '/players/competition/scorers/'
+                          + appId + '/'
+                          + _competition
+                          + '?pageSize=10'
+                          + '&page=0';
                 },
 
                 match: function (_date) {
