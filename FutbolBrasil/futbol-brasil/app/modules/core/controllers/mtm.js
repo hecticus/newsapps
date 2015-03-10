@@ -37,27 +37,28 @@ angular
                     var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
                     //TODO check request cableado, no se valida que venga vacio data.response
-                    $http.get(Domain.mtm(16, 3321, _event.first), config)
-                    .success(function (data, status) {
-                        console.log(data);
-                        if (data.error === 0) {
-                            if ($scope.item.mtm.length == 0) {
-                                $scope.item.mtm = data.response;
-                            } else {
-                                angular.forEach(data.response.actions[0].events, function(_event, _eIndex) {
-                                    $scope.item.mtm.actions[0].events.unshift(_event);
-                                });
+                    $http.get(Domain.mtm(16, 3321, _event.first), config).then(
+                        function (data) {
+                            data = data.data;
+                            console.log(data);
+                            if (data.error === 0) {
+                                if ($scope.item.mtm.length == 0) {
+                                    $scope.item.mtm = data.response;
+                                } else {
+                                    angular.forEach(data.response.actions[0].events, function(_event, _eIndex) {
+                                        $scope.item.mtm.actions[0].events.unshift(_event);
+                                    });
+                                }
+                                _event.first = data.response.actions[0].events[0].id_game_match_events;
+                                $scope.item.match.home.goals = data.response.home_team_goals;
+                                $scope.item.match.away.goals = data.response.away_team_goals;
                             }
-                            _event.first = data.response.actions[0].events[0].id_game_match_events;
-                            $scope.item.match.home.goals = data.response.home_team_goals;
-                            $scope.item.match.away.goals = data.response.away_team_goals;
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.$emit('unload');
+                            $scope.$emit('error');
                         }
-                    }).catch(function () {
-                        $scope.$emit('error');
-                    }).finally(function() {
-                        $scope.$emit('unload');
-                    });
-
+                    );
                 }
 
                 $timeout.cancel($scope.interval);
@@ -106,8 +107,9 @@ angular
                 config.params.pageSize = 100;
                 config.params.page = 0;
 
-                $http.get(Domain.match(date), config)
-                    .success(function (data, status) {
+                $http.get(Domain.match(date), config).then(
+                    function (data) {
+                        data = data.data;
                         console.log(data.response);
                         if(data.response && data.response.leagues.length == 0){
                             $scope.hasGamesForToday = false;
@@ -118,10 +120,12 @@ angular
                             $scope.item = data.response;
                         }
                         $scope.$emit('unload');
-                    }).error(function (data) {
+                    }, function (data) {
+                        $scope.$emit('unload');
                         console.log(data);
                         $scope.$emit('error');
-                    });
+                    }
+                );
             }();
         }
     ]);

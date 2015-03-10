@@ -41,7 +41,8 @@ angular
                     config.params.page = 0;
                     config.params.pageSize = 20;
                     $http.get(Domain.scorers(), config)
-                        .success(function (data, status, headers, config) {
+                        .then(function (data, status, headers, config) {
+                            data = data.data;
                             $scope.item =  data.response;
                             //Map for empty team names
                             var leagues = data.response.leagues;
@@ -55,9 +56,9 @@ angular
                             //End Map for empty team names
                             $rootScope.$storage.scorers = JSON.stringify(data.response);
                             $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-                        }).catch(function () {
+                            $scope.$emit('unload');
+                        }, function () {
                             $scope.$emit('error');
-                        }).finally(function(data) {
                             $scope.$emit('unload');
                             $rootScope.error = $scope.item.leagues.hasOwnProperty('news');
                         });

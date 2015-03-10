@@ -73,15 +73,16 @@ angular
                     config.params.pageSize=_limit;
                     config.params.page = 0;
 
-                    $http.get(Domain.match(_item.date), config)
-                        .success(function (data, status) {
-                           $scope.pages[_index].matches = data.response;
-                        }).catch(function () {
+                    $http.get(Domain.match(_item.date), config).then(function (data, status) {
+                            data = data.data;
+                            $scope.pages[_index].matches = data.response;
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.$emit('unload');
                             $scope.$emit('error');
-                        }).finally(function(data) {
-                           $scope.$emit('unload');
-                           $rootScope.error = Utilities.error();
-                        });
+                            $rootScope.error = Utilities.error();
+                        }
+                    );
                 });
 
                 $scope.width = $window.innerWidth;
@@ -95,14 +96,6 @@ angular
                 $scope.prevPage = function(){
                     _scroll.prev();
                 };
-
-//                _scroll.on('scrollEnd', function () {
-//                    this.refresh();
-//                });
-//
-//                $scope.$on('onRepeatFirst', function(scope, element, attrs) {
-//                    //console.log('onRepeatFirst');
-//                });
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     if (_start) {
@@ -151,16 +144,16 @@ angular
                             config.params.pageSize=_limit;
                             config.params.page = 0;
                             $http.get(Domain.match($scope.pages[_index].date), config)
-                              .success(function (data, status) {
-                                  $scope.pages[_index].matches = data.response;
-                                  Utilities.newScroll.vertical($scope.wrapper.getName(_index));
-                              }).catch(function () {
-                                $scope.$emit('error');
-                              }).finally(function(data) {
-                                  $scope.$emit('unload');
-                                  $rootScope.error = Utilities.error();
-                              });
-
+                                .then(function (data, status) {
+                                    data = data.data;
+                                    $scope.pages[_index].matches = data.response;
+                                    Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                                    $scope.$emit('unload');
+                                }, function () {
+                                    $scope.$emit('unload');
+                                    $scope.$emit('error');
+                                    $rootScope.error = Utilities.error();
+                                });
                         }
                         _currentPage = this.currentPage.pageX;
                     }

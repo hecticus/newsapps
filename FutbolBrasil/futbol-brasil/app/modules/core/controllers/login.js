@@ -25,7 +25,7 @@ angular
             };
             $scope.msisdn = '';
             $scope.password = '';
-            $scope.isPasswordScreenVisible = false;
+            $scope.isPasswordScreenVisible = true;
 
             $scope.sendMsisdn = function(){
                 $scope.$emit('load');
@@ -37,10 +37,12 @@ angular
                                     , $scope.showPasswordScreen, $scope.showClientSignUpError);
                         },
                         function(){
+                            $scope.$emit('unload');
                             console.log('Error saving MSISDN');
                         }
                     );
                 } else {
+                    $scope.$emit('unload');
                     alert('Please input your phone number');
                 }
             };

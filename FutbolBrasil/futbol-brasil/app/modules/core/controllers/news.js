@@ -48,9 +48,7 @@ angular
                         }
                     );
                     console.log('Daily News Limit Exceeded');
-
                 }
-
             };
 
             $scope.getNews = function() {
@@ -62,7 +60,8 @@ angular
                     //$scope.$emit('unload');
                 } else {
                     $http.get(Domain.news.index())
-                        .success(function (data, status) {
+                        .then(function (data, status) {
+                            data = data.data;
                             if(data.response.total > 0){
                                 $scope.hasNews = true;
                                 $scope.news = data.response.news;
@@ -73,13 +72,12 @@ angular
                                 $scope.hasNews = false;
                                 console.log('No News Available');
                             }
-                        }).finally(function (data) {
                             $rootScope.error = !$scope.news;
                             $scope.$emit('unload');
-                        }).catch(function () {
-                          $scope.$emit('error');
-                        }
-                    );
+                        }, function () {
+                            $scope.$emit('unload');
+                            $scope.$emit('error');
+                        });
                 }
             };
 
@@ -87,18 +85,19 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http.get(Domain.news.up(newsId))
-                      .success(function (data, status, headers, config) {
-                          if (data.response.news.length >= 1) {
-                            _news.first = data.response.news[0].idNews;
-                            angular.forEach(data.response.news, function(_item) {
-                              $scope.news.unshift(_item);
-                            });
-                          }
-                      }).catch(function () {
-                        $scope.$emit('error');
-                      }).finally(function (data) {
-                          $scope.$emit('unload');
-                      });
+                        .then(function (data) {
+                            data = data.data;
+                            if (data.response.news.length >= 1) {
+                                _news.first = data.response.news[0].idNews;
+                                angular.forEach(data.response.news, function(_item) {
+                                    $scope.news.unshift(_item);
+                                });
+                            }
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.$emit('error');
+                            $scope.$emit('unload');
+                        });
                 }
             };
 
@@ -106,19 +105,18 @@ angular
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http.get(Domain.news.down(newsId))
-                      .success(function (data) {
-                          if (data.response.news.length >= 1) {
-                            _news.last = data.response.news[data.response.news.length-1].idNews;
-                            angular.forEach(data.response.news, function(_item) {
-                              $scope.news.push(_item);
-                            });
-                          }
-                      }).catch(function () {
-                          $scope.$emit('error');
-                      }).finally(function (data) {
-                         $scope.$emit('unload');
-                      }
-                    );
+                        .then(function (data) {
+                            if (data.response.news.length >= 1) {
+                                _news.last = data.response.news[data.response.news.length-1].idNews;
+                                angular.forEach(data.response.news, function(_item) {
+                                    $scope.news.push(_item);
+                                });
+                            }
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.$emit('unload');
+                            $scope.$emit('error');
+                        });
                 }
             };
 

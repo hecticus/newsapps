@@ -140,8 +140,11 @@ angular
                     document.addEventListener('touchmove', function (e) {
                         e.preventDefault();
                     }, false);
-                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-                    document.dispatchEvent(event);
+
+                    if(typeof CustomEvent === 'function'){
+                        var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
+                        document.dispatchEvent(event);
+                    }
                 },
 
                 onDeviceReady : function() {

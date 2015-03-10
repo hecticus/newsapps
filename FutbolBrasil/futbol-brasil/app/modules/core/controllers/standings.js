@@ -53,20 +53,21 @@ angular
                 $scope.item.ranking = [];
 
                 $http.get(Domain.ranking(competition,phase))
-                .success(function (data, status) {
-                    console.log('data: ');
-                    console.log(data);
-                    $scope.item.tree = data.response.tree;
-                    $scope.item.phase = data.response.phase;
-                    $scope.item.ranking =  data.response.ranking;
-                    console.log(data.response.ranking);
-                    $rootScope.transitionPageBack('#wrapper3', 'left');
-                    _scroll3.scrollTo(0,0,0);
-                }).catch(function () {
-                    $scope.$emit('error');
-                }).finally(function(data) {
-                    $scope.$emit('unload');
-                });
+                    .then(function (data, status) {
+                        data = data.data;
+                        console.log('data: ');
+                        console.log(data);
+                        $scope.item.tree = data.response.tree;
+                        $scope.item.phase = data.response.phase;
+                        $scope.item.ranking =  data.response.ranking;
+                        console.log(data.response.ranking);
+                        $rootScope.transitionPageBack('#wrapper3', 'left');
+                        _scroll3.scrollTo(0,0,0);
+                        $scope.$emit('unload');
+                    }, function () {
+                        $scope.$emit('unload');
+                        $scope.$emit('error');
+                    });
             };
 
             $scope.getCompetitions = function(){
