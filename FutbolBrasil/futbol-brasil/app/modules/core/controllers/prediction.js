@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
-            'Client', 'WebManager', '$window', 'Domain','Utilities', 'Bets', 'Moment', 'iScroll',
-            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Utilities, Bets, Moment, iScroll) {
+            'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll',
+            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Bets, Moment, iScroll) {
 
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
@@ -71,6 +71,7 @@ angular
                   'client_bet': _jMatch.bet.client_bet}
                 };
 
+
                 Bets.create(_jBet,function() {
                     $scope.$emit('unload');
                 }, function () {
@@ -87,9 +88,10 @@ angular
                 if (!$scope.leagues[_index].fixtures) {
 
                   $scope.$emit('load');
-                  $http.get(Domain.bets.get($scope.leagues[_index].id_competitions), config)
-                  .success(function (data, status, headers, config) {
-                      if (data.error == 0) {
+
+                  Bets.get($scope.leagues[_index].id_competitions,function(data){
+
+                    if (data.error == 0) {
 
                         data = data.response;
                         data.fixtures.forEach(function(fixture){
@@ -103,11 +105,13 @@ angular
 
                         $scope.leagues[_index].fixtures = data.fixtures;
                         $scope.leagues[_index].bet = {total_bets: data.total_bets, client_bets : data.client_bets}
-                      }
-                  }).catch(function () {
+
+                    }
+
+                    $scope.$emit('unload');
+
+                  }, function(){
                       //$scope.$emit('error');
-                  }).finally(function(data) {
-                      $scope.$emit('unload');
                   });
 
                 }
@@ -115,19 +119,7 @@ angular
             };
 
             $scope.setScroll = function() {
-
-                $scope.scroll = new IScroll('#' + 'wrapperH', {
-                                                    scrollX: true,
-                                                    scrollY: false,
-                                                    mouseWheel: false,
-                                                    momentum: false,
-                                                    snap: true,
-                                                    snapSpeed: 700,
-                                                    probeType: 3,
-                                                    bounce: false,
-                                                    click: true
-                                                });
-
+                $scope.scroll = iScroll.horizontal('wrapperH');
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     angular.forEach($scope.leagues, function(_item, _index) {
                         iScroll.vertical($scope.vWrapper.getName(_index));

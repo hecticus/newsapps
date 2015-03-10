@@ -8,13 +8,13 @@
  */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, Utilities) {
+    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','iScroll',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, iScroll) {
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
             $rootScope.$storage.scorers = false;
-            var _currentPage = -1;
+            var _currentPage = 0;
 
             $scope.wrapper = {
                 name:'wrapperV',
@@ -68,10 +68,10 @@ angular
 
             $scope.setScroll = function() {
 
-              $scope.scroll = Utilities.newScroll.horizontal('wrapperH');
+              $scope.scroll = iScroll.horizontal('wrapperH');
               $scope.$on('onRepeatLast', function(scope, element, attrs) {
                   angular.forEach($scope.leagues, function(_item, _index) {
-                      Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                      iScroll.vertical($scope.wrapper.getName(_index));
                   });
               });
 

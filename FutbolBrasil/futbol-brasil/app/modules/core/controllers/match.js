@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
-        ,'WebManager', 'Domain', 'Moment', 'Utilities',
+        ,'WebManager', 'Domain', 'Moment', 'iScroll',
         function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager,
-                 Domain, Moment, Utilities) {
+                 Domain, Moment, iScroll) {
 
             var _limit = 100;
             var _currentPage = 0;
@@ -80,45 +80,44 @@ angular
                         }, function () {
                             $scope.$emit('unload');
                             $scope.$emit('error');
-                            $rootScope.error = Utilities.error();
                         }
                     );
                 });
 
                 $scope.width = $window.innerWidth;
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
-                var _scroll = Utilities.newScroll.horizontal('wrapperH');
 
+                $scope.scroll = iScroll.horizontal('wrapperH');
                 $scope.nextPage = function(){
-                    _scroll.next();
+                    $scope.scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                    _scroll.prev();
+                    $scope.scroll.prev();
                 };
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     if (_start) {
 
-                        _scroll.refresh();
-                        _scroll.goToPage(2,0);
+                        $scope.scroll.refresh();
+                        $scope.scroll.goToPage(2,0);
                         _start = false;
 
                         angular.forEach($scope.pages, function(_item, _index) {
-                            Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                            iScroll.vertical($scope.wrapper.getName(_index));
                         });
                     }
                 });
 
-                _scroll.on('beforeScrollStart', function () {
+                $scope.scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                _scroll.on('scrollStart', function () {
+                $scope.scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                _scroll.on('scroll', function () {
+                $scope.scroll.on('scroll', function () {
 
                     if (this.currentPage.pageX != _currentPage) {
 
@@ -147,12 +146,10 @@ angular
                                 .then(function (data, status) {
                                     data = data.data;
                                     $scope.pages[_index].matches = data.response;
-                                    Utilities.newScroll.vertical($scope.wrapper.getName(_index));
                                     $scope.$emit('unload');
                                 }, function () {
                                     $scope.$emit('unload');
                                     $scope.$emit('error');
-                                    $rootScope.error = Utilities.error();
                                 });
                         }
                         _currentPage = this.currentPage.pageX;

@@ -9,12 +9,12 @@
 angular
     .module('core')
     .controller('LeaderboardCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window',
-        'Client', 'WebManager', 'Domain', 'Utilities', 'FacebookManager',
+        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Client, WebManager, Domain
-            , Utilities, FacebookManager) {
+            , FacebookManager, iScroll) {
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-            var _scroll = null;
+
             var _currentPage = 0;
             $scope.item = {};
             $scope.hasFriends = true;
@@ -110,41 +110,31 @@ angular
 //                console.log('scorers from localStorage: ');
 //                console.log(JSON.parse($rootScope.$storage.scorers));
 //                console.log($scope.item);
-                _scroll = new IScroll('#' + 'wrapperH', {
-                    scrollX: true,
-                    scrollY: false,
-                    mouseWheel: false,
-                    momentum: false,
-                    snap: true,
-                    snapSpeed: 700,
-                    probeType: 3,
-                    bounce: false,
-                    click: true
-                });
+                $scope.scroll = iScroll.horizontal('wrapperH');
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     angular.forEach($scope.item.competitions, function(_item, _index) {
-                        Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                        iScroll.vertical($scope.wrapper.getName(_index));
                     });
                 });
 
                 $scope.nextPage = function(){
-                    _scroll.next();
+                    $scope.scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                    _scroll.prev();
+                     $scope.scroll.prev();
                 };
 
-                _scroll.on('beforeScrollStart', function () {
+                 $scope.scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                _scroll.on('scrollStart', function () {
+                 $scope.scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                _scroll.on('scroll', function () {
+                 $scope.scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                         var leaderboard = $scope.item.competitions[this.currentPage.pageX].leaderboard;
                         if (!leaderboard || (leaderboard == '')) {
@@ -155,7 +145,7 @@ angular
                 });
 
                 $scope.getLeaderboardIndex = function(_url){
-                    var _page = _scroll.currentPage.pageX;
+                    var _page =  $scope.scroll.currentPage.pageX;
                     var competition = $scope.item.competitions[_page];
                     $scope.$emit('load');
                     competition.leaderboard = [];
@@ -188,15 +178,15 @@ angular
                 $scope.getPhase = function(){
                     console.log('getPhase');
                     $scope.setActive('phase');
-                    var idCompetitions = $scope.item.competitions[_scroll.currentPage.pageX].id_competitions;
-                    var phase = $scope.item.competitions[_scroll.currentPage.pageX].phase;
+                    var idCompetitions = $scope.item.competitions[ $scope.scroll.currentPage.pageX].id_competitions;
+                    var phase = $scope.item.competitions[$scope.scroll.currentPage.pageX].phase;
                     $scope.getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
                 };
 
                 $scope.getCompetition = function(){
                     console.log('getCompetition');
                     $scope.setActive('competition');
-                    var idCompetition = $scope.item.competitions[_scroll.currentPage.pageX].id_competitions;
+                    var idCompetition = $scope.item.competitions[$scope.scroll.currentPage.pageX].id_competitions;
                     $scope.getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
                 };
             }();
