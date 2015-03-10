@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
-            'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll',
-            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Bets, Moment, iScroll) {
+            'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll', 'Competitions',
+            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Bets, Moment, iScroll, Competitions) {
 
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
@@ -152,26 +152,14 @@ angular
             };
 
             $scope.init = function(){
-
                 $scope.$emit('load');
-                $http.get(Domain.competitions, config)
-                .success(function (data, status, headers, config) {
-
-                    if (data.error == 0) {
-
-                        $scope.leagues  = data.response.competitions;
-                        $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
-                        $scope.setScroll();
-                        $scope.getBets();
-
-                    }
-
-                }).catch(function () {
-                    $scope.$emit('error');
-                }).finally(function(data) {
-                    $scope.$emit('unload');
+                Competitions.get.then(function(data){
+                  $scope.leagues  = data;
+                  $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
+                  $scope.setScroll();
+                  $scope.getBets();
                 });
-
+                $scope.$emit('unload');
             }();
 
     }
