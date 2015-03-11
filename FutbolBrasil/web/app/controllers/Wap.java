@@ -46,10 +46,14 @@ public class Wap extends HandsetDetection {
 
         HandsetDetection HD = new HandsetDetection();
         Promise<WSResponse> wsResponse = WS.url(oDomain.matches(idCompetition,LIMIT, page  * LIMIT)).get();
+
+        System.out.println(oDomain.matches(idCompetition,LIMIT, page  * LIMIT));
+
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
         String nameCompetition = getNameCompetition(idCompetition);
+
 
         ObjectNode jOCompetition = Json.newObject();
         ObjectNode jCompetition = Json.newObject();
@@ -59,7 +63,7 @@ public class Wap extends HandsetDetection {
         jOCompetition.put("competition",jCompetition);
 
         if (iError == 0) {
-            return ok(matches.render(HD, jResponse.get("response"), jCompetition, LIMIT, page));
+            return ok(matches.render(HD, jResponse.get("response"), jOCompetition, LIMIT, page));
         } else {
             return ok(sDescription);
         }
