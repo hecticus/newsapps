@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('LeaderboardCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window',
-        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll',
+        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll', 'Competitions',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Client, WebManager, Domain
-            , FacebookManager, iScroll) {
+            , FacebookManager, iScroll, Competitions) {
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
@@ -74,44 +74,27 @@ angular
                 console.log('friendsMode Active: ' + $scope.friendsMode);
 
                 $scope.$emit('load');
+                Competitions.get.then(function(data){
+                  $scope.item.competitions =  data;
+                  $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
+                  $scope.item.competitions.forEach(function(competition, index) {
+                      $http.get(Domain.phases(competition.id_competitions), config)
+                      .then(function (data, status) {
+                              data = data.data;
+                          if (data.error == 0) {
+                              var phases = data.response.phases;
+                              competition.phase = phases[phases.length - 1].id_phases;
+                              $scope.getCompetition();
+                          }
+                          $scope.$emit('unload');
+                      }, function(){
+                          $scope.$emit('error');
+                          $scope.$emit('unload');
+                      });
+                  });
+                });
 
-                $http.get(Domain.competitions, config)
-                    .success(function (data, status, headers, config) {
-                        if (data.error == 0) {
-                            $scope.item.competitions =  data.response.competitions;
-                            $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
-
-                            $scope.item.competitions.forEach(function(competition, index) {
-                                $http.get(Domain.phases(competition.id_competitions), config)
-                                .then(function (data, status) {
-                                        data = data.data;
-                                    if (data.error == 0) {
-                                        var phases = data.response.phases;
-                                        competition.phase = phases[phases.length - 1].id_phases;
-                                        $scope.getCompetition();
-                                    }
-                                    $scope.$emit('unload');
-//                                }).catch(function() {
-//                                    $scope.$emit('error');
-//                                }).finally(function(data) {
-//                                    $scope.$emit('unload');
-                                }, function(){
-                                    $scope.$emit('error');
-                                    $scope.$emit('unload');
-                                });
-                            });
-                        }
-                    }, function(){
-                        $scope.$emit('error');
-                        $scope.$emit('unload');
-                    });
-
-//                $scope.item = JSON.parse($rootScope.$storage.scorers);
-//                console.log('scorers from localStorage: ');
-//                console.log(JSON.parse($rootScope.$storage.scorers));
-//                console.log($scope.item);
                 $scope.scroll = iScroll.horizontal('wrapperH');
-
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     angular.forEach($scope.item.competitions, function(_item, _index) {
                         iScroll.vertical($scope.wrapper.getName(_index));
@@ -145,6 +128,7 @@ angular
                 });
 
                 $scope.getLeaderboardIndex = function(_url){
+
                     var _page =  $scope.scroll.currentPage.pageX;
                     var competition = $scope.item.competitions[_page];
                     $scope.$emit('load');
@@ -176,19 +160,20 @@ angular
                 };
 
                 $scope.getPhase = function(){
-                    console.log('getPhase');
                     $scope.setActive('phase');
                     var idCompetitions = $scope.item.competitions[ $scope.scroll.currentPage.pageX].id_competitions;
                     var phase = $scope.item.competitions[$scope.scroll.currentPage.pageX].phase;
                     $scope.getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                    $scope.$emit('unload');
                 };
 
                 $scope.getCompetition = function(){
-                    console.log('getCompetition');
                     $scope.setActive('competition');
                     var idCompetition = $scope.item.competitions[$scope.scroll.currentPage.pageX].id_competitions;
                     $scope.getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+                    $scope.$emit('unload');
                 };
+
             }();
 
         }

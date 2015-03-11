@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','iScroll',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, iScroll) {
+    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','iScroll', 'Competitions',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, iScroll, Competitions) {
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
@@ -24,7 +24,6 @@ angular
             };
 
             $scope.width = $window.innerWidth;
-
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
             };
@@ -101,22 +100,14 @@ angular
             };
 
             $scope.init = function(){
-
                 $scope.$emit('load');
-                $http.get(Domain.competitions, config)
-                .success(function (data, status, headers, config) {
-                    if (data.error == 0) {
-                        $scope.leagues  = data.response.competitions;
-                        $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
-                        $scope.setScroll();
-                        $scope.getScorers();
-                    }
-                }).catch(function () {
-                    $scope.$emit('error');
-                }).finally(function(data) {
-                    $scope.$emit('unload');
+                Competitions.get.then(function(data){
+                   $scope.leagues  = data;
+                   $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
+                   $scope.setScroll();
+                   $scope.getScorers();
                 });
-
+                $scope.$emit('unload');
             }();
         }
     ]);
