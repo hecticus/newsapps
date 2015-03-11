@@ -30,6 +30,11 @@ import play.mvc.Results;
 import utils.DateAndTime;
 import utils.Utils;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -871,6 +876,63 @@ public class Clients extends HecticusController {
         }
     }
 
+    public static Result getLocale(String lang){
+        try {
+            Language language = Language.finder.where().eq("active", 1).eq("shortName", lang).findUnique();
+            if(language != null) {
+                String filePath = Config.getString("locales-path") + language.getAppLocalizationFile();
+                if(filePath != null && !filePath.isEmpty()){
+                    File file = new File(filePath);
+                    if(file != null && file.exists()){
+                        byte[] encoded = Files.readAllBytes(Paths.get(filePath));
+                        String localization =  new String(encoded, StandardCharsets.UTF_8);
+                        return ok(localization);
+                    } else {
+                        return notFound();
+                    }
+                }else {
+                    return notFound();
+                }
+            }else {
+                return notFound();
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando Idiomas", "error obteniendo localizacion ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando localizacion",e));
+        }
+    }
+
+    public static Result setLocale(String lang){
+        try {
+            ObjectNode locale = getJson();
+            Language language = Language.finder.where().eq("active", 1).eq("shortName", lang).findUnique();
+            if(language != null) {
+                StringBuilder filePath = new StringBuilder();
+                filePath.append(Config.getString("locales-path"));
+                String appLocalizationFile = language.getAppLocalizationFile();
+                boolean update = false;
+                if(appLocalizationFile != null && !appLocalizationFile.isEmpty()){
+                    filePath.append(appLocalizationFile);
+                } else {
+                    filePath.append("locale-").append(lang).append(".json");
+                    language.setAppLocalizationFile("locale-"+lang+".json");
+                    update = true;
+                }
+                PrintWriter writer = new PrintWriter(filePath.toString(), "UTF-8");
+                writer.println(locale);
+                writer.close();
+                if(update){
+                    language.update();
+                }
+                return created(locale);
+            }else {
+                return notFound();
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando Idiomas", "error creando localizacion ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando localizacion",e));
+        }
+    }
 
     public static Result getActiveLanguages(){
         try {
@@ -887,8 +949,8 @@ public class Clients extends HecticusController {
                 return notFound(buildBasicResponse(2, "no hay idiomas activos"));
             }
         }catch (Exception e) {
-            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
+            Utils.printToLog(Clients.class, "Error manejando Idiomas", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando idiomas",e));
         }
     }
 

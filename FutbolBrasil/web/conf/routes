@@ -102,6 +102,15 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/event                       
 
 GET     /futbolbrasil/v1/clients/scorers/:idClient                                                          controllers.client.FootballManager.getScorers(idClient : Integer)
 
+
+GET     /futbolbrasil/v1/languages                                                                          controllers.client.Clients.getActiveLanguages()
+
+#funciones para obtener imagenes locales
+#GET     /futbolbrasil/v1/localimages/:file/:size                                                           controllers.ImageProcessing.getLocalResourceBySize(file : String, size : String)
+#imagen width and height
+GET     /futbolbrasil/v1/localimages/:file/:width                                                           controllers.ImageProcessing.getLocalResourceByWidth(file : String, width : Integer)
+
+
 #V2 RESTify routes
 
 #Clients
@@ -120,13 +129,5 @@ GET     /futbolbrasil/v2/client/:id/leaderboard/personal/phase                  
 POST    /futbolbrasil/v2/client/:id/upstream                                                                controllers.client.Clients.sendClientEvent(id : Integer)
 GET     /futbolbrasil/v2/clients                                                                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 
-
-
-
-
-GET     /futbolbrasil/v1/languages                                                                          controllers.client.Clients.getActiveLanguages()
-
-#funciones para obtener imagenes locales
-#GET     /futbolbrasil/v1/localimages/:file/:size                                                           controllers.ImageProcessing.getLocalResourceBySize(file : String, size : String)
-#imagen width and height
-GET     /futbolbrasil/v1/localimages/:file/:width                                                           controllers.ImageProcessing.getLocalResourceByWidth(file : String, width : Integer)
+GET     /futbolbrasil/v2/locale.json                                                                        controllers.client.Clients.getLocale(lang : String)
+POST    /futbolbrasil/v2/locale.json                                                                        controllers.client.Clients.setLocale(lang : String)
