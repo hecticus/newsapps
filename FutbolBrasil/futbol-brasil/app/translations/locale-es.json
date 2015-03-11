@@ -15,7 +15,10 @@
             "FRIENDS" : "Amigos",
             "POINTS" : "Puntos"
         },
-        "SETTINGS": "Configuraciónes"
+        "SETTINGS": "Configuraciónes",
+        "REMIND" : "Recordar / Obtener Credenciales",
+        "LANGUAGE-SELECTION" : "Selección de Idioma",
+        "TEAM-SELECTION" : "Selección de Equipo"
     },
     "NEWS" : {
         "TITLE" : "Noticias"

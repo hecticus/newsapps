@@ -16,7 +16,10 @@
             "POINTS" : "Pontos"
         },
         "SETTINGS": "Definições",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Lembrar / Obter Credenciais",
+        "LANGUAGE-SELECTION" : "Seleção de Idioma",
+        "TEAM-SELECTION" : "Seleção de Equipe"
     },
     "NEWS" : {
         "TITLE" : "Notícias"

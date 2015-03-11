@@ -18,7 +18,10 @@ var translationsEn = {
             "POINTS" : "Points"
         },
         "SETTINGS": "Settings",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Remind / Get Credentials",
+        "LANGUAGE-SELECTION" : "Language Selection",
+        "TEAM-SELECTION" : "Team Selection"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -107,7 +110,10 @@ var translationsEs = {
             "POINTS" : "Puntos"
         },
         "SETTINGS": "Configuraciónes",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Recordar / Obtener Credenciales",
+        "LANGUAGE-SELECTION" : "Selección de Idioma",
+        "TEAM-SELECTION" : "Selección de Equipo"
     },
     "NEWS" : {
         "TITLE" : "Noticias"
@@ -196,7 +202,10 @@ var translationsPt = {
             "POINTS" : "Pontos"
         },
         "SETTINGS": "Definições",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Lembrar / Obter Credenciais",
+        "LANGUAGE-SELECTION" : "Seleção de Idioma",
+        "TEAM-SELECTION" : "Seleção de Equipe"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -290,10 +299,6 @@ angular
                 }
             ]);
 
-//            $translateProvider.useStaticFilesLoader({
-//                prefix: '../translations/locale-',
-//                suffix: '.json'
-//            });
             $translateProvider.translations('en', translationsEn);
             $translateProvider.translations('es', translationsEs);
             $translateProvider.translations('pt', translationsPt);
@@ -321,7 +326,6 @@ angular
             }
 
             if(toState.name !== 'login'){
-//                console.log('Client.isClientOk: ' + Client.isClientOk());
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(function(){
@@ -333,6 +337,17 @@ angular
                     }, CordovaApp.errorStartApp);
                 }
 
+                if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
+                    CordovaApp.showNotificationDialog(
+                        {
+                            title : 'Locked Section',
+                            message : 'This section is locked for Guest Users. Please register to unlock',
+                            confirm: 'Ok',
+                            cancel: 'Cancel'
+                        });
+                    event.preventDefault();
+                }
+
                 $rootScope.isActiveButton = 'active';
             } else {
                 $rootScope.isActiveButton = '';
@@ -341,18 +356,19 @@ angular
         });
 
         $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
-            if(fromState.name && fromState.data.section !== 'settings'){
-//                $rootScope.previousSection = fromState.name;
+            if(fromState.name && fromState.data.section !== 'settings' && toState.data.section !== 'settings'){
                 CordovaApp.setPreviousSection(fromState.name);
+            } else if(fromState.name && fromState.data.section === 'settings'){
+                console.log('onSettingsSection: true');
+                CordovaApp.setIsOnSettingsSection(true);
             }
 
-//            $rootScope.section = !!toState.data.section ? toState.data.section : '';
             CordovaApp.setCurrentSection(!!toState.data.section ? toState.data.section : '');
 
-//            $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
             $translate('SECTIONS.' + CordovaApp.getCurrentSection().toUpperCase()).then(function(translate){
                 $rootScope.sectionTranslation = translate;
             });
+
             if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }

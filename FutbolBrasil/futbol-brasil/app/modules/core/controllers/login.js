@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'Client'
-        , function($rootScope, $scope, $state, ClientManager, Client) {
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client'
+        , function($scope, $state, $stateParams, ClientManager, Client) {
 
             //TODO i18n-alizar
             $scope.strings = {
@@ -23,15 +23,40 @@ angular
                 MSISDN_HOLDER: '# Numero',
                 MSISDN_LABEL: 'Username',
                 LOGIN_LABEL: 'Login',
-                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de futebol do dia, todos os dias.',
+                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de ' +
+                    'futebol do dia, todos os dias.',
                 REMIND_LABEL : 'Remind / Get Credentials',
                 CHANGE_LANGUAGE_LABEL : 'Change Language',
                 TUTORIAL_LABEL : 'How Does It Work?',
+                TERMS_LABEL : 'Terms & Conditions',
                 ENTER_AS_GUEST_LABEL: 'Enter as Guest'
             };
             $scope.msisdn = '';
             $scope.password = '';
-            $scope.isPasswordScreenVisible = true;
+
+            var remindSuccess = function(){
+                console.log('Remind Success! Going to Login');
+                $state.go('login', {'msisdn': $scope.msisdn});
+            };
+
+            var remindError = function(){
+                console.log('showClientSignUpError. Login Error.');
+            };
+
+            var loginSuccess = function(isNewClient){
+                console.log('onLoginSuccess. Login Success.');
+                if(isNewClient){
+                    console.log('new client. going to settings');
+                    $state.go('settings');
+                } else {
+                    console.log('existing client. going to news');
+                    $state.go('news');
+                }
+            };
+
+            var loginError = function(){
+                console.log('onLoginError. Login Error.');
+            };
 
             $scope.sendMsisdn = function(){
                 $scope.$emit('load');
@@ -39,8 +64,9 @@ angular
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
                     Client.setMsisdn($scope.msisdn,
                         function(){
-                            ClientManager.createOrUpdateClient({'msisdn' : $scope.msisdn}, true
-                                    , $scope.showPasswordScreen, $scope.showClientSignUpError);
+                            ClientManager.createOrUpdateClient(
+                                {'msisdn' : $scope.msisdn}
+                                , true, remindSuccess, remindError);
                         },
                         function(){
                             $scope.$emit('unload');
@@ -53,47 +79,29 @@ angular
                 }
             };
 
-            $scope.showPasswordScreen = function(){
-                $scope.$emit('unload');
-                $scope.isPasswordScreenVisible = true;
-            };
-
-            $scope.showClientSignUpError = function(){
-                console.log('showClientSignUpError. Login Error.');
-            };
-
-            $scope.onLoginSuccess = function(isNewClient){
-                console.log('onLoginSuccess. Login Success.');
-                if(isNewClient){
-                    console.log('new client. going to settings');
-                    $state.go('settings');
-                } else {
-                    console.log('existing client. going to news');
-                    $state.go('news');
-                }
-            };
-
-            $scope.onLoginError = function(){
-                console.log('onLoginError. Login Error.');
-            };
-
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
-                    var client = {
-                        'msisdn' : $scope.msisdn,
-                        'password' : $scope.password
-                    };
-
-                    ClientManager.createOrUpdateClient(client, true
-                        , $scope.onLoginSuccess(), $scope.onLoginError());
+                    ClientManager.createOrUpdateClient(
+                        {
+                            'msisdn' : $scope.msisdn,
+                            'password' : $scope.password
+                        }
+                        , true, loginSuccess, loginError);
                 } else {
                     alert('doMsisdnLogin. Please input password');
                 }
             };
 
-            $scope.init = function(){
+            $scope.enterAsGuest = function(){
+                ClientManager.createOrUpdateClient({}, true, loginSuccess, loginError);
+                Client.setGuest();
+            };
+
+            var init = function(){
                 $scope.$emit('unload');
-                $scope.isPasswordScreenVisible = false;
+                if($stateParams.msisdn){
+                    $scope.msisdn = $stateParams.msisdn;
+                }
             }();
         }
     ]);
