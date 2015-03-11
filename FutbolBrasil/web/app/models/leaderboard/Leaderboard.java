@@ -123,7 +123,8 @@ public class Leaderboard extends HecticusModel{
 
     public ObjectNode toJsonSimple() {
         ObjectNode objNode = Json.newObject();
-        objNode.put("client", client.getLogin());
+        String nickname = client.getNickname();
+        objNode.put("client", nickname==null?"Anônimo":nickname);
         objNode.put("score", score);
         objNode.put("hits", correctBets);
         return objNode;

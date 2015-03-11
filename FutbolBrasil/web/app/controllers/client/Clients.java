@@ -903,11 +903,11 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result getLeaderboardForClient(Integer idClient, Integer idTournament, Integer idPhase){
+    public static Result getLeaderboardForClient(Integer id, Integer idTournament, Integer idPhase){
         try {
             ObjectNode response = null;
             ObjectNode responseData = Json.newObject();
-            Client client = Client.finder.byId(idClient);
+            Client client = Client.finder.byId(id);
             if(client != null){
                 int leaderboardSize = Config.getInt("leaderboard-size");
 
@@ -939,8 +939,9 @@ public class Clients extends HecticusController {
                             clientLeaderboardJson = clientLeaderboard.toJsonSimple();
                             clientLeaderboardJson.put("index", index);
                         } else {
+                            String nickname = client.getNickname();
                             clientLeaderboardJson = Json.newObject();
-                            clientLeaderboardJson.put("client", client.getLogin());
+                            clientLeaderboardJson.put("client", nickname==null?"Anônimo":nickname);
                             clientLeaderboardJson.put("score", 0);
                             clientLeaderboardJson.put("hits", 0);
                             clientLeaderboardJson.put("index", leaderboards.size());
@@ -974,8 +975,9 @@ public class Clients extends HecticusController {
                             clientLeaderboardJson = clientLeaderboardGlobal.toJsonSimple();
                             clientLeaderboardJson.put("index", index);
                         } else {
+                            String nickname = client.getNickname();
                             clientLeaderboardJson = Json.newObject();
-                            clientLeaderboardJson.put("client", client.getLogin());
+                            clientLeaderboardJson.put("client", nickname==null?"Anônimo":nickname);
                             clientLeaderboardJson.put("score", 0);
                             clientLeaderboardJson.put("hits", 0);
                             clientLeaderboardJson.put("index", globalLeaderboards.size());
@@ -997,10 +999,10 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result getPersonalLeaderboardForClient(Integer idClient, Integer idTournament, final Integer idPhase, Boolean global){
+    public static Result getPersonalLeaderboardForClient(Integer id, Integer idTournament, final Integer idPhase, Boolean global){
         try {
             ObjectNode response = null;
-            Client client = Client.finder.byId(idClient);
+            Client client = Client.finder.byId(id);
             if(client != null){
                 ArrayList<ObjectNode> leaderboardsJson = new ArrayList<>();
                 if(global){
