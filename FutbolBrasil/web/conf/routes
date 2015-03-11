@@ -97,6 +97,8 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/subscribe                   
 POST    /futbolbrasil/v1/clients/upstream/game/user/login                                                   controllers.client.Clients.upstreamFakeLogin()
 POST    /futbolbrasil/v1/clients/upstream/game/user/status                                                  controllers.client.Clients.upstreamFakeStatus()
 POST    /futbolbrasil/v1/clients/upstream/game/user/password                                                controllers.client.Clients.upstreamFakeResetPass()
+POST    /futbolbrasil/v1/clients/upstream/game/user/event                                                   controllers.client.Clients.upstreamFakeEventSend()
+
 
 GET     /futbolbrasil/v1/clients/scorers/:idClient                                                          controllers.client.FootballManager.getScorers(idClient : Integer)
 
@@ -115,7 +117,9 @@ GET     /futbolbrasil/v2/client/:id/bets/:idCompetition                         
 GET     /futbolbrasil/v2/client/:id/leaderboard/global/:idTournament                                        controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
 GET     /futbolbrasil/v2/client/:id/leaderboard/personal/tournament                                         controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
 GET     /futbolbrasil/v2/client/:id/leaderboard/personal/phase                                              controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
+POST    /futbolbrasil/v2/client/:id/upstream                                                                controllers.client.Clients.sendClientEvent(id : Integer)
 GET     /futbolbrasil/v2/clients                                                                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
+
 
 
 

@@ -520,7 +520,7 @@ public class Clients extends HecticusController {
             return ok(buildBasicResponse(0,"ok"));
         }catch(Exception ex){
             Utils.printToLog(Clients.class, "Error manejando clients", "Ocurrio un error limpiando los devices " + json, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(1,"Error buscando el registro",ex));
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", ex));
         }
     }
 
@@ -536,7 +536,7 @@ public class Clients extends HecticusController {
                     }
                     return ok(buildBasicResponse(0, "OK", Json.toJson(jsonAlerts)));
                 }else{
-                    return badRequest(buildBasicResponse(3, "cliente " + id +" no se encuentra en status valido"));
+                    return badRequest(buildBasicResponse(3, "cliente " + id + " no se encuentra en status valido"));
                 }
             } else {
                 return notFound(buildBasicResponse(2, "no existe el cliente " + id));
@@ -1064,7 +1064,7 @@ public class Clients extends HecticusController {
             }
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
         }
     }
 
@@ -1115,6 +1115,7 @@ public class Clients extends HecticusController {
             ObjectNode response = null;
             ObjectNode clientData = getJson();
             Client client = null;
+            ObjectNode metadata = null;
             //Obtenemos el canal por donde esta llegando el request
             String upstreamChannel;
             if(clientData.has("upstreamChannel")){
@@ -1131,8 +1132,13 @@ public class Clients extends HecticusController {
             if(clientData.has("event_type")){
                 event_type = clientData.get("event_type").asText();
             }
+
+            if(clientData.has("metadata")){
+                metadata = (ObjectNode) clientData.get("metadata");
+            }
+
             if(client != null && (event_type != null || !event_type.isEmpty())) {
-                sendEventForUpstream(client,upstreamChannel,event_type);
+                sendEventForUpstream(client,upstreamChannel,event_type, metadata);
                 response = buildBasicResponse(0, "OK", client.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro para enviar el evento");
@@ -1141,6 +1147,49 @@ public class Clients extends HecticusController {
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
             return Results.badRequest(buildBasicResponse(3, "ocurrio un error enviando evento", ex));
+        }
+    }
+
+    public static Result sendClientEvent(Integer id) {
+        String user_id = null;
+        String event_type = null;
+        try{
+            ObjectNode clientData = getJson();
+            if(clientData == null){
+                return badRequest(buildBasicResponse(1, "Falta el json con los parametros del request"));
+            }
+            Client client = Client.finder.byId(id);
+            if(client != null) {
+                user_id = client.getUserId();
+                ObjectNode metadata = null;
+                //Obtenemos el canal por donde esta llegando el request
+                String upstreamChannel;
+                if (clientData.has("upstreamChannel")) {
+                    upstreamChannel = clientData.get("upstreamChannel").asText();
+                } else {
+                    upstreamChannel = "Android"; //"Android" o "Web"
+                }
+                //buscamos el event_type
+                if (clientData.has("event_type")) {
+                    event_type = clientData.get("event_type").asText();
+                }
+
+                if (clientData.has("metadata")) {
+                    metadata = (ObjectNode) clientData.get("metadata");
+                }
+
+                if (event_type != null || !event_type.isEmpty()) {
+                    sendEventForUpstream(client, upstreamChannel, event_type, metadata);
+                    return ok(buildBasicResponse(0, "OK", client.toJson()));
+                } else {
+                    return badRequest(buildBasicResponse(3, "Falta el tipo de evento"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        } catch (Exception ex) {
+            Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error enviando evento", ex));
         }
     }
 
@@ -1204,7 +1253,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             //agregamos el msisdn(username) y el password
             fields.put("password", password);
             fields.put("msisdn", msisdn);
@@ -1296,7 +1345,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, login, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             //agregamos el user_id
             fields.put("user_id", userID);
 
@@ -1382,7 +1431,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             //agregamos el username y el password
             fields.put("password", password);
             fields.put("username", username);
@@ -1471,7 +1520,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             fields.put("user_id", userID); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -1553,7 +1602,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             fields.put("msisdn", msisdn); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -1637,7 +1686,7 @@ public class Clients extends HecticusController {
      * channel   "Android" or "Web"
      *
      */
-    private static void sendEventForUpstream(Client client, String upstreamChannel, String event_type) throws Exception{
+    private static void sendEventForUpstream(Client client, String upstreamChannel, String event_type, ObjectNode metadata) throws Exception{
         if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
@@ -1655,7 +1704,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, metadata);
             fields.put("user_id", userID); //agregamos el UserID al request
             fields.put("event_type", event_type); //agregamos el evento
             fields.put("timestamp", formatDateUpstream()); //agregamos el time
@@ -1673,10 +1722,12 @@ public class Clients extends HecticusController {
                 int callResult = fResponse.findValue("result").asInt();
                 errorMessage = getUpstreamError(callResult) + " - upstreamResult:"+callResult;
                 if(callResult == 0 || callResult == 4){
-                    //Se trajo la informacion con exito
-                    Boolean eligible = fResponse.findValue("eligible").asBoolean();
-                    //TODO: guardar en el userID la info de si esta activo o no
-                    client.setStatus(eligible ? 1 : 0);
+                    if(fResponse.has("eligible")) {
+                        //Se trajo la informacion con exito
+                        Boolean eligible = fResponse.findValue("eligible").asBoolean();
+                        //TODO: guardar en el userID la info de si esta activo o no
+                        client.setStatus(eligible ? 1 : 0);
+                    }
                 }else{
                     //ocurrio un error en la llamada
                     throw new Exception(errorMessage);
@@ -1717,12 +1768,14 @@ public class Clients extends HecticusController {
         return urlCall;
     }
     //set basic POST data for UPSTREAM
-    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id){
+    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id, ObjectNode metadata){
         String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
         String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
 
         ObjectNode fields = Json.newObject();
-        ObjectNode metadata = Json.newObject();
+        if(metadata == null) {
+            metadata = Json.newObject();
+        }
         fields.put("service_id", upstreamServiceID);
         if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")){
             fields.put("push_notification_id",push_notification_id);
