@@ -1,41 +1,98 @@
-<div class="row" style="margin-top: 50px;">
-    <div class="col-xs-10 col-xs-offset-1 text-center well">
-        <!--style="position: absolute; top: 10%;"-->
+<div id="wrapper" class="full-wrapper" style="top: 50px; background-color: transparent">
+    <div class="scroller" style="background-color: transparent">
+        <div class="row">
+            <!--<div class="col-xs-10 col-xs-offset-1 text-center">-->
+            <div class="col-xs-12">
+                <div class="well text-center">
+                    <img src="img/logo.png">
+                    <form name="msisdnForm" ng-submit="doMsisdnLogin()" class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="msisdnInput" class="col-xs-2 control-label" ng-bind="strings.MSISDN_LABEL"></label>
+                                <div class="col-xs-9 col-xs-push-1">
+                                    <input type="tel" class="form-control empty" ng-model="msisdn"
+                                           id="msisdnInput" placeholder="{{strings.MSISDN_HOLDER}}">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
 
-        <form name="msisdnForm" ng-submit="sendMsisdn()">
-            <div>
-                <h4 class="text-muted">{{strings.LOGIN_WELCOME_MESSAGE}}</h4>
-                <h4 class="text-muted">{{strings.MSISDN_HELPER}}</h4>
-            </div>
+                            <div class="form-group">
+                                <label for="passwordInput" class="col-xs-2 control-label" ng-bind="strings.PASSWORD_LABEL"></label>
+                                <div class="col-xs-9 col-xs-push-1">
+                                    <input type="password" class="form-control empty" ng-model="msisdn"
+                                           id="passwordInput" placeholder="{{strings.PASSWORD_HELPER}}">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
 
-            <div class="form-control-wrapper">
-                <input type="tel" class="form-control empty" ng-model="msisdn"
-                       id="msisdnInput" placeholder="{{strings.MSISDN_HOLDER}}">
-                <span class="material-input"></span>
-            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <button type="submit" class="btn btn-block btn-orange touch-enable">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <span>{{strings.LOGIN_LABEL}} </span>
+                                            </div>
+                                            <div class="col-xs-2 text-right">
+                                                <span><i class="mdi-navigation-chevron-right"></i></span>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
 
-            <button data-loading-text="{{strings.LOADING_MESSAGE}}"
-                    type="submit" class="btn btn-danger btn-orange touch-enable"
-                    >{{strings.START_TRIAL_MESSAGE}}</button>
-        </form>
+                        </fieldset>
+                    </form>
 
-        <form name="passwordForm" ng-submit="doMsisdnLogin()">
-            <div id="passwordInputGroup" ng-class="{hidden: !isPasswordScreenVisible}">
-                <h4 class="text-muted">{{strings.PASSWORD_LABEL}}</h4>
-                <div class="form-control-wrapper">
-                    <input type="password" class="form-control empty"
-                           id="passwordInput" ng-model="password" placeholder="{{strings.PASSWORD_HOLDER}}">
-                    <span class="material-input"></span>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-item">
+                            <div class="col-xs-10">
+                                <span>{{strings.REMIND_LABEL}}</span>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span><i class="mdi-navigation-chevron-right"></i></span>
+                            </div>
+                        </a>
+                        <div class="full-separator"></div>
+                        <a ui-sref="language-selection" class="list-group-item list-item">
+                            <div class="col-xs-10">
+                                <span>{{strings.CHANGE_LANGUAGE_LABEL}}</span>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span><i class="mdi-navigation-chevron-right"></i></span>
+                            </div>
+                        </a>
+                        <div class="full-separator"></div>
+                        <a href="#" class="list-group-item list-item">
+                            <div class="col-xs-10">
+                                <span>{{strings.TUTORIAL_LABEL}}</span>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span><i class="mdi-navigation-chevron-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!--TODO implementar enterAsGuest-->
+                    <form name="msisdnForm" ng-submit="enterAsGuest()" class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <button type="submit" class="btn btn-block btn-orange touch-enable">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <span>{{strings.ENTER_AS_GUEST_LABEL}} </span>
+                                            </div>
+                                            <div class="col-xs-2 text-right">
+                                                <span><i class="mdi-navigation-chevron-right"></i></span>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
-                <div id="passSendButton" >
-                    <button data-loading-text="{{strings.LOADING_MESSAGE}}" type="submit"
-                            class="btn btn-danger btn-orange touch-enable">{{strings.SEND_MESSAGE}}</button>
-                </div>
-                <div id="resendPassButton">
-                    <button data-loading-text="{{strings.LOADING_MESSAGE}}" type="button"
-                            class="btn btn-danger btn-orange touch-enable" ng-click="sendMsisdn()">{{strings.RESEND_MESSAGE}}</button>
-                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

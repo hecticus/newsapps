@@ -127,9 +127,9 @@ body.content-mtm #wrapper2 .scroller .container .row div {
     background-color: #ffffff;
 }
 
-img {
-    border-radius : 0 !important;
-}
+/*img {*/
+    /*border-radius : 0 !important;*/
+/*}*/
 
 .option.active {
     background-color:#263776;
@@ -625,6 +625,7 @@ body.content-mtm .row-back {
 
 .btn-orange {
     background-color: #F6921E !important;
+    color: #FFF !important;
 }
 
 .text-center-vertical{
@@ -880,6 +881,17 @@ body.content-mtm .row-back {
 
 .own-player td {
     background-color: #2196F3 !important;
+}
+
+.list-item {
+    padding: 12px !important;
+}
+
+.full-separator {
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
+    width: 100%;
+    border-bottom: 1px solid #555;
 }
 
 /*
