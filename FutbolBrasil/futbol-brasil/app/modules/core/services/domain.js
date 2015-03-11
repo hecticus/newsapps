@@ -104,7 +104,7 @@ angular
                           + apiVersion + '/players/competition/scorers/'
                           + appId + '/'
                           + _competition
-                          + '?pageSize=10'
+                          + '?pageSize=15'
                           + '&page=0';
                 },
 

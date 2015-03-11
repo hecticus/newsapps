@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="row">
-                            <div id="{{wrapper.getName($index)}}" class="wrapper"
+                            <div id="{{vWrapper.getName($index)}}" class="wrapper"
                                  style="margin-top:100px !important;">
                                 <div class="scroller" style="position: relative;">
                                     <div class="container">
@@ -45,7 +45,7 @@
                                                 </thead>
                                                 <tbody >
                                                     <tr ng-repeat="leader in competition.leaderboard"
-                                                        ng-class="{'active' : $odd,  'client' : competition.client.client == leader.client }">
+                                                        ng-class="{'active' : $odd,  'client' : competition.client.client == leader.client }" on-last-repeat>
                                                         <td>
                                                             <span class="text-center-vertical"
                                                                   ng-bind="leader.index" ></span>

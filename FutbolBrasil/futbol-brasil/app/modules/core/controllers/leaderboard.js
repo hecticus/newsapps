@@ -31,7 +31,7 @@ angular
                 return type === $scope.active;
             };
 
-            $scope.wrapper = {
+            $scope.vWrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
                     return this.name + _index;
@@ -39,7 +39,6 @@ angular
             };
 
             $scope.width = $window.innerWidth;
-            //$scope.widthTotal = ($window.innerWidth * 5);
 
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
@@ -95,11 +94,6 @@ angular
                 });
 
                 $scope.scroll = iScroll.horizontal('wrapperH');
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    angular.forEach($scope.item.competitions, function(_item, _index) {
-                        iScroll.vertical($scope.wrapper.getName(_index));
-                    });
-                });
 
                 $scope.nextPage = function(){
                     $scope.scroll.next();
@@ -175,6 +169,10 @@ angular
                 };
 
             }();
+
+           $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              iScroll.vertical($scope.vWrapper.getName(_currentPage));
+           });
 
         }
     ]);

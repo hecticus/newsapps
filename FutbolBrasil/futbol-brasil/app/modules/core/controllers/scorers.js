@@ -16,7 +16,7 @@ angular
             $rootScope.$storage.scorers = false;
             var _currentPage = 0;
 
-            $scope.wrapper = {
+            $scope.vWrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
                     return this.name + _index;
@@ -68,11 +68,6 @@ angular
             $scope.setScroll = function() {
 
               $scope.scroll = iScroll.horizontal('wrapperH');
-              $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                  angular.forEach($scope.leagues, function(_item, _index) {
-                      iScroll.vertical($scope.wrapper.getName(_index));
-                  });
-              });
 
               $scope.nextPage = function(){
                   $scope.scroll.next();
@@ -109,5 +104,10 @@ angular
                 });
                 $scope.$emit('unload');
             }();
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              iScroll.vertical($scope.vWrapper.getName(_currentPage));
+            });
+
         }
     ]);

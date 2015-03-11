@@ -23,6 +23,8 @@ angular
             };
 
             var _currentPage = 0;
+            var _Match = -1;
+            var _mBet = -1;
 
             $scope.width = $window.innerWidth;
             $scope.widthTotal = $window.innerWidth;
@@ -45,38 +47,50 @@ angular
                 return Moment.date(_date).format('H:MM');
             };
 
+
+
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
 
-                $scope.$emit('load');
-                var _jLeagues = $scope.leagues[_iLeague];
-                var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
-
                 if (_status == 0) {
-                    if (_jMatch.bet) {
-                        _jMatch.bet.client_bet = _bet;
-                    } else {
-                        _jMatch.bet = {client_bet: _bet};
-                        if (_jLeagues.bet.total_bets > _jLeagues.bet.client_bets){
-                            _jLeagues.bet.client_bets = _jLeagues.bet.client_bets + 1;
-                        }
-                    }
-                }
 
-                _jLeagues.fixtures[_iFixture].matches[_iMatch] = _jMatch;
-                $scope.leagues[_iLeague] = _jLeagues;
+                  var _jLeagues = $scope.leagues[_iLeague];
+                  var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
 
-                var _jBet = {"bet": {
-                  'id_tournament': $scope.leagues[_iLeague].id_competitions,
-                  'id_game_match': _jMatch.id_game_matches,
-                  'client_bet': _jMatch.bet.client_bet}
+                  if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
+
+                      $scope.$emit('load');
+                      if (_status == 0) {
+                          if (_jMatch.bet) {
+                              _jMatch.bet.client_bet = _bet;
+                          } else {
+                              _jMatch.bet = {client_bet: _bet};
+                              if (_jLeagues.bet.total_bets > _jLeagues.bet.client_bets){
+                                  _jLeagues.bet.client_bets = _jLeagues.bet.client_bets + 1;
+                              }
+                          }
+                      }
+
+                      _jLeagues.fixtures[_iFixture].matches[_iMatch] = _jMatch;
+                      $scope.leagues[_iLeague] = _jLeagues;
+
+                      var _jBet = {"bet": {
+                        'id_tournament': $scope.leagues[_iLeague].id_competitions,
+                        'id_game_match': _jMatch.id_game_matches,
+                        'client_bet': _jMatch.bet.client_bet}
+                      };
+
+                      Bets.create(_jBet,function() {
+                          $scope.$emit('unload');
+                      }, function () {
+                          //$scope.$emit('error');
+                      });
+
+                      _Match = _jMatch.id_game_matches;
+                      _mBet = _bet;
+
+                  };
+
                 };
-
-
-                Bets.create(_jBet,function() {
-                    $scope.$emit('unload');
-                }, function () {
-                    //$scope.$emit('error');
-                });
 
             };
 
@@ -119,12 +133,8 @@ angular
             };
 
             $scope.setScroll = function() {
+
                 $scope.scroll = iScroll.horizontal('wrapperH');
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    angular.forEach($scope.leagues, function(_item, _index) {
-                        iScroll.vertical($scope.vWrapper.getName(_index));
-                    });
-                });
 
                 $scope.nextPage = function(){
                      $scope.scroll.next();
@@ -161,6 +171,11 @@ angular
                 });
                 $scope.$emit('unload');
             }();
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              iScroll.vertical($scope.vWrapper.getName(_currentPage));
+            });
+
 
     }
 ]);
