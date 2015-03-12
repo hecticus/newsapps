@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client'
-        , function($scope, $state, $stateParams, ClientManager, Client) {
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream'
+        , function($scope, $state, $stateParams, ClientManager, Client, Upstream) {
 
             //TODO i18n-alizar
             $scope.strings = {
@@ -62,6 +62,7 @@ angular
                 $scope.$emit('load');
                 if($scope.msisdn){
                     console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
+                    Upstream.clickedSubscriptionPromptEvent();
                     Client.setMsisdn($scope.msisdn,
                         function(){
                             ClientManager.createOrUpdateClient(
@@ -87,6 +88,7 @@ angular
                             'password' : $scope.password
                         }
                         , true, loginSuccess, loginError);
+                    Upstream.loginEvent();
                 } else {
                     alert('doMsisdnLogin. Please input password');
                 }
@@ -97,11 +99,16 @@ angular
                 Client.setGuest();
             };
 
-            var init = function(){
+            function init(){
                 $scope.$emit('unload');
+                if($state.current.name === 'remind'){
+                    console.log('Remind Upstream call');
+                    Upstream.viewSubscriptionPromptEvent();
+                }
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
-            }();
+            }
+            init();
         }
     ]);

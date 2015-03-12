@@ -8,8 +8,8 @@
 angular
     .module('core')
     .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain',
-        'App', 'i18n', 'News',
-        function($http, CordovaDevice, TeamsManager, Domain, App, i18n, News) {
+        'App', 'i18n', 'News', 'Upstream', 'Client',
+        function($http, CordovaDevice, TeamsManager, Domain, App, i18n, News, Upstream, Client) {
             return {
 
                 /**
@@ -61,6 +61,12 @@ angular
                     } catch (e) {
                         console.log('Error setting HECTICUS-X-AUTH-TOKEN');
                     }
+
+                    var clientSession = Client.getSession();
+                    if(clientSession){
+                        headers['Authorization'] = 'Bearer ' + clientSession;
+                    }
+
                     return headers;
                 },
 
@@ -100,10 +106,9 @@ angular
                     $http.get(url)
                     .success(function(_json) {
                         var response = _json.response;
-                        App.setUpstreamAppKey(response.upstreamAppKey);
-                        App.setUpstreamAppVersion(response.upstreamAppVersion);
-                        App.setUpstreamServiceId(response.upstreamServiceID);
-                        App.setUpstreamUrl(response.upstreamURL);
+
+                        Upstream.setUp(response);
+
                         App.setCompanyName(response.company_name);
                         App.setBuildVersion(response.build_version);
                         App.setServerVersion(response.server_version);
