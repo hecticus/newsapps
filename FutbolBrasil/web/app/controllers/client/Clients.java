@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import controllers.HecticusController;
+import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
 import models.basic.Config;
 import models.basic.Country;
@@ -25,6 +26,7 @@ import play.libs.ws.WSResponse;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.DateAndTime;
 import utils.Utils;
 
@@ -41,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by plesse on 9/30/14.
  */
+//@Security.Authenticated(Secured.class)
 public class Clients extends HecticusController {
 
     //private static final String upstreamUserIDSubscriptionResponseTag = "user_id"; //segun documentacion
@@ -98,7 +101,6 @@ public class Clients extends HecticusController {
                 //actualizar regID
                 if (clientData.has("devices")) {
                     Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                    update = false;
                     while (devicesIterator.hasNext()) {
                         ObjectNode next = (ObjectNode) devicesIterator.next();
                         if (next.has("device_id") && next.has("registration_id")) {
@@ -109,7 +111,6 @@ public class Clients extends HecticusController {
                             if (clientHasDevice == null) {
                                 clientHasDevice = new ClientHasDevices(client, device, registrationId);
                                 client.getDevices().add(clientHasDevice);
-                                update = true;
                             }
                             otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
                             if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
