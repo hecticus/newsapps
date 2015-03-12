@@ -17,6 +17,9 @@ angular
             var updateCallback = null;
             var currentSection = '';
             var prevSection = '';
+            var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
+            var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
+            var onSettingsSection = false;
 
             //TODO i18n-alizar
             var strings = {
@@ -66,7 +69,11 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
                 } else if(isOnUtilitySection()){
-                    if($state.current.name === 'settings' && prevSection){
+                    console.log('onSettingsSection:' + onSettingsSection);
+                    if(onSettingsSection){
+                        $state.go($state.current.data.prev);
+                        onSettingsSection = false;
+                    } else if(prevSection){
                         $state.go(prevSection);
                     } else if($state.current.data){
                         $state.go($state.current.data.prev);
@@ -74,7 +81,6 @@ angular
                 } else if(hasPreviousSubsection){
                     angular.element('.page.back.left:last')
                         .attr('class', ' page transition right');
-//                    typeof backButtonCallback === 'function' && backButtonCallback();
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
@@ -88,7 +94,8 @@ angular
                         },
                         function(){
                             console.log('Cancelled by User');
-                        });
+                        }
+                    );
                 }
             };
 
@@ -122,7 +129,21 @@ angular
             };
 
             var isOnUtilitySection = function(){
-                return (currentSection === 'settings' || currentSection === 'login');
+                return utilitySections.some(function(utilitySection){
+                    return utilitySection === currentSection;
+                });
+            };
+
+            var isBlockedSection = function(section){
+                var result = blockedSections.some(function(blockedSection){
+                    return blockedSection === section;
+                });
+                console.log('isBlockedUtilitySection: section: ' + section + ' result: ' + result);
+                return result;
+            };
+
+            var setIsOnSettingsSection = function(val){
+                onSettingsSection = val;
             };
 
             return {
@@ -229,7 +250,11 @@ angular
                     return prevSection;
                 },
 
+                isBlockedSection : isBlockedSection,
+
                 isOnUtilitySection : isOnUtilitySection,
+
+                setIsOnSettingsSection: setIsOnSettingsSection,
 
                 onBackButtonPressed: onBackButtonPressed,
 

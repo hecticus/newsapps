@@ -138,12 +138,13 @@ angular
 
                                 competition.leaderboard = data.response.leaderboard;
                                 competition.client = data.response.client;
+                                competition.client.index = competition.client.index + 1;
 
                                 if(competition.client.index >= competition.leaderboard.length){
                                 // Esta condición se debe ajustar a partir de un parametro de configuración
 //                                if (data.response.leaderboard.length >= data.response.leaderboard.length) {
                                     competition.leaderboard.push({client:'...',score:'...', index: '...'});
-                                    competition.leaderboard.push(data.response.client)
+                                    competition.leaderboard.push(competition.client)
                                 }
 
                             }
