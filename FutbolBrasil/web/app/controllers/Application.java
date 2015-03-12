@@ -162,6 +162,9 @@ public class Application extends Controller {
             data.put("upstreamAppVersion", Config.getString("upstreamAppVersion"));
             data.put("upstreamServiceID", Config.getString("upstreamServiceID"));
             data.put("upstreamURL", Config.getString("upstreamURL"));
+            data.put("upstreamGuestUser", Config.getString("upstreamGuestUser"));
+            data.put("upstreamGuestPassword", Config.getString("upstreamGuestPassword"));
+            data.put("upstreamUserID", Config.getString("upstreamUserID"));
             data.put("server_version", Config.getString("server-version"));
             Language language = Language.finder.byId(Config.getInt("default-language"));
             data.put("default_language", language.toJson());
