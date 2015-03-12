@@ -129,7 +129,7 @@ angular
                 };
                 console.log(JSON.stringify(obj));
 
-                return $http.post(eventUrl, data, config).then(success, error);
+//                return $http.post(eventUrl, data, config).then(success, error);
 
                 function success(data){
                     return getAppResponseCodeString(data.result);
