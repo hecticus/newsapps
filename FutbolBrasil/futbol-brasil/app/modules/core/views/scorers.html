@@ -2,7 +2,7 @@
     <div id="wrapperH">
         <div id="scroller" ng-style="getTotalWidth()">
             <ul>
-                <li ng-style="getWidth()" ng-repeat="league in leagues" on-last-repeat>
+                <li ng-style="getWidth()" ng-repeat="league in leagues" >
                     <div class="container">
                         <div class="row row-header row-header-competition">
 
@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="row">
-                            <div id="{{wrapper.getName($index)}}" class="wrapper wrapper-full">
+                            <div id="{{vWrapper.getName($index)}}" class="wrapper wrapper-full">
                                 <div class="scroller">
                                     <div class="container">
                                         <div class="col-xs-12" >
@@ -35,7 +35,7 @@
                                                 <tbody>
 
                                                 <tr ng-repeat="scorer in league.scorers"
-                                                    ng-class="{'active' : $odd}" >
+                                                    ng-class="{'active' : $odd}" on-last-repeat>
                                                     <td class="text-left">
                                                         <span class="text-center-vertical"
                                                               ng-bind="scorer.fullName" ></span>
