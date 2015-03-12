@@ -157,7 +157,6 @@ angular
             };
 
             $scope.init = function(){
-                CordovaApp.setBackButtonCallback($scope.runBackButton);
                 CordovaApp.setUpdateCallback(function(updateInfo){
                     //TODO for debugging only
                     updateInfo.mandatory = 0;
