@@ -13,7 +13,6 @@ import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-import play.libs.F;
 import play.libs.Json;
 import utils.Utils;
 
@@ -45,6 +44,8 @@ public class Client extends HecticusModel {
     private String nickname;
 
     private String facebookId;
+
+    private String session;
 
     @OneToOne
     @JoinColumn(name = "id_country")
@@ -229,6 +230,14 @@ public class Client extends HecticusModel {
         this.nickname = nickname;
     }
 
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
+
     public int getDeviceIndex(String registrationId, int deviceId) {
         ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
         if(clientHasDevice == null){
@@ -353,6 +362,7 @@ public class Client extends HecticusModel {
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);
+        response.put("session", session);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJsonSimple());
         response.put("language", language.toJson());
@@ -405,6 +415,7 @@ public class Client extends HecticusModel {
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);
+        response.put("session", session);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJsonSimple());
         response.put("language", language.toJson());

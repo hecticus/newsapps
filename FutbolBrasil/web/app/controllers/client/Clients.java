@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import controllers.HecticusController;
 import exceptions.UpstreamAuthenticationFailureException;
-import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
@@ -18,7 +17,6 @@ import models.leaderboard.LeaderboardGlobal;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
-import play.db.ebean.Model;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -35,7 +33,6 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -96,6 +93,7 @@ public class Clients extends HecticusController {
                     }
                 }
             }
+            UUID session = UUID.randomUUID();
             if (client != null) {
                 //actualizar regID
                 if (clientData.has("devices")) {
@@ -121,9 +119,8 @@ public class Clients extends HecticusController {
                             }
                         }
                     }
-                    if (update) {
-                        client.update();
-                    }
+                    client.setSession(session.toString());
+                    client.update();
                 }
                 return ok(buildBasicResponse(0, "OK", client.toJson()));
             } else if (clientData.has("country") && clientData.has("language")) {
@@ -182,6 +179,8 @@ public class Clients extends HecticusController {
                             }
                         }
                     }
+
+                    client.setSession(session.toString());
 
                     if(clientData.has("facebook_id")){
                         client.setFacebookId(clientData.get("facebook_id").asText());
