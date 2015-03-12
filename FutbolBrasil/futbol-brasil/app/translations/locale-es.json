@@ -15,7 +15,10 @@
             "FRIENDS" : "Amigos",
             "POINTS" : "Puntos"
         },
-        "SETTINGS": "Configuraciónes"
+        "SETTINGS": "Configuraciónes",
+        "REMIND" : "Recordar / Obtener Credenciales",
+        "LANGUAGE-SELECTION" : "Selección de Idioma",
+        "TEAM-SELECTION" : "Selección de Equipo"
     },
     "NEWS" : {
         "TITLE" : "Noticias"
@@ -58,6 +61,8 @@
         "POINTS" : "Usted no tiene información de puntos disponible"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apodo",
+        "NICKNAME_PLACEHOLDER": "Introduzca su Apodo",
         "PUSH_TITLE": "Notificaciones Push",
         "FAVORITE_TEAMS_TITLE": "Mis Equipos Favoritos",
         "LANGUAGES_TITLE": "Idiomas",

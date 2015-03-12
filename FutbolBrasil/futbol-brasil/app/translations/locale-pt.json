@@ -16,7 +16,10 @@
             "POINTS" : "Pontos"
         },
         "SETTINGS": "Definições",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Lembrar / Obter Credenciais",
+        "LANGUAGE-SELECTION" : "Seleção de Idioma",
+        "TEAM-SELECTION" : "Seleção de Equipe"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -59,6 +62,8 @@
         "POINTS" : "Você não tem informação de pontos disponível"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apelido",
+        "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",

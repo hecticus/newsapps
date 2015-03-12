@@ -21,6 +21,19 @@ angular
             var client = {};
             var currentVersion = 0;
 
+            var saveStoredVersion = function () {
+                try{
+                    localStorage[FILE_KEY_STOREDVERSION] = currentVersion;
+                    return true;
+                }catch(err){
+                    return false;
+                }
+            };
+
+            var loadStoredVersion = function () {
+                return localStorage[FILE_KEY_STOREDVERSION];
+            };
+
             var checkStoredData = function (){
                 var storedVersion = loadStoredVersion();
                 if(!!storedVersion || currentVersion > storedVersion){
@@ -32,6 +45,14 @@ angular
             var eraseAllConfigs = function (){
                 delete localStorage[FILE_KEY_CLIENT];
                 delete localStorage[FILE_KEY_CLIENT_DATASAFE];
+            };
+
+            var setGuest = function(){
+                client = {
+                    guest: true
+                };
+                saveClient();
+                markClientAsOk();
             };
 
             var loadClient = function(){
@@ -57,19 +78,6 @@ angular
                 return true;
             };
 
-            var saveStoredVersion = function () {
-                try{
-                    localStorage[FILE_KEY_STOREDVERSION] = currentVersion;
-                    return true;
-                }catch(err){
-                    return false;
-                }
-            };
-
-            var loadStoredVersion = function () {
-                return localStorage[FILE_KEY_STOREDVERSION];
-            };
-
             return {
 
                 /**
@@ -79,7 +87,6 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 init : function() {
-//                    console.log('Client.init');
                     loadClient();
                     return true;
                 },
@@ -94,6 +101,12 @@ angular
                         markClientAsOk();
                     }
                     saveClient();
+                    return true;
+                },
+
+                setGuest: setGuest,
+
+                isGuest : function(){
                     return true;
                 },
 
@@ -115,6 +128,12 @@ angular
                 },
                 getClientId : function(){
                     return client.id_client;
+                },
+                setNickname : function(nickname){
+                    client.nickname = nickname;
+                },
+                getNickname : function(){
+                    return client.nickname;
                 },
                 getPassword : function(){
                     return client.password;

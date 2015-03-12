@@ -10,9 +10,9 @@ angular
     .module('core')
     .controller('SettingsController', [
         '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
-            'Settings', 'Utilities', 'Client',
+            'Settings', 'iScroll', 'Client', 'CordovaApp',
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager, FacebookManager,
-                 Settings, Utilities, Client) {
+                 Settings, iScroll, Client, CordovaApp) {
             $scope.vScroll = null;
 
             $scope.fbObject = {
@@ -21,6 +21,7 @@ angular
             };
 
             $scope.lang = '';
+            $scope.nickname = '';
 
             $scope.favoriteTeams = [undefined, undefined, undefined];
 
@@ -28,6 +29,20 @@ angular
                 bets: false,
                 news: false,
                 mtm: false
+            };
+
+            $scope.isEditing = false;
+
+            $scope.saveNickname = function(){
+                if(!$scope.isEditing){
+                    $scope.isEditing = true;
+                } else if ($scope.nickname){
+                    $scope.isEditing = false;
+                    console.log('Saving nickName: ' + $scope.nickname);
+                    ClientManager.createOrUpdateClient({ 'nickname' : $scope.nickname });
+                } else {
+                    console.log('Please input a valid nickName');
+                }
             };
 
             $scope.teamSelected = function(team){
@@ -105,15 +120,25 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-                $scope.vScroll = Utilities.newScroll.verticalForm('wrapper');
+                $scope.vScroll = iScroll.verticalForm('wrapper');
             };
 
             $scope.onFbButtonClick = function(){
                 if(!window.facebookConnectPlugin){ return;}
-                if($scope.fbObject.fbStatus !== 'connected'){
-                    FacebookManager.login();
+                if(Client.isGuest()){
+                    CordovaApp.showNotificationDialog(
+                        {
+                            title : 'Locked Section',
+                            message : 'This section is locked for Guest Users. Please register to unlock',
+                            confirm: 'Ok',
+                            cancel: 'Cancel'
+                        });
+                } else {
+                    if($scope.fbObject.fbStatus !== 'connected'){
+                        FacebookManager.login();
+                    }
+                    $scope.setFbButtonMsg();
                 }
-                $scope.setFbButtonMsg();
             };
 
             $scope.getStatus = function(){
@@ -178,6 +203,7 @@ angular
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
                 $scope.getStatus();
+                $scope.nickname = Client.getNickname();
                 $scope.getClientLanguage();
                 $scope.$emit('unload');
             }();

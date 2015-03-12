@@ -8,12 +8,15 @@
  */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','Utilities',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, Utilities) {
+    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','iScroll', 'Competitions',
+        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, iScroll, Competitions) {
+
+            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
 
             $rootScope.$storage.scorers = false;
+            var _currentPage = 0;
 
-            $scope.wrapper = {
+            $scope.vWrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
                     return this.name + _index;
@@ -21,8 +24,6 @@ angular
             };
 
             $scope.width = $window.innerWidth;
-            $scope.widthTotal = ($window.innerWidth * 11);
-
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
             };
@@ -31,57 +32,82 @@ angular
                 return { 'width': $scope.widthTotal + 'px'}
             };
 
-            $scope.init = function(){
-                $scope.$emit('load');
-                if ($rootScope.$storage.scorers) {
-                    $scope.item = JSON.parse($rootScope.$storage.scorers);
-                    $rootScope.error = Utilities.error($scope.item.leagues,'scorers');
-                } else {
-                    var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-                    config.params.page = 0;
-                    config.params.pageSize = 20;
-                    $http.get(Domain.scorers(), config)
-                        .success(function (data, status, headers, config) {
-                            $scope.item =  data.response;
-                            //Map for empty team names
-                            var leagues = data.response.leagues;
-                            leagues.forEach(function(league){
-                                league.scorers.map(function(scorer){
-                                    if(!scorer.team.name){
-                                        scorer.team.name = $scope.strings.NOT_AVAILABLE;
-                                    }
-                                });
-                            });
-                            //End Map for empty team names
-                            $rootScope.$storage.scorers = JSON.stringify(data.response);
-                            $scope.widthTotal = ($window.innerWidth * $scope.item.leagues.length);
-                        }).catch(function () {
-                            $scope.$emit('error');
-                        }).finally(function(data) {
-                            $scope.$emit('unload');
-                            $rootScope.error = $scope.item.leagues.hasOwnProperty('news');
-                        });
-                }
 
-                var _scroll = Utilities.newScroll.horizontal('wrapperH');
+            $scope.getScorers = function(){
 
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    angular.forEach($scope.item.leagues, function(_item, _index) {
-                        Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                  var _index = $scope.scroll.currentPage.pageX;
+                  if (!$scope.leagues[_index].scorers) {
+
+                    $scope.$emit('load');
+                    $http.get(Domain.scorers($scope.leagues[_index].id_competitions), config)
+                    .success(function (data, status, headers, config) {
+
+                        if (data.error == 0) {
+                          //Map for empty team names
+                          var scorers = data.response.scorers;
+                          scorers.map(function(scorer){
+                              if(!scorer.team.name){
+                                  scorer.team.name = $scope.strings.NOT_AVAILABLE;
+                              }
+                          });
+                          //End Map for empty team names
+                          $scope.leagues[_index].scorers = data.response.scorers;
+                        }
+
+                    }).catch(function () {
+                        //$scope.$emit('error');
+                    }).finally(function(data) {
+                        $scope.$emit('unload');
                     });
 
+                  };
+
+              };
+
+
+            $scope.setScroll = function() {
+
+              $scope.scroll = iScroll.horizontal('wrapperH');
+
+              $scope.nextPage = function(){
+                  $scope.scroll.next();
+              };
+
+              $scope.prevPage = function(){
+                  $scope.scroll.prev();
+              };
+
+              $scope.scroll.on('beforeScrollStart', function () {
+                  this.refresh();
+              });
+
+              $scope.scroll.on('scrollStart', function () {
+                  _currentPage = this.currentPage.pageX;
+              });
+
+              $scope.scroll.on('scroll', function () {
+                  if (this.currentPage.pageX != _currentPage) {
+                      $scope.getScorers();
+                      _currentPage = this.currentPage.pageX;
+                  }
+              });
+
+            };
+
+            $scope.init = function(){
+                $scope.$emit('load');
+                Competitions.get.then(function(data){
+                   $scope.leagues  = data;
+                   $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
+                   $scope.setScroll();
+                   $scope.getScorers();
                 });
-
-                $scope.nextPage = function(){
-                    console.log('nextPage');
-                    _scroll.next();
-                };
-
-                $scope.prevPage = function(){
-                    console.log('prevPage');
-                    _scroll.prev();
-                };
-
+                $scope.$emit('unload');
             }();
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              iScroll.vertical($scope.vWrapper.getName(_currentPage));
+            });
+
         }
     ]);

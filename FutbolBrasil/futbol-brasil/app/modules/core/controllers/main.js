@@ -22,6 +22,10 @@ angular
 
             $scope.strings = {};
 
+            $scope.isGuest = function(){
+                return Client.isGuest();
+            };
+
             $scope.isFavoritesFilterActive = function(){
                 return $scope.toggles.favorites;
             };

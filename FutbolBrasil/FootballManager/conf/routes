@@ -171,6 +171,15 @@ GET     /api/v1/calendar/get/phase/lt/:idApp/:idCompetition/:phase              
 GET     /api/v1/calendar/get/phase/eq/:idApp/:idCompetition/:phase                                  controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
 GET     /api/v1/calendar/get/:idApp/:idCompetition                                                  controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
 
+
+#V2 RESTify routes
+
+#Matches
+GET     /footballapi/v2/:idApp/match/:idGameMatch                                                   controllers.footballapi.MatchesController.getFixturesByID(idApp : Integer, idGameMatch : Integer)
+
+
+
+
 # Authenticate
 GET     /restricted                                                                                 controllers.Application.restricted
 GET     /assets/javascript/routes.js                                                                controllers.Application.jsRoutes

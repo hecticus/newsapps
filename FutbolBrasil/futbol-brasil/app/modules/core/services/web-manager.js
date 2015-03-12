@@ -7,8 +7,9 @@
  */
 angular
     .module('core')
-    .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain', 'App', 'i18n',
-        function($http, CordovaDevice, TeamsManager, Domain, App, i18n) {
+    .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain',
+        'App', 'i18n', 'News',
+        function($http, CordovaDevice, TeamsManager, Domain, App, i18n, News) {
             return {
 
                 /**
@@ -107,8 +108,11 @@ angular
                         App.setBuildVersion(response.build_version);
                         App.setServerVersion(response.server_version);
                         App.setUpdateInfo(response.version);
+
                         i18n.setDefaultLanguage(response.default_language);
                         i18n.setAvailableLanguages($http.get(Domain.languages));
+                        News.setMaxNews(response.max_news);
+
                         successCallback();
                     }).error(function(){
                         errorCallback();

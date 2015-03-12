@@ -9,12 +9,12 @@
 angular
     .module('core')
     .controller('LeaderboardCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window',
-        'Client', 'WebManager', 'Domain', 'Utilities', 'FacebookManager',
+        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll', 'Competitions',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Client, WebManager, Domain
-            , Utilities, FacebookManager) {
+            , FacebookManager, iScroll, Competitions) {
 
             var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-            var _scroll = null;
+
             var _currentPage = 0;
             $scope.item = {};
             $scope.hasFriends = true;
@@ -31,7 +31,7 @@ angular
                 return type === $scope.active;
             };
 
-            $scope.wrapper = {
+            $scope.vWrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
                     return this.name + _index;
@@ -39,7 +39,6 @@ angular
             };
 
             $scope.width = $window.innerWidth;
-            //$scope.widthTotal = ($window.innerWidth * 5);
 
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
@@ -74,73 +73,45 @@ angular
                 console.log('friendsMode Active: ' + $scope.friendsMode);
 
                 $scope.$emit('load');
-
-                $http.get(Domain.competitions, config)
-                    .success(function (data, status, headers, config) {
-                        if (data.error == 0) {
-                            $scope.item.competitions =  data.response.competitions;
-                            $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
-
-                            $scope.item.competitions.forEach(function(competition, index) {
-                                $http.get(Domain.phases(competition.id_competitions), config)
-                                .success(function (data, status) {
-                                    if (data.error == 0) {
-                                        var phases = data.response.phases;
-                                        competition.phase = phases[phases.length - 1].id_phases;
-                                        $scope.getCompetition();
-                                    }
-                                }).catch(function () {
-                                    $scope.$emit('error');
-                                }).finally(function(data) {
-                                    $scope.$emit('unload');
-                                });
-                            });
-                        }
-                    }).catch(function () {
-                        $scope.$emit('error');
-                    }).finally(function(data) {
-                        $scope.$emit('unload');
-                    });
-
-//                $scope.item = JSON.parse($rootScope.$storage.scorers);
-//                console.log('scorers from localStorage: ');
-//                console.log(JSON.parse($rootScope.$storage.scorers));
-//                console.log($scope.item);
-                _scroll = new IScroll('#' + 'wrapperH', {
-                    scrollX: true,
-                    scrollY: false,
-                    mouseWheel: false,
-                    momentum: false,
-                    snap: true,
-                    snapSpeed: 700,
-                    probeType: 3,
-                    bounce: false,
-                    click: true
+                Competitions.get.then(function(data){
+                  $scope.item.competitions =  data;
+                  $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
+                  $scope.item.competitions.forEach(function(competition, index) {
+                      $http.get(Domain.phases(competition.id_competitions), config)
+                      .then(function (data, status) {
+                              data = data.data;
+                          if (data.error == 0) {
+                              var phases = data.response.phases;
+                              competition.phase = phases[phases.length - 1].id_phases;
+                              $scope.getCompetition();
+                          }
+                          $scope.$emit('unload');
+                      }, function(){
+                          $scope.$emit('error');
+                          $scope.$emit('unload');
+                      });
+                  });
                 });
 
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    angular.forEach($scope.item.competitions, function(_item, _index) {
-                        Utilities.newScroll.vertical($scope.wrapper.getName(_index));
-                    });
-                });
+                $scope.scroll = iScroll.horizontal('wrapperH');
 
                 $scope.nextPage = function(){
-                    _scroll.next();
+                    $scope.scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                    _scroll.prev();
+                     $scope.scroll.prev();
                 };
 
-                _scroll.on('beforeScrollStart', function () {
+                 $scope.scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                _scroll.on('scrollStart', function () {
+                 $scope.scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                _scroll.on('scroll', function () {
+                 $scope.scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                         var leaderboard = $scope.item.competitions[this.currentPage.pageX].leaderboard;
                         if (!leaderboard || (leaderboard == '')) {
@@ -151,7 +122,8 @@ angular
                 });
 
                 $scope.getLeaderboardIndex = function(_url){
-                    var _page = _scroll.currentPage.pageX;
+
+                    var _page =  $scope.scroll.currentPage.pageX;
                     var competition = $scope.item.competitions[_page];
                     $scope.$emit('load');
                     competition.leaderboard = [];
@@ -166,37 +138,42 @@ angular
 
                                 competition.leaderboard = data.response.leaderboard;
                                 competition.client = data.response.client;
+                                competition.client.index = competition.client.index + 1;
 
                                 if(competition.client.index >= competition.leaderboard.length){
                                 // Esta condición se debe ajustar a partir de un parametro de configuración
 //                                if (data.response.leaderboard.length >= data.response.leaderboard.length) {
                                     competition.leaderboard.push({client:'...',score:'...', index: '...'});
-                                    competition.leaderboard.push(data.response.client)
+                                    competition.leaderboard.push(competition.client)
                                 }
 
                             }
-                        }).catch(function () {
+                        }, function(){
                             $scope.$emit('error');
-                        }).finally(function(data) {
                             $scope.$emit('unload');
                         });
                 };
 
                 $scope.getPhase = function(){
-                    console.log('getPhase');
                     $scope.setActive('phase');
-                    var idCompetitions = $scope.item.competitions[_scroll.currentPage.pageX].id_competitions;
-                    var phase = $scope.item.competitions[_scroll.currentPage.pageX].phase;
+                    var idCompetitions = $scope.item.competitions[ $scope.scroll.currentPage.pageX].id_competitions;
+                    var phase = $scope.item.competitions[$scope.scroll.currentPage.pageX].phase;
                     $scope.getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                    $scope.$emit('unload');
                 };
 
                 $scope.getCompetition = function(){
-                    console.log('getCompetition');
                     $scope.setActive('competition');
-                    var idCompetition = $scope.item.competitions[_scroll.currentPage.pageX].id_competitions;
+                    var idCompetition = $scope.item.competitions[$scope.scroll.currentPage.pageX].id_competitions;
                     $scope.getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+                    $scope.$emit('unload');
                 };
+
             }();
+
+           $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              iScroll.vertical($scope.vWrapper.getName(_currentPage));
+           });
 
         }
     ]);

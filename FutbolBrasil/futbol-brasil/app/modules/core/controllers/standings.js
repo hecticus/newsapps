@@ -9,16 +9,13 @@
 angular
     .module('core')
     .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$timeout', '$state', '$localStorage', 'Domain', 'WebManager',
-        'TeamsManager', 'Utilities',
-        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Utilities) {
-            var _scroll;
-            var _scroll2;
-            var _scroll3;
+        'TeamsManager', 'Moment', 'iScroll',
+        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Moment, iScroll) {
+
             $scope.item = {};
 
-            //TODO Sacar a Service
             $scope.fromNow = function(_date) {
-                return Utilities.moment(_date).format('MMMM Do YYYY');
+                return Moment.date(_date).format('MMMM Do YYYY');
             };
 
             $scope.showContentPhases = function(competition) {
@@ -35,8 +32,8 @@ angular
                         $scope.showContentRanking($scope.item.competition.id_competitions
                             , $scope.item.phases[0].id_phases);
                     } else {
-                         $rootScope.transitionPageBack('#wrapper2', 'left');
-                        _scroll2.scrollTo(0,0,0);
+                        $rootScope.transitionPageBack('#wrapper2', 'left');
+                        $scope.scroll2.scrollTo(0,0,0);
                     }
                     $timeout(function(){
                         $scope.$emit('unload');
@@ -45,23 +42,6 @@ angular
                     console.log('showContentPhases. error');
                     $scope.$emit('error');
                 });
-//                .success(function (data, status, headers, config) {
-//                    console.log(data);
-//                    $scope.item.phases = data.response.phases;
-//                    $scope.item.competition = competition;
-//                    if ($scope.item.phases.length == 1) {
-//                        $scope.showContentRanking($scope.item.competition.id_competitions
-//                            , $scope.item.phases[0].id_phases);
-//                    } else {
-//                        $rootScope.transitionPageBack('#wrapper2', 'left');
-//                        _scroll2.scrollTo(0,0,0);
-//                    }
-//                    $scope.$emit('unload');
-//                }).catch(function () {
-//                    $scope.$emit('error');
-//                }).finally(function(data) {
-//                    $scope.$emit('unload');
-//                });
 
             };
 
@@ -71,20 +51,21 @@ angular
                 $scope.item.ranking = [];
 
                 $http.get(Domain.ranking(competition,phase))
-                .success(function (data, status) {
-                    console.log('data: ');
-                    console.log(data);
-                    $scope.item.tree = data.response.tree;
-                    $scope.item.phase = data.response.phase;
-                    $scope.item.ranking =  data.response.ranking;
-                    console.log(data.response.ranking);
-                    $rootScope.transitionPageBack('#wrapper3', 'left');
-                    _scroll3.scrollTo(0,0,0);
-                }).catch(function () {
-                    $scope.$emit('error');
-                }).finally(function(data) {
-                    $scope.$emit('unload');
-                });
+                    .then(function (data, status) {
+                        data = data.data;
+                        console.log('data: ');
+                        console.log(data);
+                        $scope.item.tree = data.response.tree;
+                        $scope.item.phase = data.response.phase;
+                        $scope.item.ranking =  data.response.ranking;
+                        console.log(data.response.ranking);
+                        $rootScope.transitionPageBack('#wrapper3', 'left');
+                        $scope.scroll3.scrollTo(0,0,0);
+                        $scope.$emit('unload');
+                    }, function () {
+                        $scope.$emit('unload');
+                        $scope.$emit('error');
+                    });
             };
 
             $scope.getCompetitions = function(){
@@ -96,21 +77,9 @@ angular
             };
 
             $scope.setUpIScroll = function(){
-                _scroll = new IScroll('#wrapper'
-                    ,{click:true, preventDefault:true, bounce: true, probeType: 2});
-                _scroll.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
-
-                _scroll2 = new IScroll('#wrapper2',{click:true, preventDefault:true});
-                _scroll2.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
-
-                _scroll3 = new IScroll('#wrapper3',{click:true, preventDefault:true});
-                _scroll3.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
+                $scope.scroll = iScroll.vertical('wrapper');
+                $scope.scroll2 = iScroll.vertical('wrapper2');
+                $scope.scroll3 = iScroll.vertical('wrapper3');
             };
 
             $scope.init = function(){

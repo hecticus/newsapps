@@ -22,6 +22,14 @@ angular
                 }
             };
 
+            var getLanguage = function(){
+                var lang = Client.getLanguage();
+                if(!lang){
+                    lang = i18n.getDefaultLanguage();
+                }
+                return lang;
+            };
+
             return {
 
                 /**
@@ -49,21 +57,24 @@ angular
                  * then it only upates the client
                  * @methodOf core.Services.ClientManager
                  */
-                createOrUpdateClient : function (msisdn, password, subscribe, successCallback, errorCallback){
+                createOrUpdateClient : function (client, subscribe, successCallback, errorCallback){
                     var devices = [];
                     var device = {};
+                    var isNewClient = true;
+                    var lang = getLanguage();
+
                     var jData = {
                         country : 3,
-                        language: 405,
+                        language: lang? lang.id_language : 405,
                         device_id : CordovaDevice.getDeviceId(),
                         upstreamChannel : CordovaDevice.getUpstreamChannel()
                     };
-                    var isNewClient = true;
-                    if(FacebookManager.getUserId()){
-                        jData.facebook_id = FacebookManager.getUserId();
+
+                    var facebook_id = FacebookManager.getUserId();
+                    if(facebook_id){
+                        jData.facebook_id = facebook_id;
                     }
 
-                    Client.setPassword(password);
                     //TODO Solo para Debug en Web
                     Client.setRegId("APA91bGUo-_CbLa7jbiwHDkUZkUjGHBuAcVMnuGLl-afFqmw_O2Gukymxf6UPPR-R8-EguAq4F4xD2Ls8Om-8gCU4xkK_ht55x-5YroQdprfAUkn0xG-G4QLj7FM4YsZEs668YF3dgZrK-K6TgzWJXL9eM7y2LcXQHHueiGeQWXdtolAhOgh1oQ");
                     if(Client.getRegId()){
@@ -74,11 +85,22 @@ angular
                         console.log('createOrUpdateClient. no regId.');
                     }
 
-                    if(msisdn) { jData.login = msisdn; }
-                    if(password){ jData.password = password; }
+                    if(client.msisdn){
+                        jData.login = client.msisdn;
+                    }
 
+                    if(client.password){
+                        jData.password = client.password;
+                        Client.setPassword(client.password);
+                    }
+
+                    if(client.nickname){
+                        Client.setNickname(client.nickname);
+                        jData.nickname = client.nickname;
+                    }
 
                     var url = '';
+
                     if(Client.getClientId()){
                         url = Domain.client.update(Client.getClientId());
                         jData.add_devices = devices;
@@ -96,7 +118,7 @@ angular
                         data: jData,
                         timeout : 60000
                     })
-                    .success(function(data, status) {
+                    .success(function(data) {
                         if(typeof data == "string"){
                             data = JSON.parse(data);
                         }
@@ -182,7 +204,7 @@ angular
                  */
                 updateRegistrationID : function (){
                     if(Client.getClientId() && Client.hasToUpdateRegId()){
-                        this.createOrUpdateClient(Client.getMsisdn(), null, false);
+                        this.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
                     }
                 }
             };
