@@ -153,7 +153,7 @@ public class Config extends Model{
      * @return nombre del host actual
      */
     public static String getHost() {
-        Config c = finder.where().eq("configKey","futbolbrasi-url").findUnique();
+        Config c = finder.where().eq("configKey","futbolbrasil-url").findUnique();
         return c.getValue();
     }
 
