@@ -18,7 +18,10 @@ var translationsEn = {
             "POINTS" : "Points"
         },
         "SETTINGS": "Settings",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Remind / Get Credentials",
+        "LANGUAGE-SELECTION" : "Language Selection",
+        "TEAM-SELECTION" : "Team Selection"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -61,6 +64,8 @@ var translationsEn = {
         "POINTS" : "You don't have points info available"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Nickname",
+        "NICKNAME_PLACEHOLDER": "Choose your Nickname",
         "PUSH_TITLE": "Push Notifications",
         "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
         "LANGUAGES_TITLE": "Languages",
@@ -105,7 +110,10 @@ var translationsEs = {
             "POINTS" : "Puntos"
         },
         "SETTINGS": "Configuraciónes",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Recordar / Obtener Credenciales",
+        "LANGUAGE-SELECTION" : "Selección de Idioma",
+        "TEAM-SELECTION" : "Selección de Equipo"
     },
     "NEWS" : {
         "TITLE" : "Noticias"
@@ -148,6 +156,8 @@ var translationsEs = {
         "POINTS" : "Usted no tiene información de puntos disponible"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apodo",
+        "NICKNAME_PLACEHOLDER": "Introduzca su Apodo",
         "PUSH_TITLE": "Notificaciones Push",
         "FAVORITE_TEAMS_TITLE": "Mis Equipos Favoritos",
         "LANGUAGES_TITLE": "Idiomas",
@@ -192,7 +202,10 @@ var translationsPt = {
             "POINTS" : "Pontos"
         },
         "SETTINGS": "Definições",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Lembrar / Obter Credenciais",
+        "LANGUAGE-SELECTION" : "Seleção de Idioma",
+        "TEAM-SELECTION" : "Seleção de Equipe"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -235,6 +248,8 @@ var translationsPt = {
         "POINTS" : "Você não tem informação de pontos disponível"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apelido",
+        "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",
@@ -284,10 +299,6 @@ angular
                 }
             ]);
 
-//            $translateProvider.useStaticFilesLoader({
-//                prefix: '../translations/locale-',
-//                suffix: '.json'
-//            });
             $translateProvider.translations('en', translationsEn);
             $translateProvider.translations('es', translationsEs);
             $translateProvider.translations('pt', translationsPt);
@@ -315,7 +326,6 @@ angular
             }
 
             if(toState.name !== 'login'){
-//                console.log('Client.isClientOk: ' + Client.isClientOk());
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(function(){
@@ -327,6 +337,17 @@ angular
                     }, CordovaApp.errorStartApp);
                 }
 
+                if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
+                    CordovaApp.showNotificationDialog(
+                        {
+                            title : 'Locked Section',
+                            message : 'This section is locked for Guest Users. Please register to unlock',
+                            confirm: 'Ok',
+                            cancel: 'Cancel'
+                        });
+                    event.preventDefault();
+                }
+
                 $rootScope.isActiveButton = 'active';
             } else {
                 $rootScope.isActiveButton = '';
@@ -335,18 +356,19 @@ angular
         });
 
         $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
-            if(fromState.name && fromState.data.section !== 'settings'){
-//                $rootScope.previousSection = fromState.name;
+            if(fromState.name && fromState.data.section !== 'settings' && toState.data.section !== 'settings'){
                 CordovaApp.setPreviousSection(fromState.name);
+            } else if(fromState.name && fromState.data.section === 'settings'){
+                console.log('onSettingsSection: true');
+                CordovaApp.setIsOnSettingsSection(true);
             }
 
-//            $rootScope.section = !!toState.data.section ? toState.data.section : '';
             CordovaApp.setCurrentSection(!!toState.data.section ? toState.data.section : '');
 
-//            $translate('SECTIONS.' + $rootScope.section.toUpperCase()).then(function(translate){
             $translate('SECTIONS.' + CordovaApp.getCurrentSection().toUpperCase()).then(function(translate){
                 $rootScope.sectionTranslation = translate;
             });
+
             if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }

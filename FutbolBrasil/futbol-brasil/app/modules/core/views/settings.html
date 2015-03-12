@@ -2,6 +2,28 @@
 <div id="wrapper" class="settings-wrapper">
     <div class="scroller" style="background-color: transparent; position: absolute;">
         <div class="col-xs-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="mdi-action-account-circle"></span> <span translate>SETTINGS.NICKNAME_TITLE</span></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label sr-only" for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputDefault" ng-disabled="!isEditing"
+                                   ng-model="nickname" placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}">
+                                <span class="input-group-btn">
+                                    <button type="button" ng-click="saveNickname()"
+                                            ng-class="{' btn btn-primary' : !isEditing, ' btn btn-success' : isEditing}">
+                                        <i ng-class="{' mdi-content-save' : isEditing, ' mdi-content-create' : !isEditing}"></i>
+                                    </button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="panel panel-warning">
                 <div class="panel-heading">
                     <h3 class="panel-title"><span class="mdi-action-stars"></span> {{'SETTINGS.FAVORITE_TEAMS_TITLE' | translate}}</h3>

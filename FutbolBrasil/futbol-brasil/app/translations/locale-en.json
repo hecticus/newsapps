@@ -16,7 +16,10 @@
             "POINTS" : "Points"
         },
         "SETTINGS": "Settings",
-        "LOGIN" : "Login"
+        "LOGIN" : "Login",
+        "REMIND" : "Remind / Get Credentials",
+        "LANGUAGE-SELECTION" : "Language Selection",
+        "TEAM-SELECTION" : "Language Selection"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -59,6 +62,8 @@
         "POINTS" : "You don't have points info available"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Nickname",
+        "NICKNAME_PLACEHOLDER": "Choose your Nickname",
         "PUSH_TITLE": "Push Notifications",
         "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
         "LANGUAGES_TITLE": "Languages",
