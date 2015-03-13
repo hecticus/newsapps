@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
-        ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaApp',
+        ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaApp', 'CordovaDevice',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Moment,
-                 iScroll, SocialAppsManager, News, CordovaApp) {
+                 iScroll, SocialAppsManager, News, CordovaApp, CordovaDevice) {
 
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
@@ -25,7 +25,11 @@ angular
             $scope.news = [];
 
             $scope.share = function(_news) {
-                SocialAppsManager.sharePost(_news.title,'Brazil Football',null,_news.summary);
+                if(CordovaDevice.isWebPlatform()){
+                    $scope.showShareModal(_news.summary, _news.title);
+                } else {
+                    SocialAppsManager.share(_news.summary, _news.title);
+                }
             };
 
             $scope.fromNow = function(_date) {

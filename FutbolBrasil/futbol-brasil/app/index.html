@@ -76,6 +76,7 @@
         <menu-item section="settings" icon="mdi-action-settings">{{'SECTIONS.SETTINGS' | translate}}</menu-item>
     </menu>
     <ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>
+    <ng-include src="'modules/core/views/templates/share-modal.html'"></ng-include>
 
     <div class="row">
         <footer class="footer" ng-hide="getSection() === 'settings'">
@@ -165,6 +166,7 @@
 <script src="lib/iscrolltest/build/iscroll-probe.js"></script>
 <script src="lib/angular-translate/angular-translate.js"></script>
 <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="lib/angular-socialsharing/dist/angular-socialsharing.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
 
@@ -193,6 +195,7 @@
 <script src="modules/core/services/settings.js"></script>
 <script src="modules/core/services/social-apps-manager.js"></script>
 <script src="modules/core/services/teams-manager.js"></script>
+<script src="modules/core/services/upstream.js"></script>
 <script src="modules/core/services/utilities.js"></script>
 <script src="modules/core/services/web-manager.js"></script>
 <script src="modules/core/directives/error.js"></script>

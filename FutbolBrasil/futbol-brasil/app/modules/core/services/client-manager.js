@@ -75,8 +75,6 @@ angular
                         jData.facebook_id = facebook_id;
                     }
 
-                    //TODO Solo para Debug en Web
-                    Client.setRegId("APA91bGUo-_CbLa7jbiwHDkUZkUjGHBuAcVMnuGLl-afFqmw_O2Gukymxf6UPPR-R8-EguAq4F4xD2Ls8Om-8gCU4xkK_ht55x-5YroQdprfAUkn0xG-G4QLj7FM4YsZEs668YF3dgZrK-K6TgzWJXL9eM7y2LcXQHHueiGeQWXdtolAhOgh1oQ");
                     if(Client.getRegId()){
                         device.device_id = jData.device_id;
                         device.registration_id = Client.getRegId();
@@ -202,7 +200,8 @@ angular
                  * local RegId
                  * @methodOf core.Services.ClientManager
                  */
-                updateRegistrationID : function (){
+                updateRegistrationID : function (id){
+                    Client.setRegId(id);
                     if(Client.getClientId() && Client.hasToUpdateRegId()){
                         this.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
                     }

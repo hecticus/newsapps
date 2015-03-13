@@ -7,10 +7,10 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App',
-        function($state, $window, Domain, Utilities, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Client, Settings, Competitions, App) {
+    .factory('CordovaApp',['$state', '$window', '$timeout', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager',
+        'PushManager', 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App', 'Upstream',
+        function($state, $window, $timeout, Domain, Utilities, CordovaDevice, WebManager, ClientManager,
+                 PushManager, FacebookManager, Client, Settings, Competitions, App, Upstream) {
 
             var that = this;
             var backButtonCallback = null;
@@ -44,6 +44,8 @@ angular
                 } catch(e){
 
                 }
+
+                Upstream.appCloseEvent();
 
                 //Legacy
                 if (!!navigator.app) {
@@ -135,11 +137,9 @@ angular
             };
 
             var isBlockedSection = function(section){
-                var result = blockedSections.some(function(blockedSection){
+                return blockedSections.some(function (blockedSection) {
                     return blockedSection === section;
                 });
-                console.log('isBlockedUtilitySection: section: ' + section + ' result: ' + result);
-                return result;
             };
 
             var setIsOnSettingsSection = function(val){
@@ -147,9 +147,6 @@ angular
             };
 
             return {
-                setBackButtonCallback: function(callback){
-                    backButtonCallback = callback;
-                },
 
                 setUpdateCallback: function(callback){
                     updateCallback = callback;
@@ -196,12 +193,15 @@ angular
                     ClientManager.init(that.startApp, that.errorStartApp);
 
                     if (CordovaDevice.phonegapIsOnline()) {
+                        PushManager.init();
                         WebManager.loadServerConfigs(
                             function(){
                                 Settings.init();
                                 Competitions.init();
-                                PushManager.init();
                                 checkUpdate();
+                                $timeout(function(){
+                                    Upstream.appLaunchEvent();
+                                }, 300);
                             }, function(){
                                 console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                             }

@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage'
-        , '$timeout', '$window', '$translate', 'Client', 'CordovaApp'
+        , '$timeout', '$window', '$translate', 'Client', 'CordovaApp', 'SocialAppsManager'
         , function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
-                   Client, CordovaApp) {
+                   Client, CordovaApp, SocialAppsManager) {
 
             $rootScope.$storage = $localStorage;
             $scope.updateInfo = {};
@@ -64,7 +64,7 @@ angular
             );
 
             $scope.getSection = function (){
-              return CordovaApp.getCurrentSection();
+                return CordovaApp.getCurrentSection();
             };
 
             $scope.getDrawerIcon = function(){
@@ -106,10 +106,10 @@ angular
 
             $rootScope.showSection = function(_section) {
 //                $timeout(function() {
-                    if ($('#wrapperM').hasClass('right')) {
-                        $scope.hideMenu();
-                    }
-                    $state.go(_section);
+                if ($('#wrapperM').hasClass('right')) {
+                    $scope.hideMenu();
+                }
+                $state.go(_section);
 //                },300);
             };
 
@@ -145,6 +145,27 @@ angular
                 }
             };
 
+            $scope.showShareModal = function(message, subject){
+                $scope.share = {
+                    message: message,
+                    subject: subject
+                };
+
+                $('#share-modal').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: false})
+                    .modal('show');
+            };
+
+            $scope.fbShare = function(){
+                SocialAppsManager.fbShare($scope.share.message, $scope.share.subject);
+            };
+
+            $scope.twitterShare = function(){
+                SocialAppsManager.twitterShare($scope.share.message, $scope.share.subject);
+            };
+
             /**
              * Function that gets and updates the app's common usage Strings
              * to minimize the number of requests across  modules and improve
@@ -156,26 +177,26 @@ angular
                 });
             };
 
+            function showUpdateModal(updateInfo){
+                //TODO for debugging only
+                updateInfo.mandatory = 0;
+
+                updateInfo.title = 'Update Info';
+                updateInfo.html = '<p class="text-success">New Update</p><p>- ';
+                if(updateInfo.mandatory === 1){ updateInfo.html += 'Mandatory '; }
+                updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
+
+                $scope.updateInfo = updateInfo;
+
+                $('#update-modal').modal({
+                    backdrop: !!updateInfo.mandatory? 'static' : true,
+                    keyboard: false,
+                    show: false})
+                    .modal('show');
+            }
+
             $scope.init = function(){
-                CordovaApp.setBackButtonCallback($scope.runBackButton);
-                CordovaApp.setUpdateCallback(function(updateInfo){
-                    //TODO for debugging only
-                    updateInfo.mandatory = 0;
-
-                    updateInfo.title = 'Update Info';
-                    updateInfo.html = '<p class="text-success">New Update</p><p>- ';
-                    if(updateInfo.mandatory === 1){ updateInfo.html += 'Mandatory '; }
-                    updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
-
-                    $scope.updateInfo = updateInfo;
-
-                    $('#update-modal').modal({
-                        backdrop: !!updateInfo.mandatory? 'static' : true,
-                        keyboard: false,
-                        show: false})
-                        .modal('show');
-                });
-
+                CordovaApp.setUpdateCallback(showUpdateModal);
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();
