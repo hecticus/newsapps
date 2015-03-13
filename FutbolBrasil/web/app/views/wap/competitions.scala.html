@@ -1,8 +1,8 @@
-@(HD: models.HandsetDetection)(jCompetitions: com.fasterxml.jackson.databind.JsonNode)(route: String) @if(HD.getLevelSupport() ==  models.HandsetDetection.XHTML_SIMPLE){@xml}
+@(HD: models.wap.HandsetDetection)(jCompetitions: com.fasterxml.jackson.databind.JsonNode)(route: String) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
 @xml = {<?xml version="1.0" encoding="UTF-8"?>}
 
 
-@if(HD.getLevelSupport() ==  models.HandsetDetection.HTML4) {
+@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
 
     @html4("html4"){
 

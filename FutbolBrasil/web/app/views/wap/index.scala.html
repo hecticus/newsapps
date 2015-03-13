@@ -1,4 +1,4 @@
-@(HD: models.HandsetDetection)(jResult: com.fasterxml.jackson.databind.JsonNode)
+@(HD: models.wap.HandsetDetection)(jResult: com.fasterxml.jackson.databind.JsonNode)
 @contentNews(jNews: com.fasterxml.jackson.databind.JsonNode) = {
     @for(item <- jNews.iterator()) {
         <p style="font-size: small;">
@@ -11,7 +11,7 @@
   <h1>Action Specific Content</h1>
 }
 
-@if(HD.getLevelSupport() ==  models.HandsetDetection.XHTML_SIMPLE) {
+@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE) {
     @xhtmlmp("xhtmlmp")(contentNews(jResult))
 } else {
     @xhtmladv("xhtmladv")(content)

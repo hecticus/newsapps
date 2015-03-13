@@ -158,4 +158,10 @@ PLAYER_LABEL=player
 TEAM_LABEL=team
 GOALS_LABEL=goals
 MTM_LABEL=Live
+
+LOGIN_TITLE=Register to access the football news of the day, every day.
+LOGIN_TITLE_MSISDN=Enter your mobile number.
+LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
+BUTTON_NEXT=Next
+BUTTON_CONFIRM=Confirm
 ### -- </wap> --- ###

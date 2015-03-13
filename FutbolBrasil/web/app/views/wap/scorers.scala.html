@@ -1,52 +1,36 @@
-@(HD: models.HandsetDetection)(jScorers: com.fasterxml.jackson.databind.JsonNode)(nameCompetition: String) @if(HD.getLevelSupport() ==  models.HandsetDetection.XHTML_SIMPLE){@xml}
+@(HD: models.wap.HandsetDetection)(jScorers: com.fasterxml.jackson.databind.JsonNode)(nameCompetition: String) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
 @xml = {<?xml version="1.0" encoding="UTF-8"?>}
 @import play.i18n._
 
-@if(HD.getLevelSupport() ==  models.HandsetDetection.HTML4) {
+@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
 
+    @html4("html4"){
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>@Messages.get("PLAYER_LABEL")</th>
+                        <th>@Messages.get("TEAM_LABEL")</th>
+                        <th>@Messages.get("GOALS_LABEL")</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(index <- 0 until jScorers.size){
+                    <tr>
+                        <td><span style="vertical-align: middle;">@{index + 1}</span></td>
+                        <td style="text-align: left;"><span style="vertical-align: middle;">@jScorers.get(index).get("name").asText()</span></td>
+                        <td style="text-align: left;"><span style="vertical-align: middle;">@jScorers.get(index).get("team").get("name").asText()</span></td>
+                        <td><span style="vertical-align: middle;">@jScorers.get(index).get("goals").asText()</span></td>
+                    </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        <div>
+    }
 
-@html4("html4"){
-
-
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>@Messages.get("PLAYER_LABEL")</th>
-                <th>@Messages.get("TEAM_LABEL")</th>
-                <th>@Messages.get("GOALS_LABEL")</th>
-            </tr>
-            </thead>
-            <tbody>
-            @for(index <- 0 until jScorers.size){
-            <tr>
-                <td><span style="vertical-align: middle;">@{index + 1}</span></td>
-                <td style="text-align: left;"><span style="vertical-align: middle;">@jScorers.get(index).get("name").asText()</span></td>
-                <td style="text-align: left;"><span style="vertical-align: middle;">@jScorers.get(index).get("team").get("name").asText()</span></td>
-                <td><span style="vertical-align: middle;">@jScorers.get(index).get("goals").asText()</span></td>
-            </tr>
-            }
-            </tbody>
-        </table>
-
-
-
-
-
-        <span></span>
-    </div>
-    <div>
-
-
-
-        }
-
-
-        } else {
-        HTML5
-        }
+} else {
+    HTML5
+}

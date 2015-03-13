@@ -1,4 +1,4 @@
-@(HD: models.HandsetDetection)(jMatches: com.fasterxml.jackson.databind.JsonNode)(jCompetition: com.fasterxml.jackson.databind.JsonNode)(limit: Integer)(page: Integer) @if(HD.getLevelSupport() ==  models.HandsetDetection.XHTML_SIMPLE){@xml}
+@(HD: models.wap.HandsetDetection)(jMatches: com.fasterxml.jackson.databind.JsonNode)(jCompetition: com.fasterxml.jackson.databind.JsonNode)(limit: Integer)(page: Integer) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
 @xml = {<?xml version="1.0" encoding="UTF-8"?>}
 
 @currentTime(fecha: String) = @{
@@ -10,7 +10,7 @@
 
 
 
-@if(HD.getLevelSupport() ==  models.HandsetDetection.HTML4) {
+@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
 
     @html4("html4"){
 
