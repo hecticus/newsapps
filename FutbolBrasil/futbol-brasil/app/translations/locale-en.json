@@ -5,7 +5,7 @@
             "MATCHES": "Matches",
             "STANDINGS": "Standings",
             "NEWS": "News",
-            "SCORERS": "Scorers",
+            "SCORERS": "Strikers",
             "LIVE": "Live"
         },
         "BETS" : {
@@ -59,7 +59,11 @@
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",
         "NEWS" : "There are no news available",
-        "POINTS" : "You don't have points info available"
+        "POINTS" : "You don't have points info available",
+        "MATCH" : "There are no games for this day",
+        "SCORERS" : "There are no strikers for this tournament",
+        "TEAMS" : "Could not get Teams",
+        "LANGUAGES" : "Could not get Available Languages"
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Nickname",

@@ -13,13 +13,13 @@ angular
 
             function tokenHandler(result) {
                 //console.log('<li>token: '+ result +'</li>');
-                ClientManager.updateRegistrationID(result);
+                ClientManager.updateRegistrationId(result);
             }
 
             function successPushHandler(result) {
                 console.log('<li>success:'+ result +'</li>');
                 if(result != null && result != ""){
-                    ClientManager.updateRegistrationID(result);
+                    ClientManager.updateRegistrationId(result);
                 }
             }
 
@@ -39,7 +39,7 @@ angular
                             console.log("PushManager. regID = " + regId);
                             console.log('onNotificationGCM event: ');
                             console.log(e);
-                            ClientManager.updateRegistrationID(regId);
+                            ClientManager.updateRegistrationId(regId);
                         }
                         break;
 
@@ -132,7 +132,7 @@ angular
                             }
                         );
                     } else if(CordovaDevice.isWebPlatform()){
-                        ClientManager.updateRegistrationID("APA91bGUo-" +
+                        ClientManager.updateRegistrationId("APA91bGUo-" +
                             "_CbLa7jbiwHDkUZkUjGHBuAcVMnuGLl-" +
                             "afFqmw_O2Gukymxf6UPPR-R8-EguAq4F4xD2Ls8Om-" +
                             "8gCU4xkK_ht55x-5YroQdprfAUkn0xG-" +
@@ -152,7 +152,11 @@ angular
                  * @description Initializes Push Registration for the Device
                  * @methodOf core.Services.PushManager
                  */
-                init : init
+                init : init,
+
+                onNotificationGCM : onNotificationGCM,
+
+                onNotificationAPN: onNotificationAPN
             };
         }
     ]);

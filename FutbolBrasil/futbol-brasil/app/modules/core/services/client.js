@@ -136,7 +136,7 @@ angular
                 setGuest: setGuest,
 
                 isGuest : function(){
-                    return true;
+                    return client.guest && client.guest === true;
                 },
 
                 /**

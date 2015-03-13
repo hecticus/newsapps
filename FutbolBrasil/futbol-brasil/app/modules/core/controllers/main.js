@@ -26,7 +26,7 @@ angular
                 return Client.isGuest();
             };
 
-            $scope.isFavoritesFilterActive = function(){
+            $rootScope.isFavoritesFilterActive = function(){
                 return $scope.toggles.favorites;
             };
 
