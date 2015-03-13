@@ -311,8 +311,10 @@ angular
                 }
             ]);
 
-            $fbProvider.init(320314531485580);
-            $twtProvider.init().trimText(true);
+//            if(!window.cordova) {
+                $fbProvider.init(320314531485580);
+                $twtProvider.init().trimText(true);
+//            }
 
             $translateProvider.translations('en', translationsEn);
             $translateProvider.translations('es', translationsEs);
