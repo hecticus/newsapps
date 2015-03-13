@@ -322,7 +322,7 @@ angular
             $translateProvider.usePostCompiling(true);
         }
     ])
-    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client) {
+    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client, Analytics) {
         CordovaApp.init();
         $rootScope.contentClass = 'content-init';
         $rootScope.$storage = $localStorage.$default({
@@ -387,6 +387,8 @@ angular
             if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }
+
+            Analytics.trackView(toState.name);
         });
 
     });
