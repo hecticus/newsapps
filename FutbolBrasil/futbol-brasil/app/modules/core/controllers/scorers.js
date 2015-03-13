@@ -11,7 +11,7 @@ angular
     .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','iScroll', 'Competitions',
         function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, iScroll, Competitions) {
 
-            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+            var scroll = null;
 
             $rootScope.$storage.scorers = false;
             var _currentPage = 0;
@@ -24,6 +24,8 @@ angular
             };
 
             $scope.width = $window.innerWidth;
+            $scope.widthTotal = $window.innerWidth;
+
             $scope.getWidth = function(){
                 return { 'width': $scope.width + 'px'}
             };
@@ -32,82 +34,77 @@ angular
                 return { 'width': $scope.widthTotal + 'px'}
             };
 
-
-            $scope.getScorers = function(){
-
-                  var _index = $scope.scroll.currentPage.pageX;
-                  if (!$scope.leagues[_index].scorers) {
-
+            function getScorers(){
+                var _index = scroll.currentPage.pageX;
+                if (!$scope.leagues[_index].scorers) {
                     $scope.$emit('load');
-                    $http.get(Domain.scorers($scope.leagues[_index].id_competitions), config)
-                    .success(function (data, status, headers, config) {
-
-                        if (data.error == 0) {
-                          //Map for empty team names
-                          var scorers = data.response.scorers;
-                          scorers.map(function(scorer){
-                              if(!scorer.team.name){
-                                  scorer.team.name = $scope.strings.NOT_AVAILABLE;
-                              }
-                          });
-                          //End Map for empty team names
-                          $scope.leagues[_index].scorers = data.response.scorers;
+                    Competitions.getScorers($scope.leagues[_index].id_competitions)
+                        .then(function (scorers) {
+                            if(scorers.length > 0){
+                                scorers.map(function(scorer){
+                                    if(!scorer.team.name){
+                                        scorer.team.name = $scope.strings.NOT_AVAILABLE;
+                                    }
+                                });
+                                $scope.leagues[_index].scorers = scorers;
+                                $scope.leagues[_index].empty = false;
+                            } else {
+                                $scope.leagues[_index].empty = true;
+                            }
+                            $scope.$emit('unload');
+                        }, function () {
+                            $scope.leagues[_index].empty = true;
+                            $scope.$emit('unload');
+                            $scope.$emit('error');
                         }
+                    );
+                }
+            }
 
-                    }).catch(function () {
-                        //$scope.$emit('error');
-                    }).finally(function(data) {
-                        $scope.$emit('unload');
-                    });
+            function setScroll() {
 
-                  };
+                scroll = iScroll.horizontal('wrapperH');
 
-              };
+                $scope.nextPage = function(){
+                    scroll.next();
+                };
 
+                $scope.prevPage = function(){
+                    scroll.prev();
+                };
 
-            $scope.setScroll = function() {
+                scroll.on('beforeScrollStart', function () {
+                    this.refresh();
+                });
 
-              $scope.scroll = iScroll.horizontal('wrapperH');
+                scroll.on('scrollStart', function () {
+                    _currentPage = this.currentPage.pageX;
+                });
 
-              $scope.nextPage = function(){
-                  $scope.scroll.next();
-              };
+                scroll.on('scroll', function () {
+                    if (this.currentPage.pageX != _currentPage) {
+                        getScorers();
+                        _currentPage = this.currentPage.pageX;
+                    }
+                });
 
-              $scope.prevPage = function(){
-                  $scope.scroll.prev();
-              };
+            }
 
-              $scope.scroll.on('beforeScrollStart', function () {
-                  this.refresh();
-              });
-
-              $scope.scroll.on('scrollStart', function () {
-                  _currentPage = this.currentPage.pageX;
-              });
-
-              $scope.scroll.on('scroll', function () {
-                  if (this.currentPage.pageX != _currentPage) {
-                      $scope.getScorers();
-                      _currentPage = this.currentPage.pageX;
-                  }
-              });
-
-            };
-
-            $scope.init = function(){
+            function init(){
                 $scope.$emit('load');
                 Competitions.get.then(function(data){
-                   $scope.leagues  = data;
-                   $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
-                   $scope.setScroll();
-                   $scope.getScorers();
+                    $scope.leagues  = data;
+                    $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
+                    setScroll();
+                    getScorers();
                 });
-                $scope.$emit('unload');
-            }();
 
-            $scope.$on('onRepeatLast', function(scope, element, attrs) {
-              iScroll.vertical($scope.vWrapper.getName(_currentPage));
-            });
+                $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                });
+
+                $scope.$emit('unload');
+            } init();
 
         }
     ]);

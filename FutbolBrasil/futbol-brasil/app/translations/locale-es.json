@@ -16,6 +16,7 @@
             "POINTS" : "Puntos"
         },
         "SETTINGS": "Configuraciónes",
+        "LOGIN" : "Login",
         "REMIND" : "Recordar / Obtener Credenciales",
         "LANGUAGE-SELECTION" : "Selección de Idioma",
         "TEAM-SELECTION" : "Selección de Equipo"
@@ -58,7 +59,11 @@
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",
         "NEWS" : "No hay noticias disponibles",
-        "POINTS" : "Usted no tiene información de puntos disponible"
+        "POINTS" : "Usted no tiene información de puntos disponible",
+        "MATCH" : "No hay juegos programados para este día",
+        "SCORERS" : "No hay goleadores para este torneo",
+        "TEAMS" : "No se pudieron obtener los equipos",
+        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles"
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apodo",

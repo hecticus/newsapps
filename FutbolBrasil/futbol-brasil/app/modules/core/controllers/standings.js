@@ -69,7 +69,7 @@ angular
             };
 
             $scope.getCompetitions = function(){
-                var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
                 $http.get(Domain.competitions, config).success(function(obj){
                     $rootScope.$storage.competitions = JSON.stringify(obj.response);
                     $scope.item = obj.response;

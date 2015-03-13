@@ -2,33 +2,24 @@
     <div id="scroller" ng-style="getTotalWidth()">
         <ul>
             <li ng-style="getWidth()" ng-repeat="page in pages track by page.id" on-last-repeat>
-
                 <div class="container">
-
                     <div class="row header">
-
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 tabs" style="text-align:left;" ng-click="prevPage()">
+                        <div class="col-xs-4 tabs text-left" ng-click="prevPage()">
                             <button ng-bind="pages[$index-1].name" ></button>
                         </div>
-
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+                        <div class="col-xs-4">
                             <span ng-bind="page.name" style="font-size:1em;"></span>
                         </div>
-
-                        <div  class="col-xs-4 col-sm-4 col-md-4 col-lg-4 tabs" style="text-align:right;" ng-click="nextPage()">
+                        <div  class="col-xs-4 tabs text-right" ng-click="nextPage()">
                             <button ng-bind="pages[$index+1].name" ></button>
                         </div>
-
                     </div>
 
-                    <div class="row" >
-
+                    <div class="row" ng-hide="page.matches.empty">
                         <div id="{{wrapper.getName($index)}}" class="wrapper" >
                             <div class="scroller" >
                                 <div class="container">
-
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-
                                         <table class="table" ng-repeat="league in page.matches.leagues">
                                             <thead>
                                             <tr>
@@ -38,41 +29,44 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-
-                                            <tr ng-repeat="match in league.fixtures" data-match="{{ match.id_game_matches }}">
-
-                                                <td style="width: 33% !important;" ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
+                                            <tr ng-repeat="match in league.fixtures"
+                                                data-match="{{ match.id_game_matches }}">
+                                                <td style="width: 33% !important;"
+                                                    ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
                                                     <span ng-bind="match.homeTeam.name"></span>
                                                     <br />
                                                     <span ng-bind="match.home_team_goals" class="goal"></span>
                                                 </td>
-
                                                 <td style="width: 33% !important;">
                                                     <span ng-bind="getTime(match.date)" class="date"></span>
                                                     <br />
-                                                    <span ng-bind="match.status.name"  class="status _{{match.status.id_status}}">
-                                                    </span>
+                                                        <span ng-bind="match.status.name"
+                                                              class="status _{{match.status.id_status}}">
+                                                        </span>
                                                 </td>
-
                                                 <td style="width: 33% !important;" ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
                                                     <span ng-bind="match.awayTeam.name"></span>
                                                     <br />
                                                     <span ng-bind="match.away_team_goals" class="goal"></span>
                                                 </td>
-
                                             </tr>
-
                                             </tbody>
                                         </table>
-
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                </div>	<!--container-->
-                            </div>	<!--scroller-->
-                        </div> <!--wrapper-->
-                    </div> <!--row-->
-                </div> <!--container-->
-
+                    <div class="row" ng-show="page.matches.empty">
+                        <div class="col-xs-12 news">
+                            <div class="no-content-panel" style="margin-top: 120px !important;">
+                                <i class="mdi-action-info-outline"></i>
+                                <div class="no-content-panel-title" translate>EMPTY_STATES.MATCH</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
