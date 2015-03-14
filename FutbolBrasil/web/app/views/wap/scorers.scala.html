@@ -1,10 +1,11 @@
-@(HD: models.wap.HandsetDetection)(jScorers: com.fasterxml.jackson.databind.JsonNode)(nameCompetition: String) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
-@xml = {<?xml version="1.0" encoding="UTF-8"?>}
+@(HD: models.wap.HandsetDetection)(jScorers: com.fasterxml.jackson.databind.JsonNode)(nameCompetition: String)
 @import play.i18n._
 
-@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
+@if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 
-    @html4("html4"){
+} else {
+
+    @html4{
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                 <table class="table">
@@ -31,6 +32,4 @@
         <div>
     }
 
-} else {
-    HTML5
 }

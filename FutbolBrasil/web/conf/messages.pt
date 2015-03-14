@@ -149,6 +149,8 @@ playauthenticate.restricted.secrets=Segredos, por todo o lado!
 ### --- play-authenticate END
 
 ### -- <wap> --- ###
+
+APP_TITLE=Futebol Brasil
 MATCH_LABEL=partidas
 SCORERS_LABEL=artilharia
 NEWS_LABEL=notícia

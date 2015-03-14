@@ -1,9 +1,8 @@
-@(HD: models.wap.HandsetDetection)(jNews: com.fasterxml.jackson.databind.JsonNode)(view: String) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
-@xml = {<?xml version="1.0" encoding="UTF-8"?>}
+@(HD: models.wap.HandsetDetection)(jNews: com.fasterxml.jackson.databind.JsonNode)(view: String)
 
-@if((HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE)
-    || (HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_ADV)) {
-    @xhtmlmp("xhtmlmp"){
+@if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
+
+    @xhtml{
         @if(view == "summary") {
             <h3>@jNews.get("title").asText()</h3>
             <p style="font-size: small;">
@@ -17,11 +16,12 @@
             }
         }
     }
+
 } else {
 
-    @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
 
-        @html4("html4"){
+
+        @html4{
             @if(view == "summary") {
                 <h3>@jNews.get("title").asText()</h3>
                 <p>
@@ -36,8 +36,6 @@
             }
         }
 
-    } else {
-       HTML5
-    }
+
 
 }

@@ -1,5 +1,4 @@
-@(HD: models.wap.HandsetDetection)(jMatches: com.fasterxml.jackson.databind.JsonNode)(jCompetition: com.fasterxml.jackson.databind.JsonNode)(limit: Integer)(page: Integer) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
-@xml = {<?xml version="1.0" encoding="UTF-8"?>}
+@(HD: models.wap.HandsetDetection)(jMatches: com.fasterxml.jackson.databind.JsonNode)(jCompetition: com.fasterxml.jackson.databind.JsonNode)(limit: Integer)(page: Integer)
 
 @currentTime(fecha: String) = @{
     import java.util.Date
@@ -8,11 +7,11 @@
     curTimeFormat.format(new SimpleDateFormat("yyyyMMddhhmmss").parse(fecha))
 }
 
+@if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 
+} else {
 
-@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
-
-    @html4("html4"){
+    @html4{
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -72,6 +71,4 @@
         </div>
     }
 
-} else {
-    HTML5
 }

@@ -17,12 +17,11 @@ import play.api.mvc.Cookie;
 import play.api.mvc.DiscardingCookie;
 import static play.data.Form.form;
 
-public class Wap extends HandsetDetection {
+public class Wap extends Controller {
 
     public static final Domain oDomain = new Domain();
     public static final Integer LIMIT = 5;
-    final static Form<Client> form = form(Client.class);
-
+    public static Form<Client> form = form(Client.class);
 
     public static Result getLogin() {
         HandsetDetection HD = new HandsetDetection();
@@ -212,6 +211,11 @@ public class Wap extends HandsetDetection {
     }
 
     public static Boolean setAccessControl (Form<Client> filledForm) {
+
+        if (filledForm.field("id").value() != null) {
+            session("id", filledForm.field("id").value());
+            response().setCookie("id", filledForm.field("id").value(), 86400);
+        }
 
         if (filledForm.field("msisdn").value() != null) {
             session("msisdn", filledForm.field("msisdn").value());

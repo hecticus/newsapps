@@ -1,16 +1,15 @@
-@(HD: models.wap.HandsetDetection)(jCompetitions: com.fasterxml.jackson.databind.JsonNode)(route: String) @if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE){@xml}
-@xml = {<?xml version="1.0" encoding="UTF-8"?>}
+@(HD: models.wap.HandsetDetection)(jCompetitions: com.fasterxml.jackson.databind.JsonNode)(route: String)
 
+@if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 
-@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.HTML4) {
+} else {
 
-    @html4("html4"){
+    @html4{
 
         @for(competition <- jCompetitions.get("competitions").iterator()) {
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-
 
                     @if(route == "scorers") {
                         <a href='@routes.Wap.scorers(competition.get("id_competitions").asInt())'>@competition.get("name").asText()</a>
@@ -30,6 +29,4 @@
         }
     }
 
-} else {
-    HTML5
 }

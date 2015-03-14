@@ -1,18 +1,3 @@
-@(HD: models.wap.HandsetDetection)(jResult: com.fasterxml.jackson.databind.JsonNode)
-@contentNews(jNews: com.fasterxml.jackson.databind.JsonNode) = {
-    @for(item <- jNews.iterator()) {
-        <p style="font-size: small;">
-            <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
-        </p>
-    }
-}
+@(content: Html)
 
-@content = {
-  <h1>Action Specific Content</h1>
-}
-
-@if(HD.getLevelSupport() ==  models.wap.HandsetDetection.XHTML_SIMPLE) {
-    @xhtmlmp("xhtmlmp")(contentNews(jResult))
-} else {
-    @xhtmladv("xhtmladv")(content)
-}
+@content
