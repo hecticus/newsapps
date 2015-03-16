@@ -1,0 +1,44 @@
+@(HD: models.wap.HandsetDetection)(jNews: com.fasterxml.jackson.databind.JsonNode)(view: String)
+
+@if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
+
+    @xhtml(HD){
+        @if(view == "summary") {
+            <h3>@jNews.get("title").asText()</h3>
+            <p style="font-size: small;">
+                @jNews.get("summary").asText()
+            </p>
+            <p style="font-size: small;">
+                <a href="@routes.Wap.index()">Volver</a>
+            </p>
+        } else {
+            @for(item <- jNews.iterator()) {
+                <p style="font-size: small;">
+                    <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
+                </p>
+            }
+        }
+    }
+
+} else {
+
+
+
+        @html4{
+            @if(view == "summary") {
+                <h3>@jNews.get("title").asText()</h3>
+                <p>
+                    @jNews.get("summary").asText()
+                </p>
+            } else {
+                @for(item <- jNews.iterator()) {
+                    <p>
+                        <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
+                    </p>
+                }
+            }
+        }
+
+
+
+}

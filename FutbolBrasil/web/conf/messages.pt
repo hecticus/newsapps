@@ -147,3 +147,23 @@ playauthenticate.index.details=Ver detalhes
 playauthenticate.restricted.secrets=Segredos, por todo o lado!
 
 ### --- play-authenticate END
+
+### -- <wap> --- ###
+
+APP_TITLE=Futebol Brasil
+MATCH_LABEL=partidas
+SCORERS_LABEL=artilharia
+NEWS_LABEL=notícia
+
+PLAYER_LABEL=jogador
+TEAM_LABEL=equipe
+GOALS_LABEL=goles
+MTM_LABEL=En vivo
+
+LOGIN_TITLE=Registre-se para acessar as noticias de futebol do dia, todos os dias.
+LOGIN_TITLE_MSISDN=Digite seu numero de celular.
+LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
+BUTTON_NEXT=Next
+BUTTON_CONFIRM=Confirmar
+BUTTON_AGAIN_PASSWORD=Enviar novamente a senha
+### -- </wap> --- ###
