@@ -100,8 +100,9 @@ angular
                  * @methodOf core.Services.WebManager
                  */
                 loadServerConfigs : function (successCallback, errorCallback){
+                    var platform = CordovaDevice.getPlatform() === 'Web'? 'Android' : CordovaDevice.getPlatform();
                     var url = Domain.loading(CordovaDevice.getRealWidth() , CordovaDevice.getRealHeight()
-                        , App.getBundleVersion(), CordovaDevice.getPlatform());
+                        , App.getBundleVersion(), platform);
 //                    this.enableCerts(true);
                     $http.get(url)
                     .success(function(_json) {

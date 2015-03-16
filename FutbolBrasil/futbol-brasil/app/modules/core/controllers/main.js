@@ -177,26 +177,7 @@ angular
                 });
             };
 
-            function showUpdateModal(updateInfo){
-                //TODO for debugging only
-                updateInfo.mandatory = 0;
-
-                updateInfo.title = 'Update Info';
-                updateInfo.html = '<p class="text-success">New Update</p><p>- ';
-                if(updateInfo.mandatory === 1){ updateInfo.html += 'Mandatory '; }
-                updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
-
-                $scope.updateInfo = updateInfo;
-
-                $('#update-modal').modal({
-                    backdrop: !!updateInfo.mandatory? 'static' : true,
-                    keyboard: false,
-                    show: false})
-                    .modal('show');
-            }
-
             $scope.init = function(){
-                CordovaApp.setUpdateCallback(showUpdateModal);
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();

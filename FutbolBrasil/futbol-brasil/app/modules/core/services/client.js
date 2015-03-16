@@ -195,7 +195,6 @@ angular
                 },
 
                 setRegId : function (id) {
-                    console.log('Client.setregId: ' + id);
                     hasToUpdateRegId = true;
                     client.regId = id;
                     saveClient();

@@ -73,21 +73,12 @@ angular
             }
 
             function updateHeaders(){
-                /*
-                * Headers Example:
-                * Content-Type: application/json //Added by default
-                * Accept: application/gamingapi.v1+json
-                * x-gameapi-app-key: DEcxvzx98533fdsagdsfiou
-                * Authorization : Basic OTk5MDAwMDIzMzE1OlNSUTcyRktT //Should come from server
-                * */
                 headers = {
                     'Accept': 'application/'+ appVersion + '+json',
                     'x-gameapi-app-key' : appKey
                 };
             }
 
-
-            //TODO ask for device_id
             function getBody(event, extras){
                 var metadata = extras? extras : {};
                 metadata.channel = CordovaDevice.getUpstreamChannel();
@@ -113,6 +104,7 @@ angular
             function sendEvent(event){
                 var data = getBody(event);
                 var token = Client.getUpstreamAuthToken();
+
                 if(token){
                     headers['Authorization'] = AUTH_TOKEN_PREFIX + token;
                 } else {
@@ -121,15 +113,6 @@ angular
                 var config = {
                     headers: headers
                 };
-
-//                console.log('sendEvent:');
-                var obj = {
-                  "headers" : headers,
-                  "body" : data
-                };
-//                console.log(JSON.stringify(obj));
-
-//                return $http.post(eventUrl, data, config).then(success, error);
 
                 function success(data){
                     return getAppResponseCodeString(data.result);
@@ -140,25 +123,39 @@ angular
                         + ' Event. Result: ' + getAppResponseCodeString(data.result));
                     return 'error';
                 }
+
+                console.log('sendEvent:');
+                var obj = {
+                  "headers" : headers,
+                  "body" : data
+                };
+                console.log(JSON.stringify(obj));
+
+                return $http.post(eventUrl, data, config).then(success, error);
             }
 
             function appLaunchEvent (){
+                console.log('Upstream. appLaunchEvent');
                 return sendEvent(events.app_launch);
             }
 
             function appCloseEvent(){
+                console.log('Upstream. appCloseEvent');
                 return sendEvent(events.app_close);
             }
 
             function loginEvent(){
+                console.log('Upstream. loginEvent');
                 return sendEvent(events.login);
             }
 
             function viewSubscriptionPromptEvent(){
+                console.log('Upstream. viewSubscriptionPromptEvent');
                 return sendEvent(events.viewed_subscription);
             }
 
             function clickedSubscriptionPromptEvent(){
+                console.log('Upstream. clickedSubscriptionPromptEvent');
                 return sendEvent(events.clicked_subscription);
             }
 
