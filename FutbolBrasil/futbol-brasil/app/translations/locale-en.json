@@ -5,7 +5,7 @@
             "MATCHES": "Matches",
             "STANDINGS": "Standings",
             "NEWS": "News",
-            "SCORERS": "Scorers",
+            "SCORERS": "Strikers",
             "LIVE": "Live"
         },
         "BETS" : {
@@ -15,11 +15,20 @@
             "FRIENDS" : "Friends",
             "POINTS" : "Points"
         },
-        "SETTINGS": "Settings"
+        "SETTINGS": "Settings",
+        "LOGIN" : "Login",
+        "REMIND" : "Remind / Get Credentials",
+        "LANGUAGE-SELECTION" : "Language Selection",
+        "TEAM-SELECTION" : "Language Selection"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
 
+    },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Player",
+        "TEAM_LABEL" : "Team",
+        "GOALS_LABEL" : "Goals"
     },
     "MATCH" : {
         "STATUS" : {
@@ -38,12 +47,27 @@
             "12" : "Penalty Shootouts"
         }
     },
-    "PALPITES" : {
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Tournament",
+        "PHASE" : "Phase",
+        "PLAYER" : "Player",
+        "POINTS" : "Points",
+        "HITS" : "Hits",
+        "MY_POINTS" : "My Points",
+        "SCORE" : "Score"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "There are no games for today"
+        "LIVE" : "There are no games for today",
+        "NEWS" : "There are no news available",
+        "POINTS" : "You don't have points info available",
+        "MATCH" : "There are no games for this day",
+        "SCORERS" : "There are no strikers for this tournament",
+        "TEAMS" : "Could not get Teams",
+        "LANGUAGES" : "Could not get Available Languages"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Nickname",
+        "NICKNAME_PLACEHOLDER": "Choose your Nickname",
         "PUSH_TITLE": "Push Notifications",
         "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
         "LANGUAGES_TITLE": "Languages",
@@ -67,5 +91,6 @@
         "EN" : "English",
         "ES" : "Spanish"
     },
-    "LOADING" : "Loading"
+    "LOADING" : "Loading",
+    "NOT_AVAILABLE": "Not Available"
 }

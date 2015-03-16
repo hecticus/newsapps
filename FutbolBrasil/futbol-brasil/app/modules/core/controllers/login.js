@@ -8,50 +8,43 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'ClientManager', 'Client'
-        , function($rootScope, $scope, $state, ClientManager, Client) {
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream'
+        , function($scope, $state, $stateParams, ClientManager, Client, Upstream) {
 
+            //TODO i18n-alizar
             $scope.strings = {
-                PASSWORD_HOLDER: 'Senha',
-                PASSWORD_LABEL: 'Digite a senha recebida por SMS.',
+                PASSWORD_LABEL: 'Senha',
+                PASSWORD_HELPER: 'Digite a senha recebida por SMS.',
                 LOADING_MESSAGE: 'Carregando...',
                 START_TRIAL_MESSAGE: 'Experimente 7 dias grátis',
                 SEND_MESSAGE: 'Enviar',
                 RESEND_MESSAGE: 'Enviar novamente a senha',
                 MSISDN_HELPER: 'Digite seu numero de celular.',
                 MSISDN_HOLDER: '# Numero',
-                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de futebol do dia, todos os dias.',
-
+                MSISDN_LABEL: 'Username',
+                LOGIN_LABEL: 'Login',
+                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de ' +
+                    'futebol do dia, todos os dias.',
+                REMIND_LABEL : 'Remind / Get Credentials',
+                CHANGE_LANGUAGE_LABEL : 'Change Language',
+                TUTORIAL_LABEL : 'How Does It Work?',
+                TERMS_LABEL : 'Terms & Conditions',
+                ENTER_AS_GUEST_LABEL: 'Enter as Guest'
             };
             $scope.msisdn = '';
             $scope.password = '';
-            $scope.isPasswordScreenVisible = false;
 
-            $scope.sendMsisdn = function(){
-                if($scope.msisdn){
-                    console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
-                    Client.setMsisdn($scope.msisdn,
-                    function(){
-                        ClientManager.createOrUpdateClient($scope.msisdn, null, true
-                                , $scope.showPasswordScreen, $scope.showClientSignUpError);
-                    },
-                    function(){
-                        console.log('Error saving MSISDN');
-                    });
-                } else {
-                    alert('Please input your phone number');
-                }
+            var remindSuccess = function(){
+                console.log('Remind Success! Going to Login');
+                $state.go('login', {'msisdn': $scope.msisdn});
             };
 
-            $scope.showPasswordScreen = function(){
-                $scope.isPasswordScreenVisible = true;
-            };
-
-            $scope.showClientSignUpError = function(){
+            var remindError = function(){
                 console.log('showClientSignUpError. Login Error.');
             };
 
-            $scope.onLoginSuccess = function(isNewClient){
+            var loginSuccess = function(isNewClient){
+                console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
                     console.log('new client. going to settings');
                     $state.go('settings');
@@ -61,23 +54,61 @@ angular
                 }
             };
 
-            $scope.onLoginError = function(){
+            var loginError = function(){
                 console.log('onLoginError. Login Error.');
+            };
+
+            $scope.sendMsisdn = function(){
+                $scope.$emit('load');
+                if($scope.msisdn){
+                    console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
+                    Upstream.clickedSubscriptionPromptEvent();
+                    Client.setMsisdn($scope.msisdn,
+                        function(){
+                            ClientManager.createOrUpdateClient(
+                                {'msisdn' : $scope.msisdn}
+                                , true, remindSuccess, remindError);
+                        },
+                        function(){
+                            $scope.$emit('unload');
+                            console.log('Error saving MSISDN');
+                        }
+                    );
+                } else {
+                    $scope.$emit('unload');
+                    alert('Please input your phone number');
+                }
             };
 
             $scope.doMsisdnLogin = function(){
                 if($scope.password){
-                    ClientManager.createOrUpdateClient($scope.msisdn, $scope.password, true
-                        , $scope.onLoginSuccess(), $scope.onLoginError());
+                    ClientManager.createOrUpdateClient(
+                        {
+                            'msisdn' : $scope.msisdn,
+                            'password' : $scope.password
+                        }
+                        , true, loginSuccess, loginError);
+                    Upstream.loginEvent();
                 } else {
                     alert('doMsisdnLogin. Please input password');
                 }
             };
 
-            $scope.init = function(){
-                $rootScope.error = false;
-                $rootScope.loading = false;
-                $scope.isPasswordScreenVisible = false;
-            }();
+            $scope.enterAsGuest = function(){
+                ClientManager.createOrUpdateClient({}, true, loginSuccess, loginError);
+                Client.setGuest();
+            };
+
+            function init(){
+                $scope.$emit('unload');
+                if($state.current.name === 'remind'){
+                    console.log('Remind Upstream call');
+                    Upstream.viewSubscriptionPromptEvent();
+                }
+                if($stateParams.msisdn){
+                    $scope.msisdn = $stateParams.msisdn;
+                }
+            }
+            init();
         }
     ]);

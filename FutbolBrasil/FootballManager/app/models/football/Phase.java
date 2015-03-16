@@ -258,6 +258,11 @@ public class Phase extends HecticusModel {
         return finder.where().eq("comp", competition).eq("globalName", globalName).findList();
     }
 
+    public List<Rank> getRanksOrderedByGroup() {
+        Collections.sort(ranks, new RanksGroupComparator());
+        return ranks;
+    }
+
     public static List<Phase> getList(Long idCompetition,String sd, String end){
         //System.out.println("Phase idCompetition:"+idCompetition);
         //if(sd.isEmpty() && end.isEmpty()) return finder.all();
@@ -306,7 +311,7 @@ public class Phase extends HecticusModel {
     }
 
     public static List<Phase> getPhasesFromDate(Competition competition, String date){
-        return finder.where().eq("comp", competition).ge("start_date", date).findList();
+        return finder.where().eq("comp", competition).ge("start_date", date).orderBy("start_date asc").setMaxRows(1).findList();
     }
 
     public static List<Phase> getLatestPhasesPaged(Competition competition, int index, int size) {
@@ -447,4 +452,18 @@ public class Phase extends HecticusModel {
     }
 
 
+}
+
+class RanksGroupComparator implements Comparator<Rank> {
+    @Override
+    public int compare(Rank c1, Rank c2) {
+        int order = c1.getGroup().getName().compareTo(c2.getGroup().getName());
+        if(order == 0){
+            order = (int)(c2.getPoints() - c1.getPoints());
+            if(order == 0){
+                order = c2.getGoalDiff() - c1.getGoalDiff();
+            }
+        }
+        return order;
+    }
 }

@@ -184,6 +184,9 @@ public class Post extends HecticusModel {
     }
 
 
+    public String getTitle(){
+        return localizations.get(0).getTitle();
+    }
 
     public int getLocalizationIndex(Language language) {
         PostHasLocalization phl = PostHasLocalization.finder.where().eq("post", this).eq("language", language).findUnique();
@@ -347,7 +350,7 @@ public class Post extends HecticusModel {
     }
 
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().ilike("athletes.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+        return finder.where().ilike("source", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 
 
@@ -410,5 +413,15 @@ public class Post extends HecticusModel {
         }
 
         return iterator;
+    }
+
+    public List<Post> relatedByAthletes(List<Athlete> athlete, Country country, Language language) {
+        int maxRelated = 3;
+        return finder.fetch("countries").fetch("localizations").fetch("athletes").where().ne("idPost",this.idPost).in("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
+    }
+
+    public List<Post> relatedByCategory(List<Category> category, Country country, Language language){
+        int maxRelated = 3;
+        return finder.fetch("countries").fetch("localizations").fetch("categories").where().ne("idPost",this.idPost).in("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
     }
 }

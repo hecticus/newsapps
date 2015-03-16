@@ -107,6 +107,20 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.xmartlabs.cordova.market/www/market.js",
+        "id": "com.xmartlabs.cordova.market.Market",
+        "clobbers": [
+            "cordova.plugins.market"
+        ]
+    },
+    {
+        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
+        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
+        "clobbers": [
+            "analytics"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
         "id": "org.apache.cordova.file.DirectoryEntry",
         "clobbers": [
@@ -269,6 +283,8 @@ module.exports.metadata =
     "org.apache.cordova.statusbar": "0.1.9",
     "com.phonegap.plugins.facebookconnect": "0.11.0",
     "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0",
+    "com.xmartlabs.cordova.market": "1.0",
+    "com.danielcwilson.plugins.googleanalytics": "0.6.1",
     "org.apache.cordova.file": "1.3.2"
 }
 // BOTTOM OF METADATA

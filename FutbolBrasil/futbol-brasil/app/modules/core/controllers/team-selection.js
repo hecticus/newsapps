@@ -15,8 +15,6 @@ angular
             $scope.searchQuery = '';
 
             $scope.teamSelected = function(team){
-//                console.log('teamSelected: ');
-//                console.log(team);
                 TeamsManager.addFavoriteTeam(team, function(){
                     $state.go('settings');
                 });
@@ -24,6 +22,11 @@ angular
 
             $scope.getTeams = function(){
                 $scope.teams = TeamsManager.getTeams(0, 200);
+                $scope.teams.map(function(team){
+                    if(team.name === '' || !team.name){
+                        team.name = $scope.strings.NOT_AVAILABLE;
+                    }
+                });
                 var favTeams = TeamsManager.getFavoriteTeams();
                 favTeams.forEach(function(elem){
                     var index = $scope.teams.indexOf(elem);
@@ -42,19 +45,12 @@ angular
                 }
             };
 
-            $scope.getTeamName = function(team){
-                return team.name !== ''? team.name : 'Team Name Not Available';
-            };
-
             $scope.setUpIScroll = function() {
                 $scope._scroll = new IScroll('#wrapper'
                     , {click: true, preventDefault: true, bounce: true, probeType: 2});
                 $scope._scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
-//                $scope._scroll.on('scroll', function () {
-//
-//                });
             };
 
             $scope.init = function(){

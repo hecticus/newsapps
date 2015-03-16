@@ -9,16 +9,11 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
-            'Settings', 'Utilities', 'Client',
-        function($scope, $rootScope, $state, $translate, ClientManager, TeamsManager, FacebookManager,
-                 Settings, Utilities, Client) {
+        '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
+            'Settings', 'iScroll', 'Client', 'CordovaApp',
+        function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager, FacebookManager,
+                 Settings, iScroll, Client, CordovaApp) {
             $scope.vScroll = null;
-
-            $scope.strings = {
-                ADD_TEAM : '',
-                NOT_AVAILABLE : ''
-            };
 
             $scope.fbObject = {
                 fbStatus: null,
@@ -26,6 +21,7 @@ angular
             };
 
             $scope.lang = '';
+            $scope.nickname = '';
 
             $scope.favoriteTeams = [undefined, undefined, undefined];
 
@@ -33,6 +29,20 @@ angular
                 bets: false,
                 news: false,
                 mtm: false
+            };
+
+            $scope.isEditing = false;
+
+            $scope.saveNickname = function(){
+                if(!$scope.isEditing){
+                    $scope.isEditing = true;
+                } else if ($scope.nickname){
+                    $scope.isEditing = false;
+                    console.log('Saving nickName: ' + $scope.nickname);
+                    ClientManager.createOrUpdateClient({ 'nickname' : $scope.nickname });
+                } else {
+                    console.log('Please input a valid nickName');
+                }
             };
 
             $scope.teamSelected = function(team){
@@ -44,19 +54,19 @@ angular
 
             $scope.removeTeam = function(team){
                 if(team){
-                    TeamsManager.removeFavoriteTeam(team, $scope.getFavoriteTeams);
+                    TeamsManager.removeFavoriteTeam(team, function(){ $state.reload(); });
                     $scope.favoriteTeams[$scope.favoriteTeams.indexOf(team)] = {isEmpty: true};
                 }
             };
 
             $scope.getFavoriteTeams = function(){
                 var teams = TeamsManager.getFavoriteTeams();
-                $scope.hasFavorites = false;
+                $rootScope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
                     if(teams[i]) {
                         $scope.favoriteTeams[i] = teams[i];
                         $scope.favoriteTeams[i].isEmpty = false;
-                        $scope.hasFavorites = true;
+                        $rootScope.hasFavorites = true;
                     } else {
                         $scope.favoriteTeams[i] = {};
                         $scope.favoriteTeams[i].isEmpty = true;
@@ -66,7 +76,7 @@ angular
 
             $scope.getTeamName = function(team){
                 if(team && typeof team.name != 'undefined'){
-                    return team.name !== ''? team.name : $scope.strings.NOT_AVAILABLE;
+                    return team.name !== '' ? team.name : $scope.strings.NOT_AVAILABLE;
                 }else{
                     return $scope.strings.ADD_TEAM;
                 }
@@ -110,19 +120,29 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-                $scope.vScroll = Utilities.newScroll.verticalForm('wrapper');
+                $scope.vScroll = iScroll.verticalForm('wrapper');
             };
 
             $scope.onFbButtonClick = function(){
                 if(!window.facebookConnectPlugin){ return;}
-                if($scope.fbObject.fbStatus !== 'connected'){
-                    FacebookManager.login();
+                if(Client.isGuest()){
+                    CordovaApp.showNotificationDialog(
+                        {
+                            title : 'Locked Section',
+                            message : 'This section is locked for Guest Users. Please register to unlock',
+                            confirm: 'Ok',
+                            cancel: 'Cancel'
+                        });
+                } else {
+                    if($scope.fbObject.fbStatus !== 'connected'){
+                        FacebookManager.login();
+                    }
+                    $scope.setFbButtonMsg();
                 }
-                $scope.setFbButtonMsg();
             };
 
             $scope.getStatus = function(){
-                setTimeout(function(){
+                $timeout(function(){
                     $scope.fbObject.fbStatus = 'connected';
                     $scope.setFbButtonMsg();
                 }, 1000);
@@ -160,14 +180,16 @@ angular
                     //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
                     $translate.use($scope.lang.short_name.toLowerCase());
-                    $translate.refresh().then(function(){
+//                    $translate.refresh().then(function(){
                         $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
                             //noinspection JSPrimitiveTypeWrapperUsage
                             $scope.lang.translation = translation;
                         });
-                    });
+//                    });
                 } else {
                     $scope.lang = {};
+                    //noinspection JSPrimitiveTypeWrapperUsage
+                    $scope.lang.short_name = 'NA';
                     //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.translation =  'No Language Selected';
                 }
@@ -175,13 +197,13 @@ angular
 
             $scope.init = function(){
                 $scope.setUpIScroll();
-                $translate(['SETTINGS.ADD_TEAM', 'SETTINGS.NOT_AVAILABLE']).then(function(translations){
+                $translate(['SETTINGS.ADD_TEAM']).then(function(translations){
                     $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
-                    $scope.strings.NOT_AVAILABLE = translations['SETTINGS.NOT_AVAILABLE'];
                 });
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
                 $scope.getStatus();
+                $scope.nickname = Client.getNickname();
                 $scope.getClientLanguage();
                 $scope.$emit('unload');
             }();

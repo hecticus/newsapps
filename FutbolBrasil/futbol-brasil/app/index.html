@@ -38,6 +38,8 @@
       ng-swipe-right="prevPage()"
       ng-swipe-left="nextPage()">
 
+<!--<div id="fb-root"></div>-->
+
 <div class="container-fluid">
     <div class="row">
         <nav class="navbar navbar-default">
@@ -45,18 +47,20 @@
                 <header>
                     <div class="col-xs-10 text-left">
                         <i class="icon drawer-icon icon-white"
+                           ng-hide="getSection() === 'login'"
                            ng-class="getDrawerIcon()"
-                           ng-click="runBackButton()"></i>
+                           ng-click="onMenuButtonPressed()"></i>
+
                         <span class="drawer-title" ng-cloak>
                             <img class="drawer-app-logo" src="img/logo.svg"
-                                 ng-click="showMenu()" onerror="this.src='img/logo.png'"/>
+                                 onerror="this.src='img/logo.png'"/>
                             {{sectionTranslation}}
                         </span>
                     </div>
                     <div class="col-xs-2">
                         <i class="icon drawer-icon icon-white"
                            ng-class="getFavoritesClass()"
-                           ng-show="hasFavorites"
+                           ng-show="hasFavorites && (section !== 'settings' && section !== 'login')"
                            ng-click="toggleFavorites()"></i>
                     </div>
                 </header>
@@ -73,37 +77,39 @@
         <menu-item section="prediction" icon="mdi-action-event">{{'SECTIONS.BETS' | translate}}</menu-item>
         <menu-item section="settings" icon="mdi-action-settings">{{'SECTIONS.SETTINGS' | translate}}</menu-item>
     </menu>
+    <ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>
+    <ng-include src="'modules/core/views/templates/share-modal.html'"></ng-include>
 
     <div class="row">
-        <footer class="footer" ng-hide="section === 'settings'">
+        <footer class="footer" ng-hide="getSection() === 'settings'">
             <div data-section="notistats" class="row"
-                 ng-class="{active: section === 'notistats', hide: section !== 'notistats'}">
+                 ng-class="{active: getSection() === 'notistats', hide: getSection() !== 'notistats'}">
                 <div class="col-xs-15 option" ui-sref-active="active">
-                    <a ui-sref="match">
+                    <a ui-sref="match" class="footer-section">
                         <span class="icon-balon"></span>
                         <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.MATCHES</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active">
-                    <a ui-sref="standings">
+                    <a ui-sref="standings" class="footer-section">
                         <span class="icon-tabela"></span>
                         <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.STANDINGS</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active" >
-                    <a ui-sref="news">
+                    <a ui-sref="news" class="footer-section">
                         <span class="icon-noticias"></span>
                         <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.NEWS</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active" >
-                    <a ui-sref="scorers">
+                    <a ui-sref="scorers" class="footer-section">
                         <span class="icon-artilharia"></span>
                         <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.SCORERS</span>
                     </a>
                 </div>
                 <div class="col-xs-15 option" ui-sref-active="active" >
-                    <a ui-sref="mtm">
+                    <a ui-sref="mtm" class="footer-section">
                         <span class="icon-envivo"></span>
                         <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.LIVE</span>
                     </a>
@@ -111,27 +117,27 @@
             </div>
 
             <div data-section="bets" class="row"
-                 ng-class="{active: section === 'bets', hide: section !== 'bets'}">
+                 ng-class="{active: getSection() === 'bets', hide: getSection() !== 'bets'}">
                 <div class="col-xs-3 option" ui-sref-active="active">
-                    <a ui-sref="prediction">
+                    <a ui-sref="prediction" class="footer-section">
                         <span class="icon-balon"></span>
                         <span class="glyphicon-class" translate>SECTIONS.BETS.PREDICTIONS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
-                    <a ui-sref="leaderboard">
+                    <a ui-sref="leaderboard" class="footer-section">
                         <span class="icon-tabela"></span>
                         <span class="glyphicon-class" translate>SECTIONS.BETS.LEADERBOARDS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
-                    <a ui-sref="friends">
+                    <a ui-sref="friends" class="footer-section">
                         <span class="icon-artilharia"></span>
                         <span class="glyphicon-class" translate>SECTIONS.BETS.FRIENDS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
-                    <a ui-sref="points">
+                    <a ui-sref="points" class="footer-section">
                         <span class="icon-puntos"></span>
                         <span class="glyphicon-class" translate>SECTIONS.BETS.POINTS</span>
                     </a>
@@ -162,30 +168,37 @@
 <script src="lib/iscrolltest/build/iscroll-probe.js"></script>
 <script src="lib/angular-translate/angular-translate.js"></script>
 <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="lib/angular-socialsharing/dist/angular-socialsharing.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
 
 <!-- build:js scripts/custom.js -->
 <!-- injector:js -->
-<script src="js/pt-br.js"></script>
+<script src="js/pt.js"></script>
+<script src="js/es.js"></script>
 <script src="js/config.js"></script>
 <script src="js/application.js"></script>
 <script src="modules/core/core.js"></script>
 <script src="modules/core/config/routes.js"></script>
+<script src="modules/core/services/analytics.js"></script>
 <script src="modules/core/services/app.js"></script>
 <script src="modules/core/services/bets.js"></script>
 <script src="modules/core/services/client-manager.js"></script>
 <script src="modules/core/services/client.js"></script>
+<script src="modules/core/services/competitions.js"></script>
 <script src="modules/core/services/cordova-app.js"></script>
 <script src="modules/core/services/cordova-device.js"></script>
 <script src="modules/core/services/domain.js"></script>
 <script src="modules/core/services/facebook-manager.js"></script>
+<script src="modules/core/services/i-scroll.js"></script>
 <script src="modules/core/services/i18n.js"></script>
-<script src="modules/core/services/news-service.js"></script>
+<script src="modules/core/services/moment.js"></script>
+<script src="modules/core/services/news.js"></script>
 <script src="modules/core/services/push-manager.js"></script>
 <script src="modules/core/services/settings.js"></script>
 <script src="modules/core/services/social-apps-manager.js"></script>
 <script src="modules/core/services/teams-manager.js"></script>
+<script src="modules/core/services/upstream.js"></script>
 <script src="modules/core/services/utilities.js"></script>
 <script src="modules/core/services/web-manager.js"></script>
 <script src="modules/core/directives/error.js"></script>

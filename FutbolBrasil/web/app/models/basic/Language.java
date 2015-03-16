@@ -36,6 +36,8 @@ public class Language extends HecticusModel {
     @Constraints.Required
     private Integer active;
 
+    @Constraints.Required
+    private String appLocalizationFile;
 
     public static Model.Finder<Integer, Language> finder = new Model.Finder<Integer, Language>(Integer.class, Language.class);
 
@@ -69,6 +71,18 @@ public class Language extends HecticusModel {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public void setIdLanguage(Integer idLanguage) {
+        this.idLanguage = idLanguage;
+    }
+
+    public String getAppLocalizationFile() {
+        return appLocalizationFile;
+    }
+
+    public void setAppLocalizationFile(String appLocalizationFile) {
+        this.appLocalizationFile = appLocalizationFile;
     }
 
     @Override

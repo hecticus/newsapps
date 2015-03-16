@@ -1,6 +1,8 @@
 package controllers.footballapi;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import controllers.HecticusController;
 import models.Apps;
 import models.Language;
@@ -10,6 +12,7 @@ import models.football.Phase;
 import models.football.Rank;
 import play.mvc.Result;
 import play.libs.Json;
+import utils.DateAndTime;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -31,7 +34,6 @@ public class RankingController extends HecticusController {
                 if (idLanguage <= 0 || requestLanguage == null) {
                     requestLanguage = app.getLanguage();
                 }
-                System.out.println(requestLanguage.getName());
                 List<Competition> competitions = Competition.getCompetitionsByApp(app);
                 ArrayList data = new ArrayList();
                 for (int i = 0; i < competitions.size(); ++i) {
@@ -178,31 +180,31 @@ public class RankingController extends HecticusController {
                             }
                         }
                     } else {
+
                         List<Phase> phases = null;
                         if (idPhase > 0) {
-                            phase = competition.getPhase(idPhase);//Phase.findById(idPhase);
-                            phases = competition.getPhasesByGlobalName(phase.getGlobalName());//Phase.findByGlobalName(competition, phase.getGlobalName());
+                            phase = competition.getPhase(idPhase);
+                            phases = competition.getPhasesByGlobalNameAndDate(phase.getGlobalName(), today, app.getTimezone().getTimezone());
                         } else {
                             phases = Phase.getPhaseByDate(competition.getIdCompetitions(), formattedToday);
                         }
+
                         if (phases != null && !phases.isEmpty()) {
-                            phase = phases.get(0);
+                            phase = phases.get(phases.size()-1);
                             if (phase.getNivel() == 1) {//TABLA
-                                ranks = Rank.finder.where().in("phase", phases).orderBy("nivel asc, orden asc, points desc, goalDiff desc").findList();
+                                ranks = phase.getRanksOrderedByGroup();
                                 if (ranks != null && !ranks.isEmpty()) {
                                     ArrayList<ObjectNode> group = new ArrayList<>();
                                     Rank pivot = ranks.get(0);
                                     ArrayList rankingObjs = new ArrayList();
-                                    char groupName = 65;
                                     for (Rank rank : ranks) {
-                                        if (rank.getNivel() == pivot.getNivel()) {
+                                        if (rank.getGroup().getName().equalsIgnoreCase(pivot.getGroup().getName())) {
                                             group.add(rank.toJsonPhaseID());
                                         } else {
                                             ObjectNode member = Json.newObject();
-                                            member.put("group_name", "" + groupName);
+                                            member.put("group_name", pivot.getGroup().getName());
                                             member.put("ranking", Json.toJson(group));
                                             rankingObjs.add(member);
-                                            ++groupName;
                                             group.clear();
                                             group.add(rank.toJsonPhaseID());
                                             pivot = rank;
@@ -210,7 +212,7 @@ public class RankingController extends HecticusController {
                                     }
                                     if (!group.isEmpty()) {
                                         ObjectNode member = Json.newObject();
-                                        member.put("group_name", "" + groupName);
+                                        member.put("group_name", pivot.getGroup().getName());
                                         member.put("ranking", Json.toJson(group));
                                         rankingObjs.add(member);
                                         group.clear();

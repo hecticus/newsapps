@@ -9,14 +9,12 @@ angular
     .module('core')
     .factory('App',
         function() {
-            var upstreamAppKey = '';
-            var upstreamAppVersion = '';
-            var upstreamServiceId = '';
-            var upstreamUrl = '';
             var companyName = '';
             var buildVersion = '';
             var serverVersion = '';
             var bundleVersion = '0.0.2';
+            var bundleId = '';
+            var updateInfo = {};
 
             return {
 
@@ -28,38 +26,6 @@ angular
                  */
                 method1: function() {
                     return true;
-                },
-
-                getUpstreamAppKey: function(){
-                    return upstreamAppKey;
-                },
-
-                setUpstreamAppKey: function(appKey){
-                    upstreamAppKey = appKey;
-                },
-
-                getUpstreamAppVersion: function(){
-                    return upstreamAppVersion;
-                },
-
-                setUpstreamAppVersion: function(appVersion){
-                    upstreamAppVersion = appVersion;
-                },
-
-                getUpstreamServiceId: function(){
-                    return upstreamServiceID;
-                },
-
-                setUpstreamServiceId: function(serviceId){
-                    upstreamServiceId = serviceId;
-                },
-
-                getUpstreamUrl: function(){
-                    return upstreamUrl;
-                },
-
-                setUpstreamUrl: function(url){
-                    upstreamUrl = url;
                 },
 
                 getCompanyName: function(){
@@ -92,6 +58,22 @@ angular
 
                 setBundleVersion: function(version){
                     bundleVersion = version;
+                },
+
+                getBundleId: function(){
+                    return bundleId;
+                },
+
+                setBundleId: function(id){
+                    bundleId = id;
+                },
+
+                getUpdateInfo: function(){
+                    return updateInfo;
+                },
+
+                setUpdateInfo: function(info){
+                    updateInfo = info;
                 }
             };
     });

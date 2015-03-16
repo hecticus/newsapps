@@ -94,6 +94,7 @@ GET     /footballapi/v1/matches/finished/get/:idCompetition                     
 GET     /footballapi/v1/matches/finished/get/:idCompetition/:date                                   controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
 GET     /footballapi/v1/matches/date/get/:idApp/:date                                               controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer?=405)
 GET     /footballapi/v1/matches/date/get/:idApp/:date/:idLanguage                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer)
+GET     /footballapi/v1/matches/competition/date/grouped/:idApp/:idCompetition                      controllers.footballapi.MatchesController.getFixturesForCompetitionGroupByDate(idApp : Integer, idCompetition: Long)
 GET     /footballapi/v1/matches/date/grouped/:idApp                                                 controllers.footballapi.MatchesController.getFixturesGroupByDate(idApp : Integer)
 GET     /footballapi/v1/matches/date/paged/:idApp/:date                                             controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer?=405, date : String, pageSize: Integer?=0, page: Integer?=0)
 GET     /footballapi/v1/matches/date/paged/:idApp/:idLanguage/:date                                 controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
@@ -140,7 +141,7 @@ GET     /footballapi/v1/competitions/ranking/previous/:idApp/:idCompetition/:idL
 #players
 GET     /footballapi/v1/players/topScorers/:idApp                                                   controllers.footballapi.PlayersController.getCompetitionTopScorersForClient(idApp: Integer)
 GET     /footballapi/v1/players/topScorers/:idCompetition/:date                                     controllers.footballapi.PlayersController.getTopScorers(idCompetition: Long, date: String)
-GET     /footballapi/v1/players/competitions/scorers/:idApp                                         controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer)
+GET     /footballapi/v1/players/competitions/scorers/:idApp                                         controllers.footballapi.PlayersController.getTopScorersByCompetition(idApp: Integer, pageSize: Integer?=0, page: Integer?=0)
 GET     /footballapi/v1/players/competition/scorers/:idApp/:idCompetition                           controllers.footballapi.PlayersController.getCompetitionTopScorers(idApp: Integer, idCompetition: Integer, pageSize: Integer?=0, page: Integer?=0)
 
 #calendar
@@ -169,6 +170,15 @@ GET     /api/v1/calendar/get/phase/gt/:idApp/:idCompetition/:phase              
 GET     /api/v1/calendar/get/phase/lt/:idApp/:idCompetition/:phase                                  controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="lt")
 GET     /api/v1/calendar/get/phase/eq/:idApp/:idCompetition/:phase                                  controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long, operator: String?="eq")
 GET     /api/v1/calendar/get/:idApp/:idCompetition                                                  controllers.footballapi.MatchesController.getCalendar(idApp: Integer, idCompetition: Integer, date: String?="", phase: Long?=0, operator: String?="gt")
+
+
+#V2 RESTify routes
+
+#Matches
+GET     /footballapi/v2/:idApp/match/:idGameMatch                                                   controllers.footballapi.MatchesController.getFixturesByID(idApp : Integer, idGameMatch : Integer)
+
+
+
 
 # Authenticate
 GET     /restricted                                                                                 controllers.Application.restricted

@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Domain', ['Client',
-        function(Client){
+    .factory('Domain', ['Client', 'i18n',
+        function(Client, i18n){
 
             var football_manager_url = 'http://footballmanager.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
@@ -16,7 +16,17 @@ angular
             var appId = '1';
             var apiVersion = 'v1';
             var getLang = function(){
-                return Client.getLanguage().id_language;
+                if(!Client.getLanguage() && i18n.getDefaultLanguage()){
+//                    Client.init();
+                    return i18n.getDefaultLanguage().id_language;
+                } else if(Client.getLanguage()){
+                    return Client.getLanguage().id_language;
+                } else {
+                    return 405;
+                }
+            };
+            var getClientId = function(){
+                return Client.getClientId();
             };
 
             return {
@@ -89,9 +99,13 @@ angular
                         + appId + '/' + _competition + '/' + getLang() + '/' + _phase;
                 },
 
-                scorers: function () {
-                    return football_manager_url + 'footballapi/'
-                        + apiVersion + '/players/competitions/scorers/' + appId;
+                scorers: function (_competition) {
+                  return football_manager_url + 'footballapi/'
+                          + apiVersion + '/players/competition/scorers/'
+                          + appId + '/'
+                          + _competition
+                          + '?pageSize=15'
+                          + '&page=0';
                 },
 
                 match: function (_date) {
@@ -108,11 +122,48 @@ angular
                 },
 
                 bets: {
-                    get: brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/bets/get/' + appId,
-                    create:  brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/bets/create/' + appId
+                    get: function (_competition) {
+                      return brazil_football_manager_url + 'futbolbrasil/'
+                                            + apiVersion + '/clients/bets/get/' + appId + '/' + _competition
+                    },
+                    create:  brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/bet'
+
+                },
+
+                leaderboard:  {
+                    //TODO cambiar version
+                    phase: function (_competition, _phase) {
+                        return brazil_football_manager_url+ 'futbolbrasil/v1/clients/leaderboard/get/'
+                            + getClientId() + '/' + _competition + '/' + _phase
+                    },
+
+                    competition: function (_competition) {
+                        return brazil_football_manager_url + 'futbolbrasil/v1/clients/leaderboard/global/get/'
+                            + getClientId() + '/' + _competition
+                    },
+
+                    personal : {
+                        competition: function() {
+                            return brazil_football_manager_url
+                                + "futbolbrasil/v1/clients/leaderboard/personal/tournament/"
+                                + getClientId();
+                        },
+                        phase: {
+                            index : function(){
+                                return brazil_football_manager_url
+                                    + "futbolbrasil/v1/clients/leaderboard/personal/phase/"
+                                    + getClientId();
+                            },
+                            latest: function(idCompetition, date){
+                                return football_manager_url + 'footballapi/' + apiVersion
+                                + '/competitions/phases/latest/' +  appId + '/'
+                                + idCompetition + '/' + date + '/' + getLang();
+                            }
+                        }
+                    }
+
                 }
+
             };
         }
     ]);

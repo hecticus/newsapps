@@ -106,7 +106,7 @@ public class MatchesController extends HecticusController {
                 ArrayList data = new ArrayList();
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -152,7 +152,7 @@ public class MatchesController extends HecticusController {
                 ArrayList<ObjectNode> data = new ArrayList();
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -195,13 +195,76 @@ public class MatchesController extends HecticusController {
                         }
                     }
                     if (!data.isEmpty()) {
-                        ObjectNode competitionJson = competition.toJsonNoPhases();
+                        ObjectNode competitionJson = competition.toJsonSimple();
                         competitionJson.put("fixtures", Json.toJson(data));
                         data.clear();
                         responseData.add(competitionJson);
                     }
                 }
                 response = hecticusResponse(0, "OK", "leagues", responseData);
+            } else {
+                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+            }
+            return ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
+    public static Result getFixturesForCompetitionGroupByDate(Integer idApp, Long idCompetition){
+        try {
+            ObjectNode response = null;
+            Apps app = Apps.findId(idApp);
+            if(app != null) {
+                TimeZone timeZone = app.getTimezone().getTimezone();
+                Calendar today = new GregorianCalendar(timeZone);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                simpleDateFormat.setTimeZone(timeZone);
+                String date = simpleDateFormat.format(today.getTime());
+                ArrayList<ObjectNode> data = new ArrayList();
+                ArrayList responseData = new ArrayList();
+
+                Competition competition = app.getCompetition(idCompetition);
+                if (competition != null) {
+                    List<Phase> phases = Phase.getPhasesFromDate(competition, date);
+                    if (phases == null || phases.isEmpty()) {
+                        phases = Phase.getLatestPhasesPaged(competition, 0, 1);
+                    }
+                    if (phases != null & !phases.isEmpty()) {
+                        List<GameMatch> gameMatches = GameMatch.finder.where().eq("competition", competition).in("phase", phases).orderBy("date asc").findList();
+                        if (gameMatches != null && !gameMatches.isEmpty()) {
+                            ArrayList<ObjectNode> fixtures = new ArrayList<>();
+                            String pivot = gameMatches.get(0).getDate().substring(0, 8);
+                            for (GameMatch gameMatch : gameMatches) {
+                                if (gameMatch.getDate().startsWith(pivot)) {
+                                    fixtures.add(gameMatch.toJsonSimple());
+                                } else {
+                                    ObjectNode round = Json.newObject();
+                                    round.put("date", pivot);
+                                    round.put("matches", Json.toJson(fixtures));
+                                    data.add(round);
+                                    fixtures.clear();
+                                    fixtures.add(gameMatch.toJsonSimple());
+                                    pivot = gameMatch.getDate().substring(0, 8);
+                                }
+                            }
+                            if (!fixtures.isEmpty()) {
+                                ObjectNode round = Json.newObject();
+                                round.put("date", pivot);
+                                round.put("matches", Json.toJson(fixtures));
+                                data.add(round);
+                                fixtures.clear();
+                            }
+                        }
+                    }
+                    ObjectNode competitionJson = competition.toJsonSimple();
+                    competitionJson.put("fixtures", Json.toJson(data));
+                    data.clear();
+                    response = hecticusResponse(0, "OK", competitionJson);
+                } else {
+                    response = buildBasicResponse(1, "La competencia " + idCompetition + " no existe");
+                }
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
             }
@@ -226,7 +289,7 @@ public class MatchesController extends HecticusController {
                 }
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -332,6 +395,25 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getFixturesByID(Integer idApp, Integer idGameMatch){
+        try {
+            Apps app = Apps.findId(idApp);
+            if(app != null){
+                GameMatch gameMatch = GameMatch.finder.where().eq("idGameMatches", idGameMatch).findUnique();
+                if(gameMatch != null) {
+                    return ok(hecticusResponse(0, "ok", gameMatch.toJson()));
+                } else {
+                    return notFound(buildBasicResponse(1, "El match " + idGameMatch + " no existe"));
+                }
+            } else {
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
 
     public static Result getActiveCompetitions(Integer idApp, Integer idLanguage, Boolean ids){
         try {
@@ -348,7 +430,7 @@ public class MatchesController extends HecticusController {
                 if (idLanguage <= 0 || requestLanguage == null){
                     requestLanguage = app.getLanguage();
                 }
-                String[] favorites = getFromQueryString("teams[]");
+                String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
@@ -386,7 +468,11 @@ public class MatchesController extends HecticusController {
                 ArrayList<ObjectNode> responseData = new ArrayList();
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
-                    List<Phase> phases = competition.getPhases();
+                    TimeZone timeZone = app.getTimezone().getTimezone();
+                    Calendar today = new GregorianCalendar(timeZone);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                    simpleDateFormat.setTimeZone(timeZone);
+                    List<Phase> phases = competition.getPhases(today);
                     if (phases != null && !phases.isEmpty()) {
                         Language requestLanguage = null;
                         if(idLanguage > 0) {

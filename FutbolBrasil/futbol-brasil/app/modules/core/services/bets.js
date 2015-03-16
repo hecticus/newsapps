@@ -18,11 +18,11 @@ angular
                  * @methodOf core.Services.Bets
                  * @return {Array} Returns Leagues with user Bets
                  */
-                get: function(successCallback, errorCallback) {
-                    $http.get(Domain.bets.get)
+                get: function(competition,successCallback, errorCallback) {
+                    $http.get(Domain.bets.get(competition))
                         .success(function (data, status) {
-                            $rootScope.$storage.bet = JSON.stringify(data.response.leagues);
-                            typeof successCallback === 'function' && successCallback(data.response.leagues);
+                            //$rootScope.$storage.bet = JSON.stringify(data.response);
+                            typeof successCallback === 'function' && successCallback(data);
                         }).error(function (data, status) {
                             typeof errorCallback === 'function' && errorCallback();
                         });

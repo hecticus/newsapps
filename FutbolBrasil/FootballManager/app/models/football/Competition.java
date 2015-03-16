@@ -40,7 +40,7 @@ public class Competition  extends HecticusModel {
     private CompetitionType type;
 
     @OneToMany(mappedBy="comp", cascade = CascadeType.ALL)
-    @OrderBy("nivel asc")
+    @OrderBy("orden asc, nivel asc")
     public List<Phase> phases;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="competition", cascade = CascadeType.ALL)
@@ -194,6 +194,47 @@ public class Competition  extends HecticusModel {
         return finder.fetch("teams").fetch("matches").where().eq("app", app).eq("status", 1).ilike("matches.date", date + "%").in("teams.team", teams).setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
+    public List<Scorer> getScorers(Integer page, Integer pageSize) {
+        Collections.sort(scorers, new ScorersComparator());
+        List<Scorer> result = new ArrayList<>();
+        int n = 0, k = 0;
+        for (int i = 0; n < pageSize && i < scorers.size(); ++i) {
+            Scorer element = scorers.get(i);
+            ++k;
+            if(k > page) {
+                ++n;
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
+    public List<Phase> getPhases(final Calendar today){
+        List<Phase> tr;
+        final TimeZone timeZone = today.getTimeZone();
+        try {
+            Predicate<Phase> validObjs = new Predicate<Phase>() {
+                public boolean apply(Phase obj) {
+                    Calendar startDateCalendar = new GregorianCalendar(timeZone);
+                    try {
+                        Date startDate = DateAndTime.getDate(obj.getStartDate(), "yyyyMMdd");
+                        startDateCalendar.setTime(startDate);
+                        return (startDateCalendar.before(today) || startDateCalendar.equals(today));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+
+                }
+            };
+            Collection<Phase> result = Utils.filterCollection(phases, validObjs);
+            tr = (List<Phase>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
     public void validate(Language language){
         //check if exist
         Competition fromDb = findByCompExt(this.app, this.extId);
@@ -232,6 +273,21 @@ public class Competition  extends HecticusModel {
                 phasesList.add(phase.toJson());
             }
             obj.put("phases", Json.toJson(phasesList));
+        }
+        if(teams != null && !teams.isEmpty()){
+            ArrayList<ObjectNode> phasesList = new ArrayList<>(teams.size());
+            for(TeamHasCompetition phase : teams){
+                phasesList.add(phase.getTeam().toJson());
+            }
+            obj.put("teams", Json.toJson(phasesList));
+        }
+
+        if(matches != null && !matches.isEmpty()){
+            ArrayList<ObjectNode> phasesList = new ArrayList<>(matches.size());
+            for(GameMatch phase : matches){
+                phasesList.add(phase.toJson());
+            }
+            obj.put("matches", Json.toJson(phasesList));
         }
         return obj;
     }
@@ -433,6 +489,30 @@ public class Competition  extends HecticusModel {
         return tr;
     }
 
+    public List<Phase> getPhasesByGlobalNameAndDate(final String globalName, final Calendar date, final TimeZone timeZone){
+        List<Phase> tr;
+        try {
+            Predicate<Phase> validObjs = new Predicate<Phase>() {
+                public boolean apply(Phase obj) {
+                    Calendar endCalendar = new GregorianCalendar(timeZone);
+                    try {
+                        Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
+                        endCalendar.setTime(endDate);
+                        return endCalendar.before(date) && obj.getGlobalName().equalsIgnoreCase(globalName);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+            };
+            Collection<Phase> result = Utils.filterCollection(phases, validObjs);
+            tr = (List<Phase>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
     public List<Phase> getPhasesByGlobalName(final String globalName){
         List<Phase> tr;
         try {
@@ -497,6 +577,13 @@ public class Competition  extends HecticusModel {
         return tr;
     }
 
+}
+
+class ScorersComparator implements Comparator<Scorer> {
+    @Override
+    public int compare(Scorer c1, Scorer c2) {
+        return c2.getGoals() - c1.getGoals();
+    }
 }
 
 //class GameMatchComparatorDesc implements Comparator<GameMatch> {

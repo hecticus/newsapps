@@ -58,7 +58,7 @@ public class PlayersController extends HecticusController {
     }
 
 
-    public static Result getTopScorersByCompetition(Integer idApp){
+    public static Result getTopScorersByCompetition(Integer idApp, Integer pageSize, Integer page){
         try {
             ObjectNode response = null;
             Apps app = Apps.findId(idApp);
@@ -77,7 +77,12 @@ public class PlayersController extends HecticusController {
                     competitionsByApp = app.getCompetitions();//Competition.getActiveCompetitionsByApp(app);
                 }
                 for (Competition competition : competitionsByApp) {
-                    List<Scorer> fullList = competition.getScorers();//Scorer.getTournamentScorers(competition.getIdCompetitions());
+                    List<Scorer> fullList = null;
+                    if(pageSize == 0){
+                        fullList = competition.getScorers();//Scorer.getTournamentScorers(competition.getIdCompetitions());
+                    } else {
+                        fullList = competition.getScorers(page, pageSize);
+                    }
                     ObjectNode competitionJson = competition.toJsonSimple();
                     if (fullList != null && !fullList.isEmpty()) {
                         //i got data

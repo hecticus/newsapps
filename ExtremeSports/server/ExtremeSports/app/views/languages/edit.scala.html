@@ -1,0 +1,65 @@
+@(id: Integer, languageViewForm: Form[models.basic.Language])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title = Messages("languages.edit"), nav = "create") {
+
+    @if(languageViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@languageViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(controllers.routes.LanguagesView.update(id), 'enctype -> "multipart/form-data") {
+
+    <fieldset>
+        <legend>@Messages("languages.info")</legend>
+
+        @inputText(
+            languageViewForm("name"),
+            '_label -> Messages("languages.name"),
+            '_help -> Messages("languages.name.help"),
+            'class -> "form-control",
+            '_error -> languageViewForm.globalError
+        )
+
+        @inputText(
+            languageViewForm("shortName"),
+            '_label -> Messages("languages.shortname"),
+            '_help -> Messages("languages.shortname.help"),
+            'class -> "form-control",
+            '_error -> languageViewForm.globalError
+        )
+
+        @inputText(
+            languageViewForm("active"),
+            '_label -> Messages("languages.active"),
+            '_help -> Messages("languages.active.help"),
+            'class -> "form-control",
+            '_error -> languageViewForm.globalError
+        )
+
+
+
+
+    </fieldset>
+
+    <div class="actions">
+        <input type="submit" value=@Messages("languages.submit.update") class="btn btn-success">
+        <a href="@controllers.routes.LanguagesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+    </div>
+
+    }
+
+    @form(controllers.routes.LanguagesView.delete(id), 'class -> "topRight") {
+        <input type="submit" value=@Messages("languages.submit.delete") class="btn btn-danger">
+
+    }
+
+}

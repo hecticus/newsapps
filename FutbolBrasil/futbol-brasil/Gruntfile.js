@@ -94,6 +94,7 @@ module.exports = function(grunt) {
             },
             docs: {
                 options: {
+                    port: 9001,
                     base: ['docs/']
                 }
             }
@@ -207,7 +208,8 @@ module.exports = function(grunt) {
                 files: {
                     'app/index.html': [
                         'app/managers/*/*.js',
-                        'app/js/pt-br.js',
+                        'app/js/pt.js',
+                        'app/js/es.js',
                         'app/js/config.js',
                         'app/js/application.js',
                         'app/modules/*/*.js',
@@ -404,6 +406,11 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '<%= yeoman.app %>/styles/fonts/',
                     dest: '<%= yeoman.dist %>/styles/fonts/',
+                    src: ['*']
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/translations/',
+                    dest: '<%= yeoman.dist %>/translations/',
                     src: ['*']
                 }
                 ]

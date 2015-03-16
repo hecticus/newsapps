@@ -15,21 +15,11 @@ angular
             return {
                 touchType : 'click',
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.CordovaDevice#method1
-                 * @methodOf core.Services.CordovaDevice
-                 * @return {boolean} Returns a boolean value
-                 */
-                method1: function() {
-                    return true;
-                },
-
                 getPlatform: function (){
                     if(typeof device !== "undefined"){
                         return device.platform;
                     } else {
-                        return "Android";
+                        return "Web";
                     }
                 },
 
@@ -58,6 +48,20 @@ angular
                         return device.platform === "iOS";
                     } else {
                         return false;
+                    }
+                },
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaDevice#isWebPlatform
+                 * @methodOf core.Services.CordovaDevice
+                 * @return {boolean} Returns true if running on Web Platform
+                 */
+                isWebPlatform: function (){
+                    if(typeof device !== "undefined"){
+                        return device.platform === "Web";
+                    } else {
+                        return true;
                     }
                 },
 

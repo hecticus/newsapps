@@ -62,16 +62,25 @@ angular
             if(favoriteTeams){
                 $localStorage[KEY_FAVORITE_TEAMS_LIST] = JSON.stringify(favoriteTeams);
                 favTeams = favoriteTeams.slice();
+                if(favoriteTeams.length > 0){
+                    Client.setHasFavorites(true);
+                } else {
+                    Client.setHasFavorites(false);
+                }
             }
         };
 
         var loadPersistedFavoriteTeams = function(){
             if($localStorage[KEY_FAVORITE_TEAMS_LIST]) {
                 favTeams = JSON.parse($localStorage[KEY_FAVORITE_TEAMS_LIST]);
-                Client.setHasFavorites(true);
             } else {
                 console.log('loadPersistedFavoriteTeams. No records found for favorite teams.');
                 favTeams = [];
+            }
+
+            if(favTeams.length > 0){
+                Client.setHasFavorites(true);
+            } else {
                 Client.setHasFavorites(false);
             }
         };
@@ -136,6 +145,7 @@ angular
                 }
                 if(index > -1){
                     favTeams.splice(index, 1);
+                    persistFavoriteTeams(favTeams);
                     this.saveFavoriteTeamToServer({'remove_push_alert' : [team.id_teams]}, callback);
                 } else {
                     console.log('removeFavoriteTeam. Team to remove not found');
@@ -143,8 +153,7 @@ angular
             },
 
             saveFavoriteTeamToServer : function (jsonData, callback){
-                $http.post(Domain.client.update(Client.getClientId()), jsonData, {timeout : 60000}
-                )
+                $http.post(Domain.client.update(Client.getClientId()), jsonData, {timeout : 60000})
                 .success(function(data, status) {
                     if(typeof data == "string"){
                         data = JSON.parse(data);

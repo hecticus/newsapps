@@ -28,11 +28,23 @@ angular
                 url: '/login',
                 templateUrl:'modules/core/views/login.html',
                 controller:'LoginCtrl as login',
+                params: {'msisdn': ''},
                 data:{
                     prev: 'login',
                     next: 'login',
                     _class: 'content-login',
-                    section: 'settings'
+                    section: 'login'
+                }
+            })
+            .state('remind', {
+                url: '/remind',
+                templateUrl:'modules/core/views/remind.html',
+                controller:'LoginCtrl as remind',
+                data:{
+                    prev: 'login',
+                    next: 'login',
+                    _class: 'content-login',
+                    section: 'remind'
                 }
             })
             .state('settings', {
@@ -54,7 +66,7 @@ angular
                     prev: 'settings',
                     next: 'news',
                     _class: 'content-team-selection',
-                    section: 'settings'
+                    section: 'team-selection'
                 }
             })
             .state('language-selection', {
@@ -65,7 +77,7 @@ angular
                     prev: 'settings',
                     next: 'news',
                     _class: 'content-language-selection',
-                    section: 'settings'
+                    section: 'language-selection'
                 }
             })
             .state('match', {
@@ -157,8 +169,8 @@ angular
             })
             .state('friends', {
                 url: '/friends',
-                controller:'FriendsCtrl  as _this',
-                templateUrl:'modules/core/views/friends.html',
+                controller:'LeaderboardCtrl  as _this',
+                templateUrl:'modules/core/views/leaderboard.html',
                 data:{
                     prev: 'leaderboard',
                     next: 'points',

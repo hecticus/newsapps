@@ -7,9 +7,8 @@
  */
 angular
     .module('core')
-    .factory('FacebookManager',['$localStorage', '$http',
-        function($localStorage, $http) {
-            var that = this;
+    .factory('FacebookManager',['$localStorage', '$http', 'Client',
+        function($localStorage, $http, Client) {
             var INTERVAL_FRIENDS_LOADER_TIMER = 30000;
             var FILE_KEY_FB_USER_ID = "APPDATAFBUSERID";
             var FILE_KEY_FB_FRIENDS = "APPDATAFBFRIENDS";
@@ -37,15 +36,14 @@ angular
             };
 
             var getLocalFriends = function () {
-                console.log("FacebookManager. getLocalFriends: "
-                    + JSON.stringify(JSON.parse(localStorage[FILE_KEY_FB_FRIENDS]), undefined, 1));
                 return JSON.parse(localStorage[FILE_KEY_FB_FRIENDS]);
             };
 
             var saveFriends = function (friends) {
-                if(friends){
+                if(!!friends){
                     delete localStorage[FILE_KEY_FB_FRIENDS];
-                    localStorage[FILE_KEY_FB_FRIENDS] = friends;
+                    localStorage[FILE_KEY_FB_FRIENDS] = JSON.stringify(friends);
+                    Client.setFriends(friends);
                     return true;
                 } else {
                     console.log('FacebookManager. saveFriends. error. Invalid friends');
@@ -57,15 +55,20 @@ angular
                 $http.get(url, {timeout: 60000}).success(function(result, status) {
                     var more = result.paging.hasOwnProperty('next');
                     var friends = result.data;
-
                     if(friends.length > 0){
+                        console.log('FacebookManager. getMoreFriends. Got more Friends. Persisting.');
                         friends = getLocalFriends().concat(friends);
                         saveFriends(friends);
                         if(more){
+                            console.log('FacebookManager. getMoreFriends. Got still more Friends. Retrieving.');
                             getMoreFriends(callback);
                         } else {
-                            typeof callback == 'function' && callback();
+                            console.log('FacebookManager. getMoreFriends. No more friends. Executing Callback');
+                            typeof callback == 'function' && callback(friends);
                         }
+                    } else {
+                        console.log('FacebookManager. getMoreFriends. No more friends. Executing Callback');
+                        typeof callback == 'function' && callback(getLocalFriends());
                     }
                 });
             };
@@ -147,18 +150,24 @@ angular
                     facebookConnectPlugin.api('/me/friends?fields=picture,name'
                         , ["public_profile", "user_friends"],
                         function (result) {
-                            console.log('FacebookManager.getFriends. result: ');
-                            console.log(JSON.stringify(result, undefined, 1));
                             var friends = result.data;
+                            console.log('FacebookManager.getFriends. result: ');
+                            console.log(friends);
                             saveFriends(friends);
                             var more = result.paging.hasOwnProperty('next');
-                            if(more){
+                            console.log('more: ' + more);
+                            if(more == true){
+                                console.log('more. true');
                                 getMoreFriends(result.paging.next, callback);
+                            } else if (more == false){
+                                console.log('getFriends: more. false. calling callback: ' + (typeof callback == 'function'));
+                                typeof callback == 'function' && callback(friends);
                             }
                         },
                         function (error) {
                             console.log("FacebookManager. getFriends. Error: "
                                 + JSON.stringify(error, undefined, 1));
+                            typeof callback == 'function' && callback(null);
                         }
                     );
                 },

@@ -138,11 +138,11 @@ public class DataFactoryScraper extends HecticusThread {
                         Countries localCountry = new Countries(equipoLocalPaisNombre, Long.parseLong(equipoLocalPaisId));
                         localCountry.validateCountry();
                         Team localTeam = new Team(equipoLocalNombre, Long.parseLong(equipoLocalId), localCountry);
-                        localTeam.validateTeam();
+                        localTeam.validateTeam(compFromFile);
                         Countries awayCountry = new Countries(equipoVisitPaisNombre, Long.parseLong(equipoVisitPaisId));
                         awayCountry.validateCountry();
                         Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
-                        awayTeam.validateTeam();
+                        awayTeam.validateTeam(compFromFile);
                         GameMatchStatus status = new GameMatchStatus(statusName, Integer.parseInt(statusId));
                         status.validate(language);
 
@@ -206,6 +206,13 @@ public class DataFactoryScraper extends HecticusThread {
             for (int i = 0; i < equipos.getLength(); i++) {
                 try {
                     Node currentTeam = equipos.item(i);
+                    String groupName = null;
+                    try {
+                        groupName = xPath.compile("@zona").evaluate(currentTeam);
+                        System.out.println(groupName);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                     String teamExtId = xPath.compile("@id").evaluate(currentTeam);
                     String teamName = xPath.compile("nombre").evaluate(currentTeam),
                             countryName = xPath.compile("@paisSigla").evaluate(currentTeam),
@@ -253,9 +260,15 @@ public class DataFactoryScraper extends HecticusThread {
                     Countries teamCountry = new Countries(countryName, Long.parseLong(countryExtId));
                     teamCountry.validateCountry();
                     Team teamToInsert = new Team(teamName, Long.parseLong(teamExtId), teamCountry);
-                    teamToInsert.validateTeam();
+                    teamToInsert.validateTeam(torneo);
                     //get phase
                     Phase phaseToInsert = Phase.getPhaseByFn(torneo.getIdCompetitions(), stringIntParser(fn));
+
+                    Group group = null;
+                    if(groupName != null && !groupName.isEmpty()){
+                        group = new Group(torneo, groupName);
+                        group.validate(language);
+                    }
 
                     //values to int and long
                     long matches = stringLongParser(played),
@@ -297,7 +310,7 @@ public class DataFactoryScraper extends HecticusThread {
                             matchesLocalLost,matchesVisitorWon, matchesVisitorDraw, matchesVisitorLost, goalsForLocal,
                             goalsAgainstLocal, goalsForVisitor, goalsAgainstVisitor, goalDiffV, pointsLocal, pointsVisitor,
                             yellowCardsV, redCardsV,doubleYellowCard,penaltyFoulsV, penaltyHandsV, foulsCommited,
-                            foulsReceived, penaltyFoulsReceivedV, nivelV, nivelDesc, orderV,orderDesc, streak);
+                            foulsReceived, penaltyFoulsReceivedV, nivelV, nivelDesc, orderV,orderDesc, streak, group);
                     toInsert.validateRank();
                 }catch (Exception ex){
                     Utils.printToLog(DataFactoryScraper.class,
@@ -389,7 +402,7 @@ public class DataFactoryScraper extends HecticusThread {
                     Countries teamCountry = new Countries(teamCountryName, Long.parseLong(teamCountryExtId));
                     teamCountry.validateCountry();
                     Team playerTeam = new Team(teamName, Long.parseLong(teamExtId), teamCountry);
-                    playerTeam.validateTeam();
+                    playerTeam.validateTeam(currentCompetition);
                     //String date = "" + Utils.currentTimeStamp(Utils.APP_TIMEZONE);
 
                     Scorer ti = new Scorer(name, fullname, nickmane, playerTeam, Integer.parseInt(goals),

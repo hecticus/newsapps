@@ -9,8 +9,9 @@
 angular
     .module('core')
     .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
-        ,'WebManager', 'Domain','Utilities', 'Client',
-        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager, Domain, Utilities, Client) {
+        ,'WebManager', 'Domain', 'Moment', 'iScroll',
+        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager,
+                 Domain, Moment, iScroll) {
 
             var _limit = 100;
             var _currentPage = 0;
@@ -27,18 +28,18 @@ angular
             };
 
             $scope.getTime = function(_date) {
-                return Utilities.moment(_date).format('H:MM');
+                return Moment.date(_date).format('H:MM');
             };
 
             $scope.pagesBefore = [];
             $scope.pagesAfter = [];
 
             $scope.pages = [
-                {id: 1, name: Utilities.moment().subtract(2, 'days').format(_formatDate), date:Utilities.moment().subtract(2, 'days').format('YYYYMMDD')},
-                {id: 2, name:'Ontem', date:Utilities.moment().subtract(1, 'days').format('YYYYMMDD')},
-                {id: 3, name:'Hoje', date:Utilities.moment().format('YYYYMMDD')},
-                {id: 4, name:'Amanha', date:Utilities.moment().add(1, 'days').format('YYYYMMDD')},
-                {id: 5, name: Utilities.moment().add(2, 'days').format(_formatDate), date:Utilities.moment().add(2, 'days').format('YYYYMMDD')}
+                {id: 1, name: Moment.date().subtract(2, 'days').format(_formatDate), date:Moment.date().subtract(2, 'days').format('YYYYMMDD')},
+                {id: 2, name:'Ontem', date:Moment.date().subtract(1, 'days').format('YYYYMMDD')},
+                {id: 3, name:'Hoje', date:Moment.date().format('YYYYMMDD')},
+                {id: 4, name:'Amanha', date:Moment.date().add(1, 'days').format('YYYYMMDD')},
+                {id: 5, name: Moment.date().add(2, 'days').format(_formatDate), date:Moment.date().add(2, 'days').format('YYYYMMDD')}
             ];
 
             $scope.width = $window.innerWidth;
@@ -63,129 +64,111 @@ angular
                 }
             };
 
+            function setEmptyDayFlag(day){
+                if(day.leagues.length > 0){
+                    var leagueReduce = day.leagues.reduce(function(previousValue, currentValue, index) {
+                        if(index > 1){
+                            return previousValue + currentValue.fixtures.length;
+                        }else{
+                            return previousValue.fixtures.length + currentValue.fixtures.length;
+                        }
+                    });
+                    console.log('leagueReduce: ' + leagueReduce);
+                    day.empty = leagueReduce <= 0;
+                } else {
+                    day.empty = true;
+                }
+            }
 
-            $scope.init = function(){
-                $rootScope.loading = false;
+            function getDayMatches(_item, _index){
+                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
+                config.params.pageSize = _limit;
+                config.params.page = 0;
+
+                $http.get(Domain.match(_item.date), config)
+                    .then(function (data) {
+                        data = data.data;
+                        var day = data.response;
+                        setEmptyDayFlag(day);
+                        $scope.pages[_index].matches = day;
+                        $scope.$emit('unload');
+                    }, function () {
+                        $scope.$emit('unload');
+                        $scope.$emit('error');
+                    }
+                );
+            }
+
+            function init(){
+                $scope.$emit('unload');
+
                 angular.forEach($scope.pages, function(_item, _index) {
-
-                    var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-                    config.params.pageSize=_limit;
-                    config.params.page = 0;
-
-                    $http.get(Domain.match(_item.date), config)
-                        .success(function (data, status) {
-                           $scope.pages[_index].matches = data.response;
-                        }).catch(function () {
-                            $scope.$emit('error');
-                        }).finally(function(data) {
-                           $scope.$emit('unload');
-                           $rootScope.error = Utilities.error();
-                        });
+                    getDayMatches(_item, _index);
                 });
 
                 $scope.width = $window.innerWidth;
                 $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
-                var _scroll = new IScroll('#wrapperH', {
-                    scrollX: true,
-                    scrollY: false,
-                    mouseWheel: false,
-                    momentum: false,
-                    snap: true,
-                    snapSpeed: 700,
-                    probeType: 3,
-                    bounce: false
-                });
 
+                $scope.scroll = iScroll.horizontal('wrapperH');
                 $scope.nextPage = function(){
-                    _scroll.next();
+                    $scope.scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                    _scroll.prev();
+                    $scope.scroll.prev();
                 };
-
-                _scroll.on('scrollEnd', function () {
-                    //this.refresh();
-                });
-
-                $scope.$on('onRepeatFirst', function(scope, element, attrs) {
-                    //console.log('onRepeatFirst');
-                });
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     if (_start) {
 
-                        _scroll.refresh();
-                        _scroll.goToPage(2,0);
+                        $scope.scroll.refresh();
+                        $scope.scroll.goToPage(2,0);
                         _start = false;
 
                         angular.forEach($scope.pages, function(_item, _index) {
-                            Utilities.newScroll.vertical($scope.wrapper.getName(_index));
+                            iScroll.vertical($scope.wrapper.getName(_index));
                         });
                     }
                 });
 
-                _scroll.on('beforeScrollStart', function () {
+                $scope.scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                _scroll.on('scrollStart', function () {
+                $scope.scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                _scroll.on('scroll', function () {
-
+                $scope.scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-
-                        if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
-
-                            _index = $scope.pagesAfter.length + 3;
-                            $scope.pagesAfter.push(
-                                {
-                                    id: ($scope.pages.length + 1),
-                                    name: Utilities.moment().add(_index, 'days').format(_formatDate),
-                                    date: Utilities.moment().add(_index, 'days').format('YYYYMMDD')
-                                }
-                            );
-
-                            $scope.pages.push(($scope.pagesAfter[$scope.pagesAfter.length - 1]));
-                            $scope.widthTotal = (window.innerWidth * $scope.pages.length);
-
-                            $scope.$emit('load');
-
-                            _index = $scope.pages.length - 1;
-
-                            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-                            config.params.pageSize=_limit;
-                            config.params.page = 0;
-                            $http.get(Domain.match($scope.pages[_index].date), config)
-                              .success(function (data, status) {
-                                  $scope.pages[_index].matches = data.response;
-                                  Utilities.newScroll.vertical($scope.wrapper.getName(_index));
-                              }).catch(function () {
-                                $scope.$emit('error');
-                              }).finally(function(data) {
-                                  $scope.$emit('unload');
-                                  $rootScope.error = Utilities.error();
-                              });
-
-                        }
-
                         _currentPage = this.currentPage.pageX;
+                    }
 
+                    var page = $scope.pages[_currentPage];
+                    if(page && page.matches && page.matches.leagues && page.matches.leagues.length <1){
+                        console.log('Page Empty: ' + _currentPage);
+                    }
+
+
+                    if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
+                        _index = $scope.pagesAfter.length + 3;
+                        $scope.pagesAfter.push(
+                            {
+                                id: ($scope.pages.length + 1),
+                                name: Moment.date().add(_index, 'days').format(_formatDate),
+                                date: Moment.date().add(_index, 'days').format('YYYYMMDD')
+                            }
+                        );
+
+                        $scope.pages.push(($scope.pagesAfter[$scope.pagesAfter.length - 1]));
+                        $scope.widthTotal = (window.innerWidth * $scope.pages.length);
+
+                        $scope.$emit('load');
+                        _index = $scope.pages.length - 1;
+                        getDayMatches($scope.pages[_index], _index);
                     }
                 });
-
-                $scope.nextPage = function(){
-                  _scroll.next();
-                };
-
-                $scope.prevPage = function(){
-                  _scroll.prev();
-                };
-
-
-            }();
+            } init();
 
         }
     ]);

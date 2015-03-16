@@ -18,8 +18,8 @@ angular
                     icon: "@"
                 },
                 link: function($scope) {
-                    $scope.navigate = function(_section) {
-                        $rootScope.showSection(_section);
+                    $scope.navigate = function() {
+                        $rootScope.showSection($scope.section);
                     }
                 }
             };

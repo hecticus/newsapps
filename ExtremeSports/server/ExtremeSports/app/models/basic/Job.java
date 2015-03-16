@@ -1,10 +1,8 @@
-package models;
+package models.basic;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.SqlRow;
-import com.avaje.ebean.SqlUpdate;
+import com.avaje.ebean.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.HecticusModel;
 import org.h2.tools.Server;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -235,6 +233,14 @@ public class Job extends HecticusModel {
         cal.set(Calendar.MINUTE, Integer.parseInt(time.substring(2), 10));
 
         this.nextTimestamp = cal.getTimeInMillis();
+    }
+
+    public static Page<Job> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }
+
+    public static Job getByID(long id){
+        return finder.byId(id);
     }
 
 

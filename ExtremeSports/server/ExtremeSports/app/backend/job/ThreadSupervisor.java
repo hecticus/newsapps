@@ -3,7 +3,7 @@ package backend.job;
 import akka.actor.ActorSystem;
 import akka.actor.Cancellable;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.Job;
+import models.basic.Job;
 import models.basic.Config;
 import org.apache.commons.lang3.StringEscapeUtils;
 import scala.concurrent.duration.Duration;

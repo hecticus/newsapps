@@ -15,11 +15,20 @@
             "FRIENDS" : "Amigos",
             "POINTS" : "Pontos"
         },
-        "SETTINGS": "Definições"
+        "SETTINGS": "Definições",
+        "LOGIN" : "Login",
+        "REMIND" : "Lembrar / Obter Credenciais",
+        "LANGUAGE-SELECTION" : "Seleção de Idioma",
+        "TEAM-SELECTION" : "Seleção de Equipe"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
 
+    },
+    "SCORERS" : {
+        "PLAYER_NAME_LABEL" : "Nome do jogador",
+        "TEAM_LABEL" : "Equipe",
+        "GOALS_LABEL" : "Goles"
     },
     "MATCH" : {
         "STATUS" : {
@@ -38,12 +47,27 @@
             "12" : "!Definicion por penales"
         }
     },
-    "PALPITES" : {
+    "LEADERBOARD" : {
+        "TOURNAMENT" : "Torneio",
+        "PHASE" : "Jornada",
+        "PLAYER" : "Jogador",
+        "POINTS" : "Pontos",
+        "HITS" : "Sucessos",
+        "MY_POINTS" : "Os Meus Pontos",
+        "SCORE" : "Pontos"
     },
     "EMPTY_STATES" : {
-        "LIVE" : "Não há jogos para hoje"
+        "LIVE" : "Não há jogos para hoje",
+        "NEWS" : "Não há notícias disponíveis",
+        "POINTS" : "Você não tem informação de pontos disponível",
+        "MATCH" : "Não há jogos para este día",
+        "SCORERS" : "Não há artilheiros para este torneio",
+        "TEAMS" : "Não foi possível obter equipes",
+        "LANGUAGES" : "Não foi possível obter idiomas"
     },
     "SETTINGS": {
+        "NICKNAME_TITLE": "Apelido",
+        "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",
@@ -67,5 +91,6 @@
         "EN" : "Inglês",
         "ES" : "Espanhol"
     },
-    "LOADING" : "A Carregar"
+    "LOADING" : "A Carregar",
+    "NOT_AVAILABLE": "Não Disponível"
 }
