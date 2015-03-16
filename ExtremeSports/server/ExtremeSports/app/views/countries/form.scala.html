@@ -1,0 +1,70 @@
+@(countryViewForm: Form[models.basic.Country])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {}
+
+@main(title = Messages("countries.create"), nav = "create") {
+
+    @if(flash.containsKey("success")) {
+    <div class="alert-message warning">
+        <strong>Error!</strong> @flash.get("success")
+    </div>
+    }
+
+    @if(countryViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@countryViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(action = controllers.routes.CountriesView.submit) {
+
+        <fieldset>
+            <legend>@Messages("countries.info")</legend>
+
+            @inputText(
+                countryViewForm("name"),
+                '_label -> Messages("countries.name"),
+                '_help -> Messages("countries.name.help"),
+                'class -> "form-control",
+                '_error -> countryViewForm.globalError
+            )
+
+            @inputText(
+                countryViewForm("shortName"),
+                '_label -> Messages("countries.shortname"),
+                '_help -> Messages("countries.shortname.help"),
+                'class -> "form-control",
+                '_error -> countryViewForm.globalError
+            )
+
+            @inputText(
+                countryViewForm("active"),
+                '_label -> Messages("countries.active"),
+                '_help -> Messages("countries.active.help"),
+                'class -> "form-control",
+                '_error -> countryViewForm.globalError
+            )
+
+            @select(
+                countryViewForm("language"),
+                models.basic.Language.toSeq,
+                '_label -> Messages("countries.language"),
+                'class -> "form-control"
+            )
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn btn-success" value=@Messages("countries.submit.create")>
+            <a href="@controllers.routes.CountriesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+}
