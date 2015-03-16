@@ -89,8 +89,8 @@ angular
                  * @ngdoc function
                  * @name core.Services.SocialAppsManager#share
                  * @description Share post depending on platform
-                 * @param title Shared content title
-                 * @param message Shared content Message
+                 * @param {string} title Shared content title
+                 * @param {string} message Shared content Message
                  * @methodOf core.Services.SocialAppsManager
                  */
                 share : share,
@@ -99,8 +99,8 @@ angular
                  * @ngdoc function
                  * @name core.Services.SocialAppsManager#fbShare
                  * @description Share post on Facebook via Web
-                 * @param title Shared content title
-                 * @param message Shared content Message
+                 * @param {string} title Shared content title
+                 * @param {string} message Shared content Message
                  * @methodOf core.Services.SocialAppsManager
                  */
                 fbShare : fbShare,
@@ -109,8 +109,8 @@ angular
                  * @ngdoc function
                  * @name core.Services.SocialAppsManager#twitterShare
                  * @description Share post on Twitter via Web
-                 * @param title Shared content title
-                 * @param message Shared content Message
+                 * @param {string} title Shared content title
+                 * @param {string} message Shared content Message
                  * @methodOf core.Services.SocialAppsManager
                  */
                 twitterShare : twitterShare

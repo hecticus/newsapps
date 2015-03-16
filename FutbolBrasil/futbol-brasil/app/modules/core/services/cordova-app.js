@@ -7,13 +7,12 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', '$timeout', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App', 'Upstream',
-        function($state, $window, $timeout, Domain, Utilities, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Client, Settings, Competitions, App, Upstream) {
+    .factory('CordovaApp',['$state', '$window', '$timeout', 'CordovaDevice', 'WebManager', 'ClientManager',
+        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Upstream', 'Analytics',
+        function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
+                 PushManager, FacebookManager, Settings, Competitions, App, Upstream, Analytics) {
 
             var that = this;
-            var backButtonCallback = null;
             var updateCallback = null;
             var currentSection = '';
             var prevSection = '';
@@ -29,16 +28,16 @@ angular
                 CANCEL : 'Cancelar'
             };
 
-            var checkUpdate = function(){
+            function checkUpdate(){
                 var updateInfo = App.getUpdateInfo();
                 updateInfo.current_version = App.getBundleVersion();
                 updateInfo.bundle_id = App.getBundleId();
                 if(updateInfo.update === 1){
                     updateCallback(updateInfo);
                 }
-            };
+            }
 
-            var exitApp = function (){
+            function exitApp(){
                 try{
                     FacebookManager.clearIntervalFriendsLoader();
                 } catch(e){
@@ -55,18 +54,17 @@ angular
                 } else {
                     console.log("Couldn't close app");
                 }
-            };
+            }
 
-            var hideMenu = function() {
+            function hideMenu() {
                 var menuWrapper = $('#wrapperM');
                 if (menuWrapper.hasClass('right')) {
                     menuWrapper.attr('class', ' page transition left');
                 }
-            };
+            }
 
-            var onBackButtonPressed = function(){
+            function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                var hasNotificationPlugin = !!navigator.notification;
 
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
@@ -99,9 +97,9 @@ angular
                         }
                     );
                 }
-            };
+            }
 
-            var showNotificationDialog = function(data,
+            function showNotificationDialog(data,
                   confirmCallback, cancelCallback){
                 var hasNotificationPlugin = !!navigator.notification;
                 if (hasNotificationPlugin) {
@@ -128,112 +126,115 @@ angular
                         typeof cancelCallback === 'function' && cancelCallback();
                     }
                 }
-            };
+            }
 
-            var isOnUtilitySection = function(){
+            function isOnUtilitySection(){
                 return utilitySections.some(function(utilitySection){
                     return utilitySection === currentSection;
                 });
-            };
+            }
 
-            var isBlockedSection = function(section){
+            function isBlockedSection(section){
                 return blockedSections.some(function (blockedSection) {
                     return blockedSection === section;
                 });
-            };
+            }
 
-            var setIsOnSettingsSection = function(val){
+            function setIsOnSettingsSection(val){
                 onSettingsSection = val;
-            };
+            }
+
+            function bindEvents() {
+//                    console.log('CordovaApp. bindEvents. ');
+                document.addEventListener('deviceready', that.onDeviceReady, false);
+                document.addEventListener('touchmove', function (e) {
+                    e.preventDefault();
+                }, false);
+
+                if(typeof CustomEvent === 'function'){
+                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
+                    document.dispatchEvent(event);
+                }
+            }
+
+            function onDeviceReady() {
+                receivedEvent('deviceready');
+                initAllAppData();
+            }
+
+            function receivedEvent(id){
+                if (id === 'deviceready') {
+                    document.addEventListener('backbutton', function(e){
+                        console.log('backbutton event');
+                        onBackButtonPressed();
+                    }, false);
+                    getVersion();
+                }
+            }
+
+            function initAllAppData() {
+                if(!!$window.StatusBar){
+                    StatusBar.hide();
+                }else{
+                    console.log('$window.StatusBar Object not available. Are you directly on a browser?');
+                }
+
+                Analytics.init();
+                ClientManager.init(startApp, errorStartApp);
+
+                if (CordovaDevice.phonegapIsOnline()) {
+                    PushManager.init();
+                    WebManager.loadServerConfigs(
+                        function(){
+                            Settings.init();
+                            Competitions.init();
+                            checkUpdate();
+                            $timeout(function(){
+                                Upstream.appLaunchEvent();
+                            }, 300);
+                        }, function(){
+                            console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
+                        }
+                    );
+                }else{
+                    this.startAppOffline();
+                }
+            }
+
+            function startApp(isActive, status){
+//                    console.log("startApp. Starting App: Client Active: " + isActive
+//                        + ". Client Status: " + status);
+            }
+
+            function startAppOffline(){
+                console.log("startAppOffline. App Offline");
+            }
+
+            function errorStartApp(){
+                console.log("errorStartApp. Error. Couldn't Start Application");
+            }
+
+            function getVersion(){
+                if(!!$window.wizUtils){
+                    $window.wizUtils.getBundleVersion(function(result){
+                        App.setBundleVersion(result);
+                    });
+                    $window.wizUtils.getBundleIdentifier(function(id){
+                        App.setBundleId(id);
+                    });
+                }else{
+                    console.log('$window.wizUtils Object not available. Are you directly on a browser?');
+                }
+            }
+
+            function init() {
+                bindEvents();
+            }
 
             return {
 
                 setUpdateCallback: function(callback){
                     updateCallback = callback;
-                },
-
-                bindEvents : function() {
-//                    console.log('CordovaApp. bindEvents. ');
-                    document.addEventListener('deviceready', that.onDeviceReady, false);
-                    document.addEventListener('touchmove', function (e) {
-                        e.preventDefault();
-                    }, false);
-
-                    if(typeof CustomEvent === 'function'){
-                        var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-                        document.dispatchEvent(event);
-                    }
-                },
-
-                onDeviceReady : function() {
-//                    console.log('CordovaApp. onDeviceReady. ');
-                    that.receivedEvent('deviceready');
-                    that.initAllAppData();
-                },
-
-                receivedEvent : function(id) {
-//                    console.log('CordovaApp. receivedEvent. ');
-                    if (id === 'deviceready') {
-                        document.addEventListener('backbutton', function(e) {
-                            console.log('backbutton event');
-                            onBackButtonPressed();
-                        }, false);
-                        this.getVersion();
-                    }
-
-                },
-
-                initAllAppData : function() {
-                    if(!!$window.StatusBar){
-                        StatusBar.hide();
-                    }else{
-                        console.log('$window.StatusBar Object not available. Are you directly on a browser?');
-                    }
-
-                    ClientManager.init(that.startApp, that.errorStartApp);
-
-                    if (CordovaDevice.phonegapIsOnline()) {
-                        PushManager.init();
-                        WebManager.loadServerConfigs(
-                            function(){
-                                Settings.init();
-                                Competitions.init();
-                                checkUpdate();
-                                $timeout(function(){
-                                    Upstream.appLaunchEvent();
-                                }, 300);
-                            }, function(){
-                                console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
-                            }
-                        );
-                    }else{
-                        this.startAppOffline();
-                    }
-                },
-
-                startAppOffline : function (){
-                    console.log("startAppOffline. App Offline");
-                },
-
-                startApp : function (isActive, status){
-//                    console.log("startApp. Starting App: Client Active: " + isActive
-//                        + ". Client Status: " + status);
-                },
-                errorStartApp : function (){
-                    console.log("errorStartApp. Error. Couldn't Start Application");
-                },
-
-                getVersion: function(){
-                    if(!!$window.wizUtils){
-                        $window.wizUtils.getBundleVersion(function(result){
-                            App.setBundleVersion(result);
-                        });
-                        $window.wizUtils.getBundleIdentifier(function(id){
-                            App.setBundleId(id);
-                        });
-                    }else{
-                        console.log('$window.wizUtils Object not available. Are you directly on a browser?');
-                    }
                 },
 
                 setCurrentSection : function(sect){
@@ -250,6 +251,22 @@ angular
                     return prevSection;
                 },
 
+                bindEvents : bindEvents,
+
+                onDeviceReady : onDeviceReady,
+
+                receivedEvent : receivedEvent,
+
+                initAllAppData : initAllAppData,
+
+                startAppOffline : startAppOffline,
+
+                startApp : startApp,
+
+                errorStartApp : errorStartApp,
+
+                getVersion: getVersion,
+
                 isBlockedSection : isBlockedSection,
 
                 isOnUtilitySection : isOnUtilitySection,
@@ -265,10 +282,7 @@ angular
                  * @name core.Services.CordovaApp#init
                  * @methodOf core.Services.CordovaApp
                  */
-                init : function() {
-                    that = this;
-                    this.bindEvents();
-                }
+                init : init
             };
         }
     ]);
