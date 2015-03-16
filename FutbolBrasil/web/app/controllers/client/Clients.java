@@ -137,20 +137,22 @@ public class Clients extends HecticusController {
 
                     client = new Client(2, login, password, country, date, language);
                     ArrayList<ClientHasDevices> devices = new ArrayList<>();
-                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                    while (devicesIterator.hasNext()) {
-                        ObjectNode next = (ObjectNode) devicesIterator.next();
-                        if (next.has("device_id") && next.has("registration_id")) {
-                            String registrationId = next.get("registration_id").asText();
-                            int deviceId = next.get("device_id").asInt();
-                            Device device = Device.finder.byId(deviceId);
-                            if (device != null) {
-                                ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
-                                devices.add(clientHasDevice);
-                                otherRegsIDs = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
-                                if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
-                                    for (ClientHasDevices clientHasDevices : otherRegsIDs) {
-                                        clientHasDevices.delete();
+                    if(clientData.has("devices")) {
+                        Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                        while (devicesIterator.hasNext()) {
+                            ObjectNode next = (ObjectNode) devicesIterator.next();
+                            if (next.has("device_id") && next.has("registration_id")) {
+                                String registrationId = next.get("registration_id").asText();
+                                int deviceId = next.get("device_id").asInt();
+                                Device device = Device.finder.byId(deviceId);
+                                if (device != null) {
+                                    ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                    devices.add(clientHasDevice);
+                                    otherRegsIDs = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                                    if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
+                                        for (ClientHasDevices clientHasDevices : otherRegsIDs) {
+                                            clientHasDevices.delete();
+                                        }
                                     }
                                 }
                             }
