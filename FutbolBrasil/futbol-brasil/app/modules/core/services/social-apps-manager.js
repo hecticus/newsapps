@@ -7,8 +7,10 @@
  */
 angular
     .module('core')
-    .factory('SocialAppsManager', ['$window', 'Utilities','$fb','$twt',
-        function($window, Utilities, $fb, $twt) {
+    .factory('SocialAppsManager', ['$window', 'Utilities',
+        function($window, Utilities) {
+//    .factory('SocialAppsManager', ['$window', 'Utilities','$fb','$twt',
+//        function($window, Utilities, $fb, $twt) {
 
             function share(message, subject){
                 if($window.plugins && $window.plugins.socialsharing) {
@@ -19,21 +21,21 @@ angular
             }
 
             function fbShare(message, subject) {
-                $fb.feed({
-                    name: subject,
-                    description: message,
-                    caption: subject/*,
-                    link: "http://www.phaninder.com",
-                    picture: "https://rawgit.com/pasupulaphani/angular-socialsharing/gh-pages-gen/app/images/Thirsty-Planet.png"*/
-                });
+//                $fb.feed({
+//                    name: subject,
+//                    description: message,
+//                    caption: subject/*,
+//                    link: "http://www.phaninder.com",
+//                    picture: "https://rawgit.com/pasupulaphani/angular-socialsharing/gh-pages-gen/app/images/Thirsty-Planet.png"*/
+//                });
             }
 
             function twitterShare(message, subject) {
-                $twt.intent('tweet', {
-                    text: subject + ' - ' + message/*,
-                    url: 'http://www.phaninder.com/posts/adventures-at-nodecoptor/',
-                    hashtags: 'phaninder.com'*/
-                });
+//                $twt.intent('tweet', {
+//                    text: subject + ' - ' + message/*,
+//                    url: 'http://www.phaninder.com/posts/adventures-at-nodecoptor/',
+//                    hashtags: 'phaninder.com'*/
+//                });
             }
 
             function openSocialApp(socialNet, source){
