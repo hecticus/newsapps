@@ -2,8 +2,6 @@ name := "futbolBrasil"
 
 version := "1.0-SNAPSHOT"
 
-packageArchetype.java_server
-
 scalaVersion := "2.10.1"
 
 val appDependencies = Seq(	
