@@ -295,10 +295,10 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
-    .config(['$locationProvider', '$httpProvider', '$translateProvider',
-        function($locationProvider, $httpProvider, $translateProvider) {
-//    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider',
-//        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider) {
+//    .config(['$locationProvider', '$httpProvider', '$translateProvider',
+//        function($locationProvider, $httpProvider, $translateProvider) {
+    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider',
+        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider) {
             $locationProvider.hashPrefix('!');
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.interceptors.push(['$q', '$location', '$injector',
@@ -313,10 +313,10 @@ angular
                 }
             ]);
 
-//            if(!window.cordova) {
-//                $fbProvider.init(320314531485580);
-//                $twtProvider.init().trimText(true);
-//            }
+            if(!window.cordova) {
+                $fbProvider.init(320314531485580);
+                $twtProvider.init().trimText(true);
+            }
 
             $translateProvider.translations('en', translationsEn);
             $translateProvider.translations('es', translationsEs);
