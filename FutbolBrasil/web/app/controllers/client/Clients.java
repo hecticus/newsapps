@@ -1915,6 +1915,7 @@ public class Clients extends HecticusController {
       
     //FAKE UPSTREAM RESPONSE
     public static Result upstreamFakeCreate() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
         Http.Request req = Http.Context.current().request();
         Map<String, String[]> headerMap = req.headers();
         boolean hasAuth = false;
@@ -1930,6 +1931,7 @@ public class Clients extends HecticusController {
         return ok(response);
     }
     public static Result upstreamFakeLogin() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
         Http.Request req = Http.Context.current().request();
         Map<String, String[]> headerMap = req.headers();
         boolean hasAuth = false;
@@ -1949,6 +1951,7 @@ public class Clients extends HecticusController {
         return ok(response);
     }
     public static Result upstreamFakeStatus() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
         Http.Request req = Http.Context.current().request();
         Map<String, String[]> headerMap = req.headers();
         boolean hasAuth = false;
@@ -1970,11 +1973,13 @@ public class Clients extends HecticusController {
         return ok(response);
     }
     public static Result upstreamFakeResetPass() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
         ObjectNode response = Json.newObject();
         response.put("result",0);
         return ok(response);
     }
     public static Result upstreamFakeEventSend() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
         ObjectNode response = Json.newObject();
         response.put("result",0);
         return ok(response);
