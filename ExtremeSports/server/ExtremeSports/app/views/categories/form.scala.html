@@ -1,0 +1,58 @@
+@(categoryViewForm: Form[models.content.posts.Category])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import tags._
+
+@title = {}
+
+@main(title = Messages("categories.create"), nav = "create") {
+
+    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Error!</strong> @flash.get("success")
+        </div>
+    }
+
+    @if(categoryViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@categoryViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(action = controllers.routes.CategoriesView.submit) {
+
+        <fieldset>
+            <div class="row">
+                <div class="col-md-10">
+                    <legend>@Messages("categories.info")</legend>
+                    @inputText(
+                        categoryViewForm("name"),
+                        '_label -> Messages("categories.name"),
+                        '_help -> Messages("categories.name.help"),
+                        'class -> "form-control",
+                        '_error -> categoryViewForm.globalError
+                    )
+                </div>
+                <div class="col-md-2">
+                    @materialCheckbox(
+                        categoryViewForm("followable"),
+                        '_label -> Messages("categories.followable"),
+                        'class -> "allCheckbox"
+                    )
+                </div>
+            </div>
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn btn-success" value=@Messages("categories.submit.create")>
+            <a href="@controllers.routes.CategoriesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+}

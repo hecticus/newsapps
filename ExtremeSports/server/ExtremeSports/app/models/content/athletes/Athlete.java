@@ -225,6 +225,7 @@ public class Athlete extends HecticusModel {
      * @param filter Filter applied on the name column
      */
     public static Page<Athlete> page(int page, int pageSize, String sortBy, String order, String filter) {
+        System.out.println(page);
         return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 

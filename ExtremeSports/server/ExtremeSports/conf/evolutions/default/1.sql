@@ -21,6 +21,7 @@ create table athlete_has_social_network (
 create table categories (
   id_category               integer auto_increment not null,
   name                      varchar(255),
+  followable                tinyint(1) default 0,
   constraint pk_categories primary key (id_category))
 ;
 

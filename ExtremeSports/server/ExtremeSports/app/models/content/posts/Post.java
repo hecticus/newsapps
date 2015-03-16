@@ -184,6 +184,9 @@ public class Post extends HecticusModel {
     }
 
 
+    public String getTitle(){
+        return localizations.get(0).getTitle();
+    }
 
     public int getLocalizationIndex(Language language) {
         PostHasLocalization phl = PostHasLocalization.finder.where().eq("post", this).eq("language", language).findUnique();
@@ -347,7 +350,7 @@ public class Post extends HecticusModel {
     }
 
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().ilike("athletes.name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+        return finder.where().ilike("source", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 
 

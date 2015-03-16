@@ -295,6 +295,8 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
+//    .config(['$locationProvider', '$httpProvider', '$translateProvider',
+//        function($locationProvider, $httpProvider, $translateProvider) {
     .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider',
         function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider) {
             $locationProvider.hashPrefix('!');
@@ -311,8 +313,10 @@ angular
                 }
             ]);
 
-            $fbProvider.init(320314531485580);
-            $twtProvider.init().trimText(true);
+            if(!window.cordova) {
+                $fbProvider.init(320314531485580);
+                $twtProvider.init().trimText(true);
+            }
 
             $translateProvider.translations('en', translationsEn);
             $translateProvider.translations('es', translationsEs);
@@ -322,7 +326,7 @@ angular
             $translateProvider.usePostCompiling(true);
         }
     ])
-    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client) {
+    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client, Analytics) {
         CordovaApp.init();
         $rootScope.contentClass = 'content-init';
         $rootScope.$storage = $localStorage.$default({
@@ -387,6 +391,8 @@ angular
             if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }
+
+            Analytics.trackView(toState.name);
         });
 
     });

@@ -52,7 +52,9 @@ public class HecticusController extends Controller {
 		return jsonInfo;
 	}
 
-
+    public static Http.MultipartFormData getMultiformData(){
+        return request().body().asMultipartFormData();
+    }
 
     public static Map<String, Object> getJsonWithFiles(){
         ObjectNode jsonInfo = Json.newObject();
