@@ -122,12 +122,12 @@ angular
                     headers: headers
                 };
 
-                console.log('sendEvent:');
+//                console.log('sendEvent:');
                 var obj = {
                   "headers" : headers,
                   "body" : data
                 };
-                console.log(JSON.stringify(obj));
+//                console.log(JSON.stringify(obj));
 
 //                return $http.post(eventUrl, data, config).then(success, error);
 

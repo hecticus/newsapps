@@ -244,6 +244,20 @@ module.exports = [
         "clobbers": [
             "window.wizUtils"
         ]
+    },
+    {
+        "file": "plugins/com.xmartlabs.cordova.market/www/market.js",
+        "id": "com.xmartlabs.cordova.market.Market",
+        "clobbers": [
+            "cordova.plugins.market"
+        ]
+    },
+    {
+        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
+        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
+        "clobbers": [
+            "analytics"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -262,7 +276,9 @@ module.exports.metadata =
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "com.hecticus.cordova.plugins.sharedconfigurations": "1.0.0",
     "com.phonegap.plugins.facebookconnect": "0.11.0",
-    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0"
+    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0",
+    "com.xmartlabs.cordova.market": "1.0",
+    "com.danielcwilson.plugins.googleanalytics": "0.6.1"
 }
 // BOTTOM OF METADATA
 });

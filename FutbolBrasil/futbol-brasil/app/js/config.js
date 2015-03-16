@@ -5,8 +5,7 @@ var ApplicationConfiguration = (function() {
     // Init module configuration options
     var applicationModuleName = 'FutbolBrasil';
     var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngStorage', 'ngAnimate'
-        , 'ngTouch', 'ngSanitize', 'pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.utils'];
-    //'socialsharing',
+        , 'ngTouch', 'ngSanitize', 'pascalprecht.translate', 'socialsharing', 'ui.router', 'ui.bootstrap', 'ui.utils'];
 
     // Add a new vertical module
     var registerModule = function(moduleName) {
