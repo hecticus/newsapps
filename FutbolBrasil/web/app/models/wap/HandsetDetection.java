@@ -20,7 +20,6 @@ public class HandsetDetection extends Controller {
     public static final Integer CHTML = 0;
     public static final Integer WML = -1;
 
-
     private Integer levelSupport;
     private String contentType;
     private String resolution_width;
@@ -32,7 +31,7 @@ public class HandsetDetection extends Controller {
 
     private String general_vendor;
     private String general_model;
-
+    private Integer status;
 
     public HandsetDetection()  {
 
@@ -48,40 +47,49 @@ public class HandsetDetection extends Controller {
                     .post(dataJson);
 
             JsonNode jDevice = wsDevice.get(10000).asJson();
-            JsonNode jMarkup = jDevice.get("markup");
-            JsonNode jXhtmlUi = jDevice.get("xhtml_ui");
-            JsonNode jHdSpecs = jDevice.get("hd_specs");
-            JsonNode jDisplay = jDevice.get("display");
+            this.status = jDevice.get("status").asInt();
 
-            this.levelSupport = jMarkup.get("xhtml_support_level").asInt();
-            this.contentType = jXhtmlUi.get("xhtmlmp_preferred_mime_type").asText();
 
-            /*System.out.println("---------------------------------");
-            System.out.println(jDisplay.toString());
-            System.out.println(jHdSpecs.get("general_platform").asText());
-            System.out.println(jHdSpecs.get("general_platform_version").asText());
-            System.out.println(jHdSpecs.get("general_type").asText());
-            System.out.println(jHdSpecs.get("general_vendor").asText());
-            System.out.println(jHdSpecs.get("general_model").asText());
-            System.out.println("---------------------------------");*/
+            if (this.status == 0) {
 
-            this.resolution_width = jHdSpecs.get("resolution_width").asText();
-            this.resolution_height = jHdSpecs.get("resolution_height").asText();
-            this.general_platform = jHdSpecs.get("general_platform").asText();
-            this.general_platform_version = jHdSpecs.get("general_platform_version").asText();
-            this.general_type = jHdSpecs.get("general_type").asText();
-            this.general_vendor = jHdSpecs.get("general_vendor").asText();
-            this.general_model = jHdSpecs.get("general_model").asText();
+                JsonNode jMarkup = jDevice.get("markup");
+                JsonNode jXhtmlUi = jDevice.get("xhtml_ui");
+                JsonNode jHdSpecs = jDevice.get("hd_specs");
+                JsonNode jDisplay = jDevice.get("display");
 
-            if ((this.levelSupport == this.XHTML_SIMPLE)
-                    || (this.levelSupport ==  this.XHTML_ADV)){
-                response().setContentType(this.contentType);
-            } else {
-                response().setContentType("text/html");
+
+                /*System.out.println("---------------------------------");
+                System.out.println(jDevice.toString());
+                System.out.println(jHdSpecs.get("general_platform").asText());
+                System.out.println(jHdSpecs.get("general_platform_version").asText());
+                System.out.println(jHdSpecs.get("general_type").asText());
+                System.out.println(jHdSpecs.get("general_vendor").asText());
+                System.out.println(jHdSpecs.get("general_model").asText());
+                System.out.println("---------------------------------");*/
+
+                this.levelSupport = jMarkup.get("xhtml_support_level").asInt();
+                this.contentType = jXhtmlUi.get("xhtmlmp_preferred_mime_type").asText();
+                this.resolution_width = jHdSpecs.get("resolution_width").asText();
+                this.resolution_height = jHdSpecs.get("resolution_height").asText();
+                this.general_platform = jHdSpecs.get("general_platform").asText();
+                this.general_platform_version = jHdSpecs.get("general_platform_version").asText();
+                this.general_type = jHdSpecs.get("general_type").asText();
+                this.general_vendor = jHdSpecs.get("general_vendor").asText();
+                this.general_model = jHdSpecs.get("general_model").asText();
+
+                if ((this.levelSupport == this.XHTML_SIMPLE)
+                        || (this.levelSupport ==  this.XHTML_ADV)){
+                    response().setContentType(this.contentType);
+                } else {
+                    response().setContentType("text/html");
+                }
+
             }
 
+
+
         } catch (Exception e) {
-          //
+            //this.status = -1;
         }
 
     }
@@ -156,8 +164,16 @@ public class HandsetDetection extends Controller {
         return general_model;
     }
 
-    public void settGeneralModel(String general_model) {
+    public void setGeneralModel(String general_model) {
         this.general_model = general_model;
+    }
+
+    public Integer getStatus(){
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
 }

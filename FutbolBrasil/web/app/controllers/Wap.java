@@ -25,14 +25,16 @@ public class Wap extends Controller {
 
     public static Result getLogin() {
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
         return ok(login.render(form,HD,0));
     }
 
     public static Result getPassword() {
 
         HandsetDetection HD = new HandsetDetection();
-        Form<Client> filledForm = form.bindFromRequest();
+        if (HD.getStatus() != 0) return ok("Error");
 
+        Form<Client> filledForm = form.bindFromRequest();
         ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", 1);
         jCompetition.put("login", filledForm.field("msisdn").value());
@@ -55,8 +57,9 @@ public class Wap extends Controller {
     public static Result createClient() {
 
         HandsetDetection HD = new HandsetDetection();
-        Form<Client> filledForm = form.bindFromRequest();
+        if (HD.getStatus() != 0) return ok("Error");
 
+        Form<Client> filledForm = form.bindFromRequest();
         ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", 1);
         jCompetition.put("login", filledForm.field("msisdn").value());
@@ -85,6 +88,8 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
 
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
+
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(0)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         JsonNode jNews = jResponse.get("response").get("news");
@@ -98,6 +103,8 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
 
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
+
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(idNews)).get();
         JsonNode jNews = wsResponse.get(10000).asJson().get("response");
         return ok(news.render(HD, jNews, "summary"));
@@ -110,6 +117,7 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
 
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
         JsonNode jCompetitions = getCompetition();
         return ok(competitions.render(HD, jCompetitions, route));
 
@@ -121,6 +129,8 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
 
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
+
         Promise<WSResponse> wsResponse = WS.url(oDomain.matches(idCompetition,LIMIT, page  * LIMIT)).get();
 
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -147,6 +157,8 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
 
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
+
         Promise<WSResponse> wsResponse = WS.url(oDomain.mtm(idCompetition, idMatch, idEvent)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
@@ -168,6 +180,8 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
 
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getStatus() != 0) return ok("Error");
+
         Promise<WSResponse> wsResponse = WS.url(oDomain.scorers(idCompetition)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
