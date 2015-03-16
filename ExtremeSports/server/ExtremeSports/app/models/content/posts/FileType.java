@@ -115,4 +115,8 @@ public class FileType extends HecticusModel {
         }
         return  iterator;
     }
+
+    public static FileType getByMimeType(String contentType){
+        return finder.where().eq("mimeType", contentType).findUnique();
+    }
 }

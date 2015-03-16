@@ -34,6 +34,7 @@ public class Application extends Controller {
         return ok("OK");
     }
 
+    @Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
         return ok(index.render("Your new application is ready."));
     }

@@ -25,6 +25,8 @@ public class Category extends HecticusModel {
     @Constraints.Required
     private String name;
 
+    private Boolean followable;
+
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     private List<PostHasCategory> posts;//cambiar por posts
 
@@ -69,10 +71,19 @@ public class Category extends HecticusModel {
         this.localizations = localizations;
     }
 
+    public Boolean getFollowable() {
+        return followable;
+    }
+
+    public void setFollowable(Boolean followable) {
+        this.followable = followable;
+    }
+
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
         response.put("id_category", idCategory);
         response.put("name", name);
+        response.put("followable", followable);
         if(posts != null && !posts.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(PostHasCategory ad : posts){
@@ -96,6 +107,7 @@ public class Category extends HecticusModel {
         ObjectNode response = Json.newObject();
         response.put("id_category", idCategory);
         response.put("name", name);
+        response.put("followable", followable);
         return response;
     }
 
@@ -139,4 +151,6 @@ public class Category extends HecticusModel {
         }
         return  iterator;
     }
+
+
 }
