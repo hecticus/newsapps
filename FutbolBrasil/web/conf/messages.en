@@ -162,7 +162,8 @@ MTM_LABEL=Live
 
 LOGIN_TITLE=Register to access the football news of the day, every day.
 LOGIN_TITLE_MSISDN=Enter your mobile number.
-LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
+LOGIN_TITLE_PASSWORD=Enter the password received by SMS.
 BUTTON_NEXT=Next
 BUTTON_CONFIRM=Confirm
+BUTTON_AGAIN_PASSWORD=Request password again
 ### -- </wap> --- ###

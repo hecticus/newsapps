@@ -43,12 +43,11 @@ public class Wap extends Controller {
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
 
-        System.out.println(jResponse.toString());
         if (iError == 0) {
             setAccessControl(filledForm);
             return ok(login.render(filledForm,HD,1));
         } else {
-            return ok(sDescription);
+            return ok(error.render(HD,sDescription));
         }
 
     }
@@ -69,11 +68,12 @@ public class Wap extends Controller {
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
         System.out.println(jResponse.toString());
+
         if (iError == 0) {
             setAccessControl(filledForm);
             return redirect(controllers.routes.Wap.index());
         } else {
-            return ok(sDescription);
+            return ok(error.render(HD,sDescription));
         }
 
     }
@@ -136,7 +136,7 @@ public class Wap extends Controller {
         if (iError == 0) {
             return ok(matches.render(HD, jResponse.get("response"), jOCompetition, LIMIT, page));
         } else {
-            return ok(sDescription);
+            return ok(error.render(HD,sDescription));
         }
 
     }
@@ -156,7 +156,7 @@ public class Wap extends Controller {
         if (iError == 0) {
             return ok(mtm.render(HD, jResponse.get("response"), idCompetition,nameCompetition, idMatch));
         } else {
-            return ok(sDescription);
+            return ok(error.render(HD,sDescription));
         }
 
     }
@@ -177,7 +177,7 @@ public class Wap extends Controller {
         if (iError == 0) {
             return ok(scorers.render(HD, jResponse.get("response").get("scorers"), nameCompetition));
         } else {
-            return ok(sDescription);
+            return ok(error.render(HD,sDescription));
         }
 
     }
@@ -243,6 +243,7 @@ public class Wap extends Controller {
         }
 
     }
+
 
 }
 

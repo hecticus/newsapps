@@ -165,4 +165,5 @@ LOGIN_TITLE_MSISDN=Digite seu numero de celular.
 LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
 BUTTON_NEXT=Next
 BUTTON_CONFIRM=Confirmar
+BUTTON_AGAIN_PASSWORD=Enviar novamente a senha
 ### -- </wap> --- ###

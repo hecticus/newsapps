@@ -161,7 +161,8 @@ MTM_LABEL=En vivo
 
 LOGIN_TITLE=Regístrese para acceder a las noticias de fútbol del día, todos los días.
 LOGIN_TITLE_MSISDN=Introduzca su número de teléfono.
-LOGIN_TITLE_PASSWORD=Enter the password received via SMS.
+LOGIN_TITLE_PASSWORD=Introduzca la contraseña recibida via SMS.
 BUTTON_NEXT=Continuar
 BUTTON_CONFIRM=Confirmar
+BUTTON_AGAIN_PASSWORD=Solicitar contraseña nuevamente
 ### -- </wap> --- ###

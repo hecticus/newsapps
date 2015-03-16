@@ -2,11 +2,14 @@
 
 @if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 
-    @xhtml{
+    @xhtml(HD){
         @if(view == "summary") {
             <h3>@jNews.get("title").asText()</h3>
             <p style="font-size: small;">
                 @jNews.get("summary").asText()
+            </p>
+            <p style="font-size: small;">
+                <a href="@routes.Wap.index()">Volver</a>
             </p>
         } else {
             @for(item <- jNews.iterator()) {
