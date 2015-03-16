@@ -7,30 +7,31 @@
  */
 angular
     .module('core')
-    .factory('Competitions',['$localStorage', '$http', '$q', 'Domain',
-        function($localStorage, $http, $q, Domain) {
+    .factory('Competitions',['$localStorage', '$http', '$q', 'Domain', 'WebManager', 'Client',
+        function($localStorage, $http, $q, Domain, WebManager, Client) {
             var FILE_KEY_COMPETITIONS = "APPCOMPETITIONS";
 
             var localStorage = $localStorage;
             var competitions = [];
+            var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
 
-            var saveCompetitions = function (comps) {
+            function saveCompetitions(comps) {
                 if(comps){
                     competitions = comps;
                 }
                 localStorage[FILE_KEY_COMPETITIONS] = competitions;
-            };
+            }
 
-            var loadCompetitions = function () {
+            function loadCompetitions() {
                 if(localStorage[FILE_KEY_COMPETITIONS]){
                     competitions = localStorage[FILE_KEY_COMPETITIONS];
                 } else {
                     getCompetitions();
                 }
                 return competitions;
-            };
+            }
 
-            var getCompetitions = function() {
+            function getCompetitions() {
                 return $http.get(Domain.competitions).then(function(response, status){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
@@ -38,7 +39,26 @@ angular
                 },function(response){
                     return $q.reject(response.data);
                 });
-            };
+            }
+
+            function getScorers(id_competition){
+                return $http.get(Domain.scorers(id_competition), config)
+                    .then(function (data) {
+                        data = data.data;
+                        if (data.error == 0) {
+                            return data.response.scorers;
+                        } else {
+                            return [];
+                        }
+                    }, function (response) {
+                        return $q.reject(response.data);
+                    }
+                );
+            }
+
+            function init(){
+                loadCompetitions();
+            }
 
             return {
 
@@ -48,9 +68,7 @@ angular
                  * @methodOf core.Services.Competitions
                  * @return {boolean} Returns a boolean value
                  */
-                init: function() {
-                    loadCompetitions();
-                },
+                init: init,
 
                 /**
                  * @ngdoc function
@@ -59,6 +77,8 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 get: getCompetitions(),
+
+                getScorers: getScorers,
 
                 leaderboard : {
                     personal : {

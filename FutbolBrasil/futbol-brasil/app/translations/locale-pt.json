@@ -48,7 +48,7 @@
         }
     },
     "LEADERBOARD" : {
-        "TOURNAMENT" : "Torneo",
+        "TOURNAMENT" : "Torneio",
         "PHASE" : "Jornada",
         "PLAYER" : "Jogador",
         "POINTS" : "Pontos",
@@ -59,7 +59,11 @@
     "EMPTY_STATES" : {
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
-        "POINTS" : "Você não tem informação de pontos disponível"
+        "POINTS" : "Você não tem informação de pontos disponível",
+        "MATCH" : "Não há jogos para este día",
+        "SCORERS" : "Não há artilheiros para este torneio",
+        "TEAMS" : "Não foi possível obter equipes",
+        "LANGUAGES" : "Não foi possível obter idiomas"
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apelido",

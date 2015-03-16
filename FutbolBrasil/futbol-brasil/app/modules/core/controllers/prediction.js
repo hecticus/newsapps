@@ -13,7 +13,7 @@ angular
             function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Bets, Moment, iScroll, Competitions) {
 
 
-            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+            var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
             $scope.vWrapper = {
                 name:'wrapperV',

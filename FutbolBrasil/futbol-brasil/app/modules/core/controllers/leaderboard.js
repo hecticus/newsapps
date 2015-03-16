@@ -13,7 +13,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $window, Client, WebManager, Domain
             , FacebookManager, iScroll, Competitions) {
 
-            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+            var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
             var _currentPage = 0;
             $scope.item = {};

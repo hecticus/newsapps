@@ -34,13 +34,10 @@ angular
             };
 
             $scope.getPoints = function(){
+                $scope.$emit('load');
                 Competitions.leaderboard.personal.tournament().then(function(response){
                     $scope.tournaments = response;
-                    if($scope.tournaments.length <= 0){
-                        $scope.hasScore = false;
-                    } else {
-                        $scope.hasScore = true;
-                    }
+                    $scope.hasScore = $scope.tournaments.length > 0;
                     var date = Moment.date().format('YYYYMMDD');
                     $scope.tournaments.forEach(function(tournament){
                         Competitions.leaderboard.personal.phase.latest(tournament.id_tournament, date)
@@ -86,10 +83,12 @@ angular
                                 );
                             });
                     });
+                    $scope.$emit('unload');
                 });
             };
 
             $scope.init = function(){
+                $scope.$emit('unload');
                 $scope.getPoints();
                 $scope.tournamentScroll = iScroll.vertical($scope.tournamentScrollId);
             }();
