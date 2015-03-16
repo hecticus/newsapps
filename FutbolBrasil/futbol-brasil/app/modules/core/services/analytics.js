@@ -15,12 +15,15 @@ angular
                 console.log(!!$window.analytics);
                 if(!!$window.analytics) {
                     $window.analytics.startTrackerWithId('UA-60801639-1');
+                } else {
+                    console.log('$window.analytics Plugin not available. Are you directly on a browser?');
                 }
             }
 
             function trackView(title){
                 if(!!$window.analytics){
                     $window.analytics.trackView(title);
+                    console.log('trackView: ' + title);
                 } else {
                     console.log('$window.analytics Plugin not available. Are you directly on a browser?');
                 }
@@ -30,6 +33,7 @@ angular
                 if(!!$window.analytics){
                     if(event.category && event.action){
                         $window.analytics.trackEvent(event.category, event.action, event.label, event.value)
+                        console.log('trackEvent: ' + JSON.stringify(event, null, 2));
                     } else {
                         console.log('No Category and Action defined for Event');
                     }

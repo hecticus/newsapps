@@ -12,7 +12,6 @@ angular
         function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
                  PushManager, FacebookManager, Settings, Competitions, App, Upstream, Analytics) {
 
-            var that = this;
             var updateCallback = null;
             var currentSection = '';
             var prevSection = '';
@@ -34,6 +33,19 @@ angular
                 updateInfo.bundle_id = App.getBundleId();
                 if(updateInfo.update === 1){
                     updateCallback(updateInfo);
+                }
+            }
+
+            function getVersion(){
+                if(!!$window.wizUtils){
+                    $window.wizUtils.getBundleVersion(function(result){
+                        App.setBundleVersion(result);
+                    });
+                    $window.wizUtils.getBundleIdentifier(function(id){
+                        App.setBundleId(id);
+                    });
+                }else{
+                    console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                 }
             }
 
@@ -99,12 +111,10 @@ angular
                 }
             }
 
-            function showNotificationDialog(data,
-                  confirmCallback, cancelCallback){
+            function showNotificationDialog(data, confirmCallback, cancelCallback){
                 var hasNotificationPlugin = !!navigator.notification;
                 if (hasNotificationPlugin) {
-                    navigator.notification
-                        .confirm(data.message
+                    navigator.notification.confirm(data.message
                         , function(btnIndex){
                             switch (btnIndex) {
                                 case 1:
@@ -116,8 +126,7 @@ angular
                                 default:
                             }
                         }
-                        , data.title
-                        , [data.confirm, data.cancel]);
+                        , data.title, [data.confirm, data.cancel]);
                 } else {
                     var confirmFallback = confirm(data.message);
                     if (confirmFallback === true) {
@@ -146,7 +155,7 @@ angular
 
             function bindEvents() {
 //                    console.log('CordovaApp. bindEvents. ');
-                document.addEventListener('deviceready', that.onDeviceReady, false);
+                document.addEventListener('deviceready', onDeviceReady, false);
                 document.addEventListener('touchmove', function (e) {
                     e.preventDefault();
                 }, false);
@@ -157,11 +166,6 @@ angular
                 }
             }
 
-            function onDeviceReady() {
-                receivedEvent('deviceready');
-                initAllAppData();
-            }
-
             function receivedEvent(id){
                 if (id === 'deviceready') {
                     document.addEventListener('backbutton', function(e){
@@ -170,6 +174,24 @@ angular
                     }, false);
                     getVersion();
                 }
+            }
+
+            function onDeviceReady() {
+                receivedEvent('deviceready');
+                initAllAppData();
+            }
+
+            function startApp(isActive, status){
+                    console.log("startApp. Starting App: Client Active: " + isActive
+                        + ". Client Status: " + status);
+            }
+
+            function startAppOffline(){
+                console.log("startAppOffline. App Offline");
+            }
+
+            function errorStartApp(){
+                console.log("errorStartApp. Error. Couldn't Start Application");
             }
 
             function initAllAppData() {
@@ -197,33 +219,7 @@ angular
                         }
                     );
                 }else{
-                    this.startAppOffline();
-                }
-            }
-
-            function startApp(isActive, status){
-//                    console.log("startApp. Starting App: Client Active: " + isActive
-//                        + ". Client Status: " + status);
-            }
-
-            function startAppOffline(){
-                console.log("startAppOffline. App Offline");
-            }
-
-            function errorStartApp(){
-                console.log("errorStartApp. Error. Couldn't Start Application");
-            }
-
-            function getVersion(){
-                if(!!$window.wizUtils){
-                    $window.wizUtils.getBundleVersion(function(result){
-                        App.setBundleVersion(result);
-                    });
-                    $window.wizUtils.getBundleIdentifier(function(id){
-                        App.setBundleId(id);
-                    });
-                }else{
-                    console.log('$window.wizUtils Object not available. Are you directly on a browser?');
+                    startAppOffline();
                 }
             }
 
