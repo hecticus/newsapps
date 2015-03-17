@@ -205,7 +205,7 @@ angular
                                 Upstream.appLaunchEvent();
                             }, 300);
 
-                            if(CordovaDevice.isWebPlatform()){
+                            if(!CordovaDevice.isWebPlatform()){
                                 Update.checkUpdate();
                             }
                         }, function(){
