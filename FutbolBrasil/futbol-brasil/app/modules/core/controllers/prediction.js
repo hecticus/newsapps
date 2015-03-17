@@ -10,8 +10,8 @@ angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
             'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll', 'Competitions',
-            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window, Domain, Bets, Moment, iScroll, Competitions) {
-
+            function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window,
+                     Domain, Bets, Moment, iScroll, Competitions) {
 
             var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
@@ -52,12 +52,10 @@ angular
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
 
                 if (_status == 0) {
-
                   var _jLeagues = $scope.leagues[_iLeague];
                   var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
 
                   if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
-
                       $scope.$emit('load');
                       if (_status == 0) {
                           if (_jMatch.bet) {
@@ -87,13 +85,9 @@ angular
 
                       _Match = _jMatch.id_game_matches;
                       _mBet = _bet;
-
-                  };
-
-                };
-
+                  }
+                }
             };
-
 
             $scope.getBets = function(){
 
