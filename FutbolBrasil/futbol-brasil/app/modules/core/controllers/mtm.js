@@ -34,7 +34,7 @@ angular
             $scope.refreshEvents = function () {
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
-                    var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                    var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
                     //TODO check request cableado, no se valida que venga vacio data.response
                     $http.get(Domain.mtm(16, 3321, _event.first), config).then(
@@ -103,7 +103,7 @@ angular
                 var date = Moment.date().format('YYYYMMDD');
 //                date = "20150222";
 
-                var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
                 config.params.pageSize = 100;
                 config.params.page = 0;
 

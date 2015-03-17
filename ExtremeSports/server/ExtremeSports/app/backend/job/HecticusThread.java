@@ -1,7 +1,7 @@
 package backend.job;
 
 import akka.actor.Cancellable;
-import models.Job;
+import models.basic.Job;
 import models.basic.Config;
 import utils.Utils;
 

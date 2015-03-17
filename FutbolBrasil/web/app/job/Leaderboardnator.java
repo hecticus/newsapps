@@ -5,9 +5,13 @@ import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Action;
 import models.basic.Config;
+import models.clients.Client;
 import models.leaderboard.LeaderboardPush;
 import play.db.DB;
+import play.libs.F;
 import play.libs.Json;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import utils.Utils;
 
 import java.net.URLEncoder;
@@ -16,6 +20,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -75,6 +80,7 @@ public class Leaderboardnator extends HecticusThread {
     }
 
     private void processPushEvents(int pmcIdApp, int pageSize, int idAction){
+        Client client = null;
         PagingList<LeaderboardPush> pushPager = LeaderboardPush.finder.where().orderBy("score asc").findPagingList(pageSize);
         int totalPageCount = pushPager.getTotalPageCount();
         if(totalPageCount > 0) {
@@ -83,15 +89,21 @@ public class Leaderboardnator extends HecticusThread {
                 List<LeaderboardPush> pushPage = pushPager.getPage(i).getList();
                 for(LeaderboardPush leaderboardPush : pushPage){
                     int points = leaderboardPush.getScore();
-                    int client = leaderboardPush.getClient().getIdClient();
-                    if(pointClients.containsKey(points)){
-                        pointClients.get(points).add(client);
-                    } else {
-                        ArrayList<Integer> temp = new ArrayList<Integer>();
-                        temp.add(client);
-                        pointClients.put(points, temp);
+                    client = leaderboardPush.getClient();
+                    boolean notified = true;
+                    if(client.getStatus() == 1){
+                        notified = notifyPointsToUpstream(client, points);
                     }
-                    leaderboardPush.delete();
+                    if(notified) {
+                        if (pointClients.containsKey(points)) {
+                            pointClients.get(points).add(client.getIdClient());
+                        } else {
+                            ArrayList<Integer> temp = new ArrayList<Integer>();
+                            temp.add(client.getIdClient());
+                            pointClients.put(points, temp);
+                        }
+                        leaderboardPush.delete();
+                    }
                 }
 
                 ObjectNode event = Json.newObject();
@@ -119,6 +131,22 @@ public class Leaderboardnator extends HecticusThread {
         }
     }
 
+    private boolean notifyPointsToUpstream(Client client, int points) {
+        try {
+            ObjectNode event = Json.newObject();
+            ObjectNode metadata = Json.newObject();
+            metadata.put("points", points);
+            event.put("event_type", "UPD_POINTS");
+            event.put("metadata", metadata);
+            F.Promise<WSResponse> result = WS.url("http://" + Config.getHost() + "/futbolbrasil/v2/client/" + client.getIdClient() + "/upstream").post(event);
+            ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+            return response.get("error").asInt() == 0;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private String resolvePointsMessage(int point, int idAction) {
         Action action = Action.finder.where().eq("idAction", idAction).findUnique();
         String msg = action.getMsg();
@@ -127,9 +155,8 @@ public class Leaderboardnator extends HecticusThread {
     }
 
     private void sendPush(ObjectNode event) {
-        System.out.println(event);
-//        F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
-//        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+        F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
+        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
     }
 
 

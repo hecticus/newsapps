@@ -12,7 +12,7 @@ angular
         function($http, $translate, CordovaDevice, WebManager, FacebookManager,
                  TeamsManager, Client, Domain, i18n) {
 
-            var setLanguage = function(){
+            function setLanguage(){
                 var lang = Client.getLanguage();
                 if(!lang){
                     lang = i18n.getDefaultLanguage();
@@ -20,104 +20,75 @@ angular
                 if(lang){
                     $translate.use(lang.short_name.toLowerCase());
                 }
-            };
+            }
 
-            var getLanguage = function(){
+            function getLanguage(){
                 var lang = Client.getLanguage();
                 if(!lang){
                     lang = i18n.getDefaultLanguage();
                 }
                 return lang;
-            };
+            }
 
-            return {
+            function createOrUpdateClient(client, subscribe, successCallback, errorCallback){
+                var devices = [];
+                var device = {};
+                var isNewClient = true;
+                var lang = getLanguage();
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.ClientManager#init
-                 * @methodOf core.Services.ClientManager
-                 */
-                init : function (successCallback, errorCallback){
-                    Client.init();
-                    setLanguage();
+                var jData = {
+                    country : 3,
+                    language: lang? lang.id_language : 405,
+                    device_id : CordovaDevice.getDeviceId(),
+                    upstreamChannel : CordovaDevice.getUpstreamChannel()
+                };
 
-                    if(Client.getClientId()){
-                        TeamsManager.init();
-                        this.getClientStatus(successCallback, errorCallback);
-                    }else{
-                        //Cliente en periodo de pruebas
-                        typeof successCallback == "function" && successCallback(false, 2);
-                    }
-                },
+                var facebook_id = FacebookManager.getUserId();
+                if(facebook_id){
+                    jData.facebook_id = facebook_id;
+                }
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.ClientManager#createOrUpdateClient
-                 * @description Creates or Updates a Client on the server, if password is null
-                 * then it only upates the client
-                 * @methodOf core.Services.ClientManager
-                 */
-                createOrUpdateClient : function (client, subscribe, successCallback, errorCallback){
-                    var devices = [];
-                    var device = {};
-                    var isNewClient = true;
-                    var lang = getLanguage();
+                if(Client.getRegId()){
+                    device.device_id = jData.device_id;
+                    device.registration_id = Client.getRegId();
+                    devices.push(device);
+                }else{
+                    console.log('createOrUpdateClient. no regId.');
+                }
 
-                    var jData = {
-                        country : 3,
-                        language: lang? lang.id_language : 405,
-                        device_id : CordovaDevice.getDeviceId(),
-                        upstreamChannel : CordovaDevice.getUpstreamChannel()
-                    };
+                if(client.msisdn){
+                    jData.login = client.msisdn;
+                }
 
-                    var facebook_id = FacebookManager.getUserId();
-                    if(facebook_id){
-                        jData.facebook_id = facebook_id;
-                    }
+                if(client.password){
+                    jData.password = client.password;
+                    Client.setPassword(client.password);
+                }
 
-                    //TODO Solo para Debug en Web
-                    Client.setRegId("APA91bGUo-_CbLa7jbiwHDkUZkUjGHBuAcVMnuGLl-afFqmw_O2Gukymxf6UPPR-R8-EguAq4F4xD2Ls8Om-8gCU4xkK_ht55x-5YroQdprfAUkn0xG-G4QLj7FM4YsZEs668YF3dgZrK-K6TgzWJXL9eM7y2LcXQHHueiGeQWXdtolAhOgh1oQ");
-                    if(Client.getRegId()){
-                        device.device_id = jData.device_id;
-                        device.registration_id = Client.getRegId();
-                        devices.push(device);
-                    }else{
-                        console.log('createOrUpdateClient. no regId.');
-                    }
+                if(client.nickname){
+                    Client.setNickname(client.nickname);
+                    jData.nickname = client.nickname;
+                }
 
-                    if(client.msisdn){
-                        jData.login = client.msisdn;
-                    }
+                var url = '';
 
-                    if(client.password){
-                        jData.password = client.password;
-                        Client.setPassword(client.password);
-                    }
+                if(Client.getClientId()){
+                    url = Domain.client.update(Client.getClientId());
+                    jData.add_devices = devices;
+                    isNewClient = false;
+                } else {
+                    url = Domain.client.create;
+                    jData.devices = devices;
+                    if(subscribe){ jData.subscribe = true; }
+                    isNewClient = true;
+                }
 
-                    if(client.nickname){
-                        Client.setNickname(client.nickname);
-                        jData.nickname = client.nickname;
-                    }
-
-                    var url = '';
-
-                    if(Client.getClientId()){
-                        url = Domain.client.update(Client.getClientId());
-                        jData.add_devices = devices;
-                        isNewClient = false;
-                    } else {
-                        url = Domain.client.create;
-                        jData.devices = devices;
-                        if(subscribe){ jData.subscribe = true; }
-                        isNewClient = true;
-                    }
-
-                    $http({
-                        url : url,
-                        method: 'POST',
-                        data: jData,
-                        timeout : 60000
-                    })
+                $http({
+                    url : url,
+                    method: 'POST',
+                    data: jData,
+                    timeout : 60000
+                })
                     .success(function(data) {
                         if(typeof data == "string"){
                             data = JSON.parse(data);
@@ -127,7 +98,7 @@ angular
                         if(errorCode == 0 && response != null){
                             var isActive = Client.isActiveClient(response.status);
                             TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
-                            if(Client.updateClient(response, null)){
+                            if(Client.updateClient(response)){
                                 console.log('saveClient: true');
                                 typeof successCallback == "function" && successCallback(isNewClient);
                             }else{
@@ -146,25 +117,19 @@ angular
                         typeof errorCallback == "function" && errorCallback();
                     });
 
-                },
+            }
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.ClientManager#getClientStatus
-                 * @description Retrieves Client info from the server
-                 * @methodOf core.Services.ClientManager
-                 */
-                getClientStatus : function (successCallback, errorCallback){
-                    var upstreamChannel = CordovaDevice.getUpstreamChannel();
-                    var clientId = Client.getClientId();
+            function getClientStatus(successCallback, errorCallback){
+                var upstreamChannel = CordovaDevice.getUpstreamChannel();
+                var clientId = Client.getClientId();
 
-                    if(!clientId || !upstreamChannel){
-                        typeof errorCallback == "function" && errorCallback();
-                        return;
-                    }
+                if(!clientId || !upstreamChannel){
+                    typeof errorCallback == "function" && errorCallback();
+                    return;
+                }
 
-                    $http.get(Domain.client.get(clientId, upstreamChannel),
-                        {cache: false, timeout : 60000})
+                $http.get(Domain.client.get(clientId, upstreamChannel),
+                    {cache: false, timeout : 60000})
                     .success(function(data, status) {
                         if(typeof data == "string"){
                             data = JSON.parse(data);
@@ -176,14 +141,11 @@ angular
                             TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
                             if(Client.updateClient(response, null)){
                                 typeof successCallback == "function"
-                                    && successCallback(isActive, response.status);
+                                && successCallback(isActive, response.status);
                             }else{
                                 typeof errorCallback == "function" && errorCallback();
                             }
                         }else{
-                            /* TODO: que hacer en este caso, borrar el registro
-                             * para que empiece de cero?
-                             * */
                             console.log("Error. obteniendo status de cliente: "
                                 + data.description?data.description:'No Error Description');
                             typeof errorCallback == "function" && errorCallback();
@@ -193,20 +155,62 @@ angular
                         console.log("Error. Get status client " + data);
                         typeof errorCallback == "function" && errorCallback();
                     });
-                },
+            }
+
+            function init(successCallback, errorCallback){
+                Client.init();
+                setLanguage();
+
+                if(Client.getClientId()){
+                    TeamsManager.init();
+                    this.getClientStatus(successCallback, errorCallback);
+                }else{
+                    //Cliente en periodo de pruebas
+                    typeof successCallback == "function" && successCallback(false, 2);
+                }
+            }
+
+            function updateRegistrationId(id){
+                Client.setRegId(id);
+                if(Client.getClientId() && Client.hasToUpdateRegId()){
+                    this.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
+                }
+            }
+
+            return {
 
                 /**
                  * @ngdoc function
-                 * @name core.Services.ClientManager#updateRegistrationID
+                 * @name core.Services.ClientManager#init
+                 * @methodOf core.Services.ClientManager
+                 */
+                init : init,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.ClientManager#createOrUpdateClient
+                 * @description Creates or Updates a Client on the server, if password is null
+                 * then it only upates the client
+                 * @methodOf core.Services.ClientManager
+                 */
+                createOrUpdateClient : createOrUpdateClient,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.ClientManager#getClientStatus
+                 * @description Retrieves Client info from the server
+                 * @methodOf core.Services.ClientManager
+                 */
+                getClientStatus : getClientStatus,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.ClientManager#updateRegistrationId
                  * @description Triggers a Client info update on the server if the remote RegId differs from
                  * local RegId
                  * @methodOf core.Services.ClientManager
                  */
-                updateRegistrationID : function (){
-                    if(Client.getClientId() && Client.hasToUpdateRegId()){
-                        this.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
-                    }
-                }
+                updateRegistrationId : updateRegistrationId
             };
         }
     ]);

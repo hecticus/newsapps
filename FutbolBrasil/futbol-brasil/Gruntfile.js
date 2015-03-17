@@ -94,6 +94,7 @@ module.exports = function(grunt) {
             },
             docs: {
                 options: {
+                    port: 9001,
                     base: ['docs/']
                 }
             }

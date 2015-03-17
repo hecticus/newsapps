@@ -64,24 +64,46 @@ angular
                 }
             };
 
-
-            $scope.init = function(){
-                $rootScope.loading = false;
-                angular.forEach($scope.pages, function(_item, _index) {
-
-                    var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-                    config.params.pageSize=_limit;
-                    config.params.page = 0;
-
-                    $http.get(Domain.match(_item.date), config).then(function (data, status) {
-                            data = data.data;
-                            $scope.pages[_index].matches = data.response;
-                            $scope.$emit('unload');
-                        }, function () {
-                            $scope.$emit('unload');
-                            $scope.$emit('error');
+            function setEmptyDayFlag(day){
+                if(day.leagues.length > 0){
+                    var leagueReduce = day.leagues.reduce(function(previousValue, currentValue, index) {
+                        if(index > 1){
+                            return previousValue + currentValue.fixtures.length;
+                        }else{
+                            return previousValue.fixtures.length + currentValue.fixtures.length;
                         }
-                    );
+                    });
+//                    console.log('leagueReduce: ' + leagueReduce);
+                    day.empty = leagueReduce <= 0;
+                } else {
+                    day.empty = true;
+                }
+            }
+
+            function getDayMatches(_item, _index){
+                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
+                config.params.pageSize = _limit;
+                config.params.page = 0;
+
+                $http.get(Domain.match(_item.date), config)
+                    .then(function (data) {
+                        data = data.data;
+                        var day = data.response;
+                        setEmptyDayFlag(day);
+                        $scope.pages[_index].matches = day;
+                        $scope.$emit('unload');
+                    }, function () {
+                        $scope.$emit('unload');
+                        $scope.$emit('error');
+                    }
+                );
+            }
+
+            function init(){
+                $scope.$emit('unload');
+
+                angular.forEach($scope.pages, function(_item, _index) {
+                    getDayMatches(_item, _index);
                 });
 
                 $scope.width = $window.innerWidth;
@@ -118,44 +140,35 @@ angular
                 });
 
                 $scope.scroll.on('scroll', function () {
-
                     if (this.currentPage.pageX != _currentPage) {
-
-                        if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
-
-                            _index = $scope.pagesAfter.length + 3;
-                            $scope.pagesAfter.push(
-                                {
-                                    id: ($scope.pages.length + 1),
-                                    name: Moment.date().add(_index, 'days').format(_formatDate),
-                                    date: Moment.date().add(_index, 'days').format('YYYYMMDD')
-                                }
-                            );
-
-                            $scope.pages.push(($scope.pagesAfter[$scope.pagesAfter.length - 1]));
-                            $scope.widthTotal = (window.innerWidth * $scope.pages.length);
-
-                            $scope.$emit('load');
-
-                            _index = $scope.pages.length - 1;
-
-                            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
-                            config.params.pageSize=_limit;
-                            config.params.page = 0;
-                            $http.get(Domain.match($scope.pages[_index].date), config)
-                                .then(function (data, status) {
-                                    data = data.data;
-                                    $scope.pages[_index].matches = data.response;
-                                    $scope.$emit('unload');
-                                }, function () {
-                                    $scope.$emit('unload');
-                                    $scope.$emit('error');
-                                });
-                        }
                         _currentPage = this.currentPage.pageX;
                     }
+
+                    var page = $scope.pages[_currentPage];
+                    if(page && page.matches && page.matches.leagues && page.matches.leagues.length <1){
+                        console.log('Page Empty: ' + _currentPage);
+                    }
+
+
+                    if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
+                        _index = $scope.pagesAfter.length + 3;
+                        $scope.pagesAfter.push(
+                            {
+                                id: ($scope.pages.length + 1),
+                                name: Moment.date().add(_index, 'days').format(_formatDate),
+                                date: Moment.date().add(_index, 'days').format('YYYYMMDD')
+                            }
+                        );
+
+                        $scope.pages.push(($scope.pagesAfter[$scope.pagesAfter.length - 1]));
+                        $scope.widthTotal = (window.innerWidth * $scope.pages.length);
+
+                        $scope.$emit('load');
+                        _index = $scope.pages.length - 1;
+                        getDayMatches($scope.pages[_index], _index);
+                    }
                 });
-            }();
+            } init();
 
         }
     ]);

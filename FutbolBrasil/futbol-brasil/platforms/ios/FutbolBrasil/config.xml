@@ -86,4 +86,7 @@
         <param name="ios-package" value="WizUtilsPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="UniversalAnalytics">
+        <param name="ios-package" value="UniversalAnalyticsPlugin" />
+    </feature>
 </widget>

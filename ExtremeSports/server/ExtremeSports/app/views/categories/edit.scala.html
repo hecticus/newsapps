@@ -1,0 +1,58 @@
+@(id: Integer, categoryViewForm: Form[models.content.posts.Category], categories: Boolean)
+
+@import helper._
+@import helper.twitterBootstrap._
+@import helpers._
+
+@title = {}
+
+@main(title =  Messages(if(categories) "categories.edit" else "tags.edit"), nav = "create") {
+
+    @if(categoryViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@categoryViewForm.errorsAsJson</p>
+        </div>
+    }
+
+
+    @helper.form(controllers.routes.CategoriesView.update(id, categories), 'enctype -> "multipart/form-data") {
+
+        <fieldset>
+            <div class="row">
+                <div class="col-md-10">
+                    <legend>@Messages(if(categories) "categories.info" else "tags.info")</legend>
+
+                    @inputText(
+                        categoryViewForm("name"),
+                        '_label -> Messages(if(categories) "categories.name" else "tags.name"),
+                        '_help -> Messages(if(categories) "categories.name.help" else "tags.name.help"),
+                        'class -> "form-control",
+                        '_error -> categoryViewForm.globalError
+                    )
+                </div>
+                <div class="col-md-2">
+                    @materialCheckbox(
+                        categoryViewForm("followable"),
+                        '_label -> Messages(if(categories) "categories.followable" else "tags.followable"),
+                        'class -> "allCheckbox"
+                    )
+                </div>
+            </div>
+
+       </fieldset>
+
+        <div class="actions">
+            <input type="submit" value=@Messages("categories.submit.update") class="btn btn-success">
+            <a href="@controllers.routes.CategoriesView.list(categories)" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+    @form(controllers.routes.CategoriesView.delete(id, categories), 'class -> "topRight") {
+        <input type="submit" value=@Messages("categories.submit.delete") class="btn btn-danger">
+
+    }
+
+}

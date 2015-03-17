@@ -75,11 +75,15 @@
 		BD3D8DBAC0084E1699523011 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC58B828A4D4C3C8AF2264E /* AFSecurityPolicy.m */; };
 		C587E8B964794F41946B6A71 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D54A8255D04749CF90D10387 /* FacebookSDK.framework */; };
 		C6242D72BCF14C078650F268 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0EA185B57466C9F1C7703 /* AppDelegate+notification.m */; };
-		D1BC8804F9E34506B8D315B3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5796D6D91A4D42B379C6C7 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		FB096CD43F0A4F5EBDBD8E28 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE14DE4B333240D88D256948 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		1A256B025AEB45B2A537D1F2 /* WizUtilsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E004E62FDB242048F41BE39 /* WizUtilsPlugin.m */; settings = {COMPILER_FLAGS = -fno-objc-arc; }; };
 		40314AD789E74D16A487323F /* WizDebugLog.h in Resources */ = {isa = PBXBuildFile; fileRef = DF931240098E42489883D996 /* WizDebugLog.h */; settings = {COMPILER_FLAGS = -fno-objc-arc; }; };
+		93A6F1BD4EED4A3CAA19E696 /* UniversalAnalyticsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EB944F9A60F846A3A9846000 /* UniversalAnalyticsPlugin.m */; };
+		97D803EC7A604CED84D724D1 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8729856670458EB430E362 /* libGoogleAnalyticsServices.a */; };
+		72081B9C56AD4142B4B4DC3A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F69B74C78A4801A87186C4 /* CoreData.framework */; };
+		79DA5AEA8F58401A8FB1C813 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C3BAE8AFCFA84F2A8273B4D7 /* libz.dylib */; };
+		6338B41FD869425FA65D948E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9587926F643415C8597AAD7 /* libsqlite3.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -214,6 +218,22 @@
 		2E004E62FDB242048F41BE39 /* WizUtilsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "WizUtilsPlugin.m"; path = "jp.wizcorp.phonegap.plugin.wizUtilsPlugin/WizUtilsPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		DF931240098E42489883D996 /* WizDebugLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WizDebugLog.h"; path = "jp.wizcorp.phonegap.plugin.wizUtilsPlugin/WizDebugLog.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		15B5D54CFA164730BCBC6551 /* WizUtilsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WizUtilsPlugin.h"; path = "jp.wizcorp.phonegap.plugin.wizUtilsPlugin/WizUtilsPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		EB944F9A60F846A3A9846000 /* UniversalAnalyticsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UniversalAnalyticsPlugin.m"; path = "com.danielcwilson.plugins.googleanalytics/UniversalAnalyticsPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		DA8729856670458EB430E362 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGoogleAnalyticsServices.a"; path = "FutbolBrasil/Plugins/com.danielcwilson.plugins.googleanalytics/libGoogleAnalyticsServices.a"; sourceTree = "<group>"; fileEncoding = 4; };
+		6F1CDA66381E4389B2548FB8 /* UniversalAnalyticsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UniversalAnalyticsPlugin.h"; path = "com.danielcwilson.plugins.googleanalytics/UniversalAnalyticsPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		1CE9D5D0B6A649FEAAE83CC5 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAIDictionaryBuilder.h"; path = "com.danielcwilson.plugins.googleanalytics/GAIDictionaryBuilder.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		BAC371E9AEC84169AE34F857 /* GAIFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAIFields.h"; path = "com.danielcwilson.plugins.googleanalytics/GAIFields.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		9BCE267F55444D38B570BAD9 /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAILogger.h"; path = "com.danielcwilson.plugins.googleanalytics/GAILogger.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		8D6BD186A9B344B2B03C7CA7 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAITrackedViewController.h"; path = "com.danielcwilson.plugins.googleanalytics/GAITrackedViewController.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		7950FBE8900249BC88249138 /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAI.h"; path = "com.danielcwilson.plugins.googleanalytics/GAI.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		DF5308BE09FD4267BD5565D5 /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAITracker.h"; path = "com.danielcwilson.plugins.googleanalytics/GAITracker.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		BE1C06E73CBB457D88292879 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAIEcommerceFields.h"; path = "com.danielcwilson.plugins.googleanalytics/GAIEcommerceFields.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		8A27EB8DDC7F403D9E8C57FD /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAIEcommerceProduct.h"; path = "com.danielcwilson.plugins.googleanalytics/GAIEcommerceProduct.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		CBA256C8C46C4B3FBE069CC3 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAIEcommerceProductAction.h"; path = "com.danielcwilson.plugins.googleanalytics/GAIEcommerceProductAction.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		94F73D1A78C04522A396FDC1 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GAIEcommercePromotion.h"; path = "com.danielcwilson.plugins.googleanalytics/GAIEcommercePromotion.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		B1F69B74C78A4801A87186C4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "CoreData.framework"; path = "System/Library/Frameworks/CoreData.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		C3BAE8AFCFA84F2A8273B4D7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libz.dylib"; path = "usr/lib/libz.dylib"; sourceTree = SDKROOT; fileEncoding = 4; };
+		E9587926F643415C8597AAD7 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsqlite3.0.dylib"; path = "usr/lib/libsqlite3.0.dylib"; sourceTree = SDKROOT; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,10 +249,13 @@
 				B3E3B0326744405FBD99B999 /* Social.framework in Frameworks */,
 				31170807085A4EC1B71EFE7A /* MessageUI.framework in Frameworks */,
 				FB096CD43F0A4F5EBDBD8E28 /* AudioToolbox.framework in Frameworks */,
-				D1BC8804F9E34506B8D315B3 /* SystemConfiguration.framework in Frameworks */,
 				C587E8B964794F41946B6A71 /* FacebookSDK.framework in Frameworks */,
 				8BB802CFB0D24564B5D7047C /* libsqlite3.dylib in Frameworks */,
 				10BFB8E1743C4A77A25099D1 /* Accounts.framework in Frameworks */,
+				97D803EC7A604CED84D724D1 /* libGoogleAnalyticsServices.a in Frameworks */,
+				72081B9C56AD4142B4B4DC3A /* CoreData.framework in Frameworks */,
+				79DA5AEA8F58401A8FB1C813 /* libz.dylib in Frameworks */,
+				6338B41FD869425FA65D948E /* libsqlite3.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +339,10 @@
 				D54A8255D04749CF90D10387 /* FacebookSDK.framework */,
 				0E3780C529E448EEB8979FBE /* libsqlite3.dylib */,
 				254EA77A92974C11AC234B13 /* Accounts.framework */,
+				DA8729856670458EB430E362 /* libGoogleAnalyticsServices.a */,
+				B1F69B74C78A4801A87186C4 /* CoreData.framework */,
+				C3BAE8AFCFA84F2A8273B4D7 /* libz.dylib */,
+				E9587926F643415C8597AAD7 /* libsqlite3.0.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -391,6 +418,18 @@
 				2E004E62FDB242048F41BE39 /* WizUtilsPlugin.m */,
 				DF931240098E42489883D996 /* WizDebugLog.h */,
 				15B5D54CFA164730BCBC6551 /* WizUtilsPlugin.h */,
+				EB944F9A60F846A3A9846000 /* UniversalAnalyticsPlugin.m */,
+				6F1CDA66381E4389B2548FB8 /* UniversalAnalyticsPlugin.h */,
+				1CE9D5D0B6A649FEAAE83CC5 /* GAIDictionaryBuilder.h */,
+				BAC371E9AEC84169AE34F857 /* GAIFields.h */,
+				9BCE267F55444D38B570BAD9 /* GAILogger.h */,
+				8D6BD186A9B344B2B03C7CA7 /* GAITrackedViewController.h */,
+				7950FBE8900249BC88249138 /* GAI.h */,
+				DF5308BE09FD4267BD5565D5 /* GAITracker.h */,
+				BE1C06E73CBB457D88292879 /* GAIEcommerceFields.h */,
+				8A27EB8DDC7F403D9E8C57FD /* GAIEcommerceProduct.h */,
+				CBA256C8C46C4B3FBE069CC3 /* GAIEcommerceProductAction.h */,
+				94F73D1A78C04522A396FDC1 /* GAIEcommercePromotion.h */,
 			);
 			name = Plugins;
 			path = FutbolBrasil/Plugins;
@@ -613,6 +652,7 @@
 				81EBACCB22B840FD816AD0AB /* FacebookConnectPlugin.m in Sources */,
 				1A256B025AEB45B2A537D1F2 /* WizUtilsPlugin.m in Sources */,
 				40314AD789E74D16A487323F /* WizDebugLog.h in Resources */,
+				93A6F1BD4EED4A3CAA19E696 /* UniversalAnalyticsPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +702,10 @@
 				);
 				PRODUCT_NAME = FutbolBrasil;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FutbolBrasil/Plugins/com.danielcwilson.plugins.googleanalytics\"",
+				);
 			};
 			name = Debug;
 		};
@@ -698,6 +742,10 @@
 				);
 				PRODUCT_NAME = FutbolBrasil;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FutbolBrasil/Plugins/com.danielcwilson.plugins.googleanalytics\"",
+				);
 			};
 			name = Release;
 		};

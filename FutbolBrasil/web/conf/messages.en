@@ -148,3 +148,22 @@ playauthenticate.index.details=View details
 playauthenticate.restricted.secrets=Secrets, everywhere!
 
 ### --- play-authenticate END
+
+### -- <wap> --- ###
+APP_TITLE=Football Brazil
+MATCH_LABEL=matches
+SCORERS_LABEL=scorers
+NEWS_LABEL=news
+
+PLAYER_LABEL=player
+TEAM_LABEL=team
+GOALS_LABEL=goals
+MTM_LABEL=Live
+
+LOGIN_TITLE=Register to access the football news of the day, every day.
+LOGIN_TITLE_MSISDN=Enter your mobile number.
+LOGIN_TITLE_PASSWORD=Enter the password received by SMS.
+BUTTON_NEXT=Next
+BUTTON_CONFIRM=Confirm
+BUTTON_AGAIN_PASSWORD=Request password again
+### -- </wap> --- ###

@@ -13,7 +13,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $window, Client, WebManager, Domain
             , FacebookManager, iScroll, Competitions) {
 
-            var config = WebManager.getFavoritesConfig($scope.isFavoritesFilterActive());
+            var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
             var _currentPage = 0;
             $scope.item = {};
@@ -73,7 +73,7 @@ angular
                 console.log('friendsMode Active: ' + $scope.friendsMode);
 
                 $scope.$emit('load');
-                Competitions.get.then(function(data){
+                Competitions.get().then(function(data){
                   $scope.item.competitions =  data;
                   $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
                   $scope.item.competitions.forEach(function(competition, index) {

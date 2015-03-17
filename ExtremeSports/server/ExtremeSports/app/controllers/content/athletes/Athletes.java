@@ -3,14 +3,11 @@ package controllers.content.athletes;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.HecticusController;
-import controllers.Secured;
 import models.basic.Config;
 import models.content.athletes.*;
-import models.content.posts.Category;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
 import utils.Utils;
 
 import java.io.IOException;

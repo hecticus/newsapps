@@ -21,41 +21,61 @@ angular
             var client = {};
             var currentVersion = 0;
 
-            var saveStoredVersion = function () {
+            function saveStoredVersion() {
                 try{
                     localStorage[FILE_KEY_STOREDVERSION] = currentVersion;
                     return true;
                 }catch(err){
                     return false;
                 }
-            };
+            }
 
-            var loadStoredVersion = function () {
+            function loadStoredVersion() {
                 return localStorage[FILE_KEY_STOREDVERSION];
-            };
+            }
 
-            var checkStoredData = function (){
+            function checkStoredData(){
                 var storedVersion = loadStoredVersion();
                 if(!!storedVersion || currentVersion > storedVersion){
                     eraseAllConfigs();
                 }
                 saveStoredVersion();
-            };
+            }
 
-            var eraseAllConfigs = function (){
+            function eraseAllConfigs(){
                 delete localStorage[FILE_KEY_CLIENT];
                 delete localStorage[FILE_KEY_CLIENT_DATASAFE];
-            };
+            }
 
-            var setGuest = function(){
-                client = {
-                    guest: true
-                };
+            //TODO Should at least be Base64Encoded
+            function setPassword(password){
+                if(!!password){
+                    client.password = password;
+                    saveClient();
+                    markClientAsOk();
+                }
+            }
+
+            function setGuest(){
+                client.guest = true;
                 saveClient();
                 markClientAsOk();
-            };
+            }
 
-            var loadClient = function(){
+            function updateClient(data, password) {
+                console.log('updateClient:');
+                console.log(data);
+                client.id_client = data.id_client;
+                client.user_id = data.user_id;
+                client.login = data.login;
+                client.session = data.session;
+                client.auth_token = data.auth_token;
+                setPassword(password);
+                saveClient();
+                return true;
+            }
+
+            function loadClient(){
                 checkStoredData();
                 clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
                 if(clientDataSafe){
@@ -66,17 +86,37 @@ angular
                 }else{
                     eraseAllConfigs();
                 }
-            };
+            }
 
-            var saveClient = function () {
+            function saveClient() {
                 localStorage[FILE_KEY_CLIENT] = JSON.stringify(client);
-            };
+            }
 
-            var markClientAsOk = function () {
+            function markClientAsOk() {
                 clientDataSafe = true;
                 localStorage[FILE_KEY_CLIENT_DATASAFE] = 'true';
-                return true;
-            };
+                return clientDataSafe;
+            }
+
+            function setMsisdn(msisdn, successCallback, errorCallback) {
+                try{
+                    msisdn = (''+msisdn).replace(/^\s+|\s+$/g, "");
+                    if(isNaN(msisdn) && (msisdn.length < 8 || msisdn.length > 11)){
+                        typeof errorCallback == "function" && errorCallback();
+                    }
+
+                    for(var i = 0; i < msisdn.length; ++i){
+                        parseInt(msisdn[i],10);
+                    }
+                    client.msisdn = msisdn;
+                    saveClient();
+
+                    typeof successCallback == "function" && successCallback();
+                } catch(err){
+                    console.log("setMsisdn. Error. Invalid MSISDN: " + err);
+                    typeof errorCallback == "function" && errorCallback();
+                }
+            }
 
             return {
 
@@ -91,23 +131,12 @@ angular
                     return true;
                 },
 
-                updateClient : function (data, password) {
-                    client.id_client = data.id_client;
-                    client.user_id = data.user_id;
-                    client.login = data.login;
-
-                    if(!!password){
-                        client.password = password;
-                        markClientAsOk();
-                    }
-                    saveClient();
-                    return true;
-                },
+                updateClient : updateClient,
 
                 setGuest: setGuest,
 
                 isGuest : function(){
-                    return true;
+                    return client.guest && client.guest === true;
                 },
 
                 /**
@@ -135,55 +164,37 @@ angular
                 getNickname : function(){
                     return client.nickname;
                 },
+                getSession : function(){
+                    return client.session;
+                },
+                getUpstreamAuthToken: function(){
+                    return client.auth_token;
+                },
                 getPassword : function(){
                     return client.password;
                 },
-                setPassword : function(password){
-                    if(!!password){
-                        client.password = password;
-                        saveClient();
-                        markClientAsOk();
-                    }
-                },
-                getClientObj : function(){
-                    return client;
-                },
+
+                setPassword : setPassword,
+
                 getClientPushAlerts : function(){
                     return clientPushAlerts;
                 },
+
                 isClientOk : function(){
                     return clientDataSafe;
                 },
+
                 getMsisdn: function(){
                     return client.msisdn;
                 },
-                setMsisdn : function (msisdn, successCallback, errorCallback) {
-                    try{
-                        msisdn = (''+msisdn).replace(/^\s+|\s+$/g, "");
-                        if(isNaN(msisdn) && (msisdn.length < 8 || msisdn.length > 11)){
-                            typeof errorCallback == "function" && errorCallback();
-                        }
 
-                        for(var i = 0; i < msisdn.length; ++i){
-                            parseInt(msisdn[i],10);
-                        }
-                        client.msisdn = msisdn;
-                        saveClient();
-//                        console.log(client);
-
-                        typeof successCallback == "function" && successCallback();
-                    } catch(err){
-                        console.log("setMsisdn. Error. Invalid MSISDN: " + err);
-                        typeof errorCallback == "function" && errorCallback();
-                    }
-                },
+                setMsisdn : setMsisdn,
 
                 getRegId : function(){
                     return client.regId;
                 },
 
                 setRegId : function (id) {
-                    console.log('Client.setregId: ' + id);
                     hasToUpdateRegId = true;
                     client.regId = id;
                     saveClient();

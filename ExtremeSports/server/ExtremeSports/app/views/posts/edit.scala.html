@@ -1,0 +1,387 @@
+@(id: Integer, postViewForm: Form[models.content.posts.Post])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import helpers._
+
+@title = {}
+
+@localizationGroup(field: Field, className: String = "localization") = {
+    <div class="twipsies well @className">
+        <a class="removeLocalization btn btn-primary danger pull-right">@Messages("post.localization.remove")</a>
+        @select(
+            field("language.idLanguage"),
+            models.basic.Language.toSeq,
+            '_label -> Messages("post.localization.language"),
+            'class -> "form-control"
+        )
+        @input(field("title"), '_label -> Messages("post.localization.title")) { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+        @input(field("content"), '_label -> Messages("post.localization.content")) { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+    </div>
+}
+
+@countryGroup(field: Field, className: String = "country") = {
+    <div class="twipsies well @className">
+        <a class="removeCountry btn btn-primary danger pull-right">@Messages("post.country.remove")</a>
+        @select(
+            field("country.idCountry"),
+            models.basic.Country.toSeq,
+            '_label -> Messages("post.country"),
+            'class -> "form-control"
+        )
+    </div>
+}
+
+@athleteGroup(field: Field, className: String = "athlete") = {
+    <div class="twipsies well @className">
+        <a class="removeAthlete btn btn-primary danger pull-right">@Messages("post.athlete.remove")</a>
+        @select(
+            field("athlete.idAthlete"),
+            models.content.athletes.Athlete.toSeq,
+            '_label -> Messages("post.athlete"),
+            'class -> "form-control"
+        )
+    </div>
+}
+
+@categoryGroup(field: Field, className: String = "category") = {
+    <div class="twipsies well @className">
+        <a class="removeCategory btn btn-primary danger pull-right">@Messages("post.category.remove")</a>
+        @select(
+            field("category.idCategory"),
+            models.content.posts.Category.toSeq,
+            '_label -> Messages("post.category"),
+            'class -> "form-control"
+        )
+    </div>
+}
+
+@mediaGroup(field: Field, className: String = "media") = {
+    <div class="twipsies well @className">
+        <a class="removeMedia btn btn-primary danger pull-right">@Messages("post.media.remove")</a>
+        @select(
+            field("fileType.idFileType"),
+            models.content.posts.FileType.toSeq,
+            '_label -> Messages("post.media.file.type"),
+            'class -> "form-control"
+        )
+        @if(field("link").value.getOrElse("NONE") == "NONE"){
+            <div class="form-group">
+                <div class="col-lg-10">
+                    @input(field("link"), '_label -> Messages("post.media.file")) { (id, name, value, _) =>
+                        <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="Browse...">
+                        <input type="file" name="@name" value="@value" id="inputFile" multiple="">
+                    }
+                </div>
+            </div>
+        } else {
+            @inputText(field("width"), '_label -> Messages("post.media.width"), '_help -> Messages("post.media.width.final"), 'readonly -> "readonly", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(field("height"), '_label -> Messages("post.media.height"), '_help -> Messages("post.media.height.final"), 'readonly -> "readonly", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @inputText(field("md5"), '_label -> Messages("post.media.md5.final"), '_help -> Messages("post.media.md5.final"), 'readonly -> "readonly", '_error -> postViewForm.globalError, 'class -> "form-control")
+            @input(field("link"), '_label -> Messages("post.media.file.final")) { (id, name, value, _) =>
+                <input type="text" name="@name" value="@value" class="form-control">
+                <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
+            }
+        }
+
+    </div>
+}
+
+@main(title = Messages("post.edit"), nav = "create") {
+
+    @if(postViewForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@postViewForm.errorsAsJson</p>
+        </div>
+    }
+
+    @helper.form(controllers.routes.PostsView.update(id), 'enctype -> "multipart/form-data", 'id -> "form") {
+
+        <fieldset>
+            <legend>@Messages("post.info")</legend>
+
+
+            @if(postViewForm("push").value == "1"){
+                @datetimepicker("epochThis", postViewForm("pushDate"), Messages("post.push.scheduled"))
+            }else{
+                @if(postViewForm("push").value == "2"){
+                    <p class="text-danger">@Messages("post.push.pushing")</p>
+                }else{
+                    @if(postViewForm("push").value == "3"){
+                        <p class="text-success">@Messages("post.push.pushed") @Html(postViewForm("pushDate").value)</p>
+                    }
+                }
+            }
+
+            @datetimepicker("date", postViewForm("date"), Messages("post.date"))
+
+            @inputText(postViewForm("source"), '_label -> Messages("post.source"), '_help -> Messages("post.source.help"), '_error -> postViewForm.globalError, 'class -> "form-control")
+            @select(
+                postViewForm("socialNetwork.idSocialNetwork"),
+                models.content.athletes.SocialNetwork.toSeq,
+                '_label -> Messages("post.socialnetwork"),
+                '_error -> postViewForm.globalError,
+                'class -> "form-control"
+            )
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.athletes")</h2>
+                </div>
+            </div>
+
+            <div id="athletes">
+
+                @repeat(postViewForm("athletes")) { athlete =>
+                    @athleteGroup(athlete)
+                }
+                @athleteGroup(
+                    postViewForm("athletes[x]"),
+                    className = "athlete_template"
+                )
+
+                <div class="manage">
+                    <a class="addAthlete btn btn-primary success">@Messages("post.athlete.add")</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.category.plural")</h2>
+                </div>
+            </div>
+            <div id="categories">
+
+                @repeat(postViewForm("categories")) { category =>
+
+                    @categoryGroup(category)
+
+                }
+                @categoryGroup(
+                    postViewForm("categories[x]"),
+                    className = "category_template"
+                )
+
+                <div class="manage">
+                    <a class="addCategory btn btn-primary success">@Messages("post.category.add")</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.localization")</h2>
+                </div>
+            </div>
+            <div id="localizations">
+
+                @repeat(postViewForm("localizations")) { localization =>
+
+                    @localizationGroup(localization)
+
+                }
+                @localizationGroup(
+                    postViewForm("localizations[x]"),
+                    className = "localization_template"
+                )
+
+                <div class="manage">
+                    <a class="addLocalization btn btn-primary success">@Messages("post.localization.add")</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.country.plural")</h2>
+                </div>
+            </div>
+            <div id="countries">
+
+                @repeat(postViewForm("countries")) { country =>
+
+                    @countryGroup(country)
+
+                }
+                @countryGroup(
+                    postViewForm("countries[x]"),
+                    className = "country_template"
+                )
+
+                <div class="manage">
+                    <a class="addCountry btn btn-primary success">@Messages("post.country.add")</a>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.media")</h2>
+                </div>
+            </div>
+            <div id="Media">
+
+                @repeat(postViewForm("media")) { m =>
+
+                    @mediaGroup(m)
+
+                }
+                @mediaGroup(
+                    postViewForm("media[x]"),
+                    className = "media_template"
+                )
+
+                <div class="manage">
+                    <a class="addMedia btn btn-primary success">@Messages("post.media.add")</a>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value=@Messages("post.submit.update") class="btn btn-success">
+            <a href="@controllers.routes.PostsView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+
+    }
+
+    @form(controllers.routes.PostsView.delete(id), 'class -> "topRight") {
+        <input type="submit" value=@Messages("post.submit.delete") class="btn btn-danger">
+
+    }
+
+    <script type="text/javascript" charset="utf-8">
+
+        $(document).on('click','.removeLocalization', function(e) {
+            $(this).parents('.localization').remove()
+            renumberLocalizations()
+        })
+
+        $(document).on('click','.addLocalization', function(e) {
+            var template = $('.localization_template')
+            template.before('<div class="twipsies well localization">' + template.html() + '</div>')
+            renumberLocalizations()
+        })
+
+        var renumberLocalizations = function() {
+            $('.localization').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
+                $('input', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
+            })
+        }
+
+        $(document).on('click','.removeCountry', function(e) {
+            $(this).parents('.country').remove()
+            renumberCountries()
+        })
+
+        $(document).on('click','.addCountry', function(e) {
+            var template = $('.country_template')
+            console.log(template)
+            template.before('<div class="twipsies well country">' + template.html() + '</div>')
+            renumberCountries()
+        })
+
+        var renumberCountries = function() {
+            $('.country').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/countries\[.+?\]/g, 'countries[' + i + ']'))
+                })
+            })
+        }
+
+        $(document).on('click','.removeAthlete', function(e) {
+            $(this).parents('.athlete').remove()
+            console.log("click")
+            renumberAthletes()
+        })
+
+        $(document).on('click','.addAthlete', function(e) {
+            var template = $('.athlete_template')
+            template.before('<div class="twipsies well athlete">' + template.html() + '</div>')
+            renumberAthletes()
+        })
+
+        var renumberAthletes = function() {
+            $('.athlete').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/athletes\[.+?\]/g, 'athletes[' + i + ']'))
+                })
+            })
+        }
+
+        $(document).on('click','.removeCategory', function(e) {
+            $(this).parents('.category').remove()
+            renumberCategories()
+        })
+
+        $(document).on('click','.addCategory', function(e) {
+            var template = $('.category_template')
+            template.before('<div class="twipsies well category">' + template.html() + '</div>')
+            renumberCategories()
+        })
+
+        var renumberCategories = function() {
+            $('.category').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/categories\[.+?\]/g, 'categories[' + i + ']'))
+                    $(this).attr('id', $(this).attr('id').replace(/categories\_x/g, 'categories_' + i))
+
+                })
+            })
+        }
+
+        $(document).on('click','.removeMedia', function(e) {
+            $(this).parents('.media').remove()
+            renumberMedia()
+        })
+
+        $(document).on('click','.addMedia', function(e) {
+            var template = $('.media_template')
+            console.log(template)
+            template.before('<div class="twipsies well media">' + template.html() + '</div>')
+            renumberMedia()
+        })
+
+        var renumberMedia = function() {
+            $('.media').each(function(i) {
+                $('input', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                        console.log("inputs "+$(this).attr('name'))
+                    }
+                })
+                $('select', this).each(function() {
+                    if($(this).attr('name') != undefined){
+                        $(this).attr('name', $(this).attr('name').replace(/media\[.+?\]/g, 'media[' + i + ']'))
+                        console.log("selects "+$(this).attr('name'))
+                    }
+                })
+            })
+        }
+
+        $('#form').submit(function() {
+            $('.media_template').remove()
+            $('.country_template').remove()
+            $('.localization_template').remove()
+            $('.athlete_template').remove()
+            $('.category_template').remove()
+        })
+
+
+
+    </script>
+}

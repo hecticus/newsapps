@@ -95,6 +95,47 @@ POST    /api/v1/clients/upstream/game/user/password                             
 POST    /api/v1/clients/upstream/game/user/event                                        controllers.client.Clients.upstreamFakeEventSend()
 
 
+#ConfigsView
+# ConfigsView list (look at the default values for pagination parameters)
+GET     /configurations/list			                                                controllers.ConfigsView.list(p:Int ?= 0, s ?= "configKey", o ?= "asc", f ?= "")
+GET     /configurations/lsort		                                                    controllers.ConfigsView.lsort()
+# Add ConfigsView
+GET     /configurations/blank		                                                    controllers.ConfigsView.blank()
+POST    /configurations				                                                    controllers.ConfigsView.submit()
+# Edit existing ConfigsView
+GET     /configurations/sort/:ids	                                                    controllers.ConfigsView.sort(ids:String)
+GET     /configurations/:id			                                                    controllers.ConfigsView.edit(id:Long)
+POST    /configurations/:id			                                                    controllers.ConfigsView.update(id:Long)
+# Delete a ConfigsView
+POST    /configurations/:id/delete		                                                controllers.ConfigsView.delete(id:Long)
+
+#JobsView
+# JobsView list (look at the default values for pagination parameters)
+GET     /jobs/list			                                                            controllers.JobsView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /jobs/lsort		                                                                controllers.JobsView.lsort()
+# Add JobsView
+GET     /jobs/blank		                                                                controllers.JobsView.blank()
+POST    /jobs				                                                            controllers.JobsView.submit()
+# Edit existing JobsView
+GET     /jobs/sort/:ids	                                                                controllers.JobsView.sort(ids:String)
+GET     /jobs/:id			                                                            controllers.JobsView.edit(id:Long)
+POST    /jobs/:id			                                                            controllers.JobsView.update(id:Long)
+# Delete a JobsView
+POST    /jobs/:id/delete		                                                        controllers.JobsView.delete(id:Long)
+
+#InstancesView
+# InstancesView list (look at the default values for pagination parameters)
+GET     /instances/list			                                                        controllers.InstancesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /instances/lsort		                                                        controllers.InstancesView.lsort()
+# Add InstancesView
+GET     /instances/blank		                                                        controllers.InstancesView.blank()
+POST    /instances				                                                        controllers.InstancesView.submit()
+# Edit existing InstancesView
+GET     /instances/sort/:ids	                                                        controllers.InstancesView.sort(ids:String)
+GET     /instances/:id			                                                        controllers.InstancesView.edit(id:Integer)
+POST    /instances/:id			                                                        controllers.InstancesView.update(id:Integer)
+# Delete a InstancesView
+POST    /instances/:id/delete		                                                    controllers.InstancesView.delete(id:Integer)
 
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
@@ -107,6 +148,76 @@ GET     /users/:id			                                                           
 POST    /users/:id			                                                            controllers.UsersView.update(id:Long)
 # Delete a UsersView
 POST    /users/:id/delete		                                                        controllers.UsersView.delete(id:Long)
+
+#CountriesView
+# CountriesView list (look at the default values for pagination parameters)
+GET     /countries/list			                                                        controllers.CountriesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /countries/lsort		                                                        controllers.CountriesView.lsort()
+# Add CountriesView
+GET     /countries/blank		                                                        controllers.CountriesView.blank()
+POST    /countries				                                                        controllers.CountriesView.submit()
+# Edit existing CountriesView
+GET     /countries/sort/:ids	                                                        controllers.CountriesView.sort(ids:String)
+GET     /countries/:id			                                                        controllers.CountriesView.edit(id:Integer)
+POST    /countries/:id			                                                        controllers.CountriesView.update(id:Integer)
+# Delete a CountriesView
+POST    /countries/:id/delete		                                                    controllers.CountriesView.delete(id:Integer)
+
+#LanguagesView
+# LanguagesView list (look at the default values for pagination parameters)
+GET     /languages/list			                                                        controllers.LanguagesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /languages/lsort		                                                        controllers.LanguagesView.lsort()
+# Add LanguagesView
+GET     /languages/blank		                                                        controllers.LanguagesView.blank()
+POST    /languages				                                                        controllers.LanguagesView.submit()
+# Edit existing LanguagesView
+GET     /languages/sort/:ids	                                                        controllers.LanguagesView.sort(ids:String)
+GET     /languages/:id			                                                        controllers.LanguagesView.edit(id:Integer)
+POST    /languages/:id			                                                        controllers.LanguagesView.update(id:Integer)
+# Delete a LanguagesView
+POST    /languages/:id/delete		                                                    controllers.LanguagesView.delete(id:Integer)
+
+#AthletesView
+# AthletesView list (look at the default values for pagination parameters)
+GET     /athletes/list			                                                        controllers.AthletesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /athletes/lsort		                                                            controllers.AthletesView.lsort()
+# Add AthletesView
+GET     /athletes/blank		                                                            controllers.AthletesView.blank()
+POST    /athletes				                                                        controllers.AthletesView.submit()
+# Edit existing theme
+GET     /athletes/sort/:ids	                                                            controllers.AthletesView.sort(ids:String)
+GET     /athletes/:id			                                                        controllers.AthletesView.edit(id:Integer)
+POST    /athletes/:id			                                                        controllers.AthletesView.update(id:Integer)
+# Delete a theme
+POST    /athletes/:id/delete		                                                    controllers.AthletesView.delete(id:Integer)
+
+#CategoriesView
+# CategoriesView list (look at the default values for pagination parameters)
+GET     /categories/list			                                                    controllers.CategoriesView.list(categories:Boolean, p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /categories/lsort		                                                        controllers.CategoriesView.lsort()
+# Add CategoriesView
+GET     /categories/blank		                                                        controllers.CategoriesView.blank(categories:Boolean)
+POST    /categories				                                                        controllers.CategoriesView.submit(categories:Boolean)
+# Edit existing CategoriesView
+GET     /categories/sort/:ids	                                                        controllers.CategoriesView.sort(ids:String)
+GET     /categories/:id			                                                        controllers.CategoriesView.edit(id:Integer, categories:Boolean)
+POST    /categories/:id			                                                        controllers.CategoriesView.update(id:Integer, categories:Boolean)
+# Delete a CategoriesView
+POST    /categories/:id/delete		                                                    controllers.CategoriesView.delete(id:Integer, categories:Boolean)
+
+#PostsView
+# PostsView list (look at the default values for pagination parameters)
+GET     /posts/list			                                                            controllers.PostsView.list(p:Int ?= 0, s ?= "date", o ?= "desc", f ?= "")
+GET     /posts/lsort		                                                            controllers.PostsView.lsort()
+# Add PostsView
+GET     /posts/blank		                                                            controllers.PostsView.blank()
+POST    /posts				                                                            controllers.PostsView.submit()
+# Edit existing PostsView
+GET     /posts/sort/:ids	                                                            controllers.PostsView.sort(ids:String)
+GET     /posts/:id			                                                            controllers.PostsView.edit(id:Integer)
+POST    /posts/:id			                                                            controllers.PostsView.update(id:Integer)
+# Delete a PostsView
+POST    /posts/:id/delete		                                                        controllers.PostsView.delete(id:Integer)
 
 # Authenticate
 GET     /restricted                                                                     controllers.Application.restricted

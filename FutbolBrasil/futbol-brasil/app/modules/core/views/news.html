@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div id="wrapper" class="wrapper wrapper-full">
+<div id="wrapper" class="wrapper wrapper-row">
     <div class="scroller">
         <div class="container">
             <div class="row" ng-show="hasNews">
@@ -34,18 +34,18 @@
     <div class="scroller">
         <div class="container">
             <div class="row row-news-detail-header">
-                <div class="col-xs-12 text-right">
+                <div class="col-xs-12 text-right" ng-click="share(contentNews)">
                     <i class="mdi-social-share" style="font-size: 1.8em; line-height: 1.8em;"></i>
                 </div>
             </div>
-                <div class="row" style="margin-top: 35px !important;" >
-                    <div class="col-xs-12 news"  >
-                        <h3 class="title">{{contentNews.title}}</h3>
-                        <i class="icon mdi-device-access-time"></i>
-                        <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
-                        <p class="body" style="margin: 0 18px 0 0;" ng-bind-html="contentNews.body"> </p>
-                    </div>
+            <div class="row" style="margin-top: 35px !important;" >
+                <div class="col-xs-12 news"  >
+                    <h3 class="title">{{contentNews.title}}</h3>
+                    <i class="icon mdi-device-access-time"></i>
+                    <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
+                    <p class="body" style="margin: 0 18px 0 0;" ng-bind-html="contentNews.body"> </p>
                 </div>
             </div>
         </div>
+    </div>
 </div>

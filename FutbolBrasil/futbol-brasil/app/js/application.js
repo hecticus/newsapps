@@ -7,7 +7,7 @@ var translationsEn = {
             "MATCHES": "Matches",
             "STANDINGS": "Standings",
             "NEWS": "News",
-            "SCORERS": "Scorers",
+            "SCORERS": "Strikers",
             "LIVE": "Live"
         },
         "BETS" : {
@@ -21,7 +21,7 @@ var translationsEn = {
         "LOGIN" : "Login",
         "REMIND" : "Remind / Get Credentials",
         "LANGUAGE-SELECTION" : "Language Selection",
-        "TEAM-SELECTION" : "Team Selection"
+        "TEAM-SELECTION" : "Language Selection"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -61,7 +61,11 @@ var translationsEn = {
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",
         "NEWS" : "There are no news available",
-        "POINTS" : "You don't have points info available"
+        "POINTS" : "You don't have points info available",
+        "MATCH" : "There are no games for this day",
+        "SCORERS" : "There are no strikers for this tournament",
+        "TEAMS" : "Could not get Teams",
+        "LANGUAGES" : "Could not get Available Languages"
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Nickname",
@@ -153,7 +157,11 @@ var translationsEs = {
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",
         "NEWS" : "No hay noticias disponibles",
-        "POINTS" : "Usted no tiene información de puntos disponible"
+        "POINTS" : "Usted no tiene información de puntos disponible",
+        "MATCH" : "No hay juegos programados para este día",
+        "SCORERS" : "No hay goleadores para este torneo",
+        "TEAMS" : "No se pudieron obtener los equipos",
+        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles"
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apodo",
@@ -234,7 +242,7 @@ var translationsPt = {
         }
     },
     "LEADERBOARD" : {
-        "TOURNAMENT" : "Torneo",
+        "TOURNAMENT" : "Torneio",
         "PHASE" : "Jornada",
         "PLAYER" : "Jogador",
         "POINTS" : "Pontos",
@@ -245,7 +253,11 @@ var translationsPt = {
     "EMPTY_STATES" : {
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
-        "POINTS" : "Você não tem informação de pontos disponível"
+        "POINTS" : "Você não tem informação de pontos disponível",
+        "MATCH" : "Não há jogos para este día",
+        "SCORERS" : "Não há artilheiros para este torneio",
+        "TEAMS" : "Não foi possível obter equipes",
+        "LANGUAGES" : "Não foi possível obter idiomas"
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apelido",
@@ -283,8 +295,10 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
-    .config(['$locationProvider', '$httpProvider', '$translateProvider',
-        function($locationProvider, $httpProvider, $translateProvider) {
+//    .config(['$locationProvider', '$httpProvider', '$translateProvider',
+//        function($locationProvider, $httpProvider, $translateProvider) {
+    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider',
+        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider) {
             $locationProvider.hashPrefix('!');
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.interceptors.push(['$q', '$location', '$injector',
@@ -299,6 +313,11 @@ angular
                 }
             ]);
 
+            if(!window.cordova) {
+                $fbProvider.init(320314531485580);
+                $twtProvider.init().trimText(true);
+            }
+
             $translateProvider.translations('en', translationsEn);
             $translateProvider.translations('es', translationsEs);
             $translateProvider.translations('pt', translationsPt);
@@ -307,7 +326,7 @@ angular
             $translateProvider.usePostCompiling(true);
         }
     ])
-    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client) {
+    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client, Analytics) {
         CordovaApp.init();
         $rootScope.contentClass = 'content-init';
         $rootScope.$storage = $localStorage.$default({
@@ -372,6 +391,8 @@ angular
             if (toState.data && toState.data.contentClass){
                 $rootScope.contentClass = toState.data.contentClass;
             }
+
+            Analytics.trackView(toState.name);
         });
 
     });

@@ -7,14 +7,11 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', 'Domain', 'Utilities', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Client', 'Settings', 'Competitions', 'App',
-        function($state, $window, Domain, Utilities, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Client, Settings, Competitions, App) {
+    .factory('CordovaApp',['$state', '$window', '$timeout', 'CordovaDevice', 'WebManager', 'ClientManager',
+        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
+        function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
+                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics) {
 
-            var that = this;
-            var backButtonCallback = null;
-            var updateCallback = null;
             var currentSection = '';
             var prevSection = '';
             var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
@@ -29,21 +26,27 @@ angular
                 CANCEL : 'Cancelar'
             };
 
-            var checkUpdate = function(){
-                var updateInfo = App.getUpdateInfo();
-                updateInfo.current_version = App.getBundleVersion();
-                updateInfo.bundle_id = App.getBundleId();
-                if(updateInfo.update === 1){
-                    updateCallback(updateInfo);
+            function getVersion(){
+                if(!!$window.wizUtils){
+                    $window.wizUtils.getBundleVersion(function(result){
+                        App.setBundleVersion(result);
+                    });
+                    $window.wizUtils.getBundleIdentifier(function(id){
+                        App.setBundleId(id);
+                    });
+                }else{
+                    console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                 }
-            };
+            }
 
-            var exitApp = function (){
+            function exitApp(){
                 try{
                     FacebookManager.clearIntervalFriendsLoader();
                 } catch(e){
 
                 }
+
+                Upstream.appCloseEvent();
 
                 //Legacy
                 if (!!navigator.app) {
@@ -53,18 +56,17 @@ angular
                 } else {
                     console.log("Couldn't close app");
                 }
-            };
+            }
 
-            var hideMenu = function() {
+            function hideMenu() {
                 var menuWrapper = $('#wrapperM');
                 if (menuWrapper.hasClass('right')) {
                     menuWrapper.attr('class', ' page transition left');
                 }
-            };
+            }
 
-            var onBackButtonPressed = function(){
+            function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                var hasNotificationPlugin = !!navigator.notification;
 
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
@@ -97,14 +99,12 @@ angular
                         }
                     );
                 }
-            };
+            }
 
-            var showNotificationDialog = function(data,
-                  confirmCallback, cancelCallback){
+            function showNotificationDialog(data, confirmCallback, cancelCallback){
                 var hasNotificationPlugin = !!navigator.notification;
                 if (hasNotificationPlugin) {
-                    navigator.notification
-                        .confirm(data.message
+                    navigator.notification.confirm(data.message
                         , function(btnIndex){
                             switch (btnIndex) {
                                 case 1:
@@ -116,8 +116,7 @@ angular
                                 default:
                             }
                         }
-                        , data.title
-                        , [data.confirm, data.cancel]);
+                        , data.title, [data.confirm, data.cancel]);
                 } else {
                     var confirmFallback = confirm(data.message);
                     if (confirmFallback === true) {
@@ -126,115 +125,99 @@ angular
                         typeof cancelCallback === 'function' && cancelCallback();
                     }
                 }
-            };
+            }
 
-            var isOnUtilitySection = function(){
+            function isOnUtilitySection(){
                 return utilitySections.some(function(utilitySection){
                     return utilitySection === currentSection;
                 });
-            };
+            }
 
-            var isBlockedSection = function(section){
-                var result = blockedSections.some(function(blockedSection){
+            function isBlockedSection(section){
+                return blockedSections.some(function (blockedSection) {
                     return blockedSection === section;
                 });
-                console.log('isBlockedUtilitySection: section: ' + section + ' result: ' + result);
-                return result;
-            };
+            }
 
-            var setIsOnSettingsSection = function(val){
+            function setIsOnSettingsSection(val){
                 onSettingsSection = val;
-            };
+            }
+
+            function bindEvents() {
+//                    console.log('CordovaApp. bindEvents. ');
+                document.addEventListener('deviceready', onDeviceReady, false);
+                document.addEventListener('touchmove', function (e) {
+                    e.preventDefault();
+                }, false);
+
+                if(typeof CustomEvent === 'function'){
+                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
+                    document.dispatchEvent(event);
+                }
+            }
+
+            function receivedEvent(id){
+                if (id === 'deviceready') {
+                    document.addEventListener('backbutton', function(e){
+                        console.log('backbutton event');
+                        onBackButtonPressed();
+                    }, false);
+                    getVersion();
+                }
+            }
+
+            function onDeviceReady() {
+                receivedEvent('deviceready');
+                initAllAppData();
+            }
+
+            function startApp(isActive, status){
+                    console.log("startApp. Starting App: Client Active: " + isActive
+                        + ". Client Status: " + status);
+            }
+
+            function startAppOffline(){
+                console.log("startAppOffline. App Offline");
+            }
+
+            function errorStartApp(){
+                console.log("errorStartApp. Error. Couldn't Start Application");
+            }
+
+            function initAllAppData() {
+                if(!!$window.StatusBar){
+                    StatusBar.hide();
+                }else{
+                    console.log('$window.StatusBar Object not available. Are you directly on a browser?');
+                }
+
+                Analytics.init();
+                ClientManager.init(startApp, errorStartApp);
+
+                if (CordovaDevice.phonegapIsOnline()) {
+                    PushManager.init();
+                    WebManager.loadServerConfigs(
+                        function(){
+                            Settings.init();
+                            Competitions.init();
+                            Update.checkUpdate();
+                            $timeout(function(){
+                                Upstream.appLaunchEvent();
+                            }, 300);
+                        }, function(){
+                            console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
+                        }
+                    );
+                }else{
+                    startAppOffline();
+                }
+            }
+
+            function init() {
+                bindEvents();
+            }
 
             return {
-                setBackButtonCallback: function(callback){
-                    backButtonCallback = callback;
-                },
-
-                setUpdateCallback: function(callback){
-                    updateCallback = callback;
-                },
-
-                bindEvents : function() {
-//                    console.log('CordovaApp. bindEvents. ');
-                    document.addEventListener('deviceready', that.onDeviceReady, false);
-                    document.addEventListener('touchmove', function (e) {
-                        e.preventDefault();
-                    }, false);
-
-                    if(typeof CustomEvent === 'function'){
-                        var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-                        document.dispatchEvent(event);
-                    }
-                },
-
-                onDeviceReady : function() {
-//                    console.log('CordovaApp. onDeviceReady. ');
-                    that.receivedEvent('deviceready');
-                    that.initAllAppData();
-                },
-
-                receivedEvent : function(id) {
-//                    console.log('CordovaApp. receivedEvent. ');
-                    if (id === 'deviceready') {
-                        document.addEventListener('backbutton', function(e) {
-                            console.log('backbutton event');
-                            onBackButtonPressed();
-                        }, false);
-                        this.getVersion();
-                    }
-
-                },
-
-                initAllAppData : function() {
-                    if(!!$window.StatusBar){
-                        StatusBar.hide();
-                    }else{
-                        console.log('$window.StatusBar Object not available. Are you directly on a browser?');
-                    }
-
-                    ClientManager.init(that.startApp, that.errorStartApp);
-
-                    if (CordovaDevice.phonegapIsOnline()) {
-                        WebManager.loadServerConfigs(
-                            function(){
-                                Settings.init();
-                                Competitions.init();
-                                PushManager.init();
-                                checkUpdate();
-                            }, function(){
-                                console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
-                            }
-                        );
-                    }else{
-                        this.startAppOffline();
-                    }
-                },
-
-                startAppOffline : function (){
-                    console.log("startAppOffline. App Offline");
-                },
-
-                startApp : function (isActive, status){
-//                    console.log("startApp. Starting App: Client Active: " + isActive
-//                        + ". Client Status: " + status);
-                },
-                errorStartApp : function (){
-                    console.log("errorStartApp. Error. Couldn't Start Application");
-                },
-
-                getVersion: function(){
-                    if(!!$window.wizUtils){
-                        $window.wizUtils.getBundleVersion(function(result){
-                            App.setBundleVersion(result);
-                        });
-                        $window.wizUtils.getBundleIdentifier(function(id){
-                            App.setBundleId(id);
-                        });
-                    }else{
-                        console.log('$window.wizUtils Object not available. Are you directly on a browser?');
-                    }
-                },
 
                 setCurrentSection : function(sect){
                     currentSection = sect;
@@ -249,6 +232,10 @@ angular
                 getPreviousSection : function(){
                     return prevSection;
                 },
+
+                errorStartApp : errorStartApp,
+
+                getVersion: getVersion,
 
                 isBlockedSection : isBlockedSection,
 
@@ -265,10 +252,7 @@ angular
                  * @name core.Services.CordovaApp#init
                  * @methodOf core.Services.CordovaApp
                  */
-                init : function() {
-                    that = this;
-                    this.bindEvents();
-                }
+                init : init
             };
         }
     ]);

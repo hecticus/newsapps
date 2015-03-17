@@ -97,8 +97,19 @@ POST    /futbolbrasil/v1/clients/upstream/game/user/subscribe                   
 POST    /futbolbrasil/v1/clients/upstream/game/user/login                                                   controllers.client.Clients.upstreamFakeLogin()
 POST    /futbolbrasil/v1/clients/upstream/game/user/status                                                  controllers.client.Clients.upstreamFakeStatus()
 POST    /futbolbrasil/v1/clients/upstream/game/user/password                                                controllers.client.Clients.upstreamFakeResetPass()
+POST    /futbolbrasil/v1/clients/upstream/game/user/event                                                   controllers.client.Clients.upstreamFakeEventSend()
+
 
 GET     /futbolbrasil/v1/clients/scorers/:idClient                                                          controllers.client.FootballManager.getScorers(idClient : Integer)
+
+
+GET     /futbolbrasil/v1/languages                                                                          controllers.client.Clients.getActiveLanguages()
+
+#funciones para obtener imagenes locales
+#GET     /futbolbrasil/v1/localimages/:file/:size                                                           controllers.ImageProcessing.getLocalResourceBySize(file : String, size : String)
+#imagen width and height
+GET     /futbolbrasil/v1/localimages/:file/:width                                                           controllers.ImageProcessing.getLocalResourceByWidth(file : String, width : Integer)
+
 
 #V2 RESTify routes
 
@@ -115,14 +126,18 @@ GET     /futbolbrasil/v2/client/:id/bets/:idCompetition                         
 GET     /futbolbrasil/v2/client/:id/leaderboard/global/:idTournament                                        controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
 GET     /futbolbrasil/v2/client/:id/leaderboard/personal/tournament                                         controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
 GET     /futbolbrasil/v2/client/:id/leaderboard/personal/phase                                              controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
+POST    /futbolbrasil/v2/client/:id/upstream                                                                controllers.client.Clients.sendClientEvent(id : Integer)
 GET     /futbolbrasil/v2/clients                                                                            controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 
+GET     /futbolbrasil/v2/locale.json                                                                        controllers.client.Clients.getLocale(lang : String)
+POST    /futbolbrasil/v2/locale.json                                                                        controllers.client.Clients.setLocale(lang : String)
 
-
-
-GET     /futbolbrasil/v1/languages                                                                          controllers.client.Clients.getActiveLanguages()
-
-#funciones para obtener imagenes locales
-#GET     /futbolbrasil/v1/localimages/:file/:size                                                           controllers.ImageProcessing.getLocalResourceBySize(file : String, size : String)
-#imagen width and height
-GET     /futbolbrasil/v1/localimages/:file/:width                                                           controllers.ImageProcessing.getLocalResourceByWidth(file : String, width : Integer)
+GET     /wap                    controllers.Wap.index()
+GET     /wap/news/:id           controllers.Wap.news(id:Integer)
+GET     /wap/matches            controllers.Wap.matches(id:Integer, page: Integer)
+GET     /wap/competitions       controllers.Wap.competitions(route:String)
+GET     /wap/scorers            controllers.Wap.scorers(id:Integer)
+GET     /wap/mtm                controllers.Wap.mtm(id:Integer, match:Integer, event: Integer)
+GET     /wap/login              controllers.Wap.getLogin()
+POST    /wap/login/password     controllers.Wap.getPassword()
+POST    /wap/login/create       controllers.Wap.createClient()
