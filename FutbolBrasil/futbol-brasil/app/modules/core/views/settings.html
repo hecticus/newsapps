@@ -1,24 +1,26 @@
-<!--TODO extraer estilos-->
 <div id="wrapper" class="settings-wrapper">
     <div class="scroller" style="background-color: transparent; position: absolute;">
         <div class="col-xs-12">
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        <span class="mdi-action-account-circle"></span> <span translate>SETTINGS.NICKNAME_TITLE</span></h3>
+                        <span class="mdi-action-account-circle"></span>
+                        <span translate>SETTINGS.NICKNAME_TITLE</span></h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="control-label sr-only" for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
+                        <label class="control-label sr-only"
+                               for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputDefault" ng-disabled="!isEditing"
-                                   ng-model="nickname" placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}">
-                                <span class="input-group-btn">
-                                    <button type="button" ng-click="saveNickname()"
-                                            ng-class="{' btn btn-primary' : !isEditing, ' btn btn-success' : isEditing}">
-                                        <i ng-class="{' mdi-content-save' : isEditing, ' mdi-content-create' : !isEditing}"></i>
-                                    </button>
-                                </span>
+                            <input type="text" class="form-control" id="inputDefault"
+                                   ng-disabled="!isEditing" ng-model="nickname"
+                                   placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}">
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="saveNickname()"
+                                        ng-class="{' btn btn-primary' : !isEditing, ' btn btn-success' : isEditing}">
+                                    <i ng-class="{' mdi-content-save' : isEditing, ' mdi-content-create' : !isEditing}"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -26,7 +28,9 @@
 
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><span class="mdi-action-stars"></span> {{'SETTINGS.FAVORITE_TEAMS_TITLE' | translate}}</h3>
+                    <h3 class="panel-title">
+                        <span class="mdi-action-stars"></span>
+                        {{'SETTINGS.FAVORITE_TEAMS_TITLE' | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -38,8 +42,8 @@
                                ng-click="removeTeam(team)"
                                ng-show="!isEmptySlot(team)"></i>
                             <div class="team-name text-muted"
-                                 ng-click="teamSelected(team)"
-                                    ng-bind="getTeamName(team)"></div>
+                                ng-click="teamSelected(team)"
+                                ng-bind="getTeamName(team)"></div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +51,9 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><span class="mdi-social-notifications-on"></span> {{ 'SETTINGS.PUSH_TITLE' | translate }}</h3>
+                    <h3 class="panel-title">
+                        <span class="mdi-social-notifications-on"></span>
+                        {{ 'SETTINGS.PUSH_TITLE' | translate }}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -95,7 +101,9 @@
 
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><span class="mdi-action-language"></span> {{'SETTINGS.LANGUAGES_TITLE' | translate}}</h3>
+                    <h3 class="panel-title">
+                        <span class="mdi-action-language"></span>
+                        {{'SETTINGS.LANGUAGES_TITLE' | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -116,7 +124,9 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title" ><span class="mdi-social-people"></span> {{ 'SETTINGS.SOCIAL_ACCOUNTS_TITLE' | translate }}</h3>
+                    <h3 class="panel-title">
+                        <span class="mdi-social-people"></span>
+                        {{ 'SETTINGS.SOCIAL_ACCOUNTS_TITLE' | translate }}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">

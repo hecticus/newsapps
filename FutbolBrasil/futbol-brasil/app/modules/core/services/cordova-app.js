@@ -200,10 +200,14 @@ angular
                         function(){
                             Settings.init();
                             Competitions.init();
-                            Update.checkUpdate();
+
                             $timeout(function(){
                                 Upstream.appLaunchEvent();
                             }, 300);
+
+                            if(CordovaDevice.isWebPlatform()){
+                                Update.checkUpdate();
+                            }
                         }, function(){
                             console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                         }
