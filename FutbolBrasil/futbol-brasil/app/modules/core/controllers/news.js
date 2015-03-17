@@ -44,7 +44,7 @@ angular
                     $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                     $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                     $rootScope.transitionPageBack('#wrapper2', 'left');
-                    $scope._scroll2.scrollTo(0,0,0);
+                    detailScrollWrapper.scrollTo(0,0,0);
                 } else {
                     CordovaApp.showNotificationDialog(
                         {
@@ -56,6 +56,11 @@ angular
                     );
                     console.log('Daily News Limit Exceeded');
                 }
+
+//                $scope.showInfoModal({
+//                    title: 'Test Title',
+//                    html: '<p class="text-muted">Test Message</p>'
+//                });
             };
 
             function getNewsPreviousToId(newsId){

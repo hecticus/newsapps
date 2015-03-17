@@ -163,7 +163,7 @@ angular
 
             $scope.init = function(){
                 $scope.$emit('load');
-                Competitions.get.then(function(data){
+                Competitions.get().then(function(data){
                   $scope.leagues  = data;
                   $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
                   $scope.setScroll();

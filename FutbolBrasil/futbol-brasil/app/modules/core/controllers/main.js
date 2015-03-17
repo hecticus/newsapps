@@ -15,6 +15,7 @@ angular
 
             $rootScope.$storage = $localStorage;
             $scope.updateInfo = {};
+            $scope.displayInfo = {};
 
             $scope.toggles = {
                 favorites: true
@@ -62,6 +63,8 @@ angular
                     $scope.loading = false;
                 }
             );
+
+            $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
 
             $scope.getSection = function (){
                 return CordovaApp.getCurrentSection();
@@ -166,26 +169,51 @@ angular
                 SocialAppsManager.twitterShare($scope.share.message, $scope.share.subject);
             };
 
+            $scope.showInfoModal = function (displayInfo){
+                var textClass = '';
+                var iconClass = '';
+                switch(displayInfo.notifClass){
+                    case 'error':
+                        iconClass = '';
+                        displayInfo.html = '<p class="text-danger">' + displayInfo.subtitle + '</p>';
+                        break;
+                    case 'warning':
+                    default:
+                        iconClass = '';
+                        displayInfo.html = '<p class="text-warning">' + displayInfo.subtitle + '</p>';
+
+                }
+                $scope.displayInfo.html += '<p class="text-muted">' + displayInfo.message + '</p>';
+
+                $scope.displayInfo = displayInfo;
+
+                $('#info-modal').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: false})
+                    .modal('show');
+            };
+
             /**
              * Function that gets and updates the app's common usage Strings
              * to minimize the number of requests across  modules and improve
              * performance
              */
-            $scope.getTranslations = function(){
+            function getTranslations(){
                 $translate('NOT_AVAILABLE').then(function(translation){
                     $scope.strings.NOT_AVAILABLE = translation;
                 });
-            };
+            }
 
-            $scope.init = function(){
+            function init(){
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();
                 });
-                $scope.getTranslations();
+                getTranslations();
                 $rootScope.$on('$translateChangeSuccess', function () {
-                    $scope.getTranslations();
+                    getTranslations();
                 });
-            }();
+            }init();
         }
     ]);

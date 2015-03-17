@@ -9,6 +9,12 @@ angular
     .module('core')
     .factory('Upstream',['$http', 'Client', 'Moment', 'CordovaDevice', 'App',
         function($http, Client, Moment, CordovaDevice, App) {
+
+            var AUTH_TOKEN_PREFIX = 'Basic ';
+            var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
+            var EVENT_SUFFIX = '/game/user/event';
+            var PASSWORD_SUFFIX = '/game/user/password';
+
             var appKey = '';
             var appVersion = '';
             var guestPassword = '';
@@ -18,12 +24,8 @@ angular
             var url = '';
             var eventUrl = '';
             var passwordUrl = '';
-            var eventSuffix = '/game/user/event';
-            var passwordSuffix = '/game/user/password';
             var guestUserId = '';
             var headers = {};
-            var AUTH_TOKEN_PREFIX = 'Basic ';
-            var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
 
             var events = {
                 'app_launch' : 'APP_LAUNCH',
@@ -44,8 +46,8 @@ angular
 
                 serviceId = config.upstream_service_id;
                 url = config.upstream_url;
-                eventUrl = url + eventSuffix;
-                passwordUrl = url + passwordSuffix;
+                eventUrl = url + EVENT_SUFFIX;
+                passwordUrl = url + PASSWORD_SUFFIX;
                 updateHeaders();
             }
 
@@ -178,14 +180,44 @@ angular
                  */
                 setUp : setUp,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#appLaunchEvent
+                 * @description Reports App Launch Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 appLaunchEvent : appLaunchEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#appCloseEvent
+                 * @description Reports App Close Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 appCloseEvent : appCloseEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#loginEvent
+                 * @description Reports Login Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 loginEvent : loginEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#viewSubscriptionPromptEvent
+                 * @description Reports Subscription Prompt Viewed Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 viewSubscriptionPromptEvent : viewSubscriptionPromptEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#clickedSubscriptionPromptEvent
+                 * @description Reports Subscription Prompt Clicked Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 clickedSubscriptionPromptEvent : clickedSubscriptionPromptEvent
             };
         }

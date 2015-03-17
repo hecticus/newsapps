@@ -233,18 +233,6 @@ angular
                     return prevSection;
                 },
 
-                bindEvents : bindEvents,
-
-                onDeviceReady : onDeviceReady,
-
-                receivedEvent : receivedEvent,
-
-                initAllAppData : initAllAppData,
-
-                startAppOffline : startAppOffline,
-
-                startApp : startApp,
-
                 errorStartApp : errorStartApp,
 
                 getVersion: getVersion,

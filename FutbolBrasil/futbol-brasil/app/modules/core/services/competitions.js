@@ -76,7 +76,7 @@ angular
                  * @methodOf core.Services.Competitions
                  * @return {boolean} Returns a boolean value
                  */
-                get: getCompetitions(),
+                get: getCompetitions,
 
                 getScorers: getScorers,
 
