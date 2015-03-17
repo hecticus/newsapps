@@ -126,7 +126,7 @@ angular
                       return brazil_football_manager_url + 'futbolbrasil/'
                                             + apiVersion + '/clients/bets/get/' + appId + '/' + _competition
                     },
-                    create: function() {
+                    create : function() {
                         return brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/bet';
                     }
 
