@@ -29,14 +29,14 @@ angular
             };
 
             var saveGuestData = function(){
-                console.log('persisting Guest Data: ');
-                console.log(guestData);
+//                console.log('persisting Guest Data: ');
+//                console.log(guestData);
                 $localStorage[FILE_KEY_GUEST_MODE] = JSON.stringify(guestData);
             };
 
             var setMaxNews = function(max){
                 var date = Moment.today('YYYYMMDD');
-                console.log('timeStamp: ' + guestData.news.timestamp + ' date: ' + date);
+//                console.log('timeStamp: ' + guestData.news.timestamp + ' date: ' + date);
                 if(guestData.news.timestamp !== date){
                     console.log('Resetting Guest News Count');
                     guestData.news.count = 0;

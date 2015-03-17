@@ -15,6 +15,7 @@ angular
 
             $rootScope.$storage = $localStorage;
             $scope.updateInfo = {};
+            $scope.displayInfo = {};
 
             $scope.toggles = {
                 favorites: true
@@ -62,6 +63,8 @@ angular
                     $scope.loading = false;
                 }
             );
+
+            $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
 
             $scope.getSection = function (){
                 return CordovaApp.getCurrentSection();
@@ -167,44 +170,63 @@ angular
             };
 
             /**
+             * @ngdoc function
+             * @name core.Controllers.MainCtrl#showInfoModal
+             * @description Function that displays an information dialog
+             * @param {object} displayInfo Information to display. must have keys:
+             * @param {string} displayInfo.title The name of the event.
+             * @param {string} displayInfo.subtitle The subtitle of the event.
+             * @param {string} displayInfo.message The message of the event.
+             * @param {string} displayInfo.type The type of information it is ('warning'/'error').
+             * @methodOf core.Controllers.MainCtrl
+             */
+            $scope.showInfoModal = function (displayInfo){
+                var icon = '';
+                displayInfo.icon = '';
+                switch(displayInfo.type){
+                    case 'error':
+                        icon = 'mdi-alert-error text-danger';
+                        displayInfo.html = '<p class="text-danger">' + displayInfo.subtitle + '</p>';
+                        break;
+                    case 'warning':
+                    default:
+                        icon = 'mdi-alert-warning text-warning';
+                        displayInfo.html = '<p class="text-warning">' + displayInfo.subtitle + '</p>';
+
+                }
+
+                displayInfo.icon = icon;
+                displayInfo.html += '<p class="text-muted">' + displayInfo.message + '</p>';
+
+                $scope.displayInfo = displayInfo;
+
+                $('#info-modal').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: false})
+                    .modal('show');
+            };
+
+            /**
              * Function that gets and updates the app's common usage Strings
              * to minimize the number of requests across  modules and improve
              * performance
              */
-            $scope.getTranslations = function(){
+            function getTranslations(){
                 $translate('NOT_AVAILABLE').then(function(translation){
                     $scope.strings.NOT_AVAILABLE = translation;
                 });
-            };
-
-            function showUpdateModal(updateInfo){
-                //TODO for debugging only
-                updateInfo.mandatory = 0;
-
-                updateInfo.title = 'Update Info';
-                updateInfo.html = '<p class="text-success">New Update</p><p>- ';
-                if(updateInfo.mandatory === 1){ updateInfo.html += 'Mandatory '; }
-                updateInfo.html += 'Version ' + updateInfo.new_version + ' is now Available</p>';
-
-                $scope.updateInfo = updateInfo;
-
-                $('#update-modal').modal({
-                    backdrop: !!updateInfo.mandatory? 'static' : true,
-                    keyboard: false,
-                    show: false})
-                    .modal('show');
             }
 
-            $scope.init = function(){
-                CordovaApp.setUpdateCallback(showUpdateModal);
+            function init(){
                 $scope.toggles.favorites = Client.isFavoritesFilterActive();
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();
                 });
-                $scope.getTranslations();
+                getTranslations();
                 $rootScope.$on('$translateChangeSuccess', function () {
-                    $scope.getTranslations();
+                    getTranslations();
                 });
-            }();
+            }init();
         }
     ]);
