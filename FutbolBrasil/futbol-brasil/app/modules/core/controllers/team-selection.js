@@ -74,6 +74,7 @@ angular
             $scope.init = function(){
                 $scope.setUpIScroll();
                 $scope.getTeams();
+                TeamsManager.getTeamsFromServer();
             }();
         }
 ]);

@@ -207,7 +207,9 @@ angular
 
             getFavoriteTeams: function() {
                 return favTeams;
-            }
+            },
+
+            getTeamsFromServer: getTeamsFromServer
 
         };
     }]);
