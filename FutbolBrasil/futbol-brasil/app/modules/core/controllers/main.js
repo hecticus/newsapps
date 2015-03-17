@@ -169,21 +169,34 @@ angular
                 SocialAppsManager.twitterShare($scope.share.message, $scope.share.subject);
             };
 
+            /**
+             * @ngdoc function
+             * @name core.Controllers.MainCtrl#showInfoModal
+             * @description Function that displays an information dialog
+             * @param {object} displayInfo Information to display. must have keys:
+             * @param {string} displayInfo.title The name of the event.
+             * @param {string} displayInfo.subtitle The subtitle of the event.
+             * @param {string} displayInfo.message The message of the event.
+             * @param {string} displayInfo.type The type of information it is ('warning'/'error').
+             * @methodOf core.Controllers.MainCtrl
+             */
             $scope.showInfoModal = function (displayInfo){
-                var textClass = '';
-                var iconClass = '';
-                switch(displayInfo.notifClass){
+                var icon = '';
+                displayInfo.icon = '';
+                switch(displayInfo.type){
                     case 'error':
-                        iconClass = '';
+                        icon = 'mdi-alert-error text-danger';
                         displayInfo.html = '<p class="text-danger">' + displayInfo.subtitle + '</p>';
                         break;
                     case 'warning':
                     default:
-                        iconClass = '';
+                        icon = 'mdi-alert-warning text-warning';
                         displayInfo.html = '<p class="text-warning">' + displayInfo.subtitle + '</p>';
 
                 }
-                $scope.displayInfo.html += '<p class="text-muted">' + displayInfo.message + '</p>';
+
+                displayInfo.icon = icon;
+                displayInfo.html += '<p class="text-muted">' + displayInfo.message + '</p>';
 
                 $scope.displayInfo = displayInfo;
 

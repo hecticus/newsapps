@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" ng-bind="displayInfo.title"></h4>
+                <h4 class="modal-title"><i ng-class="displayInfo.icon"></i> {{displayInfo.title}}</h4>
             </div>
             <div class="modal-body" ng-bind-html="displayInfo.html"></div>
             <div class="modal-footer">

@@ -57,10 +57,12 @@ angular
                     console.log('Daily News Limit Exceeded');
                 }
 
-//                $scope.showInfoModal({
-//                    title: 'Test Title',
-//                    html: '<p class="text-muted">Test Message</p>'
-//                });
+                $scope.showInfoModal({
+                    title: 'Test Title',
+                    subtitle: 'test subtitle',
+                    message: 'test message',
+                    type: 'error'
+                });
             };
 
             function getNewsPreviousToId(newsId){
