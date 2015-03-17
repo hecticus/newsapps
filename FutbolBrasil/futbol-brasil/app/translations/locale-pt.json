@@ -65,6 +65,26 @@
         "TEAMS" : "Não foi possível obter equipes",
         "LANGUAGES" : "Não foi possível obter idiomas"
     },
+    "LOGIN" : {
+        "PASSWORD_LABEL" : "Senha",
+        "PASSWORD_HELPER" : "Digite a senha recebida por SMS.",
+        "MSISDN_HOLDER" : "# Numero",
+        "MSISDN_LABEL" : "Username",
+        "LOGIN_LABEL" : "Login",
+        "REMIND_LABEL" : "Remind / Get Credentials",
+        "CHANGE_LANGUAGE_LABEL" : "Change Language",
+        "TUTORIAL_LABEL" : "How Does It Work?",
+        "TERMS_LABEL" : "Terms & Conditions",
+        "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
+        "REMIND" : {
+            "LABEL" : "Enter your mobile number",
+            "HERO" : {
+                "TITLE" : "Forgot your Username and password?",
+                "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
+                "SMALL_PRINT" : "*The service is only available for suscribers of the specific operator"
+            }
+        }
+    },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apelido",
         "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",

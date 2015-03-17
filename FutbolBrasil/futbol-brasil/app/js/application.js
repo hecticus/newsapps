@@ -67,6 +67,26 @@ var translationsEn = {
         "TEAMS" : "Could not get Teams",
         "LANGUAGES" : "Could not get Available Languages"
     },
+    "LOGIN" : {
+        "PASSWORD_LABEL" : "Password",
+        "PASSWORD_HELPER" : "Type in the code you received via SMS.",
+        "MSISDN_HOLDER" : "# Number",
+        "MSISDN_LABEL" : "Username",
+        "LOGIN_LABEL" : "Login",
+        "REMIND_LABEL" : "Remind / Get Credentials",
+        "CHANGE_LANGUAGE_LABEL" : "Change Language",
+        "TUTORIAL_LABEL" : "How Does It Work?",
+        "TERMS_LABEL" : "Terms & Conditions",
+        "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
+        "REMIND" : {
+            "LABEL" : "Enter your mobile number",
+            "HERO" : {
+                "TITLE" : "Forgot your Username and password?",
+                "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
+                "SMALL_PRINT" : "*The service is only available for suscribers of the specific operator"
+            }
+        }
+    },
     "SETTINGS": {
         "NICKNAME_TITLE": "Nickname",
         "NICKNAME_PLACEHOLDER": "Choose your Nickname",
@@ -162,6 +182,26 @@ var translationsEs = {
         "SCORERS" : "No hay goleadores para este torneo",
         "TEAMS" : "No se pudieron obtener los equipos",
         "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles"
+    },
+    "LOGIN" : {
+        "PASSWORD_LABEL" : "Contraseña",
+        "PASSWORD_HELPER" : "Ingrese el código recibido por SMS.",
+        "MSISDN_HOLDER" : "# Numero",
+        "MSISDN_LABEL" : "Username",
+        "LOGIN_LABEL" : "Login",
+        "REMIND_LABEL" : "Recordar / Obtener Credenciales",
+        "CHANGE_LANGUAGE_LABEL" : "Cambiar Idioma",
+        "TUTORIAL_LABEL" : "¿Como funciona?",
+        "TERMS_LABEL" : "Términos y Condiciones",
+        "ENTER_AS_GUEST_LABEL" : "Entrar como Invitado",
+        "REMIND" : {
+            "LABEL" : "Introduzca su número de teléfono móvil",
+            "HERO" : {
+                "TITLE" : "¿Olvidó su Usuario y Contraseña?",
+                "MESSAGE" : "Para obtener sus credenciales por favor escriba su NÚMERO DE TELÉFONO y presione 'Recordar / Obtener Credenciales'",
+                "SMALL_PRINT" : "*El servicio está disponible solo para suscriptores de la operadora especificada"
+            }
+        }
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apodo",
@@ -259,6 +299,26 @@ var translationsPt = {
         "TEAMS" : "Não foi possível obter equipes",
         "LANGUAGES" : "Não foi possível obter idiomas"
     },
+    "LOGIN" : {
+        "PASSWORD_LABEL" : "Senha",
+        "PASSWORD_HELPER" : "Digite a senha recebida por SMS.",
+        "MSISDN_HOLDER" : "# Numero",
+        "MSISDN_LABEL" : "Username",
+        "LOGIN_LABEL" : "Login",
+        "REMIND_LABEL" : "Remind / Get Credentials",
+        "CHANGE_LANGUAGE_LABEL" : "Change Language",
+        "TUTORIAL_LABEL" : "How Does It Work?",
+        "TERMS_LABEL" : "Terms & Conditions",
+        "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
+        "REMIND" : {
+            "LABEL" : "Enter your mobile number",
+            "HERO" : {
+                "TITLE" : "Forgot your Username and password?",
+                "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
+                "SMALL_PRINT" : "*The service is only available for suscribers of the specific operator"
+            }
+        }
+    },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apelido",
         "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
@@ -295,8 +355,6 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
-//    .config(['$locationProvider', '$httpProvider', '$translateProvider',
-//        function($locationProvider, $httpProvider, $translateProvider) {
     .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider',
         function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider) {
             $locationProvider.hashPrefix('!');
@@ -344,7 +402,7 @@ angular
                 $rootScope.hideMenu();
             }
 
-            if(toState.name !== 'login'){
+            if(toState.name !== 'login' && toState.name !== 'remind'){
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(function(){
