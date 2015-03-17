@@ -36,7 +36,7 @@ angular
                  * @return {HttpPromise} Returns the Request's Promise
                  */
                 create: function(bets, successCallback, errorCallback) {
-                    $http.post(Domain.bets.create, bets)
+                    $http.post(Domain.bets.create(), bets)
                     .success(function() {
                             successCallback();
                         }
