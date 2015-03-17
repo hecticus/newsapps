@@ -154,6 +154,7 @@ main.posts=Publicaciones
 main.languages=Idiomas
 main.countries=Paises
 main.categories=Categorias
+main.categories=Etiquetas
 main.configurations=Configuraciones
 main.list=Listar
 main.operations=Operaciones
@@ -300,6 +301,8 @@ categories.info=Informacion de la categoria
 categories.name=Nombre
 categories.name.help=Inserte un nombre valido
 
+categories.followable=Subscribible
+
 categories.submit.create=Crear esta categoria
 categories.submit.update=Actualizar esta categoria
 categories.submit.delete=Eliminar esta categoria
@@ -307,6 +310,28 @@ categories.submit.delete=Eliminar esta categoria
 categories.java.created= La categoria {0} ha sido creada!
 categories.java.updated= La categoria {0} ha sido actualizada!
 categories.java.deleted= La categoria {0} ha sido eliminada!
+
+tags.list.head=Etiquetas
+tags.list.title={0,choice,0#No hay Etiquetas|1#Una etiqueta encontrada|1<{0,number,integer} etiquetas encontradas}
+tags.list.filter.name=Filtrar por nombre de la etiqueta...
+tags.list.new=Agregar nueva etiqueta
+
+tags.create=Crear etiqueta
+tags.edit=Editar etiqueta
+tags.info=Informacion de la etiqueta
+
+tags.name=Nombre
+tags.name.help=Inserte un nombre valido
+
+tags.followable=Subscribible
+
+tags.submit.create=Crear esta etiqueta
+tags.submit.update=Actualizar esta etiqueta
+tags.submit.delete=Eliminar esta etiqueta
+
+tags.java.created= La etiqueta {0} ha sido creada!
+tags.java.updated= La etiqueta {0} ha sido actualizada!
+tags.java.deleted= La etiqueta {0} ha sido eliminada!
 
 athletes.list.head=Atletas
 athletes.list.title={0,choice,0#No hay Atletas|1#Un Atleta encontrado|1<{0,number,integer} Atletas encontrados}

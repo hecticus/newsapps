@@ -156,6 +156,7 @@ main.posts=Posts
 main.languages=Languages
 main.countries=Countries
 main.categories=Categories
+main.tags=Tags
 main.configurations=Configurations
 main.list=List
 main.operations=Operations
@@ -301,6 +302,8 @@ categories.info=Category Data
 categories.name=Name
 categories.name.help=Insert a valid name
 
+categories.followable=Followable
+
 categories.submit.create=Create this Category
 categories.submit.update=Update this Category
 categories.submit.delete=Delete this Category
@@ -308,6 +311,28 @@ categories.submit.delete=Delete this Category
 categories.java.created= The category {0} has been created!
 categories.java.updated= The category {0} has been updated!
 categories.java.deleted= The category {0} has been deleted!
+
+tags.list.head=Tags
+tags.list.title={0,choice,0#There are no tags|1#One tag found|1<{0,number,integer} tags found}
+tags.list.filter.name=Filter by tag name...
+tags.list.new=Add new Tag
+
+tags.create=Create Tag
+tags.edit=Edit Tag
+tags.info=Tag Data
+
+tags.name=Name
+tags.name.help=Insert a valid name
+
+tags.followable=Followable
+
+tags.submit.create=Create this Tag
+tags.submit.update=Update this Tag
+tags.submit.delete=Delete this Tag
+
+tags.java.created= The tag {0} has been created!
+tags.java.updated= The tag {0} has been updated!
+tags.java.deleted= The tag {0} has been deleted!
 
 athletes.list.head=Athletes
 athletes.list.title={0,choice,0#There are no Athletes|1#One Athlete found|1<{0,number,integer} Athletes found}

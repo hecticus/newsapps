@@ -132,8 +132,8 @@ public class Category extends HecticusModel {
         return sportList;
     }
 
-    public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    public static Page<Category> page(int page, int pageSize, String sortBy, String order, String filter, boolean followable) {
+        return finder.where().ilike("name", "%" + filter + "%").eq("followable", followable).orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 
     //Finder Operations

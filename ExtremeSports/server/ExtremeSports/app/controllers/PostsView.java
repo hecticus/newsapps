@@ -53,6 +53,7 @@ public class PostsView extends HecticusController {
 
     @Restrict(@Group(Application.USER_ROLE))
     public static Result list(int page, String sortBy, String order, String filter) {
+        System.out.println("page = " + page + " sortBy = " + sortBy + " order = " + order + " filter = " + filter);
         return ok(list.render(Post.page(page, 10, sortBy, order, filter), sortBy, order, filter, false));
     }
 
