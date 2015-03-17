@@ -73,7 +73,7 @@ angular
                             return previousValue.fixtures.length + currentValue.fixtures.length;
                         }
                     });
-                    console.log('leagueReduce: ' + leagueReduce);
+//                    console.log('leagueReduce: ' + leagueReduce);
                     day.empty = leagueReduce <= 0;
                 } else {
                     day.empty = true;

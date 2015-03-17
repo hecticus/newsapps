@@ -880,7 +880,7 @@ body.content-mtm .row-back {
 }
 
 .wrapper-full{
-    top: 50px;
+    top: 50px !important;
 }
 
 .wrapper-row {

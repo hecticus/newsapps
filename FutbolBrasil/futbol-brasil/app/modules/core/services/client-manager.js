@@ -98,7 +98,7 @@ angular
                         if(errorCode == 0 && response != null){
                             var isActive = Client.isActiveClient(response.status);
                             TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
-                            if(Client.updateClient(response, null)){
+                            if(Client.updateClient(response)){
                                 console.log('saveClient: true');
                                 typeof successCallback == "function" && successCallback(isNewClient);
                             }else{

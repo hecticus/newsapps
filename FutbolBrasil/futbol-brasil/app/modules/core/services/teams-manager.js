@@ -11,16 +11,14 @@ angular
         , function($http, $localStorage, Domain, Client) {
         var KEY_TEAMS_LIST = 'TEAMS_LIST';
         var KEY_FAVORITE_TEAMS_LIST = 'FAVORITE_TEAMS_LIST';
-        var teamList = [
-            {id_push_alert : 1},
-            {id_push_alert : 2}
-        ];
         var teams = [];
         var favTeams = [];
         var remoteTeams = [];
+
         var getTeamsFromServer = function(isDone){
             var page = 0;
             var pageSize = 200;
+            remoteTeams = [];
             $http.get(Domain.teams.index,
                 {
                     params: {
@@ -207,7 +205,9 @@ angular
 
             getFavoriteTeams: function() {
                 return favTeams;
-            }
+            },
+
+            getTeamsFromServer: getTeamsFromServer
 
         };
     }]);

@@ -9,6 +9,12 @@ angular
     .module('core')
     .factory('Upstream',['$http', 'Client', 'Moment', 'CordovaDevice', 'App',
         function($http, Client, Moment, CordovaDevice, App) {
+
+            var AUTH_TOKEN_PREFIX = 'Basic ';
+            var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
+            var EVENT_SUFFIX = '/game/user/event';
+            var PASSWORD_SUFFIX = '/game/user/password';
+
             var appKey = '';
             var appVersion = '';
             var guestPassword = '';
@@ -18,12 +24,8 @@ angular
             var url = '';
             var eventUrl = '';
             var passwordUrl = '';
-            var eventSuffix = '/game/user/event';
-            var passwordSuffix = '/game/user/password';
             var guestUserId = '';
             var headers = {};
-            var AUTH_TOKEN_PREFIX = 'Basic ';
-            var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
 
             var events = {
                 'app_launch' : 'APP_LAUNCH',
@@ -44,8 +46,8 @@ angular
 
                 serviceId = config.upstream_service_id;
                 url = config.upstream_url;
-                eventUrl = url + eventSuffix;
-                passwordUrl = url + passwordSuffix;
+                eventUrl = url + EVENT_SUFFIX;
+                passwordUrl = url + PASSWORD_SUFFIX;
                 updateHeaders();
             }
 
@@ -73,21 +75,12 @@ angular
             }
 
             function updateHeaders(){
-                /*
-                * Headers Example:
-                * Content-Type: application/json //Added by default
-                * Accept: application/gamingapi.v1+json
-                * x-gameapi-app-key: DEcxvzx98533fdsagdsfiou
-                * Authorization : Basic OTk5MDAwMDIzMzE1OlNSUTcyRktT //Should come from server
-                * */
                 headers = {
                     'Accept': 'application/'+ appVersion + '+json',
                     'x-gameapi-app-key' : appKey
                 };
             }
 
-
-            //TODO ask for device_id
             function getBody(event, extras){
                 var metadata = extras? extras : {};
                 metadata.channel = CordovaDevice.getUpstreamChannel();
@@ -113,6 +106,7 @@ angular
             function sendEvent(event){
                 var data = getBody(event);
                 var token = Client.getUpstreamAuthToken();
+
                 if(token){
                     headers['Authorization'] = AUTH_TOKEN_PREFIX + token;
                 } else {
@@ -121,15 +115,6 @@ angular
                 var config = {
                     headers: headers
                 };
-
-//                console.log('sendEvent:');
-                var obj = {
-                  "headers" : headers,
-                  "body" : data
-                };
-//                console.log(JSON.stringify(obj));
-
-//                return $http.post(eventUrl, data, config).then(success, error);
 
                 function success(data){
                     return getAppResponseCodeString(data.result);
@@ -140,25 +125,39 @@ angular
                         + ' Event. Result: ' + getAppResponseCodeString(data.result));
                     return 'error';
                 }
+
+//                console.log('sendEvent:');
+//                var obj = {
+//                  "headers" : headers,
+//                  "body" : data
+//                };
+//                console.log(JSON.stringify(obj));
+
+                return $http.post(eventUrl, data, config).then(success, error);
             }
 
             function appLaunchEvent (){
+                console.log('Upstream. appLaunchEvent');
                 return sendEvent(events.app_launch);
             }
 
             function appCloseEvent(){
+                console.log('Upstream. appCloseEvent');
                 return sendEvent(events.app_close);
             }
 
             function loginEvent(){
+                console.log('Upstream. loginEvent');
                 return sendEvent(events.login);
             }
 
             function viewSubscriptionPromptEvent(){
+                console.log('Upstream. viewSubscriptionPromptEvent');
                 return sendEvent(events.viewed_subscription);
             }
 
             function clickedSubscriptionPromptEvent(){
+                console.log('Upstream. clickedSubscriptionPromptEvent');
                 return sendEvent(events.clicked_subscription);
             }
 
@@ -181,14 +180,44 @@ angular
                  */
                 setUp : setUp,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#appLaunchEvent
+                 * @description Reports App Launch Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 appLaunchEvent : appLaunchEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#appCloseEvent
+                 * @description Reports App Close Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 appCloseEvent : appCloseEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#loginEvent
+                 * @description Reports Login Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 loginEvent : loginEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#viewSubscriptionPromptEvent
+                 * @description Reports Subscription Prompt Viewed Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 viewSubscriptionPromptEvent : viewSubscriptionPromptEvent,
 
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#clickedSubscriptionPromptEvent
+                 * @description Reports Subscription Prompt Clicked Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
                 clickedSubscriptionPromptEvent : clickedSubscriptionPromptEvent
             };
         }

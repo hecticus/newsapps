@@ -15,7 +15,7 @@ angular
                 if(!!$window.analytics) {
                     $window.analytics.startTrackerWithId('UA-60801639-1');
                 } else {
-                    console.log('$window.analytics Plugin not available. Are you directly on a browser?');
+                    console.log('init. $window.analytics Plugin not available. Are you directly on a browser?');
                 }
             }
 
@@ -24,7 +24,7 @@ angular
                     $window.analytics.trackView(title);
                     console.log('trackView: ' + title);
                 } else {
-                    console.log('$window.analytics Plugin not available. Are you directly on a browser?');
+                    console.log("Couldn't report 'trackView' event. $window.analytics Plugin not available.");
                 }
             }
 
@@ -37,7 +37,7 @@ angular
                         console.log('No Category and Action defined for Event');
                     }
                 } else {
-                    console.log('$window.analytics Plugin not available. Are you directly on a browser?');
+                    console.log("Couldn't report 'trackEvent' event. $window.analytics Plugin not available.");
                 }
             }
 

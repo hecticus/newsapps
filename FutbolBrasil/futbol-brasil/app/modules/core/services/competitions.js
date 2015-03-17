@@ -32,7 +32,7 @@ angular
             }
 
             function getCompetitions() {
-                return $http.get(Domain.competitions).then(function(response, status){
+                return $http.get(Domain.competitions).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
                     return competitions;
@@ -42,6 +42,7 @@ angular
             }
 
             function getScorers(id_competition){
+                var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 return $http.get(Domain.scorers(id_competition), config)
                     .then(function (data) {
                         data = data.data;
@@ -76,7 +77,7 @@ angular
                  * @methodOf core.Services.Competitions
                  * @return {boolean} Returns a boolean value
                  */
-                get: getCompetitions(),
+                get: getCompetitions,
 
                 getScorers: getScorers,
 

@@ -200,6 +200,7 @@ angular
                 $translate(['SETTINGS.ADD_TEAM']).then(function(translations){
                     $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
                 });
+                TeamsManager.getTeamsFromServer();
                 $scope.getFavoriteTeams();
                 $scope.loadSettings();
                 $scope.getStatus();
