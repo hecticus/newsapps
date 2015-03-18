@@ -87,36 +87,33 @@ angular
                     data: jData,
                     timeout : 60000
                 })
-                    .success(function(data, status) {
-                        if(typeof data == "string"){
-                            data = JSON.parse(data);
-                        }
-                        console.log('status: ');
-                        console.log(status);
-                        isNewClient = (status === 201);
+                .then(function(data, status) {
+//                    console.log('status: ');
+//                    console.log(data.status);
+                    isNewClient = (data.status === 201);
+                    data = data.data;
+//                    console.log('data: ');
+//                    console.log(data);
 
-                        var errorCode = data.error;
-                        var response = data.response;
-                        if(errorCode == 0 && response != null){
-                            TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
-                            if(Client.updateClient(response)){
-                                console.log('saveClient: true');
-                                typeof successCallback == "function" && successCallback(isNewClient);
-                            }else{
-                                console.log('saveClient: false');
-                                typeof errorCallback == "function" && errorCallback();
-                            }
+                    var errorCode = data.error;
+                    var response = data.response;
+                    if(errorCode == 0 && response != null){
+                        TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
+                        if(Client.updateClient(response)){
+                            typeof successCallback == "function" && successCallback(isNewClient);
                         }else{
-                            console.log("Error guardando cliente: " + data.description);
                             typeof errorCallback == "function" && errorCallback();
                         }
-                    })
-                    .error(function(data, status) {
-                        console.log("createClient. Error creating client. status: " + status);
-                        console.log("createClient. Error creating client. data: " + data);
-                        console.log(data);
+                    }else{
+                        console.log("Error guardando cliente: " + data.description);
                         typeof errorCallback == "function" && errorCallback();
-                    });
+                    }
+                }, function(data) {
+                    console.log("createClient. Error creating client. status: " + data.status);
+                    console.log("createClient. Error creating client. data: " + data.data);
+                    console.log(data.data);
+                    typeof errorCallback == "function" && errorCallback();
+                });
 
             }
 

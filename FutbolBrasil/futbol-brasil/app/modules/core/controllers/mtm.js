@@ -25,6 +25,8 @@ angular
 
             $scope.hasGamesForToday = true;
 
+            $scope.refreshIconClass = '';
+
             $scope.interval = false;
             $scope.date = Moment.date().format('dddd Do YYYY');
             $scope.getTime = function (_date) {
@@ -32,6 +34,7 @@ angular
             };
 
             $scope.refreshEvents = function () {
+                $scope.refreshIconClass = ' icon-refresh-animate';
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
@@ -54,7 +57,9 @@ angular
                                 $scope.item.match.away.goals = data.response.away_team_goals;
                             }
                             $scope.$emit('unload');
+                            $scope.refreshIconClass = '';
                         }, function () {
+                            $scope.refreshIconClass = '';
                             $scope.$emit('unload');
                             $scope.$emit('error');
                         }
