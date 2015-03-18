@@ -24,7 +24,7 @@ var translationsEn = {
         "TEAM-SELECTION" : "Language Selection"
     },
     "NEWS" : {
-        "TITLE" : "Notícias"
+        "TITLE" : "News"
 
     },
     "SCORERS" : {
@@ -402,7 +402,7 @@ angular
                 $rootScope.hideMenu();
             }
 
-            if(toState.name !== 'login' && toState.name !== 'remind'){
+            if(CordovaApp.requiresAuthSection(toState.name)){
                 if(!Client.isClientOk()){
                     console.log('client data not loaded. Loading client data again.');
                     ClientManager.init(function(){

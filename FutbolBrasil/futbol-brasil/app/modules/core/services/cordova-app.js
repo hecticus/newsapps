@@ -133,6 +133,10 @@ angular
                 });
             }
 
+            function requiresAuthSection(section){
+                return !(section === 'login' || section === 'remind');
+            }
+
             function isBlockedSection(section){
                 return blockedSections.some(function (blockedSection) {
                     return blockedSection === section;
@@ -244,6 +248,8 @@ angular
                 isBlockedSection : isBlockedSection,
 
                 isOnUtilitySection : isOnUtilitySection,
+
+                requiresAuthSection : requiresAuthSection,
 
                 setIsOnSettingsSection: setIsOnSettingsSection,
 
