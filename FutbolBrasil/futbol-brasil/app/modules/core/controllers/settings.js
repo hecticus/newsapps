@@ -10,9 +10,9 @@ angular
     .module('core')
     .controller('SettingsController', [
         '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager'
-        , 'TeamsManager', 'FacebookManager', 'Settings', 'iScroll', 'Client', 'Notification',
+        , 'TeamsManager', 'FacebookManager', 'Settings', 'iScroll', 'i18n', 'Client', 'Notification',
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
-            , FacebookManager, Settings, iScroll, Client, Notification) {
+            , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
             $scope.vScroll = null;
 
             $scope.fbObject = {
@@ -59,21 +59,6 @@ angular
                 }
             };
 
-            $scope.getFavoriteTeams = function(){
-                var teams = TeamsManager.getFavoriteTeams();
-                $rootScope.hasFavorites = false;
-                for(var i = 0; i < 3; i++){
-                    if(teams[i]) {
-                        $scope.favoriteTeams[i] = teams[i];
-                        $scope.favoriteTeams[i].isEmpty = false;
-                        $rootScope.hasFavorites = true;
-                    } else {
-                        $scope.favoriteTeams[i] = {};
-                        $scope.favoriteTeams[i].isEmpty = true;
-                    }
-                }
-            };
-
             $scope.getTeamName = function(team){
                 if(team && typeof team.name != 'undefined'){
                     return team.name !== '' ? team.name : $scope.strings.NOT_AVAILABLE;
@@ -113,12 +98,6 @@ angular
                 Settings.toggleMtmPush($scope.toggles.mtm);
             };
 
-            $scope.loadSettings = function(){
-                $scope.toggles.bets = Settings.isBetsPushActive();
-                $scope.toggles.news = Settings.isNewsPushActive();
-                $scope.toggles.mtm = Settings.isMtmPushActive();
-            };
-
             $scope.onFbButtonClick = function(){
                 if(!window.facebookConnectPlugin){ return;}
                 if(Client.isGuest()){
@@ -128,23 +107,6 @@ angular
                         FacebookManager.login();
                     }
                     $scope.setFbButtonMsg();
-                }
-            };
-
-            $scope.getStatus = function(){
-                if(!!window.facebookConnectPlugin) {
-                    FacebookManager.getStatus(function (result) {
-                        if (result) {
-                            $scope.fbObject.fbStatus = result.status;
-                            $scope.setFbButtonMsg();
-                        }
-                    });
-                } else {
-
-                    $timeout(function(){
-                        $scope.fbObject.fbStatus = 'connected';
-                        $scope.setFbButtonMsg();
-                    }, 1000);
                 }
             };
 
@@ -166,24 +128,57 @@ angular
                 $state.go('language-selection');
             };
 
-            $scope.getClientLanguage = function(){
-                $scope.lang = Client.getLanguage();
-                if($scope.lang){
-                    //noinspection JSPrimitiveTypeWrapperUsage
-                    $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
-                    $translate.use($scope.lang.short_name.toLowerCase());
-                        $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
-                            //noinspection JSPrimitiveTypeWrapperUsage
-                            $scope.lang.translation = translation;
-                        });
-                } else {
-                    $scope.lang = {};
-                    //noinspection JSPrimitiveTypeWrapperUsage
-                    $scope.lang.short_name = 'NA';
-                    //noinspection JSPrimitiveTypeWrapperUsage
-                    $scope.lang.translation =  'No Language Selected';
+            function getFavoriteTeams(){
+                var teams = TeamsManager.getFavoriteTeams();
+                $rootScope.hasFavorites = false;
+                for(var i = 0; i < 3; i++){
+                    if(teams[i]) {
+                        $scope.favoriteTeams[i] = teams[i];
+                        $scope.favoriteTeams[i].isEmpty = false;
+                        $rootScope.hasFavorites = true;
+                    } else {
+                        $scope.favoriteTeams[i] = {};
+                        $scope.favoriteTeams[i].isEmpty = true;
+                    }
                 }
-            };
+            }
+
+            function loadSettings(){
+                $scope.toggles.bets = Settings.isBetsPushActive();
+                $scope.toggles.news = Settings.isNewsPushActive();
+                $scope.toggles.mtm = Settings.isMtmPushActive();
+            }
+
+            function getStatus(){
+                if(!!window.facebookConnectPlugin) {
+                    FacebookManager.getStatus(function (result) {
+                        if (result) {
+                            $scope.fbObject.fbStatus = result.status;
+                            $scope.setFbButtonMsg();
+                        }
+                    });
+                } else {
+
+                    $timeout(function(){
+                        $scope.fbObject.fbStatus = 'connected';
+                        $scope.setFbButtonMsg();
+                    }, 1000);
+                }
+            }
+
+            function getClientLanguage(){
+                $scope.lang = Client.getLanguage();
+                if(!$scope.lang){
+                    $scope.lang = i18n.getDefaultLanguage();
+                }
+                //noinspection JSPrimitiveTypeWrapperUsage
+                $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
+                $translate.use($scope.lang.short_name.toLowerCase());
+                $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
+                    //noinspection JSPrimitiveTypeWrapperUsage
+                    $scope.lang.translation = translation;
+                });
+            }
 
             function setUpIScroll() {
                 $scope.vScroll = iScroll.verticalForm('wrapper');
@@ -195,11 +190,11 @@ angular
                     $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
                 });
                 TeamsManager.getTeamsFromServer();
-                $scope.getFavoriteTeams();
-                $scope.loadSettings();
-                $scope.getStatus();
+                getFavoriteTeams();
+                loadSettings();
+                getStatus();
+                getClientLanguage();
                 $scope.nickname = Client.getNickname();
-                $scope.getClientLanguage();
                 $scope.$emit('unload');
             } init();
 

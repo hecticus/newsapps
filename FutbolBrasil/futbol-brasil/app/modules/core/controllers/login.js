@@ -8,8 +8,9 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream'
-        , function($scope, $state, $stateParams, ClientManager, Client, Upstream) {
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client',
+        'Upstream', 'Notification',
+        function($scope, $state, $stateParams, ClientManager, Client, Upstream, Notification) {
 
             $scope.msisdn = '';
             $scope.password = '';
@@ -20,7 +21,8 @@ angular
             };
 
             var remindError = function(){
-                $scope.showInfoModal({
+                //TODO i18n-alizar
+                Notification.showInfoAlert({
                     title: 'Get Credentials',
                     subtitle: 'Network Error',
                     message: 'Could not contact our servers. Please try again in a few moments',
@@ -33,7 +35,8 @@ angular
             var loginSuccess = function(isNewClient){
                 console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
-                    $scope.showInfoModal({
+                    //TODO i18n-alizar
+                    Notification.showInfoAlert({
                         title: 'Profile Info',
                         subtitle: 'Select your username',
                         message: 'Please set a Username for your account',
@@ -48,7 +51,8 @@ angular
             };
 
             var loginError = function(){
-                $scope.showInfoModal({
+                //TODO i18n-alizar
+                Notification.showInfoAlert({
                     title: 'Login',
                     subtitle: 'Network Error',
                     message: 'Could not contact our servers. Please try again in a few moments',
@@ -76,7 +80,7 @@ angular
                     );
                 } else {
                     //TODO i18n-alizar
-                    $scope.showInfoModal({
+                    Notification.showInfoAlert({
                         title: 'Login process',
                         subtitle: 'Incomplete Registering Info',
                         message: 'Please input your phone number',
@@ -98,7 +102,7 @@ angular
                     Upstream.loginEvent();
                 } else {
                     //TODO i18n-alizar
-                    $scope.showInfoModal({
+                    Notification.showInfoAlert({
                         title: 'Login process',
                         subtitle: 'Incomplete Registering Info',
                         message: 'Please input your password',
