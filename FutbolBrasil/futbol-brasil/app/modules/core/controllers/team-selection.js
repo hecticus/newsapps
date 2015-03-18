@@ -21,38 +21,41 @@ angular
             };
 
             $scope.getTeams = function(){
-                $scope.teams = TeamsManager.getTeams(0, 200);
-                $scope.teams.sort(function(teamA, teamB){
-                    var nameA = teamA.name.toUpperCase();
-                    var nameB = teamB.name.toUpperCase();
-                    if(!nameA){
-                        return 1;
-                    } else if(!nameB){
-                        return -1;
-                    } else {
-                        if(nameA > nameB){
+                $scope.$emit('load');
+                TeamsManager.getTeams(0, 200).then(function(teams){
+                    $scope.teams = teams;
+                    $scope.teams.sort(function(teamA, teamB){
+                        var nameA = teamA.name.toUpperCase();
+                        var nameB = teamB.name.toUpperCase();
+                        if(!nameA){
                             return 1;
-                        } else if(nameA < nameB) {
+                        } else if(!nameB){
                             return -1;
                         } else {
-                            return 0;
+                            if(nameA > nameB){
+                                return 1;
+                            } else if(nameA < nameB) {
+                                return -1;
+                            } else {
+                                return 0;
+                            }
                         }
-                    }
-                });
+                    });
 
-                $scope.teams.map(function(team){
-                    if(team.name === '' || !team.name){
-                        team.name = $scope.strings.NOT_AVAILABLE;
-                    }
+                    $scope.teams.map(function(team){
+                        if(team.name === '' || !team.name){
+                            team.name = $scope.strings.NOT_AVAILABLE;
+                        }
+                    });
+                    var favTeams = TeamsManager.getFavoriteTeams();
+                    favTeams.forEach(function(elem){
+                        var index = $scope.teams.indexOf(elem);
+                        if(index > -1){
+                            $scope.teams.splice(index, 1);
+                        }
+                    });
+                    $scope.$emit('unload');
                 });
-                var favTeams = TeamsManager.getFavoriteTeams();
-                favTeams.forEach(function(elem){
-                    var index = $scope.teams.indexOf(elem);
-                    if(index > -1){
-                        $scope.teams.splice(index, 1);
-                    }
-                });
-                $scope.$emit('unload');
             };
 
             $scope.getTeamClass = function(team){
@@ -74,7 +77,6 @@ angular
             $scope.init = function(){
                 $scope.setUpIScroll();
                 $scope.getTeams();
-                TeamsManager.getTeamsFromServer();
             }();
         }
 ]);

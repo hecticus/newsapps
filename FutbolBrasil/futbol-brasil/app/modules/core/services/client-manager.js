@@ -98,7 +98,7 @@ angular
                     var errorCode = data.error;
                     var response = data.response;
                     if(errorCode == 0 && response != null){
-                        TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
+                        TeamsManager.setFavoriteTeams(response.push_alerts_teams);
                         if(Client.updateClient(response)){
                             typeof successCallback == "function" && successCallback(isNewClient);
                         }else{
@@ -136,7 +136,7 @@ angular
                         var response = data.response;
                         if(errorCode == 0 && response != null){
                             var isActive = Client.isActiveClient(response.status);
-                            TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
+                            TeamsManager.setFavoriteTeams(response.push_alerts_teams);
                             if(Client.updateClient(response, null)){
                                 typeof successCallback == "function"
                                 && successCallback(isActive, response.status);

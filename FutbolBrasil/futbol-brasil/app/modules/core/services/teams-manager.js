@@ -7,114 +7,122 @@
  */
 angular
     .module('core')
-    .factory('TeamsManager', ['$http', '$localStorage', 'Domain', 'Client'
-        , function($http, $localStorage, Domain, Client) {
-        var KEY_TEAMS_LIST = 'TEAMS_LIST';
-        var KEY_FAVORITE_TEAMS_LIST = 'FAVORITE_TEAMS_LIST';
-        var teams = [];
-        var favTeams = [];
-        var remoteTeams = [];
+    .factory('TeamsManager', ['$http', '$localStorage', '$q', 'Domain', 'Client',
+        function($http, $localStorage, $q, Domain, Client) {
+            var KEY_TEAMS_LIST = 'TEAMS_LIST';
+            var KEY_FAVORITE_TEAMS_LIST = 'FAVORITE_TEAMS_LIST';
+            var teams = [];
+            var favTeams = [];
+            var remoteTeams = [];
 
-        var getTeamsFromServer = function(isDone){
-            var page = 0;
-            var pageSize = 200;
-            remoteTeams = [];
-            $http.get(Domain.teams.index,
-                {
+            function getTeamsFromServer(isDone){
+                var page = 0;
+                var pageSize = 200;
+                var config = {
                     params: {
                         page: page,
                         pageSize: pageSize
                     }
-                }).success(function(data, status){
-                    isDone = data.response.teams.length < pageSize;
-                    remoteTeams = remoteTeams.concat(data.response.teams);
-                    if(isDone){
-                        persistTeams(remoteTeams);
-                    } else {
-                        getTeamsFromServer(isDone);
+                };
+
+                remoteTeams = [];
+
+                return $http.get(Domain.teams.index, config).then(
+                    function(data){
+                        data = data.data;
+                        isDone = data.response.teams.length < pageSize;
+                        remoteTeams = remoteTeams.concat(data.response.teams);
+                        if(isDone){
+                            return saveTeams(remoteTeams);
+                        } else {
+                            return getTeamsFromServer(isDone);
+                        }
+                    },
+                    function(data){
+                        console.log('getTeamsFromServer. error getting teams. last values: page='
+                            + page + 'pageSize=' + pageSize);
+                        console.log('getTeamsFromServer. data: ');
+                        console.log(data);
+                        return $q.reject(data);
                     }
-                })
-                .error(function(data, status){
-                    console.log('getTeamsFromServer. error getting teams. last values: page='
-                        + page + 'pageSize=' + pageSize);
-                    console.log('getTeamsFromServer. data: ');
-                    console.log(data);
-                });
-        };
-
-        var persistTeams = function(remoteTeams){
-            $localStorage[KEY_TEAMS_LIST] = JSON.stringify(remoteTeams);
-            teams = remoteTeams.slice();
-        };
-
-        var loadPersistedTeams = function(){
-            if($localStorage[KEY_TEAMS_LIST]){
-                teams = JSON.parse($localStorage[KEY_TEAMS_LIST]);
-            } else {
-                console.log('loadPersistedTeams. No records found for teams.');
-                teams = [];
+                );
             }
-        };
 
-        var persistFavoriteTeams = function(favoriteTeams){
-            if(favoriteTeams){
-                $localStorage[KEY_FAVORITE_TEAMS_LIST] = JSON.stringify(favoriteTeams);
-                favTeams = favoriteTeams.slice();
-                if(favoriteTeams.length > 0){
+            function saveTeams(remoteTeams){
+                $localStorage[KEY_TEAMS_LIST] = JSON.stringify(remoteTeams);
+                teams = remoteTeams.slice();
+                return teams;
+            }
+
+            function loadTeams(){
+                if($localStorage[KEY_TEAMS_LIST]){
+                    teams = JSON.parse($localStorage[KEY_TEAMS_LIST]);
+                } else {
+                    console.log('loadTeams. No records found for teams.');
+                    teams = [];
+                }
+                getTeams().then(function(teams){
+                    saveTeams(teams);
+                });
+            }
+
+            function setFavoriteTeams(pushAlerts){
+                if(!pushAlerts){ return; }
+                var favoriteTeams = teams.filter(function(element){
+                    var teamId = element.id_teams;
+                    var found = false;
+                    pushAlerts.forEach(function(pushAlert){
+                        var pushAlertId = pushAlert.push_alert.id_ext;
+                        found |= pushAlertId === teamId;
+                    });
+                    return found;
+                });
+                persistFavoriteTeams(favoriteTeams);
+            }
+
+            function persistFavoriteTeams(favoriteTeams){
+                if(favoriteTeams){
+                    $localStorage[KEY_FAVORITE_TEAMS_LIST] = JSON.stringify(favoriteTeams);
+                    favTeams = favoriteTeams.slice();
+                    if(favoriteTeams.length > 0){
+                        Client.setHasFavorites(true);
+                    } else {
+                        Client.setHasFavorites(false);
+                    }
+                }
+            }
+
+            function loadFavoriteTeams(){
+                if($localStorage[KEY_FAVORITE_TEAMS_LIST]) {
+                    favTeams = JSON.parse($localStorage[KEY_FAVORITE_TEAMS_LIST]);
+                } else {
+                    console.log('loadFavoriteTeams. No records found for favorite teams.');
+                    favTeams = [];
+                }
+
+                setFavoriteTeams();
+
+                if(favTeams.length > 0){
                     Client.setHasFavorites(true);
                 } else {
                     Client.setHasFavorites(false);
                 }
             }
-        };
 
-        var loadPersistedFavoriteTeams = function(){
-            if($localStorage[KEY_FAVORITE_TEAMS_LIST]) {
-                favTeams = JSON.parse($localStorage[KEY_FAVORITE_TEAMS_LIST]);
-            } else {
-                console.log('loadPersistedFavoriteTeams. No records found for favorite teams.');
-                favTeams = [];
-            }
-
-            if(favTeams.length > 0){
-                Client.setHasFavorites(true);
-            } else {
-                Client.setHasFavorites(false);
-            }
-        };
-
-        return {
-            KEY_FAVORITE_ADD : 'add_push-alert',
-            KEY_FAVORITE_REMOVE : 'remove_push_alert',
-
-            /**
-             * @ngdoc function
-             * @name core.Services.TeamsManager#init
-             * @description Initializes the Service
-             * @methodOf core.Services.TeamsManager
-             */
-            init : function (){
-                remoteTeams = [];
-                loadPersistedTeams();
-                loadPersistedFavoriteTeams();
-                getTeamsFromServer(false);
-                this.setFavoriteTeamsFromServer();
-            },
-
-            isTeamFavoriteById : function (idTeam){
+            function isTeamFavoriteById(idTeam){
                 for(var i=0; i < favTeams.length; i++){
                     if(favTeams[i].id_teams == idTeam){
                         return true;
                     }
                 }
                 return false;
-            },
+            }
 
-            isTeamFavorite : function (team){
+            function isTeamFavorite(team){
                 return (favTeams.indexOf(team) > -1);
-            },
+            }
 
-            addFavoriteTeam : function (team, callback){
+            function addFavoriteTeam(team, callback){
                 var index = favTeams.indexOf(team);
                 for(var i = 0; i < favTeams.length; i++){
                     if(team.id_teams === favTeams[i].id_teams){
@@ -128,11 +136,11 @@ angular
                 } else {
                     favTeams.push(team);
                     persistFavoriteTeams(favTeams);
-                    this.saveFavoriteTeamToServer({'add_push_alert' : [team.id_teams]}, callback);
+                    saveFavoriteTeamToServer({'add_push_alert' : [team.id_teams]}, callback);
                 }
-            },
+            }
 
-            removeFavoriteTeam : function (team, callback){
+            function removeFavoriteTeam(team, callback){
                 console.log('removeFavoriteTeam. ');
                 var index = favTeams.indexOf(team);
                 for(var i = 0; i < favTeams.length; i++){
@@ -144,45 +152,76 @@ angular
                 if(index > -1){
                     favTeams.splice(index, 1);
                     persistFavoriteTeams(favTeams);
-                    this.saveFavoriteTeamToServer({'remove_push_alert' : [team.id_teams]}, callback);
+                    saveFavoriteTeamToServer({'remove_push_alert' : [team.id_teams]}, callback);
                 } else {
                     console.log('removeFavoriteTeam. Team to remove not found');
                 }
-            },
+            }
 
-            saveFavoriteTeamToServer : function (jsonData, callback){
+            function saveFavoriteTeamToServer(jsonData, callback){
                 $http.post(Domain.client.update(Client.getClientId()), jsonData, {timeout : 60000})
-                .success(function(data, status) {
-                    if(typeof data == "string"){
-                        data = JSON.parse(data);
-                    }
-                    var errorCode = data.error;
-                    var response = data.response;
-                    if(errorCode == 0 && response != null){
-                        console.log("Favoritos actualizados con éxito en el servidor. ");
-                        persistFavoriteTeams(favTeams);
-                        typeof callback == "function" && callback();
-                    }else{
-                        console.log("Error guardando nuevos favoritos");
-                    }
-                })
-                .error (function(data, status) {
+                    .success(function(data) {
+                        var errorCode = data.error;
+                        var response = data.response;
+                        if(errorCode == 0 && response != null){
+                            console.log("Favoritos actualizados con éxito en el servidor. ");
+                            persistFavoriteTeams(favTeams);
+                            typeof callback == "function" && callback();
+                        }else{
+                            console.log("Error guardando nuevos favoritos");
+                        }
+                    })
+                    .error (function(data, status) {
                     console.log("error save favorite");
                 });
-            },
+            }
 
-            setFavoriteTeamsFromServer : function(pushAlerts){
-                if(!pushAlerts){ return; }
-                var favoriteTeams = teams.filter(function(element){
-                    var teamId = element.id_teams;
-                    var found = false;
-                    pushAlerts.forEach(function(pushAlert){
-                        var pushAlertId = pushAlert.push_alert.id_ext;
-                        found |= pushAlertId === teamId;
+            function getTeams(offset, pageSize) {
+                if(!offset){ offset = 0; }
+                if(!pageSize){ pageSize = 100; }
+
+                if(teams && teams.length > 0){
+                    var deferred = $q.defer();
+                    deferred.notify();
+                    deferred.resolve(teams.slice(offset, offset+pageSize-1));
+                    return deferred.promise;
+                } else {
+                    console.log('getTeams. No teams. Trying to get teams from server.');
+                    teams = [];
+                    return getTeamsFromServer().then(function(pTeams){
+                        teams = pTeams;
+                        return teams;
+                    }, function(){
+                        teams = [];
+                        return $q.reject(teams);
+                    }).then(function(teams){
+                        return teams.slice(offset, offset+pageSize-1);
                     });
-                    return found;
-                });
-                persistFavoriteTeams(favoriteTeams);
+                }
+            }
+
+            function init(){
+                remoteTeams = [];
+                teams = [];
+                favTeams = [];
+                loadTeams();
+                loadFavoriteTeams();
+            }
+
+        return {
+
+            isTeamFavoriteById : isTeamFavoriteById,
+
+            isTeamFavorite : isTeamFavorite,
+
+            addFavoriteTeam : addFavoriteTeam,
+
+            removeFavoriteTeam : removeFavoriteTeam,
+
+            setFavoriteTeams : setFavoriteTeams,
+
+            getFavoriteTeams: function() {
+                return favTeams;
             },
 
             /**
@@ -191,23 +230,15 @@ angular
              * @description Gets Teams List from Local Storage
              * @methodOf core.Services.TeamsManager
              */
-            getTeams: function(offset, pageSize) {
-                if(!offset || offset === ''){
-                    offset = 0;
-                }
+            getTeams: getTeams,
 
-                if(!pageSize || pageSize === ''){
-                    pageSize = 100;
-                }
-
-                return teams.slice(offset, offset+pageSize-1);
-            },
-
-            getFavoriteTeams: function() {
-                return favTeams;
-            },
-
-            getTeamsFromServer: getTeamsFromServer
+            /**
+             * @ngdoc function
+             * @name core.Services.TeamsManager#init
+             * @description Initializes the Service
+             * @methodOf core.Services.TeamsManager
+             */
+            init : init
 
         };
     }]);

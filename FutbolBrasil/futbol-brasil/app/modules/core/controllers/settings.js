@@ -129,6 +129,7 @@ angular
             };
 
             function getFavoriteTeams(){
+                TeamsManager.getTeams();
                 var teams = TeamsManager.getFavoriteTeams();
                 $rootScope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
@@ -189,7 +190,6 @@ angular
                 $translate(['SETTINGS.ADD_TEAM']).then(function(translations){
                     $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
                 });
-                TeamsManager.getTeamsFromServer();
                 getFavoriteTeams();
                 loadSettings();
                 getStatus();
