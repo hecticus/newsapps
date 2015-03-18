@@ -22,7 +22,7 @@ import org.apache.commons.io.FileUtils;
 * @author chrirod
 */
 public class ImageManager {
-    public static final String imageDir = "files/imageManager/";
+    public static final String imageDir = "/home/footballbrazil/files/imageManager/";
 
     public static final int IMGRESIZE_EXACT = 0;
     public static final int IMGRESIZE_KEEPASPECT_WIDTH = 1;
