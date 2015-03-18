@@ -184,6 +184,10 @@ angular
                 var icon = '';
                 displayInfo.icon = '';
                 switch(displayInfo.type){
+                    case 'success':
+                        icon = 'mdi-navigation-check text-success';
+                        displayInfo.html = '<p class="text-success">' + displayInfo.subtitle + '</p>';
+                        break;
                     case 'error':
                         icon = 'mdi-alert-error text-danger';
                         displayInfo.html = '<p class="text-danger">' + displayInfo.subtitle + '</p>';

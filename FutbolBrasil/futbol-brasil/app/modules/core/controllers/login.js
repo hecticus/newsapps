@@ -33,6 +33,12 @@ angular
             var loginSuccess = function(isNewClient){
                 console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
+                    $scope.showInfoModal({
+                        title: 'Profile Info',
+                        subtitle: 'Select your username',
+                        message: 'Please set a Username for your account',
+                        type: 'success'
+                    });
                     console.log('new client. going to settings');
                     $state.go('settings');
                 } else {
