@@ -4,9 +4,9 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="well">
-                        <h3>Forgot your Username and password?</h3>
-                        <p>To get your credentials please type your MOBILE NUMBER and press "Remind / Get Credentials"</p>
-                        <small class="text-muted">*The service is only available for suscribers of the specific operator</small>
+                        <h3 translate>LOGIN.REMIND.HERO.TITLE</h3>
+                        <p translate>LOGIN.REMIND.HERO.MESSAGE</p>
+                        <small class="text-muted" translate>LOGIN.REMIND.HERO.SMALL_PRINT</small>
                     </div>
                 </div>
             </div>
@@ -15,15 +15,15 @@
                     <div class="well text-center">
                         <form name="remindForm" ng-submit="sendMsisdn()" class="form-horizontal">
                             <fieldset>
-                                <legend>Enter your mobile number</legend>
+                                <legend translate>LOGIN.REMIND.LABEL</legend>
 
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon">+58</span>
                                         <label for="msisdnInput" class="col-xs-2 control-label sr-only"
-                                               ng-bind="strings.MSISDN_LABEL"></label>
+                                               translate>LOGIN.MSISDN_LABEL</label>
                                         <input type="tel" class="form-control empty" ng-model="msisdn"
-                                               id="msisdnInput" placeholder="{{strings.MSISDN_HOLDER}}">
+                                               id="msisdnInput" placeholder="{{ 'LOGIN.MSISDN_HOLDER' | translate }}">
                                         <span class="material-input"></span>
                                     </div>
                                 </div>
@@ -33,7 +33,7 @@
                                         <button type="submit" class="btn btn-block btn-orange touch-enable">
                                             <div class="row">
                                                 <div class="col-xs-10">
-                                                    <span>{{strings.REMIND_LABEL}} </span>
+                                                    <span translate>LOGIN.REMIND_LABEL</span>
                                                 </div>
                                                 <div class="col-xs-2 text-right">
                                                     <span><i class="mdi-navigation-chevron-right"></i></span>
@@ -49,7 +49,7 @@
                         <div class="list-group">
                             <a ui-sref="remind" class="list-group-item list-item">
                                 <div class="col-xs-10">
-                                    <span>{{strings.TERMS_LABEL}}</span>
+                                    <span translate>LOGIN.TERMS_LABEL</span>
                                 </div>
                                 <div class="col-xs-2 text-right">
                                     <span><i class="mdi-navigation-chevron-right"></i></span>

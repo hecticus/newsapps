@@ -492,7 +492,7 @@ public class MatchesController extends HecticusController {
                                     pivot = phase;
                                 }
                             }
-                            ObjectNode pivotJson = pivot.toJson();
+                            ObjectNode pivotJson = pivot.toJson(requestLanguage, app.getLanguage());
                             responseData.add(pivotJson);
                         }
                         ObjectNode data = Json.newObject();

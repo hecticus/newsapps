@@ -11,26 +11,6 @@ angular
     .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream'
         , function($scope, $state, $stateParams, ClientManager, Client, Upstream) {
 
-            //TODO i18n-alizar
-            $scope.strings = {
-                PASSWORD_LABEL: 'Senha',
-                PASSWORD_HELPER: 'Digite a senha recebida por SMS.',
-                LOADING_MESSAGE: 'Carregando...',
-                START_TRIAL_MESSAGE: 'Experimente 7 dias grátis',
-                SEND_MESSAGE: 'Enviar',
-                RESEND_MESSAGE: 'Enviar novamente a senha',
-                MSISDN_HELPER: 'Digite seu numero de celular.',
-                MSISDN_HOLDER: '# Numero',
-                MSISDN_LABEL: 'Username',
-                LOGIN_LABEL: 'Login',
-                LOGIN_WELCOME_MESSAGE: 'Registre-se para acessar as notícias de ' +
-                    'futebol do dia, todos os dias.',
-                REMIND_LABEL : 'Remind / Get Credentials',
-                CHANGE_LANGUAGE_LABEL : 'Change Language',
-                TUTORIAL_LABEL : 'How Does It Work?',
-                TERMS_LABEL : 'Terms & Conditions',
-                ENTER_AS_GUEST_LABEL: 'Enter as Guest'
-            };
             $scope.msisdn = '';
             $scope.password = '';
 
@@ -40,7 +20,14 @@ angular
             };
 
             var remindError = function(){
-                console.log('showClientSignUpError. Login Error.');
+                $scope.showInfoModal({
+                    title: 'Get Credentials',
+                    subtitle: 'Network Error',
+                    message: 'Could not contact our servers. Please try again in a few moments',
+                    type: 'error'
+                });
+                console.log('showClientSignUpError. Remind Error.');
+                $scope.$emit('unload');
             };
 
             var loginSuccess = function(isNewClient){
@@ -55,7 +42,14 @@ angular
             };
 
             var loginError = function(){
+                $scope.showInfoModal({
+                    title: 'Login',
+                    subtitle: 'Network Error',
+                    message: 'Could not contact our servers. Please try again in a few moments',
+                    type: 'error'
+                });
                 console.log('onLoginError. Login Error.');
+                $scope.$emit('unload');
             };
 
             $scope.sendMsisdn = function(){
@@ -75,12 +69,19 @@ angular
                         }
                     );
                 } else {
-                    $scope.$emit('unload');
-                    alert('Please input your phone number');
+                    //TODO i18n-alizar
+                    $scope.showInfoModal({
+                        title: 'Login process',
+                        subtitle: 'Incomplete Registering Info',
+                        message: 'Please input your phone number',
+                        type: 'warning'
+                    });
                 }
+                $scope.$emit('unload');
             };
 
             $scope.doMsisdnLogin = function(){
+                $scope.$emit('load');
                 if($scope.password){
                     ClientManager.createOrUpdateClient(
                         {
@@ -90,8 +91,15 @@ angular
                         , true, loginSuccess, loginError);
                     Upstream.loginEvent();
                 } else {
-                    alert('doMsisdnLogin. Please input password');
+                    //TODO i18n-alizar
+                    $scope.showInfoModal({
+                        title: 'Login process',
+                        subtitle: 'Incomplete Registering Info',
+                        message: 'Please input your password',
+                        type: 'warning'
+                    });
                 }
+                $scope.$emit('unload');
             };
 
             $scope.enterAsGuest = function(){

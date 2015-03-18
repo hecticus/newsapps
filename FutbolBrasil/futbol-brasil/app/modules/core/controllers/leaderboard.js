@@ -73,7 +73,7 @@ angular
                 console.log('friendsMode Active: ' + $scope.friendsMode);
 
                 $scope.$emit('load');
-                Competitions.get.then(function(data){
+                Competitions.get().then(function(data){
                   $scope.item.competitions =  data;
                   $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
                   $scope.item.competitions.forEach(function(competition, index) {

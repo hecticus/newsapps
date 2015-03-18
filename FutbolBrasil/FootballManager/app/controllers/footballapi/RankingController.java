@@ -255,6 +255,8 @@ public class RankingController extends HecticusController {
                                     data.put("phase", phase.toJsonSimple(requestLanguage, app.getLanguage()));
                                     data.put("ranking", Json.toJson(rankingObjs));
                                     response = hecticusResponse(0, "ok", data);
+                                } else {
+                                    response = buildBasicResponse(5, "El ranking de la phase " + idPhase + " no existe o esta vacio");
                                 }
                             }
                         } else {

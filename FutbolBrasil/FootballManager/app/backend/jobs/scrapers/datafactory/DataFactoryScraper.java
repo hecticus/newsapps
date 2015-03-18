@@ -264,11 +264,13 @@ public class DataFactoryScraper extends HecticusThread {
                     //get phase
                     Phase phaseToInsert = Phase.getPhaseByFn(torneo.getIdCompetitions(), stringIntParser(fn));
 
-                    Group group = null;
-                    if(groupName != null && !groupName.isEmpty()){
-                        group = new Group(torneo, groupName);
-                        group.validate(language);
+                    if(groupName == null || groupName.isEmpty()){
+                        groupName = "A";
                     }
+
+                    Group group = new Group(torneo, groupName);
+                    group.validate(language);
+
 
                     //values to int and long
                     long matches = stringLongParser(played),
