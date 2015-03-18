@@ -411,20 +411,24 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
-        boolean hasRanking = false;
+        obj.put("has_ranking", hasRanking());
+        return obj;
+    }
+
+    public boolean hasRanking(){
+        boolean flag = false;
         if (comp.getType().getType() == 0) {
-            hasRanking = ranks != null && !ranks.isEmpty();
+            flag = ranks != null && !ranks.isEmpty();
         } else if (comp.getType().getType() == 1) {
-            hasRanking = matches != null && !matches.isEmpty();
+            flag = matches != null && !matches.isEmpty();
         } else {
             if (nivel == 1) {
-                hasRanking = ranks != null && !ranks.isEmpty();
+                flag = ranks != null && !ranks.isEmpty();
             } else {
-                hasRanking = matches != null && !matches.isEmpty();
+                flag = matches != null && !matches.isEmpty();
             }
         }
-        obj.put("has_ranking", hasRanking);
-        return obj;
+        return flag;
     }
 
     public void validate(Language language){

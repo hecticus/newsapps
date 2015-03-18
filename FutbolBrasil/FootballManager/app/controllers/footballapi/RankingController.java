@@ -184,7 +184,8 @@ public class RankingController extends HecticusController {
                         List<Phase> phases = null;
                         if (idPhase > 0) {
                             phase = competition.getPhase(idPhase);
-                            phases = competition.getPhasesByGlobalNameAndDate(phase.getGlobalName(), today, app.getTimezone().getTimezone());
+//                            phases = competition.getPhasesByGlobalNameAndDate(phase.getGlobalName(), today, app.getTimezone().getTimezone());
+                            phases = competition.getPhasesByGlobalName(phase.getGlobalName());
                         } else {
                             phases = Phase.getPhaseByDate(competition.getIdCompetitions(), formattedToday);
                         }
