@@ -133,6 +133,10 @@ angular
                 });
             }
 
+            function requiresAuthSection(section){
+                return !(section === 'login' || section === 'remind');
+            }
+
             function isBlockedSection(section){
                 return blockedSections.some(function (blockedSection) {
                     return blockedSection === section;
@@ -200,10 +204,14 @@ angular
                         function(){
                             Settings.init();
                             Competitions.init();
-                            Update.checkUpdate();
+
                             $timeout(function(){
                                 Upstream.appLaunchEvent();
                             }, 300);
+
+                            if(!CordovaDevice.isWebPlatform()){
+                                Update.checkUpdate();
+                            }
                         }, function(){
                             console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                         }
@@ -240,6 +248,8 @@ angular
                 isBlockedSection : isBlockedSection,
 
                 isOnUtilitySection : isOnUtilitySection,
+
+                requiresAuthSection : requiresAuthSection,
 
                 setIsOnSettingsSection: setIsOnSettingsSection,
 
