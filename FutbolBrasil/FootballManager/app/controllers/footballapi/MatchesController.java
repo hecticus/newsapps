@@ -489,8 +489,8 @@ public class MatchesController extends HecticusController {
                                 if (phase.getNivel() != pivot.getNivel()) {
                                     ObjectNode pivotJson = pivot.toJson(requestLanguage, app.getLanguage());
                                     responseData.add(pivotJson);
-                                    pivot = phase;
                                 }
+                                pivot = phase;
                             }
                             ObjectNode pivotJson = pivot.toJson(requestLanguage, app.getLanguage());
                             responseData.add(pivotJson);
