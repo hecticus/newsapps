@@ -73,14 +73,12 @@ angular
                 var url = '';
 
                 if(Client.getClientId()){
-                    url = Domain.client.update(Client.getClientId());
+                    url = Domain.client.update();
                     jData.add_devices = devices;
-                    isNewClient = false;
                 } else {
                     url = Domain.client.create;
                     jData.devices = devices;
                     if(subscribe){ jData.subscribe = true; }
-                    isNewClient = true;
                 }
 
                 $http({
@@ -89,14 +87,17 @@ angular
                     data: jData,
                     timeout : 60000
                 })
-                    .success(function(data) {
+                    .success(function(data, status) {
                         if(typeof data == "string"){
                             data = JSON.parse(data);
                         }
+                        console.log('status: ');
+                        console.log(status);
+                        isNewClient = (status === 201);
+
                         var errorCode = data.error;
                         var response = data.response;
                         if(errorCode == 0 && response != null){
-                            var isActive = Client.isActiveClient(response.status);
                             TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
                             if(Client.updateClient(response)){
                                 console.log('saveClient: true');
