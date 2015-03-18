@@ -17,7 +17,7 @@ import java.io.File;
  */
 public class ImageProcessing extends HecticusController {
 
-    private static final String FILE_LOCATION = "files/imageManager/";
+    private static final String FILE_LOCATION = "/home/footballbrazil/files/imageManager/";
 
     public static Result getLocalResourceBySize(String file, String size){
         try {
@@ -113,5 +113,4 @@ public class ImageProcessing extends HecticusController {
             return badRequest(buildBasicResponse(-1, "procesando los recursos locales", ex));
         }
     }
-
 }
