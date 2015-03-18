@@ -9,8 +9,9 @@
 angular
     .module('core')
     .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage','WebManager', 'Domain',
-        'Moment', 'iScroll', '$timeout',
-        function($http, $rootScope, $scope, $state, $localStorage, WebManager, Domain, Moment, iScroll, $timeout) {
+        'Moment', 'iScroll', '$timeout', 'Notification',
+        function($http, $rootScope, $scope, $state, $localStorage, WebManager,
+                 Domain, Moment, iScroll, $timeout, Notification) {
 
             var _scroll = iScroll.vertical('wrapper');
             var _scroll2 = iScroll.vertical('wrapper2');
@@ -57,12 +58,7 @@ angular
             function refreshError(){
                 $scope.refreshIconClass = '';
                 $scope.$emit('unload');
-                $scope.showInfoModal({
-                    title: 'Network Error',
-                    subtitle: 'Connection Lost',
-                    message: "Couldn't get a response from server",
-                    type: 'error'
-                });
+                Notification.showNetworkErrorAlert();
             }
 
             $scope.refreshEvents = function () {
@@ -135,12 +131,7 @@ angular
                         $scope.$emit('unload');
                     }, function () {
                         $scope.hasGamesForToday = false;
-                        $scope.showInfoModal({
-                            title: 'Network Error',
-                            subtitle: 'Connection Lost',
-                            message: "Couldn't get a response from server",
-                            type: 'error'
-                        });
+                        Notification.showNetworkErrorAlert();
                         $scope.$emit('unload');
                     }
                 );

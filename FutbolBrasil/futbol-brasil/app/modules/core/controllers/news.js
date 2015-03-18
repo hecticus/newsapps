@@ -9,13 +9,12 @@
 angular
     .module('core')
     .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
-        ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaApp', 'CordovaDevice',
+        ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaDevice', 'Notification',
         function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Moment,
-                 iScroll, SocialAppsManager, News, CordovaApp, CordovaDevice) {
+                 iScroll, SocialAppsManager, News, CordovaDevice, Notification) {
 
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
-            $scope.item = {};
             $scope.news = [];
 
             //Indicador de primera y ultima posicion en cache
@@ -46,7 +45,7 @@ angular
                     $rootScope.transitionPageBack('#wrapper2', 'left');
                     detailScrollWrapper.scrollTo(0,0,0);
                 } else {
-                    CordovaApp.showNotificationDialog(
+                    Notification.showNotificationDialog(
                         {
                             title: 'Daily News Limit Exceeded',
                             message: 'You have exceeded your free daily news limit',
@@ -56,13 +55,6 @@ angular
                     );
                     console.log('Daily News Limit Exceeded');
                 }
-
-//                $scope.showInfoModal({
-//                    title: 'Test Title',
-//                    subtitle: 'test subtitle',
-//                    message: 'test message',
-//                    type: 'error'
-//                });
             };
 
             function getNewsPreviousToId(newsId){
@@ -84,7 +76,8 @@ angular
                             }
                             $scope.$emit('unload');
                         }, function () {
-                            $scope.$emit('error');
+                            Notification.showNetworkErrorAlert();
+                            console.log('getNewsPreviousToId. Network Error.');
                             $scope.$emit('unload');
                         });
                 }
@@ -102,8 +95,6 @@ angular
                                     var matches = $scope.news.filter(function(elem){
                                         return elem.idNews === _item.idNews;
                                     });
-//                                    console.log(_item.idNews);
-//                                    console.log(matches);
                                     if(matches.length == 0) {
                                         $scope.news.push(_item);
                                     }
@@ -111,8 +102,9 @@ angular
                             }
                             $scope.$emit('unload');
                         }, function () {
+                            Notification.showNetworkErrorAlert();
+                            console.log('getNewsAfterId. Network Error.');
                             $scope.$emit('unload');
-                            $scope.$emit('error');
                         });
                 }
             }
@@ -123,10 +115,9 @@ angular
                     $scope.news = JSON.parse($rootScope.$storage.news);
                     _news.first = $scope.news[0].idNews;
                     _news.last  = $scope.news[$scope.news.length-1].idNews;
-                    //$scope.$emit('unload');
                 }
-                $http.get(Domain.news.index())
-                    .then(function (data, status) {
+                $http.get(Domain.news.index()).then(
+                    function (data) {
                         data = data.data;
                         if(data.response.total > 0){
                             $scope.hasNews = true;
@@ -136,13 +127,14 @@ angular
                             $rootScope.$storage.news = JSON.stringify($scope.news);
                         } else {
                             $scope.hasNews = false;
-                            console.log('No News Available');
+                            console.log('No News Available.');
                         }
-                        $rootScope.error = !$scope.news;
                         $scope.$emit('unload');
                     }, function () {
+                        $scope.hasNews = false;
+                        Notification.showNetworkErrorAlert();
+                        console.log('getNews. Network Error.');
                         $scope.$emit('unload');
-                        $scope.$emit('error');
                     });
             }
 
@@ -157,7 +149,6 @@ angular
                         getNewsAfterId(_news.last);
                     }
                 });
-
                 detailScrollWrapper = iScroll.vertical('wrapper2');
             }
 
@@ -165,6 +156,6 @@ angular
                 $scope.$emit('load');
                 getNews();
                 setUpIScroll();
-            }init();
+            } init();
         }
     ]);

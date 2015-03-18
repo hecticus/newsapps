@@ -9,10 +9,10 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager', 'TeamsManager', 'FacebookManager',
-            'Settings', 'iScroll', 'Client', 'CordovaApp',
-        function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager, FacebookManager,
-                 Settings, iScroll, Client, CordovaApp) {
+        '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager'
+        , 'TeamsManager', 'FacebookManager', 'Settings', 'iScroll', 'Client', 'Notification',
+        function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
+            , FacebookManager, Settings, iScroll, Client, Notification) {
             $scope.vScroll = null;
 
             $scope.fbObject = {
@@ -119,20 +119,10 @@ angular
                 $scope.toggles.mtm = Settings.isMtmPushActive();
             };
 
-            $scope.setUpIScroll = function() {
-                $scope.vScroll = iScroll.verticalForm('wrapper');
-            };
-
             $scope.onFbButtonClick = function(){
                 if(!window.facebookConnectPlugin){ return;}
                 if(Client.isGuest()){
-                    CordovaApp.showNotificationDialog(
-                        {
-                            title : 'Locked Section',
-                            message : 'This section is locked for Guest Users. Please register to unlock',
-                            confirm: 'Ok',
-                            cancel: 'Cancel'
-                        });
+                    Notification.showLockedSectionDialog();
                 } else {
                     if($scope.fbObject.fbStatus !== 'connected'){
                         FacebookManager.login();
@@ -142,18 +132,20 @@ angular
             };
 
             $scope.getStatus = function(){
-                $timeout(function(){
-                    $scope.fbObject.fbStatus = 'connected';
-                    $scope.setFbButtonMsg();
-                }, 1000);
-//                if(!window.facebookConnectPlugin){ return;}
-//                FacebookManager.getStatus(function(result){
-//                    if(result){
-//                        $scope.fbObject.fbStatus = result.status;
-////                        console.log('Settings.getStatus. $scope.fbObject: ' + JSON.stringify($scope.fbObject, undefined, 2));
-//                        $scope.setFbButtonMsg();
-//                    }
-//                });
+                if(!!window.facebookConnectPlugin) {
+                    FacebookManager.getStatus(function (result) {
+                        if (result) {
+                            $scope.fbObject.fbStatus = result.status;
+                            $scope.setFbButtonMsg();
+                        }
+                    });
+                } else {
+
+                    $timeout(function(){
+                        $scope.fbObject.fbStatus = 'connected';
+                        $scope.setFbButtonMsg();
+                    }, 1000);
+                }
             };
 
             $scope.setFbButtonMsg = function(){
@@ -169,7 +161,7 @@ angular
                 $scope.$apply();
             };
 
-            $scope.selectLanguage = function(team){
+            $scope.selectLanguage = function(){
                 $scope.$emit('load');
                 $state.go('language-selection');
             };
@@ -180,12 +172,10 @@ angular
                     //noinspection JSPrimitiveTypeWrapperUsage
                     $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
                     $translate.use($scope.lang.short_name.toLowerCase());
-//                    $translate.refresh().then(function(){
                         $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
                             //noinspection JSPrimitiveTypeWrapperUsage
                             $scope.lang.translation = translation;
                         });
-//                    });
                 } else {
                     $scope.lang = {};
                     //noinspection JSPrimitiveTypeWrapperUsage
@@ -195,8 +185,12 @@ angular
                 }
             };
 
-            $scope.init = function(){
-                $scope.setUpIScroll();
+            function setUpIScroll() {
+                $scope.vScroll = iScroll.verticalForm('wrapper');
+            }
+
+            function init(){
+                setUpIScroll();
                 $translate(['SETTINGS.ADD_TEAM']).then(function(translations){
                     $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
                 });
@@ -207,7 +201,7 @@ angular
                 $scope.nickname = Client.getNickname();
                 $scope.getClientLanguage();
                 $scope.$emit('unload');
-            }();
+            } init();
 
         }
 ]);
