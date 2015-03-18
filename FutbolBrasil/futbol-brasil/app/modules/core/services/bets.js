@@ -20,10 +20,12 @@ angular
                  */
                 get: function(competition,successCallback, errorCallback) {
                     $http.get(Domain.bets.get(competition))
-                        .success(function (data, status) {
-                            //$rootScope.$storage.bet = JSON.stringify(data.response);
+                        .success(function (data) {
+                            console.log('bets: ');
+                            console.log(data);
+                            $rootScope.$storage.bet = JSON.stringify(data.response);
                             typeof successCallback === 'function' && successCallback(data);
-                        }).error(function (data, status) {
+                        }).error(function () {
                             typeof errorCallback === 'function' && errorCallback();
                         });
                 },
@@ -36,14 +38,13 @@ angular
                  * @return {HttpPromise} Returns the Request's Promise
                  */
                 create: function(bets, successCallback, errorCallback) {
-                    $http.post(Domain.bets.create, bets)
+                    $http.post(Domain.bets.create(), bets)
                     .success(function() {
                             successCallback();
-                        }
-                    ).error(function(){
+                    })
+                    .error(function() {
                             errorCallback();
-                        }
-                    );
+                    });
                 }
             };
         }

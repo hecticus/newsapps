@@ -8,11 +8,10 @@
 angular
     .module('core')
     .factory('CordovaApp',['$state', '$window', '$timeout', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Upstream', 'Analytics',
+        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
         function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Settings, Competitions, App, Upstream, Analytics) {
+                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics) {
 
-            var updateCallback = null;
             var currentSection = '';
             var prevSection = '';
             var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
@@ -26,15 +25,6 @@ angular
                 OK : 'Ok',
                 CANCEL : 'Cancelar'
             };
-
-            function checkUpdate(){
-                var updateInfo = App.getUpdateInfo();
-                updateInfo.current_version = App.getBundleVersion();
-                updateInfo.bundle_id = App.getBundleId();
-                if(updateInfo.update === 1){
-                    updateCallback(updateInfo);
-                }
-            }
 
             function getVersion(){
                 if(!!$window.wizUtils){
@@ -143,6 +133,10 @@ angular
                 });
             }
 
+            function requiresAuthSection(section){
+                return !(section === 'login' || section === 'remind');
+            }
+
             function isBlockedSection(section){
                 return blockedSections.some(function (blockedSection) {
                     return blockedSection === section;
@@ -210,10 +204,14 @@ angular
                         function(){
                             Settings.init();
                             Competitions.init();
-                            checkUpdate();
+
                             $timeout(function(){
                                 Upstream.appLaunchEvent();
                             }, 300);
+
+                            if(!CordovaDevice.isWebPlatform()){
+                                Update.checkUpdate();
+                            }
                         }, function(){
                             console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                         }
@@ -229,10 +227,6 @@ angular
 
             return {
 
-                setUpdateCallback: function(callback){
-                    updateCallback = callback;
-                },
-
                 setCurrentSection : function(sect){
                     currentSection = sect;
                 },
@@ -247,18 +241,6 @@ angular
                     return prevSection;
                 },
 
-                bindEvents : bindEvents,
-
-                onDeviceReady : onDeviceReady,
-
-                receivedEvent : receivedEvent,
-
-                initAllAppData : initAllAppData,
-
-                startAppOffline : startAppOffline,
-
-                startApp : startApp,
-
                 errorStartApp : errorStartApp,
 
                 getVersion: getVersion,
@@ -266,6 +248,8 @@ angular
                 isBlockedSection : isBlockedSection,
 
                 isOnUtilitySection : isOnUtilitySection,
+
+                requiresAuthSection : requiresAuthSection,
 
                 setIsOnSettingsSection: setIsOnSettingsSection,
 

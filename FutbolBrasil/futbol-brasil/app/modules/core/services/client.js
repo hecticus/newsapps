@@ -57,14 +57,14 @@ angular
             }
 
             function setGuest(){
-                client = {
-                    guest: true
-                };
+                client.guest = true;
                 saveClient();
                 markClientAsOk();
             }
 
             function updateClient(data, password) {
+                console.log('updateClient:');
+                console.log(data);
                 client.id_client = data.id_client;
                 client.user_id = data.user_id;
                 client.login = data.login;
@@ -195,7 +195,6 @@ angular
                 },
 
                 setRegId : function (id) {
-                    console.log('Client.setregId: ' + id);
                     hasToUpdateRegId = true;
                     client.regId = id;
                     saveClient();

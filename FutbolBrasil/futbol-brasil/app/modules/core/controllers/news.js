@@ -15,14 +15,17 @@ angular
 
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
+            $scope.item = {};
+            $scope.news = [];
 
             //Indicador de primera y ultima posicion en cache
             var _news = {
                 first : 0,
                 last : 0
             };
-            $scope.item = {};
-            $scope.news = [];
+
+            var listScrollWrapper = null;
+            var detailScrollWrapper = null;
 
             $scope.share = function(_news) {
                 if(CordovaDevice.isWebPlatform()){
@@ -41,7 +44,7 @@ angular
                     $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                     $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                     $rootScope.transitionPageBack('#wrapper2', 'left');
-                    $scope._scroll2.scrollTo(0,0,0);
+                    detailScrollWrapper.scrollTo(0,0,0);
                 } else {
                     CordovaApp.showNotificationDialog(
                         {
@@ -53,39 +56,16 @@ angular
                     );
                     console.log('Daily News Limit Exceeded');
                 }
+
+//                $scope.showInfoModal({
+//                    title: 'Test Title',
+//                    subtitle: 'test subtitle',
+//                    message: 'test message',
+//                    type: 'error'
+//                });
             };
 
-            $scope.getNews = function() {
-                if ($rootScope.$storage.news) {
-                    $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
-                    $scope.news = JSON.parse($rootScope.$storage.news);
-                    _news.first = $scope.news[0].idNews;
-                    _news.last  = $scope.news[$scope.news.length-1].idNews;
-                    //$scope.$emit('unload');
-                } else {
-                    $http.get(Domain.news.index())
-                        .then(function (data, status) {
-                            data = data.data;
-                            if(data.response.total > 0){
-                                $scope.hasNews = true;
-                                $scope.news = data.response.news;
-                                _news.first = $scope.news[0].idNews;
-                                _news.last  = $scope.news[$scope.news.length-1].idNews;
-                                $rootScope.$storage.news = JSON.stringify($scope.news);
-                            } else {
-                                $scope.hasNews = false;
-                                console.log('No News Available');
-                            }
-                            $rootScope.error = !$scope.news;
-                            $scope.$emit('unload');
-                        }, function () {
-                            $scope.$emit('unload');
-                            $scope.$emit('error');
-                        });
-                }
-            };
-
-            $scope.getNewsPreviousToId = function(newsId){
+            function getNewsPreviousToId(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http.get(Domain.news.up(newsId))
@@ -94,7 +74,12 @@ angular
                             if (data.response.news.length >= 1) {
                                 _news.first = data.response.news[0].idNews;
                                 angular.forEach(data.response.news, function(_item) {
-                                    $scope.news.unshift(_item);
+                                    var matches = $scope.news.filter(function(elem){
+                                        return elem.idNews === _item.idNews;
+                                    });
+                                    if(matches.length == 0) {
+                                        $scope.news.unshift(_item);
+                                    }
                                 });
                             }
                             $scope.$emit('unload');
@@ -103,17 +88,25 @@ angular
                             $scope.$emit('unload');
                         });
                 }
-            };
+            }
 
-            $scope.getNewsAfterId = function(newsId){
+            function getNewsAfterId(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     $http.get(Domain.news.down(newsId))
                         .then(function (data) {
+                            data = data.data;
                             if (data.response.news.length >= 1) {
                                 _news.last = data.response.news[data.response.news.length-1].idNews;
                                 angular.forEach(data.response.news, function(_item) {
-                                    $scope.news.push(_item);
+                                    var matches = $scope.news.filter(function(elem){
+                                        return elem.idNews === _item.idNews;
+                                    });
+//                                    console.log(_item.idNews);
+//                                    console.log(matches);
+                                    if(matches.length == 0) {
+                                        $scope.news.push(_item);
+                                    }
                                 });
                             }
                             $scope.$emit('unload');
@@ -122,34 +115,56 @@ angular
                             $scope.$emit('error');
                         });
                 }
-            };
+            }
 
-            $scope.setUpIScroll = function() {
-                console.log('setUpIScroll');
-                $scope._scroll = iScroll.vertical('wrapper');
-                $scope._scroll.on('beforeScrollStart', function () {
-                    this.refresh();
-                });
-                $scope._scroll.on('scroll', function () {
+            function getNews() {
+                if ($rootScope.$storage.news) {
+                    $rootScope.error = !$rootScope.$storage.hasOwnProperty('news');
+                    $scope.news = JSON.parse($rootScope.$storage.news);
+                    _news.first = $scope.news[0].idNews;
+                    _news.last  = $scope.news[$scope.news.length-1].idNews;
+                    //$scope.$emit('unload');
+                }
+                $http.get(Domain.news.index())
+                    .then(function (data, status) {
+                        data = data.data;
+                        if(data.response.total > 0){
+                            $scope.hasNews = true;
+                            $scope.news = data.response.news;
+                            _news.first = $scope.news[0].idNews;
+                            _news.last  = $scope.news[$scope.news.length-1].idNews;
+                            $rootScope.$storage.news = JSON.stringify($scope.news);
+                        } else {
+                            $scope.hasNews = false;
+                            console.log('No News Available');
+                        }
+                        $rootScope.error = !$scope.news;
+                        $scope.$emit('unload');
+                    }, function () {
+                        $scope.$emit('unload');
+                        $scope.$emit('error');
+                    });
+            }
+
+            function setUpIScroll() {
+                listScrollWrapper = iScroll.vertical('wrapper');
+                listScrollWrapper.on('scroll', function () {
                     if (this.y >= 50) {
-                        $scope.getNewsPreviousToId(_news.first);
+                        getNewsPreviousToId(_news.first);
                     }
 
                     if (this.y <= this.maxScrollY) {
-                        $scope.getNewsAfterId(_news.last);
+                        getNewsAfterId(_news.last);
                     }
                 });
-                $scope._scroll2 = iScroll.vertical('wrapper2');
-                $scope._scroll2.on('beforeScrollStart', function () {
-                        this.refresh();
-                    }
-                );
-            };
 
-            $scope.init = function(){
+                detailScrollWrapper = iScroll.vertical('wrapper2');
+            }
+
+            function init(){
                 $scope.$emit('load');
-                $scope.getNews();
-                $scope.setUpIScroll();
-            }();
+                getNews();
+                setUpIScroll();
+            }init();
         }
     ]);

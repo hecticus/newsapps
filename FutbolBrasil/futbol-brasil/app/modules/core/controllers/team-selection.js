@@ -22,6 +22,24 @@ angular
 
             $scope.getTeams = function(){
                 $scope.teams = TeamsManager.getTeams(0, 200);
+                $scope.teams.sort(function(teamA, teamB){
+                    var nameA = teamA.name.toUpperCase();
+                    var nameB = teamB.name.toUpperCase();
+                    if(!nameA){
+                        return 1;
+                    } else if(!nameB){
+                        return -1;
+                    } else {
+                        if(nameA > nameB){
+                            return 1;
+                        } else if(nameA < nameB) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+
                 $scope.teams.map(function(team){
                     if(team.name === '' || !team.name){
                         team.name = $scope.strings.NOT_AVAILABLE;
@@ -56,6 +74,7 @@ angular
             $scope.init = function(){
                 $scope.setUpIScroll();
                 $scope.getTeams();
+                TeamsManager.getTeamsFromServer();
             }();
         }
 ]);

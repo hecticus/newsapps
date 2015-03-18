@@ -1,12 +1,12 @@
-@(id: Integer, categoryViewForm: Form[models.content.posts.Category])
+@(id: Integer, categoryViewForm: Form[models.content.posts.Category], categories: Boolean)
 
 @import helper._
 @import helper.twitterBootstrap._
-@import tags._
+@import helpers._
 
 @title = {}
 
-@main(title = Messages("countries.edit"), nav = "create") {
+@main(title =  Messages(if(categories) "categories.edit" else "tags.edit"), nav = "create") {
 
     @if(categoryViewForm.hasErrors) {
         <div class="alert alert-dismissable alert-danger">
@@ -17,17 +17,17 @@
     }
 
 
-    @helper.form(controllers.routes.CategoriesView.update(id), 'enctype -> "multipart/form-data") {
+    @helper.form(controllers.routes.CategoriesView.update(id, categories), 'enctype -> "multipart/form-data") {
 
         <fieldset>
             <div class="row">
                 <div class="col-md-10">
-                    <legend>@Messages("categories.info")</legend>
+                    <legend>@Messages(if(categories) "categories.info" else "tags.info")</legend>
 
                     @inputText(
                         categoryViewForm("name"),
-                        '_label -> Messages("categories.name"),
-                        '_help -> Messages("categories.name.help"),
+                        '_label -> Messages(if(categories) "categories.name" else "tags.name"),
+                        '_help -> Messages(if(categories) "categories.name.help" else "tags.name.help"),
                         'class -> "form-control",
                         '_error -> categoryViewForm.globalError
                     )
@@ -35,7 +35,7 @@
                 <div class="col-md-2">
                     @materialCheckbox(
                         categoryViewForm("followable"),
-                        '_label -> Messages("categories.followable"),
+                        '_label -> Messages(if(categories) "categories.followable" else "tags.followable"),
                         'class -> "allCheckbox"
                     )
                 </div>
@@ -45,12 +45,12 @@
 
         <div class="actions">
             <input type="submit" value=@Messages("categories.submit.update") class="btn btn-success">
-            <a href="@controllers.routes.CategoriesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+            <a href="@controllers.routes.CategoriesView.list(categories)" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
 
     }
 
-    @form(controllers.routes.CategoriesView.delete(id), 'class -> "topRight") {
+    @form(controllers.routes.CategoriesView.delete(id, categories), 'class -> "topRight") {
         <input type="submit" value=@Messages("categories.submit.delete") class="btn btn-danger">
 
     }

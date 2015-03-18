@@ -193,17 +193,17 @@ POST    /athletes/:id/delete		                                                  
 
 #CategoriesView
 # CategoriesView list (look at the default values for pagination parameters)
-GET     /categories/list			                                                    controllers.CategoriesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET     /categories/list			                                                    controllers.CategoriesView.list(categories:Boolean, p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
 GET     /categories/lsort		                                                        controllers.CategoriesView.lsort()
 # Add CategoriesView
-GET     /categories/blank		                                                        controllers.CategoriesView.blank()
-POST    /categories				                                                        controllers.CategoriesView.submit()
+GET     /categories/blank		                                                        controllers.CategoriesView.blank(categories:Boolean)
+POST    /categories				                                                        controllers.CategoriesView.submit(categories:Boolean)
 # Edit existing CategoriesView
 GET     /categories/sort/:ids	                                                        controllers.CategoriesView.sort(ids:String)
-GET     /categories/:id			                                                        controllers.CategoriesView.edit(id:Integer)
-POST    /categories/:id			                                                        controllers.CategoriesView.update(id:Integer)
+GET     /categories/:id			                                                        controllers.CategoriesView.edit(id:Integer, categories:Boolean)
+POST    /categories/:id			                                                        controllers.CategoriesView.update(id:Integer, categories:Boolean)
 # Delete a CategoriesView
-POST    /categories/:id/delete		                                                    controllers.CategoriesView.delete(id:Integer)
+POST    /categories/:id/delete		                                                    controllers.CategoriesView.delete(id:Integer, categories:Boolean)
 
 #PostsView
 # PostsView list (look at the default values for pagination parameters)

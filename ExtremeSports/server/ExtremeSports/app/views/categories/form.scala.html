@@ -1,12 +1,12 @@
-@(categoryViewForm: Form[models.content.posts.Category])
+@(categoryViewForm: Form[models.content.posts.Category], categories: Boolean)
 
 @import helper._
 @import helper.twitterBootstrap._
-@import tags._
+@import helpers._
 
 @title = {}
 
-@main(title = Messages("categories.create"), nav = "create") {
+@main(title = Messages(if(categories) "categories.create" else "tags.create"), nav = "create") {
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
@@ -23,16 +23,16 @@
     }
 
 
-    @helper.form(action = controllers.routes.CategoriesView.submit) {
+    @helper.form(action = controllers.routes.CategoriesView.submit(categories)) {
 
         <fieldset>
             <div class="row">
                 <div class="col-md-10">
-                    <legend>@Messages("categories.info")</legend>
+                    <legend>@Messages(if(categories) "categories.info" else "tags.info")</legend>
                     @inputText(
                         categoryViewForm("name"),
-                        '_label -> Messages("categories.name"),
-                        '_help -> Messages("categories.name.help"),
+                        '_label -> Messages(if(categories) "categories.name" else "tags.name"),
+                        '_help -> Messages(if(categories) "categories.name.help" else "tags.name.help"),
                         'class -> "form-control",
                         '_error -> categoryViewForm.globalError
                     )
@@ -40,7 +40,7 @@
                 <div class="col-md-2">
                     @materialCheckbox(
                         categoryViewForm("followable"),
-                        '_label -> Messages("categories.followable"),
+                        '_label -> Messages(if(categories) "categories.followable" else "tags.followable"),
                         'class -> "allCheckbox"
                     )
                 </div>
@@ -50,7 +50,7 @@
 
         <div class="actions">
             <input type="submit" class="btn btn-success" value=@Messages("categories.submit.create")>
-            <a href="@controllers.routes.CategoriesView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+            <a href="@controllers.routes.CategoriesView.list(categories)" class="btn btn-primary">@Messages("generic.cancel")</a>
         </div>
 
     }

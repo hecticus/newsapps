@@ -69,8 +69,11 @@
                                         <li><a href="@controllers.routes.PostsView.list()">@Messages("main.list")</a></li>
                                         <li><a href="@controllers.routes.PostsView.blank">@Messages("main.create")</a></li>
                                         <li class="dropdown-header">@Messages("main.categories")</li>
-                                        <li><a href="@controllers.routes.CategoriesView.list()">@Messages("main.list")</a></li>
-                                        <li><a href="@controllers.routes.CategoriesView.blank">@Messages("main.create")</a></li>
+                                        <li><a href="@controllers.routes.CategoriesView.list(true)">@Messages("main.list")</a></li>
+                                        <li><a href="@controllers.routes.CategoriesView.blank(true)">@Messages("main.create")</a></li>
+                                        <li class="dropdown-header">@Messages("main.tags")</li>
+                                        <li><a href="@controllers.routes.CategoriesView.list(false)">@Messages("main.list")</a></li>
+                                        <li><a href="@controllers.routes.CategoriesView.blank(false)">@Messages("main.create")</a></li>
                                     </ul>
                                 </li>
 

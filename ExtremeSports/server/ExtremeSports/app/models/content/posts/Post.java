@@ -350,7 +350,7 @@ public class Post extends HecticusModel {
     }
 
     public static Page<Post> page(int page, int pageSize, String sortBy, String order, String filter) {
-        return finder.where().ilike("source", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+        return finder.where().ilike("localizations.title", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
     }
 
 

@@ -11,17 +11,116 @@ angular
         function($window) {
             var realWidth = 0;
             var realHeight = 0;
-//            var device = device? device : false;
-            return {
-                touchType : 'click',
+            var touchType = 'click';
 
-                getPlatform: function (){
-                    if(typeof device !== "undefined"){
-                        return device.platform;
-                    } else {
-                        return "Web";
+            function setRealWidth(val){
+                try{
+                    if(val != null && val != "" && !isNaN(val)){
+                        realWidth = parseInt(val);
                     }
-                },
+                }catch(e){
+                    console.log("Bad width: " + e);
+                }
+            }
+
+            function getRealWidth(){
+                if(realWidth != 0){
+                    return realWidth;
+                }else{
+                    return $window.innerWidth;
+                }
+            }
+
+            function setRealHeight(val){
+                try{
+                    if(val != null && val != "" && !isNaN(val)){
+                        realHeight = parseInt(val);
+                    }
+                }catch(e){
+                    console.log("Bad height: " + e);
+                }
+            }
+
+            function getRealHeight(){
+                if(realHeight != 0){
+                    return realHeight;
+                }else{
+                    return $window.innerHeight;
+                }
+            }
+
+            function getPlatform(){
+                if(typeof device !== "undefined"){
+                    return device.platform;
+                } else {
+                    return "Web";
+                }
+            }
+
+            function isAndroidPlatform(){
+                if(typeof device !== "undefined"){
+                    return device.platform === "Android";
+                } else {
+                    return false;
+                }
+            }
+
+            function isIosPlatform(){
+                if(typeof device !== "undefined"){
+                    return device.platform === "iOS";
+                } else {
+                    return false;
+                }
+            }
+
+            function isWebPlatform(){
+                return getPlatform() === 'Web';
+            }
+
+            function getUpstreamChannel(){
+                if(isAndroidPlatform()){
+                    return 'Android';
+                } else if(isIosPlatform()){
+                    return 'IOS';
+                } else {
+                    //TODO handle error
+                    return 'Android';
+                }
+            }
+
+            function getDeviceId(){
+                if(isAndroidPlatform()){
+                    return 1;
+                } else if(isIosPlatform()){
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+
+            function setTouchType(){
+                if(isIosPlatform()){
+                    touchType = "touchend";
+                }else if(isAndroidPlatform){
+                    touchType = "click";
+                }else{
+                    touchType = "click";
+                }
+            }
+
+            function phonegapIsOnline(){
+                if(navigator.connection){
+                    var networkState = navigator.connection.type;
+                    return !(networkState == Connection.NONE || networkState == Connection.UNKNOWN);
+                } else {
+                    return true;
+                }
+            }
+
+            return {
+                touchType : touchType,
+
+                getPlatform: getPlatform,
 
                 /**
                  * @ngdoc function
@@ -29,13 +128,7 @@ angular
                  * @methodOf core.Services.CordovaDevice
                  * @return {boolean} Returns true if running on Android Platform
                  */
-                isAndroidPlatform: function (){
-                    if(typeof device !== "undefined"){
-                        return device.platform === "Android";
-                    } else {
-                        return false;
-                    }
-                },
+                isAndroidPlatform: isAndroidPlatform,
 
                 /**
                  * @ngdoc function
@@ -43,13 +136,7 @@ angular
                  * @methodOf core.Services.CordovaDevice
                  * @return {boolean} Returns true if running on iOS Platform
                  */
-                isIosPlatform: function (){
-                    if(typeof device !== "undefined"){
-                        return device.platform === "iOS";
-                    } else {
-                        return false;
-                    }
-                },
+                isIosPlatform: isIosPlatform,
 
                 /**
                  * @ngdoc function
@@ -57,13 +144,7 @@ angular
                  * @methodOf core.Services.CordovaDevice
                  * @return {boolean} Returns true if running on Web Platform
                  */
-                isWebPlatform: function (){
-                    if(typeof device !== "undefined"){
-                        return device.platform === "Web";
-                    } else {
-                        return true;
-                    }
-                },
+                isWebPlatform: isWebPlatform,
 
                 /**
                  * @ngdoc function
@@ -71,16 +152,7 @@ angular
                  * @methodOf core.Services.CordovaDevice
                  * @return {String} Returns UpstreamChannel for Platform
                  */
-                getUpstreamChannel: function (){
-                    if(this.isAndroidPlatform()){
-                        return 'Android';
-                    } else if(this.isIosPlatform()){
-                        return 'IOS';
-                    } else {
-                        //TODO handle error
-                        return 'Android';
-                    }
-                },
+                getUpstreamChannel: getUpstreamChannel,
 
                 /**
                  * @ngdoc function
@@ -88,84 +160,19 @@ angular
                  * @methodOf core.Services.CordovaDevice
                  * @return {Integer} Returns Device Id for Platform
                  */
-                getDeviceId: function (){
-                    if(this.isAndroidPlatform()){
-                        return 1;
-                    } else if(this.isIosPlatform()){
-                        return 2;
-                    } else {
-                        return 1;
-                    }
-                },
+                getDeviceId: getDeviceId,
 
-                checkBadTouch: function (e, onClickEvent){
-                    if(this.isIosPlatform()){
-                        if(onClickEvent){
-                            return e.type == "touchstart" || e.type == "touchend";
-                        }else{
-                            return e.type == "touchstart";
-                        }
-                    }else if(this.isAndroidPlatform){
-                        return e.type == "touchstart" || e.type == "touchend";
-                    } else {
-                        return e.type == "touchstart" || e.type == "touchend";
-                    }
-                },
+                setTouchType: setTouchType,
 
-                setTouchType: function (){
-                    if(this.isIosPlatform()){
-                        this.touchType = "touchend";
-                    }else if(this.isAndroidPlatform){
-                        this.touchType = "click";
-                    }else{
-                        this.touchType = "click";
-                    }
-                },
+                phonegapIsOnline: phonegapIsOnline,
 
-                phonegapIsOnline: function (){
-                    if(navigator.connection){
-                        var networkState = navigator.connection.type;
-                        return !(networkState == Connection.NONE || networkState == Connection.UNKNOWN);
-                    } else {
-                        return true;
-                    }
-                },
+                setRealWidth: setRealWidth,
 
-                setRealWidth: function (val){
-                    try{
-                        if(val != null && val != "" && !isNaN(val)){
-                            realWidth = parseInt(val);
-                        }
-                    }catch(e){
-                        console.log("Bad width: " + e);
-                    }
-                },
+                getRealWidth: getRealWidth,
 
-                getRealWidth: function (){
-                    if(realWidth != 0){
-                        return realWidth;
-                    }else{
-                        return $window.innerWidth;
-                    }
-                },
+                setRealHeight: setRealHeight,
 
-                setRealHeight: function (val){
-                    try{
-                        if(val != null && val != "" && !isNaN(val)){
-                            realHeight = parseInt(val);
-                        }
-                    }catch(e){
-                        console.log("Bad height: " + e);
-                    }
-                },
-
-                getRealHeight: function (){
-                    if(realHeight != 0){
-                        return realHeight;
-                    }else{
-                        return $window.innerHeight;
-                    }
-                }
+                getRealHeight: getRealHeight
             };
         }
     ]);
