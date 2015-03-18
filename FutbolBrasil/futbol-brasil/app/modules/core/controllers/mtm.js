@@ -28,42 +28,54 @@ angular
             $scope.refreshIconClass = '';
 
             $scope.interval = false;
+
             $scope.date = Moment.date().format('dddd Do YYYY');
+
             $scope.getTime = function (_date) {
                 return Moment.date(_date).format('H:MM');
             };
 
+            function refreshSuccess(data){
+                data = data.data;
+                var response = data.response;
+                if (data.error === 0) {
+                    if ($scope.item.mtm.length == 0) {
+                        $scope.item.mtm = response;
+                    } else {
+                        response.actions[0].events.forEach(function(_event) {
+                            $scope.item.mtm.actions[0].events.unshift(_event);
+                        });
+                    }
+                    _event.first = response.actions[0].events[0].id_game_match_events;
+                    $scope.item.match.home.goals = response.home_team_goals;
+                    $scope.item.match.away.goals = response.away_team_goals;
+                }
+                $scope.$emit('unload');
+                $scope.refreshIconClass = '';
+            }
+
+            function refreshError(){
+                $scope.refreshIconClass = '';
+                $scope.$emit('unload');
+                $scope.showInfoModal({
+                    title: 'Network Error',
+                    subtitle: 'Connection Lost',
+                    message: "Couldn't get a response from server",
+                    type: 'error'
+                });
+            }
+
             $scope.refreshEvents = function () {
                 $scope.refreshIconClass = ' icon-refresh-animate';
-                if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
+                if ($http.pendingRequests.length === 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
                     //TODO check request cableado, no se valida que venga vacio data.response
-                    $http.get(Domain.mtm(16, 3321, _event.first), config).then(
-                        function (data) {
-                            data = data.data;
-                            console.log(data);
-                            if (data.error === 0) {
-                                if ($scope.item.mtm.length == 0) {
-                                    $scope.item.mtm = data.response;
-                                } else {
-                                    angular.forEach(data.response.actions[0].events, function(_event, _eIndex) {
-                                        $scope.item.mtm.actions[0].events.unshift(_event);
-                                    });
-                                }
-                                _event.first = data.response.actions[0].events[0].id_game_match_events;
-                                $scope.item.match.home.goals = data.response.home_team_goals;
-                                $scope.item.match.away.goals = data.response.away_team_goals;
-                            }
-                            $scope.$emit('unload');
-                            $scope.refreshIconClass = '';
-                        }, function () {
-                            $scope.refreshIconClass = '';
-                            $scope.$emit('unload');
-                            $scope.$emit('error');
-                        }
-                    );
+                    var competitionId = 16;
+                    var matchId = 3321;
+                    $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
+                        .then(refreshSuccess, refreshError);
                 }
 
                 $timeout.cancel($scope.interval);
@@ -86,10 +98,9 @@ angular
                 $rootScope.transitionPageBack('#wrapper2','left');
                 _scroll2.scrollTo(0,0,0);
                 $scope.refreshEvents();
-
             };
 
-            $scope.mapLeagues = function(leagues){
+            function mapLeagues(leagues){
                 leagues.forEach(function(league){
                     league.fixtures.map(function(match){
                         if(!match.awayTeam.name){
@@ -101,12 +112,10 @@ angular
                         match.status = 'MATCH.STATUS.' + match.id_status;
                     });
                 });
-            };
+            }
 
-            $scope.init = function(){
-                $scope.$emit('load');
+            function getMatchesForToday(){
                 var date = Moment.date().format('YYYYMMDD');
-//                date = "20150222";
 
                 var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
                 config.params.pageSize = 100;
@@ -114,23 +123,32 @@ angular
 
                 $http.get(Domain.match(date), config).then(
                     function (data) {
-                        data = data.data;
-                        console.log(data.response);
-                        if(data.response && data.response.leagues.length == 0){
+                        var response = data.data.response;
+                        if(response && response.leagues.length > 0){
+                            $scope.hasGamesForToday = true;
+                            mapLeagues(response.leagues);
+                            $scope.item = response;
+                        } else {
                             $scope.hasGamesForToday = false;
                             console.log('No info on response');
-                        } else {
-                            $scope.mapLeagues(data.response.leagues);
-                            $scope.hasGamesForToday = true;
-                            $scope.item = data.response;
                         }
                         $scope.$emit('unload');
-                    }, function (data) {
+                    }, function () {
+                        $scope.hasGamesForToday = false;
+                        $scope.showInfoModal({
+                            title: 'Network Error',
+                            subtitle: 'Connection Lost',
+                            message: "Couldn't get a response from server",
+                            type: 'error'
+                        });
                         $scope.$emit('unload');
-                        console.log(data);
-                        $scope.$emit('error');
                     }
                 );
-            }();
+            }
+
+            function init(){
+                $scope.$emit('load');
+                getMatchesForToday();
+            } init();
         }
     ]);
