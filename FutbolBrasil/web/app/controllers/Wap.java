@@ -19,26 +19,39 @@ import static play.data.Form.form;
 
 public class Wap extends Controller {
 
-    public static final Domain oDomain = new Domain();
-    public static final Integer LIMIT = 5;
+
+    public static Integer LIMIT = 5;
+    public static Integer MIN_LENGTH_MSISDN = 9;
+    public static Integer MAX_LENGTH_MSISDN = 9;
+    public static Integer LANGUAGE = 300;
+
+    public static Domain oDomain = new Domain();
     public static Form<Client> form = form(Client.class);
+    public static HandsetDetection HD = new HandsetDetection();
 
     public static Result getLogin() {
-        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         return ok(login.render(form,HD,0));
     }
 
     public static Result getPassword() {
 
-        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
-
         Form<Client> filledForm = form.bindFromRequest();
+        String sMsisdn = filledForm.field("msisdn").value();
+
+        if ((sMsisdn.trim().isEmpty())
+                || (sMsisdn.length() < MIN_LENGTH_MSISDN)
+                || (sMsisdn.length() > MAX_LENGTH_MSISDN)
+                || (!isNumeric(sMsisdn))) {
+            flash("error_msisdn", "Error msisdn");
+            return redirect(controllers.routes.Wap.getLogin());
+        }
+
         ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", 1);
-        jCompetition.put("login", filledForm.field("msisdn").value());
-        jCompetition.put("language",300);
+        jCompetition.put("login", sMsisdn);
+        jCompetition.put("language",LANGUAGE);
         Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
         JsonNode jResponse = wsResponse.get(10000).asJson();
 
@@ -56,21 +69,26 @@ public class Wap extends Controller {
 
     public static Result createClient() {
 
-        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
-
         Form<Client> filledForm = form.bindFromRequest();
+        String sPassword = filledForm.field("password").value();
+
+        if (sPassword.trim().isEmpty()) {
+            flash("error_password", "Error password");
+            return ok(login.render(filledForm,HD,1));
+        }
+
         ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", 1);
         jCompetition.put("login", filledForm.field("msisdn").value());
         jCompetition.put("password",filledForm.field("password").value());
-        jCompetition.put("language",300);
+        jCompetition.put("language",LANGUAGE);
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
-        System.out.println(jResponse.toString());
+              System.out.println(jResponse.toString());
 
         if (iError == 0) {
             setAccessControl(filledForm);
@@ -79,16 +97,16 @@ public class Wap extends Controller {
             return ok(error.render(HD,sDescription));
         }
 
+
     }
 
 
     public static Result index() {
 
+        if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getStatus() != 0) return ok("Error");
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(0)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -99,11 +117,10 @@ public class Wap extends Controller {
 
     public static Result news(Integer idNews) {
 
+        if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getStatus() != 0) return ok("Error");
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(idNews)).get();
         JsonNode jNews = wsResponse.get(10000).asJson().get("response");
@@ -113,8 +130,11 @@ public class Wap extends Controller {
 
     public static Result competitions(String route) {
 
+        if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
+
+
 
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
@@ -125,6 +145,7 @@ public class Wap extends Controller {
 
     public static Result matches(Integer idCompetition, Integer page) {
 
+        if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
@@ -153,11 +174,11 @@ public class Wap extends Controller {
 
     public static Result mtm(Integer idCompetition, Integer idMatch, Integer idEvent) {
 
+        if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getStatus() != 0) return ok("Error");
+
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.mtm(idCompetition, idMatch, idEvent)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -176,11 +197,9 @@ public class Wap extends Controller {
 
     public static Result scorers(Integer idCompetition) {
 
+        if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
-
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getStatus() != 0) return ok("Error");
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.scorers(idCompetition)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -258,6 +277,19 @@ public class Wap extends Controller {
 
     }
 
+
+    public static boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
 
 }
 
