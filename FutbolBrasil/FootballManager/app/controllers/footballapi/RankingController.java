@@ -14,6 +14,7 @@ import play.mvc.Result;
 import play.libs.Json;
 import utils.DateAndTime;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -70,7 +71,7 @@ public class RankingController extends HecticusController {
     public static Result getRankingsForPhase(Integer idApp, Integer idCompetition, Integer idLanguage, Long idPhase, Integer way){
         try {
             ObjectNode response = null;
-            Apps app = Apps.findId(idApp);
+            final Apps app = Apps.findId(idApp);
             if(app != null) {
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
@@ -84,7 +85,7 @@ public class RankingController extends HecticusController {
                     Phase phase = null;
                     List<Rank> ranks = null;
                     ObjectNode data = Json.newObject();
-                    Calendar today = new GregorianCalendar(TimeZone.getDefault());
+                    final Calendar today = new GregorianCalendar(TimeZone.getDefault());
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                     String formattedToday = simpleDateFormat.format(today.getTime());
                     if (competition.getType().getType() == 0) {//LIGA
@@ -191,7 +192,31 @@ public class RankingController extends HecticusController {
                         }
 
                         if (phases != null && !phases.isEmpty()) {
-                            phase = phases.get(phases.size()-1);
+
+                            try {
+//                                final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                phase = Iterables.find(phases, new Predicate<Phase>() {
+                                    public boolean apply(Phase obj) {
+                                        Calendar startCalendar = new GregorianCalendar(app.getTimezone().getTimezone());
+                                        Calendar endCalendar = new GregorianCalendar(app.getTimezone().getTimezone());
+                                        try {
+                                            Date startDate = DateAndTime.getDate(obj.getStartDate(), "yyyyMMdd");
+                                            startCalendar.setTime(startDate);
+                                            Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
+                                            endCalendar.setTime(endDate);
+//                                            System.out.println(obj.getIdPhases() + sf.format(startCalendar.getTime()) + " " + sf.format(today.getTime()) + " " + sf.format(endCalendar.getTime()) + " " + (today.equals(startCalendar)) + " " + (today.equals(endCalendar)) + " " + (today.after(startCalendar)) + " " + (today.before(endCalendar)) + " " +(today.after(startCalendar) && today.before(endCalendar)) +" " + (today.equals(startCalendar) || today.equals(endCalendar) || (today.after(startCalendar) && today.before(endCalendar))));
+                                            return today.equals(startCalendar) || today.equals(endCalendar) || (today.after(startCalendar) && today.before(endCalendar));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                            return false;
+                                        }
+                                    }
+                                });
+                            } catch (NoSuchElementException ex){
+                                List<Phase> latestPhases = competition.getLatestPhases(today, app.getTimezone().getTimezone());
+                                phase = latestPhases.get(latestPhases.size()-1);
+                            }
+
                             if (phase.getNivel() == 1) {//TABLA
                                 ranks = phase.getRanksOrderedByGroup();
                                 if (ranks != null && !ranks.isEmpty()) {
