@@ -124,7 +124,7 @@ body.content-mtm #wrapper2 .scroller .container .row div {
 #wrapper3 .scroller .container .row div {
     padding: 0 !important;
     margin: 0 !important;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
 }
 
 /*img {*/
@@ -855,7 +855,7 @@ body.content-mtm .row-back {
 }
 
 .row-header-competition {
-    background-color: #3B9444;
+    background-color: #3B9444 !important;
 }
 
 .content-prediction

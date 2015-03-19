@@ -63,7 +63,12 @@
         "MATCH" : "There are no games for this day",
         "SCORERS" : "There are no strikers for this tournament",
         "TEAMS" : "Could not get Teams",
-        "LANGUAGES" : "Could not get Available Languages"
+        "LANGUAGES" : "Could not get Available Languages",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "Could not get Competitions",
+            "NO_PHASES" : "Could not get Phases",
+            "NO_RANKINGS" : "Could not get Rankings"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Password",

@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('ScorersCtrl',  ['$rootScope','$scope', '$state', '$window',
-        '$translate', 'WebManager', 'iScroll', 'Competitions',
-        function($rootScope, $scope, $state, $window, $translate,
-                 WebManager, iScroll, Competitions) {
+        'iScroll', 'Competitions', 'Notification',
+        function($rootScope, $scope, $state, $window,
+                 iScroll, Competitions, Notification) {
 
             var scroll = null;
             var _currentPage = 0;
@@ -58,7 +58,6 @@ angular
                             league.empty = true;
                             $scope.$emit('unload');
                             Notification.showNetworkErrorAlert();
-//                            $scope.$emit('error');
                         }
                     );
                 }

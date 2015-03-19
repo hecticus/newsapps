@@ -63,7 +63,12 @@
         "MATCH" : "Não há jogos para este día",
         "SCORERS" : "Não há artilheiros para este torneio",
         "TEAMS" : "Não foi possível obter equipes",
-        "LANGUAGES" : "Não foi possível obter idiomas"
+        "LANGUAGES" : "Não foi possível obter idiomas",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "Não foi possível obter as Competições",
+            "NO_PHASES" : "Não foi possível obter as Fases",
+            "NO_RANKINGS" : "Não foi possível obter os Rankings"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Senha",

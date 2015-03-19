@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state','$localStorage'
+    .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state'
         ,'WebManager', 'Domain', 'Moment', 'iScroll',
-        function($http, $rootScope, $scope, $window, $state, $localStorage, WebManager,
+        function($http, $rootScope, $scope, $window, $state, WebManager,
                  Domain, Moment, iScroll) {
 
             var _limit = 100;
@@ -18,8 +18,10 @@ angular
             var _start = true;
             var _index = 0;
             var _formatDate = 'MMM Do YY';
+            var hScroll = null;
+            var width = $window.innerWidth;
+            var widthTotal = $window.innerWidth;
 
-            $scope.$emit('load');
             $scope.wrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
@@ -42,26 +44,12 @@ angular
                 {id: 5, name: Moment.date().add(2, 'days').format(_formatDate), date:Moment.date().add(2, 'days').format('YYYYMMDD')}
             ];
 
-            $scope.width = $window.innerWidth;
-            $scope.widthTotal = ($window.innerWidth * 11);
-
             $scope.getWidth = function(){
-                return { 'width': $scope.width + 'px'}
+                return { 'width': width + 'px'}
             };
 
             $scope.getTotalWidth = function(){
-                return { 'width': $scope.widthTotal + 'px'}
-            };
-
-            $scope.getMatchStatusClass = function(match){
-                if(match.status == 'Encerrado') {
-                    return 'encerrado';
-                }else if(match.status == 'Default'){
-                    return 'default';
-                } else {
-                    //TODO WTF?!
-                    return 'else';
-                }
+                return { 'width': widthTotal + 'px'}
             };
 
             function setEmptyDayFlag(day){
@@ -73,14 +61,22 @@ angular
                             return previousValue.fixtures.length + currentValue.fixtures.length;
                         }
                     });
-//                    console.log('leagueReduce: ' + leagueReduce);
                     day.empty = leagueReduce <= 0;
                 } else {
                     day.empty = true;
                 }
             }
 
+            function setGameStatus(day){
+                day.leagues.forEach(function(league){
+                    league.fixtures.forEach(function(match){
+                        match.status = 'MATCH.STATUS.' + match.id_status;
+                    });
+                });
+            }
+
             function getDayMatches(_item, _index){
+                $scope.$emit('load');
                 var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
                 config.params.pageSize = _limit;
                 config.params.page = 0;
@@ -90,84 +86,86 @@ angular
                         data = data.data;
                         var day = data.response;
                         setEmptyDayFlag(day);
+                        setGameStatus(day);
                         $scope.pages[_index].matches = day;
                         $scope.$emit('unload');
                     }, function () {
+                        Notification.showNetworkErrorAlert();
                         $scope.$emit('unload');
-                        $scope.$emit('error');
                     }
                 );
             }
 
-            function init(){
-                $scope.$emit('unload');
+            function addNewPage(){
+                _index = $scope.pagesAfter.length + 3;
+                var newPage = {
+                    id: ($scope.pages.length + 1),
+                    name: Moment.date().add(_index, 'days').format(_formatDate),
+                    date: Moment.date().add(_index, 'days').format('YYYYMMDD')
+                };
 
-                angular.forEach($scope.pages, function(_item, _index) {
-                    getDayMatches(_item, _index);
-                });
+                $scope.pagesAfter.push(newPage);
+                $scope.pages.push(newPage);
 
-                $scope.width = $window.innerWidth;
-                $scope.widthTotal = ($window.innerWidth * $scope.pages.length);
+                widthTotal = ($window.innerWidth * $scope.pages.length);
 
-                $scope.scroll = iScroll.horizontal('wrapperH');
+                _index = $scope.pages.length - 1;
+
+                $scope.$emit('load');
+                getDayMatches($scope.pages[_index], _index);
+            }
+
+            function setUpIScroll(){
+                hScroll = iScroll.horizontal('wrapperH');
+
                 $scope.nextPage = function(){
-                    $scope.scroll.next();
+                    hScroll.next();
                 };
 
                 $scope.prevPage = function(){
-                    $scope.scroll.prev();
+                    hScroll.prev();
                 };
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     if (_start) {
-
-                        $scope.scroll.refresh();
-                        $scope.scroll.goToPage(2,0);
+                        hScroll.refresh();
+                        hScroll.goToPage(2,0);
                         _start = false;
-
-                        angular.forEach($scope.pages, function(_item, _index) {
+                        $scope.pages.forEach(function(_item, _index) {
                             iScroll.vertical($scope.wrapper.getName(_index));
                         });
                     }
                 });
 
-                $scope.scroll.on('beforeScrollStart', function () {
+                hScroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                $scope.scroll.on('scrollStart', function () {
+                hScroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                $scope.scroll.on('scroll', function () {
+                hScroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                         _currentPage = this.currentPage.pageX;
                     }
 
-                    var page = $scope.pages[_currentPage];
-                    if(page && page.matches && page.matches.leagues && page.matches.leagues.length <1){
-                        console.log('Page Empty: ' + _currentPage);
-                    }
-
-
                     if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
-                        _index = $scope.pagesAfter.length + 3;
-                        $scope.pagesAfter.push(
-                            {
-                                id: ($scope.pages.length + 1),
-                                name: Moment.date().add(_index, 'days').format(_formatDate),
-                                date: Moment.date().add(_index, 'days').format('YYYYMMDD')
-                            }
-                        );
-
-                        $scope.pages.push(($scope.pagesAfter[$scope.pagesAfter.length - 1]));
-                        $scope.widthTotal = (window.innerWidth * $scope.pages.length);
-
-                        $scope.$emit('load');
-                        _index = $scope.pages.length - 1;
-                        getDayMatches($scope.pages[_index], _index);
+                        addNewPage();
                     }
                 });
+            }
+
+            function init(){
+                $scope.$emit('unload');
+                $scope.pages.forEach(function(_item, _index) {
+                    getDayMatches(_item, _index);
+                });
+
+                width = $window.innerWidth;
+                widthTotal = ($window.innerWidth * $scope.pages.length);
+
+                setUpIScroll();
             } init();
 
         }

@@ -65,7 +65,12 @@ var translationsEn = {
         "MATCH" : "There are no games for this day",
         "SCORERS" : "There are no strikers for this tournament",
         "TEAMS" : "Could not get Teams",
-        "LANGUAGES" : "Could not get Available Languages"
+        "LANGUAGES" : "Could not get Available Languages",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "Could not get Competitions",
+            "NO_PHASES" : "Could not get Phases",
+            "NO_RANKINGS" : "Could not get Rankings"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Password",
@@ -181,7 +186,12 @@ var translationsEs = {
         "MATCH" : "No hay juegos programados para este día",
         "SCORERS" : "No hay goleadores para este torneo",
         "TEAMS" : "No se pudieron obtener los equipos",
-        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles"
+        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "No se pudieron obtener las Competiciones",
+            "NO_PHASES" : "No se pudieron obtener las Fases",
+            "NO_RANKINGS" : "No se pudieron obtener las Clasificaciones"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Contraseña",
@@ -297,7 +307,12 @@ var translationsPt = {
         "MATCH" : "Não há jogos para este día",
         "SCORERS" : "Não há artilheiros para este torneio",
         "TEAMS" : "Não foi possível obter equipes",
-        "LANGUAGES" : "Não foi possível obter idiomas"
+        "LANGUAGES" : "Não foi possível obter idiomas",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "Não foi possível obter as Competições",
+            "NO_PHASES" : "Não foi possível obter as Fases",
+            "NO_RANKINGS" : "Não foi possível obter os Rankings"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Senha",
