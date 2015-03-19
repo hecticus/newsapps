@@ -8,27 +8,33 @@
  */
 angular
     .module('core')
-    .controller('LeaderboardCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window',
-        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll', 'Competitions',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Client, WebManager, Domain
-            , FacebookManager, iScroll, Competitions) {
+    .controller('LeaderboardCtrl', ['$http','$rootScope','$scope','$state', '$window',
+        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll', 'Competitions', 'Notification',
+        function($http, $rootScope, $scope, $state, $window, Client, WebManager, Domain
+            , FacebookManager, iScroll, Competitions, Notification) {
 
             var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
             var _currentPage = 0;
+            var friendsMode = false;
+            var active = 'competition';
+            var width = $window.innerWidth;
+            var widthTotal = $window.innerWidth;
+
+            var scroll = null;
+
             $scope.item = {};
             $scope.hasFriends = true;
 
             $rootScope.$storage.leaderboard = false;
-            $scope.friendsMode = false;
-            $scope.active = 'competition';
+
 
             $scope.setActive = function(type) {
-                $scope.active = type;
+                active = type;
             };
 
             $scope.isActive = function(type) {
-                return type === $scope.active;
+                return type === active;
             };
 
             $scope.vWrapper = {
@@ -38,80 +44,122 @@ angular
                 }
             };
 
-            $scope.width = $window.innerWidth;
-
             $scope.getWidth = function(){
-                return { 'width': $scope.width + 'px'}
+                return { 'width': width + 'px'}
             };
 
             $scope.getTotalWidth = function(){
-                return { 'width': $scope.widthTotal + 'px'}
+                return { 'width': widthTotal + 'px'}
             };
 
-            $scope.init = function(){
+            $scope.getPhase = function(){
+                $scope.setActive('phase');
+                var idCompetitions = $scope.item.competitions[ scroll.currentPage.pageX].id_competitions;
+                var phase = $scope.item.competitions[scroll.currentPage.pageX].phase;
+                getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                $scope.$emit('unload');
+            };
+
+            $scope.getCompetition = function(){
+                $scope.setActive('competition');
+                var idCompetition = $scope.item.competitions[scroll.currentPage.pageX].id_competitions;
+                getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+                $scope.$emit('unload');
+            };
+
+            function getLeaderboardIndex(_url){
+                var _page =  scroll.currentPage.pageX;
+                var competition = $scope.item.competitions[_page];
+                $scope.$emit('load');
+                competition.leaderboard = [];
+                $http.get(_url, config)
+                    .success(function (data, status) {
+                        if (data.error == 0) {
+//                                console.log(_url);
+//                                console.log(data.response);
+                            data.response.leaderboard.forEach(function(_item, _index) {
+                                _item.index = (_index + 1);
+                            });
+
+                            competition.leaderboard = data.response.leaderboard;
+                            competition.client = data.response.client;
+                            competition.client.index = competition.client.index + 1;
+
+                            if(competition.client.index >= competition.leaderboard.length){
+                                // Esta condición se debe ajustar a partir de un parametro de configuración
+//                                if (data.response.leaderboard.length >= data.response.leaderboard.length) {
+                                competition.leaderboard.push({client:'...',score:'...', index: '...'});
+                                competition.leaderboard.push(competition.client)
+                            }
+
+                        }
+                    }, function(){
+                        Notification.showNetworkErrorAlert();
+                        $scope.$emit('unload');
+                    });
+            }
+
+            function init(){
+                $scope.$emit('load');
+
                 if($state.current.data.contentClass === 'content-friends'){
-                    $scope.friendsMode = true;
+                    friendsMode = true;
                     if(!!$window.facebookConnectPlugin){
                         FacebookManager.getFriends(function(friends){
-                            console.log('getFriends Callback. friends: ');
-                            console.log(friends);
-                            console.log('getFriends Callback. Client.getFriends(): ');
-                            console.log(Client.getFriends());
-                            console.log('getFriends Callback. Client.friendsIds: ');
-                            console.log(Client.getFriendsIds());
+//                            console.log('getFriends Callback. friends: ');
+//                            console.log(friends);
+//                            console.log('getFriends Callback. Client.getFriends(): ');
+//                            console.log(Client.getFriends());
+//                            console.log('getFriends Callback. Client.friendsIds: ');
+//                            console.log(Client.getFriendsIds());
                             $scope.hasFriends = friends && (Client.getFriendsIds().length > 0);
-                            console.log('friendsMode && !hasFriends');
-                            console.log($scope.friendsMode && !$scope.hasFriends);
+//                            console.log('friendsMode && !hasFriends');
+//                            console.log(friendsMode && !$scope.hasFriends);
                         });
                         config.params.friends = Client.getFriendsIds();
                     } else {
                         console.log('facebookconnectPlugin Object not available. Are you directly on a browser?');
                     }
                 }
-                console.log('config: ');
-                console.log(config);
-                console.log('friendsMode Active: ' + $scope.friendsMode);
+//                console.log('config: ');
+//                console.log(config);
+//                console.log('friendsMode Active: ' + friendsMode);
 
-                $scope.$emit('load');
-                Competitions.get().then(function(data){
-                  $scope.item.competitions =  data;
-                  $scope.widthTotal = ($window.innerWidth * $scope.item.competitions.length);
-                  $scope.item.competitions.forEach(function(competition, index) {
-                      $http.get(Domain.phases(competition.id_competitions), config)
-                      .then(function (data, status) {
-                              data = data.data;
-                          if (data.error == 0) {
-                              var phases = data.response.phases;
-                              competition.phase = phases[phases.length - 1].id_phases;
-                              $scope.getCompetition();
-                          }
+                Competitions.get().then(function(competitions){
+                  $scope.item.competitions =  competitions;
+                  widthTotal = ($window.innerWidth * $scope.item.competitions.length);
+                  $scope.item.competitions.forEach(function(competition) {
+                      Competitions.getPhase(competition)
+                      .then(function (phases) {
+                          competition.phase = phases[phases.length - 1].id_phases;
+                          $scope.getCompetition();
                           $scope.$emit('unload');
                       }, function(){
-                          $scope.$emit('error');
+                          Notification.showNetworkErrorAlert();
                           $scope.$emit('unload');
                       });
                   });
                 });
 
-                $scope.scroll = iScroll.horizontal('wrapperH');
+                scroll = iScroll.horizontal('wrapperH');
 
                 $scope.nextPage = function(){
-                    $scope.scroll.next();
+                    scroll.next();
                 };
 
                 $scope.prevPage = function(){
-                     $scope.scroll.prev();
+                     scroll.prev();
                 };
 
-                 $scope.scroll.on('beforeScrollStart', function () {
+                 scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                 $scope.scroll.on('scrollStart', function () {
+                 scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                 $scope.scroll.on('scroll', function () {
+                 scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                         var leaderboard = $scope.item.competitions[this.currentPage.pageX].leaderboard;
                         if (!leaderboard || (leaderboard == '')) {
@@ -121,59 +169,10 @@ angular
                     }
                 });
 
-                $scope.getLeaderboardIndex = function(_url){
+                $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                });
 
-                    var _page =  $scope.scroll.currentPage.pageX;
-                    var competition = $scope.item.competitions[_page];
-                    $scope.$emit('load');
-                    competition.leaderboard = [];
-                    $http.get(_url, config)
-                        .success(function (data, status) {
-                            if (data.error == 0) {
-//                                console.log(_url);
-//                                console.log(data.response);
-                                data.response.leaderboard.forEach(function(_item, _index) {
-                                    _item.index = (_index + 1);
-                                });
-
-                                competition.leaderboard = data.response.leaderboard;
-                                competition.client = data.response.client;
-                                competition.client.index = competition.client.index + 1;
-
-                                if(competition.client.index >= competition.leaderboard.length){
-                                // Esta condición se debe ajustar a partir de un parametro de configuración
-//                                if (data.response.leaderboard.length >= data.response.leaderboard.length) {
-                                    competition.leaderboard.push({client:'...',score:'...', index: '...'});
-                                    competition.leaderboard.push(competition.client)
-                                }
-
-                            }
-                        }, function(){
-                            $scope.$emit('error');
-                            $scope.$emit('unload');
-                        });
-                };
-
-                $scope.getPhase = function(){
-                    $scope.setActive('phase');
-                    var idCompetitions = $scope.item.competitions[ $scope.scroll.currentPage.pageX].id_competitions;
-                    var phase = $scope.item.competitions[$scope.scroll.currentPage.pageX].phase;
-                    $scope.getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
-                    $scope.$emit('unload');
-                };
-
-                $scope.getCompetition = function(){
-                    $scope.setActive('competition');
-                    var idCompetition = $scope.item.competitions[$scope.scroll.currentPage.pageX].id_competitions;
-                    $scope.getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
-                    $scope.$emit('unload');
-                };
-
-            }();
-
-           $scope.$on('onRepeatLast', function(scope, element, attrs) {
-              iScroll.vertical($scope.vWrapper.getName(_currentPage));
-           });
-
+            } init();
         }
     ]);

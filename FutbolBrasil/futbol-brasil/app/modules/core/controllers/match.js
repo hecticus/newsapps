@@ -8,10 +8,10 @@
  */
 angular
     .module('core')
-    .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window', '$state'
-        ,'WebManager', 'Domain', 'Moment', 'iScroll',
-        function($http, $rootScope, $scope, $window, $state, WebManager,
-                 Domain, Moment, iScroll) {
+    .controller('MatchCtrl', ['$http','$rootScope','$scope', '$window'
+        ,'WebManager', 'Domain', 'Moment', 'iScroll', 'Notification',
+        function($http, $rootScope, $scope, $window, WebManager,
+                 Domain, Moment, iScroll, Notification) {
 
             var _limit = 100;
             var _currentPage = 0;

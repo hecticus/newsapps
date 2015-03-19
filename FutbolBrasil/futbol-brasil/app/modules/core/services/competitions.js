@@ -50,8 +50,12 @@ angular
                     });
             }
 
-            function getPhase(competition){
-                return $http.get(Domain.phases(competition.id_competitions))
+            function getPhase(competition, filter){
+                var config = {};
+                if(filter){
+                    config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                }
+                return $http.get(Domain.phases(competition.id_competitions), config)
                     .then(function (response) {
                         return response.data.response.phases;
                     },function (response) {
