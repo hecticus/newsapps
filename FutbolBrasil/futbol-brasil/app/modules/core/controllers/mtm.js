@@ -68,15 +68,12 @@ angular
                 Notification.showNetworkErrorAlert();
             }
 
-            $scope.refreshEvents = function () {
+            $scope.refreshEvents = function (competitionId, matchId) {
                 $scope.refreshIconClass = ' icon-refresh-animate';
                 if ($http.pendingRequests.length === 0 && !$rootScope.loading) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
-                    //TODO check request cableado, no se valida que venga vacio data.response
-                    var competitionId = 16;
-                    var matchId = 3321;
                     $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
                         .then(refreshSuccess, refreshError);
 
@@ -99,7 +96,13 @@ angular
 
                 $rootScope.transitionPageBack('#wrapper2','left');
                 _scroll2.scrollTo(0,0,0);
-                $scope.refreshEvents();
+
+                //TODO check request cableado
+                var competitionId = _league.id_competitions;
+                competitionId = 16;
+                var matchId = _match.id_game_matches;
+                matchId = 3321;
+                $scope.refreshEvents(competitionId, matchId);
             };
 
             function mapLeagues(leagues){
