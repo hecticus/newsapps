@@ -8,11 +8,12 @@
  */
 angular
     .module('core')
-    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage','WebManager', 'Domain',
-        'Moment', 'iScroll', '$timeout', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, WebManager,
-                 Domain, Moment, iScroll, $timeout, Notification) {
+    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$interval', 'WebManager',
+        'Domain', 'Moment', 'iScroll', 'Notification',
+        function($http, $rootScope, $scope, $state, $localStorage, $interval, WebManager,
+                 Domain, Moment, iScroll, Notification) {
 
+            var refreshInterval = null;
             var _scroll = iScroll.vertical('wrapper');
             var _scroll2 = iScroll.vertical('wrapper2');
             var _event = {
@@ -23,6 +24,10 @@ angular
                     _event.last = 0;
                 }
             };
+
+            $scope.item = {};
+            $scope.item.mtm = [];
+            $scope.item.mtm.actions = [];
 
             $scope.hasGamesForToday = true;
 
@@ -37,10 +42,12 @@ angular
             };
 
             function refreshSuccess(data){
+                console.log('$scope.item: ');
+                console.log($scope.item);
                 data = data.data;
                 var response = data.response;
                 if (data.error === 0) {
-                    if ($scope.item.mtm.length == 0) {
+                    if (!!$scope.item.mtm && $scope.item.mtm.length == 0) {
                         $scope.item.mtm = response;
                     } else {
                         response.actions[0].events.forEach(function(_event) {
@@ -72,13 +79,12 @@ angular
                     var matchId = 3321;
                     $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
                         .then(refreshSuccess, refreshError);
+
+                    refreshInterval = $interval(function () {
+                        console.log('$interval refreshEvents triggered.');
+                        $scope.refreshEvents();
+                    },50000);
                 }
-
-                $timeout.cancel($scope.interval);
-                $scope.interval = $timeout(function () {
-                    $scope.refreshEvents();
-                },50000);
-
             };
 
             $scope.showContentEvents = function (_league, _match) {
@@ -140,6 +146,12 @@ angular
             function init(){
                 $scope.$emit('load');
                 getMatchesForToday();
+
+                $scope.$on('$destroy', function() {
+                    console.log('Cancelling  MTM Interval.');
+                    $interval.cancel(refreshInterval);
+                    refreshInterval = undefined;
+                });
             } init();
         }
     ]);
