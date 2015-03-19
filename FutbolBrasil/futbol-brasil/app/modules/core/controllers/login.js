@@ -8,8 +8,8 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream'
-        , function($scope, $state, $stateParams, ClientManager, Client, Upstream) {
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream', 'iScroll'
+        , function($scope, $state, $stateParams, ClientManager, Client, Upstream, iScroll) {
 
             $scope.msisdn = '';
             $scope.password = '';
@@ -108,6 +108,7 @@ angular
             };
 
             function init(){
+
                 $scope.$emit('unload');
                 if($state.current.name === 'remind'){
                     console.log('Remind Upstream call');
@@ -116,6 +117,9 @@ angular
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
+
+                $scope.scroll = iScroll.vertical('wrapper');
+
             }
             init();
         }

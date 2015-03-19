@@ -498,7 +498,7 @@ public class Competition  extends HecticusModel {
                     try {
                         Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
                         endCalendar.setTime(endDate);
-                        return endCalendar.before(date) && obj.getGlobalName().equalsIgnoreCase(globalName);
+                        return date.before(endCalendar) && obj.getGlobalName().equalsIgnoreCase(globalName);
                     } catch (ParseException e) {
                         e.printStackTrace();
                         return false;
