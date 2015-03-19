@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div class="row row-list-item" ng-repeat="phase in item.phases">
+                <div class="row row-list-item" ng-repeat="phase in item.phases" ng-if="phase.has_ranking">
                     <div class="col-xs-12"
                          ng-click="showContentRanking(item.competition.id_competitions
                             , phase.id_phases)">
