@@ -7,25 +7,30 @@
  */
 angular
     .module('core')
-    .factory('Moment',['Client','i18n',
-        function(Client,i18n) {
+    .factory('Moment',['Client', 'i18n',
+        function(Client, i18n) {
 
-            var getLag = function(){
-                 var oLang = Client.getLanguage();
-                 if (!oLang) oLang = i18n.getDefaultLanguage();
-                 return oLang.short_name.toLowerCase();
+            var getLang = function(){
+                var oLang = Client.getLanguage();
+                if (!oLang) oLang = i18n.getDefaultLanguage();
+                if(oLang){
+                    return oLang.short_name.toLowerCase();
+                } else {
+//                    console.log('defaultLanguage: undefined. Returning "pt"');
+                    return 'pt';
+                }
             };
 
             return {
                 date:function (_date) {
-                    var _oMoment = moment().locale(getLag());
-                    if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLag());
+                    var _oMoment = moment().locale(getLang());
+                    if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
                     return _oMoment;
                 },
 
                 fromNow : function(_date){
-                    var _oMoment = moment().locale(getLag());
-                    if (_date) _oMoment = _oMoment(_date,'YYYYMMDD hh:mm').locale(getLag());
+                    var _oMoment = moment().locale(getLang());
+                    if (_date) _oMoment = _oMoment(_date,'YYYYMMDD hh:mm').locale(getLang());
                     return _oMoment.fromNow();
                 },
 
@@ -39,5 +44,5 @@ angular
                     return moment().format(format);
                 }
             };
-    }
-]);
+        }
+    ]);

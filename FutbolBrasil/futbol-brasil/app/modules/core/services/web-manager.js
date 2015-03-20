@@ -102,6 +102,8 @@ angular
                         App.setServerVersion(response.server_version);
                         App.setUpdateInfo(response.version);
 
+                        console.log('Webmanager. setDefaultLanguage: ');
+                        console.log(response.default_language);
                         i18n.setDefaultLanguage(response.default_language);
                         i18n.setAvailableLanguages($http.get(Domain.languages));
                         News.setMaxNews(response.max_news);

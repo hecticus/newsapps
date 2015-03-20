@@ -154,9 +154,12 @@ angular
                     e.preventDefault();
                 }, false);
 
-                if(typeof CustomEvent === 'function'){
-                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-                    document.dispatchEvent(event);
+//                if(typeof CustomEvent === 'function'){
+//                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
+//                    document.dispatchEvent(event);
+//                }
+                if(CordovaDevice.isWebPlatform()){
+                    initAllAppData();
                 }
             }
 
@@ -198,6 +201,8 @@ angular
                 Analytics.init();
                 ClientManager.init(startApp, errorStartApp);
 
+                console.log('CordovaDevice.phonegapIsOnline()');
+                console.log(CordovaDevice.phonegapIsOnline());
                 if (CordovaDevice.phonegapIsOnline()) {
                     PushManager.init();
                     WebManager.loadServerConfigs(
