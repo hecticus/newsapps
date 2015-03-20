@@ -97,7 +97,7 @@ angular
                          if(competition.client.index >= competition.leaderboard.length){
                              competition.leaderboard.push({client:'...',score:'...', index: '...'});
                              competition.leaderboard.push(competition.client)
-                                               }
+                         }
 
                        } else {
                           $scope.hasLeaderboard = false;
@@ -108,7 +108,6 @@ angular
                         $scope.hasLeaderboard = false;
                         $scope.$emit('unload');
                         if(data.data.error === 3){
-        
                         } else {
                             Notification.showNetworkErrorAlert();
                         }
