@@ -62,14 +62,14 @@ angular
             };
 
             $scope.showPhase = function(){
-                setActive('phase');
+                setActive('phase'+scroll.currentPage.pageX);
                 var idCompetitions = $scope.item.competitions[ scroll.currentPage.pageX].id_competitions;
                 var phase = $scope.item.competitions[scroll.currentPage.pageX].phase;
                 getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
             };
 
             $scope.showTournament = function(){
-                setActive('competition');
+                setActive('competition'+scroll.currentPage.pageX);
                 var idCompetition = $scope.item.competitions[scroll.currentPage.pageX].id_competitions;
                 getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
             };
@@ -82,26 +82,32 @@ angular
                 competition.leaderboard = [];
                 $http.get(_url, config)
                     .then(function (data) {
-                        $scope.hasLeaderboard = true;
-                        data = data.data;
-                        competition.leaderboard = data.response.leaderboard;
-                        competition.leaderboard.forEach(function(_item, _index) {
-                            _item.index = (_index + 1);
-                        });
+                       if(data.data.error === 0){
 
-                        competition.client = data.response.client;
-                        competition.client.index = competition.client.index + 1;
+                         $scope.hasLeaderboard = true;
+                         data = data.data;
+                         competition.leaderboard = data.response.leaderboard;
+                         competition.leaderboard.forEach(function(_item, _index) {
+                             _item.index = (_index + 1);
+                         });
 
-                        if(competition.client.index >= competition.leaderboard.length){
-                            competition.leaderboard.push({client:'...',score:'...', index: '...'});
-                            competition.leaderboard.push(competition.client)
-                        }
+                         competition.client = data.response.client;
+                         competition.client.index = competition.client.index + 1;
+
+                         if(competition.client.index >= competition.leaderboard.length){
+                             competition.leaderboard.push({client:'...',score:'...', index: '...'});
+                             competition.leaderboard.push(competition.client)
+                         }
+
+                       } else {
+                          $scope.hasLeaderboard = false;
+                       }
+
                         $scope.$emit('unload');
                     }, function (data){
                         $scope.hasLeaderboard = false;
                         $scope.$emit('unload');
                         if(data.data.error === 3){
-
                         } else {
                             Notification.showNetworkErrorAlert();
                         }
@@ -157,10 +163,10 @@ angular
 
                 scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        var leaderboard = $scope.item.competitions[this.currentPage.pageX].leaderboard;
-                        if (!leaderboard || (leaderboard == '')) {
+                        //var leaderboard = $scope.item.competitions[this.currentPage.pageX].leaderboard;
+                        //if (!leaderboard || (leaderboard == '')) {
                             $scope.showTournament(this.currentPage.pageX);
-                        }
+                        //}
                         _currentPage = this.currentPage.pageX;
                     }
                 });
