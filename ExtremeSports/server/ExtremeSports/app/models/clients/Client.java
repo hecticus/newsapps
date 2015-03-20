@@ -1,11 +1,14 @@
 package models.clients;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.content.athletes.Athlete;
+import models.content.posts.Category;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -14,6 +17,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by plesse on 9/30/14.
@@ -47,6 +51,9 @@ public class Client extends HecticusModel {
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasDevices> devices;
+
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    private List<ClientHasCategory> categories;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasAthlete> athletes;//eliminar???
@@ -169,6 +176,14 @@ public class Client extends HecticusModel {
         this.language = language;
     }
 
+    public List<ClientHasCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<ClientHasCategory> categories) {
+        this.categories = categories;
+    }
+
     public int getDeviceIndex(String registrationId, Device device) {
         ClientHasDevices clientHasDevice = ClientHasDevices.getByRegistrationIdDevice(registrationId, device);
         if(clientHasDevice == null){
@@ -177,16 +192,66 @@ public class Client extends HecticusModel {
         return devices.indexOf(clientHasDevice);
     }
 
-    public int getAthleteIndex(int athleteId) {
-        Athlete athlete = Athlete.getByID(athleteId);
-        if(athlete == null){
-            return -1;
+    public int getAthleteIndex(final Athlete athlete) {
+        ClientHasAthlete clientHasAthlete = null;
+        try {
+            clientHasAthlete = Iterables.find(athletes, new Predicate<ClientHasAthlete>() {
+                public boolean apply(ClientHasAthlete obj) {
+                    return obj.getAthlete().getIdAthlete().intValue() == athlete.getIdAthlete().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasAthlete = null;
         }
-        ClientHasAthlete clientHasAthlete = ClientHasAthlete.getByClientAthlete(this, athlete);
         if(clientHasAthlete == null){
             return -1;
         }
         return athletes.indexOf(clientHasAthlete);
+    }
+
+    public ClientHasAthlete getAthleteRelation(final Athlete athlete) {
+        ClientHasAthlete clientHasAthlete = null;
+        try {
+            clientHasAthlete = Iterables.find(athletes, new Predicate<ClientHasAthlete>() {
+                public boolean apply(ClientHasAthlete obj) {
+                    return obj.getAthlete().getIdAthlete().intValue() == athlete.getIdAthlete().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasAthlete = null;
+        }
+        return clientHasAthlete;
+    }
+
+    public int getCategoryIndex(final Category category) {
+        ClientHasCategory clientHasCategory = null;
+        try {
+            clientHasCategory = Iterables.find(categories, new Predicate<ClientHasCategory>() {
+                public boolean apply(ClientHasCategory obj) {
+                    return obj.getCategory().getIdCategory().intValue() == category.getIdCategory().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasCategory = null;
+        }
+        if(clientHasCategory == null){
+            return -1;
+        }
+        return categories.indexOf(clientHasCategory);
+    }
+
+    public ClientHasCategory getCategoryRealtion(final Category category) {
+        ClientHasCategory clientHasCategory = null;
+        try {
+            clientHasCategory = Iterables.find(categories, new Predicate<ClientHasCategory>() {
+                public boolean apply(ClientHasCategory obj) {
+                    return obj.getCategory().getIdCategory().intValue() == category.getIdCategory().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasCategory = null;
+        }
+        return clientHasCategory;
     }
 
 

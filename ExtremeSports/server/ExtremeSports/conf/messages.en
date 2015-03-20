@@ -304,6 +304,13 @@ categories.name.help=Insert a valid name
 
 categories.followable=Followable
 
+categories.localization=Localizations
+categories.localization.remove=Remove this Localization
+categories.localization.add=Add Localization
+categories.localization.language=Language
+categories.localization.name=Name
+
+
 categories.submit.create=Create this Category
 categories.submit.update=Update this Category
 categories.submit.delete=Delete this Category

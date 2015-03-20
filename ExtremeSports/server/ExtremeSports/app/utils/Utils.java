@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import backend.job.ThreadSupervisor;
+import com.google.common.base.Predicate;
 import com.hecticus.rackspacecloud.RackspaceCreate;
 import com.hecticus.rackspacecloud.RackspacePublish;
 import models.basic.Config;
@@ -405,5 +406,15 @@ public class Utils {
             return true;
         }
         return false;
+    }
+
+    public static <T> Collection<T> filterCollection(Collection<T> col, Predicate<T> predicate) {
+        Collection<T> result = new ArrayList<T>();
+        for (T element: col) {
+            if (predicate.apply(element)) {
+                result.add(element);
+            }
+        }
+        return result;
     }
 }

@@ -20,7 +20,7 @@ public class CategoryHasLocalization extends HecticusModel {
     private Integer idCategoryHasLocalization;
 
     @ManyToOne
-    @JoinColumn(name = "id_categoryt")
+    @JoinColumn(name = "id_category")
     private Category category;
 
     @ManyToOne
