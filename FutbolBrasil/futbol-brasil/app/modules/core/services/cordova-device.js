@@ -111,7 +111,11 @@ angular
             function phonegapIsOnline(){
                 if(navigator.connection){
                     var networkState = navigator.connection.type;
-                    return !(networkState == Connection.NONE || networkState == Connection.UNKNOWN);
+                    if(isWebPlatform()){
+                        return !(networkState == 'none' || networkState == 'unknown');
+                    } else {
+                        return !(networkState == Connection.NONE || networkState == Connection.UNKNOWN);
+                    }
                 } else {
                     return true;
                 }

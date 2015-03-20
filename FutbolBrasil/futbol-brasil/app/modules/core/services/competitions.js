@@ -13,7 +13,6 @@ angular
 
             var localStorage = $localStorage;
             var competitions = [];
-            var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
 
             function saveCompetitions(comps) {
                 if(comps){
@@ -25,20 +24,50 @@ angular
             function loadCompetitions() {
                 if(localStorage[FILE_KEY_COMPETITIONS]){
                     competitions = localStorage[FILE_KEY_COMPETITIONS];
-                } else {
-                    getCompetitions();
                 }
+
                 return competitions;
             }
 
             function getCompetitions() {
-                return $http.get(Domain.competitions).then(function(response){
+                loadCompetitions();
+                var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
                     return competitions;
                 },function(response){
-                    return $q.reject(response.data);
+                    return $q.reject(response);
                 });
+            }
+
+            function getRanking(competition, phase){
+                return $http.get(Domain.ranking(competition,phase))
+                    .then(function (response) {
+                        console.log('getRanking.response: ');
+                        console.log(response);
+                        if(response.data.error === 0){
+                            return response.data.response;
+                        } else {
+                            return $q.reject(response);
+                        }
+
+                    }, function (response) {
+                        return $q.reject(response);
+                    });
+            }
+
+            function getPhase(competition, filter){
+                var config = {};
+                if(filter){
+                    config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                }
+                return $http.get(Domain.phases(competition.id_competitions), config)
+                    .then(function (response) {
+                        return response.data.response.phases;
+                    },function (response) {
+                        return $q.reject(response);
+                    });
             }
 
             function getScorers(id_competition){
@@ -78,6 +107,10 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 get: getCompetitions,
+
+                getRanking : getRanking,
+
+                getPhase : getPhase,
 
                 getScorers: getScorers,
 

@@ -63,8 +63,8 @@ angular
             }
 
             function updateClient(data, password) {
-                console.log('updateClient:');
-                console.log(data);
+//                console.log('updateClient:');
+//                console.log(data);
                 client.id_client = data.id_client;
                 client.user_id = data.user_id;
                 client.login = data.login;
