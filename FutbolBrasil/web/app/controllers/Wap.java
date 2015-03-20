@@ -19,12 +19,11 @@ import static play.data.Form.form;
 
 public class Wap extends Controller {
 
-
     public static Integer LIMIT = 5;
     public static Integer MIN_LENGTH_MSISDN = 9;
     public static Integer MAX_LENGTH_MSISDN = 9;
-    public static Integer LANGUAGE = 300;
-
+    public static Integer COUNTRY = 1; //Brasil
+    public static Integer LANGUAGE = 405; //Portuguese
     public static Domain oDomain = new Domain();
     public static Form<Client> form = form(Client.class);
     public static HandsetDetection HD = new HandsetDetection();
@@ -49,7 +48,7 @@ public class Wap extends Controller {
         }
 
         ObjectNode jCompetition = Json.newObject();
-        jCompetition.put("country", 1);
+        jCompetition.put("country", COUNTRY);
         jCompetition.put("login", sMsisdn);
         jCompetition.put("language",LANGUAGE);
         Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
@@ -79,7 +78,7 @@ public class Wap extends Controller {
         }
 
         ObjectNode jCompetition = Json.newObject();
-        jCompetition.put("country", 1);
+        jCompetition.put("country",COUNTRY);
         jCompetition.put("login", filledForm.field("msisdn").value());
         jCompetition.put("password",filledForm.field("password").value());
         jCompetition.put("language",LANGUAGE);
@@ -121,7 +120,6 @@ public class Wap extends Controller {
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(idNews)).get();
         JsonNode jNews = wsResponse.get(10000).asJson().get("response");
         return ok(news.render(HD, jNews, "summary"));
@@ -133,7 +131,6 @@ public class Wap extends Controller {
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
-
 
 
         HandsetDetection HD = new HandsetDetection();
@@ -177,8 +174,6 @@ public class Wap extends Controller {
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
-
-
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.mtm(idCompetition, idMatch, idEvent)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -276,7 +271,6 @@ public class Wap extends Controller {
         }
 
     }
-
 
     public static boolean isNumeric(String str)
     {
