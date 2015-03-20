@@ -8,19 +8,21 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client',
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'iScroll','Client',
         'Upstream', 'Notification',
-        function($scope, $state, $stateParams, ClientManager, Client, Upstream, Notification) {
+        function($scope, $state, $stateParams, ClientManager, iScroll, Client, Upstream, Notification) {
+
+            var scroll = null;
 
             $scope.msisdn = '';
             $scope.password = '';
 
-            var remindSuccess = function(){
+            function remindSuccess(){
                 console.log('Remind Success! Going to Login');
                 $state.go('login', {'msisdn': $scope.msisdn});
-            };
+            }
 
-            var remindError = function(){
+            function remindError(){
                 //TODO i18n-alizar
                 Notification.showInfoAlert({
                     title: 'Get Credentials',
@@ -30,9 +32,9 @@ angular
                 });
                 console.log('showClientSignUpError. Remind Error.');
                 $scope.$emit('unload');
-            };
+            }
 
-            var loginSuccess = function(isNewClient){
+            function loginSuccess(isNewClient){
                 console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
                     //TODO i18n-alizar
@@ -48,9 +50,9 @@ angular
                     console.log('existing client. going to news');
                     $state.go('news');
                 }
-            };
+            }
 
-            var loginError = function(){
+            function loginError(){
                 //TODO i18n-alizar
                 Notification.showInfoAlert({
                     title: 'Login',
@@ -60,7 +62,7 @@ angular
                 });
                 console.log('onLoginError. Login Error.');
                 $scope.$emit('unload');
-            };
+            }
 
             $scope.sendMsisdn = function(){
                 $scope.$emit('load');
@@ -117,8 +119,17 @@ angular
                 Client.setGuest();
             };
 
+            function setUpIScroll(){
+                scroll = iScroll.vertical('wrapper');
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+                });
+            }
+
             function init(){
                 $scope.$emit('unload');
+                setUpIScroll();
                 if($state.current.name === 'remind'){
                     console.log('Remind Upstream call');
                     Upstream.viewSubscriptionPromptEvent();
@@ -126,7 +137,6 @@ angular
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
-            }
-            init();
+            } init();
         }
     ]);

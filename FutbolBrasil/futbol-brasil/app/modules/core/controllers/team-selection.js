@@ -8,18 +8,21 @@
 */
 angular
     .module('core')
-    .controller('TeamSelectionController', ['$scope', '$rootScope', '$state', 'ClientManager', 'TeamsManager',
-        function($scope, $rootScope, $state, ClientManager, TeamsManager) {
-            $scope.teams = [];
+    .controller('TeamSelectionController', ['$scope', '$rootScope', '$state', 'ClientManager',
+        'TeamsManager', 'iScroll',
+        function($scope, $rootScope, $state, ClientManager, TeamsManager, iScroll) {
+
+            var scroll = null;
             var teams = [];
-            $scope.searchQuery = '';
-            $scope.hasTeams = true;
-            $scope.maxVisibleItems = 10;
             var halfMaxItems = $scope.maxVisibleItems/2;
             var page = {
                 'first' : 0,
                 'last' : 0
             };
+            $scope.teams = [];
+            $scope.searchQuery = '';
+            $scope.hasTeams = true;
+            $scope.maxVisibleItems = 10;
 
             $scope.teamSelected = function(team){
                 TeamsManager.addFavoriteTeam(team, function(){
@@ -35,43 +38,41 @@ angular
                 }
             };
 
+            function processTeams(teams){
+                teams.sort(function(teamA, teamB){
+                    var nameA = teamA.name.toUpperCase();
+                    var nameB = teamB.name.toUpperCase();
+                    if(!nameA){
+                        return 1;
+                    } else if(!nameB){
+                        return -1;
+                    } else {
+                        if(nameA > nameB){
+                            return 1;
+                        } else if(nameA < nameB) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+
+                teams.map(function(team){
+                    if(team.name === '' || !team.name){
+                        team.name = $scope.strings.NOT_AVAILABLE;
+                    }
+                });
+            }
+
             function getTeams(offset, pageSize){
                 if(!offset){ offset = 0}
                 if(!pageSize){ pageSize = 200}
                 $scope.$emit('load');
                 TeamsManager.getTeams(offset, pageSize).then(function(pTeams){
                     $scope.hasTeams = true;
-                    pTeams.sort(function(teamA, teamB){
-                        var nameA = teamA.name.toUpperCase();
-                        var nameB = teamB.name.toUpperCase();
-                        if(!nameA){
-                            return 1;
-                        } else if(!nameB){
-                            return -1;
-                        } else {
-                            if(nameA > nameB){
-                                return 1;
-                            } else if(nameA < nameB) {
-                                return -1;
-                            } else {
-                                return 0;
-                            }
-                        }
-                    });
-
-                    pTeams.map(function(team){
-                        if(team.name === '' || !team.name){
-                            team.name = $scope.strings.NOT_AVAILABLE;
-                        }
-                    });
-
+                    processTeams(pTeams);
                     teams = pTeams;
                     $scope.teams = teams.slice();
-//                    $scope.teams = teams.slice(0, $scope.maxVisibleItems);
-//                    console.log($scope.teams);
-//                    page.first = 0;
-//                    page.last = $scope.teams.length -1;
-
                     getFavTeams();
                     $scope.$emit('unload');
                 }, function(){
@@ -120,10 +121,15 @@ angular
             };
 
             function setUpIScroll() {
-                $scope._scroll = new IScroll('#wrapper'
-                    , {click: true, preventDefault: true, bounce: true, probeType: 2});
-                $scope._scroll.on('beforeScrollStart', function () {
+                scroll = iScroll.vertical('#wrapper');
+
+                scroll.on('beforeScrollStart', function () {
                     this.refresh();
+                });
+
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
                 });
             }
 

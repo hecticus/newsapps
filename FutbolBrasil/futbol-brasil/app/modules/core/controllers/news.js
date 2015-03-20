@@ -23,8 +23,8 @@ angular
                 last : 0
             };
 
-            var listScrollWrapper = null;
-            var detailScrollWrapper = null;
+            var listScroll = null;
+            var detailScroll = null;
 
             $scope.share = function(_news) {
                 if(CordovaDevice.isWebPlatform()){
@@ -43,7 +43,7 @@ angular
                     $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                     $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                     $rootScope.transitionPageBack('#wrapper2', 'left');
-                    detailScrollWrapper.scrollTo(0,0,0);
+                    detailScroll.scrollTo(0,0,0);
                 } else {
                     Notification.showNotificationDialog(
                         {
@@ -139,8 +139,8 @@ angular
             }
 
             function setUpIScroll() {
-                listScrollWrapper = iScroll.vertical('wrapper');
-                listScrollWrapper.on('scroll', function () {
+                listScroll = iScroll.vertical('wrapper');
+                listScroll.on('scroll', function () {
                     if (this.y >= 50) {
                         getNewsPreviousToId(_news.first);
                     }
@@ -149,7 +149,15 @@ angular
                         getNewsAfterId(_news.last);
                     }
                 });
-                detailScrollWrapper = iScroll.vertical('wrapper2');
+                detailScroll = iScroll.vertical('wrapper2');
+
+                $scope.$on('$destroy', function() {
+                    listScroll.destroy();
+                    listScroll = null;
+
+                    detailScroll.destroy();
+                    detailScroll = null;
+                });
             }
 
             function init(){

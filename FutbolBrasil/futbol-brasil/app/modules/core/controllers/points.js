@@ -116,10 +116,19 @@ angular
                 });
             }
 
+            function setUpIScroll(){
+                tournamentScroll = iScroll.vertical(tournamentScrollId);
+
+                $scope.$on('$destroy', function() {
+                    tournamentScroll.destroy();
+                    tournamentScroll = null;
+                });
+            }
+
             function init(){
                 $scope.$emit('unload');
+                setUpIScroll();
                 getPoints();
-                tournamentScroll = iScroll.vertical(tournamentScrollId);
             } init();
         }
     ]);

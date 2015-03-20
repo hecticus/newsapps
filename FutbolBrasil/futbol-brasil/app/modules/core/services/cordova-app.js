@@ -201,8 +201,6 @@ angular
                 Analytics.init();
                 ClientManager.init(startApp, errorStartApp);
 
-                console.log('CordovaDevice.phonegapIsOnline()');
-                console.log(CordovaDevice.phonegapIsOnline());
                 if (CordovaDevice.phonegapIsOnline()) {
                     PushManager.init();
                     WebManager.loadServerConfigs(

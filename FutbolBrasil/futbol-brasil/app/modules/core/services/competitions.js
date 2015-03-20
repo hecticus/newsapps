@@ -44,7 +44,14 @@ angular
             function getRanking(competition, phase){
                 return $http.get(Domain.ranking(competition,phase))
                     .then(function (response) {
-                        return response.data.response;
+                        console.log('getRanking.response: ');
+                        console.log(response);
+                        if(response.data.error === 0){
+                            return response.data.response;
+                        } else {
+                            return $q.reject(response);
+                        }
+
                     }, function (response) {
                         return $q.reject(response);
                     });

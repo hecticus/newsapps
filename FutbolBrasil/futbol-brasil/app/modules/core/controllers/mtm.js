@@ -14,8 +14,8 @@ angular
                  Domain, Moment, iScroll, Notification) {
 
             var refreshInterval = null;
-            var _scroll = iScroll.vertical('wrapper');
-            var _scroll2 = iScroll.vertical('wrapper2');
+            var listScroll = null;
+            var matchScroll = null;
             var _event = {
                 first: 0,
                 last: 0,
@@ -95,7 +95,7 @@ angular
                 };
 
                 $rootScope.transitionPageBack('#wrapper2','left');
-                _scroll2.scrollTo(0,0,0);
+                matchScroll.scrollTo(0,0,0);
 
                 //TODO check request cableado
                 var competitionId = _league.id_competitions;
@@ -146,8 +146,22 @@ angular
                 );
             }
 
+            function setUpIScroll(){
+                listScroll = iScroll.vertical('wrapper');
+                matchScroll = iScroll.vertical('wrapper2');
+
+                $scope.$on('$destroy', function() {
+                    listScroll.destroy();
+                    listScroll = null;
+
+                    matchScroll.destroy();
+                    matchScroll = null;
+                });
+            }
+
             function init(){
                 $scope.$emit('load');
+                setUpIScroll();
                 getMatchesForToday();
 
                 $scope.$on('$destroy', function() {

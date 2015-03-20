@@ -13,7 +13,7 @@ angular
         , 'TeamsManager', 'FacebookManager', 'Settings', 'iScroll', 'i18n', 'Client', 'Notification',
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
-            $scope.vScroll = null;
+            var scroll = null;
 
             $scope.fbObject = {
                 fbStatus: null,
@@ -182,7 +182,12 @@ angular
             }
 
             function setUpIScroll() {
-                $scope.vScroll = iScroll.verticalForm('wrapper');
+                scroll = iScroll.verticalForm('wrapper');
+
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+                });
             }
 
             function init(){

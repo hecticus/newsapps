@@ -10,16 +10,16 @@ angular
     .factory('Moment',['Client', 'i18n',
         function(Client, i18n) {
 
-            var getLang = function(){
+            function getLang(){
                 var oLang = Client.getLanguage();
                 if (!oLang) oLang = i18n.getDefaultLanguage();
                 if(oLang){
                     return oLang.short_name.toLowerCase();
                 } else {
-//                    console.log('defaultLanguage: undefined. Returning "pt"');
+                    console.log('defaultLanguage: undefined. Returning "pt"');
                     return 'pt';
                 }
-            };
+            }
 
             return {
                 date:function (_date) {

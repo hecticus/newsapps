@@ -14,6 +14,7 @@ angular
                  iScroll, Competitions, Notification) {
 
             var scroll = null;
+            var vScrolls = [];
             var _currentPage = 0;
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
@@ -83,6 +84,20 @@ angular
                         _currentPage = this.currentPage.pageX;
                     }
                 });
+
+                $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                });
+
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+
+                    vScrolls.forEach(function(scroll){
+                        scroll.destroy();
+                        scroll = null;
+                    });
+                });
             }
 
             function init(){
@@ -92,10 +107,6 @@ angular
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setScroll();
                     getScorers();
-                });
-
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    iScroll.vertical($scope.vWrapper.getName(_currentPage));
                 });
             } init();
 

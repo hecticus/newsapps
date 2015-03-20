@@ -64,8 +64,6 @@ angular
                 },
 
                 setDefaultLanguage : function(lang){
-                    console.log('setDefaultLanguage. ');
-                    console.log(lang);
                     if(lang !== defaultLanguage) {
                         defaultLanguage = lang;
                         $localStorage[FILE_KEY_LANGUAGE_DEFAULT] = JSON.stringify(defaultLanguage);

@@ -11,6 +11,7 @@ angular
     .controller('LanguageSelectionController', [
         '$scope', '$state', '$translate', 'i18n', 'Client',
         function($scope, $state, $translate, i18n, Client) {
+            var scroll = null;
             $scope.languages = [];
             $scope.searchQuery = '';
 
@@ -47,10 +48,14 @@ angular
             };
 
             $scope.setUpIScroll = function() {
-                $scope._scroll = new IScroll('#wrapper'
+                scroll = new IScroll('#wrapper'
                     , {click: true, preventDefault: true, bounce: true, probeType: 2});
-                $scope._scroll.on('beforeScrollStart', function () {
+                scroll.on('beforeScrollStart', function () {
                     this.refresh();
+                });
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
                 });
             };
 

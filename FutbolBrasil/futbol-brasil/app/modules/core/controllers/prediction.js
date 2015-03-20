@@ -14,6 +14,7 @@ angular
                  Domain, Bets, Moment, iScroll, Competitions) {
 
             var scroll = null;
+            var vScrolls = [];
             var _currentPage = 0;
             var _Match = -1;
             var _mBet = -1;
@@ -166,6 +167,19 @@ angular
                     }
                 });
 
+                $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                });
+
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+
+                    vScrolls.forEach(function(scroll){
+                        scroll.destroy();
+                        scroll = null;
+                    });
+                });
             }
 
             function getCompetitions(){
@@ -181,9 +195,6 @@ angular
             function init(){
                 $scope.$emit('load');
                 getCompetitions();
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    iScroll.vertical($scope.vWrapper.getName(_currentPage));
-                });
             } init();
 
         }

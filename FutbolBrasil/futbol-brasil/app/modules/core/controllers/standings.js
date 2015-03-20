@@ -12,6 +12,10 @@ angular
         'Moment', 'iScroll',
         function($rootScope, $scope, $timeout, Competitions, Notification, Moment, iScroll) {
 
+            var tournamentScroll = null;
+            var phaseScroll = null;
+            var rankingScroll = null;
+
             $scope.item = {};
             $scope.hasCompetitions = true;
             $scope.hasPhases = true;
@@ -37,7 +41,7 @@ angular
                                 , $scope.item.phases[0].id_phases);
                         } else {
                             $rootScope.transitionPageBack('#wrapper2', 'left');
-                            $scope.scroll2.scrollTo(0,0,0);
+                            phaseScroll.scrollTo(0,0,0);
                         }
                         $timeout(function(){
                             $scope.$emit('unload');
@@ -90,23 +94,36 @@ angular
                         processEmptyTeams($scope.item);
 
                         $rootScope.transitionPageBack('#wrapper3', 'left');
-                        $scope.scroll3.scrollTo(0,0,0);
+                        rankingScroll.scrollTo(0,0,0);
                         $timeout(function(){
                             $scope.$emit('unload');
                         }, 500);
-                    }, function () {
+                    }, function (response) {
                         $scope.hasRankings = false;
                         $rootScope.transitionPageBack('#wrapper3', 'left');
-                        $scope.scroll3.scrollTo(0,0,0);
+                        rankingScroll.scrollTo(0,0,0);
                         $scope.$emit('unload');
-                        Notification.showNetworkErrorAlert();
+                        if(!response.data.error){
+                            Notification.showNetworkErrorAlert();
+                        }
                     });
             };
 
             function setUpIScroll(){
-                $scope.scroll = iScroll.vertical('wrapper');
-                $scope.scroll2 = iScroll.vertical('wrapper2');
-                $scope.scroll3 = iScroll.vertical('wrapper3');
+                tournamentScroll = iScroll.vertical('wrapper');
+                phaseScroll = iScroll.vertical('wrapper2');
+                rankingScroll = iScroll.vertical('wrapper3');
+
+                $scope.$on('$destroy', function() {
+                    tournamentScroll.destroy();
+                    tournamentScroll = null;
+
+                    phaseScroll.destroy();
+                    phaseScroll = null;
+
+                    rankingScroll.destroy();
+                    rankingScroll = null;
+                });
             }
 
             function getCompetitions(){

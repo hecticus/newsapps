@@ -21,6 +21,7 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
             var scroll = null;
+            var vScrolls = [];
 
             $scope.item = {};
             $scope.hasFriends = true;
@@ -163,6 +164,16 @@ angular
                         _currentPage = this.currentPage.pageX;
                     }
                 });
+
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+
+                    vScrolls.forEach(function(scroll){
+                        scroll.destroy();
+                        scroll = null;
+                    });
+                });
             }
 
             function init(){
@@ -176,7 +187,7 @@ angular
                 setUpIScroll();
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                    vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
                 });
 
             } init();

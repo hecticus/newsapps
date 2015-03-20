@@ -19,6 +19,7 @@ angular
             var _index = 0;
             var _formatDate = 'MMM Do YY';
             var hScroll = null;
+            var vScrolls = [];
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
 
@@ -54,13 +55,15 @@ angular
 
             function setEmptyDayFlag(day){
                 if(day.leagues.length > 0){
-                    var leagueReduce = day.leagues.reduce(function(previousValue, currentValue, index) {
-                        if(index > 1){
-                            return previousValue + currentValue.fixtures.length;
-                        }else{
-                            return previousValue.fixtures.length + currentValue.fixtures.length;
+                    var leagueReduce = day.leagues.reduce(
+                        function(previousValue, currentValue, index) {
+                            if(index > 1){
+                                return previousValue + currentValue.fixtures.length;
+                            }else{
+                                return previousValue.fixtures.length + currentValue.fixtures.length;
+                            }
                         }
-                    });
+                    );
                     day.empty = leagueReduce <= 0;
                 } else {
                     day.empty = true;
@@ -132,7 +135,7 @@ angular
                         hScroll.goToPage(2,0);
                         _start = false;
                         $scope.pages.forEach(function(_item, _index) {
-                            iScroll.vertical($scope.wrapper.getName(_index));
+                            vScrolls[_index] = iScroll.vertical($scope.wrapper.getName(_index));
                         });
                     }
                 });
@@ -153,6 +156,16 @@ angular
                     if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
                         addNewPage();
                     }
+                });
+
+                $scope.$on('$destroy', function() {
+                    hScroll.destroy();
+                    hScroll = null;
+
+                    vScrolls.forEach(function(scroll){
+                        scroll.destroy();
+                        scroll = null;
+                    });
                 });
             }
 
