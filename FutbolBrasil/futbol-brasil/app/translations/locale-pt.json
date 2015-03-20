@@ -60,6 +60,8 @@
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
         "POINTS" : "Você não tem informação de pontos disponível",
+        "LEADERBOARD" : "Não há informação disponível para esta classificação",
+        "PREDICTIONS" : "Não há informação disponível para este torneio",
         "MATCH" : "Não há jogos para este día",
         "SCORERS" : "Não há artilheiros para este torneio",
         "TEAMS" : "Não foi possível obter equipes",
