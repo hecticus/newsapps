@@ -8,19 +8,23 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'Client', 'Upstream', 'iScroll'
-        , function($scope, $state, $stateParams, ClientManager, Client, Upstream, iScroll) {
+    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'iScroll','Client',
+        'Upstream', 'Notification',
+        function($scope, $state, $stateParams, ClientManager, iScroll, Client, Upstream, Notification) {
+
+            var scroll = null;
 
             $scope.msisdn = '';
             $scope.password = '';
 
-            var remindSuccess = function(){
+            function remindSuccess(){
                 console.log('Remind Success! Going to Login');
                 $state.go('login', {'msisdn': $scope.msisdn});
-            };
+            }
 
-            var remindError = function(){
-                $scope.showInfoModal({
+            function remindError(){
+                //TODO i18n-alizar
+                Notification.showInfoAlert({
                     title: 'Get Credentials',
                     subtitle: 'Network Error',
                     message: 'Could not contact our servers. Please try again in a few moments',
@@ -28,21 +32,29 @@ angular
                 });
                 console.log('showClientSignUpError. Remind Error.');
                 $scope.$emit('unload');
-            };
+            }
 
-            var loginSuccess = function(isNewClient){
+            function loginSuccess(isNewClient){
                 console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
+                    //TODO i18n-alizar
+                    Notification.showInfoAlert({
+                        title: 'Profile Info',
+                        subtitle: 'Select your username',
+                        message: 'Please set a Username for your account',
+                        type: 'success'
+                    });
                     console.log('new client. going to settings');
                     $state.go('settings');
                 } else {
                     console.log('existing client. going to news');
                     $state.go('news');
                 }
-            };
+            }
 
-            var loginError = function(){
-                $scope.showInfoModal({
+            function loginError(){
+                //TODO i18n-alizar
+                Notification.showInfoAlert({
                     title: 'Login',
                     subtitle: 'Network Error',
                     message: 'Could not contact our servers. Please try again in a few moments',
@@ -50,7 +62,7 @@ angular
                 });
                 console.log('onLoginError. Login Error.');
                 $scope.$emit('unload');
-            };
+            }
 
             $scope.sendMsisdn = function(){
                 $scope.$emit('load');
@@ -70,7 +82,7 @@ angular
                     );
                 } else {
                     //TODO i18n-alizar
-                    $scope.showInfoModal({
+                    Notification.showInfoAlert({
                         title: 'Login process',
                         subtitle: 'Incomplete Registering Info',
                         message: 'Please input your phone number',
@@ -92,7 +104,7 @@ angular
                     Upstream.loginEvent();
                 } else {
                     //TODO i18n-alizar
-                    $scope.showInfoModal({
+                    Notification.showInfoAlert({
                         title: 'Login process',
                         subtitle: 'Incomplete Registering Info',
                         message: 'Please input your password',
@@ -107,9 +119,17 @@ angular
                 Client.setGuest();
             };
 
-            function init(){
+            function setUpIScroll(){
+                scroll = iScroll.vertical('wrapper');
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+                });
+            }
 
+            function init(){
                 $scope.$emit('unload');
+                setUpIScroll();
                 if($state.current.name === 'remind'){
                     console.log('Remind Upstream call');
                     Upstream.viewSubscriptionPromptEvent();
@@ -117,10 +137,6 @@ angular
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
-
-                $scope.scroll = iScroll.vertical('wrapper');
-
-            }
-            init();
+            } init();
         }
     ]);

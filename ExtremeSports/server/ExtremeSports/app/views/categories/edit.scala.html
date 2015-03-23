@@ -6,6 +6,21 @@
 
 @title = {}
 
+@localizationGroup(field: Field, className: String = "localization") = {
+    <div class="twipsies well @className">
+        <a class="removeLocalization btn btn-primary danger pull-right">@Messages("categories.localization.remove")</a>
+        @select(
+            field("language.idLanguage"),
+            models.basic.Language.toSeq,
+            '_label -> Messages("categories.localization.language"),
+            'class -> "form-control"
+        )
+        @input(field("name"), '_label -> Messages("categories.localization.name")) { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+    </div>
+}
+
 @main(title =  Messages(if(categories) "categories.edit" else "tags.edit"), nav = "create") {
 
     @if(categoryViewForm.hasErrors) {
@@ -17,7 +32,7 @@
     }
 
 
-    @helper.form(controllers.routes.CategoriesView.update(id, categories), 'enctype -> "multipart/form-data") {
+    @helper.form(controllers.routes.CategoriesView.update(id, categories), 'enctype -> "multipart/form-data", 'id -> "form") {
 
         <fieldset>
             <div class="row">
@@ -41,6 +56,22 @@
                 </div>
             </div>
 
+            <div id="localizations">
+
+                @repeat(categoryViewForm("localizations")) { localization =>
+                    @localizationGroup(localization)
+                }
+                @localizationGroup(
+                    categoryViewForm("localizations[x]"),
+                    className = "localization_template"
+                )
+
+                <div class="manage">
+                    <a class="addLocalization btn btn-primary success">@Messages("categories.localization.add")</a>
+                </div>
+
+            </div>
+
        </fieldset>
 
         <div class="actions">
@@ -54,5 +85,38 @@
         <input type="submit" value=@Messages("categories.submit.delete") class="btn btn-danger">
 
     }
+
+    <script type="text/javascript" charset="utf-8">
+
+        $(document).on('click','.removeLocalization', function(e) {
+            $(this).parents('.localization').remove()
+            renumberLocalizations()
+        })
+
+        $(document).on('click','.addLocalization', function(e) {
+            var template = $('.localization_template')
+            template.before('<div class="twipsies well localization">' + template.html() + '</div>')
+            renumberLocalizations()
+        })
+
+        var renumberLocalizations = function() {
+            $('.localization').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
+                $('input', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
+            })
+        }
+
+
+
+        $('#form').submit(function() {
+            $('.localization_template').remove()
+        })
+
+
+    </script>
 
 }

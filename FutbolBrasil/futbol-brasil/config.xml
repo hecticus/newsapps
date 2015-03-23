@@ -11,6 +11,10 @@
     <content src="index.html" />
     <access origin="*" />
 
+    <platform name="android">
+        <splash src="res/splash.png" density="hdpi"/>
+    </platform>
+
 	<preference name="orientation" value="portrait" />
 	<preference name="fullscreen" value="true" />
 

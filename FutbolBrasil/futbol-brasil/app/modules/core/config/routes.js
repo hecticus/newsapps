@@ -113,16 +113,6 @@ angular
                     section: 'notistats'
                 }
             })
-//            .state('news.detail', {
-//                url: '/:idNews',
-//                controller:'NewsDetailCtrl  as _this',
-//                templateUrl:'modules/core/views/news-detail.html',
-////                data:{
-////                    prev: 'news',
-////                    next: 'scorers',
-////                    contentClass: 'content-news'
-////                }
-//            })
             .state('scorers', {
                 url: '/scorers',
                 controller:'ScorersCtrl  as _this',

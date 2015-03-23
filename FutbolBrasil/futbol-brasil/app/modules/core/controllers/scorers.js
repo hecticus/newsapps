@@ -8,13 +8,26 @@
  */
 angular
     .module('core')
-    .controller('ScorersCtrl',  ['$http','$rootScope','$scope', '$state', '$localStorage', '$window', '$translate', 'WebManager', 'Domain','iScroll', 'Competitions',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, $translate, WebManager, Domain, iScroll, Competitions) {
+    .controller('ScorersCtrl',  ['$rootScope','$scope', '$state', '$window',
+        'iScroll', 'Competitions', 'Notification',
+        function($rootScope, $scope, $state, $window,
+                 iScroll, Competitions, Notification) {
 
             var scroll = null;
+            var vScrolls = [];
+            var _currentPage = 0;
+            var width = $window.innerWidth;
+            var widthTotal = $window.innerWidth;
+
+            $scope.getWidth = function(){
+                return { 'width': width + 'px'}
+            };
+
+            $scope.getTotalWidth = function(){
+                return { 'width': widthTotal + 'px'}
+            };
 
             $rootScope.$storage.scorers = false;
-            var _currentPage = 0;
 
             $scope.vWrapper = {
                 name:'wrapperV',
@@ -23,22 +36,12 @@ angular
                 }
             };
 
-            $scope.width = $window.innerWidth;
-            $scope.widthTotal = $window.innerWidth;
-
-            $scope.getWidth = function(){
-                return { 'width': $scope.width + 'px'}
-            };
-
-            $scope.getTotalWidth = function(){
-                return { 'width': $scope.widthTotal + 'px'}
-            };
-
             function getScorers(){
                 var _index = scroll.currentPage.pageX;
-                if (!$scope.leagues[_index].scorers) {
+                var league = $scope.leagues[_index];
+                if (!league.scorers) {
                     $scope.$emit('load');
-                    Competitions.getScorers($scope.leagues[_index].id_competitions)
+                    Competitions.getScorers(league.id_competitions)
                         .then(function (scorers) {
                             if(scorers.length > 0){
                                 scorers.map(function(scorer){
@@ -46,41 +49,35 @@ angular
                                         scorer.team.name = $scope.strings.NOT_AVAILABLE;
                                     }
                                 });
-                                $scope.leagues[_index].scorers = scorers;
-                                $scope.leagues[_index].empty = false;
+                                league.scorers = scorers;
+                                league.empty = false;
                             } else {
-                                $scope.leagues[_index].empty = true;
+                                league.empty = true;
                             }
                             $scope.$emit('unload');
                         }, function () {
-                            $scope.leagues[_index].empty = true;
+                            league.empty = true;
                             $scope.$emit('unload');
-                            $scope.$emit('error');
+                            Notification.showNetworkErrorAlert();
                         }
                     );
                 }
             }
 
             function setScroll() {
-
                 scroll = iScroll.horizontal('wrapperH');
-
                 $scope.nextPage = function(){
                     scroll.next();
                 };
-
                 $scope.prevPage = function(){
                     scroll.prev();
                 };
-
                 scroll.on('beforeScrollStart', function () {
                     this.refresh();
                 });
-
                 scroll.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
-
                 scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                         getScorers();
@@ -88,22 +85,29 @@ angular
                     }
                 });
 
+                $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                });
+
+                $scope.$on('$destroy', function() {
+                    scroll.destroy();
+                    scroll = null;
+
+                    vScrolls.forEach(function(scroll){
+                        scroll.destroy();
+                        scroll = null;
+                    });
+                });
             }
 
             function init(){
                 $scope.$emit('load');
                 Competitions.get().then(function(data){
                     $scope.leagues  = data;
-                    $scope.widthTotal = ($window.innerWidth * $scope.leagues.length);
+                    widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setScroll();
                     getScorers();
                 });
-
-                $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    iScroll.vertical($scope.vWrapper.getName(_currentPage));
-                });
-
-                $scope.$emit('unload');
             } init();
 
         }

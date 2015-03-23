@@ -170,44 +170,6 @@ angular
             };
 
             /**
-             * @ngdoc function
-             * @name core.Controllers.MainCtrl#showInfoModal
-             * @description Function that displays an information dialog
-             * @param {object} displayInfo Information to display. must have keys:
-             * @param {string} displayInfo.title The name of the event.
-             * @param {string} displayInfo.subtitle The subtitle of the event.
-             * @param {string} displayInfo.message The message of the event.
-             * @param {string} displayInfo.type The type of information it is ('warning'/'error').
-             * @methodOf core.Controllers.MainCtrl
-             */
-            $scope.showInfoModal = function (displayInfo){
-                var icon = '';
-                displayInfo.icon = '';
-                switch(displayInfo.type){
-                    case 'error':
-                        icon = 'mdi-alert-error text-danger';
-                        displayInfo.html = '<p class="text-danger">' + displayInfo.subtitle + '</p>';
-                        break;
-                    case 'warning':
-                    default:
-                        icon = 'mdi-alert-warning text-warning';
-                        displayInfo.html = '<p class="text-warning">' + displayInfo.subtitle + '</p>';
-
-                }
-
-                displayInfo.icon = icon;
-                displayInfo.html += '<p class="text-muted">' + displayInfo.message + '</p>';
-
-                $scope.displayInfo = displayInfo;
-
-                $('#info-modal').modal({
-                    backdrop: true,
-                    keyboard: false,
-                    show: false})
-                    .modal('show');
-            };
-
-            /**
              * Function that gets and updates the app's common usage Strings
              * to minimize the number of requests across  modules and improve
              * performance

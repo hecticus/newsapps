@@ -154,7 +154,7 @@ main.posts=Publicaciones
 main.languages=Idiomas
 main.countries=Paises
 main.categories=Categorias
-main.categories=Etiquetas
+main.tags=Etiquetas
 main.configurations=Configuraciones
 main.list=Listar
 main.operations=Operaciones
@@ -302,6 +302,12 @@ categories.name=Nombre
 categories.name.help=Inserte un nombre valido
 
 categories.followable=Subscribible
+
+categories.localization=Traducciones
+categories.localization.remove=Eliminar esta Traduccion
+categories.localization.add=Agregar Traduccion
+categories.localization.language=Idioma
+categories.localization.name=Nombre
 
 categories.submit.create=Crear esta categoria
 categories.submit.update=Actualizar esta categoria
