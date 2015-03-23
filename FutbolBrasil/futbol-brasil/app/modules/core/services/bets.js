@@ -21,8 +21,6 @@ angular
                 get: function(competition,successCallback, errorCallback) {
                     $http.get(Domain.bets.get(competition))
                         .success(function (data) {
-                            console.log('bets: ');
-                            console.log(data);
                             $rootScope.$storage.bet = JSON.stringify(data.response);
                             typeof successCallback === 'function' && successCallback(data);
                         }).error(function () {
@@ -35,15 +33,15 @@ angular
                  * @name core.Services.Bets#create
                  * @description Creates Bets for the current user
                  * @methodOf core.Services.Bets
-                 * @return {HttpPromise} Returns the Request's Promise
+                 * @return {object} Returns the Request's Promise
                  */
                 create: function(bets, successCallback, errorCallback) {
                     $http.post(Domain.bets.create(), bets)
                     .success(function() {
-                            successCallback();
+                            typeof successCallback === 'function' && successCallback();
                     })
                     .error(function() {
-                            errorCallback();
+                            typeof errorCallback === 'function' && errorCallback();
                     });
                 }
             };

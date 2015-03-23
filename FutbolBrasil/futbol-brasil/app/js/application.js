@@ -62,10 +62,17 @@ var translationsEn = {
         "LIVE" : "There are no games for today",
         "NEWS" : "There are no news available",
         "POINTS" : "You don't have points info available",
+        "LEADERBOARD" : "There is no info available for this leaderboard",
+        "PREDICTIONS" : "There is no info available for this tournament",
         "MATCH" : "There are no games for this day",
         "SCORERS" : "There are no strikers for this tournament",
         "TEAMS" : "Could not get Teams",
-        "LANGUAGES" : "Could not get Available Languages"
+        "LANGUAGES" : "Could not get Available Languages",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "Could not get Competitions",
+            "NO_PHASES" : "Could not get Phases",
+            "NO_RANKINGS" : "Could not get Rankings"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Password",
@@ -178,10 +185,17 @@ var translationsEs = {
         "LIVE" : "No hay juegos programados para hoy",
         "NEWS" : "No hay noticias disponibles",
         "POINTS" : "Usted no tiene información de puntos disponible",
+        "LEADERBOARD" : "No hay información disponible para esta clasificación",
+        "PREDICTIONS" : "No hay información disponible para este torneo",
         "MATCH" : "No hay juegos programados para este día",
         "SCORERS" : "No hay goleadores para este torneo",
         "TEAMS" : "No se pudieron obtener los equipos",
-        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles"
+        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "No se pudieron obtener las Competiciones",
+            "NO_PHASES" : "No se pudieron obtener las Fases",
+            "NO_RANKINGS" : "No se pudieron obtener las Clasificaciones"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Contraseña",
@@ -294,10 +308,17 @@ var translationsPt = {
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
         "POINTS" : "Você não tem informação de pontos disponível",
+        "LEADERBOARD" : "Não há informação disponível para esta classificação",
+        "PREDICTIONS" : "Não há informação disponível para este torneio",
         "MATCH" : "Não há jogos para este día",
         "SCORERS" : "Não há artilheiros para este torneio",
         "TEAMS" : "Não foi possível obter equipes",
-        "LANGUAGES" : "Não foi possível obter idiomas"
+        "LANGUAGES" : "Não foi possível obter idiomas",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "Não foi possível obter as Competições",
+            "NO_PHASES" : "Não foi possível obter as Fases",
+            "NO_RANKINGS" : "Não foi possível obter os Rankings"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Senha",
@@ -384,76 +405,78 @@ angular
             $translateProvider.usePostCompiling(true);
         }
     ])
-    .run(function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client, Analytics) {
-        CordovaApp.init();
-        $rootScope.contentClass = 'content-init';
-        $rootScope.$storage = $localStorage.$default({
-            news: false,
-            leaderboard:false,
-            scorers:false,
-            match:false,
-            competitions:false
-        });
+    .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
+        'Notification', 'Analytics',
+        function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
+                 Notification, Analytics) {
 
-        $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams) {
-            $rootScope.error = false;
-            $rootScope.$emit('unload');
-            if($rootScope.hideMenu) {
-                $rootScope.hideMenu();
-            }
-
-            if(CordovaApp.requiresAuthSection(toState.name)){
-                if(!Client.isClientOk()){
-                    console.log('client data not loaded. Loading client data again.');
-                    ClientManager.init(function(){
-                        if(!Client.isClientOk()){
-                            console.log('User not Authenticated');
-                            event.preventDefault();
-                            $state.go('login');
-                        }
-                    }, CordovaApp.errorStartApp);
-                }
-
-                if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
-                    CordovaApp.showNotificationDialog(
-                        {
-                            title : 'Locked Section',
-                            message : 'This section is locked for Guest Users. Please register to unlock',
-                            confirm: 'Ok',
-                            cancel: 'Cancel'
-                        });
-                    event.preventDefault();
-                }
-
-                $rootScope.isActiveButton = 'active';
-            } else {
-                $rootScope.isActiveButton = '';
-            }
-
-        });
-
-        $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
-            if(fromState.name && fromState.data.section !== 'settings' && toState.data.section !== 'settings'){
-                CordovaApp.setPreviousSection(fromState.name);
-            } else if(fromState.name && fromState.data.section === 'settings'){
-                console.log('onSettingsSection: true');
-                CordovaApp.setIsOnSettingsSection(true);
-            }
-
-            CordovaApp.setCurrentSection(!!toState.data.section ? toState.data.section : '');
-
-            $translate('SECTIONS.' + CordovaApp.getCurrentSection().toUpperCase()).then(function(translate){
-                $rootScope.sectionTranslation = translate;
+            CordovaApp.init();
+            $rootScope.contentClass = 'content-init';
+            $rootScope.$storage = $localStorage.$default({
+                news: false,
+                leaderboard:false,
+                scorers:false,
+                match:false,
+                competitions:false
             });
 
-            if (toState.data && toState.data.contentClass){
-                $rootScope.contentClass = toState.data.contentClass;
-            }
+            $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams){
+                $rootScope.error = false;
+                $rootScope.$emit('unload');
+                if($rootScope.hideMenu) {
+                    $rootScope.hideMenu();
+                }
 
-            Analytics.trackView(toState.name);
-        });
+                if(CordovaApp.requiresAuthSection(toState.name)){
+                    if(!Client.isClientOk()){
+                        console.log('client data not loaded. Loading client data again.');
+                        ClientManager.init(function(){
+                            if(!Client.isClientOk()){
+                                console.log('User not Authenticated');
+                                event.preventDefault();
+                                $state.go('login');
+                            }
+                        }, CordovaApp.errorStartApp);
+                    }
 
-    });
+                    if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
+                        Notification.showLockedSectionDialog();
+                        event.preventDefault();
+                    }
+
+                    $rootScope.isActiveButton = 'active';
+                } else {
+                    $rootScope.isActiveButton = '';
+                }
+
+            });
+
+            $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
+                if(fromState.name && fromState.data.section !== 'settings'
+                    && toState.data.section !== 'settings'){
+                    CordovaApp.setPreviousSection(fromState.name);
+                } else if(fromState.name && fromState.data.section === 'settings'){
+                    console.log('onSettingsSection: true');
+                    CordovaApp.setIsOnSettingsSection(true);
+                }
+
+                CordovaApp.setCurrentSection(!!toState.data.section ? toState.data.section : '');
+
+                $translate('SECTIONS.' + CordovaApp.getCurrentSection().toUpperCase())
+                    .then(function(translate){
+                        $rootScope.sectionTranslation = translate;
+                    }
+                );
+
+                if (toState.data && toState.data.contentClass){
+                    $rootScope.contentClass = toState.data.contentClass;
+                }
+
+                Analytics.trackView(toState.name);
+            });
+
+        }
+    ]);
 
 //Then define the init function for starting up the application
 angular

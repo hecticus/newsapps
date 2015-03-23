@@ -8,11 +8,18 @@
  */
 angular
     .module('core')
-    .controller('StandingsCtrl',  ['$http', '$rootScope', '$scope', '$timeout', '$state', '$localStorage', 'Domain', 'WebManager',
-        'TeamsManager', 'Moment', 'iScroll',
-        function($http, $rootScope, $scope, $timeout, $state, $localStorage, Domain, WebManager, TeamsManager, Moment, iScroll) {
+    .controller('StandingsCtrl',  ['$rootScope', '$scope', '$timeout', 'Competitions', 'Notification',
+        'Moment', 'iScroll',
+        function($rootScope, $scope, $timeout, Competitions, Notification, Moment, iScroll) {
+
+            var tournamentScroll = null;
+            var phaseScroll = null;
+            var rankingScroll = null;
 
             $scope.item = {};
+            $scope.hasCompetitions = true;
+            $scope.hasPhases = true;
+            $scope.hasRankings = true;
 
             $scope.fromNow = function(_date) {
                 return Moment.date(_date).format('MMMM Do YYYY');
@@ -23,71 +30,116 @@ angular
                 $scope.item.ranking = [];
                 $scope.item.phases = [];
                 $scope.item.competition = false;
-                $http.get(Domain.phases(competition.id_competitions))
-                .then(function (data) {
-                    data = data.data;
-                    $scope.item.phases = data.response.phases;
-                    $scope.item.competition = competition;
-                    if ($scope.item.phases.length == 1) {
-                        $scope.showContentRanking($scope.item.competition.id_competitions
-                            , $scope.item.phases[0].id_phases);
-                    } else {
-                        $rootScope.transitionPageBack('#wrapper2', 'left');
-                        $scope.scroll2.scrollTo(0,0,0);
-                    }
-                    $timeout(function(){
+
+                Competitions.getPhase(competition)
+                    .then(function (phases) {
+                        $scope.hasPhases = true;
+                        $scope.item.phases = phases;
+                        $scope.item.competition = competition;
+                        if ($scope.item.phases.length == 1) {
+                            $scope.showContentRanking($scope.item.competition.id_competitions
+                                , $scope.item.phases[0].id_phases);
+                        } else {
+                            $rootScope.transitionPageBack('#wrapper2', 'left');
+                            phaseScroll.scrollTo(0,0,0);
+                        }
+                        $timeout(function(){
+                            $scope.$emit('unload');
+                        }, 500);
+                    },function () {
+                        $scope.hasPhases = false;
+                        console.log('showContentPhases. error');
+                        Notification.showNetworkErrorAlert();
                         $scope.$emit('unload');
-                    }, 500);
-                },function () {
-                    console.log('showContentPhases. error');
-                    $scope.$emit('error');
-                });
+                    });
 
             };
+
+            function processEmptyTeams(item){
+                if(item.ranking){
+                    item.ranking.forEach(function(outerRanking){
+                        outerRanking.ranking.forEach(function(innerRanking){
+                            if(item.isTree){
+                                var awayTeam = innerRanking.awayTeam;
+                                var homeTeam = innerRanking.homeTeam;
+                                if(awayTeam.name === '' || !awayTeam.name){
+                                    awayTeam.name = $scope.strings.NOT_AVAILABLE;
+                                }
+                                if(homeTeam.name === '' || !homeTeam.name){
+                                    homeTeam.name = $scope.strings.NOT_AVAILABLE;
+                                }
+                            } else {
+                                var team = innerRanking.team;
+                                if(team.name === '' || !team.name){
+                                    team.name = $scope.strings.NOT_AVAILABLE;
+                                }
+                            }
+                        });
+                    });
+                }
+            }
 
             $scope.showContentRanking = function(competition, phase) {
                 $scope.$emit('load');
                 $scope.item.phase = false;
                 $scope.item.ranking = [];
 
-                $http.get(Domain.ranking(competition,phase))
-                    .then(function (data, status) {
-                        data = data.data;
-                        console.log('data: ');
-                        console.log(data);
-                        $scope.item.tree = data.response.tree;
-                        $scope.item.phase = data.response.phase;
-                        $scope.item.ranking =  data.response.ranking;
-                        console.log(data.response.ranking);
+                Competitions.getRanking(competition, phase)
+                    .then(function (response) {
+                        $scope.hasRankings = true;
+                        $scope.item.isTree = response.tree;
+                        $scope.item.phase = response.phase;
+                        $scope.item.ranking = response.ranking;
+
+                        processEmptyTeams($scope.item);
+
                         $rootScope.transitionPageBack('#wrapper3', 'left');
-                        $scope.scroll3.scrollTo(0,0,0);
+                        rankingScroll.scrollTo(0,0,0);
+                        $timeout(function(){
+                            $scope.$emit('unload');
+                        }, 500);
+                    }, function (response) {
+                        $scope.hasRankings = false;
+                        $rootScope.transitionPageBack('#wrapper3', 'left');
+                        rankingScroll.scrollTo(0,0,0);
                         $scope.$emit('unload');
-                    }, function () {
-                        $scope.$emit('unload');
-                        $scope.$emit('error');
+                        if(!response.data.error){
+                            Notification.showNetworkErrorAlert();
+                        }
                     });
             };
 
-            $scope.getCompetitions = function(){
-                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-                $http.get(Domain.competitions, config).success(function(obj){
-                    $rootScope.$storage.competitions = JSON.stringify(obj.response);
-                    $scope.item = obj.response;
+            function setUpIScroll(){
+                tournamentScroll = iScroll.vertical('wrapper');
+                phaseScroll = iScroll.vertical('wrapper2');
+                rankingScroll = iScroll.vertical('wrapper3');
+
+                $scope.$on('$destroy', function() {
+                    tournamentScroll.destroy();
+                    tournamentScroll = null;
+
+                    phaseScroll.destroy();
+                    phaseScroll = null;
+
+                    rankingScroll.destroy();
+                    rankingScroll = null;
                 });
-            };
+            }
 
-            $scope.setUpIScroll = function(){
-                $scope.scroll = iScroll.vertical('wrapper');
-                $scope.scroll2 = iScroll.vertical('wrapper2');
-                $scope.scroll3 = iScroll.vertical('wrapper3');
-            };
+            function getCompetitions(){
+                Competitions.get().then(function(competitions){
+                    $scope.hasCompetitions = true;
+                    $scope.item.competitions = competitions;
+                }, function(){
+                    $scope.hasCompetitions = false;
+                    $scope.item.competitions = [];
+                    Notification.showNetworkErrorAlert();
+                });
+            }
 
-            $scope.init = function(){
-                $scope.setUpIScroll();
-                if($rootScope.$storage.competitions){
-                    $scope.item = JSON.parse($rootScope.$storage.competitions);
-                }
-                $scope.getCompetitions();
-            }();
+            function init(){
+                setUpIScroll();
+                getCompetitions();
+            } init();
         }
     ]);

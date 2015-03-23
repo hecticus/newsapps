@@ -40,8 +40,8 @@
                                                 <td style="width: 33% !important;">
                                                     <span ng-bind="getTime(match.date)" class="date"></span>
                                                     <br />
-                                                        <span ng-bind="match.status.name"
-                                                              class="status _{{match.status.id_status}}">
+                                                        <span class="status _{{match.id_status}}">
+                                                            {{ match.status | translate}}
                                                         </span>
                                                 </td>
                                                 <td style="width: 33% !important;" ng-class="{winner: match.away_team_goals >= match.home_team_goals}">

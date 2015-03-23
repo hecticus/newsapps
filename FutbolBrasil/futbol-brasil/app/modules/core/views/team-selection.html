@@ -16,11 +16,12 @@
     </div>
 </div>
 
-<div class="row" ng-show="teams.length > 0">
+<div class="row" ng-show="hasTeams">
     <div id="wrapper" class="search-list-wrapper">
         <div class="scroller">
             <div class="list-group">
-                <div ng-repeat="team in teams | filter: searchQuery">
+                <!--| limitTo: maxVisibleItems-->
+                <hs-dynamic-scroll-item ng-attr-param-test="test-param" ng-repeat="team in teams | filter: searchQuery ">
                     <div class="list-group-item" ng-click="teamSelected(team)">
                         <div class="row-action-primary">
                             <i ng-class="getTeamClass(team)"></i>
@@ -30,12 +31,12 @@
                         </div>
                     </div>
                     <div class="list-group-separator"></div>
-                </div>
+                </hs-dynamic-scroll-item>
             </div>
         </div>
     </div>
 </div>
-<div class="row" ng-hide="teams.length > 0">
+<div class="row" ng-hide="hasTeams">
     <div class="col-xs-12">
         <div class="no-content-panel" style="margin-top: 120px !important;">
             <i class="mdi-action-info-outline"></i>

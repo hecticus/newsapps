@@ -9,6 +9,7 @@ import models.basic.Country;
 import models.basic.Language;
 import models.clients.*;
 import models.content.athletes.Athlete;
+import models.content.posts.Category;
 import org.apache.commons.codec.binary.Base64;
 import play.libs.ws.WSResponse;
 import play.libs.F;
@@ -111,8 +112,7 @@ public class Clients extends HecticusController {
                             client.update();
                         }
                     }
-                    response = buildBasicResponse(0, "OK", client.toJson());
-                    return ok(response);
+                    return ok(buildBasicResponse(0, "OK", client.toJson()));
                 }
                 if (clientData.has("country") && clientData.has("language")) {
                     int countryId = clientData.get("country").asInt();
@@ -147,8 +147,7 @@ public class Clients extends HecticusController {
                             }
                         }
                         if (devices.isEmpty()) {
-                            response = buildBasicResponse(4, "Faltan campos para crear el registro");
-                            return ok(response);
+                            return badRequest(buildBasicResponse(4, "Faltan campos para crear el registro"));
                         }
                         client.setDevices(devices);
 
@@ -174,24 +173,40 @@ public class Clients extends HecticusController {
                                 client.setAthletes(athletes);
                             }
                         }
+
+                        if (clientData.has("categories")) {
+                            Iterator<JsonNode> categoriesIterator = clientData.get("categories").elements();
+                            ArrayList<ClientHasCategory> categories = new ArrayList<>();
+                            while (categoriesIterator.hasNext()) {
+                                JsonNode next = categoriesIterator.next();
+                                Category category = Category.getByID(next.asInt());
+                                if (category != null) {
+                                    ClientHasCategory clientHasCategory = new ClientHasCategory(client, category);
+                                    categories.add(clientHasCategory);
+                                }
+                            }
+                            if (!categories.isEmpty()) {
+                                client.setCategories(categories);
+                            }
+                        }
+
                         client.save();
-                        response = buildBasicResponse(0, "OK", client.toJson());
+                        return created(buildBasicResponse(0, "OK", client.toJson()));
                     } else {
-                        response = buildBasicResponse(3, "pais invalido");
+                        return notFound(buildBasicResponse(3, "pais invalido"));
                     }
                 } else {
-                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                    return badRequest(buildBasicResponse(2, "Faltan campos para crear el registro"));
                 }
             } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
-            return ok(response);
         } catch (UpstreamAuthenticationFailureException ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error creando client por autenticacion con params " + clientData, false, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error creando el registro", ex));
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error creando client con params " + clientData, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(-2, "ocurrio un error creando el registro", ex));
         }
     }
 
@@ -288,12 +303,12 @@ public class Clients extends HecticusController {
                         if(athlete == null){
                             continue;
                         }
-                        ClientHasAthlete clientHasAthlete = ClientHasAthlete.getByClientAthlete(client, athlete);
+                        ClientHasAthlete clientHasAthlete = client.getAthleteRelation(athlete);
                         if(clientHasAthlete != null){
                             client.getAthletes().remove(clientHasAthlete);
                             clientHasAthlete.delete();
+                            update = true;
                         }
-
                     }
                 }
 
@@ -301,14 +316,43 @@ public class Clients extends HecticusController {
                     Iterator<JsonNode> athletesIterator = clientData.get("add_athlete").elements();
                     while (athletesIterator.hasNext()) {
                         JsonNode next = athletesIterator.next();
-                        int index = client.getAthleteIndex(next.asInt());
-                        if (index == -1) {
-                            Athlete athlete = Athlete.getByID(next.asInt());
-                            if (athlete != null) {
-                                ClientHasAthlete chw = new ClientHasAthlete(client, athlete);
-                                client.getAthletes().add(chw);
-                                update = true;
-                            }
+                        Athlete athlete = Athlete.getByID(next.asInt());
+                        int index = client.getAthleteIndex(athlete);
+                        if (index == -1 && athlete != null) {
+                            ClientHasAthlete chw = new ClientHasAthlete(client, athlete);
+                            client.getAthletes().add(chw);
+                            update = true;
+                        }
+                    }
+                }
+
+                if(clientData.has("remove_category")){
+                    Iterator<JsonNode> categoriesIterator = clientData.get("remove_category").elements();
+                    while (categoriesIterator.hasNext()) {
+                        JsonNode next = categoriesIterator.next();
+                        Category category = Category.getByID(next.asInt());
+                        if(category == null){
+                            continue;
+                        }
+                        ClientHasCategory clientHasCategory = client.getCategoryRealtion(category);
+                        if(clientHasCategory != null){
+                            client.getCategories().remove(clientHasCategory);
+                            clientHasCategory.delete();
+                            update = true;
+                        }
+                    }
+                }
+
+                if(clientData.has("add_category")) {
+                    Iterator<JsonNode> categoriesIterator = clientData.get("add_category").elements();
+                    while (categoriesIterator.hasNext()) {
+                        JsonNode next = categoriesIterator.next();
+                        Category category = Category.getByID(next.asInt());
+                        int index = client.getCategoryIndex(category);
+                        if (index == -1 && category != null) {
+                            ClientHasCategory clientHasCategory = new ClientHasCategory(client, category);
+                            client.getCategories().add(clientHasCategory);
+                            update = true;
                         }
                     }
                 }
@@ -331,11 +375,10 @@ public class Clients extends HecticusController {
                 if(update){
                     client.update();
                 }
-                response = buildBasicResponse(0, "OK", client.toJson());
+                return ok(buildBasicResponse(0, "OK", client.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                return notFound(buildBasicResponse(2, "no existe el registro a eliminar"));
             }
-            return ok(response);
 //        } catch (InvalidLoginException ex) {
 //            Utils.printToLog(Clients.class, "Error manejando clients", "Login invalido " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
 //            return Results.badRequest(buildBasicResponse(4, "ocurrio un error actualizando el registro", ex));
@@ -348,10 +391,10 @@ public class Clients extends HecticusController {
 
         } catch (UpstreamAuthenticationFailureException ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error actualizando client por autenticacion con params " + clientData, false, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error actualizando el registro", ex));
+            return internalServerError(buildBasicResponse(2, "ocurrio un error actualizando el registro", ex));
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error actualizando el client " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
+            return internalServerError(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
         }
     }
 
@@ -368,7 +411,7 @@ public class Clients extends HecticusController {
             return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error eliminando el client " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
+            return internalServerError(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
         }
     }
 

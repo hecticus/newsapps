@@ -73,14 +73,12 @@ angular
                 var url = '';
 
                 if(Client.getClientId()){
-                    url = Domain.client.update(Client.getClientId());
+                    url = Domain.client.update();
                     jData.add_devices = devices;
-                    isNewClient = false;
                 } else {
                     url = Domain.client.create;
                     jData.devices = devices;
                     if(subscribe){ jData.subscribe = true; }
-                    isNewClient = true;
                 }
 
                 $http({
@@ -89,33 +87,33 @@ angular
                     data: jData,
                     timeout : 60000
                 })
-                    .success(function(data) {
-                        if(typeof data == "string"){
-                            data = JSON.parse(data);
-                        }
-                        var errorCode = data.error;
-                        var response = data.response;
-                        if(errorCode == 0 && response != null){
-                            var isActive = Client.isActiveClient(response.status);
-                            TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
-                            if(Client.updateClient(response)){
-                                console.log('saveClient: true');
-                                typeof successCallback == "function" && successCallback(isNewClient);
-                            }else{
-                                console.log('saveClient: false');
-                                typeof errorCallback == "function" && errorCallback();
-                            }
+                .then(function(data, status) {
+//                    console.log('status: ');
+//                    console.log(data.status);
+                    isNewClient = (data.status === 201);
+                    data = data.data;
+//                    console.log('data: ');
+//                    console.log(data);
+
+                    var errorCode = data.error;
+                    var response = data.response;
+                    if(errorCode == 0 && response != null){
+                        TeamsManager.setFavoriteTeams(response.push_alerts_teams);
+                        if(Client.updateClient(response)){
+                            typeof successCallback == "function" && successCallback(isNewClient);
                         }else{
-                            console.log("Error guardando cliente: " + data.description);
                             typeof errorCallback == "function" && errorCallback();
                         }
-                    })
-                    .error(function(data, status) {
-                        console.log("createClient. Error creating client. status: " + status);
-                        console.log("createClient. Error creating client. data: " + data);
-                        console.log(data);
+                    }else{
+                        console.log("Error guardando cliente: " + data.description);
                         typeof errorCallback == "function" && errorCallback();
-                    });
+                    }
+                }, function(data) {
+                    console.log("createClient. Error creating client. status: " + data.status);
+                    console.log("createClient. Error creating client. data: " + data.data);
+                    console.log(data.data);
+                    typeof errorCallback == "function" && errorCallback();
+                });
 
             }
 
@@ -138,7 +136,7 @@ angular
                         var response = data.response;
                         if(errorCode == 0 && response != null){
                             var isActive = Client.isActiveClient(response.status);
-                            TeamsManager.setFavoriteTeamsFromServer(response.push_alerts_teams);
+                            TeamsManager.setFavoriteTeams(response.push_alerts_teams);
                             if(Client.updateClient(response, null)){
                                 typeof successCallback == "function"
                                 && successCallback(isActive, response.status);

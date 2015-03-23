@@ -2,15 +2,18 @@ package models.content.posts;
 
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
 import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
+import models.clients.Client;
 import models.content.athletes.Athlete;
 import models.content.athletes.SocialNetwork;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.Utils;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -95,6 +98,31 @@ public class Post extends HecticusModel {
 
     public List<PostHasAthlete> getAthletes() {
         return athletes;
+    }
+
+    public List<Athlete> getRealAthletes() {
+        ArrayList<Athlete> toReturn = new ArrayList<>();
+        for(PostHasAthlete postHasAthlete : athletes){
+            toReturn.add(postHasAthlete.getAthlete());
+        }
+        return toReturn;
+    }
+
+    public List<Category> getPushableCategories() {
+        Predicate<PostHasCategory> validObjs = new Predicate<PostHasCategory>() {
+            public boolean apply(PostHasCategory obj) {
+                return obj.getCategory().getFollowable();
+            }
+        };
+        List<PostHasCategory> postHasCategories = (List<PostHasCategory>) Utils.filterCollection(categories, validObjs);
+        if(postHasCategories != null && !postHasCategories.isEmpty()) {
+            ArrayList<Category> toReturn = new ArrayList<>();
+            for (PostHasCategory postHasCategory : postHasCategories) {
+                toReturn.add(postHasCategory.getCategory());
+            }
+            return  toReturn;
+        }
+        return null;
     }
 
     public void setAthletes(List<PostHasAthlete> athletes) {
@@ -423,5 +451,9 @@ public class Post extends HecticusModel {
     public List<Post> relatedByCategory(List<Category> category, Country country, Language language){
         int maxRelated = 3;
         return finder.fetch("countries").fetch("localizations").fetch("categories").where().ne("idPost",this.idPost).in("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
+    }
+
+    public static List<Post> getPostsToPush(){
+        return finder.where().eq("push", 1).lt("pushDate", System.currentTimeMillis()).findList();
     }
 }
