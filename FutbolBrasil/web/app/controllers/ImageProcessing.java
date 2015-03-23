@@ -6,7 +6,6 @@ import models.basic.LocalResource;
 import play.mvc.Result;
 import utils.ImageManager;
 import utils.Utils;
-import views.html.index;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,11 +16,9 @@ import java.io.File;
  */
 public class ImageProcessing extends HecticusController {
 
-    private static final String FILE_LOCATION = "/home/footballbrazil/files/imageManager/";
-
     public static Result getLocalResourceBySize(String file, String size){
         try {
-            //String fileLocation = "/";
+            String localFileLocation = Config.getString("image-processing-location");
             //low, med, high,
             int percentage = 0;
             if (size.equalsIgnoreCase("low")){
@@ -40,7 +37,7 @@ public class ImageProcessing extends HecticusController {
             if (inDb == null) {
                 //generate new file
                 int height = 0; //its gonna be calculated by aspect ratio
-                File brandNewImage = ImageManager.resizeImageFromHDD(FILE_LOCATION + file, percentage);
+                File brandNewImage = ImageManager.resizeImageFromHDD(localFileLocation + file, percentage);
                 BufferedImage modImage = ImageIO.read(brandNewImage);
 
                 //upload and insert in cloud
@@ -74,13 +71,15 @@ public class ImageProcessing extends HecticusController {
     }
 
     public static Result getLocalResourceByWidth(String file, Integer width){
+        String localFileLocation = "";
         try {
             //get params
             LocalResource inDb = LocalResource.getByNameW(file, width);
+            localFileLocation = Config.getString("image-processing-location");
             if (inDb == null) {
                 //generate new file
                 int height = 0; //its gonna be calculated by aspect ratio
-                File brandNewImage = ImageManager.resizeImageFromHDD(FILE_LOCATION + file, width, height,
+                File brandNewImage = ImageManager.resizeImageFromHDD(localFileLocation + file, width, height,
                         ImageManager.IMGRESIZE_KEEPASPECT_WIDTH);
                 BufferedImage modImage = ImageIO.read(brandNewImage);
 
