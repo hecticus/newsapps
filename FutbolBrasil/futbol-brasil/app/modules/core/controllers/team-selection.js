@@ -121,7 +121,7 @@ angular
             };
 
             function setUpIScroll() {
-                scroll = iScroll.vertical('#wrapper');
+                scroll = iScroll.vertical('wrapper');
 
                 scroll.on('beforeScrollStart', function () {
                     this.refresh();
