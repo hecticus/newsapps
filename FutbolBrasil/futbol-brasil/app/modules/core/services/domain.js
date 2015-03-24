@@ -42,9 +42,9 @@ angular
                 client: {
                     create: brazil_football_manager_url + 'futbolbrasil/'
                         + apiVersion + '/clients/create',
-                    update: function (clientId) {
+                    update: function () {
                         return brazil_football_manager_url + 'futbolbrasil/'
-                            + apiVersion + '/clients/update/' + clientId;
+                            + apiVersion + '/clients/update/' + getClientId();
                     },
                     get: function (clientId, upstreamChannel) {
                         return brazil_football_manager_url + 'futbolbrasil/'

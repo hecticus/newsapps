@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import javax.imageio.ImageIO;
 
+import models.basic.Config;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -22,7 +23,7 @@ import org.apache.commons.io.FileUtils;
 * @author chrirod
 */
 public class ImageManager {
-    public static final String imageDir = "files/imageManager/";
+    public static String imageDir = "/home/footballbrazil/files/imageManager/";
 
     public static final int IMGRESIZE_EXACT = 0;
     public static final int IMGRESIZE_KEEPASPECT_WIDTH = 1;
@@ -45,6 +46,7 @@ public class ImageManager {
     public static File resizeImage(String url, String fileRoute, int maxWidth, int maxHeight, int scaleType) throws IOException, URISyntaxException{
         //File f = new File(new URI("file:///Users/chrirod/Desktop/original.jpg"));
         //FileUtils.copyURLToFile(new URL("http://imagenes.tvn-2.com/noticias_img/133397.jpg"), f);
+        imageDir = Config.getString("image-processing-location");
         String fileName = url.substring(url.lastIndexOf("/")+1,url.lastIndexOf("."));
         String fileExt = url.substring(url.lastIndexOf("."));
         File f = new File(imageDir+fileRoute+fileName+fileExt);
@@ -94,6 +96,7 @@ public class ImageManager {
         url = url.replaceAll(" ", "%20");
         String fileName = url.substring(url.lastIndexOf("/")+1,url.lastIndexOf("."));
         String fileExt = url.substring(url.lastIndexOf("."));
+        imageDir = Config.getString("image-processing-location");
         File f = new File(imageDir+fileRoute+fileName+fileExt);
         FileUtils.copyURLToFile(new URL(url), f);
         BufferedImage originalImage = ImageIO.read(f);//change path to where file is located
@@ -176,6 +179,7 @@ public class ImageManager {
     }
 
     public static File resizeImageFromHDD(String fileRoute, int maxWidth, int maxHeight, int scaleType) throws IOException, URISyntaxException {
+        imageDir = Config.getString("image-processing-location");
         String fileName = fileRoute.substring(fileRoute.lastIndexOf("/") + 1, fileRoute.lastIndexOf("."));
         String fileExt = fileRoute.substring(fileRoute.lastIndexOf("."));
         File f = new File(fileRoute);
@@ -183,13 +187,13 @@ public class ImageManager {
         int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 
         BufferedImage resizeImageJpg = resizeLocalImage(originalImage, type, maxWidth, maxHeight, scaleType);
-        File f2 = new File(imageDir + fileName + "_scale_"+maxWidth+ fileExt);
+        File f2 = new File(imageDir + fileName + "_scale_"+maxWidth+ ".jpg");
         ImageIO.write(resizeImageJpg, "jpg", f2); //change path where you want it saved
         return f2;
     }
 
     public static File resizeImageFromHDD(String fileRoute, int percentageVal) throws IOException, URISyntaxException {
-
+        imageDir = Config.getString("image-processing-location");
         String fileName = fileRoute.substring(fileRoute.lastIndexOf("/") + 1, fileRoute.lastIndexOf("."));
         String fileExt = fileRoute.substring(fileRoute.lastIndexOf("."));
         File f = new File(imageDir + fileName + fileExt);

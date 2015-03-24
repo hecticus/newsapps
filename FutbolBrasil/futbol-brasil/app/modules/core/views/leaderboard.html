@@ -19,17 +19,17 @@
                         <div class="row" style="margin-top:50px !important;">
                             <div class="col-xs-6" >
                                 <span class="btn btn-success btn-filter-{{$index}} disabled"
-                                      ng-class="{'disabled': isActive('competition')}"
-                                      ng-click="getCompetition()" translate>LEADERBOARD.TOURNAMENT</span>
+                                      ng-class="{'disabled': isActive('competition{{$index}}')}"
+                                      ng-click="showTournament()" translate>LEADERBOARD.TOURNAMENT</span>
                             </div>
                             <div class="col-xs-6" >
                                 <span class="btn btn-success btn-filter-{{$index}}"
-                                      ng-class="{'disabled': isActive('phase')}"
-                                      ng-click="getPhase()" translate>LEADERBOARD.PHASE</span>
+                                      ng-class="{'disabled': isActive('phase{{$index}}')}"
+                                      ng-click="showPhase()" translate>LEADERBOARD.PHASE</span>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" ng-show="hasLeaderboard">
                             <div id="{{vWrapper.getName($index)}}" class="wrapper"
                                  style="margin-top:100px !important;">
                                 <div class="scroller" style="position: relative;">
@@ -63,6 +63,15 @@
                                             </table>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-hide="hasLeaderboard">
+                            <div class="col-xs-12 news">
+                                <div class="no-content-panel" style="margin-top: 30px !important;">
+                                    <i class="mdi-action-info-outline"></i>
+                                    <div class="no-content-panel-title" translate>EMPTY_STATES.LEADERBOARD</div>
                                 </div>
                             </div>
                         </div>

@@ -98,7 +98,7 @@
     <div class="row row-header row-header-live">
         <div class="col-xs-12 text-center text-center-vertical">
             <span ng-bind="item.league.name" style="font-size: 1.2em; font-weight: bold;"></span>
-            <span class="section-refresh" ng-click="refreshEvents()">
+            <span class="section-refresh" ng-class="refreshIconClass" ng-click="refreshEvents()">
                 <i class="icon mdi-navigation-refresh"></i>
             </span>
         </div>

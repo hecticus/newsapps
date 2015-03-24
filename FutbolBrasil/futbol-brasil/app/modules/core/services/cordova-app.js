@@ -154,9 +154,12 @@ angular
                     e.preventDefault();
                 }, false);
 
-                if(typeof CustomEvent === 'function'){
-                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-                    document.dispatchEvent(event);
+//                if(typeof CustomEvent === 'function'){
+//                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
+//                    document.dispatchEvent(event);
+//                }
+                if(CordovaDevice.isWebPlatform()){
+                    initAllAppData();
                 }
             }
 

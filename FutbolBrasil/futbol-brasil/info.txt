@@ -1,27 +1,63 @@
 Node version: v0.10.33
 
-Cordova version: 4.1.2
+Cordova version: 4.2.0
 
 Config.xml file: 
 
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.hecticus.futbolbrasil" version="0.0.1"
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.hecticus.futbolbrasil" version="0.3"
         xmlns="http://www.w3.org/ns/widgets">
-    <name>FutbolBrasil</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event.
-    </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
-    </author>
+	<name>FutbolBrasil</name>
+	<description>
+		FutbolBrasil app.
+	</description>
+	<author email="contact@hecticus.com" href="http://www.hecticus.com">
+		Hecticus Software Inc
+	</author>
     <content src="index.html" />
     <access origin="*" />
+
+	<preference name="orientation" value="portrait" />
+	<preference name="fullscreen" value="true" />
+
+	<preference name="target-device" value="universal" />
+	<preference name="prerendered-icon" value="true" />
+
+	<preference name="android-minSdkVersion" value="10" />
+	<preference name="android-installLocation" value="auto" />
+	<preference name="splash-screen-duration" value="5000"/>
+
+	<preference name="AllowInlineMediaPlayback" value="false" />
+	<preference name="BackupWebStorage" value="cloud" />
+	<preference name="DisallowOverscroll" value="false" />
+	<preference name="EnableViewportScale" value="false" />
+	<preference name="KeyboardDisplayRequiresUserAction" value="true" />
+	<preference name="MediaPlaybackRequiresUserAction" value="false" />
+	<preference name="SuppressesIncrementalRendering" value="false" />
+	<preference name="TopActivityIndicator" value="gray" />
+	<preference name="GapBetweenPages" value="0" />
+	<preference name="PageLength" value="0" />
+	<preference name="PaginationBreakingMode" value="page" />
+	<preference name="PaginationMode" value="unpaginated" />
+	<preference name="permissions" value="none" />
+	<preference name="useBrowserHistory" value="true" />
+
+	<preference name="webviewbounce" value="true" />
+	<preference name="stay-in-webview" value="false" />
+	<preference name="ios-statusbarstyle" value="black-opaque" />
+	<preference name="detect-data-types" value="true" />
+	<preference name="exit-on-suspend" value="false" />
+	<preference name="show-splash-screen-spinner" value="true" />
+	<preference name="auto-hide-splash-screen" value="true" />
+	<preference name="disable-cursor" value="false" />
+	<preference name="load-url-timeout" value="100000" />
+
 </widget>
 
 
 Plugins: 
 
-org.apache.cordova.device,org.apache.cordova.dialogs,org.apache.cordova.network-information,org.apache.cordova.splashscreen
+com.danielcwilson.plugins.googleanalytics,com.hecticus.cordova.plugins.sharedconfigurations,com.phonegap.plugins.PushPlugin,com.phonegap.plugins.facebookconnect,com.plugin.datepicker,com.synconset.cordovaHTTP,com.xmartlabs.cordova.market,jp.wizcorp.phonegap.plugin.wizUtilsPlugin,nl.x-services.plugins.socialsharing,org.apache.cordova.console,org.apache.cordova.device,org.apache.cordova.dialogs,org.apache.cordova.file,org.apache.cordova.network-information,org.apache.cordova.splashscreen,org.apache.cordova.statusbar
 
 Android platform:
 
@@ -35,7 +71,15 @@ id: 1 or "android-8"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WVGA800 (default), WVGA854
  Tag/ABIs : default/armeabi
 ----------
-id: 2 or "android-15"
+id: 2 or "android-10"
+     Name: Android 2.3.3
+     Type: Platform
+     API level: 10
+     Revision: 2
+     Skins: HVGA, QVGA, WQVGA400, WQVGA432, WVGA800 (default), WVGA854
+ Tag/ABIs : default/armeabi, default/x86
+----------
+id: 3 or "android-15"
      Name: Android 4.0.3
      Type: Platform
      API level: 15
@@ -43,7 +87,15 @@ id: 2 or "android-15"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800
  Tag/ABIs : default/x86
 ----------
-id: 3 or "android-17"
+id: 4 or "android-16"
+     Name: Android 4.1.2
+     Type: Platform
+     API level: 16
+     Revision: 5
+     Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
+ Tag/ABIs : default/x86
+----------
+id: 5 or "android-17"
      Name: Android 4.2.2
      Type: Platform
      API level: 17
@@ -51,7 +103,7 @@ id: 3 or "android-17"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
  Tag/ABIs : default/x86
 ----------
-id: 4 or "android-19"
+id: 6 or "android-19"
      Name: Android 4.4.2
      Type: Platform
      API level: 19
@@ -59,7 +111,7 @@ id: 4 or "android-19"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
  Tag/ABIs : default/x86
 ----------
-id: 5 or "android-21"
+id: 7 or "android-21"
      Name: Android 5.0.1
      Type: Platform
      API level: 21
@@ -67,7 +119,7 @@ id: 5 or "android-21"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
  Tag/ABIs : default/x86
 ----------
-id: 6 or "Google Inc.:Google APIs:8"
+id: 8 or "Google Inc.:Google APIs:8"
      Name: Google APIs
      Type: Add-On
      Vendor: Google Inc.
@@ -80,7 +132,7 @@ id: 6 or "Google Inc.:Google APIs:8"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WVGA800 (default), WVGA854
  Tag/ABIs : default/armeabi
 ----------
-id: 7 or "Google Inc.:Google APIs:15"
+id: 9 or "Google Inc.:Google APIs:15"
      Name: Google APIs
      Type: Add-On
      Vendor: Google Inc.
@@ -97,7 +149,7 @@ id: 7 or "Google Inc.:Google APIs:15"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800
  Tag/ABIs : default/armeabi-v7a
 ----------
-id: 8 or "Google Inc.:Google APIs:17"
+id: 10 or "Google Inc.:Google APIs:17"
      Name: Google APIs
      Type: Add-On
      Vendor: Google Inc.
@@ -114,7 +166,7 @@ id: 8 or "Google Inc.:Google APIs:17"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
  Tag/ABIs : default/armeabi-v7a
 ----------
-id: 9 or "Google Inc.:Google APIs:19"
+id: 11 or "Google Inc.:Google APIs:19"
      Name: Google APIs
      Type: Add-On
      Vendor: Google Inc.
@@ -131,7 +183,7 @@ id: 9 or "Google Inc.:Google APIs:19"
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
  Tag/ABIs : default/armeabi-v7a
 ----------
-id: 10 or "Google Inc.:Google APIs:21"
+id: 12 or "Google Inc.:Google APIs:21"
      Name: Google APIs
      Type: Add-On
      Vendor: Google Inc.
@@ -147,4 +199,6 @@ id: 10 or "Google Inc.:Google APIs:21"
           API for Google Maps
      Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
  Tag/ABIs : google_apis/x86
+
+Error retrieving iOS platform information: Error: xcodebuild: Command failed with exit code ENOENT
 

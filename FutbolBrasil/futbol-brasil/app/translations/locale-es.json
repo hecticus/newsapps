@@ -60,10 +60,17 @@
         "LIVE" : "No hay juegos programados para hoy",
         "NEWS" : "No hay noticias disponibles",
         "POINTS" : "Usted no tiene información de puntos disponible",
+        "LEADERBOARD" : "No hay información disponible para esta clasificación",
+        "PREDICTIONS" : "No hay información disponible para este torneo",
         "MATCH" : "No hay juegos programados para este día",
         "SCORERS" : "No hay goleadores para este torneo",
         "TEAMS" : "No se pudieron obtener los equipos",
-        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles"
+        "LANGUAGES" : "No se pudieron obtener los lenguajes disponibles",
+        "STANDINGS" : {
+            "NO_COMPETITIONS" : "No se pudieron obtener las Competiciones",
+            "NO_PHASES" : "No se pudieron obtener las Fases",
+            "NO_RANKINGS" : "No se pudieron obtener las Clasificaciones"
+        }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Contraseña",
