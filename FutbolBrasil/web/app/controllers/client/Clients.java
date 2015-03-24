@@ -157,12 +157,13 @@ public class Clients extends HecticusController {
                                 }
                             }
                         }
+//                        Esto lo comente porque desde WAP no hay Reg ID
+//                        if (devices.isEmpty()) {
+//                            return badRequest(buildBasicResponse(4, "Faltan campos para crear el registro"));
+//                        }
+                        client.setDevices(devices);
                     }
-//                    Esto lo comente porque desde WAP no hay Reg ID
-//                    if (devices.isEmpty()) {
-//                        return badRequest(buildBasicResponse(4, "Faltan campos para crear el registro"));
-//                    }
-                    client.setDevices(devices);
+
 
                     if (client.getPassword() != null && !client.getPassword().isEmpty()) {
                         getUserIdFromUpstream(client, upstreamChannel);
