@@ -8,35 +8,41 @@
 */
 angular
     .module('core')
-    .controller('TeamSelectionController', ['$scope', '$rootScope', '$state', 'ClientManager',
-        'TeamsManager', 'iScroll',
-        function($scope, $rootScope, $state, ClientManager, TeamsManager, iScroll) {
-
+    .controller('TeamSelectionController', ['$scope', '$state', 'TeamsManager', 'iScroll',
+        function($scope, $state, TeamsManager, iScroll) {
             var scroll = null;
             var teams = [];
-            var halfMaxItems = $scope.maxVisibleItems/2;
-            var page = {
-                'first' : 0,
-                'last' : 0
-            };
+            var maxItems = 10;
+            var page = {};
+            var isDirtySearchQuery = false;
+
             $scope.teams = [];
             $scope.searchQuery = '';
             $scope.hasTeams = true;
-            $scope.maxVisibleItems = 10;
+            $scope.hasNext = true;
+            $scope.hasPrev = false;
+            $scope.teamSelected = teamSelected;
+            $scope.getTeamClass = getTeamClass;
+            $scope.showPrevPage = showPrevPage;
+            $scope.showNextPage = showNextPage;
 
-            $scope.teamSelected = function(team){
+            init();
+
+            //////////////////////////////////////////////////////////////
+
+            function teamSelected(team){
                 TeamsManager.addFavoriteTeam(team, function(){
                     $state.go('settings');
                 });
-            };
+            }
 
-            $scope.getTeamClass = function(team){
+            function getTeamClass(team){
                 if(team.selected){
                     return 'mdi-action-favorite mdi-material-lime';
                 }else{
                     return 'mdi-action-favorite-outline';
                 }
-            };
+            }
 
             function processTeams(teams){
                 teams.sort(function(teamA, teamB){
@@ -72,13 +78,13 @@ angular
                     $scope.hasTeams = true;
                     processTeams(pTeams);
                     teams = pTeams;
-                    $scope.teams = teams.slice();
+                    $scope.teams = teams.slice(page.first, page.last);
                     getFavTeams();
                     $scope.$emit('unload');
                 }, function(){
+                    $scope.hasTeams = false;
                     teams = [];
                     $scope.teams = teams;
-                    $scope.hasTeams = false;
                     $scope.$emit('unload');
                 });
             }
@@ -93,32 +99,50 @@ angular
                 });
             }
 
-            $scope.onScrollUp = function(){
-//                if(!$scope.searchQuery && page.first !== 0 && (page.first - halfMaxItems) > 0){
-//                    console.log('onScrollUp. Loading more teams');
-//                    var original = $scope.teams;
-//                    original = original.slice(original.length - 1, halfMaxItems);
-//                    var start = page.first - halfMaxItems;
-//                    var toPrepend = teams.slice(start, halfMaxItems);
-//                    $scope.teams = toPrepend.concat(original);
-//                }
-            };
+            function showPrevPage(){
+                if(!$scope.searchQuery){
+                    var start = page.first - maxItems;
+                    if(start < 0){
+                        start = 0;
+                    }
 
-            $scope.onScrollDown = function(){
-//                if(!$scope.searchQuery && (page.last + halfMaxItems) < (teams.length -1)){
-//                    console.log('onScrollDown. Loading more teams');
-//                    var original = $scope.teams;
-//                    original = original.slice(page.first, halfMaxItems);
-//                    var toAppend = teams.slice(page.last, halfMaxItems);
-//                    console.log('original: [' + page.first + '-' + (page.first + halfMaxItems) + ']');
-//                    console.log(original);
-//                    console.log('toAppend: [' + page.last + '-' + (page.last + halfMaxItems) + ']');
-//                    console.log(toAppend);
-//                    $scope.teams = original.concat(toAppend);
-//                    page.last = $scope.teams.length -1;
-//                    page.first += halfMaxItems;
-//                }
-            };
+                    var end = page.first - 1;
+                    if(end < 0){
+                        end = ((teams.length - 1) < (start + maxItems))? start + maxItems: teams.length - 1;
+                    }
+
+                    updateVisibleTeams(start, end);
+                }
+            }
+
+            function showNextPage(){
+                if(!$scope.searchQuery){
+                    var start = page.first + maxItems;
+                    if(start > teams.length){
+                        start = teams.length - (1 + maxItems);
+                    }
+
+                    console.log('page.last: ' + page.last);
+                    var end = page.last + maxItems;
+                    if(end >= teams.length){
+                        end = teams.length === 0 ? 0 : teams.length - 1;
+                    }
+
+                    updateVisibleTeams(start, end);
+                }
+            }
+
+            function updateVisibleTeams(start, end){
+                if(start !== page.first && end !== page.last){
+                    console.log('updateVisibleTeams. Loading more teams. [' + start + ', ' + end +']');
+                    $scope.teams = teams.slice(start, end);
+                    page.first = start;
+                    page.last = end;
+
+                    $scope.hasPrev = page.first > 0;
+                    $scope.hasNext = page.last  < (teams.length - 1);
+                }
+            }
 
             function setUpIScroll() {
                 scroll = iScroll.vertical('wrapper');
@@ -136,17 +160,33 @@ angular
             function init(){
                 $scope.$emit('load');
                 $scope.hasTeams = true;
+                $scope.hasNext = true;
+                $scope.hasPrev = false;
+                page.first = 0;
+                page.last = maxItems;
                 setUpIScroll();
                 getTeams();
 
                 $scope.$watch('searchQuery', function(newValue, oldValue){
-                    if(newValue){
-                        console.log('searchQuery changed. initializing teams again.');
-                        $scope.teams = teams;
-                        page.first = 0;
-                        page.last = teams.length -1;
+
+                    if(newValue !== oldValue){
+                        if(newValue !== '' && !isDirtySearchQuery){
+                            console.log('searchQuery changed. initializing teams again.');
+                            isDirtySearchQuery = true;
+                            $scope.teams = teams;
+                            page.first = 0;
+                            page.last = teams.length -1;
+                        }
+
+                        if(newValue === ''){
+                            console.log('searchQuery empty. initializing teams again.');
+                            isDirtySearchQuery = false;
+                            page.first = 0;
+                            page.last = maxItems;
+                            $scope.teams = teams.slice(page.first, page.last);
+                        }
                     }
                 });
-            } init();
+            }
         }
 ]);

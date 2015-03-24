@@ -33,7 +33,8 @@ angular
                         isDone = data.response.teams.length < pageSize;
                         remoteTeams = remoteTeams.concat(data.response.teams);
                         if(isDone){
-                            return saveTeams(remoteTeams);
+                            saveTeams(remoteTeams);
+                            return teams;
                         } else {
                             return getTeamsFromServer(isDone);
                         }
@@ -48,22 +49,21 @@ angular
                 );
             }
 
-            function saveTeams(remoteTeams){
-                $localStorage[KEY_TEAMS_LIST] = JSON.stringify(remoteTeams);
-                teams = remoteTeams.slice();
+            function saveTeams(sTeams){
+                $localStorage[KEY_TEAMS_LIST] = JSON.stringify(sTeams);
+                teams = sTeams.slice();
                 return teams;
             }
 
             function loadTeams(){
                 if($localStorage[KEY_TEAMS_LIST]){
                     teams = JSON.parse($localStorage[KEY_TEAMS_LIST]);
+                    return true;
                 } else {
                     console.log('loadTeams. No records found for teams.');
                     teams = [];
+                    return false;
                 }
-                getTeams().then(function(teams){
-                    saveTeams(teams);
-                });
             }
 
             function setFavoriteTeams(pushAlerts){
@@ -99,8 +99,6 @@ angular
                     console.log('loadFavoriteTeams. No records found for favorite teams.');
                     favTeams = [];
                 }
-
-                setFavoriteTeams();
 
                 if(favTeams.length > 0){
                     Client.setHasFavorites(true);
@@ -178,12 +176,15 @@ angular
 
             function getTeams(offset, pageSize) {
                 if(!offset){ offset = 0; }
-                if(!pageSize){ pageSize = 100; }
+                if(!pageSize){ pageSize = 200; }
 
                 if(teams && teams.length > 0){
                     var deferred = $q.defer();
                     deferred.notify();
-                    deferred.resolve(teams.slice(offset, offset+pageSize-1));
+                    console.log('teams on localStorage');
+                    var end = offset+pageSize;
+                    end = end >= teams.length? teams.length : end;
+                    deferred.resolve(teams.slice(offset, end));
                     return deferred.promise;
                 } else {
                     console.log('getTeams. No teams. Trying to get teams from server.');
@@ -194,8 +195,11 @@ angular
                     }, function(){
                         teams = [];
                         return $q.reject(teams);
-                    }).then(function(teams){
-                        return teams.slice(offset, offset+pageSize-1);
+                    }).then(function(pTeams){
+                        var end = offset+pageSize;
+                        console.log('pTeams from server');
+                        end = end >= pTeams.length? pTeams.length : end;
+                        return pTeams.slice(offset, end);
                     });
                 }
             }

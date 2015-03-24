@@ -8,78 +8,50 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage'
-        , '$timeout', '$window', '$translate', 'Client', 'CordovaApp', 'SocialAppsManager'
-        , function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
-                   Client, CordovaApp, SocialAppsManager) {
+    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage',
+        '$timeout', '$window', '$translate', 'Client', 'CordovaApp', 'SocialAppsManager',
+        function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
+               Client, CordovaApp, SocialAppsManager) {
 
             $rootScope.$storage = $localStorage;
-            $scope.updateInfo = {};
-            $scope.displayInfo = {};
+            $rootScope.hasFavorites = false;
+            $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
+            $rootScope.showMenu = showMenu;
+            $rootScope.hideMenu = hideMenu;
+            $rootScope.onMenuButtonPressed = onMenuButtonPressed;
+            $rootScope.showSection = showSection;
+            $rootScope.transitionPage = transitionPage;
+            $rootScope.transitionPageBack = transitionPageBack;
+            $rootScope.nextPage = nextPage;
+            $rootScope.prevPage = prevPage;
 
             $scope.toggles = {
                 favorites: true
             };
-
             $scope.strings = {};
-
-            $scope.isGuest = function(){
-                return Client.isGuest();
-            };
-
-            $rootScope.isFavoritesFilterActive = function(){
-                return $scope.toggles.favorites;
-            };
-
-            $rootScope.hasFavorites = false;
-
-            $scope.getFavoritesClass = function(){
-                if($scope.toggles.favorites){
-                    return 'mdi-action-favorite';
-                } else {
-                    return 'mdi-action-favorite-outline';
-                }
-            };
-
-            $scope.toggleFavorites = function(){
-                $scope.toggles.favorites =! $scope.toggles.favorites;
-                Client.enableFavoritesFilter($scope.toggles.favorites);
-                $state.reload();
-            };
-
-            $scope.$on('load', function(){
-                $scope.loading = true;
-                $scope.error = false;
-            });
-
-            $scope.$on('unload', function(){
-                    $timeout(function(){
-                        $scope.loading = false;
-                    }, 200);
-                }
-            );
-            $scope.$on('error', function(){
-                    $scope.error = true;
-                    $scope.loading = false;
-                }
-            );
-
+            $scope.updateInfo = {};
+            $scope.displayInfo = {};
+            $scope.getFavoritesClass = getFavoritesClass;
+            $scope.toggleFavorites = toggleFavorites;
             $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
+            $scope.getSection = getSection;
+            $scope.isGuest = isGuest;
+            $scope.getDrawerIcon = getDrawerIcon;
+            $scope.goToStore = goToStore;
 
-            $scope.getSection = function (){
-                return CordovaApp.getCurrentSection();
-            };
+            $scope.showShareModal = showShareModal;
+            $scope.twitterShare = twitterShare;
+            $scope.fbShare = fbShare;
 
-            $scope.getDrawerIcon = function(){
-                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
-                    return 'icon mdi-navigation-arrow-back ';
-                } else {
-                    return 'icon mdi-navigation-menu';
-                }
-            };
+            init();
 
-            $rootScope.showMenu = function() {
+            ////////////// Root Scope //////////////////////////
+
+            function isFavoritesFilterActive(){
+                return $scope.toggles.favorites;
+            }
+
+            function showMenu() {
                 if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
                     $window.addEventListener('touchmove', function(){
                         $scope.hideMenu();
@@ -87,15 +59,15 @@ angular
                     });
                     $rootScope.transitionPage('#wrapperM', 'right');
                 }
-            };
+            }
 
-            $rootScope.hideMenu = function() {
+            function hideMenu() {
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
                 }
-            };
+            }
 
-            $rootScope.onMenuButtonPressed = function(){
+            function onMenuButtonPressed(){
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
@@ -105,35 +77,66 @@ angular
                 } else if (menuWrapper.hasClass('right')) {
                     $scope.hideMenu();
                 }
-            };
+            }
 
-            $rootScope.showSection = function(_section) {
-//                $timeout(function() {
+            function showSection(_section) {
                 if ($('#wrapperM').hasClass('right')) {
                     $scope.hideMenu();
                 }
                 $state.go(_section);
-//                },300);
-            };
+            }
 
-            $rootScope.transitionPage = function(_wrapper, _direction, _class) {
+            function transitionPage(_wrapper, _direction, _class) {
                 if (!_class) _class = '';
                 angular.element(_wrapper).attr('class', _class + ' page transition ' + _direction);
-            };
+            }
 
-            $rootScope.transitionPageBack = function(_wrapper, _direction) {
+            function transitionPageBack(_wrapper, _direction) {
                 $rootScope.transitionPage(_wrapper, _direction, 'back')
-            };
+            }
 
-            $rootScope.nextPage = function() {
+            function nextPage() {
                 $scope.hideMenu();
-            };
+            }
 
-            $rootScope.prevPage = function() {
+            function prevPage() {
                 $scope.hideMenu();
-            };
+            }
 
-            $scope.goToStore = function(){
+            ////////////// Scope //////////////////////////
+
+            function isGuest(){
+                return Client.isGuest();
+            }
+
+            function getFavoritesClass(){
+                if($scope.toggles.favorites){
+                    return 'mdi-action-favorite';
+                } else {
+                    return 'mdi-action-favorite-outline';
+                }
+            }
+
+            function toggleFavorites(){
+                $scope.toggles.favorites =! $scope.toggles.favorites;
+                Client.enableFavoritesFilter($scope.toggles.favorites);
+                $state.reload();
+            }
+
+            function getSection(){
+                return CordovaApp.getCurrentSection();
+            }
+
+            function getDrawerIcon(){
+                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
+                    return 'icon mdi-navigation-arrow-back ';
+                } else {
+                    return 'icon mdi-navigation-menu';
+                }
+            }
+
+            function goToStore(){
                 if($window.cordova && $window.cordova.plugins && $window.cordova.plugins.market) {
                     $window.cordova.plugins.market.open($scope.updateInfo.download, {
                         success: function() {
@@ -146,9 +149,9 @@ angular
                 } else {
                     console.log('$window.cordova.plugins.market Object not available. Are you directly on a browser?');
                 }
-            };
+            }
 
-            $scope.showShareModal = function(message, subject){
+            function showShareModal(message, subject){
                 $scope.share = {
                     message: message,
                     subject: subject
@@ -159,15 +162,15 @@ angular
                     keyboard: false,
                     show: false})
                     .modal('show');
-            };
+            }
 
-            $scope.fbShare = function(){
+            function fbShare(){
                 SocialAppsManager.fbShare($scope.share.message, $scope.share.subject);
-            };
+            }
 
-            $scope.twitterShare = function(){
+            function twitterShare(){
                 SocialAppsManager.twitterShare($scope.share.message, $scope.share.subject);
-            };
+            }
 
             /**
              * Function that gets and updates the app's common usage Strings
@@ -185,10 +188,29 @@ angular
                 $scope.$watch('Client.getHasFavorites()', function(){
                     $rootScope.hasFavorites = Client.getHasFavorites();
                 });
+
                 getTranslations();
+
                 $rootScope.$on('$translateChangeSuccess', function () {
                     getTranslations();
                 });
-            }init();
+
+                $scope.$on('load', function(){
+                    $scope.loading = true;
+                    $scope.error = false;
+                });
+
+                $scope.$on('unload', function(){
+                        $timeout(function(){
+                            $scope.loading = false;
+                        }, 200);
+                    }
+                );
+                $scope.$on('error', function(){
+                        $scope.error = true;
+                        $scope.loading = false;
+                    }
+                );
+            }
         }
     ]);

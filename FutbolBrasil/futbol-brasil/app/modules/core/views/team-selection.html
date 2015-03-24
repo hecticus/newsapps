@@ -20,22 +20,31 @@
     <div id="wrapper" class="search-list-wrapper">
         <div class="scroller">
             <div class="list-group">
-                <!--| limitTo: maxVisibleItems-->
-                <hs-dynamic-scroll-item ng-attr-param-test="test-param" ng-repeat="team in teams | filter: searchQuery ">
-                    <div class="list-group-item" ng-click="teamSelected(team)">
-                        <div class="row-action-primary">
-                            <i ng-class="getTeamClass(team)"></i>
-                        </div>
-                        <div class="row-content">
-                            <h6 class="list-group-item-heading" ng-bind="team.name"></h6>
-                        </div>
+                <div class="list-group-item" ng-click="teamSelected(team)"
+                     ng-repeat="team in teams | filter: searchQuery">
+                    <div class="row-action-primary">
+                        <i ng-class="getTeamClass(team)"></i>
                     </div>
-                    <div class="list-group-separator"></div>
-                </hs-dynamic-scroll-item>
+                    <div class="row-content">
+                        <h6 class="list-group-item-heading" ng-bind="team.name"></h6>
+                    </div>
+                </div>
+                <div class="list-group-separator"></div>
             </div>
         </div>
     </div>
 </div>
+
+<!--TODO i18n-alizar-->
+<ul class="pager search-list-pager">
+    <li class="previous" ng-class="{'disabled' : !hasPrev }" ng-click="showPrevPage()">
+        <span>Previous</span>
+    </li>
+    <li class="next" ng-class="{'disabled' : !hasNext }" ng-click="showNextPage()">
+        <span>Next</span>
+    </li>
+</ul>
+
 <div class="row" ng-hide="hasTeams">
     <div class="col-xs-12">
         <div class="no-content-panel" style="margin-top: 120px !important;">
