@@ -11,7 +11,7 @@ angular
         function($window) {
 
             function init(){
-                console.log('Analytics.init: ' + !!$window.analytics);
+//                console.log('Analytics.init: ' + !!$window.analytics);
                 if(!!$window.analytics) {
                     $window.analytics.startTrackerWithId('UA-60801639-1');
                 } else {

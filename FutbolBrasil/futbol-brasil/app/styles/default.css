@@ -696,6 +696,17 @@ body.content-mtm .row-back {
     padding-bottom: 8px !important;
 }
 
+.search-list-pager {
+    position: absolute;
+    z-index: 2;
+    top: 84%;
+    width: 90%;
+}
+
+.search-list-pager li span {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+}
+
 /*Settings*/
 
 .settings-wrapper {
