@@ -259,3 +259,8 @@ POST    /accounts/merge                                                         
 GET     /login/password/forgot                                                          controllers.Signup.forgotPassword(email: String ?= "")
 POST    /login/password/forgot                                                          controllers.Signup.doForgotPassword
 
+#Wistia
+POST    /wistia/video                                                                   controllers.Wistia.upload
+GET     /wistia/video                                                                   controllers.Wistia.list
+GET     /wistia/video/:id                                                               controllers.Wistia.get(id : String)
+DELETE  /wistia/video/:id                                                               controllers.Wistia.delete(id : String)

@@ -208,7 +208,7 @@ public class Global  extends GlobalSettings {
             F.Promise<Result> result = this.delegate.call(ctx);
             Http.Response response = ctx.response();
             response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, HECTICUS-X-AUTH-TOKEN");
+            response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, HECTICUS-X-AUTH-TOKEN, x-gameapi-app-key");
             return result;
         }
     }

@@ -35,7 +35,9 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-contrib" % "2.3.3",
   "com.typesafe.akka" %% "akka-remote" % "2.3.4",
   "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
-  "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT"
+  "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
+  "org.apache.httpcomponents" % "httpclient" % "4.3.6",
+  "org.apache.httpcomponents" % "httpmime" % "4.3.6"
 )
 
 resolvers ++= Seq(

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import controllers.HecticusController;
+import controllers.Wistia;
 import controllers.content.athletes.Athletes;
 import models.basic.Config;
 import models.basic.Country;
@@ -13,7 +14,9 @@ import models.content.posts.Category;
 import models.content.posts.*;
 import models.content.athletes.SocialNetwork;
 import models.content.athletes.Athlete;
+import play.data.Form;
 import play.libs.Json;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.Utils;
@@ -31,168 +34,66 @@ import static play.data.Form.form;
  */
 public class Posts extends HecticusController {
 
-//    public static Result test() {
-//        Map<String, Object> postData = getJsonWithFiles();
-//
-//        ObjectNode postJson = (ObjectNode) postData.get("json");
-//        ArrayList<File> files = (ArrayList<File>) postData.get("files");
-//        for(File file : files){
-//            System.out.println(file.getAbsolutePath());
-//        }
-//
-//        System.out.println(postJson);
-//
-//
-//        return ok();
-//    }
-
-
+    final static Form<Post> PostAPIForm = form(Post.class);
 
     public static Result create() {
-        ObjectNode postData = getJson();
         try{
-            ObjectNode response = null;
-            if(postData.has("athletes") && postData.has("localizations") && postData.has("countries")
-                    && postData.has("source") && postData.has("social_network")){
-
-
-                SocialNetwork socialNetwork = SocialNetwork.getByID(postData.get("social_network").asInt());
-                if(socialNetwork == null){
-                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
-                    return ok(response);
-                }
-
-                TimeZone tz = TimeZone.getDefault();
-                Calendar actualDate = new GregorianCalendar(tz);
-                SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmm");
-                String date = sf.format(actualDate.getTime());
-                Post post = new Post(date, postData.get("source").asText(), socialNetwork);
-
-                ArrayList<PostHasAthlete> athletes = new ArrayList<>();
-                Iterator<JsonNode> athletesIterator = postData.get("athletes").elements();
-                Athlete athlete = null;
-                PostHasAthlete postHasAthlete = null;
-                while (athletesIterator.hasNext()){
-                    JsonNode next = athletesIterator.next();
-                    if(next.isInt()){
-                        athlete = Athlete.getByID(next.asInt());
-
-                    } else {
-                        ObjectNode athleteData = (ObjectNode) next;
-                        if(athleteData.has("name")){
-                            athlete = Athletes.createAthlete(athleteData);
-                        }
-                    }
-                    if(athlete != null) {
-                        postHasAthlete = new PostHasAthlete(post, athlete);
-                        athletes.add(postHasAthlete);
-                    }
-                }
-
-                if(!athletes.isEmpty()){
-                    post.setAthletes(athletes);
-                }
-
-
-                Iterator<JsonNode> localizationsIterator = postData.get("localizations").elements();
-                ArrayList<PostHasLocalization> localizations = new ArrayList<>();
-                while (localizationsIterator.hasNext()){
-                    ObjectNode next = (ObjectNode)localizationsIterator.next();
-                    if(next.has("language") && next.has("title") && next.has("content")){
-                        Language language = Language.getByID(next.get("language").asInt());
-                        PostHasLocalization phl = new PostHasLocalization(post, language, next.get("title").asText(), next.get("content").asText());
-                        localizations.add(phl);
-                    }
-                }
-                if(localizations.isEmpty()){
-                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
-                    return ok(response);
-                }
-                post.setLocalizations(localizations);
-
-                Iterator<JsonNode> countriesIterator = postData.get("countries").elements();
-                ArrayList<PostHasCountry> countries = new ArrayList<>();
-                while (countriesIterator.hasNext()){
-                    JsonNode next = countriesIterator.next();
-                    Country country = Country.getByID(next.asInt());
-                    PostHasCountry phc = new PostHasCountry(post, country);
-                    countries.add(phc);
-                }
-                if(countries.isEmpty()){
-                    response = buildBasicResponse(1, "Faltan campos para crear el registro");
-                    return ok(response);
-                }
-                post.setCountries(countries);
-
-                Iterator<JsonNode> categoriesIterator = postData.get("categories").elements();
-                ArrayList<PostHasCategory> categories = new ArrayList<>();
-                while (categoriesIterator.hasNext()){
-                    JsonNode next = categoriesIterator.next();
-                    Category category = Category.getByID(next.asInt());
-                    PostHasCategory phc = new PostHasCategory(post, category);
-                    categories.add(phc);
-                }
-                if(categories.isEmpty()){
-                    response = buildBasicResponse(1, "Faltan categorias para crear el registro");
-                    return ok(response);
-                }
-                post.setCategories(categories);
-
-
-
-                if(postData.has("push")) {
-                    post.setPush(postData.get("push").asInt());
-                } else {
-                    post.setPush(1);
-                }
-                if(postData.has("push_date")){
-                    String pushDate = postData.get("push_date").asText();
-                    Calendar pushDateCalendar = new GregorianCalendar(Integer.parseInt(pushDate.substring(0, 4)), Integer.parseInt(pushDate.substring(4, 6)) - 1, Integer.parseInt(pushDate.substring(6, 8)), Integer.parseInt(pushDate.substring(8, 10)), Integer.parseInt(pushDate.substring(10)));
-                    post.setPushDate(pushDateCalendar.getTimeInMillis());
-                } else {
-                    post.setPushDate(actualDate.getTimeInMillis());
-                }
-
-
-                post.save();
-
-                if (postData.has("media")){
-                    Iterator<JsonNode> mediaIterator = postData.get("media").elements();
-                    ArrayList<PostHasMedia> media = new ArrayList<>();
-                    while (mediaIterator.hasNext()){
-                        ObjectNode next = (ObjectNode)mediaIterator.next();
-                        if(next.has("file") && next.has("file_type")){
-                            FileType fileType = FileType.getByID(next.get("file_type").asInt());
-                            int mainScreen = next.has("main_screen")?next.get("main_screen").asInt():0;
-                            String file = next.get("file").asText();
-                            String md5 = Utils.getMD5(Config.getString("ftp-route") + file);
-                            String path = Utils.uploadAttachment(file, "Post-"+post.getIdPost());
-                            int width = 0;
-                            int height = 0;
-                            if(fileType.getMimeType().startsWith("image")){
-                                BufferedImage bimg = ImageIO.read(new File(Config.getString("ftp-route") + file));
-                                width = bimg.getWidth();
-                                height = bimg.getHeight();
-                            }
-                            PostHasMedia phm = new PostHasMedia(post, fileType, md5, path, mainScreen, width, height);
-                            media.add(phm);
-                        }
-                    }
-                    if(!media.isEmpty()){
-                        post.setMedia(media);
-                    }
-                }
-
-                post.update();
-
-                response = buildBasicResponse(0, "OK", post.toJson());
-            } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+            Form<Post> postForm = PostAPIForm.bindFromRequest();
+            Http.MultipartFormData body = getMultiformData();
+            if(postForm.hasErrors()) {
+                return badRequest(buildBasicResponse(1, "El formulario tiene errores"));
             }
-            return ok(response);
+            Post post = postForm.get();
+            post.save();
+            List<Http.MultipartFormData.FilePart> files = body.getFiles();
+            if(files != null && !files.isEmpty()){
+                try {
+                    for (Http.MultipartFormData.FilePart filePart : files) {
+                        String fileName = filePart.getFilename();
+                        String contentType = filePart.getContentType();
+                        File file = filePart.getFile();
+                        String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+                        FileType fileType = FileType.getByMimeType(contentType);
+                        PostHasMedia postHasMedia = new PostHasMedia(post, fileType);
+                        if (fileType != null) {
+                            if (fileType.getName().equalsIgnoreCase("video")) {
+                                ObjectNode wistiaResponse = Wistia.uploadVideo(file, fileName);
+                                if (wistiaResponse != null) {
+                                    String hashedId = wistiaResponse.get("hashed_id").asText();
+                                    postHasMedia.setWistiaId(hashedId);
+                                    postHasMedia.setLink(wistiaResponse.get("thumbnail").get("url").asText());
+                                    String status = wistiaResponse.get("status").asText();
+                                    if (status.equalsIgnoreCase("ready")) {
+                                        ObjectNode videoInfo = Wistia.getVideo(hashedId);
+                                        postHasMedia.setWistiaPlayer(videoInfo.get("embedCode").asText());
+                                    }
+                                } else {
+                                    //TODO: ver que hacer con el error
+                                }
+                            } else {
+                                postHasMedia.setLink(Utils.uploadAttachment(file, post.getIdPost(), fileExtension, true));
+                                BufferedImage bimg = ImageIO.read(file);
+                                postHasMedia.setHeight(bimg.getHeight());
+                                postHasMedia.setWidth(bimg.getWidth());
+                            }
+                            String md5 = Utils.getMD5(file);
+                            postHasMedia.setMd5(md5);
+                            post.getMedia().add(postHasMedia);
+                        } else {
+                            return badRequest(buildBasicResponse(3, "Tipo de archivo invalido para " + fileName));
+                        }
+                    }
+                    post.update();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return badRequest(buildBasicResponse(2, "El formulario tiene errores", e));
+                }
+            }
+            post.refresh();
+            return created(buildBasicResponse(0, "OK", post.toJson()));
         } catch (Exception ex) {
-            Utils.printToLog(Posts.class, "Error manejando posts", "error creando post con params" + postData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            Utils.printToLog(Posts.class, "Error manejando posts", "error creando post con params", false, ex, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error creando el registro", ex));
         }
     }
 
@@ -392,62 +293,60 @@ public class Posts extends HecticusController {
                     post.update();
                 }
 
-                response = buildBasicResponse(0, "OK", post.toJson());
+                return ok(buildBasicResponse(0, "OK", post.toJson()));
             } else {
-                response = buildBasicResponse(1, "No existe el registro a modificar");
+                return notFound(buildBasicResponse(1, "No existe el registro a modificar"));
             }
-            return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Posts.class, "Error manejando posts", "error creando post con params" + postData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
         }
     }
 
     public static Result delete(Integer id) {
         try{
-            ObjectNode response = null;
             Post post = Post.getByID(id);
             if(post != null) {
-                List<PostHasMedia> media = post.getMedia();
-                if(!media.isEmpty()){
+                ArrayList<String> files = new ArrayList<>();
+                for(PostHasMedia postHasMedia : post.getMedia()){
+                    if(postHasMedia.getFileType().getName().equalsIgnoreCase("video")){
+                        Wistia.deleteVideo(postHasMedia.getWistiaId());
+                    } else {
+                        String link = postHasMedia.getLink();
+                        link = link.substring(link.lastIndexOf("/")-1);
+                        files.add(link);
+                    }
+                }
+                if(!files.isEmpty()){
                     String containerName = Config.getString("cdn-container");
                     String username = Config.getString("rackspace-username");
                     String apiKey = Config.getString("rackspace-apiKey");
                     String provider = Config.getString("rackspace-provider");
                     RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
-                    ArrayList<String> files = new ArrayList<>(media.size());
-                    for(PostHasMedia phm : media){
-                        String link = phm.getLink();
-                        link = link.substring(link.lastIndexOf("/")-1);
-                        files.add(link);
-                    }
                     rackspaceDelete.deleteObjectsFromContainer(containerName, files);
                 }
                 post.delete();
-                response = buildBasicResponse(0, "OK", post.toJson());
+                return ok(buildBasicResponse(0, "OK", post.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                return notFound(buildBasicResponse(2, "no existe el registro a eliminar"));
             }
-            return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Posts.class, "Error manejando posts", "error eliminando el post " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
+            return internalServerError(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
         }
     }
 
     public static Result get(Integer id){
         try {
-            ObjectNode response = null;
             Post post = Post.getByID(id);
             if(post != null) {
-                response = buildBasicResponse(0, "OK", post.toJson());
+                return ok(buildBasicResponse(0, "OK", post.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el post " + id));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
@@ -459,11 +358,10 @@ public class Posts extends HecticusController {
             while(postIterator.hasNext()){
                 posts.add(postIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(posts));
-            return ok(response);
+            return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando las garotas con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
@@ -474,11 +372,10 @@ public class Posts extends HecticusController {
             while(postIterator.hasNext()){
                 posts.add(postIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(posts));
-            return ok(response);
+            return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando las imagenes ", true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
@@ -487,18 +384,15 @@ public class Posts extends HecticusController {
             Client client = Client.getByID(id);
             Athlete athlete = null;
             Category category = null;
-            ObjectNode response = null;
             if(idAthlete > 0){
                 athlete = Athlete.getByID(idAthlete);
                 if(athlete == null) {
-                    response = buildBasicResponse(2, "la mujer no existe");
-                    return ok(response);
+                    return notFound(buildBasicResponse(2, "El atleta " + idAthlete + " no existe"));
                 }
             } else if(idCategory > 0){
                 category = Category.getByID(idCategory);
                 if(category == null) {
-                    response = buildBasicResponse(2, "la categoria no existe");
-                    return ok(response);
+                    return notFound(buildBasicResponse(2, "la categoria " + idCategory + " no existe"));
                 }
 
             }
@@ -546,52 +440,47 @@ public class Posts extends HecticusController {
                     postJson.put("category_related", Json.toJson(actualRelatedCategory));
                     posts.add(postJson);
                 }
-                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+                return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
             } else {
-                response = buildBasicResponse(2, "el cliente no existe");
+                return notFound(buildBasicResponse(2, "el cliente no existe"));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
     public static Result getListForAthlete(Integer id){
         try {
-            ObjectNode response = null;
             Athlete athlete = Athlete.getByID(id);
             if(athlete != null) {
                 Iterator<PostHasAthlete> postIterator = athlete.getPosts().iterator();
-                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+                ArrayList<ObjectNode> posts = new ArrayList<>();
                 while(postIterator.hasNext()){
                     posts.add(postIterator.next().toJson());
                 }
-                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+                return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
     public static Result getPostForClient(Integer idClient, Integer idPost){
         try {
-            ObjectNode response = null;
             Post post = Post.getByID(idPost);
             Client client = Client.getByID(idClient);
             if(post != null && client != null) {
-                response = buildBasicResponse(0, "OK", post.toJson(client.getCountry().getLanguage()));
+                return ok(buildBasicResponse(0, "OK", post.toJson(client.getCountry().getLanguage())));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando posts", "error obteniendo el post " + idPost + " para el client " + idClient, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
@@ -629,14 +518,14 @@ public class Posts extends HecticusController {
 //                    }
 //                    posts.add(postJson);
 //                }
-//                response = buildBasicResponse(0, "OK", Json.toJson(posts));
+//                return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
 //            } else {
-//                response = buildBasicResponse(2, "el cliente no existe");
+//                return notFound(buildBasicResponse(2, "el cliente no existe"));
 //            }
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 

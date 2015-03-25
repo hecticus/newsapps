@@ -186,6 +186,8 @@ create table post_has_media (
   link                      varchar(255),
   width                     integer,
   height                    integer,
+  wistia_id                 varchar(255),
+  wistia_player             TEXT,
   constraint pk_post_has_media primary key (id_post_has_media))
 ;
 
