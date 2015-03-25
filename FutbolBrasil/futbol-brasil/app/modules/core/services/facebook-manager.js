@@ -91,7 +91,9 @@ angular
                 },
 
                 clearIntervalFriendsLoader : function(){
-                    clearInterval(intervalFriendsLoaderId);
+                    try {
+                        clearInterval(intervalFriendsLoaderId);
+                    } catch(e){}
                 },
 
                 /**

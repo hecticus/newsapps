@@ -174,7 +174,7 @@ angular
 
             /**
              * Function that gets and updates the app's common usage Strings
-             * to minimize the number of requests across  modules and improve
+             * to minimize the number of requests across modules and improve
              * performance
              */
             function getTranslations(){

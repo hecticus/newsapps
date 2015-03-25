@@ -120,6 +120,12 @@ var translationsEn = {
         "EN" : "English",
         "ES" : "Spanish"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Exit App",
+        "EXIT_APP_MSG" : "Are you sure you want to exit?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancel",
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available"
 };
@@ -243,6 +249,12 @@ var translationsEs = {
         "EN" : "Inglés",
         "ES" : "Español"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Salir de la Aplicación",
+        "EXIT_APP_MSG" : "¿Está seguro que desea salir de la aplicación?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancelar",
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible"
 };
@@ -366,6 +378,12 @@ var translationsPt = {
         "EN" : "Inglês",
         "ES" : "Espanhol"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Sair do Aplicativo",
+        "EXIT_APP_MSG" : "Tem certeza de que deseja sair do aplicativo?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancelar",
     "LOADING" : "A Carregar",
     "NOT_AVAILABLE": "Não Disponível"
 };

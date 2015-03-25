@@ -7,9 +7,10 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', '$timeout', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
-        function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
+    .factory('CordovaApp',['$state', '$window', '$timeout', '$translate',
+        'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
+        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
+        function($state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
                  PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics) {
 
             var currentSection = '';
@@ -18,13 +19,7 @@ angular
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
 
-            //TODO i18n-alizar
-            var strings = {
-                EXIT_APP_TITLE : 'Sair do Aplicativo',
-                EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',
-                OK : 'Ok',
-                CANCEL : 'Cancelar'
-            };
+            var strings = {};
 
             function getVersion(){
                 if(!!$window.wizUtils){
@@ -40,12 +35,7 @@ angular
             }
 
             function exitApp(){
-                try{
-                    FacebookManager.clearIntervalFriendsLoader();
-                } catch(e){
-
-                }
-
+                FacebookManager.clearIntervalFriendsLoader();
                 Upstream.appCloseEvent();
 
                 //Legacy
@@ -71,7 +61,6 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
                 } else if(isOnUtilitySection()){
-//                    console.log('onSettingsSection:' + onSettingsSection);
                     if(onSettingsSection){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
@@ -148,19 +137,20 @@ angular
             }
 
             function bindEvents() {
-//                    console.log('CordovaApp. bindEvents. ');
-                document.addEventListener('deviceready', onDeviceReady, false);
+                if(CordovaDevice.isWebPlatform()){
+                    initAllAppData();
+                } else {
+                    document.addEventListener('deviceready', onDeviceReady, false);
+                }
+
                 document.addEventListener('touchmove', function (e) {
                     e.preventDefault();
                 }, false);
+            }
 
-//                if(typeof CustomEvent === 'function'){
-//                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-//                    document.dispatchEvent(event);
-//                }
-                if(CordovaDevice.isWebPlatform()){
-                    initAllAppData();
-                }
+            function onDeviceReady() {
+                receivedEvent('deviceready');
+                initAllAppData();
             }
 
             function receivedEvent(id){
@@ -169,18 +159,12 @@ angular
                         console.log('backbutton event');
                         onBackButtonPressed();
                     }, false);
-                    getVersion();
                 }
             }
 
-            function onDeviceReady() {
-                receivedEvent('deviceready');
-                initAllAppData();
-            }
-
             function startApp(isActive, status){
-                    console.log("startApp. Starting App: Client Active: " + isActive
-                        + ". Client Status: " + status);
+                console.log("startApp. Starting App: Client Active: " + isActive
+                    + ". Client Status: " + status);
             }
 
             function startAppOffline(){
@@ -191,6 +175,16 @@ angular
                 console.log("errorStartApp. Error. Couldn't Start Application");
             }
 
+            function getTranslations(){
+                $translate(['EXIT_APP_TITLE', 'EXIT_APP_MSG', 'OK', 'CANCEL'])
+                    .then(function(translation){
+                        strings['EXIT_APP_TITLE'] = translation['EXIT_APP_TITLE'];
+                        strings['EXIT_APP_MSG'] = translation['EXIT_APP_MSG'];
+                        strings['OK'] = translation['OK'];
+                        strings['CANCEL'] = translation['CANCEL'];
+                    });
+            }
+
             function initAllAppData() {
                 if(!!$window.StatusBar){
                     StatusBar.hide();
@@ -198,19 +192,22 @@ angular
                     console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                 }
 
+                getVersion();
+
                 Analytics.init();
                 ClientManager.init(startApp, errorStartApp);
 
-                if (CordovaDevice.phonegapIsOnline()) {
+                if(CordovaDevice.phonegapIsOnline()) {
                     PushManager.init();
-                    WebManager.loadServerConfigs(
+                    WebManager.loadServerConfigs().then(
                         function(){
                             Settings.init();
                             Competitions.init();
+                            getTranslations();
 
                             $timeout(function(){
                                 Upstream.appLaunchEvent();
-                            }, 300);
+                            }, 500);
 
                             if(!CordovaDevice.isWebPlatform()){
                                 Update.checkUpdate();

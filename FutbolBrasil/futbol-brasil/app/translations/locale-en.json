@@ -118,6 +118,14 @@
         "EN" : "English",
         "ES" : "Spanish"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Exit App",
+        "EXIT_APP_MSG" : "Are you sure you want to exit?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancel",
+    "PREVIOUS" : "Previous",
+    "NEXT" : "Next",
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available"
 }
