@@ -22,7 +22,9 @@
                     <div class="col-xs-12">
                         <div class="no-content-panel" style="margin-top: 120px !important;">
                             <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>EMPTY_STATES.STANDINGS.NO_COMPETITIONS</div>
+                            <div class="no-content-panel-title" translate>
+                                EMPTY_STATES.STANDINGS.NO_COMPETITIONS
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,7 +58,9 @@
                     <div class="col-xs-12">
                         <div class="no-content-panel" style="margin-top: 120px !important;">
                             <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>EMPTY_STATES.STANDINGS.NO_PHASES</div>
+                            <div class="no-content-panel-title" translate>
+                                EMPTY_STATES.STANDINGS.NO_PHASES
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,49 +138,63 @@
                                         </tr>
                                         <tr>
                                             <th></th>
-                                            <!--TODO i18n-->
-                                            <th style="text-align: left;">Classifica&ccedil;&atilde;o</th>
-                                            <th>P</th>
-                                            <th>J</th>
-                                            <th>V</th>
-                                            <th>E</th>
-                                            <th>D</th>
-                                            <th>SG</th>
+                                            <th style="text-align: left;" translate>
+                                                STANDINGS.TEAM
+                                            </th>
+                                            <th translate>
+                                                STANDINGS.TABLE.POINTS
+                                            </th>
+                                            <th translate>
+                                                STANDINGS.TABLE.MATCHES
+                                            </th>
+                                            <th translate>
+                                                STANDINGS.TABLE.MATCHES_WON
+                                            </th>
+                                            <th translate>
+                                                STANDINGS.TABLE.MATCHES_DRAWN
+                                            </th>
+                                            <th translate>
+                                                STANDINGS.TABLE.MATCHES_LOST
+                                            </th>
+                                            <th translate>
+                                                STANDINGS.TABLE.GOALS_FOR
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
 
-                                        <tr ng-class="{'active' : $odd}" ng-repeat="ranking in rankings.ranking">
+                                        <tr ng-class="{'active' : $odd}"
+                                            ng-repeat="ranking in rankings.ranking">
                                             <td>
-                                            <span ng-bind="$index+1"
+                                                <span ng-bind="$index+1"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td class="text-left">
-                                            <span ng-bind="ranking.team.name"
+                                                <span ng-bind="ranking.team.name"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td>
-                                            <span ng-bind="ranking.points"
+                                                <span ng-bind="ranking.points"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td>
-                                            <span ng-bind="ranking.matches"
+                                                <span ng-bind="ranking.matches"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td>
-                                            <span ng-bind="ranking.matches_won"
+                                                <span ng-bind="ranking.matches_won"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td>
-                                            <span ng-bind="ranking.matches_drawn"
+                                                <span ng-bind="ranking.matches_drawn"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td>
-                                            <span ng-bind="ranking.matches_lost"
+                                                <span ng-bind="ranking.matches_lost"
                                                   class="text-center-vertical"></span>
                                             </td>
                                             <td>
-                                            <span ng-bind="ranking.goals_for"
+                                                <span ng-bind="ranking.goals_for"
                                                   class="text-center-vertical"></span>
                                             </td>
                                         </tr>
@@ -192,7 +210,9 @@
                     <div class="col-xs-12">
                         <div class="no-content-panel" style="margin-top: 120px !important;">
                             <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>EMPTY_STATES.STANDINGS.NO_PHASES</div>
+                            <div class="no-content-panel-title" translate>
+                                EMPTY_STATES.STANDINGS.NO_PHASES
+                            </div>
                         </div>
                     </div>
                 </div>

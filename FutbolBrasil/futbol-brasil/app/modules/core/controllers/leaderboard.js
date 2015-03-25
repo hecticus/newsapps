@@ -69,7 +69,7 @@ angular
             };
 
             $scope.showTournament = function(){
-                setActive('competition'+scroll.currentPage.pageX);
+                setActive('competition' + scroll.currentPage.pageX);
                 var idCompetition = $scope.item.competitions[scroll.currentPage.pageX].id_competitions;
                 getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
             };
@@ -163,10 +163,7 @@ angular
 
                 scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        //var leaderboard = $scope.item.competitions[this.currentPage.pageX].leaderboard;
-                        //if (!leaderboard || (leaderboard == '')) {
-                            $scope.showTournament(this.currentPage.pageX);
-                        //}
+                        $scope.showTournament(this.currentPage.pageX);
                         _currentPage = this.currentPage.pageX;
                     }
                 });

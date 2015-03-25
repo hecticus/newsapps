@@ -32,6 +32,19 @@ var translationsEn = {
         "TEAM_LABEL" : "Team",
         "GOALS_LABEL" : "Goals"
     },
+    "STANDINGS" : {
+        "TEAM" : "Team",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "M",
+            "MATCHES_WON" : "W",
+            "MATCHES_DRAWN" : "T",
+            "MATCHES_LOST" : "L",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GA",
+            "GOALS_DIFFERENCE" : "GD"
+        }
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",
@@ -126,6 +139,8 @@ var translationsEn = {
     },
     "OK" : "Ok",
     "CANCEL" : "Cancel",
+    "PREVIOUS" : "Previous",
+    "NEXT" : "Next",
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available"
 };
@@ -160,6 +175,19 @@ var translationsEs = {
         "PLAYER_NAME_LABEL" : "Jugador",
         "TEAM_LABEL" : "Equipo",
         "GOALS_LABEL" : "Goles"
+    },
+    "STANDINGS" : {
+        "TEAM" : "Equipo",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "J",
+            "MATCHES_WON" : "V",
+            "MATCHES_DRAWN" : "E",
+            "MATCHES_LOST" : "P",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GC",
+            "GOALS_DIFFERENCE" : "DG"
+        }
     },
     "MATCH" : {
         "STATUS" : {
@@ -255,6 +283,8 @@ var translationsEs = {
     },
     "OK" : "Ok",
     "CANCEL" : "Cancelar",
+    "PREVIOUS" : "Anterior",
+    "NEXT" : "Siguiente",
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible"
 };
@@ -289,6 +319,19 @@ var translationsPt = {
         "PLAYER_NAME_LABEL" : "Nome do jogador",
         "TEAM_LABEL" : "Equipe",
         "GOALS_LABEL" : "Goles"
+    },
+    "STANDINGS" : {
+        "TEAM" : "Equipe",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "J",
+            "MATCHES_WON" : "V",
+            "MATCHES_DRAWN" : "E",
+            "MATCHES_LOST" : "P",
+            "GOALS_FOR" : "GP",
+            "GOALS_AGAINST" : "GC",
+            "GOALS_DIFFERENCE" : "SG"
+        }
     },
     "MATCH" : {
         "STATUS" : {
@@ -384,6 +427,8 @@ var translationsPt = {
     },
     "OK" : "Ok",
     "CANCEL" : "Cancelar",
+    "PREVIOUS" : "Anterior",
+    "NEXT" : "Seguinte",
     "LOADING" : "A Carregar",
     "NOT_AVAILABLE": "Não Disponível"
 };

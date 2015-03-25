@@ -30,6 +30,19 @@
         "TEAM_LABEL" : "Equipo",
         "GOALS_LABEL" : "Goles"
     },
+    "STANDINGS" : {
+        "TEAM" : "Equipo",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "J",
+            "MATCHES_WON" : "V",
+            "MATCHES_DRAWN" : "E",
+            "MATCHES_LOST" : "P",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GC",
+            "GOALS_DIFFERENCE" : "DG"
+        }
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Sin Jugar",

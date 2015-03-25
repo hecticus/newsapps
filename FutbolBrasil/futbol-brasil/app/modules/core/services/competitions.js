@@ -44,8 +44,8 @@ angular
             function getRanking(competition, phase){
                 return $http.get(Domain.ranking(competition,phase))
                     .then(function (response) {
-                        console.log('getRanking.response: ');
-                        console.log(response);
+//                        console.log('getRanking.response: ');
+//                        console.log(response);
                         if(response.data.error === 0){
                             return response.data.response;
                         } else {
@@ -156,7 +156,6 @@ angular
 
                             },
                             latest : function(idTournament, date){
-                                //TODO persistir response
                                 return $http.get(Domain.leaderboard.personal.phase.latest(idTournament, date))
                                     .then(function(response){
                                         return response.data.response;
