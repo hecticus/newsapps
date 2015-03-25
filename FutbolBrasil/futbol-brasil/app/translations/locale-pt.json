@@ -118,6 +118,14 @@
         "EN" : "Inglês",
         "ES" : "Espanhol"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Sair do Aplicativo",
+        "EXIT_APP_MSG" : "Tem certeza de que deseja sair do aplicativo?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancelar",
+    "PREVIOUS" : "Anterior",
+    "NEXT" : "Seguinte",
     "LOADING" : "A Carregar",
     "NOT_AVAILABLE": "Não Disponível"
 }

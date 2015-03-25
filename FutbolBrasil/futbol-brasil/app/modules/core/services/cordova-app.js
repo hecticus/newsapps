@@ -19,13 +19,7 @@ angular
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
 
-            //TODO i18n-alizar
-            var strings = {
-                EXIT_APP_TITLE : 'Sair do Aplicativo',
-                EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',
-                OK : 'Ok',
-                CANCEL : 'Cancelar'
-            };
+            var strings = {};
 
             function getVersion(){
                 if(!!$window.wizUtils){
@@ -165,7 +159,6 @@ angular
                         console.log('backbutton event');
                         onBackButtonPressed();
                     }, false);
-                    getVersion();
                 }
             }
 
@@ -182,12 +175,24 @@ angular
                 console.log("errorStartApp. Error. Couldn't Start Application");
             }
 
+            function getTranslations(){
+                $translate(['EXIT_APP_TITLE', 'EXIT_APP_MSG', 'OK', 'CANCEL'])
+                    .then(function(translation){
+                        strings['EXIT_APP_TITLE'] = translation['EXIT_APP_TITLE'];
+                        strings['EXIT_APP_MSG'] = translation['EXIT_APP_MSG'];
+                        strings['OK'] = translation['OK'];
+                        strings['CANCEL'] = translation['CANCEL'];
+                    });
+            }
+
             function initAllAppData() {
                 if(!!$window.StatusBar){
                     StatusBar.hide();
                 }else{
                     console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                 }
+
+                getVersion();
 
                 Analytics.init();
                 ClientManager.init(startApp, errorStartApp);
@@ -198,6 +203,7 @@ angular
                         function(){
                             Settings.init();
                             Competitions.init();
+                            getTranslations();
 
                             $timeout(function(){
                                 Upstream.appLaunchEvent();
