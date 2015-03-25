@@ -7,9 +7,10 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', '$timeout', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
-        function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
+    .factory('CordovaApp',['$state', '$window', '$timeout', '$translate',
+        'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
+        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
+        function($state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
                  PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics) {
 
             var currentSection = '';
@@ -40,12 +41,7 @@ angular
             }
 
             function exitApp(){
-                try{
-                    FacebookManager.clearIntervalFriendsLoader();
-                } catch(e){
-
-                }
-
+                FacebookManager.clearIntervalFriendsLoader();
                 Upstream.appCloseEvent();
 
                 //Legacy
@@ -71,7 +67,6 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
                 } else if(isOnUtilitySection()){
-//                    console.log('onSettingsSection:' + onSettingsSection);
                     if(onSettingsSection){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
@@ -148,19 +143,20 @@ angular
             }
 
             function bindEvents() {
-//                    console.log('CordovaApp. bindEvents. ');
-                document.addEventListener('deviceready', onDeviceReady, false);
+                if(CordovaDevice.isWebPlatform()){
+                    initAllAppData();
+                } else {
+                    document.addEventListener('deviceready', onDeviceReady, false);
+                }
+
                 document.addEventListener('touchmove', function (e) {
                     e.preventDefault();
                 }, false);
+            }
 
-//                if(typeof CustomEvent === 'function'){
-//                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-//                    document.dispatchEvent(event);
-//                }
-                if(CordovaDevice.isWebPlatform()){
-                    initAllAppData();
-                }
+            function onDeviceReady() {
+                receivedEvent('deviceready');
+                initAllAppData();
             }
 
             function receivedEvent(id){
@@ -173,14 +169,9 @@ angular
                 }
             }
 
-            function onDeviceReady() {
-                receivedEvent('deviceready');
-                initAllAppData();
-            }
-
             function startApp(isActive, status){
-                    console.log("startApp. Starting App: Client Active: " + isActive
-                        + ". Client Status: " + status);
+                console.log("startApp. Starting App: Client Active: " + isActive
+                    + ". Client Status: " + status);
             }
 
             function startAppOffline(){
@@ -201,16 +192,16 @@ angular
                 Analytics.init();
                 ClientManager.init(startApp, errorStartApp);
 
-                if (CordovaDevice.phonegapIsOnline()) {
+                if(CordovaDevice.phonegapIsOnline()) {
                     PushManager.init();
-                    WebManager.loadServerConfigs(
+                    WebManager.loadServerConfigs().then(
                         function(){
                             Settings.init();
                             Competitions.init();
 
                             $timeout(function(){
                                 Upstream.appLaunchEvent();
-                            }, 300);
+                            }, 500);
 
                             if(!CordovaDevice.isWebPlatform()){
                                 Update.checkUpdate();

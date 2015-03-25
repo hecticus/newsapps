@@ -87,13 +87,9 @@ angular
                     data: jData,
                     timeout : 60000
                 })
-                .then(function(data, status) {
-//                    console.log('status: ');
-//                    console.log(data.status);
+                .then(function(data) {
                     isNewClient = (data.status === 201);
                     data = data.data;
-//                    console.log('data: ');
-//                    console.log(data);
 
                     var errorCode = data.error;
                     var response = data.response;
@@ -121,7 +117,7 @@ angular
                 var upstreamChannel = CordovaDevice.getUpstreamChannel();
                 var clientId = Client.getClientId();
 
-                if(!clientId || !upstreamChannel){
+                if(!clientId){
                     typeof errorCallback == "function" && errorCallback();
                     return;
                 }
@@ -161,7 +157,7 @@ angular
 
                 if(Client.getClientId()){
                     TeamsManager.init();
-                    this.getClientStatus(successCallback, errorCallback);
+                    getClientStatus(successCallback, errorCallback);
                 }else{
                     //Cliente en periodo de pruebas
                     typeof successCallback == "function" && successCallback(false, 2);
@@ -171,7 +167,7 @@ angular
             function updateRegistrationId(id){
                 Client.setRegId(id);
                 if(Client.getClientId() && Client.hasToUpdateRegId()){
-                    this.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
+                    createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
                 }
             }
 

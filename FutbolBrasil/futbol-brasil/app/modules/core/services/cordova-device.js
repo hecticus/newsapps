@@ -83,8 +83,7 @@ angular
                 } else if(isIosPlatform()){
                     return 'IOS';
                 } else {
-                    //TODO handle error
-                    return 'Android';
+                    return 'Web';
                 }
             }
 

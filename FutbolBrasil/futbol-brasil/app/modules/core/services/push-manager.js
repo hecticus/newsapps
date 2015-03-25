@@ -12,7 +12,6 @@ angular
             var pushNotification = {};
 
             function tokenHandler(result) {
-                //console.log('<li>token: '+ result +'</li>');
                 ClientManager.updateRegistrationId(result);
             }
 
@@ -44,9 +43,7 @@ angular
                         break;
 
                     case 'message':
-                        // notification happened while we were in the foreground
                         if (e.foreground) {
-                            //console.log('<li>--INLINE NOTIFICATION--' + '</li>');
                         } else {
                             // otherwise we were launched because the user touched a notification
                             if (e.coldstart){
@@ -55,8 +52,6 @@ angular
                                 //console.log('<li>--BACKGROUND NOTIFICATION--' + '</li>');
                             }
                         }
-                        //TODO executePushInit no esta implementado
-//                            executePushInit(e.payload["extra_params"]);
                         break;
 
                     case 'error':
@@ -74,18 +69,7 @@ angular
 
             // handle APNS notifications for iOS
             function onNotificationAPN(e) {
-                /*if (e.alert) {
-                 //$("#app-status-ul").append('<li>push-notification: ' + e.alert + '</li>');
-                 //console.log('push-notification: ' + e.alert);
-                 alert(e.alert);
-                 }
-
-                 if (e.sound) {
-                 var snd = new Media(e.sound);
-                 snd.play();
-                 }
-
-                 if (e.badge) {
+                /*if (e.badge) {
                  pushNotification.setApplicationIconBadgeNumber(successPushHandler, e.badge);
                  }*/
                 console.log("LLEGO INFO PUSH");
@@ -101,7 +85,7 @@ angular
                     if($window.plugins){
                         pushNotification = $window.plugins.pushNotification;
                     }
-                    if (CordovaDevice.isAndroidPlatform()) {
+                    if(CordovaDevice.isAndroidPlatform()) {
                         console.log('PushManager. isAndroid');
                         pushNotification.register(
                             function(result){
