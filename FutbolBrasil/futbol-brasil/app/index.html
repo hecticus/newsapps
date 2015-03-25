@@ -5,7 +5,6 @@
     <title>Brasil Futebol</title>
 
     <meta name="description" content="">
-    <!--TODO Verificar Warning-->
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes.
     See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1
@@ -74,9 +73,49 @@
     <error></error>
 
     <menu ng-cloak>
-        <menu-item section="news" icon="mdi-action-label">{{'SECTIONS.NOTISTATS' | translate}}</menu-item>
-        <menu-item section="prediction" icon="mdi-action-event">{{'SECTIONS.BETS' | translate}}</menu-item>
-        <menu-item section="settings" icon="mdi-action-settings">{{'SECTIONS.SETTINGS' | translate}}</menu-item>
+        <menu-item section="news" icon="mdi-action-label">
+            {{'SECTIONS.NOTISTATS' | translate}}
+        </menu-item>
+        <!--<div class="hidden-xs">-->
+            <menu-sub-item section="match" icon="icon-balon">
+                {{'SECTIONS.NOTISTATS.MATCHES' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="standings" icon="icon-tabela">
+                {{'SECTIONS.NOTISTATS.STANDINGS' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="news" icon="icon-noticias">
+                {{'SECTIONS.NOTISTATS.NEWS' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="scorers" icon="icon-artilharia">
+                {{'SECTIONS.NOTISTATS.SCORERS' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="mtm" icon="icon-envivo">
+                {{'SECTIONS.NOTISTATS.LIVE' | translate}}
+            </menu-sub-item>
+        <!--</div>-->
+
+        <menu-item section="prediction" icon="mdi-action-event">
+            {{'SECTIONS.BETS' | translate}}
+        </menu-item>
+
+        <!--<div class="hidden-xs">-->
+            <menu-sub-item section="match" icon="icon-balon">
+                {{'SECTIONS.BETS.PREDICTIONS' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="match" icon="icon-tabela">
+                {{'SECTIONS.BETS.LEADERBOARDS' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="match" icon="icon-artilharia">
+                {{'SECTIONS.BETS.FRIENDS' | translate}}
+            </menu-sub-item>
+            <menu-sub-item section="match" icon="icon-puntos">
+                {{'SECTIONS.BETS.POINTS' | translate}}
+            </menu-sub-item>
+        <!--</div>-->
+
+        <menu-item section="settings" icon="mdi-action-settings">
+            {{'SECTIONS.SETTINGS' | translate}}
+        </menu-item>
     </menu>
 
     <ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>
@@ -207,9 +246,9 @@
 <script src="modules/core/services/utilities.js"></script>
 <script src="modules/core/services/web-manager.js"></script>
 <script src="modules/core/directives/error.js"></script>
-<script src="modules/core/directives/hs-dynamic-scroll-item.js"></script>
 <script src="modules/core/directives/loading.js"></script>
 <script src="modules/core/directives/menu-item.js"></script>
+<script src="modules/core/directives/menu-sub-item.js"></script>
 <script src="modules/core/directives/menu.js"></script>
 <script src="modules/core/directives/my-scroll.js"></script>
 <script src="modules/core/directives/on-last-repeat.js"></script>
