@@ -84,7 +84,21 @@
             @inputText(field("md5"), '_label -> Messages("post.media.md5.final"), '_help -> Messages("post.media.md5.final"), 'readonly -> "readonly", '_error -> postViewForm.globalError, 'class -> "form-control")
             @input(field("link"), '_label -> Messages("post.media.file.final")) { (id, name, value, _) =>
                 <input type="text" name="@name" value="@value" class="form-control">
+                <br/>
                 <img class="img-rounded" src="@value" alt="icon" style="width: 100px; height: 100px;" >
+            }
+
+            @if(field("wistiaId").value.getOrElse("NONE") != "NONE"){
+                @input(field("wistiaId"), '_label -> "") { (id, name, value, _) =>
+                    <input type="hidden" name="@name" value="@value" class="form-control">
+                }
+            }
+
+            @if(field("wistiaPlayer").value.getOrElse("NONE") != "NONE"){
+                @input(field("wistiaPlayer"), '_label -> "") { (id, name, value, _) =>
+                    <input type="hidden" name="@name" value="@value" class="form-control">
+                }
+                @Html(field("wistiaPlayer").value.getOrElse("NONE"))
             }
         }
 

@@ -1,6 +1,7 @@
 package models.content.posts;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import controllers.Wistia;
 import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -41,6 +42,11 @@ public class PostHasMedia extends HecticusModel {
 
     private Integer height;
 
+    private String wistiaId;
+
+    @Column(columnDefinition = "TEXT")
+    private String wistiaPlayer;
+
     public static Model.Finder<Integer, PostHasMedia> finder = new Model.Finder<Integer, PostHasMedia>(Integer.class, PostHasMedia.class);
 
     public PostHasMedia(Post post, FileType fileType, String md5, String link, Integer mainScreen, Integer width, Integer height) {
@@ -50,6 +56,11 @@ public class PostHasMedia extends HecticusModel {
         this.link = link;
         this.width = width;
         this.height = height;
+    }
+
+    public PostHasMedia(Post post, FileType fileType) {
+        this.post = post;
+        this.fileType = fileType;
     }
 
     public void setIdPostHasMedia(Integer idPostHasMedia) {
@@ -108,6 +119,22 @@ public class PostHasMedia extends HecticusModel {
         this.height = height;
     }
 
+    public String getWistiaId() {
+        return wistiaId;
+    }
+
+    public void setWistiaId(String wistiaId) {
+        this.wistiaId = wistiaId;
+    }
+
+    public String getWistiaPlayer() {
+        return wistiaPlayer;
+    }
+
+    public void setWistiaPlayer(String wistiaPlayer) {
+        this.wistiaPlayer = wistiaPlayer;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -118,6 +145,8 @@ public class PostHasMedia extends HecticusModel {
         response.put("link", link);
         response.put("width", width);
         response.put("height", height);
+        updateWistiaPlayer();
+        response.put("wistia_player", wistiaPlayer);
         return response;
     }
 
@@ -128,6 +157,8 @@ public class PostHasMedia extends HecticusModel {
         response.put("link", link);
         response.put("width", width);
         response.put("height", height);
+        updateWistiaPlayer();
+        response.put("wistia_player", wistiaPlayer);
         return response;
     }
 
@@ -139,7 +170,19 @@ public class PostHasMedia extends HecticusModel {
         response.put("link", link);
         response.put("width", width);
         response.put("height", height);
+        updateWistiaPlayer();
+        response.put("wistia_player", wistiaPlayer);
         return response;
+    }
+
+    private void updateWistiaPlayer(){
+        if(!(wistiaPlayer != null && !wistiaPlayer.isEmpty()) && (wistiaId != null && !wistiaId.isEmpty())){
+            ObjectNode videoData = Wistia.getVideo(wistiaId);
+            if(videoData != null && videoData.has("embedCode")) {
+                wistiaPlayer = videoData.get("embedCode").asText();
+                this.update();
+            }
+        }
     }
 
     public static scala.collection.immutable.List<Tuple2<String, String>> toSeq() {
