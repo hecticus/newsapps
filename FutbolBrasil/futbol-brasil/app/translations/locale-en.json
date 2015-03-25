@@ -30,6 +30,19 @@
         "TEAM_LABEL" : "Team",
         "GOALS_LABEL" : "Goals"
     },
+    "STANDINGS" : {
+        "TEAM" : "Team",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "M",
+            "MATCHES_WON" : "W",
+            "MATCHES_DRAWN" : "T",
+            "MATCHES_LOST" : "L",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GA",
+            "GOALS_DIFFERENCE" : "GD"
+        }
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",

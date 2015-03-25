@@ -17,29 +17,29 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr ng-repeat="match in league.fixtures"
+                                ng-click="showContentEvents(league, match)">
+                                <td style="width: 33% !important;"
+                                    ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
+                                    <span ng-bind="match.homeTeam.name"></span>
+                                    <br />
+                                    <span ng-bind="match.home_team_goals" class="goal"></span>
+                                </td>
 
-                        <tr ng-repeat="match in league.fixtures"  ng-click="showContentEvents(league, match)">
-                            <td style="width: 33% !important;" ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
-                                <span ng-bind="match.homeTeam.name"></span>
-                                <br />
-                                <span ng-bind="match.home_team_goals" class="goal"></span>
-                            </td>
+                                <td style="width: 33% !important;">
+                                    <span ng-bind="getTime(match.date)" class="date"></span>
+                                    <br/>
+                                    <span class="status _{{match.id_status}}">{{ match.status | translate}}
+                                    </span>
+                                </td>
 
-                            <td style="width: 33% !important;">
-                                <span ng-bind="getTime(match.date)" class="date"></span>
-                                <br/>
-                                <span class="status _{{match.id_status}}">{{ match.status | translate}}
-                                </span>
-                            </td>
-
-                            <td style="width: 33% !important;"
-                                ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
-                                <span ng-bind="match.awayTeam.name"></span>
-                                <br />
-                                <span ng-bind="match.away_team_goals" class="goal"></span>
-                            </td>
-
-                        </tr>
+                                <td style="width: 33% !important;"
+                                    ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
+                                    <span ng-bind="match.awayTeam.name"></span>
+                                    <br />
+                                    <span ng-bind="match.away_team_goals" class="goal"></span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -59,7 +59,6 @@
 <div id="wrapper2" class="page" style="left: 100%;" >
     <div class="scroller">
         <div class="container" >
-            <!--TODO fix this-->
             <div class="row" style="height: 150px; margin-bottom: 1px !important;" >
                 <div class="col-xs-12">
                     <span>&nbsp;</span>
@@ -68,13 +67,13 @@
 
             <div class="row" >
                 <div class="col-xs-12" >
-                    <table class="table" ng-repeat="action in item.mtm.actions"  >
+                    <table class="table" ng-repeat="action in item.mtm.actions">
                         <thead>
-                        <tr>
-                            <th colspan="2"  class="status {{action.period.short_name}}">
-                                <span ng-bind="action.period.name"></span>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th colspan="2"  class="status {{action.period.short_name}}">
+                                    <span ng-bind="action.period.name"></span>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="event in action.events  track by event.id_game_match_events"  >
@@ -83,18 +82,18 @@
                             </td>
                             <td style="width: 80% !important; text-align: left; ">
                                 <p style="font-size: 1.6em;">
-                                    <b>{{event.player_a}}</b> de {{event.teams}},  {{event.action.description}}</p>
+                                    <b>{{event.player_a}}</b> de {{event.teams}},  {{event.action.description}}
+                                </p>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
 
         </div>
     </div>
+
     <div class="row row-header row-header-live">
         <div class="col-xs-12 text-center text-center-vertical">
             <span ng-bind="item.league.name" style="font-size: 1.2em; font-weight: bold;"></span>
@@ -127,6 +126,5 @@
                       ng-bind="item.match.status.name" style="font-size: 1.2em;"></span>
             </div>
         </div>
-
     </div>
 </div>
