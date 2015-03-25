@@ -2,10 +2,14 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import models.User;
+import models.basic.Config;
+import models.basic.Language;
+import org.apache.commons.codec.binary.Base64;
 import play.Routes;
 import play.data.Form;
 import play.libs.Json;
@@ -16,6 +20,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 
+import utils.Utils;
 import views.html.*;
 
 import java.io.File;
@@ -97,7 +102,6 @@ public class Application extends Controller {
     }
 
     public static Result doSignup() {
-        System.out.println("Application ESTO SE VE!!!!");
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
         final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
                 .bindFromRequest();
@@ -114,6 +118,80 @@ public class Application extends Controller {
 
     public static String formatTimestamp(final long t) {
         return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
+    }
+
+    //Initial load settings WS for the Mobile App
+    public static Result getAppSettings(Integer width, Integer height, String version, String so){
+        try {
+            ObjectNode data = Json.newObject();
+            data.put("company_name", Config.getString("company-name"));
+            data.put("app_version",Config.getString("app-version"));
+            ObjectNode response = Json.newObject();
+            data.put("build_version", Config.getString("build-version"));
+            //colocamos la configuracion de upstream para que la tengamos en la app
+            data.put("upstream_app_key", Config.getString("upstreamAppKey"));
+            data.put("upstream_app_version", Config.getString("upstreamAppVersion"));
+            data.put("upstream_service_id", Config.getString("upstreamServiceID"));
+            data.put("upstream_url", Config.getString("upstreamURL"));
+            String upstreamGuestUser = Config.getString("upstreamGuestUser");
+            String upstreamGuestPassword = Config.getString("upstreamGuestPassword");
+            String authString = upstreamGuestUser+":"+upstreamGuestPassword;
+            byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
+            authString =  new String(encodedBytes);
+            data.put("upstream_guest_auth_token", authString);
+            data.put("upstream_guest_user", upstreamGuestUser);
+            data.put("upstream_guest_password", upstreamGuestPassword);
+            data.put("upstream_guest_user_id", Config.getString("upstreamUserID"));
+            data.put("server_version", Config.getString("server-version"));
+            Language language = Language.getByID(Config.getInt("default-language"));
+            data.put("default_language", language.toJson());
+            ObjectNode versionObject = Json.newObject();
+            String lastVersion = null;
+            String lastVersionURL = null;
+            if(so.equalsIgnoreCase("android")){
+                lastVersion = Config.getAndroidVersion();
+                lastVersionURL = Config.getAndroidVersionURL();
+            } else {
+                lastVersion = Config.getiOSVersion();
+                lastVersionURL = Config.getiOSVersionURL();
+            }
+            if(lastVersion != null && lastVersionURL != null) {
+                int updateAvailable = 0; //There isn't update available
+                int mandatory = 0; //The update isn't mandatory
+                if(lastVersion.compareTo(version) > 0){
+                    //There is update available
+                    updateAvailable = 1;
+                    String firstLastVersionToken = lastVersion.substring(0,lastVersion.indexOf("."));
+                    String firstVersionToken = version.substring(0,version.indexOf("."));
+
+                    if(firstLastVersionToken.compareTo(firstVersionToken)>0){
+                        mandatory = 1;
+                    }
+                }
+
+                versionObject.put("update",updateAvailable);
+                versionObject.put("mandatory",mandatory);
+                if(updateAvailable>0){
+                    versionObject.put("download",lastVersionURL);
+                    versionObject.put("new_version",lastVersion);
+                }
+            } else {
+                versionObject.put("update",0);
+            }
+            data.put("version", versionObject);
+            data.put("max_news", Config.getString("max-news"));
+            response.put(Config.ERROR_KEY, 0);
+            response.put(Config.DESCRIPTION_KEY, "OK");
+            response.put(Config.RESPONSE_KEY,data);
+            return ok(response);
+        }catch (Exception e) {
+            Utils.printToLog(Application.class, "Error manejando settings", "obteniendo los settings del app ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            ObjectNode response = Json.newObject();
+            response.put(Config.ERROR_KEY, 1);
+            response.put(Config.DESCRIPTION_KEY, "Error buscando el registro");
+            response.put(Config.EXCEPTION_KEY, e.getMessage());
+            return badRequest(response);
+        }
     }
 
 }

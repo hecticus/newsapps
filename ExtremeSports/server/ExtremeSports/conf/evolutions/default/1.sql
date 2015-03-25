@@ -40,6 +40,9 @@ create table clients (
   login                     varchar(255),
   password                  varchar(255),
   last_check_date           varchar(255),
+  nickname                  varchar(255),
+  facebook_id               varchar(255),
+  session                   varchar(255),
   id_country                integer,
   id_language               integer,
   constraint pk_clients primary key (id_client))
@@ -127,6 +130,7 @@ create table languages (
   name                      varchar(255),
   short_name                varchar(255),
   active                    integer,
+  app_localization_file     varchar(255),
   constraint pk_languages primary key (id_language))
 ;
 
