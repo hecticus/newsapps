@@ -161,7 +161,7 @@ angular
                 } else {
 
                     $timeout(function(){
-                        $scope.fbObject.fbStatus = 'connected';
+                        $scope.fbObject.fbStatus = 'connect';
                         $scope.setFbButtonMsg();
                     }, 1000);
                 }

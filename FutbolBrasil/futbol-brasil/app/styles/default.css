@@ -564,6 +564,21 @@ body.content-mtm .row-back {
 .content-menu span:last-child { margin-left: 10px; color:#4D4D4D;}
 .content-menu {border-bottom: solid 1pt #E0E0E0;}
 
+.content-sub-menu {
+    background:#ffffff;
+    height: 35px;
+    line-height:35px;
+    font-size: 1.2em;
+    border-bottom: solid 1pt #E0E0E0;
+}
+.content-sub-menu span:last-child { margin-left: 10px; color:#4D4D4D;}
+
+@media (max-height: 540px) {
+    .content-sub-menu {
+        display: none !important;
+    }
+}
+
 /*menu*/
 
 .tabs {
@@ -694,6 +709,17 @@ body.content-mtm .row-back {
 .search-list-item {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
+}
+
+.search-list-pager {
+    position: absolute;
+    z-index: 2;
+    top: 84%;
+    width: 90%;
+}
+
+.search-list-pager li span {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
 }
 
 /*Settings*/

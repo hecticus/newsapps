@@ -71,7 +71,7 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
                 } else if(isOnUtilitySection()){
-                    console.log('onSettingsSection:' + onSettingsSection);
+//                    console.log('onSettingsSection:' + onSettingsSection);
                     if(onSettingsSection){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
