@@ -30,6 +30,19 @@
         "TEAM_LABEL" : "Equipo",
         "GOALS_LABEL" : "Goles"
     },
+    "STANDINGS" : {
+        "TEAM" : "Equipo",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "J",
+            "MATCHES_WON" : "V",
+            "MATCHES_DRAWN" : "E",
+            "MATCHES_LOST" : "P",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GC",
+            "GOALS_DIFFERENCE" : "DG"
+        }
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Sin Jugar",
@@ -118,6 +131,14 @@
         "EN" : "Inglés",
         "ES" : "Español"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Salir de la Aplicación",
+        "EXIT_APP_MSG" : "¿Está seguro que desea salir de la aplicación?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancelar",
+    "PREVIOUS" : "Anterior",
+    "NEXT" : "Siguiente",
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible"
 }

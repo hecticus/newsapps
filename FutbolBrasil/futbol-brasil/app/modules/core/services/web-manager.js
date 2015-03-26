@@ -86,15 +86,15 @@ angular
                 return headers;
             }
 
-            function loadServerConfigs(successCallback, errorCallback){
-                var platform = CordovaDevice.getPlatform() === 'Web'? 'Android' : CordovaDevice.getPlatform();
-                var url = Domain.loading(CordovaDevice.getRealWidth() , CordovaDevice.getRealHeight()
-                    , App.getBundleVersion(), platform);
+            function loadServerConfigs(){
+                var platform = CordovaDevice.getPlatform();
+                var version = App.getBundleVersion();
+                var width = CordovaDevice.getRealWidth();
+                var height = CordovaDevice.getRealHeight();
 //                    enableCerts(true);
-                $http.get(url)
-                    .success(function(_json) {
-                        var response = _json.response;
-
+                return $http.get(Domain.loading(width , height, version, platform))
+                    .success(function(data) {
+                        var response = data.response;
                         Upstream.setUp(response);
 
                         App.setCompanyName(response.company_name);
@@ -104,11 +104,10 @@ angular
 
                         i18n.setDefaultLanguage(response.default_language);
                         i18n.setAvailableLanguages($http.get(Domain.languages));
-                        News.setMaxNews(response.max_news);
 
-                        successCallback();
+                        News.setMaxNews(response.max_news);
                     }).error(function(){
-                        errorCallback();
+                        console.log("Couldn't get config from server");
                     });
             }
 

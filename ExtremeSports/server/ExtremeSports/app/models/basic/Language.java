@@ -35,6 +35,9 @@ public class Language extends HecticusModel {
     @Constraints.Required
     private Integer active;
 
+    @Constraints.Required
+    private String appLocalizationFile;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy="language", cascade = CascadeType.ALL)
     private List<CategoryHasLocalization> categories;
 
@@ -106,6 +109,14 @@ public class Language extends HecticusModel {
         this.clients = clients;
     }
 
+    public String getAppLocalizationFile() {
+        return appLocalizationFile;
+    }
+
+    public void setAppLocalizationFile(String appLocalizationFile) {
+        this.appLocalizationFile = appLocalizationFile;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -145,6 +156,10 @@ public class Language extends HecticusModel {
 
     public static Language getByID(int id){
         return finder.byId(id);
+    }
+
+    public static Language getLanguageByShortName(String lang){
+        return finder.where().eq("active", 1).eq("shortName", lang).findUnique();
     }
 
     public static Iterator<Language> getPage(int pageSize, int page){

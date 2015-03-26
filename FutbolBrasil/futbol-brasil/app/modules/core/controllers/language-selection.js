@@ -17,7 +17,7 @@ angular
 
             $scope.languageSelected = function(language){
                 Client.setLanguage(language, function(){
-                    console.log(language);
+//                    console.log(language);
                     $state.go('settings');
                 });
             };
@@ -40,7 +40,7 @@ angular
                 $scope.languages.forEach(function(lang){
                     $translate('LANGUAGE.' + lang.short_name.toUpperCase()).then(function(translation){
                         lang.translation = translation;
-                        console.log($scope.languages);
+//                        console.log($scope.languages);
                     }, function(){
                         lang.translation = lang.name;
                     });

@@ -47,7 +47,6 @@ angular
                 delete localStorage[FILE_KEY_CLIENT_DATASAFE];
             }
 
-            //TODO Should at least be Base64Encoded
             function setPassword(password){
                 if(!!password){
                     client.password = password;

@@ -32,6 +32,19 @@ var translationsEn = {
         "TEAM_LABEL" : "Team",
         "GOALS_LABEL" : "Goals"
     },
+    "STANDINGS" : {
+        "TEAM" : "Team",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "M",
+            "MATCHES_WON" : "W",
+            "MATCHES_DRAWN" : "T",
+            "MATCHES_LOST" : "L",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GA",
+            "GOALS_DIFFERENCE" : "GD"
+        }
+    },
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",
@@ -120,6 +133,14 @@ var translationsEn = {
         "EN" : "English",
         "ES" : "Spanish"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Exit App",
+        "EXIT_APP_MSG" : "Are you sure you want to exit?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancel",
+    "PREVIOUS" : "Previous",
+    "NEXT" : "Next",
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available"
 };
@@ -154,6 +175,19 @@ var translationsEs = {
         "PLAYER_NAME_LABEL" : "Jugador",
         "TEAM_LABEL" : "Equipo",
         "GOALS_LABEL" : "Goles"
+    },
+    "STANDINGS" : {
+        "TEAM" : "Equipo",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "J",
+            "MATCHES_WON" : "V",
+            "MATCHES_DRAWN" : "E",
+            "MATCHES_LOST" : "P",
+            "GOALS_FOR" : "GF",
+            "GOALS_AGAINST" : "GC",
+            "GOALS_DIFFERENCE" : "DG"
+        }
     },
     "MATCH" : {
         "STATUS" : {
@@ -243,6 +277,14 @@ var translationsEs = {
         "EN" : "Inglés",
         "ES" : "Español"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Salir de la Aplicación",
+        "EXIT_APP_MSG" : "¿Está seguro que desea salir de la aplicación?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancelar",
+    "PREVIOUS" : "Anterior",
+    "NEXT" : "Siguiente",
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible"
 };
@@ -277,6 +319,19 @@ var translationsPt = {
         "PLAYER_NAME_LABEL" : "Nome do jogador",
         "TEAM_LABEL" : "Equipe",
         "GOALS_LABEL" : "Goles"
+    },
+    "STANDINGS" : {
+        "TEAM" : "Equipe",
+        "TABLE" : {
+            "POINTS" : "P",
+            "MATCHES" : "J",
+            "MATCHES_WON" : "V",
+            "MATCHES_DRAWN" : "E",
+            "MATCHES_LOST" : "P",
+            "GOALS_FOR" : "GP",
+            "GOALS_AGAINST" : "GC",
+            "GOALS_DIFFERENCE" : "SG"
+        }
     },
     "MATCH" : {
         "STATUS" : {
@@ -366,6 +421,14 @@ var translationsPt = {
         "EN" : "Inglês",
         "ES" : "Espanhol"
     },
+    "APP" : {
+        "EXIT_APP_TITLE" : "Sair do Aplicativo",
+        "EXIT_APP_MSG" : "Tem certeza de que deseja sair do aplicativo?"
+    },
+    "OK" : "Ok",
+    "CANCEL" : "Cancelar",
+    "PREVIOUS" : "Anterior",
+    "NEXT" : "Seguinte",
     "LOADING" : "A Carregar",
     "NOT_AVAILABLE": "Não Disponível"
 };
