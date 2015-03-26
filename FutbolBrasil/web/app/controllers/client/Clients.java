@@ -890,6 +890,7 @@ public class Clients extends HecticusController {
                     if(file != null && file.exists()){
                         byte[] encoded = Files.readAllBytes(Paths.get(filePath));
                         String localization =  new String(encoded, StandardCharsets.UTF_8);
+                        response().setHeader("Content-Type", "application/json");
                         return ok(localization);
                     } else {
                         return notFound();
