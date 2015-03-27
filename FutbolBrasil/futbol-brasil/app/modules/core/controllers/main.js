@@ -201,6 +201,7 @@ angular
                 });
 
                 $scope.$on('unload', function(){
+                        $rootScope.LOADING_TEXT = '';
                         $timeout(function(){
                             $scope.loading = false;
                         }, 200);
