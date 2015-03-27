@@ -9,9 +9,9 @@ angular
     .module('core')
     .factory('CordovaApp',['$state', '$window', '$timeout', '$translate',
         'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
-        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
+        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics', 'i18n', 'News', 'Domain',
         function($state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics) {
+                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics, i18n, News, Domain) {
 
             var currentSection = '';
             var prevSection = '';
@@ -20,6 +20,47 @@ angular
             var onSettingsSection = false;
 
             var strings = {};
+
+            //noinspection UnnecessaryLocalVariableJS
+            var service = {
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaApp#init
+                 * @methodOf core.Services.CordovaApp
+                 */
+                init : init,
+
+                setCurrentSection : function(sect){
+                    currentSection = sect;
+                },
+                getCurrentSection : function(){
+                    return currentSection;
+                },
+
+                setPreviousSection : function(sect){
+                    prevSection = sect;
+                },
+                getPreviousSection : function(){
+                    return prevSection;
+                },
+
+                errorStartApp : errorStartApp,
+
+                getVersion: getVersion,
+
+                isBlockedSection : isBlockedSection,
+
+                isOnUtilitySection : isOnUtilitySection,
+
+                requiresAuthSection : requiresAuthSection,
+
+                setIsOnSettingsSection: setIsOnSettingsSection,
+
+                onBackButtonPressed: onBackButtonPressed,
+
+                showNotificationDialog: showNotificationDialog
+            };
 
             function getVersion(){
                 if(!!$window.wizUtils){
@@ -162,9 +203,9 @@ angular
                 }
             }
 
-            function startApp(isActive, status){
-                console.log("startApp. Starting App: Client Active: " + isActive
-                    + ". Client Status: " + status);
+            function startApp(data){
+                console.log("startApp. Starting App: Client Active: " + data.is_active
+                    + ". Client Status: " + data.status);
             }
 
             function startAppOffline(){
@@ -195,19 +236,28 @@ angular
                 getVersion();
 
                 Analytics.init();
-                ClientManager.init(startApp, errorStartApp);
+                ClientManager.init().then(startApp, errorStartApp);
 
                 if(CordovaDevice.phonegapIsOnline()) {
                     PushManager.init();
                     WebManager.loadServerConfigs().then(
-                        function(){
+                        function(data){
+                            data = data.data.response;
+                            Upstream.setUp(data).then(Upstream.appLaunchEvent);
+
+                            App.setCompanyName(data.company_name);
+                            App.setBuildVersion(data.build_version);
+                            App.setServerVersion(data.server_version);
+                            App.setUpdateInfo(data.version);
+
+                            Domain.setProvisionalLanguage(data.default_language);
+                            i18n.init(data.default_language);
+
+                            News.setMaxNews(data.max_news);
+
                             Settings.init();
                             Competitions.init();
                             getTranslations();
-
-                            $timeout(function(){
-                                Upstream.appLaunchEvent();
-                            }, 500);
 
                             if(!CordovaDevice.isWebPlatform()){
                                 Update.checkUpdate();
@@ -225,44 +275,6 @@ angular
                 bindEvents();
             }
 
-            return {
-
-                setCurrentSection : function(sect){
-                    currentSection = sect;
-                },
-                getCurrentSection : function(){
-                    return currentSection;
-                },
-
-                setPreviousSection : function(sect){
-                    prevSection = sect;
-                },
-                getPreviousSection : function(){
-                    return prevSection;
-                },
-
-                errorStartApp : errorStartApp,
-
-                getVersion: getVersion,
-
-                isBlockedSection : isBlockedSection,
-
-                isOnUtilitySection : isOnUtilitySection,
-
-                requiresAuthSection : requiresAuthSection,
-
-                setIsOnSettingsSection: setIsOnSettingsSection,
-
-                onBackButtonPressed: onBackButtonPressed,
-
-                showNotificationDialog: showNotificationDialog,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.CordovaApp#init
-                 * @methodOf core.Services.CordovaApp
-                 */
-                init : init
-            };
+            return service;
         }
     ]);

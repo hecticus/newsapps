@@ -13,14 +13,16 @@ angular
         , 'TeamsManager', 'FacebookManager', 'Settings', 'iScroll', 'i18n', 'Client', 'Notification',
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
+
             var scroll = null;
+            var removeEventCallback = null;
 
             $scope.fbObject = {
                 fbStatus: null,
                 fbButtonMsg: ''
             };
 
-            $scope.lang = '';
+            $scope.lang = {};
             $scope.nickname = '';
 
             $scope.favoriteTeams = [undefined, undefined, undefined];
@@ -172,12 +174,14 @@ angular
                 if(!$scope.lang){
                     $scope.lang = i18n.getDefaultLanguage();
                 }
-                //noinspection JSPrimitiveTypeWrapperUsage
+
                 $scope.lang.short_name = $scope.lang.short_name.toUpperCase();
-                $translate.use($scope.lang.short_name.toLowerCase());
-                $translate('LANGUAGE.' + $scope.lang.short_name).then(function(translation){
-                    //noinspection JSPrimitiveTypeWrapperUsage
-                    $scope.lang.translation = translation;
+
+                $translate(['LANGUAGE.' + $scope.lang.short_name, 'SETTINGS.ADD_TEAM', 'NOT_AVAILABLE'])
+                .then(function(translations){
+                    $scope.lang.translation = translations['LANGUAGE.' + $scope.lang.short_name];
+                    $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
+                    $scope.strings.NOT_AVAILABLE = translations['NOT_AVAILABLE'];
                 });
             }
 
@@ -192,15 +196,20 @@ angular
 
             function init(){
                 setUpIScroll();
-                $translate(['SETTINGS.ADD_TEAM']).then(function(translations){
-                    $scope.strings.ADD_TEAM = translations['SETTINGS.ADD_TEAM'];
-                });
                 getFavoriteTeams();
                 loadSettings();
                 getStatus();
                 getClientLanguage();
+
+                removeEventCallback = $rootScope.$on('$translateChangeSuccess', function () {
+                    getClientLanguage();
+                });
                 $scope.nickname = Client.getNickname();
                 $scope.$emit('unload');
+
+                $scope.$on('$destroy', function() {
+                    typeof removeEventCallback === 'function' && removeEventCallback();
+                });
             } init();
 
         }

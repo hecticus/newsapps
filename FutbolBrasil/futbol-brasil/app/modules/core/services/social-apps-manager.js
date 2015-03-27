@@ -7,10 +7,8 @@
  */
 angular
     .module('core')
-//    .factory('SocialAppsManager', ['$window', 'Utilities',
-//        function($window, Utilities) {
-    .factory('SocialAppsManager', ['$window', 'Utilities','$fb','$twt',
-        function($window, Utilities, $fb, $twt) {
+    .factory('SocialAppsManager', ['$window', '$fb','$twt',
+        function($window, $fb, $twt) {
 
             function share(message, subject){
                 if($window.plugins && $window.plugins.socialsharing) {

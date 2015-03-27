@@ -15,39 +15,38 @@ angular
             $scope.languages = [];
             $scope.searchQuery = '';
 
-            $scope.languageSelected = function(language){
+            $scope.languageSelected = languageSelected;
+            $scope.getLanguageClass = getLanguageClass;
+
+            init();
+
+            //////////////////////////////////////////
+
+            function languageSelected(language){
                 Client.setLanguage(language, function(){
-//                    console.log(language);
                     $state.go('settings');
                 });
-            };
+            }
 
-            $scope.getLanguages = function(){
-                $scope.languages = i18n.getAvailableLanguages();
-                $scope.translate();
-                $scope.$emit('unload');
-            };
-
-            $scope.getLanguageClass = function(Language){
-                if(Language.selected){
+            function getLanguageClass(lang){
+                if(lang.selected){
                     return 'mdi-action-favorite mdi-material-lime';
                 }else{
                     return 'mdi-action-favorite-outline';
                 }
-            };
+            }
 
-            $scope.translate = function(){
+            function translate(){
                 $scope.languages.forEach(function(lang){
                     $translate('LANGUAGE.' + lang.short_name.toUpperCase()).then(function(translation){
                         lang.translation = translation;
-//                        console.log($scope.languages);
                     }, function(){
                         lang.translation = lang.name;
                     });
                 });
-            };
+            }
 
-            $scope.setUpIScroll = function() {
+            function setUpIScroll() {
                 scroll = new IScroll('#wrapper'
                     , {click: true, preventDefault: true, bounce: true, probeType: 2});
                 scroll.on('beforeScrollStart', function () {
@@ -57,11 +56,17 @@ angular
                     scroll.destroy();
                     scroll = null;
                 });
-            };
+            }
 
-            $scope.init = function(){
-                $scope.setUpIScroll();
-                $scope.getLanguages();
-            }();
+            function getLanguages(){
+                $scope.languages = i18n.getAvailableLanguages();
+                translate();
+                $scope.$emit('unload');
+            }
+
+            function init(){
+                setUpIScroll();
+                getLanguages();
+            }
         }
 ]);
