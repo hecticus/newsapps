@@ -21,6 +21,11 @@ import play.mvc.Result;
 import play.mvc.Results;
 import utils.Utils;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -56,9 +61,9 @@ public class Clients extends HecticusController {
             if(clientData.has("password")){
                 password = clientData.get("password").asText();
             }
+            boolean update = false;
             if(login != null) {
                 client = Client.getByLogin(login);
-                boolean update = false;
                 if (client != null) {
                     if (client.getUserId() == null) {
                         //si tenemos password tratamos de hacer login
@@ -81,52 +86,50 @@ public class Clients extends HecticusController {
                         client.update();
                     }
                 }
-
-
-                if (client != null) {
-                    //actualizar regID
-                    if (clientData.has("devices")) {
-                        Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                        update = false;
-                        while (devicesIterator.hasNext()) {
-                            ObjectNode next = (ObjectNode) devicesIterator.next();
-                            if (next.has("device_id") && next.has("registration_id")) {
-                                String registrationId = next.get("registration_id").asText();
-                                int deviceId = next.get("device_id").asInt();
-                                Device device = Device.getByID(deviceId);
-                                ClientHasDevices clientHasDevice = ClientHasDevices.getByForClientRegistrationIdDevice(client, registrationId, device);
-                                if (clientHasDevice == null) {
-                                    clientHasDevice = new ClientHasDevices(client, device, registrationId);
-                                    client.getDevices().add(clientHasDevice);
-                                    update = true;
-                                }
-                                otherRegsIDs = ClientHasDevices.getByNotForClientRegistrationIdDevice(client, registrationId, device);
-                                if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
-                                    for (ClientHasDevices clientHasDevices : otherRegsIDs) {
-                                        clientHasDevices.delete();
-                                    }
+            }
+            UUID session = UUID.randomUUID();
+            if (client != null) {
+                //actualizar regID
+                if (clientData.has("devices")) {
+                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                    while (devicesIterator.hasNext()) {
+                        ObjectNode next = (ObjectNode) devicesIterator.next();
+                        if (next.has("device_id") && next.has("registration_id")) {
+                            String registrationId = next.get("registration_id").asText();
+                            int deviceId = next.get("device_id").asInt();
+                            Device device = Device.getByID(deviceId);
+                            ClientHasDevices clientHasDevice = ClientHasDevices.getByForClientRegistrationIdDevice(client, registrationId, device);
+                            if (clientHasDevice == null) {
+                                clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                client.getDevices().add(clientHasDevice);
+                            }
+                            otherRegsIDs = ClientHasDevices.getByNotForClientRegistrationIdDevice(client, registrationId, device);
+                            if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
+                                for (ClientHasDevices clientHasDevices : otherRegsIDs) {
+                                    clientHasDevices.delete();
                                 }
                             }
                         }
-                        if (update) {
-                            client.update();
-                        }
                     }
-                    return ok(buildBasicResponse(0, "OK", client.toJson()));
+                    client.setSession(session.toString());
+                    client.update();
                 }
-                if (clientData.has("country") && clientData.has("language")) {
-                    int countryId = clientData.get("country").asInt();
-                    Country country = Country.getByID(countryId);
-                    int languageId = clientData.get("language").asInt();
-                    Language language = Language.getByID(languageId);
-                    if (country != null && language != null) {
-                        TimeZone tz = TimeZone.getDefault();
-                        Calendar actualDate = new GregorianCalendar(tz);
-                        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
-                        String date = sf.format(actualDate.getTime());
+                return ok(buildBasicResponse(0, "OK", client.toJson()));
+            } else if (clientData.has("country") && clientData.has("language")) {
+                int countryId = clientData.get("country").asInt();
+                Country country = Country.getByID(countryId);
+                int languageId = clientData.get("language").asInt();
+                Language language = Language.getByID(languageId);
+                if (country != null && language != null) {
+                    TimeZone tz = TimeZone.getDefault();
+                    Calendar actualDate = new GregorianCalendar(tz);
+                    SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+                    String date = sf.format(actualDate.getTime());
 
-                        client = new Client(2, login, password, country, date, language);
-                        ArrayList<ClientHasDevices> devices = new ArrayList<>();
+                    client = new Client(2, login, password, country, date, language);
+                    ArrayList<ClientHasDevices> devices = new ArrayList<>();
+
+                    if(clientData.has("devices")) {
                         Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
                         while (devicesIterator.hasNext()) {
                             ObjectNode next = (ObjectNode) devicesIterator.next();
@@ -146,60 +149,60 @@ public class Clients extends HecticusController {
                                 }
                             }
                         }
-                        if (devices.isEmpty()) {
-                            return badRequest(buildBasicResponse(4, "Faltan campos para crear el registro"));
-                        }
                         client.setDevices(devices);
-
-                        if (client.getPassword() != null && !client.getPassword().isEmpty()) {
-                            getUserIdFromUpstream(client, upstreamChannel);
-                        } else {
-                            subscribeUserToUpstream(client, upstreamChannel);
-                        }
-                        getStatusFromUpstream(client, upstreamChannel);
-
-                        if (clientData.has("athletes")) {
-                            Iterator<JsonNode> athletesIterator = clientData.get("athletes").elements();
-                            ArrayList<ClientHasAthlete> athletes = new ArrayList<>();
-                            while (athletesIterator.hasNext()) {
-                                JsonNode next = athletesIterator.next();
-                                Athlete athlete = Athlete.getByID(next.asInt());
-                                if (athlete != null) {
-                                    ClientHasAthlete chw = new ClientHasAthlete(client, athlete);
-                                    athletes.add(chw);
-                                }
-                            }
-                            if (!athletes.isEmpty()) {
-                                client.setAthletes(athletes);
-                            }
-                        }
-
-                        if (clientData.has("categories")) {
-                            Iterator<JsonNode> categoriesIterator = clientData.get("categories").elements();
-                            ArrayList<ClientHasCategory> categories = new ArrayList<>();
-                            while (categoriesIterator.hasNext()) {
-                                JsonNode next = categoriesIterator.next();
-                                Category category = Category.getByID(next.asInt());
-                                if (category != null) {
-                                    ClientHasCategory clientHasCategory = new ClientHasCategory(client, category);
-                                    categories.add(clientHasCategory);
-                                }
-                            }
-                            if (!categories.isEmpty()) {
-                                client.setCategories(categories);
-                            }
-                        }
-
-                        client.save();
-                        return created(buildBasicResponse(0, "OK", client.toJson()));
-                    } else {
-                        return notFound(buildBasicResponse(3, "pais invalido"));
                     }
+                    if (client.getPassword() != null && !client.getPassword().isEmpty()) {
+                        getUserIdFromUpstream(client, upstreamChannel);
+                    } else {
+                        subscribeUserToUpstream(client, upstreamChannel);
+                    }
+                    getStatusFromUpstream(client, upstreamChannel);
+
+                    if (clientData.has("athletes")) {
+                        Iterator<JsonNode> athletesIterator = clientData.get("athletes").elements();
+                        ArrayList<ClientHasAthlete> athletes = new ArrayList<>();
+                        while (athletesIterator.hasNext()) {
+                            JsonNode next = athletesIterator.next();
+                            Athlete athlete = Athlete.getByID(next.asInt());
+                            if (athlete != null) {
+                                ClientHasAthlete chw = new ClientHasAthlete(client, athlete);
+                                athletes.add(chw);
+                            }
+                        }
+                        if (!athletes.isEmpty()) {
+                            client.setAthletes(athletes);
+                        }
+                    }
+
+                    if (clientData.has("categories")) {
+                        Iterator<JsonNode> categoriesIterator = clientData.get("categories").elements();
+                        ArrayList<ClientHasCategory> categories = new ArrayList<>();
+                        while (categoriesIterator.hasNext()) {
+                            JsonNode next = categoriesIterator.next();
+                            Category category = Category.getByID(next.asInt());
+                            if (category != null) {
+                                ClientHasCategory clientHasCategory = new ClientHasCategory(client, category);
+                                categories.add(clientHasCategory);
+                            }
+                        }
+                        if (!categories.isEmpty()) {
+                            client.setCategories(categories);
+                        }
+                    }
+                    client.setSession(session.toString());
+                    if(clientData.has("facebook_id")){
+                        client.setFacebookId(clientData.get("facebook_id").asText());
+                    }
+                    if(clientData.has("nickname")){
+                        client.setNickname(clientData.get("nickname").asText());
+                    }
+                    client.save();
+                    return created(buildBasicResponse(0, "OK", client.toJson()));
                 } else {
-                    return badRequest(buildBasicResponse(2, "Faltan campos para crear el registro"));
+                    return notFound(buildBasicResponse(3, "pais invalido"));
                 }
             } else {
-                return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
+                return badRequest(buildBasicResponse(2, "Faltan campos para crear el registro"));
             }
         } catch (UpstreamAuthenticationFailureException ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error creando client por autenticacion con params " + clientData, false, ex, "support-level-1", Config.LOGGER_ERROR);
@@ -357,6 +360,20 @@ public class Clients extends HecticusController {
                     }
                 }
 
+                if(clientData.has("facebook_id")){
+                    String facebookId = clientData.get("facebook_id").asText();
+                    String clientFacebookId = client.getFacebookId();
+                    if(clientFacebookId == null || !facebookId.equalsIgnoreCase(clientFacebookId)) {
+                        client.setFacebookId(facebookId);
+                        update = true;
+                    }
+                }
+
+                if(clientData.has("nickname")){
+                    client.setNickname(clientData.get("nickname").asText());
+                    update = true;
+                }
+
                 //si pedimos que se suscriba debe hacerse
                 if(clientData.has("subscribe") && clientData.has("login")){
                     if(client != null){
@@ -441,14 +458,13 @@ public class Clients extends HecticusController {
                         }
                     }
                 }
-                response = buildBasicResponse(0, "OK", pmc?client.toPMCJson():client.toJson());
+                return ok(buildBasicResponse(0, "OK", pmc?client.toPMCJson():client.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(-1,"Error buscando el registro",e));
         }
     }
 
@@ -459,11 +475,10 @@ public class Clients extends HecticusController {
             while(clientIterator.hasNext()){
                 clients.add(pmc?clientIterator.next().toPMCJson():clientIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(clients));
-            return ok(response);
+            return ok(buildBasicResponse(0, "OK", Json.toJson(clients)));
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error listando clients con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(-1,"Error buscando el registro",e));
         }
     }
 
@@ -499,7 +514,65 @@ public class Clients extends HecticusController {
             return ok(buildBasicResponse(0,"ok"));
         }catch(Exception ex){
             Utils.printToLog(Clients.class, "Error manejando clients", "Ocurrio un error limpiando los devices " + json, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",ex));
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", ex));
+        }
+    }
+
+    public static Result getLocale(String lang){
+        try {
+            Language language = Language.getLanguageByShortName(lang);
+            if(language != null) {
+                String filePath = Config.getString("locales-path") + language.getAppLocalizationFile();
+                if(filePath != null && !filePath.isEmpty()){
+                    File file = new File(filePath);
+                    if(file != null && file.exists()){
+                        byte[] encoded = Files.readAllBytes(Paths.get(filePath));
+                        String localization =  new String(encoded, StandardCharsets.UTF_8);
+                        return ok(localization);
+                    } else {
+                        return notFound();
+                    }
+                }else {
+                    return notFound();
+                }
+            }else {
+                return notFound();
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando Idiomas", "error obteniendo localizacion ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando localizacion",e));
+        }
+    }
+
+    public static Result setLocale(String lang){
+        try {
+            ObjectNode locale = getJson();
+            Language language = Language.getLanguageByShortName(lang);
+            if(language != null) {
+                StringBuilder filePath = new StringBuilder();
+                filePath.append(Config.getString("locales-path"));
+                String appLocalizationFile = language.getAppLocalizationFile();
+                boolean update = false;
+                if(appLocalizationFile != null && !appLocalizationFile.isEmpty()){
+                    filePath.append(appLocalizationFile);
+                } else {
+                    filePath.append("locale-").append(lang).append(".json");
+                    language.setAppLocalizationFile("locale-"+lang+".json");
+                    update = true;
+                }
+                PrintWriter writer = new PrintWriter(filePath.toString(), "UTF-8");
+                writer.println(locale);
+                writer.close();
+                if(update){
+                    language.update();
+                }
+                return created(locale);
+            }else {
+                return notFound();
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando Idiomas", "error creando localizacion ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando localizacion",e));
         }
     }
 
@@ -571,6 +644,7 @@ public class Clients extends HecticusController {
             ObjectNode response = null;
             ObjectNode clientData = getJson();
             Client client = null;
+            ObjectNode metadata = null;
             //Obtenemos el canal por donde esta llegando el request
             String upstreamChannel;
             if(clientData.has("upstreamChannel")){
@@ -587,8 +661,13 @@ public class Clients extends HecticusController {
             if(clientData.has("event_type")){
                 event_type = clientData.get("event_type").asText();
             }
+
+            if(clientData.has("metadata")){
+                metadata = (ObjectNode) clientData.get("metadata");
+            }
+
             if(client != null && (event_type != null || !event_type.isEmpty())) {
-                sendEventForUpstream(client,upstreamChannel,event_type);
+                sendEventForUpstream(client,upstreamChannel,event_type, metadata);
                 response = buildBasicResponse(0, "OK", client.toJson());
             } else {
                 response = buildBasicResponse(2, "no existe el registro para enviar el evento");
@@ -597,6 +676,49 @@ public class Clients extends HecticusController {
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
             return Results.badRequest(buildBasicResponse(3, "ocurrio un error enviando evento", ex));
+        }
+    }
+
+    public static Result sendClientEvent(Integer id) {
+        String user_id = null;
+        String event_type = null;
+        try{
+            ObjectNode clientData = getJson();
+            if(clientData == null){
+                return badRequest(buildBasicResponse(1, "Falta el json con los parametros del request"));
+            }
+            Client client = Client.getByID(id);
+            if(client != null) {
+                user_id = client.getUserId();
+                ObjectNode metadata = null;
+                //Obtenemos el canal por donde esta llegando el request
+                String upstreamChannel;
+                if (clientData.has("upstreamChannel")) {
+                    upstreamChannel = clientData.get("upstreamChannel").asText();
+                } else {
+                    upstreamChannel = "Android"; //"Android" o "Web"
+                }
+                //buscamos el event_type
+                if (clientData.has("event_type")) {
+                    event_type = clientData.get("event_type").asText();
+                }
+
+                if (clientData.has("metadata")) {
+                    metadata = (ObjectNode) clientData.get("metadata");
+                }
+
+                if (event_type != null || !event_type.isEmpty()) {
+                    sendEventForUpstream(client, upstreamChannel, event_type, metadata);
+                    return ok(buildBasicResponse(0, "OK", client.toJson()));
+                } else {
+                    return badRequest(buildBasicResponse(3, "Falta el tipo de evento"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        } catch (Exception ex) {
+            Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error enviando evento", ex));
         }
     }
 
@@ -660,7 +782,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             //agregamos el msisdn(username) y el password
             fields.put("password", password);
             fields.put("msisdn", msisdn);
@@ -752,7 +874,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, login, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             //agregamos el user_id
             fields.put("user_id", userID);
 
@@ -838,7 +960,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             //agregamos el username y el password
             fields.put("password", password);
             fields.put("username", username);
@@ -927,7 +1049,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             fields.put("user_id", userID); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -1009,7 +1131,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
             fields.put("msisdn", msisdn); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -1093,7 +1215,7 @@ public class Clients extends HecticusController {
      * channel   "Android" or "Web"
      *
      */
-    private static void sendEventForUpstream(Client client, String upstreamChannel, String event_type) throws Exception{
+    private static void sendEventForUpstream(Client client, String upstreamChannel, String event_type, ObjectNode metadata) throws Exception{
         if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
             String username = client.getLogin();
             String userID = client.getUserId();
@@ -1111,7 +1233,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, metadata);
             fields.put("user_id", userID); //agregamos el UserID al request
             fields.put("event_type", event_type); //agregamos el evento
             fields.put("timestamp", formatDateUpstream()); //agregamos el time
@@ -1173,12 +1295,14 @@ public class Clients extends HecticusController {
         return urlCall;
     }
     //set basic POST data for UPSTREAM
-    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id){
+    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id, ObjectNode metadata){
         String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
         String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
 
         ObjectNode fields = Json.newObject();
-        ObjectNode metadata = Json.newObject();
+        if(metadata == null) {
+            metadata = Json.newObject();
+        }
         fields.put("service_id", upstreamServiceID);
         if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")){
             fields.put("push_notification_id",push_notification_id);
