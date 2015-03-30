@@ -53,45 +53,35 @@
                                         </thead>
                                         <tbody>
 
-                                        <tr ng-repeat="match in fixture.matches">
-                                            <td class="col-xs-4 bet"
-                                                ng-click="setBet(match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index)"
-                                                ng-class="{active: match.bet.client_bet === 0}">
+                                          <tr ng-repeat="match in fixture.matches">
 
-                                                <div>
-                                                  <span ng-bind="match.home_team.name"></span><br/>
+                                              <td class="col-xs-4 bet"
+                                                  ng-click="setBet(match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index)"
+                                                  ng-class="{active: match.bet.client_bet === 0}">
+                                                  <i class="mdi-navigation-check animated flipInX"></i>
+                                                  <h6 ng-bind="match.home_team.name"></h6>
                                                   <span ng-bind="match.home_team_goals" class="goal" ng-if="match.status.id_status != 0"></span>
-                                                  <span class="mdi-navigation-check animated flipInX" ></span>
-                                                </div>
+                                              </td>
 
-
-                                            </td>
-
-                                            <td class="col-xs-4 bet"
-                                                ng-click="setBet(match.status.id_status, 1, $parent.$parent.$index, $parent.$index, $index)"
-                                                ng-class="{active: match.bet.client_bet == 1}">
-
-                                                <div>
+                                              <td class="col-xs-4 bet"
+                                                  ng-click="setBet(match.status.id_status, 1, $parent.$parent.$index, $parent.$index, $index)"
+                                                  ng-class="{active: match.bet.client_bet == 1}">
+                                                  <i class="mdi-navigation-check animated flipInX"></i>
                                                   <span class="date" style="font-size:2em;"><strong>VS</strong></span><br/>
                                                   <span ng-bind="getTime(match.date)" class="date"></span> <br/>
                                                   <span ng-bind="match.status.name" class="status _{{match.status.id_status}}"></span>
-                                                  <span class="mdi-navigation-check animated flipInX"></span>
-                                                </div>
+                                              </td>
 
-                                            </td>
-
-                                            <td class="col-xs-4 bet"
-                                                ng-click="setBet(match.status.id_status, 2, $parent.$parent.$index,$parent.$index,$index)"
-                                                ng-class="{active: match.bet.client_bet == 2}">
-
-                                                <div>
-                                                  <span ng-bind="match.away_team.name" ng-class="{active: match.bet.client_bet === 2}"></span><br/>
+                                              <td class="col-xs-4 bet"
+                                                  ng-click="setBet(match.status.id_status, 2, $parent.$parent.$index,$parent.$index,$index)"
+                                                  ng-class="{active: match.bet.client_bet == 2}">
+                                                  <i class="mdi-navigation-check animated flipInX"></i>
+                                                  <h6 ng-bind="match.away_team.name" ></h6>
                                                   <span ng-bind="match.away_team_goals" class="goal" ng-if="match.status.id_status != 0"></span>
-                                                  <span class="mdi-navigation-check animated flipInX"></span>
-                                                </div>
+                                              </td>
 
-                                            </td>
-                                        </tr>
+                                          </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
