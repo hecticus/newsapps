@@ -31,23 +31,21 @@
                                             <tbody>
                                             <tr ng-repeat="match in league.fixtures"
                                                 data-match="{{ match.id_game_matches }}">
-                                                <td style="width: 33% !important;"
+                                                <td style="width: 33% !important; vertical-align:middle;"
                                                     ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
-                                                    <span ng-bind="match.homeTeam.name"></span>
-                                                    <br />
-                                                    <span ng-bind="match.home_team_goals" class="goal"></span>
+                                                    <h6 ng-bind="match.homeTeam.name" class="team-name"></h6>
+                                                    <span ng-bind="match.home_team_goals" class="goal"  ng-if="match.id_status != 0"></span>
                                                 </td>
-                                                <td style="width: 33% !important;">
+                                                <td style="width: 33% !important;  vertical-align:middle;">
                                                     <span ng-bind="getTime(match.date)" class="date"></span>
                                                     <br />
                                                         <span class="status _{{match.id_status}}">
                                                             {{ match.status | translate}}
                                                         </span>
                                                 </td>
-                                                <td style="width: 33% !important;" ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
-                                                    <span ng-bind="match.awayTeam.name"></span>
-                                                    <br />
-                                                    <span ng-bind="match.away_team_goals" class="goal"></span>
+                                                <td style="width: 33% !important;  vertical-align:middle;" ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
+                                                    <h6 ng-bind="match.awayTeam.name" class="team-name"></h6>
+                                                    <span ng-bind="match.away_team_goals" class="goal"  ng-if="match.id_status != 0"></span>
                                                 </td>
                                             </tr>
                                             </tbody>
