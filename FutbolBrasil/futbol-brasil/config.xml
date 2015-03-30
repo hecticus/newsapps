@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.hecticus.futbolbrasil" version="0.3"
         xmlns="http://www.w3.org/ns/widgets">
-	<name>Tim Palpites Vencedor</name>
+	<name>TimPalpitesVencedor</name>
 	<description>
 		FutbolBrasil app.
 	</description>
@@ -13,6 +13,10 @@
 
     <platform name="android">
         <splash src="res/splash.png" density="hdpi"/>
+    </platform>
+    
+    <platform name="ios">
+        <framework src="SystemConfiguration.framework"/>
     </platform>
 
 	<preference name="orientation" value="portrait" />
