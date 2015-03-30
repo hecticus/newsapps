@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
     <meta charset="utf-8">
-    <title>Brasil Futebol</title>
+    <title>Tim Palpites Vencedor</title>
 
     <meta name="description" content="">
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes.
@@ -73,6 +73,26 @@
     <error></error>
 
     <menu ng-cloak>
+
+        <menu-item section="prediction" icon="mdi-action-event">
+          {{'SECTIONS.BETS' | translate}}
+        </menu-item>
+
+        <!--<div class="hidden-xs">-->
+        <menu-sub-item section="prediction" icon="icon-balon">
+          {{'SECTIONS.BETS.PREDICTIONS' | translate}}
+        </menu-sub-item>
+        <menu-sub-item section="leaderboard" icon="icon-tabela">
+          {{'SECTIONS.BETS.LEADERBOARDS' | translate}}
+        </menu-sub-item>
+        <menu-sub-item section="friends" icon="icon-artilharia">
+          {{'SECTIONS.BETS.FRIENDS' | translate}}
+        </menu-sub-item>
+        <menu-sub-item section="points" icon="icon-puntos">
+          {{'SECTIONS.BETS.POINTS' | translate}}
+        </menu-sub-item>
+        <!--</div>-->
+
         <menu-item section="news" icon="mdi-action-label">
             {{'SECTIONS.NOTISTATS' | translate}}
         </menu-item>
@@ -94,24 +114,7 @@
             </menu-sub-item>
         <!--</div>-->
 
-        <menu-item section="prediction" icon="mdi-action-event">
-            {{'SECTIONS.BETS' | translate}}
-        </menu-item>
 
-        <!--<div class="hidden-xs">-->
-            <menu-sub-item section="prediction" icon="icon-balon">
-                {{'SECTIONS.BETS.PREDICTIONS' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="leaderboard" icon="icon-tabela">
-                {{'SECTIONS.BETS.LEADERBOARDS' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="friends" icon="icon-artilharia">
-                {{'SECTIONS.BETS.FRIENDS' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="points" icon="icon-puntos">
-                {{'SECTIONS.BETS.POINTS' | translate}}
-            </menu-sub-item>
-        <!--</div>-->
 
         <menu-item section="settings" icon="mdi-action-settings">
             {{'SECTIONS.SETTINGS' | translate}}

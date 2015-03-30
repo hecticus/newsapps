@@ -48,7 +48,7 @@ angular
                     $state.go('settings');
                 } else {
                     console.log('existing client. going to news');
-                    $state.go('news');
+                    $state.go('prediction');
                 }
             }
 
