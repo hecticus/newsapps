@@ -975,14 +975,14 @@ td.bet div {
   font-size: 1.2em;
 }
 
-.content-prediction .bet {position:relative; vertical-align:middle;}
-.content-prediction .bet h6 {
+h6.team-name {
   height:20px;
   height-line:10px;
   margin-top:10px;
  }
 
-.content-prediction .bet.active {background-color:#f2f2f2  !important;}
+.content-prediction .bet {position:relative; vertical-align:middle;}
+.content-prediction .bet.active {background-color:#9999   !important;}
 .content-prediction .bet .mdi-navigation-check {display:none;}
 .content-prediction .bet.active .mdi-navigation-check {
   position:absolute;

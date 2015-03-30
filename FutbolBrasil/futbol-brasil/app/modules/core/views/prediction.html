@@ -59,7 +59,7 @@
                                                   ng-click="setBet(match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index)"
                                                   ng-class="{active: match.bet.client_bet === 0}">
                                                   <i class="mdi-navigation-check animated flipInX"></i>
-                                                  <h6 ng-bind="match.home_team.name"></h6>
+                                                  <h6 ng-bind="match.home_team.name" class="team-name"></h6>
                                                   <span ng-bind="match.home_team_goals" class="goal" ng-if="match.status.id_status != 0"></span>
                                               </td>
 
@@ -76,7 +76,7 @@
                                                   ng-click="setBet(match.status.id_status, 2, $parent.$parent.$index,$parent.$index,$index)"
                                                   ng-class="{active: match.bet.client_bet == 2}">
                                                   <i class="mdi-navigation-check animated flipInX"></i>
-                                                  <h6 ng-bind="match.away_team.name" ></h6>
+                                                  <h6 ng-bind="match.away_team.name" class="team-name"></h6>
                                                   <span ng-bind="match.away_team_goals" class="goal" ng-if="match.status.id_status != 0"></span>
                                               </td>
 
