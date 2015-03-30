@@ -37,10 +37,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
                             "count": 1
                         },
@@ -106,6 +102,10 @@
                         },
                         {
                             "xml": "<feature name=\"WizUtilsPlugin\"><param name=\"ios-package\" value=\"WizUtilsPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -244,9 +244,6 @@
         "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         },
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.hecticus.futbolbrasil"
-        },
         "org.apache.cordova.dialogs": {
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         },
@@ -271,6 +268,9 @@
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         },
         "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": {
+            "PACKAGE_NAME": "com.hecticus.futbolbrasil"
+        },
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.hecticus.futbolbrasil"
         }
     },
