@@ -52,8 +52,8 @@ angular
                 templateUrl:'modules/core/views/settings.html',
                 controller:'SettingsController',
                 data:{
-                    prev: 'news',
-                    next: 'news',
+                    prev: 'prediction',
+                    next: 'prediction',
                     _class: 'content-settings',
                     section: 'settings'
                 }
