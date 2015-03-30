@@ -7,27 +7,36 @@
  */
 angular
     .module('core')
-    .factory('Domain', ['Client', 'i18n',
-        function(Client, i18n){
+    .factory('Domain', ['Client',
+        function(Client){
 
             var football_manager_url = 'http://footballmanager.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
             var appId = '1';
             var apiVersion = 'v1';
-            var getLang = function(){
-                if(!Client.getLanguage() && i18n.getDefaultLanguage()){
-                    return i18n.getDefaultLanguage().id_language;
+            var provisionalLang = null;
+
+            function getLang(){
+                if(!Client.getLanguage() && provisionalLang){
+                    return provisionalLang.id_language;
                 } else if(Client.getLanguage()){
                     return Client.getLanguage().id_language;
                 } else {
                     return 405;
                 }
-            };
-            var getClientId = function(){
+            }
+
+            function getClientId(){
                 return Client.getClientId();
-            };
+            }
+
+            function setProvisionalLanguage(lang){
+                provisionalLang = lang;
+            }
 
             return {
+
+                setProvisionalLanguage : setProvisionalLanguage,
 
                 loading: function (width, height, appVersion, platform) {
                     return brazil_football_manager_url + 'api/loading/'

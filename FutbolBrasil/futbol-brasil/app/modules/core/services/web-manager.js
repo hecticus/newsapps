@@ -7,9 +7,8 @@
  */
 angular
     .module('core')
-    .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain',
-        'App', 'i18n', 'News', 'Upstream', 'Client',
-        function($http, CordovaDevice, TeamsManager, Domain, App, i18n, News, Upstream, Client) {
+    .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain', 'Client', 'App',
+        function($http, CordovaDevice, TeamsManager, Domain, Client, App) {
 
             /**
              * @ngdoc function
@@ -94,20 +93,10 @@ angular
 //                    enableCerts(true);
                 return $http.get(Domain.loading(width , height, version, platform))
                     .success(function(data) {
-                        var response = data.response;
-                        Upstream.setUp(response);
-
-                        App.setCompanyName(response.company_name);
-                        App.setBuildVersion(response.build_version);
-                        App.setServerVersion(response.server_version);
-                        App.setUpdateInfo(response.version);
-
-                        i18n.setDefaultLanguage(response.default_language);
-                        i18n.setAvailableLanguages($http.get(Domain.languages));
-
-                        News.setMaxNews(response.max_news);
+                        return data.response;
                     }).error(function(){
                         console.log("Couldn't get config from server");
+                        return null;
                     });
             }
 

@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Upstream',['$http', 'Client', 'Moment', 'CordovaDevice', 'App',
-        function($http, Client, Moment, CordovaDevice, App) {
+    .factory('Upstream',['$http', '$q', 'Client', 'Moment', 'CordovaDevice', 'App',
+        function($http, $q, Client, Moment, CordovaDevice, App) {
 
             var AUTH_TOKEN_PREFIX = 'Basic ';
             var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
@@ -35,7 +35,68 @@ angular
                 'clicked_subscription' : 'CLICK_SP'
             };
 
+            var service = {
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#setUp
+                 * @methodOf core.Services.Upstream
+                 * @description Sets Up Upstream configuration from server. Example content:
+                 * <ul>
+                 *   <li>upstreamAppKey: "DEcxvzx98533fdsagdsfiou"</li>
+                 *   <li>upstreamAppVersion: "gamingapi.v1"</li>
+                 *   <li>upstreamGuestPassword: "guesth"</li>
+                 *   <li>upstreamGuestUser: "guesth"</li>
+                 *   <li>upstreamServiceID: "prototype-app -SubscriptionDefault"</li>
+                 *   <li>upstreamURL: "http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/clients/upstream"</li>
+                 *   <li>upstreamUserID: "100"</li>
+                 * </ul>
+                 */
+                setUp : setUp,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#appLaunchEvent
+                 * @description Reports App Launch Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
+                appLaunchEvent : appLaunchEvent,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#appCloseEvent
+                 * @description Reports App Close Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
+                appCloseEvent : appCloseEvent,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#loginEvent
+                 * @description Reports Login Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
+                loginEvent : loginEvent,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#viewSubscriptionPromptEvent
+                 * @description Reports Subscription Prompt Viewed Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
+                viewSubscriptionPromptEvent : viewSubscriptionPromptEvent,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Upstream#clickedSubscriptionPromptEvent
+                 * @description Reports Subscription Prompt Clicked Event to Upstream
+                 * @methodOf core.Services.Upstream
+                 */
+                clickedSubscriptionPromptEvent : clickedSubscriptionPromptEvent
+            };
+
             function setUp(config){
+                var deferred = $q.defer();
                 appKey = config.upstream_app_key;
                 appVersion = config.upstream_app_version;
 
@@ -49,6 +110,8 @@ angular
                 eventUrl = url + EVENT_SUFFIX;
                 passwordUrl = url + PASSWORD_SUFFIX;
                 updateHeaders();
+                deferred.resolve();
+                return deferred.promise;
             }
 
             function getAppResponseCodeString(code){
@@ -126,13 +189,6 @@ angular
                     return 'error';
                 }
 
-//                console.log('sendEvent:');
-//                var obj = {
-//                  "headers" : headers,
-//                  "body" : data
-//                };
-//                console.log(JSON.stringify(obj));
-
                 return $http.post(eventUrl, data, config).then(success, error);
             }
 
@@ -161,64 +217,6 @@ angular
                 return sendEvent(events.clicked_subscription);
             }
 
-            return {
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Upstream#setUp
-                 * @methodOf core.Services.Upstream
-                 * @description Sets Up Upstream configuration from server. Example content:
-                 * <ul>
-                 *   <li>upstreamAppKey: "DEcxvzx98533fdsagdsfiou"</li>
-                 *   <li>upstreamAppVersion: "gamingapi.v1"</li>
-                 *   <li>upstreamGuestPassword: "guesth"</li>
-                 *   <li>upstreamGuestUser: "guesth"</li>
-                 *   <li>upstreamServiceID: "prototype-app -SubscriptionDefault"</li>
-                 *   <li>upstreamURL: "http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/clients/upstream"</li>
-                 *   <li>upstreamUserID: "100"</li>
-                 * </ul>
-                 */
-                setUp : setUp,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Upstream#appLaunchEvent
-                 * @description Reports App Launch Event to Upstream
-                 * @methodOf core.Services.Upstream
-                 */
-                appLaunchEvent : appLaunchEvent,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Upstream#appCloseEvent
-                 * @description Reports App Close Event to Upstream
-                 * @methodOf core.Services.Upstream
-                 */
-                appCloseEvent : appCloseEvent,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Upstream#loginEvent
-                 * @description Reports Login Event to Upstream
-                 * @methodOf core.Services.Upstream
-                 */
-                loginEvent : loginEvent,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Upstream#viewSubscriptionPromptEvent
-                 * @description Reports Subscription Prompt Viewed Event to Upstream
-                 * @methodOf core.Services.Upstream
-                 */
-                viewSubscriptionPromptEvent : viewSubscriptionPromptEvent,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Upstream#clickedSubscriptionPromptEvent
-                 * @description Reports Subscription Prompt Clicked Event to Upstream
-                 * @methodOf core.Services.Upstream
-                 */
-                clickedSubscriptionPromptEvent : clickedSubscriptionPromptEvent
-            };
+            return service;
         }
     ]);

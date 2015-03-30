@@ -7,26 +7,24 @@
  */
 angular
     .module('core')
-    .factory('i18n',['$q', '$localStorage',
-        function($q, $localStorage) {
+    .factory('i18n',['$q', '$localStorage', '$http', 'Domain',
+        function($q, $localStorage, $http, Domain) {
             var FILE_KEY_LANGUAGES = 'APPLANGUAGES';
             var FILE_KEY_LANGUAGE_DEFAULT = 'APPLANGUAGEDEFAULT';
             var availableLanguages = [];
             var defaultLanguage = null;
 
-            var persistLanguages = function(languages){
-                if(languages) {
-                    availableLanguages = languages;
-                }
-                $localStorage[FILE_KEY_LANGUAGES] = JSON.stringify(availableLanguages);
-            };
+            //noinspection UnnecessaryLocalVariableJS
+            var service = {
 
-            var loadLanguages = function(){
-                availableLanguages = JSON.parse($localStorage[FILE_KEY_LANGUAGES]);
-                return availableLanguages;
-            };
-
-            return {
+                /**
+                 * @ngdoc function
+                 * @name core.Services.i18n#init
+                 * @description Initializes i18n Service
+                 * @param {object} lang default language to be set
+                 * @methodOf core.Services.i18n
+                 */
+                init: init,
 
                 /**
                  * @ngdoc function
@@ -34,48 +32,82 @@ angular
                  * @methodOf core.Services.i18n
                  * @return {Array} Returns available in-app Languages
                  */
-                getAvailableLanguages: function() {
-                    if(!availableLanguages){ loadLanguages(); }
-                    return availableLanguages;
-                },
+                getAvailableLanguages: getAvailableLanguages,
 
-                setAvailableLanguages : function(http){
-//                    console.log('i18n. setAvailableLanguages.');
-                    http.then(
-                        function(response){
-                            response = response.data;
-//                            console.log(response);
-                            if(response.error) {
-//                                console.log('i18n. setAvailableLanguages. error');
-                                return $q.reject(response.data);
-                            } else {
-//                                console.log('i18n. setAvailableLanguages. success');
-                                response = response.response;
-                                persistLanguages(response.languages);
-                                return availableLanguages;
-                            }
-                        },
-                        function(response){
-                            console.log('i18n. setAvailableLanguages. promise error');
-                            response.data.languages = availableLanguages;
-                            return $q.reject(response.data);
-                        }
-                    );
-                },
+                /**
+                 * @ngdoc function
+                 * @name core.Services.i18n#setDefaultLanguage
+                 * @description Sets the app's default language
+                 * @param {object} lang default language to be set
+                 * @methodOf core.Services.i18n
+                 */
+                setDefaultLanguage : setDefaultLanguage,
 
-                setDefaultLanguage : function(lang){
-                    if(lang !== defaultLanguage) {
-                        defaultLanguage = lang;
-                        $localStorage[FILE_KEY_LANGUAGE_DEFAULT] = JSON.stringify(defaultLanguage);
-                    }
-                },
+                /**
+                 * @ngdoc function
+                 * @name core.Services.i18n#getDefaultLanguage
+                 * @methodOf core.Services.i18n
+                 * @return {object} Returns default app language
+                 */
+                getDefaultLanguage : getDefaultLanguage
+            }
 
-                getDefaultLanguage : function(){
-                    if(!defaultLanguage && $localStorage[FILE_KEY_LANGUAGE_DEFAULT]){
-                        defaultLanguage = JSON.parse($localStorage[FILE_KEY_LANGUAGE_DEFAULT]);
-                    }
-                    return defaultLanguage;
+            function persistLanguages(languages){
+                if(languages) {
+                    availableLanguages = languages;
                 }
-            };
+                $localStorage[FILE_KEY_LANGUAGES] = JSON.stringify(availableLanguages);
+            }
+
+            function loadLanguages(){
+                availableLanguages = JSON.parse($localStorage[FILE_KEY_LANGUAGES]);
+                return availableLanguages;
+            }
+
+            function getAvailableLanguages() {
+                if(!availableLanguages){ loadLanguages(); }
+                return availableLanguages;
+            }
+
+            function getAvailableLanguagesFromServer(){
+                $http.get(Domain.languages).then(
+                    function(response){
+                        response = response.data;
+                        if(response.error) {
+                            return $q.reject(response.data);
+                        } else {
+                            response = response.response;
+                            persistLanguages(response.languages);
+                            return availableLanguages;
+                        }
+                    },
+                    function(response){
+                        console.log('i18n. setAvailableLanguages. promise error');
+                        response.data.languages = availableLanguages;
+                        return $q.reject(response.data);
+                    }
+                );
+            }
+
+            function getDefaultLanguage(){
+                if(!defaultLanguage && $localStorage[FILE_KEY_LANGUAGE_DEFAULT]){
+                    defaultLanguage = JSON.parse($localStorage[FILE_KEY_LANGUAGE_DEFAULT]);
+                }
+                return defaultLanguage;
+            }
+
+            function setDefaultLanguage(lang){
+                if(lang !== defaultLanguage) {
+                    defaultLanguage = lang;
+                    $localStorage[FILE_KEY_LANGUAGE_DEFAULT] = JSON.stringify(defaultLanguage);
+                }
+            }
+
+            function init(lang){
+                setDefaultLanguage(lang);
+                getAvailableLanguagesFromServer();
+            }
+
+            return service;
         }
     ]);
