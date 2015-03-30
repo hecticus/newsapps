@@ -229,7 +229,7 @@ angular
 
             function initAllAppData() {
                 if(!!$window.StatusBar){
-                    StatusBar.hide();
+                    $window.StatusBar.hide();
                 }else{
                     console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                 }
