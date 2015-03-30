@@ -50,4 +50,8 @@
 	<preference name="disable-cursor" value="false" />
 	<preference name="load-url-timeout" value="100000" />
 
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+
 </widget>

@@ -178,10 +178,11 @@ angular
             }
 
             function bindEvents() {
-                if(CordovaDevice.isWebPlatform()){
-                    initAllAppData();
-                } else {
+                //CordovaDevice.isWebPlatform()
+                if($window.cordova){
                     document.addEventListener('deviceready', onDeviceReady, false);
+                } else {
+                    initAllAppData();
                 }
 
                 document.addEventListener('touchmove', function (e) {
@@ -217,10 +218,10 @@ angular
             }
 
             function getTranslations(){
-                $translate(['EXIT_APP_TITLE', 'EXIT_APP_MSG', 'OK', 'CANCEL'])
+                $translate(['APP.EXIT_APP_TITLE', 'APP.EXIT_APP_MSG', 'OK', 'CANCEL'])
                     .then(function(translation){
-                        strings['EXIT_APP_TITLE'] = translation['EXIT_APP_TITLE'];
-                        strings['EXIT_APP_MSG'] = translation['EXIT_APP_MSG'];
+                        strings['EXIT_APP_TITLE'] = translation['APP.EXIT_APP_TITLE'];
+                        strings['EXIT_APP_MSG'] = translation['APP.EXIT_APP_MSG'];
                         strings['OK'] = translation['OK'];
                         strings['CANCEL'] = translation['CANCEL'];
                     });
