@@ -228,8 +228,18 @@ angular
             }
 
             function initAllAppData() {
+                console.log('initAllAppData. $window.StatusBar: ');
+                console.log($window.StatusBar);
                 if(!!$window.StatusBar){
-                    $window.StatusBar.hide();
+                    if(CordovaDevice.isAndroidPlatform()){
+                        console.log('initAllAppData. platform: Android');
+                        $window.StatusBar.hide();
+                    } else if(CordovaDevice.isIosPlatform()){
+                        console.log('initAllAppData. platform: iOS');
+                        $window.StatusBar.StatusBarOverlaysWebview = false;
+                    } else {
+                        console.log('initAllAppData. platform: ' + CordovaDevice.getPlatform());
+                    }
                 }else{
                     console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                 }
