@@ -178,10 +178,10 @@ angular
             }
 
             function bindEvents() {
-                //CordovaDevice.isWebPlatform()
-                if($window.cordova){
-                    document.addEventListener('deviceready', onDeviceReady, false);
-                } else {
+                document.addEventListener('deviceready', onDeviceReady, false);
+
+                if(CordovaDevice.isWebPlatform()){
+                  console.log('bindevents. platform: Web');
                     initAllAppData();
                 }
 
@@ -228,28 +228,28 @@ angular
             }
 
             function initAllAppData() {
-                console.log('initAllAppData. $window.StatusBar: ');
-                console.log($window.StatusBar);
-                if(!!$window.StatusBar){
-                    if(CordovaDevice.isAndroidPlatform()){
-                        console.log('initAllAppData. platform: Android');
-                        $window.StatusBar.hide();
-                    } else if(CordovaDevice.isIosPlatform()){
-                        console.log('initAllAppData. platform: iOS');
-                        $window.StatusBar.StatusBarOverlaysWebview = false;
-                    } else {
-                        console.log('initAllAppData. platform: ' + CordovaDevice.getPlatform());
-                    }
-                }else{
-                    console.log('$window.StatusBar Object not available. Are you directly on a browser?');
-                }
-
                 getVersion();
 
                 Analytics.init();
                 ClientManager.init().then(startApp, errorStartApp);
 
-                if(CordovaDevice.phonegapIsOnline()) {
+                if(CordovaDevice.phonegapIsOnline()){
+                    console.log('initAllAppData. $window.StatusBar: ');
+                    console.log($window.StatusBar);
+                    if(!!$window.StatusBar){
+                        if(CordovaDevice.isAndroidPlatform()){
+                            console.log('initAllAppData. platform: Android');
+                            $window.StatusBar.hide();
+                        } else if(CordovaDevice.isIosPlatform()){
+                            console.log('initAllAppData. platform: iOS');
+                            $window.StatusBar.hide();
+                        } else {
+                            console.log('initAllAppData. platform: ' + CordovaDevice.getPlatform());
+                        }
+                    }else{
+                        console.log('$window.StatusBar Object not available. Are you directly on a browser?');
+                    }
+
                     PushManager.init();
                     WebManager.loadServerConfigs().then(
                         function(data){
