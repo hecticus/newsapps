@@ -46,7 +46,7 @@ angular
                  * local RegId
                  * @methodOf core.Services.ClientManager
                  */
-                updateRegistrationId : updateRegistrationId
+                updateRegistrationId : updateRegistrationId,
             };
 
             function init(){

@@ -168,7 +168,7 @@ angular
 
             function isSettingsSubSection(section){
                 return settingsSubSections.some(function(settingsSubSection){
-                    return settingsSubSection === section;
+                    return settingsSubSection === currentSection;
                 });
             }
 

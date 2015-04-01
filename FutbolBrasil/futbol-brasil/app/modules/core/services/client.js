@@ -20,7 +20,6 @@ angular
             var clientDataSafe = false;
             var client = {};
             var currentVersion = 0;
-
             //noinspection UnnecessaryLocalVariableJS
             var service = {
 
@@ -33,6 +32,14 @@ angular
                 init : init,
 
                 updateClient : updateClient,
+
+                /**
+                 * @ngdoc function
+                 * core.Services.Client
+                 * @description Logs the user out of the Application
+                 * @methodOf core.Services.ClientManager
+                 */
+                logout : logout,
 
                 setGuest: setGuest,
 
@@ -141,6 +148,10 @@ angular
                 saveClient();
                 deferred.resolve(client);
                 return deferred.promise;
+            }
+
+            function logout(){
+                $localStorage.$reset();
             }
 
             function saveStoredVersion() {

@@ -98,7 +98,9 @@ angular
                 var toSection = !!toState.data.section? toState.data.section : '';
                 CordovaApp.setCurrentSection(toSection);
 
-                if(fromName && fromSection !== 'settings' && !CordovaApp.isSettingsSubSection(toSection)
+                if(toSection && toSection === 'remind'){
+                    CordovaApp.setPreviousSection('login');
+                } else if(fromName && fromSection !== 'settings' && !CordovaApp.isSettingsSubSection(toSection)
                     && !CordovaApp.isSettingsSubSection(fromSection)){
                     console.log('setting previous section name: '+ fromName);
                     CordovaApp.setPreviousSection(fromName);

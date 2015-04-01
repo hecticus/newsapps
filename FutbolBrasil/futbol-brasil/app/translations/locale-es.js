@@ -140,5 +140,6 @@
     "PREVIOUS" : "Anterior",
     "NEXT" : "Siguiente",
     "LOADING" : "Cargando",
-    "NOT_AVAILABLE": "No Disponible"
+    "NOT_AVAILABLE": "No Disponible",
+    "LOGOUT" : "Cerrar Sesión"
 }

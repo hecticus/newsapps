@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage',
-        '$timeout', '$window', '$translate', 'Client', 'CordovaApp', 'SocialAppsManager',
+        '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
         function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
-               Client, CordovaApp, SocialAppsManager) {
+               Client, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
@@ -20,6 +20,7 @@ angular
             $rootScope.hideMenu = hideMenu;
             $rootScope.onMenuButtonPressed = onMenuButtonPressed;
             $rootScope.showSection = showSection;
+            $rootScope.executeAction = executeAction;
             $rootScope.transitionPage = transitionPage;
             $rootScope.transitionPageBack = transitionPageBack;
             $rootScope.nextPage = nextPage;
@@ -38,10 +39,6 @@ angular
             $scope.isGuest = isGuest;
             $scope.getDrawerIcon = getDrawerIcon;
             $scope.goToStore = goToStore;
-
-            $scope.showShareModal = showShareModal;
-            $scope.twitterShare = twitterShare;
-            $scope.fbShare = fbShare;
 
             init();
 
@@ -84,6 +81,16 @@ angular
                     $scope.hideMenu();
                 }
                 $state.go(_section);
+            }
+
+            function executeAction(action){
+                switch(action){
+                    case 'logout':
+                        Client.logout();
+                        $state.go('login');
+                        break;
+                    default:
+                }
             }
 
             function transitionPage(_wrapper, _direction, _class) {
@@ -149,27 +156,6 @@ angular
                 } else {
                     console.log('$window.cordova.plugins.market Object not available. Are you directly on a browser?');
                 }
-            }
-
-            function showShareModal(message, subject){
-                $scope.share = {
-                    message: message,
-                    subject: subject
-                };
-
-                $('#share-modal').modal({
-                    backdrop: true,
-                    keyboard: false,
-                    show: false})
-                    .modal('show');
-            }
-
-            function fbShare(){
-                SocialAppsManager.fbShare($scope.share.message, $scope.share.subject);
-            }
-
-            function twitterShare(){
-                SocialAppsManager.twitterShare($scope.share.message, $scope.share.subject);
             }
 
             /**

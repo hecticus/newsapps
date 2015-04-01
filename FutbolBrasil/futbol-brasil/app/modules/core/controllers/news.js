@@ -13,10 +13,6 @@ angular
         function($http, $rootScope, $scope, $state, $stateParams, $localStorage, $window, Domain, Moment,
                  iScroll, SocialAppsManager, News, CordovaDevice, Notification) {
 
-            $rootScope.$storage.news = false;
-            $scope.hasNews = true;
-            $scope.news = [];
-
             //Indicador de primera y ultima posicion en cache
             var _news = {
                 first : 0,
@@ -26,19 +22,30 @@ angular
             var listScroll = null;
             var detailScroll = null;
 
-            $scope.share = function(_news) {
-                if(CordovaDevice.isWebPlatform()){
-                    $scope.showShareModal(_news.summary, _news.title);
-                } else {
-                    SocialAppsManager.share(_news.summary, _news.title);
-                }
-            };
+            $rootScope.$storage.news = false;
+            $scope.hasNews = true;
+            $scope.news = [];
+            $scope.share = share;
+            $scope.fromNow = fromNow;
+            $scope.showContentNews = showContentNews;
 
-            $scope.fromNow = function(_date) {
+            init();
+
+            /*---------------- Scope Functions ----------------*/
+
+            function share(_news) {
+                SocialAppsManager.share({
+                    'message' : _news.summary,
+                    'subject' : _news.title,
+                    'link' : 'http://localhost/futbol/news/' + _news.idNews
+                });
+            }
+
+            function fromNow(_date) {
                 return Moment.date(_date).fromNow();
-            };
+            }
 
-            $scope.showContentNews = function(_news) {
+            function showContentNews(_news) {
                 if(_news) {
                     if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
@@ -59,12 +66,14 @@ angular
                 } else {
                     console.log('Not a valid news object');
                 }
-            };
+            }
+
+            /*---------------- Internal Functions ----------------*/
 
             function getNewsPreviousToId(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
-                    $http.get(Domain.news.up(newsId))
+                    return $http.get(Domain.news.up(newsId))
                         .then(function (data) {
                             data = data.data;
                             if (data.response.news.length >= 1) {
@@ -90,7 +99,7 @@ angular
             function getNewsAfterId(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
-                    $http.get(Domain.news.down(newsId))
+                    return $http.get(Domain.news.down(newsId))
                         .then(function (data) {
                             data = data.data;
                             if (data.response.news.length >= 1) {
@@ -144,7 +153,6 @@ angular
 
             function getNewsById(id){
                 return $scope.news.filter(function(news){
-                    console.log(news.idNews === id);
                     return news.idNews === id;
                 })[0];
             }
@@ -174,12 +182,11 @@ angular
             function init(){
                 $scope.$emit('load');
                 getNews().then(function(){
-                    console.log('promise test');
                     if($stateParams.newsId){
                         $scope.showContentNews(getNewsById($stateParams.newsId));
                     }
                 });
                 setUpIScroll();
-            } init();
+            }
         }
     ]);

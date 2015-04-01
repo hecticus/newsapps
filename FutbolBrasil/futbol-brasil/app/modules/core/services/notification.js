@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Notification',['$rootScope',
-        function($rootScope) {
+    .factory('Notification',['$rootScope', '$state',
+        function($rootScope, $state) {
 
             function showNotificationDialog(data, confirmCallback, cancelCallback){
                 var hasNotificationPlugin = !!navigator.notification;
@@ -36,15 +36,20 @@ angular
                 }
             }
 
+            //TODO i18n-alizar
             function showLockedSectionDialog(){
                 showNotificationDialog(
                     {
                         title : 'Locked Section',
-                        message : 'This section is locked for Guest Users. Please register to unlock',
+                        message : 'This section is locked for Guest Users. Would you like to register to unlock this section?',
                         confirm: 'Ok',
                         cancel: 'Cancel'
-                    }
+                    }, registerUserCallback
                 );
+
+                function registerUserCallback(){
+                    $state.go('remind');
+                }
             }
 
             function showInfoAlert(displayInfo){

@@ -140,5 +140,6 @@
     "PREVIOUS" : "Previous",
     "NEXT" : "Next",
     "LOADING" : "Loading",
-    "NOT_AVAILABLE": "Not Available"
+    "NOT_AVAILABLE": "Not Available",
+    "LOGOUT" : "Log Out"
 }
