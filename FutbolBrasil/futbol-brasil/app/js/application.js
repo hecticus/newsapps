@@ -95,9 +95,18 @@ angular
             $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
                 var fromName = fromState.name;
                 var fromSection = fromState.data? fromState.data.section : null;
-                var toSection = toState.data.section;
+                var toSection = !!toState.data.section? toState.data.section : '';
+                CordovaApp.setCurrentSection(toSection);
+                console.log('fromName: ' + fromName);
+                console.log('fromSection: ' + fromSection);
+                console.log('toName: ' + toState.name);
+                console.log('toSection: ' + toSection);
 
-                if(fromName && fromSection !== 'settings' && toSection !== 'settings'){
+                //TODO mejorar
+                console.log('CordovaApp.isSettingsSubSection(' + toSection + '): ' + CordovaApp.isSettingsSubSection(toSection));
+                if(fromName && fromSection !== 'settings' && !CordovaApp.isSettingsSubSection(toSection)
+                    && !CordovaApp.isSettingsSubSection(fromSection)){
+                    console.log('setting previous section name: '+ fromName);
                     CordovaApp.setPreviousSection(fromName);
                 } else if(fromName && fromSection === 'settings'){
                     CordovaApp.setIsOnSettingsSection(true);
@@ -112,7 +121,6 @@ angular
                     $rootScope.contentClass = toState.data.contentClass;
                 }
 
-                CordovaApp.setCurrentSection(!!toSection ? toSection : '');
                 Analytics.trackView(toState.name);
             });
         }

@@ -16,6 +16,7 @@ angular
             var currentSection = '';
             var prevSection = '';
             var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
+            var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
 
@@ -50,6 +51,8 @@ angular
                 getVersion: getVersion,
 
                 isBlockedSection : isBlockedSection,
+
+                isSettingsSubSection : isSettingsSubSection,
 
                 isOnUtilitySection : isOnUtilitySection,
 
@@ -160,6 +163,12 @@ angular
             function isOnUtilitySection(){
                 return utilitySections.some(function(utilitySection){
                     return utilitySection === currentSection;
+                });
+            }
+
+            function isSettingsSubSection(section){
+                return settingsSubSections.some(function(settingsSubSection){
+                    return settingsSubSection === section;
                 });
             }
 
