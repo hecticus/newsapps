@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
+    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state', '$stateParams', '$localStorage', '$window', 'Domain'
         ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaDevice', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Moment,
+        function($http, $rootScope, $scope, $state, $stateParams, $localStorage, $window, Domain, Moment,
                  iScroll, SocialAppsManager, News, CordovaDevice, Notification) {
 
             $rootScope.$storage.news = false;
@@ -39,21 +39,25 @@ angular
             };
 
             $scope.showContentNews = function(_news) {
-                if(!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))){
-                    $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
-                    $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
-                    $rootScope.transitionPageBack('#wrapper2', 'left');
-                    detailScroll.scrollTo(0,0,0);
+                if(_news) {
+                    if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
+                        $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
+                        $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
+                        $rootScope.transitionPageBack('#wrapper2', 'left');
+                        detailScroll.scrollTo(0, 0, 0);
+                    } else {
+                        Notification.showNotificationDialog(
+                            {
+                                title: 'Daily News Limit Exceeded',
+                                message: 'You have exceeded your free daily news limit',
+                                confirm: 'Ok',
+                                cancel: 'Cancel'
+                            }
+                        );
+                        console.log('Daily News Limit Exceeded');
+                    }
                 } else {
-                    Notification.showNotificationDialog(
-                        {
-                            title: 'Daily News Limit Exceeded',
-                            message: 'You have exceeded your free daily news limit',
-                            confirm: 'Ok',
-                            cancel: 'Cancel'
-                        }
-                    );
-                    console.log('Daily News Limit Exceeded');
+                    console.log('Not a valid news object');
                 }
             };
 
@@ -116,7 +120,7 @@ angular
                     _news.first = $scope.news[0].idNews;
                     _news.last  = $scope.news[$scope.news.length-1].idNews;
                 }
-                $http.get(Domain.news.index()).then(
+                return $http.get(Domain.news.index()).then(
                     function (data) {
                         data = data.data;
                         if(data.response.total > 0){
@@ -136,6 +140,13 @@ angular
                         console.log('getNews. Network Error.');
                         $scope.$emit('unload');
                     });
+            }
+
+            function getNewsById(id){
+                return $scope.news.filter(function(news){
+                    console.log(news.idNews === id);
+                    return news.idNews === id;
+                })[0];
             }
 
             function setUpIScroll() {
@@ -162,7 +173,12 @@ angular
 
             function init(){
                 $scope.$emit('load');
-                getNews();
+                getNews().then(function(){
+                    console.log('promise test');
+                    if($stateParams.newsId){
+                        $scope.showContentNews(getNewsById($stateParams.newsId));
+                    }
+                });
                 setUpIScroll();
             } init();
         }
