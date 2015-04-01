@@ -97,13 +97,7 @@ angular
                 var fromSection = fromState.data? fromState.data.section : null;
                 var toSection = !!toState.data.section? toState.data.section : '';
                 CordovaApp.setCurrentSection(toSection);
-                console.log('fromName: ' + fromName);
-                console.log('fromSection: ' + fromSection);
-                console.log('toName: ' + toState.name);
-                console.log('toSection: ' + toSection);
 
-                //TODO mejorar
-                console.log('CordovaApp.isSettingsSubSection(' + toSection + '): ' + CordovaApp.isSettingsSubSection(toSection));
                 if(fromName && fromSection !== 'settings' && !CordovaApp.isSettingsSubSection(toSection)
                     && !CordovaApp.isSettingsSubSection(fromSection)){
                     console.log('setting previous section name: '+ fromName);
