@@ -1830,7 +1830,7 @@ public class Clients extends HecticusController {
         urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
 
         //The different versions of the API are defined in the HTTPS Accept header.
-        urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+        urlCall.setHeader("Accept","application/"+upstreamAppVersion+"+json");
         urlCall.setMethod("POST");
         return urlCall;
     }
@@ -1860,7 +1860,7 @@ public class Clients extends HecticusController {
         try{
             List<ClientHasDevices> devices = client.getDevices();
             for (int i=0; i<devices.size(); i++){
-                if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
+                if(devices.get(i).getDevice().getName().equalsIgnoreCase("android")){
                     //con el primer push_notification_id nos basta por ahora
                     push_notification_id = devices.get(i).getRegistrationId();
                     break;
