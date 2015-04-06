@@ -52,8 +52,8 @@ angular
                 templateUrl:'modules/core/views/settings.html',
                 controller:'SettingsController',
                 data:{
-                    prev: 'news',
-                    next: 'news',
+                    prev: 'prediction',
+                    next: 'prediction',
                     _class: 'content-settings',
                     section: 'settings'
                 }
@@ -103,7 +103,10 @@ angular
                 }
             })
             .state('news', {
-                url: '/news',
+                url: '/news/{newsId:int}',
+                params : {
+                  newsId : {value: null, squash: true}
+                },
                 controller:'NewsCtrl  as _this',
                 templateUrl:'modules/core/views/news.html',
                 data:{

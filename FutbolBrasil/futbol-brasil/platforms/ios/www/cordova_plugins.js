@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
+        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
+        "clobbers": [
+            "analytics"
+        ]
+    },
+    {
         "file": "plugins/com.hecticus.cordova.plugins.sharedconfigurations/www/sharedConfigurations.js",
         "id": "com.hecticus.cordova.plugins.sharedconfigurations.SharedConfigurations",
         "clobbers": [
@@ -15,38 +22,24 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.plugin.datepicker/www/ios/DatePicker.js",
-        "id": "com.plugin.datepicker.DatePicker",
+        "file": "plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
         "clobbers": [
-            "datePicker"
+            "facebookConnectPlugin"
         ]
     },
     {
-        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
-        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
+        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
+        "id": "org.apache.cordova.statusbar.statusbar",
         "clobbers": [
-            "plugins.CordovaHttpPlugin"
+            "window.StatusBar"
         ]
     },
     {
-        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
-        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
+        "id": "org.apache.cordova.splashscreen.SplashScreen",
         "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.console/www/console-via-logger.js",
-        "id": "org.apache.cordova.console.console",
-        "clobbers": [
-            "console"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.console/www/logger.js",
-        "id": "org.apache.cordova.console.logger",
-        "clobbers": [
-            "cordova.logger"
+            "navigator.splashscreen"
         ]
     },
     {
@@ -54,13 +47,6 @@ module.exports = [
         "id": "org.apache.cordova.device.device",
         "clobbers": [
             "device"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
-        "id": "org.apache.cordova.dialogs.notification",
-        "merges": [
-            "navigator.notification"
         ]
     },
     {
@@ -76,48 +62,6 @@ module.exports = [
         "id": "org.apache.cordova.network-information.Connection",
         "clobbers": [
             "Connection"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
-        "id": "org.apache.cordova.splashscreen.SplashScreen",
-        "clobbers": [
-            "navigator.splashscreen"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
-        "id": "org.apache.cordova.statusbar.statusbar",
-        "clobbers": [
-            "window.StatusBar"
-        ]
-    },
-    {
-        "file": "plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
-        "clobbers": [
-            "facebookConnectPlugin"
-        ]
-    },
-    {
-        "file": "plugins/jp.wizcorp.phonegap.plugin.wizUtilsPlugin/www/phonegap/plugin/wizUtils/wizUtils.js",
-        "id": "jp.wizcorp.phonegap.plugin.wizUtilsPlugin.wizUtilsPlugin",
-        "clobbers": [
-            "window.wizUtils"
-        ]
-    },
-    {
-        "file": "plugins/com.xmartlabs.cordova.market/www/market.js",
-        "id": "com.xmartlabs.cordova.market.Market",
-        "clobbers": [
-            "cordova.plugins.market"
-        ]
-    },
-    {
-        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
-        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
-        "clobbers": [
-            "analytics"
         ]
     },
     {
@@ -265,27 +209,67 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
+        "id": "org.apache.cordova.dialogs.notification",
+        "merges": [
+            "navigator.notification"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.console/www/console-via-logger.js",
+        "id": "org.apache.cordova.console.console",
+        "clobbers": [
+            "console"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.console/www/logger.js",
+        "id": "org.apache.cordova.console.logger",
+        "clobbers": [
+            "cordova.logger"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
+    },
+    {
+        "file": "plugins/com.xmartlabs.cordova.market/www/market.js",
+        "id": "com.xmartlabs.cordova.market.Market",
+        "clobbers": [
+            "cordova.plugins.market"
+        ]
+    },
+    {
+        "file": "plugins/jp.wizcorp.phonegap.plugin.wizUtilsPlugin/www/phonegap/plugin/wizUtils/wizUtils.js",
+        "id": "jp.wizcorp.phonegap.plugin.wizUtilsPlugin.wizUtilsPlugin",
+        "clobbers": [
+            "window.wizUtils"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.danielcwilson.plugins.googleanalytics": "0.6.1",
     "com.hecticus.cordova.plugins.sharedconfigurations": "1.0.0",
     "com.phonegap.plugins.PushPlugin": "2.2.1",
-    "com.plugin.datepicker": "0.4.0",
-    "com.synconset.cordovaHTTP": "0.1.4",
-    "nl.x-services.plugins.socialsharing": "4.3.12",
-    "org.apache.cordova.console": "0.2.12",
-    "org.apache.cordova.device": "0.2.13",
-    "org.apache.cordova.dialogs": "0.2.11",
-    "org.apache.cordova.network-information": "0.2.14",
-    "org.apache.cordova.splashscreen": "0.3.5",
-    "org.apache.cordova.statusbar": "0.1.9",
     "com.phonegap.plugins.facebookconnect": "0.11.0",
-    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0",
+    "org.apache.cordova.statusbar": "0.1.10",
+    "org.apache.cordova.splashscreen": "1.0.0",
+    "org.apache.cordova.device": "0.3.0",
+    "org.apache.cordova.network-information": "0.2.15",
+    "org.apache.cordova.file": "1.3.3",
+    "org.apache.cordova.dialogs": "0.3.0",
+    "org.apache.cordova.console": "0.2.13",
+    "nl.x-services.plugins.socialsharing": "4.3.15",
     "com.xmartlabs.cordova.market": "1.0",
-    "com.danielcwilson.plugins.googleanalytics": "0.6.1",
-    "org.apache.cordova.file": "1.3.2"
+    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

@@ -8,14 +8,10 @@
  */
 angular
     .module('core')
-    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$window', 'Domain'
+    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state', '$stateParams', '$localStorage', '$window', 'Domain'
         ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaDevice', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $window, Domain, Moment,
+        function($http, $rootScope, $scope, $state, $stateParams, $localStorage, $window, Domain, Moment,
                  iScroll, SocialAppsManager, News, CordovaDevice, Notification) {
-
-            $rootScope.$storage.news = false;
-            $scope.hasNews = true;
-            $scope.news = [];
 
             //Indicador de primera y ultima posicion en cache
             var _news = {
@@ -26,41 +22,58 @@ angular
             var listScroll = null;
             var detailScroll = null;
 
-            $scope.share = function(_news) {
-                if(CordovaDevice.isWebPlatform()){
-                    $scope.showShareModal(_news.summary, _news.title);
-                } else {
-                    SocialAppsManager.share(_news.summary, _news.title);
-                }
-            };
+            $rootScope.$storage.news = false;
+            $scope.hasNews = true;
+            $scope.news = [];
+            $scope.share = share;
+            $scope.fromNow = fromNow;
+            $scope.showContentNews = showContentNews;
 
-            $scope.fromNow = function(_date) {
+            init();
+
+            /*---------------- Scope Functions ----------------*/
+
+            function share(_news) {
+                SocialAppsManager.share({
+                    'message' : _news.summary,
+                    'subject' : _news.title,
+                    'link' : 'http://localhost/futbol/news/' + _news.idNews
+                });
+            }
+
+            function fromNow(_date) {
                 return Moment.date(_date).fromNow();
-            };
+            }
 
-            $scope.showContentNews = function(_news) {
-                if(!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))){
-                    $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
-                    $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
-                    $rootScope.transitionPageBack('#wrapper2', 'left');
-                    detailScroll.scrollTo(0,0,0);
+            function showContentNews(_news) {
+                if(_news) {
+                    if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
+                        $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
+                        $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
+                        $rootScope.transitionPageBack('#wrapper2', 'left');
+                        detailScroll.scrollTo(0, 0, 0);
+                    } else {
+                        Notification.showNotificationDialog(
+                            {
+                                title: 'Daily News Limit Exceeded',
+                                message: 'You have exceeded your free daily news limit',
+                                confirm: 'Ok',
+                                cancel: 'Cancel'
+                            }
+                        );
+                        console.log('Daily News Limit Exceeded');
+                    }
                 } else {
-                    Notification.showNotificationDialog(
-                        {
-                            title: 'Daily News Limit Exceeded',
-                            message: 'You have exceeded your free daily news limit',
-                            confirm: 'Ok',
-                            cancel: 'Cancel'
-                        }
-                    );
-                    console.log('Daily News Limit Exceeded');
+                    console.log('Not a valid news object');
                 }
-            };
+            }
+
+            /*---------------- Internal Functions ----------------*/
 
             function getNewsPreviousToId(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
-                    $http.get(Domain.news.up(newsId))
+                    return $http.get(Domain.news.up(newsId))
                         .then(function (data) {
                             data = data.data;
                             if (data.response.news.length >= 1) {
@@ -86,7 +99,7 @@ angular
             function getNewsAfterId(newsId){
                 if ($http.pendingRequests.length == 0 && !$rootScope.loading) {
                     $scope.$emit('load');
-                    $http.get(Domain.news.down(newsId))
+                    return $http.get(Domain.news.down(newsId))
                         .then(function (data) {
                             data = data.data;
                             if (data.response.news.length >= 1) {
@@ -116,7 +129,7 @@ angular
                     _news.first = $scope.news[0].idNews;
                     _news.last  = $scope.news[$scope.news.length-1].idNews;
                 }
-                $http.get(Domain.news.index()).then(
+                return $http.get(Domain.news.index()).then(
                     function (data) {
                         data = data.data;
                         if(data.response.total > 0){
@@ -136,6 +149,12 @@ angular
                         console.log('getNews. Network Error.');
                         $scope.$emit('unload');
                     });
+            }
+
+            function getNewsById(id){
+                return $scope.news.filter(function(news){
+                    return news.idNews === id;
+                })[0];
             }
 
             function setUpIScroll() {
@@ -162,8 +181,12 @@ angular
 
             function init(){
                 $scope.$emit('load');
-                getNews();
+                getNews().then(function(){
+                    if($stateParams.newsId){
+                        $scope.showContentNews(getNewsById($stateParams.newsId));
+                    }
+                });
                 setUpIScroll();
-            } init();
+            }
         }
     ]);

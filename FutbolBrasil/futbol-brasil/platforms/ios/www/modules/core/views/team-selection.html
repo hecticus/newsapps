@@ -1,0 +1,54 @@
+
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" style="position: absolute; z-index: 2;">
+            <div class="form-group well search-bar">
+                <div class="input-group">
+                    <input type="text" class="form-control"
+                           placeholder="{{'SETTINGS.TEAM_SEARCH_HELPER' | translate}}"
+                           ng-model="searchQuery">
+                    <span class="input-group-addon">
+                        <i class="icon mdi-action-search" style="font-size:1.8em;"></i>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" ng-show="hasTeams">
+    <div id="wrapper" class="search-list-wrapper">
+        <div class="scroller">
+            <div class="list-group">
+                <div class="list-group-item" ng-click="teamSelected(team)"
+                     ng-repeat="team in teams | filter: searchQuery">
+                    <div class="row-action-primary">
+                        <i ng-class="getTeamClass(team)"></i>
+                    </div>
+                    <div class="row-content">
+                        <h6 class="list-group-item-heading" ng-bind="team.name"></h6>
+                    </div>
+                </div>
+                <div class="list-group-separator"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="pager search-list-pager">
+    <li class="previous" ng-class="{'disabled' : !hasPrev }" ng-click="showPrevPage()">
+        <span translate>PREVIOUS</span>
+    </li>
+    <li class="next" ng-class="{'disabled' : !hasNext }" ng-click="showNextPage()">
+        <span translate>NEXT</span>
+    </li>
+</ul>
+
+<div class="row" ng-hide="hasTeams">
+    <div class="col-xs-12">
+        <div class="no-content-panel" style="margin-top: 120px !important;">
+            <i class="mdi-action-info-outline"></i>
+            <div class="no-content-panel-title" translate>EMPTY_STATES.TEAMS</div>
+        </div>
+    </div>
+</div>

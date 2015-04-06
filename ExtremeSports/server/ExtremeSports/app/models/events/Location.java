@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * Created by sorcerer on 3/25/15.
  */
 @Entity
-@Table(name="events")
+@Table(name="locations")
 public class Location extends HecticusModel {
 
     @Id

@@ -15,11 +15,16 @@ angular
                 transclude: true,
                 scope: {
                     section: "@",
-                    icon: "@"
+                    icon: "@",
+                    action: "@"
                 },
                 link: function($scope) {
-                    $scope.navigate = function() {
-                        $rootScope.showSection($scope.section);
+                    $scope.navigate = function(){
+                        if(!!$scope.action){
+                            $rootScope.executeAction($scope.action);
+                        } else {
+                            $rootScope.showSection($scope.section);
+                        }
                     }
                 }
             };

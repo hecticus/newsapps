@@ -7,68 +7,79 @@
  */
 angular
     .module('core')
-//    .factory('SocialAppsManager', ['$window', 'Utilities',
-//        function($window, Utilities) {
-    .factory('SocialAppsManager', ['$window', 'Utilities','$fb','$twt',
-        function($window, Utilities, $fb, $twt) {
+    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice',
+        function($rootScope, $window, $fb, $twt, CordovaDevice) {
 
-            function share(message, subject){
-                if($window.plugins && $window.plugins.socialsharing) {
-                    $window.plugins.socialsharing.share(message, subject);
-                } else {
-                    console.log('$window.plugins.socialsharing Plugin not available. Are you directly on a browser?');
-                }
-            }
+            init();
 
-            function fbShare(message, subject) {
-                $fb.feed({
-                    name: subject,
-                    description: message,
-                    caption: subject/*,
-                    link: "http://www.phaninder.com",
-                    picture: "https://rawgit.com/pasupulaphani/angular-socialsharing/gh-pages-gen/app/images/Thirsty-Planet.png"*/
-                });
-            }
-
-            function twitterShare(message, subject) {
-                $twt.intent('tweet', {
-                    text: subject + ' - ' + message/*,
-                    url: 'http://www.phaninder.com/posts/adventures-at-nodecoptor/',
-                    hashtags: 'phaninder.com'*/
-                });
-            }
-
-            return {
+            //noinspection UnnecessaryLocalVariableJS
+            var service = {
 
                 /**
                  * @ngdoc function
                  * @name core.Services.SocialAppsManager#share
                  * @description Share post depending on platform
-                 * @param {string} title Shared content title
+                 * @param {object} info Content to Share
+                 * @param {string} subject Shared content Title
                  * @param {string} message Shared content Message
+                 * @param {string} image Shared content Picture URL
+                 * @param {string} link Shared content URL
                  * @methodOf core.Services.SocialAppsManager
                  */
-                share : share,
+                share : share
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.SocialAppsManager#fbShare
-                 * @description Share post on Facebook via Web
-                 * @param {string} title Shared content title
-                 * @param {string} message Shared content Message
-                 * @methodOf core.Services.SocialAppsManager
-                 */
-                fbShare : fbShare,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.SocialAppsManager#twitterShare
-                 * @description Share post on Twitter via Web
-                 * @param {string} title Shared content title
-                 * @param {string} message Shared content Message
-                 * @methodOf core.Services.SocialAppsManager
-                 */
-                twitterShare : twitterShare
             };
+
+            function share(info){
+                if(CordovaDevice.isWebPlatform()){
+                    showShareModal(info);
+                } else {
+                    if ($window.plugins && $window.plugins.socialsharing) {
+                        $window.plugins.socialsharing.share(info.message, info.subject, info.image, info.link);
+                    } else {
+                        console.log('$window.plugins.socialsharing Plugin not available. Are you directly on a browser?');
+                    }
+                }
+            }
+
+            function fbShare(info) {
+                var post = {};
+                if(!info){ info = $rootScope.share;}
+                if(info.subject) { post.name = info.subject; }
+                if(info.message) { post.description = info.message; }
+                if(info.subject) { post.caption = info.subject; }
+                if(info.link) { post.link = info.link; }
+                if(info.image) { post.picture = info.image; }
+
+                $fb.feed(post);
+            }
+
+            function twitterShare(info) {
+                var tweet = {};
+                if(!info){ info = $rootScope.share;}
+                if(info.subject && info.message){ tweet.text = info.subject + ' - ' + info.message; }
+                if(info.link) { tweet.url = info.link; }
+                if(info.hashtags) { tweet.hashtags = info.hashtags; }
+
+                $twt.intent('tweet', tweet);
+            }
+
+            function showShareModal(info){
+                $rootScope.share = info;
+
+                $('#share-modal').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: false
+                }).modal('show');
+            }
+
+            function init(){
+                $rootScope.share = {};
+                $rootScope.fbShare = fbShare;
+                $rootScope.twitterShare = twitterShare;
+            }
+
+            return service;
         }
     ]);
