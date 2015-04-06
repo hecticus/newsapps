@@ -93,6 +93,14 @@ create table devices (
   constraint pk_devices primary key (id_device))
 ;
 
+create table events (
+  id_event                  integer auto_increment not null,
+  name                      varchar(255),
+  status                    integer,
+  date                      varchar(255),
+  constraint pk_events primary key (id_event))
+;
+
 create table file_types (
   id_file_type              integer auto_increment not null,
   name                      varchar(255),
@@ -140,6 +148,12 @@ create table linked_account (
   provider_user_id          varchar(255),
   provider_key              varchar(255),
   constraint pk_linked_account primary key (id))
+;
+
+create table locations (
+  id_location               integer auto_increment not null,
+  name                      varchar(255),
+  constraint pk_locations primary key (id_location))
 ;
 
 create table post (
@@ -339,6 +353,8 @@ drop table countries;
 
 drop table devices;
 
+drop table events;
+
 drop table file_types;
 
 drop table instances;
@@ -348,6 +364,8 @@ drop table jobs;
 drop table languages;
 
 drop table linked_account;
+
+drop table locations;
 
 drop table post;
 
