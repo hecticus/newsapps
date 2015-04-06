@@ -71,7 +71,7 @@ public class Posts extends HecticusController {
                                     //TODO: ver que hacer con el error
                                 }
                             } else {
-                                postHasMedia.setLink(Utils.uploadAttachment(file, post.getIdPost(), fileExtension, true));
+                                postHasMedia.setLink(Utils.uploadAttachment(file, post.getIdPost(), fileExtension, 3));
                                 BufferedImage bimg = ImageIO.read(file);
                                 postHasMedia.setHeight(bimg.getHeight());
                                 postHasMedia.setWidth(bimg.getWidth());

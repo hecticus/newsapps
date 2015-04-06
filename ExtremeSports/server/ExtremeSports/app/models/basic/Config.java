@@ -123,6 +123,11 @@ public class Config extends Model{
 		Config c = finder.where().eq("configKey", key).findUnique();
 		return Integer.parseInt(c.getValue());
 	}
+
+    public static double getDouble(String key){
+        Config c = finder.where().eq("configKey", key).findUnique();
+        return Double.parseDouble(c.getValue());
+    }
 	
 	/**
 	 * Metodo para obtener el nombre del host actual

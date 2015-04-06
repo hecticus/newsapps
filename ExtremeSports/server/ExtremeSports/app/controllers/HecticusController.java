@@ -56,6 +56,10 @@ public class HecticusController extends Controller {
         return request().body().asMultipartFormData();
     }
 
+    public static String[] getFromQueryString(String key){
+        return request().queryString().get(key);
+    }
+
     public static Map<String, Object> getJsonWithFiles(){
         ObjectNode jsonInfo = Json.newObject();
         Http.MultipartFormData multipartFormData = request().body().asMultipartFormData();

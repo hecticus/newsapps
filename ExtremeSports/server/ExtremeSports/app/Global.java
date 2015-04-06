@@ -9,6 +9,7 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import models.SecurityRole;
 import models.basic.Config;
 import models.basic.Instance;
+import mongo.MongoDB;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -53,6 +54,13 @@ public class Global  extends GlobalSettings {
     @Override
     public void onStart(Application application) {
         super.onStart(application);
+
+        Logger.info("Application started!");
+
+        MongoDB.connect();
+
+        Logger.info("Connected to Database!");
+
         PlayAuthenticate.setResolver(new Resolver() {
 
             @Override
@@ -149,6 +157,7 @@ public class Global  extends GlobalSettings {
 
     @Override
     public void onStop(Application application) {
+        MongoDB.disconnect();
         try {
             if(Utils.serverIp != null) {
                 Instance actual = Instance.getByServerIP();

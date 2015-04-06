@@ -4,6 +4,7 @@ import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.HecticusModel;
 import models.clients.ClientHasCategory;
+import models.events.EventHasCategory;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -29,13 +30,16 @@ public class Category extends HecticusModel {
     private Boolean followable;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
-    private List<PostHasCategory> posts;//cambiar por posts
+    private List<PostHasCategory> posts;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     private List<CategoryHasLocalization> localizations;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     private List<ClientHasCategory> clients;
+
+    @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
+    private List<EventHasCategory> events;
 
     private static Model.Finder<Integer, Category> finder = new Model.Finder<Integer, Category>(Integer.class, Category.class);
 
@@ -89,6 +93,14 @@ public class Category extends HecticusModel {
 
     public void setClients(List<ClientHasCategory> clients) {
         this.clients = clients;
+    }
+
+    public List<EventHasCategory> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventHasCategory> events) {
+        this.events = events;
     }
 
     public ObjectNode toJson() {

@@ -41,6 +41,13 @@ DELETE  /api/v1/filetype/:id                                                    
 GET     /api/v1/filetype/:id                                                            controllers.content.posts.FileTypes.get(id : Integer)
 GET     /api/v1/filetypes                                                               controllers.content.posts.FileTypes.list(pageSize: Integer?=0, page: Integer?=0)
 
+#Events
+POST    /api/v1/event                                                                   controllers.content.events.Events.create()
+PUT    	/api/v1/event/:id                                                               controllers.content.events.Events.update(id : Integer)
+DELETE  /api/v1/event/:id                                                               controllers.content.events.Events.delete(id : Integer)
+GET     /api/v1/event/:id                                                               controllers.content.events.Events.get(id : Integer)
+GET     /api/v1/events                                                                  controllers.content.events.Events.list(pageSize: Integer?=0, page: Integer?=0)
+
 #Posts
 POST    /api/v1/post                                                                    controllers.content.posts.Posts.create()
 PUT    	/api/v1/post/:id                                                                controllers.content.posts.Posts.update(id : Integer)
@@ -194,6 +201,20 @@ GET     /athletes/:id			                                                        
 POST    /athletes/:id			                                                        controllers.AthletesView.update(id:Integer)
 # Delete a theme
 POST    /athletes/:id/delete		                                                    controllers.AthletesView.delete(id:Integer)
+
+#AthletesView
+# AthletesView list (look at the default values for pagination parameters)
+GET     /events/list			                                                        controllers.EventsView.list(p:Int ?= 0, s ?= "date", o ?= "asc", f ?= "")
+GET     /events/lsort		                                                            controllers.EventsView.lsort()
+# Add AthletesView
+GET     /events/blank		                                                            controllers.EventsView.blank()
+POST    /events				                                                            controllers.EventsView.submit()
+# Edit existing theme
+GET     /events/sort/:ids	                                                            controllers.EventsView.sort(ids:String)
+GET     /events/:id			                                                            controllers.EventsView.edit(id:Integer)
+POST    /events/:id			                                                            controllers.EventsView.update(id:Integer)
+# Delete a theme
+POST    /events/:id/delete		                                                        controllers.EventsView.delete(id:Integer)
 
 #CategoriesView
 # CategoriesView list (look at the default values for pagination parameters)

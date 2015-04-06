@@ -1,0 +1,310 @@
+@(id: Integer, eventsForm: Form[models.events.Event])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import helpers._
+
+@title = {}
+
+@categoryGroup(field: Field, className: String = "category") = {
+    <div class="twipsies well @className">
+        <a class="removeCategory btn btn-primary danger pull-right">@Messages("event.category.remove")</a>
+        @select(
+            field("category.idCategory"),
+            models.content.posts.Category.toSeq,
+            '_label -> Messages("event.category"),
+            'class -> "form-control"
+        )
+    </div>
+}
+
+@localizationGroup(field: Field, className: String = "localization") = {
+    <div class="twipsies well @className">
+        <a class="removeLocalization btn btn-primary danger pull-right">@Messages("post.localization.remove")</a>
+        @select(
+            field("language.idLanguage"),
+            models.basic.Language.toSeq,
+            '_label -> Messages("post.localization.language"),
+            'class -> "form-control"
+        )
+        @input(field("name"), '_label -> Messages("post.localization.title")) { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+        @input(field("description"), '_label -> Messages("post.localization.content")) { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" class="form-control" >
+        }
+    </div>
+}
+
+@countryGroup(field: Field, className: String = "country") = {
+    <div class="twipsies well @className">
+        <a class="removeCountry btn btn-primary danger pull-right">@Messages("post.country.remove")</a>
+        @select(
+            field("country.idCountry"),
+            models.basic.Country.toSeq,
+            '_label -> Messages("post.country"),
+            'class -> "form-control"
+        )
+    </div>
+}
+
+@main(title = Messages("events.edit"), nav = "create") {
+
+    @if(eventsForm.hasErrors) {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>@Messages("generic.error.title")</strong> @Messages("generic.error.content")
+            <p>@eventsForm.errorsAsJson</p>
+        </div>
+    }
+    
+
+     @helper.form(controllers.routes.EventsView.update(id), 'enctype -> "multipart/form-data", 'id -> "form") {
+        
+        <fieldset>
+        	<legend>@Messages("events.info")</legend>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    @inputText(
+                        eventsForm("objectId"),
+                        '_label -> Messages("events.description"),
+                        '_help -> Messages("events.description.help"),
+                        'class -> "form-control",
+                        '_error -> eventsForm.globalError
+                    )
+                </div>
+                <div class="col-lg-6">
+                    @inputText(
+                        eventsForm("status"),
+                        '_label -> Messages("events.status"),
+                        '_help -> Messages("events.status.help"),
+                        'class -> "form-control",
+                        '_error -> eventsForm.globalError
+                    )
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-6">
+                    @datetimepicker("date", eventsForm("date"), Messages("post.date"))
+                </div>
+                <div class="col-lg-6">
+                    @select(
+                        eventsForm("country.idCountry"),
+                        models.basic.Country.toSeq,
+                        '_label -> Messages("post.country"),
+                        'class -> "form-control"
+                    )
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-4">
+                    <label for="inputFile" class="col-lg-2 control-label">@Messages("events.image")</label>
+                    <div class="col-lg-12">
+                        <img class="img-rounded" src=@eventsForm("image").value alt="icon" style="width: 100px; height: 100px;" >
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    @input(eventsForm("image"), '_label -> Messages("events.image.file")) { (id, name, value, _) =>
+                        <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="">
+                        <input type="file" name="@name" value="@value" id="inputFile" multiple="">
+
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.localization")</h2>
+                </div>
+            </div>
+            <div id="localizations">
+
+                @repeat(eventsForm("localizations")) { localization =>
+                    @localizationGroup(localization)
+                }
+                @localizationGroup(
+                    eventsForm("localizations[x]"),
+                    className = "localization_template"
+                )
+
+                <div class="manage">
+                    <a class="addLocalization btn btn-primary success">@Messages("post.localization.add")</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("post.category.plural")</h2>
+                </div>
+            </div>
+            <div id="categories">
+
+                @repeat(eventsForm("categories")) { category =>
+                    @categoryGroup(category)
+                }
+                @categoryGroup(
+                    eventsForm("categories[x]"),
+                    className = "category_template"
+                )
+
+                <div class="manage">
+                    <a class="addCategory btn btn-primary success">@Messages("post.category.add")</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@Messages("event.location")</h2>
+                </div>
+            </div>
+            <div id="location">
+                <div class="row">
+                    <div class="col-lg-6">
+                        @inputText(
+                            eventsForm("latitude"),
+                            '_label -> Messages("events.latitude"),
+                            '_help -> Messages("events.latitude.help"),
+                            'class -> "form-control",
+                            '_error -> eventsForm.globalError
+                        )
+                    </div>
+                    <div class="col-lg-6">
+                        @inputText(
+                            eventsForm("longitude"),
+                            '_label -> Messages("events.longitude"),
+                            '_help -> Messages("events.longitude.help"),
+                            'class -> "form-control",
+                            '_error -> eventsForm.globalError
+                        )
+                    </div>
+                </div>
+                <div id="map-canvas"></div>
+            </div>
+
+
+
+        </fieldset>
+
+        <div class="actions">        	        	 
+            <input type="submit" value=@Messages("events.submit.update") class="btn btn-success">
+            <a href="@controllers.routes.EventsView.list()" class="btn btn-primary">@Messages("generic.cancel")</a>
+        </div>
+            
+    }
+    
+    @form(controllers.routes.EventsView.delete(id), 'class -> "topRight") {
+		<input type="submit" value=@Messages("events.submit.delete") class="btn btn-danger">
+		
+    }
+
+
+
+    <script type="text/javascript" charset="utf-8">
+
+        $('#form').submit(function() {
+            $('.category_template').remove()
+            $('.localization_template').remove()
+        })
+
+        $(document).on('click','.removeCategory', function(e) {
+            $(this).parents('.category').remove()
+            renumberCategories()
+        })
+
+        $(document).on('click','.addCategory', function(e) {
+            var template = $('.category_template')
+            template.before('<div class="twipsies well category">' + template.html() + '</div>')
+            renumberCategories()
+        })
+
+        var renumberCategories = function() {
+            $('.category').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/categories\[.+?\]/g, 'categories[' + i + ']'))
+                    $(this).attr('id', $(this).attr('id').replace(/categories\_x/g, 'categories_' + i))
+
+                })
+            })
+        }
+
+        $(document).on('click','.removeLocalization', function(e) {
+            $(this).parents('.localization').remove()
+            renumberLocalizations()
+        })
+
+        $(document).on('click','.addLocalization', function(e) {
+            var template = $('.localization_template')
+            template.before('<div class="twipsies well localization">' + template.html() + '</div>')
+            renumberLocalizations()
+        })
+
+        var renumberLocalizations = function() {
+            $('.localization').each(function(i) {
+                $('select', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
+                $('input', this).each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/localizations\[.+?\]/g, 'localizations[' + i + ']'))
+                })
+            })
+        }
+
+
+
+        var marker;
+
+        function placeMarker(location, map) {
+            if ( marker ) {
+                marker.setPosition(location);
+            } else {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+        }
+
+        function initialize() {
+            var locLat = document.getElementById('latitude').value;
+            var locLong = document.getElementById('longitude').value;
+
+            var location = new google.maps.LatLng(parseFloat(locLat), parseFloat(locLong));
+
+
+            var mapCanvas = document.getElementById('map-canvas');
+            var mapOptions = {
+                center: location,
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(mapCanvas, mapOptions)
+
+            placeMarker(location, map);
+
+            google.maps.event.addListener(map, "rightclick", function(event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                //alert("Lat=" + lat + "; Lng=" + lng);
+
+                locLat = document.getElementById('latitude');
+                locLong = document.getElementById('longitude');
+
+                locLat.value = lat;
+
+                locLong.value = lng;
+
+
+                placeMarker(event.latLng, map);
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+       
+}

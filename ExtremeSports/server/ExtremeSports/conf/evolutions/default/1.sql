@@ -93,6 +93,32 @@ create table devices (
   constraint pk_devices primary key (id_device))
 ;
 
+create table events (
+  id_event                  integer auto_increment not null,
+  id_country                integer,
+  status                    integer,
+  date                      varchar(255),
+  image                     varchar(255),
+  object_id                 varchar(255),
+  constraint pk_events primary key (id_event))
+;
+
+create table event_has_category (
+  id_event_has_athlete      integer auto_increment not null,
+  id_event                  integer,
+  id_category               integer,
+  constraint pk_event_has_category primary key (id_event_has_athlete))
+;
+
+create table event_has_localization (
+  id_event_has_localization integer auto_increment not null,
+  id_event                  integer,
+  id_language               integer,
+  name                      varchar(255),
+  description               TEXT,
+  constraint pk_event_has_localization primary key (id_event_has_localization))
+;
+
 create table file_types (
   id_file_type              integer auto_increment not null,
   name                      varchar(255),
@@ -276,32 +302,42 @@ alter table client_has_devices add constraint fk_client_has_devices_device_12 fo
 create index ix_client_has_devices_device_12 on client_has_devices (id_device);
 alter table countries add constraint fk_countries_language_13 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
 create index ix_countries_language_13 on countries (id_language);
-alter table linked_account add constraint fk_linked_account_user_14 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_linked_account_user_14 on linked_account (user_id);
-alter table post add constraint fk_post_socialNetwork_15 foreign key (id_social_network) references social_networks (id_social_network) on delete restrict on update restrict;
-create index ix_post_socialNetwork_15 on post (id_social_network);
-alter table post_has_athlete add constraint fk_post_has_athlete_post_16 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
-create index ix_post_has_athlete_post_16 on post_has_athlete (id_post);
-alter table post_has_athlete add constraint fk_post_has_athlete_athlete_17 foreign key (id_athlete) references athletes (id_athlete) on delete restrict on update restrict;
-create index ix_post_has_athlete_athlete_17 on post_has_athlete (id_athlete);
-alter table post_has_category add constraint fk_post_has_category_post_18 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
-create index ix_post_has_category_post_18 on post_has_category (id_post);
-alter table post_has_category add constraint fk_post_has_category_category_19 foreign key (id_category) references categories (id_category) on delete restrict on update restrict;
-create index ix_post_has_category_category_19 on post_has_category (id_category);
-alter table post_has_countries add constraint fk_post_has_countries_post_20 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
-create index ix_post_has_countries_post_20 on post_has_countries (id_post);
-alter table post_has_countries add constraint fk_post_has_countries_country_21 foreign key (id_country) references countries (id_country) on delete restrict on update restrict;
-create index ix_post_has_countries_country_21 on post_has_countries (id_country);
-alter table post_has_localizations add constraint fk_post_has_localizations_post_22 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
-create index ix_post_has_localizations_post_22 on post_has_localizations (id_post);
-alter table post_has_localizations add constraint fk_post_has_localizations_language_23 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
-create index ix_post_has_localizations_language_23 on post_has_localizations (id_language);
-alter table post_has_media add constraint fk_post_has_media_post_24 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
-create index ix_post_has_media_post_24 on post_has_media (id_post);
-alter table post_has_media add constraint fk_post_has_media_fileType_25 foreign key (id_file_type) references file_types (id_file_type) on delete restrict on update restrict;
-create index ix_post_has_media_fileType_25 on post_has_media (id_file_type);
-alter table token_action add constraint fk_token_action_targetUser_26 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_26 on token_action (target_user_id);
+alter table events add constraint fk_events_country_14 foreign key (id_country) references countries (id_country) on delete restrict on update restrict;
+create index ix_events_country_14 on events (id_country);
+alter table event_has_category add constraint fk_event_has_category_event_15 foreign key (id_event) references events (id_event) on delete restrict on update restrict;
+create index ix_event_has_category_event_15 on event_has_category (id_event);
+alter table event_has_category add constraint fk_event_has_category_category_16 foreign key (id_category) references categories (id_category) on delete restrict on update restrict;
+create index ix_event_has_category_category_16 on event_has_category (id_category);
+alter table event_has_localization add constraint fk_event_has_localization_event_17 foreign key (id_event) references events (id_event) on delete restrict on update restrict;
+create index ix_event_has_localization_event_17 on event_has_localization (id_event);
+alter table event_has_localization add constraint fk_event_has_localization_language_18 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_event_has_localization_language_18 on event_has_localization (id_language);
+alter table linked_account add constraint fk_linked_account_user_19 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_linked_account_user_19 on linked_account (user_id);
+alter table post add constraint fk_post_socialNetwork_20 foreign key (id_social_network) references social_networks (id_social_network) on delete restrict on update restrict;
+create index ix_post_socialNetwork_20 on post (id_social_network);
+alter table post_has_athlete add constraint fk_post_has_athlete_post_21 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
+create index ix_post_has_athlete_post_21 on post_has_athlete (id_post);
+alter table post_has_athlete add constraint fk_post_has_athlete_athlete_22 foreign key (id_athlete) references athletes (id_athlete) on delete restrict on update restrict;
+create index ix_post_has_athlete_athlete_22 on post_has_athlete (id_athlete);
+alter table post_has_category add constraint fk_post_has_category_post_23 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
+create index ix_post_has_category_post_23 on post_has_category (id_post);
+alter table post_has_category add constraint fk_post_has_category_category_24 foreign key (id_category) references categories (id_category) on delete restrict on update restrict;
+create index ix_post_has_category_category_24 on post_has_category (id_category);
+alter table post_has_countries add constraint fk_post_has_countries_post_25 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
+create index ix_post_has_countries_post_25 on post_has_countries (id_post);
+alter table post_has_countries add constraint fk_post_has_countries_country_26 foreign key (id_country) references countries (id_country) on delete restrict on update restrict;
+create index ix_post_has_countries_country_26 on post_has_countries (id_country);
+alter table post_has_localizations add constraint fk_post_has_localizations_post_27 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
+create index ix_post_has_localizations_post_27 on post_has_localizations (id_post);
+alter table post_has_localizations add constraint fk_post_has_localizations_language_28 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_post_has_localizations_language_28 on post_has_localizations (id_language);
+alter table post_has_media add constraint fk_post_has_media_post_29 foreign key (id_post) references post (id_post) on delete restrict on update restrict;
+create index ix_post_has_media_post_29 on post_has_media (id_post);
+alter table post_has_media add constraint fk_post_has_media_fileType_30 foreign key (id_file_type) references file_types (id_file_type) on delete restrict on update restrict;
+create index ix_post_has_media_fileType_30 on post_has_media (id_file_type);
+alter table token_action add constraint fk_token_action_targetUser_31 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_31 on token_action (target_user_id);
 
 
 
@@ -338,6 +374,12 @@ drop table configs;
 drop table countries;
 
 drop table devices;
+
+drop table events;
+
+drop table event_has_category;
+
+drop table event_has_localization;
 
 drop table file_types;
 

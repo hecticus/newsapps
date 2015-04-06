@@ -87,7 +87,7 @@ public class AthletesView extends HecticusController {
                 File file = picture.getFile();
                 String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
                 try {
-                    link = Utils.uploadAttachment(file, id, fileExtension, true);
+                    link = Utils.uploadAttachment(file, id, fileExtension, 0);
                     change = true;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -211,7 +211,7 @@ public class AthletesView extends HecticusController {
             File file = picture.getFile();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
             try {
-                link = Utils.uploadAttachment(file, gfilledForm.getIdAthlete().intValue(), fileExtension, true);
+                link = Utils.uploadAttachment(file, gfilledForm.getIdAthlete().intValue(), fileExtension, 0);
             } catch (IOException e) {
                 e.printStackTrace();
             }

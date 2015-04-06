@@ -311,7 +311,7 @@ public class Utils {
 //        return dest.getAbsolutePath();
     }
 
-    public static String uploadAttachment(File file, int id, String fileExtension, boolean post) throws IOException {
+    public static String uploadAttachment(File file, int id, String fileExtension, int type) throws IOException {
         File folder =new File(Config.getString("attachments-route") + id);
         if(!folder.exists()) {
             folder.mkdirs();
@@ -322,9 +322,9 @@ public class Utils {
         UUID idFile = UUID.randomUUID();
         File dest2 = new File(Config.getString("attachments-route")+idFile+fileExtension);
         dest.renameTo(dest2);
-        boolean uploaded = uploadAndPublish(dest2, (!post?"featured/":"")+id);
+        boolean uploaded = uploadAndPublish(dest2, (type == 0 ? "featured-" : (type == 1 ? "events-" : "")) + id);
         if(uploaded){
-            String name = Config.getString("rks-CDN-URL") + (!post?"featured/":"") + id + "/" + dest2.getName();
+            String name = Config.getString("rks-CDN-URL") + (type == 0 ? "featured-" : (type == 1 ? "events-" : "")) + id + "/" + dest2.getName();
             dest2.delete();
             return name;
         }

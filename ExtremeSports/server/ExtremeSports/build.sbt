@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "mysql" % "mysql-connector-java" % "5.1.26",
-  "net.vz.mongodb.jackson" %% "play-mongo-jackson-mapper" % "1.1.0",
+  "net.vz.mongodb.jackson" % "play-mongo-jackson-mapper_2.10" % "1.1.0",
   "org.apache.commons" % "commons-io" % "1.3.2",
   "org.apache.jclouds.driver" % "jclouds-slf4j" % "1.8.0",
   "org.apache.jclouds.driver" % "jclouds-sshj" % "1.8.0",
@@ -37,11 +37,14 @@ libraryDependencies ++= Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
   "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
   "org.apache.httpcomponents" % "httpclient" % "4.3.6",
-  "org.apache.httpcomponents" % "httpmime" % "4.3.6"
+  "org.apache.httpcomponents" % "httpmime" % "4.3.6",
+  "org.mongodb" % "mongo-java-driver" % "2.12.2",
+  "org.mongodb.morphia" % "morphia" % "0.110",
+  "org.mongodb.morphia" % "morphia-logging-slf4j" % "0.110",
+  "org.mongodb.morphia" % "morphia-validation" % "0.110"
 )
 
 resolvers ++= Seq(
-    "Maven1 Repository" at "http://repo1.maven.org/maven2/net/vz/mongodb/jackson/play-mongo-jackson-mapper_2.10/1.1.0/",
     "Apache" at "http://repo1.maven.org/maven2/",
     "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
     "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
