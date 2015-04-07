@@ -1302,16 +1302,26 @@ public class Clients extends HecticusController {
      *
      */
     private static void subscribeUserToUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() == null){
+        String upstreamGuestUser = Config.getString("upstreamGuestUser");
+        if(client.getLogin() == null || client.getLogin().equalsIgnoreCase(upstreamGuestUser)){
+            if(client.getLogin() == null){
+                client.setLogin(upstreamGuestUser);
+            }
+            if(client.getPassword() == null){
+                client.setPassword(Config.getString("upstreamGuestPassword"));
+            }
+            if(client.getUserId() == null){
+                client.setUserId(Config.getString("upstreamUserID"));
+            }
             client.setStatus(2);
         } else {
             String msisdn = client.getLogin();
             String password = client.getPassword();
             String push_notification_id = null;
 
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1401,9 +1411,9 @@ public class Clients extends HecticusController {
             String userID = client.getUserId();
             String password = client.getPassword();
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1480,16 +1490,26 @@ public class Clients extends HecticusController {
      *
      */
     private static void getUserIdFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() == null){
+        String upstreamGuestUser = Config.getString("upstreamGuestUser");
+        if(client.getLogin() == null || client.getLogin().equalsIgnoreCase(upstreamGuestUser)){
+            if(client.getLogin() == null){
+                client.setLogin(upstreamGuestUser);
+            }
+            if(client.getPassword() == null){
+                client.setPassword(Config.getString("upstreamGuestPassword"));
+            }
+            if(client.getUserId() == null){
+                client.setUserId(Config.getString("upstreamUserID"));
+            }
             client.setStatus(2);
         } else {
             String username = client.getLogin();
             String password = client.getPassword();
             //String channel = "Android";
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1570,14 +1590,15 @@ public class Clients extends HecticusController {
      *
      */
     private static void getStatusFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
+        String upstreamGuestUser = Config.getString("upstreamGuestUser");
+        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null && !client.getLogin().equalsIgnoreCase(upstreamGuestUser)){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1759,9 +1780,9 @@ public class Clients extends HecticusController {
             String userID = client.getUserId();
             String password = client.getPassword();
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1844,7 +1865,7 @@ public class Clients extends HecticusController {
             metadata = Json.newObject();
         }
         fields.put("service_id", upstreamServiceID);
-        if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")){
+        if(push_notification_id != null && !push_notification_id.isEmpty()){// && upstreamChannel.equalsIgnoreCase("Android")){
             fields.put("push_notification_id",push_notification_id);
             fields.put("device_id",push_notification_id);
         }
@@ -1855,12 +1876,12 @@ public class Clients extends HecticusController {
         return fields;
     }
     //get push_notification_id for upstream
-    private static String getPushNotificationID(Client client){
+    private static String getPushNotificationID(Client client, String channel){
         String push_notification_id = null;
         try{
             List<ClientHasDevices> devices = client.getDevices();
             for (int i=0; i<devices.size(); i++){
-                if(devices.get(i).getDevice().getName().equalsIgnoreCase("android")){
+                if(devices.get(i).getDevice().getName().equalsIgnoreCase(channel)){
                     //con el primer push_notification_id nos basta por ahora
                     push_notification_id = devices.get(i).getRegistrationId();
                     break;
