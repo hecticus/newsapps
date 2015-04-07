@@ -147,7 +147,7 @@ public class Config extends Model{
      * @return nombre del host actual
      */
     public static String getHost() {
-        Config c = finder.where().eq("configKey","memepedia-url").findUnique();
+        Config c = finder.where().eq("configKey","extreme-sports-url").findUnique();
         return c.getValue();
     }
 
