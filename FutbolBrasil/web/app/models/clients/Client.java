@@ -239,20 +239,38 @@ public class Client extends HecticusModel {
         this.session = session;
     }
 
-    public int getDeviceIndex(String registrationId, int deviceId) {
-        ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("registrationId", registrationId).eq("device.idDevice", deviceId).findUnique();
+    public int getDeviceIndex(final String registrationId, final int deviceId) {
+        ClientHasDevices clientHasDevice = null;
+        try {
+            clientHasDevice = Iterables.find(devices, new Predicate<ClientHasDevices>() {
+                public boolean apply(ClientHasDevices obj) {
+                    return obj.getRegistrationId().equalsIgnoreCase(registrationId) && obj.getDevice().getIdDevice().intValue() == deviceId;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasDevice = null;
+        }
         if(clientHasDevice == null){
             return -1;
         }
         return devices.indexOf(clientHasDevice);
     }
 
-    public int getPushAlertIndex(int pushAlertId) {
+    public int getPushAlertIndex(final int pushAlertId) {
         PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", pushAlertId).findUnique();
         if(pushAlert == null){
             return -1;
         }
-        ClientHasPushAlerts clientHasPushAlert = ClientHasPushAlerts.finder.where().eq("client", this).eq("pushAlert", pushAlert).findUnique();
+        ClientHasPushAlerts clientHasPushAlert = null;
+        try {
+            clientHasPushAlert = Iterables.find(pushAlerts, new Predicate<ClientHasPushAlerts>() {
+                public boolean apply(ClientHasPushAlerts obj) {
+                    return obj.getPushAlert().getIdPushAlert().intValue() == pushAlertId;
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasPushAlert = null;
+        }
         if(clientHasPushAlert == null){
             return -1;
         }
