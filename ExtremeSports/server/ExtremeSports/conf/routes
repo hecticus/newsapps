@@ -11,7 +11,7 @@ GET     /                                                                       
 GET     /assets/*file                                                                   controllers.Assets.at(path="/public", file)
 
 GET     /check/*name                                                                    controllers.Application.checkFile(name: String)
-GET     /api/loading/:width/:height/:version/:so                                        controllers.Application.getAppSettings(width: Integer, height: Integer, version : String, so : String)
+GET     /api/v1/loading/:width/:height/:version/:so                                      controllers.Application.getAppSettings(width: Integer, height: Integer, version : String, so : String)
 
 #Post
 POST    /api/v1/socialnetwork								                            controllers.content.athletes.SocialNetworks.create()
