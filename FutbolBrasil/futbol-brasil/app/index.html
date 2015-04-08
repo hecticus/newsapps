@@ -33,12 +33,11 @@
     <script src="cordova.js"></script>
 </head>
 
-<!--body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;"
+<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;"
       ng-swipe-right="prevPage()"
-      ng-swipe-left="nextPage()"-->
+      ng-swipe-left="nextPage()">
 
-<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;">
-
+<div id="screen-block" class="hidden" ng-click="clickPage()">&nbsp;</div>
 <div id="fb-root"></div>
 
 <div class="container-fluid">
@@ -80,7 +79,7 @@
           <div class="col-xs-2">
           </div>
           <div class="col-xs-8 text-right" style="padding-right:0 !important;">
-            <img src="../img/tim-01.svg" style="width:45%; heihgt:auto;  margin:10px 0;"/>
+            <img src="img/tim-01.svg" style="width:45%; heihgt:auto;  margin:10px 0;"/>
           </div>
         </div>
       </div>
@@ -130,6 +129,11 @@
         <menu-item action="logout" icon="mdi-navigation-cancel">
             {{'LOGOUT' | translate}}
         </menu-item>
+
+      <br />
+      <br />
+      <br />
+
     </menu>
 
     <ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>

@@ -7,10 +7,10 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', '$timeout', '$translate',
+    .factory('CordovaApp',['$rootScope', '$state', '$window', '$timeout', '$translate',
         'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
         'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics', 'i18n', 'News', 'Domain',
-        function($state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
+        function($rootScope, $state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
                  PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics, i18n, News, Domain) {
 
             var currentSection = '';
@@ -110,7 +110,13 @@ angular
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
                     } else if(prevSection){
-                        $state.go(prevSection);
+
+                        if (prevSection === "login") {
+                          $state.go($rootScope.sectionDefault);
+                        } else {
+                          $state.go(prevSection);
+                        }
+
                     } else if($state.current.data){
                         $state.go($state.current.data.prev);
                     }

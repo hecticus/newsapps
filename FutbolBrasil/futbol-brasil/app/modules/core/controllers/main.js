@@ -13,6 +13,7 @@ angular
         function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
                Client, CordovaApp) {
 
+            $rootScope.sectionDefault = 'prediction';
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -25,6 +26,7 @@ angular
             $rootScope.transitionPageBack = transitionPageBack;
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
+            $rootScope.clickPage = clickPage;
 
             $scope.toggles = {
                 favorites: true
@@ -51,16 +53,20 @@ angular
             function showMenu() {
                 if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
                     $window.addEventListener('touchmove', function(){
-                        $scope.hideMenu();
+                        //$scope.hideMenu();
                         $window.removeEventListener('touchmove');
                     });
+
                     $rootScope.transitionPage('#wrapperM', 'right');
+                    $('#screen-block').removeClass('hidden');
                 }
             }
 
             function hideMenu() {
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
+                    $rootScope.menuScroll.scrollTo(0,0,0);
+                    $('#screen-block').addClass('hidden');
                 }
             }
 
@@ -77,10 +83,15 @@ angular
             }
 
             function showSection(_section) {
-                if ($('#wrapperM').hasClass('right')) {
+
+                if (_section == $state.current.name) {
+                  if ($('#wrapperM').hasClass('right')) {
                     $scope.hideMenu();
+                  }
+                } else {
+                  $state.go(_section);
                 }
-                $state.go(_section);
+
             }
 
             function executeAction(action){
@@ -100,6 +111,10 @@ angular
 
             function transitionPageBack(_wrapper, _direction) {
                 $rootScope.transitionPage(_wrapper, _direction, 'back')
+            }
+
+            function clickPage() {
+              $scope.hideMenu();
             }
 
             function nextPage() {
