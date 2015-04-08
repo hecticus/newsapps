@@ -53,8 +53,8 @@ angular
                         click : true,
                         preventDefault : true,
                         bounce : true,
-                        probeType: 2,
-                        preventDefaultException: { tagName:/.*/ }
+                        probeType: 3,
+                        snap:true
                     });
                     $window[_wrapper].on('beforeScrollStart', function () {
                         this.refresh();
