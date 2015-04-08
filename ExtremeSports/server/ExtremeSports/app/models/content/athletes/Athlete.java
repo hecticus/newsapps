@@ -194,6 +194,14 @@ public class Athlete extends HecticusModel {
         return response;
     }
 
+    public ObjectNode toJsonSimple() {
+        ObjectNode response = Json.newObject();
+        response.put("id_athlete", idAthlete);
+        response.put("name", name);
+        response.put("default_photo", defaultPhoto);
+        return response;
+    }
+
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         List<Athlete> athletes = Athlete.finder.all();

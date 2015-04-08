@@ -1,5 +1,7 @@
 package models.content.posts;
 
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Expression;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
@@ -297,6 +299,14 @@ public class Post extends HecticusModel {
             response.put("categories", Json.toJson(apps));
         }
 
+        if(athletes != null && !athletes.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(PostHasAthlete athlete : athletes){
+                apps.add(athlete.getAthlete().toJson());
+            }
+            response.put("athletes", Json.toJson(apps));
+        }
+
         return response;
     }
 
@@ -344,6 +354,28 @@ public class Post extends HecticusModel {
                 }
             }
         }
+        if(athletes != null && !athletes.isEmpty()){
+            ArrayList<ObjectNode> apps = new ArrayList<>();
+            for(PostHasAthlete athlete : athletes){
+                apps.add(athlete.getAthlete().toJsonSimple());
+            }
+            response.put("athletes", Json.toJson(apps));
+        }
+
+        if(categories != null && !categories.isEmpty()){
+            ArrayList<ObjectNode> cats = new ArrayList<>();
+            ArrayList<ObjectNode> tags = new ArrayList<>();
+            for(PostHasCategory postHasCategory : categories){
+                if(postHasCategory.getCategory().getFollowable()) {
+                    cats.add(postHasCategory.getCategory().toJsonWithoutRelations());
+                } else {
+                    tags.add(postHasCategory.getCategory().toJsonWithoutRelations());
+                }
+            }
+            response.put("categories", Json.toJson(cats));
+            response.put("tags", Json.toJson(tags));
+        }
+
         return response;
     }
 
@@ -370,6 +402,29 @@ public class Post extends HecticusModel {
                 if(ad.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue()){
                     response.put("title", ad.getTitle());
                     //response.put("content", ad.getContent());
+                    break;
+                }
+            }
+        }
+        return response;
+    }
+
+    public ObjectNode toJsonPreview(Language language) {
+        ObjectNode response = Json.newObject();
+        response.put("id_post", idPost);
+        response.put("date", date);
+        if(media != null && !media.isEmpty()){
+            PostHasMedia postHasMedia = media.get(0);
+            response.put("file", postHasMedia.getLink());
+            ObjectNode resolution = Json.newObject();
+            resolution.put("width", postHasMedia.getWidth());
+            resolution.put("height", postHasMedia.getHeight());
+            response.put("resolution", resolution);
+        }
+        if(localizations != null && !localizations.isEmpty()){
+            for(PostHasLocalization ad : localizations){
+                if(ad.getLanguage().getIdLanguage().intValue() == language.getIdLanguage().intValue()){
+                    response.put("title", ad.getTitle());
                     break;
                 }
             }
@@ -443,14 +498,56 @@ public class Post extends HecticusModel {
         return iterator;
     }
 
+    public static Iterator<Post> getPosts(List<Athlete> athletes, List<Category> categories, Country country, Language language, int postId, boolean onlyMedia, boolean newest){
+        Iterator<Post> iterator = null;
+        int maxRows = Config.getInt("post-to-deliver");
+        if(onlyMedia){
+            maxRows = 1;
+        }
+        if(postId > 0) {
+            if(athletes != null && categories != null) {
+                Expression inCategories = Expr.in("categories.category", categories);
+                Expression inAthletes = Expr.in("athletes.athlete", athletes);
+                if (newest) {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").fetch("categories").where().gt("idPost", postId).or(inAthletes, inCategories).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                } else {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").fetch("categories").where().lt("idPost", postId).or(inAthletes, inCategories).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                }
+            } else if(athletes != null) {
+                if (newest) {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().gt("idPost", postId).in("athletes.athlete", athletes).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                } else {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().lt("idPost", postId).in("athletes.athlete", athletes).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                }
+            } else if (categories != null){
+                if (newest) {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("categories").where().gt("idPost", postId).in("categories.category", categories).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                } else {
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("categories").where().lt("idPost", postId).in("categories.category", categories).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                }
+            }
+        } else {
+            if(athletes != null && categories != null) {
+                Expression inCategories = Expr.in("categories.category", categories);
+                Expression inAthletes = Expr.in("athletes.athlete", athletes);
+                iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").fetch("categories").where().or(inAthletes, inCategories).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+            } else if(athletes != null) {
+                iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().in("athletes.athlete", athletes).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+            } else if (categories != null){
+                iterator = finder.fetch("countries").fetch("localizations").fetch("categories").where().in("categories.category", categories).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+            }
+        }
+        return iterator;
+    }
+
     public List<Post> relatedByAthletes(List<Athlete> athlete, Country country, Language language) {
         int maxRelated = 3;
         return finder.fetch("countries").fetch("localizations").fetch("athletes").where().ne("idPost",this.idPost).in("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
     }
 
-    public List<Post> relatedByCategory(List<Category> category, Country country, Language language){
+    public List<Post> relatedByCategory(List<Category> categories, Country country, Language language){
         int maxRelated = 3;
-        return finder.fetch("countries").fetch("localizations").fetch("categories").where().ne("idPost",this.idPost).in("categories.category", category).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
+        return finder.fetch("countries").fetch("localizations").fetch("categories").where().ne("idPost",this.idPost).in("categories.category", categories).eq("countries.country", country).eq("localizations.language", language).setFirstRow(0).setMaxRows(maxRelated).orderBy("date desc").findList();
     }
 
     public static List<Post> getPostsToPush(){
