@@ -603,6 +603,26 @@ public class Clients extends HecticusController {
         }
     }
 
+    public static Result getActiveLanguages(){
+        try {
+            List<Language> activeLanguages = Language.getActiveLanguages();
+            if(activeLanguages != null && !activeLanguages.isEmpty()) {
+                ArrayList<ObjectNode> languages = new ArrayList<>();
+                for(Language language : activeLanguages){
+                    languages.add(language.toJson());
+                }
+                ObjectNode responseData = Json.newObject();
+                responseData.put("languages", Json.toJson(languages));
+                return ok(buildBasicResponse(0, "OK", responseData));
+            } else {
+                return notFound(buildBasicResponse(2, "no hay idiomas activos"));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando Idiomas", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando idiomas",e));
+        }
+    }
+
     //Reset Upstream pass and they send MT to client with new one
     public static Result resetUpstreamPass() {
         String msisdn = "";

@@ -95,6 +95,8 @@ POST    /api/v1/clients/upstream/game/user/event                                
 GET     /api/v1/locale.json                                                             controllers.client.Clients.getLocale(lang : String)
 POST    /api/v1/locale.json                                                             controllers.client.Clients.setLocale(lang : String)
 
+GET     /api/v1/languages                                                               controllers.client.Clients.getActiveLanguages()
+
 
 #ConfigsView
 # ConfigsView list (look at the default values for pagination parameters)
