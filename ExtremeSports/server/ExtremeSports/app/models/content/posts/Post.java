@@ -468,9 +468,9 @@ public class Post extends HecticusModel {
         if(postId > 0) {
             if(athlete != null) {
                 if (newest) {
-                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().gt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().gt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                 } else {
-                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().lt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().lt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                 }
             } else if (category != null){
                 if (newest) {

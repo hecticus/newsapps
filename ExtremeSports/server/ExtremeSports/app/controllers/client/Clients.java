@@ -572,26 +572,31 @@ public class Clients extends HecticusController {
         }
     }
 
-    public static Result getStarredAthletesForClient(Integer id) {
+    public static Result getFavorites(Integer id, Boolean categories) {
         try {
-            ObjectNode response = null;
             Client client = Client.getByID(id);
             if(client != null) {
                 if(client.getStatus() >= 0) {
-                    List<ClientHasAthlete> athletes = client.getAthletes();
-                    ArrayList jsonAthletes = new ArrayList();
-                    for(int i=0; i<athletes.size(); i++){
-                        jsonAthletes.add(athletes.get(i).toJson());
+                    ArrayList favorites = new ArrayList();
+                    if(categories){
+                        ArrayList<Category> realCategories = client.getRealCategories();
+                        for(int i=0; i<realCategories.size(); i++){
+                            favorites.add(realCategories.get(i).toJson());
+                        }
+                    } else {
+                        List<ClientHasAthlete> athletes = client.getAthletes();
+                        for (int i = 0; i < athletes.size(); i++) {
+                            favorites.add(athletes.get(i).getAthlete().toJson());
+                        }
                     }
-                    response = buildBasicResponse(0, "OK", Json.toJson(jsonAthletes));
+                    return ok(buildBasicResponse(0, "OK", Json.toJson(favorites)));
                 }else{
-                    response = buildBasicResponse(3, "cliente no se encuentra en status valido");
+                    return forbidden(buildBasicResponse(3, "cliente no se encuentra en status valido"));
                 }
 
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo la lista de mujeres para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
             return badRequest(buildBasicResponse(1,"Error buscando el registro",e));

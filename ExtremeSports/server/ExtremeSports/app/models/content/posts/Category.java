@@ -43,6 +43,11 @@ public class Category extends HecticusModel {
         this.name = name;
     }
 
+    public Category(String name, Boolean followable) {
+        this.name = name;
+        this.followable = followable;
+    }
+
     public Integer getIdCategory() {
         return idCategory;
     }

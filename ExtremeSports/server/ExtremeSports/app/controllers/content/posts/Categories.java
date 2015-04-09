@@ -21,9 +21,8 @@ public class Categories extends HecticusController {
     public static Result create() {
         try{
             ObjectNode categoryData = getJson();
-            ObjectNode response = null;
-            if(categoryData.has("name") && categoryData.has("localizations")){
-                Category category = new Category(categoryData.get("name").asText());
+            if(categoryData.has("name") && categoryData.has("localizations") && categoryData.has("followable")){
+                Category category = new Category(categoryData.get("name").asText(), categoryData.get("followable").asBoolean());
                 Iterator<JsonNode> localizationsIterator = categoryData.get("localizations").elements();
                 ArrayList<CategoryHasLocalization> localizations = new ArrayList<>();
                 CategoryHasLocalization categoryHasLocalization = null;
@@ -40,13 +39,12 @@ public class Categories extends HecticusController {
                 }
                 category.setLocalizations(localizations);
                 category.save();
-                response = buildBasicResponse(0, "OK", category.toJson());
+                return created(buildBasicResponse(0, "OK", category.toJson()));
             } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error creando el registro", ex));
         }
     }
 
@@ -59,6 +57,10 @@ public class Categories extends HecticusController {
                 boolean save = false;
                 if (categoryData.has("name") ) {
                     category.setName(categoryData.get("name").asText());
+                    save = true;
+                }
+                if (categoryData.has("followable")) {
+                    category.setFollowable(categoryData.get("followable").asBoolean());
                     save = true;
                 }
                 if(save){
