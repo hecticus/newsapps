@@ -47,9 +47,9 @@
                 <header>
                     <div class="col-xs-2 text-left">
                       <i class="mdi-navigation-more-vert"
-                         ng-hide="getSection() === 'login'"
-                         ng-class="getDrawerIcon()"
-                         ng-click="onMenuButtonPressed()"></i>
+                           ng-hide="(getSection() === 'login' || getSection() === 'settings')"
+                           ng-class="getDrawerIcon()"
+                           ng-click="onMenuButtonPressed()"></i>
                     </div>
                     <div class="col-xs-8 text-center">
                         <span class="drawer-title" ng-cloak>
@@ -61,6 +61,12 @@
                            ng-class="getFavoritesClass()"
                            ng-show="hasFavorites && (section !== 'settings' && section !== 'login')"
                            ng-click="toggleFavorites()"></i>
+
+                      <i class="mdi-navigation-arrow-forward" style="font-size:2em;"
+                       ng-show="(getSection() === 'settings')"
+                       ng-click="onNext()"></i>
+
+
                     </div>
                 </header>
             </div>
