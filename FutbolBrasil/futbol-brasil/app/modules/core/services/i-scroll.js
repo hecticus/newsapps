@@ -54,10 +54,10 @@ angular
                         scrollY: true,
                         mouseWheel: false,
                         momentum: false,
-                        snap: true,
+                        snap: false,
                         snapSpeed: 700,
                         probeType: 3,
-                        bounce: false,
+                        bounce: true,
                         click: true,
                         preventDefault:true
                     });
