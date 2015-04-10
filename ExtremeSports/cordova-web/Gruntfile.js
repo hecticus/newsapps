@@ -48,7 +48,7 @@ module.exports = function(grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= yeoman.app %>/*.html',
+                    '<%= yeoman.app %>/**/*.html',
                     '.tmp/styles/{,*/}*.css',
                     '<%= yeoman.app %>/img/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
@@ -186,7 +186,7 @@ module.exports = function(grunt) {
                     multiline: true
                 },
                 src: [ 'www/scripts/custom.js']
-            },
+            }
         },
 
         //Injects all the scripts into the index html file
@@ -194,7 +194,7 @@ module.exports = function(grunt) {
             options: {
                 addRootSlash: false,
                 ignorePath: 'app/',
-                bowerPrefix: 'bower',
+                bowerPrefix: 'bower'
             },
             localDependencies: {
                 files: {
@@ -213,7 +213,7 @@ module.exports = function(grunt) {
             },
             bowerDependencies: {
                 files: {
-                    'app/index.html': ['bower.json'],
+                    'app/index.html': ['bower.json']
                 }
             },
             karmaDependencies: {
@@ -224,7 +224,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'karma.conf.js': ['bower.json'],
+                    'karma.conf.js': ['bower.json']
                 }
             }
         },
@@ -315,7 +315,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>',
-                    src: ['*.html', '<%= yeoman.app %>/modules/*/views/*.html'],
+                    src: ['*.html', '<%= yeoman.app %>/modules/*/views/**/*.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -354,7 +354,7 @@ module.exports = function(grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'index.html',
-                        'modules/*/views/*.html',
+                        'modules/*/views/**/*.html',
                         'img/{,*/}*.{webp}',
                         'fonts/*'
                     ]
