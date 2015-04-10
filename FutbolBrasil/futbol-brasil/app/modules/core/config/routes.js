@@ -33,7 +33,8 @@ angular
                     prev: 'login',
                     next: 'login',
                     _class: 'content-login',
-                    section: 'login'
+                    section: 'login',
+                    state: 'login'
                 }
             })
             .state('remind', {
@@ -44,7 +45,8 @@ angular
                     prev: 'login',
                     next: 'login',
                     _class: 'content-login',
-                    section: 'remind'
+                    section: 'remind',
+                    state: 'remind'
                 }
             })
             .state('settings', {
@@ -55,7 +57,8 @@ angular
                     prev: 'prediction',
                     next: 'prediction',
                     _class: 'content-settings',
-                    section: 'settings'
+                    section: 'settings',
+                    state: 'settings'
                 }
             })
             .state('team-selection', {
@@ -66,7 +69,8 @@ angular
                     prev: 'settings',
                     next: 'news',
                     _class: 'content-team-selection',
-                    section: 'team-selection'
+                    section: 'team-selection',
+                    state: 'team-selection'
                 }
             })
             .state('language-selection', {
@@ -77,7 +81,8 @@ angular
                     prev: 'settings',
                     next: 'news',
                     _class: 'content-language-selection',
-                    section: 'language-selection'
+                    section: 'language-selection',
+                    state: 'language-selection'
                 }
             })
             .state('match', {
@@ -88,7 +93,8 @@ angular
                     prev: 'mtm',
                     next: 'standings',
                     _class: 'content-match',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'match'
                 }
             })
             .state('standings', {
@@ -99,7 +105,8 @@ angular
                     prev: 'match',
                     next: 'news',
                     contentClass: 'content-standings',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'standings'
                 }
             })
             .state('news', {
@@ -113,8 +120,10 @@ angular
                     prev: 'standings',
                     next: 'scorers',
                     contentClass: 'content-news',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'news'
                 }
+
             })
             .state('scorers', {
                 url: '/scorers',
@@ -124,7 +133,8 @@ angular
                     prev: 'news',
                     next: 'mtm',
                     contentClass: 'content-scorers',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'scorers'
                 }
             })
             .state('mtm', {
@@ -135,7 +145,8 @@ angular
                     prev: 'scorers',
                     next: 'match',
                     contentClass: 'content-mtm',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'mtm'
                 }
             })
             .state('prediction', {
@@ -146,7 +157,8 @@ angular
                     prev: 'points',
                     next: 'leaderboard',
                     contentClass: 'content-prediction',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'prediction'
                 }
             })
             .state('leaderboard', {
@@ -157,7 +169,8 @@ angular
                     prev: 'prediction',
                     next: 'friends',
                     contentClass: 'content-leaderboard',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'leaderboard'
                 }
             })
             .state('friends', {
@@ -168,7 +181,8 @@ angular
                     prev: 'leaderboard',
                     next: 'points',
                     contentClass: 'content-friends',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'friends'
                 }
             })
             .state('points', {
@@ -179,7 +193,8 @@ angular
                     prev: 'friends',
                     next: 'prediction',
                     contentClass: 'content-points',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'points'
                 }
             });
     }

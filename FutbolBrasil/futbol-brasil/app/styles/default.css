@@ -65,14 +65,12 @@ header, footer {
 }
 
 header {
-    top: 0;
-    /*background: #313f75 url(../img/bg.png) repeat-x fixed;*/
-    background: #0076b4;
+    background: #0073cf;
 }
 
 footer {
     line-height: 25px;
-    color:#FFFFFF;
+    color:#002878;
     bottom: 0;
     background: #134985;
     z-index: 7;
