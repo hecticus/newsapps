@@ -46,6 +46,7 @@ POST    /api/v1/post                                                            
 PUT    	/api/v1/post/:id                                                                controllers.content.posts.Posts.update(id : Integer)
 DELETE  /api/v1/post/:id                                                                controllers.content.posts.Posts.delete(id : Integer)
 GET     /api/v1/post/:id                                                                controllers.content.posts.Posts.get(id : Integer)
+GET     /api/v1/posts                                                                   controllers.content.posts.Posts.list(pageSize: Integer?=0, page: Integer?=0)
 
 GET     /api/v1/post/get/client/:id                                                     controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer?=0, newest: Boolean?=false, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false, athletes: Boolean?=false, categories: Boolean?=false)
 GET     /api/v1/post/get/client/:id/up/:postId                                          controllers.content.posts.Posts.getRecentPosts(id : Integer, postId: Integer, newest: Boolean?=true, idAthlete: Integer?=0, idCategory: Integer?=0, onlyMedia: Boolean?=false, athletes: Boolean?=false, categories: Boolean?=false)
@@ -78,7 +79,8 @@ POST    /api/v1/client/upstream/resetpass                                       
 POST    /api/v1/client/upstream/events/send                                             controllers.client.Clients.sendEvent()
 GET     /api/v1/client/:id                                                              controllers.client.Clients.get(id : Integer, upstreamChannel : String ?= "Android", pmc : Boolean?=false)
 GET     /api/v1/clients                                                                 controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
-GET     /api/v1/client/:id/favorite                                                     controllers.client.Clients.getFavorites(id : Integer, categories : Boolean?=false)
+GET     /api/v1/client/:id/favorite/athletes                                            controllers.client.Clients.getFavorites(id : Integer, categories : Boolean?=false)
+GET     /api/v1/client/:id/favorite/categories                                            controllers.client.Clients.getFavorites(id : Integer, categories : Boolean?=true)
 
 #Clients PMC
 GET     /api/v1/clients/pmc/get/:id                                                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
