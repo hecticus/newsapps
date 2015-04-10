@@ -13,7 +13,6 @@ angular
         function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
                Client, CordovaApp) {
 
-            $rootScope.sectionDefault = 'prediction';
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -27,6 +26,8 @@ angular
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
+            $rootScope.hasPreviousSubsection = hasPreviousSubsection;
+
 
             $scope.toggles = {
                 favorites: true
@@ -45,6 +46,24 @@ angular
             init();
 
             ////////////// Root Scope //////////////////////////
+
+
+
+            function hasPreviousSubsection(){
+
+
+               if  (getSection() === 'language-selection'
+                    || getSection() === 'remind'
+                    || getSection() === 'team-selection'
+                    || angular.element('.page.back.left:last').hasClass('left')) {
+                    return true;
+               } else {
+                return false;
+               }
+
+
+            }
+
 
             function isFavoritesFilterActive(){
                 return $scope.toggles.favorites;
@@ -191,6 +210,11 @@ angular
                 });
 
                 getTranslations();
+
+                $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
+                  $rootScope.previousState = '';
+                  if (from.data) $rootScope.previousState = from.data.state;
+                });
 
                 $rootScope.$on('$translateChangeSuccess', function () {
                     getTranslations();

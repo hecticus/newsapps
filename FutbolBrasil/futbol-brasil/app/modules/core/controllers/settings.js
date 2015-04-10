@@ -17,7 +17,7 @@ angular
             var scroll = null;
             var removeEventCallback = null;
 
-            $rootScope.onNext = onNext;
+            $rootScope.onMain = onMain;
             $scope.fbObject = {
                 fbStatus: null,
                 fbButtonMsg: ''
@@ -199,7 +199,7 @@ angular
                 });
             }
 
-            function onNext(){
+            function onMain(){
                  if (Client.getNickname() == undefined) {
                     Notification.showInfoAlert({
                         title: 'Profile Info' +  Client.getNickname(),

@@ -46,10 +46,19 @@
             <div class="navbar-header">
                 <header>
                     <div class="col-xs-2 text-left">
+
                       <i class="mdi-navigation-more-vert"
-                           ng-hide="(getSection() === 'login' || getSection() === 'settings')"
+                           ng-hide="(getSection() === 'login'
+                           || (getSection() === 'settings' && previousState === 'login')
+                           || (getSection() === 'settings' && previousState === '')
+                           || hasPreviousSubsection() === true)"
                            ng-class="getDrawerIcon()"
                            ng-click="onMenuButtonPressed()"></i>
+
+                      <i class="mdi-navigation-arrow-back"
+                         ng-show="(hasPreviousSubsection() === true
+                                  || (getSection() === 'remind' && previousState === 'login'))"
+                         ng-click="onMenuButtonPressed()"></i>
                     </div>
                     <div class="col-xs-8 text-center">
                         <span class="drawer-title" ng-cloak>
@@ -62,9 +71,9 @@
                            ng-show="hasFavorites && (section !== 'settings' && section !== 'login')"
                            ng-click="toggleFavorites()"></i>
 
-                      <i class="mdi-navigation-arrow-forward" style="font-size:2em;"
-                       ng-show="(getSection() === 'settings')"
-                       ng-click="onNext()"></i>
+                      <i class="mdi-navigation-arrow-forward"
+                       ng-show="(getSection() === 'settings' && (previousState === 'login' || previousState === ''))"
+                       ng-click="onMain()"></i>
 
 
                     </div>
