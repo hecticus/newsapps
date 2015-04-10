@@ -35,7 +35,7 @@ public class Application extends Controller {
     public static final String ADMIN_ROLE = "admin";
 
     public static Result options(String url){
-        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT");
         return ok("OK");
     }
 
