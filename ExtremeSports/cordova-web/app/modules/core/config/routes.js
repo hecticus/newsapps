@@ -94,6 +94,15 @@ angular
                         prev: 'gallery',
                         section: 'gallery'
                     }
+                })
+                .state('favorites', {
+                    url: '/favorites',
+                    templateUrl: 'modules/core/views/favorites.html',
+                    controller: 'FavoritesController as favorites',
+                    data:{
+                        prev: 'favorites',
+                        section: 'favorites'
+                    }
                 });
         }
     ]);

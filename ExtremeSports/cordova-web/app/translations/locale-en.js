@@ -24,21 +24,14 @@
     "GALLERY" : {
         "TITLE" : "Gallery"
     },
+    "FAVORITES" : {
+        "FAVORITES" : "My Favorites",
+        "ATHLETES" : "Athletes",
+        "CATEGORIES" : "Categories"
+    },
     "EMPTY_STATES" : {
-        "LIVE" : "There are no games for today",
         "NEWS" : "There are no news available",
-        "POINTS" : "You don't have points info available",
-        "LEADERBOARD" : "There is no info available for this leaderboard",
-        "PREDICTIONS" : "There is no info available for this tournament",
-        "MATCH" : "There are no games for this day",
-        "SCORERS" : "There are no strikers for this tournament",
-        "TEAMS" : "Could not get Teams",
-        "LANGUAGES" : "Could not get Available Languages",
-        "STANDINGS" : {
-            "NO_COMPETITIONS" : "Could not get Competitions",
-            "NO_PHASES" : "Could not get Phases",
-            "NO_RANKINGS" : "Could not get Rankings"
-        }
+        "LANGUAGES" : "Could not get Available Languages"
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Password",
@@ -64,11 +57,9 @@
         "NICKNAME_TITLE": "Nickname",
         "NICKNAME_PLACEHOLDER": "Choose your Nickname",
         "PUSH_TITLE": "Push Notifications",
-        "FAVORITE_TEAMS_TITLE": "My Favorite Teams",
         "LANGUAGES_TITLE": "Languages",
         "SOCIAL_ACCOUNTS_TITLE": "Social Accounts",
         "TOGGLE" : {
-            "BETS" : "Bets",
             "MTM" : "MTM",
             "NEWS" : "News"
         },
@@ -76,10 +67,8 @@
             "CONNECT" : "Connect With Facebook",
             "CONNECTED" : "Connected to Facebook"
         },
-        "ADD_TEAM": "Add Team",
         "NOT_AVAILABLE": "Not Available",
-        "LANGUAGE_SEARCH_HELPER" : "Find your language",
-        "TEAM_SEARCH_HELPER" : "Find your team"
+        "LANGUAGE_SEARCH_HELPER" : "Find your language"
     },
     "LANGUAGE" : {
         "PT" : "Portuguese",

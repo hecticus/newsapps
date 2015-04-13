@@ -191,6 +191,32 @@ function Domain(Client){
             down: function (postId) {
                 return renderUrl('/media/client/', [getClientId(), 'down', postId]);
             }
+        },
+
+        athletes : {
+            /**
+             * @ngdoc function
+             * @name core.Services.Domain#athletes.list
+             * @description Renders "/api/v1/athletes" endpoint URL
+             * @return {string} Rendered URL
+             * @methodOf core.Services.Domain
+             */
+            list: function () {
+                return renderUrl('/athletes', null);
+            }
+        },
+
+        categories : {
+            /**
+             * @ngdoc function
+             * @name core.Services.Domain#categories.list
+             * @description Renders "/api/v1/categories" endpoint URL
+             * @return {string} Rendered URL
+             * @methodOf core.Services.Domain
+             */
+            list: function () {
+                return renderUrl('/categories', null);
+            }
         }
     };
 

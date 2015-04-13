@@ -14,18 +14,20 @@
                             <div class="form-group">
                                 <label class="control-label sr-only"
                                        for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
-                                <div class="col-xs-6">
+                                <div class="col-xs-8">
                                     <input type="text" class="form-control" id="inputDefault"
                                            ng-disabled="!settings.isEditing"
                                            ng-model="settings.nickname"
                                            placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}"
                                            hc-focus="settings.isEditing">
                                 </div>
-                                <div class="col-xs-2">
-                                    <button class="btn-xs" ng-click="settings.saveNickname()"
-                                            ng-class="settings.getEditingButtonClass()">
-                                        <i ng-class="settings.getEditingIconClass()"></i>
-                                    </button>
+                                <div class="col-xs-4">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-xs" type ="button" ng-click="settings.saveNickname()"
+                                                ng-class="settings.getEditingButtonClass()">
+                                            <i ng-class="settings.getEditingIconClass()"></i>
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>

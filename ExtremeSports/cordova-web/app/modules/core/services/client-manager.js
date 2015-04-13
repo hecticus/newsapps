@@ -126,8 +126,7 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
         } else {
             jData.devices = devices;
             if(subscribe){ jData.subscribe = true; }
-            return $http.post(Domain.client.create(), {
-                data: jData,
+            return $http.post(Domain.client.create(), jData, {
                 timeout : 60000
             }).then(success, error);
         }

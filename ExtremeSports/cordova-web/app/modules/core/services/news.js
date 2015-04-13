@@ -95,9 +95,20 @@ function News($http, $q, Domain, Client) {
             return $q.reject(response);
         }
     }
-    function getBeforeId(id){}
-    function getAfterId(id){}
 
+    //TODO Not implemented
+    function getBeforeId(id){
+        var deferred = $q.defer();
+        deferred.resolve([]);
+        return deferred.promise;
+    }
+
+    //TODO Not implemented
+    function getAfterId(id){
+        var deferred = $q.defer();
+        deferred.resolve([]);
+        return deferred.promise;
+    }
 
     return service;
 }

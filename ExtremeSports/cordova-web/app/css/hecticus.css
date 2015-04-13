@@ -118,3 +118,27 @@ body {
 .logo{
     margin: 8px;
 }
+
+.scroll-container {
+    position: relative;
+}
+
+.nav-scroll-header {
+    margin-bottom: 15px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.nav-tabs {
+    background-color: #FFF !important;
+}
+
+.nav-tabs > li > a {
+    color: #A43062 !important;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+    color: #A43062 !important;
+}

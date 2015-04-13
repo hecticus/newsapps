@@ -56,22 +56,32 @@ function Gallery($http, $q, Domain) {
             if(response.data.error === 0){
                 return response.data.response;
             } else{
-                console.log('Error retrieving gallery post from server on success callback: '
+                console.log('Error retrieving gallery items from server on success callback: '
                     + ' error. code: ' + response.error + ' description: ' + response.description);
                 console.log(response.data);
                 return $q.reject(response);
             }
         }
         function error(response){
-            console.log('Error retrieving gallery post from server: ');
+            console.log('Error retrieving gallery items from server: ');
             console.log(response.data);
             return $q.reject(response);
         }
     }
 
-    function getBeforeId(id){}
-    function getAfterId(id){}
+    //TODO Not implemented
+    function getBeforeId(id){
+        var deferred = $q.defer();
+        deferred.resolve([]);
+        return deferred.promise;
+    }
 
+    //TODO Not implemented
+    function getAfterId(id){
+        var deferred = $q.defer();
+        deferred.resolve([]);
+        return deferred.promise;
+    }
 
     return service;
 }

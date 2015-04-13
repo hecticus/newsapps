@@ -10,6 +10,10 @@
     background-color: #ffffff;
 }
 
+.wrapper-tab {
+    margin-top: 40px !important;
+}
+
 .wrapper-row {
     top: 100px;
 }
