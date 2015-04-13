@@ -9,6 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <icon src="res/icon.png" />
     <platform name="ios">
         <framework src="SystemConfiguration.framework" />
     </platform>
