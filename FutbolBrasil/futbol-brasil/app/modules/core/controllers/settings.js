@@ -18,6 +18,7 @@ angular
               $rootScope.$storage.settings = false;
             }
 
+            var strings = {};
             var scroll = null;
             var removeEventCallback = null;
 
@@ -203,14 +204,29 @@ angular
                 });
             }
 
+            function getTranslationsSetUserName(){
+              $translate(['ALERT.SET_USERNAME.TITLE',
+                          'ALERT.SET_USERNAME.SUBTITLE',
+                          'ALERT.SET_USERNAME.MSG'])
+              .then(function(translation){
+                  strings['SET_USERNAME_TITLE'] = translation['ALERT.SET_USERNAME.TITLE'];
+                  strings['SET_USERNAME_SUBTITLE'] = translation['ALERT.SET_USERNAME.SUBTITLE'];
+                  strings['SET_USERNAME_MSG'] = translation['ALERT.SET_USERNAME.MSG'];
+              });
+            }
+
+
             function onMain(){
                  if (Client.getNickname() == undefined) {
+
                     Notification.showInfoAlert({
-                        title: 'Profile Info' +  Client.getNickname(),
-                        subtitle: 'Select your username',
-                        message: 'Please set a Username for your account',
+                        title: strings['SET_USERNAME_TITLE'],
+                        subtitle: strings['SET_USERNAME_SUBTITLE'],
+                        message: strings['SET_USERNAME_MSG'],
                         type: 'success'
                     });
+
+
                  } else {
                     $rootScope.$storage.settings = true;
                     $state.go('prediction');
@@ -224,9 +240,11 @@ angular
                 loadSettings();
                 getStatus();
                 getClientLanguage();
+                getTranslationsSetUserName();
 
                 removeEventCallback = $rootScope.$on('$translateChangeSuccess', function () {
                     getClientLanguage();
+                    getTranslationsSetUserName();
                 });
                 $scope.nickname = Client.getNickname();
                 $scope.$emit('unload');

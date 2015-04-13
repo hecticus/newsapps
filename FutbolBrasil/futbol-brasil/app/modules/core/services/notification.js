@@ -7,8 +7,31 @@
  */
 angular
     .module('core')
-    .factory('Notification',['$rootScope', '$state',
-        function($rootScope, $state) {
+    .factory('Notification',['$rootScope', '$state','$translate',
+        function($rootScope, $state, $translate) {
+
+            var strings = {};
+            function getTranslations(){
+                $translate(['ALERT.NETWORK_ERROR.TITLE',
+                            'ALERT.NETWORK_ERROR.SUBTITLE',
+                            'ALERT.NETWORK_ERROR.MSG',
+                            'ALERT.LOCKED_SECTION.TITLE',
+                            'ALERT.LOCKED_SECTION.MSG',
+                            'ALERT.LOCKED_SECTION.CONFIRM',
+                            'ALERT.LOCKED_SECTION.CANCEL'])
+                .then(function(translation){
+
+                    strings['NETWORK_ERROR_TITLE'] = translation['ALERT.NETWORK_ERROR.TITLE'];
+                    strings['NETWORK_ERROR_SUBTITLE'] = translation['ALERT.NETWORK_ERROR.SUBTITLE'];
+                    strings['NETWORK_ERROR_MSG'] = translation['ALERT.NETWORK_ERROR.MSG'];
+
+                    strings['LOCKED_SECTION_TITLE'] = translation['ALERT.LOCKED_SECTION.TITLE'];
+                    strings['LOCKED_SECTION_MSG'] = translation['ALERT.LOCKED_SECTION.MSG'];
+                    strings['LOCKED_SECTION_OK'] = translation['ALERT.LOCKED_SECTION.CONFIRM'];
+                    strings['LOCKED_SECTION_CANCEL'] = translation['ALERT.LOCKED_SECTION.CANCEL'];
+
+                });
+            }
 
             function showNotificationDialog(data, confirmCallback, cancelCallback){
                 var hasNotificationPlugin = !!navigator.notification;
@@ -37,19 +60,21 @@ angular
             }
 
             //TODO i18n-alizar
-            function showLockedSectionDialog(){
+            function showLockedSectionDialog() {
+
                 showNotificationDialog(
                     {
-                        title : 'Locked Section',
-                        message : 'This section is locked for Guest Users. Would you like to register to unlock this section?',
-                        confirm: 'Ok',
-                        cancel: 'Cancel'
+                        title : strings['LOCKED_SECTION_TITLE'],
+                        message :  strings['LOCKED_SECTION_MSG'],
+                        confirm: strings['LOCKED_SECTION_OK'],
+                        cancel: strings['LOCKED_SECTION_CANCEL']
                     }, registerUserCallback
                 );
 
                 function registerUserCallback(){
                     $state.go('remind');
                 }
+
             }
 
             function showInfoAlert(displayInfo){
@@ -85,9 +110,9 @@ angular
 
             function showNetworkErrorAlert(){
                 showInfoAlert({
-                    title: 'Network Error',
-                    subtitle: 'Connection Lost',
-                    message: "Couldn't get a response from server",
+                        title: strings['NETWORK_ERROR_TITLE'],
+                        subtitle: strings['NETWORK_ERROR_SUBTITLE'],
+                        message: strings['NETWORK_ERROR_MSG'],
                     type: 'error'
                 });
             }

@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state', '$stateParams', '$localStorage', '$window', 'Domain'
+    .controller('NewsCtrl', ['$http','$rootScope','$scope','$state', '$stateParams', '$localStorage', '$window', '$translate', 'Domain'
         ,'Moment', 'iScroll', 'SocialAppsManager', 'News', 'CordovaDevice', 'Notification',
-        function($http, $rootScope, $scope, $state, $stateParams, $localStorage, $window, Domain, Moment,
+        function($http, $rootScope, $scope, $state, $stateParams, $localStorage, $window, $translate, Domain, Moment,
                  iScroll, SocialAppsManager, News, CordovaDevice, Notification) {
 
             //Indicador de primera y ultima posicion en cache
@@ -18,6 +18,8 @@ angular
                 first : 0,
                 last : 0
             };
+
+            var strings = {};
 
             var listScroll = null;
             var detailScroll = null;
@@ -45,6 +47,17 @@ angular
                 return Moment.date(_date).fromNow();
             }
 
+            function getTranslations(){
+                $translate(['NOTIFICATIONS.NEWS_LIMIT.TITLE', 'NOTIFICATIONS.NEWS_LIMIT.MSG', 'NOTIFICATIONS.NEWS_LIMIT.CONFIRM', 'NOTIFICATIONS.NEWS_LIMIT.CANCEL'])
+                    .then(function(translation){
+                        strings['NEWS_LIMIT_TITLE'] = translation['NOTIFICATIONS.NEWS_LIMIT.TITLE'];
+                        strings['NEWS_LIMIT_MSG'] = translation['NOTIFICATIONS.NEWS_LIMIT.MSG'];
+                        strings['NEWS_LIMIT_CONFIRM'] = translation['NOTIFICATIONS.NEWS_LIMIT.CONFIRM'];
+                        strings['NEWS_LIMIT_CANCEL'] = translation['NOTIFICATIONS.NEWS_LIMIT.CANCEL'];
+                    });
+            }
+
+
             function showContentNews(_news) {
                 if(_news) {
                     if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
@@ -55,10 +68,10 @@ angular
                     } else {
                         Notification.showNotificationDialog(
                             {
-                                title: 'Daily News Limit Exceeded',
-                                message: 'You have exceeded your free daily news limit',
-                                confirm: 'Ok',
-                                cancel: 'Cancel'
+                                title: strings.NEWS_LIMIT_TITLE,
+                                message: strings.NEWS_LIMIT_MSG,
+                                confirm: strings.NEWS_LIMIT_CONFIRM,
+                                cancel: strings.NEWS_LIMIT_CANCEL
                             }
                         );
                         console.log('Daily News Limit Exceeded');
@@ -181,6 +194,7 @@ angular
 
             function init(){
                 $scope.$emit('load');
+                getTranslations();
                 getNews().then(function(){
                     if($stateParams.newsId){
                         $scope.showContentNews(getNewsById($stateParams.newsId));

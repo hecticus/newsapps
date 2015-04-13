@@ -7,12 +7,7 @@ row:not(input):not(textarea) {
 html { -ms-touch-action: none; font-family: Helvetica; }
 body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
 
-/*a { color: #FFFFFF !important; text-decoration: none  !important; }*/
-/*a:link {color: #FFFFFF !important; text-decoration: none  !important; }*/
-/*a:visited {color: #FFFFFF !important; text-decoration: none  !important; }*/
-/*a:hover {color: #FFFFFF !important; text-decoration: none  !important; }*/
-/*a:active { color: #FFFFFF !important; text-decoration: none  !important; }*/
-.footer-section{ color: #FFFFFF !important; text-decoration: none  !important; }
+.footer-section{color: #FFFFFF !important; text-decoration: none  !important; }
 .footer-section:link {color: #FFFFFF !important; text-decoration: none  !important; }
 .footer-section:visited {color: #FFFFFF !important; text-decoration: none  !important; }
 .footer-section:hover {color: #FFFFFF !important; text-decoration: none  !important; }
@@ -95,6 +90,13 @@ footer .glyphicon-class {
     word-wrap: break-word;
 }
 
+footer .option.active {
+    background-color:#fed100;
+}
+
+footer .option.active span {
+  color:#002878 !important;
+}
 
 #wrapper,
 #wrapper .scroller,
@@ -127,9 +129,8 @@ body.content-mtm #wrapper2 .scroller .container .row div {
     /*background-color: #ffffff;*/
 }
 
-.option.active {
-    background-color:#ffca00;
-}
+
+
 
 header .section {
     text-shadow: -1px 1px 1px rgba(0,0,0,0.5);
@@ -170,13 +171,13 @@ body.content-news #wrapper .scroller .container .row .news:last-child {border: 0
 body.content-standings #wrapper .scroller .container .row .competition .title,
 body.content-news #wrapper .scroller .container .row .news .title {color:#00102B;}
 
-body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
+body.content-news #wrapper .scroller .container .row .news .moment {color:#7ab800;}
 
 body.content-news #wrapper2 .scroller .container .row .news:last-child {border: 0 !important;}
 body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
 
 body.content-news #wrapper2 .scroller .container .row .news .moment {
-    color:#3B9444;
+    color:#7ab800;
 }
 
 body.content-news #wrapper2 .scroller .container .row .news .body {
@@ -185,29 +186,67 @@ body.content-news #wrapper2 .scroller .container .row .news .body {
     border-top: solid 1pt #2B2B2B !important;
 }
 
+
+/*
 body.content-match .competition,
 body.content-scorers .competition {
-    /*text-transform:uppercase;*/
     display:none;
 }
 
 body.content-match .competition.active,
 body.content-scorers .competition.active{
     display:block;
+}*/
+
+table {
+  margin: 0 !important;
+  border:0 !important;
+  text-align: center;
+}
+
+table tr th {
+  text-align: center;
+}
+table tbody tr  {
+  height: 75px;
+}
+table tbody tr td {
+  height: 75px;
+  border:0 !important;
+  padding: 0 !important;
 }
 
 table thead tr th {
-    text-align: center;
-    color: #ffffff;
-    background: #3B5CA9;
-    margin: 0 !important;
+  background: #fed100;
+  color: #002878;
 }
 
-table tbody tr td {
-    text-align: center;
-    font-size: 0.8em;
-    margin: 0 !important;
+table tbody tr:nth-child(even) {
+  background: #ffffff;
+  color: #002878;
 }
+
+table tbody tr:nth-child(odd) {
+  background: #d0dbe7;
+  color: #2c9cd3;
+}
+
+table tbody tr td.active {
+  background: #fed100 !important;
+  color: #002878 !important;
+}
+
+.content-leaderboard table tbody tr,
+.content-leaderboard table tbody tr td,
+.content-scorers table tbody tr,
+.content-scorers table tbody tr td {
+  height: 25px;
+  border:0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  padding:5px !important;
+}
+
 
 div.header {
     position: absolute;
@@ -218,7 +257,7 @@ div.header {
     width: 100%;
     height: 35px;
     line-height: 35px;
-    background-color: #3B9444;
+    background-color: #7ab800;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
@@ -272,14 +311,14 @@ div.header .right {
     font-size:1.8em;
 }
 
-body.content-news #wrapper .scroller .container .row .news .moment {color:#3B9444;}
+body.content-news #wrapper .scroller .container .row .news .moment {color:#7ab800;}
 
 
 body.content-news #wrapper2 .scroller .container .row .news:last-child {border: 0 !important;}
 body.content-news #wrapper2 .scroller .container .row .news .title {color:#00102B;}
 
 body.content-news #wrapper2 .scroller .container .row .news .moment {
-    color:#3B9444;
+    color:#7ab800;
 }
 
 
@@ -302,21 +341,6 @@ body.content-scorers .competition.active{
 
 
 
-table thead tr th {
-    text-align: center;
-    color: #ffffff;
-    background: #3B5CA9;
-    margin: 0 !important;
-}
-
-table tbody tr td {
-    text-align: center;
-    font-size: 0.8em;
-    margin: 0 !important;
-}
-
-
-
 div.header {
     position: absolute;
     z-index: 4;
@@ -326,7 +350,7 @@ div.header {
     width: 100%;
     height: 35px;
     line-height: 35px;
-    background-color: #3B9444;
+    background-color: #7ab800;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
@@ -453,7 +477,7 @@ div.header .right {
 }
 
 body.content-mtm .row-back {
-    background-color: #D84A38;
+    background-color: #e37222;
     color: #ffffff !important;
 }
 
@@ -497,17 +521,17 @@ body.content-mtm .row-back {
     background-color: #ffffff;
 }
 
-.date { font-weight: bold; font-size: 2em; }
+.date { font-weight: bold; font-size: 1.5em; }
 .winner { font-weight: bold; }
-.goal { font-size: 1.6em; }
+.goal { font-size: 1.5em; }
 .status { color:#000000; font-weight: bold; }
 
-.status._0 { color:#FFBF00; }
-.status._2 { color:#D84A38; }
-.status._4 { color:#3B9444; }
+.status._0 { color:#fed100; }
+.status._2 { color:#e37222; }
+.status._4 { color:#7ab800; }
 
-.status.PT { background-color:#3B9444; color: #ffffff; }
-.status.ST { background-color:#FFBF00; color: #000000; }
+.status.PT { background-color:#7ab800; color: #ffffff; }
+.status.ST { background-color:#fed100; color: #000000; }
 
 td.bet div {
   position:relative;
@@ -691,7 +715,7 @@ td.bet div {
 
 .section-header {
     line-height: 35px;
-    background-color: #3B9444;
+    background-color: #7ab800;
     color: #FFF;
 }
 
@@ -799,7 +823,7 @@ td.bet div {
     width: 100%;
     height: 40px;
     line-height: 35px;
-    background-color: #3B9444;
+    background-color: #7ab800;
     padding: 0 !important;
     margin: 0 !important;
     border: 0;
@@ -808,7 +832,7 @@ td.bet div {
 }
 
 .news .moment {
-    color:#3B9444;
+    color:#7ab800;
 }
 
 .news .body {
@@ -896,15 +920,25 @@ td.bet div {
 }
 
 .row-header-competition {
-    background-color: #3B9444 !important;
+    background-color: #7ab800 !important;
 }
 
-.content-prediction
+  .content-prediction
   .row-header {
     height: 85px;
   }
 
-.content-prediction
+  .content-prediction
+  .row-header-competition {
+    height: 55px;
+  }
+
+  .content-scorers
+  .row-header {
+    height: 85px;
+  }
+
+  .content-scorers
   .row-header-competition {
     height: 55px;
   }
@@ -912,12 +946,12 @@ td.bet div {
 .content-prediction
   .row-header-reference {
     height: 30px;
-    background-color:#D84A38;
+    background-color:#e37222;
     color:#000000;
   }
 
 .row-header-live {
-    background-color: #D84A38;
+    background-color: #e37222;
 }
 
 .row-header .title {
@@ -988,7 +1022,6 @@ td.bet div {
 h6.team-name {
   height:20px;
   height-line:10px;
-  margin-top:10px;
  }
 
 .content-prediction .bet {position:relative; vertical-align:middle;}
@@ -1001,7 +1034,7 @@ h6.team-name {
   display:block;
   top:2px;
   right:2px;
-  color:#3B9444;
+  color:#7ab800;
 }
 
 #screen-block {
