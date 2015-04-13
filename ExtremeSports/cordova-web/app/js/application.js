@@ -47,6 +47,7 @@ angular.module(ApplicationConfiguration.applicationModuleName)
 
 run.$inject = ['$rootScope', '$localStorage', '$state', '$translate'
     , 'CordovaApp', 'ClientManager', 'Client', 'Notification', 'Analytics'];
+
 function run($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
          Notification, Analytics) {
 
@@ -95,7 +96,9 @@ function run($rootScope, $localStorage, $state, $translate, CordovaApp, ClientMa
         CordovaApp.setCurrentSection(toSection);
 
         if(toSection && toSection === 'remind'){
-            CordovaApp.setPreviousSection('login');
+            /* esto generaba el bug de que al ir hacia atras al llegar a get credentials
+            desde el dialogo de guest no pudiera volver a la seccion anterior */
+//            CordovaApp.setPreviousSection('login');
         } else if(fromName && fromSection !== 'settings' && !CordovaApp.isSettingsSubSection(toSection)
             && !CordovaApp.isSettingsSubSection(fromSection)){
             console.log('setting previous section name: '+ fromName);
@@ -109,9 +112,9 @@ function run($rootScope, $localStorage, $state, $translate, CordovaApp, ClientMa
                 $rootScope.sectionTranslation = translate;
             });
 
-        if (toState.data && toState.data.contentClass){
-            $rootScope.contentClass = toState.data.contentClass;
-        }
+//        if (toState.data && toState.data.contentClass){
+//            $rootScope.contentClass = toState.data.contentClass;
+//        }
 
         if(toSection && toSection === 'login'){
             Client.logout();

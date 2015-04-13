@@ -14,18 +14,18 @@
                             <div class="form-group">
                                 <label class="control-label sr-only"
                                        for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
-                                <div class="input-group">
+                                <div class="col-xs-6">
                                     <input type="text" class="form-control" id="inputDefault"
                                            ng-disabled="!settings.isEditing"
                                            ng-model="settings.nickname"
                                            placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}"
                                            hc-focus="settings.isEditing">
-                            <span class="input-group-btn">
-                                <button class="btn-xs" ng-click="settings.saveNickname()"
-                                        ng-class="settings.getEditingButtonClass()">
-                                    <i ng-class="settings.getEditingIconClass()"></i>
-                                </button>
-                            </span>
+                                </div>
+                                <div class="col-xs-2">
+                                    <button class="btn-xs" ng-click="settings.saveNickname()"
+                                            ng-class="settings.getEditingButtonClass()">
+                                        <i ng-class="settings.getEditingIconClass()"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -89,10 +89,10 @@
                                 <div class="col-xs-2">
                                     <i class="lang-tag" style="padding:8px;">{{settings.lang.short_name}}</i>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <h6 class="lang-name">{{settings.lang.translation}}</h6>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     <button class="btn btn-danger btn-xs text-center"
                                             ng-click="settings.selectLanguage()">
                                         <i class="mdi-content-create"></i>

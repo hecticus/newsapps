@@ -22,6 +22,7 @@ function MainController($rootScope, $scope, $state, $timeout, $window
     $rootScope.showMenu = showMenu;
     $rootScope.hideMenu = hideMenu;
     $rootScope.onMenuButtonPressed = onMenuButtonPressed;
+    $rootScope.getDrawerIcon = getDrawerIcon;
     $rootScope.showSection = showSection;
     $rootScope.executeAction = executeAction;
     $rootScope.transitionPage = transitionPage;
@@ -41,7 +42,6 @@ function MainController($rootScope, $scope, $state, $timeout, $window
     $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
     $scope.getSection = getSection;
     $scope.isGuest = isGuest;
-    $scope.getDrawerIcon = getDrawerIcon;
     $scope.goToStore = goToStore;
 
     init();
@@ -72,12 +72,21 @@ function MainController($rootScope, $scope, $state, $timeout, $window
         console.log('onMenuButtonPressed');
         var menuWrapper = $('#wrapperM');
         var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-        if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
+        if(hasPreviousSubsection || CordovaApp.isOnUtilitySection() || CordovaApp.isOnPostDetail()) {
             CordovaApp.onBackButtonPressed();
         } else if (menuWrapper.hasClass('left')) {
             $scope.showMenu();
         } else if (menuWrapper.hasClass('right')) {
             $scope.hideMenu();
+        }
+    }
+
+    function getDrawerIcon(){
+        console.log('CordovaApp.isOnUtilitySection(): ' + CordovaApp.isOnUtilitySection());
+        if(CordovaApp.isOnUtilitySection() || CordovaApp.isOnPostDetail()){
+            return 'icon mdi-navigation-arrow-back ';
+        } else {
+            return 'icon mdi-navigation-menu';
         }
     }
 
@@ -138,15 +147,6 @@ function MainController($rootScope, $scope, $state, $timeout, $window
 
     function getSection(){
         return CordovaApp.getCurrentSection();
-    }
-
-    function getDrawerIcon(){
-        var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-        if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
-            return 'icon mdi-navigation-arrow-back ';
-        } else {
-            return 'icon mdi-navigation-menu';
-        }
     }
 
     function goToStore(){

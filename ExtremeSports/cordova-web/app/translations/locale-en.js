@@ -21,49 +21,8 @@
     "NEWS" : {
         "TITLE" : "News"
     },
-    "SCORERS" : {
-        "PLAYER_NAME_LABEL" : "Player",
-        "TEAM_LABEL" : "Team",
-        "GOALS_LABEL" : "Goals"
-    },
-    "STANDINGS" : {
-        "TEAM" : "Team",
-        "TABLE" : {
-            "POINTS" : "P",
-            "MATCHES" : "M",
-            "MATCHES_WON" : "W",
-            "MATCHES_DRAWN" : "T",
-            "MATCHES_LOST" : "L",
-            "GOALS_FOR" : "GF",
-            "GOALS_AGAINST" : "GA",
-            "GOALS_DIFFERENCE" : "GD"
-        }
-    },
-    "MATCH" : {
-        "STATUS" : {
-            "0" : "Not Yet Played",
-            "1" : "First Half",
-            "2" : "Final",
-            "3" : "Suspended",
-            "4" : "Postponed",
-            "5" : "Half Time",
-            "6" : "Second Half",
-            "7" : "Full Time",
-            "8" : "Overtime 1",
-            "9" : "End of Overtime 1",
-            "10" : "Overtime 2",
-            "11" : "End of Overtime 2",
-            "12" : "Penalty Shootouts"
-        }
-    },
-    "LEADERBOARD" : {
-        "TOURNAMENT" : "Tournament",
-        "PHASE" : "Phase",
-        "PLAYER" : "Player",
-        "POINTS" : "Points",
-        "HITS" : "Hits",
-        "MY_POINTS" : "My Points",
-        "SCORE" : "Score"
+    "GALLERY" : {
+        "TITLE" : "Gallery"
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",

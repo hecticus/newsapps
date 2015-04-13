@@ -20,6 +20,7 @@ function CordovaApp($state, $window, $timeout, $translate, CordovaDevice
     var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
     var settingsSubSections = ['language-selection', 'team-selection'];
     var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
+    var postDetailSections = ['news-detail', 'gallery-detail'];
     var onSettingsSection = false;
 
     var strings = {};
@@ -57,6 +58,8 @@ function CordovaApp($state, $window, $timeout, $translate, CordovaDevice
         isSettingsSubSection : isSettingsSubSection,
 
         isOnUtilitySection : isOnUtilitySection,
+
+        isOnPostDetail : isOnPostDetail,
 
         requiresAuthSection : requiresAuthSection,
 
@@ -106,8 +109,7 @@ function CordovaApp($state, $window, $timeout, $translate, CordovaDevice
 
         if ($('#wrapperM').hasClass('right')) {
             hideMenu();
-        } else if(isOnUtilitySection()){
-//                    if(onSettingsSection){
+        } else if(isOnUtilitySection() || isOnPostDetail()){
             if(isSettingsSubSection(currentSection)){
                 $state.go($state.current.data.prev);
                 onSettingsSection = false;
@@ -169,9 +171,16 @@ function CordovaApp($state, $window, $timeout, $translate, CordovaDevice
         });
     }
 
+    function isOnPostDetail(){
+        return postDetailSections.some(function(detailSection){
+            return detailSection === currentSection;
+        });
+    }
+
     function isSettingsSubSection(section){
+        if(!section){ section = currentSection;}
         return settingsSubSections.some(function(settingsSubSection){
-            return settingsSubSection === currentSection;
+            return settingsSubSection === section;
         });
     }
 

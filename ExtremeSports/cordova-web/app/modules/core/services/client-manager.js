@@ -8,10 +8,10 @@
 angular.module('core').factory('ClientManager', ClientManager);
 
 ClientManager.$injector = ['$http', '$translate', '$q'
-    , 'CordovaDevice', 'WebManager', 'FacebookManager', 'AthleteManager', 'CategoryManager'
+    , 'CordovaDevice', 'FacebookManager', 'AthleteManager', 'CategoryManager'
     , 'Client', 'Domain', 'i18n'];
 
-function ClientManager($http, $translate, $q, CordovaDevice, WebManager, FacebookManager
+function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
     , AthleteManager, CategoryManager, Client, Domain, i18n) {
 
     //noinspection UnnecessaryLocalVariableJS
@@ -48,14 +48,14 @@ function ClientManager($http, $translate, $q, CordovaDevice, WebManager, Faceboo
          * local RegId
          * @methodOf core.Services.ClientManager
          */
-        updateRegistrationId : updateRegistrationId,
+        updateRegistrationId : updateRegistrationId
     };
 
     function init(){
         var deferred = $q.defer();
         Client.init().then(function(){
             if(Client.getClientId()){
-                AthletesManager.init();
+                AthleteManager.init();
                 CategoryManager.init();
                 getClientStatus()
                     .then(function(data){
@@ -79,12 +79,10 @@ function ClientManager($http, $translate, $q, CordovaDevice, WebManager, Faceboo
         var devices = [];
         var device = {};
         var isNewClient = true;
-        var url = '';
-        var method = 'POST';
         var lang = getLanguage();
         var facebook_id = FacebookManager.getUserId();
 
-        //TODO country cableado a 1 (Ve) pero deberia ser 3
+        //TODO country cableado a 1 (VE) pero deberia ser 3
         var jData = {
             country : 1,
             language: lang? lang.id_language : 405,

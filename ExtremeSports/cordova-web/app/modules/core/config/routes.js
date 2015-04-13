@@ -83,7 +83,28 @@ angular
                     controller: 'NewsDetailController as newsPost',
                     data:{
                         prev: 'news',
-                        section: 'news'
+                        section: 'news-detail'
+                    }
+                })
+                .state('gallery', {
+                    url: '/gallery',
+                    templateUrl: 'modules/core/views/gallery.html',
+                    controller: 'GalleryController as gallery',
+                    data:{
+                        prev: 'gallery',
+                        section: 'gallery'
+                    }
+                })
+                .state('gallery-detail', {
+                    url: '/gallery/{newsId:int}',
+                    params : {
+                        newsId : {value: null, squash: true}
+                    },
+                    templateUrl: 'modules/core/views/gallery-detail.html',
+                    controller: 'GalleryDetailController as GalleryPost',
+                    data:{
+                        prev: 'gallery',
+                        section: 'gallery-detail'
                     }
                 });
         }
