@@ -1625,7 +1625,7 @@ public class Clients extends HecticusController {
                     //Se trajo la informacion con exito
                     Boolean eligible = fResponse.findValue("eligible").asBoolean();
                     //TODO: guardar en el userID la info de si esta activo o no
-                    client.setStatus(eligible ? 1 : 0);
+                    client.setStatus(eligible ? 1 : -1);
                 }else{
                     //ocurrio un error en la llamada
                     throw new Exception(errorMessage);

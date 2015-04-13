@@ -3,6 +3,10 @@ package models.content.posts;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.Wistia;
 import models.HecticusModel;
+import models.basic.Config;
+import models.basic.Country;
+import models.basic.Language;
+import models.content.athletes.Athlete;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -12,6 +16,7 @@ import scala.collection.mutable.Buffer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -195,5 +200,50 @@ public class PostHasMedia extends HecticusModel {
         Buffer<Tuple2<String, String>> postHasMediaBuffer = JavaConversions.asScalaBuffer(proxy);
         scala.collection.immutable.List<Tuple2<String, String>> postHasMediaList = postHasMediaBuffer.toList();
         return postHasMediaList;
+    }
+
+
+    public static Iterator<PostHasMedia> getMedia(Athlete athlete, Category category, Country country, Language language, int postId, boolean onlyMedia, boolean newest){
+        Iterator<PostHasMedia> iterator = null;
+        ArrayList<Athlete> athletesToCompare = null;
+        if(athlete != null){
+            athletesToCompare = new ArrayList<>();
+            athletesToCompare.add(athlete);
+        }
+        int maxRows = Config.getInt("media-to-deliver");
+        if(onlyMedia){
+            maxRows = 1;
+        }
+        if(postId > 0) {
+            if(athlete != null) {
+                if (newest) {
+                    iterator = finder.fetch("post.countries").fetch("post.localizations").fetch("post.athletes").where().gt("post.idPost", postId).eq("post.athletes.athlete", athlete).eq("post.countries.country", country).eq("post.localizations.language", language).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+                } else {
+                    iterator = finder.fetch("post.countries").fetch("post.localizations").fetch("post.athletes").where().lt("post.idPost", postId).eq("post.athletes.athlete", athlete).eq("post.countries.country", country).eq("post.localizations.language", language).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+                }
+            } else if (category != null){
+                if (newest) {
+                    iterator = finder.fetch("post.countries").fetch("post.localizations").fetch("post.categories").where().gt("post.idPost", postId).eq("post.categories.category", category).eq("post.countries.country", country).eq("post.localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+                } else {
+                    iterator = finder.fetch("post.countries").fetch("post.localizations").fetch("post.categories").where().lt("post.idPost", postId).eq("post.categories.category", category).eq("post.countries.country", country).eq("post.localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+                }
+            } else {
+                if (newest) {
+                    iterator = finder.fetch("post.countries").fetch("post.localizations").where().gt("post.idPost", postId).eq("post.countries.country", country).eq("post.localizations.language", language).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+                } else {
+                    iterator = finder.fetch("post.countries").fetch("post.localizations").where().lt("post.idPost", postId).eq("post.countries.country", country).eq("post.localizations.language", language).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+                }
+            }
+        } else {
+            if(athlete != null) {
+                iterator = finder.fetch("post.countries").fetch("post.localizations").fetch("post.athletes").where().eq("post.athletes.athlete", athlete).eq("post.countries.country", country).eq("post.localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+            } else if (category != null){
+                iterator = finder.fetch("post.countries").fetch("post.localizations").fetch("post.categories").where().eq("post.categories.category", category).eq("post.countries.country", country).eq("post.localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+            } else {
+                iterator = finder.fetch("post.countries").fetch("post.localizations").where().eq("post.countries.country", country).eq("post.localizations.language", language).setFirstRow(0).setMaxRows(maxRows).orderBy("rand()").findList().iterator();
+            }
+        }
+
+        return iterator;
     }
 }

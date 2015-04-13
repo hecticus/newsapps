@@ -7,15 +7,15 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', '$timeout', '$translate',
+    .factory('CordovaApp',['$rootScope', '$state', '$window', '$timeout', '$translate',
         'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
         'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics', 'i18n', 'News', 'Domain',
-        function($state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
+        function($rootScope, $state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
                  PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics, i18n, News, Domain) {
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login',  'remind', 'language-selection', 'team-selection'];
             var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
@@ -96,6 +96,7 @@ angular
                 var menuWrapper = $('#wrapperM');
                 if (menuWrapper.hasClass('right')) {
                     menuWrapper.attr('class', ' page transition left');
+                    $('#screen-block').removeClass('hidden');
                 }
             }
 
@@ -105,15 +106,19 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     hideMenu();
                 } else if(isOnUtilitySection()){
-//                    if(onSettingsSection){
                     if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
-                    } else if(prevSection){
-                        $state.go(prevSection);
+                    } else {
+                      $state.go($rootScope.previousState);
+                    }
+
+                    /* else if(prevSection) {
+                        alert('onBackButtonPressed.3');
+                        $state.go($rootScope.previousState);
                     } else if($state.current.data){
                         $state.go($state.current.data.prev);
-                    }
+                    }*/
                 } else if(hasPreviousSubsection){
                     angular.element('.page.back.left:last')
                         .attr('class', ' page transition right');

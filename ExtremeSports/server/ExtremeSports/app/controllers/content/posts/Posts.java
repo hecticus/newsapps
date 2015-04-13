@@ -10,6 +10,8 @@ import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.clients.Client;
+import models.clients.ClientHasAthlete;
+import models.clients.ClientHasCategory;
 import models.content.posts.Category;
 import models.content.posts.*;
 import models.content.athletes.SocialNetwork;
@@ -338,8 +340,20 @@ public class Posts extends HecticusController {
 
     public static Result get(Integer id){
         try {
+            String[] idClients = getFromQueryString("idClient");
+            Client client = null;
+            if(idClients != null && idClients.length > 0){
+                int idClient = Integer.parseInt(idClients[0]);
+                client = Client.getByID(idClient);
+                if(client == null){
+                    return notFound(buildBasicResponse(2, "no existe el cliente " + idClient));
+                }
+            }
             Post post = Post.getByID(id);
             if(post != null) {
+                if(client != null){
+                    return ok(buildBasicResponse(0, "OK", post.toJson(client.getLanguage())));
+                }
                 return ok(buildBasicResponse(0, "OK", post.toJson()));
             } else {
                 return notFound(buildBasicResponse(2, "no existe el post " + id));
@@ -379,7 +393,7 @@ public class Posts extends HecticusController {
         }
     }
 
-    public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idAthlete, Integer idCategory, Boolean onlyMedia){
+    public static Result getRecentPosts(Integer id, Integer postId, Boolean newest, Integer idAthlete, Integer idCategory, Boolean onlyMedia, Boolean athletes,  Boolean categories){
         try {
             Client client = Client.getByID(id);
             Athlete athlete = null;
@@ -399,12 +413,26 @@ public class Posts extends HecticusController {
             if(client != null) {
                 Country country = client.getCountry();
                 Language language = client.getLanguage();
-                Iterator<Post> postIterator = Post.getPosts(athlete, category, country, language, postId, onlyMedia, newest);
+                Iterator<Post> postIterator = null;
+                if(athletes || categories){
+                    if(athletes && categories) {
+                        postIterator = Post.getPosts(client.getRealAthletes(), client.getRealCategories(), country, language, postId, onlyMedia, newest);
+                    } else if(athletes){
+                        postIterator = Post.getPosts(client.getRealAthletes(), null, country, language, postId, onlyMedia, newest);
+                    } else {
+                        postIterator = Post.getPosts(null, client.getRealCategories(), country, language, postId, onlyMedia, newest);
+                    }
+                } else {
+                    postIterator = Post.getPosts(athlete, category, country, language, postId, onlyMedia, newest);
+                }
                 ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
                 //buscamos sus favoritos tambien y agregamos esa info
                 while(postIterator.hasNext()){
                     Post post = postIterator.next();
-                    int index = 0;//client.getAthleteIndex(post.getPosts().getIdAthlete());
+                    boolean favorite = false;
+                    for(PostHasAthlete postHasAthlete : post.getAthletes()){
+                        favorite |= client.getAthleteIndex(postHasAthlete.getAthlete()) != -1;
+                    }
                     ObjectNode postJson;
                     List athleteList = new ArrayList();
                     for (int i = 0; i < post.getAthletes().size(); i++){
@@ -417,12 +445,12 @@ public class Posts extends HecticusController {
                     List<Post> athleteRelated = post.relatedByAthletes(athleteList, country, language);
                     ArrayList<ObjectNode> actualRelatedAthlete = new ArrayList<>();
                     for (int i= 0; i < athleteRelated.size();i++){
-                        actualRelatedAthlete.add(athleteRelated.get(i).toJson());
+                        actualRelatedAthlete.add(athleteRelated.get(i).toJsonPreview(language));
                     }
                     List<Post> categoryRelated = post.relatedByCategory(categoryList, country, language);
                     ArrayList<ObjectNode> actualRelatedCategory = new ArrayList<>();
-                    for (int i = 0; i < actualRelatedCategory.size(); i++){
-                        actualRelatedCategory.add(athleteRelated.get(i).toJson());
+                    for (int i = 0; i < categoryRelated.size(); i++){
+                        actualRelatedCategory.add(categoryRelated.get(i).toJsonPreview(language));
                     }
 
                     if(onlyMedia){
@@ -430,12 +458,7 @@ public class Posts extends HecticusController {
                     }else{
                         postJson = post.toJson(language);
                     }
-                    if(index != -1){
-                        //si la tiene como favorita
-                        postJson.put("starred", true);
-                    }else{
-                        postJson.put("starred", false);
-                    }
+                    postJson.put("has_favorite", favorite);
                     postJson.put("athlete_related", Json.toJson(actualRelatedAthlete));
                     postJson.put("category_related", Json.toJson(actualRelatedCategory));
                     posts.add(postJson);
@@ -445,7 +468,7 @@ public class Posts extends HecticusController {
                 return notFound(buildBasicResponse(2, "el cliente no existe"));
             }
         }catch (Exception e) {
-            Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Posts.class, "Error manejando posts", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
             return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
@@ -525,6 +548,56 @@ public class Posts extends HecticusController {
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+
+    }
+
+    public static Result getMediaForGallery(Integer id, Integer postId, Boolean newest, Integer idAthlete, Integer idCategory, Boolean onlyMedia){
+        try {
+            Client client = Client.getByID(id);
+            if(client != null) {
+                Athlete athlete = null;
+                Category category = null;
+                if(idAthlete > 0){
+                    athlete = Athlete.getByID(idAthlete);
+                    if(athlete == null) {
+                        return notFound(buildBasicResponse(2, "El atleta " + idAthlete + " no existe"));
+                    }
+                } else if(idCategory > 0){
+                    category = Category.getByID(idCategory);
+                    if(category == null) {
+                        return notFound(buildBasicResponse(2, "la categoria " + idCategory + " no existe"));
+                    }
+
+                }
+                Iterator<PostHasMedia> media = PostHasMedia.getMedia(athlete, category, client.getCountry(), client.getLanguage(), postId, onlyMedia, newest);
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+                //buscamos sus favoritos tambien y agregamos esa info
+                while(media.hasNext()){
+                    PostHasMedia postHasMedia = media.next();
+                    Post post = postHasMedia.getPost();
+                    boolean favorite = false;
+                    for(PostHasAthlete postHasAthlete : post.getAthletes()){
+                        favorite |= client.getAthleteIndex(postHasAthlete.getAthlete()) != -1;
+                    }
+                    ObjectNode postJson = Json.newObject();
+                    postJson.put("id_post", post.getIdPost());
+
+                    if(postHasMedia.getLink() != null && !postHasMedia.getLink().isEmpty()){
+                        postJson.put("media", postHasMedia.getLink());
+                    } else if(postHasMedia.getWistiaPlayer() != null && !postHasMedia.getWistiaPlayer().isEmpty()) {
+                        postJson.put("media", postHasMedia.getWistiaPlayer());
+                    }
+                    postJson.put("has_favorite", favorite);
+                    posts.add(postJson);
+                }
+                return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando posts", "error listando los media recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
             return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }

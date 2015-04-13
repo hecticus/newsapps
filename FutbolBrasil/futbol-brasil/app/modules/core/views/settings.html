@@ -12,9 +12,11 @@
                         <label class="control-label sr-only"
                                for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
                         <div class="input-group">
+
                             <input type="text" class="form-control" id="inputDefault"
                                    ng-disabled="!isEditing" ng-model="nickname"
                                    placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}">
+
                             <span class="input-group-btn">
                                 <button type="button" ng-click="saveNickname()"
                                         ng-class="{' btn btn-primary' : !isEditing, ' btn btn-success' : isEditing}">

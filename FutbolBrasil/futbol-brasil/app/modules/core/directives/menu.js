@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .directive('menu', ['iScroll',
-        function(iScroll) {
+    .directive('menu', ['$rootScope','iScroll',
+        function($rootScope, iScroll) {
             return {
                 restrict: "E",
                 templateUrl: 'modules/core/views/templates/menu.html',
@@ -16,12 +16,13 @@ angular
                 link: function($scope) {
                     var menuScroll = null;
                     function setUpIScroll(){
-                        menuScroll = iScroll.vertical('wrapperM');
+                        $rootScope.menuScroll = iScroll.vertical('wrapperM');
 
                         $scope.$on('$destroy', function() {
-                            menuScroll.destroy();
-                            menuScroll = null;
+                            $rootScope.menuScroll.destroy();
+                            $rootScope.menuScroll = null;
                         });
+
                     } setUpIScroll();
                 }
             };

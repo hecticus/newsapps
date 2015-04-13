@@ -171,4 +171,8 @@ public class Language extends HecticusModel {
         }
         return  iterator;
     }
+
+    public static List<Language> getActiveLanguages(){
+        return finder.where().eq("active", 1).findList();
+    }
 }

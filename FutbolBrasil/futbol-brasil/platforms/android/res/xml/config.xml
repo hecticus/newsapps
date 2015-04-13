@@ -1,13 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.hecticus.futbolbrasil" version="0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
-    <preference name="AndroidLaunchMode" value="singleTop" />
-    <feature name="App">
-        <param name="android-package" value="org.apache.cordova.App" />
-    </feature>
-    <feature name="Device">
-        <param name="android-package" value="org.apache.cordova.device.Device" />
-    </feature>
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
     </feature>
@@ -58,11 +51,13 @@
     <feature name="WizUtilsPlugin">
         <param name="android-package" value="jp.wizcorp.phonegap.plugin.wizUtilsPlugin.WizUtilsPlugin" />
     </feature>
-    <splash density="hdpi" src="res/splash.png" />
-    <name>FutbolBrasil</name>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <name>Tim Palpites Vencedor</name>
     <description>
-		FutbolBrasil app.
-	</description>
+      Tim Palpites Vencedor App.
+	  </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
 		Hecticus Software Inc
 	</author>
@@ -74,7 +69,6 @@
     <preference name="prerendered-icon" value="true" />
     <preference name="android-minSdkVersion" value="10" />
     <preference name="android-installLocation" value="auto" />
-    <preference name="splash-screen-duration" value="5000" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="DisallowOverscroll" value="false" />
@@ -98,4 +92,6 @@
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="false" />
     <preference name="load-url-timeout" value="100000" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="5000" />
 </widget>

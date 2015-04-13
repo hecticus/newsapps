@@ -215,6 +215,22 @@ public class Client extends HecticusModel {
         this.session = session;
     }
 
+    public ArrayList<Athlete> getRealAthletes(){
+        ArrayList<Athlete> tr = new ArrayList<>();
+        for (ClientHasAthlete clientHasAthlete : athletes){
+            tr.add(clientHasAthlete.getAthlete());
+        }
+        return tr;
+    }
+
+    public ArrayList<Category> getRealCategories(){
+        ArrayList<Category> tr = new ArrayList<>();
+        for (ClientHasCategory clientHasCategory : categories){
+            tr.add(clientHasCategory.getCategory());
+        }
+        return tr;
+    }
+
     public int getDeviceIndex(String registrationId, Device device) {
         ClientHasDevices clientHasDevice = ClientHasDevices.getByRegistrationIdDevice(registrationId, device);
         if(clientHasDevice == null){

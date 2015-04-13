@@ -26,6 +26,11 @@ public class HecticusController extends Controller {
 	 */
 
     public static StringBuilder invoker;
+
+    public static String[] getFromQueryString(String key){
+        return request().queryString().get(key);
+    }
+
 	public static ObjectNode getJson(){
 		ObjectNode jsonInfo = (ObjectNode) request().body().asJson();
 		if(jsonInfo == null){

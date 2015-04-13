@@ -14,9 +14,14 @@ angular
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
 
+            if (!$rootScope.$storage.settings) {
+              $rootScope.$storage.settings = false;
+            }
+
             var scroll = null;
             var removeEventCallback = null;
 
+            $rootScope.onMain = onMain;
             $scope.fbObject = {
                 fbStatus: null,
                 fbButtonMsg: ''
@@ -34,6 +39,10 @@ angular
             };
 
             $scope.isEditing = false;
+
+            $scope.saveNickname = function(){
+              $scope.isEditing = true;
+            };
 
             $scope.saveNickname = function(){
                 if(!$scope.isEditing){
@@ -194,6 +203,21 @@ angular
                 });
             }
 
+            function onMain(){
+                 if (Client.getNickname() == undefined) {
+                    Notification.showInfoAlert({
+                        title: 'Profile Info' +  Client.getNickname(),
+                        subtitle: 'Select your username',
+                        message: 'Please set a Username for your account',
+                        type: 'success'
+                    });
+                 } else {
+                    $rootScope.$storage.settings = true;
+                    $state.go('prediction');
+                 };
+            }
+
+
             function init(){
                 setUpIScroll();
                 getFavoriteTeams();
@@ -210,6 +234,11 @@ angular
                 $scope.$on('$destroy', function() {
                     typeof removeEventCallback === 'function' && removeEventCallback();
                 });
+
+                 if ($scope.nickname == undefined) {
+                    $scope.isEditing = true;
+                 };
+
             } init();
 
         }

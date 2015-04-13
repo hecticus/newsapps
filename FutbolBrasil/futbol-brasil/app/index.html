@@ -37,6 +37,7 @@
       ng-swipe-right="prevPage()"
       ng-swipe-left="nextPage()">
 
+<div id="screen-block" class="hidden" ng-click="clickPage()">&nbsp;</div>
 <div id="fb-root"></div>
 
 <div class="container-fluid">
@@ -44,23 +45,27 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <header>
-                    <div class="col-xs-10 text-left">
-                        <i class="icon drawer-icon icon-white"
-                           ng-hide="getSection() === 'login'"
-                           ng-class="getDrawerIcon()"
-                           ng-click="onMenuButtonPressed()"></i>
-
+                    <div class="col-xs-2 text-left">
+                        <i ng-hide="(hideMenuIcon() === true)"
+                          ng-class="getDrawerIcon()"
+                          ng-click="onMenuButtonPressed()"></i>
+                    </div>
+                    <div class="col-xs-8 text-center">
                         <span class="drawer-title" ng-cloak>
-                            <img class="drawer-app-logo" src="img/logo.svg"
-                                 onerror="this.src='img/logo.png'"/>
                             {{sectionTranslation}}
                         </span>
                     </div>
                     <div class="col-xs-2">
-                        <i class="icon drawer-icon icon-white"
-                           ng-class="getFavoritesClass()"
-                           ng-show="hasFavorites && (section !== 'settings' && section !== 'login')"
-                           ng-click="toggleFavorites()"></i>
+
+                      <i class="icon drawer-icon icon-white"
+                         ng-class="getFavoritesClass()"
+                         ng-hide="(hideMenuFavorites() === true)"
+                         ng-click="toggleFavorites()"></i>
+
+                      <i class="mdi-navigation-arrow-forward"
+                       ng-show="(showMenuForward() === true)"
+                       ng-click="onMain()"></i>
+
                     </div>
                 </header>
             </div>
@@ -74,39 +79,49 @@
 
     <menu ng-cloak>
 
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-8 text-right" style="padding-right:0 !important;">
+            <img src="img/tim-01.svg" style="width:45%; heihgt:auto;  margin:10px 0;"/>
+          </div>
+        </div>
+      </div>
+
         <menu-item section="prediction" icon="mdi-action-event">
           {{'SECTIONS.BETS' | translate}}
         </menu-item>
 
-        <menu-sub-item section="prediction" icon="icon-balon">
+        <menu-sub-item section="prediction" >
           {{'SECTIONS.BETS.PREDICTIONS' | translate}}
         </menu-sub-item>
-        <menu-sub-item section="leaderboard" icon="icon-tabela">
+        <menu-sub-item section="leaderboard" >
           {{'SECTIONS.BETS.LEADERBOARDS' | translate}}
         </menu-sub-item>
-        <menu-sub-item section="friends" icon="icon-artilharia">
+        <menu-sub-item section="friends" >
           {{'SECTIONS.BETS.FRIENDS' | translate}}
         </menu-sub-item>
-        <menu-sub-item section="points" icon="icon-puntos">
+        <menu-sub-item section="points" >
           {{'SECTIONS.BETS.POINTS' | translate}}
         </menu-sub-item>
 
-        <menu-item section="news" icon="mdi-action-label">
+        <menu-item section="news" icon="icon-noticias">
             {{'SECTIONS.NOTISTATS' | translate}}
         </menu-item>
-            <menu-sub-item section="match" icon="icon-balon">
+            <menu-sub-item section="match" >
                 {{'SECTIONS.NOTISTATS.MATCHES' | translate}}
             </menu-sub-item>
-            <menu-sub-item section="standings" icon="icon-tabela">
+            <menu-sub-item section="standings" >
                 {{'SECTIONS.NOTISTATS.STANDINGS' | translate}}
             </menu-sub-item>
-            <menu-sub-item section="news" icon="icon-noticias">
+            <menu-sub-item section="news" >
                 {{'SECTIONS.NOTISTATS.NEWS' | translate}}
             </menu-sub-item>
-            <menu-sub-item section="scorers" icon="icon-artilharia">
+            <menu-sub-item section="scorers">
                 {{'SECTIONS.NOTISTATS.SCORERS' | translate}}
             </menu-sub-item>
-            <menu-sub-item section="mtm" icon="icon-envivo">
+            <menu-sub-item section="mtm">
                 {{'SECTIONS.NOTISTATS.LIVE' | translate}}
             </menu-sub-item>
 
@@ -119,6 +134,11 @@
         <menu-item action="logout" icon="mdi-navigation-cancel">
             {{'LOGOUT' | translate}}
         </menu-item>
+
+      <br />
+      <br />
+      <br />
+
     </menu>
 
     <ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>
