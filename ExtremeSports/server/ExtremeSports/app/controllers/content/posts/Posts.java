@@ -583,11 +583,14 @@ public class Posts extends HecticusController {
                     }
                     ObjectNode postJson = Json.newObject();
                     postJson.put("id_post", post.getIdPost());
+                    postJson.put("id_media", postHasMedia.getIdPostHasMedia());
 
                     if(postHasMedia.getLink() != null && !postHasMedia.getLink().isEmpty()){
                         postJson.put("media", postHasMedia.getLink());
+                        postJson.put("video", false);
                     } else if(postHasMedia.getWistiaPlayer() != null && !postHasMedia.getWistiaPlayer().isEmpty()) {
                         postJson.put("media", postHasMedia.getWistiaPlayer());
+                        postJson.put("video", true);
                     }
                     postJson.put("has_favorite", favorite);
                     posts.add(postJson);
