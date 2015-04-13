@@ -180,7 +180,7 @@ public class PostHasMedia extends HecticusModel {
         return response;
     }
 
-    private void updateWistiaPlayer(){
+    public void updateWistiaPlayer(){
         if(!(wistiaPlayer != null && !wistiaPlayer.isEmpty()) && (wistiaId != null && !wistiaId.isEmpty())){
             ObjectNode videoData = Wistia.getVideo(wistiaId);
             if(videoData != null && videoData.has("embedCode")) {
