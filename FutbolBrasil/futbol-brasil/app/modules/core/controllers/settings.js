@@ -14,6 +14,10 @@ angular
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
 
+            if (!$rootScope.$storage.settings) {
+              $rootScope.$storage.settings = false;
+            }
+
             var scroll = null;
             var removeEventCallback = null;
 
@@ -208,7 +212,8 @@ angular
                         type: 'success'
                     });
                  } else {
-                     $state.go('prediction');
+                    $rootScope.$storage.settings = true;
+                    $state.go('prediction');
                  };
             }
 

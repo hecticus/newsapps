@@ -26,7 +26,7 @@ angular
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
-            $rootScope.hasPreviousSubsection = hasPreviousSubsection;
+
 
 
             $scope.toggles = {
@@ -46,24 +46,47 @@ angular
             init();
 
             ////////////// Root Scope //////////////////////////
-
-
+            $rootScope.hideMenuIcon = hideMenuIcon;
+            $rootScope.showMenuForward = showMenuForward;
+            $rootScope.hasPreviousSubsection = hasPreviousSubsection;
+            $rootScope.hideMenuFavorites = hideMenuFavorites;
 
             function hasPreviousSubsection(){
-
-
-               if  (getSection() === 'language-selection'
-                    || getSection() === 'remind'
-                    || getSection() === 'team-selection'
-                    || angular.element('.page.back.left:last').hasClass('left')) {
-                    return true;
-               } else {
-                return false;
-               }
-
-
+                return angular.element('.page.back.left:last').hasClass('left');
             }
 
+
+            function hideMenuFavorites() {
+              if ((getSection() === 'login')
+                  || (getSection() === 'settings')
+                  || (getSection() === 'remind')
+                  || (getSection() === 'language-selection')
+                  || (getSection() === 'team-selection')
+                  || ($rootScope.hasFavorites === false)) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function showMenuForward() {
+              if ((getSection() === 'settings')
+                && (!$rootScope.$storage.settings) ) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function hideMenuIcon() {
+              if ((getSection() === 'login')
+                  || ((getSection() === 'settings') &&
+                      (!$rootScope.$storage.settings))) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
             function isFavoritesFilterActive(){
                 return $scope.toggles.favorites;
@@ -90,8 +113,10 @@ angular
             }
 
             function onMenuButtonPressed(){
+
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
                 } else if (menuWrapper.hasClass('left')) {
@@ -99,6 +124,7 @@ angular
                 } else if (menuWrapper.hasClass('right')) {
                     $scope.hideMenu();
                 }
+
             }
 
             function showSection(_section) {
@@ -169,8 +195,7 @@ angular
             }
 
             function getDrawerIcon(){
-                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
+                if(hasPreviousSubsection() || CordovaApp.isOnUtilitySection()){
                     return 'icon mdi-navigation-arrow-back ';
                 } else {
                     return 'icon mdi-navigation-menu';

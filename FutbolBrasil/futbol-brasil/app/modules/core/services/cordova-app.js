@@ -15,7 +15,7 @@ angular
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['login', 'remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login',  'remind', 'language-selection', 'team-selection'];
             var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
