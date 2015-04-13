@@ -111,7 +111,7 @@ function Domain(Client){
         posts: {
             /**
              * @ngdoc function
-             * @name core.Services.Domain#list
+             * @name core.Services.Domain#posts.list
              * @description Renders "/api/v1/post/get/client/:id" endpoint URL
              * @return {string} Rendered URL
              * @methodOf core.Services.Domain
@@ -122,7 +122,7 @@ function Domain(Client){
 
             /**
              * @ngdoc function
-             * @name core.Services.Domain#post
+             * @name core.Services.Domain#posts.post
              * @description Renders "/api/v1/post/:id" endpoint URL
              * @return {string} Rendered URL
              * @methodOf core.Services.Domain
@@ -133,26 +133,63 @@ function Domain(Client){
 
             /**
              * @ngdoc function
-             * @name core.Services.Domain#up
-             * @description Renders "/api/v1/post/get/client/:id/:postId/up" endpoint URL
-             * @param {number} postId Post Id from where to get posts "below" (or older than) it
+             * @name core.Services.Domain#posts.up
+             * @description Renders "/api/v1/post/get/client/:id/up/:postId" endpoint URL
+             * @param {number} postId Post Id from where to get posts "above" (or newer than) it
              * @return {string} Rendered URL
              * @methodOf core.Services.Domain
              */
             up: function (postId) {
-                return renderUrl('/post/get/client/', [getClientId(), postId, 'up']);
+                return renderUrl('/post/get/client/', [getClientId(), 'up', postId]);
+            },
+
+            /**
+             * @ngdoc function
+             * @name core.Services.Domain#posts.down
+             * @description Renders "/api/v1/post/get/client/:id/down/:postId" endpoint URL
+             * @param {number} postId Post Id from where to get posts "below" (or older than) it
+             * @return {string} Rendered URL
+             * @methodOf core.Services.Domain
+             */
+            down: function (postId) {
+                return renderUrl('/post/get/client/', [getClientId(), 'down', postId]);
+            }
+        },
+
+        media : {
+            /**
+             * @ngdoc function
+             * @name core.Services.Domain#media.list
+             * @description Renders "/api/v1/media/client/:id" endpoint URL
+             * @return {string} Rendered URL
+             * @methodOf core.Services.Domain
+             */
+            list: function () {
+                return renderUrl('/media/client/', [getClientId()]);
+            },
+
+            /**
+             * @ngdoc function
+             * @name core.Services.Domain#media.up
+             * @description Renders "/api/v1/media/client/:id/up/:postId" endpoint URL
+             * @param {number} postId Post Id from where to get media "above" (or newer than) it
+             * @return {string} Rendered URL
+             * @methodOf core.Services.Domain
+             */
+            up: function (postId) {
+                return renderUrl('/media/client/', [getClientId(), 'up', postId]);
             },
 
             /**
              * @ngdoc function
              * @name core.Services.Domain#down
-             * @description Renders "/api/v1/post/get/client/:id/:postId/down" endpoint URL
-             * @param {number} postId Post Id from where to get posts "above" (or newer than) it
+             * @description Renders "/api/v1/media/client/:id/down/:postId" endpoint URL
+             * @param {number} postId Post Id from where to get media "below" (or older than) it
              * @return {string} Rendered URL
              * @methodOf core.Services.Domain
              */
             down: function (postId) {
-                return renderUrl('/post/get/client/', [getClientId(), postId, 'up']);
+                return renderUrl('/media/client/', [getClientId(), 'down', postId]);
             }
         }
     };

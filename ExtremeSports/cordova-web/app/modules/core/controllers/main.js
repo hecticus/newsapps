@@ -69,10 +69,8 @@ function MainController($rootScope, $scope, $state, $timeout, $window
     }
 
     function onMenuButtonPressed(){
-        console.log('onMenuButtonPressed');
         var menuWrapper = $('#wrapperM');
-        var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-        if(hasPreviousSubsection || CordovaApp.isOnUtilitySection() || CordovaApp.isOnPostDetail()) {
+        if(CordovaApp.isOnUtilitySection() || CordovaApp.isOnPostDetail()) {
             CordovaApp.onBackButtonPressed();
         } else if (menuWrapper.hasClass('left')) {
             $scope.showMenu();
@@ -82,7 +80,6 @@ function MainController($rootScope, $scope, $state, $timeout, $window
     }
 
     function getDrawerIcon(){
-        console.log('CordovaApp.isOnUtilitySection(): ' + CordovaApp.isOnUtilitySection());
         if(CordovaApp.isOnUtilitySection() || CordovaApp.isOnPostDetail()){
             return 'icon mdi-navigation-arrow-back ';
         } else {

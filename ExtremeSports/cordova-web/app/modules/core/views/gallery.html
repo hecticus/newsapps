@@ -6,7 +6,8 @@
             </div>
         </div>
         <div class="list-group">
-            <!--<hc-news-post post="post" on-click="news.openDetail(post)" ng-repeat="post in news.posts track by post.id_post"></hc-news-post>-->
+            <!--track by item.id_post-->
+            <hc-gallery-post item="item" on-click="gallery.openDetail(item)" ng-repeat="item in gallery.items"></hc-gallery-post>
         </div>
     </div>
 </div>

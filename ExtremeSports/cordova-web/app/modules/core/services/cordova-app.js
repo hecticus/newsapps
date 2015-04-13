@@ -20,7 +20,7 @@ function CordovaApp($state, $window, $timeout, $translate, CordovaDevice
     var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
     var settingsSubSections = ['language-selection', 'team-selection'];
     var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
-    var postDetailSections = ['news-detail', 'gallery-detail'];
+    var postDetailSections = ['news-detail'];
     var onSettingsSection = false;
 
     var strings = {};
