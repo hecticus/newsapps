@@ -6,18 +6,18 @@
 
                     <div class="col-xs-12">
                         <div class="row row-header-competition">
-                            <div class="col-xs-4 tabs text-left" ng-click="prevPage($index)">
-                                <span ng-bind="leagues[$index-1].name"></span>
+                            <div class="col-xs-4 tabs text-left" ng-click="prevPage($index)" >
+                                <span ng-bind="leagues[$index-1].name" ></span>
                             </div>
                             <div class="col-xs-4">
-                                <span ng-bind="league.name" class="caption"></span>
+                                <span ng-bind="league.name"></span>
                             </div>
                             <div class="col-xs-4 tabs text-right" ng-click="nextPage($index)">
-                                <span ng-bind="leagues[$index+1].name"></span>
+                                <span ng-bind="leagues[$index+1].name" ></span>
                             </div>
                         </div>
 
-                        <div class="row row-header-reference">
+                        <div class="row h-header red">
                             <div ng-show="league.bet" class="col-xs-12 text-center"
                                   ng-click="saveBet($index, league.id_competitions)">
 
@@ -48,7 +48,7 @@
                                     <table class="table" >
                                         <thead>
                                         <tr>
-                                            <th colspan="3">
+                                            <th colspan="3" class="h-header yellow">
                                                 <span ng-bind="getDate(fixture.date)"></span>
                                             </th>
                                         </tr>

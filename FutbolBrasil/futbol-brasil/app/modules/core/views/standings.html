@@ -1,223 +1,212 @@
-<div class="row row-standings-header">
-    <div class="col-xs-12 text-center text-center-vertical">
-        <div class="news-header">
-            <h4 class="title" translate>SECTIONS.NOTISTATS.STANDINGS</h4>
-        </div>
-    </div>
-</div>
-
 <div class="row">
-    <div id="wrapper">
-        <div class="scroller">
-            <div class="container">
-                <div class="row" ng-show="hasCompetitions">
-                    <div class="col-xs-12 competition"
-                         ng-repeat="competition in item.competitions"
-                         ng-click="showContentPhases(competition)"
-                         data-news="{{ competition.id_competitions }}">
-                        <h4>{{competition.name}}</h4>
-                    </div>
-                </div>
-                <div class="row" ng-hide="hasCompetitions">
-                    <div class="col-xs-12">
-                        <div class="no-content-panel" style="margin-top: 120px !important;">
-                            <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>
-                                EMPTY_STATES.STANDINGS.NO_COMPETITIONS
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+    <div id="wrapper" class="page">
+      <div class="scroller">
+        <div class="container">
+
+          <div class="row h-list" ng-show="hasCompetitions" >
+            <div class="col-xs-12"
+                 ng-repeat="competition in item.competitions"
+                 ng-click="showContentPhases(competition)"
+                 data-news="{{ competition.id_competitions }}">
+              <span>{{competition.name}}</span>
             </div>
-        </div>
-    </div>
 
-    <div id="wrapper2" class="page" style="left: 100%; z-index: 1; top: 90px;">
-        <div class="scroller">
-            <div class="container">
-                <div class="row row-header row-header-competition" style="padding: 12px;">
-                    <div class="col-xs-12 text-center text-center-vertical">
-                        <strong ng-bind="item.competition.name"
-                              style="font-size: 1.2em;"></strong>
-                    </div>
-                </div>
+          </div>
 
-                <div class="row" style="margin-top: 50px;" ng-show="hasPhases">
-                    <div class="col-xs-12">
-                        <div class="row row-list-item" ng-repeat="phase in item.phases">
-                            <div class="col-xs-12"
-                                 ng-click="showContentRanking(item.competition.id_competitions
-                            , phase.id_phases)">
-                                <h4 ng-bind="phase.global_name"></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row" ng-hide="hasPhases">
-                    <div class="col-xs-12">
-                        <div class="no-content-panel" style="margin-top: 120px !important;">
-                            <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>
-                                EMPTY_STATES.STANDINGS.NO_PHASES
-                            </div>
-                        </div>
-                    </div>
+          <div class="row" ng-hide="hasCompetitions">
+            <div class="col-xs-12">
+              <div class="no-content-panel" style="margin-top: 120px !important;">
+                <i class="mdi-action-info-outline"></i>
+                <div class="no-content-panel-title" translate>
+                  EMPTY_STATES.STANDINGS.NO_COMPETITIONS
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
     </div>
 
 
-    <div id="wrapper3" class="page" style="left: 100%; z-index: 1;">
-        <div class="scroller">
-            <div class="container">
+    <div id="wrapper2" class="page">
+      <div class="scroller">
+        <div class="container">
 
-                <div class="row row-header row-header-competition" style="padding: 12px; top:40px; height: 24px;">
-                    <div class="col-xs-12 text-center text-center-vertical">
-                        <strong ng-bind="item.competition.name"
-                                style="font-size: 1.2em;"></strong>
-                    </div>
+          <div class="row">
+            <div class="col-xs-12 h-header green">
+              <span ng-bind="item.competition.name"></span>
+            </div>
+          </div>
+
+          <div class="row h-list" ng-show="hasPhases">
+            <div class="col-xs-12" ng-repeat="phase in item.phases"
+                 ng-click="showContentRanking(item.competition.id_competitions
+                        , phase.id_phases)">
+              <span ng-bind="phase.global_name"></span>
+            </div>
+          </div>
+
+          <div class="row" ng-hide="hasPhases">
+            <div class="col-xs-12">
+              <div class="no-content-panel" style="margin-top: 120px !important;">
+                <i class="mdi-action-info-outline"></i>
+                <div class="no-content-panel-title" translate>
+                  EMPTY_STATES.STANDINGS.NO_PHASES
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div class="row row-header row-header-primary" style="top: 64px; height: 24px;">
-                    <div class="col-xs-12 text-center">
-                        <span ng-bind="item.phase.global_name"
-                            style="font-size: 1.2em; font-weight: bold;"></span>
-                    </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="wrapper3" class="page">
+      <div class="scroller">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-xs-12 h-header red">
+              <span ng-bind="item.phase.global_name"></span>
+            </div>
+          </div>
+
+          <div class="row" ng-show="hasRankings">
+            <div class="col-xs-12">
+              <div ng-if="!!item.isTree">
+                <div class="row" ng-repeat="rankings in item.ranking">
+                  <div class="col-xs-12"
+                       ng-repeat="ranking in rankings.ranking">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th colspan="8">
+                          <span>{{fromNow(ranking.date)}}</span>
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td class="col-xs-4">
+                          <span ng-bind="ranking.homeTeam.name"></span>
+                          <br/>
+                          <span ng-bind="ranking.home_team_goals"></span>
+                        </td>
+                        <td class="col-xs-4">
+                          <span>VS</span>
+                          <br/>
+                          <span ng-bind="ranking.status.name"></span>
+                        </td>
+                        <td class="col-xs-4">
+                          <span ng-bind="ranking.awayTeam.name"></span>
+                          <br/>
+                          <span ng-bind="ranking.away_team_goals"></span>
+                        </td>
+                      </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              </div>
 
-                <div class="row" style="margin-top: 88px !important;" ng-show="hasRankings">
-                    <div class="col-xs-12">
-                        <div ng-if="!!item.isTree">
-                            <div class="row" ng-repeat="rankings in item.ranking">
-                                <div class="col-xs-12"
-                                     ng-repeat="ranking in rankings.ranking">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th colspan="8" style="background-color: #3B9444;">
-                                                <span>{{fromNow(ranking.date)}}</span>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td class="col-xs-4">
-                                                <span ng-bind="ranking.homeTeam.name"></span>
-                                                <br/>
-                                                <span ng-bind="ranking.home_team_goals"></span>
-                                            </td>
-                                            <td class="col-xs-4">
-                                                <span>VS</span>
-                                                <br/>
-                                                <span ng-bind="ranking.status.name"></span>
-                                            </td>
-                                            <td class="col-xs-4">
-                                                <span ng-bind="ranking.awayTeam.name"></span>
-                                                <br/>
-                                                <span ng-bind="ranking.away_team_goals"></span>
-                                            </td>
-                                        </tr>
+              <div ng-if="!item.isTree">
+                <div class="row" ng-repeat="rankings in item.ranking">
+                  <div class="col-xs-12">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th colspan="8" style="background-color: #7ab800;">
+                          <span ng-bind="rankings.group_name"></span>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th style="text-align: left;" translate>
+                          STANDINGS.TEAM
+                        </th>
+                        <th translate>
+                          STANDINGS.TABLE.POINTS
+                        </th>
+                        <th translate>
+                          STANDINGS.TABLE.MATCHES
+                        </th>
+                        <th translate>
+                          STANDINGS.TABLE.MATCHES_WON
+                        </th>
+                        <th translate>
+                          STANDINGS.TABLE.MATCHES_DRAWN
+                        </th>
+                        <th translate>
+                          STANDINGS.TABLE.MATCHES_LOST
+                        </th>
+                        <th translate>
+                          STANDINGS.TABLE.GOALS_FOR
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div ng-if="!item.isTree">
-                            <div class="row" ng-repeat="rankings in item.ranking">
-                                <div class="col-xs-12">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th colspan="8" style="background-color: #3B9444;">
-                                                <span ng-bind="rankings.group_name"></span>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th style="text-align: left;" translate>
-                                                STANDINGS.TEAM
-                                            </th>
-                                            <th translate>
-                                                STANDINGS.TABLE.POINTS
-                                            </th>
-                                            <th translate>
-                                                STANDINGS.TABLE.MATCHES
-                                            </th>
-                                            <th translate>
-                                                STANDINGS.TABLE.MATCHES_WON
-                                            </th>
-                                            <th translate>
-                                                STANDINGS.TABLE.MATCHES_DRAWN
-                                            </th>
-                                            <th translate>
-                                                STANDINGS.TABLE.MATCHES_LOST
-                                            </th>
-                                            <th translate>
-                                                STANDINGS.TABLE.GOALS_FOR
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        <tr ng-class="{'active' : $odd}"
-                                            ng-repeat="ranking in rankings.ranking">
-                                            <td>
+                      <tr ng-class="{'active' : $odd}"
+                          ng-repeat="ranking in rankings.ranking">
+                        <td>
                                                 <span ng-bind="$index+1"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td class="text-left">
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td class="text-left">
                                                 <span ng-bind="ranking.team.name"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td>
                                                 <span ng-bind="ranking.points"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td>
                                                 <span ng-bind="ranking.matches"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td>
                                                 <span ng-bind="ranking.matches_won"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td>
                                                 <span ng-bind="ranking.matches_drawn"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td>
                                                 <span ng-bind="ranking.matches_lost"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                            <td>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                        <td>
                                                 <span ng-bind="ranking.goals_for"
-                                                  class="text-center-vertical"></span>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                                      class="text-center-vertical"></span>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-
-                <div class="row" ng-hide="hasRankings">
-                    <div class="col-xs-12">
-                        <div class="no-content-panel" style="margin-top: 120px !important;">
-                            <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>
-                                EMPTY_STATES.STANDINGS.NO_PHASES
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
+
+          <div class="row" ng-hide="hasRankings">
+            <div class="col-xs-12">
+              <div class="no-content-panel" style="margin-top: 120px !important;">
+                <i class="mdi-action-info-outline"></i>
+                <div class="no-content-panel-title" translate>
+                  EMPTY_STATES.STANDINGS.NO_PHASES
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
+      </div>
     </div>
 </div>
 

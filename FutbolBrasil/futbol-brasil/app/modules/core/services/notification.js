@@ -11,27 +11,34 @@ angular
         function($rootScope, $state, $translate) {
 
             var strings = {};
-            function getTranslations(){
+
+            function getTranslationsNetError(){
                 $translate(['ALERT.NETWORK_ERROR.TITLE',
                             'ALERT.NETWORK_ERROR.SUBTITLE',
-                            'ALERT.NETWORK_ERROR.MSG',
-                            'ALERT.LOCKED_SECTION.TITLE',
+                            'ALERT.NETWORK_ERROR.MSG'])
+                .then(function(translation){
+                    strings['NETWORK_ERROR_TITLE'] = translation['ALERT.NETWORK_ERROR.TITLE'];
+                    strings['NETWORK_ERROR_SUBTITLE'] = translation['ALERT.NETWORK_ERROR.SUBTITLE'];
+                    strings['NETWORK_ERROR_MSG'] = translation['ALERT.NETWORK_ERROR.MSG'];
+                });
+            };
+
+
+            function getTranslationsLocked(){
+                $translate(['ALERT.LOCKED_SECTION.TITLE',
                             'ALERT.LOCKED_SECTION.MSG',
                             'ALERT.LOCKED_SECTION.CONFIRM',
                             'ALERT.LOCKED_SECTION.CANCEL'])
                 .then(function(translation){
-
-                    strings['NETWORK_ERROR_TITLE'] = translation['ALERT.NETWORK_ERROR.TITLE'];
-                    strings['NETWORK_ERROR_SUBTITLE'] = translation['ALERT.NETWORK_ERROR.SUBTITLE'];
-                    strings['NETWORK_ERROR_MSG'] = translation['ALERT.NETWORK_ERROR.MSG'];
-
                     strings['LOCKED_SECTION_TITLE'] = translation['ALERT.LOCKED_SECTION.TITLE'];
                     strings['LOCKED_SECTION_MSG'] = translation['ALERT.LOCKED_SECTION.MSG'];
                     strings['LOCKED_SECTION_OK'] = translation['ALERT.LOCKED_SECTION.CONFIRM'];
                     strings['LOCKED_SECTION_CANCEL'] = translation['ALERT.LOCKED_SECTION.CANCEL'];
-
                 });
             }
+
+            getTranslationsNetError();
+            getTranslationsLocked();
 
             function showNotificationDialog(data, confirmCallback, cancelCallback){
                 var hasNotificationPlugin = !!navigator.notification;
@@ -61,7 +68,7 @@ angular
 
             //TODO i18n-alizar
             function showLockedSectionDialog() {
-
+                getTranslationsLocked();
                 showNotificationDialog(
                     {
                         title : strings['LOCKED_SECTION_TITLE'],
@@ -109,6 +116,7 @@ angular
             }
 
             function showNetworkErrorAlert(){
+                getTranslationsNetError();
                 showInfoAlert({
                         title: strings['NETWORK_ERROR_TITLE'],
                         subtitle: strings['NETWORK_ERROR_SUBTITLE'],
@@ -150,5 +158,8 @@ angular
 
                 showNetworkErrorAlert : showNetworkErrorAlert
             };
+
+
+
         }
     ]);

@@ -27,7 +27,7 @@ angular
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
             $scope.news = [];
-            $scope.share = share;
+            $rootScope.share = share;
             $scope.fromNow = fromNow;
             $scope.showContentNews = showContentNews;
 
@@ -48,12 +48,12 @@ angular
             }
 
             function getTranslations(){
-                $translate(['NOTIFICATIONS.NEWS_LIMIT.TITLE', 'NOTIFICATIONS.NEWS_LIMIT.MSG', 'NOTIFICATIONS.NEWS_LIMIT.CONFIRM', 'NOTIFICATIONS.NEWS_LIMIT.CANCEL'])
+                $translate(['ALERT.NEWS_LIMIT.TITLE', 'ALERT.NEWS_LIMIT.MSG', 'ALERT.NEWS_LIMIT.CONFIRM', 'ALERT.NEWS_LIMIT.CANCEL'])
                     .then(function(translation){
-                        strings['NEWS_LIMIT_TITLE'] = translation['NOTIFICATIONS.NEWS_LIMIT.TITLE'];
-                        strings['NEWS_LIMIT_MSG'] = translation['NOTIFICATIONS.NEWS_LIMIT.MSG'];
-                        strings['NEWS_LIMIT_CONFIRM'] = translation['NOTIFICATIONS.NEWS_LIMIT.CONFIRM'];
-                        strings['NEWS_LIMIT_CANCEL'] = translation['NOTIFICATIONS.NEWS_LIMIT.CANCEL'];
+                        strings['NEWS_LIMIT_TITLE'] = translation['ALERT.NEWS_LIMIT.TITLE'];
+                        strings['NEWS_LIMIT_MSG'] = translation['ALERT.NEWS_LIMIT.MSG'];
+                        strings['NEWS_LIMIT_CONFIRM'] = translation['ALERT.NEWS_LIMIT.CONFIRM'];
+                        strings['NEWS_LIMIT_CANCEL'] = translation['ALERT.NEWS_LIMIT.CANCEL'];
                     });
             }
 
