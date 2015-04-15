@@ -93,10 +93,10 @@ angular
             }
 
             function hideMenu() {
-                var menuWrapper = $('#wrapperM');
+                var menuWrapper = angular.element('#wrapperM');
                 if (menuWrapper.hasClass('right')) {
+                    angular.element('#screen-block').removeClass('hidden');
                     menuWrapper.attr('class', ' page transition left');
-                    $('#screen-block').removeClass('hidden');
                 }
             }
 
