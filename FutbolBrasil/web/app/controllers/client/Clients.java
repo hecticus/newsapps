@@ -249,11 +249,6 @@ public class Clients extends HecticusController {
                     upstreamChannel = clientData.get("upstreamChannel").asText();
                 }
 
-                if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
-                    getUserIdFromUpstream(client,upstreamChannel);
-                    getStatusFromUpstream(client,upstreamChannel);
-                }
-
                 if(clientData.has("language")){
                     int languageId = clientData.get("language").asInt();
                     Language language = Language.finder.byId(languageId);
@@ -307,6 +302,11 @@ public class Clients extends HecticusController {
                             }
                         }
                     }
+                }
+
+                if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
+                    getUserIdFromUpstream(client,upstreamChannel);
+                    getStatusFromUpstream(client,upstreamChannel);
                 }
 
                 if(clientData.has("remove_push_alert")){
