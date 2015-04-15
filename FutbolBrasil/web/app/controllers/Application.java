@@ -210,6 +210,8 @@ public class Application extends Controller {
             }
             data.put("version", versionObject);
             data.put("max_news", Config.getString("max-news"));
+            data.put("wap_terms", Config.getString("wap_terms"));
+            data.put("wap_help",Config.getString("wap_help"));
             response.put(Config.ERROR_KEY, 0);
             response.put(Config.DESCRIPTION_KEY, "OK");
             response.put(Config.RESPONSE_KEY,data);
