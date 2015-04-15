@@ -3,6 +3,7 @@ package controllers.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import controllers.HecticusController;
 import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
@@ -157,13 +158,13 @@ public class Clients extends HecticusController {
                                 }
                             }
                         }
-//                        Esto lo comente porque desde WAP no hay Reg ID
-//                        if (devices.isEmpty()) {
-//                            return badRequest(buildBasicResponse(4, "Faltan campos para crear el registro"));
-//                        }
-                        client.setDevices(devices);
+                    } else {
+                        int webDeviceId = Config.getInt("web-device-id");
+                        Device device = Device.finder.byId(webDeviceId);
+                        ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, UUID.randomUUID().toString());
+                        devices.add(clientHasDevice);
                     }
-
+                    client.setDevices(devices);
 
                     if (client.getPassword() != null && !client.getPassword().isEmpty()) {
                         getUserIdFromUpstream(client, upstreamChannel);
@@ -301,6 +302,26 @@ public class Clients extends HecticusController {
                                 }
                             }
                         }
+                    }
+                }
+
+                if(upstreamChannel.equalsIgnoreCase("web")){
+                    ClientHasDevices clientHasDevice;
+                    try {
+                        clientHasDevice = Iterables.find(client.getDevices(), new Predicate<ClientHasDevices>() {
+                            public boolean apply(ClientHasDevices obj) {
+                                return obj.getDevice().getName().equalsIgnoreCase("web");
+                            }
+                        });
+                    } catch (NoSuchElementException ex){
+                        clientHasDevice = null;
+                    }
+                    if(clientHasDevice == null) {
+                        int webDeviceId = Config.getInt("web-device-id");
+                        Device device = Device.finder.byId(webDeviceId);
+                        clientHasDevice = new ClientHasDevices(client, device, UUID.randomUUID().toString());
+                        client.getDevices().add(clientHasDevice);
+                        update = true;
                     }
                 }
 
@@ -1878,16 +1899,16 @@ public class Clients extends HecticusController {
     //get push_notification_id for upstream
     private static String getPushNotificationID(Client client, String channel){
         String push_notification_id = null;
-        try{
+        try {
             List<ClientHasDevices> devices = client.getDevices();
-            for (int i=0; i<devices.size(); i++){
-                if(devices.get(i).getDevice().getName().equalsIgnoreCase(channel)){
+            for (int i = 0; i < devices.size(); i++) {
+                if (devices.get(i).getDevice().getName().equalsIgnoreCase(channel)) {
                     //con el primer push_notification_id nos basta por ahora
                     push_notification_id = devices.get(i).getRegistrationId();
                     break;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             //no hacemos nada si esto falla
         }
         return push_notification_id;
