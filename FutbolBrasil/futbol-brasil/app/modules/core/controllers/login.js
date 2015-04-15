@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', '$translate', 'ClientManager', 'iScroll','Client',
-        'Upstream', 'Notification',
-        function($scope, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$localStorage', '$state', '$stateParams', '$translate', 'ClientManager', 'iScroll','Client',
+        'Upstream', 'Notification', 'CordovaDevice',
+        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice) {
 
             var scroll = null;
             var strings = {};
@@ -18,6 +18,16 @@ angular
             $scope.msisdn = '';
             $scope.password = '';
 
+            $scope.isWeb = function() {
+              if (CordovaDevice.isAndroidPlatform()
+                || CordovaDevice.isIosPlatform()) {
+                  return false;
+                } else {
+                  return true;
+                }
+            }
+
+            $scope.isWeb = false;
 
             function getTranslations(){
 

@@ -1,8 +1,12 @@
-<div id="wrapper" class="wrapper wrapper-full" style="background-color: transparent">
-    <div class="scroller" style="background-color: transparent">
+<div id="wrapper">
+    <div class="scroller">
         <div class="row">
+
             <div class="col-xs-12">
                 <div class="well text-center">
+
+                    <img class="h-logo login" src="img/tim-01.svg"  onerror="this.src='img/tim-01.png'" >
+
                     <form name="msisdnForm" ng-submit="doMsisdnLogin()" class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
@@ -55,7 +59,7 @@
                                 <span><i class="mdi-navigation-chevron-right"></i></span>
                             </div>
                         </a>
-                        <div class="full-separator"></div>
+                        <!--div class="full-separator"></div>
                         <a ui-sref="language-selection" class="list-group-item list-item">
                             <div class="col-xs-10">
                                 <span translate>LOGIN.CHANGE_LANGUAGE_LABEL</span>
@@ -63,9 +67,9 @@
                             <div class="col-xs-2 text-right">
                                 <span><i class="mdi-navigation-chevron-right"></i></span>
                             </div>
-                        </a>
+                        </a-->
                         <div class="full-separator"></div>
-                        <a ui-sref="login" class="list-group-item list-item">
+                        <a ui-sref="tutorial" class="list-group-item list-item">
                             <div class="col-xs-10">
                                 <span translate>LOGIN.TUTORIAL_LABEL</span>
                             </div>
@@ -73,9 +77,18 @@
                                 <span><i class="mdi-navigation-chevron-right"></i></span>
                             </div>
                         </a>
+                        <div class="full-separator"></div>
+                        <a ui-sref="terms" class="list-group-item list-item">
+                          <div class="col-xs-10">
+                            <span translate>LOGIN.TERMS_LABEL</span>
+                          </div>
+                          <div class="col-xs-2 text-right">
+                            <span><i class="mdi-navigation-chevron-right"></i></span>
+                          </div>
+                        </a>
                     </div>
 
-                    <form name="msisdnForm" ng-submit="enterAsGuest()" class="form-horizontal">
+                    <form name="msisdnForm" ng-submit="enterAsGuest()" class="form-horizontal" ng-hide="isWeb()">
                         <fieldset>
                             <div class="form-group">
                                 <div class="col-xs-12">

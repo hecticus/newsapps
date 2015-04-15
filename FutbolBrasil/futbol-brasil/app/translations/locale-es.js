@@ -19,7 +19,9 @@
         "LOGIN" : "Login",
         "REMIND" : "Recordar / Obtener Credenciales",
         "LANGUAGE-SELECTION" : "Selección de Idioma",
-        "TEAM-SELECTION" : "Selección de Equipo"
+        "TEAM-SELECTION" : "Selección de Equipo",
+        "TERMS": "Términos",
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
         "TITLE" : "Noticias"

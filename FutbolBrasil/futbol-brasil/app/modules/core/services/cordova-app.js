@@ -15,7 +15,7 @@ angular
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['login',  'remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
             var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
@@ -95,7 +95,7 @@ angular
             function hideMenu() {
                 var menuWrapper = angular.element('#wrapperM');
                 if (menuWrapper.hasClass('right')) {
-                    angular.element('#screen-block').removeClass('hidden');
+                    $('#screen-block').removeClass('hidden');
                     menuWrapper.attr('class', ' page transition left');
                 }
             }
@@ -179,7 +179,7 @@ angular
             }
 
             function requiresAuthSection(section){
-                return !(section === 'login' || section === 'remind');
+                return !(section === 'login' || section === 'remind' || section === 'terms' || section === 'tutorial');
             }
 
             function isBlockedSection(section){

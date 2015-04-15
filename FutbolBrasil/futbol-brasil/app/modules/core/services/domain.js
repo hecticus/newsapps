@@ -39,6 +39,7 @@ angular
                 setProvisionalLanguage : setProvisionalLanguage,
 
                 loading: function (width, height, appVersion, platform) {
+                    //console.log(brazil_football_manager_url + 'api/loading/' + width + '/' + height + '/' + appVersion + '/' + platform);
                     return brazil_football_manager_url + 'api/loading/'
                         + width + '/' + height + '/' + appVersion + '/' + platform;
                 },

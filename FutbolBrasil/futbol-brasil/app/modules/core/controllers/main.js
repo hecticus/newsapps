@@ -13,6 +13,8 @@ angular
         function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
                Client, CordovaApp) {
 
+
+
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -55,7 +57,6 @@ angular
                 return angular.element('.page.back.left:last').hasClass('left');
             }
 
-
             function hideMenuFavorites() {
               if ((getSection() === 'login')
                   || (getSection() === 'settings')
@@ -79,7 +80,7 @@ angular
             }
 
             function hideMenuIcon() {
-              if ((getSection() === 'login')
+              if (((getSection() === 'login') && !hasPreviousSubsection())
                   || ((getSection() === 'settings') &&
                       (!$rootScope.$storage.settings))) {
                 return true;
@@ -195,7 +196,8 @@ angular
             }
 
             function getDrawerIcon(){
-                if(hasPreviousSubsection() || CordovaApp.isOnUtilitySection()){
+                if(hasPreviousSubsection()
+                    || CordovaApp.isOnUtilitySection()){
                     return 'icon mdi-navigation-arrow-back ';
                 } else {
                     return 'icon mdi-navigation-menu';

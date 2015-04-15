@@ -5,7 +5,7 @@ row:not(input):not(textarea) {
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 html { -ms-touch-action: none; font-family: Helvetica; }
-body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:#002878; }
+body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:#002878; background:#ffffff !important;}
 
 .footer-section{color: #FFFFFF !important; text-decoration: none  !important; }
 .footer-section:link {color: #FFFFFF !important; text-decoration: none  !important; }
@@ -16,10 +16,11 @@ body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:
 #wrapper, #wrapperM, .wrapper {
     position: absolute;
     z-index: 1;
-    top: 90px;
+    top: 50px;
     bottom: 50px;
     left: 0;
     width: 100%;
+    background:#ffffff;
 }
 
 .wrapper {
@@ -47,6 +48,7 @@ body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:
     bottom: 50px;
     left: 0;
     width: 100%;
+    background:#ffffff;
 }
 
 header, footer {
@@ -403,7 +405,7 @@ body.content-mtm .row-back {
 .row-scoreboard {
     position: absolute;
     z-index: 4;
-    top: 50px;
+    top: -100px;
     left:0;
     right:0;
     width: 100%;
@@ -502,21 +504,6 @@ td.bet div {
   border-bottom: solid 1pt #134985;
   padding-left:0 !important;
 }
-
-
-/*
-.content-sub-menu {
-    background:#ffffff;
-    height: 50px;
-    line-height:50px;
-    font-size: 1.4em;
-}
-.content-sub-menu div.col-xs-10 {
-  border-bottom: solid 1pt #134985;
-  padding-left:0 !important;
-}
-
-.content-sub-menu span:last-child { margin-left: 0; color:#4D4D4D;}*/
 
 @media (max-height: 540px) {
     .content-sub-menu {
@@ -630,17 +617,6 @@ td.bet div {
     font-weight: bold;
 }
 
-/*
-.section-refresh {
-    position: absolute;
-    right: 10;
-}*/
-
-/*.section-refresh .icon {
-    font-size: 2.5em;
-    margin-right: 10px;
-    color: #ffffff !important;
-}*/
 
 /*Search Lists (Team/Language Selection)*/
 
@@ -696,57 +672,6 @@ td.bet div {
     margin-top: 16px;
 }
 
-/*News */
-
-/*.row-news-header {
-    position: absolute;
-    z-index: 4;
-    top: 50px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 40px;
-    line-height: 35px;
-    background-color: #3B5CA9;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.news-header .title {
-    margin-top: 0;
-    line-height: 35px;
-    color: #ffffff;
-    font-weight: bold !important;
-}
-
-.row-news-detail-header {
-    position: absolute;
-    z-index: 6;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 40px;
-    line-height: 35px;
-    background-color: #7ab800;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.news .moment {
-    color:#7ab800;
-}
-
-.news .body {
-    margin-top:20px !important;
-    padding-top:20px !important;
-    border-top: solid 1pt #2B2B2B !important;
-}*/
 
 /*Standings*/
 
@@ -808,13 +733,12 @@ td.bet div {
 .row-header {
     position: absolute;
     z-index: 4;
-    /*top: 0;*/
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
     height: 50px;
-    /*line-height: 35px;*/
-    background-color: transparent;
+    background-color: #ffffff;
     padding: 0 !important;
     margin: 0 !important;
     border: 0;
@@ -877,27 +801,7 @@ td.bet div {
     font-size : 1em;
     padding: 8px;
 }
-/*
-.wrapper {
-    position: absolute;
-    z-index: 1;
-    top:  0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 0 !important;
-    margin: 0 !important;
-    background-color: #ffffff;
-}*/
-/*
-.wrapper-full{
-    top: 50px !important;
-}
 
-.wrapper-row {
-    top: 100px;
-}
-*/
 
 .scroller {
     position: absolute;
@@ -972,6 +876,11 @@ h6.team-name {
 
     /*<alidaniel>*/
 
+     .container {
+        padding: 0 !important;
+        margin: 0 !important;
+     }
+
     .h-header {
       text-align: center;
       height:35px;
@@ -1020,6 +929,7 @@ h6.team-name {
       border: 0 !important;
     }
 
+
     .content-news #wrapper,
     .content-news #wrapper2,
     .content-standings #wrapper,
@@ -1028,12 +938,17 @@ h6.team-name {
       top: 50px;
     }
 
+
     .content-leaderboard .wrapper {
       top: 5px;
     }
 
     .content-scorers .wrapper {
       top: 55px;
+    }
+
+    .content-init #wrapper {
+      top: 50px;
     }
 
     .content-mtm #wrapper {
@@ -1046,8 +961,17 @@ h6.team-name {
       z-index: 1;
     }
 
+    .content-mtm #wrapper2 {
+      top: 185px;
+    }
+
+    .content-mtm .h-header {
+      top: -135px;
+    }
+
     .content-news .headline {
       font-weight: bold;
+      font-size: 1.2em;
     }
 
     .content-news .moment {
@@ -1056,6 +980,24 @@ h6.team-name {
 
     .content-news .body {
       margin-top: 10px !important;
+    }
+
+    .h-logo {
+      height: auto;
+    }
+
+    .h-logo.login {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .h-logo.menu {
+      width: 75px;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
     }
 
     /*</alidaniel>*/
