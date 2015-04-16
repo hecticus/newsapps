@@ -137,6 +137,9 @@ angular
                         $scope.pages.forEach(function(_item, _index) {
                             vScrolls[_index] = iScroll.vertical($scope.wrapper.getName(_index));
                         });
+                    } else {
+                      var _index = $scope.pages.length-1;
+                      vScrolls[_index] = iScroll.vertical($scope.wrapper.getName(_index));
                     }
                 });
 
@@ -158,7 +161,7 @@ angular
                     }
                 });
 
-                $scope.$on('$destroy', function() {
+                /*$scope.$on('$destroy', function() {
                     hScroll.destroy();
                     hScroll = null;
 
@@ -166,18 +169,17 @@ angular
                         scroll.destroy();
                         scroll = null;
                     });
-                });
+                });*/
             }
 
             function init(){
-                $scope.$emit('unload');
+                $scope.$emit('load');
                 $scope.pages.forEach(function(_item, _index) {
                     getDayMatches(_item, _index);
                 });
 
                 width = $window.innerWidth;
                 widthTotal = ($window.innerWidth * $scope.pages.length);
-
                 setUpIScroll();
             } init();
 

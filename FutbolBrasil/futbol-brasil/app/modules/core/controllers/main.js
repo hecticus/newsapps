@@ -13,8 +13,6 @@ angular
         function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
                Client, CordovaApp) {
 
-
-
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -29,7 +27,6 @@ angular
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
-
 
 
             $scope.toggles = {
@@ -251,18 +248,14 @@ angular
 
                 $scope.$on('load', function(){
                   $scope.loading = true;
-                  $scope.error = false;
+                  //$scope.error = false;
                 });
 
                 $scope.$on('unload', function(){
-
-                  /*$rootScope.LOADING_TEXT = '';
+                  $rootScope.LOADING_TEXT = '';
                   $timeout(function(){
                       $scope.loading = false;
-                  }, 200);*/
-
-                  $scope.loading = false;
-
+                  }, 200);
                 });
 
                 $scope.$on('error', function(){

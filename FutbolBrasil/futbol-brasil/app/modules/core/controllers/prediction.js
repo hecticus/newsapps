@@ -85,9 +85,9 @@ angular
                         };
 
                         Bets.create(_jBet,function() {
-                            //$scope.$emit('unload');
+                            $scope.$emit('unload');
                         }, function () {
-                            //$scope.$emit('unload');
+                            $scope.$emit('unload');
                             //$scope.$emit('error');
                         });
 
@@ -141,9 +141,9 @@ angular
                             console.log(league);
                             setEmptyLeagueFlag(league);
                         }
-                        //$scope.$emit('unload');
+                        $scope.$emit('unload');
                     }, function(){
-                        //$scope.$emit('unload');
+                        $scope.$emit('unload');
                         //$scope.$emit('error');
                     });
                 }

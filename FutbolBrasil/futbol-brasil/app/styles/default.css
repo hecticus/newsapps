@@ -884,12 +884,13 @@ h6.team-name {
         justify-content:center;
       }
 
-
     .h-header {
+      position:relative;
       text-align: center;
       height:35px;
       line-height: 35px;
       font-weight:bold;
+      z-index: 10;
     }
 
     .h-header.green {
@@ -967,10 +968,6 @@ h6.team-name {
 
     .content-mtm #wrapper2 {
       top: 185px;
-    }
-
-    .content-mtm .h-header {
-      top: -135px;
     }
 
     .content-news .headline {

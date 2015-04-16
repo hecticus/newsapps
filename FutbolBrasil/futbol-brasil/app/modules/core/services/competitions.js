@@ -32,6 +32,7 @@ angular
             function getCompetitions() {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                console.log("getCompetitions-> " + Domain.competitions);
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
@@ -42,6 +43,7 @@ angular
             }
 
             function getRanking(competition, phase){
+            console.log("getRanking-> " + Domain.ranking(competition,phase));
                 return $http.get(Domain.ranking(competition,phase))
                     .then(function (response) {
 //                        console.log('getRanking.response: ');
@@ -62,6 +64,8 @@ angular
                 if(filter){
                     config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 }
+
+                console.log("phases-> " + Domain.phases(competition.id_competitions));
                 return $http.get(Domain.phases(competition.id_competitions), config)
                     .then(function (response) {
                         return response.data.response.phases;
