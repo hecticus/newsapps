@@ -28,6 +28,7 @@ angular
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
+            $rootScope.isPageContentLeft = false;
 
 
 
@@ -101,7 +102,7 @@ angular
                     });
 
                     $rootScope.transitionPage('#wrapperM', 'right');
-                    $('#screen-block').removeClass('hidden');
+                     $scope.$emit('load');
                 }
             }
 
@@ -109,7 +110,7 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
                     $rootScope.menuScroll.scrollTo(0,0,0);
-                    $('#screen-block').addClass('hidden');
+                    $scope.$emit('unload');
                 }
             }
 

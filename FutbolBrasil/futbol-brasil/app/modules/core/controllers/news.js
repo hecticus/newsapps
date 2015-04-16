@@ -32,15 +32,13 @@ angular
             $scope.fromNow = fromNow;
             $scope.showContentNews = showContentNews;
 
-            init();
 
             /*---------------- Scope Functions ----------------*/
-
             function share(_news) {
                 SocialAppsManager.share({
                     'message' : _news.summary,
                     'subject' : _news.title,
-                    'link' : 'http://localhost/futbol/news/' + _news.idNews
+                    'link' : 'http://timfutebol.hecticus.com/#!/news/' + _news.idNews
                 });
             }
 
@@ -65,6 +63,7 @@ angular
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                         $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                         $rootScope.transitionPageBack('#wrapper2', 'left');
+                        $rootScope.isPageContentLeft = angular.element('#wrapper2').hasClass('left');
                         detailScroll.scrollTo(0, 0, 0);
                     } else {
                         Notification.showNotificationDialog(
@@ -101,11 +100,11 @@ angular
                                     }
                                 });
                             }
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                         }, function () {
                             Notification.showNetworkErrorAlert();
                             console.log('getNewsPreviousToId. Network Error.');
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                         });
                 }
             }
@@ -127,11 +126,11 @@ angular
                                     }
                                 });
                             }
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                         }, function () {
                             Notification.showNetworkErrorAlert();
                             console.log('getNewsAfterId. Network Error.');
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                         });
                 }
             }
@@ -156,12 +155,12 @@ angular
                             $scope.hasNews = false;
                             console.log('No News Available.');
                         }
-                        $scope.$emit('unload');
+                        //$scope.$emit('unload');
                     }, function () {
                         $scope.hasNews = false;
                         Notification.showNetworkErrorAlert();
                         console.log('getNews. Network Error.');
-                        $scope.$emit('unload');
+                        //$scope.$emit('unload');
                     });
             }
 
@@ -194,14 +193,19 @@ angular
             }
 
             function init(){
-                $scope.$emit('load');
-                getTranslations();
+               $scope.$emit('load');
+               getTranslations();
                 getNews().then(function(){
                     if($stateParams.newsId){
                         $scope.showContentNews(getNewsById($stateParams.newsId));
                     }
                 });
                 setUpIScroll();
-            }
+            } init();
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              $scope.$emit('unload');
+            });
+
         }
     ]);

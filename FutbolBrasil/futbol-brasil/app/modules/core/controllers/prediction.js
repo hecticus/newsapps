@@ -85,9 +85,9 @@ angular
                         };
 
                         Bets.create(_jBet,function() {
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                         }, function () {
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                             //$scope.$emit('error');
                         });
 
@@ -141,9 +141,9 @@ angular
                             console.log(league);
                             setEmptyLeagueFlag(league);
                         }
-                        $scope.$emit('unload');
+                        //$scope.$emit('unload');
                     }, function(){
-                        $scope.$emit('unload');
+                        //$scope.$emit('unload');
                         //$scope.$emit('error');
                     });
                 }
@@ -169,6 +169,7 @@ angular
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                    $scope.$emit('unload');
                 });
 
                 $scope.$on('$destroy', function() {
@@ -188,7 +189,6 @@ angular
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();
                     getBets();
-                    $scope.$emit('unload');
                 });
             }
 

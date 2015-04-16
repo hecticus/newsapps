@@ -8,7 +8,7 @@
             <div class="col-xs-12"
                  ng-repeat="competition in item.competitions"
                  ng-click="showContentPhases(competition)"
-                 data-news="{{ competition.id_competitions }}">
+                 data-news="{{ competition.id_competitions }}" on-last-repeat>
               <span>{{competition.name}}</span>
             </div>
 
@@ -31,7 +31,7 @@
     </div>
 
 
-    <div id="wrapper2" class="page wrapper ">
+    <div id="wrapper2" class="page wrapper">
       <div class="scroller">
         <div class="container">
 
@@ -65,7 +65,7 @@
     </div>
 
 
-    <div id="wrapper3" class="page wrapper ">
+    <div id="wrapper3" class="page wrapper">
       <div class="scroller">
         <div class="container">
 

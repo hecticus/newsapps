@@ -138,8 +138,13 @@ angular
             }
 
             function init(){
+                $scope.$emit('load');
                 setUpIScroll();
                 getCompetitions();
             } init();
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              $scope.$emit('unload');
+            });
         }
     ]);

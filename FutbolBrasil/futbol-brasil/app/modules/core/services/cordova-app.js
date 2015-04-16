@@ -92,19 +92,11 @@ angular
                 }
             }
 
-            function hideMenu() {
-                var menuWrapper = angular.element('#wrapperM');
-                if (menuWrapper.hasClass('right')) {
-                    $('#screen-block').removeClass('hidden');
-                    menuWrapper.attr('class', ' page transition left');
-                }
-            }
-
             function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
                 if ($('#wrapperM').hasClass('right')) {
-                    hideMenu();
+                     $rootScope.hideMenu();
                 } else if(isOnUtilitySection()){
                     if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
@@ -119,9 +111,11 @@ angular
                     } else if($state.current.data){
                         $state.go($state.current.data.prev);
                     }*/
+
                 } else if(hasPreviousSubsection){
-                    angular.element('.page.back.left:last')
-                        .attr('class', ' page transition right');
+                    angular.element('.page.back.left:last').attr('class', ' page transition right');
+                    $rootScope.isPageContentLeft = false;
+                    $rootScope.$apply();
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
