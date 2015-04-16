@@ -32,7 +32,12 @@ public class Resource extends HecticusModel {
     private String creationTime;
 
     private String externalId;
-    private Integer idApp;
+
+    private String md5;
+
+    @ManyToOne
+    @JoinColumn(name = "id_app")
+    private Apps app;
 
     @ManyToOne
     @JoinColumn(name="news_id_news")
@@ -40,7 +45,7 @@ public class Resource extends HecticusModel {
 
     private static Model.Finder<Long,Resource> finder = new Model.Finder<Long, Resource>(Long.class, Resource.class);
 
-    public Resource(String name, String filename, String remoteLocation, String description, String insertedTime, String creationTime,String metadata, Integer idApp) {
+    public Resource(String name, String filename, String remoteLocation, String description, String insertedTime, String creationTime,String metadata, Apps app) {
         this.name = name;
         this.filename = filename;
         this.remoteLocation = remoteLocation;
@@ -57,11 +62,11 @@ public class Resource extends HecticusModel {
 
         this.insertedTime = insertedTime;
         this.externalId = metadata;
-        this.idApp = idApp;
+        this.app = app;
         //parent news null
     }
 
-    public Resource(String name, String filename, String remoteLocation, String creationTime, String insertedTime, Integer type, Integer status, String externalId, Integer idApp, News parent, String genericName, String description, String res) {
+    public Resource(String name, String filename, String remoteLocation, String creationTime, String insertedTime, Integer type, Integer status, String externalId, Apps app, News parent, String genericName, String description, String res, String md5) {
         this.name = name;
         this.filename = filename;
         this.remoteLocation = remoteLocation;
@@ -70,11 +75,12 @@ public class Resource extends HecticusModel {
         this.type = type;
         this.status = status;
         this.externalId = externalId;
-        this.idApp = idApp;
+        this.app = app;
         this.parent = parent;
         this.genericName = genericName;
         this.description = description;
         this.res = res;
+        this.md5 = md5;
     }
 
     @Override
@@ -187,12 +193,12 @@ public class Resource extends HecticusModel {
         this.externalId = externalId;
     }
 
-    public Integer getIdApp() {
-        return idApp;
+    public Apps getApp() {
+        return app;
     }
 
-    public void setIdApp(Integer idApp) {
-        this.idApp = idApp;
+    public void setApp(Apps app) {
+        this.app = app;
     }
 
     public String getRemoteLocation() {
@@ -217,5 +223,13 @@ public class Resource extends HecticusModel {
 
     public void setParent(News parent) {
         this.parent = parent;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 }

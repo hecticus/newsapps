@@ -46,7 +46,7 @@
                             <div class="list-group-item related" style="width:100%; height:auto; min-height: 100px;">
                                 @for((resource, index) <-  news.getResources().zipWithIndex) {
                                     <div id="row-picture-@resource.getIdResource()" data-resource="@resource.getIdResource()" class="row-picture related" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal">
-                                        <img class="img-rounded" src="@resource.getRemoteLocation()" data-externalId="@resource.getMetadata()" alt="icon" style="width: 100px; height: 100px;" >
+                                        <img class="img-rounded" src="@resource.getRemoteLocation()" data-externalId="@resource.getExternalId()" alt="icon" style="width: 100px; height: 100px;" >
                                     </div>
                                 }
                             </div>
@@ -73,7 +73,7 @@
                         <div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
                             @for((resource, index) <-  resources.zipWithIndex) {
                                 <div id="row-picture-@resource.getIdResource()" data-resource="@resource.getIdResource()" class="row-picture relatable" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal" >
-                                    <img class="img-rounded" src="@resource.getRemoteLocation()" data-externalId="@resource.getMetadata()" alt="icon" style="width: 100px; height: 100px;"  >
+                                    <img class="img-rounded" src="@resource.getRemoteLocation()" data-externalId="@resource.getExternalId()" alt="icon" style="width: 100px; height: 100px;"  >
                                 </div>
                             }
                         </div>

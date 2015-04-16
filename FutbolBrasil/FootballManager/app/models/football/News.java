@@ -508,4 +508,16 @@ public class News extends HecticusModel {
         }
         return tr;
     }
+
+    public void updateResource(Resource resource){
+        int index = resources.indexOf(resource);
+        if(index != -1){
+            resources.add(index, resource);
+        }
+    }
+
+    public void addResource(Resource resource){
+        resources.add(resource);
+    }
+
 }

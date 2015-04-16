@@ -3,11 +3,13 @@ package backend.jobs.scrapers;
 import backend.HecticusThread;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.hecticus.rackspacecloud.RackspaceDelete;
 import exceptions.BadConfigException;
 import models.Config;
 import models.Language;
 import models.Resource;
 import models.football.News;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import play.libs.F;
@@ -15,6 +17,14 @@ import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import utils.Utils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +38,7 @@ public class PerformNews extends HecticusThread {
     private String feedName;
     private String outletAuthToken;
     private String performImageHost;
+    private String temporalDirectory;
     private Language finalLanguage;
 
     public PerformNews() {
@@ -37,9 +48,6 @@ public class PerformNews extends HecticusThread {
         //set name
         this.setName("PerformNews-" + System.currentTimeMillis());
     }
-
-
-
 
     @Override
     public void process(Map args) {
@@ -62,10 +70,11 @@ public class PerformNews extends HecticusThread {
                 outletAuthToken =  (String) args.get("outlet_auth_token");
             } else throw new BadConfigException("es necesario configurar el parametro outlet_auth_token");
 
+            performImageHost =  Config.getString("perform_image_host");
 
-            if (args.containsKey("perform_image_host")) {
-                performImageHost =  (String) args.get("perform_image_host");
-            } else throw new BadConfigException("es necesario configurar el parametro perform_image_host");
+            if (args.containsKey("temporal_directory")) {
+                temporalDirectory =  (String) args.get("temporal_directory");
+            } else throw new BadConfigException("es necesario configurar el parametro temporal_directory");
 
             ObjectNode news = getNews();
             processNews(news);
@@ -99,7 +108,7 @@ public class PerformNews extends HecticusThread {
                 JsonNode next = elements.next();
                 String title = next.get("headline").asText();
                 String summary = next.get("teaser").asText();
-                String category = next.get("categories").asText();
+                String category = next.get("categories").toString();
                 String keyword = next.get("keywords").toString();
                 String author = "";//next.get("author").asText();
                 String story = cleanBody(next.get("body").asText());
@@ -115,7 +124,7 @@ public class PerformNews extends HecticusThread {
                     if(next.has("links")) {
                         processMedia(next.get("links").elements(), toInsert);
                     }
-//                    toInsert.save();
+                    toInsert.save();
                 } else {
                     if (lastUpdateTime > toInsert.getUpdatedDate()) {
                         toInsert.setTitle(title);
@@ -130,13 +139,13 @@ public class PerformNews extends HecticusThread {
                         if(next.has("links")) {
                             processMedia(next.get("links").elements(), toInsert);
                         }
-//                        toInsert.update();
+                        toInsert.update();
                     }
                 }
             } catch (Exception ex){
                 Utils.printToLog(PerformNews.class,
                         "Error en el PerformNews",
-                        "ocurrio un error inesperado en el LanceNewsScrapper, el proceso no se completo y sera reiniciado el job.",
+                        "No se pudo procesar la noticia actual, se sigue con la proxima.",
                         false,
                         ex,
                         "support-level-1",
@@ -146,56 +155,73 @@ public class PerformNews extends HecticusThread {
     }
 
     private void processMedia(Iterator<JsonNode> links, News news) {
-        System.out.println("- "+ news.getDecodedTitle());
+        ArrayList<String> resourcesToDelete = new ArrayList<>();
         while(links.hasNext()){
             JsonNode next = links.next();
-            String name = next.get("altText").asText();
-            String filename = next.get("url").asText();
-            String remoteLocation = performImageHost + next.get("url").asText();//cambiar a uploadToCDN();
-            String genericName = next.get("altText").asText();
-            String description = next.get("caption").asText();
-            String res = next.get("href").asText();
-            String externalId = next.get("id").asText();
-
-
-
-
-            /*
-            {
-                rel: "IMAGE_HEADER",
-                href: "urn:perform:image:uuid:sn1bf4nrgty91i3o529utag6g",
-                credit: "Getty Images",
-                source: "Getty Images",
-                id: "sn1bf4nrgty91i3o529utag6g",
-                type: "image",
-                ord: 1
-            }
-
-
-            private Integer type; //1 principal, 2 principal reducido, 3 secundaria
-            private Integer status;
-
-            private String insertedTime;
-            private String creationTime;
-
-            private String externalId;
-            private Integer idApp;
-
-            @ManyToOne
-            @JoinColumn(name="news_id_news")
-            private News parent;
-             */
-
-
-
-            Resource resource = news.getResource(externalId);
-            if(resource == null) {
-
-
-//                resource = new Resource()
-                System.out.println("\t- " + performImageHost + next.get("url").asText());
+            try {
+                String name = next.get("altText").asText();
+                String filename = next.get("url").asText();
+                String genericName = next.get("altText").asText();
+                String description = next.get("caption").asText();
+                String res = next.get("href").asText();
+                String externalId = next.get("id").asText();
+                String rel =next.get("rel").asText();
+                int type = rel.equalsIgnoreCase("IMAGE_HEADER")?1:3;
+                int status = 1;
+                String insertedTime = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+                File file = getFile("http://" + performImageHost + filename);
+                String md5 = Utils.getMD5(file);
+                Resource resource = news.getResource(externalId);
+                if(resource == null) {
+                    String remoteLocation = Utils.uploadResource(file);
+                    if(remoteLocation ==  null){
+                        continue;
+                    }
+                    resource = new Resource(name, filename, remoteLocation, insertedTime, insertedTime, type, status, externalId, getApp(), news, genericName, description, res, md5);
+                    news.addResource(resource);
+                } else {
+                    if(!resource.getMd5().equalsIgnoreCase(md5)){
+                        String remoteLocation = Utils.uploadResource(file);
+                        if(remoteLocation ==  null){
+                            continue;
+                        }
+                        resource.setFilename(filename);
+                        resourcesToDelete.add(resource.getRemoteLocation());
+                        resource.setRemoteLocation(remoteLocation);
+                    }
+                    resource.setDescription(description);
+                    news.updateResource(resource);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+        if(!resourcesToDelete.isEmpty()){
+            String containerName = Config.getString("cdn-container");
+            String username = Config.getString("rackspace-username");
+            String apiKey = Config.getString("rackspace-apiKey");
+            String provider = Config.getString("rackspace-provider");
+            RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
+            rackspaceDelete.deleteObjectsFromContainer(containerName, resourcesToDelete);
+        }
+    }
+
+    private File getFile(String path) {
+        URL url = null;
+        try {
+            url = new URL(path);
+            BufferedImage image = ImageIO.read(url);
+            int lastIndexOfSlash = path.lastIndexOf("/");
+            int lastIndexOfPoint = path.lastIndexOf(".");
+            String fileName = path.substring(lastIndexOfSlash + 1, path.indexOf('.', lastIndexOfSlash));
+            String fileExt = path.substring(lastIndexOfPoint + 1, path.indexOf('?', lastIndexOfPoint));
+            File file = new File(temporalDirectory + fileName + "." + fileExt);
+            ImageIO.write(image, fileExt, file);
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String cleanBody(String body) {
