@@ -46,7 +46,7 @@
                             <div class="list-group-item related" style="width:100%; height:auto; min-height: 100px;">
                                 @for((resource, index) <-  news.getResources().zipWithIndex) {
                                     <div id="row-picture-@resource.getIdResource()" data-resource="@resource.getIdResource()" class="row-picture related" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal">
-                                        <img class="img-rounded" src="@resource.getRemoteLocation()" data-metadata="@resource.getMetadata()" alt="icon" style="width: 100px; height: 100px;" >
+                                        <img class="img-rounded" src="@resource.getRemoteLocation()" data-externalId="@resource.getMetadata()" alt="icon" style="width: 100px; height: 100px;" >
                                     </div>
                                 }
                             </div>
@@ -58,7 +58,7 @@
 
         </div>
 
-        <div id="metadata"></div>
+        <div id="externalId"></div>
 
         <div class="row">
             <div class="col-lg-12">
@@ -73,7 +73,7 @@
                         <div class="list-group-item relatable" style="width:100%; height:auto; min-height: 100px;">
                             @for((resource, index) <-  resources.zipWithIndex) {
                                 <div id="row-picture-@resource.getIdResource()" data-resource="@resource.getIdResource()" class="row-picture relatable" draggable="true" style="cursor: pointer; padding-bottom: 5px;" data-toggle="modal" data-target="#myModal" >
-                                    <img class="img-rounded" src="@resource.getRemoteLocation()" data-metadata="@resource.getMetadata()" alt="icon" style="width: 100px; height: 100px;"  >
+                                    <img class="img-rounded" src="@resource.getRemoteLocation()" data-externalId="@resource.getMetadata()" alt="icon" style="width: 100px; height: 100px;"  >
                                 </div>
                             }
                         </div>
@@ -245,15 +245,15 @@
 				});
 
                 $(document).on('mouseenter','img.img-rounded',function(e) {
-                    var metadata = $(this).data('metadata');
-                    console.log(JSON.stringify(metadata));
+                    var externalId = $(this).data('externalId');
+                    console.log(JSON.stringify(externalId));
                     var _html = '<div class="row">';
                             _html += '<div class="col-sm-12 col-md-12">';
                                 _html += ' <div class="thumbnail">';
                                     _html += '<div class="caption">';
-                                        _html += '<h3>' + metadata.ObjectName + '</h3>';
+                                        _html += '<h3>' + externalId.ObjectName + '</h3>';
                                         _html += '<h4>@Messages("news.image.caption")</h4>';
-                                        _html += '<p>' + metadata.Caption + '</p>';
+                                        _html += '<p>' + externalId.Caption + '</p>';
                                     _html += '</div>';
                                 _html += '</div>';
                             _html += '</div>';
@@ -263,13 +263,13 @@
 						_html += '<div id="img" style="display:none;">';
 						_html += $(this).parent()[0].outerHTML;
 						_html += '</div>';
-                    $('#metadata').html(_html);
+                    $('#externalId').html(_html);
                 });
 
 				$(document).on('click','img.img-rounded',function(e) {
                     console.log('img.img-rounded');
 					var _src = $(this).attr('src');
-					var metadata = $(this).data('metadata');
+					var externalId = $(this).data('externalId');
 
 
 					if ($(this).parent().hasClass('related')) {
@@ -289,19 +289,19 @@
 						_html += ' <div class="thumbnail">';
 						_html += '<img  alt="' + _src + '" src="' + _src +  '" >';
 						_html += '<div class="caption">';
-						_html += '<h3>' + metadata.ObjectName + '</h3>';
+						_html += '<h3>' + externalId.ObjectName + '</h3>';
 						_html += '<h4>@Messages("news.image.category")</h4>';
-						_html += '<p>' + metadata.Category + '</p>';
+						_html += '<p>' + externalId.Category + '</p>';
 						_html += '<h4>@Messages("news.image.suplementalcategory")</h4>';
-						_html += '<p>' + metadata.SupplementalCategory + '</p>';
+						_html += '<p>' + externalId.SupplementalCategory + '</p>';
 						_html += '<h4>@Messages("news.image.keywords")</h4>';
-						_html += '<p>' + metadata.Keywords + '</p>';
+						_html += '<p>' + externalId.Keywords + '</p>';
 						_html += '<h4>@Messages("news.image.datecreated")</h4>';
-						_html += '<p>' + metadata.DateCreated + '</p>';
+						_html += '<p>' + externalId.DateCreated + '</p>';
 						_html += '<h4>@Messages("news.image.headline")</h4>';
-						_html += '<p>' + metadata.Headline + '</p>';
+						_html += '<p>' + externalId.Headline + '</p>';
 						_html += '<h4>@Messages("news.image.caption")</h4>';
-						_html += '<p>' + metadata.Caption + '</p>';
+						_html += '<p>' + externalId.Caption + '</p>';
 						_html += '</div>';
 						_html += '</div>';
 						_html += '</div>';
