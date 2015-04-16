@@ -197,6 +197,7 @@ angular
             }
 
             function getDrawerIcon(){
+
                 if(hasPreviousSubsection()
                     || CordovaApp.isOnUtilitySection()){
                     return 'icon mdi-navigation-arrow-back ';
@@ -249,22 +250,26 @@ angular
                 });
 
                 $scope.$on('load', function(){
-                    $scope.loading = true;
-                    $scope.error = false;
+                  $scope.loading = true;
+                  $scope.error = false;
                 });
 
                 $scope.$on('unload', function(){
-                        $rootScope.LOADING_TEXT = '';
-                        $timeout(function(){
-                            $scope.loading = false;
-                        }, 200);
-                    }
-                );
+
+                  /*$rootScope.LOADING_TEXT = '';
+                  $timeout(function(){
+                      $scope.loading = false;
+                  }, 200);*/
+
+                  $scope.loading = false;
+
+                });
+
                 $scope.$on('error', function(){
-                        $scope.error = true;
-                        $scope.loading = false;
-                    }
-                );
+                    $scope.error = true;
+                    $scope.loading = false;
+                 });
+
             }
         }
     ]);

@@ -38,7 +38,7 @@ angular
                 SocialAppsManager.share({
                     'message' : _news.summary,
                     'subject' : _news.title,
-                    'link' : 'http://timfutebol.hecticus.com/#!/news/' + _news.idNews
+                    'link' : 'http://timfutebol.hecticus.com/#!/newsnews/' + _news.idNews
                 });
             }
 
@@ -100,11 +100,11 @@ angular
                                     }
                                 });
                             }
-                            //$scope.$emit('unload');
+                            $scope.$emit('unload');
                         }, function () {
                             Notification.showNetworkErrorAlert();
                             console.log('getNewsPreviousToId. Network Error.');
-                            //$scope.$emit('unload');
+                            $scope.$emit('unload');
                         });
                 }
             }
@@ -126,11 +126,11 @@ angular
                                     }
                                 });
                             }
-                            //$scope.$emit('unload');
+                            $scope.$emit('unload');
                         }, function () {
                             Notification.showNetworkErrorAlert();
                             console.log('getNewsAfterId. Network Error.');
-                            //$scope.$emit('unload');
+                            $scope.$emit('unload');
                         });
                 }
             }
@@ -155,12 +155,12 @@ angular
                             $scope.hasNews = false;
                             console.log('No News Available.');
                         }
-                        //$scope.$emit('unload');
+                        $scope.$emit('unload');
                     }, function () {
                         $scope.hasNews = false;
                         Notification.showNetworkErrorAlert();
                         console.log('getNews. Network Error.');
-                        //$scope.$emit('unload');
+                        $scope.$emit('unload');
                     });
             }
 
