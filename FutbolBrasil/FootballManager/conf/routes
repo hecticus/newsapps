@@ -26,21 +26,6 @@ POST    /configurations/:id			                                                  
 # Delete a ConfigsView
 POST    /configurations/:id/delete		                                                            controllers.ConfigsView.delete(id:Long)
 
-#NewsView
-# NewsView list (look at the default values for pagination parameters)
-GET     /news/list			                                                                        controllers.NewsView.list(p:Int ?= 0, s ?= "title", o ?= "asc", f ?= "")
-GET     /news/lsort		                                                                            controllers.NewsView.lsort()
-# Add NewsView
-#GET     /news/blank		                                                                        controllers.NewsView.blank()
-#POST    /news				                                                                        controllers.NewsView.submit()
-# Edit existing NewsView
-GET     /news/sort/:ids	                                                                            controllers.NewsView.sort(ids:String)
-GET     /news/:id			                                                                        controllers.NewsView.edit(id:Long)
-#POST    /news/:id			                                                                        controllers.NewsView.update(id:Long)
-# Delete a NewsView
-#POST    /news/:id/delete		                                                                    controllers.NewsView.delete(id:Long)
-
-
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
 GET     /users/list			                                                                        controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
