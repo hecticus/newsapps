@@ -26,7 +26,7 @@ angular
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
-
+            $rootScope.isPageContentLeft = false;
 
 
             $scope.toggles = {
@@ -55,7 +55,6 @@ angular
                 return angular.element('.page.back.left:last').hasClass('left');
             }
 
-
             function hideMenuFavorites() {
               if ((getSection() === 'login')
                   || (getSection() === 'settings')
@@ -79,7 +78,7 @@ angular
             }
 
             function hideMenuIcon() {
-              if ((getSection() === 'login')
+              if (((getSection() === 'login') && !hasPreviousSubsection())
                   || ((getSection() === 'settings') &&
                       (!$rootScope.$storage.settings))) {
                 return true;
@@ -100,7 +99,7 @@ angular
                     });
 
                     $rootScope.transitionPage('#wrapperM', 'right');
-                    $('#screen-block').removeClass('hidden');
+                     $scope.$emit('load');
                 }
             }
 
@@ -108,7 +107,7 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
                     $rootScope.menuScroll.scrollTo(0,0,0);
-                    $('#screen-block').addClass('hidden');
+                    $scope.$emit('unload');
                 }
             }
 
@@ -195,7 +194,9 @@ angular
             }
 
             function getDrawerIcon(){
-                if(hasPreviousSubsection() || CordovaApp.isOnUtilitySection()){
+
+                if(hasPreviousSubsection()
+                    || CordovaApp.isOnUtilitySection()){
                     return 'icon mdi-navigation-arrow-back ';
                 } else {
                     return 'icon mdi-navigation-menu';
@@ -246,22 +247,22 @@ angular
                 });
 
                 $scope.$on('load', function(){
-                    $scope.loading = true;
-                    $scope.error = false;
+                  $scope.loading = true;
+                  //$scope.error = false;
                 });
 
                 $scope.$on('unload', function(){
-                        $rootScope.LOADING_TEXT = '';
-                        $timeout(function(){
-                            $scope.loading = false;
-                        }, 200);
-                    }
-                );
+                  $rootScope.LOADING_TEXT = '';
+                  $timeout(function(){
+                      $scope.loading = false;
+                  }, 200);
+                });
+
                 $scope.$on('error', function(){
-                        $scope.error = true;
-                        $scope.loading = false;
-                    }
-                );
+                    $scope.error = true;
+                    $scope.loading = false;
+                 });
+
             }
         }
     ]);

@@ -3,18 +3,29 @@
         <div id="scroller" ng-style="getTotalWidth()">
             <ul>
                 <li ng-style="getWidth()" ng-repeat="competition in item.competitions" >
-                    <div class="container-fluid">
-                        <div class="row row-header row-header-competition">
-                            <div class="col-xs-4 tabs text-left" ng-click="prevPage()">
-                                <h6 ng-bind="item.competitions[$index-1].name"></h6>
-                            </div>
-                            <div class="col-xs-4">
-                                <h5 ng-bind="competition.name" class="caption"></h5>
-                            </div>
-                            <div class="col-xs-4 tabs text-right" ng-click="nextPage()">
-                                <h6 ng-bind="item.competitions[$index+1].name"></h6>
-                            </div>
+
+                  <div class="row row-header">
+                    <div class="col-xs-12">
+
+                      <div class="row row-header-competition">
+
+                        <div class="col-xs-4 tabs text-left" ng-click="prevPage()">
+                          <span ng-bind="item.competitions[$index-1].name"></span>
                         </div>
+                        <div class="col-xs-4">
+                          <span ng-bind="competition.name" class="caption"></span>
+                        </div>
+                        <div class="col-xs-4 tabs text-right" ng-click="nextPage()">
+                          <span ng-bind="item.competitions[$index+1].name"></span>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
 
                         <div class="row" style="margin-top:50px !important;">
                             <div class="col-xs-6" >
@@ -38,9 +49,9 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>##</th>
-                                                        <th translate>LEADERBOARD.PLAYER</th>
-                                                        <th translate>LEADERBOARD.POINTS</th>
+                                                        <th class="h-header yellow">##</th>
+                                                        <th class="h-header yellow" translate>LEADERBOARD.PLAYER</th>
+                                                        <th class="h-header yellow" translate>LEADERBOARD.POINTS</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody >
@@ -75,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+
                 </li>
             </ul>
         </div>

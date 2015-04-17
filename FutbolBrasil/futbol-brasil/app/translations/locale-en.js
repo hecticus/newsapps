@@ -19,11 +19,12 @@
         "LOGIN" : "Login",
         "REMIND" : "Remind / Get Credentials",
         "LANGUAGE-SELECTION" : "Language Selection",
-        "TEAM-SELECTION" : "Language Selection"
+        "TEAM-SELECTION" : "Language Selection",
+        "TERMS": "Terms",
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
         "TITLE" : "News"
-
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Player",
@@ -135,6 +136,62 @@
         "EXIT_APP_TITLE" : "Exit App",
         "EXIT_APP_MSG" : "Are you sure you want to exit?"
     },
+
+    "ALERT": {
+
+          "NEWS_LIMIT" : {
+            "TITLE" : "Daily News Limit Exceeded",
+            "MSG": "You have exceeded your free daily news limit.pt",
+            "CONFIRM" : "Ok",
+            "CANCEL" : "Cancel"
+          },
+
+          "SET_USERNAME" : {
+           "TITLE" : "Profile Info",
+           "SUBTITLE": "Select your username",
+           "MSG": "Please set a Username for your account"
+         },
+
+         "NETWORK_ERROR" : {
+            "TITLE" : "Network Error",
+            "SUBTITLE": "Connection Lost",
+            "MSG": "Couldn't get a response from server"
+          },
+
+          "GET_CREDENTIALS" : {
+            "TITLE" : "Get Credentials",
+            "SUBTITLE": "Network Error",
+            "MSG": "Could not contact our servers. Please try again in a few moments"
+          },
+
+          "GET_LOGIN" : {
+            "TITLE" : "Login",
+            "SUBTITLE": "Network Error",
+            "MSG": "Could not contact our servers. Please try again in a few moments"
+          },
+
+          "SET_MSISDN" : {
+            "TITLE" : "Login process",
+            "SUBTITLE": "Incomplete Registering Info",
+            "MSG": "Please input your phone number"
+          },
+
+          "SET_PASSWORD" : {
+            "TITLE" : "Login process",
+            "SUBTITLE": "Incomplete Registering Info",
+            "MSG": "Please input your password"
+          },
+
+          "LOCKED_SECTION" : {
+            "TITLE" : "Locked Section",
+            "MSG": "This section is locked for Guest Users. Would you like to register to unlock this section?",
+            "CONFIRM" : "Ok",
+            "CANCEL" : "Cancel"
+          }
+
+
+    },
+
     "OK" : "Ok",
     "CANCEL" : "Cancel",
     "PREVIOUS" : "Previous",

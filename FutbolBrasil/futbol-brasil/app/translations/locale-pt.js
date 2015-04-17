@@ -19,7 +19,9 @@
         "LOGIN" : "Login",
         "REMIND" : "Lembrar / Obter Credenciais",
         "LANGUAGE-SELECTION" : "Seleção de Idioma",
-        "TEAM-SELECTION" : "Seleção de Equipe"
+        "TEAM-SELECTION" : "Seleção de Equipe",
+        "TERMS": "Condições",
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
         "TITLE" : "Notícias"
@@ -135,6 +137,61 @@
         "EXIT_APP_TITLE" : "Sair do Aplicativo",
         "EXIT_APP_MSG" : "Tem certeza de que deseja sair do aplicativo?"
     },
+
+
+    "ALERT": {
+
+        "NEWS_LIMIT" : {
+          "TITLE" : "Limite diário de notícias ultrapassado",
+          "MSG": "Você excedeu seu limite diário gratuito Notícias",
+          "CONFIRM" : "Ok",
+          "CANCEL" : "Cancelar"
+        },
+
+        "SET_USERNAME" : {
+         "TITLE" : "Informações do Perfil",
+         "SUBTITLE": "Selecione seu nome de usuário",
+         "MSG": "Por favor, defina um nome de utilizador para a sua conta"
+       },
+
+       "NETWORK_ERROR" : {
+          "TITLE" : "Erro de Rede",
+          "SUBTITLE": "Conexão perdida",
+          "MSG": "Não foi possível obter uma resposta do servidor"
+        },
+
+        "GET_CREDENTIALS" : {
+          "TITLE" : "Obter Credenciais",
+          "SUBTITLE": "Erro de Rede",
+          "MSG": "Não foi possível entrar em contato com nossos servidores. Por favor, tente novamente em alguns momentos"
+        },
+
+        "GET_LOGIN" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Erro de Rede",
+          "MSG": "Não foi possível entrar em contato com nossos servidores. Por favor, tente novamente em alguns momentos"
+        },
+
+        "SET_MSISDN" : {
+          "TITLE" : "Processo de login",
+          "SUBTITLE": "Incompleta Registrando Informações",
+          "MSG": "Por favor coloque o seu número de telefone"
+        },
+
+        "SET_PASSWORD" : {
+          "TITLE" : "Processo de login",
+          "SUBTITLE": "Incompleta Registrando Informações",
+          "MSG": "Por favor, insira sua senha"
+        },
+
+        "LOCKED_SECTION" : {
+          "TITLE" : "seção trancada",
+          "MSG": "Esta seção está bloqueado para usuários convidados. Gostaria de registrar-se para desbloquear esta seção?",
+          "CONFIRM" : "Ok",
+          "CANCEL" : "Cancelar"
+        }
+    },
+
     "OK" : "Ok",
     "CANCEL" : "Cancelar",
     "PREVIOUS" : "Anterior",

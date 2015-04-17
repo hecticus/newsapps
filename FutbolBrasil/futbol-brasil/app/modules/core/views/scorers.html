@@ -3,32 +3,35 @@
         <ul>
             <li ng-style="getWidth()" ng-repeat="league in leagues" >
                 <div class="container">
-                    <div class="row row-header row-header-competition">
 
-                        <div class="col-xs-4 tabs text-left" ng-click="prevPage()">
-                            <h6 ng-bind="leagues[$index-1].name"></h6>
+                  <div class="row row-header">
+                    <div class="col-xs-12">
+                      <div class="row row-header-competition">
+                        <div class="col-xs-4 tabs text-left" ng-click="prevPage($index)">
+                          <span ng-bind="leagues[$index-1].name"></span>
                         </div>
-
                         <div class="col-xs-4">
-                            <h5 ng-bind="league.name" class="caption"></h5>
+                          <span ng-bind="league.name" class="caption"></span>
                         </div>
+                        <div class="col-xs-4 tabs text-right" ng-click="nextPage($index)">
+                          <span ng-bind="leagues[$index+1].name"></span>
+                        </div>
+                      </div>
 
-                        <div class="col-xs-4 tabs text-right" ng-click="nextPage()">
-                            <h6 ng-bind="leagues[$index+1].name"></h6>
-                        </div>
                     </div>
+                  </div>
 
                     <div class="row" ng-hide="league.empty">
-                        <div id="{{vWrapper.getName($index)}}" class="wrapper wrapper-full">
+                        <div id="{{vWrapper.getName($index)}}" class="wrapper">
                             <div class="scroller">
                                 <div class="container">
                                     <div class="col-xs-12" >
                                         <table  ng-show="league.scorers" class="table">
                                             <thead>
                                             <tr>
-                                                <th translate>SCORERS.PLAYER_NAME_LABEL</th>
-                                                <th translate>SCORERS.TEAM_LABEL</th>
-                                                <th translate>SCORERS.GOALS_LABEL</th>
+                                                <th class="h-header yellow" translate style="text-align: left;">SCORERS.PLAYER_NAME_LABEL</th>
+                                                <th class="h-header yellow" translate style="text-align: left;">SCORERS.TEAM_LABEL</th>
+                                                <th class="h-header yellow" translate>SCORERS.GOALS_LABEL</th>
                                             </tr>
                                             </thead>
                                             <tbody>

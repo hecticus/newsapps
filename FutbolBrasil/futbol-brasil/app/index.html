@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
     <meta charset="utf-8">
-    <title>Tim Palpites Vencedor</title>
+    <title>TIM Palpites</title>
 
     <meta name="description" content="">
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes.
@@ -37,7 +37,8 @@
       ng-swipe-right="prevPage()"
       ng-swipe-left="nextPage()">
 
-<div id="screen-block" class="hidden" ng-click="clickPage()">&nbsp;</div>
+
+
 <div id="fb-root"></div>
 
 <div class="container-fluid">
@@ -45,26 +46,26 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <header>
-                    <div class="col-xs-2 text-left">
+                    <div class="col-xs-2 text-left" style="height:50px; line-height:50px; ">
                         <i ng-hide="(hideMenuIcon() === true)"
                           ng-class="getDrawerIcon()"
-                          ng-click="onMenuButtonPressed()"></i>
+                          ng-click="onMenuButtonPressed()" style="font-size:2em; vertical-align: middle;"></i>
                     </div>
-                    <div class="col-xs-8 text-center">
-                        <span class="drawer-title" ng-cloak>
+                    <div class="col-xs-8 text-center"style="height:50px; line-height:50px; ">
+                        <span class="drawer-title" ng-cloak style="vertical-align: middle;">
                             {{sectionTranslation}}
                         </span>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-2" style="height:50px; line-height:50px; ">
 
                       <i class="icon drawer-icon icon-white"
                          ng-class="getFavoritesClass()"
                          ng-hide="(hideMenuFavorites() === true)"
-                         ng-click="toggleFavorites()"></i>
+                         ng-click="toggleFavorites()" style="font-size:2em; vertical-align: middle;"></i>
 
                       <i class="mdi-navigation-arrow-forward"
                        ng-show="(showMenuForward() === true)"
-                       ng-click="onMain()"></i>
+                       ng-click="onMain()" style=" font-size:2em;vertical-align: middle;"></i>
 
                     </div>
                 </header>
@@ -75,7 +76,6 @@
     <div ui-view ></div>
 
     <loading></loading>
-    <error></error>
 
     <menu ng-cloak>
 
@@ -84,7 +84,7 @@
           <div class="col-xs-2">
           </div>
           <div class="col-xs-8 text-right" style="padding-right:0 !important;">
-            <img src="img/tim-01.svg" style="width:45%; heihgt:auto;  margin:10px 0;"/>
+            <img class="h-logo menu" src="img/tim-01.svg" onerror="this.src='img/tim-01.png'" >
           </div>
         </div>
       </div>
@@ -289,6 +289,8 @@
 <script src="modules/core/controllers/settings.js"></script>
 <script src="modules/core/controllers/standings.js"></script>
 <script src="modules/core/controllers/team-selection.js"></script>
+<script src="modules/core/controllers/terms.js"></script>
+<script src="modules/core/controllers/tutorial.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
 

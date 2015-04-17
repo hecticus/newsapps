@@ -15,7 +15,7 @@ angular
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['login',  'remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
             var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
@@ -92,19 +92,11 @@ angular
                 }
             }
 
-            function hideMenu() {
-                var menuWrapper = $('#wrapperM');
-                if (menuWrapper.hasClass('right')) {
-                    menuWrapper.attr('class', ' page transition left');
-                    $('#screen-block').removeClass('hidden');
-                }
-            }
-
             function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
                 if ($('#wrapperM').hasClass('right')) {
-                    hideMenu();
+                     $rootScope.hideMenu();
                 } else if(isOnUtilitySection()){
                     if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
@@ -119,9 +111,11 @@ angular
                     } else if($state.current.data){
                         $state.go($state.current.data.prev);
                     }*/
+
                 } else if(hasPreviousSubsection){
-                    angular.element('.page.back.left:last')
-                        .attr('class', ' page transition right');
+                    angular.element('.page.back.left:last').attr('class', ' page transition right');
+                    $rootScope.isPageContentLeft = false;
+                    $rootScope.$apply();
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
@@ -179,7 +173,7 @@ angular
             }
 
             function requiresAuthSection(section){
-                return !(section === 'login' || section === 'remind');
+                return !(section === 'login' || section === 'remind' || section === 'terms' || section === 'tutorial');
             }
 
             function isBlockedSection(section){

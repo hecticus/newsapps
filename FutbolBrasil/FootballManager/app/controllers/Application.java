@@ -2,12 +2,17 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import models.Config;
 import models.User;
 import play.*;
 import play.data.Form;
+import play.libs.F;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import play.mvc.*;
 
 import providers.MyUsernamePasswordAuthProvider;
@@ -16,6 +21,7 @@ import views.html.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Application extends Controller {
 
@@ -42,6 +48,12 @@ public class Application extends Controller {
         }else{
             return badRequest("file not found");
         }
+    }
+
+    public static Result checkPerformNews(){
+        F.Promise<WSResponse> result = WS.url("http://upstream-articles.performfeeds.com/article/i1xk19p4lm6k1bvg2s340azsw/?_fmt=json&_rt=b&_fld=hl,tsr,ctg,bd,kwd,pt,lut,uuid,exu,img&_lcl=pt").get();
+        ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+        return ok(response);
     }
 
      /*Plugin Authenticate*/

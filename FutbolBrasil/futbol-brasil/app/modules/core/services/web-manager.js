@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('WebManager',['$http', 'CordovaDevice', 'TeamsManager', 'Domain', 'Client', 'App',
-        function($http, CordovaDevice, TeamsManager, Domain, Client, App) {
+    .factory('WebManager',['$http', '$localStorage', 'CordovaDevice', 'TeamsManager', 'Domain', 'Client', 'App',
+        function($http, $localStorage, CordovaDevice, TeamsManager, Domain, Client, App) {
 
             /**
              * @ngdoc function
@@ -93,6 +93,7 @@ angular
 //                    enableCerts(true);
                 return $http.get(Domain.loading(width , height, version, platform))
                     .success(function(data) {
+                        $localStorage['LOADING'] = JSON.stringify(data.response);
                         return data.response;
                     }).error(function(){
                         console.log("Couldn't get config from server");

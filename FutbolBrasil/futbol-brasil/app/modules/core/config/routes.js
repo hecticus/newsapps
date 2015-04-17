@@ -180,7 +180,7 @@ angular
                 data:{
                     prev: 'leaderboard',
                     next: 'points',
-                    contentClass: 'content-friends',
+                    contentClass: 'content-leaderboard',
                     section: 'bets',
                     state: 'friends'
                 }
@@ -195,6 +195,30 @@ angular
                     contentClass: 'content-points',
                     section: 'bets',
                     state: 'points'
+                }
+            })
+            .state('terms', {
+                url: '/terms',
+                controller:'TermsController as terms',
+                templateUrl:'modules/core/views/terms.html',
+                data:{
+                    prev: 'login',
+                    next: 'login',
+                    contentClass: 'content-terms',
+                    section: 'terms',
+                    state: 'terms'
+                }
+            })
+            .state('tutorial', {
+                url: '/tutorial',
+                controller:'TutorialController as tutorial',
+                templateUrl:'modules/core/views/tutorial.html',
+                data:{
+                    prev: 'login',
+                    next: 'login',
+                    contentClass: 'content-tutorial',
+                    section: 'tutorial',
+                    state: 'tutorial'
                 }
             });
     }

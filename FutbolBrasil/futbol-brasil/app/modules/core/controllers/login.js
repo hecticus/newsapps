@@ -8,14 +8,72 @@
  */
 angular
     .module('core')
-    .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'ClientManager', 'iScroll','Client',
-        'Upstream', 'Notification',
-        function($scope, $state, $stateParams, ClientManager, iScroll, Client, Upstream, Notification) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$localStorage', '$state', '$stateParams', '$translate', 'ClientManager', 'iScroll','Client',
+        'Upstream', 'Notification', 'CordovaDevice',
+        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice) {
 
             var scroll = null;
+            var strings = {};
 
             $scope.msisdn = '';
             $scope.password = '';
+
+            $scope.isWeb = function() {
+              if (CordovaDevice.isAndroidPlatform()
+                || CordovaDevice.isIosPlatform()) {
+                  return false;
+                } else {
+                  return true;
+                }
+            }
+
+            $scope.isWeb = false;
+
+            function getTranslations(){
+
+              $translate(['ALERT.SET_USERNAME.TITLE',
+                          'ALERT.SET_USERNAME.SUBTITLE',
+                          'ALERT.SET_USERNAME.MSG',
+                          'ALERT.GET_CREDENTIALS.TITLE',
+                          'ALERT.GET_CREDENTIALS.SUBTITLE',
+                          'ALERT.GET_CREDENTIALS.MSG',
+                          'ALERT.GET_LOGIN.TITLE',
+                          'ALERT.GET_LOGIN.SUBTITLE',
+                          'ALERT.GET_LOGIN.MSG',
+                          'ALERT.SET_MSISDN.TITLE',
+                          'ALERT.SET_MSISDN.SUBTITLE',
+                          'ALERT.SET_MSISDN.MSG',
+                          'ALERT.SET_PASSWORD.TITLE',
+                          'ALERT.SET_PASSWORD.SUBTITLE',
+                          'ALERT.SET_PASSWORD.MSG'])
+              .then(function(translation){
+
+                  strings['SET_USERNAME_TITLE'] = translation['ALERT.SET_USERNAME.TITLE'];
+                  strings['SET_USERNAME_SUBTITLE'] = translation['ALERT.SET_USERNAME.SUBTITLE'];
+                  strings['SET_USERNAME_MSG'] = translation['ALERT.SET_USERNAME.MSG'];
+
+                  strings['GET_CREDENTIALS_TITLE'] = translation['ALERT.GET_CREDENTIALS.TITLE'];
+                  strings['GET_CREDENTIALS_SUBTITLE'] = translation['ALERT.GET_CREDENTIALS.SUBTITLE'];
+                  strings['GET_CREDENTIALS_MSG'] = translation['ALERT.GET_CREDENTIALS.MSG'];
+
+                  strings['GET_LOGIN_TITLE'] = translation['ALERT.GET_LOGIN.TITLE'];
+                  strings['GET_LOGIN_SUBTITLE'] = translation['ALERT.GET_LOGIN.SUBTITLE'];
+                  strings['GET_LOGIN_MSG'] = translation['ALERT.GET_LOGIN.MSG'];
+
+                  strings['SET_MSISDN_TITLE'] = translation['ALERT.SET_MSISDN.TITLE'];
+                  strings['SET_MSISDN_SUBTITLE'] = translation['ALERT.SET_MSISDN.SUBTITLE'];
+                  strings['SET_MSISDN_MSG'] = translation['ALERT.SET_MSISDN.MSG'];
+
+                  strings['SET_PASSWORD_TITLE'] = translation['ALERT.SET_PASSWORD.TITLE'];
+                  strings['SET_PASSWORD_SUBTITLE'] = translation['ALERT.SET_PASSWORD.SUBTITLE'];
+                  strings['SET_PASSWORD_MSG'] = translation['ALERT.SET_PASSWORD.MSG'];
+
+              });
+
+
+
+            };
+
 
             function remindSuccess(){
                 console.log('Remind Success! Going to Login');
@@ -24,24 +82,27 @@ angular
 
             function remindError(){
                 //TODO i18n-alizar
+
                 Notification.showInfoAlert({
-                    title: 'Get Credentials',
-                    subtitle: 'Network Error',
-                    message: 'Could not contact our servers. Please try again in a few moments',
+                    title: strings['GET_CREDENTIALS_TITLE'],
+                    subtitle: strings['GET_CREDENTIALS_SUBTITLE'],
+                    message: strings['GET_CREDENTIALS_MSG'],
                     type: 'error'
                 });
-                console.log('showClientSignUpError. Remind Error.');
+
                 $scope.$emit('unload');
             }
+
 
             function loginSuccess(isNewClient){
                 console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
                     //TODO i18n-alizar
+
                     Notification.showInfoAlert({
-                        title: 'Profile Info',
-                        subtitle: 'Select your username',
-                        message: 'Please set a Username for your account',
+                        title: strings['SET_USERNAME_TITLE'],
+                        subtitle: strings['SET_USERNAME_SUBTITLE'],
+                        message: strings['SET_USERNAME_MSG'],
                         type: 'success'
                     });
                     console.log('new client. going to settings');
@@ -53,15 +114,15 @@ angular
             }
 
             function loginError(){
-                //TODO i18n-alizar
                 Notification.showInfoAlert({
-                    title: 'Login',
-                    subtitle: 'Network Error',
-                    message: 'Could not contact our servers. Please try again in a few moments',
+                    title:  strings['GET_LOGIN_TITLE'],
+                    subtitle: strings['GET_LOGIN_SUBTITLE'],
+                    message: strings['GET_LOGIN_MSG'],
                     type: 'error'
                 });
-                console.log('onLoginError. Login Error.');
+
                 $scope.$emit('unload');
+
             }
 
             $scope.sendMsisdn = function(){
@@ -81,11 +142,10 @@ angular
                         }
                     );
                 } else {
-                    //TODO i18n-alizar
                     Notification.showInfoAlert({
-                        title: 'Login process',
-                        subtitle: 'Incomplete Registering Info',
-                        message: 'Please input your phone number',
+                        title: strings['SET_MSISDN_TITLE'],
+                        subtitle: strings['SET_MSISDN_SUBTITLE'],
+                        message: strings['SET_MSISDN_MSG'],
                         type: 'warning'
                     });
                 }
@@ -103,11 +163,10 @@ angular
                         , true, loginSuccess, loginError);
                     Upstream.loginEvent();
                 } else {
-                    //TODO i18n-alizar
                     Notification.showInfoAlert({
-                        title: 'Login process',
-                        subtitle: 'Incomplete Registering Info',
-                        message: 'Please input your password',
+                        title: strings['SET_PASSWORD_TITLE'],
+                        subtitle: strings['SET_PASSWORD_SUBTITLE'],
+                        message: strings['SET_PASSWORD_MSG'],
                         type: 'warning'
                     });
                 }
@@ -128,6 +187,7 @@ angular
             }
 
             function init(){
+                getTranslations();
                 $scope.$emit('unload');
                 setUpIScroll();
                 if($state.current.name === 'remind'){
