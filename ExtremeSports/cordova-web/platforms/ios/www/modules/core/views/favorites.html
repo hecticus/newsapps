@@ -1,0 +1,56 @@
+<div>
+    <ul class="nav nav-tabs nav-tabs-justified nav-scroll-header row" style="margin-bottom: 15px;">
+        <li class="col-xs-6 text-center" role="presentation"
+                ng-class="favorites.getActive('athletes')">
+            <a href="#athletes" data-toggle="tab" translate>FAVORITES.ATHLETES</a>
+        </li>
+        <li class="col-xs-6 text-center" role="presentation"
+            ng-class="favorites.getActive('categories')">
+            <a href="#categories" data-toggle="tab" translate>FAVORITES.CATEGORIES</a>
+        </li>
+    </ul>
+
+    <div id="favoritesTabContent" class="tab-content">
+        <div id="athletes" class="tab-pane fade active in">
+            <div id="athletes-wrapper" class="wrapper wrapper-tab">
+                <div class="scroller">
+                    <div class="list-group">
+                        <div ng-repeat="athlete in favorites.athletes track by athlete.id_athlete">
+                            <div class="list-group-item">
+                                <div class="row-picture">
+                                    <img class="circle" ng-src="{{athlete.default_photo}}" alt="icon">
+                                </div>
+                                <div class="row-content">
+                                    <h4 class="list-group-item-heading" ng-bind="athlete.name"></h4>
+                                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+                                </div>
+                            </div>
+                            <div class="list-group-separator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="categories" class="tab-pane fade">
+            <div id="categories-wrapper" class="wrapper wrapper-tab">
+                <div class="scroller">
+                    <div class="list-group">
+                        <div ng-repeat="category in favorites.categories track by category.id_category">
+                            <div class="list-group-item">
+                                <div class="row-picture">
+                                    <img class="circle" ng-src="img/logo.png" alt="icon">
+                                </div>
+                                <div class="row-content">
+                                    <h4 class="list-group-item-heading" ng-bind="category.name"></h4>
+                                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+                                </div>
+                            </div>
+                            <div class="list-group-separator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
