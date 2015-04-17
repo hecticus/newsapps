@@ -38,7 +38,7 @@ angular
                 SocialAppsManager.share({
                     'message' : _news.summary,
                     'subject' : _news.title,
-                    'link' : 'http://timfutebol.hecticus.com/#!/newsnews/' + _news.idNews
+                    'link' : 'http://timfutebol.hecticus.com/#!/news/' + _news.idNews
                 });
             }
 
