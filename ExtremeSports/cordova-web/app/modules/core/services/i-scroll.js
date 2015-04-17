@@ -52,8 +52,10 @@ angular
                     $window[_wrapper] = new IScroll('#' + _wrapper, {
                         click : false,
                         preventDefault : true,
+                        snap: true,
                         bounce : true,
-                        probeType: 2,
+                        momentum: true,
+                        probeType: 3,
                         preventDefaultException: { tagName:/.*/ }
                     });
                     $window[_wrapper].on('beforeScrollStart', function () {
