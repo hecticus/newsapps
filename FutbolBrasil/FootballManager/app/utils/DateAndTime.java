@@ -1,13 +1,13 @@
 package utils;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 public class DateAndTime {
 	
@@ -135,4 +135,67 @@ public class DateAndTime {
 		
 		return result;		
 	}
+
+    /**
+     * Funcion que retorna el valor minimo para la fecha especificada, segun el timezone en el formato dado
+     * @param date		fecha sobre la cual se quiere el minimo
+     * @param timezone	timezone a consultar
+     * @param format	formato en el que se quiere el string con la fecha minima
+     * @return			long con la fecha minima formateada
+     */
+    public static String getMinimumDate(Calendar date, String timezone, String format){
+        Calendar cal = (Calendar) date.clone();
+        cal.setTimeZone(TimeZone.getTimeZone(timezone));
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName()));
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMinimum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getActualMinimum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getActualMinimum(Calendar.SECOND));
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * Funcion que retorna el valor maximo para la fecha especificada, segun el timezone en el formato dado
+     * @param date		fecha sobre la cual se quiere el maximo
+     * @param timezone	timezone a consultar
+     * @param format	formato en el que se quiere el string con la fecha maxima
+     * @return			long con la fecha maxima formateada
+     */
+    public static String getMaximumDate(Calendar date, String timezone, String format){
+        Calendar cal = (Calendar) date.clone();
+        cal.setTimeZone(TimeZone.getTimeZone(timezone));
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName()));
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
+        return sdf.format(cal.getTime());
+    }
+
+    public static Calendar getMinimumDate(Calendar date, String timezone){
+        Calendar cal = (Calendar) date.clone();
+        cal.setTimeZone(TimeZone.getTimeZone(timezone));
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMinimum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getActualMinimum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getActualMinimum(Calendar.SECOND));
+        return cal;
+    }
+
+    public static Calendar getMaximumDate(Calendar date, String timezone){
+        Calendar cal = (Calendar) date.clone();
+        cal.setTimeZone(TimeZone.getTimeZone(timezone));
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
+        return cal;
+    }
+
+    public static TimeZone getTimezoneFromID(String id){
+        TimeZone timeZone = null;
+        for (String string : TimeZone.getAvailableIDs(TimeZone.getTimeZone(id).getRawOffset())) {
+            timeZone = TimeZone.getTimeZone(string);
+            break;
+        }
+        return timeZone;
+    }
 }
