@@ -1,7 +1,7 @@
 @(verificationUrl: String, token: String, name: String, email: String)Howdy @name,
 
 
-You recently signed up for Memepedia.
+You recently signed up for Extreme Sports.
 
 To activate your account, follow this link now:
 @verificationUrl

@@ -5,6 +5,7 @@
 OPTIONS /*url                                                                                       controllers.Application.options(url: String)
 
 GET     /check/*name                                                                                controllers.Application.checkFile(name: String)
+GET     /perform                                                                                    controllers.Application.checkPerformNews()
 
 # Home page
 GET     /                                                                                           controllers.Application.index()

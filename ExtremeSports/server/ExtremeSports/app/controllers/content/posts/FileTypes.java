@@ -22,20 +22,18 @@ public class FileTypes extends HecticusController {
             if(fileTypeData.has("name") && fileTypeData.has("mime_type")){
                 FileType fileType = new FileType(fileTypeData.get("name").asText(), fileTypeData.get("mime_type").asText());
                 fileType.save();
-                response = buildBasicResponse(0, "OK", fileType.toJson());
+                return ok(buildBasicResponse(0, "OK", fileType.toJson()));
             } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error creando el registro", ex));
         }
     }
 
     public static Result update(Integer id) {
         try{
             ObjectNode fileTypeData = getJson();
-            ObjectNode response = null;
             FileType fileType = FileType.getByID(id);
             if(fileType != null) {
                 boolean save = false;
@@ -50,45 +48,40 @@ public class FileTypes extends HecticusController {
                 if(save){
                     fileType.update();
                 }
-                response = buildBasicResponse(0, "OK", fileType.toJson());
+                return ok(buildBasicResponse(0, "OK", fileType.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a modificar");
+                return notFound(buildBasicResponse(2, "no existe el registro a modificar"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error actualizando el registro", ex));
         }
     }
 
     public static Result delete(Integer id) {
         try{
-            ObjectNode response = null;
             FileType fileType = FileType.getByID(id);
             if(fileType != null) {
                 fileType.delete();
-                response = buildBasicResponse(0, "OK", fileType.toJson());
+                return ok(buildBasicResponse(0, "OK", fileType.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                return notFound(buildBasicResponse(2, "no existe el registro a eliminar"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error eliminando el registro", ex));
         }
     }
 
     public static Result get(Integer id){
         try {
-            ObjectNode response = null;
             FileType fileType = FileType.getByID(id);
             if(fileType != null) {
-                response = buildBasicResponse(0, "OK", fileType.toJson());
+                return ok(buildBasicResponse(0, "OK", fileType.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
 //            Utils.printToLog(ClientsWs.class, "Error manejando Clientes", "error buscando el cliente " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(-1,"Error buscando el registro",e));
         }
     }
 
@@ -103,7 +96,7 @@ public class FileTypes extends HecticusController {
             return ok(response);
         }catch (Exception e) {
 //            Utils.printToLog(ClientsWs.class, "Error manejando Clientes", "error buscando el cliente " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(-1,"Error buscando el registro",e));
         }
     }
 }

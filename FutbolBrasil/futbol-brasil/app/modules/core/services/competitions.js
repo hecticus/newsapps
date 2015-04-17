@@ -32,6 +32,7 @@ angular
             function getCompetitions() {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                console.log("getCompetitions-> " + Domain.competitions);
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
@@ -42,10 +43,11 @@ angular
             }
 
             function getRanking(competition, phase){
+            console.log("getRanking-> " + Domain.ranking(competition,phase));
                 return $http.get(Domain.ranking(competition,phase))
                     .then(function (response) {
-                        console.log('getRanking.response: ');
-                        console.log(response);
+//                        console.log('getRanking.response: ');
+//                        console.log(response);
                         if(response.data.error === 0){
                             return response.data.response;
                         } else {
@@ -62,6 +64,8 @@ angular
                 if(filter){
                     config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 }
+
+                console.log("phases-> " + Domain.phases(competition.id_competitions));
                 return $http.get(Domain.phases(competition.id_competitions), config)
                     .then(function (response) {
                         return response.data.response.phases;
@@ -156,7 +160,6 @@ angular
 
                             },
                             latest : function(idTournament, date){
-                                //TODO persistir response
                                 return $http.get(Domain.leaderboard.personal.phase.latest(idTournament, date))
                                     .then(function(response){
                                         return response.data.response;

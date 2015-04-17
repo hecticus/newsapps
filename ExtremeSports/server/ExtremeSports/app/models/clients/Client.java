@@ -9,6 +9,7 @@ import models.basic.Country;
 import models.basic.Language;
 import models.content.athletes.Athlete;
 import models.content.posts.Category;
+import org.apache.commons.codec.binary.Base64;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -40,6 +41,12 @@ public class Client extends HecticusModel {
     @Constraints.Required
     @Constraints.MaxLength(value = 10)
     private String lastCheckDate;
+
+    private String nickname;
+
+    private String facebookId;
+
+    private String session;
 
     @OneToOne
     @JoinColumn(name = "id_country")
@@ -184,6 +191,46 @@ public class Client extends HecticusModel {
         this.categories = categories;
     }
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
+
+    public ArrayList<Athlete> getRealAthletes(){
+        ArrayList<Athlete> tr = new ArrayList<>();
+        for (ClientHasAthlete clientHasAthlete : athletes){
+            tr.add(clientHasAthlete.getAthlete());
+        }
+        return tr;
+    }
+
+    public ArrayList<Category> getRealCategories(){
+        ArrayList<Category> tr = new ArrayList<>();
+        for (ClientHasCategory clientHasCategory : categories){
+            tr.add(clientHasCategory.getCategory());
+        }
+        return tr;
+    }
+
     public int getDeviceIndex(String registrationId, Device device) {
         ClientHasDevices clientHasDevice = ClientHasDevices.getByRegistrationIdDevice(registrationId, device);
         if(clientHasDevice == null){
@@ -254,6 +301,12 @@ public class Client extends HecticusModel {
         return clientHasCategory;
     }
 
+    public String getAuthToken(){
+        String authString = login+":"+password;
+        byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
+        return new String(encodedBytes);
+    }
+
 
     @Override
     public ObjectNode toJson() {
@@ -264,6 +317,9 @@ public class Client extends HecticusModel {
         response.put("status", status);
         response.put("last_check_date", lastCheckDate);
         response.put("country", country.toJson());
+        response.put("facebook_id", facebookId);
+        response.put("nickname", nickname);
+        response.put("session", session);
         if(devices != null && !devices.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
             for(ClientHasDevices ad : devices){
@@ -285,11 +341,19 @@ public class Client extends HecticusModel {
     public ObjectNode toJsonWithoutRelations() {
         ObjectNode response = Json.newObject();
         response.put("id_client", idClient);
+        response.put("facebook_id", facebookId);
+        response.put("nickname", nickname);
         response.put("user_id", userId);
         response.put("login", login);
         response.put("status", status);
+        response.put("session", session);
         response.put("last_check_date", lastCheckDate);
-        response.put("country", country.toJson());
+        response.put("auth_token", getAuthToken());
+        response.put("country", country.toJsonSimple());
+        response.put("facebook_id", facebookId);
+        response.put("nickname", nickname);
+        response.put("session", session);
+        response.put("language", language.toJson());
         return response;
     }
 

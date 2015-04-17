@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage',
-        '$timeout', '$window', '$translate', 'Client', 'CordovaApp', 'SocialAppsManager',
+        '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
         function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
-               Client, CordovaApp, SocialAppsManager) {
+               Client, CordovaApp) {
 
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
@@ -20,10 +20,14 @@ angular
             $rootScope.hideMenu = hideMenu;
             $rootScope.onMenuButtonPressed = onMenuButtonPressed;
             $rootScope.showSection = showSection;
+            $rootScope.executeAction = executeAction;
             $rootScope.transitionPage = transitionPage;
             $rootScope.transitionPageBack = transitionPageBack;
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
+            $rootScope.clickPage = clickPage;
+            $rootScope.isPageContentLeft = false;
+
 
             $scope.toggles = {
                 favorites: true
@@ -39,13 +43,49 @@ angular
             $scope.getDrawerIcon = getDrawerIcon;
             $scope.goToStore = goToStore;
 
-            $scope.showShareModal = showShareModal;
-            $scope.twitterShare = twitterShare;
-            $scope.fbShare = fbShare;
-
             init();
 
             ////////////// Root Scope //////////////////////////
+            $rootScope.hideMenuIcon = hideMenuIcon;
+            $rootScope.showMenuForward = showMenuForward;
+            $rootScope.hasPreviousSubsection = hasPreviousSubsection;
+            $rootScope.hideMenuFavorites = hideMenuFavorites;
+
+            function hasPreviousSubsection(){
+                return angular.element('.page.back.left:last').hasClass('left');
+            }
+
+            function hideMenuFavorites() {
+              if ((getSection() === 'login')
+                  || (getSection() === 'settings')
+                  || (getSection() === 'remind')
+                  || (getSection() === 'language-selection')
+                  || (getSection() === 'team-selection')
+                  || ($rootScope.hasFavorites === false)) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function showMenuForward() {
+              if ((getSection() === 'settings')
+                && (!$rootScope.$storage.settings) ) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function hideMenuIcon() {
+              if (((getSection() === 'login') && !hasPreviousSubsection())
+                  || ((getSection() === 'settings') &&
+                      (!$rootScope.$storage.settings))) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
             function isFavoritesFilterActive(){
                 return $scope.toggles.favorites;
@@ -54,22 +94,28 @@ angular
             function showMenu() {
                 if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
                     $window.addEventListener('touchmove', function(){
-                        $scope.hideMenu();
+                        //$scope.hideMenu();
                         $window.removeEventListener('touchmove');
                     });
+
                     $rootScope.transitionPage('#wrapperM', 'right');
+                     $scope.$emit('load');
                 }
             }
 
             function hideMenu() {
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
+                    $rootScope.menuScroll.scrollTo(0,0,0);
+                    $scope.$emit('unload');
                 }
             }
 
             function onMenuButtonPressed(){
+
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
                 } else if (menuWrapper.hasClass('left')) {
@@ -77,13 +123,29 @@ angular
                 } else if (menuWrapper.hasClass('right')) {
                     $scope.hideMenu();
                 }
+
             }
 
             function showSection(_section) {
-                if ($('#wrapperM').hasClass('right')) {
+
+                if (_section == $state.current.name) {
+                  if ($('#wrapperM').hasClass('right')) {
                     $scope.hideMenu();
+                  }
+                } else {
+                  $state.go(_section);
                 }
-                $state.go(_section);
+
+            }
+
+            function executeAction(action){
+                switch(action){
+                    case 'logout':
+                        Client.logout();
+                        $state.go('login');
+                        break;
+                    default:
+                }
             }
 
             function transitionPage(_wrapper, _direction, _class) {
@@ -93,6 +155,10 @@ angular
 
             function transitionPageBack(_wrapper, _direction) {
                 $rootScope.transitionPage(_wrapper, _direction, 'back')
+            }
+
+            function clickPage() {
+              $scope.hideMenu();
             }
 
             function nextPage() {
@@ -128,8 +194,9 @@ angular
             }
 
             function getDrawerIcon(){
-                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
+
+                if(hasPreviousSubsection()
+                    || CordovaApp.isOnUtilitySection()){
                     return 'icon mdi-navigation-arrow-back ';
                 } else {
                     return 'icon mdi-navigation-menu';
@@ -151,30 +218,9 @@ angular
                 }
             }
 
-            function showShareModal(message, subject){
-                $scope.share = {
-                    message: message,
-                    subject: subject
-                };
-
-                $('#share-modal').modal({
-                    backdrop: true,
-                    keyboard: false,
-                    show: false})
-                    .modal('show');
-            }
-
-            function fbShare(){
-                SocialAppsManager.fbShare($scope.share.message, $scope.share.subject);
-            }
-
-            function twitterShare(){
-                SocialAppsManager.twitterShare($scope.share.message, $scope.share.subject);
-            }
-
             /**
              * Function that gets and updates the app's common usage Strings
-             * to minimize the number of requests across  modules and improve
+             * to minimize the number of requests across modules and improve
              * performance
              */
             function getTranslations(){
@@ -191,26 +237,32 @@ angular
 
                 getTranslations();
 
+                $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
+                  $rootScope.previousState = '';
+                  if (from.data) $rootScope.previousState = from.data.state;
+                });
+
                 $rootScope.$on('$translateChangeSuccess', function () {
                     getTranslations();
                 });
 
                 $scope.$on('load', function(){
-                    $scope.loading = true;
-                    $scope.error = false;
+                  $scope.loading = true;
+                  //$scope.error = false;
                 });
 
                 $scope.$on('unload', function(){
-                        $timeout(function(){
-                            $scope.loading = false;
-                        }, 200);
-                    }
-                );
+                  $rootScope.LOADING_TEXT = '';
+                  $timeout(function(){
+                      $scope.loading = false;
+                  }, 200);
+                });
+
                 $scope.$on('error', function(){
-                        $scope.error = true;
-                        $scope.loading = false;
-                    }
-                );
+                    $scope.error = true;
+                    $scope.loading = false;
+                 });
+
             }
         }
     ]);

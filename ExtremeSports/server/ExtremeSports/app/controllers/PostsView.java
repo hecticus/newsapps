@@ -2,6 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import models.basic.Config;
@@ -53,7 +54,6 @@ public class PostsView extends HecticusController {
 
     @Restrict(@Group(Application.USER_ROLE))
     public static Result list(int page, String sortBy, String order, String filter) {
-        System.out.println("page = " + page + " sortBy = " + sortBy + " order = " + order + " filter = " + filter);
         return ok(list.render(Post.page(page, 10, sortBy, order, filter), sortBy, order, filter, false));
     }
 
@@ -65,147 +65,62 @@ public class PostsView extends HecticusController {
 
     @Restrict(@Group(Application.USER_ROLE))
     public static Result update(Integer id) {
-
-        Formatters.register(Language.class, new Formatters.SimpleFormatter<Language>() {
-            @Override
-            public Language parse(String input, Locale arg1) throws ParseException {
-                Language language = Language.getByID(new Integer(input));
-                return language;
-            }
-
-            @Override
-            public String print(Language language, Locale arg1) {
-                return language.getIdLanguage().toString();
-            }
-        });
-
-        Formatters.register(Country.class, new Formatters.SimpleFormatter<Country>() {
-            @Override
-            public Country parse(String input, Locale arg1) throws ParseException {
-                Country country = Country.getByID(new Integer(input));
-                return country;
-            }
-
-            @Override
-            public String print(Country country, Locale arg1) {
-                return country.getIdCountry().toString();
-            }
-        });
-
-        Formatters.register(SocialNetwork.class, new Formatters.SimpleFormatter<SocialNetwork>() {
-            @Override
-            public SocialNetwork parse(String input, Locale arg1) throws ParseException {
-                SocialNetwork socialNetwork = SocialNetwork.getByID(new Integer(input));
-                return socialNetwork;
-            }
-
-            @Override
-            public String print(SocialNetwork socialNetwork, Locale arg1) {
-                return socialNetwork.getIdSocialNetwork().toString();
-            }
-        });
-
-        Formatters.register(Athlete.class, new Formatters.SimpleFormatter<Athlete>() {
-            @Override
-            public Athlete parse(String input, Locale arg1) throws ParseException {
-                Athlete athlete = Athlete.getByID(new Integer(input));
-                return athlete;
-            }
-
-            @Override
-            public String print(Athlete athlete, Locale arg1) {
-                return athlete.getIdAthlete().toString();
-            }
-        });
-
-        Formatters.register(FileType.class, new Formatters.SimpleFormatter<FileType>() {
-            @Override
-            public FileType parse(String input, Locale arg1) throws ParseException {
-                FileType fileType = FileType.getByID(new Integer(input));
-                return fileType;
-            }
-
-            @Override
-            public String print(FileType fileType, Locale arg1) {
-                return fileType.getIdFileType().toString();
-            }
-        });
-
         Form<Post> filledForm = PostViewForm.bindFromRequest();
-
+        System.out.println(filledForm.toString());
         if(filledForm.hasErrors()) {
             return badRequest(edit.render(id, filledForm));
         }
-
-        int i = 0;
-        boolean exists = filledForm.data().containsKey("media[" + i + "].link");
-        Http.MultipartFormData body = request().body().asMultipartFormData();
-        ObjectNode data = Json.newObject();
-        String athlete = filledForm.data().get("athlete");
-
-        while(exists) {
-            if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                try {
-                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                    String fileName = picture.getFilename();
-                    String contentType = picture.getContentType();
-                    FileType fileType = FileType.getByMimeType(contentType);
-                    if(fileType == null) {
-                        filledForm.reject("Invalid File Type", "For file: " + fileName);
-                        return badRequest(edit.render(id, filledForm));
-                    } else {
-                        System.out.println("Valid " + fileName);
+        Post post = filledForm.get();
+        post.setIdPost(id);
+        if(post.getMedia() != null && !post.getMedia().isEmpty()){
+            Http.MultipartFormData body = getMultiformData();
+            int i = 0;
+            try {
+                for (PostHasMedia postHasMedia : post.getMedia()) {
+                    if(postHasMedia.getMd5() == null) {
+                        Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
+                        String fileName = picture.getFilename();
+                        String contentType = picture.getContentType();
+                        File file = picture.getFile();
+                        String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+                        FileType fileType = FileType.getByMimeType(contentType);
+                        if (fileType != null) {
+                            if (fileType.getName().equalsIgnoreCase("video")) {
+                                ObjectNode wistiaResponse = Wistia.uploadVideo(file, fileName);
+                                if (wistiaResponse != null) {
+                                    String hashedId = wistiaResponse.get("hashed_id").asText();
+                                    postHasMedia.setWistiaId(hashedId);
+                                    postHasMedia.setLink(wistiaResponse.get("thumbnail").get("url").asText());
+                                    String status = wistiaResponse.get("status").asText();
+                                    if (status.equalsIgnoreCase("ready")) {
+                                        ObjectNode videoInfo = Wistia.getVideo(hashedId);
+                                        postHasMedia.setWistiaPlayer(videoInfo.get("embedCode").asText());
+                                    }
+                                } else {
+                                    //TODO: ver que hacer con el error
+                                }
+                            } else {
+                                postHasMedia.setLink(Utils.uploadAttachment(file, post.getIdPost(), fileExtension, true));
+                                BufferedImage bimg = ImageIO.read(file);
+                                postHasMedia.setHeight(bimg.getHeight());
+                                postHasMedia.setWidth(bimg.getWidth());
+                            }
+                            String md5 = Utils.getMD5(file);
+                            postHasMedia.setMd5(md5);
+                            postHasMedia.setFileType(fileType);
+                        } else {
+                            filledForm.reject("Invalid File Type", "For file: " + fileName);
+                            return badRequest(edit.render(post.getIdPost(), filledForm));
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                    return badRequest(edit.render(id, filledForm));
+                    ++i;
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                filledForm.reject("Error uploading file", "For file: ");
+                return badRequest(edit.render(post.getIdPost(), filledForm));
             }
-            ++i;
-            exists = filledForm.data().containsKey("media[" + i + "].link");
         }
-
-        i = 0;
-        exists = filledForm.data().containsKey("media[" + i + "].link");
-
-        while(exists) {
-            if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                try {
-                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                    String fileName = picture.getFilename();
-                    String contentType = picture.getContentType();
-                    File file = picture.getFile();
-                    String fileExtension = fileName.substring(fileName.lastIndexOf(".")-1, fileName.length());
-                    String link = Utils.uploadAttachment(file, Integer.parseInt(athlete), fileExtension, true);
-                    String md5 = Utils.getMD5(file);
-                    BufferedImage bimg = ImageIO.read(file);
-                    ObjectNode dataFile = Json.newObject();
-                    dataFile.put("md5", md5);
-                    dataFile.put("link", link);
-                    dataFile.put("mime_type", contentType);
-                    dataFile.put("width", bimg.getWidth());
-                    dataFile.put("height", bimg.getHeight());
-                    data.put(fileName, dataFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                    return badRequest(edit.render(id, filledForm));
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                    return badRequest(edit.render(id, filledForm));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                    return badRequest(edit.render(id, filledForm));
-                }
-            }
-            ++i;
-            exists = filledForm.data().containsKey("media[" + i + "].link");
-        }
-        Post gfilledForm = filledForm.get();
-
         String epochThis = filledForm.data().get("epochThis");
         if(epochThis != null && !epochThis.isEmpty()) {
             TimeZone tz = TimeZone.getDefault();
@@ -216,24 +131,10 @@ public class PostsView extends HecticusController {
             int hourOfDay = Integer.parseInt(epochThis.substring(8, 10), 10);
             int minute = Integer.parseInt(epochThis.substring(10), 10);
             push.set(year, month, date, hourOfDay, minute);
-            gfilledForm.setPushDate(push.getTimeInMillis());
+            post.setPushDate(push.getTimeInMillis());
         }
-
-        for(PostHasMedia postHasMedia : gfilledForm.getMedia()){
-            if(data.has(postHasMedia.getLink())) {
-                ObjectNode dataFile = (ObjectNode) data.get(postHasMedia.getLink());
-                postHasMedia.setLink(dataFile.get("link").asText());
-                postHasMedia.setMd5(dataFile.get("md5").asText());
-                postHasMedia.setWidth(dataFile.get("width").asInt());
-                postHasMedia.setHeight(dataFile.get("height").asInt());
-                FileType fileType = FileType.getByMimeType(dataFile.get("mime_type").asText());
-                postHasMedia.setFileType(fileType);
-            }
-        }
-
-        gfilledForm.setIdPost(id);
-        gfilledForm.update(id);
-        flash("success", Messages.get("post.java.updated", gfilledForm.getIdPost()));
+        post.update();
+        flash("success", Messages.get("post.java.updated", post.getIdPost()));
         return GO_HOME;
 
     }
@@ -260,9 +161,13 @@ public class PostsView extends HecticusController {
         Post post = Post.getByID(id);
         ArrayList<String> files = new ArrayList<>();
         for(PostHasMedia postHasMedia : post.getMedia()){
-            String link = postHasMedia.getLink();
-            link = link.substring(link.lastIndexOf("/")-1);
-            files.add(link);
+            if(postHasMedia.getFileType().getName().equalsIgnoreCase("video")){
+                Wistia.deleteVideo(postHasMedia.getWistiaId());
+            } else {
+                String link = postHasMedia.getLink();
+                link = link.substring(link.lastIndexOf("/")-1);
+                files.add(link);
+            }
         }
         if(!files.isEmpty()){
             String containerName = Config.getString("cdn-container");
@@ -279,31 +184,11 @@ public class PostsView extends HecticusController {
 
     @Restrict(@Group(Application.USER_ROLE))
     public static Result submit() throws IOException {
-
-//        Formatters.register(FileType.class, new Formatters.SimpleFormatter<FileType>() {
-//            @Override
-//            public FileType parse(String input, Locale arg1) throws ParseException {
-//                FileType fileType = FileType.getByID(new Integer(input));
-//                System.out.println("fileType.parse" + fileType.getName());
-//                return fileType;
-//            }
-//
-//            @Override
-//            public String print(FileType fileType, Locale arg1) {
-//                return fileType.getIdFileType().toString();
-//            }
-//        });
-
         Form<Post> filledForm = PostViewForm.bindFromRequest();
-
         if(filledForm.hasErrors()) {
             return badRequest(form.render(filledForm));
         }
-
-        System.out.println(filledForm.toString());
-
         Post post = filledForm.get();
-
         String epochThis = filledForm.data().get("epochThis");
         if(epochThis != null && !epochThis.isEmpty()) {
             TimeZone tz = TimeZone.getDefault();
@@ -317,99 +202,58 @@ public class PostsView extends HecticusController {
             post.setPushDate(push.getTimeInMillis());
         }
 
-        int i = 0;
-        boolean exists = filledForm.data().containsKey("media[" + i + "].link");
-        System.out.println(" - " + filledForm.data().get("media[" + i + "].link"));
-        String link = filledForm.data().get("media[" + i + "].link");
-        if(link != null && !link.isEmpty()){
+        post.save();
+
+        if(post.getMedia() != null && !post.getMedia().isEmpty()){
             Http.MultipartFormData body = getMultiformData();
-            ObjectNode data = Json.newObject();
-            while(exists) {
-                if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                    try {
-                        Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                        String fileName = picture.getFilename();
-                        String contentType = picture.getContentType();
-                        FileType fileType = FileType.getByMimeType(contentType);
-                        if(fileType == null) {
-                            filledForm.reject("Invalid File Type", "For file: " + fileName);
-                            return badRequest(form.render(filledForm));
+            int i = 0;
+            try {
+                for (PostHasMedia postHasMedia : post.getMedia()) {
+                    Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
+                    String fileName = picture.getFilename();
+                    String contentType = picture.getContentType();
+                    File file = picture.getFile();
+                    String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+                    FileType fileType = FileType.getByMimeType(contentType);
+                    if (fileType != null) {
+                        if (fileType.getName().equalsIgnoreCase("video")) {
+                            ObjectNode wistiaResponse = Wistia.uploadVideo(file, fileName);
+                            if (wistiaResponse != null) {
+                                String hashedId = wistiaResponse.get("hashed_id").asText();
+                                postHasMedia.setWistiaId(hashedId);
+                                postHasMedia.setLink(wistiaResponse.get("thumbnail").get("url").asText());
+                                String status = wistiaResponse.get("status").asText();
+                                if (status.equalsIgnoreCase("ready")) {
+                                    ObjectNode videoInfo = Wistia.getVideo(hashedId);
+                                    postHasMedia.setWistiaPlayer(videoInfo.get("embedCode").asText());
+                                }
+                            } else {
+                                //TODO: ver que hacer con el error
+                            }
                         } else {
-                            System.out.println("Valid " + fileName);
+                            postHasMedia.setLink(Utils.uploadAttachment(file, post.getIdPost(), fileExtension, true));
+                            BufferedImage bimg = ImageIO.read(file);
+                            postHasMedia.setHeight(bimg.getHeight());
+                            postHasMedia.setWidth(bimg.getWidth());
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        filledForm.reject("Error uploading file", "For file: " + filledForm.data().get("media[" + i + "].link"));
+                        String md5 = Utils.getMD5(file);
+                        postHasMedia.setMd5(md5);
+                        postHasMedia.setFileType(fileType);
+                        ++i;
+                    } else {
+                        filledForm.reject("Invalid File Type", "For file: " + fileName);
                         return badRequest(form.render(filledForm));
                     }
                 }
-                ++i;
-                exists = filledForm.data().containsKey("media[" + i + "].link");
+                post.update();
+            } catch (Exception e) {
+                e.printStackTrace();
+                filledForm.reject("Error uploading file", "For file: " + filledForm.data().get("media[" + i + "].link"));
+                return badRequest(edit.render(post.getIdPost(), filledForm));
             }
-
-            post.save();
-
-            i = 0;
-            exists = filledForm.data().containsKey("media[" + i + "].link");
-
-            while(exists) {
-                if(!filledForm.data().containsKey("media[" + i + "].md5")){
-                    try {
-                        Http.MultipartFormData.FilePart picture = body.getFile("media[" + i + "].link");
-                        String fileName = picture.getFilename();
-                        String contentType = picture.getContentType();
-                        File file = picture.getFile();
-                        String fileExtension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-
-                        link = Utils.uploadAttachment(file, post.getIdPost(), fileExtension, true);
-                        System.out.println(post.getIdPost() + " " + fileExtension + " " + link);
-                        String md5 = Utils.getMD5(file);
-                        BufferedImage bimg = ImageIO.read(file);
-                        ObjectNode dataFile = Json.newObject();
-                        dataFile.put("md5", md5);
-                        dataFile.put("link", link);
-                        dataFile.put("mime_type", contentType);
-                        dataFile.put("width", bimg.getWidth());
-                        dataFile.put("height", bimg.getHeight());
-                        data.put(fileName, dataFile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                        return badRequest(edit.render(post.getIdPost(), filledForm));
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                        filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                        return badRequest(edit.render(post.getIdPost(), filledForm));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        filledForm.reject("Error uploading file", "For file: " + filledForm.data().containsKey("media[" + i + "].link"));
-                        return badRequest(edit.render(post.getIdPost(), filledForm));
-                    }
-                }
-                ++i;
-                exists = filledForm.data().containsKey("media[" + i + "].link");
-            }
-
-            for(PostHasMedia postHasMedia : post.getMedia()){
-                if(data.has(postHasMedia.getLink())) {
-                    ObjectNode dataFile = (ObjectNode) data.get(postHasMedia.getLink());
-                    postHasMedia.setLink(dataFile.get("link").asText());
-                    postHasMedia.setMd5(dataFile.get("md5").asText());
-                    postHasMedia.setWidth(dataFile.get("width").asInt());
-                    postHasMedia.setHeight(dataFile.get("height").asInt());
-                    FileType fileType = FileType.getByMimeType(dataFile.get("mime_type").asText());
-                    postHasMedia.setFileType(fileType);
-                }
-            }
-
-            post.update();
-
-        } else {
-            post.save();
         }
-        post.save();
         flash("success", Messages.get("post.java.created", post.getIdPost()));
         return GO_HOME;
-
     }
+
 }

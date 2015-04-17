@@ -153,7 +153,7 @@ SocialSharing.js is brought in automatically. Make sure though you include a ref
 You can share text, a subject (in case the user selects the email application), (any type and location of) file (like an image), and a link.
 However, what exactly gets shared, depends on the application the user chooses to complete the action. A few examples:
 - Mail: message, subject, file.
-- Twitter: message, image (other filetypes are not supported), link (which is automatically shortened).
+- Twitter: message, image (other filetypes are not supported), link (which is automatically shortened if the Twitter client deems it necessary).
 - Google+ / Hangouts (Android only): message, subject, link
 - Flickr: message, image (an image is required for this option to show up).
 - Facebook iOS: message, image (other filetypes are not supported), link.
@@ -320,14 +320,32 @@ When using this plugin in the callback of the Phonegap camera plugin, wrap the c
 The share widget has the same limitation as the alert dialogue [mentioned in the Phonegap documentation](http://docs.phonegap.com/en/2.9.0/cordova_camera_camera.md.html#camera.getPicture_ios_quirks).
 
 #### Excluding some options from the widget
-If you want to exclude (for example) the assign-to-contact and copy-to-pasteboard options, add these lines
-right before the last line of the share() method in SocialSharing.m (see the commented lines in that file):
+If you want to exclude (for example) the assign-to-contact and copy-to-pasteboard options, add this to your main plist file:
+
+```xml
+<key>SocialSharingExcludeActivities</key>
+<array>
+  <string>com.apple.UIKit.activity.AssignToContact</string>
+  <string>com.apple.UIKit.activity.CopyToPasteboard</string>
+</array>
 ```
-NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard];
-activityVC.excludedActivityTypes = excludeActivities;
-```
-I'll probably make this configurable via Javascript one day.
-And thanks for the tip, Simon Robichaud!
+
+Here's the list of available activities you can disable :
+
+ - com.apple.UIKit.activity.PostToFacebook
+ - com.apple.UIKit.activity.PostToTwitter
+ - com.apple.UIKit.activity.PostToFlickr
+ - com.apple.UIKit.activity.PostToWeibo
+ - com.apple.UIKit.activity.PostToVimeo
+ - com.apple.UIKit.activity.TencentWeibo
+ - com.apple.UIKit.activity.Message
+ - com.apple.UIKit.activity.Mail
+ - com.apple.UIKit.activity.Print
+ - com.apple.UIKit.activity.CopyToPasteboard
+ - com.apple.UIKit.activity.AssignToContact
+ - com.apple.UIKit.activity.SaveToCameraRoll
+ - com.apple.UIKit.activity.AddToReadingList
+ - com.apple.UIKit.activity.AirDrop
 
 
 ## 4b. Usage on Windows Phone
@@ -378,6 +396,18 @@ window.plugins.socialsharing.iPadPopupCoordinates = function() {
 Note that since iOS 8 this popup is the only way Apple allows you to share stuff, so this plugin has been adjusted to use this plugin as standard for iOS 8 and positions
 the popup at the bottom of the screen (seems like a logical default because that's where it previously was as well).
 You can however override this position in the same way as explained above.
+
+**Note**: when using the [WkWebView polyfill](https://github.com/Telerik-Verified-Plugins/WKWebView) the `iPadPopupCoordinates` overrides [doesn't work](https://github.com/Telerik-Verified-Plugins/WKWebView/issues/77) so you can call the alternative `setIPadPopupCoordinates` method to define the popup position just before you call the `share` method.
+
+example :
+
+```js
+var targetRect = event.targetElement.getBoundingClientRect(),
+    targetBounds = targetRect.left + ',' + targetRect.top + ',' + targetRect.width + ',' + targetRect.height;
+
+window.plugins.socialsharing.setIPadPopupCoordinates(targetBounds);
+window.plugins.socialsharing.share('Hello from iOS :)')
+```
 
 ## 5. Credits ##
 

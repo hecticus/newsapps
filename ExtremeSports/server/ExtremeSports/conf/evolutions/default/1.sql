@@ -40,6 +40,9 @@ create table clients (
   login                     varchar(255),
   password                  varchar(255),
   last_check_date           varchar(255),
+  nickname                  varchar(255),
+  facebook_id               varchar(255),
+  session                   varchar(255),
   id_country                integer,
   id_language               integer,
   constraint pk_clients primary key (id_client))
@@ -90,6 +93,14 @@ create table devices (
   constraint pk_devices primary key (id_device))
 ;
 
+create table events (
+  id_event                  integer auto_increment not null,
+  name                      varchar(255),
+  status                    integer,
+  date                      varchar(255),
+  constraint pk_events primary key (id_event))
+;
+
 create table file_types (
   id_file_type              integer auto_increment not null,
   name                      varchar(255),
@@ -127,6 +138,7 @@ create table languages (
   name                      varchar(255),
   short_name                varchar(255),
   active                    integer,
+  app_localization_file     varchar(255),
   constraint pk_languages primary key (id_language))
 ;
 
@@ -136,6 +148,12 @@ create table linked_account (
   provider_user_id          varchar(255),
   provider_key              varchar(255),
   constraint pk_linked_account primary key (id))
+;
+
+create table locations (
+  id_location               integer auto_increment not null,
+  name                      varchar(255),
+  constraint pk_locations primary key (id_location))
 ;
 
 create table post (
@@ -186,6 +204,8 @@ create table post_has_media (
   link                      varchar(255),
   width                     integer,
   height                    integer,
+  wistia_id                 varchar(255),
+  wistia_player             TEXT,
   constraint pk_post_has_media primary key (id_post_has_media))
 ;
 
@@ -333,6 +353,8 @@ drop table countries;
 
 drop table devices;
 
+drop table events;
+
 drop table file_types;
 
 drop table instances;
@@ -342,6 +364,8 @@ drop table jobs;
 drop table languages;
 
 drop table linked_account;
+
+drop table locations;
 
 drop table post;
 

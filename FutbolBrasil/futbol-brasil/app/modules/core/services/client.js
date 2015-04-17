@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Client', ['$localStorage',
-        function($localStorage) {
+    .factory('Client', ['$localStorage', '$translate', '$q',
+        function($localStorage, $translate, $q) {
             var FILE_KEY_STOREDVERSION = "APPSTOREDVERSION";
             var FILE_KEY_CLIENT = "APPDATACLIENT";
             var FILE_KEY_CLIENT_PUSH_ALERTS = "APPDATACLIENTPUSHALERTS";
@@ -20,6 +20,139 @@ angular
             var clientDataSafe = false;
             var client = {};
             var currentVersion = 0;
+            //noinspection UnnecessaryLocalVariableJS
+            var service = {
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.Client#init
+                 * @methodOf core.Services.Client
+                 * @return {boolean} Returns a boolean value
+                 */
+                init : init,
+
+                updateClient : updateClient,
+
+                /**
+                 * @ngdoc function
+                 * core.Services.Client
+                 * @description Logs the user out of the Application
+                 * @methodOf core.Services.ClientManager
+                 */
+                logout : logout,
+
+                setGuest: setGuest,
+
+                isGuest : isGuest,
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.ClientManager#isActiveClient
+                 * @description
+                 * {
+                 *  -1 : Unsuscribed by Upstream,
+                 *   0 : Unsuscribed by User,
+                 *   1 : Active and Paid,
+                 *   2 : Trial period, awaiting confirmation
+                 * }
+                 * @methodOf core.Services.ClientManager
+                 * @return {boolean} Returns a boolean value
+                 */
+                isActiveClient : isActiveClient,
+
+                getClientId : function(){
+                    return client.id_client;
+                },
+                setNickname : function(nickname){
+                    client.nickname = nickname;
+                },
+                getNickname : function(){
+                    return client.nickname;
+                },
+                getSession : function(){
+                    return client.session;
+                },
+                getUpstreamAuthToken: function(){
+                    return client.auth_token;
+                },
+                getPassword : function(){
+                    return client.password;
+                },
+
+                setPassword : setPassword,
+
+                getClientPushAlerts : function(){
+                    return clientPushAlerts;
+                },
+
+                isClientOk : function(){
+                    return clientDataSafe;
+                },
+
+                getMsisdn: function(){
+                    return client.msisdn;
+                },
+
+                setMsisdn : setMsisdn,
+
+                getRegId : function(){
+                    return client.regId;
+                },
+
+                setRegId : setRegId,
+
+                getHasToUpdateRegId : function (){
+                    return hasToUpdateRegId;
+                },
+
+                setHasFavorites : setHasFavorites,
+
+                getHasFavorites : getHasFavorites,
+
+                enableFavoritesFilter: enableFavoritesFilter,
+
+                isFavoritesFilterActive : isFavoritesFilterActive,
+
+                setLanguage : setLanguage,
+
+                getLanguage : getLanguage,
+
+                getFriends : getFriends,
+
+                setFriends : setFriends,
+
+                getFriendsIds : getFriendsIds
+            };
+
+            function init() {
+                var deferred = $q.defer();
+                loadClient();
+                deferred.resolve(true);
+                return deferred.promise;
+            }
+
+            function updateClient(data, password) {
+                var deferred = $q.defer();
+                if(!data){
+                    deferred.reject();
+                }
+                client.id_client = data.id_client;
+                client.user_id = data.user_id;
+                client.login = data.login;
+                client.session = data.session;
+                client.auth_token = data.auth_token;
+                if(data.language){
+                    setLanguage(data.language);
+                }
+                setPassword(password);
+                saveClient();
+                deferred.resolve(client);
+                return deferred.promise;
+            }
+
+            function logout(){
+                $localStorage.$reset();
+            }
 
             function saveStoredVersion() {
                 try{
@@ -47,7 +180,6 @@ angular
                 delete localStorage[FILE_KEY_CLIENT_DATASAFE];
             }
 
-            //TODO Should at least be Base64Encoded
             function setPassword(password){
                 if(!!password){
                     client.password = password;
@@ -56,23 +188,18 @@ angular
                 }
             }
 
+            function isActiveClient(status){
+                return !!(status > 0 && status != 2);
+            }
+
             function setGuest(){
                 client.guest = true;
                 saveClient();
                 markClientAsOk();
             }
 
-            function updateClient(data, password) {
-//                console.log('updateClient:');
-//                console.log(data);
-                client.id_client = data.id_client;
-                client.user_id = data.user_id;
-                client.login = data.login;
-                client.session = data.session;
-                client.auth_token = data.auth_token;
-                setPassword(password);
-                saveClient();
-                return true;
+            function isGuest(){
+                return client.guest && client.guest === true;
             }
 
             function loadClient(){
@@ -118,155 +245,79 @@ angular
                 }
             }
 
-            return {
+            function setRegId(id) {
+                hasToUpdateRegId = true;
+                client.regId = id;
+                saveClient();
+            }
 
-                /**
-                 * @ngdoc function
-                 * @name core.Services.Client#init
-                 * @methodOf core.Services.Client
-                 * @return {boolean} Returns a boolean value
-                 */
-                init : function() {
+            function setHasFavorites(value){
+                client.hasFavorites = value;
+                saveClient();
+            }
+
+            function getHasFavorites(){
+                if(!client.hasFavorites){
                     loadClient();
-                    return true;
-                },
+                }
+                return client.hasFavorites === true;
+            }
 
-                updateClient : updateClient,
+            function enableFavoritesFilter(value){
+                client.isFavoritesFilterActive = value;
+                saveClient();
+            }
 
-                setGuest: setGuest,
+            function isFavoritesFilterActive(){
+                if(!client.isFavoritesFilterActive){
+                    loadClient();
+                }
+                return client.isFavoritesFilterActive;
+            }
 
-                isGuest : function(){
-                    return client.guest && client.guest === true;
-                },
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.ClientManager#isActiveClient
-                 * @description
-                 * {
-                 *  -1 : Unsuscribed by Upstream,
-                 *   0 : Unsuscribed by User,
-                 *   1 : Active and Paid,
-                 *   2 : Trial period, awaiting confirmation
-                 * }
-                 * @methodOf core.Services.ClientManager
-                 * @return {boolean} Returns a boolean value
-                 */
-                isActiveClient : function (status){
-                    return !!(status > 0 && status != 2);
-                },
-                getClientId : function(){
-                    return client.id_client;
-                },
-                setNickname : function(nickname){
-                    client.nickname = nickname;
-                },
-                getNickname : function(){
-                    return client.nickname;
-                },
-                getSession : function(){
-                    return client.session;
-                },
-                getUpstreamAuthToken: function(){
-                    return client.auth_token;
-                },
-                getPassword : function(){
-                    return client.password;
-                },
-
-                setPassword : setPassword,
-
-                getClientPushAlerts : function(){
-                    return clientPushAlerts;
-                },
-
-                isClientOk : function(){
-                    return clientDataSafe;
-                },
-
-                getMsisdn: function(){
-                    return client.msisdn;
-                },
-
-                setMsisdn : setMsisdn,
-
-                getRegId : function(){
-                    return client.regId;
-                },
-
-                setRegId : function (id) {
-                    hasToUpdateRegId = true;
-                    client.regId = id;
-                    saveClient();
-                },
-
-                hasToUpdateRegId : function (){
-                    return hasToUpdateRegId;
-                },
-
-                setHasFavorites: function(value){
-                    client.hasFavorites = value;
-                    saveClient();
-                },
-
-                getHasFavorites : function(){
-                    if(!client.hasFavorites){
-                        loadClient();
-                    }
-                    return client.hasFavorites === true;
-                },
-
-                enableFavoritesFilter: function(value){
-                    client.isFavoritesFilterActive = value;
-                    saveClient();
-                },
-
-                isFavoritesFilterActive : function(){
-                    if(!client.isFavoritesFilterActive){
-                        loadClient();
-                    }
-                    return client.isFavoritesFilterActive;
-                },
-
-                setLanguage : function(language, callback){
+            function setLanguage(language, callback){
+                if(language){
+                    $translate.use(language.short_name.toLowerCase());
                     client.language = language;
                     saveClient();
                     typeof callback === 'function' && callback();
-                },
-
-                getLanguage : function(){
-                    if(!client.language){
-                        loadClient();
-                    }
-                    return client.language;
-                },
-
-                getFriends : function(){
-                    if(!client.friends){
-                        loadClient();
-                    }
-                    return client.friends;
-                },
-
-                getFriendsIds : function(){
-                    var idFriends = [];
-                    if(!client.friends){
-                        loadClient();
-                    }
-
-                    if(client.friends){
-                        idFriends = client.friends.map(function(friend){
-                            return friend.id;
-                        });
-                    }
-
-                    return idFriends;
-                },
-
-                setFriends : function(pFriends){
-                    client.friends = pFriends;
-                    saveClient();
                 }
-            };
+            }
+
+            function getLanguage(){
+                if(!client.language){
+                    loadClient();
+                }
+                return client.language;
+            }
+
+            function getFriends(){
+                if(!client.friends){
+                    loadClient();
+                }
+                return client.friends;
+            }
+
+            function setFriends(pFriends){
+                client.friends = pFriends;
+                saveClient();
+            }
+
+            function getFriendsIds(){
+                var idFriends = [];
+                if(!client.friends){
+                    loadClient();
+                }
+
+                if(client.friends){
+                    idFriends = client.friends.map(function(friend){
+                        return friend.id;
+                    });
+                }
+
+                return idFriends;
+            }
+
+            return service;
         }
     ]);

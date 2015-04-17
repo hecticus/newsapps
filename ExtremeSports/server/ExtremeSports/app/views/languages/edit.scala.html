@@ -21,32 +21,41 @@
     <fieldset>
         <legend>@Messages("languages.info")</legend>
 
-        @inputText(
-            languageViewForm("name"),
-            '_label -> Messages("languages.name"),
-            '_help -> Messages("languages.name.help"),
-            'class -> "form-control",
-            '_error -> languageViewForm.globalError
-        )
+        <div class="form-group">
+            <div class="col-lg-4">
+                @inputText(
+                    languageViewForm("name"),
+                    '_label -> Messages("languages.name"),
+                    '_help -> Messages("languages.name.help"),
+                    'class -> "form-control",
+                    '_error -> languageViewForm.globalError
+                )
+            </div>
+            <div class="col-lg-4">
+                @inputText(
+                languageViewForm("shortName"),
+                    '_label -> Messages("languages.shortname"),
+                    '_help -> Messages("languages.shortname.help"),
+                    'class -> "form-control",
+                    '_error -> languageViewForm.globalError
+                )
+            </div>
+            <div class="col-lg-4">
+                @inputText(
+                    languageViewForm("active"),
+                    '_label -> Messages("languages.active"),
+                    '_help -> Messages("languages.active.help"),
+                    'class -> "form-control",
+                    '_error -> languageViewForm.globalError
+                )
+            </div>
+        </div>
 
-        @inputText(
-            languageViewForm("shortName"),
-            '_label -> Messages("languages.shortname"),
-            '_help -> Messages("languages.shortname.help"),
-            'class -> "form-control",
-            '_error -> languageViewForm.globalError
-        )
+        @input(languageViewForm("appLocalizationFile"), '_label -> Messages("athletes.image.file")) { (id, name, value, _) =>
+            <input type="text" name="@name" value="@value" readonly="" class="form-control floating-label" placeholder="">
+            <input type="file" name="@name" value="@value" id="inputFile" multiple="">
 
-        @inputText(
-            languageViewForm("active"),
-            '_label -> Messages("languages.active"),
-            '_help -> Messages("languages.active.help"),
-            'class -> "form-control",
-            '_error -> languageViewForm.globalError
-        )
-
-
-
+        }
 
     </fieldset>
 

@@ -3,6 +3,7 @@ package controllers.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import controllers.HecticusController;
 import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
@@ -157,13 +158,13 @@ public class Clients extends HecticusController {
                                 }
                             }
                         }
-//                        Esto lo comente porque desde WAP no hay Reg ID
-//                        if (devices.isEmpty()) {
-//                            return badRequest(buildBasicResponse(4, "Faltan campos para crear el registro"));
-//                        }
-                        client.setDevices(devices);
+                    } else {
+                        int webDeviceId = Config.getInt("web-device-id");
+                        Device device = Device.finder.byId(webDeviceId);
+                        ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, UUID.randomUUID().toString());
+                        devices.add(clientHasDevice);
                     }
-
+                    client.setDevices(devices);
 
                     if (client.getPassword() != null && !client.getPassword().isEmpty()) {
                         getUserIdFromUpstream(client, upstreamChannel);
@@ -249,11 +250,6 @@ public class Clients extends HecticusController {
                     upstreamChannel = clientData.get("upstreamChannel").asText();
                 }
 
-                if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
-                    getUserIdFromUpstream(client,upstreamChannel);
-                    getStatusFromUpstream(client,upstreamChannel);
-                }
-
                 if(clientData.has("language")){
                     int languageId = clientData.get("language").asInt();
                     Language language = Language.finder.byId(languageId);
@@ -307,6 +303,31 @@ public class Clients extends HecticusController {
                             }
                         }
                     }
+                }
+
+                if(upstreamChannel.equalsIgnoreCase("web")){
+                    ClientHasDevices clientHasDevice;
+                    try {
+                        clientHasDevice = Iterables.find(client.getDevices(), new Predicate<ClientHasDevices>() {
+                            public boolean apply(ClientHasDevices obj) {
+                                return obj.getDevice().getName().equalsIgnoreCase("web");
+                            }
+                        });
+                    } catch (NoSuchElementException ex){
+                        clientHasDevice = null;
+                    }
+                    if(clientHasDevice == null) {
+                        int webDeviceId = Config.getInt("web-device-id");
+                        Device device = Device.finder.byId(webDeviceId);
+                        clientHasDevice = new ClientHasDevices(client, device, UUID.randomUUID().toString());
+                        client.getDevices().add(clientHasDevice);
+                        update = true;
+                    }
+                }
+
+                if(loginAgain && (client.getLogin() != null && !client.getLogin().isEmpty()) && (client.getPassword() != null && !client.getPassword().isEmpty())){
+                    getUserIdFromUpstream(client,upstreamChannel);
+                    getStatusFromUpstream(client,upstreamChannel);
                 }
 
                 if(clientData.has("remove_push_alert")){
@@ -890,6 +911,7 @@ public class Clients extends HecticusController {
                     if(file != null && file.exists()){
                         byte[] encoded = Files.readAllBytes(Paths.get(filePath));
                         String localization =  new String(encoded, StandardCharsets.UTF_8);
+                        response().setHeader("Content-Type", "application/json");
                         return ok(localization);
                     } else {
                         return notFound();
@@ -1301,16 +1323,26 @@ public class Clients extends HecticusController {
      *
      */
     private static void subscribeUserToUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() == null){
+        String upstreamGuestUser = Config.getString("upstreamGuestUser");
+        if(client.getLogin() == null || client.getLogin().equalsIgnoreCase(upstreamGuestUser)){
+            if(client.getLogin() == null){
+                client.setLogin(upstreamGuestUser);
+            }
+            if(client.getPassword() == null){
+                client.setPassword(Config.getString("upstreamGuestPassword"));
+            }
+            if(client.getUserId() == null){
+                client.setUserId(Config.getString("upstreamUserID"));
+            }
             client.setStatus(2);
         } else {
             String msisdn = client.getLogin();
             String password = client.getPassword();
             String push_notification_id = null;
 
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1400,9 +1432,9 @@ public class Clients extends HecticusController {
             String userID = client.getUserId();
             String password = client.getPassword();
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1479,16 +1511,26 @@ public class Clients extends HecticusController {
      *
      */
     private static void getUserIdFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() == null){
+        String upstreamGuestUser = Config.getString("upstreamGuestUser");
+        if(client.getLogin() == null || client.getLogin().equalsIgnoreCase(upstreamGuestUser)){
+            if(client.getLogin() == null){
+                client.setLogin(upstreamGuestUser);
+            }
+            if(client.getPassword() == null){
+                client.setPassword(Config.getString("upstreamGuestPassword"));
+            }
+            if(client.getUserId() == null){
+                client.setUserId(Config.getString("upstreamUserID"));
+            }
             client.setStatus(2);
         } else {
             String username = client.getLogin();
             String password = client.getPassword();
             //String channel = "Android";
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1569,14 +1611,15 @@ public class Clients extends HecticusController {
      *
      */
     private static void getStatusFromUpstream(Client client, String upstreamChannel) throws Exception{
-        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null){
+        String upstreamGuestUser = Config.getString("upstreamGuestUser");
+        if(client.getLogin() != null && client.getUserId() != null && client.getPassword() != null && !client.getLogin().equalsIgnoreCase(upstreamGuestUser)){
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1603,7 +1646,7 @@ public class Clients extends HecticusController {
                     //Se trajo la informacion con exito
                     Boolean eligible = fResponse.findValue("eligible").asBoolean();
                     //TODO: guardar en el userID la info de si esta activo o no
-                    client.setStatus(eligible ? 1 : 0);
+                    client.setStatus(eligible ? 1 : -1);
                 }else{
                     //ocurrio un error en la llamada
                     throw new Exception(errorMessage);
@@ -1758,9 +1801,9 @@ public class Clients extends HecticusController {
             String userID = client.getUserId();
             String password = client.getPassword();
             String push_notification_id = null;
-            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client);
-            }
+//            if(upstreamChannel.equalsIgnoreCase("Android")){
+                push_notification_id = getPushNotificationID(client, upstreamChannel);
+//            }
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1829,7 +1872,7 @@ public class Clients extends HecticusController {
         urlCall.setHeader("x-gameapi-app-key",upstreamAppKey);
 
         //The different versions of the API are defined in the HTTPS Accept header.
-        urlCall.setHeader("Accept"," application/"+upstreamAppVersion+"+json");
+        urlCall.setHeader("Accept","application/"+upstreamAppVersion+"+json");
         urlCall.setMethod("POST");
         return urlCall;
     }
@@ -1843,7 +1886,7 @@ public class Clients extends HecticusController {
             metadata = Json.newObject();
         }
         fields.put("service_id", upstreamServiceID);
-        if(push_notification_id != null && !push_notification_id.isEmpty() && upstreamChannel.equalsIgnoreCase("Android")){
+        if(push_notification_id != null && !push_notification_id.isEmpty()){// && upstreamChannel.equalsIgnoreCase("Android")){
             fields.put("push_notification_id",push_notification_id);
             fields.put("device_id",push_notification_id);
         }
@@ -1854,18 +1897,18 @@ public class Clients extends HecticusController {
         return fields;
     }
     //get push_notification_id for upstream
-    private static String getPushNotificationID(Client client){
+    private static String getPushNotificationID(Client client, String channel){
         String push_notification_id = null;
-        try{
+        try {
             List<ClientHasDevices> devices = client.getDevices();
-            for (int i=0; i<devices.size(); i++){
-                if(devices.get(i).getDevice().getName().equalsIgnoreCase("droid")){
+            for (int i = 0; i < devices.size(); i++) {
+                if (devices.get(i).getDevice().getName().equalsIgnoreCase(channel)) {
                     //con el primer push_notification_id nos basta por ahora
                     push_notification_id = devices.get(i).getRegistrationId();
                     break;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             //no hacemos nada si esto falla
         }
         return push_notification_id;

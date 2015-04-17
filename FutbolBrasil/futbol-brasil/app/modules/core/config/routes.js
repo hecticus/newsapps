@@ -11,7 +11,7 @@ angular
     .module('core')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/news');
+        $urlRouterProvider.otherwise('/prediction');
 
         /**
          * @ngdoc event
@@ -33,7 +33,8 @@ angular
                     prev: 'login',
                     next: 'login',
                     _class: 'content-login',
-                    section: 'login'
+                    section: 'login',
+                    state: 'login'
                 }
             })
             .state('remind', {
@@ -44,7 +45,8 @@ angular
                     prev: 'login',
                     next: 'login',
                     _class: 'content-login',
-                    section: 'remind'
+                    section: 'remind',
+                    state: 'remind'
                 }
             })
             .state('settings', {
@@ -52,10 +54,11 @@ angular
                 templateUrl:'modules/core/views/settings.html',
                 controller:'SettingsController',
                 data:{
-                    prev: 'news',
-                    next: 'news',
+                    prev: 'prediction',
+                    next: 'prediction',
                     _class: 'content-settings',
-                    section: 'settings'
+                    section: 'settings',
+                    state: 'settings'
                 }
             })
             .state('team-selection', {
@@ -66,7 +69,8 @@ angular
                     prev: 'settings',
                     next: 'news',
                     _class: 'content-team-selection',
-                    section: 'team-selection'
+                    section: 'team-selection',
+                    state: 'team-selection'
                 }
             })
             .state('language-selection', {
@@ -77,7 +81,8 @@ angular
                     prev: 'settings',
                     next: 'news',
                     _class: 'content-language-selection',
-                    section: 'language-selection'
+                    section: 'language-selection',
+                    state: 'language-selection'
                 }
             })
             .state('match', {
@@ -88,7 +93,8 @@ angular
                     prev: 'mtm',
                     next: 'standings',
                     _class: 'content-match',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'match'
                 }
             })
             .state('standings', {
@@ -99,19 +105,25 @@ angular
                     prev: 'match',
                     next: 'news',
                     contentClass: 'content-standings',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'standings'
                 }
             })
             .state('news', {
-                url: '/news',
+                url: '/news/{newsId:int}',
+                params : {
+                  newsId : {value: null, squash: true}
+                },
                 controller:'NewsCtrl  as _this',
                 templateUrl:'modules/core/views/news.html',
                 data:{
                     prev: 'standings',
                     next: 'scorers',
                     contentClass: 'content-news',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'news'
                 }
+
             })
             .state('scorers', {
                 url: '/scorers',
@@ -121,7 +133,8 @@ angular
                     prev: 'news',
                     next: 'mtm',
                     contentClass: 'content-scorers',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'scorers'
                 }
             })
             .state('mtm', {
@@ -132,7 +145,8 @@ angular
                     prev: 'scorers',
                     next: 'match',
                     contentClass: 'content-mtm',
-                    section: 'notistats'
+                    section: 'notistats',
+                    state: 'mtm'
                 }
             })
             .state('prediction', {
@@ -143,7 +157,8 @@ angular
                     prev: 'points',
                     next: 'leaderboard',
                     contentClass: 'content-prediction',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'prediction'
                 }
             })
             .state('leaderboard', {
@@ -154,7 +169,8 @@ angular
                     prev: 'prediction',
                     next: 'friends',
                     contentClass: 'content-leaderboard',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'leaderboard'
                 }
             })
             .state('friends', {
@@ -164,8 +180,9 @@ angular
                 data:{
                     prev: 'leaderboard',
                     next: 'points',
-                    contentClass: 'content-friends',
-                    section: 'bets'
+                    contentClass: 'content-leaderboard',
+                    section: 'bets',
+                    state: 'friends'
                 }
             })
             .state('points', {
@@ -176,7 +193,32 @@ angular
                     prev: 'friends',
                     next: 'prediction',
                     contentClass: 'content-points',
-                    section: 'bets'
+                    section: 'bets',
+                    state: 'points'
+                }
+            })
+            .state('terms', {
+                url: '/terms',
+                controller:'TermsController as terms',
+                templateUrl:'modules/core/views/terms.html',
+                data:{
+                    prev: 'login',
+                    next: 'login',
+                    contentClass: 'content-terms',
+                    section: 'terms',
+                    state: 'terms'
+                }
+            })
+            .state('tutorial', {
+                url: '/tutorial',
+                controller:'TutorialController as tutorial',
+                templateUrl:'modules/core/views/tutorial.html',
+                data:{
+                    prev: 'login',
+                    next: 'login',
+                    contentClass: 'content-tutorial',
+                    section: 'tutorial',
+                    state: 'tutorial'
                 }
             });
     }

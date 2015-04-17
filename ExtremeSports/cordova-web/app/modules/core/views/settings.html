@@ -1,0 +1,126 @@
+
+<div id="settings-wrapper" class="wrapper">
+    <div class="scroller">
+        <div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="mdi-action-account-circle"></span>
+                                <span translate>SETTINGS.NICKNAME_TITLE</span></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="control-label sr-only"
+                                       for="inputDefault" translate>SETTINGS.NICKNAME_TITLE</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="inputDefault"
+                                           ng-disabled="!settings.isEditing"
+                                           ng-model="settings.nickname"
+                                           placeholder="{{ 'SETTINGS.NICKNAME_PLACEHOLDER' | translate}}"
+                                           hc-focus="settings.isEditing">
+                                </div>
+                                <div class="col-xs-4">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-xs" type ="button" ng-click="settings.saveNickname()"
+                                                ng-class="settings.getEditingButtonClass()">
+                                            <i ng-class="settings.getEditingIconClass()"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="mdi-social-notifications-on"></span>
+                                {{ 'SETTINGS.PUSH_TITLE' | translate }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <!--<div class="col-xs-12">-->
+                                    <!--<div class="form-group">-->
+                                        <!--<div class="togglebutton">-->
+                                            <!--<label>-->
+                                                <!--<input type="checkbox" ng-checked="settings.toggles.bets"-->
+                                                       <!--ng-model="settings.toggles.bets"-->
+                                                       <!--ng-click="settings.toggleBets()">-->
+                                                <!--<div class="toggle"></div>-->
+                                            <!--</label>-->
+                                            <!--<span translate>SETTINGS.TOGGLE.BETS</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" ng-checked="settings.toggles.news"
+                                                       ng-click="settings.toggleNews()">
+                                                <div class="toggle"></div>
+                                            </label>
+                                            <span translate>SETTINGS.TOGGLE.NEWS</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" ng-checked="settings.toggles.mtm"
+                                                       ng-click="settings.toggleMtm()">
+                                                <div class="toggle"></div>
+                                            </label>
+                                            <span translate>SETTINGS.TOGGLE.MTM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="mdi-action-language"></span>
+                                {{'SETTINGS.LANGUAGES_TITLE' | translate}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="lang-tag" style="padding:8px;">{{settings.lang.short_name}}</i>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h6 class="lang-name">{{settings.lang.translation}}</h6>
+                                </div>
+                                <div class="col-xs-2">
+                                    <button class="btn btn-danger btn-xs text-center"
+                                            ng-click="settings.selectLanguage()">
+                                        <i class="mdi-content-create"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="mdi-social-people"></span>
+                                {{ 'SETTINGS.SOCIAL_ACCOUNTS_TITLE' | translate }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <button class="btn btn-info text-center"
+                                            ng-click="settings.onFbButtonClick()"
+                                            ng-bind="settings.fbObject.fbButtonMsg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

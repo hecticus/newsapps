@@ -1,53 +1,60 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.hecticus.futbolbrasil" version="0.3"
-        xmlns="http://www.w3.org/ns/widgets">
-	<name>FutbolBrasil</name>
-	<description>
-		FutbolBrasil app.
-	</description>
-	<author email="contact@hecticus.com" href="http://www.hecticus.com">
+<widget id="com.hecticus.futbolbrasil" version="0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Tim Palpites Vencedor</name>
+    <description>
+      Tim Palpites Vencedor App.
+	  </description>
+    <author email="contact@hecticus.com" href="http://www.hecticus.com">
 		Hecticus Software Inc
 	</author>
     <content src="index.html" />
     <access origin="*" />
-
     <platform name="android">
-        <splash src="res/splash.png" density="hdpi"/>
+        <!--splash density="hdpi" src="res/splash.png" /-->
     </platform>
+    <platform name="ios">
+        <framework src="SystemConfiguration.framework" />
+    </platform>
+    <preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="true" />
+    <preference name="target-device" value="universal" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="android-minSdkVersion" value="10" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="BackupWebStorage" value="cloud" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="TopActivityIndicator" value="gray" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" />
+    <preference name="PaginationMode" value="unpaginated" />
+    <preference name="permissions" value="none" />
+    <preference name="useBrowserHistory" value="true" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
 
-	<preference name="orientation" value="portrait" />
-	<preference name="fullscreen" value="true" />
 
-	<preference name="target-device" value="universal" />
-	<preference name="prerendered-icon" value="true" />
 
-	<preference name="android-minSdkVersion" value="10" />
-	<preference name="android-installLocation" value="auto" />
-	<preference name="splash-screen-duration" value="5000"/>
+    <preference name="disable-cursor" value="false" />
+    <preference name="load-url-timeout" value="100000" />
 
-	<preference name="AllowInlineMediaPlayback" value="false" />
-	<preference name="BackupWebStorage" value="cloud" />
-	<preference name="DisallowOverscroll" value="false" />
-	<preference name="EnableViewportScale" value="false" />
-	<preference name="KeyboardDisplayRequiresUserAction" value="true" />
-	<preference name="MediaPlaybackRequiresUserAction" value="false" />
-	<preference name="SuppressesIncrementalRendering" value="false" />
-	<preference name="TopActivityIndicator" value="gray" />
-	<preference name="GapBetweenPages" value="0" />
-	<preference name="PageLength" value="0" />
-	<preference name="PaginationBreakingMode" value="page" />
-	<preference name="PaginationMode" value="unpaginated" />
-	<preference name="permissions" value="none" />
-	<preference name="useBrowserHistory" value="true" />
+    <feature name="SplashScreen">
+      <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    </feature>
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="5000" />
 
-	<preference name="webviewbounce" value="true" />
-	<preference name="stay-in-webview" value="false" />
-	<preference name="ios-statusbarstyle" value="black-opaque" />
-	<preference name="detect-data-types" value="true" />
-	<preference name="exit-on-suspend" value="false" />
-	<preference name="show-splash-screen-spinner" value="true" />
-	<preference name="auto-hide-splash-screen" value="true" />
-	<preference name="disable-cursor" value="false" />
-	<preference name="load-url-timeout" value="100000" />
-
+<!--    <feature name="Device">-->
+<!--        <param name="android-package" value="org.apache.cordova.device.Device" />-->
+<!--    </feature>-->
 </widget>

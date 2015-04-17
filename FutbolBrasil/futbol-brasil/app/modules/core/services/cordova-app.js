@@ -7,23 +7,62 @@
  */
 angular
     .module('core')
-    .factory('CordovaApp',['$state', '$window', '$timeout', 'CordovaDevice', 'WebManager', 'ClientManager',
-        'PushManager', 'FacebookManager', 'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics',
-        function($state, $window, $timeout, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics) {
+    .factory('CordovaApp',['$rootScope', '$state', '$window', '$timeout', '$translate',
+        'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
+        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics', 'i18n', 'News', 'Domain',
+        function($rootScope, $state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
+                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics, i18n, News, Domain) {
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
+            var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
             var onSettingsSection = false;
 
-            //TODO i18n-alizar
-            var strings = {
-                EXIT_APP_TITLE : 'Sair do Aplicativo',
-                EXIT_APP_MSG : 'Tem certeza de que deseja sair do aplicativo?',
-                OK : 'Ok',
-                CANCEL : 'Cancelar'
+            var strings = {};
+
+            //noinspection UnnecessaryLocalVariableJS
+            var service = {
+
+                /**
+                 * @ngdoc function
+                 * @name core.Services.CordovaApp#init
+                 * @methodOf core.Services.CordovaApp
+                 */
+                init : init,
+
+                setCurrentSection : function(sect){
+                    currentSection = sect;
+                },
+                getCurrentSection : function(){
+                    return currentSection;
+                },
+
+                setPreviousSection : function(sect){
+                    prevSection = sect;
+                },
+                getPreviousSection : function(){
+                    return prevSection;
+                },
+
+                errorStartApp : errorStartApp,
+
+                getVersion: getVersion,
+
+                isBlockedSection : isBlockedSection,
+
+                isSettingsSubSection : isSettingsSubSection,
+
+                isOnUtilitySection : isOnUtilitySection,
+
+                requiresAuthSection : requiresAuthSection,
+
+                setIsOnSettingsSection: setIsOnSettingsSection,
+
+                onBackButtonPressed: onBackButtonPressed,
+
+                showNotificationDialog: showNotificationDialog
             };
 
             function getVersion(){
@@ -40,12 +79,7 @@ angular
             }
 
             function exitApp(){
-                try{
-                    FacebookManager.clearIntervalFriendsLoader();
-                } catch(e){
-
-                }
-
+                FacebookManager.clearIntervalFriendsLoader();
                 Upstream.appCloseEvent();
 
                 //Legacy
@@ -58,31 +92,30 @@ angular
                 }
             }
 
-            function hideMenu() {
-                var menuWrapper = $('#wrapperM');
-                if (menuWrapper.hasClass('right')) {
-                    menuWrapper.attr('class', ' page transition left');
-                }
-            }
-
             function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
                 if ($('#wrapperM').hasClass('right')) {
-                    hideMenu();
+                     $rootScope.hideMenu();
                 } else if(isOnUtilitySection()){
-//                    console.log('onSettingsSection:' + onSettingsSection);
-                    if(onSettingsSection){
+                    if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
-                    } else if(prevSection){
-                        $state.go(prevSection);
+                    } else {
+                      $state.go($rootScope.previousState);
+                    }
+
+                    /* else if(prevSection) {
+                        alert('onBackButtonPressed.3');
+                        $state.go($rootScope.previousState);
                     } else if($state.current.data){
                         $state.go($state.current.data.prev);
-                    }
+                    }*/
+
                 } else if(hasPreviousSubsection){
-                    angular.element('.page.back.left:last')
-                        .attr('class', ' page transition right');
+                    angular.element('.page.back.left:last').attr('class', ' page transition right');
+                    $rootScope.isPageContentLeft = false;
+                    $rootScope.$apply();
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
@@ -133,8 +166,14 @@ angular
                 });
             }
 
+            function isSettingsSubSection(section){
+                return settingsSubSections.some(function(settingsSubSection){
+                    return settingsSubSection === currentSection;
+                });
+            }
+
             function requiresAuthSection(section){
-                return !(section === 'login' || section === 'remind');
+                return !(section === 'login' || section === 'remind' || section === 'terms' || section === 'tutorial');
             }
 
             function isBlockedSection(section){
@@ -148,19 +187,21 @@ angular
             }
 
             function bindEvents() {
-//                    console.log('CordovaApp. bindEvents. ');
                 document.addEventListener('deviceready', onDeviceReady, false);
+
+                if(CordovaDevice.isWebPlatform()){
+                  console.log('bindevents. platform: Web');
+                    initAllAppData();
+                }
+
                 document.addEventListener('touchmove', function (e) {
                     e.preventDefault();
                 }, false);
+            }
 
-//                if(typeof CustomEvent === 'function'){
-//                    var event = new CustomEvent("deviceready", { "detail": "Dummy deviceready event" });
-//                    document.dispatchEvent(event);
-//                }
-                if(CordovaDevice.isWebPlatform()){
-                    initAllAppData();
-                }
+            function onDeviceReady() {
+                receivedEvent('deviceready');
+                initAllAppData();
             }
 
             function receivedEvent(id){
@@ -169,18 +210,12 @@ angular
                         console.log('backbutton event');
                         onBackButtonPressed();
                     }, false);
-                    getVersion();
                 }
             }
 
-            function onDeviceReady() {
-                receivedEvent('deviceready');
-                initAllAppData();
-            }
-
-            function startApp(isActive, status){
-                    console.log("startApp. Starting App: Client Active: " + isActive
-                        + ". Client Status: " + status);
+            function startApp(data){
+                console.log("startApp. Starting App: Client Active: " + data.is_active
+                    + ". Client Status: " + data.status);
             }
 
             function startAppOffline(){
@@ -191,26 +226,58 @@ angular
                 console.log("errorStartApp. Error. Couldn't Start Application");
             }
 
+            function getTranslations(){
+                $translate(['APP.EXIT_APP_TITLE', 'APP.EXIT_APP_MSG', 'OK', 'CANCEL'])
+                    .then(function(translation){
+                        strings['EXIT_APP_TITLE'] = translation['APP.EXIT_APP_TITLE'];
+                        strings['EXIT_APP_MSG'] = translation['APP.EXIT_APP_MSG'];
+                        strings['OK'] = translation['OK'];
+                        strings['CANCEL'] = translation['CANCEL'];
+                    });
+            }
+
             function initAllAppData() {
-                if(!!$window.StatusBar){
-                    StatusBar.hide();
-                }else{
-                    console.log('$window.StatusBar Object not available. Are you directly on a browser?');
-                }
+                getVersion();
 
                 Analytics.init();
-                ClientManager.init(startApp, errorStartApp);
+                ClientManager.init().then(startApp, errorStartApp);
 
-                if (CordovaDevice.phonegapIsOnline()) {
+                if(CordovaDevice.phonegapIsOnline()){
+                    console.log('initAllAppData. $window.StatusBar: ');
+                    console.log($window.StatusBar);
+                    if(!!$window.StatusBar){
+                        if(CordovaDevice.isAndroidPlatform()){
+                            console.log('initAllAppData. platform: Android');
+                            $window.StatusBar.hide();
+                        } else if(CordovaDevice.isIosPlatform()){
+                            console.log('initAllAppData. platform: iOS');
+                            $window.StatusBar.hide();
+                        } else {
+                            console.log('initAllAppData. platform: ' + CordovaDevice.getPlatform());
+                        }
+                    }else{
+                        console.log('$window.StatusBar Object not available. Are you directly on a browser?');
+                    }
+
                     PushManager.init();
-                    WebManager.loadServerConfigs(
-                        function(){
+                    WebManager.loadServerConfigs().then(
+                        function(data){
+                            data = data.data.response;
+                            Upstream.setUp(data).then(Upstream.appLaunchEvent);
+
+                            App.setCompanyName(data.company_name);
+                            App.setBuildVersion(data.build_version);
+                            App.setServerVersion(data.server_version);
+                            App.setUpdateInfo(data.version);
+
+                            Domain.setProvisionalLanguage(data.default_language);
+                            i18n.init(data.default_language);
+
+                            News.setMaxNews(data.max_news);
+
                             Settings.init();
                             Competitions.init();
-
-                            $timeout(function(){
-                                Upstream.appLaunchEvent();
-                            }, 300);
+                            getTranslations();
 
                             if(!CordovaDevice.isWebPlatform()){
                                 Update.checkUpdate();
@@ -228,44 +295,6 @@ angular
                 bindEvents();
             }
 
-            return {
-
-                setCurrentSection : function(sect){
-                    currentSection = sect;
-                },
-                getCurrentSection : function(){
-                    return currentSection;
-                },
-
-                setPreviousSection : function(sect){
-                    prevSection = sect;
-                },
-                getPreviousSection : function(){
-                    return prevSection;
-                },
-
-                errorStartApp : errorStartApp,
-
-                getVersion: getVersion,
-
-                isBlockedSection : isBlockedSection,
-
-                isOnUtilitySection : isOnUtilitySection,
-
-                requiresAuthSection : requiresAuthSection,
-
-                setIsOnSettingsSection: setIsOnSettingsSection,
-
-                onBackButtonPressed: onBackButtonPressed,
-
-                showNotificationDialog: showNotificationDialog,
-
-                /**
-                 * @ngdoc function
-                 * @name core.Services.CordovaApp#init
-                 * @methodOf core.Services.CordovaApp
-                 */
-                init : init
-            };
+            return service;
         }
     ]);

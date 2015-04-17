@@ -34,6 +34,7 @@ module.exports = function(config) {
             'app/lib/angular-translate/angular-translate.js',
             'app/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'app/lib/angular-socialsharing/dist/angular-socialsharing.js',
+            'app/lib/angular-translate-loader-url/angular-translate-loader-url.js',
             <!-- endinjector -->
 
             'app/js/iscroll-probe.js',

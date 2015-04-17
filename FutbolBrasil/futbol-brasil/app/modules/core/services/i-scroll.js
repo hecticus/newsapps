@@ -50,11 +50,16 @@ angular
                 vertical : function (_wrapper) {
                     delete $window[_wrapper] ;
                     $window[_wrapper] = new IScroll('#' + _wrapper, {
-                        click : true,
-                        preventDefault : true,
-                        bounce : true,
-                        probeType: 2,
-                        preventDefaultException: { tagName:/.*/ }
+                        scrollX: false,
+                        scrollY: true,
+                        mouseWheel: false,
+                        momentum: false,
+                        snap: false,
+                        snapSpeed: 700,
+                        probeType: 3,
+                        bounce: true,
+                        click: true,
+                        preventDefault:true
                     });
                     $window[_wrapper].on('beforeScrollStart', function () {
                         this.refresh();

@@ -22,6 +22,11 @@ angular
             }
 
             return {
+
+                GMT: function() {
+                  return moment().format('[GMT]ZZ');
+                },
+
                 date:function (_date) {
                     var _oMoment = moment().locale(getLang());
                     if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());

@@ -1,0 +1,29 @@
+{
+  "name": "ExtremeSports",
+  "version": "0.0.1",
+  "description": "Extreme Sports App by Hecticus Inc",
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "angular": "~1.2",
+    "angular-resource": "~1.2",
+    "angular-mocks": "~1.2",
+    "angular-cookies": "~1.2",
+    "angular-animate": "~1.2",
+    "angular-touch": "~1.2",
+    "angular-sanitize": "~1.2",
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-utils": "~0.1.1",
+    "angular-ui-router": "~0.2.10",
+    "bootstrap-material-design": "~0.3.0",
+    "ngstorage": "~0.3.0",
+    "iscroll": "https://github.com/fdefreitas-hecticus/iscroll.git#master",
+    "angular-socialsharing": "~0.1.3",
+    "moment": "~2.10.0",
+    "angular-translate": "~2.6.1",
+    "angular-translate-loader-static-files": "~2.6.1"
+  },
+  "resolutions": {
+    "iscroll": "master",
+    "angular": ">=1"
+  }
+}
