@@ -118,8 +118,7 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
 
         if(Client.getClientId()){
             jData.add_devices = devices;
-            return $http.put(Domain.client.client(), {
-                data: jData,
+            return $http.put(Domain.client.client(), jData, {
                 timeout : 60000
             }).then(success, error);
 
@@ -134,7 +133,7 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
         function success(response) {
             isNewClient = (response.status === 201);
 
-            if(response.data.error == 0 && response.data.response != null){
+            if(response.data.error === 0 && response.data.response != null){
                 //TODO manejar modificacion a athletes y categories
 //                    TeamsManager.setFavoriteTeams(response.push_alerts_teams);
                 if(Client.updateClient(response.data.response)){

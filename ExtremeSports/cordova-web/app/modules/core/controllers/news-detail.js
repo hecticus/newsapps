@@ -7,8 +7,8 @@
 */
 angular.module('core').controller('NewsDetailController', NewsDetailController);
 
-NewsDetailController.$injector = ['$state', '$stateParams', 'News'];
-function NewsDetailController($state, $stateParams, News) {
+NewsDetailController.$injector = ['$scope', '$state', '$stateParams', 'News', 'iScroll'];
+function NewsDetailController($scope, $state, $stateParams, News, iScroll) {
 
     var vm = this;
     var scroll = null;

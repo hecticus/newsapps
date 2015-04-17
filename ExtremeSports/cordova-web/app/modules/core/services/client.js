@@ -33,6 +33,8 @@ angular
 
             this.updateClient = updateClient;
 
+            this.get = get;
+
             /**
              * @ngdoc function
              * core.Services.Client
@@ -149,6 +151,10 @@ angular
                 saveClient();
                 deferred.resolve(client);
                 return deferred.promise;
+            }
+
+            function get(){
+                return client;
             }
 
             function logout(){

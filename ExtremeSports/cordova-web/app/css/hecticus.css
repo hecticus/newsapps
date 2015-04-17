@@ -142,3 +142,10 @@ body {
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
     color: #A43062 !important;
 }
+
+.img-responsive{
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    max-width: 100%;
+}

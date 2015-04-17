@@ -1,13 +1,13 @@
 .wrapper {
     position: absolute !important;
     z-index: 1;
-    top:  0;
+    top:  60px;
     bottom: 0;
     height: 100%;
     width: 100%;
     padding: 0 !important;
     margin: 0 !important;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
 }
 
 .wrapper-tab {

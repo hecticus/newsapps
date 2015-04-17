@@ -10,8 +10,8 @@ angular
     .module('core')
     .controller('LanguageSelectionController', LanguageSelectionController);
 
-LanguageSelectionController.$injector = ['$scope', '$state', '$stateParams','$translate', 'i18n', 'Client'];
-function LanguageSelectionController($scope, $state, $stateParams, $translate, i18n, Client) {
+LanguageSelectionController.$injector = ['$scope', '$state', '$stateParams','$translate', 'i18n', 'ClientManager', 'Client'];
+function LanguageSelectionController($scope, $state, $stateParams, $translate, i18n, ClientManager, Client) {
     var scroll = null;
     var vm = this;
     var isLogin = false;
@@ -23,14 +23,24 @@ function LanguageSelectionController($scope, $state, $stateParams, $translate, i
 
     init();
 
-    //////////////////////////////////////////
+    /*//////// Function Implementations  ////////*/
 
     function languageSelected(language){
         Client.setLanguage(language).then(function(){
+            ClientManager.createOrUpdateClient(Client.get()).then(success, error);
+        });
+
+        function success(){
+            var langShortName = language.short_name.toLowerCase();
+            $translate.use(langShortName);
             var state = isLogin? 'login' : 'settings';
             console.log('language set: ' + language.name + '. navigating to: ' + state);
             $state.go(state);
-        });
+        }
+
+        function error(){
+            console.log("Couldn't update client.");
+        }
     }
 
     function getLanguageClass(lang){
