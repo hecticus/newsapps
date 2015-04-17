@@ -1,0 +1,12 @@
+<div id="gallery-wrapper" class="wrapper">
+    <div class="scroller">
+        <div class="row">
+            <div class="col-xs-12 col-lg-6 col-lg-push-3 section-title section-title.default section-title-marker">
+                <h4 translate>GALLERY.TITLE</h4>
+            </div>
+        </div>
+        <div class="list-group">
+            <hc-gallery-post item="item" on-click="gallery.openDetail(item)" ng-repeat="item in gallery.items track by item.id_media"></hc-gallery-post>
+        </div>
+    </div>
+</div>
