@@ -115,7 +115,7 @@ angular
                 } else if(hasPreviousSubsection){
                     angular.element('.page.back.left:last').attr('class', ' page transition right');
                     $rootScope.isPageContentLeft = false;
-                    $rootScope.$apply();
+                    //$rootScope.$apply();
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
