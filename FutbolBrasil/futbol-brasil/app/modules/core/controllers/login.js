@@ -137,7 +137,7 @@ angular
                                 , true, remindSuccess, remindError);
                         },
                         function(){
-                            $scope.$emit('unload');
+                            //$scope.$emit('unload');
                             console.log('Error saving MSISDN');
                         }
                     );
@@ -149,7 +149,7 @@ angular
                         type: 'warning'
                     });
                 }
-                $scope.$emit('unload');
+                //$scope.$emit('unload');
             };
 
             $scope.doMsisdnLogin = function(){
@@ -170,12 +170,14 @@ angular
                         type: 'warning'
                     });
                 }
-                $scope.$emit('unload');
+               // $scope.$emit('unload');
             };
 
             $scope.enterAsGuest = function(){
+                $scope.$emit('load');
                 ClientManager.createOrUpdateClient({}, true, loginSuccess, loginError);
                 Client.setGuest();
+                $scope.$emit('unload');
             };
 
             function setUpIScroll(){

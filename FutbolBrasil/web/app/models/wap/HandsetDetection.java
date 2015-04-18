@@ -156,7 +156,7 @@ public class HandsetDetection extends Controller {
         return general_vendor;
     }
 
-    public void settGeneralVendor(String general_vendor) {
+    public void setGeneralVendor(String general_vendor) {
         this.general_vendor = general_vendor;
     }
 

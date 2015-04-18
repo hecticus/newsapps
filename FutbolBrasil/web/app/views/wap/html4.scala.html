@@ -1,4 +1,4 @@
-@(content: Html)
+@(bMenu: Boolean)(content: Html)
 @import play.i18n._
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
@@ -30,9 +30,17 @@
     <body>
         <div class="container">
             <div class="header" style="text-align:center;">futbol Brasil</div>
-            @menu
+
+            @if(bMenu) {
+                @menu
+            }
+
             @content
-            @menu
+
+            @if(bMenu) {
+                @menu
+            }
+
             <div class="header" style="text-align:center;">futbol Brasil</div>
         </div>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

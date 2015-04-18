@@ -16,14 +16,19 @@ angular
 
             function init(){
 
-              //$('#screen-block').removeClass('hidden');
+              $scope.$emit('load');
+
               $('#load').load(jLoading.wap_terms,
                 function(response, status, xhr){
-                  //$('#screen-block').addClass('hidden');
+
+                  $scope.$emit('unload');
+
                   if(status == "success")
                     alert("Successfully loaded the content!");
+
                   if(status == "error")
                     alert("An error occurred: " + xhr.status + " - " + xhr.statusText);
+
               });
 
               $scope.scroll = iScroll.vertical('wrapper');

@@ -1,7 +1,7 @@
 <div id="wrapperH">
     <div id="scroller" ng-style="getTotalWidth()">
         <ul>
-            <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions" >
+            <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions"  >
                 <div class="row row-header">
 
                     <div class="col-xs-12">
@@ -90,14 +90,16 @@
                         </div>	<!--scroller-->
                     </div> <!--wrapper-->
                 </div> <!--row-->
-                <div class="row" ng-show="league.empty">
-                    <div class="col-xs-12 news">
-                        <div class="no-content-panel" style="margin-top: 100px !important;">
-                            <i class="mdi-action-info-outline"></i>
-                            <div class="no-content-panel-title" translate>EMPTY_STATES.PREDICTIONS</div>
-                        </div>
-                    </div>
+
+
+
+                <div  class="no-content-panel h-horizontal" ng-show="league.empty" >
+                  <div class="h-vertical">
+                    <i class="mdi-action-info-outline"></i>
+                    <div class="no-content-panel-title" translate>EMPTY_STATES.PREDICTIONS</div>
+                  </div>
                 </div>
+
             </li>
         </ul>
     </div>
