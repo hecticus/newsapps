@@ -1,0 +1,56 @@
+/*Search Lists (Team/Language Selection)*/
+
+.search-bar {
+    margin-bottom: 0 !important;
+    position: absolute;
+    z-index: 2;
+    top: -1px;
+}
+
+.search-list-wrapper {
+    margin-top: 75px !important;
+}
+
+.search-list-item {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.search-list-pager {
+    position: absolute;
+    z-index: 2;
+    top: 84%;
+    width: 90%;
+}
+
+.search-list-pager li span {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+}
+
+/*Settings*/
+
+.settings-wrapper {
+    top: 65px !important;
+    background-color: transparent !important;
+}
+
+/*Settings Language*/
+
+.lang-tag {
+    font-weight: bold;
+    font-style: normal;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 100%;
+    text-align: center;
+    line-height: 56px;
+    font-size: 20px;
+    color: white;
+    width: 56px;
+    height: 56px;
+}
+
+.lang-name {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 16px;
+}
