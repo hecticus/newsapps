@@ -174,8 +174,10 @@ angular
             };
 
             $scope.enterAsGuest = function(){
+                $scope.$emit('load');
                 ClientManager.createOrUpdateClient({}, true, loginSuccess, loginError);
                 Client.setGuest();
+                $scope.$emit('unload');
             };
 
             function setUpIScroll(){
