@@ -27,7 +27,7 @@ angular
                 }
             }
 
-            $scope.isWeb = false;
+            //$scope.isWeb = false;
 
             function getTranslations(){
 
