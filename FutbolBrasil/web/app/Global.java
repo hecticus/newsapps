@@ -41,6 +41,8 @@ public class Global extends GlobalSettings {
 
 	public void onStart(Application app) {
         super.onStart(app);
+
+        /*
 		PlayAuthenticate.setResolver(new Resolver() {
 
 			@Override
@@ -90,7 +92,7 @@ public class Global extends GlobalSettings {
 				// more custom problem handling here...
 				return super.onException(e);
 			}
-		});
+		});*/
 
 		initialData();
         BufferedReader br = null;
