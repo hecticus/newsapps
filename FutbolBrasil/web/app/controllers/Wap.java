@@ -24,6 +24,7 @@ public class Wap extends Controller {
     public static Integer MAX_LENGTH_MSISDN = 9;
     public static Integer COUNTRY = 1; //Brasil
     public static Integer LANGUAGE = 405; //Portuguese
+    public static String UPSTREAM_CHANNEL = "Web";
     public static Domain oDomain = new Domain();
     public static Form<Client> form = form(Client.class);
     public static HandsetDetection HD = new HandsetDetection();
@@ -47,10 +48,12 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
         }
 
-        ObjectNode jCompetition = Json.newObject();
+        /*ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", COUNTRY);
         jCompetition.put("login", sMsisdn);
         jCompetition.put("language",LANGUAGE);
+        jCompetition.put("upstreamChannel",UPSTREAM_CHANNEL);
+
         Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
         JsonNode jResponse = wsResponse.get(10000).asJson();
 
@@ -62,8 +65,10 @@ public class Wap extends Controller {
             return ok(login.render(filledForm,HD,1));
         } else {
             return ok(error.render(HD,sDescription));
-        }
+        }*/
 
+        setAccessControl(filledForm);
+        return ok(login.render(filledForm,HD,1));
     }
 
     public static Result createClient() {
@@ -77,11 +82,12 @@ public class Wap extends Controller {
             return ok(login.render(filledForm,HD,1));
         }
 
-        ObjectNode jCompetition = Json.newObject();
+        /*ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country",COUNTRY);
         jCompetition.put("login", filledForm.field("msisdn").value());
         jCompetition.put("password",filledForm.field("password").value());
         jCompetition.put("language",LANGUAGE);
+        jCompetition.put("upstreamChannel",UPSTREAM_CHANNEL);
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -94,9 +100,10 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.index());
         } else {
             return ok(error.render(HD,sDescription));
-        }
+        }*/
 
-
+        setAccessControl(filledForm);
+        return redirect(controllers.routes.Wap.index());
     }
 
 
@@ -105,7 +112,6 @@ public class Wap extends Controller {
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
-
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(0)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
