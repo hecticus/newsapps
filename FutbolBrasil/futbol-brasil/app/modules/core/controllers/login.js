@@ -18,15 +18,6 @@ angular
             $scope.msisdn = '';
             $scope.password = '';
 
-            $scope.isWeb = function() {
-              if (CordovaDevice.isAndroidPlatform()
-                || CordovaDevice.isIosPlatform()) {
-                  return false;
-                } else {
-                  return true;
-                }
-            }
-
             //$scope.isWeb = false;
 
             function getTranslations(){
