@@ -17,16 +17,17 @@ import play.api.mvc.Cookie;
 import play.api.mvc.DiscardingCookie;
 import static play.data.Form.form;
 import java.lang.Object;
+import java.util.Arrays;
 import java.text.Format;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
+import org.apache.commons.lang3.ArrayUtils;
 
 public class Wap extends Controller {
 
     public static Integer LIMIT = 5;
-    public static Integer MIN_LENGTH_MSISDN = 9;
-    public static Integer MAX_LENGTH_MSISDN = 9;
+    public static Integer MIN_LENGTH_MSISDN = 11;
+    public static Integer MAX_LENGTH_MSISDN = 11;
     public static Integer COUNTRY = 1; //Brasil
     public static Integer LANGUAGE = 405; //Portuguese
     public static String UPSTREAM_CHANNEL = "Web";
@@ -34,10 +35,13 @@ public class Wap extends Controller {
     public static Form<Client> form = form(Client.class);
     public static HandsetDetection HD = new HandsetDetection();
 
+
     public static Result getLogin() {
 
         getLoading();
-        System.out.println(getTimeStampFormat());
+        System.out.println("getTimeStampFormat -> " + getTimeStampFormat());
+        System.out.println("ArrayUtils 1 -> " + ArrayUtils.indexOf(getTestClient(), "40766666615"));
+        System.out.println("ArrayUtils 2 -> " + ArrayUtils.indexOf(getTestClient(), "555555"));
 
         if (HD.getStatus() != 0) return ok("Error");
         return ok(login.render(form,HD,0));
@@ -57,11 +61,11 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
         }
 
-        /*ObjectNode jCompetition = Json.newObject();
+        ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", COUNTRY);
         jCompetition.put("login", sMsisdn);
         jCompetition.put("language",LANGUAGE);
-        jCompetition.put("upstreamChannel",UPSTREAM_CHANNEL);
+        jCompetition.put("upstreamChannel", UPSTREAM_CHANNEL);
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -74,10 +78,8 @@ public class Wap extends Controller {
             return ok(login.render(filledForm,HD,1));
         } else {
             return ok(error.render(HD,sDescription));
-        }*/
+        }
 
-        setAccessControl(filledForm);
-        return ok(login.render(filledForm,HD,1));
     }
 
     public static Result createClient() {
@@ -91,7 +93,7 @@ public class Wap extends Controller {
             return ok(login.render(filledForm,HD,1));
         }
 
-        /*ObjectNode jCompetition = Json.newObject();
+        ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country",COUNTRY);
         jCompetition.put("login", filledForm.field("msisdn").value());
         jCompetition.put("password",filledForm.field("password").value());
@@ -102,17 +104,17 @@ public class Wap extends Controller {
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
-              System.out.println(jResponse.toString());
+
+        System.out.println("<createClient>");
+        System.out.println(jResponse.toString());
+        System.out.println("</createClient>");
 
         if (iError == 0) {
             setAccessControl(filledForm);
             return redirect(controllers.routes.Wap.index());
         } else {
             return ok(error.render(HD,sDescription));
-        }*/
-
-        setAccessControl(filledForm);
-        return redirect(controllers.routes.Wap.index());
+        }
     }
 
 
@@ -121,6 +123,9 @@ public class Wap extends Controller {
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
+
+
+        System.out.println(oDomain.news(0));
 
         Promise<WSResponse> wsResponse = WS.url(oDomain.news(0)).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -312,6 +317,14 @@ public class Wap extends Controller {
 
     public static String getTimeStampFormat() {
         return new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS").format(new Date()) + "UTC";
+    }
+
+    public static String[] getTestClient() {
+        String[] arrMsisdn  = {"40766666611", "40766666612",
+                "40766666613","40766666614","40766666615",
+                "40766666616","40766666617", "40766666618",
+                "40766666619","40766666620"};
+        return arrMsisdn;
     }
 
 }

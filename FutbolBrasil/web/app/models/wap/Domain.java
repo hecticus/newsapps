@@ -10,13 +10,13 @@ public class Domain {
 
     public static final String URL_FOOTBALL_MANAGER = "http://footballmanager.hecticus.com/";
     public static final String URL_FOOTBALL_MANAGER_BRAZIL = "http://brazil.footballmanager.hecticus.com/";
-    public static final String VERSION = "0.0.2";
+    public static final String VERSION = "v1";
 
     public Domain() {}
 
     public String news(Integer idNews){
         if (idNews == 0) {
-            return URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1";
+            return URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1/405";
         } else {
             return URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/get/" + idNews;
         }

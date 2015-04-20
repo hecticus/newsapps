@@ -150,7 +150,7 @@ playauthenticate.restricted.secrets=Secrets, everywhere!
 ### --- play-authenticate END
 
 ### -- <wap> --- ###
-APP_TITLE=Football Brazil
+APP_TITLE=TIM Palpites
 MATCH_LABEL=matches
 SCORERS_LABEL=scorers
 NEWS_LABEL=news

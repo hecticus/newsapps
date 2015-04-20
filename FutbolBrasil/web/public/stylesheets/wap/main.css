@@ -19,7 +19,7 @@ body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; }
     color:#ffffff;
     font-weight: bold;
     text-transform: uppercase;
-    background: #313f75 url(/assets/images/wap/bg.png) repeat-x fixed;
+    background: #313f75;
 }
 
 
