@@ -3,6 +3,7 @@
         <ul>
             <li ng-style="getWidth()" ng-repeat="page in pages track by page.id" on-last-repeat>
                 <div class="container">
+
                     <div class="row h-header green">
                         <div class="col-xs-4 tabs text-left" ng-click="prevPage()">
                             <button ng-bind="pages[$index-1].name" ></button>

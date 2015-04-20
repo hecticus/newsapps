@@ -31,6 +31,26 @@
     <!-- endbuild -->
 
     <script src="cordova.js"></script>
+
+    <style type="text/css" media="screen">
+
+      @font-face {
+        font-family: TeutonNormal;
+        src: url(font/TeutonNormal.otf);
+      }
+
+      @font-face {
+        font-family: TeutonNormalBold;
+        src: url(font/TeutonNormal-Bold.otf);
+      }
+
+      body {
+        font-family: TeutonNormal !important;
+      }
+
+    </style>
+
+
 </head>
 
 <body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;"

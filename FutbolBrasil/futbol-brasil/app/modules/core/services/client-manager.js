@@ -160,8 +160,7 @@ angular
                           console.log(data.data);
 
                          if ((arrMsisdnTestClient.indexOf(client.msisdn) >= 0)
-                             && strPasswordTestClient === client.password
-                             && data.data.error === 3) {
+                             && strPasswordTestClient === client.password) {
                             typeof successCallback == "function" && successCallback(isNewClient);
                          } else {
                             typeof errorCallback == "function" && errorCallback();
