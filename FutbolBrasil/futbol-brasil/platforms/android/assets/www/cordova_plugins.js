@@ -1,13 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
         "id": "org.apache.cordova.dialogs.notification",
         "merges": [
@@ -258,19 +251,25 @@ module.exports = [
         "clobbers": [
             "window.wizUtils"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
+        "clobbers": [
+            "device"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.device": "0.2.13",
-    "org.apache.cordova.dialogs": "0.2.11",
-    "org.apache.cordova.network-information": "0.2.14",
-    "nl.x-services.plugins.socialsharing": "4.3.12",
+    "org.apache.cordova.dialogs": "0.3.0",
+    "org.apache.cordova.network-information": "0.2.15",
+    "nl.x-services.plugins.socialsharing": "4.3.15",
     "com.plugin.datepicker": "0.4.0",
-    "org.apache.cordova.file": "1.3.2",
-    "org.apache.cordova.console": "0.2.12",
-    "org.apache.cordova.statusbar": "0.1.9",
+    "org.apache.cordova.file": "1.3.3",
+    "org.apache.cordova.console": "0.2.13",
+    "org.apache.cordova.statusbar": "0.1.10",
     "com.synconset.cordovaHTTP": "0.1.4",
     "com.phonegap.plugins.PushPlugin": "2.2.1",
     "com.hecticus.cordova.plugins.sharedconfigurations": "1.0.0",
@@ -278,7 +277,8 @@ module.exports.metadata =
     "com.danielcwilson.plugins.googleanalytics": "0.6.1",
     "org.apache.cordova.splashscreen": "1.0.0",
     "com.xmartlabs.cordova.market": "1.0",
-    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0"
+    "jp.wizcorp.phonegap.plugin.wizUtilsPlugin": "1.0.0",
+    "org.apache.cordova.device": "0.3.0"
 }
 // BOTTOM OF METADATA
 });

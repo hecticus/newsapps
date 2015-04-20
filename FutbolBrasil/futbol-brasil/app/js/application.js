@@ -80,10 +80,10 @@ angular
                         }, CordovaApp.errorStartApp);
                     }
 
-                    /*if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
+                    if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
                         Notification.showLockedSectionDialog();
                         event.preventDefault();
-                    }*/
+                    }
 
                     $rootScope.isActiveButton = 'active';
                 } else {

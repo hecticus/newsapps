@@ -148,6 +148,7 @@ angular
                         message: strings['SET_MSISDN_MSG'],
                         type: 'warning'
                     });
+                    $scope.$emit('unload');
                 }
                 //$scope.$emit('unload');
             };
@@ -169,6 +170,7 @@ angular
                         message: strings['SET_PASSWORD_MSG'],
                         type: 'warning'
                     });
+                    $scope.$emit('unload');
                 }
                // $scope.$emit('unload');
             };
