@@ -16,6 +16,11 @@ import play.cache.Cache;
 import play.api.mvc.Cookie;
 import play.api.mvc.DiscardingCookie;
 import static play.data.Form.form;
+import java.lang.Object;
+import java.text.Format;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 
 public class Wap extends Controller {
 
@@ -30,6 +35,10 @@ public class Wap extends Controller {
     public static HandsetDetection HD = new HandsetDetection();
 
     public static Result getLogin() {
+
+        getLoading();
+        System.out.println(getTimeStampFormat());
+
         if (HD.getStatus() != 0) return ok("Error");
         return ok(login.render(form,HD,0));
     }
@@ -289,6 +298,20 @@ public class Wap extends Controller {
             return false;
         }
         return true;
+    }
+
+    public static JsonNode getLoading() {
+        Promise<WSResponse> wsResponse = WS.url(oDomain.loading()).get();
+        JsonNode jResponse = wsResponse.get(10000).asJson();
+        Integer iError = jResponse.get("error").asInt();
+        String sDescription = jResponse.get("description").asText();
+        jResponse = jResponse.get("response");
+        System.out.println("jResponse -> " + jResponse.toString());
+        return jResponse;
+    }
+
+    public static String getTimeStampFormat() {
+        return new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS").format(new Date()) + "UTC";
     }
 
 }

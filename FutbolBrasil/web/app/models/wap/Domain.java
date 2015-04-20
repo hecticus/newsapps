@@ -10,7 +10,7 @@ public class Domain {
 
     public static final String URL_FOOTBALL_MANAGER = "http://footballmanager.hecticus.com/";
     public static final String URL_FOOTBALL_MANAGER_BRAZIL = "http://brazil.footballmanager.hecticus.com/";
-    public static final String VERSION = "v1";
+    public static final String VERSION = "0.0.2";
 
     public Domain() {}
 
@@ -56,7 +56,6 @@ public class Domain {
     }
 
     public String loading() {
-        System.out.println(URL_FOOTBALL_MANAGER_BRAZIL + "api/loading/0/0/v1/wap");
         return  URL_FOOTBALL_MANAGER_BRAZIL + "api/loading/0/0/" + VERSION + "/wap";
     }
 }
