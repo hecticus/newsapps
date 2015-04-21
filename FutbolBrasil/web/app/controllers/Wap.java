@@ -182,7 +182,6 @@ public class Wap extends Controller {
                 + "footballapi/"
                 + VERSION
                 + "/matches/competition/date/paged/1/" + idCompetition
-                + "/" + LANGUAGE
                 + "/" + sDf.format(dNow)
                 + "?pageSize=" + LIMIT
                 + "&page=" +  page  * LIMIT;
