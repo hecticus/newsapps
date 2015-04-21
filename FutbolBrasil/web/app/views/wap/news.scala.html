@@ -22,18 +22,28 @@
 
 } else {
 
-    @html4(true){
+
+    @html4(true,"news"){
+
+
         @if(view == "summary") {
-            <h3>@jNews.get("title").asText()</h3>
-            <p>
-                @jNews.get("summary").asText()
-            </p>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 h-content-news" >
+                    <h3>@jNews.get("title").asText()</h3>
+                    <br />
+                    <p>
+                        @jNews.get("summary").asText()
+                    </p>
+                </div>
+            </div>
         } else {
-            @for(item <- jNews.iterator()) {
-                <p>
-                    <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
-                </p>
-            }
+            <div class="row">
+                @for(item <- jNews.iterator()) {
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 h-list" >
+                        <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
+                    </div>
+                }
+            </div>
         }
     }
 
