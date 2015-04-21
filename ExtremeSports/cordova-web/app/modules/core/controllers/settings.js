@@ -137,6 +137,13 @@ function SettingsController($scope, $rootScope, $state, $timeout, $translate, Cl
             });
     }
 
+    function getClientNickName(){
+      vm.nickname =  Client.getNickName();
+      if(!vm.nickname){
+        vm.nickname = "";
+      }
+    }
+
     function getEditingButtonClass(){
         if(vm.isEditing){
             return ' btn btn-success ';
@@ -167,13 +174,12 @@ function SettingsController($scope, $rootScope, $state, $timeout, $translate, Cl
         setUpIScroll();
         loadSettings();
         getStatus();
+        getClientNickName();
         getClientLanguage();
 
         removeEventCallback = $rootScope.$on('$translateChangeSuccess', function () {
             getClientLanguage();
         });
-
-        vm.nickname = Client.getNickname();
         $scope.$emit('unload');
 
         $scope.$on('$destroy', function() {

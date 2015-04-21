@@ -226,9 +226,5 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
         return lang;
     }
 
-    function getNickName(){
-       return Client.getNickName();
-    }
-
     return service;
 }

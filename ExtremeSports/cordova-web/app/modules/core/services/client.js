@@ -66,9 +66,9 @@ angular
             this.setNickname = function(nickname){
                 client.nickname = nickname;
             };
-            this.getNickname = function(){
+           /* this.getNickname = function(){
                 return client.nickname;
-            };
+            };*/
             this.getSession = function(){
                 return client.session;
             };
@@ -115,6 +115,8 @@ angular
 
             this.setLanguage = setLanguage;
 
+            this.getNickName = getNickName;
+
             this.getLanguage = getLanguage;
 
             this.getFriends = getFriends;
@@ -144,6 +146,9 @@ angular
                 client.auth_token = data.auth_token;
                 if(data.language){
                     setLanguage(data.language);
+                }
+                if(data.nickname){
+                  client.nickname = data.nickname;
                 }
                 setPassword(password);
                 saveClient();
@@ -207,8 +212,9 @@ angular
             }
 
             function loadClient(){
+
                 checkStoredData();
-                clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
+                 clientDataSafe = (localStorage[FILE_KEY_CLIENT_DATASAFE] === 'true');
                 if(clientDataSafe){
                     var clientString = localStorage[FILE_KEY_CLIENT];
                     if(!!clientString && clientString != ''){
@@ -298,6 +304,15 @@ angular
                     loadClient();
                 }
                 return client.language;
+            }
+
+            function getNickName(){
+                if(!client.nickname){
+                    console.log("Aquiiiiii");
+                    loadClient();
+                    console.log("Aquiiiiii 2 "+client.nickname);
+                }
+                return client.nickname;
             }
 
             function getFriends(){
