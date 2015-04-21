@@ -150,14 +150,14 @@ playauthenticate.restricted.secrets=Segredos, por todo o lado!
 
 ### -- <wap> --- ###
 
-APP_TITLE=Futebol Brasil
-MATCH_LABEL=partidas
-SCORERS_LABEL=artilharia
-NEWS_LABEL=notícia
+APP_TITLE=TIM Palpites
+MATCH_LABEL=Partidas
+SCORERS_LABEL=Artilharia
+NEWS_LABEL=Notícia
 
-PLAYER_LABEL=jogador
-TEAM_LABEL=equipe
-GOALS_LABEL=goles
+PLAYER_LABEL=Jogador
+TEAM_LABEL=Equipe
+GOALS_LABEL=Goles
 MTM_LABEL=En vivo
 
 LOGIN_TITLE=Registre-se para acessar as noticias de futebol do dia, todos os dias.

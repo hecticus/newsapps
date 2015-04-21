@@ -150,14 +150,14 @@ playauthenticate.restricted.secrets=Secrets, everywhere!
 ### --- play-authenticate END
 
 ### -- <wap> --- ###
-APP_TITLE=Football Brazil
-MATCH_LABEL=matches
-SCORERS_LABEL=scorers
-NEWS_LABEL=news
+APP_TITLE=TIM Palpites
+MATCH_LABEL=Matches
+SCORERS_LABEL=Scorers
+NEWS_LABEL=News
 
-PLAYER_LABEL=player
-TEAM_LABEL=team
-GOALS_LABEL=goals
+PLAYER_LABEL=Player
+TEAM_LABEL=Team
+GOALS_LABEL=Goals
 MTM_LABEL=Live
 
 LOGIN_TITLE=Register to access the football news of the day, every day.
