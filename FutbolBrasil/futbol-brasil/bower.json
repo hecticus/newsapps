@@ -17,11 +17,11 @@
     "ngstorage": "~0.3.0",
     "moment": "~2.9.0",
     "bootstrap-material-design": "~0.2.1",
-    "iscrolltest": "~5.1.3",
     "angular-translate": "~2.6.0",
     "angular-translate-loader-static-files": "~2.6.0",
     "angular-socialsharing": "~0.1.3",
-    "angular-translate-loader-url": "~2.6.1"
+    "angular-translate-loader-url": "~2.6.1",
+    "iscroll": "https://github.com/hecticus/iscroll.git#master"
   },
   "resolutions": {
     "angular": "~1.2"
