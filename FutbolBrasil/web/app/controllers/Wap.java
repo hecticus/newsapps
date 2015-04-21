@@ -1,6 +1,5 @@
 package controllers;
 
-import models.wap.Domain;
 import play.data.Form;
 import play.mvc.*;
 import views.html.wap.*;
@@ -31,24 +30,25 @@ public class Wap extends Controller {
     public static Integer COUNTRY = 1; //Brasil
     public static Integer LANGUAGE = 405; //Portuguese
     public static String UPSTREAM_CHANNEL = "Web";
-    public static Domain oDomain = new Domain();
     public static Form<Client> form = form(Client.class);
-    public static HandsetDetection HD = new HandsetDetection();
 
+    public static final String URL_FOOTBALL_MANAGER = "http://footballmanager.hecticus.com/";
+    public static final String URL_FOOTBALL_MANAGER_BRAZIL = "http://brazil.footballmanager.hecticus.com/";
+    public static final String VERSION = "v1";
 
     public static Result getLogin() {
-
+        HandsetDetection HD = new HandsetDetection();
         getLoading();
         System.out.println("getTimeStampFormat -> " + getTimeStampFormat());
-        System.out.println("ArrayUtils 1 -> " + ArrayUtils.indexOf(getTestClient(), "40766666615"));
-        System.out.println("ArrayUtils 2 -> " + ArrayUtils.indexOf(getTestClient(), "555555"));
+        System.out.println("ArrayUtils 1 -> " + isTestMsisdnClient("40766666615"));
+        System.out.println("ArrayUtils 2 -> " + isTestMsisdnClient("555555"));
 
         if (HD.getStatus() != 0) return ok("Error");
         return ok(login.render(form,HD,0));
     }
 
     public static Result getPassword() {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         Form<Client> filledForm = form.bindFromRequest();
         String sMsisdn = filledForm.field("msisdn").value();
@@ -61,29 +61,37 @@ public class Wap extends Controller {
             return redirect(controllers.routes.Wap.getLogin());
         }
 
+
+        String sDomain =  URL_FOOTBALL_MANAGER_BRAZIL + "futbolbrasil/v1/clients/create";
         ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country", COUNTRY);
         jCompetition.put("login", sMsisdn);
         jCompetition.put("language",LANGUAGE);
         jCompetition.put("upstreamChannel", UPSTREAM_CHANNEL);
 
-        Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
+        Promise<WSResponse> wsResponse = WS.url(sDomain).post(jCompetition);
+
         JsonNode jResponse = wsResponse.get(10000).asJson();
 
+        System.out.println("<getPassword>");
+        System.out.println(jResponse.toString());
+        System.out.println("</createClient>");
+
+        System.out.println(jResponse.toString());
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
 
-        if (iError == 0) {
+        if ((iError == 0) || (isTestMsisdnClient(sMsisdn) >= 0)) {
             setAccessControl(filledForm);
             return ok(login.render(filledForm,HD,1));
         } else {
-            return ok(error.render(HD,sDescription));
+            return ok(error.render(HD,sDescription, false));
         }
 
     }
 
     public static Result createClient() {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         Form<Client> filledForm = form.bindFromRequest();
         String sPassword = filledForm.field("password").value();
@@ -93,6 +101,8 @@ public class Wap extends Controller {
             return ok(login.render(filledForm,HD,1));
         }
 
+        String sDomain =  URL_FOOTBALL_MANAGER_BRAZIL + "futbolbrasil/v1/clients/create";
+
         ObjectNode jCompetition = Json.newObject();
         jCompetition.put("country",COUNTRY);
         jCompetition.put("login", filledForm.field("msisdn").value());
@@ -100,34 +110,34 @@ public class Wap extends Controller {
         jCompetition.put("language",LANGUAGE);
         jCompetition.put("upstreamChannel",UPSTREAM_CHANNEL);
 
-        Promise<WSResponse> wsResponse = WS.url(oDomain.createClient()).post(jCompetition);
+        Promise<WSResponse> wsResponse = WS.url(sDomain).post(jCompetition);
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
 
         System.out.println("<createClient>");
         System.out.println(jResponse.toString());
+        System.out.println(filledForm.field("msisdn").value());
+        System.out.println(filledForm.field("password").value());
         System.out.println("</createClient>");
 
-        if (iError == 0) {
+        if ((iError == 0) || (isTestMsisdnClient(filledForm.field("msisdn").value()) >= 0)) {
             setAccessControl(filledForm);
             return redirect(controllers.routes.Wap.index());
         } else {
-            return ok(error.render(HD,sDescription));
+            return ok(error.render(HD,sDescription, false));
         }
     }
 
 
     public static Result index() {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-
-        System.out.println(oDomain.news(0));
-
-        Promise<WSResponse> wsResponse = WS.url(oDomain.news(0)).get();
+        String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1/" + LANGUAGE;
+        Promise<WSResponse> wsResponse = WS.url(sDomain).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         JsonNode jNews = jResponse.get("response").get("news");
         return ok(news.render(HD, jNews, "index"));
@@ -135,41 +145,50 @@ public class Wap extends Controller {
     }
 
     public static Result news(Integer idNews) {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        Promise<WSResponse> wsResponse = WS.url(oDomain.news(idNews)).get();
+        String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/get/" + idNews;
+
+        Promise<WSResponse> wsResponse = WS.url(sDomain).get();
         JsonNode jNews = wsResponse.get(10000).asJson().get("response");
         return ok(news.render(HD, jNews, "summary"));
 
     }
 
     public static Result competitions(String route) {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getStatus() != 0) return ok("Error");
         JsonNode jCompetitions = getCompetition();
         return ok(competitions.render(HD, jCompetitions, route));
 
     }
 
     public static Result matches(Integer idCompetition, Integer page) {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getStatus() != 0) return ok("Error");
+        Date dNow = new Date();
+        SimpleDateFormat sDf = new SimpleDateFormat ("yyyyMMdd");
 
-        Promise<WSResponse> wsResponse = WS.url(oDomain.matches(idCompetition,LIMIT, page  * LIMIT)).get();
+        String sDomain = URL_FOOTBALL_MANAGER
+                + "footballapi/"
+                + VERSION
+                + "/matches/competition/date/paged/1/" + idCompetition
+                + "/" + LANGUAGE
+                + "/" + sDf.format(dNow)
+                + "?pageSize=" + LIMIT
+                + "&page=" +  page  * LIMIT;
+
+
+        Promise<WSResponse> wsResponse = WS.url(sDomain).get();
 
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
@@ -184,18 +203,24 @@ public class Wap extends Controller {
         if (iError == 0) {
             return ok(matches.render(HD, jResponse.get("response"), jOCompetition, LIMIT, page));
         } else {
-            return ok(error.render(HD,sDescription));
+            return ok(error.render(HD,sDescription,true));
         }
 
     }
 
     public static Result mtm(Integer idCompetition, Integer idMatch, Integer idEvent) {
-
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        Promise<WSResponse> wsResponse = WS.url(oDomain.mtm(idCompetition, idMatch, idEvent)).get();
+        String sDomain = URL_FOOTBALL_MANAGER + "footballapi/"+ VERSION + "/matches/mam/next/1"
+                + "/" + idCompetition
+                + "/" + idMatch
+                + "/" + LANGUAGE
+                + "/" + idEvent;
+
+        Promise<WSResponse> wsResponse = WS.url(sDomain).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
@@ -204,7 +229,7 @@ public class Wap extends Controller {
         if (iError == 0) {
             return ok(mtm.render(HD, jResponse.get("response"), idCompetition,nameCompetition, idMatch));
         } else {
-            return ok(error.render(HD,sDescription));
+            return ok(error.render(HD,sDescription,true));
         }
 
     }
@@ -212,11 +237,17 @@ public class Wap extends Controller {
 
     public static Result scorers(Integer idCompetition) {
 
+        HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok("Error");
         if (!getAccessControl())
             return redirect(controllers.routes.Wap.getLogin());
 
-        Promise<WSResponse> wsResponse = WS.url(oDomain.scorers(idCompetition)).get();
+        String sDomain = URL_FOOTBALL_MANAGER
+                + "footballapi/"
+                + VERSION + "/players/competition/scorers/1/"
+                + idCompetition + "?pageSize=10&page=0";
+
+        Promise<WSResponse> wsResponse = WS.url(sDomain).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
@@ -225,7 +256,7 @@ public class Wap extends Controller {
         if (iError == 0) {
             return ok(scorers.render(HD, jResponse.get("response").get("scorers"), nameCompetition));
         } else {
-            return ok(error.render(HD,sDescription));
+            return ok(error.render(HD,sDescription,true));
         }
 
     }
@@ -233,18 +264,22 @@ public class Wap extends Controller {
 
     public static JsonNode getCompetition () {
 
+        HandsetDetection HD = new HandsetDetection();
         JsonNode jCompetitions = (JsonNode) Cache.get("competitions");
+        String sDomain = URL_FOOTBALL_MANAGER + "footballapi/" + VERSION + "/competitions/list/1/" + LANGUAGE;
+
         if (jCompetitions == null) {
-            Promise<WSResponse> wsResponse = WS.url(oDomain.competitions()).get();
+            Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             jCompetitions = wsResponse.get(10000).asJson().get("response");
             Cache.set("competitions", jCompetitions, 60 * 60);
         }
 
         return jCompetitions;
+
     }
 
     public static String getNameCompetition (Integer idCompetition) {
-
+        HandsetDetection HD = new HandsetDetection();
         JsonNode jCompetitions = getCompetition();
         Iterator<JsonNode> iJsonCompetitions = jCompetitions.get("competitions").iterator();
         String nameCompetition = "";
@@ -279,8 +314,7 @@ public class Wap extends Controller {
     }
 
     public static Boolean getAccessControl () {
-
-        if ((session("msisdn") != null)
+       if ((session("msisdn") != null)
                 && (session("password") != null)) {
             return true;
         } else if ((request().cookie("msisdn") != null)
@@ -289,11 +323,9 @@ public class Wap extends Controller {
         } else {
             return false;
         }
-
     }
 
-    public static boolean isNumeric(String str)
-    {
+    public static boolean isNumeric(String str) {
         try
         {
             double d = Double.parseDouble(str);
@@ -306,7 +338,8 @@ public class Wap extends Controller {
     }
 
     public static JsonNode getLoading() {
-        Promise<WSResponse> wsResponse = WS.url(oDomain.loading()).get();
+        String sDomain = URL_FOOTBALL_MANAGER_BRAZIL + "api/loading/0/0/" + VERSION + "/wap";
+        Promise<WSResponse> wsResponse = WS.url(sDomain).get();
         JsonNode jResponse = wsResponse.get(10000).asJson();
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
@@ -319,12 +352,12 @@ public class Wap extends Controller {
         return new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS").format(new Date()) + "UTC";
     }
 
-    public static String[] getTestClient() {
+    public static Integer isTestMsisdnClient(String sMsisdn) {
         String[] arrMsisdn  = {"40766666611", "40766666612",
                 "40766666613","40766666614","40766666615",
                 "40766666616","40766666617", "40766666618",
                 "40766666619","40766666620"};
-        return arrMsisdn;
+        return  ArrayUtils.indexOf(arrMsisdn, sMsisdn);
     }
 
 }

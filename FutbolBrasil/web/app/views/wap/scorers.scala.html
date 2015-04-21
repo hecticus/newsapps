@@ -5,15 +5,18 @@
 
 } else {
 
-    @html4(true){
+    @html4(true,"scorers"){
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                 <table class="table">
                     <thead>
                     <tr>
+                        <th style="background: rgb(122,184,0);" colspan="4">@nameCompetition</th>
+                    </tr>
+                    <tr>
                         <th></th>
-                        <th>@Messages.get("PLAYER_LABEL")</th>
-                        <th>@Messages.get("TEAM_LABEL")</th>
+                        <th style="text-align:left; ">@Messages.get("PLAYER_LABEL")</th>
+                        <th style="text-align:left; ">@Messages.get("TEAM_LABEL")</th>
                         <th>@Messages.get("GOALS_LABEL")</th>
                     </tr>
                     </thead>
