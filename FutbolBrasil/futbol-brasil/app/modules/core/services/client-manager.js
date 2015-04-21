@@ -161,7 +161,7 @@ angular
 
                          if ((arrMsisdnTestClient.indexOf(client.msisdn) >= 0)
                              && strPasswordTestClient === client.password) {
-                            typeof successCallback == "function" && successCallback(isNewClient);
+                             createOrUpdateClient({}, true, successCallback, errorCallback);
                          } else {
                             typeof errorCallback == "function" && errorCallback();
                          }

@@ -153,6 +153,7 @@ angular
                             'password' : $scope.password
                         }
                         , true, loginSuccess, loginError);
+                    Client.setNoGuest();
                     Upstream.loginEvent();
                 } else {
                     Notification.showInfoAlert({
