@@ -10,8 +10,8 @@ angular
     .module('core')
     .controller('LanguageSelectionController', LanguageSelectionController);
 
-LanguageSelectionController.$injector = ['$scope', '$state', '$stateParams','$translate', 'i18n', 'Client'];
-function LanguageSelectionController($scope, $state, $stateParams, $translate, i18n, Client) {
+LanguageSelectionController.$injector = ['$scope', '$state', '$stateParams','$translate', 'i18n', 'Client','ClientManager'];
+function LanguageSelectionController($scope, $state, $stateParams, $translate, i18n, Client, ClientManager) {
     var scroll = null;
     var vm = this;
     var isLogin = false;
@@ -28,7 +28,8 @@ function LanguageSelectionController($scope, $state, $stateParams, $translate, i
     function languageSelected(language){
         Client.setLanguage(language).then(function(){
             var state = isLogin? 'login' : 'settings';
-            console.log('language set: ' + language.name + '. navigating to: ' + state);
+            console.log('language set: ' + language.name + '. navigating to: ' + state+ ' id : '+language.id_language);
+            ClientManager.createOrUpdateClient({ 'language' : language.id_language });
             $state.go(state);
         });
     }

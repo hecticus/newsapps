@@ -8,7 +8,6 @@
 angular.module('core').controller('NewsController', NewsController);
 
 NewsController.$inject = ['$scope', '$state', 'News', 'iScroll'];
-
 function NewsController($scope, $state, News, iScroll) {
 
     var vm = this;

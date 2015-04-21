@@ -116,10 +116,13 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
             jData.nickname = client.nickname;
         }
 
+        if(client.language){
+          jData.language = client.language;
+        }
+
         if(Client.getClientId()){
             jData.add_devices = devices;
-            return $http.put(Domain.client.client(), {
-                data: jData,
+            return $http.put(Domain.client.client(),jData, {
                 timeout : 60000
             }).then(success, error);
 
@@ -133,7 +136,6 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
 
         function success(response) {
             isNewClient = (response.status === 201);
-
             if(response.data.error == 0 && response.data.response != null){
                 //TODO manejar modificacion a athletes y categories
 //                    TeamsManager.setFavoriteTeams(response.push_alerts_teams);
@@ -222,6 +224,10 @@ function ClientManager($http, $translate, $q, CordovaDevice, FacebookManager
             lang = i18n.getDefaultLanguage();
         }
         return lang;
+    }
+
+    function getNickName(){
+       return Client.getNickName();
     }
 
     return service;

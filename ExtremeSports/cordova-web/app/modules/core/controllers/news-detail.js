@@ -11,23 +11,11 @@ NewsDetailController.$injector = ['$state', '$stateParams', 'News'];
 function NewsDetailController($state, $stateParams, News) {
 
     var vm = this;
-    var scroll = null;
     var idPost = null;
 
     init();
 
-    /*//////// Function Implementations  ////////*/
-
-    function setUpIScroll(){
-        scroll = iScroll.vertical('news-detail-wrapper');
-        $scope.$on('$destroy', function() {
-            scroll.destroy();
-            scroll = null;
-        });
-    }
-
     function init(){
-        setUpIScroll();
         console.log('news-detail. $stateParams: ');
         console.log($stateParams);
         if($stateParams.newsId){
