@@ -12,7 +12,6 @@ angular
 hcNewsPost.$injector = ['Moment'];
 function hcNewsPost(Moment) {
     return {
-        // name: '',
         scope: {
             post: '=',
             click: '&onClick'
@@ -21,7 +20,6 @@ function hcNewsPost(Moment) {
         templateUrl: 'modules/core/views/templates/hc-news-post.html',
         transclude: false,
         link: function($scope, elem, attrs, controller) {
-//            console.log($scope);
             $scope.categoryLimit = 1;
             $scope.tagLimit = 1;
             $scope.fromNow = fromNow;

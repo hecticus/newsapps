@@ -51,7 +51,7 @@ run.$inject = ['$rootScope', '$localStorage', '$state', '$translate'
 function run($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
          Notification, Analytics) {
 
-    CordovaApp.init();
+//    CordovaApp.init();
     $rootScope.$storage = $localStorage.$default({
         news: false,
         athletes: false,

@@ -22,17 +22,9 @@ angular
             }
 
             return {
-                date:function (_date) {
-                    var _oMoment = moment().locale(getLang());
-                    if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
-                    return _oMoment;
-                },
+                date: date,
 
-                fromNow : function(_date){
-                    var _oMoment = moment().locale(getLang());
-                    if (_date) _oMoment = _oMoment(_date,'YYYYMMDD hh:mm').locale(getLang());
-                    return _oMoment.fromNow();
-                },
+                fromNow : fromNow,
 
                 /**
                  * @ngdoc function
@@ -40,9 +32,36 @@ angular
                  * @methodOf core.Services.Moment
                  * @return {object} Returns a Moment instance
                  */
-                today : function (format) {
-                    return moment().format(format);
-                }
+                today : today
             };
+
+            function date(_date) {
+                var _oMoment = moment().locale(getLang());
+                if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
+                return _oMoment;
+            }
+
+            function fromNow(_date, format){
+                console.log('Moment.fromNow ', _date, format, getLang());
+                var formatStr = null;
+                var mMoment = null;
+                if(format){
+                    formatStr = format;
+                } else {
+                    formatStr = 'YYYYMMDD hh:mm';
+                }
+
+                if (_date){
+                    mMoment = moment(_date,formatStr).locale(getLang());
+                } else {
+                    mMoment = moment().locale(getLang()).format();
+                }
+
+                return mMoment.fromNow();
+            }
+
+            function today(format) {
+                return moment().format(format);
+            }
         }
     ]);

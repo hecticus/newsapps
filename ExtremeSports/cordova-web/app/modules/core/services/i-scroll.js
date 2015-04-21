@@ -54,6 +54,7 @@ angular
                         preventDefault : true,
                         bounce : true,
                         probeType: 2,
+                        momentum: false,
                         preventDefaultException: { tagName:/.*/ }
                     });
                     $window[_wrapper].on('beforeScrollStart', function () {

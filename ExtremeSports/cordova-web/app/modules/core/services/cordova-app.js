@@ -25,6 +25,8 @@ function CordovaApp($state, $window, $timeout, $translate, CordovaDevice
 
     var strings = {};
 
+    bindEvents();
+
     //noinspection UnnecessaryLocalVariableJS
     var service = {
 

@@ -7,8 +7,8 @@
 */
 angular.module('core').controller('NewsDetailController', NewsDetailController);
 
-NewsDetailController.$injector = ['$scope','$state', '$stateParams', 'News', 'iScroll'];
-function NewsDetailController($scope,$state, $stateParams, News, iScroll) {
+NewsDetailController.$injector = ['$scope','$state', '$stateParams', 'News', 'iScroll', 'Moment'];
+function NewsDetailController($scope,$state, $stateParams, News, iScroll, Moment) {
 
     var vm = this;
     var idPost = null;
@@ -42,6 +42,7 @@ function NewsDetailController($scope,$state, $stateParams, News, iScroll) {
             vm.post = newsPost;
             console.log('newsDetail. success.');
             console.log(vm.post);
+            vm.post.displayDate = Moment.fromNow(vm.post.date, 'YYYYMMDDhhmm');
         }
         function error(){
             console.log('newsDetail. error.');

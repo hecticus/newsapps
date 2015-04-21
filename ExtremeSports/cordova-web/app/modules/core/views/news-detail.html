@@ -5,7 +5,7 @@
                 <img class="img-responsive" ng-src="{{newsPost.post.files[0]}}" alt="{{newsPost.post.title}}"/>
             </div>
             <div class="body">
-                <div class="date pull-right">15m</div>
+                <div class="date pull-right" ng-bind="newsPost.post.displayDate"></div>
                 <h2 class="title" ng-bind="newsPost.post.title"></h2>
                 <div class="content">
                     <p ng-bind="newsPost.post.content"></p>
