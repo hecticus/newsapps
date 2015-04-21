@@ -18,15 +18,6 @@ angular
             $scope.msisdn = '';
             $scope.password = '';
 
-            $scope.isWeb = function() {
-              if (CordovaDevice.isAndroidPlatform()
-                || CordovaDevice.isIosPlatform()) {
-                  return false;
-                } else {
-                  return true;
-                }
-            }
-
             //$scope.isWeb = false;
 
             function getTranslations(){
@@ -148,6 +139,7 @@ angular
                         message: strings['SET_MSISDN_MSG'],
                         type: 'warning'
                     });
+                    $scope.$emit('unload');
                 }
                 //$scope.$emit('unload');
             };
@@ -161,6 +153,7 @@ angular
                             'password' : $scope.password
                         }
                         , true, loginSuccess, loginError);
+                    Client.setNoGuest();
                     Upstream.loginEvent();
                 } else {
                     Notification.showInfoAlert({
@@ -169,6 +162,7 @@ angular
                         message: strings['SET_PASSWORD_MSG'],
                         type: 'warning'
                     });
+                    $scope.$emit('unload');
                 }
                // $scope.$emit('unload');
             };
