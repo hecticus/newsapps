@@ -7,15 +7,27 @@
 */
 angular.module('core').controller('NewsDetailController', NewsDetailController);
 
-NewsDetailController.$injector = ['$state', '$stateParams', 'News'];
-function NewsDetailController($state, $stateParams, News) {
+NewsDetailController.$injector = ['$scope','$state', '$stateParams', 'News', 'iScroll'];
+function NewsDetailController($scope,$state, $stateParams, News, iScroll) {
 
     var vm = this;
     var idPost = null;
+    var scroll = null;
+
 
     init();
 
+    function setUpIScroll(){
+        scroll = iScroll.vertical('news-detail-wrapper');
+        $scope.$on('$destroy', function() {
+            scroll.destroy();
+            scroll = null;
+        });
+    }
+
+
     function init(){
+        setUpIScroll();
         console.log('news-detail. $stateParams: ');
         console.log($stateParams);
         if($stateParams.newsId){
