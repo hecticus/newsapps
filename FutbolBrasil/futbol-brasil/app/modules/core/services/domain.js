@@ -66,6 +66,10 @@ angular
 
                 news: {
                     index: function () {
+                        console.log( football_manager_url + 'newsapi/'
+                                                          + apiVersion + '/news/scroll/'
+                                                          + appId + '/' + getLang());
+
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/'
                             + appId + '/' + getLang();

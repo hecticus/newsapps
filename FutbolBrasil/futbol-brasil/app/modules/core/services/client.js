@@ -42,7 +42,7 @@ angular
                 logout : logout,
 
                 setGuest: setGuest,
-
+                setNoGuest : setNoGuest,
                 isGuest : isGuest,
 
                 /**
@@ -141,6 +141,7 @@ angular
                 client.login = data.login;
                 client.session = data.session;
                 client.auth_token = data.auth_token;
+
                 if(data.language){
                     setLanguage(data.language);
                 }
@@ -190,6 +191,10 @@ angular
 
             function isActiveClient(status){
                 return !!(status > 0 && status != 2);
+            }
+
+            function setNoGuest(){
+                client.guest = false;
             }
 
             function setGuest(){
