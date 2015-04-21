@@ -22,23 +22,19 @@
 
 } else {
 
-
-
-        @html4{
-            @if(view == "summary") {
-                <h3>@jNews.get("title").asText()</h3>
+    @html4(true){
+        @if(view == "summary") {
+            <h3>@jNews.get("title").asText()</h3>
+            <p>
+                @jNews.get("summary").asText()
+            </p>
+        } else {
+            @for(item <- jNews.iterator()) {
                 <p>
-                    @jNews.get("summary").asText()
+                    <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
                 </p>
-            } else {
-                @for(item <- jNews.iterator()) {
-                    <p>
-                        <a href='@routes.Wap.news(item.get("idNews").asInt())'>@item.get("title").asText()</a>
-                    </p>
-                }
             }
         }
-
-
+    }
 
 }
