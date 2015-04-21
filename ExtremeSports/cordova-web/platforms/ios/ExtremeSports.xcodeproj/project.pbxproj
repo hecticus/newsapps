@@ -54,6 +54,7 @@
 		7BF4DEFA655E417A895D88CE /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04520599FBAB4AB68245482A /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		96E3998FB9C042368DFD2569 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C1CCDAF3314D489D4C0D3F /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		09A1F0BC086F41DABB57DC5C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3319BF8FCA424F6CB071E3C7 /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C98A406B53914A1292D75876 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C4E509EE4D46D98558A5D0 /* CDVStatusBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +150,8 @@
 		04520599FBAB4AB68245482A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Social.framework"; path = "System/Library/Frameworks/Social.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 		E0C1CCDAF3314D489D4C0D3F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Accounts.framework"; path = "System/Library/Frameworks/Accounts.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 		3319BF8FCA424F6CB071E3C7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Security.framework"; path = "System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		A5C4E509EE4D46D98558A5D0 /* CDVStatusBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVStatusBar.m"; path = "org.apache.cordova.statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		1FE727CD07494B4EBDF20043 /* CDVStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVStatusBar.h"; path = "org.apache.cordova.statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +290,8 @@
 				F0879B021D3F49CB9DBC9323 /* PushPlugin.h */,
 				316DFDC4204D41C4840A1025 /* FacebookConnectPlugin.m */,
 				AA83F5B18AB34DCF96FE23A7 /* FacebookConnectPlugin.h */,
+				A5C4E509EE4D46D98558A5D0 /* CDVStatusBar.m */,
+				1FE727CD07494B4EBDF20043 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = "ExtremeSports/Plugins";
@@ -476,6 +481,7 @@
 				A2A93FC386A2430BB30811D3 /* AppDelegate+notification.m in Sources */,
 				7A48A576C7D54EA49151AB50 /* PushPlugin.m in Sources */,
 				910325825F464662AE4364B6 /* FacebookConnectPlugin.m in Sources */,
+				C98A406B53914A1292D75876 /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

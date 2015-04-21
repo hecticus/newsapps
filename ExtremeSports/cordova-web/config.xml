@@ -19,4 +19,5 @@
     <preference name="prerendered-icon" value="true" />
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
 </widget>
