@@ -29,7 +29,7 @@ module.exports = function(config) {
             'app/lib/bootstrap-material-design/dist/js/material.js',
             'app/lib/bootstrap-material-design/dist/js/ripples.js',
             'app/lib/ngstorage/ngStorage.js',
-            'app/lib/iscroll/build/iscroll.js',
+            'app/lib/iscroll/build/iscroll-probe.js',
             'app/lib/angular-socialsharing/dist/angular-socialsharing.js',
             'app/lib/moment/moment.js',
             'app/lib/angular-translate/angular-translate.js',

@@ -50,16 +50,32 @@ angular
                 vertical : function (_wrapper) {
                     delete $window[_wrapper] ;
                     $window[_wrapper] = new IScroll('#' + _wrapper, {
-                        click : false,
-                        preventDefault : true,
-                        bounce : true,
+                        scrollX: false,
+                        scrollY: true,
+                        mouseWheel: false,
+                        momentum: true,
+                        snap: false,
+                        snapSpeed: 700,
                         probeType: 2,
-                        momentum: false,
-                        preventDefaultException: { tagName:/.*/ }
+                        bounce: false,
+                        click: true,
+                        preventDefault:true
                     });
                     $window[_wrapper].on('beforeScrollStart', function () {
-                        this.refresh();
+                         this.refresh();
                     });
+
+                    /*$window[_wrapper].on('scrollEnd', function () {
+                         this.refresh();
+                    });*/
+
+                    $window[_wrapper].on('scroll', function () {
+                          this.refresh();
+                          if( this.y <=  this.maxScrollY ){
+                               this.y = this.maxScrollY + $window.innerHeight;
+
+                          }
+                     });
                     return $window[_wrapper];
 
                 },
