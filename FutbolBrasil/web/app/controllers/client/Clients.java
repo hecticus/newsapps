@@ -229,7 +229,18 @@ public class Clients extends HecticusController {
     public static Result update(Integer id) {
         ObjectNode clientData = getJson();
         try{
-            Client client = Client.finder.byId(id);
+            Client client = null;
+            if(clientData.has("login")){
+                client = Client.finder.where().eq("login", clientData.get("login").asText()).findUnique();
+            }
+
+            if(client == null){
+                client = Client.finder.byId(id);
+            } else {
+                Client guest = Client.finder.byId(id);
+                guest.delete();
+            }
+
             if(client != null) {
                 boolean update = false;
                 boolean loginAgain = false;
