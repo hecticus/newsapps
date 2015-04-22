@@ -21,6 +21,8 @@ import java.text.Format;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.apache.commons.lang3.ArrayUtils;
+import java.text.MessageFormat;
+import play.i18n.Messages;
 
 public class Wap extends Controller {
 
@@ -57,7 +59,7 @@ public class Wap extends Controller {
                 || (sMsisdn.length() < MIN_LENGTH_MSISDN)
                 || (sMsisdn.length() > MAX_LENGTH_MSISDN)
                 || (!isNumeric(sMsisdn))) {
-            flash("error_msisdn", "Error msisdn");
+            flash("error_msisdn", Messages.get("ERROR_MSISDN"));
             return redirect(controllers.routes.Wap.getLogin());
         }
 
@@ -97,7 +99,7 @@ public class Wap extends Controller {
         String sPassword = filledForm.field("password").value();
 
         if (sPassword.trim().isEmpty()) {
-            flash("error_password", "Error password");
+            flash("error_password", Messages.get("ERROR_PASSWORD"));
             return ok(login.render(filledForm,HD,1));
         }
 

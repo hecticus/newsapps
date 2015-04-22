@@ -165,4 +165,14 @@ LOGIN_TITLE_PASSWORD=Introduzca la contraseña recibida via SMS.
 BUTTON_NEXT=Continuar
 BUTTON_CONFIRM=Confirmar
 BUTTON_AGAIN_PASSWORD=Solicitar contraseña nuevamente
+
+ERROR_DEFAULT=Error
+ERROR_MSISDN=Msisdn Error
+ERROR_PASSWORD=Password Error
+
+INFO_NEWS=Content not available
+INFO_MTM=Content not available
+INFO_MATCH=Content not available
+INFO_SCORERS=Content not available
+
 ### -- </wap> --- ###
