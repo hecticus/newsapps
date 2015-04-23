@@ -148,6 +148,20 @@ public class Rank  extends HecticusModel {
         this.group = group;
     }
 
+    public Rank(Phase phase, Team team, Group group, long matches, long matchesWon, long matchesDraw, long matchesLost,
+                long points, long goalsFor, long goalAgainst) {
+        this.phase = phase;
+        this.team = team;
+        this.group = group;
+        this.matches = matches;
+        this.matchesWon = matchesWon;
+        this.matchesDraw = matchesDraw;
+        this.matchesLost = matchesLost;
+        this.points = points;
+        this.goalsFor = goalsFor;
+        this.goalAgainst = goalAgainst;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode node = Json.newObject();
@@ -494,7 +508,7 @@ public class Rank  extends HecticusModel {
         this.group = group;
     }
 
-    public static List<Rank> getListByIdPhase(long idPhase){
+    public static List<Rank> getListByIdPhase(String idPhase){
         return finder.where().eq("id_phases", idPhase).orderBy("nivel asc, orden asc").findList();
     }
 
@@ -502,7 +516,7 @@ public class Rank  extends HecticusModel {
         return finder.where().in("id_phases", phases).orderBy("nivel asc, orden asc").findList();
     }
 
-    public static List<Rank> getListByExtIdPhase(long idExtPhase){
+    public static List<Rank> getListByExtIdPhase(String idExtPhase){
         Phase _phase = Phase.findByExtId(idExtPhase);
         if(_phase == null)
             return null;

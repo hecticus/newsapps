@@ -153,7 +153,7 @@ public class CompetitionType extends HecticusModel {
 
         CompetitionTypeHasLocalization competitionTypeHasLocalization = new CompetitionTypeHasLocalization(this, language, this.name);
         if(!CompetitionTypeHasLocalization.exists(competitionTypeHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
+            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(competitionTypeHasLocalization);
             competitionTypeHasLocalization.save();
             this.update();

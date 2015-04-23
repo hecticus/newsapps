@@ -261,7 +261,7 @@ public class Competition  extends HecticusModel {
         }
         CompetitionHasLocalization competitionHasLocalization = new CompetitionHasLocalization(this, language, this.name);
         if(!CompetitionHasLocalization.exists(competitionHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
+            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(competitionHasLocalization);
             competitionHasLocalization.save();
             this.update();

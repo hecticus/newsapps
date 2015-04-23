@@ -311,7 +311,7 @@ public class AfpFutbolWs extends HecticusController {
         return result;
     }
 
-    public static Result getRankingByIdPhase(long id,boolean ext){
+    public static Result getRankingByIdPhase(String id,boolean ext){
 
         ObjectNode result = Json.newObject();
 
@@ -367,7 +367,7 @@ public class AfpFutbolWs extends HecticusController {
             Phase aPhase;
             while(it.hasNext()){
                 aPhase = it.next();
-                List<Rank> rankList = Rank.getListByIdPhase(aPhase.getIdPhases());
+                List<Rank> rankList = Rank.getListByIdPhase(""+aPhase.getIdPhases());
                 innerList = new ArrayList<ObjectNode>();
                 innerIt = rankList.iterator();
 

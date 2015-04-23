@@ -107,7 +107,7 @@ public class Period extends HecticusModel {
         }
         PeriodHasLocalization periodHasLocalization = new PeriodHasLocalization(this, language, this.name, this.shortName);
         if(!PeriodHasLocalization.exists(periodHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
+            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(periodHasLocalization);
             periodHasLocalization.save();
             this.update();

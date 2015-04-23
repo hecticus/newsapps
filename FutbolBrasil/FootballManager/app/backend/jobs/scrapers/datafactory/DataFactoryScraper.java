@@ -105,7 +105,7 @@ public class DataFactoryScraper extends HecticusThread {
                             orden = xPath.compile("@orden").evaluate(currentFecha),
                             fn = xPath.compile("@fn").evaluate(currentFecha);
                     //fase
-                    Phase gamePhase = new Phase(compFromFile, nombreNivel, nombre, fechaDesde, fechaHasta, Long.parseLong(faseId),
+                    Phase gamePhase = new Phase(compFromFile, nombreNivel, nombre, fechaDesde, fechaHasta, faseId,
                             Integer.parseInt(orden), Integer.parseInt(nivel), Integer.parseInt(fn));
                     gamePhase.validate(language);
                     NodeList partidos = (NodeList) xPath.compile("partido").evaluate(currentFecha, XPathConstants.NODESET);
@@ -135,11 +135,11 @@ public class DataFactoryScraper extends HecticusThread {
                                 penalesVisit = xPath.compile("golesDefPenalesvisitante").evaluate(currentPartido);
 
                         //set values
-                        Countries localCountry = new Countries(equipoLocalPaisNombre, Long.parseLong(equipoLocalPaisId));
+                        Countries localCountry = new Countries(equipoLocalPaisNombre, equipoLocalPaisId);
                         localCountry.validateCountry();
                         Team localTeam = new Team(equipoLocalNombre, Long.parseLong(equipoLocalId), localCountry);
                         localTeam.validateTeam(compFromFile);
-                        Countries awayCountry = new Countries(equipoVisitPaisNombre, Long.parseLong(equipoVisitPaisId));
+                        Countries awayCountry = new Countries(equipoVisitPaisNombre, equipoVisitPaisId);
                         awayCountry.validateCountry();
                         Team awayTeam = new Team(equipoVisitNombre, Long.parseLong(equipoVisitId), awayCountry);
                         awayTeam.validateTeam(compFromFile);
@@ -257,7 +257,7 @@ public class DataFactoryScraper extends HecticusThread {
                             //tribunal disc not needed
                             streak = xPath.compile("racha").evaluate(currentTeam);
 
-                    Countries teamCountry = new Countries(countryName, Long.parseLong(countryExtId));
+                    Countries teamCountry = new Countries(countryName, countryExtId);
                     teamCountry.validateCountry();
                     Team teamToInsert = new Team(teamName, Long.parseLong(teamExtId), teamCountry);
                     teamToInsert.validateTeam(torneo);
@@ -399,9 +399,9 @@ public class DataFactoryScraper extends HecticusThread {
                             countryExtId = xPath.compile("pais/@id").evaluate(currentPlayer),
                             countryName = xPath.compile("pais").evaluate(currentPlayer);
 
-                    Countries playerCountry = new Countries(countryName, Long.parseLong(countryExtId));
+                    Countries playerCountry = new Countries(countryName, countryExtId);
                     playerCountry.validateCountry();
-                    Countries teamCountry = new Countries(teamCountryName, Long.parseLong(teamCountryExtId));
+                    Countries teamCountry = new Countries(teamCountryName, teamCountryExtId);
                     teamCountry.validateCountry();
                     Team playerTeam = new Team(teamName, Long.parseLong(teamExtId), teamCountry);
                     playerTeam.validateTeam(currentCompetition);

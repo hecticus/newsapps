@@ -1,4 +1,4 @@
-package backend.jobs.scrapers;
+package backend.jobs.scrapers.perform;
 
 import backend.HecticusThread;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,7 +9,6 @@ import models.Config;
 import models.Language;
 import models.Resource;
 import models.football.News;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import play.libs.F;
@@ -20,11 +19,7 @@ import utils.Utils;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;

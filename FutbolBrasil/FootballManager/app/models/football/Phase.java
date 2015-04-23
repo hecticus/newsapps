@@ -36,7 +36,8 @@ public class Phase extends HecticusModel {
     @Constraints.Required
     @Constraints.MaxLength(8)
     private String endDate;
-    private Long extId;
+
+    private String extId;
 
     private Integer orden;
     private Integer nivel;
@@ -60,7 +61,7 @@ public class Phase extends HecticusModel {
 
     }
 
-    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, Long extId, Integer order, Integer nivel, Integer fn) {
+    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, String extId, Integer order, Integer nivel, Integer fn) {
         this.comp = comp;
         this.globalName = globalName;
         this.name = name;
@@ -170,11 +171,11 @@ public class Phase extends HecticusModel {
         this.endDate = endDate;
     }
 
-    public Long getExtId() {
+    public String getExtId() {
         return extId;
     }
 
-    public void setExtId(Long extId) {
+    public void setExtId(String extId) {
         this.extId = extId;
     }
 
@@ -246,7 +247,7 @@ public class Phase extends HecticusModel {
         this.ranks = ranks;
     }
 
-    public static Phase findByExtId(Long idExt){
+    public static Phase findByExtId(String idExt){
         return finder.where().eq("extId",idExt).findUnique();
     }
 
@@ -448,7 +449,7 @@ public class Phase extends HecticusModel {
 
         PhaseHasLocalization phaseHasLocalization = new PhaseHasLocalization(this, language, this.globalName, this.name);
         if(!PhaseHasLocalization.exists(phaseHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
+            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(phaseHasLocalization);
             phaseHasLocalization.save();
             this.update();
