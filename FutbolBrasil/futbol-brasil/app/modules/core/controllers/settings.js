@@ -14,10 +14,6 @@ angular
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
 
-            if (!$rootScope.$storage.settings) {
-              $rootScope.$storage.settings = false;
-            }
-
             var strings = {};
             var scroll = null;
             var removeEventCallback = null;

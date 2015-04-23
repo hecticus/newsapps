@@ -66,25 +66,26 @@ angular
 
                 news: {
                     index: function () {
-                        console.log( football_manager_url + 'newsapi/'
-                                                          + apiVersion + '/news/scroll/'
-                                                          + appId + '/' + getLang());
+
 
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/'
-                            + appId + '/' + getLang();
+                            + appId + '/' + getLang()
+                            + '?timezoneName=' + moment().format('[GMT]ZZ');
                     },
 
                     up: function (_news) {
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/up/rest/'
-                            + appId + '/' + getLang() + '/' + _news;
+                            + appId + '/' + getLang() + '/' + _news
+                            + '?timezoneName=' + moment().format('[GMT]ZZ');
                     },
 
                     down: function (_news) {
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/down/rest/'
-                            + appId + '/' + getLang() + '/' + _news;
+                            + appId + '/' + getLang() + '/' + _news
+                            + '?timezoneName=' + moment().format('[GMT]ZZ');
                     }
                 },
 
@@ -123,7 +124,7 @@ angular
                 match: function (_date) {
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/matches/date/paged/' + appId + '/'
-                        + getLang() + '/' + _date ;
+                        + getLang() + '/' + _date + '?timezoneName=' + moment().format('[GMT]ZZ');
                 },
 
                 mtm: function (_competition, _match, _event) {
