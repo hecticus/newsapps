@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hecticus.futbolbrasil" version="0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.hecticus.futbolbrasil" version="0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
+    <preference name="AndroidLaunchMode" value="singleTop" />
+    <feature name="App">
+        <param name="android-package" value="org.apache.cordova.App" />
+    </feature>
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
     </feature>
@@ -54,9 +58,9 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
-    <name>Tim Palpites Vencedor</name>
+    <name>TIM Palpites</name>
     <description>
-      Tim Palpites Vencedor App.
+      TIM Palpites App.
 	  </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
 		Hecticus Software Inc
@@ -94,4 +98,10 @@
     <preference name="load-url-timeout" value="100000" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="5000" />
+    <gap:config-file parent="UIStatusBarHidden" platform="ios">
+        <true />
+    </gap:config-file>
+    <gap:config-file parent="UIViewControllerBasedStatusBarAppearance" platform="ios">
+        <false />
+    </gap:config-file>
 </widget>

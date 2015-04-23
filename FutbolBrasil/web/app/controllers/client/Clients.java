@@ -696,9 +696,11 @@ public class Clients extends HecticusController {
                             clientBets = new ClientBets(client, idTournament, idPhase, idGameMatch, clientBet, dateText);
                         }
                         client.addClientBet(clientBets);
+                        client.update();
+                        return ok(buildBasicResponse(0, "ok", clientBets.toJsonNoClient()));
+                    } else {
+                        return badRequest(buildBasicResponse(1, "La apuesta no puede ser creada por ser de un partido pasado"));
                     }
-                    client.update();
-                    return ok(buildBasicResponse(0, "ok", clientBets.toJsonNoClient()));
                 } else {
                     return (error > 0)?notFound(footballResponse):internalServerError(footballResponse);
                 }

@@ -166,4 +166,13 @@ LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
 BUTTON_NEXT=Next
 BUTTON_CONFIRM=Confirmar
 BUTTON_AGAIN_PASSWORD=Enviar novamente a senha
+
+ERROR_DEFAULT=Error
+ERROR_MSISDN=Msisdn Error
+ERROR_PASSWORD=Password Error
+
+INFO_NEWS=Content not available
+INFO_MTM=Content not available
+INFO_MATCH=Content not available
+INFO_SCORERS=Content not available
 ### -- </wap> --- ###

@@ -130,8 +130,8 @@ body.content-match #wrapper .scroller .container .row .competition {
     border-bottom: solid 1pt #2B2B2B !important;
 }
 
-
-table {
+table,
+table *{
   margin: 0 !important;
   border:0 !important;
   text-align: center;
@@ -140,7 +140,8 @@ table {
 table tr th {
   text-align: center;
 }
-table tbody tr  {
+
+/*table tbody tr  {
   height: 75px;
 }
 
@@ -148,10 +149,10 @@ table tbody tr td {
   height: 75px;
   border:0 !important;
   padding: 0 !important;
-}
+}*/
 
 
-table tbody tr:nth-child(even) {
+/*table tbody tr:nth-child(even) {
   background: #ffffff;
   color: #002878;
 }
@@ -159,7 +160,7 @@ table tbody tr:nth-child(even) {
 table tbody tr:nth-child(odd) {
   background: #d0dbe7;
   color: #2c9cd3;
-}
+}*/
 
 table tbody tr td.active {
   background: #fed100 !important;
@@ -442,12 +443,6 @@ body.content-mtm .row-back {
 .status.PT { background-color:rgb(122,184,0); color: #ffffff; }
 .status.ST { background-color:#fed100; color: #000000; }
 
-td.bet div {
-  position:relative;
-  width:100%;
-  height:100%;
-}
-
 
 /* From ext/bootstrap.css */
 .col-xs-15,
@@ -479,19 +474,6 @@ td.bet div {
     }
 }
 
-.bet-content {
-    position: absolute;
-    z-index: 10;
-    left: 0;
-    /* left: 50%;
-     margin-left: -50px;*/
-    bottom:  0;
-    width:  150px;
-    height: 75px;
-    margin: 0 auto;
-    background-color:red;
-}
-
 /*menu*/
 
 .content-menu,
@@ -512,16 +494,6 @@ td.bet div {
 }
 
 /*menu*/
-
-.tabs {
-    opacity: 0.5;
-    /*text-transform: capitalize;*/
-}
-
-.tabs button {
-    background: none;
-    border: 0;
-}
 
 .team-info{
     display: inline-block;
@@ -695,7 +667,7 @@ td.bet div {
 /*No Content "Component"*/
 
 .no-content-panel {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 8;
@@ -747,21 +719,6 @@ td.bet div {
     background-color: #2196F3;
 }
 
-.row-header-competition {
-    background-color: rgb(122,184,0) !important;
-    height:35px;
-}
-
-  .content-prediction
-  .row-header {
-    height: 85px;
-  }
-
-  .content-prediction
-  .row-header-competition {
-    height: 55px;
-  }
-
   .content-scorers
   .row-header {
     height: 55px;
@@ -782,22 +739,16 @@ td.bet div {
     height: 55px;
   }
 
-  .content-prediction
-  .row-header-reference {
-    height: 30px;
-    background-color:rgb(227,114,34);
-    color:#000000;
+
+  .row-header-live {
+      background-color: rgb(227,114,34);
   }
 
-.row-header-live {
-    background-color: rgb(227,114,34);
-}
-
-.row-header .title {
-    text-align: center;
-    font-size : 1em;
-    padding: 8px;
-}
+  .row-header .title {
+      text-align: center;
+      font-size : 1em;
+      padding: 8px;
+  }
 
 
 .scroller {
@@ -844,35 +795,10 @@ h6.team-name {
   height-line:10px;
  }
 
-.content-prediction .bet {position:relative; vertical-align:middle;}
-.content-prediction .bet.active {background-color:#9999   !important;}
-.content-prediction .bet .mdi-navigation-check {display:none;}
-.content-prediction .bet.active .mdi-navigation-check {
-  position:absolute;
-  font-weight:bold;
-  font-size:1.8em;
-  display:block;
-  top:2px;
-  right:2px;
-  color:rgb(122,184,0);
-}
 
 
 
-
-
-    /*<alidaniel>*/
-
-      .h-horizontal {
-        display:flex;
-        justify-content:center;
-      }
-
-      .h-vertical {
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-      }
+    /*<v2>*/
 
     .h-header {
       position:relative;
@@ -889,12 +815,17 @@ h6.team-name {
     }
 
     .h-header.yellow {
-      background: #fed100;
+      background: rgb(254,209,0);
       color: #002878;
     }
 
     .h-header.blue {
-      background: #0073cf;
+      background: rgb(0,40,120);
+      color: #ffffff;
+    }
+
+    .h-header.light-blue {
+      background: rgb(44,156,211);
       color: #ffffff;
     }
 
@@ -961,12 +892,23 @@ h6.team-name {
       z-index: 1;
     }
 
+    .content-points .wrapper {
+      top: 50px;
+    }
+
     .content-match .wrapper {
       top: 35px;
     }
-    .content-prediction .wrapper {
-      top: 70px;
-    }
+
+    .content-prediction .wrapper { top: 70px; }
+    tr.h-match { border-bottom: 1pt rgb(44,156,211) solid !important; }
+    tr.h-match:last-child { border: 0 !important; }
+    tr.h-match td { height:60px !important; line-height:20px !important;}
+    tr.h-match td .h-name-team {display:block; height:40px !important; }
+    tr.h-match td .h-goal-team {display:block; height:20px !important;}
+
+    tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
+    tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
 
     .content-mtm #wrapper2 {
       top: 185px;
@@ -1062,6 +1004,7 @@ h6.team-name {
       height: auto;
     }
 
-    /*</alidaniel>*/
+
+    /*</v2>*/
 
 

@@ -7,13 +7,13 @@
                   <div class="container">
 
                     <div class="row h-header green">
-                      <div class="col-xs-2 tabs" ng-click="prevPage($index)">
+                      <div class="col-xs-2" ng-click="prevPage($index)">
                         <span class="mdi-navigation-arrow-back" ng-hide="item.competitions[$index-1].name === undefined"></span>
                       </div>
                       <div class="col-xs-8">
                         <span ng-bind="competition.name" class="caption"></span>
                       </div>
-                      <div class="col-xs-2 tabs" ng-click="nextPage($index)">
+                      <div class="col-xs-2" ng-click="nextPage($index)">
                         <span class="mdi-navigation-arrow-forward" ng-hide="item.competitions[$index+1].name === undefined"></span>
                       </div>
                     </div>

@@ -32,7 +32,7 @@ angular
             function getCompetitions() {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
-                console.log("getCompetitions-> " + Domain.competitions);
+                //console.log("getCompetitions-> " + Domain.competitions);
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
@@ -65,7 +65,7 @@ angular
                     config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 }
 
-                console.log("phases-> " + Domain.phases(competition.id_competitions));
+                //console.log("phases-> " + Domain.phases(competition.id_competitions));
                 return $http.get(Domain.phases(competition.id_competitions), config)
                     .then(function (response) {
                         return response.data.response.phases;
@@ -121,7 +121,7 @@ angular
                 leaderboard : {
                     personal : {
                         tournament: function(){
-                            console.log('Competitions.leaderboard.personal.tournament');
+                            //console.log('Competitions.leaderboard.personal.tournament');
                             return $http.get(Domain.leaderboard.personal.competition())
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
@@ -149,11 +149,15 @@ angular
 
                                 return $http.get(Domain.leaderboard.personal.phase.index(), config)
                                     .then(function(response){
-                                        console.log('idTournament: ' + idTournament
-                                            + ' ,phases: ' + JSON.stringify(phases));
-                                        var phasesResult = response.data.response.leaderboard[0].phases;
-                                        console.log(phasesResult);
+                                        //console.log('idTournament: ' + idTournament + ' ,phases: ' + JSON.stringify(phases));
+                                         var phasesResult = false;
+                                        if (response.data.response.leaderboard[0]) {
+                                           phasesResult = response.data.response.leaderboard[0].phases;
+                                          //console.log(phasesResult);
+                                        }
+
                                         return phasesResult;
+
                                     }, function(response){
                                         return $q.reject(response.data);
                                     });
