@@ -8,19 +8,33 @@
  */
 angular
     .module('core')
-    .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
-        'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll', 'Competitions',
-        function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window,
-                 Domain, Bets, Moment, iScroll, Competitions) {
+    .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
+        'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
+        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
+                 Domain, Bets, Moment, iScroll, Competitions, Notification) {
 
             var scroll = null;
             var vScrolls = [];
             var _currentPage = 0;
             var _Match = -1;
             var _mBet = -1;
+            var strings = {};
 
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
+
+            function getTranslations(){
+
+              $translate(['ALERT.SET_BET.TITLE',
+                          'ALERT.SET_BET.SUBTITLE',
+                          'ALERT.SET_BET.MSG'])
+              .then(function(translation){
+                  strings['SET_BET_TITLE'] = translation['ALERT.SET_BET.TITLE'];
+                  strings['SET_BET_SUBTITLE'] = translation['ALERT.SET_BET.SUBTITLE'];
+                  strings['SET_BET_MSG'] = translation['ALERT.SET_BET.MSG'];
+              });
+
+            };
 
             $scope.vWrapper = {
                 name:'wrapperV',
@@ -52,15 +66,21 @@ angular
             };
 
             $scope.getTime = function (_date) {
-                return Moment.date(_date).format('H:MM');
+                return Moment.date(_date).format('HH:mm');
             };
 
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
+
                 if (_status == 0) {
+
                     var _jLeagues = $scope.leagues[_iLeague];
                     var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
 
-                    if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
+                    var dateMatch = moment(_jMatch.date,'YYYYMMDD hh:mm').format('YYYY-MM-DD');
+                    var dateToday = moment().format('YYYY-MM-DD');
+
+                    if (moment(dateToday).isBefore(dateMatch)) {
+                      if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
                         $scope.$emit('load');
                         if (_status == 0) {
                             if (_jMatch.bet) {
@@ -93,6 +113,14 @@ angular
 
                         _Match = _jMatch.id_game_matches;
                         _mBet = _bet;
+                      }
+                    } else {
+                      Notification.showInfoAlert({
+                          title: strings['SET_BET_TITLE'],
+                          subtitle: strings['SET_BET_SUBTITLE'],
+                          message: strings['SET_BET_MSG'],
+                          type: 'warning'
+                      });
                     }
                 }
             };
@@ -194,6 +222,7 @@ angular
 
             function init(){
                 $scope.$emit('load');
+                getTranslations();
                 getCompetitions();
             } init();
 

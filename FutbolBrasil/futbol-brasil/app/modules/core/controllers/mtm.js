@@ -41,7 +41,7 @@ angular
             $scope.date = Moment.date().format('dddd Do YYYY');
 
             $scope.getTime = function (_date) {
-                return Moment.date(_date).format('H:MM');
+                return Moment.date(_date).format('HH:mm');
             };
 
             function refreshSuccess(data){

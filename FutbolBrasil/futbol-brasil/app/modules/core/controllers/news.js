@@ -59,9 +59,13 @@ angular
 
             function showContentNews(_news) {
                 if(_news) {
+
+
+
                     if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                         $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
+                        if (_news.resources != undefined) $scope.contentNews.img = _news.resources[0];
                         $rootScope.transitionPageBack('#wrapper2', 'left');
                         $rootScope.isPageContentLeft = angular.element('#wrapper2').hasClass('left');
                         detailScroll.scrollTo(0, 0, 0);

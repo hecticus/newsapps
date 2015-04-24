@@ -53,13 +53,13 @@ angular
                         scrollX: false,
                         scrollY: true,
                         mouseWheel: false,
-                        momentum: false,
+                        momentum: true,
                         snap: false,
-                        snapSpeed: 700,
+                        snapSpeed: 10,
                         probeType: 3,
                         bounce: true,
-                        click: true,
-                        preventDefault:true
+                        click: false,
+                        preventDefault:false
                     });
                     $window[_wrapper].on('beforeScrollStart', function () {
                         this.refresh();

@@ -188,6 +188,12 @@
         "MSG": "¿Esta sección está bloqueado para los usuarios invitados. ¿Le gustaría registrarse para desbloquear esta sección?",
         "CONFIRM" : "Ok",
         "CANCEL" : "Cancelar"
+      },
+
+      "SET_BET" : {
+          "TITLE" : "Predicciones",
+          "SUBTITLE": "Fecha desfasada",
+          "MSG": "La fecha del partido está desfasada"
       }
 
     },

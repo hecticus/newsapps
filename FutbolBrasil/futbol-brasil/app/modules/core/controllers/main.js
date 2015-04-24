@@ -61,6 +61,7 @@ angular
                   || (getSection() === 'remind')
                   || (getSection() === 'language-selection')
                   || (getSection() === 'team-selection')
+                  || ($('.content-news #wrapper2').hasClass('left'))
                   || ($rootScope.hasFavorites === false)) {
                 return true;
               } else {

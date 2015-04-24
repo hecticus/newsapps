@@ -187,8 +187,13 @@
             "MSG": "This section is locked for Guest Users. Would you like to register to unlock this section?",
             "CONFIRM" : "Ok",
             "CANCEL" : "Cancel"
-          }
+          },
 
+          "SET_BET" : {
+            "TITLE" : "Predictions",
+            "SUBTITLE": "Outdated date",
+            "MSG": "The match date is outdated"
+          }
 
     },
 

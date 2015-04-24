@@ -31,7 +31,7 @@ angular
             };
 
             $scope.getTime = function(_date) {
-                return Moment.date(_date).format('H:MM');
+                return Moment.date(_date).format('HH:mm');
             };
 
             $scope.pagesBefore = [];

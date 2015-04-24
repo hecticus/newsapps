@@ -189,7 +189,14 @@
           "MSG": "Esta seção está bloqueado para usuários convidados. Gostaria de registrar-se para desbloquear esta seção?",
           "CONFIRM" : "Ok",
           "CANCEL" : "Cancelar"
+        },
+
+        "SET_BET" : {
+            "TITLE" : "Predições",
+            "SUBTITLE": "Data desatualizado",
+            "MSG": "A data de partida está desatualizado"
         }
+
     },
 
     "OK" : "Ok",

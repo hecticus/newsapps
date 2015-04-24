@@ -23,8 +23,8 @@ angular
 
             return {
 
-                GMT: function() {
-                  return moment().format('[GMT]ZZ');
+                GMT:function () {
+                    return moment().format('ZZ');
                 },
 
                 date:function (_date) {
@@ -46,7 +46,8 @@ angular
                  * @return {object} Returns a Moment instance
                  */
                 today : function (format) {
-                    return moment().format(format);
+                    var _oMoment = moment();
+                    return _oMoment.format(format);
                 }
             };
         }
