@@ -187,7 +187,7 @@ public class OptasportsScraper extends HecticusThread {
                         //live data (minuto a minuto)
                         //getMinuteByMinute(currentSeasonId, c);
                         //strikers
-                        //getStrikers();
+                        getStrikers(currentSeasonId, c);
                     }
 
                 }catch (Exception ex){
@@ -271,11 +271,11 @@ public class OptasportsScraper extends HecticusThread {
 
                                     Countries localCountry = new Countries(teamACountryName);
                                     localCountry.validateCountry();
-                                    Team localTeam = new Team(teamAName, Long.parseLong(teamAId), localCountry);
+                                    Team localTeam = new Team(teamAName, teamAId, localCountry);
                                     localTeam.validateTeam(c);
                                     Countries awayCountry = new Countries(teamBCountryName);
                                     awayCountry.validateCountry();
-                                    Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
+                                    Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                     awayTeam.validateTeam(c);
 
                                     GameMatchStatus status = new GameMatchStatus(statusName);
@@ -332,11 +332,11 @@ public class OptasportsScraper extends HecticusThread {
 
                                 Countries localCountry = new Countries(teamACountryName);
                                 localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName, Long.parseLong(teamAId), localCountry);
+                                Team localTeam = new Team(teamAName, teamAId, localCountry);
                                 localTeam.validateTeam(c);
                                 Countries awayCountry = new Countries(teamBCountryName);
                                 awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
+                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                 awayTeam.validateTeam(c);
 
                                 GameMatchStatus status = new GameMatchStatus(statusName);
@@ -391,11 +391,11 @@ public class OptasportsScraper extends HecticusThread {
 
                                 Countries localCountry = new Countries(teamACountryName);
                                 localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName, Long.parseLong(teamAId), localCountry);
+                                Team localTeam = new Team(teamAName,teamAId, localCountry);
                                 localTeam.validateTeam(c);
                                 Countries awayCountry = new Countries(teamBCountryName);
                                 awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
+                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                 awayTeam.validateTeam(c);
 
                                 GameMatchStatus status = new GameMatchStatus(statusName);
@@ -505,7 +505,7 @@ public class OptasportsScraper extends HecticusThread {
 
                                 Countries localCountry = new Countries(teamCountryName);
                                 localCountry.validateCountry();
-                                Team currentTeam =  new Team(teamName, Long.parseLong(teamExtId), localCountry);
+                                Team currentTeam =  new Team(teamName,teamExtId, localCountry);
                                 currentTeam.validateTeam(c);
                                 Rank currentRank = new Rank(phaseToInsert,currentTeam,groupFromWs,matches,matchesWon,
                                         matchesDraw, matchesLost, points, goals, goalsAgainst);
@@ -541,7 +541,7 @@ public class OptasportsScraper extends HecticusThread {
                             fixedGroup.validate(language);
                             Countries localCountry = new Countries(teamCountryName);
                             localCountry.validateCountry();
-                            Team currentTeam =  new Team(teamName, Long.parseLong(teamExtId), localCountry);
+                            Team currentTeam =  new Team(teamName, teamExtId, localCountry);
                             currentTeam.validateTeam(c);
                             Rank currentRank = new Rank(phaseToInsert,currentTeam,fixedGroup,matches,matchesWon,
                                     matchesDraw, matchesLost, points, goals, goalsAgainst);
@@ -574,7 +574,7 @@ public class OptasportsScraper extends HecticusThread {
 
     private void getStrikers(String seasonExternalId, Competition c){
         try {
-            String url = "http://api.core.optasports.com/soccer/get_tables?type=season&id=#ID#&tabletype=total&username=upstream&authkey=8277e0910d750195b448797616e091ad"+"&lang=pt";
+            String url = "http://api.core.optasports.com/soccer/get_player_statistics?id=#ID#&type=season&username=upstream&authkey=8277e0910d750195b448797616e091ad"+"&lang=pt";
             url = url.replace(ID, seasonExternalId);
             String xmlRespose = sendRequest(url,"");
             if (xmlRespose == null){
@@ -582,10 +582,29 @@ public class OptasportsScraper extends HecticusThread {
             }
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
-            NodeList round = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
+            NodeList strikers = (NodeList) xPath.compile("gsmrs/competition/season/goals/person").evaluate(source, XPathConstants.NODESET);
+            for (int i = 0; i < strikers.getLength(); i++){
+                Node currentStriker = (Node) strikers.item(i);
+                String strikerExternalId = xPath.compile("@person_id").evaluate(currentStriker),
+                        strikerName = xPath.compile("@name").evaluate(currentStriker),
+                        strikerTeamId = xPath.compile("@team_id").evaluate(currentStriker);
+                int count = stringIntParser(xPath.compile("@count").evaluate(currentStriker));
+                Team currentTeam = Team.findByExtId(strikerTeamId);
+                if (currentTeam != null){
+                    Scorer ti = new Scorer(strikerName, "", "", currentTeam, count,
+                            0, 0, 0,0, null, strikerExternalId, c, "");
+                    ti.validateScorer();
+                }
+            }
 
         }catch (Exception ex){
-            //error fatal
+            Utils.printToLog(OptasportsScraper.class,
+                    "Error en OctaScraper",
+                    "error inesperado procesando los goleadores, no se pudo procesar es necesario tomar acciones. competencia:" + c.getName(),
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
         }
 
     }
@@ -640,11 +659,11 @@ public class OptasportsScraper extends HecticusThread {
 
                                     Countries localCountry = new Countries(teamACountryName);
                                     localCountry.validateCountry();
-                                    Team localTeam = new Team(teamAName, Long.parseLong(teamAId), localCountry);
+                                    Team localTeam = new Team(teamAName, teamAId, localCountry);
                                     localTeam.validateTeam(c);
                                     Countries awayCountry = new Countries(teamBCountryName);
                                     awayCountry.validateCountry();
-                                    Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
+                                    Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                     awayTeam.validateTeam(c);
 
                                     String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
@@ -693,11 +712,11 @@ public class OptasportsScraper extends HecticusThread {
 
                                 Countries localCountry = new Countries(teamACountryName);
                                 localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName, Long.parseLong(teamAId), localCountry);
+                                Team localTeam = new Team(teamAName, teamAId, localCountry);
                                 localTeam.validateTeam(c);
                                 Countries awayCountry = new Countries(teamBCountryName);
                                 awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
+                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                 awayTeam.validateTeam(c);
 
                                 String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
@@ -750,11 +769,11 @@ public class OptasportsScraper extends HecticusThread {
 
                                 Countries localCountry = new Countries(teamACountryName);
                                 localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName, Long.parseLong(teamAId), localCountry);
+                                Team localTeam = new Team(teamAName, teamAId, localCountry);
                                 localTeam.validateTeam(c);
                                 Countries awayCountry = new Countries(teamBCountryName);
                                 awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
+                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                 awayTeam.validateTeam(c);
 
                                 String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
@@ -823,7 +842,7 @@ public class OptasportsScraper extends HecticusThread {
         //incidentPeriod.validate(language);
 
         GameMatchEvent gameMatchEvent = new GameMatchEvent(currentGameMatch, incidentPeriod, ac,
-                localTeam.getExtId() == eventTeamId ? localTeam : awayTeam, eventPlayerName, null,
+                localTeam.getExtId().equals(eventTeamId) ? localTeam : awayTeam, eventPlayerName, null,
                 Integer.parseInt(eventMin), matchDate, order, Long.parseLong(eventExternalId));
         gameMatchEvent.validate();
     }
