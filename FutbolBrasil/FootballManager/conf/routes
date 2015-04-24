@@ -70,8 +70,8 @@ GET     /footballapi/v1/matches/get/:id                                         
 GET     /footballapi/v1/matches/events/get/ext/:id                                                  controllers.footballapi.AfpFutbolWs.getEventsByExternalMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
 GET     /footballapi/v1/matches/events/get/fifa/:id                                                 controllers.footballapi.AfpFutbolWs.getEventsByFifaMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
 GET     /footballapi/v1/matches/events/get/:id                                                      controllers.footballapi.AfpFutbolWs.getEvents(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
-GET     /footballapi/v1/ranking/get/:id                                                             controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = false )
-GET     /footballapi/v1/ranking/get/ext/:id                                                         controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = true )
+GET     /footballapi/v1/ranking/get/:id                                                             controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : String, ext : Boolean = false )
+GET     /footballapi/v1/ranking/get/ext/:id                                                         controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : String, ext : Boolean = true )
 GET     /footballapi/v1/ranking/get/global/:id                                                      controllers.footballapi.AfpFutbolWs.getGlobalRanking(id : Long)
 
 GET     /footballapi/v1/matches/get/ids/:idApp                                                      controllers.footballapi.MatchesController.getFixturesByIDs(idApp : Integer)
