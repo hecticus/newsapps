@@ -498,7 +498,7 @@ public class DataFactoryScraper extends HecticusThread {
                                 if(incidentExtId != null && !incidentExtId.isEmpty()) {
                                     long incidentTeam = Long.parseLong(equipoId);
                                     //description: tipo + (if subtipo>0) subtipo
-                                    Action ac = new Action(incidentType, (incidentSubType.isEmpty()?incidentType:incidentSubType), Integer.parseInt(incidentExtId));
+                                    Action ac = null;//new Action(incidentType, (incidentSubType.isEmpty()?incidentType:incidentSubType), Integer.parseInt(incidentExtId));
                                     ac.validate(language);
 
                                     Period incidentPeriod = new Period(tiempo, tiempo, null);

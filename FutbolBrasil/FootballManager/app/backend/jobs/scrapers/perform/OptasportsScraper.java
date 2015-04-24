@@ -278,8 +278,8 @@ public class OptasportsScraper extends HecticusThread {
                                     Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
                                     awayTeam.validateTeam(c);
 
-                                    GameMatchStatus status = null;
-                                    //status.validate(language);
+                                    GameMatchStatus status = new GameMatchStatus(statusName);
+                                    status.validate(language);
 
                                     Venue gameVenue = null;
                                     long stadiumId = stringLongParser(venueId);
@@ -339,8 +339,8 @@ public class OptasportsScraper extends HecticusThread {
                                 Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
                                 awayTeam.validateTeam(c);
 
-                                GameMatchStatus status =  null;//new GameMatchStatus(statusName, Integer.parseInt(statusId));
-                                //status.validate(language);
+                                GameMatchStatus status = new GameMatchStatus(statusName);
+                                status.validate(language);
 
                                 Venue gameVenue = null;
                                 long stadiumId = stringLongParser(venueId);
@@ -398,8 +398,8 @@ public class OptasportsScraper extends HecticusThread {
                                 Team awayTeam = new Team(teamBName, Long.parseLong(teamBId), awayCountry);
                                 awayTeam.validateTeam(c);
 
-                                GameMatchStatus status = null;
-                                //status.validate(language);
+                                GameMatchStatus status = new GameMatchStatus(statusName);
+                                status.validate(language);
 
                                 Venue gameVenue = null;
                                 long stadiumId = stringLongParser(venueId);
