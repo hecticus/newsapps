@@ -145,7 +145,7 @@ angular
                     get: function (_competition) {
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/bets/get/'
-                            + getClientId() + '/' + _competition
+                            + getClientId() + '/' + _competition + '?timezoneName=' + moment().format('[GMT]ZZ');
                     },
                     create : function() {
                         return brazil_football_manager_url + 'futbolbrasil/'
