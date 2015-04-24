@@ -91,7 +91,8 @@ POST    /api/v1/client/upstream/events/send                                     
 GET     /api/v1/client/:id                                                              controllers.client.Clients.get(id : Integer, upstreamChannel : String ?= "Android", pmc : Boolean?=false)
 GET     /api/v1/clients                                                                 controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 GET     /api/v1/client/:id/favorite/athletes                                            controllers.client.Clients.getFavorites(id : Integer, categories : Boolean?=false)
-GET     /api/v1/client/:id/favorite/categories                                            controllers.client.Clients.getFavorites(id : Integer, categories : Boolean?=true)
+GET     /api/v1/client/:id/favorite/categories                                          controllers.client.Clients.getFavorites(id : Integer, categories : Boolean?=true)
+POST    /api/v1/client/:id/upstream                                                     controllers.client.Clients.sendClientEvent(id : Integer)
 
 #Clients PMC
 GET     /api/v1/clients/pmc/get/:id                                                     controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
