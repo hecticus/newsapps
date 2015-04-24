@@ -32,7 +32,7 @@ angular
                 data:{
                     prev: 'login',
                     next: 'login',
-                    _class: 'content-login',
+                    contentClass: 'content-login',
                     section: 'login',
                     state: 'login'
                 }
@@ -44,7 +44,7 @@ angular
                 data:{
                     prev: 'login',
                     next: 'login',
-                    _class: 'content-login',
+                    contentClass: 'content-login',
                     section: 'remind',
                     state: 'remind'
                 }
@@ -56,7 +56,7 @@ angular
                 data:{
                     prev: 'prediction',
                     next: 'prediction',
-                    _class: 'content-settings',
+                    contentClass: 'content-settings',
                     section: 'settings',
                     state: 'settings'
                 }
@@ -68,7 +68,7 @@ angular
                 data:{
                     prev: 'settings',
                     next: 'news',
-                    _class: 'content-team-selection',
+                    contentClass: 'content-team-selection',
                     section: 'team-selection',
                     state: 'team-selection'
                 }
@@ -80,7 +80,7 @@ angular
                 data:{
                     prev: 'settings',
                     next: 'news',
-                    _class: 'content-language-selection',
+                    contentClass: 'content-language-selection',
                     section: 'language-selection',
                     state: 'language-selection'
                 }
@@ -92,7 +92,7 @@ angular
                 data:{
                     prev: 'mtm',
                     next: 'standings',
-                    _class: 'content-match',
+                    contentClass: 'content-match',
                     section: 'notistats',
                     state: 'match'
                 }

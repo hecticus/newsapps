@@ -159,6 +159,7 @@ PLAYER_LABEL=Player
 TEAM_LABEL=Team
 GOALS_LABEL=Goals
 MTM_LABEL=Live
+MTM_REFRESH_LINK=Refresh
 
 LOGIN_TITLE=Register to access the football news of the day, every day.
 LOGIN_TITLE_MSISDN=Enter your mobile number.
@@ -167,13 +168,14 @@ BUTTON_NEXT=Next
 BUTTON_CONFIRM=Confirm
 BUTTON_AGAIN_PASSWORD=Request password again
 
-ERROR_DEFAULT=Error
-ERROR_MSISDN=Msisdn Error
-ERROR_PASSWORD=Password Error
+ERROR_DEFAULT=At this time we can not process your request
+ERROR_MSISDN=The phone number is invalid
+ERROR_PASSWORD=The password is invalid
+ERROR_SEND_PASSWORD=At this time we can not process your request
+ERROR_CREATE_CLIENTE=At this time we can not process your request
 
 INFO_NEWS=Content not available
 INFO_MTM=Content not available
-INFO_MATCH=Content not available
+INFO_MATCH=No games available for the day %DATE%
 INFO_SCORERS=Content not available
-
 ### -- </wap> --- ###

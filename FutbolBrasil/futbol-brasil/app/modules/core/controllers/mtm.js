@@ -34,6 +34,9 @@ angular
             $scope.refreshIconClass = '';
 
             $scope.interval = false;
+            $scope.competitionId = 0;
+            $scope.matchId = 0;
+
 
             $scope.date = Moment.date().format('dddd Do YYYY');
 
@@ -69,22 +72,27 @@ angular
             }
 
             $scope.refreshEvents = function (competitionId, matchId) {
+
                 $scope.refreshIconClass = ' icon-refresh-animate';
-                if ($http.pendingRequests.length === 0 && !$rootScope.loading) {
+                //if ($http.pendingRequests.length === 0) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
                     $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
                         .then(refreshSuccess, refreshError);
 
-                    refreshInterval = $interval(function () {
-                        console.log('$interval refreshEvents triggered.');
-                        $scope.refreshEvents();
-                    },50000);
-                }
+                   if (angular.element('#wrapperM').hasClass('left')) {
+                     refreshInterval = $interval(function () {
+                         //console.log('$interval refreshEvents triggered.');
+                         $scope.refreshEvents(competitionId, matchId);
+                     },50000);
+                   };
+
+               // }
             };
 
             $scope.showContentEvents = function (_league, _match) {
+
                 _event.reset();
                 $scope.item.mtm = [];
                 $scope.item.league = _league;
@@ -102,7 +110,11 @@ angular
                 competitionId = 16;
                 var matchId = _match.id_game_matches;
                 matchId = 3321;
+                $scope.competitionId = competitionId;
+                $scope.matchId = matchId;
+
                 $scope.refreshEvents(competitionId, matchId);
+
             };
 
             function mapLeagues(leagues){
@@ -160,15 +172,16 @@ angular
             }
 
             function init(){
+
                 $scope.$emit('load');
                 setUpIScroll();
                 getMatchesForToday();
 
                 $scope.$on('$destroy', function() {
-                    console.log('Cancelling  MTM Interval.');
                     $interval.cancel(refreshInterval);
                     refreshInterval = undefined;
                 });
+
             } init();
         }
     ]);

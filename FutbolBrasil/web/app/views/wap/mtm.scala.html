@@ -1,5 +1,5 @@
 @(HD: models.wap.HandsetDetection)(jResponse: com.fasterxml.jackson.databind.JsonNode)(idCompetition: Integer)(nameCompetition: String)(idMatch: Integer)
-
+@import play.i18n._
 
 @if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 } else {
@@ -39,7 +39,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >
-                <a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("action_minute").asInt())'>Update</a>
+                <a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("id_game_match_events").asInt())'>@Messages.get("MTM_REFRESH_LINK")</a>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >
-                <a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("action_minute").asInt())'>Update</a>
+                <a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("id_game_match_events").asInt())'>@Messages.get("MTM_REFRESH_LINK")</a>
             </div>
         </div>
 

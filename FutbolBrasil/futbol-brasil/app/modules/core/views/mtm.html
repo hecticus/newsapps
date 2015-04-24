@@ -12,33 +12,33 @@
                     <table class="table" ng-repeat="league in item.leagues">
                         <thead>
                             <tr>
-                                <th colspan="3" class="h-header yellow">
+                                <th colspan="3" class="h-header light-blue">
                                     <span ng-bind="league.name"></span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="match in league.fixtures"
-                                ng-click="showContentEvents(league, match)">
-                                <td style="width: 33% !important; vertical-align:middle;"
-                                    ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
-                                    <h6 ng-bind="match.homeTeam.name" class="team-name"></h6>
-                                    <span ng-bind="match.home_team_goals" class="goal" ng-if="match.id_status != 0"></span>
-                                </td>
+                          <tr ng-repeat="match in league.fixtures"
+                              ng-click="showContentEvents(league, match)" class="h-match">
+                            <td style="width: 33% !important; vertical-align:middle;"
+                                ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
+                              <span ng-bind="match.homeTeam.name" class="h-name-team"></span>
+                              <span ng-bind="match.home_team_goals class="h-goal-team" ng-if="match.id_status != 0"></span>
+                            </td>
 
-                                <td style="width: 33% !important;  vertical-align:middle;">
-                                    <span ng-bind="getTime(match.date)" class="date"></span>
-                                    <br/>
-                                    <span class="status _{{match.id_status}}">{{ match.status | translate}}
-                                    </span>
-                                </td>
+                            <td style="width: 33% !important;  vertical-align:middle;">
+                              <span ng-bind="getTime(match.date)" class="date"></span>
+                              <br/>
+                                      <span class="status _{{match.id_status}}">{{ match.status | translate}}
+                                      </span>
+                            </td>
 
-                                <td style="width: 33% !important;  vertical-align:middle;"
-                                    ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
-                                    <h6 ng-bind="match.awayTeam.name" class="team-name"></h6>
-                                    <span ng-bind="match.away_team_goals" class="goal" ng-if="match.id_status != 0"></span>
-                                </td>
-                            </tr>
+                            <td style="width: 33% !important;  vertical-align:middle;"
+                                ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
+                              <span ng-bind="match.awayTeam.name" class="h-name-team"></span>
+                              <span ng-bind="match.away_team_goals" class="h-goal-team" ng-if="match.id_status != 0"></span>
+                            </td>
+                          </tr>
                         </tbody>
                     </table>
                 </div>
@@ -73,8 +73,8 @@
                             <td style="width: 20% !important;" >
                                 <span >{{event.action_minute}}'</span>
                             </td>
-                            <td style="width: 80% !important; text-align: left; ">
-                                <p >
+                            <td style="width: 80% !important;">
+                                <p style="text-align:left;" >
                                     <b>{{event.player_a}}</b> de {{event.teams}},  {{event.action.description}}
                                 </p>
                             </td>
@@ -89,7 +89,7 @@
     <div class="row row-header h-header red">
       <div class="col-xs-12">
         <span ng-bind="item.league.name"></span>
-          <span ng-class="refreshIconClass" ng-click="refreshEvents()" style="position: absolute; right: 10px;">
+          <span ng-class="refreshIconClass" ng-click="refreshEvents(competitionId, matchId)" style="position: absolute; right: 10px;">
               <i class="icon mdi-navigation-refresh" style=" font-size:2em;vertical-align: middle;"></i>
           </span>
       </div>
