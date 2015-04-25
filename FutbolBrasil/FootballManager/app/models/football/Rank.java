@@ -160,6 +160,9 @@ public class Rank  extends HecticusModel {
         this.points = points;
         this.goalsFor = goalsFor;
         this.goalAgainst = goalAgainst;
+        Long diff = goalsFor - goalAgainst;
+        this.goalDiff = diff.intValue();
+
     }
 
     @Override
