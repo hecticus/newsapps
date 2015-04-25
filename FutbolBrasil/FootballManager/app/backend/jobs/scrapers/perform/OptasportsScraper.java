@@ -696,6 +696,7 @@ public class OptasportsScraper extends HecticusThread {
                                         //get goals
                                         NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
                                         for (int l = 0; l < goals.getLength(); l++){
+                                            System.out.println("gol");
                                             processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                         }
                                         //get bookings
@@ -746,11 +747,13 @@ public class OptasportsScraper extends HecticusThread {
                                     //get substitutions
                                     NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
                                     for (int l = 0; l < subs.getLength(); l++){
+                                        System.out.println("sub");
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                     }
                                     //get goals
                                     NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
                                     for (int l = 0; l < goals.getLength(); l++){
+                                        System.out.println("gol");
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                     }
                                     //get bookings
@@ -809,6 +812,7 @@ public class OptasportsScraper extends HecticusThread {
                                     //get goals
                                     NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
                                     for (int l = 0; l < goals.getLength(); l++){
+                                        System.out.println("gol");
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                     }
                                     //get bookings
