@@ -10,8 +10,7 @@ angular
     .factory('Domain', ['Client',
         function(Client){
 
-            var football_manager_url = 'http://footballmanager.hecticus.com/';
-            var football_manager2_url = 'http://footballmanager2.hecticus.com/';
+            var football_manager_url = 'http://footballmanager2.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
             var appId = '1';
             var apiVersion = 'v1';
@@ -67,26 +66,26 @@ angular
 
                 news: {
                     index: function () {
-                        console.log(football_manager2_url + 'newsapi/'
+                        console.log(football_manager_url + 'newsapi/'
                                                                 + apiVersion + '/news/scroll/'
                                                                 + appId + '/' + getLang()
                                                                 + '?timezoneName=' + moment().format('[GMT]ZZ'));
 
-                        return football_manager2_url + 'newsapi/'
+                        return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/'
                             + appId + '/' + getLang()
                             + '?timezoneName=' + moment().format('[GMT]ZZ');
                     },
 
                     up: function (_news) {
-                        return football_manager2_url + 'newsapi/'
+                        return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/up/rest/'
                             + appId + '/' + getLang() + '/' + _news
                             + '?timezoneName=' + moment().format('[GMT]ZZ');
                     },
 
                     down: function (_news) {
-                        return football_manager2_url + 'newsapi/'
+                        return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/down/rest/'
                             + appId + '/' + getLang() + '/' + _news
                             + '?timezoneName=' + moment().format('[GMT]ZZ');

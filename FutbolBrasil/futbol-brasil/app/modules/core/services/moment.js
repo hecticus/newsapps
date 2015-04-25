@@ -27,17 +27,25 @@ angular
                     return moment().format('ZZ');
                 },
 
-                date:function (_date) {
-                    var _oMoment = moment().locale(getLang());
-                    if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
-                    return _oMoment;
-                },
+               date:function (_date) {
+                   var _oMoment = moment().locale(getLang());
+                   if (_date) {
+                     var leagueTime = moment(_date,'YYYYMMDDHHmmSS').format('YYYY-MM-DD HH:mm:ss');
+                     var localTime  = moment.utc(leagueTime).toDate();
+                     _oMoment = moment(localTime).locale(getLang());
+                   }
+                   return _oMoment;
+               },
 
-                fromNow : function(_date){
-                    var _oMoment = moment().locale(getLang());
-                    if (_date) _oMoment = _oMoment(_date,'YYYYMMDD hh:mm').locale(getLang());
-                    return _oMoment.fromNow();
-                },
+               fromNow : function(_date){
+                   var _oMoment = moment().locale(getLang());
+                   if (_date) {
+                       var leagueTime = moment(_date,'YYYYMMDDHHmmSS').format('YYYY-MM-DD HH:mm:ss');
+                       var localTime  = moment.utc(leagueTime).toDate();
+                       _oMoment = moment(localTime).locale(getLang());
+                   }
+                   return _oMoment.fromNow();
+               },
 
                 /**
                  * @ngdoc function

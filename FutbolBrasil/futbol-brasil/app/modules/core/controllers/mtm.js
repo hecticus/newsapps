@@ -107,9 +107,7 @@ angular
 
                 //TODO check request cableado
                 var competitionId = _league.id_competitions;
-                competitionId = 16;
                 var matchId = _match.id_game_matches;
-                matchId = 3321;
                 $scope.competitionId = competitionId;
                 $scope.matchId = matchId;
 
