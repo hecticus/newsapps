@@ -49,9 +49,9 @@
         "STATUS" : {
             "0" : "Sin Jugar",
             "1" : "Jugado",
-            "2" : "Programado",
-            "3" : "Cancelado",
-            "4" : "Jugando",
+            "2" : "Jugando",
+            "3" : "Programado",
+            "4" : "Cancelado",
             "5" : "Aplazado",
             "6" : "Suspendido"
         }

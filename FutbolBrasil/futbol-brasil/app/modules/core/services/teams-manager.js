@@ -17,7 +17,7 @@ angular
 
             function getTeamsFromServer(isDone){
                 var page = 0;
-                var pageSize = 200;
+                var pageSize = 1000;
                 var config = {
                     params: {
                         page: page,
@@ -190,21 +190,21 @@ angular
                     console.log('getTeams. No teams. Trying to get teams from server.');
                     teams = [];
                     return getTeamsFromServer().then(function(pTeams){
-                        alert("hola mundo 1");
-                       /* teams = pTeams;
-                        return teams;*/
+
+                        teams = pTeams;
+                        return teams;
 
                     }, function(){
-                     alert("hola mundo 2");
-                        /*teams = [];
-                        return $q.reject(teams);*/
+
+                        teams = [];
+                        return $q.reject(teams);
 
                     }).then(function(pTeams){
-                      alert("hola mundo 3");
-                        /*var end = offset+pageSize;
+
+                        var end = offset+pageSize;
                         console.log('pTeams from server');
                         end = end >= pTeams.length? pTeams.length : end;
-                        return pTeams.slice(offset, end);*/
+                        return pTeams.slice(offset, end);
 
                     });
                 }

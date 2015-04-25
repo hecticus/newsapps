@@ -122,8 +122,10 @@ angular
                 $interval.cancel($rootScope.refreshInterval);
                 $rootScope.refreshInterval = undefined;
 
+
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
+                     $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('left')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('right')) {

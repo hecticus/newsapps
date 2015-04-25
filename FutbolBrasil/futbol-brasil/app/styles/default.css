@@ -436,15 +436,9 @@ body.content-mtm .row-back {
 .goal { font-size: 1.5em; }
 .status { color:#000000; font-weight: bold; }
 
-.status._1 { color: rgb(227,114,34); }     /*Played*/
-.status._2 { color: rgb(0,40,120);  }       /*Fixture*/
-.status._3 { color: rgb(227,114,34); }     /*Cancelled*/
-.status._4 { color: rgb(122,184,0);  }     /*Playing*/
-.status._5 { color: rgb(254,209,0);  }     /*Postponed*/
-.status._6 { color: rgb(254,209,0);  }     /*Suspended*/
 
-.status.PT { background-color:rgb(122,184,0); color: #ffffff; }
-.status.ST { background-color:#fed100; color: #000000; }
+
+
 
 
 /* From ext/bootstrap.css */
@@ -820,7 +814,7 @@ h6.team-name {
 
     .h-header.yellow {
       background: rgb(254,209,0);
-      color: #002878;
+      color: rgb(0,40,120);
     }
 
     .h-header.blue {
@@ -1008,7 +1002,31 @@ h6.team-name {
       height: auto;
     }
 
+  .status._1 { color: rgb(227,114,34); }     /*Played*/
+  .status._2 { color: rgb(122,184,0);  }     /*Playing*/
+  .status._3 { color: rgb(0,40,120); }       /*Fixture*/
+  .status._4 { color: rgb(227,114,34);  }    /*Cancelled*/
+  .status._5 { color: rgb(254,209,0);  }     /*Postponed*/
+  .status._6 { color: rgb(254,209,0);  }     /*Suspended*/
 
+
+  .status.period { background: rgb(0,40,120);
+                         color: #ffffff;}
+
+  .status.period._9 {background: rgb(122,184,0);
+                          color: #ffffff; }
+
+  .status.period._8 {   background: rgb(254,209,0);
+                           color: rgb(0,40,120); }
+
+
+    .h-event{
+      border-bottom: solid 1pt  rgb(44,156,211) !important;
+    }
+
+    .h-event:last-child {
+          border-bottom: 0 !important;
+    }
 
     /*</v2>*/
 

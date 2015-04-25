@@ -98,6 +98,9 @@ angular
                 },
 
                 standings: function () {
+                    console.log(football_manager_url + 'api/'
+                                                        + apiVersion + '/rankings/get/'
+                                                        + appId + getLang());
                     return football_manager_url + 'api/'
                         + apiVersion + '/rankings/get/'
                         + appId + getLang();
@@ -110,6 +113,11 @@ angular
                 },
 
                 ranking: function (_competition, _phase) {
+
+                    console.log(football_manager_url + 'footballapi/'
+                                                        + apiVersion + '/competitions/ranking/'
+                                                        + appId + '/' + _competition + '/' + getLang() + '/' + _phase);
+
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/competitions/ranking/'
                         + appId + '/' + _competition + '/' + getLang() + '/' + _phase;

@@ -48,9 +48,9 @@
         "STATUS" : {
             "0" : "Not Yet Played",
             "1" : "Played",
-            "2" : "Fixture",
-            "3" : "Cancelled",
-            "4" : "Playing",
+            "2" : "Playing",
+            "3" : "Fixture",
+            "4" : "Cancelled",
             "5" : "Postponed",
             "6" : "Suspended"
         }

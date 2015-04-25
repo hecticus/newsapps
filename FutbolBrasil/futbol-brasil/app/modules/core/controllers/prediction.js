@@ -71,7 +71,7 @@ angular
 
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
 
-                if (_status == 2) {
+                if (_status == 3) {
 
                     var _jLeagues = $scope.leagues[_iLeague];
                     var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
@@ -82,7 +82,7 @@ angular
                     if (moment(dateToday).isBefore(dateMatch)) {
                       if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
                         $scope.$emit('load');
-                        if (_status == 2) {
+                        if (_status == 3) {
                             if (_jMatch.bet) {
                                 _jMatch.bet.client_bet = _bet;
                             } else {

@@ -85,6 +85,7 @@ angular
                      $rootScope.refreshInterval = $interval(function () {
                          //console.log('$interval refreshEvents triggered.');
                          $scope.refreshEvents(competitionId, matchId);
+                         $interval.cancel($rootScope.refreshInterval);
                      },50000);
                    };
 
@@ -99,7 +100,7 @@ angular
                 $scope.item.match = {
                     home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
                     away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
-                    status: _match.status
+                    status: {id:_match.id_status,name:_match.status}
                 };
 
                 $rootScope.transitionPageBack('#wrapper2','left');
