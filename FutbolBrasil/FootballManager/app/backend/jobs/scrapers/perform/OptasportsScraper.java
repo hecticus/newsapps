@@ -828,7 +828,7 @@ public class OptasportsScraper extends HecticusThread {
                     Utils.printToLog(OptasportsScraper.class,
                             "Error en OctaScraper",
                             "error inesperado procesando el minuto a minuto, el proceso continua, ext_id:" + seasonExternalId,
-                            true,
+                            false,
                             ex,
                             "support-level-1",
                             Config.LOGGER_ERROR);
@@ -863,7 +863,7 @@ public class OptasportsScraper extends HecticusThread {
 
         GameMatchEvent gameMatchEvent = new GameMatchEvent(currentGameMatch, incidentPeriod, ac,
                 localTeam.getExtId().equals(eventTeamId) ? localTeam : awayTeam, eventPlayerName, null,
-                Integer.parseInt(eventMin), matchDate, order, Long.parseLong(eventExternalId));
+                Integer.parseInt(eventMin), matchDate,  Integer.parseInt(eventExternalId), Long.parseLong(eventExternalId));
         gameMatchEvent.validate();
     }
 

@@ -100,25 +100,18 @@ public class Scorer extends HecticusModel {
      * funcionn para validar al goleador
      */
     public void validateScorer(){
-        Scorer toValidate = getScorer(this.comp, ""+this.externalId);
-        if (toValidate != null){// if exist have to update
-            this.idScorer = toValidate.idScorer;
-            this.name = toValidate.name;
-            this.fullName = toValidate.fullName;
-            this.nickname = toValidate.nickname;
-            this.team = toValidate.team;
-            this.goals = toValidate.goals;
-            this.byplay = toValidate.byplay;
-            this.header = toValidate.header;
-            this.freeKick = toValidate.freeKick;
-            this.penalty = toValidate.penalty;
-            this.country = toValidate.country;
-            this.externalId =toValidate.externalId;
-            this.comp = toValidate.comp;
-            this.date = toValidate.date;
-        }else {
-            this.save();
+        try {
+            Scorer toValidate = getScorer(this.comp, ""+this.externalId);
+            if (toValidate != null){// if exist have to update
+                this.setIdScorer(toValidate.idScorer);
+                toValidate.update();
+            }else {
+                this.save();
+            }
+        }catch (Exception ex){
+
         }
+
 
     }
 
