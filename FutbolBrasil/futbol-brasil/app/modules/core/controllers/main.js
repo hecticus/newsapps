@@ -8,11 +8,13 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage',
+    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage', '$interval',
         '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
-        function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
+        function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
                Client, CordovaApp) {
 
+
+            $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -116,6 +118,9 @@ angular
 
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = undefined;
 
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();

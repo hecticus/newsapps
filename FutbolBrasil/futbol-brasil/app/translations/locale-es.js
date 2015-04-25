@@ -48,18 +48,12 @@
     "MATCH" : {
         "STATUS" : {
             "0" : "Sin Jugar",
-            "1" : "Primer Tiempo",
-            "2" : "Final",
-            "3" : "Suspendido",
-            "4" : "Postpuesto",
-            "5" : "Medio Tiempo",
-            "6" : "Segundo Tiempo",
-            "7" : "Tiempo Completo",
-            "8" : "Extra tiempo 1",
-            "9" : "Fin de Extra tiempo 1",
-            "10" : "Extra tiempo 2",
-            "11" : "Fin de Extra tiempo 2",
-            "12" : "Penales"
+            "1" : "Jugado",
+            "2" : "Programado",
+            "3" : "Cancelado",
+            "4" : "Jugando",
+            "5" : "Aplazado",
+            "6" : "Suspendido"
         }
     },
     "LEADERBOARD" : {

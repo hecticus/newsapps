@@ -140,8 +140,10 @@ angular
                     $scope.item.competitions.forEach(function(competition) {
                         Competitions.getPhase(competition)
                             .then(function (phases) {
-                                competition.phase = phases[phases.length - 1].id_phases;
-                                $scope.showTournament();
+                                if (phases) {
+                                  competition.phase = phases[phases.length - 1].id_phases;
+                                  $scope.showTournament();
+                                }
                             }, function(){
                                 Notification.showNetworkErrorAlert();
                                 $scope.$emit('unload');

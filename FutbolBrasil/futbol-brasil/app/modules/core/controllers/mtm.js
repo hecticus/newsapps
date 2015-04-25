@@ -13,7 +13,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $interval, WebManager,
                  Domain, Moment, iScroll, Notification) {
 
-            var refreshInterval = null;
+            $rootScope.refreshInterval = null;
             var listScroll = null;
             var matchScroll = null;
             var _event = {
@@ -77,12 +77,12 @@ angular
                 //if ($http.pendingRequests.length === 0) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-
+                    console.log(Domain.mtm(competitionId, matchId, _event.first));
                     $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
                         .then(refreshSuccess, refreshError);
 
                    if (angular.element('#wrapperM').hasClass('left')) {
-                     refreshInterval = $interval(function () {
+                     $rootScope.refreshInterval = $interval(function () {
                          //console.log('$interval refreshEvents triggered.');
                          $scope.refreshEvents(competitionId, matchId);
                      },50000);
@@ -176,8 +176,8 @@ angular
                 getMatchesForToday();
 
                 $scope.$on('$destroy', function() {
-                    $interval.cancel(refreshInterval);
-                    refreshInterval = undefined;
+                    $interval.cancel($rootScope.refreshInterval);
+                    $rootScope.refreshInterval = null;
                 });
 
             } init();

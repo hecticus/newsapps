@@ -190,16 +190,22 @@ angular
                     console.log('getTeams. No teams. Trying to get teams from server.');
                     teams = [];
                     return getTeamsFromServer().then(function(pTeams){
-                        teams = pTeams;
-                        return teams;
+                        alert("hola mundo 1");
+                       /* teams = pTeams;
+                        return teams;*/
+
                     }, function(){
-                        teams = [];
-                        return $q.reject(teams);
+                     alert("hola mundo 2");
+                        /*teams = [];
+                        return $q.reject(teams);*/
+
                     }).then(function(pTeams){
-                        var end = offset+pageSize;
+                      alert("hola mundo 3");
+                        /*var end = offset+pageSize;
                         console.log('pTeams from server');
                         end = end >= pTeams.length? pTeams.length : end;
-                        return pTeams.slice(offset, end);
+                        return pTeams.slice(offset, end);*/
+
                     });
                 }
             }

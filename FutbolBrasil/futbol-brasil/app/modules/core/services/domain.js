@@ -137,7 +137,8 @@ angular
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/matches/mam/next/'
                         + appId + '/' + _competition + '/' + _match
-                        + '/' + getLang() + '/' + _event;
+                        + '/' + getLang() + '/' + _event
+                        + '?timezoneName=' + moment().format('[GMT]ZZ');
                 },
 
                 bets: {
