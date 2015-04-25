@@ -45,6 +45,8 @@ public class Phase extends HecticusModel {
 
     private boolean pushed;
 
+    private Integer type;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "phase", cascade = CascadeType.ALL)
     private List<GameMatch> matches;
 
@@ -71,6 +73,20 @@ public class Phase extends HecticusModel {
         this.orden = order;
         this.nivel = nivel;
         this.fn = fn;
+        this.type = 0;
+    }
+
+    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, String extId, Integer order, Integer nivel, Integer fn, Integer type) {
+        this.comp = comp;
+        this.globalName = globalName;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.extId = extId;
+        this.orden = order;
+        this.nivel = nivel;
+        this.fn = fn;
+        this.type = type;
     }
 
     public Long getIdPhases() {
@@ -227,6 +243,14 @@ public class Phase extends HecticusModel {
         this.pushed = pushed;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public List<PhaseHasLocalization> getLocalizations() {
         return localizations;
     }
@@ -329,6 +353,7 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
+        obj.put("type", type);
         return obj;
     }
 
@@ -342,6 +367,7 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
+        obj.put("type", type);
         return obj;
     }
 
@@ -351,6 +377,7 @@ public class Phase extends HecticusModel {
         obj.put("competition_name", comp.getName());
         obj.put("global_name",globalName);
         obj.put("name",name);
+        obj.put("type", type);
         return obj;
     }
 
@@ -382,6 +409,7 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
+        obj.put("type", type);
         return obj;
     }
 
@@ -413,6 +441,7 @@ public class Phase extends HecticusModel {
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
         obj.put("has_ranking", hasRanking());
+        obj.put("type", type);
         return obj;
     }
 
