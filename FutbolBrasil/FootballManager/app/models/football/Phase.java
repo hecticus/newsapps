@@ -9,8 +9,10 @@ import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.DateAndTime;
 
 import javax.persistence.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -264,6 +266,7 @@ public class Phase extends HecticusModel {
     }
 
     public List<Rank> getRanks() {
+        Collections.sort(ranks, new RanksComparator());
         return ranks;
     }
 
@@ -510,6 +513,17 @@ class RanksGroupComparator implements Comparator<Rank> {
             if(order == 0){
                 order = c2.getGoalDiff() - c1.getGoalDiff();
             }
+        }
+        return order;
+    }
+}
+
+class RanksComparator implements Comparator<Rank> {
+    @Override
+    public int compare(Rank c1, Rank c2) {
+        int order = (int)(c2.getPoints() - c1.getPoints());
+        if(order == 0){
+            order = c2.getGoalDiff() - c1.getGoalDiff();
         }
         return order;
     }
