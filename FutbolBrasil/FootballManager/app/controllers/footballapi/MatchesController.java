@@ -89,6 +89,7 @@ public class MatchesController extends HecticusController {
             if(timezoneName.isEmpty()){
                 return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
             }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
@@ -150,7 +151,7 @@ public class MatchesController extends HecticusController {
             if(timezoneName.isEmpty()){
                 return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
             }
-            ObjectNode response = null;
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
@@ -226,6 +227,7 @@ public class MatchesController extends HecticusController {
             if(timezoneName.isEmpty()){
                 return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
             }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
@@ -290,6 +292,7 @@ public class MatchesController extends HecticusController {
             if(timezoneName.isEmpty()){
                 return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
             }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
@@ -356,6 +359,7 @@ public class MatchesController extends HecticusController {
             if(timezoneName.isEmpty()){
                 return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
             }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
