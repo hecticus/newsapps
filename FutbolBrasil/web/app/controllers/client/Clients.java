@@ -717,7 +717,11 @@ public class Clients extends HecticusController {
 
     public static Result getBets(Integer id) {
         try {
-            String timezoneName = getFromQueryString("timezoneName")[0];
+            String[] timezoneNames = getFromQueryString("timezoneName");
+            if(timezoneNames.length <= 0){
+                return badRequest(buildBasicResponse(1, "Falta el parametro timezonName"));
+            }
+            String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
             Client client = Client.finder.byId(id);
             if(client != null) {
                 String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/date/grouped/" + Config.getInt("football-manager-id-app") + "?timezoneName=" + timezoneName;
@@ -816,7 +820,11 @@ public class Clients extends HecticusController {
 
     public static Result getBetsForCompetition(Integer id, Integer idCompetition) {
         try {
-            String timezoneName = getFromQueryString("timezoneName")[0];
+            String[] timezoneNames = getFromQueryString("timezoneName");
+            if(timezoneNames == null){//timezoneNames.length <= 0){
+                return badRequest(buildBasicResponse(1, "Falta el parametro timezonName"));
+            }
+            String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
             Client client = Client.finder.byId(id);
             if(client != null) {
                 String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/competition/date/grouped/" + Config.getInt("football-manager-id-app") + "/" + idCompetition + "?timezoneName=" + timezoneName;
