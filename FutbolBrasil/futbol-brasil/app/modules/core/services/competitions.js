@@ -65,7 +65,6 @@ angular
                     config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 }
 
-                console.log("phases-> " + Domain.phases(competition.id_competitions));
                 return $http.get(Domain.phases(competition.id_competitions), config)
                     .then(function (response) {
                         if (response.data.error === 0) {

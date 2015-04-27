@@ -15,9 +15,10 @@ angular
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['login', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login','settings', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
             var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
+            var settingsSections = ['settings', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
             var onSettingsSection = false;
 
             var strings = {};
@@ -55,7 +56,7 @@ angular
                 isSettingsSubSection : isSettingsSubSection,
 
                 isOnUtilitySection : isOnUtilitySection,
-
+                isOnUtility : isOnUtility,
                 requiresAuthSection : requiresAuthSection,
 
                 setIsOnSettingsSection: setIsOnSettingsSection,
@@ -97,25 +98,19 @@ angular
 
                 if ($('#wrapperM').hasClass('right')) {
                      $rootScope.hideMenu();
+                } else if(currentSection == 'login'){
+                    exitApp();
                 } else if(isOnUtilitySection()){
                     if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
                     } else {
-                      $state.go($rootScope.previousState);
-                    }
-
-                    /* else if(prevSection) {
-                        alert('onBackButtonPressed.3');
                         $state.go($rootScope.previousState);
-                    } else if($state.current.data){
-                        $state.go($state.current.data.prev);
-                    }*/
+                    }
 
                 } else if(hasPreviousSubsection){
                     angular.element('.page.back.left:last').attr('class', ' page transition right');
                     $rootScope.isPageContentLeft = false;
-                    //$rootScope.$apply();
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
@@ -163,6 +158,12 @@ angular
             function isOnUtilitySection(){
                 return utilitySections.some(function(utilitySection){
                     return utilitySection === currentSection;
+                });
+            }
+
+            function isOnUtility(section){
+                return settingsSections.some(function(utilitySection){
+                    return utilitySection === section;
                 });
             }
 

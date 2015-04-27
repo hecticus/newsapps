@@ -40,6 +40,7 @@ angular
             $scope.getFavoritesClass = getFavoritesClass;
             $scope.toggleFavorites = toggleFavorites;
             $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
+            $scope.isOnUtility = CordovaApp.isOnUtility;
             $scope.getSection = getSection;
             $scope.isGuest = isGuest;
             $scope.getDrawerIcon = getDrawerIcon;
@@ -246,8 +247,11 @@ angular
                 getTranslations();
 
                 $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
-                  $rootScope.previousState = '';
-                  if (from.data) $rootScope.previousState = from.data.state;
+                  if (from.data) {
+                    if ($scope.isOnUtility(from.data.state) === false) {
+                      $rootScope.previousState = from.data.state;
+                    }
+                  }
                 });
 
                 $rootScope.$on('$translateChangeSuccess', function () {
