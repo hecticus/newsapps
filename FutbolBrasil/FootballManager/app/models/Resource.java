@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.football.News;
 import play.db.ebean.Model;
+import play.libs.Json;
 import utils.Utils;
 
 import javax.persistence.*;
@@ -43,6 +44,10 @@ public class Resource extends HecticusModel {
     @JoinColumn(name="news_id_news")
     private News parent;
 
+    @OneToOne
+    @JoinColumn(name = "id_resolution")
+    private Resolution resolution;
+
     private static Model.Finder<Long,Resource> finder = new Model.Finder<Long, Resource>(Long.class, Resource.class);
 
     public Resource(String name, String filename, String remoteLocation, String description, String insertedTime, String creationTime,String metadata, Apps app) {
@@ -66,7 +71,7 @@ public class Resource extends HecticusModel {
         //parent news null
     }
 
-    public Resource(String name, String filename, String remoteLocation, String creationTime, String insertedTime, Integer type, Integer status, String externalId, Apps app, News parent, String genericName, String description, String res, String md5) {
+    public Resource(String name, String filename, String remoteLocation, String creationTime, String insertedTime, Integer type, Integer status, String externalId, Apps app, News parent, String genericName, String description, String res, String md5, Resolution resolution) {
         this.name = name;
         this.filename = filename;
         this.remoteLocation = remoteLocation;
@@ -81,11 +86,15 @@ public class Resource extends HecticusModel {
         this.description = description;
         this.res = res;
         this.md5 = md5;
+        this.resolution = resolution;
     }
 
     @Override
     public ObjectNode toJson() {
-        return null;
+        ObjectNode tr = Json.newObject();
+        tr.put("type", type);
+        tr.put("file", remoteLocation);
+        return tr;
     }
 
     public static boolean imageExist(String filename, int idApp){
@@ -231,5 +240,13 @@ public class Resource extends HecticusModel {
 
     public void setMd5(String md5) {
         this.md5 = md5;
+    }
+
+    public Resolution getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution;
     }
 }

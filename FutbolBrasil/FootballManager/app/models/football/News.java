@@ -149,14 +149,34 @@ public class News extends HecticusModel {
         tr.put("author", author);
         tr.put("publicationDate", publicationDate);
         if (resources != null && !resources.isEmpty()){
+            ObjectNode resourcesJson = Json.newObject();
+            List<Resolution> resolutions = Resolution.all();
             ArrayList<String> resourcesURLs = new ArrayList<>(resources.size());
-            for(Resource resource : resources) {
-                resourcesURLs.add(resource.getRemoteLocation());
-            }
-            tr.put("resources", Json.toJson((resourcesURLs)));
-        }
-        //hecticus data??
+            for(final Resolution resolution : resolutions){
+                Predicate<Resource> validObjs = new Predicate<Resource>() {
+                    public boolean apply(Resource obj) {
+                        return obj.getResolution().getIdResolution().intValue() == resolution.getIdResolution().intValue();
+                    }
+                };
+                Collection<Resource> result = Utils.filterCollection(resources, validObjs);
+                List<Resource> resourcesForResolution = (List<Resource>) result;
 
+                class ResourcesComparator implements Comparator<Resource> {
+                    @Override
+                    public int compare(Resource c1, Resource c2) {
+                        return c1.getType().intValue() - c2.getType().intValue();
+                    }
+                }
+                Collections.sort(resourcesForResolution, new ResourcesComparator());
+
+                for(Resource resource : resourcesForResolution) {
+                    resourcesURLs.add(resource.getRemoteLocation());
+                }
+                resourcesJson.put(resolution.getName(), Json.toJson((resourcesURLs)));
+                resourcesURLs.clear();
+            }
+            tr.put("resources", resourcesJson);
+        }
         return tr;
     }
 
@@ -184,7 +204,7 @@ public class News extends HecticusModel {
     }
 
     public static News getNewsByTitleAndApp(int idApp, String newsTitle){
-        return finder.where().eq("id_app",idApp).eq("title",newsTitle).findUnique();
+        return finder.where().eq("id_app", idApp).eq("title", newsTitle).findUnique();
     }
 
     public static List<News> getNewsForNewsCleaner(String date){
@@ -495,12 +515,12 @@ public class News extends HecticusModel {
         }
     }
 
-    public Resource getResource(final String externalId){
+    public Resource getResource(final String externalId, final Resolution resolution){
         Resource tr = null;
         try {
             tr = Iterables.find(resources, new Predicate<Resource>() {
                 public boolean apply(Resource obj) {
-                    return obj.getExternalId().equalsIgnoreCase(externalId);
+                    return obj.getExternalId().equalsIgnoreCase(externalId) && obj.getResolution().getIdResolution().intValue() == resolution.getIdResolution().intValue();
                 }
             });
         } catch (NoSuchElementException ex){

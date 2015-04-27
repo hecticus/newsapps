@@ -7,6 +7,7 @@ import com.hecticus.rackspacecloud.RackspaceDelete;
 import exceptions.BadConfigException;
 import models.Config;
 import models.Language;
+import models.Resolution;
 import models.Resource;
 import models.football.News;
 import org.jsoup.Jsoup;
@@ -17,17 +18,23 @@ import play.libs.ws.WSResponse;
 import utils.Utils;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by plesse on 4/15/15.
  */
 public class PerformNews extends HecticusThread {
+
+    public static final int IMGRESIZE_EXACT = 0;
+    public static final int IMGRESIZE_KEEPASPECT_WIDTH = 1;
+    public static final int IMGRESIZE_KEEPASPECT_HEIGHT = 2;
 
     private String requestDomain;
     private String feedName;
@@ -98,6 +105,7 @@ public class PerformNews extends HecticusThread {
     private void processNews(ObjectNode news) {
         Iterator<JsonNode> elements = news.get("articles").elements();
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+        List<Resolution> resolutions = Resolution.all();
         while(elements.hasNext()){
             try {
                 JsonNode next = elements.next();
@@ -117,9 +125,10 @@ public class PerformNews extends HecticusThread {
                 if (toInsert == null) {
                     toInsert = new News(title, summary, category, keyword, author, story, sf.format(publishedDate), source, lastUpdateTime, id, getApp(), finalLanguage);
                     if(next.has("links")) {
-                        processMedia(next.get("links").elements(), toInsert);
+                        processMedia(next.get("links").elements(), toInsert, resolutions);
                     }
                     toInsert.save();
+                    System.out.println("guardada");
                 } else {
                     if (lastUpdateTime > toInsert.getUpdatedDate()) {
                         toInsert.setTitle(title);
@@ -132,9 +141,10 @@ public class PerformNews extends HecticusThread {
                         toInsert.setSource(source);
                         toInsert.setUpdatedDate(lastUpdateTime);
                         if(next.has("links")) {
-                            processMedia(next.get("links").elements(), toInsert);
+                            processMedia(next.get("links").elements(), toInsert, resolutions);
                         }
                         toInsert.update();
+                        System.out.println("actualizada");
                     }
                 }
             } catch (Exception ex){
@@ -149,10 +159,11 @@ public class PerformNews extends HecticusThread {
         }
     }
 
-    private void processMedia(Iterator<JsonNode> links, News news) {
+    private void processMedia(Iterator<JsonNode> links, News news, List<Resolution> resolutions) {
         ArrayList<String> resourcesToDelete = new ArrayList<>();
         while(links.hasNext()){
             JsonNode next = links.next();
+            File file = null;
             try {
                 String name = next.get("altText").asText();
                 String filename = next.get("url").asText();
@@ -164,31 +175,47 @@ public class PerformNews extends HecticusThread {
                 int type = rel.equalsIgnoreCase("IMAGE_HEADER")?1:3;
                 int status = 1;
                 String insertedTime = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
-                File file = getFile("http://" + performImageHost + filename);
-                String md5 = Utils.getMD5(file);
-                Resource resource = news.getResource(externalId);
-                if(resource == null) {
-                    String remoteLocation = Utils.uploadResource(file);
-                    if(remoteLocation ==  null){
-                        continue;
-                    }
-                    resource = new Resource(name, filename, remoteLocation, insertedTime, insertedTime, type, status, externalId, getApp(), news, genericName, description, res, md5);
-                    news.addResource(resource);
-                } else {
-                    if(!resource.getMd5().equalsIgnoreCase(md5)){
-                        String remoteLocation = Utils.uploadResource(file);
-                        if(remoteLocation ==  null){
-                            continue;
+                file = getFile("http://" + performImageHost + filename);
+                BufferedImage image = ImageIO.read(file);
+                for (Resolution resolution : resolutions) {
+                    File scaledImage = scaleImage(image, filename, resolution);
+                    if(scaledImage != null) {
+                        try {
+                            String md5 = Utils.getMD5(scaledImage);
+                            Resource resource = news.getResource(externalId, resolution);
+                            if (resource == null) {
+                                String remoteLocation = Utils.uploadResource(scaledImage);
+                                if (remoteLocation == null) {
+                                    continue;
+                                }
+                                resource = new Resource(name, filename, remoteLocation, insertedTime, insertedTime, type, status, externalId, getApp(), news, genericName, description, res, md5, resolution);
+                                news.addResource(resource);
+                            } else {
+                                if (!resource.getMd5().equalsIgnoreCase(md5)) {
+                                    String remoteLocation = Utils.uploadResource(scaledImage);
+                                    if (remoteLocation == null) {
+                                        continue;
+                                    }
+                                    resource.setFilename(filename);
+                                    resourcesToDelete.add(resource.getRemoteLocation());
+                                    resource.setRemoteLocation(remoteLocation);
+                                }
+                                resource.setDescription(description);
+                                news.updateResource(resource);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            scaledImage.delete();
                         }
-                        resource.setFilename(filename);
-                        resourcesToDelete.add(resource.getRemoteLocation());
-                        resource.setRemoteLocation(remoteLocation);
                     }
-                    resource.setDescription(description);
-                    news.updateResource(resource);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if(file != null){
+                    file.delete();
+                }
             }
         }
         if(!resourcesToDelete.isEmpty()){
@@ -219,6 +246,23 @@ public class PerformNews extends HecticusThread {
         return null;
     }
 
+    private File scaleImage (BufferedImage image, String path, Resolution resolution) {
+        try {
+            int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image.getType();
+            BufferedImage resizedImage = resizeLocalImage(image, type, resolution.getWidth(), resolution.getHeight(), IMGRESIZE_EXACT);
+            int lastIndexOfSlash = path.lastIndexOf("/");
+            int lastIndexOfPoint = path.lastIndexOf(".");
+            String fileName = path.substring(lastIndexOfSlash + 1, path.indexOf('.', lastIndexOfSlash));
+            String fileExt = path.substring(lastIndexOfPoint + 1, path.indexOf('?', lastIndexOfPoint));
+            File file = new File(temporalDirectory + resolution.getName() + "_" + fileName + "." + fileExt);
+            ImageIO.write(resizedImage, fileExt, file);
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private String cleanBody(String body) {
         return Jsoup.clean(body, Whitelist.basic());
     }
@@ -231,6 +275,44 @@ public class PerformNews extends HecticusThread {
         F.Promise<WSResponse> result = WS.url(url.toString()).get();
         ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
         return response;
+    }
+
+    private BufferedImage resizeLocalImage(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT, int aspectRatioType) throws UnsupportedOperationException {
+        BufferedImage resizedImage;
+        Graphics2D g;
+        int height = originalImage.getHeight();
+        int width = originalImage.getWidth();
+        float aspect;
+        switch(aspectRatioType){
+            case IMGRESIZE_EXACT:
+                //si la imagen debe quedar de esa resolucion exacta
+                resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+                g = resizedImage.createGraphics();
+                g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+                g.dispose();
+                break;
+            case IMGRESIZE_KEEPASPECT_WIDTH:
+                //si se quiere que la imagen se encuentre dentro del bounding box por width
+                aspect = (float)IMG_WIDTH/(float)width;
+                aspect = height*aspect;
+                resizedImage = new BufferedImage(IMG_WIDTH, (int)aspect, type);
+                g = resizedImage.createGraphics();
+                g.drawImage(originalImage, 0, 0, IMG_WIDTH, (int)aspect, null);
+                g.dispose();
+                break;
+            case IMGRESIZE_KEEPASPECT_HEIGHT:
+                //si se quiere que la imagen se encuentre dentro del bounding box por height
+                aspect = (float)IMG_HEIGHT/(float)height;
+                aspect = width*aspect;
+                resizedImage = new BufferedImage((int)aspect, IMG_HEIGHT, type);
+                g = resizedImage.createGraphics();
+                g.drawImage(originalImage, 0, 0, (int)aspect, IMG_HEIGHT, null);
+                g.dispose();
+                break;
+            default: throw new UnsupportedOperationException("Image resize type not valid");
+        }
+
+        return resizedImage;
     }
 
 
