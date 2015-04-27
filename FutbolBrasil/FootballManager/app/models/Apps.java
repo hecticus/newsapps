@@ -142,6 +142,13 @@ public class Apps extends HecticusModel {
             };
             Collection<Competition> result = Utils.filterCollection(competitions, validObjs);
             tr = (List<Competition>) result;
+            class CompetitionsComparator implements Comparator<Competition> {
+                @Override
+                public int compare(Competition c1, Competition c2) {
+                    return c1.getType().getSort() - c2.getType().getSort();
+                }
+            }
+            Collections.sort(tr, new CompetitionsComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
@@ -295,3 +302,4 @@ public class Apps extends HecticusModel {
         return finder.byId(id);
     }
 }
+

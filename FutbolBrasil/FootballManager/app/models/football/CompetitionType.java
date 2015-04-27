@@ -32,6 +32,8 @@ public class CompetitionType extends HecticusModel {
     private Integer type;
     private Long extId;
 
+    private int sort;
+
     @OneToMany(mappedBy="type", cascade = CascadeType.ALL)
     private List<Competition> competitions;
 
@@ -95,6 +97,14 @@ public class CompetitionType extends HecticusModel {
         this.competitions = competitions;
     }
 
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
@@ -103,6 +113,7 @@ public class CompetitionType extends HecticusModel {
         obj.put("name",name);
         obj.put("type", type);
         obj.put("ext_id", extId);
+        obj.put("sort", sort);
         return obj;
     }
 
@@ -131,6 +142,7 @@ public class CompetitionType extends HecticusModel {
         obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
         obj.put("type", type);
         obj.put("ext_id", extId);
+        obj.put("sort", sort);
         return obj;
     }
 
@@ -153,7 +165,6 @@ public class CompetitionType extends HecticusModel {
 
         CompetitionTypeHasLocalization competitionTypeHasLocalization = new CompetitionTypeHasLocalization(this, language, this.name);
         if(!CompetitionTypeHasLocalization.exists(competitionTypeHasLocalization)){
-            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(competitionTypeHasLocalization);
             competitionTypeHasLocalization.save();
             this.update();
