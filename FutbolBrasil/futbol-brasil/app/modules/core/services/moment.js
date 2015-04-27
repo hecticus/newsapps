@@ -23,9 +23,15 @@ angular
 
             return {
 
-                GMT:function () {
-                    return moment().format('ZZ');
-                },
+              GMT:function () {
+                  return moment().format('ZZ');
+              },
+
+              dateNoUTC:function (_date) {
+                 var _oMoment = moment().locale(getLang());
+                 if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
+                 return _oMoment;
+              },
 
                date:function (_date) {
                    var _oMoment = moment().locale(getLang());

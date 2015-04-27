@@ -16,6 +16,10 @@ angular
             var apiVersion = 'v1';
             var provisionalLang = null;
 
+           function getGMT(){
+              return moment().format('[GMT]ZZ').replace(/\s/g, '');
+           }
+
             function getLang(){
                 if(!Client.getLanguage() && provisionalLang){
                     return provisionalLang.id_language;
@@ -39,7 +43,6 @@ angular
                 setProvisionalLanguage : setProvisionalLanguage,
 
                 loading: function (width, height, appVersion, platform) {
-                    //console.log(brazil_football_manager_url + 'api/loading/' + width + '/' + height + '/' + appVersion + '/' + platform);
                     return brazil_football_manager_url + 'api/loading/'
                         + width + '/' + height + '/' + appVersion + '/' + platform;
                 },
@@ -66,29 +69,24 @@ angular
 
                 news: {
                     index: function () {
-                        console.log(football_manager_url + 'newsapi/'
-                                                                + apiVersion + '/news/scroll/'
-                                                                + appId + '/' + getLang()
-                                                                + '?timezoneName=' + moment().format('[GMT]ZZ'));
-
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/'
                             + appId + '/' + getLang()
-                            + '?timezoneName=' + moment().format('[GMT]ZZ');
+                            + '?timezoneName=' + getGMT();
                     },
 
                     up: function (_news) {
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/up/rest/'
                             + appId + '/' + getLang() + '/' + _news
-                            + '?timezoneName=' + moment().format('[GMT]ZZ');
+                            + '?timezoneName=' + getGMT();
                     },
 
                     down: function (_news) {
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/down/rest/'
                             + appId + '/' + getLang() + '/' + _news
-                            + '?timezoneName=' + moment().format('[GMT]ZZ');
+                            + '?timezoneName=' + getGMT();
                     }
                 },
 
@@ -98,9 +96,6 @@ angular
                 },
 
                 standings: function () {
-                    console.log(football_manager_url + 'api/'
-                                                        + apiVersion + '/rankings/get/'
-                                                        + appId + getLang());
                     return football_manager_url + 'api/'
                         + apiVersion + '/rankings/get/'
                         + appId + getLang();
@@ -113,11 +108,6 @@ angular
                 },
 
                 ranking: function (_competition, _phase) {
-
-                    console.log(football_manager_url + 'footballapi/'
-                                                        + apiVersion + '/competitions/ranking/'
-                                                        + appId + '/' + _competition + '/' + getLang() + '/' + _phase);
-
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/competitions/ranking/'
                         + appId + '/' + _competition + '/' + getLang() + '/' + _phase;
@@ -133,12 +123,9 @@ angular
                 },
 
                 match: function (_date) {
-                    console.log(football_manager_url + 'footballapi/'
-                                                        + apiVersion + '/matches/date/paged/' + appId + '/'
-                                                        + getLang() + '/' + _date + '?timezoneName=' + moment().format('[GMT]ZZ'));
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/matches/date/paged/' + appId + '/'
-                        + getLang() + '/' + _date + '?timezoneName=' + moment().format('[GMT]ZZ');
+                        + getLang() + '/' + _date + '?timezoneName=' + getGMT();
                 },
 
                 mtm: function (_competition, _match, _event) {
@@ -146,14 +133,14 @@ angular
                         + apiVersion + '/matches/mam/next/'
                         + appId + '/' + _competition + '/' + _match
                         + '/' + getLang() + '/' + _event
-                        + '?timezoneName=' + moment().format('[GMT]ZZ');
+                        + '?timezoneName=' + getGMT();
                 },
 
                 bets: {
                     get: function (_competition) {
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/bets/get/'
-                            + getClientId() + '/' + _competition + '?timezoneName=' + moment().format('[GMT]ZZ');
+                            + getClientId() + '/' + _competition + '?timezoneName=' + getGMT();
                     },
                     create : function() {
                         return brazil_football_manager_url + 'futbolbrasil/'

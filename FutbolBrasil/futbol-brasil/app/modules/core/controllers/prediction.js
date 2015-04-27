@@ -13,6 +13,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
                  Domain, Bets, Moment, iScroll, Competitions, Notification) {
 
+            $rootScope.$storage.settings = true;
             var scroll = null;
             var vScrolls = [];
             var _currentPage = 0;
@@ -62,7 +63,7 @@ angular
             };
 
             $scope.getDate = function (_date) {
-                return Moment.date(_date).format('ll');
+                return Moment.dateNoUTC(_date).format('ll');
             };
 
             $scope.getTime = function (_date) {

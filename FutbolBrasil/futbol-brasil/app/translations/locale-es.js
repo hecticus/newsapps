@@ -10,12 +10,12 @@
         },
         "BETS" : {
             "BETS": "Apuestas",
-            "PREDICTIONS" : "Prediccines",
+            "PREDICTIONS" : "Predicciones",
             "LEADERBOARDS" : "Leaderboards",
             "FRIENDS" : "Amigos",
             "POINTS" : "Puntos"
         },
-        "SETTINGS": "Configuraciónes",
+        "SETTINGS": "Configuraciones",
         "LOGIN" : "Login",
         "REMIND" : "Recordar / Obtener Credenciales",
         "LANGUAGE-SELECTION" : "Selección de Idioma",
@@ -48,12 +48,18 @@
     "MATCH" : {
         "STATUS" : {
             "0" : "Sin Jugar",
-            "1" : "Jugado",
-            "2" : "Jugando",
-            "3" : "Programado",
-            "4" : "Cancelado",
-            "5" : "Aplazado",
-            "6" : "Suspendido"
+            "1" : "Primer Tiempo",
+            "2" : "Final",
+            "3" : "Suspendido",
+            "4" : "Pospuesto",
+            "5" : "Medio Tiempo",
+            "6" : "Segundo Tiempo",
+            "7" : "Tiempo Completo",
+            "8" : "Extra tiempo 1",
+            "9" : "Fin de Extra tiempo 1",
+            "10" : "Extra tiempo 2",
+            "11" : "Fin de Extra tiempo 2",
+            "12" : "Penales"
         }
     },
     "LEADERBOARD" : {
@@ -83,13 +89,13 @@
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Contraseña",
-        "PASSWORD_HELPER" : "Ingrese el código recibido por SMS.",
-        "MSISDN_HOLDER" : "# Numero",
+        "PASSWORD_HELPER" : "Ingrese la contraseña recibida por SMS.",
+        "MSISDN_HOLDER" : "# Número",
         "MSISDN_LABEL" : "Username",
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Recordar / Obtener Credenciales",
         "CHANGE_LANGUAGE_LABEL" : "Cambiar Idioma",
-        "TUTORIAL_LABEL" : "¿Como funciona?",
+        "TUTORIAL_LABEL" : "¿Cómo funciona?",
         "TERMS_LABEL" : "Términos y Condiciones",
         "ENTER_AS_GUEST_LABEL" : "Entrar como Invitado",
         "REMIND" : {
@@ -143,8 +149,8 @@
 
       "SET_USERNAME" : {
        "TITLE" : "Información del perfil",
-       "SUBTITLE": "Seleccion de sobrenombre",
-       "MSG": "Por favor ingrese un sobrenombre para su cuenta"
+       "SUBTITLE": "Selección de usuario”,
+       "MSG": "Por favor ingrese un nombre de usuario para su cuenta"
       },
 
       "NETWORK_ERROR" : {
