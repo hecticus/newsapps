@@ -104,12 +104,12 @@ public class Scorer extends HecticusModel {
             Scorer toValidate = getScorer(this.comp, ""+this.externalId);
             if (toValidate != null){// if exist have to update
                 this.setIdScorer(toValidate.idScorer);
-                toValidate.update();
+                this.update();
             }else {
                 this.save();
             }
         }catch (Exception ex){
-
+            ex.printStackTrace();
         }
 
 
