@@ -530,9 +530,9 @@ public class OptasportsScraper extends HecticusThread {
                         //regular season
                         NodeList rankings = (NodeList) xPath.compile("resultstable/ranking").evaluate(currentRound, XPathConstants.NODESET);
                         Phase phaseToInsert = Phase.getPhaseByFn(c.getIdCompetitions(), 0);
-                        if (phaseToInsert == null){
+                        if (phaseToInsert == null) {
                             phaseToInsert = new Phase(c, currentRoundName, currentRoundName,
-                                    currentRoundStartDate, currentRoundEndDate, currentRoundId, i, i, i);
+                                    currentRoundStartDate, currentRoundEndDate, currentRoundId, i, i, i, 1);
                             phaseToInsert.validate(language);
                         }
                         for (int j = 0; j < rankings.getLength(); j++){
