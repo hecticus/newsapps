@@ -177,7 +177,7 @@ public class OptasportsScraper extends HecticusThread {
                                 currentSeasonStartDate = xPath.compile("@start_date").evaluate(currentSeason),
                                 currentSeasonEndDate = xPath.compile("@end_date").evaluate(currentSeason),
                                 currentSeasonLastUptdated = xPath.compile("@last_updated").evaluate(currentSeason);
-                        String name = category.getName() + " " + currentSeasonName;
+                        String name = category.getName() + " " + currentSeasonName + " (" + areaIdName + ")" ;
                         Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
                         c.validate(language);
                         //get stuff
@@ -217,7 +217,6 @@ public class OptasportsScraper extends HecticusThread {
 
     private void getFixtures(String seasonExternalId, Competition c){
         try{
-            //System.out.println("::"+ seasonExternalId);
             //generate url from constant and id
             String url = "http://api.core.optasports.com/soccer/get_matches?id=#ID#&type=season&detailed=yes&username=upstream&authkey=8277e0910d750195b448797616e091ad" +"&lang=pt";
             url = url.replace(ID, seasonExternalId);
