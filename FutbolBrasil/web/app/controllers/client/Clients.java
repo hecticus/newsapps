@@ -1042,6 +1042,7 @@ public class Clients extends HecticusController {
                         } else {
                             String nickname = client.getNickname();
                             clientLeaderboardJson = Json.newObject();
+                            clientLeaderboardJson.put("id_client", client.getIdClient());
                             clientLeaderboardJson.put("client", nickname==null?"Anônimo":nickname);
                             clientLeaderboardJson.put("score", 0);
                             clientLeaderboardJson.put("hits", 0);
@@ -1078,6 +1079,7 @@ public class Clients extends HecticusController {
                         } else {
                             String nickname = client.getNickname();
                             clientLeaderboardJson = Json.newObject();
+                            clientLeaderboardJson.put("id_client", client.getIdClient());
                             clientLeaderboardJson.put("client", nickname==null?"Anônimo":nickname);
                             clientLeaderboardJson.put("score", 0);
                             clientLeaderboardJson.put("hits", 0);
