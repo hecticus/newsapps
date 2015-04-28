@@ -2,7 +2,7 @@ package controllers.footballapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hecticus.rackspacecloud.App;
+import comparators.CompetitionsSortComparator;
 import controllers.HecticusController;
 import models.Apps;
 import models.Config;
@@ -324,6 +324,7 @@ public class MatchesController extends HecticusController {
                     competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
                 }
                 if (competitions != null && !competitions.isEmpty()) {
+                    Collections.sort(competitions, new CompetitionsSortComparator());
                     Language requestLanguage = null;
                     if(idLanguage > 0) {
                         requestLanguage = Language.getByID(idLanguage);
@@ -470,6 +471,7 @@ public class MatchesController extends HecticusController {
                 } else {
                     competitionsByApp = app.getCompetitions();
                 }
+                Collections.sort(competitionsByApp, new CompetitionsSortComparator());
                 ArrayList competitions = null;
                 if (ids) {
                     competitions = new ArrayList<Long>(competitionsByApp.size());
@@ -598,6 +600,7 @@ public class MatchesController extends HecticusController {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                 simpleDateFormat.setTimeZone(timeZone);
                 String date = simpleDateFormat.format(today.getTime());
+                Collections.sort(competitions, new CompetitionsSortComparator());
                 for(Competition competition : competitions) {
                     List<Phase> phases = Phase.getPhasesToPush(competition, date);
                     if (phases != null && !phases.isEmpty()) {
@@ -744,6 +747,7 @@ public class MatchesController extends HecticusController {
                 String todaysDate = simpleDateFormat.format(today.getTime());
                 ArrayList<GameMatch> matches = new ArrayList<>();
                 if (competitions != null && !competitions.isEmpty()) {
+                    Collections.sort(competitions, new CompetitionsSortComparator());
                     for (Competition competition : competitions) {
                         List<GameMatch> todayMatches = GameMatch.findAllByIdCompetitionAndDate(competition.getIdCompetitions(), todaysDate, "eq");
                         if (todayMatches != null && !todayMatches.isEmpty()) {
