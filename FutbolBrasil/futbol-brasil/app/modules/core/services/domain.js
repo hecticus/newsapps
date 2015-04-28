@@ -96,6 +96,7 @@ angular
                 },
 
                 standings: function () {
+
                     return football_manager_url + 'api/'
                         + apiVersion + '/rankings/get/'
                         + appId + getLang() + '?timezoneName=' + getGMT();
