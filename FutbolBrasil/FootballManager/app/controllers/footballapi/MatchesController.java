@@ -492,15 +492,18 @@ public class MatchesController extends HecticusController {
         }
     }
 
-    public static Result getPhasesForCompetition(Integer idApp, Integer idCompetition, Integer idLanguage){
+    public static Result getPhasesForCompetition(Integer idApp, Integer idCompetition, Integer idLanguage, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 ArrayList<ObjectNode> responseData = new ArrayList();
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
-                    TimeZone timeZone = app.getTimezone().getTimezone();
+                    TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
                     Calendar today = new GregorianCalendar(timeZone);
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                     simpleDateFormat.setTimeZone(timeZone);
@@ -514,7 +517,8 @@ public class MatchesController extends HecticusController {
                             requestLanguage = app.getLanguage();
                         }
                         if (competition.getType().getType() == 0) {
-                            responseData.add(phases.get(0).toJson(requestLanguage, app.getLanguage()));
+                            List<Phase> latestPhases = competition.getLatestPhases(today, app.getTimezone().getTimezone());
+                            responseData.add(latestPhases.get(latestPhases.size() - 1).toJson(requestLanguage, app.getLanguage()));
                         } else {
                             Phase pivot = phases.get(0);
                             for (Phase phase : phases) {
@@ -529,20 +533,19 @@ public class MatchesController extends HecticusController {
                         }
                         ObjectNode data = Json.newObject();
                         data.put("phases", Json.toJson(responseData));
-                        response = hecticusResponse(0, "ok", data);
+                        return ok(hecticusResponse(0, "ok", data));
                     } else {
-                        response = buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases");
+                        return notFound(buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases"));
                     }
                 } else {
-                    response = buildBasicResponse(1, "La competition " + idCompetition + " no existe");
+                    return notFound(buildBasicResponse(1, "La competition " + idCompetition + " no existe"));
                 }
             } else {
-                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
