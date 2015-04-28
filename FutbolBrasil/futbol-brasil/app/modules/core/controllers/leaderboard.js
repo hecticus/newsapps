@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('LeaderboardCtrl', ['$http','$rootScope','$scope','$state', '$window',
-        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll', 'Competitions', 'Notification',
+        'Client', 'WebManager', 'Domain', 'FacebookManager', 'iScroll', 'Competitions', 'Notification', 'Moment',
         function($http, $rootScope, $scope, $state, $window, Client, WebManager, Domain
-            , FacebookManager, iScroll, Competitions, Notification) {
+            , FacebookManager, iScroll, Competitions, Notification, Moment) {
 
             var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
@@ -62,10 +62,11 @@ angular
             };
 
             $scope.showPhase = function(){
-                setActive('phase'+scroll.currentPage.pageX);
+                setActive('phase'+ scroll.currentPage.pageX);
                 var idCompetitions = $scope.item.competitions[ scroll.currentPage.pageX].id_competitions;
                 var phase = $scope.item.competitions[scroll.currentPage.pageX].phase;
-                getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                //if (phase && phase.type == 0) getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                 getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
             };
 
             $scope.showTournament = function(){
@@ -138,14 +139,33 @@ angular
                     widthTotal = ($window.innerWidth * competitions.length);
                     $scope.item.competitions = competitions;
                     $scope.item.competitions.forEach(function(competition) {
-                        Competitions.getPhase(competition)
+                            var date = Moment.date().format('YYYYMMDD');
+
+
+                            Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
                             .then(function (phases) {
-                                competition.phase = phases[phases.length - 1].id_phases;
-                                $scope.showTournament();
+                                if (phases.last_phase) {
+                                  competition.phase = phases.last_phase.id_phases;
+                                  if (competition.phase.type != 1) $scope.showTournament();
+                                }
                             }, function(){
-                                Notification.showNetworkErrorAlert();
+                                //Notification.showNetworkErrorAlert();
                                 $scope.$emit('unload');
                             });
+
+                            /*Competitions.getPhase(competition)
+                            .then(function (phases) {
+                                if (phases) {
+                                  competition.phase = phases[phases.length - 1].id_phases;
+                                  //if (competition.phase.type != 1) $scope.showTournament();
+                                  $scope.showTournament();
+                                }
+                            }, function(){
+                                //Notification.showNetworkErrorAlert();
+                                $scope.$emit('unload');
+                            });*/
+
+
                     });
                 });
             }
