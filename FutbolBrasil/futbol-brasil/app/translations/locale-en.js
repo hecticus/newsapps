@@ -47,18 +47,12 @@
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",
-            "1" : "First Half",
-            "2" : "Final",
-            "3" : "Suspended",
-            "4" : "Postponed",
-            "5" : "Half Time",
-            "6" : "Second Half",
-            "7" : "Full Time",
-            "8" : "Overtime 1",
-            "9" : "End of Overtime 1",
-            "10" : "Overtime 2",
-            "11" : "End of Overtime 2",
-            "12" : "Penalty Shootouts"
+            "1" : "Played",
+            "2" : "Playing",
+            "3" : "Fixture",
+            "4" : "Cancelled",
+            "5" : "Postponed",
+            "6" : "Suspended"
         }
     },
     "LEADERBOARD" : {
@@ -88,7 +82,7 @@
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Password",
-        "PASSWORD_HELPER" : "Type in the password you received via SMS.",
+        "PASSWORD_HELPER" : "Type in the code you received via SMS.",
         "MSISDN_HOLDER" : "# Number",
         "MSISDN_LABEL" : "Username",
         "LOGIN_LABEL" : "Login",
@@ -100,9 +94,9 @@
         "REMIND" : {
             "LABEL" : "Enter your mobile number",
             "HERO" : {
-                "TITLE" : "Forgot your username and password?",
+                "TITLE" : "Forgot your Username and password?",
                 "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
-                "SMALL_PRINT" : "*The service is only available for subscribers of the specific carrier”
+                "SMALL_PRINT" : "*The service is only available for suscribers of the specific operator"
             }
         }
     },
@@ -149,7 +143,7 @@
           "SET_USERNAME" : {
            "TITLE" : "Profile Info",
            "SUBTITLE": "Select your username",
-           "MSG": "Please set a username for your account"
+           "MSG": "Please set a Username for your account"
          },
 
          "NETWORK_ERROR" : {
@@ -172,13 +166,13 @@
 
           "SET_MSISDN" : {
             "TITLE" : "Login process",
-            "SUBTITLE": "Incomplete registration info",
+            "SUBTITLE": "Incomplete Registering Info",
             "MSG": "Please input your phone number"
           },
 
           "SET_PASSWORD" : {
             "TITLE" : "Login process",
-            "SUBTITLE": "Incomplete registration info",
+            "SUBTITLE": "Incomplete Registering Info",
             "MSG": "Please input your password"
           },
 
@@ -188,7 +182,6 @@
             "CONFIRM" : "Ok",
             "CANCEL" : "Cancel"
           },
-
 
           "SET_BET" : {
             "TITLE" : "Predictions",

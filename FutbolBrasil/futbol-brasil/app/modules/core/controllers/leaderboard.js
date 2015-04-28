@@ -65,7 +65,8 @@ angular
                 setActive('phase'+ scroll.currentPage.pageX);
                 var idCompetitions = $scope.item.competitions[ scroll.currentPage.pageX].id_competitions;
                 var phase = $scope.item.competitions[scroll.currentPage.pageX].phase;
-                if (phase && phase.type == 0) getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                //if (phase && phase.type == 0) getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                 getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
             };
 
             $scope.showTournament = function(){
@@ -142,10 +143,11 @@ angular
                             .then(function (phases) {
                                 if (phases) {
                                   competition.phase = phases[phases.length - 1].id_phases;
-                                  if (competition.phase.type != 1) $scope.showTournament();
+                                  //if (competition.phase.type != 1) $scope.showTournament();
+                                  $scope.showTournament();
                                 }
                             }, function(){
-                                Notification.showNetworkErrorAlert();
+                                //Notification.showNetworkErrorAlert();
                                 $scope.$emit('unload');
                             });
                     });

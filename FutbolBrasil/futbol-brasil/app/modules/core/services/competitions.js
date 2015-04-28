@@ -43,7 +43,7 @@ angular
             }
 
             function getRanking(competition, phase){
-            console.log("getRanking-> " + Domain.ranking(competition,phase));
+            //console.log("getRanking-> " + Domain.ranking(competition,phase));
                 return $http.get(Domain.ranking(competition,phase))
                     .then(function (response) {
 //                        console.log('getRanking.response: ');
