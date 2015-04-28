@@ -8,11 +8,12 @@
  */
 angular
     .module('core')
-    .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
-        'Client', 'WebManager', '$window', 'Domain', 'Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
-                 Domain, Bets, Moment, iScroll, Competitions, Notification) {
+    .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
+        'Client', 'WebManager', '$window', 'Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
+        function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window,
+                 Bets, Moment, iScroll, Competitions, Notification) {
 
+            $rootScope.$storage.settings = true;
             var scroll = null;
             var vScrolls = [];
             var _currentPage = 0;
@@ -23,7 +24,7 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
 
-            function getTranslations(){
+            /*function getTranslations(){
 
               $translate(['ALERT.SET_BET.TITLE',
                           'ALERT.SET_BET.SUBTITLE',
@@ -34,7 +35,7 @@ angular
                   strings['SET_BET_MSG'] = translation['ALERT.SET_BET.MSG'];
               });
 
-            };
+            };*/
 
             $scope.vWrapper = {
                 name:'wrapperV',
@@ -62,7 +63,7 @@ angular
             };
 
             $scope.getDate = function (_date) {
-                return Moment.date(_date).format('ll');
+                return Moment.dateNoUTC(_date).format('ll');
             };
 
             $scope.getTime = function (_date) {
@@ -71,7 +72,7 @@ angular
 
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
 
-                if (_status == 0) {
+                if (_status == 3) {
 
                     var _jLeagues = $scope.leagues[_iLeague];
                     var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
@@ -82,7 +83,7 @@ angular
                     if (moment(dateToday).isBefore(dateMatch)) {
                       if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
                         $scope.$emit('load');
-                        if (_status == 0) {
+                        if (_status == 3) {
                             if (_jMatch.bet) {
                                 _jMatch.bet.client_bet = _bet;
                             } else {
@@ -115,12 +116,12 @@ angular
                         _mBet = _bet;
                       }
                     } else {
-                      Notification.showInfoAlert({
+                      /*Notification.showInfoAlert({
                           title: strings['SET_BET_TITLE'],
                           subtitle: strings['SET_BET_SUBTITLE'],
                           message: strings['SET_BET_MSG'],
                           type: 'warning'
-                      });
+                      });*/
                     }
                 }
             };
@@ -159,14 +160,13 @@ angular
                     Bets.get(league.id_competitions, function(data){
                         if (data.error == 0) {
                             data = data.response;
+                            setGameStatus(data);
                             mapEmptyTeamNames(data.fixtures);
                             league.fixtures = data.fixtures;
                             league.bet = {
                                 total_bets: data.total_bets,
                                 client_bets : data.client_bets
                             };
-                            console.log('league: ');
-                            console.log(league);
                             setEmptyLeagueFlag(league);
                         }
                         $scope.$emit('unload');
@@ -220,9 +220,18 @@ angular
                 });
             }
 
+
+            function setGameStatus(data){
+              data.fixtures.forEach(function(league){
+                league.matches.forEach(function(match){
+                    match.status.name = 'MATCH.STATUS.' + match.status.id_status;
+                });
+              });
+            }
+
             function init(){
                 $scope.$emit('load');
-                getTranslations();
+                //getTranslations();
                 getCompetitions();
             } init();
 

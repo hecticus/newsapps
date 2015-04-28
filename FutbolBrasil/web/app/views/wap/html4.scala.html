@@ -1,4 +1,4 @@
-@(bMenu: Boolean, sRoute: String)(content: Html)
+@(bMenu: Boolean, sRoute: String, HD: models.wap.HandsetDetection)(content: Html)
 
 @import play.i18n._
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -32,6 +32,9 @@
     </head>
     <body>
         <div class="container">
+
+
+                <img  src='@HD.getBanner().get("url").asText()' style='position:relative; width:@HD.getBanner().get("width").asText()px; height:@HD.getBanner().get("height").asText()px;' >
             <div class="header" style="text-align:center;">@Messages.get("APP_TITLE")</div>
 
             @if(bMenu) {

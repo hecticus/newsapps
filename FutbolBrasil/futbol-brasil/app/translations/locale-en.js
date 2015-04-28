@@ -47,18 +47,12 @@
     "MATCH" : {
         "STATUS" : {
             "0" : "Not Yet Played",
-            "1" : "First Half",
-            "2" : "Final",
-            "3" : "Suspended",
-            "4" : "Postponed",
-            "5" : "Half Time",
-            "6" : "Second Half",
-            "7" : "Full Time",
-            "8" : "Overtime 1",
-            "9" : "End of Overtime 1",
-            "10" : "Overtime 2",
-            "11" : "End of Overtime 2",
-            "12" : "Penalty Shootouts"
+            "1" : "Played",
+            "2" : "Playing",
+            "3" : "Fixture",
+            "4" : "Cancelled",
+            "5" : "Postponed",
+            "6" : "Suspended"
         }
     },
     "LEADERBOARD" : {

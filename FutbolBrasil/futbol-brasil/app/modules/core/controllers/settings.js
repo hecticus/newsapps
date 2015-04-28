@@ -18,6 +18,8 @@ angular
             var scroll = null;
             var removeEventCallback = null;
 
+
+
             $rootScope.onMain = onMain;
             $scope.fbObject = {
                 fbStatus: null,
