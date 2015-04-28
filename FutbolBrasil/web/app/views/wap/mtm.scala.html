@@ -1,10 +1,19 @@
 @(HD: models.wap.HandsetDetection)(jResponse: com.fasterxml.jackson.databind.JsonNode)(idCompetition: Integer)(nameCompetition: String)(idMatch: Integer)
 @import play.i18n._
 
+@refresh = {
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center; background:rgb(44,156,211); color:#ffffff;" >
+            <!--a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("id_game_match_events").asInt())'>@Messages.get("MTM_REFRESH_LINK")</a-->
+            <a href='@routes.Wap.mtm(idCompetition,idMatch,0)'>@Messages.get("MTM_REFRESH_LINK")</a>
+        </div>
+    </div>
+}
+
 @if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 } else {
 
-    @html4(true,"mtm"){
+    @html4(true,"mtm", HD){
 
 
         <div class="row">
@@ -37,11 +46,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >
-                <a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("id_game_match_events").asInt())'>@Messages.get("MTM_REFRESH_LINK")</a>
-            </div>
-        </div>
+        @refresh
+
 
         @for(action <- jResponse.get("actions").iterator()) {
             <div class="row">
@@ -77,11 +83,7 @@
             </div>
         }
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;" >
-                <a href='@routes.Wap.mtm(idCompetition,idMatch,jResponse.get("actions").get(0).get("events").get(0).get("id_game_match_events").asInt())'>@Messages.get("MTM_REFRESH_LINK")</a>
-            </div>
-        </div>
+        @refresh
 
 
     }

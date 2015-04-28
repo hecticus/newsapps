@@ -48,7 +48,7 @@
                                 </thead>
                                 <tbody >
                                 <tr ng-repeat="leader in competition.leaderboard"
-                                    ng-class="{'active' : $odd,  'client' : competition.client.client == leader.client }" on-last-repeat>
+                                    ng-class="{'active' : $odd,  'client' : competition.client.id_client == leader.id_client }" on-last-repeat>
                                   <td>
                                                             <span class="text-center-vertical"
                                                                   ng-bind="leader.index" ></span>

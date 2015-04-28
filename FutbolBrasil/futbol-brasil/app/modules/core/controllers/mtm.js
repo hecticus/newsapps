@@ -13,7 +13,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $interval, WebManager,
                  Domain, Moment, iScroll, Notification) {
 
-            var refreshInterval = null;
+            $rootScope.refreshInterval = null;
             var listScroll = null;
             var matchScroll = null;
             var _event = {
@@ -77,14 +77,15 @@ angular
                 //if ($http.pendingRequests.length === 0) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-
+                    console.log(Domain.mtm(competitionId, matchId, _event.first));
                     $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
                         .then(refreshSuccess, refreshError);
 
                    if (angular.element('#wrapperM').hasClass('left')) {
-                     refreshInterval = $interval(function () {
+                     $rootScope.refreshInterval = $interval(function () {
                          //console.log('$interval refreshEvents triggered.');
                          $scope.refreshEvents(competitionId, matchId);
+                         $interval.cancel($rootScope.refreshInterval);
                      },50000);
                    };
 
@@ -99,7 +100,7 @@ angular
                 $scope.item.match = {
                     home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
                     away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
-                    status: _match.status
+                    status: {id:_match.id_status,name:_match.status}
                 };
 
                 $rootScope.transitionPageBack('#wrapper2','left');
@@ -107,9 +108,7 @@ angular
 
                 //TODO check request cableado
                 var competitionId = _league.id_competitions;
-                competitionId = 16;
                 var matchId = _match.id_game_matches;
-                matchId = 3321;
                 $scope.competitionId = competitionId;
                 $scope.matchId = matchId;
 
@@ -178,8 +177,8 @@ angular
                 getMatchesForToday();
 
                 $scope.$on('$destroy', function() {
-                    $interval.cancel(refreshInterval);
-                    refreshInterval = undefined;
+                    $interval.cancel($rootScope.refreshInterval);
+                    $rootScope.refreshInterval = null;
                 });
 
             } init();

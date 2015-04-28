@@ -8,11 +8,13 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage',
+    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage', '$interval',
         '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
-        function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
+        function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
                Client, CordovaApp) {
 
+
+            $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -38,6 +40,7 @@ angular
             $scope.getFavoritesClass = getFavoritesClass;
             $scope.toggleFavorites = toggleFavorites;
             $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
+            $scope.isOnUtility = CordovaApp.isOnUtility;
             $scope.getSection = getSection;
             $scope.isGuest = isGuest;
             $scope.getDrawerIcon = getDrawerIcon;
@@ -117,8 +120,13 @@ angular
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = undefined;
+
+
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
+                     $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('left')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('right')) {
@@ -239,8 +247,11 @@ angular
                 getTranslations();
 
                 $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
-                  $rootScope.previousState = '';
-                  if (from.data) $rootScope.previousState = from.data.state;
+                  if (from.data) {
+                    if ($scope.isOnUtility(from.data.state) === false) {
+                      $rootScope.previousState = from.data.state;
+                    }
+                  }
                 });
 
                 $rootScope.$on('$translateChangeSuccess', function () {

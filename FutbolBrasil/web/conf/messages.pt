@@ -179,4 +179,12 @@ INFO_MTM=Conteúdo não disponível
 INFO_MATCH=Não há jogos disponíveis para o dia %DATE%
 INFO_SCORERS=Conteúdo não disponível
 
+MATCH-STATUS-0=Sem Jogar
+MATCH-STATUS-1=Jogado
+MATCH-STATUS-2=Jogar
+MATCH-STATUS-3=Fixação
+MATCH-STATUS-4=Cancelado
+MATCH-STATUS-5=Adiado
+MATCH-STATUS-6=Suspenso
+
 ### -- </wap> --- ###

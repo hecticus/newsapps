@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.lang3.ArrayUtils;
 import java.text.MessageFormat;
 import play.i18n.Messages;
+import java.lang.*;
 
 public class Wap extends Controller {
 
@@ -34,7 +35,7 @@ public class Wap extends Controller {
     public static String UPSTREAM_CHANNEL = "Web";
     public static Form<Client> form = form(Client.class);
 
-    public static final String URL_FOOTBALL_MANAGER = "http://footballmanager.hecticus.com/";
+    public static final String URL_FOOTBALL_MANAGER = "http://footballmanager2.hecticus.com/";
     public static final String URL_FOOTBALL_MANAGER_BRAZIL = "http://brazil.footballmanager.hecticus.com/";
     public static final String VERSION = "v1";
 
@@ -42,13 +43,6 @@ public class Wap extends Controller {
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
         return ok(login.render(form,HD,0));
-
-        /*getLoading();
-        System.out.println("getTimeStampFormat -> " + getTimeStampFormat());
-        System.out.println("ArrayUtils 1 -> " + isTestMsisdnClient("40766666615"));
-        System.out.println("ArrayUtils 2 -> " + isTestMsisdnClient("555555"));*/
-
-
     }
 
     public static Result getPassword() {
@@ -161,7 +155,7 @@ public class Wap extends Controller {
             if (!getAccessControl())
                 return redirect(controllers.routes.Wap.getLogin());
 
-            String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1/" + LANGUAGE;
+            String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1/" + LANGUAGE + "?timezoneName=" + getGMTParam();
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
             Integer iError = jResponse.get("error").asInt();
@@ -189,7 +183,7 @@ public class Wap extends Controller {
             if (!getAccessControl())
                 return redirect(controllers.routes.Wap.getLogin());
 
-            String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/get/" + idNews;
+            String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/get/" + idNews + "?timezoneName=" + getGMTParam();
 
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -245,9 +239,10 @@ public class Wap extends Controller {
                     + "/matches/competition/date/paged/1/" + idCompetition
                     + "/" + sDf.format(dNow)
                     + "?pageSize=" + LIMIT
-                    + "&page=" +  page  * LIMIT;
+                    + "&page=" +  page  * LIMIT
+                    + "&timezoneName=" + getGMTParam();
 
-
+            System.out.println(sDomain);
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
 
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -280,14 +275,12 @@ public class Wap extends Controller {
             if (!getAccessControl())
                 return redirect(controllers.routes.Wap.getLogin());
 
-            idCompetition = 16;
-            idMatch = 3321;
-
             String sDomain = URL_FOOTBALL_MANAGER + "footballapi/"+ VERSION + "/matches/mam/next/1"
                     + "/" + idCompetition
                     + "/" + idMatch
                     + "/" + LANGUAGE
-                    + "/" + idEvent;
+                    + "/" + idEvent
+                    + "?timezoneName=" + getGMTParam();
 
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -328,7 +321,7 @@ public class Wap extends Controller {
             String sDomain = URL_FOOTBALL_MANAGER
                     + "footballapi/"
                     + VERSION + "/players/competition/scorers/1/"
-                    + idCompetition + "?pageSize=10&page=0";
+                    + idCompetition + "?pageSize=10&page=0&timezoneName=" + getGMTParam();
 
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -351,7 +344,7 @@ public class Wap extends Controller {
 
         HandsetDetection HD = new HandsetDetection();
         JsonNode jCompetitions = (JsonNode) Cache.get("competitions");
-        String sDomain = URL_FOOTBALL_MANAGER + "footballapi/" + VERSION + "/competitions/list/1/" + LANGUAGE;
+        String sDomain = URL_FOOTBALL_MANAGER + "footballapi/" + VERSION + "/competitions/list/1/" + LANGUAGE + "?timezoneName=" + getGMTParam();
 
         if (jCompetitions == null) {
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
@@ -443,6 +436,15 @@ public class Wap extends Controller {
                 "40766666616","40766666617", "40766666618",
                 "40766666619","40766666620"};
         return  ArrayUtils.indexOf(arrMsisdn, sMsisdn);
+    }
+
+    public static String getGMTParam() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.getDefault());
+        Date currentLocalTime = calendar.getTime();
+        DateFormat date = new SimpleDateFormat("Z");
+        //String result = ("GMT" + date.format(currentLocalTime));
+        String result = "GMT-0300";
+        return result;
     }
 
 }

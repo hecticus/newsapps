@@ -163,7 +163,7 @@ angular
                     body['user_id'] = Client.getClientId();
                 }
 
-                console.log("BODY -> " + JSON.stringify(body));
+                //console.log("BODY -> " + JSON.stringify(body));
                 return body;
             }
 
