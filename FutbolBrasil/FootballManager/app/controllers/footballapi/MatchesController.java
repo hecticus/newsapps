@@ -518,7 +518,8 @@ public class MatchesController extends HecticusController {
                         }
                         if (competition.getType().getType() == 0) {
                             List<Phase> latestPhases = competition.getLatestPhases(today, app.getTimezone().getTimezone());
-                            responseData.add(latestPhases.get(latestPhases.size() - 1).toJson(requestLanguage, app.getLanguage()));
+//                            responseData.add(latestPhases.get(latestPhases.size() - 1).toJson(requestLanguage, app.getLanguage()));
+                            responseData.add(phases.get(0).toJson(requestLanguage, app.getLanguage()));
                         } else {
                             Phase pivot = phases.get(0);
                             for (Phase phase : phases) {
