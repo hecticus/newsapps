@@ -439,12 +439,7 @@ public class Wap extends Controller {
     }
 
     public static String getGMTParam() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.getDefault());
-        Date currentLocalTime = calendar.getTime();
-        DateFormat date = new SimpleDateFormat("Z");
-        //String result = ("GMT" + date.format(currentLocalTime));
-        String result = "GMT-0300";
-        return result;
+        return "GMT-0300";
     }
 
 }
