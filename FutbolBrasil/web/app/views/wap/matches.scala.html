@@ -3,10 +3,15 @@
 
 
 @currentTime(fecha: String) = @{
+
     import java.util.Date
     import java.text.SimpleDateFormat
-    val curTimeFormat = new SimpleDateFormat("HH:mm")
-    curTimeFormat.format(new SimpleDateFormat("yyyyMMddhhmmss").parse(fecha))
+
+    val isoFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+    isoFormat.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+    val dates = isoFormat.parse(fecha);
+    val curTimeFormat = new SimpleDateFormat("HH:mm").format(dates)
+    curTimeFormat.format(curTimeFormat)
 }
 
 @if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
