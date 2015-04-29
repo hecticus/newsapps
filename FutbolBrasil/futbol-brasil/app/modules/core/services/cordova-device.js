@@ -93,7 +93,7 @@ angular
                 } else if(isIosPlatform()){
                     return 2;
                 } else {
-                    return 1;
+                    return 3;
                 }
             }
 
