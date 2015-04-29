@@ -47,14 +47,14 @@
     },
     "MATCH" : {
         "STATUS" : {
-            "0" : "Sem Jogar",
-            "1" : "Jogado",
-            "2" : "Jogar",
-            "3" : "Fixação",
-            "4" : "Cancelado",
-            "5" : "Adiado",
-            "6" : "Suspenso"
-        }
+                    "0" : "Sem Jogar",
+                    "1" : "Jogado",
+                    "2" : "Jogar",
+                    "3" : "Fixação",
+                    "4" : "Cancelado",
+                    "5" : "Adiado",
+                    "6" : "Suspenso"
+                }
     },
     "LEADERBOARD" : {
         "TOURNAMENT" : "Torneio",

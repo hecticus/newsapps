@@ -31,7 +31,7 @@ angular
             $rootScope.share = share;
             $scope.fromNow = fromNow;
             $scope.showContentNews = showContentNews;
-
+            $scope.contentNewsImg = '';
 
             /*---------------- Scope Functions ----------------*/
             function share(_news) {
@@ -58,12 +58,17 @@ angular
 
 
             function showContentNews(_news) {
+
+                $scope.$apply(function () {
+                    $scope.contentNewsImg = '';
+                });
+
                 if(_news) {
                     if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                         $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
-                        $scope.contentNews.img = '';
-                        if (_news.resources != undefined) $scope.contentNews.img = _news.resources[0];
+                        $scope.contentNewsImg = '';
+                        if (_news.resources != undefined) $scope.contentNewsImg = _news.resources[0];
                         $rootScope.transitionPageBack('#wrapper2', 'left');
                         $rootScope.isPageContentLeft = angular.element('#wrapper2').hasClass('left');
                         detailScroll.scrollTo(0, 0, 0);
