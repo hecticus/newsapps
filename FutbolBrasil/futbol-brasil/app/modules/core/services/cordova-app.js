@@ -101,11 +101,20 @@ angular
                 } else if(currentSection == 'login'){
                     exitApp();
                 } else if(isOnUtilitySection()){
+
+
                     if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
                     } else {
-                        $state.go($rootScope.previousState);
+
+                        if ($rootScope.previousState === undefined) {
+                          $state.go('prediction');
+                        } else {
+                          $state.go($rootScope.previousState);
+                        }
+
+
                     }
 
                 } else if(hasPreviousSubsection){

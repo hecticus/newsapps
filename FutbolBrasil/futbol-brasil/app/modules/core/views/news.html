@@ -10,14 +10,14 @@
                  on-last-repeat ng-click="showContentNews(item)">
 
               <div class="col-xs-4" style="border:0; padding:0;">
-                <img class="img-thumbnail" style="width:85%; height: auto;" src="http://www.mismarcadores.com/res/image/data/hGlHA3CO-EkETOV6k.png" alt="icon">
+                <img class="img-thumbnail" style="width:85%; height: auto; min-height:50px;" src="{{item.resources.mid[0]}}" alt="icon">
               </div>
 
               <div class="col-xs-8" style="border:0; padding:0;">
                 <span class="h-headline h-ellipsis">{{item.title}}</span>
                 <br />
-                <i class="icon mdi-device-access-time"></i>
-                <span class="h-moment" style="color: #2c9cd3;">{{fromNow(item.publicationDate)}}</span>
+                <i class="mdi-device-access-time"></i>
+                <span class="h-moment">{{fromNow(item.publicationDate)}}</span>
               </div>
 
             </div>
@@ -30,7 +30,6 @@
 </div>
 
 
-
 <div id="wrapper2" class="page" style="left: 100%;" >
     <div class="scroller">
         <div class="container">
@@ -38,14 +37,14 @@
 
                 <div class="col-xs-12">
                   <br />
-                  <img src="{{contentNewsImg}}" alt="{{contentNews.title}}" class="img-responsive"  >
+                  <img src="{{contentNewsImg}}" alt="{{contentNews.title}}" class="img-responsive"   >
 
                 </div>
                 <div class="col-xs-12">
                   <br />
                   <span class="h-headline">{{contentNews.title}}</span>
                   <br />
-                  <i class="icon mdi-device-access-time"></i>
+                  <i class="mdi-device-access-time"></i>
                   <span class="h-moment">{{fromNow(contentNews.publicationDate)}}</span>
                 </div>
                 <div class="col-xs-12">
@@ -59,7 +58,7 @@
 </div>
 
 <div style="position: absolute; z-index: 120; top:0; right:20px; height:50px; line-height:50px;" ng-click="share(contentNews)" ng-show="isPageContentLeft">
-  <i class="mdi-social-share" style="font-size:2em; vertical-align: middle; color:#ffffff; "></i>
+  <i class="mdi-social-share" style="vertical-align: middle; color:#ffffff; "></i>
 </div>
 
 <div class="no-content-panel h-horizontal" ng-hide="hasNews">

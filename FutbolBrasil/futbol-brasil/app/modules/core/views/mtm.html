@@ -29,7 +29,7 @@
                             </td>
 
                             <td style="width: 33% !important;  vertical-align:middle;">
-                              <span ng-bind="getTime(match.date)" class="date"></span>
+                              <span ng-bind="getTime(match.date)" class="h-time"></span>
                               <br/>
                                       <span class="status _{{match.id_status}}">{{ match.status | translate}}
                                       </span>
@@ -73,10 +73,10 @@
                         <tbody>
                         <tr ng-repeat="event in action.events  track by event.id_game_match_events" class="h-event" >
                             <td style="width: 20% !important;" >
-                                <span >{{event.action_minute}}'</span>
+                                <span class="h-minute-match" >{{event.action_minute}}'</span>
                             </td>
                             <td style="width: 80% !important;">
-                                <p style="text-align:left;" >
+                                <p style="text-align:left;" class="h-event-match" >
                                     <b>{{event.player_a}}</b> de {{event.teams}},  {{event.action.description}}
                                 </p>
                             </td>
@@ -93,7 +93,7 @@
       <div class="col-xs-12">
         <span ng-bind="item.league.name"></span>
           <span ng-class="refreshIconClass" ng-click="refreshEvents(competitionId, matchId)" style="position: absolute; right: 10px;">
-              <i class="icon mdi-navigation-refresh" style=" font-size:2em;vertical-align: middle;"></i>
+              <i class="icon mdi-navigation-refresh" style="vertical-align: middle;"></i>
           </span>
       </div>
     </div>
@@ -110,19 +110,19 @@
                             </span>
         </div>
         <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}" style="text-align:center;">
-          <span ng-bind="item.match.home.name" style="font-size: 1.2em;"></span>
+          <span ng-bind="item.match.home.name" class="h-name-team" ></span>
         </div>
         <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}" style="text-align:center;">
-          <span ng-bind="item.match.away.name" style="font-size: 1.2em;"></span>
+          <span ng-bind="item.match.away.name" class="h-name-team"></span>
         </div>
       </div>
 
       <div class="row text-center">
         <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}" style="text-align:center;">
-          <span ng-bind="item.match.home.goals" class="goal"></span>
+          <span ng-bind="item.match.home.goals" class="h-goal-team"></span>
         </div>
         <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}" style="text-align:center;">
-          <span ng-bind="item.match.away.goals" class="goal"></span>
+          <span ng-bind="item.match.away.goals" class="h-goal-team"></span>
         </div>
       </div>
     </div>

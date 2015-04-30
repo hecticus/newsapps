@@ -9,7 +9,7 @@
                             <span ng-bind="pages[$index-1].name" ></span>
                         </div>
                         <div class="col-xs-4">
-                            <span ng-bind="page.name" style="font-size:1em;"></span>
+                            <span ng-bind="page.name" ></span>
                         </div>
                         <div  class="col-xs-4 text-right" ng-click="nextPage()">
                             <span ng-bind="pages[$index+1].name" ></span>
@@ -38,7 +38,7 @@
                                                     <span ng-bind="match.home_team_goals" class="h-goal-team"  ng-if="match.id_status != 3"></span>
                                                 </td>
                                                 <td  class="col-xs-4">
-                                                    <span ng-bind="getTime(match.date)" class="date"></span>
+                                                    <span ng-bind="getTime(match.date)" class="h-time"></span>
                                                     <br />
                                                     <span class="status _{{match.id_status}}">
                                                         {{ match.status | translate}}

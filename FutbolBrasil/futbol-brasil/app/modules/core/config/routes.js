@@ -28,7 +28,6 @@ angular
                 url: '/login',
                 templateUrl:'modules/core/views/login.html',
                 controller:'LoginCtrl as login',
-                params: {'msisdn': ''},
                 data:{
                     prev: 'login',
                     next: 'login',
