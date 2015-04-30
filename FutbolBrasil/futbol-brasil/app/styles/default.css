@@ -970,6 +970,12 @@ h6.team-name {
       -webkit-box-orient: vertical;
     }
 
+    .h-ellipsis-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
 
     #screen-block {
       position: absolute;

@@ -110,7 +110,7 @@
         "SOCIAL_ACCOUNTS_TITLE": "Redes Sociais",
         "TOGGLE" : {
             "BETS" : "Palpites",
-            "MTM" : "Ao Minuto",
+            "MTM" : "En vivo",
             "NEWS" : "Notícias"
         },
         "FACEBOOK" : {

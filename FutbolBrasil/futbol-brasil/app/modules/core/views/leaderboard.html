@@ -10,7 +10,7 @@
                       <div class="col-xs-2" ng-click="prevPage($index)">
                         <span class="mdi-navigation-arrow-back" ng-hide="item.competitions[$index-1].name === undefined"></span>
                       </div>
-                      <div class="col-xs-8">
+                      <div class="col-xs-8 h-ellipsis-truncate">
                         <span ng-bind="competition.name" class="caption"></span>
                       </div>
                       <div class="col-xs-2" ng-click="nextPage($index)">

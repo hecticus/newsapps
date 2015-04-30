@@ -44,9 +44,9 @@
                                                         {{ match.status | translate}}
                                                     </span>
                                                 </td>
-                                                <td  class="col-xs-4" ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
+                                                <td  class="col-xs-4">
                                                     <span ng-bind="match.awayTeam.name" class="h-name-team"></span>
-                                                    <span ng-bind="match.away_team_goals" class=h-goal-team"  ng-if="match.id_status != 3"></span>
+                                                    <span ng-bind="match.away_team_goals" class="h-goal-team"  ng-if="match.id_status != 3"></span>
                                                 </td>
                                             </tr>
                                             </tbody>
