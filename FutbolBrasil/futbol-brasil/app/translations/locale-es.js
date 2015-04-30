@@ -1,7 +1,7 @@
 {
     "SECTIONS" : {
         "NOTISTATS" : {
-            "NOTISTATS" : “Estadísticas”,
+            "NOTISTATS" : "Estadísticas",
             "MATCHES": "Partidos",
             "STANDINGS": "Clasificación",
             "NEWS": "Noticias",
@@ -85,7 +85,7 @@
         "PASSWORD_LABEL" : "Contraseña",
         "PASSWORD_HELPER" : "Ingrese el código recibido por SMS.",
         "MSISDN_HOLDER" : "# Numero",
-        "MSISDN_LABEL" : “Número de teléfono”,
+        "MSISDN_LABEL" : "Número de teléfono",
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Recordar / Obtener Credenciales",
         "CHANGE_LANGUAGE_LABEL" : "Cambiar Idioma",
@@ -102,12 +102,12 @@
         }
     },
     "SETTINGS": {
-        "NICKNAME_TITLE": “Apodo”,
+        "NICKNAME_TITLE": "Apodo",
         "NICKNAME_PLACEHOLDER": "Introduzca su Apodo",
         "PUSH_TITLE": "Notificaciones Push",
         "FAVORITE_TEAMS_TITLE": "Mis Equipos Favoritos",
         "LANGUAGES_TITLE": "Idiomas",
-        "SOCIAL_ACCOUNTS_TITLE": “Redes Sociales",
+        "SOCIAL_ACCOUNTS_TITLE": "Redes Sociales",
         "TOGGLE" : {
             "BETS" : "Apuestas",
             "MTM" : "En Vivo",
@@ -143,7 +143,7 @@
 
       "SET_USERNAME" : {
        "TITLE" : "Información del perfil",
-       "SUBTITLE": "Selección de nombre de usuario”,
+       "SUBTITLE": "Selección de nombre de usuario",
        "MSG": "Por favor ingrese un nombre de usuario para su cuenta"
       },
 

@@ -1,10 +1,10 @@
 {
     "SECTIONS" : {
         "NOTISTATS" : {
-            "NOTISTATS" : “Estatística",
+            "NOTISTATS" : "Estatística",
             "MATCHES": "Partidas",
             "STANDINGS": "Tabela",
-            "NEWS": “Notícia",
+            "NEWS": "Notícia",
             "SCORERS": "Artilharia",
             "LIVE": "Ao Minuto"
         },
@@ -85,19 +85,18 @@
         "PASSWORD_LABEL" : "Senha",
         "PASSWORD_HELPER" : "Digite a senha recebida por SMS.",
         "MSISDN_HOLDER" : "# Numero",
-        "MSISDN_LABEL" : “Número do celular”,
+        "MSISDN_LABEL" : "Número do celular",
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Lembre / Obter Credenciais",
-        "CHANGE_LANGUAGE_LABEL" : “Selecione o idioma",
+        "CHANGE_LANGUAGE_LABEL" : "Selecione o idioma",
         "TUTORIAL_LABEL" : "Como funciona o serviço?",
         "TERMS_LABEL" : "Termos & Condições",
-        "ENTER_AS_GUEST_LABEL" : “Entrar como um visitante",
+        "ENTER_AS_GUEST_LABEL" : "Entrar como um visitante",
         "REMIND" : {
             "LABEL" : "Digite o seu número do celular",
             "HERO" : {
                 "TITLE" : "Esqueceu seu usuário e senha?",
-                "MESSAGE" : "
-Para obter as suas credenciais por favor, escreva o seu número do celular e prima 'Lembre / Obter Credenciais'",
+                "MESSAGE" : "Para obter as suas credenciais por favor, escreva o seu número do celular e prima 'Lembre / Obter Credenciais'",
                 "SMALL_PRINT" : "*O serviço está disponível apenas para assinantes da operadora específica"
             }
         }
@@ -108,7 +107,7 @@ Para obter as suas credenciais por favor, escreva o seu número do celular e pri
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",
-        "SOCIAL_ACCOUNTS_TITLE": “Redes Sociais",
+        "SOCIAL_ACCOUNTS_TITLE": "Redes Sociais",
         "TOGGLE" : {
             "BETS" : "Palpites",
             "MTM" : "Ao Minuto",
@@ -170,7 +169,7 @@ Para obter as suas credenciais por favor, escreva o seu número do celular e pri
         "SET_MSISDN" : {
           "TITLE" : "Processo de login",
           "SUBTITLE": "Incompleta Registrando Informações",
-          "MSG": "Por favor coloque o seu número do celular”
+          "MSG": "Por favor coloque o seu número do celular"
         },
 
         "SET_PASSWORD" : {

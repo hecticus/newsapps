@@ -88,7 +88,7 @@
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Remind / Get Credentials",
         "CHANGE_LANGUAGE_LABEL" : "Change Language",
-        "TUTORIAL_LABEL" : “Tutorial”,
+        "TUTORIAL_LABEL" : "Tutorial",
         "TERMS_LABEL" : "Terms & Conditions",
         "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
         "REMIND" : {
@@ -185,7 +185,7 @@
 
           "SET_BET" : {
             "TITLE" : "Predictions",
-            "SUBTITLE": "Outdated event”,
+            "SUBTITLE": "Outdated event",
             "MSG": "The match date is outdated"
           }
 
