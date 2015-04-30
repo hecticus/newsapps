@@ -21,7 +21,8 @@
     "angular-translate-loader-static-files": "~2.6.0",
     "angular-socialsharing": "~0.1.3",
     "angular-translate-loader-url": "~2.6.1",
-    "iscroll": "https://github.com/hecticus/iscroll.git#master"
+    "iscroll": "https://github.com/hecticus/iscroll.git#master",
+    "Flowtype.js": "1.1.0"
   },
   "resolutions": {
     "angular": "~1.2"

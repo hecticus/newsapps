@@ -67,12 +67,13 @@
             <div class="navbar-header">
                 <header>
                     <div class="col-xs-2 text-left" style="height:50px; line-height:50px; ">
-                        <i ng-hide="(hideMenuIcon() === true)"
+                        <i class="drawer-title" ng-hide="(hideMenuIcon() === true)"
                           ng-class="getDrawerIcon()"
-                          ng-click="onMenuButtonPressed()" style="font-size:2em; vertical-align: middle;"></i>
+                          ng-click="onMenuButtonPressed()" ></i>
                     </div>
                     <div class="col-xs-8 text-center"style="height:50px; line-height:50px; ">
-                        <span class="drawer-title" ng-cloak style="vertical-align: middle;">
+                        <img class="h-logo" src="img/tim-01.svg" onerror="this.src='img/tim-01.png'" >
+                        <span class="h-title" ng-cloak >
                             {{sectionTranslation}}
                         </span>
                     </div>
@@ -81,11 +82,11 @@
                       <i class="icon drawer-icon icon-white"
                          ng-class="getFavoritesClass()"
                          ng-hide="(hideMenuFavorites() === true)"
-                         ng-click="toggleFavorites()" style="font-size:2em; vertical-align: middle;"></i>
+                         ng-click="toggleFavorites()" ></i>
 
                       <i class="mdi-navigation-arrow-forward"
                        ng-show="(showMenuForward() === true)"
-                       ng-click="onMain()" style=" font-size:2em;vertical-align: middle;"></i>
+                       ng-click="onMain()" ></i>
 
                     </div>
                 </header>
@@ -172,31 +173,31 @@
                 <div class="col-xs-2 col-xs-offset-1 option" ui-sref-active="active">
                     <a ui-sref="match" class="footer-section">
                         <span class="icon-balon"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.MATCHES</span>
+                        <span translate>SECTIONS.NOTISTATS.MATCHES</span>
                     </a>
                 </div>
                 <div class="col-xs-2 option" ui-sref-active="active">
                     <a ui-sref="standings" class="footer-section">
                         <span class="icon-tabela"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.STANDINGS</span>
+                        <span translate>SECTIONS.NOTISTATS.STANDINGS</span>
                     </a>
                 </div>
                 <div class="col-xs-2 option" ui-sref-active="active" >
                     <a ui-sref="news" class="footer-section">
                         <span class="icon-noticias"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.NEWS</span>
+                        <span translate>SECTIONS.NOTISTATS.NEWS</span>
                     </a>
                 </div>
                 <div class="col-xs-2 option" ui-sref-active="active" >
                     <a ui-sref="scorers" class="footer-section">
                         <span class="icon-artilharia"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.SCORERS</span>
+                        <span translate>SECTIONS.NOTISTATS.SCORERS</span>
                     </a>
                 </div>
                 <div class="col-xs-2 option" ui-sref-active="active" >
                     <a ui-sref="mtm" class="footer-section">
                         <span class="icon-envivo"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.NOTISTATS.LIVE</span>
+                        <span translate>SECTIONS.NOTISTATS.LIVE</span>
                     </a>
                 </div>
             </div>
@@ -206,25 +207,25 @@
                 <div class="col-xs-3 option" ui-sref-active="active">
                     <a ui-sref="prediction" class="footer-section">
                         <span class="icon-balon"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.BETS.PREDICTIONS</span>
+                        <span translate>SECTIONS.BETS.PREDICTIONS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
                     <a ui-sref="leaderboard" class="footer-section">
                         <span class="icon-tabela"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.BETS.LEADERBOARDS</span>
+                        <span translate>SECTIONS.BETS.LEADERBOARDS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
                     <a ui-sref="friends" class="footer-section">
                         <span class="icon-artilharia"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.BETS.FRIENDS</span>
+                        <span translate>SECTIONS.BETS.FRIENDS</span>
                     </a>
                 </div>
                 <div class="col-xs-3 option" ui-sref-active="active" >
                     <a ui-sref="points" class="footer-section">
                         <span class="icon-puntos"></span>
-                        <span class="glyphicon-class" translate>SECTIONS.BETS.POINTS</span>
+                        <span translate>SECTIONS.BETS.POINTS</span>
                     </a>
                 </div>
             </div>
@@ -255,6 +256,7 @@
 <script src="lib/angular-socialsharing/dist/angular-socialsharing.js"></script>
 <script src="lib/angular-translate-loader-url/angular-translate-loader-url.js"></script>
 <script src="lib/iscroll/build/iscroll-probe.js"></script>
+<script src="lib/Flowtype.js/flowtype.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
 

@@ -20,10 +20,10 @@
                     <div ng-show="league.bet" class="col-xs-12 text-center"
                          ng-click="saveBet($index, league.id_competitions)">
 
-                      <span style="font-size:1.2em;">{{leagues[$index].bet.client_bets}}</span>
+                      <span>{{leagues[$index].bet.client_bets}}</span>
                       <span translate>SECTIONS.BETS.PREDICTIONS</span>
                       <span>/</span>
-                      <span style="font-size:1.8em;">{{leagues[$index].bet.total_bets}}</span>
+                      <span>{{leagues[$index].bet.total_bets}}</span>
                       <span translate>SECTIONS.NOTISTATS.MATCHES</span>
 
                     </div>
@@ -59,7 +59,7 @@
                                 <td class="col-xs-4"
                                     ng-click="setBet(match.status.id_status, 1, $parent.$parent.$index, $parent.$index, $index)"
                                     ng-class="{active: match.bet.client_bet == 1}">
-                                  <span ng-bind="getTime(match.date)" class="date"></span>
+                                  <span ng-bind="getTime(match.date)" class="h-time"></span>
                                   <br/>
                                   <span class="status _{{match.status.id_status}}">
                                     {{ match.status.name | translate}}

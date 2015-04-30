@@ -45,12 +45,8 @@
                 </table>
             </div>
         </div>
+
         @refresh
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center; background:rgb(122,184,0);  color:#ffffff;" >
-                <a href='@routes.Wap.mtm(idCompetition,idMatch,0)'>@Messages.get("MTM_REFRESH_LINK")</a>
-            </div>
-        </div>
 
         @for(action <- jResponse.get("actions").iterator()) {
             <div class="row">
@@ -68,7 +64,7 @@
                         <tbody>
 
                             @for(event <- action.get("events").iterator()) {
-                                <tr style="width: 100% !important; height-min:25px  !important;" >
+                                <tr  style="width: 100% !important; height-min:25px  !important;" >
                                     <td style="width: 20% !important; padding:5px 0;" >
                                         <span style="font-weight:bold;">@event.get("action_minute").asText()'</span>
                                     </td>

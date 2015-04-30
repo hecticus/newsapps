@@ -93,27 +93,27 @@ angular
             };
 
             $scope.showContentEvents = function (_league, _match) {
+                if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
+                  _event.reset();
+                  $scope.item.mtm = [];
+                  $scope.item.league = _league;
+                  $scope.item.match = {
+                      home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
+                      away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
+                      status: {id:_match.id_status,name:_match.status}
+                  };
 
-                _event.reset();
-                $scope.item.mtm = [];
-                $scope.item.league = _league;
-                $scope.item.match = {
-                    home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
-                    away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
-                    status: {id:_match.id_status,name:_match.status}
-                };
+                  $rootScope.transitionPageBack('#wrapper2','left');
+                  matchScroll.scrollTo(0,0,0);
 
-                $rootScope.transitionPageBack('#wrapper2','left');
-                matchScroll.scrollTo(0,0,0);
+                  //TODO check request cableado
+                  var competitionId = _league.id_competitions;
+                  var matchId = _match.id_game_matches;
+                  $scope.competitionId = competitionId;
+                  $scope.matchId = matchId;
 
-                //TODO check request cableado
-                var competitionId = _league.id_competitions;
-                var matchId = _match.id_game_matches;
-                $scope.competitionId = competitionId;
-                $scope.matchId = matchId;
-
-                $scope.refreshEvents(competitionId, matchId);
-
+                  $scope.refreshEvents(competitionId, matchId);
+                }
             };
 
             function mapLeagues(leagues){
