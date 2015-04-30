@@ -46,14 +46,14 @@
     },
     "MATCH" : {
         "STATUS" : {
-                    "0" : "Not Yet Played",
-                    "1" : "Played",
-                    "2" : "Playing",
-                    "3" : "Fixture",
-                    "4" : "Cancelled",
-                    "5" : "Postponed",
-                    "6" : "Suspended"
-                }
+            "0" : "Not Yet Played",
+            "1" : "Played",
+            "2" : "Playing",
+            "3" : "Fixture",
+            "4" : "Cancelled",
+            "5" : "Postponed",
+            "6" : "Suspended"
+        }
     },
     "LEADERBOARD" : {
         "TOURNAMENT" : "Tournament",
@@ -82,21 +82,21 @@
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Password",
-        "PASSWORD_HELPER" : "Type in the password you received via SMS.",
+        "PASSWORD_HELPER" : "Type in the code you received via SMS.",
         "MSISDN_HOLDER" : "# Number",
         "MSISDN_LABEL" : "Username",
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Remind / Get Credentials",
         "CHANGE_LANGUAGE_LABEL" : "Change Language",
-        "TUTORIAL_LABEL" : "How Does It Work?",
+        "TUTORIAL_LABEL" : “Tutorial”,
         "TERMS_LABEL" : "Terms & Conditions",
         "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
         "REMIND" : {
             "LABEL" : "Enter your mobile number",
             "HERO" : {
-                "TITLE" : "Forgot your username and password?",
+                "TITLE" : "Forgot your Username and password?",
                 "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
-                "SMALL_PRINT" : "*The service is only available for subscribers of the specific carrier”
+                "SMALL_PRINT" : "*The service is only available for subscribers of the specific operator"
             }
         }
     },
@@ -113,7 +113,7 @@
             "NEWS" : "News"
         },
         "FACEBOOK" : {
-            "CONNECT" : "Connect With Facebook",
+            "CONNECT" : "Connect with Facebook",
             "CONNECTED" : "Connected to Facebook"
         },
         "ADD_TEAM": "Add Team",
@@ -143,7 +143,7 @@
           "SET_USERNAME" : {
            "TITLE" : "Profile Info",
            "SUBTITLE": "Select your username",
-           "MSG": "Please set a username for your account"
+           "MSG": "Please set a Username for your account"
          },
 
          "NETWORK_ERROR" : {
@@ -166,13 +166,13 @@
 
           "SET_MSISDN" : {
             "TITLE" : "Login process",
-            "SUBTITLE": "Incomplete registration info",
+            "SUBTITLE": "Incomplete Registering Info",
             "MSG": "Please input your phone number"
           },
 
           "SET_PASSWORD" : {
             "TITLE" : "Login process",
-            "SUBTITLE": "Incomplete registration info",
+            "SUBTITLE": "Incomplete Registering Info",
             "MSG": "Please input your password"
           },
 
@@ -183,10 +183,9 @@
             "CANCEL" : "Cancel"
           },
 
-
           "SET_BET" : {
             "TITLE" : "Predictions",
-            "SUBTITLE": "Outdated date",
+            "SUBTITLE": "Outdated event”,
             "MSG": "The match date is outdated"
           }
 

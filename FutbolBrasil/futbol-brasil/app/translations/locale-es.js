@@ -1,7 +1,7 @@
 {
     "SECTIONS" : {
         "NOTISTATS" : {
-            "NOTISTATS" : "Notistats",
+            "NOTISTATS" : “Estadísticas”,
             "MATCHES": "Partidos",
             "STANDINGS": "Clasificación",
             "NEWS": "Noticias",
@@ -47,14 +47,14 @@
     },
     "MATCH" : {
         "STATUS" : {
-                    "0" : "Sin Jugar",
-                    "1" : "Jugado",
-                    "2" : "Jugando",
-                    "3" : "Programado",
-                    "4" : "Cancelado",
-                    "5" : "Aplazado",
-                    "6" : "Suspendido"
-                }
+            "0" : "Sin Jugar",
+            "1" : "Jugado",
+            "2" : "Jugando",
+            "3" : "Programado",
+            "4" : "Cancelado",
+            "5" : "Aplazado",
+            "6" : "Suspendido"
+        }
     },
     "LEADERBOARD" : {
         "TOURNAMENT" : "Torneo",
@@ -83,13 +83,13 @@
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Contraseña",
-        "PASSWORD_HELPER" : "Ingrese la contraseña recibida por SMS.",
-        "MSISDN_HOLDER" : "# Número",
-        "MSISDN_LABEL" : "Username",
+        "PASSWORD_HELPER" : "Ingrese el código recibido por SMS.",
+        "MSISDN_HOLDER" : "# Numero",
+        "MSISDN_LABEL" : “Número de teléfono”,
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Recordar / Obtener Credenciales",
         "CHANGE_LANGUAGE_LABEL" : "Cambiar Idioma",
-        "TUTORIAL_LABEL" : "¿Cómo funciona?",
+        "TUTORIAL_LABEL" : "¿Como funciona?",
         "TERMS_LABEL" : "Términos y Condiciones",
         "ENTER_AS_GUEST_LABEL" : "Entrar como Invitado",
         "REMIND" : {
@@ -102,12 +102,12 @@
         }
     },
     "SETTINGS": {
-        "NICKNAME_TITLE": "Apodo",
+        "NICKNAME_TITLE": “Apodo”,
         "NICKNAME_PLACEHOLDER": "Introduzca su Apodo",
         "PUSH_TITLE": "Notificaciones Push",
         "FAVORITE_TEAMS_TITLE": "Mis Equipos Favoritos",
         "LANGUAGES_TITLE": "Idiomas",
-        "SOCIAL_ACCOUNTS_TITLE": "Cuentas Sociales",
+        "SOCIAL_ACCOUNTS_TITLE": “Redes Sociales",
         "TOGGLE" : {
             "BETS" : "Apuestas",
             "MTM" : "En Vivo",
@@ -143,7 +143,7 @@
 
       "SET_USERNAME" : {
        "TITLE" : "Información del perfil",
-       "SUBTITLE": "Selección de usuario”,
+       "SUBTITLE": "Selección de nombre de usuario”,
        "MSG": "Por favor ingrese un nombre de usuario para su cuenta"
       },
 
