@@ -249,7 +249,7 @@ public class PerformNews extends HecticusThread {
     private File scaleImage (BufferedImage image, String path, Resolution resolution) {
         try {
             int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image.getType();
-            BufferedImage resizedImage = resizeLocalImage(image, type, resolution.getWidth(), resolution.getHeight(), IMGRESIZE_EXACT);
+            BufferedImage resizedImage = resizeLocalImage(image, type, resolution.getWidth(), resolution.getHeight(), (image.getWidth() > image.getHeight()?IMGRESIZE_KEEPASPECT_WIDTH:(image.getHeight() > image.getWidth()?IMGRESIZE_KEEPASPECT_HEIGHT:IMGRESIZE_EXACT)));
             int lastIndexOfSlash = path.lastIndexOf("/");
             int lastIndexOfPoint = path.lastIndexOf(".");
             String fileName = path.substring(lastIndexOfSlash + 1, path.indexOf('.', lastIndexOfSlash));
