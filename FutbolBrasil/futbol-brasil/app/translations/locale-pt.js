@@ -6,7 +6,7 @@
             "STANDINGS": "Tabela",
             "NEWS": "Notícia",
             "SCORERS": "Artilharia",
-            "LIVE": "Ao Minuto"
+            "LIVE": "En vivo"
         },
         "BETS" : {
             "BETS": "Palpites",
