@@ -106,6 +106,8 @@ angular
                     console.log('createOrUpdateClient. no regId.');
                 }
 
+                console.log('device.registration_id -> ' + device.registration_id);
+
                 if(client.msisdn){
                     jData.login = client.msisdn;
                 }
@@ -130,6 +132,8 @@ angular
                     jData.devices = devices;
                     if(subscribe){ jData.subscribe = true; }
                 }
+
+
 
                 $http({
                     url : url,

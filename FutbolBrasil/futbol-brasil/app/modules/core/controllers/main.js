@@ -13,6 +13,7 @@ angular
         function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
                Client, CordovaApp) {
 
+            $('body').flowtype();
 
             $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;

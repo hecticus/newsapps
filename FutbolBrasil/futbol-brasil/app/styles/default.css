@@ -7,6 +7,8 @@ row:not(input):not(textarea) {
 html { -ms-touch-action: none; font-family: Helvetica; }
 body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:#002878; background:#ffffff !important; font-size: 62.5% important;}
 
+
+
 .footer-section{color: #FFFFFF !important; text-decoration: none  !important; }
 .footer-section:link {color: #FFFFFF !important; text-decoration: none  !important; }
 .footer-section:visited {color: #FFFFFF !important; text-decoration: none  !important; }
@@ -86,12 +88,13 @@ footer *[class *= 'glyphicon'],
 footer *[class *= 'icon-material'],
 footer *[class *= 'mdi-'],
 footer *[class *= 'icon-'] {
-    font-size:1.6em;
     vertical-align:middle;
+    font-size:2em;
+    display:block;
 }
 
+
 footer .glyphicon-class {
-    font-size:0.8em;
     display: block;
     word-wrap: break-word;
 }
@@ -141,27 +144,6 @@ table tr th {
   text-align: center;
 }
 
-/*table tbody tr  {
-  height: 75px;
-}
-
-table tbody tr td {
-  height: 75px;
-  border:0 !important;
-  padding: 0 !important;
-}*/
-
-
-/*table tbody tr:nth-child(even) {
-  background: #ffffff;
-  color: #002878;
-}
-
-table tbody tr:nth-child(odd) {
-  background: #d0dbe7;
-  color: #2c9cd3;
-}*/
-
 table tbody tr td.active {
   background: #fed100 !important;
   color: #002878 !important;
@@ -208,7 +190,6 @@ div.header .left {
 
 div.header .center {
     text-align: center;
-    font-size: 1em;
     font-weight: bold;
 }
 
@@ -241,7 +222,6 @@ div.header .right {
     bottom: 0;
     right: 0;
     z-index: 8;
-    font-size:1.8em;
 }
 
 
@@ -287,7 +267,6 @@ div.header .left {
 
 div.header .center {
     text-align: center;
-    font-size: 1em;
     font-weight: bold;
 }
 
@@ -321,7 +300,6 @@ div.header .right {
     bottom: 0;
     right: 0;
     z-index: 9;
-    font-size:1.8em;
 }
 
 #wrapperH {
@@ -431,10 +409,12 @@ body.content-mtm .row-back {
     background-color: #ffffff;
 }
 
-.date { font-weight: bold; font-size: 1.5em; }
-.winner { font-weight: bold; }
-.goal { font-size: 1.5em; }
-.status { color:#000000; font-weight: bold; }
+
+.status {
+    color:#000000; font-weight: bold;
+    font-size:1.6em;
+
+ }
 
 
 
@@ -474,7 +454,7 @@ body.content-mtm .row-back {
 /*menu*/
 
 .content-menu,
-.content-sub-menu {background:#ffffff; height: 50px; line-height:50px; font-size: 1.4em; color:#134985;}
+.content-sub-menu {background:#ffffff; height: 50px; line-height:50px; color:#134985;}
 .content-menu div.col-xs-8,
 .content-sub-menu div.col-xs-8{border-bottom: solid 1pt #ffca00; padding-left:0 !important;}
 .content-menu span:last-child {text-transform:uppercase;}
@@ -503,7 +483,6 @@ body.content-mtm .row-back {
 .btn-delete-item {
     background-color: #f44336 !important;
     border-radius: 100%;
-    font-size: 12px;
     padding: 6px;
     width: 24px;
     height: 24px;
@@ -518,16 +497,14 @@ body.content-mtm .row-back {
 .mdi-navigation-more-vert,
 .drawer-icon {
     vertical-align: middle;
-    font-size: 2.5em;
 }
 
-.drawer-title{
+/*.drawer-title{
     vertical-align: middle;
-    font-size: 18px;
     color: #FFF;
     font-weight: bold;
     text-transform:uppercase;
-}
+}*/
 
 .drawer-app-logo {
     width: auto;
@@ -629,14 +606,13 @@ body.content-mtm .row-back {
     border-radius: 100%;
     text-align: center;
     line-height: 56px;
-    font-size: 20px;
     color: white;
     width: 56px;
     height: 56px;
+    font-size: 2em;
 }
 
 .lang-name {
-    font-size: 20px;
     font-weight: 400;
     margin-top: 16px;
 }
@@ -670,20 +646,16 @@ body.content-mtm .row-back {
   z-index: 8;
   width: 100%;
   height: 100%;
-  color: #777;
+  color: #777 !important ;
   padding: 24px !important;
   text-align:center;
   vertical-align:middle;
+  font-size:2.5em;
 }
 
-.no-content-panel i{
-    font-size: 6em;
-
-}
 
 .no-content-panel .no-content-panel-title{
     position: relative;
-    font-size: 24px;
     text-align: center;
 }
 
@@ -743,7 +715,6 @@ body.content-mtm .row-back {
 
   .row-header .title {
       text-align: center;
-      font-size : 1em;
       padding: 8px;
   }
 
@@ -784,7 +755,6 @@ body.content-mtm .row-back {
 .client {
   color:#ff5722 !important;
   font-weight: bold;
-  font-size: 1.2em;
 }
 
 h6.team-name {
@@ -805,6 +775,7 @@ h6.team-name {
       line-height: 35px;
       font-weight:bold;
       z-index: 10;
+      font-size: 1.6em;
     }
 
     .h-header.green {
@@ -849,17 +820,31 @@ h6.team-name {
        padding: 15px;
     }
 
-    .content-standings .h-headline {font-size: 2em; font-weight:bold;}
-    .content-news .h-headline {font-size: 2em; font-weight:bold;}
-    .content-news #wrapper2 .h-headline {font-size: 2em;}
-    .content-news .h-moment {font-size: 1.2em; color: rgb(44,156,211);}
-    .content-news .h-body {font-size: 1.4em; margin-top: 10px !important;}
-
-    @media(max-width: 720px) {
-      .content-standings .h-headline {font-size: 1.4em; font-weight:bold;}
-      .content-news .h-headline {font-size: 1.4em; font-weight:bold;}
-      .content-news #wrapper2 .h-headline {font-size: 2em;}
+    .content-news .h-headline {
+      font-size:1.8em;
+      font-weight:bold;
     }
+    .content-news #wrapper2 .h-headline  {
+      font-size:2em;
+    }
+
+
+    .content-news .h-moment {
+      font-size:1.2em;
+      font-weight:bold;
+      color: rgb(44,156,211);
+    }
+
+    .content-news .h-body {
+      margin-top: 10px !important;
+      font-size: 1.4em;
+    }
+
+    /*@media(max-width: 720px) {
+      .content-standings .h-headline {font-weight:bold;}
+      .content-news .h-headline {font-weight:bold;}
+      .content-news #wrapper2 .h-headline {}
+    }*/
 
 
     .h-list *[class *= 'col-']:last-child {
@@ -908,9 +893,9 @@ h6.team-name {
     .content-prediction .wrapper { top: 70px; }
     tr.h-match { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-match:last-child { border: 0 !important; }
-    tr.h-match td { height:60px !important; line-height:20px !important;}
+    tr.h-match td { height:60px !important; vertical-align:middle;}
     tr.h-match td .h-name-team {display:block; height:40px !important; }
-    tr.h-match td .h-goal-team {display:block; height:20px !important;}
+    tr.h-match td .h-goal-team {display:block;}
 
     tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
@@ -935,6 +920,12 @@ h6.team-name {
     .h-logo.menu {
       width: 75px;
       margin-top: 10px;
+    }
+
+    header .h-logo {
+      width: 55px;
+      vertical-align:middle;
+      margin-right: 5px;
     }
 
     .content-mtm #wrapper2,
@@ -1026,6 +1017,98 @@ h6.team-name {
 
     .h-event:last-child {
           border-bottom: 0 !important;
+    }
+
+
+    header .h-title {
+      font-size: 2em !important;
+      color: #ffffff;
+      font-weight:bold;
+      vertical-align: middle;
+    }
+
+    header *[class *= 'glyphicon'],
+    header *[class *= 'icon-material'],
+    header *[class *= 'mdi-'],
+    header *[class *= 'icon-'],
+    .content-news *[class *= 'mdi-'],
+    .no-content-panel  *[class *= 'mdi-'] {
+        font-size:2em;
+        color: #ffffff;
+        font-weight:bold;
+        vertical-align:middle;
+    }
+
+    .no-content-panel  *[class *= 'mdi-'] {
+      color: #777 !important ;
+    }
+
+    .content-news #wrapper *[class *= 'mdi-'],
+    .content-news #wrapper2 *[class *= 'mdi-']{
+      font-size:1.2em;
+      font-weight:bold;
+      color: rgb(44,156,211);
+    }
+
+    .content-menu *[class *= 'mdi-'],
+    .content-menu *[class *= 'icon-'] {
+      font-size:2em;
+      vertical-align: middle;
+      color:  rgb(0,40,120);
+    }
+
+    .content-menu *[class *= 'icon-'] {
+      font-size:1.6em;
+    }
+
+    .content-menu .h-title {
+      font-size: 1.8em;
+      font-weight:bold;
+    }
+
+    .content-sub-menu .h-title {
+      font-size: 1.6em;
+    }
+
+    .h-name-team {
+      font-size:1.6em !important;
+      font-weight: bold;
+    }
+
+    .h-goal-team {
+      font-size:2em !important;
+    }
+
+    .h-time {
+      font-size:2em !important;
+    }
+
+    .h-minute-match {
+      font-size:1.6em !important;
+    }
+
+    .h-event-match {
+      font-size:1.6em !important;
+    }
+
+    .content-standings .h-list .h-headline {
+      font-size:1.8em;
+    }
+
+    .h-table tbody tr td {
+        font-size:1.4em;
+    }
+
+    .control-label {
+      font-size:1.6em;
+    }
+
+    .h-login-button {
+      font-size:1.6em;
+    }
+
+    .h-name-push {
+      font-size:1.6em;
     }
 
     /*</v2>*/

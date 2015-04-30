@@ -88,7 +88,7 @@
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Remind / Get Credentials",
         "CHANGE_LANGUAGE_LABEL" : "Change Language",
-        "TUTORIAL_LABEL" : "How Does It Work?",
+        "TUTORIAL_LABEL" : "Tutorial",
         "TERMS_LABEL" : "Terms & Conditions",
         "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
         "REMIND" : {
@@ -96,7 +96,7 @@
             "HERO" : {
                 "TITLE" : "Forgot your Username and password?",
                 "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
-                "SMALL_PRINT" : "*The service is only available for suscribers of the specific operator"
+                "SMALL_PRINT" : "*The service is only available for subscribers of the specific operator"
             }
         }
     },
@@ -113,7 +113,7 @@
             "NEWS" : "News"
         },
         "FACEBOOK" : {
-            "CONNECT" : "Connect With Facebook",
+            "CONNECT" : "Connect with Facebook",
             "CONNECTED" : "Connected to Facebook"
         },
         "ADD_TEAM": "Add Team",
@@ -185,7 +185,7 @@
 
           "SET_BET" : {
             "TITLE" : "Predictions",
-            "SUBTITLE": "Outdated date",
+            "SUBTITLE": "Outdated event",
             "MSG": "The match date is outdated"
           }
 
