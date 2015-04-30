@@ -25,8 +25,8 @@ public class OptasportsScraper extends HecticusThread {
 
     private Language language;
     //variables para cargar la config de opta
-    private String optaUserName,
-            optaAuthKey;
+    private String optaUserName = "upstream",
+            optaAuthKey ="8277e0910d750195b448797616e091ad";
     private final String ID = "#ID#";
 
     public void process(Map args){
@@ -40,19 +40,13 @@ public class OptasportsScraper extends HecticusThread {
             } else
                 throw new BadConfigException("es necesario configurar el parametro language");
 
-            boolean check = false;
-            if (check){
-                //get perform configs optaUserName and opatAuthKey
-                if (args.containsKey("username")) {
-                    optaUserName = (String) args.get("username");
-                } else
-                    throw new BadConfigException("es necesario configurar el parametro username");
+            //get perform configs optaUserName and opatAuthKey if not there use default
+            if (args.containsKey("username")) {
+                optaUserName = (String) args.get("username");
+            }
 
-                if (args.containsKey("token")) {
-                    optaAuthKey = (String) args.get("token");
-                } else
-                    throw new BadConfigException("es necesario configurar el parametro token");
-
+            if (args.containsKey("token")) {
+                optaAuthKey = (String) args.get("token");
             }
             //read data from ws
             initProcess();
@@ -150,7 +144,7 @@ public class OptasportsScraper extends HecticusThread {
         //es necesario un filtro por region????
         try {
             //get avaible leagues
-            String url = "http://api.core.optasports.com/soccer/get_seasons?authorized=yes&username=upstream&authkey=8277e0910d750195b448797616e091ad"+"&lang=pt";
+            String url = "http://api.core.optasports.com/soccer/get_seasons?authorized=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             String xmlRespose = sendRequest(url, "");
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
@@ -177,6 +171,7 @@ public class OptasportsScraper extends HecticusThread {
                                 currentSeasonStartDate = xPath.compile("@start_date").evaluate(currentSeason),
                                 currentSeasonEndDate = xPath.compile("@end_date").evaluate(currentSeason),
                                 currentSeasonLastUptdated = xPath.compile("@last_updated").evaluate(currentSeason);
+                        //String name = category.getName() + " " + currentSeasonName + " (" + areaIdName + ")" ;
                         String name = category.getName() + " " + currentSeasonName;
                         Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
                         c.validate(language);
@@ -217,9 +212,8 @@ public class OptasportsScraper extends HecticusThread {
 
     private void getFixtures(String seasonExternalId, Competition c){
         try{
-            //System.out.println("::"+ seasonExternalId);
             //generate url from constant and id
-            String url = "http://api.core.optasports.com/soccer/get_matches?id=#ID#&type=season&detailed=yes&username=upstream&authkey=8277e0910d750195b448797616e091ad" +"&lang=pt";
+            String url = "http://api.core.optasports.com/soccer/get_matches?id=#ID#&type=season&detailed=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             url = url.replace(ID, seasonExternalId);
             String xmlRespose = sendRequest(url,"");
             if (xmlRespose == null){
@@ -330,14 +324,6 @@ public class OptasportsScraper extends HecticusThread {
                                         venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
                                         venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
                                         venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
-
-                                if (Integer.parseInt(matchDate) > currentRoundMinDate){
-                                    currentRoundMinDate = Integer.parseInt(matchDate);
-                                }
-
-                                if (Integer.parseInt(matchDate) < currentRoundMaxDate){
-                                    currentRoundMaxDate = Integer.parseInt(matchDate);
-                                }
 
                                 gamePhase = new Phase(c, currentRoundName, "Rodada " + currentGameWeek,
                                         ""+currentRoundMinDate, ""+currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
@@ -463,7 +449,7 @@ public class OptasportsScraper extends HecticusThread {
 
     private void getPositions(String seasonExternalId, Competition c){
         try {
-            String url = "http://api.core.optasports.com/soccer/get_tables?type=season&id=#ID#&tabletype=total&username=upstream&authkey=8277e0910d750195b448797616e091ad"+"&lang=pt";
+            String url = "http://api.core.optasports.com/soccer/get_tables?type=season&id=#ID#&tabletype=total&username="+optaUserName+"&authkey="+optaAuthKey+"&lang="+language.getShortName();
             url = url.replace(ID, seasonExternalId);
             String xmlRespose = sendRequest(url,"");
             if (xmlRespose == null){
@@ -588,7 +574,7 @@ public class OptasportsScraper extends HecticusThread {
 
     private void getStrikers(String seasonExternalId, Competition c){
         try {
-            String url = "http://api.core.optasports.com/soccer/get_player_statistics?id=#ID#&type=season&username=upstream&authkey=8277e0910d750195b448797616e091ad"+"&lang=pt";
+            String url = "http://api.core.optasports.com/soccer/get_player_statistics?id=#ID#&type=season&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             url = url.replace(ID, seasonExternalId);
             String xmlRespose = sendRequest(url,"");
             if (xmlRespose == null){
@@ -625,9 +611,7 @@ public class OptasportsScraper extends HecticusThread {
 
     private void getMinuteByMinute(String seasonExternalId, Competition c){
         try {
-            //System.out.println("min");
-            String url = "http://api.core.optasports.com/soccer/get_matches_live?now_playing=no&minutes=yes&username=upstream&authkey=8277e0910d750195b448797616e091ad"+"&lang=pt";
-            //url = url.replace(ID, seasonExternalId);
+            String url = "http://api.core.optasports.com/soccer/get_matches_live?now_playing=no&minutes=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             String xmlRespose = sendRequest(url,"");
             if (xmlRespose == null){
                 throw new Exception("no se pudo procesar el ranking para la competicion:" + c.getName() + " respuesta vacia del ws");
@@ -708,7 +692,6 @@ public class OptasportsScraper extends HecticusThread {
                             }
 
                         }else {
-                            //System.out.println("cero");
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
                             for (int k = 0; k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
@@ -763,7 +746,6 @@ public class OptasportsScraper extends HecticusThread {
 
                         }
                     }else if (currentRoundType.equalsIgnoreCase("cup")){
-                        //System.out.println("copa");
                         NodeList aggregate = (NodeList) xPath.compile("aggr").evaluate(currentRound, XPathConstants.NODESET);
                         for (int j = 0; j < aggregate.getLength(); j++){
                             Node currentAggre = (Node) aggregate.item(j);
@@ -876,33 +858,37 @@ public class OptasportsScraper extends HecticusThread {
             Node currentMatch = (Node) matches.item(k);
             currentGameWeek = stringIntParser(xPath.compile("@gameweek").evaluate(currentMatch));
             String matchDate = cleanDate(xPath.compile("@date_utc").evaluate(currentMatch));
-
-            if (currentGameWeek != lastGameWeek){
-                if (gamePhase !=null){
+            if (currentGameWeek != lastGameWeek) {
+                if (gamePhase != null) {
                     //tengo uno y debo insertar y setear a null
                     gamePhase.validate(language);
                     gamePhase = new Phase(c, currentRoundName, "Rodada " + currentGameWeek,
-                            ""+currentRoundMinDate, ""+currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
+                            "" + currentRoundMinDate, "" + currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
                             0, 0, currentGameWeek);
                     gamePhase.setStartDate(matchDate);
 
-                }else {
+                } else {
                     //no tengo, lo creo
                     gamePhase = new Phase(c, currentRoundName, "Rodada " + currentGameWeek,
-                            ""+currentRoundMinDate, ""+currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
+                            "" + currentRoundMinDate, "" + currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
                             0, 0, currentGameWeek);
                     gamePhase.setStartDate(matchDate);
                 }
-            }else {
+            } else {
                 //update existing
-                if (Integer.parseInt(matchDate) < Integer.parseInt(gamePhase.getStartDate())){
+                if (Integer.parseInt(matchDate) < Integer.parseInt(gamePhase.getStartDate())) {
                     gamePhase.setStartDate(matchDate);
                 }
 
-                if (Integer.parseInt(matchDate) > Integer.parseInt(gamePhase.getStartDate())
-                        && Integer.parseInt(matchDate) <= currentRoundMaxDate){
+                if (Integer.parseInt(matchDate) >= Integer.parseInt(gamePhase.getStartDate())
+                        && Integer.parseInt(matchDate) <= currentRoundMaxDate) {
                     gamePhase.setEndDate(matchDate);
                 }
+
+                if (k == matches.getLength() - 1) { //la ultima?
+                    gamePhase.validate(language);
+                }
+
             }
             lastGameWeek = currentGameWeek;
         }

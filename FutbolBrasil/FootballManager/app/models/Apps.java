@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.CompetitionsSortComparator;
 import models.football.*;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -11,7 +12,6 @@ import utils.Utils;
 
 import javax.persistence.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -142,13 +142,7 @@ public class Apps extends HecticusModel {
             };
             Collection<Competition> result = Utils.filterCollection(competitions, validObjs);
             tr = (List<Competition>) result;
-            class CompetitionsComparator implements Comparator<Competition> {
-                @Override
-                public int compare(Competition c1, Competition c2) {
-                    return c1.getType().getSort() - c2.getType().getSort();
-                }
-            }
-            Collections.sort(tr, new CompetitionsComparator());
+            Collections.sort(tr, new CompetitionsSortComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
