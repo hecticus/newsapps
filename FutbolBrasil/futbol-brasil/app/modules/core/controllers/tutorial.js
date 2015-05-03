@@ -19,7 +19,7 @@ angular
                $scope.$emit('load');
 
                //$('#load').load(jLoading.wap_help,
-               $('#load').load('http://www.passatempopremiado.com/index.php',
+               $('#load').load('http://www.tim.com.br',
                   function(response, status, xhr){
 
                     $scope.$emit('unload');
