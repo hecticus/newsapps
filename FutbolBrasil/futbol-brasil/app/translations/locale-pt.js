@@ -6,7 +6,7 @@
             "STANDINGS": "Tabela",
             "NEWS": "Notícia",
             "SCORERS": "Artilharia",
-            "LIVE": "En vivo"
+            "LIVE": "Ao Vivo"
         },
         "BETS" : {
             "BETS": "Palpites",
@@ -69,8 +69,8 @@
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
         "POINTS" : "Você não tem informação de pontos disponível",
-        "LEADERBOARD" : "Não há informação disponível para esta classificação",
-        "PREDICTIONS" : "Não há informação disponível para este torneio",
+        "LEADERBOARD" : "Não há informações disponíveis para esta classificação",
+        "PREDICTIONS" : "Não há informações disponíveis para este torneio",
         "MATCH" : "Não há jogos para este día",
         "SCORERS" : "Não há artilheiros para este torneio",
         "TEAMS" : "Não foi possível obter equipes",
@@ -110,7 +110,7 @@
         "SOCIAL_ACCOUNTS_TITLE": "Redes Sociais",
         "TOGGLE" : {
             "BETS" : "Palpites",
-            "MTM" : "En vivo",
+            "MTM" : "Ao vivo",
             "NEWS" : "Notícias"
         },
         "FACEBOOK" : {

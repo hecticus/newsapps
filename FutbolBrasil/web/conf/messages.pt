@@ -158,9 +158,8 @@ NEWS_LABEL=Notícia
 PLAYER_LABEL=Jogador
 TEAM_LABEL=Equipe
 GOALS_LABEL=Goles
-MTM_LABEL=En vivo
+MTM_LABEL=Ao vivo
 MTM_REFRESH_LINK=Atualizar
-
 LOGIN_TITLE=Registrar-se para acessar a noticía de futebol do dia, todos os dias.
 LOGIN_TITLE_MSISDN=Digite seu numero de celular.
 LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
