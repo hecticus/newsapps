@@ -23,15 +23,20 @@ public class Countries extends HecticusModel {
     @Constraints.Required
     private String name;
     @Constraints.Required
-    private Long extId;
+    private String extId;
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<Venue> venues;
 
     private static Model.Finder<Long,Countries> finder = new Model.Finder<Long,Countries>(Long.class,Countries.class);
 
-    public Countries(String name, Long extId) {
+    public Countries(String name, String extId) {
         this.name = name;
         this.extId = extId;
+    }
+
+    public Countries(String name) {
+        this.name = name;
+        this.extId = name;
     }
 
     public Long getIdCountries() {
@@ -50,11 +55,11 @@ public class Countries extends HecticusModel {
         this.name = name;
     }
 
-    public Long getExtId() {
+    public String getExtId() {
         return extId;
     }
 
-    public void setExtId(Long extId){
+    public void setExtId(String extId){
         this.extId = extId;
     }
 
@@ -74,7 +79,7 @@ public class Countries extends HecticusModel {
         return finder.byId(id);
     }
 
-    public static Countries findByExtId(long id){
+    public static Countries findByExtId(String id){
         return finder.where().eq("ext_id",id).findUnique();
     }
 

@@ -46,7 +46,8 @@ libraryDependencies ++= Seq(
   "javax.mail" % "mail" % "1.4.7",
   "com.sun.xml.messaging.saaj" % "saaj-impl" % "1.3",
   "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
-  "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT"
+  "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
+  "org.jsoup" % "jsoup" % "1.8.1"
 )
 
 resolvers ++= Seq(

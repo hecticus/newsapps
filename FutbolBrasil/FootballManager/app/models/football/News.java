@@ -4,6 +4,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import models.*;
 import play.db.ebean.Model;
@@ -13,9 +15,7 @@ import utils.Utils;
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Entity
 @Table(name="news")
@@ -28,6 +28,7 @@ public class News extends HecticusModel {
     @Column(columnDefinition = "TEXT")
     private String summary;
     private String categories; //category o list of categories
+    @Column(columnDefinition = "TEXT")
     private String keyword;
     private String author;
 
@@ -41,13 +42,13 @@ public class News extends HecticusModel {
     private String insertedDate;
 
     @javax.persistence.Column(length=14)
-    private String updatedDate;
+    private Long updatedDate;
 
     private String source;
 
     private Boolean featured;
 
-    private Integer externalId; //id de la noticia externo
+    private String externalId; //id de la noticia externo
 
     private Integer pushStatus;
     private Long pushDate;
@@ -86,7 +87,7 @@ public class News extends HecticusModel {
      * @param app
      */
     public News(String title, String summary, String categories, String keyword, String author, String newsBody,
-                String publicationDate, String source, String updatedDate, Apps app, Language language) {
+                String publicationDate, String source, Long updatedDate, Apps app, Language language) {
         this.title = encode(title);
         this.summary = encode(summary);
         this.categories = encode(categories);
@@ -97,6 +98,29 @@ public class News extends HecticusModel {
         this.source = source;
         this.updatedDate = updatedDate;
         this.app = app;
+        //automatic values
+        this.status = 0;
+        this.featured = false;
+        this.crc = createMd5(title);
+        this.pushStatus = 0;
+        this.insertedDate = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+        this.generated = false;
+        this.language = language;
+    }
+
+    public News(String title, String summary, String categories, String keyword, String author, String newsBody,
+                String publicationDate, String source, Long updatedDate, String externalId, Apps app, Language language) {
+        this.title = encode(title);
+        this.summary = encode(summary);
+        this.categories = encode(categories);
+        this.keyword = encode(keyword);
+        this.author = author;
+        this.newsBody = encode(newsBody);
+        this.publicationDate = publicationDate;
+        this.source = source;
+        this.updatedDate = updatedDate;
+        this.app = app;
+        this.externalId = externalId;
         //automatic values
         this.status = 0;
         this.featured = false;
@@ -121,18 +145,38 @@ public class News extends HecticusModel {
         tr.put("categories",decode(categories));
         tr.put("date" , publicationDate);
         tr.put("featured", featured);
-        tr.put("keyword", keyword);
+        tr.put("keyword", decode(keyword));
         tr.put("author", author);
         tr.put("publicationDate", publicationDate);
         if (resources != null && !resources.isEmpty()){
+            ObjectNode resourcesJson = Json.newObject();
+            List<Resolution> resolutions = Resolution.all();
             ArrayList<String> resourcesURLs = new ArrayList<>(resources.size());
-            for(Resource resource : resources) {
-                resourcesURLs.add(resource.getRemoteLocation());
-            }
-            tr.put("resources", Json.toJson((resourcesURLs)));
-        }
-        //hecticus data??
+            for(final Resolution resolution : resolutions){
+                Predicate<Resource> validObjs = new Predicate<Resource>() {
+                    public boolean apply(Resource obj) {
+                        return obj.getResolution().getIdResolution().intValue() == resolution.getIdResolution().intValue();
+                    }
+                };
+                Collection<Resource> result = Utils.filterCollection(resources, validObjs);
+                List<Resource> resourcesForResolution = (List<Resource>) result;
 
+                class ResourcesComparator implements Comparator<Resource> {
+                    @Override
+                    public int compare(Resource c1, Resource c2) {
+                        return c1.getType().intValue() - c2.getType().intValue();
+                    }
+                }
+                Collections.sort(resourcesForResolution, new ResourcesComparator());
+
+                for(Resource resource : resourcesForResolution) {
+                    resourcesURLs.add(resource.getRemoteLocation());
+                }
+                resourcesJson.put(resolution.getName(), Json.toJson((resourcesURLs)));
+                resourcesURLs.clear();
+            }
+            tr.put("resources", resourcesJson);
+        }
         return tr;
     }
 
@@ -160,7 +204,7 @@ public class News extends HecticusModel {
     }
 
     public static News getNewsByTitleAndApp(int idApp, String newsTitle){
-        return finder.where().eq("id_app",idApp).eq("title",newsTitle).findUnique();
+        return finder.where().eq("id_app", idApp).eq("title", newsTitle).findUnique();
     }
 
     public static List<News> getNewsForNewsCleaner(String date){
@@ -198,8 +242,7 @@ public class News extends HecticusModel {
 
     public boolean existInBd(){
         //check with externalId
-        News result = finder.where().eq("externalId", externalId)
-        .findUnique();
+        News result = finder.where().eq("externalId", externalId).findUnique();
         if (result != null){
             return true;
         }
@@ -270,7 +313,8 @@ public class News extends HecticusModel {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = encode(title);
+        this.crc = createMd5(this.title);
     }
 
     public String getSummary() {
@@ -278,7 +322,7 @@ public class News extends HecticusModel {
     }
 
     public void setSummary(String summary) {
-        this.summary = summary;
+        this.summary = encode(summary);
     }
 
     public String getCategories() {
@@ -286,7 +330,7 @@ public class News extends HecticusModel {
     }
 
     public void setCategories(String categories) {
-        this.categories = categories;
+        this.categories = encode(categories);
     }
 
     public String getKeyword() {
@@ -294,7 +338,7 @@ public class News extends HecticusModel {
     }
 
     public void setKeyword(String keyword) {
-        this.keyword = keyword;
+        this.keyword = encode(keyword);
     }
 
     public String getAuthor() {
@@ -310,7 +354,7 @@ public class News extends HecticusModel {
     }
 
     public void setNewsBody(String newsBody) {
-        this.newsBody = newsBody;
+        this.newsBody = encode(newsBody);
     }
 
     public String getPublicationDate() {
@@ -329,11 +373,11 @@ public class News extends HecticusModel {
         this.insertedDate = insertedDate;
     }
 
-    public String getUpdatedDate() {
+    public Long getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(String updatedDate) {
+    public void setUpdatedDate(Long updatedDate) {
         this.updatedDate = updatedDate;
     }
 
@@ -361,11 +405,11 @@ public class News extends HecticusModel {
         this.featured = featured;
     }
 
-    public Integer getExternalId() {
+    public String getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(Integer externalId) {
+    public void setExternalId(String externalId) {
         this.externalId = externalId;
     }
 
@@ -435,6 +479,24 @@ public class News extends HecticusModel {
         return summary;
     }
 
+    public String getDecodedCategories() {
+        try {
+            return URLDecoder.decode(categories, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return categories;
+    }
+
+    public String getDecodedNewsBody() {
+        try {
+            return URLDecoder.decode(newsBody, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return newsBody;
+    }
+
     public void deleteResources() {
         ArrayList<String> files = new ArrayList<>();
         for(Resource resource : resources){
@@ -452,4 +514,30 @@ public class News extends HecticusModel {
             rackspaceDelete.deleteObjectsFromContainer(containerName, files);
         }
     }
+
+    public Resource getResource(final String externalId, final Resolution resolution){
+        Resource tr = null;
+        try {
+            tr = Iterables.find(resources, new Predicate<Resource>() {
+                public boolean apply(Resource obj) {
+                    return obj.getExternalId().equalsIgnoreCase(externalId) && obj.getResolution().getIdResolution().intValue() == resolution.getIdResolution().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public void updateResource(Resource resource){
+        int index = resources.indexOf(resource);
+        if(index != -1){
+            resources.add(index, resource);
+        }
+    }
+
+    public void addResource(Resource resource){
+        resources.add(resource);
+    }
+
 }

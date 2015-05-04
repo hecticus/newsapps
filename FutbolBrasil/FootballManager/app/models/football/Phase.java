@@ -9,8 +9,10 @@ import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.DateAndTime;
 
 import javax.persistence.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -36,13 +38,16 @@ public class Phase extends HecticusModel {
     @Constraints.Required
     @Constraints.MaxLength(8)
     private String endDate;
-    private Long extId;
+
+    private String extId;
 
     private Integer orden;
     private Integer nivel;
     private Integer fn;
 
     private boolean pushed;
+
+    private Integer type;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "phase", cascade = CascadeType.ALL)
     private List<GameMatch> matches;
@@ -60,7 +65,7 @@ public class Phase extends HecticusModel {
 
     }
 
-    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, Long extId, Integer order, Integer nivel, Integer fn) {
+    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, String extId, Integer order, Integer nivel, Integer fn) {
         this.comp = comp;
         this.globalName = globalName;
         this.name = name;
@@ -70,6 +75,20 @@ public class Phase extends HecticusModel {
         this.orden = order;
         this.nivel = nivel;
         this.fn = fn;
+        this.type = 0;
+    }
+
+    public Phase(Competition comp, String globalName, String name, String startDate, String endDate, String extId, Integer order, Integer nivel, Integer fn, Integer type) {
+        this.comp = comp;
+        this.globalName = globalName;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.extId = extId;
+        this.orden = order;
+        this.nivel = nivel;
+        this.fn = fn;
+        this.type = type;
     }
 
     public Long getIdPhases() {
@@ -170,11 +189,11 @@ public class Phase extends HecticusModel {
         this.endDate = endDate;
     }
 
-    public Long getExtId() {
+    public String getExtId() {
         return extId;
     }
 
-    public void setExtId(Long extId) {
+    public void setExtId(String extId) {
         this.extId = extId;
     }
 
@@ -226,6 +245,14 @@ public class Phase extends HecticusModel {
         this.pushed = pushed;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public List<PhaseHasLocalization> getLocalizations() {
         return localizations;
     }
@@ -239,6 +266,7 @@ public class Phase extends HecticusModel {
     }
 
     public List<Rank> getRanks() {
+        Collections.sort(ranks, new RanksComparator());
         return ranks;
     }
 
@@ -246,7 +274,7 @@ public class Phase extends HecticusModel {
         this.ranks = ranks;
     }
 
-    public static Phase findByExtId(Long idExt){
+    public static Phase findByExtId(String idExt){
         return finder.where().eq("extId",idExt).findUnique();
     }
 
@@ -328,6 +356,7 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
+        obj.put("type", type);
         return obj;
     }
 
@@ -341,6 +370,7 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
+        obj.put("type", type);
         return obj;
     }
 
@@ -350,6 +380,7 @@ public class Phase extends HecticusModel {
         obj.put("competition_name", comp.getName());
         obj.put("global_name",globalName);
         obj.put("name",name);
+        obj.put("type", type);
         return obj;
     }
 
@@ -381,6 +412,7 @@ public class Phase extends HecticusModel {
         obj.put("end_date",endDate);
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
+        obj.put("type", type);
         return obj;
     }
 
@@ -412,6 +444,7 @@ public class Phase extends HecticusModel {
         obj.put("ext_id",extId);
         obj.put("pushed", pushed);
         obj.put("has_ranking", hasRanking());
+        obj.put("type", type);
         return obj;
     }
 
@@ -448,7 +481,7 @@ public class Phase extends HecticusModel {
 
         PhaseHasLocalization phaseHasLocalization = new PhaseHasLocalization(this, language, this.globalName, this.name);
         if(!PhaseHasLocalization.exists(phaseHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
+            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(phaseHasLocalization);
             phaseHasLocalization.save();
             this.update();
@@ -480,6 +513,17 @@ class RanksGroupComparator implements Comparator<Rank> {
             if(order == 0){
                 order = c2.getGoalDiff() - c1.getGoalDiff();
             }
+        }
+        return order;
+    }
+}
+
+class RanksComparator implements Comparator<Rank> {
+    @Override
+    public int compare(Rank c1, Rank c2) {
+        int order = (int)(c2.getPoints() - c1.getPoints());
+        if(order == 0){
+            order = c2.getGoalDiff() - c1.getGoalDiff();
         }
         return order;
     }

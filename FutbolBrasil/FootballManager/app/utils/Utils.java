@@ -8,6 +8,7 @@ import com.hecticus.rackspacecloud.RackspacePublish;
 import models.Config;
 import models.Instance;
 import models.football.GameMatch;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import play.Logger;
 import play.libs.Json;
@@ -16,7 +17,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.net.ftp.FTPClient;
@@ -359,5 +363,20 @@ public class Utils {
             }
         }
         return result;
+    }
+
+    public static String getMD5(File path) throws IOException, NoSuchAlgorithmException {
+        FileInputStream fis = new FileInputStream(path);
+        return getMD5(fis);
+    }
+
+    private static String getMD5(FileInputStream fis) throws IOException, NoSuchAlgorithmException {
+        String checksum = null;
+        try {
+            checksum = DigestUtils.md5Hex(fis);
+        } finally {
+            fis.close();
+        }
+        return checksum;
     }
 }

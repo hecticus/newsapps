@@ -1,5 +1,6 @@
 package models.football;
 
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
@@ -357,7 +358,7 @@ public class GameMatch extends HecticusModel {
         json.put("home_team_goals",homeTeamGoals);
         json.put("away_team_goals",awayTeamGoals);
         json.put("fifa_match_number",fifaMatchNumber);
-        json.put("id_status", status.getExtId());//.toJson(language, defaultLanguage));
+        json.put("id_status", status.getIdGameMatchStatus());//.toJson(language, defaultLanguage));
         json.put("ext_id",extId);
         if(result != null) {
             json.put("results", result.toJson());
@@ -408,6 +409,10 @@ public class GameMatch extends HecticusModel {
 
     public static List<GameMatch> getGamematchByDate(Long idCompetition, String date){
         return finder.where().ilike("date", date+"%").eq("competition.idCompetitions", idCompetition).orderBy("date asc").findList();
+    }
+
+    public static List<GameMatch> getGamematchBetweenDates(Long idCompetition, String minDate, String maxDate){
+        return finder.where().between("date", minDate, maxDate).eq("competition.idCompetitions", idCompetition).orderBy("date asc").findList();
     }
 
     public ObjectNode fixtureJson(){
