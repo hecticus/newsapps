@@ -21,6 +21,7 @@
         "LANGUAGE-SELECTION" : "Selección de Idioma",
         "TEAM-SELECTION" : "Selección de Equipo",
         "TERMS": "Términos",
+        "HOW": "How does it work",
         "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
@@ -199,5 +200,6 @@
     "NEXT" : "Siguiente",
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible",
-    "LOGOUT" : "Cerrar Sesión"
+    "LOGOUT" : "Cerrar Sesión",
+    "READY" : "¿Estás listo?"
 }

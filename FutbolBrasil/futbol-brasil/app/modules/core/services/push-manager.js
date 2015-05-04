@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('PushManager', ['$window', 'ClientManager', 'CordovaDevice',
-        function($window, ClientManager, CordovaDevice) {
+    .factory('PushManager', ['$window',  'ClientManager', 'CordovaDevice',
+        function($window,  ClientManager, CordovaDevice) {
             var pushNotification = {};
 
             function tokenHandler(result) {
@@ -43,6 +43,7 @@ angular
                         break;
 
                     case 'message':
+
                         if (e.foreground) {
                         } else {
                             // otherwise we were launched because the user touched a notification
@@ -52,6 +53,10 @@ angular
                                 //console.log('<li>--BACKGROUND NOTIFICATION--' + '</li>');
                             }
                         }
+
+
+                        //$rootScope.executePushInit(e.payload["extra_params"]);
+
                         break;
 
                     case 'error':
@@ -82,6 +87,8 @@ angular
 
             function init(){
                 try {
+                    $rootScope.executePushInit({name:'push'});
+
                     if($window.plugins){
                         pushNotification = $window.plugins.pushNotification;
                     }

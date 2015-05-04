@@ -1,8 +1,25 @@
-<div id="wrapper">
-  <div class="scroller">
-    <div class="row">
-      <div id="load" class="col-xs-12">
-      </div>
-    </div>
+<div id="wrapperH">
+  <div id="scroller" ng-style="getTotalWidth()">
+    <ul>
+      <li ng-style="getWidth()">
+       <h1>Example 1</h1>
+      </li>
+      <li ng-style="getWidth()">
+        <h2>Example 2</h2>
+      </li>
+      <li ng-style="getWidth()">
+        <h3>Example 3</h3>
+      </li>
+      <li ng-style="getWidth()">
+        <h4>Example 4</h4>
+      </li>
+      <li ng-style="getWidth()">
+        <h5>Example 5</h5>
+      </li>
+      <li ng-style="getWidth()">
+        <h6>Example 6</h6>
+        <a ng-click="goToIndex()" class="btn btn-primary btn-lg">{{'READY' | translate}}</a>
+      </li>
+    </ul>
   </div>
 </div>

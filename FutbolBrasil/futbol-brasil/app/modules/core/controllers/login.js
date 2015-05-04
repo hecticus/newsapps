@@ -89,7 +89,6 @@ angular
                 console.log('onLoginSuccess. Login Success.');
                 if(isNewClient){
                     //TODO i18n-alizar
-
                     Notification.showInfoAlert({
                         title: strings['SET_USERNAME_TITLE'],
                         subtitle: strings['SET_USERNAME_SUBTITLE'],
@@ -97,10 +96,11 @@ angular
                         type: 'success'
                     });
                     console.log('new client. going to settings');
-                    $state.go('settings');
+                    $state.go('settings',{newClient:true});
                 } else {
                     console.log('existing client. going to news');
-                    $state.go('prediction');
+                    $state.go('settings', {newClient:true});
+                    //$state.go('prediction');
                 }
             }
 
