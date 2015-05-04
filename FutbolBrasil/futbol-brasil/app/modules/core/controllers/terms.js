@@ -9,20 +9,20 @@
 angular
     .module('core')
     .controller('TermsController', [
-        '$scope', '$localStorage', 'iScroll',
-        function($scope, $localStorage, iScroll) {
+        '$scope', '$localStorage', '$timeout', 'iScroll',
+        function($scope, $localStorage, $timeout, iScroll) {
 
             //var jLoading = JSON.parse($localStorage['LOADING']);
-
+            $scope.load = '';
             function init(){
 
-              $scope.$emit('load');
+              //$scope.$emit('load');
 
               //$('#load').load(jLoading.wap_terms,
-              $('#load').load('http://www.passatempopremiado.com/index.php?page=terms',
+              $('#load').load('http://www.tim.com.br',
                 function(response, status, xhr){
 
-                  $scope.$emit('unload');
+                  //$scope.$emit('unload');
 
                   /*if(status == "success")
                     alert("Successfully loaded the content!");
@@ -31,6 +31,7 @@ angular
                     alert("An error occurred: " + xhr.status + " - " + xhr.statusText);*/
 
               });
+
 
               $scope.scroll = iScroll.vertical('wrapper');
               $scope.$on('$destroy', function() {
