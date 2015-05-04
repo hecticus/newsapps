@@ -26,7 +26,7 @@ angular
                 };
 
                 remoteTeams = [];
-
+                //console.log(Domain.teams.index);
                 return $http.get(Domain.teams.index, config).then(
                     function(data){
                         data = data.data;
@@ -176,7 +176,7 @@ angular
 
             function getTeams(offset, pageSize) {
                 if(!offset){ offset = 0; }
-                if(!pageSize){ pageSize = 200; }
+                if(!pageSize){ pageSize = 1000; }
 
                 if(teams && teams.length > 0){
                     var deferred = $q.defer();

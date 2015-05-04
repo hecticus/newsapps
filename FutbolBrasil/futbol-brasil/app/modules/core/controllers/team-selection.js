@@ -72,7 +72,7 @@ angular
 
             function getTeams(offset, pageSize){
                 if(!offset){ offset = 0}
-                if(!pageSize){ pageSize = 200}
+                if(!pageSize){ pageSize = 1000}
                 $scope.$emit('load');
                 TeamsManager.getTeams(offset, pageSize).then(function(pTeams){
                     $scope.hasTeams = true;
