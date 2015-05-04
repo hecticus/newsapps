@@ -190,8 +190,16 @@ public class Competition  extends HecticusModel {
         return finder.fetch("matches").where().eq("app", app).eq("status", 1).ilike("matches.date", date+"%").setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
+    public static List<Competition> getCompetitionsPage(Apps app, int page, int pageSize, String minDate, String maxDate){
+        return finder.fetch("matches").where().eq("app", app).eq("status", 1).between("matches.date", minDate, maxDate).setFirstRow(page).setMaxRows(pageSize).findList();
+    }
+
     public static List<Competition> getCompetitionsPage(Apps app, int page, int pageSize, String date, List<Team> teams){
         return finder.fetch("teams").fetch("matches").where().eq("app", app).eq("status", 1).ilike("matches.date", date + "%").in("teams.team", teams).setFirstRow(page).setMaxRows(pageSize).findList();
+    }
+
+    public static List<Competition> getCompetitionsPage(Apps app, int page, int pageSize, String minDate, String maxDate, List<Team> teams){
+        return finder.fetch("teams").fetch("matches").where().eq("app", app).eq("status", 1).between("matches.date", minDate, maxDate).in("teams.team", teams).setFirstRow(page).setMaxRows(pageSize).findList();
     }
 
     public List<Scorer> getScorers(Integer page, Integer pageSize) {
@@ -253,7 +261,7 @@ public class Competition  extends HecticusModel {
         }
         CompetitionHasLocalization competitionHasLocalization = new CompetitionHasLocalization(this, language, this.name);
         if(!CompetitionHasLocalization.exists(competitionHasLocalization)){
-            System.out.println("no existe " + this.getName() + " " + language.getName());
+            //System.out.println("no existe " + this.getName() + " " + language.getName());
             this.localizations.add(competitionHasLocalization);
             competitionHasLocalization.save();
             this.update();
@@ -452,7 +460,7 @@ public class Competition  extends HecticusModel {
                         startCalendar.setTime(startDate);
                         Date endDate = DateAndTime.getDate(obj.getEndDate(), "yyyyMMdd");
                         endCalendar.setTime(endDate);
-                        return date.equals(startCalendar) || date.equals(endCalendar) || (date.after(startCalendar) && date.before(endCalendar));
+                        return (date.equals(startCalendar) || date.equals(endCalendar) || (date.after(startCalendar) && date.before(endCalendar))) && obj.getType().intValue() != 1;
                     } catch (ParseException e) {
                         e.printStackTrace();
                         return false;
@@ -545,12 +553,62 @@ public class Competition  extends HecticusModel {
         return tr;
     }
 
+    public List<GameMatch> getMatchesByDate(final Calendar minDate, final Calendar maxDate){
+        List<GameMatch> tr;
+        try {
+            Predicate<GameMatch> validObjs = new Predicate<GameMatch>() {
+                public boolean apply(GameMatch obj) {
+                    Calendar endCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                    Date endDate = null;
+                    try {
+                        endDate = DateAndTime.getDate(obj.getDate(), "yyyyMMddHHmmss");
+                        endCalendar.setTime(endDate);
+                        return (endCalendar.after(minDate) && endCalendar.before(maxDate)) || endCalendar.equals(minDate) || endCalendar.equals(maxDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+            };
+            Collection<GameMatch> result = Utils.filterCollection(matches, validObjs);
+            tr = (List<GameMatch>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
     public List<GameMatch> getMatchesByDate(final String date, int page, int pageSize){
         List<GameMatch> tr;
         try {
             Predicate<GameMatch> validObjs = new Predicate<GameMatch>() {
                 public boolean apply(GameMatch obj) {
                     return obj.getDate().startsWith(date);
+                }
+            };
+            Collection<GameMatch> result = Utils.filterCollection(matches, validObjs, page, pageSize);
+            tr = (List<GameMatch>) result;
+        } catch (NoSuchElementException e){
+            tr = null;
+        }
+        return tr;
+    }
+
+    public List<GameMatch> getMatchesByDate(final Calendar minDate, final Calendar maxDate, int page, int pageSize){
+        List<GameMatch> tr;
+        try {
+            Predicate<GameMatch> validObjs = new Predicate<GameMatch>() {
+                public boolean apply(GameMatch obj) {
+                    Calendar endCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                    Date endDate = null;
+                    try {
+                        endDate = DateAndTime.getDate(obj.getDate(), "yyyyMMddHHmmss");
+                        endCalendar.setTime(endDate);
+                        return (endCalendar.after(minDate) && endCalendar.before(maxDate)) || endCalendar.equals(minDate) || endCalendar.equals(maxDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
                 }
             };
             Collection<GameMatch> result = Utils.filterCollection(matches, validObjs, page, pageSize);

@@ -38,6 +38,11 @@ public class GameMatchStatus extends HecticusModel {
         this.extId = extId;
     }
 
+
+    public GameMatchStatus(String name) {
+        this.name = name;
+    }
+
     public Integer getIdGameMatchStatus() {
         return idGameMatchStatus;
     }
@@ -81,7 +86,7 @@ public class GameMatchStatus extends HecticusModel {
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
-        obj.put("id_status", extId);
+        obj.put("id_status", idGameMatchStatus);
         obj.put("name", name);
         if(localizations != null && !localizations.isEmpty()){
             ArrayList<ObjectNode> apps = new ArrayList<>();
@@ -95,7 +100,7 @@ public class GameMatchStatus extends HecticusModel {
 
     public ObjectNode toJson(final Language language, final Language defaultLanguage) {
         ObjectNode obj = Json.newObject();
-        obj.put("id_status", extId);
+        obj.put("id_status", idGameMatchStatus);
         GameMatchStatusHasLocalization clientLanguage = null;
         try {
             clientLanguage = Iterables.find(localizations, new Predicate<GameMatchStatusHasLocalization>() {
@@ -120,7 +125,7 @@ public class GameMatchStatus extends HecticusModel {
     }
 
     public void validate(Language language) {
-        GameMatchStatus tr = finder.where().eq("extId",extId).findUnique();
+        GameMatchStatus tr = finder.where().eq("name", name).findUnique();
         if (tr != null) {
             //existe
             this.idGameMatchStatus = tr.idGameMatchStatus;

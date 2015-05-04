@@ -27,14 +27,14 @@ public class Team extends HecticusModel {
     @JoinColumn(name = "id_countries")
     private Countries country;
     @Constraints.Required
-    private Long extId;
+    private String extId;
 
     @OneToMany(mappedBy="team", cascade = CascadeType.ALL)
     private List<TeamHasCompetition> competitions;
 
     public static  Model.Finder<Long,Team> finder = new Model.Finder<Long,Team>(Long.class,Team.class);
 
-    public Team(String name, Long extId, Countries country) {
+    public Team(String name, String extId, Countries country) {
         this.name = name;
         this.extId = extId;
         this.country = country;
@@ -64,11 +64,11 @@ public class Team extends HecticusModel {
         this.country = country;
     }
 
-    public Long getExtId() {
+    public String getExtId() {
         return extId;
     }
 
-    public void setExtId(Long extId) {
+    public void setExtId(String extId) {
         this.extId = extId;
     }
 
@@ -106,7 +106,7 @@ public class Team extends HecticusModel {
         return obj;
     }
 
-    public static Team findByExtId(long extId){
+    public static Team findByExtId(String extId){
         return finder.where().eq("ext_id", extId).findUnique();
     }
 

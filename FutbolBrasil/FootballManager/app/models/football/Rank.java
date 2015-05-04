@@ -148,6 +148,22 @@ public class Rank  extends HecticusModel {
         this.group = group;
     }
 
+    public Rank(Phase phase, Team team, Group group, long matches, long matchesWon, long matchesDraw, long matchesLost,
+                long points, long goalsFor, long goalAgainst) {
+        this.phase = phase;
+        this.team = team;
+        this.group = group;
+        this.matches = matches;
+        this.matchesWon = matchesWon;
+        this.matchesDraw = matchesDraw;
+        this.matchesLost = matchesLost;
+        this.points = points;
+        this.goalsFor = goalsFor;
+        this.goalAgainst = goalAgainst;
+        Long diff = goalsFor - goalAgainst;
+        this.goalDiff = diff.intValue();
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode node = Json.newObject();
@@ -494,7 +510,7 @@ public class Rank  extends HecticusModel {
         this.group = group;
     }
 
-    public static List<Rank> getListByIdPhase(long idPhase){
+    public static List<Rank> getListByIdPhase(String idPhase){
         return finder.where().eq("id_phases", idPhase).orderBy("nivel asc, orden asc").findList();
     }
 
@@ -502,7 +518,7 @@ public class Rank  extends HecticusModel {
         return finder.where().in("id_phases", phases).orderBy("nivel asc, orden asc").findList();
     }
 
-    public static List<Rank> getListByExtIdPhase(long idExtPhase){
+    public static List<Rank> getListByExtIdPhase(String idExtPhase){
         Phase _phase = Phase.findByExtId(idExtPhase);
         if(_phase == null)
             return null;
@@ -511,58 +527,21 @@ public class Rank  extends HecticusModel {
     }
 
     public static Rank getRankBySomething(long idFase, long idTeam){
-        return finder.where().eq("id_phases",idFase).eq("id_team", idTeam).findUnique();
+        return finder.where().eq("id_phases",idFase).eq("id_teams", idTeam).findUnique();
     }
 
     public void validateRank(){
         try {
             //validate using id_phase
-            Rank tr = null;//getRankBySomething(this.getPhase().getIdPhases(),this.team.getIdTeams());
+            Rank tr = getRankBySomething(this.getPhase().getIdPhases(),this.team.getIdTeams());
             if (tr != null){
-                //update selected values
-                this.phase = tr.phase;
-                this.team = tr.team;
-                this.matches = tr.matches;
-                this.matchesWon = tr.matchesWon;
-                this.matchesDraw = tr.matchesDraw;
-                this.matchesLost = tr.matchesLost;
-                this.points = tr.points;
-                this.goalsFor = tr.goalsFor;
-                this.goalAgainst = tr.goalAgainst;
-                this.matchesLocal = tr.matchesLocal;
-                this.matchesVisitor = tr.matchesVisitor;
-                this.matchesLocalWon = tr.matchesLocalWon;
-                this.matchesLocalDraw = tr.matchesLocalDraw;
-                this.matchesLocalLost = tr.matchesLocalLost;
-                this.matchesVisitorWon = tr.matchesVisitorWon;
-                this.matchesVisitorDraw = tr.matchesVisitorDraw;
-                this.matchesVisitorLost = tr.matchesVisitorLost;
-                this.goalsForLocal = tr.goalsForLocal;
-                this.goalAgainstLocal = tr.goalAgainstLocal;
-                this.goalsForVisitor = tr.goalsForVisitor;
-                this.goalAgainstVisitor = tr.goalAgainstVisitor;
-                this.goalDiff = tr.goalDiff;
-                this.pointsLocal = tr.pointsLocal;
-                this.pointsVisitor = tr.pointsVisitor;
-                this.yellowCards = tr.yellowCards;
-                this.redCards = tr.redCards;
-                this.doubleYellowCard = tr.doubleYellowCard;
-                this.penaltyFouls = tr.penaltyFouls;
-                this.penaltyHands = tr.penaltyHands;
-                this.foulsCommited = tr.foulsCommited;
-                this.foulsReceived = tr.foulsReceived;
-                this.penaltyFoulsReceived = tr.penaltyFoulsReceived;
-                this.nivel = tr.nivel;
-                this.nivelDesc = tr.nivelDesc;
-                this.orden = tr.orden;
-                this.ordenDesc = tr.ordenDesc;
-                this.streak = tr.streak;
+                this.setIdRanking(tr.idRanking);
+                this.update();
+                //update selected values//
             }else {
                 //insert
                 this.save();
             }
-        //} catch (PersistenceException ex){
-
         } catch (Exception ex){
             //do nothing
         } 

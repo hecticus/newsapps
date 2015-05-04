@@ -24,7 +24,7 @@ public class Action extends HecticusModel {
     private Integer idActions;
     private String mnemonic;
     private String description;
-    private Integer extId;
+    private String extId;
     //private Integer ext_id;
     @OneToMany(mappedBy = "action")
     private List<GameMatchEvent> events;
@@ -36,7 +36,7 @@ public class Action extends HecticusModel {
 
     public Action(){}
 
-    public Action(String mnemonic, String description, Integer extId) {
+    public Action(String mnemonic, String description, String extId) {
         this.mnemonic = mnemonic;
         this.description = description;
         this.extId = extId;
@@ -70,11 +70,11 @@ public class Action extends HecticusModel {
         return finder.byId(id);
     }
 
-    public Integer getExtId() {
+    public String getExtId() {
         return extId;
     }
 
-    public void setExtId(Integer extId) {
+    public void setExtId(String extId) {
         this.extId = extId;
     }
 
@@ -90,7 +90,7 @@ public class Action extends HecticusModel {
         return  finder.where().eq("mnemonic",mnemonic).findUnique();
     }
 
-    public static Action findByExtId(int extId){
+    public static Action findByExtId(String extId){
         return  finder.where().eq("extId",extId).findUnique();
     }
 

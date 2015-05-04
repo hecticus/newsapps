@@ -2,7 +2,7 @@ package controllers.footballapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hecticus.rackspacecloud.App;
+import comparators.CompetitionsSortComparator;
 import controllers.HecticusController;
 import models.Apps;
 import models.Config;
@@ -84,18 +84,26 @@ public class MatchesController extends HecticusController {
         }
     }
 
-    public static Result getFixturesDate(Integer idApp, String date, Integer idLanguage){
+    public static Result getFixturesDate(Integer idApp, String date, Integer idLanguage, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
-                if (date == null || date.isEmpty() || date.equalsIgnoreCase("today")) {
-                    TimeZone timeZone = Apps.getTimezone(idApp);
-                    Calendar today = new GregorianCalendar(timeZone);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                    simpleDateFormat.setTimeZone(timeZone);
-                    date = simpleDateFormat.format(today.getTime());
+                TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                if(timeZone == null){
+                    return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
                 }
+                Calendar today = new GregorianCalendar(timeZone);
+                if(date != null && !date.isEmpty() && !date.equalsIgnoreCase("today")){
+                    today.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+                    today.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)) - 1);
+                    today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(6)));
+                }
+                String minimumDate = DateAndTime.getMinimumDate(today, timezoneName, "yyyMMddHHmmss");
+                String maximumDate = DateAndTime.getMaximumDate(today, timezoneName, "yyyMMddHHmmss");
                 Language requestLanguage = null;
                 if(idLanguage > 0) {
                     requestLanguage = Language.getByID(idLanguage);
@@ -117,7 +125,7 @@ public class MatchesController extends HecticusController {
                     competitionsByApp = app.getCompetitions();
                 }
                 for (Competition competition : competitionsByApp) {
-                    List<GameMatch> fullList = GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
+                    List<GameMatch> fullList = GameMatch.getGamematchBetweenDates(competition.getIdCompetitions(), minimumDate, maximumDate);
                     ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
                     if (fullList != null && !fullList.isEmpty()) {
                         for (GameMatch gameMatch : fullList) {
@@ -128,27 +136,30 @@ public class MatchesController extends HecticusController {
                     data.clear();
                     responseData.add(competitionJson);
                 }
-                response = hecticusResponse(0, "ok", "leagues", responseData);
+                return ok(hecticusResponse(0, "ok", "leagues", responseData));
             } else {
-                response = buildBasicResponse(4, "La aplicacion  " + idApp + " no existe");
+                return notFound(buildBasicResponse(4, "La aplicacion  " + idApp + " no existe"));
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
-    public static Result getFixturesGroupByDate(Integer idApp){
+    public static Result getFixturesGroupByDate(Integer idApp, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
-                TimeZone timeZone = app.getTimezone().getTimezone();
+                TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                if(timeZone == null){
+                    return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+                }
                 Calendar today = new GregorianCalendar(timeZone);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                simpleDateFormat.setTimeZone(timeZone);
-                String date = simpleDateFormat.format(today.getTime());
+                String minimumDate = DateAndTime.getMinimumDate(today, timezoneName, "yyyMMdd");
                 ArrayList<ObjectNode> data = new ArrayList();
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
@@ -163,7 +174,7 @@ public class MatchesController extends HecticusController {
                     competitionsByApp = app.getCompetitions();
                 }
                 for (Competition competition : competitionsByApp) {
-                    List<Phase> phases = Phase.getPhasesFromDate(competition, date);
+                    List<Phase> phases = Phase.getPhasesFromDate(competition, minimumDate);
                     if (phases == null || phases.isEmpty()) {
                         phases = Phase.getLatestPhasesPaged(competition, 0, 1);
                     }
@@ -201,29 +212,31 @@ public class MatchesController extends HecticusController {
                         responseData.add(competitionJson);
                     }
                 }
-                response = hecticusResponse(0, "OK", "leagues", responseData);
+                return ok(hecticusResponse(0, "OK", "leagues", responseData));
             } else {
-                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
-    public static Result getFixturesForCompetitionGroupByDate(Integer idApp, Long idCompetition){
+    public static Result getFixturesForCompetitionGroupByDate(Integer idApp, Long idCompetition, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
-                TimeZone timeZone = app.getTimezone().getTimezone();
+                TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                if(timeZone == null){
+                    return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+                }
                 Calendar today = new GregorianCalendar(timeZone);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                simpleDateFormat.setTimeZone(timeZone);
-                String date = simpleDateFormat.format(today.getTime());
+                String date = DateAndTime.getMinimumDate(today, timezoneName, "yyyMMdd");
                 ArrayList<ObjectNode> data = new ArrayList();
-                ArrayList responseData = new ArrayList();
 
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
@@ -261,32 +274,43 @@ public class MatchesController extends HecticusController {
                     ObjectNode competitionJson = competition.toJsonSimple();
                     competitionJson.put("fixtures", Json.toJson(data));
                     data.clear();
-                    response = hecticusResponse(0, "OK", competitionJson);
+                    return ok(hecticusResponse(0, "OK", competitionJson));
                 } else {
-                    response = buildBasicResponse(1, "La competencia " + idCompetition + " no existe");
+                    return notFound(buildBasicResponse(1, "La competencia " + idCompetition + " no existe"));
                 }
             } else {
-                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
-    public static Result getFixturesDatePaged(Integer idApp, Integer idLanguage, String date, Integer pageSize,Integer page){
+    public static Result getFixturesDatePaged(Integer idApp, Integer idLanguage, String date, Integer pageSize,Integer page, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
-                if (date == null || date.isEmpty() || date.equalsIgnoreCase("today")) {
-                    TimeZone timeZone = Apps.getTimezone(idApp);
-                    Calendar today = new GregorianCalendar(timeZone);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                    simpleDateFormat.setTimeZone(timeZone);
-                    date = simpleDateFormat.format(today.getTime());
+                TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                if(timeZone == null){
+                    return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
                 }
+                Calendar today = new GregorianCalendar(timeZone);
+                if(date != null && !date.isEmpty() && !date.equalsIgnoreCase("today")){
+                    today.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+                    today.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)) - 1);
+                    today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(6)));
+                }
+                Calendar minimumDate = DateAndTime.getMinimumDate(today, timezoneName);
+                Calendar maximumDate = DateAndTime.getMaximumDate(today, timezoneName);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyMMddHHmmss");
+                sdf.setTimeZone(TimeZone.getDefault());
+
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
                 String[] favorites = getFromQueryString("teams");
@@ -295,11 +319,12 @@ public class MatchesController extends HecticusController {
                 }
                 List<Competition> competitions = null;
                 if (teams != null && !teams.isEmpty()) {
-                    competitions = Competition.getCompetitionsPage(app, page, pageSize, date, teams);
+                    competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()), teams);
                 } else {
-                    competitions = Competition.getCompetitionsPage(app, page, pageSize, date);
+                    competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
                 }
                 if (competitions != null && !competitions.isEmpty()) {
+                    Collections.sort(competitions, new CompetitionsSortComparator());
                     Language requestLanguage = null;
                     if(idLanguage > 0) {
                         requestLanguage = Language.getByID(idLanguage);
@@ -309,7 +334,7 @@ public class MatchesController extends HecticusController {
                     }
                     ArrayList data = new ArrayList();
                     for (Competition competition : competitions) {
-                        List<GameMatch> fullList = competition.getMatchesByDate(date);//GameMatch.getGamematchByDate(competition.getIdCompetitions(), date);
+                        List<GameMatch> fullList = competition.getMatchesByDate(minimumDate, maximumDate);
                         if (fullList != null && !fullList.isEmpty()) {
                             ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
                             for (int i = 0; i < fullList.size(); i++) {
@@ -321,32 +346,39 @@ public class MatchesController extends HecticusController {
                         }
                     }
                 }
-                response = hecticusResponse(0, "ok", "leagues", responseData);
+                return ok(hecticusResponse(0, "ok", "leagues", responseData));
             } else {
-                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
-            return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
-    public static Result getFixturesCompetitionDatePaged(Integer idApp, Integer idCompetition, String date, Integer pageSize, Integer page){
+    public static Result getFixturesCompetitionDatePaged(Integer idApp, Integer idCompetition, String date, Integer pageSize, Integer page, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
-                if (date == null || date.isEmpty() || date.equalsIgnoreCase("today")) {
-                    TimeZone timeZone = Apps.getTimezone(idApp);
-                    Calendar today = new GregorianCalendar(timeZone);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                    simpleDateFormat.setTimeZone(timeZone);
-                    date = simpleDateFormat.format(today.getTime());
+                TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                if(timeZone == null){
+                    return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
                 }
+                Calendar today = new GregorianCalendar(timeZone);
+                if(date != null && !date.isEmpty() && !date.equalsIgnoreCase("today")){
+                    today.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+                    today.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)) - 1);
+                    today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(6)));
+                }
+                Calendar minimumDate = DateAndTime.getMinimumDate(today, timezoneName);
+                Calendar maximumDate = DateAndTime.getMaximumDate(today, timezoneName);
                 ArrayList responseData = new ArrayList();
                 Competition competition = app.getCompetition(idCompetition);
                 if(competition != null){
-                    List<GameMatch> matchesByDate = competition.getMatchesByDate(date, page, pageSize);
+                    List<GameMatch> matchesByDate = competition.getMatchesByDate(minimumDate, maximumDate, page, pageSize);
                     if (matchesByDate != null && !matchesByDate.isEmpty()) {
                         ArrayList data = new ArrayList();
                         for (int i = 0; i < matchesByDate.size(); i++) {
@@ -358,19 +390,18 @@ public class MatchesController extends HecticusController {
                         matches.put("fixtures", Json.toJson(data));
                         data.clear();
                         responseData.add(matches);
-                        response = hecticusResponse(0, "ok", matches);
+                        return ok(hecticusResponse(0, "ok", matches));
                     } else {
-                        response = buildBasicResponse(3, "No hay partidos para la fecha " + date);
+                        return ok(buildBasicResponse(3, "No hay partidos para la fecha " + date));
                     }
                 } else {
-                    response = buildBasicResponse(2, "La competencia " + idCompetition + " no existe");
+                    return notFound(buildBasicResponse(2, "La competencia " + idCompetition + " no existe"));
                 }
             } else {
-                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
-            return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -440,6 +471,7 @@ public class MatchesController extends HecticusController {
                 } else {
                     competitionsByApp = app.getCompetitions();
                 }
+                Collections.sort(competitionsByApp, new CompetitionsSortComparator());
                 ArrayList competitions = null;
                 if (ids) {
                     competitions = new ArrayList<Long>(competitionsByApp.size());
@@ -460,15 +492,18 @@ public class MatchesController extends HecticusController {
         }
     }
 
-    public static Result getPhasesForCompetition(Integer idApp, Integer idCompetition, Integer idLanguage){
+    public static Result getPhasesForCompetition(Integer idApp, Integer idCompetition, Integer idLanguage, String timezoneName){
         try {
-            ObjectNode response = null;
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
             if(app != null) {
                 ArrayList<ObjectNode> responseData = new ArrayList();
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
-                    TimeZone timeZone = app.getTimezone().getTimezone();
+                    TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
                     Calendar today = new GregorianCalendar(timeZone);
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                     simpleDateFormat.setTimeZone(timeZone);
@@ -482,6 +517,8 @@ public class MatchesController extends HecticusController {
                             requestLanguage = app.getLanguage();
                         }
                         if (competition.getType().getType() == 0) {
+                            List<Phase> latestPhases = competition.getLatestPhases(today, app.getTimezone().getTimezone());
+//                            responseData.add(latestPhases.get(latestPhases.size() - 1).toJson(requestLanguage, app.getLanguage()));
                             responseData.add(phases.get(0).toJson(requestLanguage, app.getLanguage()));
                         } else {
                             Phase pivot = phases.get(0);
@@ -497,20 +534,19 @@ public class MatchesController extends HecticusController {
                         }
                         ObjectNode data = Json.newObject();
                         data.put("phases", Json.toJson(responseData));
-                        response = hecticusResponse(0, "ok", data);
+                        return ok(hecticusResponse(0, "ok", data));
                     } else {
-                        response = buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases");
+                        return notFound(buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases"));
                     }
                 } else {
-                    response = buildBasicResponse(1, "La competition " + idCompetition + " no existe");
+                    return notFound(buildBasicResponse(1, "La competition " + idCompetition + " no existe"));
                 }
             } else {
-                response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -568,6 +604,7 @@ public class MatchesController extends HecticusController {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                 simpleDateFormat.setTimeZone(timeZone);
                 String date = simpleDateFormat.format(today.getTime());
+                Collections.sort(competitions, new CompetitionsSortComparator());
                 for(Competition competition : competitions) {
                     List<Phase> phases = Phase.getPhasesToPush(competition, date);
                     if (phases != null && !phases.isEmpty()) {
@@ -714,6 +751,7 @@ public class MatchesController extends HecticusController {
                 String todaysDate = simpleDateFormat.format(today.getTime());
                 ArrayList<GameMatch> matches = new ArrayList<>();
                 if (competitions != null && !competitions.isEmpty()) {
+                    Collections.sort(competitions, new CompetitionsSortComparator());
                     for (Competition competition : competitions) {
                         List<GameMatch> todayMatches = GameMatch.findAllByIdCompetitionAndDate(competition.getIdCompetitions(), todaysDate, "eq");
                         if (todayMatches != null && !todayMatches.isEmpty()) {

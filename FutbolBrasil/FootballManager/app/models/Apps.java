@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.CompetitionsSortComparator;
 import models.football.*;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -11,7 +12,6 @@ import utils.Utils;
 
 import javax.persistence.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -142,6 +142,7 @@ public class Apps extends HecticusModel {
             };
             Collection<Competition> result = Utils.filterCollection(competitions, validObjs);
             tr = (List<Competition>) result;
+            Collections.sort(tr, new CompetitionsSortComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
@@ -199,6 +200,26 @@ public class Apps extends HecticusModel {
     public List<News> getNews(final Calendar pivotNewsCalendar, final boolean newest, int maxSize, final int idLanguage){
         List<News> tr;
         final TimeZone timeZone = this.timezone.getTimezone();
+        class NewsComparator implements Comparator<News> {
+            @Override
+            public int compare(News c1, News c2) {
+                try {
+                    Calendar c1PublicationDateCalendar = new GregorianCalendar(timeZone);
+                    Date c1PublicationDate = DateAndTime.getDate(c1.getPublicationDate(), "yyyyMMddhhmmss");
+                    c1PublicationDateCalendar.setTime(c1PublicationDate);
+
+                    Calendar c2PublicationDateCalendar = new GregorianCalendar(timeZone);
+                    Date c2PublicationDate = DateAndTime.getDate(c2.getPublicationDate(), "yyyyMMddhhmmss");
+                    c2PublicationDateCalendar.setTime(c2PublicationDate);
+
+                    return c2PublicationDateCalendar.before(c1PublicationDateCalendar)?-1:(c1PublicationDateCalendar.before(c2PublicationDateCalendar)?1:0);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        }
+        Collections.sort(news, new NewsComparator());
         try {
             Predicate<News> validObjs = new Predicate<News>() {
                 public boolean apply(News obj) {
@@ -221,6 +242,8 @@ public class Apps extends HecticusModel {
             };
             Collection<News> result = Utils.filterCollection(news, validObjs, 0, maxSize);
             tr = (List<News>) result;
+
+
         } catch (NoSuchElementException e){
             tr = null;
         }
@@ -273,3 +296,4 @@ public class Apps extends HecticusModel {
         return finder.byId(id);
     }
 }
+

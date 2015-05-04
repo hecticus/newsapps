@@ -27,21 +27,6 @@ POST    /configurations/:id			                                                  
 # Delete a ConfigsView
 POST    /configurations/:id/delete		                                                            controllers.ConfigsView.delete(id:Long)
 
-#NewsView
-# NewsView list (look at the default values for pagination parameters)
-GET     /news/list			                                                                        controllers.NewsView.list(p:Int ?= 0, s ?= "title", o ?= "asc", f ?= "")
-GET     /news/lsort		                                                                            controllers.NewsView.lsort()
-# Add NewsView
-#GET     /news/blank		                                                                        controllers.NewsView.blank()
-#POST    /news				                                                                        controllers.NewsView.submit()
-# Edit existing NewsView
-GET     /news/sort/:ids	                                                                            controllers.NewsView.sort(ids:String)
-GET     /news/:id			                                                                        controllers.NewsView.edit(id:Long)
-#POST    /news/:id			                                                                        controllers.NewsView.update(id:Long)
-# Delete a NewsView
-#POST    /news/:id/delete		                                                                    controllers.NewsView.delete(id:Long)
-
-
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
 GET     /users/list			                                                                        controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
@@ -86,28 +71,28 @@ GET     /footballapi/v1/matches/get/:id                                         
 GET     /footballapi/v1/matches/events/get/ext/:id                                                  controllers.footballapi.AfpFutbolWs.getEventsByExternalMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
 GET     /footballapi/v1/matches/events/get/fifa/:id                                                 controllers.footballapi.AfpFutbolWs.getEventsByFifaMatch(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
 GET     /footballapi/v1/matches/events/get/:id                                                      controllers.footballapi.AfpFutbolWs.getEvents(id: Long,act: String?="",p: String?="",ts :String?="", te :String?="")
-GET     /footballapi/v1/ranking/get/:id                                                             controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = false )
-GET     /footballapi/v1/ranking/get/ext/:id                                                         controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : Long, ext : Boolean = true )
+GET     /footballapi/v1/ranking/get/:id                                                             controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : String, ext : Boolean = false )
+GET     /footballapi/v1/ranking/get/ext/:id                                                         controllers.footballapi.AfpFutbolWs.getRankingByIdPhase(id : String, ext : Boolean = true )
 GET     /footballapi/v1/ranking/get/global/:id                                                      controllers.footballapi.AfpFutbolWs.getGlobalRanking(id : Long)
 
 GET     /footballapi/v1/matches/get/ids/:idApp                                                      controllers.footballapi.MatchesController.getFixturesByIDs(idApp : Integer)
 GET     /footballapi/v1/matches/finished/get/:idCompetition                                         controllers.footballapi.MatchesController.getTodayFinished(idCompetition : Long)
 GET     /footballapi/v1/matches/finished/get/:idCompetition/:date                                   controllers.footballapi.MatchesController.getFinishedByDate(idCompetition : Long, date : String)
-GET     /footballapi/v1/matches/date/get/:idApp/:date                                               controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer?=405)
-GET     /footballapi/v1/matches/date/get/:idApp/:date/:idLanguage                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer)
-GET     /footballapi/v1/matches/competition/date/grouped/:idApp/:idCompetition                      controllers.footballapi.MatchesController.getFixturesForCompetitionGroupByDate(idApp : Integer, idCompetition: Long)
-GET     /footballapi/v1/matches/date/grouped/:idApp                                                 controllers.footballapi.MatchesController.getFixturesGroupByDate(idApp : Integer)
-GET     /footballapi/v1/matches/date/paged/:idApp/:date                                             controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer?=405, date : String, pageSize: Integer?=0, page: Integer?=0)
-GET     /footballapi/v1/matches/date/paged/:idApp/:idLanguage/:date                                 controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
+GET     /footballapi/v1/matches/date/get/:idApp/:date                                               controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer?=405, timezoneName : String ?= "")
+GET     /footballapi/v1/matches/date/get/:idApp/:date/:idLanguage                                   controllers.footballapi.MatchesController.getFixturesDate(idApp : Integer, date : String, idLanguage : Integer, timezoneName : String ?= "")
+GET     /footballapi/v1/matches/competition/date/grouped/:idApp/:idCompetition                      controllers.footballapi.MatchesController.getFixturesForCompetitionGroupByDate(idApp : Integer, idCompetition: Long, timezoneName : String ?= "")
+GET     /footballapi/v1/matches/date/grouped/:idApp                                                 controllers.footballapi.MatchesController.getFixturesGroupByDate(idApp : Integer, timezoneName : String ?= "")
+GET     /footballapi/v1/matches/date/paged/:idApp/:date                                             controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer?=405, date : String, pageSize: Integer?=0, page: Integer?=0, timezoneName : String ?= "")
+GET     /footballapi/v1/matches/date/paged/:idApp/:idLanguage/:date                                 controllers.footballapi.MatchesController.getFixturesDatePaged(idApp: Integer, idLanguage : Integer, date : String, pageSize: Integer?=0, page: Integer?=0, timezoneName : String ?= "")
 
-GET     /footballapi/v1/matches/competition/date/paged/:idApp/:idCompetition/:date                  controllers.footballapi.MatchesController.getFixturesCompetitionDatePaged(idApp: Integer, idCompetition: Integer, date : String, pageSize: Integer?=0, page: Integer?=0)
+GET     /footballapi/v1/matches/competition/date/paged/:idApp/:idCompetition/:date                  controllers.footballapi.MatchesController.getFixturesCompetitionDatePaged(idApp: Integer, idCompetition: Integer, date : String, pageSize: Integer?=0, page: Integer?=0, timezoneName : String ?= "")
 
 GET     /footballapi/v1/competitions/list/ids/:idApp                                                controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, idLanguage : Integer?=0, ids: Boolean?=true)
 GET     /footballapi/v1/competitions/list/:idApp                                                    controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, idLanguage : Integer?=405, ids: Boolean?=false)
 GET     /footballapi/v1/competitions/list/:idApp/:idLanguage                                        controllers.footballapi.MatchesController.getActiveCompetitions(idApp : Integer, idLanguage : Integer, ids: Boolean?=false)
 GET     /footballapi/v1/competitions/phases/notify/:idApp                                           controllers.footballapi.MatchesController.getPhasesToNotify(idApp : Integer)
-GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                                   controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405)
-GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition/:idLanguage                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer)
+GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition                                   controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer?=405, timezoneName : String ?= "")
+GET     /footballapi/v1/competitions/phases/:idApp/:idCompetition/:idLanguage                       controllers.footballapi.MatchesController.getPhasesForCompetition(idApp : Integer, idCompetition: Integer, idLanguage : Integer, timezoneName : String ?= "")
 GET     /footballapi/v1/competitions/phases/latest/:idApp/:idCompetition/:date                      controllers.footballapi.MatchesController.getCurrentAndLastPhaseForCompetition(idApp : Integer, idCompetition: Integer, date : String, idLanguage : Integer?=405)
 GET     /footballapi/v1/competitions/phases/latest/:idApp/:idCompetition/:date/:idLanguage          controllers.footballapi.MatchesController.getCurrentAndLastPhaseForCompetition(idApp : Integer, idCompetition: Integer, date : String, idLanguage : Integer)
 

@@ -1,14 +1,13 @@
 package models;
 
-import com.avaje.ebean.Page;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.football.News;
 import play.db.ebean.Model;
+import play.libs.Json;
 import utils.Utils;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Created by sorcerer on 3/20/14.
@@ -32,18 +31,26 @@ public class Resource extends HecticusModel {
 
     private String insertedTime;
     private String creationTime;
-    @Column(columnDefinition = "TEXT")
-    private String metadata;
-    private Integer idApp;
+
+    private String externalId;
+
+    private String md5;
+
+    @ManyToOne
+    @JoinColumn(name = "id_app")
+    private Apps app;
 
     @ManyToOne
     @JoinColumn(name="news_id_news")
     private News parent;
 
-    private static Model.Finder<Long,Resource> finder =
-            new Model.Finder<Long, Resource>(Long.class, Resource.class);
+    @OneToOne
+    @JoinColumn(name = "id_resolution")
+    private Resolution resolution;
 
-    public Resource(String name, String filename, String remoteLocation, String description, String insertedTime, String creationTime,String metadata, Integer idApp) {
+    private static Model.Finder<Long,Resource> finder = new Model.Finder<Long, Resource>(Long.class, Resource.class);
+
+    public Resource(String name, String filename, String remoteLocation, String description, String insertedTime, String creationTime,String metadata, Apps app) {
         this.name = name;
         this.filename = filename;
         this.remoteLocation = remoteLocation;
@@ -59,14 +66,35 @@ public class Resource extends HecticusModel {
         }
 
         this.insertedTime = insertedTime;
-        this.metadata = metadata;
-        this.idApp = idApp;
+        this.externalId = metadata;
+        this.app = app;
         //parent news null
+    }
+
+    public Resource(String name, String filename, String remoteLocation, String creationTime, String insertedTime, Integer type, Integer status, String externalId, Apps app, News parent, String genericName, String description, String res, String md5, Resolution resolution) {
+        this.name = name;
+        this.filename = filename;
+        this.remoteLocation = remoteLocation;
+        this.creationTime = creationTime;
+        this.insertedTime = insertedTime;
+        this.type = type;
+        this.status = status;
+        this.externalId = externalId;
+        this.app = app;
+        this.parent = parent;
+        this.genericName = genericName;
+        this.description = description;
+        this.res = res;
+        this.md5 = md5;
+        this.resolution = resolution;
     }
 
     @Override
     public ObjectNode toJson() {
-        return null;
+        ObjectNode tr = Json.newObject();
+        tr.put("type", type);
+        tr.put("file", remoteLocation);
+        return tr;
     }
 
     public static boolean imageExist(String filename, int idApp){
@@ -166,20 +194,20 @@ public class Resource extends HecticusModel {
         this.insertedTime = insertedTime;
     }
 
-    public String getMetadata() {
-        return metadata;
+    public String getExternalId() {
+        return externalId;
     }
 
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
-    public Integer getIdApp() {
-        return idApp;
+    public Apps getApp() {
+        return app;
     }
 
-    public void setIdApp(Integer idApp) {
-        this.idApp = idApp;
+    public void setApp(Apps app) {
+        this.app = app;
     }
 
     public String getRemoteLocation() {
@@ -204,5 +232,21 @@ public class Resource extends HecticusModel {
 
     public void setParent(News parent) {
         this.parent = parent;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    public Resolution getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution;
     }
 }
