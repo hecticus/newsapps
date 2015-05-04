@@ -106,7 +106,8 @@ public class Signup extends Controller {
 				}
 			}
 
-			return redirect(routes.Application.index(0,"","",""));
+			//return redirect(routes.Application.index(0,"","",""));
+			return ok("index");
 		}
 	}
 
@@ -179,7 +180,8 @@ public class Signup extends Controller {
 				flash(Application.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.reset_password.message.success.manual_login"));
 			}
-			return redirect(routes.Application.login());
+			//return redirect(routes.Application.login());
+			return ok("login");
 		}
 	}
 
@@ -204,9 +206,11 @@ public class Signup extends Controller {
 		flash(Application.FLASH_MESSAGE_KEY,
 				Messages.get("playauthenticate.verify_email.success", email));
 		if (Application.getLocalUser(session()) != null) {
-			return redirect(routes.Application.index(0,"","",""));
+			//return redirect(routes.Application.index(0,"","",""));
+			return ok("index");
 		} else {
-			return redirect(routes.Application.login());
+			//return redirect(routes.Application.login());
+			return ok("login");
 		}
 	}
 }

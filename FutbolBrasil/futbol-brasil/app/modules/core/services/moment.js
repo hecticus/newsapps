@@ -22,17 +22,36 @@ angular
             }
 
             return {
-                date:function (_date) {
-                    var _oMoment = moment().locale(getLang());
-                    if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
-                    return _oMoment;
-                },
 
-                fromNow : function(_date){
-                    var _oMoment = moment().locale(getLang());
-                    if (_date) _oMoment = _oMoment(_date,'YYYYMMDD hh:mm').locale(getLang());
-                    return _oMoment.fromNow();
-                },
+              GMT:function () {
+                  return moment().format('ZZ');
+              },
+
+              dateNoUTC:function (_date) {
+                 var _oMoment = moment().locale(getLang());
+                 if (_date) _oMoment = moment(_date,'YYYYMMDD hh:mm').locale(getLang());
+                 return _oMoment;
+              },
+
+               date:function (_date) {
+                   var _oMoment = moment().locale(getLang());
+                   if (_date) {
+                     var leagueTime = moment(_date,'YYYYMMDDHHmmSS').format('YYYY-MM-DD HH:mm:ss');
+                     var localTime  = moment.utc(leagueTime).toDate();
+                     _oMoment = moment(localTime).locale(getLang());
+                   }
+                   return _oMoment;
+               },
+
+               fromNow : function(_date){
+                   var _oMoment = moment().locale(getLang());
+                   if (_date) {
+                       var leagueTime = moment(_date,'YYYYMMDDHHmmSS').format('YYYY-MM-DD HH:mm:ss');
+                       var localTime  = moment.utc(leagueTime).toDate();
+                       _oMoment = moment(localTime).locale(getLang());
+                   }
+                   return _oMoment.fromNow();
+               },
 
                 /**
                  * @ngdoc function
@@ -41,7 +60,8 @@ angular
                  * @return {object} Returns a Moment instance
                  */
                 today : function (format) {
-                    return moment().format(format);
+                    var _oMoment = moment();
+                    return _oMoment.format(format);
                 }
             };
         }

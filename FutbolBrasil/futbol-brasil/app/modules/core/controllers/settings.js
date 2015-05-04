@@ -14,9 +14,13 @@ angular
         function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
 
+            var strings = {};
             var scroll = null;
             var removeEventCallback = null;
 
+
+
+            $rootScope.onMain = onMain;
             $scope.fbObject = {
                 fbStatus: null,
                 fbButtonMsg: ''
@@ -34,6 +38,10 @@ angular
             };
 
             $scope.isEditing = false;
+
+            $scope.saveNickname = function(){
+              $scope.isEditing = true;
+            };
 
             $scope.saveNickname = function(){
                 if(!$scope.isEditing){
@@ -194,15 +202,47 @@ angular
                 });
             }
 
+            function getTranslationsSetUserName(){
+              $translate(['ALERT.SET_USERNAME.TITLE',
+                          'ALERT.SET_USERNAME.SUBTITLE',
+                          'ALERT.SET_USERNAME.MSG'])
+              .then(function(translation){
+                  strings['SET_USERNAME_TITLE'] = translation['ALERT.SET_USERNAME.TITLE'];
+                  strings['SET_USERNAME_SUBTITLE'] = translation['ALERT.SET_USERNAME.SUBTITLE'];
+                  strings['SET_USERNAME_MSG'] = translation['ALERT.SET_USERNAME.MSG'];
+              });
+            }
+
+
+            function onMain(){
+                 if (Client.getNickname() == undefined) {
+
+                    Notification.showInfoAlert({
+                        title: strings['SET_USERNAME_TITLE'],
+                        subtitle: strings['SET_USERNAME_SUBTITLE'],
+                        message: strings['SET_USERNAME_MSG'],
+                        type: 'success'
+                    });
+
+
+                 } else {
+                    $rootScope.$storage.settings = true;
+                    $state.go('prediction');
+                 };
+            }
+
+
             function init(){
                 setUpIScroll();
                 getFavoriteTeams();
                 loadSettings();
                 getStatus();
                 getClientLanguage();
+                getTranslationsSetUserName();
 
                 removeEventCallback = $rootScope.$on('$translateChangeSuccess', function () {
                     getClientLanguage();
+                    getTranslationsSetUserName();
                 });
                 $scope.nickname = Client.getNickname();
                 $scope.$emit('unload');
@@ -210,6 +250,11 @@ angular
                 $scope.$on('$destroy', function() {
                     typeof removeEventCallback === 'function' && removeEventCallback();
                 });
+
+                 if ($scope.nickname == undefined) {
+                    $scope.isEditing = true;
+                 };
+
             } init();
 
         }

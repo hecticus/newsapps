@@ -8,12 +8,14 @@
  */
 angular
     .module('core')
-    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage',
+    .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage', '$interval',
         '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
-        function($rootScope, $scope, $state, $localStorage, $timeout, $window, $translate,
+        function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
                Client, CordovaApp) {
 
-            $rootScope.sectionDefault = 'prediction';
+            $('body').flowtype();
+
+            $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
             $rootScope.isFavoritesFilterActive = isFavoritesFilterActive;
@@ -27,6 +29,8 @@ angular
             $rootScope.nextPage = nextPage;
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
+            $rootScope.isPageContentLeft = false;
+
 
             $scope.toggles = {
                 favorites: true
@@ -37,6 +41,7 @@ angular
             $scope.getFavoritesClass = getFavoritesClass;
             $scope.toggleFavorites = toggleFavorites;
             $scope.isOnUtilitySection = CordovaApp.isOnUtilitySection;
+            $scope.isOnUtility = CordovaApp.isOnUtility;
             $scope.getSection = getSection;
             $scope.isGuest = isGuest;
             $scope.getDrawerIcon = getDrawerIcon;
@@ -45,6 +50,47 @@ angular
             init();
 
             ////////////// Root Scope //////////////////////////
+            $rootScope.hideMenuIcon = hideMenuIcon;
+            $rootScope.showMenuForward = showMenuForward;
+            $rootScope.hasPreviousSubsection = hasPreviousSubsection;
+            $rootScope.hideMenuFavorites = hideMenuFavorites;
+
+            function hasPreviousSubsection(){
+                return angular.element('.page.back.left:last').hasClass('left');
+            }
+
+            function hideMenuFavorites() {
+              if ((getSection() === 'login')
+                  || (getSection() === 'settings')
+                  || (getSection() === 'remind')
+                  || (getSection() === 'language-selection')
+                  || (getSection() === 'team-selection')
+                  || ($('.content-news #wrapper2').hasClass('left'))
+                  || ($rootScope.hasFavorites === false)) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function showMenuForward() {
+              if ((getSection() === 'settings')
+                && (!$rootScope.$storage.settings) ) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function hideMenuIcon() {
+              if (((getSection() === 'login') && !hasPreviousSubsection())
+                  || ((getSection() === 'settings') &&
+                      (!$rootScope.$storage.settings))) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
             function isFavoritesFilterActive(){
                 return $scope.toggles.favorites;
@@ -58,7 +104,7 @@ angular
                     });
 
                     $rootScope.transitionPage('#wrapperM', 'right');
-                    $('#screen-block').removeClass('hidden');
+                     $scope.$emit('load');
                 }
             }
 
@@ -66,20 +112,28 @@ angular
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
                     $rootScope.menuScroll.scrollTo(0,0,0);
-                    $('#screen-block').addClass('hidden');
+                    $scope.$emit('unload');
                 }
             }
 
             function onMenuButtonPressed(){
+                $scope.$emit('unload');
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
+
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = undefined;
+
+
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
+                     $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('left')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('right')) {
                     $scope.hideMenu();
                 }
+
             }
 
             function showSection(_section) {
@@ -150,8 +204,9 @@ angular
             }
 
             function getDrawerIcon(){
-                var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
-                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()){
+
+                if(hasPreviousSubsection()
+                    || CordovaApp.isOnUtilitySection()){
                     return 'icon mdi-navigation-arrow-back ';
                 } else {
                     return 'icon mdi-navigation-menu';
@@ -192,27 +247,35 @@ angular
 
                 getTranslations();
 
+                $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
+                  if (from.data) {
+                    if ($scope.isOnUtility(from.data.state) === false) {
+                      $rootScope.previousState = from.data.state;
+                    }
+                  }
+                });
+
                 $rootScope.$on('$translateChangeSuccess', function () {
                     getTranslations();
                 });
 
                 $scope.$on('load', function(){
-                    $scope.loading = true;
-                    $scope.error = false;
+                  $scope.loading = true;
+                  //$scope.error = false;
                 });
 
                 $scope.$on('unload', function(){
-                        $rootScope.LOADING_TEXT = '';
-                        $timeout(function(){
-                            $scope.loading = false;
-                        }, 200);
-                    }
-                );
+                  $rootScope.LOADING_TEXT = '';
+                  $timeout(function(){
+                      $scope.loading = false;
+                  }, 200);
+                });
+
                 $scope.$on('error', function(){
-                        $scope.error = true;
-                        $scope.loading = false;
-                    }
-                );
+                    $scope.error = true;
+                    $scope.loading = false;
+                 });
+
             }
         }
     ]);

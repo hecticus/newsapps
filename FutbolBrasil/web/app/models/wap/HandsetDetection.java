@@ -32,6 +32,7 @@ public class HandsetDetection extends Controller {
     private String general_vendor;
     private String general_model;
     private Integer status;
+    private JsonNode banner;
 
     public HandsetDetection()  {
 
@@ -65,17 +66,25 @@ public class HandsetDetection extends Controller {
                 System.out.println(jHdSpecs.get("general_type").asText());
                 System.out.println(jHdSpecs.get("general_vendor").asText());
                 System.out.println(jHdSpecs.get("general_model").asText());
+                System.out.println(jDisplay.get("resolution_width").asText());
                 System.out.println("---------------------------------");*/
 
                 this.levelSupport = jMarkup.get("xhtml_support_level").asInt();
                 this.contentType = jXhtmlUi.get("xhtmlmp_preferred_mime_type").asText();
-                this.resolution_width = jHdSpecs.get("resolution_width").asText();
-                this.resolution_height = jHdSpecs.get("resolution_height").asText();
+                this.resolution_width = jDisplay.get("resolution_width").asText();
+                this.resolution_height = jDisplay.get("resolution_height").asText();
                 this.general_platform = jHdSpecs.get("general_platform").asText();
                 this.general_platform_version = jHdSpecs.get("general_platform_version").asText();
                 this.general_type = jHdSpecs.get("general_type").asText();
                 this.general_vendor = jHdSpecs.get("general_vendor").asText();
                 this.general_model = jHdSpecs.get("general_model").asText();
+
+
+                Promise<WSResponse> wsResponse = WS.url("http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/localimages/h_high.jpg/"+ jDisplay.get("resolution_width").asText()).get();
+                JsonNode jResponse = wsResponse.get(10000).asJson();
+                Integer iError = jResponse.get("error").asInt();
+                JsonNode jBanner = jResponse.get("response");
+                this.banner = jBanner;
 
                 if ((this.levelSupport == this.XHTML_SIMPLE)
                         || (this.levelSupport ==  this.XHTML_ADV)){
@@ -85,7 +94,6 @@ public class HandsetDetection extends Controller {
                 }
 
             }
-
 
 
         } catch (Exception e) {
@@ -156,7 +164,7 @@ public class HandsetDetection extends Controller {
         return general_vendor;
     }
 
-    public void settGeneralVendor(String general_vendor) {
+    public void setGeneralVendor(String general_vendor) {
         this.general_vendor = general_vendor;
     }
 
@@ -174,6 +182,14 @@ public class HandsetDetection extends Controller {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public JsonNode getBanner(){
+        return banner;
+    }
+
+    public void setBanner(JsonNode banner) {
+        this.banner = banner;
     }
 
 }

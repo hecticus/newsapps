@@ -21,9 +21,8 @@ public class Categories extends HecticusController {
     public static Result create() {
         try{
             ObjectNode categoryData = getJson();
-            ObjectNode response = null;
-            if(categoryData.has("name") && categoryData.has("localizations")){
-                Category category = new Category(categoryData.get("name").asText());
+            if(categoryData.has("name") && categoryData.has("localizations") && categoryData.has("followable")){
+                Category category = new Category(categoryData.get("name").asText(), categoryData.get("followable").asBoolean());
                 Iterator<JsonNode> localizationsIterator = categoryData.get("localizations").elements();
                 ArrayList<CategoryHasLocalization> localizations = new ArrayList<>();
                 CategoryHasLocalization categoryHasLocalization = null;
@@ -40,13 +39,12 @@ public class Categories extends HecticusController {
                 }
                 category.setLocalizations(localizations);
                 category.save();
-                response = buildBasicResponse(0, "OK", category.toJson());
+                return created(buildBasicResponse(0, "OK", category.toJson()));
             } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error creando el registro", ex));
         }
     }
 
@@ -61,48 +59,47 @@ public class Categories extends HecticusController {
                     category.setName(categoryData.get("name").asText());
                     save = true;
                 }
+                if (categoryData.has("followable")) {
+                    category.setFollowable(categoryData.get("followable").asBoolean());
+                    save = true;
+                }
                 if(save){
                     category.update();
                 }
-                response = buildBasicResponse(0, "OK", category.toJson());
+                return ok(buildBasicResponse(0, "OK", category.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a modificar");
+                return notFound(buildBasicResponse(2, "no existe el registro a modificar"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
+            return internalServerError(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
         }
     }
 
     public static Result delete(Integer id) {
         try{
-            ObjectNode response = null;
             Category category = Category.getByID(id);
             if(category != null) {
                 category.delete();
-                response = buildBasicResponse(0, "OK", category.toJson());
+                return ok(buildBasicResponse(0, "OK", category.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                return notFound(buildBasicResponse(2, "no existe el registro a eliminar"));
             }
-            return ok(response);
         } catch (Exception ex) {
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
+            return internalServerError(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
         }
     }
 
     public static Result get(Integer id){
         try {
-            ObjectNode response = null;
             Category category = Category.getByID(id);
             if(category != null) {
-                response = buildBasicResponse(0, "OK", category.toJson());
+                return ok(buildBasicResponse(0, "OK", category.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
 //            Utils.printToLog(ClientsWs.class, "Error manejando Clientes", "error buscando el cliente " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
@@ -113,11 +110,10 @@ public class Categories extends HecticusController {
             while(categoryIterator.hasNext()){
                 categories.add(categoryIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(categories));
-            return ok(response);
+            return ok(buildBasicResponse(0, "OK", Json.toJson(categories)));
         }catch (Exception e) {
 //            Utils.printToLog(ClientsWs.class, "Error manejando Clientes", "error buscando el cliente " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 }

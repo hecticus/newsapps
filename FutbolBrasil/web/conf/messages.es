@@ -149,15 +149,17 @@ playauthenticate.restricted.secrets=¡Secretos y más secretos!
 
 
 ### -- <wap> --- ###
-APP_TITLE=Fútbol Brasil
-MATCH_LABEL=partidos
-SCORERS_LABEL=goleadores
-NEWS_LABEL=noticias
 
-PLAYER_LABEL=jugador
+APP_TITLE=TIM Palpites
+MATCH_LABEL=Partidos
+SCORERS_LABEL=Goleadores
+NEWS_LABEL=Noticias
+
+PLAYER_LABEL=Jugador
 TEAM_LABEL=equipo
-GOALS_LABEL=goles
+GOALS_LABEL=Goles
 MTM_LABEL=En vivo
+MTM_REFRESH_LINK=Actualizar
 
 LOGIN_TITLE=Regístrese para acceder a las noticias de fútbol del día, todos los días.
 LOGIN_TITLE_MSISDN=Introduzca su número de teléfono.
@@ -165,4 +167,24 @@ LOGIN_TITLE_PASSWORD=Introduzca la contraseña recibida via SMS.
 BUTTON_NEXT=Continuar
 BUTTON_CONFIRM=Confirmar
 BUTTON_AGAIN_PASSWORD=Solicitar contraseña nuevamente
+
+ERROR_DEFAULT=En este momento no podemos procesar su solicitud
+ERROR_MSISDN=El número de télefono no es válido
+ERROR_PASSWORD=El password no es válido
+ERROR_SEND_PASSWORD=En este momento no podemos procesar su solicitud
+ERROR_CREATE_CLIENTE=En este momento no podemos procesar su solicitud
+
+INFO_NEWS=Contenido no disponible
+INFO_MTM=Contenido no disponible
+INFO_MATCH=No hay juegos disponibles para el día %DATE%
+INFO_SCORERS=Contenido no disponible
+
+MATCH-STATUS-0=Sin Jugar
+MATCH-STATUS-1=Jugado
+MATCH-STATUS-2=Jugando
+MATCH-STATUS-3=Programado
+MATCH-STATUS-4=Cancelado
+MATCH-STATUS-5=Aplazado
+MATCH-STATUS-6=Suspendido
+
 ### -- </wap> --- ###

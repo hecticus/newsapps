@@ -1,0 +1,33 @@
+.post-detail {
+    background-color: #FFF;
+    color: #000;
+}
+
+.post-detail .img {
+
+}
+
+.post-detail .body {
+    margin: 0 4px;
+    padding: 0 8px 8px 8px;
+}
+
+.post-detail .body .date {
+    font-weight: bold;
+    font-size: 14px;
+    color: #D0243A;
+    display: block;
+    width: 100%;
+    text-align: right;
+    float: right;
+}
+
+.post-detail .body .title{
+    font-family: Futura, Verdana, Sans-Serif;
+    /*font-size: 12px;*/
+}
+
+.post-detail .body .content *{
+    font-family: Futura, Verdana, Sans-Serif;
+    font-size: 12px;
+}

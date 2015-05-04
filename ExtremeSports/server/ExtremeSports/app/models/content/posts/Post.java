@@ -336,10 +336,17 @@ public class Post extends HecticusModel {
             ArrayList<String> apps = new ArrayList<>();
             ArrayList<ObjectNode> resolutions = new ArrayList<>();
             for(PostHasMedia ad : media){
-                apps.add(ad.getLink());
                 ObjectNode resolution = Json.newObject();
-                resolution.put("width", ad.getWidth());
-                resolution.put("height", ad.getHeight());
+                if(ad.getFileType().getName().equalsIgnoreCase("video")){
+                    ad.updateWistiaPlayer();
+                    apps.add(ad.getWistiaPlayer());
+                    resolution.put("width", 0);
+                    resolution.put("height", 0);
+                } else {
+                    apps.add(ad.getLink());
+                    resolution.put("width", ad.getWidth());
+                    resolution.put("height", ad.getHeight());
+                }
                 resolutions.add(resolution);
             }
             response.put("files", Json.toJson(apps));
@@ -388,10 +395,17 @@ public class Post extends HecticusModel {
             ArrayList<String> apps = new ArrayList<>();
             ArrayList<ObjectNode> resolutions = new ArrayList<>();
             for(PostHasMedia ad : media){
-                apps.add(ad.getLink());
                 ObjectNode resolution = Json.newObject();
-                resolution.put("width", ad.getWidth());
-                resolution.put("height", ad.getHeight());
+                if(ad.getFileType().getName().equalsIgnoreCase("video")){
+                    ad.updateWistiaPlayer();
+                    apps.add(ad.getWistiaPlayer());
+                    resolution.put("width", 0);
+                    resolution.put("height", 0);
+                } else {
+                    apps.add(ad.getLink());
+                    resolution.put("width", ad.getWidth());
+                    resolution.put("height", ad.getHeight());
+                }
                 resolutions.add(resolution);
             }
             response.put("files", Json.toJson(apps));
@@ -415,10 +429,17 @@ public class Post extends HecticusModel {
         response.put("date", date);
         if(media != null && !media.isEmpty()){
             PostHasMedia postHasMedia = media.get(0);
-            response.put("file", postHasMedia.getLink());
             ObjectNode resolution = Json.newObject();
-            resolution.put("width", postHasMedia.getWidth());
-            resolution.put("height", postHasMedia.getHeight());
+            if(postHasMedia.getFileType().getName().equalsIgnoreCase("video")){
+                postHasMedia.updateWistiaPlayer();
+                response.put("file", postHasMedia.getWistiaPlayer());
+                resolution.put("width", 0);
+                resolution.put("height", 0);
+            } else {
+                response.put("file", postHasMedia.getLink());
+                resolution.put("width", postHasMedia.getWidth());
+                resolution.put("height", postHasMedia.getHeight());
+            }
             response.put("resolution", resolution);
         }
         if(localizations != null && !localizations.isEmpty()){
@@ -468,9 +489,9 @@ public class Post extends HecticusModel {
         if(postId > 0) {
             if(athlete != null) {
                 if (newest) {
-                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().gt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().gt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                 } else {
-                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().lt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language.getIdLanguage()).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
+                    iterator = finder.fetch("countries").fetch("localizations").fetch("athletes").where().lt("idPost", postId).eq("athletes.athlete", athlete).eq("countries.country", country).eq("localizations.language", language).setMaxRows(maxRows).orderBy("date desc").findList().iterator();
                 }
             } else if (category != null){
                 if (newest) {

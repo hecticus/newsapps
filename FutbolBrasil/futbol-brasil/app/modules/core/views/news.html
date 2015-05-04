@@ -1,51 +1,69 @@
-<div class="row row-news-header">
-    <div class="col-xs-12 text-center text-center-vertical">
-        <div class="news-header">
-            <h4 class="title" translate>SECTIONS.NOTISTATS.NEWS</h4>
+<div id="wrapper" class="page">
+    <div class="scroller">
+        <div class="container">
+
+          <div class="row h-list news">
+
+            <div class="col-xs-12 "
+                 ng-repeat="item in news track by item.idNews"
+                 ng-show="hasNews"
+                 on-last-repeat ng-click="showContentNews(item)">
+
+              <div class="col-xs-4" style="border:0; padding:0;">
+                <img class="img-thumbnail" style="width:85%; height: auto; min-height:50px;" src="{{item.resources.mid[0]}}" alt="icon">
+              </div>
+
+              <div class="col-xs-8" style="border:0; padding:0;">
+                <span class="h-headline h-ellipsis">{{item.title}}</span>
+                <br />
+                <i class="mdi-device-access-time"></i>
+                <span class="h-moment">{{fromNow(item.publicationDate)}}</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          </div>
         </div>
     </div>
 </div>
 
-<div id="wrapper" class="wrapper wrapper-row">
+
+<div id="wrapper2" class="page" style="left: 100%;" >
     <div class="scroller">
         <div class="container">
-            <div class="row" ng-show="hasNews">
-                <div class="col-xs-12 news"
-                     ng-repeat="item in news track by item.idNews"
-                     ng-click="showContentNews(item)">
-                    <h5 class="title">{{item.title}}</h5>
-                    <i class="icon mdi-device-access-time"></i>
-                    <span class="moment">{{fromNow(item.publicationDate)}}</span>
+            <div class="row">
+
+                <div class="col-xs-12">
+                  <br />
+                  <img src="{{contentNewsImg}}" alt="{{contentNews.title}}" class="img-responsive"   >
+
                 </div>
-            </div>
-            <div class="row" ng-hide="hasNews">
-                <div class="col-xs-12 news">
-                    <div class="no-content-panel" style="margin-top: 120px !important;">
-                        <i class="mdi-action-info-outline"></i>
-                        <div class="no-content-panel-title" translate>EMPTY_STATES.NEWS</div>
-                    </div>
+                <div class="col-xs-12">
+                  <br />
+                  <span class="h-headline">{{contentNews.title}}</span>
+                  <br />
+                  <i class="mdi-device-access-time"></i>
+                  <span class="h-moment">{{fromNow(contentNews.publicationDate)}}</span>
+                </div>
+                <div class="col-xs-12">
+                  <p class="h-body" ng-bind-html="contentNews.body"></p>
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
-<div id="wrapper2" class="wrapper wrapper-row page" style="left: 100%;" >
-    <div class="scroller">
-        <div class="container">
-            <div class="row row-news-detail-header">
-                <div class="col-xs-12 text-right" ng-click="share(contentNews)">
-                    <i class="mdi-social-share" style="font-size: 1.8em; line-height: 1.8em;"></i>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 35px !important;" >
-                <div class="col-xs-12 news"  >
-                    <h3 class="title">{{contentNews.title}}</h3>
-                    <i class="icon mdi-device-access-time"></i>
-                    <span class="moment">{{fromNow(contentNews.publicationDate)}}</span>
-                    <p class="body" style="margin: 0 18px 0 0;" ng-bind-html="contentNews.body"> </p>
-                </div>
-            </div>
-        </div>
-    </div>
+<div style="position: absolute; z-index: 120; top:0; right:20px; height:50px; line-height:50px;" ng-click="share(contentNews)" ng-show="isPageContentLeft">
+  <i class="mdi-social-share" style="vertical-align: middle; color:#ffffff; "></i>
+</div>
+
+<div class="no-content-panel h-horizontal" ng-hide="hasNews">
+  <div class="h-vertical">
+    <i class="mdi-action-info-outline"></i>
+    <div class="no-content-panel-title" translate>EMPTY_STATES.NEWS</div>
+  </div>
 </div>

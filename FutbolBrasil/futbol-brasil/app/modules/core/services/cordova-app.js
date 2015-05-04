@@ -15,9 +15,10 @@ angular
 
             var currentSection = '';
             var prevSection = '';
-            var utilitySections = ['settings', 'login', 'remind', 'language-selection', 'team-selection'];
+            var utilitySections = ['login','settings', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
             var settingsSubSections = ['language-selection', 'team-selection'];
             var blockedSections = ['match', 'standings', 'scorers', 'mtm', 'friends'];
+            var settingsSections = ['settings', 'terms', 'tutorial','remind', 'language-selection', 'team-selection'];
             var onSettingsSection = false;
 
             var strings = {};
@@ -55,7 +56,7 @@ angular
                 isSettingsSubSection : isSettingsSubSection,
 
                 isOnUtilitySection : isOnUtilitySection,
-
+                isOnUtility : isOnUtility,
                 requiresAuthSection : requiresAuthSection,
 
                 setIsOnSettingsSection: setIsOnSettingsSection,
@@ -92,37 +93,33 @@ angular
                 }
             }
 
-            function hideMenu() {
-                var menuWrapper = $('#wrapperM');
-                if (menuWrapper.hasClass('right')) {
-                    menuWrapper.attr('class', ' page transition left');
-                }
-            }
-
             function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
                 if ($('#wrapperM').hasClass('right')) {
-                    hideMenu();
+                     $rootScope.hideMenu();
+                } else if(currentSection == 'login'){
+                    exitApp();
                 } else if(isOnUtilitySection()){
-//                    if(onSettingsSection){
+
+
                     if(isSettingsSubSection(currentSection)){
                         $state.go($state.current.data.prev);
                         onSettingsSection = false;
-                    } else if(prevSection){
+                    } else {
 
-                        if (prevSection === "login") {
-                          $state.go($rootScope.sectionDefault);
+                        if ($rootScope.previousState === undefined) {
+                          $state.go('prediction');
                         } else {
-                          $state.go(prevSection);
+                          $state.go($rootScope.previousState);
                         }
 
-                    } else if($state.current.data){
-                        $state.go($state.current.data.prev);
+
                     }
+
                 } else if(hasPreviousSubsection){
-                    angular.element('.page.back.left:last')
-                        .attr('class', ' page transition right');
+                    angular.element('.page.back.left:last').attr('class', ' page transition right');
+                    $rootScope.isPageContentLeft = false;
                 } else {
                     showNotificationDialog({
                             title: strings.EXIT_APP_TITLE,
@@ -173,6 +170,12 @@ angular
                 });
             }
 
+            function isOnUtility(section){
+                return settingsSections.some(function(utilitySection){
+                    return utilitySection === section;
+                });
+            }
+
             function isSettingsSubSection(section){
                 return settingsSubSections.some(function(settingsSubSection){
                     return settingsSubSection === currentSection;
@@ -180,7 +183,7 @@ angular
             }
 
             function requiresAuthSection(section){
-                return !(section === 'login' || section === 'remind');
+                return !(section === 'login' || section === 'remind' || section === 'terms' || section === 'tutorial');
             }
 
             function isBlockedSection(section){

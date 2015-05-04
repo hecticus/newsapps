@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.hecticus.extremesports" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>ExtremeSports</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="contact@hecticus.com" href="http://hecticus.com">
+        Hecticus Inc.
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon src="res/icon.png" />
+    <platform name="ios">
+        <framework src="SystemConfiguration.framework" />
+    </platform>
+    <preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="true" />
+    <preference name="target-device" value="universal" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+</widget>

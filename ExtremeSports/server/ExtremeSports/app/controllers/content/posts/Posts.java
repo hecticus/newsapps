@@ -468,7 +468,7 @@ public class Posts extends HecticusController {
                 return notFound(buildBasicResponse(2, "el cliente no existe"));
             }
         }catch (Exception e) {
-            Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Posts.class, "Error manejando posts", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
             return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
@@ -548,6 +548,59 @@ public class Posts extends HecticusController {
             return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Posts.class, "Error manejando garotas", "error listando los post recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+
+    }
+
+    public static Result getMediaForGallery(Integer id, Integer postId, Boolean newest, Integer idAthlete, Integer idCategory, Boolean onlyMedia){
+        try {
+            Client client = Client.getByID(id);
+            if(client != null) {
+                Athlete athlete = null;
+                Category category = null;
+                if(idAthlete > 0){
+                    athlete = Athlete.getByID(idAthlete);
+                    if(athlete == null) {
+                        return notFound(buildBasicResponse(2, "El atleta " + idAthlete + " no existe"));
+                    }
+                } else if(idCategory > 0){
+                    category = Category.getByID(idCategory);
+                    if(category == null) {
+                        return notFound(buildBasicResponse(2, "la categoria " + idCategory + " no existe"));
+                    }
+
+                }
+                Iterator<PostHasMedia> media = PostHasMedia.getMedia(athlete, category, client.getCountry(), client.getLanguage(), postId, onlyMedia, newest);
+                ArrayList<ObjectNode> posts = new ArrayList<ObjectNode>();
+                //buscamos sus favoritos tambien y agregamos esa info
+                while(media.hasNext()){
+                    PostHasMedia postHasMedia = media.next();
+                    Post post = postHasMedia.getPost();
+                    boolean favorite = false;
+                    for(PostHasAthlete postHasAthlete : post.getAthletes()){
+                        favorite |= client.getAthleteIndex(postHasAthlete.getAthlete()) != -1;
+                    }
+                    ObjectNode postJson = Json.newObject();
+                    postJson.put("id_post", post.getIdPost());
+                    postJson.put("id_media", postHasMedia.getIdPostHasMedia());
+
+                    if(postHasMedia.getLink() != null && !postHasMedia.getLink().isEmpty()){
+                        postJson.put("media", postHasMedia.getLink());
+                        postJson.put("video", false);
+                    } else if(postHasMedia.getWistiaPlayer() != null && !postHasMedia.getWistiaPlayer().isEmpty()) {
+                        postJson.put("media", postHasMedia.getWistiaPlayer());
+                        postJson.put("video", true);
+                    }
+                    postJson.put("has_favorite", favorite);
+                    posts.add(postJson);
+                }
+                return ok(buildBasicResponse(0, "OK", Json.toJson(posts)));
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Posts.class, "Error manejando posts", "error listando los media recientes", true, e, "support-level-1", Config.LOGGER_ERROR);
             return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }

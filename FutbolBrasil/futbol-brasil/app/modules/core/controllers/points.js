@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('PointsCtrl', ['$rootScope', '$scope', '$window', '$translate', '$q', 'Competitions',
+    .controller('PointsCtrl', ['$rootScope', '$scope', '$window', '$translate', '$q', 'Competitions', 'Notification',
         'Moment', 'iScroll',
-        function($rootScope, $scope, $window, $translate, $q, Competitions, Moment, iScroll) {
+        function($rootScope, $scope, $window, $translate, $q, Competitions, Notification, Moment, iScroll) {
 
             $scope.tournaments = [];
             $scope.hasScore = true;
@@ -38,24 +38,31 @@ angular
                 Competitions.leaderboard.personal.phase.index(tournament.id_tournament, phases)
                     .then(
                     function(result){
+
                         var index;
                         var keys = Object.getOwnPropertyNames(result);
 
-                        result.forEach(function(phase){
-                            if(tournament.active_phase
-                                && tournament.active_phase.id_phases === phase.id_phase){
-                                for(index = 0; index < keys.length; ++index){
-                                    tournament.active_phase[keys[index]] = phase[keys[index]];
-                                }
-                            }
+                        if (phases) {
 
-                            if(tournament.last_phase
-                                && tournament.last_phase.id_phases === phase.id_phase){
-                                for(index = 0; index < keys.length; ++index){
-                                    tournament.last_phase[keys[index]] = phase[keys[index]];
-                                }
-                            }
-                        });
+                          result.forEach(function(phase){
+                              if(tournament.active_phase
+                                  && tournament.active_phase.id_phases === phase.id_phase){
+                                  for(index = 0; index < keys.length; ++index){
+                                      tournament.active_phase[keys[index]] = phase[keys[index]];
+                                  }
+                              }
+
+                              if(tournament.last_phase
+                                  && tournament.last_phase.id_phases === phase.id_phase){
+                                  for(index = 0; index < keys.length; ++index){
+                                      tournament.last_phase[keys[index]] = phase[keys[index]];
+                                  }
+                              }
+                          });
+
+                        };
+
+
 
                     }, function(){
                         //TODO se podría hacer más especifico el dialogo de error

@@ -24,24 +24,21 @@ public class Athletes extends HecticusController {
     public static Result create() {
         ObjectNode athleteData = getJson();
         try{
-            ObjectNode response = null;
             if(athleteData.has("name") && athleteData.has("default_photo")){
                 Athlete athlete = createAthlete(athleteData);
-                response = buildBasicResponse(0, "OK", athlete.toJson());
+                return created(buildBasicResponse(0, "OK", athlete.toJson()));
             } else {
-                response = buildBasicResponse(1, "Faltan campos para crear el registro");
+                return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
-            return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Athletes.class, "Error manejando garotas", "error creando con params" + athleteData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
         }
     }
 
     public static Result update(Integer id) {
         ObjectNode athleteData = getJson();
         try{
-            ObjectNode response = null;
             Athlete athlete = Athlete.getByID(id);
             if(athlete != null){
                 if(athleteData.has("name")){
@@ -84,47 +81,42 @@ public class Athletes extends HecticusController {
                     }
                 }
 
-                response = buildBasicResponse(0, "OK", athlete.toJson());
+                return ok(buildBasicResponse(0, "OK", athlete.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a modificar");
+                return notFound(buildBasicResponse(2, "no existe el registro a modificar"));
             }
-            return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Athletes.class, "Error manejando garotas", "error creando con params" + athleteData.toString(), false, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            return internalServerError(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
         }
     }
 
     public static Result delete(Integer id) {
         try{
-            ObjectNode response = null;
             Athlete athlete = Athlete.getByID(id);
             if(athlete != null) {
                 athlete.delete();
-                response = buildBasicResponse(0, "OK", athlete.toJson());
+                return ok(buildBasicResponse(0, "OK", athlete.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a eliminar");
+                return notFound(buildBasicResponse(2, "no existe el registro a eliminar"));
             }
-            return ok(response);
         } catch (Exception ex) {
             Utils.printToLog(Athletes.class, "Error manejando athletes", "error eliminando la athlete " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return Results.badRequest(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
+            return internalServerError(buildBasicResponse(3, "ocurrio un error eliminando el registro", ex));
         }
     }
 
     public static Result get(Integer id){
         try {
-            ObjectNode response = null;
             Athlete athlete = Athlete.getByID(id);
             if(athlete != null) {
-                response = buildBasicResponse(0, "OK", athlete.toJson());
+                return ok(buildBasicResponse(0, "OK", athlete.toJson()));
             } else {
-                response = buildBasicResponse(2, "no existe el registro a consultar");
+                return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-            return ok(response);
         }catch (Exception e) {
             Utils.printToLog(Athletes.class, "Error manejando athletes", "error buscando la athlete " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 
@@ -135,11 +127,10 @@ public class Athletes extends HecticusController {
             while(athleteIterator.hasNext()){
                 athletes.add(athleteIterator.next().toJson());
             }
-            ObjectNode response = buildBasicResponse(0, "OK", Json.toJson(athletes));
-            return ok(response);
+            return ok(buildBasicResponse(0, "OK", Json.toJson(athletes)));
         }catch (Exception e) {
             Utils.printToLog(Athletes.class, "Error manejando athletes", "error listando las athletes con pageSize " + pageSize + " y " + page, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return badRequest(buildBasicResponse(1,"Error buscando el registro",e));
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
         }
     }
 

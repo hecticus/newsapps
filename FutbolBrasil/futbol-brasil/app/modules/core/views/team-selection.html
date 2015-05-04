@@ -8,7 +8,7 @@
                            placeholder="{{'SETTINGS.TEAM_SEARCH_HELPER' | translate}}"
                            ng-model="searchQuery">
                     <span class="input-group-addon">
-                        <i class="icon mdi-action-search" style="font-size:1.8em;"></i>
+                        <i class="icon mdi-action-search" ></i>
                     </span>
                 </div>
             </div>
@@ -36,11 +36,10 @@
 </div>
 
 <ul class="pager search-list-pager">
-    <li class="previous" ng-class="{'disabled' : !hasPrev }" ng-click="showPrevPage()">
-        <span translate>PREVIOUS</span>
-    </li>
-    <li class="next" ng-class="{'disabled' : !hasNext }" ng-click="showNextPage()">
-        <span translate>NEXT</span>
+    <li class="previous" ng-class="{'disabled' : !hasPrev }" ng-click="showPrevPage()" translate>
+      PREVIOUS
+    <li class="next" ng-class="{'disabled' : !hasNext }" ng-click="showNextPage()" translate>
+      NEXT
     </li>
 </ul>
 

@@ -9,10 +9,10 @@ GET     /api/loading/:width/:height/:version/:so                                
 
 # Home page
 
-GET     /                      		                                                                        controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-GET     /index                                                                                              controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
-GET     /news/list         			                                                                        controllers.news.NewsController.getNews()
-GET     /news/:id         			                                                                        controllers.Application.getNewsById(id:Long)
+#GET     /                      		                                                                     controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+#GET     /index                                                                                              controllers.Application.index(p:Int ?= 0, s ?= "sort", o ?= "asc", f ?= "")
+#GET     /news/list         			                                                                    controllers.news.NewsController.getNews()
+#GET     /news/:id         			                                                                        controllers.Application.getNewsById(id:Long)
 
 #FAKE UPSTREAM URL
 POST    /api/v1/clients/upstream/game/user/subscribe                                                        controllers.client.Clients.upstreamFakeCreate()
@@ -27,8 +27,8 @@ GET     /assets/javascript/routes.js                                            
 
 GET     /profile                                                                                            controllers.Application.profile
 
-GET     /login                                                                                              controllers.Application.login
-POST    /login                                                                                              controllers.Application.doLogin
+#GET     /login                                                                                              controllers.Application.login
+#POST    /login                                                                                              controllers.Application.doLogin
 
 GET     /logout                                                                                             com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider                                                                             com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
@@ -132,12 +132,13 @@ GET     /futbolbrasil/v2/clients                                                
 GET     /futbolbrasil/v2/locale.json                                                                        controllers.client.Clients.getLocale(lang : String)
 POST    /futbolbrasil/v2/locale.json                                                                        controllers.client.Clients.setLocale(lang : String)
 
-GET     /wap                    controllers.Wap.index()
-GET     /wap/news/:id           controllers.Wap.news(id:Integer)
-GET     /wap/matches            controllers.Wap.matches(id:Integer, page: Integer)
-GET     /wap/competitions       controllers.Wap.competitions(route:String)
-GET     /wap/scorers            controllers.Wap.scorers(id:Integer)
-GET     /wap/mtm                controllers.Wap.mtm(id:Integer, match:Integer, event: Integer)
-GET     /wap/login              controllers.Wap.getLogin()
-POST    /wap/login/password     controllers.Wap.getPassword()
-POST    /wap/login/create       controllers.Wap.createClient()
+GET     /                   controllers.Wap.index()
+GET     /index              controllers.Wap.index()
+GET     /news/:id           controllers.Wap.news(id:Integer)
+GET     /matches            controllers.Wap.matches(id:Integer, page: Integer)
+GET     /competitions       controllers.Wap.competitions(route:String)
+GET     /scorers            controllers.Wap.scorers(id:Integer)
+GET     /mtm                controllers.Wap.mtm(id:Integer, match:Integer, event: Integer)
+GET     /login              controllers.Wap.getLogin()
+POST    /login/password     controllers.Wap.getPassword()
+POST    /login/create       controllers.Wap.createClient()

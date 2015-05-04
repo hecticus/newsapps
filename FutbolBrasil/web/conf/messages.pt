@@ -150,20 +150,40 @@ playauthenticate.restricted.secrets=Segredos, por todo o lado!
 
 ### -- <wap> --- ###
 
-APP_TITLE=Futebol Brasil
-MATCH_LABEL=partidas
-SCORERS_LABEL=artilharia
-NEWS_LABEL=notícia
+APP_TITLE=TIM Palpites
+MATCH_LABEL=Partidas
+SCORERS_LABEL=Artilharia
+NEWS_LABEL=Notícia
 
-PLAYER_LABEL=jogador
-TEAM_LABEL=equipe
-GOALS_LABEL=goles
-MTM_LABEL=En vivo
-
-LOGIN_TITLE=Registre-se para acessar as noticias de futebol do dia, todos os dias.
+PLAYER_LABEL=Jogador
+TEAM_LABEL=Equipe
+GOALS_LABEL=Goles
+MTM_LABEL=Ao vivo
+MTM_REFRESH_LINK=Atualizar
+LOGIN_TITLE=Registrar-se para acessar a noticía de futebol do dia, todos os dias.
 LOGIN_TITLE_MSISDN=Digite seu numero de celular.
 LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
-BUTTON_NEXT=Next
+BUTTON_NEXT=Seguinte
 BUTTON_CONFIRM=Confirmar
 BUTTON_AGAIN_PASSWORD=Enviar novamente a senha
+
+ERROR_DEFAULT=Neste momento, não podemos processar sua solicitação
+ERROR_MSISDN=O número de telefone é inválido
+ERROR_PASSWORD=A senha não é válida
+ERROR_SEND_PASSWORD=Neste momento, não podemos processar sua solicitação
+ERROR_CREATE_CLIENTE=Neste momento, não podemos processar sua solicitação
+
+INFO_NEWS=Conteúdo não disponível
+INFO_MTM=Conteúdo não disponível
+INFO_MATCH=Não há jogos disponíveis para o dia %DATE%
+INFO_SCORERS=Conteúdo não disponível
+
+MATCH-STATUS-0=Sem Jogar
+MATCH-STATUS-1=Jogado
+MATCH-STATUS-2=Jogar
+MATCH-STATUS-3=Fixação
+MATCH-STATUS-4=Cancelado
+MATCH-STATUS-5=Adiado
+MATCH-STATUS-6=Suspenso
+
 ### -- </wap> --- ###

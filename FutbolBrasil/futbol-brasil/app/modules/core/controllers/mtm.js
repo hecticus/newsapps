@@ -13,7 +13,7 @@ angular
         function($http, $rootScope, $scope, $state, $localStorage, $interval, WebManager,
                  Domain, Moment, iScroll, Notification) {
 
-            var refreshInterval = null;
+            $rootScope.refreshInterval = null;
             var listScroll = null;
             var matchScroll = null;
             var _event = {
@@ -34,11 +34,14 @@ angular
             $scope.refreshIconClass = '';
 
             $scope.interval = false;
+            $scope.competitionId = 0;
+            $scope.matchId = 0;
+
 
             $scope.date = Moment.date().format('dddd Do YYYY');
 
             $scope.getTime = function (_date) {
-                return Moment.date(_date).format('H:MM');
+                return Moment.date(_date).format('HH:mm');
             };
 
             function refreshSuccess(data){
@@ -69,40 +72,48 @@ angular
             }
 
             $scope.refreshEvents = function (competitionId, matchId) {
+
                 $scope.refreshIconClass = ' icon-refresh-animate';
-                if ($http.pendingRequests.length === 0 && !$rootScope.loading) {
+                //if ($http.pendingRequests.length === 0) {
                     $scope.$emit('load');
                     var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-
+                    console.log(Domain.mtm(competitionId, matchId, _event.first));
                     $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
                         .then(refreshSuccess, refreshError);
 
-                    refreshInterval = $interval(function () {
-                        console.log('$interval refreshEvents triggered.');
-                        $scope.refreshEvents();
-                    },50000);
-                }
+                   if (angular.element('#wrapperM').hasClass('left')) {
+                     $rootScope.refreshInterval = $interval(function () {
+                         //console.log('$interval refreshEvents triggered.');
+                         $scope.refreshEvents(competitionId, matchId);
+                         $interval.cancel($rootScope.refreshInterval);
+                     },50000);
+                   };
+
+               // }
             };
 
             $scope.showContentEvents = function (_league, _match) {
-                _event.reset();
-                $scope.item.mtm = [];
-                $scope.item.league = _league;
-                $scope.item.match = {
-                    home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
-                    away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
-                    status: _match.status
-                };
+                if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
+                  _event.reset();
+                  $scope.item.mtm = [];
+                  $scope.item.league = _league;
+                  $scope.item.match = {
+                      home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
+                      away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
+                      status: {id:_match.id_status,name:_match.status}
+                  };
 
-                $rootScope.transitionPageBack('#wrapper2','left');
-                matchScroll.scrollTo(0,0,0);
+                  $rootScope.transitionPageBack('#wrapper2','left');
+                  matchScroll.scrollTo(0,0,0);
 
-                //TODO check request cableado
-                var competitionId = _league.id_competitions;
-                competitionId = 16;
-                var matchId = _match.id_game_matches;
-                matchId = 3321;
-                $scope.refreshEvents(competitionId, matchId);
+                  //TODO check request cableado
+                  var competitionId = _league.id_competitions;
+                  var matchId = _match.id_game_matches;
+                  $scope.competitionId = competitionId;
+                  $scope.matchId = matchId;
+
+                  $scope.refreshEvents(competitionId, matchId);
+                }
             };
 
             function mapLeagues(leagues){
@@ -160,15 +171,16 @@ angular
             }
 
             function init(){
+
                 $scope.$emit('load');
                 setUpIScroll();
                 getMatchesForToday();
 
                 $scope.$on('$destroy', function() {
-                    console.log('Cancelling  MTM Interval.');
-                    $interval.cancel(refreshInterval);
-                    refreshInterval = undefined;
+                    $interval.cancel($rootScope.refreshInterval);
+                    $rootScope.refreshInterval = null;
                 });
+
             } init();
         }
     ]);

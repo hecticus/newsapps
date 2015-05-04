@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Extreme Sports</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- build:css styles/vendor.css -->
+    <!-- injector:bowercss -->
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/material.css">
+    <link rel="stylesheet" href="lib/bootstrap-material-design/dist/css/ripples.css">
+    <!-- endinjector -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/custom.css -->
+    <!-- injector:css -->
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="css/hecticus.css">
+    <link rel="stylesheet" href="css/iscroll.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/news.css">
+    <link rel="stylesheet" href="css/no-content.css">
+    <link rel="stylesheet" href="css/posts.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/transition.css">
+    <!-- endinjector -->
+    <!-- endbuild -->
+    <script src="cordova.js"></script>
+</head>
+
+<body ng-controller="MainController as main">
+<!-- =================== Navigation bar =================== -->
+<header class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="navbar-header">
+                    <div class="col-xs-1 col-xs-pull-1">
+                        <i class="nav-menu-icon mdi-navigation-menu icon-primary"
+                           ng-hide="$root.getSection() === 'login'"
+                           ng-class="$root.getDrawerIcon()"
+                           ng-click="$root.onMenuButtonPressed()"></i>
+                    </div>
+                    <div class="col-xs-8 col-xs-push-1">
+                        <a class="navbar-brand" href="#">
+                            <img class="img-responsive" src="img/banner.png" alt="Extreme Sports"/>
+                        </a>
+                    </div>
+                    <div class="col-xs-1">
+                        <i class="nav-menu-icon mdi-content-add-circle icon-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-11">
+                <section id="uiview" ui-view></section>
+            </div>
+        </div>
+    </div>
+
+    <menu ng-cloak>
+        <menu-item section="news" icon="mdi-action-label">
+            {{'SECTIONS.NEWS' | translate}}
+        </menu-item>
+        <menu-item section="gallery" icon="mdi-image-collections">
+            {{'SECTIONS.GALLERY' | translate}}
+        </menu-item>
+        <menu-item section="favorites" icon="mdi-action-favorite">
+            {{'SECTIONS.FAVORITES' | translate}}
+        </menu-item>
+        <menu-item section="settings" icon="mdi-action-settings">
+            {{'SECTIONS.SETTINGS' | translate}}
+        </menu-item>
+        <menu-item section="feedback" icon="mdi-action-thumbs-up-down">
+            {{'SECTIONS.FEEDBACK' | translate}}
+        </menu-item>
+        <menu-item action="logout" icon="mdi-navigation-cancel">
+            {{'LOGOUT' | translate}}
+        </menu-item>
+    </menu>
+
+    <!--<ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>-->
+    <!--<ng-include src="'modules/core/views/templates/share-modal.html'"></ng-include>-->
+    <!--<ng-include src="'modules/core/views/templates/info-modal.html'"></ng-include>-->
+
+<!-- build:js scripts/vendor.js -->
+<!-- injector:bowerjs -->
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-resource/angular-resource.js"></script>
+<script src="lib/angular-mocks/angular-mocks.js"></script>
+<script src="lib/angular-cookies/angular-cookies.js"></script>
+<script src="lib/angular-animate/angular-animate.js"></script>
+<script src="lib/angular-touch/angular-touch.js"></script>
+<script src="lib/angular-sanitize/angular-sanitize.js"></script>
+<script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="lib/angular-ui-utils/ui-utils.js"></script>
+<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="lib/bootstrap-material-design/dist/js/material.js"></script>
+<script src="lib/bootstrap-material-design/dist/js/ripples.js"></script>
+<script src="lib/ngstorage/ngStorage.js"></script>
+<script src="lib/iscroll/build/iscroll.js"></script>
+<script src="lib/angular-socialsharing/dist/angular-socialsharing.js"></script>
+<script src="lib/moment/moment.js"></script>
+<script src="lib/angular-translate/angular-translate.js"></script>
+<script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
+
+<!-- build:js scripts/custom.js -->
+<!-- injector:js -->
+<script src="js/config.js"></script>
+<script src="js/application.js"></script>
+<script src="modules/core/core.js"></script>
+<script src="modules/core/config/routes.js"></script>
+<script src="modules/core/services/analytics.js"></script>
+<script src="modules/core/services/app.js"></script>
+<script src="modules/core/services/athlete-manager.js"></script>
+<script src="modules/core/services/category-manager.js"></script>
+<script src="modules/core/services/client-manager.js"></script>
+<script src="modules/core/services/client.js"></script>
+<script src="modules/core/services/cordova-app.js"></script>
+<script src="modules/core/services/cordova-device.js"></script>
+<script src="modules/core/services/domain.js"></script>
+<script src="modules/core/services/facebook-manager.js"></script>
+<script src="modules/core/services/gallery.js"></script>
+<script src="modules/core/services/i-scroll.js"></script>
+<script src="modules/core/services/i18n.js"></script>
+<script src="modules/core/services/moment.js"></script>
+<script src="modules/core/services/news.js"></script>
+<script src="modules/core/services/notification.js"></script>
+<script src="modules/core/services/settings.js"></script>
+<script src="modules/core/services/update.js"></script>
+<script src="modules/core/services/upstream.js"></script>
+<script src="modules/core/services/web-manager.js"></script>
+<script src="modules/core/directives/hc-focus.js"></script>
+<script src="modules/core/directives/hc-gallery-post.js"></script>
+<script src="modules/core/directives/hc-news-post.js"></script>
+<script src="modules/core/directives/menu-item.js"></script>
+<script src="modules/core/directives/menu-sub-item.js"></script>
+<script src="modules/core/directives/menu.js"></script>
+<script src="modules/core/controllers/favorites.js"></script>
+<script src="modules/core/controllers/gallery.js"></script>
+<script src="modules/core/controllers/language-selection.js"></script>
+<script src="modules/core/controllers/login.js"></script>
+<script src="modules/core/controllers/main.js"></script>
+<script src="modules/core/controllers/news-detail.js"></script>
+<script src="modules/core/controllers/news.js"></script>
+<script src="modules/core/controllers/settings.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
+
+</body>
+</html>

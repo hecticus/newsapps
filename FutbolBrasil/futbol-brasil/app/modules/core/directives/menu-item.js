@@ -19,6 +19,7 @@ angular
                     action: "@"
                 },
                 link: function($scope) {
+
                     $scope.navigate = function(){
                         if(!!$scope.action){
                             $rootScope.executeAction($scope.action);

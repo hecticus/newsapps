@@ -1,17 +1,17 @@
 {
     "SECTIONS" : {
         "NOTISTATS" : {
-            "NOTISTATS" : "Notistats",
+            "NOTISTATS" : "Estatística",
             "MATCHES": "Partidas",
             "STANDINGS": "Tabela",
-            "NEWS": "Notícias",
+            "NEWS": "Notícia",
             "SCORERS": "Artilharia",
-            "LIVE": "Ao Minuto"
+            "LIVE": "Ao Vivo"
         },
         "BETS" : {
             "BETS": "Palpites",
             "PREDICTIONS" : "Predições",
-            "LEADERBOARDS" : "Leaderboards",
+            "LEADERBOARDS" : "Líderes",
             "FRIENDS" : "Amigos",
             "POINTS" : "Pontos"
         },
@@ -19,10 +19,12 @@
         "LOGIN" : "Login",
         "REMIND" : "Lembrar / Obter Credenciais",
         "LANGUAGE-SELECTION" : "Seleção de Idioma",
-        "TEAM-SELECTION" : "Seleção de Equipe"
+        "TEAM-SELECTION" : "Seleção de Equipe",
+        "TERMS": "Condições",
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
-        "TITLE" : "Notícias"
+        "TITLE" : "Notícia"
 
     },
     "SCORERS" : {
@@ -46,18 +48,12 @@
     "MATCH" : {
         "STATUS" : {
             "0" : "Sem Jogar",
-            "1" : "!Primer tiempo",
-            "2" : "Encerrado",
-            "3" : "Adiado",
-            "4" : "!Postergado",
-            "5" : "!Entetiempo",
-            "6" : "!Segundo Tiempo",
-            "7" : "!Fin de Tiempo Reglamentario",
-            "8" : "!Alargue 1",
-            "9" : "!Fin de Alargue 1",
-            "10" : "!Alarge 2",
-            "11" : "!Fin alargue 2",
-            "12" : "!Definicion por penales"
+            "1" : "Jogado",
+            "2" : "Jogar",
+            "3" : "Fixação",
+            "4" : "Cancelado",
+            "5" : "Adiado",
+            "6" : "Suspenso"
         }
     },
     "LEADERBOARD" : {
@@ -73,8 +69,8 @@
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
         "POINTS" : "Você não tem informação de pontos disponível",
-        "LEADERBOARD" : "Não há informação disponível para esta classificação",
-        "PREDICTIONS" : "Não há informação disponível para este torneio",
+        "LEADERBOARD" : "Não há informações disponíveis para esta classificação",
+        "PREDICTIONS" : "Não há informações disponíveis para este torneio",
         "MATCH" : "Não há jogos para este día",
         "SCORERS" : "Não há artilheiros para este torneio",
         "TEAMS" : "Não foi possível obter equipes",
@@ -89,32 +85,32 @@
         "PASSWORD_LABEL" : "Senha",
         "PASSWORD_HELPER" : "Digite a senha recebida por SMS.",
         "MSISDN_HOLDER" : "# Numero",
-        "MSISDN_LABEL" : "Username",
+        "MSISDN_LABEL" : "Número do celular",
         "LOGIN_LABEL" : "Login",
-        "REMIND_LABEL" : "Remind / Get Credentials",
-        "CHANGE_LANGUAGE_LABEL" : "Change Language",
-        "TUTORIAL_LABEL" : "How Does It Work?",
-        "TERMS_LABEL" : "Terms & Conditions",
-        "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
+        "REMIND_LABEL" : "Lembre / Obter Credenciais",
+        "CHANGE_LANGUAGE_LABEL" : "Selecione o idioma",
+        "TUTORIAL_LABEL" : "Como funciona o serviço?",
+        "TERMS_LABEL" : "Termos & Condições",
+        "ENTER_AS_GUEST_LABEL" : "Entrar como um visitante",
         "REMIND" : {
-            "LABEL" : "Enter your mobile number",
+            "LABEL" : "Digite o seu número do celular",
             "HERO" : {
-                "TITLE" : "Forgot your Username and password?",
-                "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
-                "SMALL_PRINT" : "*The service is only available for suscribers of the specific operator"
+                "TITLE" : "Esqueceu seu usuário e senha?",
+                "MESSAGE" : "Para obter as suas credenciais por favor, escreva o seu número do celular e prima 'Lembre / Obter Credenciais'",
+                "SMALL_PRINT" : "*O serviço está disponível apenas para assinantes da operadora específica"
             }
         }
     },
     "SETTINGS": {
         "NICKNAME_TITLE": "Apelido",
-        "NICKNAME_PLACEHOLDER": "Digite o seu Apelido",
+        "NICKNAME_PLACEHOLDER": "Digite seu Apelido",
         "PUSH_TITLE": "Notificações Push",
         "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",
-        "SOCIAL_ACCOUNTS_TITLE": "Contas Sociais",
+        "SOCIAL_ACCOUNTS_TITLE": "Redes Sociais",
         "TOGGLE" : {
             "BETS" : "Palpites",
-            "MTM" : "Ao Minuto",
+            "MTM" : "Ao vivo",
             "NEWS" : "Notícias"
         },
         "FACEBOOK" : {
@@ -123,7 +119,7 @@
         },
         "ADD_TEAM": "Adicionar Equipe",
         "NOT_AVAILABLE": "Não Disponível",
-        "LANGUAGE_SEARCH_HELPER" : "Encontre o seu idioma",
+        "LANGUAGE_SEARCH_HELPER" : "Encontre seu idioma",
         "TEAM_SEARCH_HELPER" : "Encontre o seu equipe"
     },
     "LANGUAGE" : {
@@ -135,6 +131,68 @@
         "EXIT_APP_TITLE" : "Sair do Aplicativo",
         "EXIT_APP_MSG" : "Tem certeza de que deseja sair do aplicativo?"
     },
+
+
+    "ALERT": {
+
+        "NEWS_LIMIT" : {
+          "TITLE" : "Limite diário de notícias ultrapassado",
+          "MSG": "Você excedeu seu limite diário gratuito Notícias",
+          "CONFIRM" : "Ok",
+          "CANCEL" : "Cancelar"
+        },
+
+        "SET_USERNAME" : {
+         "TITLE" : "Informações do Perfil",
+         "SUBTITLE": "Selecione seu nome de usuário",
+         "MSG": "Por favor, defina um nome de utilizador para a sua conta"
+       },
+
+       "NETWORK_ERROR" : {
+          "TITLE" : "Erro de Rede",
+          "SUBTITLE": "Conexão perdida",
+          "MSG": "Não foi possível obter uma resposta do servidor"
+        },
+
+        "GET_CREDENTIALS" : {
+          "TITLE" : "Obter Credenciais",
+          "SUBTITLE": "Erro de Rede",
+          "MSG": "Não foi possível entrar em contato com nossos servidores. Por favor, tente novamente em alguns momentos"
+        },
+
+        "GET_LOGIN" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Erro de Rede",
+          "MSG": "Não foi possível entrar em contato com nossos servidores. Por favor, tente novamente em alguns momentos"
+        },
+
+        "SET_MSISDN" : {
+          "TITLE" : "Processo de login",
+          "SUBTITLE": "Incompleta Registrando Informações",
+          "MSG": "Por favor coloque o seu número do celular"
+        },
+
+        "SET_PASSWORD" : {
+          "TITLE" : "Processo de login",
+          "SUBTITLE": "Incompleta Registrando Informações",
+          "MSG": "Por favor, insira sua senha"
+        },
+
+        "LOCKED_SECTION" : {
+          "TITLE" : "seção trancada",
+          "MSG": "Esta seção está bloqueado para usuários convidados. Gostaria de registrar-se para desbloquear esta seção?",
+          "CONFIRM" : "Ok",
+          "CANCEL" : "Cancelar"
+        },
+
+        "SET_BET" : {
+            "TITLE" : "Predições",
+            "SUBTITLE": "Data desatualizado",
+            "MSG": "A data de partida está desatualizado"
+        }
+
+    },
+
     "OK" : "Ok",
     "CANCEL" : "Cancelar",
     "PREVIOUS" : "Anterior",

@@ -1,17 +1,24 @@
 @(HD: models.wap.HandsetDetection)(jMatches: com.fasterxml.jackson.databind.JsonNode)(jCompetition: com.fasterxml.jackson.databind.JsonNode)(limit: Integer)(page: Integer)
+@import play.i18n._
+
 
 @currentTime(fecha: String) = @{
+
     import java.util.Date
     import java.text.SimpleDateFormat
-    val curTimeFormat = new SimpleDateFormat("HH:mm")
-    curTimeFormat.format(new SimpleDateFormat("yyyyMMddhhmmss").parse(fecha))
+
+    val isoFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+    isoFormat.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+    val dates = isoFormat.parse(fecha);
+    val curTimeFormat = new SimpleDateFormat("HH:mm").format(dates)
+    curTimeFormat.format(curTimeFormat)
 }
 
 @if(HD.getLevelSupport() < models.wap.HandsetDetection.HTML) {
 
 } else {
 
-    @html4{
+    @html4(true,"matches",HD){
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -26,7 +33,7 @@
                     <tbody>
 
                     @for(item <- jMatches.get("fixtures").iterator()) {
-                        <tr style="width: 100% !important; height-min:25px  !important;" >
+                        <tr style="width: 100% !important; height-min:25px  !important;" class="h-list">
 
                             <td style="width: 33% !important;" >
                                 <span>@item.get("homeTeam").get("name").asText()</span>
@@ -37,7 +44,11 @@
                             <td style="width: 33% !important;">
                                 <span>@currentTime(item.get("date").asText())</span>
                                 <br />
-                                <a href='@routes.Wap.mtm(jCompetition.get("competition").get("id").asInt(),item.get("id_game_matches").asInt(),0)' class='status _@{item.get("status").get("id_status").asText()}'>@item.get("status").get("name").asText()</a>
+                                @if(item.get("status").get("id_status").asInt() != 3) {
+                                    <a href='@routes.Wap.mtm(jCompetition.get("competition").get("id").asInt(),item.get("id_game_matches").asInt(),0)' class='status _@{item.get("status").get("id_status").asText()}'>@Messages.get("MATCH-STATUS-" + item.get("status").get("id_status").asText())</a>
+                                } else {
+                                    <span  class='status _@{item.get("status").get("id_status").asText()}'>@Messages.get("MATCH-STATUS-" + item.get("status").get("id_status").asText())</span>
+                                }
                             </td>
 
                             <td style="width: 33% !important;">
