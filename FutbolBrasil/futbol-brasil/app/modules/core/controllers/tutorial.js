@@ -9,20 +9,22 @@
 angular
     .module('core')
     .controller('TutorialController', [
-        '$scope', '$localStorage', 'iScroll',
-        function($scope, $localStorage, iScroll) {
+        '$scope', '$localStorage', '$timeout', 'iScroll',
+        function($scope, $localStorage, $timeout, iScroll) {
 
             //var jLoading = JSON.parse($localStorage['LOADING']);
 
             function init(){
 
-               $scope.$emit('load');
+                      $scope.$emit('load');
+                             $timeout(function() {
+                               $scope.$emit('unload');
+                             }, 3000);
 
                //$('#load').load(jLoading.wap_help,
                $('#load').load('http://www.tim.com.br',
                   function(response, status, xhr){
 
-                    $scope.$emit('unload');
 
                     /*if(status == "success")
                       alert("Successfully loaded the content!");
@@ -31,6 +33,9 @@ angular
                       alert("An error occurred: " + xhr.status + " - " + xhr.statusText);*/
 
                 });
+
+
+
 
                 $scope.scroll = iScroll.vertical('wrapper');
                 $scope.$on('$destroy', function() {

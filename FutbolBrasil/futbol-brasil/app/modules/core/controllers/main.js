@@ -117,7 +117,7 @@ angular
             }
 
             function onMenuButtonPressed(){
-
+                $scope.$emit('unload');
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
