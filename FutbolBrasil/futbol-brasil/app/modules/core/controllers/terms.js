@@ -16,16 +16,13 @@ angular
             $scope.load = '';
             function init(){
 
-              $scope.$emit('load');
-              $timeout(function() {
-                $scope.$emit('unload');
-              }, 3000);
+              //$scope.$emit('load');
 
               //$('#load').load(jLoading.wap_terms,
               $('#load').load('http://www.tim.com.br',
                 function(response, status, xhr){
 
-
+                  //$scope.$emit('unload');
 
                   /*if(status == "success")
                     alert("Successfully loaded the content!");
@@ -34,9 +31,7 @@ angular
                     alert("An error occurred: " + xhr.status + " - " + xhr.statusText);*/
 
               });
-                  $timeout(function() {
-                      $scope.$emit('unload');
-                  }, 5000);
+
 
               $scope.scroll = iScroll.vertical('wrapper');
               $scope.$on('$destroy', function() {

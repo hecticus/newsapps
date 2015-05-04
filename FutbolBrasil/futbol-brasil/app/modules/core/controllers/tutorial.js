@@ -16,15 +16,13 @@ angular
 
             function init(){
 
-                      $scope.$emit('load');
-                             $timeout(function() {
-                               $scope.$emit('unload');
-                             }, 3000);
+               //$scope.$emit('load');
+
 
                //$('#load').load(jLoading.wap_help,
                $('#load').load('http://www.tim.com.br',
                   function(response, status, xhr){
-
+                    //$scope.$emit('unload');
 
                     /*if(status == "success")
                       alert("Successfully loaded the content!");
