@@ -202,5 +202,5 @@
     "LOADING" : "A Carregar",
     "NOT_AVAILABLE": "Não Disponível",
     "LOGOUT" : "Logout",
-    "READY" : "Você está pronto?"
+    "READY" : "Pular tutorial"
 }

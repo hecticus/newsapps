@@ -30,7 +30,6 @@ angular
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
-            $rootScope.executePushInit = executePushInit;
 
             $scope.toggles = {
                 favorites: true
@@ -54,13 +53,6 @@ angular
             $rootScope.showMenuForward = showMenuForward;
             $rootScope.hasPreviousSubsection = hasPreviousSubsection;
             $rootScope.hideMenuFavorites = hideMenuFavorites;
-
-
-            function executePushInit(extra_params){
-                alert(JSON.stringify(extra_params));
-                //$state.go('news',{newsId:84});
-            }
-
 
             function hasPreviousSubsection(){
                 return angular.element('.page.back.left:last').hasClass('left');
@@ -146,7 +138,6 @@ angular
             }
 
             function showSection(_section) {
-
                 if (_section == $state.current.name) {
                   if ($('#wrapperM').hasClass('right')) {
                     $scope.hideMenu();
@@ -154,7 +145,6 @@ angular
                 } else {
                   $state.go(_section);
                 }
-
             }
 
             function executeAction(action){

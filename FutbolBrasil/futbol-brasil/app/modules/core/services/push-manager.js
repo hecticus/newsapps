@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('PushManager', ['$window',  'ClientManager', 'CordovaDevice',
-        function($window,  ClientManager, CordovaDevice) {
+    .factory('PushManager', ['$state', '$window',  'ClientManager', 'CordovaDevice',
+        function($state, $window,  ClientManager, CordovaDevice) {
             var pushNotification = {};
 
             function tokenHandler(result) {
@@ -54,8 +54,9 @@ angular
                             }
                         }
 
-
-                        //$rootScope.executePushInit(e.payload["extra_params"]);
+                        if (e.payload["extra_params"].is_news) {
+                          $state.go('news',{newsId:e.payload["extra_params"].id_news});
+                        }
 
                         break;
 
@@ -87,7 +88,6 @@ angular
 
             function init(){
                 try {
-                    $rootScope.executePushInit({name:'push'});
 
                     if($window.plugins){
                         pushNotification = $window.plugins.pushNotification;
