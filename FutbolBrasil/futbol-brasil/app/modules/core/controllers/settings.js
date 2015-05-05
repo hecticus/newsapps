@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('SettingsController', [
-        '$scope', '$rootScope', '$state', '$timeout', '$translate', 'ClientManager'
+        '$scope', '$rootScope', '$state', '$timeout', '$translate', '$stateParams', 'ClientManager'
         , 'TeamsManager', 'FacebookManager', 'Settings', 'iScroll', 'i18n', 'Client', 'Notification',
-        function($scope, $rootScope, $state, $timeout, $translate, ClientManager, TeamsManager
+        function($scope, $rootScope, $state, $timeout, $translate, $stateParams, ClientManager, TeamsManager
             , FacebookManager, Settings, iScroll, i18n, Client, Notification) {
 
             var strings = {};
@@ -58,7 +58,7 @@ angular
             $scope.teamSelected = function(team){
                 if($scope.isEmptySlot(team)){
                     $scope.$emit('load');
-                    $state.go('team-selection');
+                    $state.go('team-selection',{newClient:$stateParams.newClient});
                 }
             };
 
@@ -135,7 +135,7 @@ angular
 
             $scope.selectLanguage = function(){
                 $scope.$emit('load');
-                $state.go('language-selection');
+                $state.go('language-selection',{newClient:$stateParams.newClient});
             };
 
             function getFavoriteTeams(){
@@ -216,18 +216,19 @@ angular
 
             function onMain(){
                  if (Client.getNickname() == undefined) {
-
                     Notification.showInfoAlert({
                         title: strings['SET_USERNAME_TITLE'],
                         subtitle: strings['SET_USERNAME_SUBTITLE'],
                         message: strings['SET_USERNAME_MSG'],
                         type: 'success'
                     });
-
-
                  } else {
                     $rootScope.$storage.settings = true;
-                    $state.go('prediction');
+                    if($stateParams.newClient){
+                      $state.go('tutorial');
+                    } else {
+                      $state.go('prediction');
+                    }
                  };
             }
 

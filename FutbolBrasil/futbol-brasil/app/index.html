@@ -32,23 +32,18 @@
 
     <script src="cordova.js"></script>
 
-    <!--style type="text/css" media="screen">
+    <style type="text/css" media="screen">
 
       @font-face {
         font-family: TeutonNormal;
-        src: url(font/TeutonNormal.otf);
-      }
-
-      @font-face {
-        font-family: TeutonNormalBold;
-        src: url(font/TeutonNormal-Bold.otf);
+        src: url(font/teutonnormal-webfont.woff);
       }
 
       body {
         font-family: TeutonNormal !important;
       }
 
-    </style-->
+    </style>
 
 
 </head>
@@ -69,7 +64,7 @@
                     <div class="col-xs-2 text-left" style="height:50px; line-height:50px; ">
                         <i class="drawer-title" ng-hide="(hideMenuIcon() === true)"
                           ng-class="getDrawerIcon()"
-                          ng-click="onMenuButtonPressed()" ></i>
+                          ng-click="onMenuButtonPressed()"></i>
                     </div>
                     <div class="col-xs-8 text-center"style="height:50px; line-height:50px; ">
                         <img class="h-logo" src="img/tim-01.svg" onerror="this.src='img/tim-01.png'" >
@@ -99,16 +94,6 @@
     <loading></loading>
 
     <menu ng-cloak>
-
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="col-xs-2">
-          </div>
-          <div class="col-xs-8 text-right" style="padding-right:0 !important;">
-            <img class="h-logo menu" src="img/tim-01.svg" onerror="this.src='img/tim-01.png'" >
-          </div>
-        </div>
-      </div>
 
         <menu-item section="prediction" icon="mdi-action-event">
           {{'SECTIONS.BETS' | translate}}
@@ -298,6 +283,7 @@
 <script src="modules/core/directives/menu.js"></script>
 <script src="modules/core/directives/my-scroll.js"></script>
 <script src="modules/core/directives/on-last-repeat.js"></script>
+<script src="modules/core/controllers/how-does-it-work.js"></script>
 <script src="modules/core/controllers/language-selection.js"></script>
 <script src="modules/core/controllers/leaderboard.js"></script>
 <script src="modules/core/controllers/login.js"></script>

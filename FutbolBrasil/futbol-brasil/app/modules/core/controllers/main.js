@@ -30,7 +30,7 @@ angular
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
-
+            $rootScope.executePushInit = executePushInit;
 
             $scope.toggles = {
                 favorites: true
@@ -55,6 +55,13 @@ angular
             $rootScope.hasPreviousSubsection = hasPreviousSubsection;
             $rootScope.hideMenuFavorites = hideMenuFavorites;
 
+
+            function executePushInit(extra_params){
+                alert(JSON.stringify(extra_params));
+                //$state.go('news',{newsId:84});
+            }
+
+
             function hasPreviousSubsection(){
                 return angular.element('.page.back.left:last').hasClass('left');
             }
@@ -63,6 +70,7 @@ angular
               if ((getSection() === 'login')
                   || (getSection() === 'settings')
                   || (getSection() === 'remind')
+                  || (getSection() === 'tutorial')
                   || (getSection() === 'language-selection')
                   || (getSection() === 'team-selection')
                   || ($('.content-news #wrapper2').hasClass('left'))
@@ -84,6 +92,7 @@ angular
 
             function hideMenuIcon() {
               if (((getSection() === 'login') && !hasPreviousSubsection())
+                  || (getSection() === 'tutorial')
                   || ((getSection() === 'settings') &&
                       (!$rootScope.$storage.settings))) {
                 return true;
@@ -102,16 +111,16 @@ angular
                         //$scope.hideMenu();
                         $window.removeEventListener('touchmove');
                     });
-
+                    $rootScope.menuScroll.scrollTo(0,0,0);
                     $rootScope.transitionPage('#wrapperM', 'right');
-                     $scope.$emit('load');
+                    $scope.$emit('load');
                 }
             }
 
             function hideMenu() {
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
-                    $rootScope.menuScroll.scrollTo(0,0,0);
+                    //$rootScope.menuScroll.scrollTo(0,0,0);
                     $scope.$emit('unload');
                 }
             }

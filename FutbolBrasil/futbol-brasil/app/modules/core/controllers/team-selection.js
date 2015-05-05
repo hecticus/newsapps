@@ -8,8 +8,8 @@
 */
 angular
     .module('core')
-    .controller('TeamSelectionController', ['$scope', '$state', 'TeamsManager', 'iScroll',
-        function($scope, $state, TeamsManager, iScroll) {
+    .controller('TeamSelectionController', ['$scope', '$state', '$stateParams', 'TeamsManager', 'iScroll',
+        function($scope, $state, $stateParams, TeamsManager, iScroll) {
             var scroll = null;
             var teams = [];
             var maxItems = 10;
@@ -32,7 +32,7 @@ angular
 
             function teamSelected(team){
                 TeamsManager.addFavoriteTeam(team, function(){
-                    $state.go('settings');
+                    $state.go('settings',{newClient:$stateParams.newClient});
                 });
             }
 
@@ -72,7 +72,7 @@ angular
 
             function getTeams(offset, pageSize){
                 if(!offset){ offset = 0}
-                if(!pageSize){ pageSize = 200}
+                if(!pageSize){ pageSize = 1000}
                 $scope.$emit('load');
                 TeamsManager.getTeams(offset, pageSize).then(function(pTeams){
                     $scope.hasTeams = true;

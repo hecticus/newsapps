@@ -21,6 +21,7 @@
         "LANGUAGE-SELECTION" : "Language Selection",
         "TEAM-SELECTION" : "Language Selection",
         "TERMS": "Terms",
+        "HOW": "How does it work",
         "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
@@ -88,7 +89,7 @@
         "LOGIN_LABEL" : "Login",
         "REMIND_LABEL" : "Remind / Get Credentials",
         "CHANGE_LANGUAGE_LABEL" : "Change Language",
-        "TUTORIAL_LABEL" : "Tutorial",
+        "TUTORIAL_LABEL" : "How does it work?",
         "TERMS_LABEL" : "Terms & Conditions",
         "ENTER_AS_GUEST_LABEL" : "Enter as Guest",
         "REMIND" : {
@@ -197,5 +198,7 @@
     "NEXT" : "Next",
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available",
-    "LOGOUT" : "Log Out"
+    "LOGOUT" : "Log Out",
+    "READY" : "Are you ready?"
+
 }

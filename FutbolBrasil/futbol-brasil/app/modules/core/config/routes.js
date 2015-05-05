@@ -49,7 +49,7 @@ angular
                 }
             })
             .state('settings', {
-                url: '/settings',
+                url: '/settings/{newClient}',
                 templateUrl:'modules/core/views/settings.html',
                 controller:'SettingsController',
                 data:{
@@ -61,7 +61,7 @@ angular
                 }
             })
             .state('team-selection', {
-                url: '/team-selection',
+                url: '/team-selection/{newClient}',
                 templateUrl:'modules/core/views/team-selection.html',
                 controller:'TeamSelectionController',
                 data:{
@@ -73,7 +73,7 @@ angular
                 }
             })
             .state('language-selection', {
-                url: '/language-selection',
+                url: '/language-selection/{newClient}',
                 templateUrl:'modules/core/views/language-selection.html',
                 controller:'LanguageSelectionController',
                 data:{
@@ -208,6 +208,20 @@ angular
                     state: 'terms'
                 }
             })
+
+            .state('how', {
+              url: '/how',
+              controller:'HowDoesItWorkController as how',
+              templateUrl:'modules/core/views/how-does-it-work.html',
+              data:{
+                  prev: 'settings',
+                  next: 'prediction',
+                  contentClass: 'content-how',
+                  section: 'how',
+                  state: 'how'
+              }
+            })
+
             .state('tutorial', {
                 url: '/tutorial',
                 controller:'TutorialController as tutorial',

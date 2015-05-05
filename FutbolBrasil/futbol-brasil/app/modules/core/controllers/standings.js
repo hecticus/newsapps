@@ -25,6 +25,7 @@ angular
                 return Moment.date(_date).format('MMMM Do YYYY');
             };
 
+
             $scope.showContentPhases = function(competition) {
                 $scope.$emit('load');
                 $scope.item.ranking = [];
@@ -60,6 +61,7 @@ angular
                     item.ranking.forEach(function(outerRanking){
                         outerRanking.ranking.forEach(function(innerRanking){
                             if(item.isTree){
+
                                 var awayTeam = innerRanking.awayTeam;
                                 var homeTeam = innerRanking.homeTeam;
                                 if(awayTeam.name === '' || !awayTeam.name){
@@ -68,6 +70,9 @@ angular
                                 if(homeTeam.name === '' || !homeTeam.name){
                                     homeTeam.name = $scope.strings.NOT_AVAILABLE;
                                 }
+
+                                innerRanking.status.name = 'MATCH.STATUS.' + innerRanking.status.id_status;
+
                             } else {
                                 var team = innerRanking.team;
                                 if(team.name === '' || !team.name){
