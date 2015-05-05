@@ -16,12 +16,26 @@ public class DateAndTime {
 		Date date = df.parse(strDate);
 		return date;
 	}
+
+    public static Date getDate(String strDate, String format, TimeZone timeZone) throws ParseException{
+        DateFormat df = new SimpleDateFormat(format);
+        df.setTimeZone(timeZone);
+        Date date = df.parse(strDate);
+        return date;
+    }
 	
 	public static String getDate(Date date, String format) throws ParseException{
 		DateFormat df = new SimpleDateFormat(format);
 		String strDate = df.format(date);
 		return strDate;
 	}
+
+    public static String getDate(Date date, String format, TimeZone timeZone) throws ParseException{
+        DateFormat df = new SimpleDateFormat(format);
+        df.setTimeZone(timeZone);
+        String strDate = df.format(date);
+        return strDate;
+    }
 	
 	public static Time getTime(String strTime, String format) throws ParseException{
 		SimpleDateFormat sdf = new SimpleDateFormat(format);

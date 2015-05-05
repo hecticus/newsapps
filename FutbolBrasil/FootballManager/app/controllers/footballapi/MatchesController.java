@@ -237,20 +237,30 @@ public class MatchesController extends HecticusController {
                 Calendar today = new GregorianCalendar(timeZone);
                 String date = DateAndTime.getMinimumDate(today, timezoneName, "yyyMMdd");
                 ArrayList<ObjectNode> data = new ArrayList();
-
                 Competition competition = app.getCompetition(idCompetition);
                 if (competition != null) {
                     List<Phase> phases = Phase.getPhasesFromDate(competition, date);
                     if (phases == null || phases.isEmpty()) {
                         phases = Phase.getLatestPhasesPaged(competition, 0, 1);
                     }
+                    Phase uniquePhaseByDate = Phase.getUniquePhaseByDate(competition, date);
+                    if(uniquePhaseByDate != null){
+                        phases.add(uniquePhaseByDate);
+                    }
+                    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+                    df.setTimeZone(TimeZone.getTimeZone("UTC"));
                     if (phases != null & !phases.isEmpty()) {
                         List<GameMatch> gameMatches = GameMatch.finder.where().eq("competition", competition).in("phase", phases).orderBy("date asc").findList();
                         if (gameMatches != null && !gameMatches.isEmpty()) {
                             ArrayList<ObjectNode> fixtures = new ArrayList<>();
                             String pivot = gameMatches.get(0).getDate().substring(0, 8);
+                            Calendar pivotMaximumDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                            pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
+                            Calendar maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
                             for (GameMatch gameMatch : gameMatches) {
-                                if (gameMatch.getDate().startsWith(pivot)) {
+                                Calendar matchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                                matchDate.setTime(DateAndTime.getDate(gameMatch.getDate(), "yyyyMMddHHmmss", TimeZone.getTimeZone("UTC")));
+                                if (matchDate.before(maximumDate)) {
                                     fixtures.add(gameMatch.toJsonSimple());
                                 } else {
                                     ObjectNode round = Json.newObject();
@@ -260,6 +270,8 @@ public class MatchesController extends HecticusController {
                                     fixtures.clear();
                                     fixtures.add(gameMatch.toJsonSimple());
                                     pivot = gameMatch.getDate().substring(0, 8);
+                                    pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
+                                    maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
                                 }
                             }
                             if (!fixtures.isEmpty()) {
