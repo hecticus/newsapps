@@ -335,7 +335,11 @@ public class Phase extends HecticusModel {
     }
 
     public static Phase getUniquePhaseByDate(Competition competition, String formattedToday){
-        return finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).findUnique();
+        return finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).ne("type", 1).findUnique();
+    }
+
+    public static List<Phase> getUniquePhaseByDateList(Competition competition, String formattedToday){
+        return finder.where().eq("comp", competition).le("startDate", formattedToday).ge("endDate", formattedToday).ne("type", 1).findList();
     }
 
     public static List<Phase> getPhasesFromDate(Competition competition, String date){

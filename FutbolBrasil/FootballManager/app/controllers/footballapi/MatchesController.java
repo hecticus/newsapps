@@ -243,9 +243,9 @@ public class MatchesController extends HecticusController {
                     if (phases == null || phases.isEmpty()) {
                         phases = Phase.getLatestPhasesPaged(competition, 0, 1);
                     }
-                    Phase uniquePhaseByDate = Phase.getUniquePhaseByDate(competition, date);
+                    List<Phase> uniquePhaseByDate = Phase.getUniquePhaseByDateList(competition, date);
                     if(uniquePhaseByDate != null){
-                        phases.add(uniquePhaseByDate);
+                        phases.addAll(uniquePhaseByDate);
                     }
                     SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
                     df.setTimeZone(TimeZone.getTimeZone("UTC"));

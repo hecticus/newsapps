@@ -870,8 +870,13 @@ public class Clients extends HecticusController {
                         Collections.sort(modifiedFixtures, new FixturesComparator());
 
                         String pivot = modifiedFixtures.get(0).get("date").asText().substring(0, 8);
+                        Calendar pivotMaximumDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                        pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
+                        Calendar maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
                         for (ObjectNode gameMatch : modifiedFixtures){
-                            if(gameMatch.get("date").asText().startsWith(pivot)){
+                            Calendar matchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                            matchDate.setTime(DateAndTime.getDate(gameMatch.get("date").asText(), "yyyyMMddHHmmss", TimeZone.getTimeZone("UTC")));
+                            if (matchDate.before(maximumDate)) {
                                 orderedFixtures.add(gameMatch);
                             } else {
                                 ObjectNode round = Json.newObject();
@@ -881,6 +886,8 @@ public class Clients extends HecticusController {
                                 orderedFixtures.clear();
                                 orderedFixtures.add(gameMatch);
                                 pivot = gameMatch.get("date").asText().substring(0, 8);
+                                pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
+                                maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
                             }
                         }
                         if(!orderedFixtures.isEmpty()){
