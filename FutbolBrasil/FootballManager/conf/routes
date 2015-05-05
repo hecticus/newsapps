@@ -164,6 +164,9 @@ GET     /api/v1/calendar/get/:idApp/:idCompetition                              
 GET     /footballapi/v2/:idApp/match/:idGameMatch                                                   controllers.footballapi.MatchesController.getFixturesByID(idApp : Integer, idGameMatch : Integer)
 
 
+#Teams
+GET     /footballapi/v2/teams/:idTeam                                                               controllers.footballapi.TeamsController.getTeamsGt(idTeam: Long)
+
 
 
 # Authenticate
