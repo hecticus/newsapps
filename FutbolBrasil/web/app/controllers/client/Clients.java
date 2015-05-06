@@ -1385,7 +1385,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null, client.getSession());
             //agregamos el msisdn(username) y el password
             fields.put("password", password);
             fields.put("msisdn", msisdn);
@@ -1477,7 +1477,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, login, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null, client.getSession());
             //agregamos el user_id
             fields.put("user_id", userID);
 
@@ -1573,7 +1573,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null, client.getSession());
             //agregamos el username y el password
             fields.put("password", password);
             fields.put("username", username);
@@ -1663,7 +1663,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null, client.getSession());
             fields.put("user_id", userID); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -1745,7 +1745,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, msisdn, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, null, client.getSession());
             fields.put("msisdn", msisdn); //agregamos el UserID al request
 
             //realizamos la llamada al WS
@@ -1847,7 +1847,7 @@ public class Clients extends HecticusController {
             WSRequestHolder urlCall = setUpstreamRequest(url, username, password);
 
             //llenamos el JSON a enviar
-            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, metadata);
+            ObjectNode fields = getBasicUpstreamPOSTRequestJSON(upstreamChannel, push_notification_id, metadata, client.getSession());
             fields.put("user_id", userID); //agregamos el UserID al request
             fields.put("event_type", event_type); //agregamos el evento
             fields.put("timestamp", formatDateUpstream()); //agregamos el time
@@ -1911,7 +1911,7 @@ public class Clients extends HecticusController {
         return urlCall;
     }
     //set basic POST data for UPSTREAM
-    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id, ObjectNode metadata){
+    private static ObjectNode getBasicUpstreamPOSTRequestJSON(String upstreamChannel, String push_notification_id, ObjectNode metadata, String sessionId){
         String upstreamServiceID = Config.getString("upstreamServiceID"); //prototype-app -SubscriptionDefault
         String upstreamAppVersion = Config.getString("upstreamAppVersion"); //gamingapi.v1
 
@@ -1927,6 +1927,9 @@ public class Clients extends HecticusController {
         //"channel":"Android","result":null,"points":null, "app_version":"gamingapi.v1","session_id":null
         metadata.put("channel",upstreamChannel);
         metadata.put("app_version",upstreamAppVersion);
+        if(sessionId != null) {
+            metadata.put("session_id", sessionId);
+        }
         fields.put("metadata",metadata);
         return fields;
     }
