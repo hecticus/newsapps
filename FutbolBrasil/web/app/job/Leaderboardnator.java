@@ -120,7 +120,7 @@ public class Leaderboardnator extends HecticusThread {
                         event.put("extra_params", extraParams);
                         sendPush(event);
                     } catch (Exception e){
-                        e.printStackTrace();
+                        Utils.printToLog(Leaderboardnator.class, null, "Error creando push de finalizacion de phase", false, e, "support-level-1", Config.LOGGER_ERROR);
                     } finally {
                         event.removeAll();
                         extraParams.removeAll();

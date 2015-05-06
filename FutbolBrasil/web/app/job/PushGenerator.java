@@ -51,7 +51,7 @@ public class PushGenerator extends HecticusThread {
 
     @Override
     public void process(Map args) {
-        Utils.printToLog(PushGenerator.class, null, "Iniciando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
+//        Utils.printToLog(PushGenerator.class, null, "Iniciando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
         try {
             pmcIdApp = Config.getInt("pmc-id-app");
             idActionPhaseFinished = Integer.parseInt(""+args.get("id_action"));
@@ -59,8 +59,8 @@ public class PushGenerator extends HecticusThread {
             getEventsToGenerate();
         } catch (Exception ex) {
             Utils.printToLog(PushGenerator.class, null, "Error generado push", true, ex, "support-level-1", Config.LOGGER_ERROR);
-        } finally {
-            Utils.printToLog(PushGenerator.class, null, "Terminando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
+//        } finally {
+//            Utils.printToLog(PushGenerator.class, null, "Terminando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
         }
     }
 

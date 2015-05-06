@@ -48,15 +48,15 @@ public class TeamsSynchronizer extends HecticusThread {
 
     @Override
     public void process(Map args) {
-        Utils.printToLog(TeamsSynchronizer.class, null, "Iniciando TeamsSynchronizer", false, null, "support-level-1", Config.LOGGER_INFO);
+//        Utils.printToLog(TeamsSynchronizer.class, null, "Iniciando TeamsSynchronizer", false, null, "support-level-1", Config.LOGGER_INFO);
         try {
             PushAlerts lastTeamAlert = PushAlerts.getLastTeamAlert();
             int id = lastTeamAlert != null ? lastTeamAlert.getIdExt() : 0;
             synchTeams(id);
         } catch (Exception ex) {
             Utils.printToLog(TeamsSynchronizer.class, null, "Error sincornizando equipos", true, ex, "support-level-1", Config.LOGGER_ERROR);
-        } finally {
-            Utils.printToLog(TeamsSynchronizer.class, null, "Terminando TeamsSynchronizer", false, null, "support-level-1", Config.LOGGER_INFO);
+//        } finally {
+//            Utils.printToLog(TeamsSynchronizer.class, null, "Terminando TeamsSynchronizer", false, null, "support-level-1", Config.LOGGER_INFO);
         }
     }
 
