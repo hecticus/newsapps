@@ -201,5 +201,5 @@
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible",
     "LOGOUT" : "Cerrar Sesión",
-    "READY" : "¿Estás listo?"
+    "READY" : "Saltar tutorial"
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Action;
 import models.basic.Config;
+import models.basic.Language;
 import models.clients.Client;
 import play.libs.F;
 import play.libs.Json;
@@ -25,6 +26,7 @@ public class PushGenerator extends HecticusThread {
 
     private int pmcIdApp;
     private int idActionPhaseFinished;
+    private int defaultLanguage;
 
     public PushGenerator() {
         setRun(Utils.run);
@@ -53,11 +55,12 @@ public class PushGenerator extends HecticusThread {
         try {
             pmcIdApp = Config.getInt("pmc-id-app");
             idActionPhaseFinished = Integer.parseInt(""+args.get("id_action"));
+            defaultLanguage = Integer.parseInt(""+args.get("default_language"));
             getEventsToGenerate();
         } catch (Exception ex) {
-            Utils.printToLog(PushGenerator.class, null, "Error generado push", false, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(PushGenerator.class, null, "Error generado push", true, ex, "support-level-1", Config.LOGGER_ERROR);
         } finally {
-            Utils.printToLog(PushGenerator.class, null, "Termianndo PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
+            Utils.printToLog(PushGenerator.class, null, "Terminando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
         }
     }
 
@@ -72,8 +75,9 @@ public class PushGenerator extends HecticusThread {
     }
 
     private void getEventsToGenerate() {
-        Set<Integer> clientsForEvent = null;
+        Map<Integer, ArrayList<Integer>> clientsForEvent = null;
         JsonNode data = null;
+        Language language = null;
         try {
             F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/pushable/get/" + Config.getInt("football-manager-id-app")).get();
             ObjectNode response = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
@@ -92,12 +96,15 @@ public class PushGenerator extends HecticusThread {
                                 if (events.hasNext()) {
                                     clientsForEvent = getClientsForEvent(match, true);
                                     if(clientsForEvent != null && !clientsForEvent.isEmpty()) {
-                                        sendEvents(match.get("id_game_matches").asInt(), clientsForEvent, events, match.get("home_team").get("name").asText(), match.get("away_team").get("name").asText());
+                                        for(int i : clientsForEvent.keySet()) {
+                                            language = Language.finder.byId(i);
+                                            sendEvents(match.get("id_game_matches").asInt(), clientsForEvent.get(i), next.get("events").elements(), match.get("home_team").get("name").asText(), match.get("away_team").get("name").asText(), language);
+                                        }
                                     }
                                 }
                             }
                         } catch (Exception e){
-                            e.printStackTrace();
+                            Utils.printToLog(PushGenerator.class, null, "Error procesando min a min", false, e, "support-level-1", Config.LOGGER_ERROR);
                         }
                     }
                 }
@@ -106,7 +113,9 @@ public class PushGenerator extends HecticusThread {
                     Iterator<JsonNode> news = data.get("news").elements();
                     clientsForEvent = getClientsForEvent(null, false);
                     if(clientsForEvent != null && !clientsForEvent.isEmpty() && news.hasNext()) {
-                        sendEvents(-1, clientsForEvent, news, null, null);
+                        for(int i : clientsForEvent.keySet()) {
+                            sendEvents(-1, clientsForEvent.get(i), data.get("news").elements(), null, null, null);
+                        }
                     }
                 }
             }
@@ -128,10 +137,13 @@ public class PushGenerator extends HecticusThread {
                     try {
                         clientsForEvent = getClientsForEvent(next, false);
                         if(clientsForEvent != null && !clientsForEvent.isEmpty()) {
-                            sendEvents(-1, clientsForEvent, next, null, null);
+                            for(int i : clientsForEvent.keySet()) {
+                                language = Language.finder.byId(i);
+                                sendEvents(-1, clientsForEvent.get(i), next, null, null, language);
+                            }
                         }
                     } catch (Exception e){
-                        e.printStackTrace();
+                        Utils.printToLog(PushGenerator.class, null, "Error procesando final de phase", false, e, "support-level-1", Config.LOGGER_ERROR);
                     }
                 }
             }
@@ -140,7 +152,7 @@ public class PushGenerator extends HecticusThread {
         }
     }
 
-    private void sendEvents(int idGameMatch, Set<Integer> clientsForEvent, Object events, String home, String away) {
+    private void sendEvents(int idGameMatch, ArrayList<Integer> clientsForEvent, Object events, String home, String away, Language language) {
         ObjectNode event = Json.newObject();
         ObjectNode extraParams = Json.newObject();
         event.put("clients", Json.toJson(clientsForEvent));
@@ -151,7 +163,12 @@ public class PushGenerator extends HecticusThread {
                 JsonNode next = eventsIterator.next();
                 try {
                     if (idGameMatch != -1) {
-                        String msg = resolveActionText(next, home, away);
+                        String msg = resolveActionText(next, home, away, language);
+                        if(msg == null) {
+                            int idAction = next.get("action").get("id_action").asInt();
+                            Utils.printToLog(PushGenerator.class, "Accion desconocida", "La accion " + idAction + " no existe en Football Brazil", true, null, "support-level-1", Config.LOGGER_ERROR);
+                            continue;
+                        }
                         event.put("msg", URLEncoder.encode(msg, "UTF-8"));
                         extraParams.put("id_game_match", idGameMatch);
                         extraParams.put("id_action", next.get("action").get("id_action").asInt());
@@ -166,32 +183,41 @@ public class PushGenerator extends HecticusThread {
                     event.put("extra_params", extraParams);
                     sendEventToPmc(event);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Utils.printToLog(PushGenerator.class, null, "Error enviando eventos", false, e, "support-level-1", Config.LOGGER_ERROR);
                 }
             }
         } else {
             try {
                 JsonNode phase = (JsonNode) events;
-                String msg = resolveActionText(phase, home, away);
+                String msg = resolveActionText(phase, home, away, language);
+                if(msg == null) {
+                    Utils.printToLog(PushGenerator.class, "Accion desconocida", "La accion de finalizacion de phase " + idActionPhaseFinished + " no existe en Football Brazil", true, null, "support-level-1", Config.LOGGER_ERROR);
+                    return;
+                }
                 event.put("msg", URLEncoder.encode(msg, "UTF-8"));
                 extraParams.put("is_news", false);
                 extraParams.put("is_info", true);
                 event.put("extra_params", extraParams);
                 sendEventToPmc(event);
             } catch (Exception e) {
-                e.printStackTrace();
+                Utils.printToLog(PushGenerator.class, null, "Error enviando eventos", false, e, "support-level-1", Config.LOGGER_ERROR);
             }
-
         }
     }
 
-    private String resolveActionText(JsonNode event, String home, String away) {
+    private String resolveActionText(JsonNode event, String home, String away, Language language) {
         Action action = null;
         if(event.has("action")){
             int idAction = event.get("action").get("id_action").asInt();
-            action = Action.finder.where().eq("extId", idAction).findUnique();
+            action = Action.finder.where().eq("extId", idAction).eq("language.idLanguage", language.getIdLanguage()).findUnique();
+            if(action == null){
+                action = Action.finder.where().eq("extId", idAction).eq("language.idLanguage", defaultLanguage).findUnique();
+            }
         } else {
             action = Action.finder.byId(idActionPhaseFinished);
+        }
+        if(action == null){
+            return null;
         }
         String msg = action.getMsg();
         if(msg.contains("%TEAM%")){
@@ -215,16 +241,15 @@ public class PushGenerator extends HecticusThread {
         return msg;
     }
 
-    private Set<Integer> getClientsForEvent(JsonNode event, boolean minToMin) throws Exception {
-        Set<Integer> clientIDs = null;
-        ArrayList<Integer> clients = null;
+    private Map<Integer, ArrayList<Integer>> getClientsForEvent(JsonNode event, boolean minToMin) throws Exception {
+        Map<Integer, ArrayList<Integer>> clients = null;
         if(event != null) {
             if(minToMin) {
                 int home = event.get("home_team").get("id_teams").asInt();
                 int away = event.get("away_team").get("id_teams").asInt();
                 clients = ClientsCache.getInstance().getTeamClients(home);
-                ArrayList<Integer> awayClients = ClientsCache.getInstance().getTeamClients(away);
-                clients.addAll(awayClients);
+                Map<Integer, ArrayList<Integer>> awayClients = ClientsCache.getInstance().getTeamClients(away);
+                mergeClients(clients, awayClients);
             } else {
                 int tournament = event.get("competition_id").asInt();
                 clients = ClientsCache.getInstance().getTournamentClients(tournament);
@@ -232,8 +257,17 @@ public class PushGenerator extends HecticusThread {
         } else {
             clients = ClientsCache.getInstance().getTournamentClients(-1);
         }
-        clientIDs = new HashSet(clients);
-        return clientIDs;
+        return clients;
+    }
+
+    private void mergeClients(Map<Integer, ArrayList<Integer>> home, Map<Integer, ArrayList<Integer>> away){
+        for(int i :away.keySet()){
+            if(home.containsKey(i)){
+                home.get(i).addAll(away.get(i));
+            } else {
+                home.put(i, away.get(i));
+            }
+        }
     }
 }
 

@@ -23,8 +23,6 @@ public class TeamsController  extends HecticusController {
     public static Result getTeamsForApp(Integer idApp, Integer pageSize, Integer page){
         try {
             Apps app = Apps.findId(idApp);
-            ObjectNode response = null;
-            ArrayList data = new ArrayList();
             ArrayList responseData = new ArrayList();
             List<Team> teams = null;
             if(pageSize == 0){
@@ -35,10 +33,9 @@ public class TeamsController  extends HecticusController {
             for(Team team : teams){
                 responseData.add(team.toJsonSimple());
             }
-            response = hecticusResponse(0, "ok", "teams", responseData);
-            return ok(response);
+            return ok(hecticusResponse(0, "ok", "teams", responseData));
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -79,5 +76,22 @@ public class TeamsController  extends HecticusController {
 
         }
         return badRequest(result);
+    }
+
+    public static Result getTeamsGt(Long idTeam){
+        ObjectNode result = Json.newObject();
+        try{
+            List<Team> teams = Team.finder.where().gt("idTeams", idTeam).findList();
+            ArrayList<ObjectNode> teamsList = new ArrayList<>();
+            if(teams != null && !teams.isEmpty()){
+                for(Team team : teams){
+                    teamsList.add(team.toJsonSimple());
+                }
+            }
+            return ok(hecticusResponse(0, "ok", "teams", teamsList));
+        }catch(Exception ex){
+            Utils.printToLog(TeamsController.class, "Error desconocido en Play", "Ocurrio un error en getTeam, con el parámetro " + idTeam, true, ex, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
     }
 }

@@ -199,6 +199,6 @@
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available",
     "LOGOUT" : "Log Out",
-    "READY" : "Are you ready?"
+    "READY" : "Skip tutorial"
 
 }

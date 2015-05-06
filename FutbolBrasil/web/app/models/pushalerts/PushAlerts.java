@@ -76,4 +76,8 @@ public class PushAlerts extends HecticusModel {
         objNode.put("pushable", pushable);
         return objNode;
     }
+
+    public static PushAlerts getLastTeamAlert(){
+        return finder.where().ne("idExt", -1).orderBy("idExt desc").setMaxRows(1).findUnique();
+    }
 }

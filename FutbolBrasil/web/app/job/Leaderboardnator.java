@@ -61,7 +61,7 @@ public class Leaderboardnator extends HecticusThread {
             processPushEvents(pmcIdApp, pageSize, idAction);
             Utils.printToLog(Leaderboardnator.class, null, "Terminando Leaderboardnator", false, null, "support-level-1", Config.LOGGER_INFO);
         } catch (Exception ex) {
-            Utils.printToLog(Leaderboardnator.class, null, "Error calculando leadeboards", false, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Leaderboardnator.class, null, "Error calculando leadeboards", true, ex, "support-level-1", Config.LOGGER_ERROR);
         }
     }
 
@@ -148,7 +148,7 @@ public class Leaderboardnator extends HecticusThread {
             ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
             return response.get("error").asInt() == 0;
         } catch (Exception e){
-            e.printStackTrace();
+            Utils.printToLog(Leaderboardnator.class, null, "Error enviando notificacion a upstrem", false, e, "support-level-1", Config.LOGGER_ERROR);
             return false;
         }
     }

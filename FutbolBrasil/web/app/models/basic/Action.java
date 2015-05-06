@@ -6,9 +6,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by plesse on 1/29/15.
@@ -26,6 +24,11 @@ public class Action extends HecticusModel {
     private String msg;
     @Constraints.Required
     private Integer extId;
+
+    @OneToOne
+    @JoinColumn(name = "id_language")
+    @Constraints.Required
+    private Language language;
 
     public static Model.Finder<Integer, Action> finder = new Model.Finder<Integer, Action>(Integer.class, Action.class);
 
@@ -65,6 +68,14 @@ public class Action extends HecticusModel {
 
     public void setExtId(Integer extId) {
         this.extId = extId;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     @Override

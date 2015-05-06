@@ -96,11 +96,11 @@ angular
                         type: 'success'
                     });
                     console.log('new client. going to settings');
-                    $state.go('settings',{newClient:true});
+                    $state.go('settings',{newClient:false});
                 } else {
                     console.log('existing client. going to news');
-                    $state.go('settings', {newClient:true});
-                    //$state.go('prediction');
+                    //$state.go('settings', {newClient:true});
+                    $state.go('prediction');
                 }
             }
 

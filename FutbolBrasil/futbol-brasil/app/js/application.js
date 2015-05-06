@@ -62,12 +62,14 @@ angular
             });
 
             $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams){
+
                 $rootScope.error = false;
                 $rootScope.$emit('unload');
 
                 if($rootScope.hideMenu){ $rootScope.hideMenu(); }
 
                 if(CordovaApp.requiresAuthSection(toState.name)){
+
                     if(!Client.isClientOk()){
                         console.log('client data not loaded. Loading client data again.');
                         ClientManager.init()
