@@ -149,7 +149,7 @@ public class OptasportsScraper extends HecticusThread {
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList competitions = (NodeList) xPath.compile("gsmrs/competition").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; i < competitions.getLength(); i++) {
+            for (int i = 0;isAlive() && i < competitions.getLength(); i++) {
                 Node currentCompetition = competitions.item(i);
                 try{
                     //get data from current comp
@@ -163,7 +163,7 @@ public class OptasportsScraper extends HecticusThread {
                     category.validate(language);
                     //seasons
                     NodeList competitionSeasons = (NodeList) xPath.compile("season").evaluate(currentCompetition, XPathConstants.NODESET);
-                    for (int j = 0; j < competitionSeasons.getLength(); j++){
+                    for (int j = 0;isAlive() && j < competitionSeasons.getLength(); j++){
                         //for each season
                         Node currentSeason = competitionSeasons.item(j);
                         String currentSeasonId = xPath.compile("@season_id").evaluate(currentSeason),
@@ -223,7 +223,7 @@ public class OptasportsScraper extends HecticusThread {
             XPath xPath =  XPathFactory.newInstance().newXPath();
 
             NodeList rounds = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; i < rounds.getLength(); i++){
+            for (int i = 0; isAlive() && i < rounds.getLength(); i++){
                 try {
                     Node currentRound = rounds.item(i);
                     Phase gamePhase = null;
@@ -242,10 +242,10 @@ public class OptasportsScraper extends HecticusThread {
                                     0, i, i);
                             //get groups then matches
                             NodeList groups = (NodeList) xPath.compile("group").evaluate(currentRound, XPathConstants.NODESET);
-                            for (int j = 0; j < groups.getLength(); j++){
+                            for (int j = 0; isAlive() && j < groups.getLength(); j++){
                                 Node currentGroup = (Node) groups.item(j);
                                 NodeList matches = (NodeList) xPath.compile("match").evaluate(currentGroup, XPathConstants.NODESET);
-                                for (int k = 0; k < matches.getLength(); k++){
+                                for (int k = 0; isAlive() && k < matches.getLength(); k++){
                                     Node currentMatch = (Node) matches.item(k);
                                     //gameweek
                                     String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
@@ -304,7 +304,7 @@ public class OptasportsScraper extends HecticusThread {
                             int currentRoundMinDate = Integer.parseInt(currentRoundStartDate),
                                     currentRoundMaxDate = Integer.parseInt(currentRoundEndDate);
                             generateRounds(matches,c,xPath,currentRoundName,currentRoundId,currentRoundMinDate, currentRoundMaxDate);
-                            for (int k = 0; k < matches.getLength(); k++) {
+                            for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
                                 //gameweek
                                 int currentGameWeek = stringIntParser(xPath.compile("@gameweek").evaluate(currentMatch));
@@ -367,10 +367,10 @@ public class OptasportsScraper extends HecticusThread {
                                 0, i, i);
                         gamePhase.validate(language);
                         NodeList aggregate = (NodeList) xPath.compile("aggr").evaluate(currentRound, XPathConstants.NODESET);
-                        for (int j = 0; j < aggregate.getLength(); j++){
+                        for (int j = 0; isAlive() && j < aggregate.getLength(); j++){
                             Node currentAggre = (Node) aggregate.item(j);
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentAggre, XPathConstants.NODESET);
-                            for (int k = 0; k < matches.getLength(); k++){
+                            for (int k = 0; isAlive() && k < matches.getLength(); k++){
                                 Node currentMatch = (Node) matches.item(k);
 
                                 String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
@@ -458,7 +458,7 @@ public class OptasportsScraper extends HecticusThread {
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList round = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; i < round.getLength(); i++){
+            for (int i = 0; isAlive() && i < round.getLength(); i++){
                 try {
                     Node currentRound = round.item(i);
 
@@ -478,7 +478,7 @@ public class OptasportsScraper extends HecticusThread {
                                     currentRoundStartDate, currentRoundEndDate, currentRoundId, i, i, i);
                             phaseToInsert.validate(language);
                         }
-                        for (int j = 0; j < groups.getLength();j++){
+                        for (int j = 0; isAlive() && j < groups.getLength();j++){
                             Node currentGroup = (Node) groups.item(j);
                             String groupName = xPath.compile("@title").evaluate(currentGroup),
                                     groupExternalId = xPath.compile("@group_id").evaluate(currentGroup);
@@ -487,7 +487,7 @@ public class OptasportsScraper extends HecticusThread {
                             groupFromWs.validate(language);
                             NodeList rankings = (NodeList) xPath.compile("resultstable/ranking").evaluate(currentGroup, XPathConstants.NODESET);
 
-                            for (int k = 0; k < rankings.getLength(); k++){
+                            for (int k = 0; isAlive() && k < rankings.getLength(); k++){
                                 Node currentRanking = (Node) rankings.item(k);
                                 String rank = xPath.compile("@rank").evaluate(currentRanking),
                                         lastRank = xPath.compile("@last_rank").evaluate(currentRanking),
@@ -521,7 +521,7 @@ public class OptasportsScraper extends HecticusThread {
                                     currentRoundStartDate, currentRoundEndDate, currentRoundId, i, i, i, 1);
                             phaseToInsert.validate(language);
                         }
-                        for (int j = 0; j < rankings.getLength(); j++){
+                        for (int j = 0; isAlive() && j < rankings.getLength(); j++){
                             Node currentRanking = (Node) rankings.item(j);
                             String rank = xPath.compile("@rank").evaluate(currentRanking),
                                     lastRank = xPath.compile("@last_rank").evaluate(currentRanking),
@@ -583,7 +583,7 @@ public class OptasportsScraper extends HecticusThread {
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList strikers = (NodeList) xPath.compile("gsmrs/competition/season/goals/person").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; i < strikers.getLength(); i++){
+            for (int i = 0; isAlive() && i < strikers.getLength(); i++){
                 Node currentStriker = (Node) strikers.item(i);
                 String strikerExternalId = xPath.compile("@person_id").evaluate(currentStriker),
                         strikerName = xPath.compile("@name").evaluate(currentStriker),
@@ -619,7 +619,7 @@ public class OptasportsScraper extends HecticusThread {
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList rounds = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; i < rounds.getLength(); i++){
+            for (int i = 0; isAlive() && i < rounds.getLength(); i++){
                 try {
                     Node currentRound = rounds.item(i);
 
@@ -635,10 +635,10 @@ public class OptasportsScraper extends HecticusThread {
                             //System.out.println("cant");
                             //get groups then matches
                             NodeList groups = (NodeList) xPath.compile("group").evaluate(currentRound, XPathConstants.NODESET);
-                            for (int j = 0; j < groups.getLength(); j++){
+                            for (int j = 0; isAlive() && j < groups.getLength(); j++){
                                 Node currentGroup = (Node) groups.item(j);
                                 NodeList matches = (NodeList) xPath.compile("match").evaluate(currentGroup, XPathConstants.NODESET);
-                                for (int k = 0; k < matches.getLength(); k++){
+                                for (int k = 0; isAlive() && k < matches.getLength(); k++){
                                     Node currentMatch = (Node) matches.item(k);
                                     //gameweek
                                     String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
@@ -674,17 +674,17 @@ public class OptasportsScraper extends HecticusThread {
                                     if (currentGameMatch != null) {
                                         //get substitutions
                                         NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                        for (int l = 0; l < subs.getLength(); l++){
+                                        for (int l = 0; isAlive() && l < subs.getLength(); l++){
                                             processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                         }
                                         //get goals
                                         NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                        for (int l = 0; l < goals.getLength(); l++){
+                                        for (int l = 0; isAlive() && l < goals.getLength(); l++){
                                             processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)goals.item(l));
                                         }
                                         //get bookings
                                         NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                        for (int l = 0; l < bookings.getLength(); l++){
+                                        for (int l = 0; isAlive() && l < bookings.getLength(); l++){
                                             processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)bookings.item(l));
                                         }
                                     }
@@ -693,7 +693,7 @@ public class OptasportsScraper extends HecticusThread {
 
                         }else {
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
-                            for (int k = 0; k < matches.getLength(); k++) {
+                            for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
                                 String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
                                         matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
@@ -728,17 +728,17 @@ public class OptasportsScraper extends HecticusThread {
                                 if (currentGameMatch != null) {
                                     ///get substitutions
                                     NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; l < subs.getLength(); l++){
+                                    for (int l = 0; isAlive() && l < subs.getLength(); l++){
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                     }
                                     //get goals
                                     NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; l < goals.getLength(); l++){
+                                    for (int l = 0; isAlive() && l < goals.getLength(); l++){
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)goals.item(l));
                                     }
                                     //get bookings
                                     NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; l < bookings.getLength(); l++){
+                                    for (int l = 0; isAlive() && l < bookings.getLength(); l++){
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)bookings.item(l));
                                     }
                                 }
@@ -747,10 +747,10 @@ public class OptasportsScraper extends HecticusThread {
                         }
                     }else if (currentRoundType.equalsIgnoreCase("cup")){
                         NodeList aggregate = (NodeList) xPath.compile("aggr").evaluate(currentRound, XPathConstants.NODESET);
-                        for (int j = 0; j < aggregate.getLength(); j++){
+                        for (int j = 0; isAlive() && j < aggregate.getLength(); j++){
                             Node currentAggre = (Node) aggregate.item(j);
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentAggre, XPathConstants.NODESET);
-                            for (int k = 0; k < matches.getLength(); k++){
+                            for (int k = 0; isAlive() && k < matches.getLength(); k++){
                                 Node currentMatch = (Node) matches.item(k);
                                 String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
                                         matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
@@ -785,17 +785,17 @@ public class OptasportsScraper extends HecticusThread {
                                 if (currentGameMatch != null) {
                                     //get substitutions
                                     NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; l < subs.getLength(); l++){
+                                    for (int l = 0; isAlive() && l < subs.getLength(); l++){
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
                                     }
                                     //get goals
                                     NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; l < goals.getLength(); l++){
+                                    for (int l = 0; isAlive() && l < goals.getLength(); l++){
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)goals.item(l));
                                     }
                                     //get bookings
                                     NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; l < bookings.getLength(); l++){
+                                    for (int l = 0; isAlive() && l < bookings.getLength(); l++){
                                         processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)bookings.item(l));
                                     }
                                 }
@@ -854,7 +854,7 @@ public class OptasportsScraper extends HecticusThread {
 
         int currentGameWeek = 0, lastGameWeek = 0;
         Phase gamePhase = null;
-        for (int k = 0; k < matches.getLength(); k++) {
+        for (int k = 0; isAlive() && k < matches.getLength(); k++) {
             Node currentMatch = (Node) matches.item(k);
             currentGameWeek = stringIntParser(xPath.compile("@gameweek").evaluate(currentMatch));
             String matchDate = cleanDate(xPath.compile("@date_utc").evaluate(currentMatch));

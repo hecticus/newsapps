@@ -157,7 +157,7 @@ public abstract class HecticusThread implements Runnable {
      * @return      tiempo entre pasos por el marcador de tiempo
      */
     public long runningTime(){
-        return actTime - prevTime;
+        return System.currentTimeMillis() - actTime;
     }
 
     /**

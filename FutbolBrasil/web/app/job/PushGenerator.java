@@ -51,7 +51,6 @@ public class PushGenerator extends HecticusThread {
 
     @Override
     public void process(Map args) {
-//        Utils.printToLog(PushGenerator.class, null, "Iniciando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
         try {
             pmcIdApp = Config.getInt("pmc-id-app");
             idActionPhaseFinished = Integer.parseInt(""+args.get("id_action"));
@@ -59,14 +58,11 @@ public class PushGenerator extends HecticusThread {
             getEventsToGenerate();
         } catch (Exception ex) {
             Utils.printToLog(PushGenerator.class, null, "Error generado push", true, ex, "support-level-1", Config.LOGGER_ERROR);
-//        } finally {
-//            Utils.printToLog(PushGenerator.class, null, "Terminando PushGenerator", false, null, "support-level-1", Config.LOGGER_INFO);
         }
     }
 
     private void sendEventToPmc(ObjectNode event) {
         try {
-//            System.out.println(" - " + event.toString());
             F.Promise<WSResponse> result = WS.url("http://" + Config.getPMCHost() + "/events/v1/insert").post(event);
             ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
         } catch (Exception e){
@@ -87,7 +83,7 @@ public class PushGenerator extends HecticusThread {
                 data = response.get("response");
                 if(data.has("min_to_min")){
                     Iterator<JsonNode> minToMinIterator = data.get("min_to_min").elements();
-                    while (minToMinIterator.hasNext()){
+                    while (isAlive() && minToMinIterator.hasNext()){
                         JsonNode next = minToMinIterator.next();
                         try {
                             if (next.has("match") && next.has("events")) {
@@ -97,6 +93,7 @@ public class PushGenerator extends HecticusThread {
                                     clientsForEvent = getClientsForEvent(match, true);
                                     if(clientsForEvent != null && !clientsForEvent.isEmpty()) {
                                         for(int i : clientsForEvent.keySet()) {
+                                            isAlive();
                                             language = Language.finder.byId(i);
                                             sendEvents(match.get("id_game_matches").asInt(), clientsForEvent.get(i), next.get("events").elements(), match.get("home_team").get("name").asText(), match.get("away_team").get("name").asText(), language);
                                         }
@@ -114,6 +111,7 @@ public class PushGenerator extends HecticusThread {
                     clientsForEvent = getClientsForEvent(null, false);
                     if(clientsForEvent != null && !clientsForEvent.isEmpty() && news.hasNext()) {
                         for(int i : clientsForEvent.keySet()) {
+                            isAlive();
                             sendEvents(-1, clientsForEvent.get(i), data.get("news").elements(), null, null, null);
                         }
                     }
@@ -132,12 +130,13 @@ public class PushGenerator extends HecticusThread {
                 data = response.get("response");
                 Iterator<JsonNode> phasesIterator = data.get("phases").elements();
 
-                while (phasesIterator.hasNext()){
+                while (isAlive() && phasesIterator.hasNext()){
                     JsonNode next = phasesIterator.next();
                     try {
                         clientsForEvent = getClientsForEvent(next, false);
                         if(clientsForEvent != null && !clientsForEvent.isEmpty()) {
                             for(int i : clientsForEvent.keySet()) {
+                                isAlive();
                                 language = Language.finder.byId(i);
                                 sendEvents(-1, clientsForEvent.get(i), next, null, null, language);
                             }
@@ -159,7 +158,7 @@ public class PushGenerator extends HecticusThread {
         event.put("app", pmcIdApp);
         if(events instanceof Iterator) {
             Iterator<JsonNode> eventsIterator = (Iterator<JsonNode>) events;
-            while (eventsIterator.hasNext()) {
+            while (isAlive() && eventsIterator.hasNext()) {
                 JsonNode next = eventsIterator.next();
                 try {
                     if (idGameMatch != -1) {
@@ -262,6 +261,7 @@ public class PushGenerator extends HecticusThread {
 
     private void mergeClients(Map<Integer, ArrayList<Integer>> home, Map<Integer, ArrayList<Integer>> away){
         for(int i :away.keySet()){
+            isAlive();
             if(home.containsKey(i)){
                 home.get(i).addAll(away.get(i));
             } else {

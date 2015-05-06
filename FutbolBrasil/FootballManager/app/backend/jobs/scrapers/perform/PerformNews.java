@@ -106,7 +106,7 @@ public class PerformNews extends HecticusThread {
         Iterator<JsonNode> elements = news.get("articles").elements();
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
         List<Resolution> resolutions = Resolution.all();
-        while(elements.hasNext()){
+        while(isAlive() && elements.hasNext()){
             try {
                 JsonNode next = elements.next();
                 String title = next.get("headline").asText();
@@ -178,6 +178,7 @@ public class PerformNews extends HecticusThread {
                 file = getFile("http://" + performImageHost + filename);
                 BufferedImage image = ImageIO.read(file);
                 for (Resolution resolution : resolutions) {
+                    isAlive();
                     File scaledImage = scaleImage(image, filename, resolution);
                     if(scaledImage != null) {
                         try {
@@ -204,7 +205,7 @@ public class PerformNews extends HecticusThread {
                                 news.updateResource(resource);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Utils.printToLog(PerformNews.class, null, "Error ajustando resoluciones", false, e, "support-level-1", Config.LOGGER_ERROR);
                         } finally {
                             scaledImage.delete();
                         }
@@ -241,7 +242,7 @@ public class PerformNews extends HecticusThread {
             ImageIO.write(image, fileExt, file);
             return file;
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.printToLog(PerformNews.class, null, "Error descargando imagenes", false, e, "support-level-1", Config.LOGGER_ERROR);
         }
         return null;
     }
@@ -258,7 +259,7 @@ public class PerformNews extends HecticusThread {
             ImageIO.write(resizedImage, fileExt, file);
             return file;
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.printToLog(PerformNews.class, null, "Error escalando imagenes", false, e, "support-level-1", Config.LOGGER_ERROR);
         }
         return null;
     }

@@ -75,7 +75,7 @@ public class ThreadSupervisor extends HecticusThread {
         for(HecticusThread ht : activeJobs){
             long threadTime = ht.runningTime();
             if(isAlive() && ht.isActive() && threadTime > allowedTime){
-                Utils.printToLog(ThreadSupervisor.class, "Job Bloqueado", "El job " + ht.getName() + " lleva " + threadTime + " sin pasar por un setAlive()", false, null, "support-level-1", Config.LOGGER_ERROR);
+                Utils.printToLog(ThreadSupervisor.class, "Job Bloqueado", "El job " + ht.getName() + " lleva " + threadTime + " sin pasar por un setAlive()", true, null, "support-level-1", Config.LOGGER_ERROR);
             }
         }
     }
