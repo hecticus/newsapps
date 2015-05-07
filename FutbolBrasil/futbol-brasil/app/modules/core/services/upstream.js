@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Upstream',['$http', '$q', 'Client', 'Moment', 'CordovaDevice', 'App',
-        function($http, $q, Client, Moment, CordovaDevice, App) {
+    .factory('Upstream',['$http', '$q', 'Client', 'Moment', 'CordovaDevice', 'App', 'Domain',
+        function($http, $q, Client, Moment, CordovaDevice, App, Domain) {
 
             var AUTH_TOKEN_PREFIX = 'Basic ';
             var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
@@ -163,7 +163,7 @@ angular
                     body['user_id'] = Client.getClientId();
                 }
 
-                //console.log("BODY -> " + JSON.stringify(body));
+                console.log("BODY -> " + JSON.stringify(body));
                 return body;
             }
 
@@ -190,7 +190,10 @@ angular
                     return 'error';
                 }
 
-                return $http.post(eventUrl, data, config).then(success, error);
+
+                //return $http.post(eventUrl, data, config).then(success, error);
+
+                return $http.post(Domain.upstream(Client.getClientId()), data, config).then(success, error);
             }
 
             function appLaunchEvent (){

@@ -47,6 +47,10 @@ angular
                         + width + '/' + height + '/' + appVersion + '/' + platform;
                 },
 
+                upstream: function (clientId) {
+                  return brazil_football_manager_url + 'futbolbrasil/v2/client/' + clientId + '/upstream';
+                },
+
                 languages: brazil_football_manager_url + 'futbolbrasil/'
                     + apiVersion + '/languages',
 
