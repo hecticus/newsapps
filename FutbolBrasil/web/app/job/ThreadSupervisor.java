@@ -44,12 +44,16 @@ public class ThreadSupervisor extends HecticusThread {
      */
     @Override
     public void process(Map args) {
-        checkAliveThreads();
-        //stop jobs
-        stopActiveJobs();
-        //start jobs
-        activateJobs();
-        //check for bad jobs
+        try {
+            checkAliveThreads();
+            //stop jobs
+            stopActiveJobs();
+            //start jobs
+            activateJobs();
+            //check for bad jobs
+        } catch (Exception e){
+            Utils.printToLog(ThreadSupervisor.class, "Error en el ThreadSupervisor", "Error desconocido procesando Jobs", true, e, "support-level-1", Config.LOGGER_ERROR);
+        }
     }
 
     private void init(){

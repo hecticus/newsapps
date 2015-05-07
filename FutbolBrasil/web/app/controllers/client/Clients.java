@@ -71,10 +71,37 @@ public class Clients extends HecticusController {
             if(clientData.has("password")){
                 password = clientData.get("password").asText();
             }
-            boolean update = false;
+            UUID session = UUID.randomUUID();
             if(login != null) {
                 client = Client.finder.where().eq("login", login).findUnique();
                 if (client != null) {
+                    if (clientData.has("devices")) {
+                        Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
+                        while (devicesIterator.hasNext()) {
+                            ObjectNode next = (ObjectNode) devicesIterator.next();
+                            if (next.has("device_id") && next.has("registration_id")) {
+                                String registrationId = next.get("registration_id").asText();
+                                int deviceId = next.get("device_id").asInt();
+                                Device device = Device.finder.byId(deviceId);
+                                ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
+                                if (clientHasDevice == null) {
+                                    clientHasDevice = new ClientHasDevices(client, device, registrationId);
+                                    client.getDevices().add(clientHasDevice);
+                                }
+                                otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
+                                if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
+                                    for (ClientHasDevices clientHasDevices : otherRegsIDs) {
+                                        clientHasDevices.delete();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        int webDeviceId = Config.getInt("web-device-id");
+                        Device device = Device.finder.byId(webDeviceId);
+                        ClientHasDevices clientHasDevice = new ClientHasDevices(client, device, UUID.randomUUID().toString());
+                        client.getDevices().add(clientHasDevice);
+                    }
                     if (client.getUserId() == null) {
                         //si tenemos password tratamos de hacer login
                         if (password != null && !password.isEmpty()) {
@@ -84,48 +111,19 @@ public class Clients extends HecticusController {
                             //tratamos de crear al cliente
                             subscribeUserToUpstream(client, upstreamChannel);
                         }
-                        update = true;
                     }
                     //siempre que tengamos login y pass debemos revisar el status de upstream
                     if (password != null && !password.isEmpty()) {
                         client.setPassword(password);
                         getStatusFromUpstream(client, upstreamChannel);
-                        update = true;
-                    }
-                    if (update) {
-                        client.update();
-                    }
-                }
-            }
-            UUID session = UUID.randomUUID();
-            if (client != null) {
-                //actualizar regID
-                if (clientData.has("devices")) {
-                    Iterator<JsonNode> devicesIterator = clientData.get("devices").elements();
-                    while (devicesIterator.hasNext()) {
-                        ObjectNode next = (ObjectNode) devicesIterator.next();
-                        if (next.has("device_id") && next.has("registration_id")) {
-                            String registrationId = next.get("registration_id").asText();
-                            int deviceId = next.get("device_id").asInt();
-                            Device device = Device.finder.byId(deviceId);
-                            ClientHasDevices clientHasDevice = ClientHasDevices.finder.where().eq("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findUnique();
-                            if (clientHasDevice == null) {
-                                clientHasDevice = new ClientHasDevices(client, device, registrationId);
-                                client.getDevices().add(clientHasDevice);
-                            }
-                            otherRegsIDs = ClientHasDevices.finder.where().ne("client.idClient", client.getIdClient()).eq("registrationId", registrationId).eq("device.idDevice", device.getIdDevice()).findList();
-                            if (otherRegsIDs != null && !otherRegsIDs.isEmpty()) {
-                                for (ClientHasDevices clientHasDevices : otherRegsIDs) {
-                                    clientHasDevices.delete();
-                                }
-                            }
-                        }
                     }
                     client.setSession(session.toString());
                     client.update();
+                    return ok(buildBasicResponse(0, "OK", client.toJson()));
                 }
-                return ok(buildBasicResponse(0, "OK", client.toJson()));
-            } else if (clientData.has("country") && clientData.has("language")) {
+            }
+
+            if (clientData.has("country") && clientData.has("language")) {
                 int countryId = clientData.get("country").asInt();
                 Country country = Country.finder.byId(countryId);
                 int languageId = clientData.get("language").asInt();
@@ -219,7 +217,6 @@ public class Clients extends HecticusController {
             } else {
                 return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
-
         } catch (Exception ex) {
             Utils.printToLog(Clients.class, "Error manejando clients", "error creando client con params " + clientData, true, ex, "support-level-1", Config.LOGGER_ERROR);
             return internalServerError(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
