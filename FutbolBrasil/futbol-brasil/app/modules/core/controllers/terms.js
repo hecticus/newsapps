@@ -9,37 +9,29 @@
 angular
     .module('core')
     .controller('TermsController', [
-        '$scope', '$localStorage', '$timeout', 'iScroll',
-        function($scope, $localStorage, $timeout, iScroll) {
+        '$scope', '$translate', 'iScroll',
+        function($scope, $translate, iScroll) {
 
-            //var jLoading = JSON.parse($localStorage['LOADING']);
-            $scope.load = '';
-            function init(){
-
-              //$scope.$emit('load');
-
-              //$('#load').load(jLoading.wap_terms,
-              $('#load').load('http://www.tim.com.br',
-                function(response, status, xhr){
-
-                  //$scope.$emit('unload');
-
-                  /*if(status == "success")
-                    alert("Successfully loaded the content!");
-
-                  if(status == "error")
-                    alert("An error occurred: " + xhr.status + " - " + xhr.statusText);*/
-
-              });
+          $scope.message = '';
 
 
-              $scope.scroll = iScroll.vertical('wrapper');
-              $scope.$on('$destroy', function() {
-                  $scope.scroll.destroy();
-                  $scope.scroll = null;
-              });
+          function getTranslations(){
+            $translate(['TERMS.MESSAGE'])
+            .then(function(translation){
+                $scope.message  = translation['TERMS.MESSAGE'];
+            });
+          };
 
-            } init();
+          function init(){
+            $scope.$emit('load');
+            getTranslations();
+            $scope.scroll = iScroll.vertical('wrapper');
+            $scope.$on('$destroy', function() {
+                $scope.scroll.destroy();
+                $scope.scroll = null;
+            });
+            $scope.$emit('unload');
+          } init();
 
         }
 ]);

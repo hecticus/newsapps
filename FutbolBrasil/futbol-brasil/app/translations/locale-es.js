@@ -133,6 +133,10 @@
         "EXIT_APP_MSG" : "¿Está seguro que desea salir de la aplicación?"
     },
 
+    "TERMS" : {
+        "MESSAGE" : "Por favor, lea los términos y condiciones en el sitio web http://www.tim.com.br/. Mediante el uso de la aplicación, el usuario se obliga a todos los Términos y Condiciones."
+    },
+
     "ALERT": {
 
       "NEWS_LIMIT" : {

@@ -96,7 +96,6 @@ angular
                         type: 'success'
                     });
                     console.log('new client. going to settings');
-                    Upstream.setUp(data).then(Upstream.appLaunchEvent);
                     $state.go('settings',{newClient:false});
                 } else {
                     console.log('existing client. going to news');

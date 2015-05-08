@@ -198,7 +198,7 @@ angular
                 }
 
                 //return $http.post(eventUrl, data, config).then(success, error)
-                if (Client.getClientId() != undefined)
+                //if (Client.getClientId() != undefined)
                   return $http.post(Domain.upstream(), data, config).then(success, error);
 
                 return false;
