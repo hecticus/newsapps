@@ -26,9 +26,10 @@ angular
                 };
 
                 remoteTeams = [];
-                //console.log(Domain.teams.index);
+                console.log(Domain.teams.index);
                 return $http.get(Domain.teams.index, config).then(
                     function(data){
+                        console.log("Teams READY!!!!");
                         data = data.data;
                         isDone = data.response.teams.length < pageSize;
                         remoteTeams = remoteTeams.concat(data.response.teams);
@@ -66,18 +67,21 @@ angular
                 }
             }
 
-            function setFavoriteTeams(pushAlerts){
-                if(!pushAlerts){ return; }
-                var favoriteTeams = teams.filter(function(element){
-                    var teamId = element.id_teams;
-                    var found = false;
-                    pushAlerts.forEach(function(pushAlert){
-                        var pushAlertId = pushAlert.push_alert.id_ext;
-                        found |= pushAlertId === teamId;
+            function setFavoriteTeams(pushAlerts){               
+               getTeams().then(function(){
+                   console.log("Seteando favorite teams.....");
+                    if(!pushAlerts){ return; }
+                    var favoriteTeams = teams.filter(function(element){
+                        var teamId = element.id_teams;
+                        var found = false;
+                        pushAlerts.forEach(function(pushAlert){
+                            var pushAlertId = pushAlert.push_alert.id_ext;
+                            found |= pushAlertId === teamId;
+                        });
+                        return found;
                     });
-                    return found;
-                });
-                persistFavoriteTeams(favoriteTeams);
+                    persistFavoriteTeams(favoriteTeams);                   
+               });              
             }
 
             function persistFavoriteTeams(favoriteTeams){
@@ -175,6 +179,7 @@ angular
             }
 
             function getTeams(offset, pageSize) {
+                console.log("getTeams.....");
                 if(!offset){ offset = 0; }
                 if(!pageSize){ pageSize = 1000; }
 

@@ -141,6 +141,7 @@ angular
                 client.login = data.login;
                 client.session = data.session;
                 client.auth_token = data.auth_token;
+                client.nickname = data.nickname;                
 
                 if(data.language){
                     setLanguage(data.language);
@@ -153,6 +154,7 @@ angular
 
             function logout(){
                 $localStorage.$reset();
+                client = {};
             }
 
             function saveStoredVersion() {
