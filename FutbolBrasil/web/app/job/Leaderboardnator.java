@@ -75,6 +75,8 @@ public class Leaderboardnator extends HecticusThread {
         isAlive();
         cs.execute();
         isAlive();
+        cs.closeOnCompletion();
+        connection.close();
     }
 
 }

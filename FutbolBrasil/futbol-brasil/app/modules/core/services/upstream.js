@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Upstream',['$http', '$q', 'Client', 'Moment', 'CordovaDevice', 'App',
-        function($http, $q, Client, Moment, CordovaDevice, App) {
+    .factory('Upstream',['$http', '$q', 'Client', 'Moment', 'CordovaDevice', 'App', 'Domain',
+        function($http, $q, Client, Moment, CordovaDevice, App, Domain) {
 
             var AUTH_TOKEN_PREFIX = 'Basic ';
             var TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss.SSS[UTC]';
@@ -148,12 +148,17 @@ angular
                 var metadata = extras? extras : {};
                 metadata.channel = CordovaDevice.getUpstreamChannel();
                 metadata.app_version = App.getBundleVersion();
-                var body = {
+                /*var body = {
                     'event' : event,
                     'service_id' : serviceId,
                     'timestamp' : Moment.today(TIMESTAMP_FORMAT),
                     'device_id' : Client.getRegId(),
                     'push_notification_id' : Client.getRegId(),
+                    'metadata' : metadata
+                };*/
+
+                var body = {
+                    'event_type' : event,
                     'metadata' : metadata
                 };
 
@@ -163,13 +168,15 @@ angular
                     body['user_id'] = Client.getClientId();
                 }
 
-                //console.log("BODY -> " + JSON.stringify(body));
+                console.log("BODY -> " + JSON.stringify(body));
                 return body;
             }
 
             function sendEvent(event){
+
                 var data = getBody(event);
                 var token = Client.getUpstreamAuthToken();
+                var clientId = 0;
 
                 if(token){
                     headers['Authorization'] = AUTH_TOKEN_PREFIX + token;
@@ -190,7 +197,11 @@ angular
                     return 'error';
                 }
 
-                return $http.post(eventUrl, data, config).then(success, error);
+                //return $http.post(eventUrl, data, config).then(success, error)
+                if (Client.getClientId() != undefined)
+                  return $http.post(Domain.upstream(), data, config).then(success, error);
+
+                return false;
             }
 
             function appLaunchEvent (){
