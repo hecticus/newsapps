@@ -146,7 +146,7 @@ angular
 
             $scope.doMsisdnLogin = function(){
                 $scope.$emit('load');
-                if($scope.password){
+                if($scope.password && $scope.msisdn){
                     ClientManager.createOrUpdateClient(
                         {
                             'msisdn' : $scope.msisdn,
