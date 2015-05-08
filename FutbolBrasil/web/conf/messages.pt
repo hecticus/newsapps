@@ -153,17 +153,17 @@ playauthenticate.restricted.secrets=Segredos, por todo o lado!
 APP_TITLE=TIM Palpites
 MATCH_LABEL=Partidas
 SCORERS_LABEL=Artilharia
-NEWS_LABEL=Notícia
+NEWS_LABEL=Notícias
 
 PLAYER_LABEL=Jogador
 TEAM_LABEL=Equipe
-GOALS_LABEL=Goles
-MTM_LABEL=Ao vivo
+GOALS_LABEL=Gols
+MTM_LABEL=Ao Vivo
 MTM_REFRESH_LINK=Atualizar
-LOGIN_TITLE=Registrar-se para acessar a noticía de futebol do dia, todos os dias.
-LOGIN_TITLE_MSISDN=Digite seu numero de celular.
+LOGIN_TITLE=Registrar-se para acessar a notícia de futebol do dia, todos os dias.
+LOGIN_TITLE_MSISDN=Digite seu número de celular.
 LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
-BUTTON_NEXT=Seguinte
+BUTTON_NEXT=Próximo
 BUTTON_CONFIRM=Confirmar
 BUTTON_AGAIN_PASSWORD=Enviar novamente a senha
 

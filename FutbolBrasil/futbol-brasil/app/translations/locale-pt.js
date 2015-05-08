@@ -10,12 +10,12 @@
         },
         "BETS" : {
             "BETS": "Palpites",
-            "PREDICTIONS" : "Predições",
-            "LEADERBOARDS" : "Líderes",
+            "PREDICTIONS" : "Previsões",
+            "LEADERBOARDS" : "Placares",
             "FRIENDS" : "Amigos",
             "POINTS" : "Pontos"
         },
-        "SETTINGS": "Definições",
+        "SETTINGS": "Configurações",
         "LOGIN" : "Login",
         "REMIND" : "Lembrar / Obter Credenciais",
         "LANGUAGE-SELECTION" : "Seleção de Idioma",
@@ -26,13 +26,13 @@
 
     },
     "NEWS" : {
-        "TITLE" : "Notícia"
+        "TITLE" : "Notícias"
 
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Nome do jogador",
         "TEAM_LABEL" : "Equipe",
-        "GOALS_LABEL" : "Goles"
+        "GOALS_LABEL" : "Gols"
     },
     "STANDINGS" : {
         "TEAM" : "Equipe",
@@ -41,7 +41,7 @@
             "MATCHES" : "J",
             "MATCHES_WON" : "V",
             "MATCHES_DRAWN" : "E",
-            "MATCHES_LOST" : "P",
+            "MATCHES_LOST" : "D",
             "GOALS_FOR" : "GP",
             "GOALS_AGAINST" : "GC",
             "GOALS_DIFFERENCE" : "SG"
@@ -60,46 +60,46 @@
     },
     "LEADERBOARD" : {
         "TOURNAMENT" : "Torneio",
-        "PHASE" : "Jornada",
+        "PHASE" : "Fase",
         "PLAYER" : "Jogador",
         "POINTS" : "Pontos",
         "HITS" : "Sucessos",
-        "MY_POINTS" : "Os Meus Pontos",
+        "MY_POINTS" : "Meus Pontos",
         "SCORE" : "Pontos"
     },
     "EMPTY_STATES" : {
         "LIVE" : "Não há jogos para hoje",
         "NEWS" : "Não há notícias disponíveis",
-        "POINTS" : "Você não tem informação de pontos disponível",
-        "LEADERBOARD" : "Não há informações disponíveis para esta classificação",
-        "PREDICTIONS" : "Não há informações disponíveis para este torneio",
-        "MATCH" : "Não há jogos para este día",
+        "POINTS" : "Voce não tem informação disponível sobre pontos",
+        "LEADERBOARD" : "Não há informação disponível para esta classificação",
+        "PREDICTIONS" : "Não há informação disponível para este torneio",
+        "MATCH" : "Não há jogos para este dia",
         "SCORERS" : "Não há artilheiros para este torneio",
-        "TEAMS" : "Não foi possível obter equipes",
+        "TEAMS" : "Não foi possível obter times",
         "LANGUAGES" : "Não foi possível obter idiomas",
         "STANDINGS" : {
-            "NO_COMPETITIONS" : "Não foi possível obter as Competições",
-            "NO_PHASES" : "Não foi possível obter as Fases",
-            "NO_RANKINGS" : "Não foi possível obter os Rankings"
+            "NO_COMPETITIONS" : "Não foi possível obter as competições",
+            "NO_PHASES" : "Não foi possível obter as fases",
+            "NO_RANKINGS" : "Não foi possível obter os rankings"
         }
     },
     "LOGIN" : {
         "PASSWORD_LABEL" : "Senha",
         "PASSWORD_HELPER" : "Digite a senha recebida por SMS.",
-        "MSISDN_HOLDER" : "# Numero",
+        "MSISDN_HOLDER" : "# Número",
         "MSISDN_LABEL" : "Número do celular",
         "LOGIN_LABEL" : "Login",
-        "REMIND_LABEL" : "Lembre / Obter Credenciais",
-        "CHANGE_LANGUAGE_LABEL" : "Selecione o idioma",
+        "REMIND_LABEL" : "Lembrar / Obter Credenciais",
+        "CHANGE_LANGUAGE_LABEL" : "Mudar idioma",
         "TUTORIAL_LABEL" : "Como funciona o serviço?",
         "TERMS_LABEL" : "Termos & Condições",
-        "ENTER_AS_GUEST_LABEL" : "Entrar como um visitante",
+        "ENTER_AS_GUEST_LABEL" : "Entrar como convidado",
         "REMIND" : {
             "LABEL" : "Digite o seu número do celular",
             "HERO" : {
-                "TITLE" : "Esqueceu seu usuário e senha?",
-                "MESSAGE" : "Para obter as suas credenciais por favor, escreva o seu número do celular e prima 'Lembre / Obter Credenciais'",
-                "SMALL_PRINT" : "*O serviço está disponível apenas para assinantes da operadora específica"
+                "TITLE" : "Esqueceu o seu nome de usuário e senha?",
+                "MESSAGE" : "Para obter as suas credenciais, por favor digite seu número de celular e clique em 'Lembrar / Obter Credenciais'",
+                "SMALL_PRINT" : "*O serviço está disponível apenas para assinantes de operadora específica"
             }
         }
     },
@@ -107,12 +107,12 @@
         "NICKNAME_TITLE": "Apelido",
         "NICKNAME_PLACEHOLDER": "Digite seu Apelido",
         "PUSH_TITLE": "Notificações Push",
-        "FAVORITE_TEAMS_TITLE": "Meus Equipes Favoritas",
+        "FAVORITE_TEAMS_TITLE": "Minhas Equipes Favoritas",
         "LANGUAGES_TITLE": "Idiomas",
         "SOCIAL_ACCOUNTS_TITLE": "Redes Sociais",
         "TOGGLE" : {
             "BETS" : "Palpites",
-            "MTM" : "Ao vivo",
+            "MTM" : "Ao Vivo",
             "NEWS" : "Notícias"
         },
         "FACEBOOK" : {
@@ -139,7 +139,7 @@
 
         "NEWS_LIMIT" : {
           "TITLE" : "Limite diário de notícias ultrapassado",
-          "MSG": "Você excedeu seu limite diário gratuito Notícias",
+          "MSG": "Você excedeu seu limite diário gratuito de notícias",
           "CONFIRM" : "Ok",
           "CANCEL" : "Cancelar"
         },
@@ -147,7 +147,7 @@
         "SET_USERNAME" : {
          "TITLE" : "Informações do Perfil",
          "SUBTITLE": "Selecione seu nome de usuário",
-         "MSG": "Por favor, defina um nome de utilizador para a sua conta"
+         "MSG": "Por favor, defina um nome de usuário para a sua conta"
        },
 
        "NETWORK_ERROR" : {
@@ -170,19 +170,19 @@
 
         "SET_MSISDN" : {
           "TITLE" : "Processo de login",
-          "SUBTITLE": "Incompleta Registrando Informações",
+          "SUBTITLE": "Incompleta. Registrando Informações",
           "MSG": "Por favor coloque o seu número do celular"
         },
 
         "SET_PASSWORD" : {
           "TITLE" : "Processo de login",
-          "SUBTITLE": "Incompleta Registrando Informações",
+          "SUBTITLE": "Incompleta. Registrando Informações",
           "MSG": "Por favor, insira sua senha"
         },
 
         "LOCKED_SECTION" : {
-          "TITLE" : "seção trancada",
-          "MSG": "Esta seção está bloqueado para usuários convidados. Gostaria de registrar-se para desbloquear esta seção?",
+          "TITLE" : "Sessão trancada",
+          "MSG": "Esta sessão está bloqueada para usuário convidados. Gostaria de registrar-se para desbloquear esta sessão?",
           "CONFIRM" : "Ok",
           "CANCEL" : "Cancelar"
         },
@@ -199,8 +199,8 @@
     "CANCEL" : "Cancelar",
     "PREVIOUS" : "Anterior",
     "NEXT" : "Seguinte",
-    "LOADING" : "A Carregar",
+    "LOADING" : "Carregando",
     "NOT_AVAILABLE": "Não Disponível",
-    "LOGOUT" : "Logout",
+    "LOGOUT" : "Sair",
     "READY" : "Pular tutorial"
 }
