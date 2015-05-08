@@ -96,7 +96,6 @@ angular
                         type: 'success'
                     });
                     console.log('new client. going to settings');
-                    Upstream.setUp(data).then(Upstream.appLaunchEvent);
                     $state.go('settings',{newClient:false});
                 } else {
                     console.log('existing client. going to news');
@@ -157,12 +156,21 @@ angular
                     Client.setNoGuest();
                     Upstream.loginEvent();
                 } else {
-                    Notification.showInfoAlert({
-                        title: strings['SET_PASSWORD_TITLE'],
-                        subtitle: strings['SET_PASSWORD_SUBTITLE'],
-                        message: strings['SET_PASSWORD_MSG'],
-                        type: 'warning'
-                    });
+                    if(!$scope.msisdn){
+                        Notification.showInfoAlert({
+                            title: strings['SET_MSISDN_TITLE'],
+                            subtitle: strings['SET_MSISDN_SUBTITLE'],
+                            message: strings['SET_MSISDN_MSG'],
+                            type: 'warning'
+                         });
+                    } else {
+                        Notification.showInfoAlert({
+                            title: strings['SET_PASSWORD_TITLE'],
+                            subtitle: strings['SET_PASSWORD_SUBTITLE'],
+                            message: strings['SET_PASSWORD_MSG'],
+                            type: 'warning'
+                        });                    
+                    }
                     $scope.$emit('unload');
                 }
                // $scope.$emit('unload');
