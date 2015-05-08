@@ -87,6 +87,7 @@ angular
 
             function loginSuccess(isNewClient){
                 console.log('onLoginSuccess. Login Success.');
+                Upstream.loginEvent();
                 if(isNewClient){
                     //TODO i18n-alizar
                     Notification.showInfoAlert({
@@ -154,7 +155,6 @@ angular
                         }
                         , true, loginSuccess, loginError);
                     Client.setNoGuest();
-                    Upstream.loginEvent();
                 } else {
                     if(!$scope.msisdn){
                         Notification.showInfoAlert({
@@ -173,7 +173,6 @@ angular
                     }
                     $scope.$emit('unload');
                 }
-               // $scope.$emit('unload');
             };
 
             $scope.enterAsGuest = function(){

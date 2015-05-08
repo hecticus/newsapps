@@ -100,20 +100,16 @@ angular
             function showMenu() {
                 if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
                     $window.addEventListener('touchmove', function(){
-                        //$scope.hideMenu();
                         $window.removeEventListener('touchmove');
                     });
                     $rootScope.menuScroll.scrollTo(0,0,0);
                     $rootScope.transitionPage('#wrapperM', 'right');
-                    $scope.$emit('load');
                 }
             }
 
             function hideMenu() {
                 if ($('#wrapperM').hasClass('right')) {
                     $rootScope.transitionPage('#wrapperM', 'left');
-                    //$rootScope.menuScroll.scrollTo(0,0,0);
-                    $scope.$emit('unload');
                 }
             }
 
@@ -133,6 +129,7 @@ angular
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('right')) {
                     $scope.hideMenu();
+                     $scope.$emit('unload');
                 }
 
             }

@@ -133,7 +133,7 @@ angular
             }
 
             function init(){
-                $scope.$emit('unload');
+                $scope.$emit('load');
                 setUpIScroll();
                 getPoints();
             } init();

@@ -64,7 +64,6 @@ angular
             $rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams){
 
                 $rootScope.error = false;
-                $rootScope.$emit('unload');
 
                 if($rootScope.hideMenu){ $rootScope.hideMenu(); }
 
