@@ -8,13 +8,13 @@
  */
 angular
     .module('core')
-    .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage',
+    .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
         'Client', 'WebManager', '$window', 'Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, Client, WebManager, $window,
+        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
                  Bets, Moment, iScroll, Competitions, Notification) {
 
             $rootScope.$storage.settings = true;
-            var scroll = null;
+            var scrollH = null;
             var vScrolls = [];
             var _currentPage = 0;
             var _Match = -1;
@@ -24,7 +24,7 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
 
-            /*function getTranslations(){
+            function getTranslations(){
 
               $translate(['ALERT.SET_BET.TITLE',
                           'ALERT.SET_BET.SUBTITLE',
@@ -35,7 +35,7 @@ angular
                   strings['SET_BET_MSG'] = translation['ALERT.SET_BET.MSG'];
               });
 
-            };*/
+            };
 
             $scope.vWrapper = {
                 name:'wrapperV',
@@ -55,11 +55,11 @@ angular
             };
 
             $scope.nextPage = function(){
-                scroll.next();
+                scrollH.next();
             };
 
             $scope.prevPage = function(){
-                scroll.prev();
+                scrollH.prev();
             };
 
             $scope.getDate = function (_date) {
@@ -77,10 +77,10 @@ angular
                     var _jLeagues = $scope.leagues[_iLeague];
                     var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
 
-                    var dateMatch = moment(_jMatch.date,'YYYYMMDD hh:mm').format('YYYY-MM-DD');
-                    var dateToday = moment().format('YYYY-MM-DD');
+                    var dateMatch = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').format('YYYY-MM-DD');
+                    var diffHours = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').diff(Moment.date(), 'hours');
 
-                    if (moment(dateToday).isBefore(dateMatch)) {
+                    if (diffHours > 1) {
                       if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
                         $scope.$emit('load');
                         if (_status == 3) {
@@ -116,12 +116,12 @@ angular
                         _mBet = _bet;
                       }
                     } else {
-                      /*Notification.showInfoAlert({
+                      Notification.showInfoAlert({
                           title: strings['SET_BET_TITLE'],
                           subtitle: strings['SET_BET_SUBTITLE'],
                           message: strings['SET_BET_MSG'],
                           type: 'warning'
-                      });*/
+                      });
                     }
                 }
             };
@@ -153,7 +153,7 @@ angular
             }
 
             function getBets(){
-                var _index =  scroll.currentPage.pageX;
+                var _index =  scrollH.currentPage.pageX;
                 var league = $scope.leagues[_index];
                 if (!league.fixtures) {
                     $scope.$emit('load');
@@ -178,17 +178,17 @@ angular
             }
 
             function setUpIScroll() {
-                scroll = iScroll.horizontal('wrapperH');
+                scrollH = iScroll.horizontal('wrapperH');
 
-                scroll.on('beforeScrollStart', function () {
+                scrollH.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                scroll.on('scrollStart', function () {
+                scrollH.on('scrollStart', function () {
                     _currentPage = this.currentPage.pageX;
                 });
 
-                scroll.on('scroll', function () {
+                scrollH.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
                         getBets();
                         _currentPage = this.currentPage.pageX;
@@ -201,8 +201,8 @@ angular
                 });
 
                 $scope.$on('$destroy', function() {
-                    scroll.destroy();
-                    scroll = null;
+                    scrollH.destroy();
+                    scrollH = null;
 
                     vScrolls.forEach(function(scroll){
                         scroll.destroy();
@@ -211,9 +211,19 @@ angular
                 });
             }
 
+
+              $scope.showContentPrediction = function(index) {
+                  scrollH.refresh();
+                  scrollH.goToPage(index,0);
+                  $rootScope.transitionPageBack('#wrapperH', 'left');
+              };
+
+
+
             function getCompetitions(){
                 Competitions.get().then(function(data){
                     $scope.leagues  = data;
+                    $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();
                     getBets();
@@ -231,8 +241,9 @@ angular
 
             function init(){
                 $scope.$emit('load');
-                //getTranslations();
+                getTranslations();
                 getCompetitions();
+                $scope.$emit('unload');
             } init();
 
         }

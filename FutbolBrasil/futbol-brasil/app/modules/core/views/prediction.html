@@ -1,97 +1,120 @@
-<div id="wrapperH">
-    <div id="scroller" ng-style="getTotalWidth()">
-        <ul>
-            <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions"  >
+<div id="wrapper" class="page">
+  <div class="scroller">
+    <div class="container">
+
+      <div class="row h-list"  >
+        <div class="col-xs-12 h-ellipsis-truncate"
+             ng-repeat="league in leagues track by league.id_competitions"
+             ng-click="showContentPrediction($index)" >
+          <i class="mdi-action-bookmark h-headline" ></i>
+          <span class="h-headline">{{league.name}}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<div id="wrapperH" class="page" style="left: 100%;" >
+  <div id="scroller" ng-style="getTotalWidth()">
+    <ul>
+      <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions"  >
+        <div class="container">
+
+          <div class="row h-header green">
+            <div class="col-xs-2" ng-click="prevPage($index)">
+              <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
+            </div>
+            <div class="col-xs-8 h-ellipsis-truncate">
+              <span ng-bind="league.name" class="caption"></span>
+            </div>
+            <div class="col-xs-2" ng-click="nextPage($index)">
+              <span  class="mdi-navigation-arrow-forward" ng-hide="leagues[$index+1].name === undefined"></span>
+            </div>
+          </div>
+
+          <div class="row h-header red">
+            <div ng-show="league.bet" class="col-xs-12 text-center"
+                 ng-click="saveBet($index, league.id_competitions)">
+
+              <span>{{leagues[$index].bet.client_bets}}</span>
+              <span translate>SECTIONS.BETS.PREDICTIONS</span>
+              <span>/</span>
+              <span>{{leagues[$index].bet.total_bets}}</span>
+              <span translate>SECTIONS.NOTISTATS.MATCHES</span>
+
+            </div>
+          </div>
+
+          <div class="row" ng-hide="league.empty">
+            <div id="{{vWrapper.getName($index)}}" class="wrapper">
+              <div class="scroller" >
                 <div class="container">
+                  <div class="col-xs-12"
+                       ng-repeat="fixture in league.fixtures track by fixture.date"
+                       on-last-repeat>
 
-                  <div class="row h-header green">
-                    <div class="col-xs-2" ng-click="prevPage($index)">
-                      <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
-                    </div>
-                    <div class="col-xs-8 h-ellipsis-truncate">
-                      <span ng-bind="league.name" class="caption"></span>
-                    </div>
-                    <div class="col-xs-2" ng-click="nextPage($index)">
-                      <span  class="mdi-navigation-arrow-forward" ng-hide="leagues[$index+1].name === undefined"></span>
-                    </div>
-                  </div>
+                    <table class="table" >
+                      <thead>
+                      <tr>
+                        <th colspan="3" class="h-header light-blue">
+                          <span ng-bind="getDate(fixture.date)"></span>
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
 
-                  <div class="row h-header red">
-                    <div ng-show="league.bet" class="col-xs-12 text-center"
-                         ng-click="saveBet($index, league.id_competitions)">
+                      <tr ng-repeat="match in fixture.matches" class="h-match" >
 
-                      <span>{{leagues[$index].bet.client_bets}}</span>
-                      <span translate>SECTIONS.BETS.PREDICTIONS</span>
-                      <span>/</span>
-                      <span>{{leagues[$index].bet.total_bets}}</span>
-                      <span translate>SECTIONS.NOTISTATS.MATCHES</span>
+                        <td class="col-xs-4"
+                            ng-click="setBet(match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index)"
+                            ng-class="{active: match.bet.client_bet === 0, winner: match.home_team_goals >= match.away_team_goals}">
+                          <span ng-bind="match.home_team.name" class="h-name-team"></span>
+                          <span ng-bind="match.home_team_goals" class="h-goal-team" ng-if="match.status.id_status != 3"></span>
+                        </td>
 
-                    </div>
-                  </div>
-
-                  <div class="row" ng-hide="league.empty">
-                    <div id="{{vWrapper.getName($index)}}" class="wrapper">
-                      <div class="scroller" >
-                        <div class="container">
-                          <div class="col-xs-12"
-                               ng-repeat="fixture in league.fixtures track by fixture.date"
-                               on-last-repeat>
-
-                            <table class="table" >
-                              <thead>
-                              <tr>
-                                <th colspan="3" class="h-header light-blue">
-                                  <span ng-bind="getDate(fixture.date)"></span>
-                                </th>
-                              </tr>
-                              </thead>
-                              <tbody>
-
-                              <tr ng-repeat="match in fixture.matches" class="h-match" >
-
-                                <td class="col-xs-4"
-                                    ng-click="setBet(match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index)"
-                                    ng-class="{active: match.bet.client_bet === 0, winner: match.home_team_goals >= match.away_team_goals}">
-                                  <span ng-bind="match.home_team.name" class="h-name-team"></span>
-                                  <span ng-bind="match.home_team_goals" class="h-goal-team" ng-if="match.status.id_status != 3"></span>
-                                </td>
-
-                                <td class="col-xs-4"
-                                    ng-click="setBet(match.status.id_status, 1, $parent.$parent.$index, $parent.$index, $index)"
-                                    ng-class="{active: match.bet.client_bet == 1}">
-                                  <span ng-bind="getTime(match.date)" class="h-time"></span>
-                                  <br/>
+                        <td class="col-xs-4"
+                            ng-click="setBet(match.status.id_status, 1, $parent.$parent.$index, $parent.$index, $index)"
+                            ng-class="{active: match.bet.client_bet == 1}">
+                          <span ng-bind="getTime(match.date)" class="h-time"></span>
+                          <br/>
                                   <span class="status _{{match.status.id_status}}">
                                     {{ match.status.name | translate}}
                                   </span>
-                                </td>
+                        </td>
 
-                                <td class="col-xs-4"
-                                    ng-click="setBet(match.status.id_status, 2, $parent.$parent.$index,$parent.$index,$index)"
-                                    ng-class="{active: match.bet.client_bet == 2, winner: match.away_team_goals >= match.home_team_goals}">
-                                  <span ng-bind="match.away_team.name" class="h-name-team"></span>
-                                  <span ng-bind="match.away_team_goals" class="h-goal-team" ng-if="match.status.id_status != 3"></span>
-                                </td>
+                        <td class="col-xs-4"
+                            ng-click="setBet(match.status.id_status, 2, $parent.$parent.$index,$parent.$index,$index)"
+                            ng-class="{active: match.bet.client_bet == 2, winner: match.away_team_goals >= match.home_team_goals}">
+                          <span ng-bind="match.away_team.name" class="h-name-team"></span>
+                          <span ng-bind="match.away_team_goals" class="h-goal-team" ng-if="match.status.id_status != 3"></span>
+                        </td>
 
-                              </tr>
+                      </tr>
 
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>	<!--container-->
-                      </div>	<!--scroller-->
-                    </div> <!--wrapper-->
-                  </div> <!--row-->
-
-                  <div  class="no-content-panel" ng-show="league.empty" >
-                      <i class="mdi-action-info-outline"></i>
-                      <div class="no-content-panel-title" translate>EMPTY_STATES.PREDICTIONS</div>
+                      </tbody>
+                    </table>
                   </div>
+                </div>	<!--container-->
+              </div>	<!--scroller-->
+            </div> <!--wrapper-->
+          </div> <!--row-->
 
-                </div>
+          <div  class="no-content-panel" ng-show="league.empty" >
+            <i class="mdi-action-info-outline"></i>
+            <div class="no-content-panel-title" translate>EMPTY_STATES.PREDICTIONS</div>
+          </div>
+
+        </div>
 
 
-            </li>
-        </ul>
-    </div>
+      </li>
+    </ul>
+  </div>
 </div>
+
+
+
+

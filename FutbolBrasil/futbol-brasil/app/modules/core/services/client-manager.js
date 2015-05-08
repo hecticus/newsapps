@@ -86,11 +86,11 @@ angular
                 var device = {};
                 var isNewClient = true;
                 var lang = getLanguage();
-                var device_id = CordovaDevice.getDeviceId();
 
                 var jData = {
                     country : 3,
                     language: lang? lang.id_language : 405,
+                    device_id : CordovaDevice.getDeviceId(),
                     upstreamChannel : CordovaDevice.getUpstreamChannel()
                 };
 
@@ -107,7 +107,6 @@ angular
                     console.log('createOrUpdateClient. no regId.');
                 }
 
-                console.log('device.registration_id -> ' + device.registration_id);
 
                 if(client.msisdn){
                     jData.login = client.msisdn;
@@ -130,11 +129,10 @@ angular
                     jData.add_devices = devices;
                 } else {
                     url = Domain.client.create;
-                    if (device_id != 3) jData.devices = devices;
+                    if (jData.device_id == 3) delete jData.device_id;
+                    else jData.devices = devices;
                     if(subscribe){ jData.subscribe = true; }
                 }
-
-                if (device_id != 3) jData.device_id = device_id;
 
                 console.log('jData -> ' + JSON.stringify(jData));
 

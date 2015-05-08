@@ -1097,7 +1097,8 @@ h6.team-name {
       font-size:1.6em !important;
     }
 
-    .content-standings .h-list .h-headline {
+    .content-standings .h-list .h-headline,
+    .content-prediction .h-list .h-headline {
       font-size:1.8em;
     }
 

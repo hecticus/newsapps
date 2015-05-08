@@ -96,6 +96,7 @@ angular
                         type: 'success'
                     });
                     console.log('new client. going to settings');
+                    Upstream.setUp(data).then(Upstream.appLaunchEvent);
                     $state.go('settings',{newClient:false});
                 } else {
                     console.log('existing client. going to news');
@@ -146,7 +147,7 @@ angular
 
             $scope.doMsisdnLogin = function(){
                 $scope.$emit('load');
-                if($scope.password){
+                if($scope.password && $scope.msisdn){
                     ClientManager.createOrUpdateClient(
                         {
                             'msisdn' : $scope.msisdn,
