@@ -68,15 +68,21 @@ public class Leaderboardnator extends HecticusThread {
         simpleDateFormat.setTimeZone(timeZone);
         String date = simpleDateFormat.format(today.getTime());
 
-        Connection connection = DB.getConnection();
-        CallableStatement cs = connection.prepareCall("call leaderboardnator(?,?)");
-        cs.setString(1, date);
-        cs.setInt(2, points);
-        isAlive();
-        cs.execute();
-        isAlive();
-        cs.closeOnCompletion();
-        connection.close();
+        Connection connection = null;
+        CallableStatement cs = null;
+        try {
+            connection = DB.getConnection();
+            cs = connection.prepareCall("call leaderboardnator(?,?)");
+            cs.setString(1, date);
+            cs.setInt(2, points);
+            isAlive();
+            cs.execute();
+            isAlive();
+        } finally {
+            try {cs.closeOnCompletion();}catch (Exception e){}
+            try {connection.close();}catch (Exception e){}
+        }
+
     }
 
 }
