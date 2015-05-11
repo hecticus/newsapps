@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import controllers.HecticusController;
-import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
+import exceptions.UpstreamException;
 import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
@@ -27,7 +27,6 @@ import play.libs.ws.WSResponse;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
 import utils.DateAndTime;
 import utils.Utils;
 
@@ -36,7 +35,6 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -219,8 +217,16 @@ public class Clients extends HecticusController {
                 return badRequest(buildBasicResponse(1, "Faltan campos para crear el registro"));
             }
         } catch (Exception ex) {
-            Utils.printToLog(Clients.class, "Error manejando clients", "error creando client con params " + clientData, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(2, "ocurrio un error creando el registro", ex));
+            ObjectNode response;
+            if(ex instanceof UpstreamException){
+                UpstreamException upstreamException = (UpstreamException) ex;
+                Utils.printToLog(Clients.class, "Error manejando clients", "error creando client con params " + clientData + " el request fue " + upstreamException.getRequest(), true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildUpstreamResponse(-2, "ocurrio un error creando el registro", upstreamException);
+            } else {
+                Utils.printToLog(Clients.class, "Error manejando clients", "error creando client con params " + clientData, true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildBasicResponse(-1, "ocurrio un error creando el registro", ex);
+            }
+            return internalServerError(response);
         }
     }
 
@@ -452,8 +458,16 @@ public class Clients extends HecticusController {
 //            Utils.printToLog(Clients.class, "Error manejando clients", "Login invalido " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
 //            return Results.badRequest(buildBasicResponse(6, "ocurrio un error actualizando el registro", ex));
         } catch (Exception ex) {
-            Utils.printToLog(Clients.class, "Error manejando clients", "error actualizando el client " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(3, "ocurrio un error actualizando el registro", ex));
+            ObjectNode response;
+            if(ex instanceof UpstreamException){
+                UpstreamException upstreamException = (UpstreamException) ex;
+                Utils.printToLog(Clients.class, "Error manejando clients", "error actualizando client con params " + clientData + " el request fue " + upstreamException.getRequest(), true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildUpstreamResponse(-2, "ocurrio un error creando el registro", upstreamException);
+            } else {
+                Utils.printToLog(Clients.class, "Error manejando clients", "error actualizando client con params " + clientData, true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildBasicResponse(-1, "ocurrio un error creando el registro", ex);
+            }
+            return internalServerError(response);
         }
     }
 
@@ -501,9 +515,17 @@ public class Clients extends HecticusController {
             } else {
                 return notFound(buildBasicResponse(2, "no existe el registro a consultar"));
             }
-        }catch (Exception e) {
-            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(-1,"Error buscando el registro",e));
+        }catch (Exception ex) {
+            ObjectNode response;
+            if(ex instanceof UpstreamException){
+                UpstreamException upstreamException = (UpstreamException) ex;
+                Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo el client " + id + " el request fue " + upstreamException.getRequest(), true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildUpstreamResponse(-2, "ocurrio un error creando el registro", upstreamException);
+            } else {
+                Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo el client " + id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildBasicResponse(-1, "ocurrio un error creando el registro", ex);
+            }
+            return internalServerError(response);
         }
     }
 
@@ -1311,8 +1333,16 @@ public class Clients extends HecticusController {
                 return notFound(buildBasicResponse(2, "no existe el cliente " + id));
             }
         } catch (Exception ex) {
-            Utils.printToLog(Clients.class, "Error enviando evento", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            return internalServerError(buildBasicResponse(-1, "ocurrio un error enviando evento", ex));
+            ObjectNode response;
+            if(ex instanceof UpstreamException){
+                UpstreamException upstreamException = (UpstreamException) ex;
+                Utils.printToLog(Clients.class, "Error manejando clients", "error al enviar un evento a Upstream del client " + user_id + " el request fue " + upstreamException.getRequest(), true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildUpstreamResponse(-2, "ocurrio un error creando el registro", upstreamException);
+            } else {
+                Utils.printToLog(Clients.class, "Error manejando clients", "error al enviar un evento a Upstream del client " + user_id, true, ex, "support-level-1", Config.LOGGER_ERROR);
+                response = buildBasicResponse(-1, "ocurrio un error creando el registro", ex);
+            }
+            return internalServerError(response);
         }
     }
 
@@ -1394,7 +1424,7 @@ public class Clients extends HecticusController {
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
-            checkUpstreamResponseStatus(wsResponse,client);
+            checkUpstreamResponseStatus(wsResponse,client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage="";
@@ -1409,11 +1439,11 @@ public class Clients extends HecticusController {
                     client.setUserId(userID);
                 }else{
                     //ocurrio un error en la llamada
-                    throw new Exception(errorMessage);
+                    throw new UpstreamException(callResult, errorMessage, fields.toString());
                 }
             }else{
                 errorMessage = "Web service call to Upstream failed";
-                throw new Exception(errorMessage);
+                throw new UpstreamException(-1, errorMessage, fields.toString());
             }
 
             //client.setStatus(1);//no lo debemos colocar en status 1 hasta que no obtengamos el status del cliente
@@ -1485,7 +1515,7 @@ public class Clients extends HecticusController {
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
-            checkUpstreamResponseStatus(wsResponse,client);
+            checkUpstreamResponseStatus(wsResponse,client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
             if(fResponse != null){
@@ -1498,11 +1528,11 @@ public class Clients extends HecticusController {
                     client.setPassword("");
                 }else{
                     //ocurrio un error en la llamada
-                    throw new Exception(errorMessage);
+                    throw new UpstreamException(callResult, errorMessage, fields.toString());
                 }
             }else{
                 errorMessage = "Web service call to Upstream failed";
-                throw new Exception(errorMessage);
+                throw new UpstreamException(-1, errorMessage, fields.toString());
             }
         }
     }
@@ -1582,7 +1612,7 @@ public class Clients extends HecticusController {
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
-            checkUpstreamResponseStatus(wsResponse,client);
+            checkUpstreamResponseStatus(wsResponse,client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage="";
@@ -1596,11 +1626,11 @@ public class Clients extends HecticusController {
                     client.setUserId(userID);
                 }else{
                     //ocurrio un error en la llamada
-                    throw new Exception(errorMessage);
+                    throw new UpstreamException(callResult, errorMessage, fields.toString());
                 }
             }else{
                 errorMessage = "Web service call to Upstream failed";
-                throw new Exception(errorMessage);
+                throw new UpstreamException(-1, errorMessage, fields.toString());
             }
         }
     }
@@ -1670,7 +1700,7 @@ public class Clients extends HecticusController {
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
-            checkUpstreamResponseStatus(wsResponse,client);
+            checkUpstreamResponseStatus(wsResponse,client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage = "";
@@ -1684,11 +1714,11 @@ public class Clients extends HecticusController {
                     client.setStatus(eligible ? 1 : -1);
                 }else{
                     //ocurrio un error en la llamada
-                    throw new Exception(errorMessage);
+                    throw new UpstreamException(callResult, errorMessage, fields.toString());
                 }
             }else{
                 errorMessage = "Web service call to Upstream failed";
-                throw new Exception(errorMessage);
+                throw new UpstreamException(-1, errorMessage, fields.toString());
             }
         }else{
             //deberia estar en periodo de pruebas 2 o desactivado por tiempo -1 la verificacion se hace despues de la llamada
@@ -1752,7 +1782,7 @@ public class Clients extends HecticusController {
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
-            checkUpstreamResponseStatus(wsResponse,client);
+            checkUpstreamResponseStatus(wsResponse,client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
             if(fResponse != null){
@@ -1762,11 +1792,11 @@ public class Clients extends HecticusController {
                     //everything is OK, do nothing but wait for MT
                 }else{
                     //ocurrio un error en la llamada
-                    throw new Exception(errorMessage);
+                    throw new UpstreamException(callResult, errorMessage, fields.toString());
                 }
             }else{
                 errorMessage = "Web service call to Upstream failed";
-                throw new Exception(errorMessage);
+                throw new UpstreamException(-1, errorMessage, fields.toString());
             }
         }else{
             errorMessage = "No MSISDN for client";
@@ -1858,7 +1888,7 @@ public class Clients extends HecticusController {
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
-            checkUpstreamResponseStatus(wsResponse,client);
+            checkUpstreamResponseStatus(wsResponse, client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
             String errorMessage = "";
@@ -1874,11 +1904,11 @@ public class Clients extends HecticusController {
                     }
                 }else{
                     //ocurrio un error en la llamada
-                    throw new Exception(errorMessage);
+                    throw new UpstreamException(callResult, errorMessage, fields.toString());
                 }
             }else{
                 errorMessage = "Web service call to Upstream failed";
-                throw new Exception(errorMessage);
+                throw new UpstreamException(-1, errorMessage, fields.toString());
             }
         }else{
             //deberia estar en periodo de pruebas 2 o desactivado por tiempo -1 la verificacion se hace despues de la llamada
@@ -1968,20 +1998,20 @@ public class Clients extends HecticusController {
     }
 
     //check response status
-    private static void checkUpstreamResponseStatus(WSResponse wsResponse, Client client) throws Exception {
+    private static void checkUpstreamResponseStatus(WSResponse wsResponse, Client client, String request) throws Exception {
         int wsStatus = wsResponse.getStatus();
         if(wsStatus == 200){
             //all OK
         }else{
             if(wsStatus == 400 || wsStatus == 403 || wsStatus == 404 || wsStatus == 500 || wsStatus == 503){
-                throw new Exception("Upstream service: "+ wsResponse.getUri() +" fails with status: "+wsStatus);
+                throw new UpstreamException(wsStatus, "Upstream service: "+ wsResponse.getUri() +" fails with status: "+wsStatus, request);
             }else{
                 if(wsStatus == 401){
                     //la combinacion login:password es incorrecta, borramos el password
                     client.setPassword("");
-                    throw new UpstreamAuthenticationFailureException("Upstream service: "+ wsResponse.getUri() +" fails authentication");
+                    throw new UpstreamException(wsStatus, "Upstream service: "+ wsResponse.getUri() +" fails authentication", request);
                 }else{
-                    throw new Exception("Upstream service: "+ wsResponse.getUri() +" fails with unknown status: "+wsStatus);
+                    throw new UpstreamException(wsStatus, "Upstream service: "+ wsResponse.getUri() +" fails with unknown status", request);
                 }
             }
         }

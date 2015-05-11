@@ -52,6 +52,8 @@ public class Config extends Model{
     public static final String MOD_KEY = "modify";
     @Transient
     public static final String EXCEPTION_KEY = "exception";
+    @Transient
+    public static final String UPSTREAM_CODE = "upstream_code";
 
     @Transient
     public static final int DEFAULT_PAGE_SIZE = 500;
