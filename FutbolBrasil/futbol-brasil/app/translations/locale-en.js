@@ -132,6 +132,10 @@
         "EXIT_APP_MSG" : "Are you sure you want to exit?"
     },
 
+    "TERMS" : {
+        "MESSAGE" : "Please read the Terms & Conditions on the website http://www.tim.com.br/. By using the application the user agrees to all the Terms & Conditions."
+    },
+
     "ALERT": {
 
           "NEWS_LIMIT" : {

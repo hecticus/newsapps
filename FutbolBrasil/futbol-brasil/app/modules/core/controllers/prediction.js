@@ -243,7 +243,6 @@ angular
                 $scope.$emit('load');
                 getTranslations();
                 getCompetitions();
-                $scope.$emit('unload');
             } init();
 
         }
