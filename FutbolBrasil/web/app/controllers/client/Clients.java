@@ -36,6 +36,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -632,8 +633,11 @@ public class Clients extends HecticusController {
                             clientBet = betElement.get("client_bet").asInt();
                             String dateText = match.get("date").asText();
                             Date date = DateAndTime.getDate(dateText, dateText.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss");
+                            Calendar gameDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                            gameDate.setTime(date);
+                            gameDate.add(Calendar.HOUR, -1);
                             Date today = new Date(System.currentTimeMillis());
-                            if (date.after(today)) {
+                            if (gameDate.getTime().after(today)) {
                                 if (clientBetsAsMap.containsKey(idGameMatch)) {
                                     clientBets = clientBetsAsMap.get(idGameMatch);
                                     clientBets.setClientBet(clientBet);
