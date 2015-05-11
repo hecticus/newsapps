@@ -257,7 +257,7 @@ public class Client extends HecticusModel {
     }
 
     public int getPushAlertIndex(final int pushAlertId) {
-        PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", pushAlertId).findUnique();
+        final PushAlerts pushAlert = PushAlerts.finder.where().eq("idExt", pushAlertId).findUnique();
         if(pushAlert == null){
             return -1;
         }
@@ -265,7 +265,7 @@ public class Client extends HecticusModel {
         try {
             clientHasPushAlert = Iterables.find(pushAlerts, new Predicate<ClientHasPushAlerts>() {
                 public boolean apply(ClientHasPushAlerts obj) {
-                    return obj.getPushAlert().getIdPushAlert().intValue() == pushAlertId;
+                    return obj.getPushAlert().getIdPushAlert().intValue() == pushAlert.getIdPushAlert().intValue();
                 }
             });
         } catch (NoSuchElementException ex){
