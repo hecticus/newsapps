@@ -36,7 +36,22 @@ angular
                           'ALERT.SET_MSISDN.MSG',
                           'ALERT.SET_PASSWORD.TITLE',
                           'ALERT.SET_PASSWORD.SUBTITLE',
-                          'ALERT.SET_PASSWORD.MSG'])
+                          'ALERT.SET_PASSWORD.MSG',
+                          'ALERT.LOGIN_ALREADY_SUBSCRIBED.TITLE',
+                          'ALERT.LOGIN_ALREADY_SUBSCRIBED.SUBTITLE',
+                          'ALERT.LOGIN_ALREADY_SUBSCRIBED.MSG',
+                          'ALERT.LOGIN_USER_NOT_IDENTIFIED.TITLE',
+                          'ALERT.LOGIN_USER_NOT_IDENTIFIED.SUBTITLE',
+                          'ALERT.LOGIN_USER_NOT_IDENTIFIED.MSG',
+                          'ALERT.LOGIN_USER_NOT_SUBSCRIBED.TITLE',
+                          'ALERT.LOGIN_USER_NOT_SUBSCRIBED.SUBTITLE',
+                          'ALERT.LOGIN_USER_NOT_SUBSCRIBED.MSG',
+                          'ALERT.LOGIN_INVALID_MSISDN.TITLE',
+                          'ALERT.LOGIN_INVALID_MSISDN.SUBTITLE',
+                          'ALERT.LOGIN_INVALID_MSISDN.MSG',
+                          'ALERT.LOGIN_GENERIC_ERROR.TITLE',
+                          'ALERT.LOGIN_GENERIC_ERROR.SUBTITLE',
+                          'ALERT.LOGIN_GENERIC_ERROR.MSG'])
               .then(function(translation){
 
                   strings['SET_USERNAME_TITLE'] = translation['ALERT.SET_USERNAME.TITLE'];
@@ -58,6 +73,26 @@ angular
                   strings['SET_PASSWORD_TITLE'] = translation['ALERT.SET_PASSWORD.TITLE'];
                   strings['SET_PASSWORD_SUBTITLE'] = translation['ALERT.SET_PASSWORD.SUBTITLE'];
                   strings['SET_PASSWORD_MSG'] = translation['ALERT.SET_PASSWORD.MSG'];
+                  
+                  strings['LOGIN_ALREADY_SUBSCRIBED_TITLE'] = translation['ALERT.LOGIN_ALREADY_SUBSCRIBED.TITLE'];
+                  strings['LOGIN_ALREADY_SUBSCRIBED_SUBTITLE'] = translation['ALERT.LOGIN_ALREADY_SUBSCRIBED.SUBTITLE'];
+                  strings['LOGIN_ALREADY_SUBSCRIBED_MSG'] = translation['ALERT.LOGIN_ALREADY_SUBSCRIBED.MSG'];
+                  
+                  strings['LOGIN_USER_NOT_IDENTIFIED_TITLE'] = translation['ALERT.LOGIN_USER_NOT_IDENTIFIED.TITLE'];
+                  strings['LOGIN_USER_NOT_IDENTIFIED_SUBTITLE'] = translation['ALERT.LOGIN_USER_NOT_IDENTIFIED.SUBTITLE'];
+                  strings['LOGIN_USER_NOT_IDENTIFIED_MSG'] = translation['ALERT.LOGIN_USER_NOT_IDENTIFIED.MSG'];
+                  
+                  strings['LOGIN_USER_NOT_SUBSCRIBED_TITLE'] = translation['ALERT.LOGIN_USER_NOT_SUBSCRIBED.TITLE'];
+                  strings['LOGIN_USER_NOT_SUBSCRIBED_SUBTITLE'] = translation['ALERT.LOGIN_USER_NOT_SUBSCRIBED.SUBTITLE'];
+                  strings['LOGIN_USER_NOT_SUBSCRIBED_MSG'] = translation['ALERT.LOGIN_USER_NOT_SUBSCRIBED.MSG'];
+                                    
+                  strings['LOGIN_INVALID_MSISDN_TITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.TITLE'];
+                  strings['LOGIN_INVALID_MSISDN_SUBTITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.SUBTITLE'];
+                  strings['LOGIN_INVALID_MSISDN_MSG'] = translation['ALERT.LOGIN_INVALID_MSISDN.MSG'];
+                  
+                  strings['LOGIN_GENERIC_ERROR_TITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.TITLE'];
+                  strings['LOGIN_GENERIC_ERROR_SUBTITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.SUBTITLE'];
+                  strings['LOGIN_GENERIC_ERROR_MSG'] = translation['ALERT.LOGIN_GENERIC_ERROR.MSG'];
 
               });
 
@@ -105,16 +140,21 @@ angular
                 }
             }
 
-            function loginError(){
-                Notification.showInfoAlert({
-                    title:  strings['GET_LOGIN_TITLE'],
-                    subtitle: strings['GET_LOGIN_SUBTITLE'],
-                    message: strings['GET_LOGIN_MSG'],
-                    type: 'error'
-                });
-
+            function loginError(errorData){
+                if(errorData && errorData.upstream_code){
+                    console.log("errorcode:",errorData);
+                    var errorKey = getUPSResponseCodeString(errorData.upstream_code);                    
+                    Notification.showInfoAlert({
+                        title:  strings[errorKey+'_TITLE'],
+                        subtitle: strings[errorKey+'_SUBTITLE'],
+                        message: strings[errorKey+'_MSG'],
+                        type: 'error'
+                    });
+                } else {
+                    Notification.showNetworkErrorAlert();
+                }
+                
                 $scope.$emit('unload');
-
             }
 
             $scope.sendMsisdn = function(){
@@ -202,5 +242,25 @@ angular
                     $scope.msisdn = $stateParams.msisdn;
                 }
             } init();
+            
+            function getUPSResponseCodeString(code){
+                switch(code){                   
+                    case 1:
+                        //User already subscribed
+                        return 'LOGIN_ALREADY_SUBSCRIBED';
+                    case 2:
+                        //User cannot be identified                                        
+                        return 'LOGIN_USER_NOT_IDENTIFIED';
+                    case 3:
+                        //User not subscribed
+                        return 'LOGIN_USER_NOT_SUBSCRIBED';
+                    case 5:
+                        //Invalid MSISDN
+                        return 'LOGIN_INVALID_MSISDN';
+                    default:
+                        //Generic Error
+                        return 'LOGIN_GENERIC_ERROR';
+                }
+            }
         }
     ]);

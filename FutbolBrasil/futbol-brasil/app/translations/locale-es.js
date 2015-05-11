@@ -169,6 +169,36 @@
         "SUBTITLE": "Error de red",
         "MSG": "No se pudo contactar a nuestros servidores. Vuelve a intentarlo en unos minutos"
       },
+      
+       "LOGIN_ALREADY_SUBSCRIBED" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "User already subscribed"
+        },
+        
+        "LOGIN_USER_NOT_IDENTIFIED" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "User cannot be identified"
+        },
+        
+        "LOGIN_USER_NOT_SUBSCRIBED" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "User not subscribed"
+        },
+        
+        "LOGIN_INVALID_MSISDN" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "Invalid MSISDN"
+        },
+        
+        "LOGIN_GENERIC_ERROR" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "Generic Error"
+        },
 
       "SET_MSISDN" : {
         "TITLE" : "Proceso de Ingreso",
