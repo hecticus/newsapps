@@ -174,7 +174,6 @@ public class OptasportsScraper extends HecticusThread {
                         //String name = category.getName() + " " + currentSeasonName + " (" + areaIdName + ")" ;
                         String name = category.getName() + " " + currentSeasonName;
                         Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
-                        System.out.println("comp:"+c.getName());
                         c.validate(language);
                         //get stuff
                         //fixtures
@@ -613,7 +612,6 @@ public class OptasportsScraper extends HecticusThread {
     protected void getMinuteByMinute(String seasonExternalId){
         try {
             String url = "http://api.core.optasports.com/soccer/get_matches_live?now_playing=no&minutes=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
-            System.out.println(url);
             String xmlRespose = sendRequest(url,"");
             if (xmlRespose == null){
                 throw new Exception("no se pudo procesar el minuto a minuto, respuesta vacia del ws");
