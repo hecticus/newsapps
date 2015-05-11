@@ -1,4 +1,4 @@
-package backend.jobs.scrapers.lancenews;
+package backend.jobs.scrapers.perform;
 
 import backend.HecticusThread;
 import exceptions.BadConfigException;
@@ -27,7 +27,7 @@ public class NewsCleaner extends HecticusThread {
     @Override
     public void process(Map args) {
         try {
-            Utils.printToLog(LanceNewsScraper.class, null, "Iniciando NewsCleaner", false, null, "support-level-1", Config.LOGGER_INFO);
+            Utils.printToLog(NewsCleaner.class, null, "Iniciando NewsCleaner", false, null, "support-level-1", Config.LOGGER_INFO);
             if (args.containsKey("months")) {
                 months = Integer.parseInt((String) args.get("months"));
             } else throw new BadConfigException("es necesario configurar el parametro file_route");
@@ -43,6 +43,6 @@ public class NewsCleaner extends HecticusThread {
         } catch(Exception ex) {
 
         }
-        Utils.printToLog(LanceNewsScraper.class,null,"Finalizando NewsCleaner",false,null,"support-level-1",Config.LOGGER_INFO);
+        Utils.printToLog(NewsCleaner.class,null,"Finalizando NewsCleaner",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 }
