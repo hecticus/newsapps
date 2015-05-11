@@ -7,7 +7,7 @@
  */
 angular
     .module('core')
-    .directive('menu', ['$rootScope','iScroll',
+    .directive('hMenu', ['$rootScope','iScroll',
         function($rootScope, iScroll) {
             return {
                 restrict: "E",

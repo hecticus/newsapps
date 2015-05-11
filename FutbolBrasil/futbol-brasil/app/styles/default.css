@@ -5,8 +5,7 @@ row:not(input):not(textarea) {
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 html { -ms-touch-action: none; font-family: Helvetica; }
-body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:#002878; background:#ffffff !important; font-size: 62.5% important;}
-
+body,ul,li { padding: 0 !important; margin: 0 !important; border: 0 !important; width: 100%; height: 100%; color:#002878; background:#ffffff !important; font-size: 62.5% important;}
 
 
 .footer-section{color: #FFFFFF !important; text-decoration: none  !important; }
@@ -29,18 +28,6 @@ body,ul,li { padding: 0; margin: 0; border: 0; width: 100%; height: 100%; color:
   top: 35px;
   bottom: 0;
   }
-
-#wrapperM {
-    position: absolute;
-    z-index:20;
-    top: 50px;
-    bottom: 0;
-    width: 80%;
-    left: -80%;
-    -webkit-box-shadow: 4px 4px 20px 0px rgba(0,0,0,0.66);
-    -moz-box-shadow: 4px 4px 20px 0px rgba(0,0,0,0.66);
-    box-shadow: 4px 4px 20px 0px rgba(0,0,0,0.66);
-}
 
 #wrapper2,
 #wrapper3 {
@@ -313,6 +300,14 @@ div.header .right {
     overflow: hidden;
 }
 
+#wrapperM {
+    position: absolute;
+    z-index:20;
+    top: 50px;
+    bottom: 0;
+}
+
+
 #wrapperH #scroller {
     position: absolute;
     z-index: 1;
@@ -454,7 +449,7 @@ body.content-mtm .row-back {
 /*menu*/
 
 .content-menu,
-.content-sub-menu {background:#ffffff; height: 50px; line-height:50px; color:#134985;}
+.content-sub-menu {background:#ffffff; height: 50px; line-height:50px; color:#134985; margin-left: 32px;}
 .content-menu div.col-xs-8,
 .content-sub-menu div.col-xs-8{border-bottom: solid 1pt #ffca00; padding-left:0 !important;}
 .content-menu span:last-child {text-transform:uppercase;}

@@ -14,8 +14,8 @@
 
 
 
-.page.rightShort {-webkit-transform: translate3d(10%, 0, 0); transform: translate3d(10%, 0, 0);}
-.page.leftShort {-webkit-transform: translate3d(-10%, 0, 0); transform: translate3d(-10%, 0, 0);}
+.page.rightShort {-webkit-transform: translate3d(80%, 0, 0); transform: translate3d(80%, 0, 0);}
+.page.leftShort {-webkit-transform: translate3d(-80%, 0, 0); transform: translate3d(-80%, 0, 0);}
 
-.page.rightShortHalf {-webkit-transform: translate3d(10%, 0, 0); transform: translate3d(10%, 0, 0);}
-.page.leftShortHalf {-webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0);}
+/*.page.rightShortHalf {-webkit-transform: translate3d(50%, 0, 0); transform: translate3d(50%, 0, 0);}
+.page.leftShortHalf {-webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0);}*/
