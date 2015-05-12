@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes.
     See https://issues.apache.org/jira/browse/CB-4323 -->
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1
+    <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1
       , width=device-width, height=device-height" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -48,15 +48,16 @@
 
 </head>
 
-<body class="{{ contentClass }}" ng-controller="MainCtrl" style="position: fixed;"
+<body class="{{ contentClass }}"
+      ng-controller="MainCtrl"
       ng-swipe-right="prevPage()"
-      ng-swipe-left="nextPage()">
-
+      ng-swipe-left="nextPage()"
+      style="position: fixed !important;">
 
 
 <div id="fb-root"></div>
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <nav class="navbar navbar-default">
             <div class="navbar-header">
@@ -93,59 +94,56 @@
 
     <loading></loading>
 
-    <menu ng-cloak>
+    <h-menu>
 
-        <menu-item section="prediction" icon="mdi-action-event">
-          {{'SECTIONS.BETS' | translate}}
-        </menu-item>
+      <menu-item section="prediction" icon="mdi-action-event">
+        {{'SECTIONS.BETS' | translate}}
+      </menu-item>
 
-        <menu-sub-item section="prediction" >
-          {{'SECTIONS.BETS.PREDICTIONS' | translate}}
-        </menu-sub-item>
-        <menu-sub-item section="leaderboard" >
-          {{'SECTIONS.BETS.LEADERBOARDS' | translate}}
-        </menu-sub-item>
-        <menu-sub-item section="friends" >
-          {{'SECTIONS.BETS.FRIENDS' | translate}}
-        </menu-sub-item>
-        <menu-sub-item section="points" >
-          {{'SECTIONS.BETS.POINTS' | translate}}
-        </menu-sub-item>
+      <menu-sub-item section="prediction" >
+        {{'SECTIONS.BETS.PREDICTIONS' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="leaderboard" >
+        {{'SECTIONS.BETS.LEADERBOARDS' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="friends" >
+        {{'SECTIONS.BETS.FRIENDS' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="points" >
+        {{'SECTIONS.BETS.POINTS' | translate}}
+      </menu-sub-item>
 
-        <menu-item section="news" icon="icon-noticias">
-            {{'SECTIONS.NOTISTATS' | translate}}
-        </menu-item>
-            <menu-sub-item section="match" >
-                {{'SECTIONS.NOTISTATS.MATCHES' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="standings" >
-                {{'SECTIONS.NOTISTATS.STANDINGS' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="news" >
-                {{'SECTIONS.NOTISTATS.NEWS' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="scorers">
-                {{'SECTIONS.NOTISTATS.SCORERS' | translate}}
-            </menu-sub-item>
-            <menu-sub-item section="mtm">
-                {{'SECTIONS.NOTISTATS.LIVE' | translate}}
-            </menu-sub-item>
+      <menu-item section="news" icon="icon-noticias">
+          {{'SECTIONS.NOTISTATS' | translate}}
+      </menu-item>
+      <menu-sub-item section="match" >
+          {{'SECTIONS.NOTISTATS.MATCHES' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="standings" >
+          {{'SECTIONS.NOTISTATS.STANDINGS' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="news" >
+          {{'SECTIONS.NOTISTATS.NEWS' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="scorers">
+          {{'SECTIONS.NOTISTATS.SCORERS' | translate}}
+      </menu-sub-item>
+      <menu-sub-item section="mtm">
+          {{'SECTIONS.NOTISTATS.LIVE' | translate}}
+      </menu-sub-item>
 
+      <menu-item section="settings" icon="mdi-action-settings">
+          {{'SECTIONS.SETTINGS' | translate}}
+      </menu-item>
 
-
-        <menu-item section="settings" icon="mdi-action-settings">
-            {{'SECTIONS.SETTINGS' | translate}}
-        </menu-item>
-
-        <menu-item action="logout" icon="mdi-navigation-cancel">
-            {{'LOGOUT' | translate}}
-        </menu-item>
-
+      <menu-item action="logout" icon="mdi-navigation-cancel">
+          {{'LOGOUT' | translate}}
+      </menu-item>
       <br />
       <br />
       <br />
+    </h-menu>
 
-    </menu>
 
     <ng-include src="'modules/core/views/templates/update-modal.html'"></ng-include>
     <ng-include src="'modules/core/views/templates/share-modal.html'"></ng-include>

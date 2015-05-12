@@ -96,7 +96,7 @@ angular
             function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
-                if ($('#wrapperM').hasClass('right')) {
+                if ($('#wrapperM').hasClass('rightShort')) {
                      $rootScope.hideMenu();
                 } else if(currentSection == 'login'){
                     exitApp();

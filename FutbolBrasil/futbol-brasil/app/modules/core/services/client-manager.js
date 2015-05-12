@@ -161,14 +161,14 @@ angular
                         }
                     }, function(data) {
 
-                          console.log("createClient. Error creating client. status: " + data.status);
-                          console.log(data.data);
-
+                        console.log("createClient. Error creating client. status: " + data.status);
+                        //console.log(data.data);
+                        
                          if ((arrMsisdnTestClient.indexOf(client.msisdn) >= 0)
                              && strPasswordTestClient === client.password) {
                              createOrUpdateClient({}, true, successCallback, errorCallback);
                          } else {
-                            typeof errorCallback == "function" && errorCallback();
+                            typeof errorCallback == "function" && errorCallback(data.data);
                          }
 
                     });
