@@ -49,6 +49,9 @@ angular
                           'ALERT.LOGIN_INVALID_MSISDN.TITLE',
                           'ALERT.LOGIN_INVALID_MSISDN.SUBTITLE',
                           'ALERT.LOGIN_INVALID_MSISDN.MSG',
+                          'ALERT.LOGIN_INVALID_PASSWORD.TITLE',
+                          'ALERT.LOGIN_INVALID_PASSWORD.SUBTITLE',
+                          'ALERT.LOGIN_INVALID_PASSWORD.MSG',
                           'ALERT.LOGIN_GENERIC_ERROR.TITLE',
                           'ALERT.LOGIN_GENERIC_ERROR.SUBTITLE',
                           'ALERT.LOGIN_GENERIC_ERROR.MSG'])
@@ -89,6 +92,10 @@ angular
                   strings['LOGIN_INVALID_MSISDN_TITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.TITLE'];
                   strings['LOGIN_INVALID_MSISDN_SUBTITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.SUBTITLE'];
                   strings['LOGIN_INVALID_MSISDN_MSG'] = translation['ALERT.LOGIN_INVALID_MSISDN.MSG'];
+                  
+                  strings['LOGIN_INVALID_PASSWORD_TITLE'] = translation['ALERT.LOGIN_INVALID_PASSWORD.TITLE'];
+                  strings['LOGIN_INVALID_PASSWORD_SUBTITLE'] = translation['ALERT.LOGIN_INVALID_PASSWORD.SUBTITLE'];
+                  strings['LOGIN_INVALID_PASSWORD_MSG'] = translation['ALERT.LOGIN_INVALID_PASSWORD.MSG'];
                   
                   strings['LOGIN_GENERIC_ERROR_TITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.TITLE'];
                   strings['LOGIN_GENERIC_ERROR_SUBTITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.SUBTITLE'];
@@ -257,6 +264,9 @@ angular
                     case 5:
                         //Invalid MSISDN
                         return 'LOGIN_INVALID_MSISDN';
+                    case 401:
+                        //Invalid password
+                        return 'LOGIN_INVALID_PASSWORD';
                     default:
                         //Generic Error
                         return 'LOGIN_GENERIC_ERROR';

@@ -64,7 +64,7 @@ angular
                         TeamsManager.init();
                         getClientStatus()
                             .then(function(data){
-                                console.log('init.resolve');
+                                console.log('init.resolve, data:',data);
                                 deferred.resolve(data);
                             }, function(){
                                 console.log('init.reject');
@@ -176,6 +176,7 @@ angular
 
 
             function getClientStatus(){
+                console.log("getClientStatus...");
                 var deferred = $q.defer();
                 var upstreamChannel = CordovaDevice.getUpstreamChannel();
                 var clientId = Client.getClientId();
@@ -193,8 +194,9 @@ angular
                         Client.updateClient(response, null)
                         .then(
                             function(){
+                                console.log("getClientStatus data:",data);
                                 var clientData = {
-                                    'is_active': Client.isActiveClient(response.status),
+                                    'is_active': Client.setActiveStatus(response.status),
                                     'status' : response.status
                                 };
                                 setLanguage(response.language);

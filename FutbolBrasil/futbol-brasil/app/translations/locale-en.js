@@ -193,6 +193,12 @@
           "MSG": "Invalid MSISDN"
         },
         
+        "LOGIN_INVALID_PASSWORD" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "Invalid Password"
+        },
+        
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",

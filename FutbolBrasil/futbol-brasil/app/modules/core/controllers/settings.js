@@ -110,7 +110,7 @@ angular
 
             $scope.onFbButtonClick = function(){
                 if(!window.facebookConnectPlugin){ return;}
-                if(Client.isGuest()){
+                if(Client.isGuest() || !Client.isActiveClient()){
                     Notification.showLockedSectionDialog();
                 } else {
                     if($scope.fbObject.fbStatus !== 'connected'){

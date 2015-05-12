@@ -30,6 +30,7 @@ angular
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
+            $rootScope.hideLoading = hideLoading;
 
             $scope.toggles = {
                 favorites: true
@@ -43,6 +44,7 @@ angular
             $scope.isOnUtility = CordovaApp.isOnUtility;
             $scope.getSection = getSection;
             $scope.isGuest = isGuest;
+            $scope.isActiveClient = isActiveClient;
             $scope.getDrawerIcon = getDrawerIcon;
             $scope.goToStore = goToStore;
 
@@ -180,6 +182,10 @@ angular
             function isGuest(){
                 return Client.isGuest();
             }
+            
+            function isActiveClient(){
+                return Client.isActiveClient();
+            }
 
             function getFavoritesClass(){
                 if($scope.toggles.favorites){
@@ -272,6 +278,12 @@ angular
                     $scope.loading = false;
                  });
 
+            }
+            
+            function hideLoading(){
+                $timeout(function(){
+                    $scope.loading = false;
+                }, 200);
             }
         }
     ]);

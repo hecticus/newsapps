@@ -81,9 +81,21 @@ angular
                         }, CordovaApp.errorStartApp);
                     }
 
-                    if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
-                        Notification.showLockedSectionDialog();
+                    if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
+                        //console.log("Blocked: isGuest",Client.isGuest());
+                        if(Client.isGuest()){
+                            Notification.showLockedSectionDialog();
+                        } else {
+                            Notification.showInfoAlert({
+                                title: "Blocked",
+                                subtitle: "Blocked",
+                                message: "Blocked",
+                                type: 'warning'
+                            });
+                        }
+                        
                         event.preventDefault();
+                        $rootScope.hideLoading();                        
                     }
 
                     $rootScope.isActiveButton = 'active';
