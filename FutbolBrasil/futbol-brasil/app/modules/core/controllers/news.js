@@ -24,7 +24,7 @@ angular
 
             var listScroll = null;
             var detailScroll = null;
-
+            $rootScope.isPageContentLeft = false;
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
             $scope.news = [];

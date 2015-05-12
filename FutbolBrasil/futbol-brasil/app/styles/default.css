@@ -1154,6 +1154,15 @@ h6.team-name {
     .hidden {
       display:none;
     }
+
+    img.h-skip {
+      width:40%;
+      height:auto;
+      min-width:40px;
+      min-height:40px;
+      max-width:126px;
+      max-height:126px;
+    }
     /*</v2>*/
 
 

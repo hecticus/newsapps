@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('LanguageSelectionController', [
-        '$scope', '$state', '$stateParams', '$translate', 'i18n', 'Client',
-        function($scope, $state, $stateParams, $translate, i18n, Client) {
+        '$rootScope', '$scope', '$state', '$stateParams', '$translate', 'i18n', 'Client',
+        function($rootScope, $scope, $state, $stateParams, $translate, i18n, Client) {
             var scroll = null;
             $scope.languages = [];
             $scope.searchQuery = '';
@@ -24,7 +24,11 @@ angular
 
             function languageSelected(language){
                 Client.setLanguage(language, function(){
-                    $state.go('settings',{newClient:$stateParams.newClient});
+                    $translate('SECTIONS.SETTINGS')
+                    .then(function(translate){
+                        $rootScope.sectionTranslation = translate;
+                        $state.go('settings',{newClient:$stateParams.newClient});
+                    });
                 });
             }
 
