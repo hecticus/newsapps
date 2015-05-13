@@ -141,6 +141,7 @@ angular
             function getFavoriteTeams(){
                 TeamsManager.getTeams();
                 var teams = TeamsManager.getFavoriteTeams();
+                console.log(JSON.stringify(teams));
                 $rootScope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
                     if(teams[i]) {

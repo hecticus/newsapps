@@ -186,12 +186,8 @@ angular
 
                 $scope.$watch('searchQuery', function(newValue, oldValue){
 
-                    console.log('newValue -> ' + newValue);
-                    console.log('newValue -> ' + oldValue);
-
                     if(newValue !== oldValue){
 
-                        //if(newValue !== '' && !isDirtySearchQuery){
                         if(newValue !== '' && !isDirtySearchQuery){
                             //console.log('searchQuery changed. initializing teams again.');
                             //isDirtySearchQuery = true;
