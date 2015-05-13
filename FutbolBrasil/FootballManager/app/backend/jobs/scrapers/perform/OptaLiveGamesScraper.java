@@ -28,12 +28,12 @@ public class OptaLiveGamesScraper extends OptasportsScraper {
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList competitions = (NodeList) xPath.compile("gsmrs/competition").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0;isAlive() && i < competitions.getLength(); i++) {
+            for (int i = 0; isAlive() && i < competitions.getLength(); i++) {
                 Node currentCompetition = competitions.item(i);
-                try{
+                try {
                     //get data from current comp
                     String competitionName = xPath.compile("@name").evaluate(currentCompetition),
-                            competitionsExternalId =  xPath.compile("@competition_id").evaluate(currentCompetition),
+                            competitionsExternalId = xPath.compile("@competition_id").evaluate(currentCompetition),
                             areaId = xPath.compile("@area_id").evaluate(currentCompetition),
                             areaIdName = xPath.compile("@area_name").evaluate(currentCompetition),
                             formatName = xPath.compile("@format").evaluate(currentCompetition),
@@ -42,7 +42,7 @@ public class OptaLiveGamesScraper extends OptasportsScraper {
                     category.validate(language);
                     //seasons
                     NodeList competitionSeasons = (NodeList) xPath.compile("season").evaluate(currentCompetition, XPathConstants.NODESET);
-                    for (int j = 0;isAlive() && j < competitionSeasons.getLength(); j++){
+                    for (int j = 0; isAlive() && j < competitionSeasons.getLength(); j++) {
                         //for each season
                         Node currentSeason = competitionSeasons.item(j);
                         String currentSeasonId = xPath.compile("@season_id").evaluate(currentSeason),
@@ -58,7 +58,7 @@ public class OptaLiveGamesScraper extends OptasportsScraper {
                         getMinuteByMinute(currentSeasonId);
                     }
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     //dont break cycle
                     Utils.printToLog(OptasportsScraper.class,
                             "Error en OptaLiveGamesScraper",
