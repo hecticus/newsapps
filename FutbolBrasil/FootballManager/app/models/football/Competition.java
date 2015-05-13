@@ -4,6 +4,7 @@ import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.TeamHasCompetitionComparator;
 import models.Apps;
 import models.HecticusModel;
 import models.Language;
@@ -127,6 +128,7 @@ public class Competition  extends HecticusModel {
     }
 
     public List<TeamHasCompetition> getTeams() {
+        Collections.sort(teams, new TeamHasCompetitionComparator());
         return teams;
     }
 
