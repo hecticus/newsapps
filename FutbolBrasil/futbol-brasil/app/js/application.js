@@ -86,12 +86,13 @@ angular
                         if(Client.isGuest()){
                             Notification.showLockedSectionDialog();
                         } else {
-                            Notification.showInfoAlert({
+                            /*Notification.showInfoAlert({
                                 title: "Blocked",
                                 subtitle: "Blocked",
                                 message: "Blocked",
                                 type: 'warning'
-                            });
+                            });*/
+                            Notification.showLockedSectionNotEligible();
                         }
                         
                         event.preventDefault();
