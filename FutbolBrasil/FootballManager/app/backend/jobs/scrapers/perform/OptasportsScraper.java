@@ -8,6 +8,7 @@ import models.football.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import utils.DateAndTime;
 import utils.Utils;
 import utils.WebServicesManager;
 import javax.xml.xpath.XPath;
@@ -15,8 +16,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sorcerer on 4/6/15.
@@ -28,6 +28,17 @@ public class OptasportsScraper extends HecticusThread {
     protected String optaUserName = "upstream",
             optaAuthKey ="8277e0910d750195b448797616e091ad";
     private final String ID = "#ID#";
+
+    private Map<Long, String> updateTimes;
+
+    public OptasportsScraper() {
+        this.setActTime(System.currentTimeMillis());
+        this.setInitTime(System.currentTimeMillis());
+        this.setPrevTime(System.currentTimeMillis());
+        //set name
+        this.setName("OptasportsScraper-" + System.currentTimeMillis());
+        updateTimes = new HashMap<>();
+    }
 
     public void process(Map args){
         try {
@@ -143,12 +154,14 @@ public class OptasportsScraper extends HecticusThread {
     protected void initProcess(){
         //es necesario un filtro por region????
         try {
+            String lastStoredDate = null;
             //get avaible leagues
             String url = "http://api.core.optasports.com/soccer/get_seasons?authorized=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             String xmlRespose = sendRequest(url, "");
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList competitions = (NodeList) xPath.compile("gsmrs/competition").evaluate(source, XPathConstants.NODESET);
+            boolean processCompetition = false;
             for (int i = 0;isAlive() && i < competitions.getLength(); i++) {
                 Node currentCompetition = competitions.item(i);
                 try{
@@ -175,15 +188,27 @@ public class OptasportsScraper extends HecticusThread {
                         String name = category.getName() + " " + currentSeasonName;
                         Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
                         c.validate(language);
-                        //get stuff
-                        //fixtures
-                        getFixtures(currentSeasonId, c);
-                        //posiciones
-                        getPositions(currentSeasonId, c);
-                        //live data (minuto a minuto)
-                        getMinuteByMinute(currentSeasonId);
-                        //strikers
-                        getStrikers(currentSeasonId, c);
+
+                        if(updateTimes.containsKey(c.getIdCompetitions())){
+                            lastStoredDate = updateTimes.get(c.getIdCompetitions());
+                            processCompetition = !lastStoredDate.equalsIgnoreCase(currentSeasonLastUptdated);
+                        } else {
+                            processCompetition = true;
+                        }
+
+                        if(processCompetition) {
+                            updateTimes.put(c.getIdCompetitions(), currentSeasonLastUptdated);
+                            //get stuff
+                            //fixtures
+                            getFixtures(currentSeasonId, c);
+                            //posiciones
+                            getPositions(currentSeasonId, c);
+                            //live data (minuto a minuto)
+                            getMinuteByMinute(currentSeasonId);
+                            //strikers
+                            getStrikers(currentSeasonId, c);
+                            processCompetition = false;
+                        }
                     }
 
                 }catch (Exception ex){
@@ -195,6 +220,8 @@ public class OptasportsScraper extends HecticusThread {
                             ex,
                             "support-level-1",
                             Config.LOGGER_ERROR);
+                } finally {
+                    processCompetition = false;
                 }
             }
         //not alarm exception

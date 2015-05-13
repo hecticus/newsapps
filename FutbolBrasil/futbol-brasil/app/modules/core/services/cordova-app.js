@@ -96,7 +96,7 @@ angular
             function onBackButtonPressed(){
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
-                if ($('#wrapperM').hasClass('right')) {
+                if ($('#wrapperM').hasClass('rightShort')) {
                      $rootScope.hideMenu();
                 } else if(currentSection == 'login'){
                     exitApp();
@@ -121,20 +121,30 @@ angular
                     angular.element('.page.back.left:last').attr('class', ' page transition right');
                     $rootScope.isPageContentLeft = false;
                 } else {
-                    showNotificationDialog({
-                            title: strings.EXIT_APP_TITLE,
-                            message: strings.EXIT_APP_MSG,
-                            confirm: strings.OK,
-                            cancel: strings.CANCEL
-                        },
-                        function(){
-                            console.log('Ok selected');
-                            exitApp();
-                        },
-                        function(){
-                            console.log('Cancelled by User');
-                        }
-                    );
+                      $translate(['APP.EXIT_APP_TITLE', 'APP.EXIT_APP_MSG', 'OK', 'CANCEL'])
+                      .then(function(translation){
+
+                          strings['EXIT_APP_TITLE'] = translation['APP.EXIT_APP_TITLE'];
+                          strings['EXIT_APP_MSG'] = translation['APP.EXIT_APP_MSG'];
+                          strings['OK'] = translation['OK'];
+                          strings['CANCEL'] = translation['CANCEL'];
+
+                          showNotificationDialog({
+                              title: strings.EXIT_APP_TITLE,
+                              message: strings.EXIT_APP_MSG,
+                              confirm: strings.OK,
+                              cancel: strings.CANCEL
+                          },
+                          function(){
+                              console.log('Ok selected');
+                              exitApp();
+                          },
+                          function(){
+                              console.log('Cancelled by User');
+                          });
+
+
+                      });
                 }
             }
 

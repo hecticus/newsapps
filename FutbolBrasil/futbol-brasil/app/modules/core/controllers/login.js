@@ -76,19 +76,19 @@ angular
                   strings['SET_PASSWORD_TITLE'] = translation['ALERT.SET_PASSWORD.TITLE'];
                   strings['SET_PASSWORD_SUBTITLE'] = translation['ALERT.SET_PASSWORD.SUBTITLE'];
                   strings['SET_PASSWORD_MSG'] = translation['ALERT.SET_PASSWORD.MSG'];
-                  
+
                   strings['LOGIN_ALREADY_SUBSCRIBED_TITLE'] = translation['ALERT.LOGIN_ALREADY_SUBSCRIBED.TITLE'];
                   strings['LOGIN_ALREADY_SUBSCRIBED_SUBTITLE'] = translation['ALERT.LOGIN_ALREADY_SUBSCRIBED.SUBTITLE'];
                   strings['LOGIN_ALREADY_SUBSCRIBED_MSG'] = translation['ALERT.LOGIN_ALREADY_SUBSCRIBED.MSG'];
-                  
+
                   strings['LOGIN_USER_NOT_IDENTIFIED_TITLE'] = translation['ALERT.LOGIN_USER_NOT_IDENTIFIED.TITLE'];
                   strings['LOGIN_USER_NOT_IDENTIFIED_SUBTITLE'] = translation['ALERT.LOGIN_USER_NOT_IDENTIFIED.SUBTITLE'];
                   strings['LOGIN_USER_NOT_IDENTIFIED_MSG'] = translation['ALERT.LOGIN_USER_NOT_IDENTIFIED.MSG'];
-                  
+
                   strings['LOGIN_USER_NOT_SUBSCRIBED_TITLE'] = translation['ALERT.LOGIN_USER_NOT_SUBSCRIBED.TITLE'];
                   strings['LOGIN_USER_NOT_SUBSCRIBED_SUBTITLE'] = translation['ALERT.LOGIN_USER_NOT_SUBSCRIBED.SUBTITLE'];
                   strings['LOGIN_USER_NOT_SUBSCRIBED_MSG'] = translation['ALERT.LOGIN_USER_NOT_SUBSCRIBED.MSG'];
-                                    
+
                   strings['LOGIN_INVALID_MSISDN_TITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.TITLE'];
                   strings['LOGIN_INVALID_MSISDN_SUBTITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.SUBTITLE'];
                   strings['LOGIN_INVALID_MSISDN_MSG'] = translation['ALERT.LOGIN_INVALID_MSISDN.MSG'];
@@ -142,15 +142,15 @@ angular
                     $state.go('settings',{newClient:false});
                 } else {
                     console.log('existing client. going to news');
-                    //$state.go('settings', {newClient:true});
-                    $state.go('prediction');
+                    $state.go('settings', {newClient:true});
+                    //$state.go('prediction');
                 }
             }
 
             function loginError(errorData){
                 if(errorData && errorData.upstream_code){
                     console.log("errorcode:",errorData);
-                    var errorKey = getUPSResponseCodeString(errorData.upstream_code);                    
+                    var errorKey = getUPSResponseCodeString(errorData.upstream_code);
                     Notification.showInfoAlert({
                         title:  strings[errorKey+'_TITLE'],
                         subtitle: strings[errorKey+'_SUBTITLE'],
@@ -160,7 +160,7 @@ angular
                 } else {
                     Notification.showNetworkErrorAlert();
                 }
-                
+
                 $scope.$emit('unload');
             }
 
@@ -216,7 +216,7 @@ angular
                             subtitle: strings['SET_PASSWORD_SUBTITLE'],
                             message: strings['SET_PASSWORD_MSG'],
                             type: 'warning'
-                        });                    
+                        });
                     }
                     $scope.$emit('unload');
                 }
@@ -249,14 +249,14 @@ angular
                     $scope.msisdn = $stateParams.msisdn;
                 }
             } init();
-            
+
             function getUPSResponseCodeString(code){
-                switch(code){                   
+                switch(code){
                     case 1:
                         //User already subscribed
                         return 'LOGIN_ALREADY_SUBSCRIBED';
                     case 2:
-                        //User cannot be identified                                        
+                        //User cannot be identified
                         return 'LOGIN_USER_NOT_IDENTIFIED';
                     case 3:
                         //User not subscribed

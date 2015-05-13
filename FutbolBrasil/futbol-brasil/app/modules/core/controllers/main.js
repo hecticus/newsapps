@@ -100,18 +100,21 @@ angular
             }
 
             function showMenu() {
-                if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('left')) {
+                if (!CordovaApp.isOnUtilitySection() && $('#wrapperM').hasClass('leftShort')) {
                     $window.addEventListener('touchmove', function(){
                         $window.removeEventListener('touchmove');
                     });
                     $rootScope.menuScroll.scrollTo(0,0,0);
-                    $rootScope.transitionPage('#wrapperM', 'right');
+                    $rootScope.transitionPage('#wrapperM', 'rightShort');
+                } else {
+                  $rootScope.menuScroll.scrollTo(0,0,0);
+                  $rootScope.transitionPage('#wrapperM', 'rightShort');
                 }
             }
 
             function hideMenu() {
-                if ($('#wrapperM').hasClass('right')) {
-                    $rootScope.transitionPage('#wrapperM', 'left');
+                if ($('#wrapperM').hasClass('rightShort')) {
+                    $rootScope.transitionPage('#wrapperM', 'leftShort');
                 }
             }
 
@@ -127,18 +130,20 @@ angular
                 if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                     CordovaApp.onBackButtonPressed();
                      $scope.$emit('unload');
-                } else if (menuWrapper.hasClass('left')) {
+                } else if (menuWrapper.hasClass('leftShort')) {
                     $scope.showMenu();
-                } else if (menuWrapper.hasClass('right')) {
+                } else if (menuWrapper.hasClass('rightShort')) {
                     $scope.hideMenu();
-                     $scope.$emit('unload');
+                    $scope.$emit('unload');
+                } else {
+                    $scope.showMenu();
                 }
 
             }
 
             function showSection(_section) {
                 if (_section == $state.current.name) {
-                  if ($('#wrapperM').hasClass('right')) {
+                  if ($('#wrapperM').hasClass('rightShort')) {
                     $scope.hideMenu();
                   }
                 } else {
@@ -167,14 +172,17 @@ angular
 
             function clickPage() {
               $scope.hideMenu();
+              $scope.$emit('unload');
             }
 
             function nextPage() {
-                $scope.hideMenu();
+              $scope.hideMenu();
+              $scope.$emit('unload');
             }
 
             function prevPage() {
-                $scope.hideMenu();
+              $scope.hideMenu();
+              $scope.$emit('unload');
             }
 
             ////////////// Scope //////////////////////////

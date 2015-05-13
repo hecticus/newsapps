@@ -66,8 +66,7 @@ angular
 
             function showShareModal(info){
                 $rootScope.share = info;
-
-                $('#share-modal').modal({
+                angular.element('#share-modal').modal({
                     backdrop: true,
                     keyboard: false,
                     show: false

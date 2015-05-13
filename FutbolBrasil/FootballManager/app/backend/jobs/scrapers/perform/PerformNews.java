@@ -54,7 +54,7 @@ public class PerformNews extends HecticusThread {
     @Override
     public void process(Map args) {
         try {
-            Utils.printToLog(PerformNews.class,null,"Iniciando LanceNewsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
+//            Utils.printToLog(PerformNews.class,null,"Iniciando LanceNewsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
             if (args.containsKey("language")) {
                 finalLanguage = Language.getByID(Integer.parseInt((String) args.get("language")));
                 if(finalLanguage == null) throw new BadConfigException("language no existente");
@@ -99,7 +99,7 @@ public class PerformNews extends HecticusThread {
                     "support-level-1",
                     Config.LOGGER_ERROR);
         }
-        Utils.printToLog(PerformNews.class,null,"Finalizando PerformNews",false,null,"support-level-1",Config.LOGGER_INFO);
+//        Utils.printToLog(PerformNews.class,null,"Finalizando PerformNews",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
     private void processNews(ObjectNode news) {
@@ -128,7 +128,6 @@ public class PerformNews extends HecticusThread {
                         processMedia(next.get("links").elements(), toInsert, resolutions);
                     }
                     toInsert.save();
-                    System.out.println("guardada");
                 } else {
                     if (lastUpdateTime > toInsert.getUpdatedDate()) {
                         toInsert.setTitle(title);
@@ -144,7 +143,6 @@ public class PerformNews extends HecticusThread {
                             processMedia(next.get("links").elements(), toInsert, resolutions);
                         }
                         toInsert.update();
-                        System.out.println("actualizada");
                     }
                 }
             } catch (Exception ex){
@@ -265,14 +263,20 @@ public class PerformNews extends HecticusThread {
     }
 
     private String cleanBody(String body) {
-        return Jsoup.clean(body, Whitelist.basic());
+        int whitelistType = 0;
+        try {
+            whitelistType = Config.getInt("news-whitelist-type");
+        } catch (Exception e){
+            whitelistType = 0;
+        }
+        return Jsoup.clean(body, whitelistType==1?hecticusWhitelist():Whitelist.basic()).replaceAll("\\(Foto: Getty Images\\)", "");
     }
 
     private ObjectNode getNews() {
         String queryParameters = "_fmt=json&_rt=b&_fld=hl,tsr,ctg,bd,kwd,pt,lut,uuid,exu,img&_lcl=" + finalLanguage.getShortName();
         StringBuilder url = new StringBuilder();
         url.append("http://").append(requestDomain).append("/").append(feedName).append("/").append(outletAuthToken).append("/?").append(queryParameters);
-        System.out.println(url.toString());
+//        System.out.println(url.toString());
         F.Promise<WSResponse> result = WS.url(url.toString()).get();
         ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
         return response;
@@ -316,5 +320,18 @@ public class PerformNews extends HecticusThread {
         return resizedImage;
     }
 
+    public Whitelist hecticusWhitelist() {
+        return new Whitelist()
+                .addTags("a", "b", "blockquote", "br", "cite", "code", "dd", "dl", "dt",
+                        "i", "li", "ol", "p", "pre", "q", "small", "span", "strike", "strong", "sub",
+                        "sup", "u", "ul")
+                .addAttributes("a", "href")
+                .addAttributes("blockquote", "cite")
+                .addAttributes("q", "cite")
+                .addProtocols("a", "href", "ftp", "http", "https", "mailto")
+                .addProtocols("blockquote", "cite", "http", "https")
+                .addProtocols("cite", "cite", "http", "https")
+                .addEnforcedAttribute("a", "rel", "nofollow");
+    }
 
 }

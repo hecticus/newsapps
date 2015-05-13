@@ -24,17 +24,17 @@ angular
 
             var listScroll = null;
             var detailScroll = null;
-
+            $rootScope.isPageContentLeft = false;
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
             $scope.news = [];
-            $rootScope.share = share;
+            //$rootScope.share = share;
             $scope.fromNow = fromNow;
             $scope.showContentNews = showContentNews;
             $scope.contentNewsImg = '';
 
             /*---------------- Scope Functions ----------------*/
-            function share(_news) {
+            $scope.share = function(_news) {
                 SocialAppsManager.share({
                     'message' : _news.summary,
                     'subject' : _news.title,

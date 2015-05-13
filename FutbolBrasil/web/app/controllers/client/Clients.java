@@ -130,7 +130,7 @@ public class Clients extends HecticusController {
                 if (country != null) {
                     TimeZone tz = TimeZone.getDefault();
                     Calendar actualDate = new GregorianCalendar(tz);
-                    SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+                    SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
                     String date = sf.format(actualDate.getTime());
 
                     client = new Client(2, login, password, country, date, language);
@@ -491,12 +491,17 @@ public class Clients extends HecticusController {
             Client client = Client.finder.byId(id);
             if(client != null) {
                 if(client.getStatus() >= 0 && !pmc) {
-                    String lcd = client.getLastCheckDate();
-                    Calendar lastCheckDate = new GregorianCalendar(Integer.parseInt(lcd.substring(0, 4)), Integer.parseInt(lcd.substring(4, 6)) - 1, Integer.parseInt(lcd.substring(6)));
-                    TimeZone tz = TimeZone.getDefault();
+                    int upstreamValidationTime = Config.getInt("upstream-validation-time");
+                    String lastCheckDateString = client.getLastCheckDate();
+                    TimeZone tz = TimeZone.getTimeZone("UTC");
+                    Calendar lastCheckDate = new GregorianCalendar(tz);
+                    lastCheckDate.setTime(DateAndTime.getDate(lastCheckDateString.length()==8?lastCheckDateString+"000000":lastCheckDateString, "yyyyMMddHHmmss", tz));
                     Calendar actualDate = new GregorianCalendar(tz);
-                    if ((actualDate.get(Calendar.YEAR) > lastCheckDate.get(Calendar.YEAR)) || (actualDate.get(Calendar.MONTH) > lastCheckDate.get(Calendar.MONTH)) || (actualDate.get(Calendar.DATE) > lastCheckDate.get(Calendar.DATE))) {
-                        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+                    Calendar checkDate = new GregorianCalendar(tz);
+                    checkDate.add(Calendar.MINUTE, -upstreamValidationTime);
+                    if(lastCheckDate.getTime().before(checkDate.getTime())){
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+                        sf.setTimeZone(tz);
                         if (client.getLogin() != null) {
                             getStatusFromUpstream(client,upstreamChannel);
                             client.setLastCheckDate(sf.format(actualDate.getTime()));
@@ -1591,12 +1596,7 @@ public class Clients extends HecticusController {
         } else {
             String username = client.getLogin();
             String password = client.getPassword();
-            //String channel = "Android";
-            String push_notification_id = null;
-//            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client, upstreamChannel);
-//            }
-
+            String push_notification_id = getPushNotificationID(client, upstreamChannel);
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
             String url = upstreamURL+"/game/user/login";
@@ -1681,10 +1681,7 @@ public class Clients extends HecticusController {
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
-            String push_notification_id = null;
-//            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client, upstreamChannel);
-//            }
+            String push_notification_id = getPushNotificationID(client, upstreamChannel);
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
@@ -1865,10 +1862,7 @@ public class Clients extends HecticusController {
             String username = client.getLogin();
             String userID = client.getUserId();
             String password = client.getPassword();
-            String push_notification_id = null;
-//            if(upstreamChannel.equalsIgnoreCase("Android")){
-                push_notification_id = getPushNotificationID(client, upstreamChannel);
-//            }
+            String push_notification_id = getPushNotificationID(client, upstreamChannel);
 
             //Data from configs
             String upstreamURL = Config.getString("upstreamURL");
