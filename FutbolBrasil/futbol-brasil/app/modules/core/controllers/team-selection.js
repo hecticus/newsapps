@@ -215,7 +215,7 @@ angular
             }
 
            function getCompetitions(){
-                Competitions.get().then(function(data){
+                Competitions.get(true).then(function(data){
                     $scope.leagues  = data;
                     $scope.scroll = iScroll.vertical('wrapper');
                     $scope.$emit('unload');
