@@ -7,6 +7,7 @@ import models.Config;
 import models.football.Competition;
 import models.football.Scorer;
 import models.football.Team;
+import models.football.TeamHasCompetition;
 import play.libs.Json;
 import play.mvc.Result;
 import utils.Utils;
@@ -39,47 +40,40 @@ public class TeamsController  extends HecticusController {
         }
     }
 
-    public static Result getTeams(Integer idCompetition){
-        ObjectNode result = Json.newObject();
+    public static Result getTeams(Long idCompetition){
         try{
-            List<Team> list = Team.getList();
-            ArrayList<ObjectNode> jlist = new ArrayList<ObjectNode>();
-            Iterator<Team> it = list.iterator();
-            while(it.hasNext()){
-                jlist.add(it.next().toJson());
+            ArrayList<ObjectNode> teamsList = new ArrayList<ObjectNode>();
+            Competition competition = Competition.findById(idCompetition);
+            if(competition != null){
+                List<TeamHasCompetition> teams = competition.getTeams();
+                for(TeamHasCompetition teamHasCompetition : teams){
+                    teamsList.add(teamHasCompetition.getTeam().toJsonSimple());
+                }
+                return ok(hecticusResponse(0, "ok", "teams", teamsList));
+            } else {
+                return notFound(buildBasicResponse(1, "La competition " + idCompetition + " no existe"));
             }
-            result.put(Config.ERROR_KEY, 0);
-            result.put(Config.DESCRIPTION_KEY,"OK");
-            result.put(Config.RESPONSE_KEY, Json.toJson(jlist));
-            return ok(result);
         }catch(Exception ex){
             Utils.printToLog(AfpFutbolWs.class, "Error desconocido en Play", "Ocurrio un error en getTeams", true, ex, "support-level-1", Config.LOGGER_ERROR);
-            result.put(Config.ERROR_KEY, 1);
-            result.put(Config.DESCRIPTION_KEY,ex.getMessage());
-
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
-        return badRequest(result);
     }
 
     public static Result getTeam(Long idTeam){
-        ObjectNode result = Json.newObject();
         try{
             Team team = Team.findById(idTeam);
-            result.put(Config.ERROR_KEY, 0);
-            result.put(Config.DESCRIPTION_KEY,"OK");
-            result.put(Config.RESPONSE_KEY,(team!=null)?team.toJson():null);
-            return ok(result);
+            if(team != null){
+                return ok(hecticusResponse(0, "ok", team.toJson()));
+            } else {
+                return notFound(buildBasicResponse(1, "el equipo " + idTeam + " no existe"));
+            }
         }catch(Exception ex){
             Utils.printToLog(AfpFutbolWs.class, "Error desconocido en Play", "Ocurrio un error en getTeam, con el parámetro " + idTeam, true, ex, "support-level-1", Config.LOGGER_ERROR);
-            result.put(Config.ERROR_KEY, 1);
-            result.put(Config.DESCRIPTION_KEY,ex.getMessage());
-
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
-        return badRequest(result);
     }
 
     public static Result getTeamsGt(Long idTeam){
-        ObjectNode result = Json.newObject();
         try{
             List<Team> teams = Team.finder.where().gt("idTeams", idTeam).findList();
             ArrayList<ObjectNode> teamsList = new ArrayList<>();
