@@ -108,7 +108,7 @@ angular
                 }
             }
 
-            function setFavoriteTeams(pushAlerts){
+            /*function setFavoriteTeams(pushAlerts){
                getTeams().then(function(){
                    console.log("Seteando favorite teams.....");
                     if(!pushAlerts){ return; }
@@ -123,7 +123,21 @@ angular
                     });
                     persistFavoriteTeams(favoriteTeams);
                });
+            }*/
+
+            function setFavoriteTeams(pushAlerts){
+
+                var arrTeams = [];
+
+                pushAlerts.forEach(function(pushAlert){
+                    pushAlert.push_alert.id_teams =  pushAlert.push_alert.id_ext;
+                    arrTeams.push(pushAlert.push_alert);
+               });
+
+                persistFavoriteTeams(arrTeams);
             }
+
+
 
             function persistFavoriteTeams(favoriteTeams){
                 if(favoriteTeams){

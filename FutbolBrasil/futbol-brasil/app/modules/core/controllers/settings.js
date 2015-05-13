@@ -29,7 +29,7 @@ angular
             $scope.lang = {};
             $scope.nickname = '';
 
-            $scope.favoriteTeams = [undefined, undefined, undefined];
+            $scope.favoriteTeams = [{isEmpty : true}, {isEmpty : true}, {isEmpty : true}];
 
             $scope.toggles = {
                 bets: false,
