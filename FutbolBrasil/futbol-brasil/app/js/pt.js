@@ -26,10 +26,10 @@
             LLLL : 'dddd, D [de] MMMM [de] YYYY LT'
         },
         calendar : {
-            sameDay: '[Hoje às] LT',
-            nextDay: '[Amanhã às] LT',
+            sameDay: '[Hoje]', //'[Hoje às] LT',
+            nextDay: '[Amanhã]', //'[Amanhã às] LT',
             nextWeek: 'dddd [às] LT',
-            lastDay: '[Ontem às] LT',
+            lastDay: '[Ontem]', //'[Ontem às] LT',
             lastWeek: function () {
                 return (this.day() === 0 || this.day() === 6) ?
                     '[Último] dddd [às] LT' : // Saturday + Sunday
