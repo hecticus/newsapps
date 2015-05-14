@@ -2,33 +2,46 @@
   <div id="scroller" ng-style="getTotalWidth()">
     <ul>
       <li ng-style="getWidth()">
-       <h1>Example 1</h1>
+        <img  class="h-img-tutorial"  src="img/tutorial/{{language}}/0.png" onerror="this.src='img/tutorial/pt/0.png'">
       </li>
       <li ng-style="getWidth()">
-        <h2>Example 2</h2>
+        <img  class="h-img-tutorial"  src="img/tutorial/{{language}}/1.png" onerror="this.src='img/tutorial/pt/1.png'">
       </li>
       <li ng-style="getWidth()">
-        <h3>Example 3</h3>
+        <img  class="h-img-tutorial"  src="img/tutorial/{{language}}/2.png" onerror="this.src='img/tutorial/pt/2.png'">
       </li>
       <li ng-style="getWidth()">
-        <h4>Example 4</h4>
+        <img  class="h-img-tutorial"  src="img/tutorial/{{language}}/3.png" onerror="this.src='img/tutorial/pt/3.png'">
       </li>
       <li ng-style="getWidth()">
-        <h5>Example 5</h5>
-
+        <img  class="h-img-tutorial"  src="img/tutorial/{{language}}/4.png" onerror="this.src='img/tutorial/pt/4.png'">
       </li>
       <li ng-style="getWidth()">
-        <h6>Example 6</h6>
+        <img  class="h-img-tutorial"  src="img/tutorial/{{language}}/5.png" onerror="this.src='img/tutorial/pt/5.png'">
       </li>
     </ul>
   </div>
 
-  <div style="position:absolute; bottom:0; z-index: 25; left: 0; right:0; text-align:center; ">
-    <a ng-click="goToIndex()" class="btn btn-primary btn-lg" >{{'READY' | translate}}</a>
+
+  <div style="position:absolute; bottom:25px; z-index: 25; left: 0; right:0; text-align:center; ">
+    <i class="mdi-toggle-radio-button-off" ng-class="getToggleOnClass(0)"></i>
+    <i class="mdi-toggle-radio-button-off" ng-class="getToggleOnClass(1)"></i>
+    <i class="mdi-toggle-radio-button-off" ng-class="getToggleOnClass(2)"></i>
+    <i class="mdi-toggle-radio-button-off" ng-class="getToggleOnClass(3)"></i>
+    <i class="mdi-toggle-radio-button-off" ng-class="getToggleOnClass(4)"></i>
+    <i class="mdi-toggle-radio-button-off" ng-class="getToggleOnClass(5)"></i>
   </div>
 
-  <div style="position:absolute; bottom:0; z-index: 25; left: 0; right:0; text-align:center; ">
+</div>
 
-  </div>
+<div style="position:absolute; bottom:50%; left: 0; z-index: 25;" ng-class="getHiddenClass(0)" >
+  <i class=" mdi-navigation-chevron-left" ng-click="prevPage()"></i>
+</div>
 
+<div style="position:absolute; bottom:50%; right:0; z-index: 25; "  ng-class="getHiddenClass(5)"  >
+  <i class="mdi-navigation-chevron-right" ng-click="nextPage()"></i>
+</div>
+
+<div style="position:absolute; bottom:10px; right:10px; z-index: 25;  text-align:right; ">
+  <img class="h-skip" src="img/tutorial/{{language}}/skip.png"  onerror="this.src='img/tutorial/pt/skip.png'"   ng-click="goToIndex()">
 </div>

@@ -29,10 +29,11 @@ angular
                 return competitions;
             }
 
-            function getCompetitions() {
+            function getCompetitions(noConfig) {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 //console.log("getCompetitions-> " + Domain.competitions);
+                if (noConfig) config = false;
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();

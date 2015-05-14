@@ -29,7 +29,7 @@ angular
             $scope.lang = {};
             $scope.nickname = '';
 
-            $scope.favoriteTeams = [undefined, undefined, undefined];
+            $scope.favoriteTeams = [{isEmpty : true}, {isEmpty : true}, {isEmpty : true}];
 
             $scope.toggles = {
                 bets: false,
@@ -110,7 +110,7 @@ angular
 
             $scope.onFbButtonClick = function(){
                 if(!window.facebookConnectPlugin){ return;}
-                if(Client.isGuest()){
+                if(Client.isGuest() || !Client.isActiveClient()){
                     Notification.showLockedSectionDialog();
                 } else {
                     if($scope.fbObject.fbStatus !== 'connected'){
@@ -141,6 +141,7 @@ angular
             function getFavoriteTeams(){
                 TeamsManager.getTeams();
                 var teams = TeamsManager.getFavoriteTeams();
+                console.log(JSON.stringify(teams));
                 $rootScope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
                     if(teams[i]) {

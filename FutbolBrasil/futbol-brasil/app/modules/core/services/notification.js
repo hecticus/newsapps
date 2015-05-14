@@ -36,7 +36,7 @@ angular
                     strings['LOCKED_SECTION_CANCEL'] = translation['ALERT.LOCKED_SECTION.CANCEL'];
                 });
             }
-
+            
             getTranslationsNetError();
             getTranslationsLocked();
 
@@ -82,6 +82,24 @@ angular
                     $state.go('remind');
                 }
 
+            }
+            
+            function showLockedSectionNotEligible(){
+                $translate(['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.TITLE',
+                            'ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.MSG',
+                            'ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.SUBTITLE'])
+                .then(function(translation){
+                    strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_TITLE'] = translation['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.TITLE'];
+                    strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_MSG'] = translation['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.MSG'];
+                    strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_SUBTITLE'] = translation['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.SUBTITLE'];
+                    
+                    showInfoAlert({
+                        title : strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_TITLE'],
+                        subtitle :  strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_SUBTITLE'],
+                        message : strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_MSG'],
+                        type: 'warning'
+                    });
+                });
             }
 
             function showInfoAlert(displayInfo){
@@ -156,7 +174,9 @@ angular
                  */
                 showInfoAlert : showInfoAlert,
 
-                showNetworkErrorAlert : showNetworkErrorAlert
+                showNetworkErrorAlert : showNetworkErrorAlert,
+                
+                showLockedSectionNotEligible : showLockedSectionNotEligible
             };
 
 

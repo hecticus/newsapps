@@ -8,9 +8,11 @@
 */
 angular
     .module('core')
-    .controller('TeamSelectionController', ['$scope', '$state', '$stateParams', 'TeamsManager', 'iScroll',
-        function($scope, $state, $stateParams, TeamsManager, iScroll) {
-            var scroll = null;
+    .controller('TeamSelectionController', ['$rootScope', '$scope', '$state', '$stateParams', 'TeamsManager', 'iScroll', 'Competitions',
+        function($rootScope, $scope, $state, $stateParams, TeamsManager, iScroll, Competitions) {
+
+            $scope.scroll = null;
+            $scope.scrollL = null;
             var teams = [];
             var maxItems = 10;
             var page = {};
@@ -44,7 +46,7 @@ angular
                 }
             }
 
-            function processTeams(teams){
+            /*function processTeams(teams){
                 teams.sort(function(teamA, teamB){
                     var nameA = teamA.name.toUpperCase();
                     var nameB = teamB.name.toUpperCase();
@@ -68,25 +70,34 @@ angular
                         team.name = $scope.strings.NOT_AVAILABLE;
                     }
                 });
-            }
+            }*/
 
-            function getTeams(offset, pageSize){
+            function getTeams(id_competition, offset, pageSize){
+
                 if(!offset){ offset = 0}
                 if(!pageSize){ pageSize = 1000}
+
                 $scope.$emit('load');
-                TeamsManager.getTeams(offset, pageSize).then(function(pTeams){
+
+                TeamsManager.getTeamsIdCompetition(id_competition, offset, pageSize).then(function(pTeams){
+
+
                     $scope.hasTeams = true;
-                    processTeams(pTeams);
+                    //processTeams(pTeams);
                     teams = pTeams;
                     $scope.teams = teams.slice(page.first, page.last);
                     getFavTeams();
+
                     $scope.$emit('unload');
+
+
                 }, function(){
                     $scope.hasTeams = false;
                     teams = [];
                     $scope.teams = teams;
                     $scope.$emit('unload');
                 });
+
             }
 
             function getFavTeams(){
@@ -145,48 +156,75 @@ angular
             }
 
             function setUpIScroll() {
-                scroll = iScroll.vertical('wrapper');
+                $scope.scrollL = iScroll.vertical('wrapperL');
 
-                scroll.on('beforeScrollStart', function () {
+                $scope.scrollL.on('beforeScrollStart', function () {
                     this.refresh();
                 });
 
-                $scope.$on('$destroy', function() {
-                    scroll.destroy();
-                    scroll = null;
-                });
+                /*$scope.$on('$destroy', function() {
+                    $scope.scrollL.destroy();
+                    $scope.scrollL = null;
+                });*/
             }
 
-            function init(){
-                $scope.$emit('load');
+            $scope.showContentTeams = function(league) {
+
+
+                //alert(league.id_competitions + ' -> ' + league.name);
+
+                $rootScope.transitionPageBack('#wrapper2', 'left');
+                 $scope.teams = null;
+                $scope.searchQuery = null;
                 $scope.hasTeams = true;
                 $scope.hasNext = true;
                 $scope.hasPrev = false;
                 page.first = 0;
                 page.last = maxItems;
                 setUpIScroll();
-                getTeams();
+                getTeams(league.id_competitions );
 
                 $scope.$watch('searchQuery', function(newValue, oldValue){
 
                     if(newValue !== oldValue){
+
                         if(newValue !== '' && !isDirtySearchQuery){
-                            console.log('searchQuery changed. initializing teams again.');
-                            isDirtySearchQuery = true;
+                            //console.log('searchQuery changed. initializing teams again.');
+                            //isDirtySearchQuery = true;
                             $scope.teams = teams;
                             page.first = 0;
                             page.last = teams.length -1;
+
                         }
 
-                        if(newValue === ''){
-                            console.log('searchQuery empty. initializing teams again.');
+                       /* if(newValue === ''){
+
+                            //console.log('searchQuery empty. initializing teams again.');
                             isDirtySearchQuery = false;
                             page.first = 0;
                             page.last = maxItems;
                             $scope.teams = teams.slice(page.first, page.last);
-                        }
+
+
+                        }*/
+
                     }
+
                 });
+
+            }
+
+           function getCompetitions(){
+                Competitions.get(true).then(function(data){
+                    $scope.leagues  = data;
+                    $scope.scroll = iScroll.vertical('wrapper');
+                    $scope.$emit('unload');
+                });
+            }
+
+            function init(){
+              $scope.scroll = iScroll.vertical('wrapper');
+              getCompetitions();
             }
         }
 ]);

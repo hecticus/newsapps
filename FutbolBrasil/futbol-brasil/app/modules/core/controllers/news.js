@@ -24,7 +24,7 @@ angular
 
             var listScroll = null;
             var detailScroll = null;
-
+            $rootScope.isPageContentLeft = false;
             $rootScope.$storage.news = false;
             $scope.hasNews = true;
             $scope.news = [];
@@ -62,7 +62,8 @@ angular
                 $scope.contentNewsImg = '';
 
                 if(_news) {
-                    if (!$scope.isGuest() || ($scope.isGuest() && News.canViewNews(_news))) {
+                    if ((!$scope.isGuest() && $scope.isActiveClient()) || 
+                        (($scope.isGuest() || !$scope.isActiveClient()) && News.canViewNews(_news))) {
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                         $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
                         $scope.contentNewsImg = '';
