@@ -23,14 +23,12 @@ angular
             //////////////////////////////////////////
 
             function languageSelected(language){
+
                 Client.setLanguage(language, function(){
                     ClientManager.createOrUpdateClient({});
-                    $translate('SECTIONS.SETTINGS')
-                    .then(function(translate){
-                        $rootScope.sectionTranslation = translate;
-                        $state.go('settings',{newClient:$stateParams.newClient});
-                    });
+                   	$state.go('settings',{newClient:$stateParams.newClient});
                 });
+
             }
 
             function getLanguageClass(lang){

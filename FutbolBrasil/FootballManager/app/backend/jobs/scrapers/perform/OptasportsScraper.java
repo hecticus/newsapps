@@ -42,7 +42,7 @@ public class OptasportsScraper extends HecticusThread {
 
     public void process(Map args){
         try {
-            Utils.printToLog(OptasportsScraper.class, null, "Iniciando OptasportsScraper", false, null, "support-level-1", Config.LOGGER_INFO);
+            //Utils.printToLog(OptasportsScraper.class, null, "Iniciando OptasportsScraper", false, null, "support-level-1", Config.LOGGER_INFO);
 
             if (args.containsKey("language")) {
                 language = Language.getByID(Integer.parseInt((String) args.get("language")));
@@ -79,7 +79,7 @@ public class OptasportsScraper extends HecticusThread {
                     "support-level-1",
                     Config.LOGGER_ERROR);
         }
-        Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
+        //Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
     protected String sendRequest(String urlAddress, String parameters){
@@ -152,6 +152,7 @@ public class OptasportsScraper extends HecticusThread {
     }
 
     protected void initProcess(){
+        Utils.printToLog(OptasportsScraper.class, null, "Iniciando OptasportsScraper", false, null, "support-level-1", Config.LOGGER_INFO);
         //es necesario un filtro por region????
         try {
             String lastStoredDate = null;
@@ -235,6 +236,7 @@ public class OptasportsScraper extends HecticusThread {
                     "support-level-1",
                     Config.LOGGER_ERROR);
         }
+        Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
     private void getFixtures(String seasonExternalId, Competition c){
