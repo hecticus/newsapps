@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('LoginCtrl', ['$rootScope', '$scope', '$localStorage', '$state', '$stateParams', '$translate', 'ClientManager', 'iScroll','Client',
-        'Upstream', 'Notification', 'CordovaDevice',
-        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice) {
+        'Upstream', 'Notification', 'CordovaDevice', 'PushManager',
+        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice, PushManager) {
 
             var scroll = null;
             var strings = {};
@@ -160,6 +160,8 @@ angular
                 } else {
                     Notification.showNetworkErrorAlert();
                 }
+                
+                Client.markClientAsNotOK();
 
                 $scope.$emit('unload');
             }
@@ -248,6 +250,12 @@ angular
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
+                
+                 if(!Client.getRegId()){
+                    console.log("Se Reinicia el PushManager"); 
+                    PushManager.init();
+                 }
+                
             } init();
 
             function getUPSResponseCodeString(code){
