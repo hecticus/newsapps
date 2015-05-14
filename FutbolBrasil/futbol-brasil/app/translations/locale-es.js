@@ -21,7 +21,7 @@
         "LANGUAGE-SELECTION" : "Selección de Idioma",
         "TEAM-SELECTION" : "Selección de Equipo",
         "TERMS": "Términos",
-        "HOW": "How does it work",
+        "HOW": "Cómo funciona",
         "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
@@ -173,37 +173,37 @@
        "LOGIN_ALREADY_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "User already subscribed"
+          "MSG": "Usuario ya suscrito"
         },
         
         "LOGIN_USER_NOT_IDENTIFIED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "User cannot be identified"
+          "MSG": "Usuario no puede ser identificado"
         },
         
         "LOGIN_USER_NOT_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "User not subscribed"
+          "MSG": "User no suscrito"
         },
         
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Invalid MSISDN"
+          "MSG": "Número de teléfono inválido"
         },
         
         "LOGIN_INVALID_PASSWORD" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Invalid Password"
+          "MSG": "Contraseña inválida"
         },
         
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Generic Error"
+          "MSG": "Error Genérico"
         },
 
       "SET_MSISDN" : {
@@ -228,7 +228,7 @@
       "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
           "TITLE" : "User not eligible",
           "SUBTITLE": "User not eligible",
-          "MSG": "User not eligible!"
+          "MSG": "Usuario no elegible!"
         },
 
       "SET_BET" : {

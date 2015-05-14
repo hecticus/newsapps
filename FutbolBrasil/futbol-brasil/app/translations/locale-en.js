@@ -190,7 +190,7 @@
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Invalid MSISDN"
+          "MSG": "Invalid phone number"
         },
         
         "LOGIN_INVALID_PASSWORD" : {
