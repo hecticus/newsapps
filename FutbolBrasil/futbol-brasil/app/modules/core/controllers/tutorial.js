@@ -9,9 +9,11 @@
 angular
     .module('core')
     .controller('TutorialController', [
-        '$scope', '$localStorage', '$state', '$window', 'iScroll',
-        function($scope, $localStorage, $state, $window, iScroll) {
+        '$scope', '$localStorage', '$state', '$window', 'iScroll', 'Client',
+        function($scope, $localStorage, $state, $window, iScroll, Client) {
 
+
+            $scope.language = Client.getLanguage().short_name;
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
 
@@ -26,6 +28,25 @@ angular
             $scope.goToIndex = function(){
                 $state.go('prediction');
             };
+
+
+            $scope.nextPage = function(){
+                 $scope.hScroll.next();
+            };
+
+            $scope.prevPage = function(){
+                 $scope.hScroll.prev();
+            };
+
+            $scope.getToggleOnClass = function(page) {
+                if (page === $scope.hScroll.currentPage.pageX)
+                  return 'mdi-toggle-radio-button-on';
+            }
+
+            $scope.getHiddenClass = function(page) {
+                if (page === $scope.hScroll.currentPage.pageX)
+                  return 'hidden';
+            }
 
             function init(){
                 $scope.hScroll = iScroll.horizontal('wrapperH');

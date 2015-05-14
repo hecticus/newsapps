@@ -121,7 +121,9 @@ angular
 
                 setFriends : setFriends,
 
-                getFriendsIds : getFriendsIds
+                getFriendsIds : getFriendsIds,
+                
+                setActiveStatus : setActiveStatus
             };
 
             function init() {
@@ -131,7 +133,7 @@ angular
                 return deferred.promise;
             }
 
-            function updateClient(data, password) {
+            function updateClient(data, password) {                
                 var deferred = $q.defer();
                 if(!data){
                     deferred.reject();
@@ -141,7 +143,11 @@ angular
                 client.login = data.login;
                 client.session = data.session;
                 client.auth_token = data.auth_token;
-                client.nickname = data.nickname;                
+                client.nickname = data.nickname;
+                
+                if(data.status){
+                    setActiveStatus(data.status);
+                }                
 
                 if(data.language){
                     setLanguage(data.language);
@@ -191,8 +197,17 @@ angular
                 }
             }
 
-            function isActiveClient(status){
-                return !!(status > 0 && status != 2);
+            function isActiveClient(){
+                //return !!(status > 0 && status != 2);
+                return client.active && client.active === true;
+            }
+            
+            function setActiveStatus(status) {
+                client.active = !!(status > 0 && status != 2);
+                //client.active = false;
+                saveClient();
+                markClientAsOk();
+                return client.active;
             }
 
             function setNoGuest(){

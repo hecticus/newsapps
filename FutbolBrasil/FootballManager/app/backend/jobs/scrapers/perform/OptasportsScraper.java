@@ -8,6 +8,7 @@ import models.football.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import utils.DateAndTime;
 import utils.Utils;
 import utils.WebServicesManager;
 import javax.xml.xpath.XPath;
@@ -15,8 +16,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sorcerer on 4/6/15.
@@ -29,9 +29,20 @@ public class OptasportsScraper extends HecticusThread {
             optaAuthKey ="8277e0910d750195b448797616e091ad";
     private final String ID = "#ID#";
 
+    private Map<Long, String> updateTimes;
+
+    public OptasportsScraper() {
+        this.setActTime(System.currentTimeMillis());
+        this.setInitTime(System.currentTimeMillis());
+        this.setPrevTime(System.currentTimeMillis());
+        //set name
+        this.setName("OptasportsScraper-" + System.currentTimeMillis());
+        updateTimes = new HashMap<>();
+    }
+
     public void process(Map args){
         try {
-            Utils.printToLog(OptasportsScraper.class, null, "Iniciando OptasportsScraper", false, null, "support-level-1", Config.LOGGER_INFO);
+            //Utils.printToLog(OptasportsScraper.class, null, "Iniciando OptasportsScraper", false, null, "support-level-1", Config.LOGGER_INFO);
 
             if (args.containsKey("language")) {
                 language = Language.getByID(Integer.parseInt((String) args.get("language")));
@@ -68,7 +79,7 @@ public class OptasportsScraper extends HecticusThread {
                     "support-level-1",
                     Config.LOGGER_ERROR);
         }
-        Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
+        //Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
     protected String sendRequest(String urlAddress, String parameters){
@@ -141,14 +152,17 @@ public class OptasportsScraper extends HecticusThread {
     }
 
     protected void initProcess(){
+        Utils.printToLog(OptasportsScraper.class, null, "Iniciando OptasportsScraper", false, null, "support-level-1", Config.LOGGER_INFO);
         //es necesario un filtro por region????
         try {
+            String lastStoredDate = null;
             //get avaible leagues
             String url = "http://api.core.optasports.com/soccer/get_seasons?authorized=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             String xmlRespose = sendRequest(url, "");
             InputSource source = new InputSource(new StringReader(xmlRespose));
             XPath xPath =  XPathFactory.newInstance().newXPath();
             NodeList competitions = (NodeList) xPath.compile("gsmrs/competition").evaluate(source, XPathConstants.NODESET);
+            boolean processCompetition = false;
             for (int i = 0;isAlive() && i < competitions.getLength(); i++) {
                 Node currentCompetition = competitions.item(i);
                 try{
@@ -175,15 +189,27 @@ public class OptasportsScraper extends HecticusThread {
                         String name = category.getName() + " " + currentSeasonName;
                         Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
                         c.validate(language);
-                        //get stuff
-                        //fixtures
-                        getFixtures(currentSeasonId, c);
-                        //posiciones
-                        getPositions(currentSeasonId, c);
-                        //live data (minuto a minuto)
-                        getMinuteByMinute(currentSeasonId);
-                        //strikers
-                        getStrikers(currentSeasonId, c);
+
+                        if(updateTimes.containsKey(c.getIdCompetitions())){
+                            lastStoredDate = updateTimes.get(c.getIdCompetitions());
+                            processCompetition = !lastStoredDate.equalsIgnoreCase(currentSeasonLastUptdated);
+                        } else {
+                            processCompetition = true;
+                        }
+
+                        if(processCompetition) {
+                            updateTimes.put(c.getIdCompetitions(), currentSeasonLastUptdated);
+                            //get stuff
+                            //fixtures
+                            getFixtures(currentSeasonId, c);
+                            //posiciones
+                            getPositions(currentSeasonId, c);
+                            //live data (minuto a minuto)
+                            //getMinuteByMinute(currentSeasonId);
+                            //strikers
+                            getStrikers(currentSeasonId, c);
+                            processCompetition = false;
+                        }
                     }
 
                 }catch (Exception ex){
@@ -195,6 +221,8 @@ public class OptasportsScraper extends HecticusThread {
                             ex,
                             "support-level-1",
                             Config.LOGGER_ERROR);
+                } finally {
+                    processCompetition = false;
                 }
             }
         //not alarm exception
@@ -208,6 +236,7 @@ public class OptasportsScraper extends HecticusThread {
                     "support-level-1",
                     Config.LOGGER_ERROR);
         }
+        Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
     private void getFixtures(String seasonExternalId, Competition c){
@@ -632,7 +661,6 @@ public class OptasportsScraper extends HecticusThread {
                     int groupCant = Integer.parseInt(xPath.compile("@groups").evaluate(currentRound));
                     if (currentRoundType.equalsIgnoreCase("table")){
                         if (groupCant > 0){
-                            //System.out.println("cant");
                             //get groups then matches
                             NodeList groups = (NodeList) xPath.compile("group").evaluate(currentRound, XPathConstants.NODESET);
                             for (int j = 0; isAlive() && j < groups.getLength(); j++){
@@ -658,22 +686,27 @@ public class OptasportsScraper extends HecticusThread {
                                             venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
                                             matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
 
-                                    Countries localCountry = new Countries(teamACountryName);
-                                    localCountry.validateCountry();
-
-
                                     String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
 
                                     //get match from bd
                                     GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
                                     if (currentGameMatch != null) {
-
+                                        //validate data del equipo
+                                        Countries localCountry = new Countries(teamACountryName);
+                                        localCountry.validateCountry();
                                         Team localTeam = new Team(teamAName, teamAId, localCountry);
                                         localTeam.validateTeam(currentGameMatch.getCompetition());
                                         Countries awayCountry = new Countries(teamBCountryName);
                                         awayCountry.validateCountry();
                                         Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                         awayTeam.validateTeam(currentGameMatch.getCompetition());
+
+                                        //update game data
+                                        GameMatchStatus status = new GameMatchStatus(statusName);
+                                        status.validate(language);
+                                        int localGoals = stringIntParser(teamAGoals),
+                                                awayGoals = stringIntParser(teamBGoals);
+                                        currentGameMatch.updateGameData(status, localGoals, awayGoals);
 
                                         //get substitutions
                                         NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
@@ -715,8 +748,6 @@ public class OptasportsScraper extends HecticusThread {
                                         venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
                                         matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
 
-                                Countries localCountry = new Countries(teamACountryName);
-                                localCountry.validateCountry();
 
 
                                 String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
@@ -725,12 +756,21 @@ public class OptasportsScraper extends HecticusThread {
                                 GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
                                 if (currentGameMatch != null) {
 
+                                    Countries localCountry = new Countries(teamACountryName);
+                                    localCountry.validateCountry();
                                     Team localTeam = new Team(teamAName, teamAId, localCountry);
                                     localTeam.validateTeam(currentGameMatch.getCompetition());
                                     Countries awayCountry = new Countries(teamBCountryName);
                                     awayCountry.validateCountry();
                                     Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                     awayTeam.validateTeam(currentGameMatch.getCompetition());
+
+                                    //update game data
+                                    GameMatchStatus status = new GameMatchStatus(statusName);
+                                    status.validate(language);
+                                    int localGoals = stringIntParser(teamAGoals),
+                                            awayGoals = stringIntParser(teamBGoals);
+                                    currentGameMatch.updateGameData(status, localGoals, awayGoals);
 
                                     ///get substitutions
                                     NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
@@ -775,22 +815,27 @@ public class OptasportsScraper extends HecticusThread {
                                         venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
                                         matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
 
-                                Countries localCountry = new Countries(teamACountryName);
-                                localCountry.validateCountry();
-
-
                                 String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
 
                                 //get match from bd
                                 GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
                                 if (currentGameMatch != null) {
 
+                                    Countries localCountry = new Countries(teamACountryName);
+                                    localCountry.validateCountry();
                                     Team localTeam = new Team(teamAName, teamAId, localCountry);
                                     localTeam.validateTeam(currentGameMatch.getCompetition());
                                     Countries awayCountry = new Countries(teamBCountryName);
                                     awayCountry.validateCountry();
                                     Team awayTeam = new Team(teamBName, teamBId, awayCountry);
                                     awayTeam.validateTeam(currentGameMatch.getCompetition());
+
+                                    //update game data
+                                    GameMatchStatus status = new GameMatchStatus(statusName);
+                                    status.validate(language);
+                                    int localGoals = stringIntParser(teamAGoals),
+                                            awayGoals = stringIntParser(teamBGoals);
+                                    currentGameMatch.updateGameData(status, localGoals, awayGoals);
 
                                     //get substitutions
                                     NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);

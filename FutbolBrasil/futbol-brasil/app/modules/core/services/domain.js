@@ -95,8 +95,16 @@ angular
                 },
 
                 teams:{
+
                     index: football_manager_url + 'footballapi/'
-                        + apiVersion + '/team/app/all/' + appId
+                        + apiVersion + '/team/app/all/' + appId,
+
+                     competition: function (id) {
+                          return football_manager_url + 'footballapi/'
+                                 + apiVersion + '/team/competition/all/' + id
+                     }
+
+
                 },
 
                 standings: function () {

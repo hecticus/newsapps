@@ -30,6 +30,7 @@ angular
             $rootScope.prevPage = prevPage;
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
+            $rootScope.hideLoading = hideLoading;
 
             $scope.toggles = {
                 favorites: true
@@ -43,6 +44,7 @@ angular
             $scope.isOnUtility = CordovaApp.isOnUtility;
             $scope.getSection = getSection;
             $scope.isGuest = isGuest;
+            $scope.isActiveClient = isActiveClient;
             $scope.getDrawerIcon = getDrawerIcon;
             $scope.goToStore = goToStore;
 
@@ -117,6 +119,7 @@ angular
             }
 
             function onMenuButtonPressed(){
+
                 $scope.$emit('load');
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
@@ -125,9 +128,13 @@ angular
                 $rootScope.refreshInterval = undefined;
 
 
-                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
-                    CordovaApp.onBackButtonPressed();
+                //if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
+                if(hasPreviousSubsection) {
+                     angular.element('.page.back.left:last').attr('class', ' page transition right');
                      $scope.$emit('unload');
+                } else if (CordovaApp.isOnUtilitySection()) {
+                  CordovaApp.onBackButtonPressed();
+                  $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('leftShort')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('rightShort')) {
@@ -187,6 +194,10 @@ angular
 
             function isGuest(){
                 return Client.isGuest();
+            }
+
+            function isActiveClient(){
+                return Client.isActiveClient();
             }
 
             function getFavoritesClass(){
@@ -280,6 +291,12 @@ angular
                     $scope.loading = false;
                  });
 
+            }
+
+            function hideLoading(){
+                $timeout(function(){
+                    $scope.loading = false;
+                }, 200);
             }
         }
     ]);
