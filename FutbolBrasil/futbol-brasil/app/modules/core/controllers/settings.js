@@ -23,7 +23,8 @@ angular
             $rootScope.onMain = onMain;
             $scope.fbObject = {
                 fbStatus: null,
-                fbButtonMsg: ''
+                fbButtonMsg: '',
+                class : 'btn-info'
             };
 
             $scope.lang = {};
@@ -109,13 +110,19 @@ angular
             };
 
             $scope.onFbButtonClick = function(){
-                if(!window.facebookConnectPlugin){ return;}
+                if(!window.facebookConnectPlugin){ return; }
                 if(Client.isGuest() || !Client.isActiveClient()){
                     Notification.showLockedSectionDialog();
                 } else {
-                    if($scope.fbObject.fbStatus !== 'connected'){
+
+                    if($scope.fbObject.fbStatus === 'connected'){
+                        FacebookManager.logout();
+                        $scope.fbObject.class = 'btn-success';
+                    } else if($scope.fbObject.fbStatus !== 'connected') {
                         FacebookManager.login();
+                        $scope.fbObject.class = 'btn-info';
                     }
+
                     $scope.setFbButtonMsg();
                 }
             };
@@ -125,12 +132,14 @@ angular
                     .then(function(translations){
                         if($scope.fbObject.fbStatus === 'connected'){
                             $scope.fbObject.fbButtonMsg = translations['SETTINGS.FACEBOOK.CONNECTED'];
+                            $scope.fbObject.class = 'btn-success';
                         } else{
                             $scope.fbObject.fbButtonMsg = translations['SETTINGS.FACEBOOK.CONNECT'];
+                            $scope.fbObject.class = 'btn-info';
                         }
                     }
                 );
-                $scope.$apply();
+
             };
 
             $scope.selectLanguage = function(){
@@ -172,7 +181,7 @@ angular
                 } else {
 
                     $timeout(function(){
-                        $scope.fbObject.fbStatus = 'connect';
+                        $scope.fbObject.fbStatus = 'connected';
                         $scope.setFbButtonMsg();
                     }, 1000);
                 }

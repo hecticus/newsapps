@@ -141,7 +141,10 @@ table tbody tr td.active {
 .content-scorers table tbody tr,
 .content-scorers table tbody tr td,
 .content-standings table tbody tr,
-.content-standings table tbody tr td {
+.content-standings table tbody tr td,
+.content-points table tbody tr,
+.content-points table tbody tr td,
+ {
   height: 25px;
   border:0 !important;
   padding: 0 !important;
@@ -954,6 +957,18 @@ h6.team-name {
     .btn-primary:not(.btn-link):not(.btn-flat),
     .btn-success:not(.btn-link):not(.btn-flat) {
       background  : rgb(44,156,211);
+    }
+
+    .btn-facebook {
+      background  : #dc3847 !important;
+    }
+
+    .btn-facebook.btn-info {
+      background  : #dc3847 !important;
+    }
+
+    .btn-facebook.btn-success {
+       background  : rgb(59,89,152) !important;
     }
 
     .h-ellipsis {

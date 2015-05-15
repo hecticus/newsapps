@@ -133,9 +133,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
-                            <button class="btn btn-info text-center"
-                                 ng-click="onFbButtonClick()" ng-bind="fbObject.fbButtonMsg">
-                            </button>
+                            <span class="btn text-center btn-facebook btn-info"
+                                    ng-class="fbObject.class"
+                                 ng-click="onFbButtonClick()"
+                                 ng-bind="fbObject.fbButtonMsg">
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -7,72 +7,34 @@
                     <table class="table h-table">
                         <thead>
                             <tr class="h-header green">
-                                <th colspan="6" >
+                                <th >
                                     <span translate>LEADERBOARD.TOURNAMENT</span>
                                 </th>
-                                <th colspan="3" >
+                                <th>
                                     <span translate>LEADERBOARD.HITS</span>
                                 </th>
-                                <th colspan="3" >
+                                <th >
                                     <span translate>LEADERBOARD.POINTS</span>
                                 </th>
                             </tr>
                         </thead>
 
-                        <tbody ng-repeat="tournament in tournaments track by tournament.id_tournament">
+                        <tbody >
 
-                            <tr>
-                              <td colspan="12" class="h-header light-blue">
-                                <span ng-bind="tournament.name"></span>
+                            <tr  ng-repeat="tournament in tournaments track by tournament.id_tournament" ng-class="{'active' : $odd}">
+
+                              <td class="h-ellipsis-truncate" style="text-align: left;" >
+                                <span ng-bind="tournament.name" style="font-weight:bold;"></span>
                               </td>
-                            </tr>
 
-                            <tr ng-if="tournament.active_phase">
-                                <td colspan="12" class="h-header red">
-                                    <span ng-bind="tournament.active_phase.global_name"></span>
-                                </td>
-                            </tr>
+                              <td style="text-center-vertical">
+                                <span ng-bind="tournament.hits"></span>
+                              </td>
 
-                            <tr class="h-points" ng-if="tournament.active_phase">
-                                <td colspan="6">
-                                    <span ng-bind="tournament.active_phase.name"></span>
-                                </td>
-                                <td colspan="3">
-                                    <span ng-bind="tournament.active_phase.hits"></span>
-                                </td>
-                                <td colspan="3">
-                                    <span ng-bind="tournament.active_phase.score"></span>
-                                </td>
-                            </tr>
+                              <td style="text-center-vertical">
+                                <span ng-bind="tournament.score"></span>
+                              </td>
 
-                            <tr  ng-if="tournament.last_phase">
-                                <td colspan="12" class="h-header red">
-                                    <span ng-bind="tournament.last_phase.global_name"></span>
-                                </td>
-                            </tr>
-
-                            <tr class="h-points" ng-if="tournament.last_phase">
-                                <td colspan="6">
-                                    <span ng-bind="tournament.last_phase.name"></span>
-                                </td>
-                                <td colspan="3">
-                                    <span ng-bind="tournament.last_phase.hits"></span>
-                                </td>
-                                <td colspan="3">
-                                    <span ng-bind="tournament.last_phase.score"></span>
-                                </td>
-                            </tr>
-
-                            <tr class="h-points">
-                                <td colspan="6">
-                                    <span translate>LEADERBOARD.SCORE</span>
-                                </td>
-                                <td colspan="3">
-                                    <span ng-bind="tournament.hits"></span>
-                                </td>
-                                <td colspan="3">
-                                    <span ng-bind="tournament.score"></span>
-                                </td>
                             </tr>
 
                         </tbody>

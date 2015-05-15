@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hecticus.futbolbrasil" version="0.8.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
+<widget id="com.hecticus.futbolbrasil" version="0.8.4" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
     <name>TIM Palpites</name>
     <description>
       TIM Palpites App.
@@ -19,7 +19,7 @@
         <splash density="port-hdpi" src="res/android/drawable-hdpi/screen.png" />
         <splash density="xhdpi" src="res/android/drawable-xhdpi/screen.png" />
         <splash density="port-xhdpi" src="res/android/drawable-xhdpi/screen.png" />
-                
+
         <icon src="res/android/drawable/icon.png"/>
         <icon src="res/android/drawable-ldpi/icon.png" density="ldpi" />
         <icon src="res/android/drawable-ldpi/icon.png" density="port-ldpi" />
