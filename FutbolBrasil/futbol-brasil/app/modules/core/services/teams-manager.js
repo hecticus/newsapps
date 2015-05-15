@@ -15,6 +15,37 @@ angular
             var favTeams = [];
             var remoteTeams = [];
 
+            function getTeamsFromServerIdCompetition(id_competition){
+                var page = 0;
+                var pageSize = 1000;
+                var config = {
+                    params: {
+                        page: page,
+                        pageSize: pageSize
+                    }
+                };
+
+                remoteTeams = [];
+                console.log(Domain.teams.competition(id_competition));
+                return $http.get(Domain.teams.competition(id_competition), config).then(
+                    function(data){
+                        console.log("Teams READY!!!!");
+                        data = data.data;
+                        //remoteTeams = remoteTeams.concat(data.response.teams);
+                        return data.response.teams;
+                    },
+                    function(data){
+                        console.log('getTeamsFromServer. error getting teams. last values: page='
+                            + page + 'pageSize=' + pageSize);
+                        console.log('getTeamsFromServer. data: ');
+                        console.log(data);
+                        return $q.reject(data);
+                    }
+                );
+            }
+
+
+
             function getTeamsFromServer(isDone){
                 var page = 0;
                 var pageSize = 1000;
@@ -50,6 +81,16 @@ angular
                 );
             }
 
+
+
+
+
+
+
+
+
+
+
             function saveTeams(sTeams){
                 $localStorage[KEY_TEAMS_LIST] = JSON.stringify(sTeams);
                 teams = sTeams.slice();
@@ -67,7 +108,7 @@ angular
                 }
             }
 
-            function setFavoriteTeams(pushAlerts){               
+            /*function setFavoriteTeams(pushAlerts){
                getTeams().then(function(){
                    console.log("Seteando favorite teams.....");
                     if(!pushAlerts){ return; }
@@ -80,9 +121,23 @@ angular
                         });
                         return found;
                     });
-                    persistFavoriteTeams(favoriteTeams);                   
-               });              
+                    persistFavoriteTeams(favoriteTeams);
+               });
+            }*/
+
+            function setFavoriteTeams(pushAlerts){
+
+                var arrTeams = [];
+
+                pushAlerts.forEach(function(pushAlert){
+                    pushAlert.push_alert.id_teams =  pushAlert.push_alert.id_ext;
+                    arrTeams.push(pushAlert.push_alert);
+               });
+
+                persistFavoriteTeams(arrTeams);
             }
+
+
 
             function persistFavoriteTeams(favoriteTeams){
                 if(favoriteTeams){
@@ -215,6 +270,44 @@ angular
                 }
             }
 
+
+            function getTeamsIdCompetition(id_competition, offset, pageSize) {
+
+                if(!offset){ offset = 0; }
+                if(!pageSize){ pageSize = 1000; }
+
+                teams = [];
+                return getTeamsFromServerIdCompetition(id_competition).then(function(pTeams){
+                    teams = pTeams;
+                    return teams;
+                }, function(){
+
+                    teams = [];
+                    return $q.reject(teams);
+
+                }).then(function(pTeams){
+                    var end = offset+pageSize;
+                    console.log('pTeams from server');
+                    end = end >= pTeams.length? pTeams.length : end;
+                    return pTeams.slice(offset, end);
+
+                });
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
             function init(){
                 remoteTeams = [];
                 teams = [];
@@ -246,7 +339,7 @@ angular
              * @methodOf core.Services.TeamsManager
              */
             getTeams: getTeams,
-
+            getTeamsIdCompetition: getTeamsIdCompetition,
             /**
              * @ngdoc function
              * @name core.Services.TeamsManager#init

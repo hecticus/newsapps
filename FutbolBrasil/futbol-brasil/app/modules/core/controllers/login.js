@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('LoginCtrl', ['$rootScope', '$scope', '$localStorage', '$state', '$stateParams', '$translate', 'ClientManager', 'iScroll','Client',
-        'Upstream', 'Notification', 'CordovaDevice',
-        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice) {
+        'Upstream', 'Notification', 'CordovaDevice', 'PushManager',
+        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice, PushManager) {
 
             var scroll = null;
             var strings = {};
@@ -92,11 +92,11 @@ angular
                   strings['LOGIN_INVALID_MSISDN_TITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.TITLE'];
                   strings['LOGIN_INVALID_MSISDN_SUBTITLE'] = translation['ALERT.LOGIN_INVALID_MSISDN.SUBTITLE'];
                   strings['LOGIN_INVALID_MSISDN_MSG'] = translation['ALERT.LOGIN_INVALID_MSISDN.MSG'];
-                  
+
                   strings['LOGIN_INVALID_PASSWORD_TITLE'] = translation['ALERT.LOGIN_INVALID_PASSWORD.TITLE'];
                   strings['LOGIN_INVALID_PASSWORD_SUBTITLE'] = translation['ALERT.LOGIN_INVALID_PASSWORD.SUBTITLE'];
                   strings['LOGIN_INVALID_PASSWORD_MSG'] = translation['ALERT.LOGIN_INVALID_PASSWORD.MSG'];
-                  
+
                   strings['LOGIN_GENERIC_ERROR_TITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.TITLE'];
                   strings['LOGIN_GENERIC_ERROR_SUBTITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.SUBTITLE'];
                   strings['LOGIN_GENERIC_ERROR_MSG'] = translation['ALERT.LOGIN_GENERIC_ERROR.MSG'];
@@ -142,8 +142,8 @@ angular
                     $state.go('settings',{newClient:false});
                 } else {
                     console.log('existing client. going to news');
-                    $state.go('settings', {newClient:true});
-                    //$state.go('prediction');
+                    //$state.go('settings', {newClient:true});
+                    $state.go('prediction');
                 }
             }
 
@@ -160,6 +160,8 @@ angular
                 } else {
                     Notification.showNetworkErrorAlert();
                 }
+                
+                Client.markClientAsNotOK();
 
                 $scope.$emit('unload');
             }
@@ -248,6 +250,12 @@ angular
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
+                
+                 if(!Client.getRegId()){
+                    console.log("Se Reinicia el PushManager"); 
+                    PushManager.init();
+                 }
+                
             } init();
 
             function getUPSResponseCodeString(code){

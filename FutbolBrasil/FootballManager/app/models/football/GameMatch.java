@@ -463,6 +463,28 @@ public class GameMatch extends HecticusModel {
         }
     }
 
+    public void updateGameData(GameMatchStatus newStatus, int localGoals, int awayGoals){
+        try {
+            boolean toUpdate = false;
+            if (newStatus.getIdGameMatchStatus() != this.getStatus().getIdGameMatchStatus()
+                    || localGoals != this.getHomeTeamGoals()
+                    || awayGoals != this.getAwayTeamGoals()){
+                toUpdate = true;
+            }
+
+            if (toUpdate){
+                //do the update
+                this.setStatus(newStatus);
+                this.setHomeTeamGoals(localGoals);
+                this.setAwayTeamGoals(awayGoals);
+                this.update();
+            }
+
+        }catch (Exception ex){
+            //cant do anything
+        }
+    }
+
 
     public List<GameMatchEvent> getEventsNoDB(final long idEvent, boolean forward){
         List<GameMatchEvent> tr = null;

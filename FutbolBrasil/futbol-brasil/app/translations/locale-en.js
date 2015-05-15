@@ -190,7 +190,7 @@
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Invalid MSISDN"
+          "MSG": "Invalid phone number"
         },
         
         "LOGIN_INVALID_PASSWORD" : {
@@ -223,6 +223,12 @@
             "CONFIRM" : "Ok",
             "CANCEL" : "Cancel"
           },
+          
+       "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
+          "TITLE" : "User not eligible",
+          "SUBTITLE": "User not eligible",
+          "MSG": "User not eligible!!!"
+        },
 
           "SET_BET" : {
             "TITLE" : "Predictions",

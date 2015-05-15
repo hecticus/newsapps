@@ -119,6 +119,7 @@ angular
             }
 
             function onMenuButtonPressed(){
+
                 $scope.$emit('load');
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
@@ -127,9 +128,13 @@ angular
                 $rootScope.refreshInterval = undefined;
 
 
-                if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
-                    CordovaApp.onBackButtonPressed();
+                //if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
+                if(hasPreviousSubsection) {
+                     angular.element('.page.back.left:last').attr('class', ' page transition right');
                      $scope.$emit('unload');
+                } else if (CordovaApp.isOnUtilitySection()) {
+                  CordovaApp.onBackButtonPressed();
+                  $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('leftShort')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('rightShort')) {
@@ -190,7 +195,7 @@ angular
             function isGuest(){
                 return Client.isGuest();
             }
-            
+
             function isActiveClient(){
                 return Client.isActiveClient();
             }
@@ -287,7 +292,7 @@ angular
                  });
 
             }
-            
+
             function hideLoading(){
                 $timeout(function(){
                     $scope.loading = false;

@@ -29,7 +29,7 @@ angular
             $scope.lang = {};
             $scope.nickname = '';
 
-            $scope.favoriteTeams = [undefined, undefined, undefined];
+            $scope.favoriteTeams = [{isEmpty : true}, {isEmpty : true}, {isEmpty : true}];
 
             $scope.toggles = {
                 bets: false,
@@ -141,6 +141,7 @@ angular
             function getFavoriteTeams(){
                 TeamsManager.getTeams();
                 var teams = TeamsManager.getFavoriteTeams();
+                console.log(JSON.stringify(teams));
                 $rootScope.hasFavorites = false;
                 for(var i = 0; i < 3; i++){
                     if(teams[i]) {
