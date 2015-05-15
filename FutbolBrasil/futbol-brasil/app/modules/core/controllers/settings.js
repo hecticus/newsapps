@@ -122,7 +122,15 @@ angular
                     }
 
                     getStatus();
-                    $scope.setFbButtonMsg();
+
+                    /*if($scope.fbObject.fbStatus === 'connected'){
+                        $scope.fbObject.class = 'btn-success';
+                    } else{
+                        $scope.fbObject.class = 'btn-info';
+                    }*/
+
+
+                    //$scope.setFbButtonMsg();
                 }
             };
 
