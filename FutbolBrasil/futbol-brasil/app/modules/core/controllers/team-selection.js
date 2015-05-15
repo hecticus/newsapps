@@ -106,7 +106,7 @@ angular
                 favTeams.forEach(function(fTeams){
                   teams.forEach(function(lTeams,index){
                     if (fTeams.id_teams == lTeams.id_teams) {
-                      teams.splice(index, index);
+                      teams.splice(index, 1);
                       console.log(JSON.stringify(lTeams) + ' -> index -> ' + index);
                     }
                   });

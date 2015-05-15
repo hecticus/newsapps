@@ -69,6 +69,7 @@ angular
                   || (getSection() === 'team-selection')
                   || ($('.content-news #wrapper2').hasClass('left'))
                   || ($rootScope.hasFavorites === false)) {
+
                 return true;
               } else {
                 return false;
@@ -131,10 +132,11 @@ angular
                 //if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                 if(hasPreviousSubsection) {
                      angular.element('.page.back.left:last').attr('class', ' page transition right');
+                     $rootScope.isPageContentLeft = false;
                      $scope.$emit('unload');
                 } else if (CordovaApp.isOnUtilitySection()) {
-                  CordovaApp.onBackButtonPressed();
-                  $scope.$emit('unload');
+                    CordovaApp.onBackButtonPressed();
+                    $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('leftShort')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('rightShort')) {
