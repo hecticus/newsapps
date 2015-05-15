@@ -117,12 +117,11 @@ angular
 
                     if($scope.fbObject.fbStatus === 'connected'){
                         FacebookManager.logout();
-                        $scope.fbObject.class = 'btn-success';
                     } else if($scope.fbObject.fbStatus !== 'connected') {
                         FacebookManager.login();
-                        $scope.fbObject.class = 'btn-info';
                     }
 
+                    getStatus();
                     $scope.setFbButtonMsg();
                 }
             };
@@ -180,10 +179,10 @@ angular
                     });
                 } else {
 
-                    $timeout(function(){
+                    //$timeout(function(){
                         $scope.fbObject.fbStatus = 'connected';
                         $scope.setFbButtonMsg();
-                    }, 1000);
+                    //}, 1000);
                 }
             }
 
