@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import models.HecticusModel;
+import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.leaderboard.ClientBets;
@@ -452,6 +453,7 @@ public class Client extends HecticusModel {
     public ObjectNode toPMCJson() {
         ObjectNode response = Json.newObject();
         response.put("idClient", idClient);
+        response.put("app", Config.getInt("pmc-id-app"));
         ArrayList<String> droid = new ArrayList<>();
         ArrayList<String> ios = new ArrayList<>();
         for(ClientHasDevices chd : devices){
