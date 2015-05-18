@@ -151,6 +151,7 @@ angular
             function showSection(_section) {
                 if (_section == $state.current.name) {
                   if ($('#wrapperM').hasClass('rightShort')) {
+                    $scope.$emit('unload');
                     $scope.hideMenu();
                   }
                 } else {
