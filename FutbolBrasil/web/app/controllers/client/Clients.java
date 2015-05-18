@@ -116,6 +116,15 @@ public class Clients extends HecticusController {
                         client.setPassword(password);
                         getStatusFromUpstream(client, upstreamChannel);
                     }
+
+                    if(clientData.has("facebook_id")){
+                        client.setFacebookId(clientData.get("facebook_id").asText());
+                    }
+
+                    if(clientData.has("nickname")){
+                        client.setNickname(clientData.get("nickname").asText());
+                    }
+
                     client.setSession(session.toString());
                     client.update();
                     return ok(buildBasicResponse(0, "OK", client.toJson()));
