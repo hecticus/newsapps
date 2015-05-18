@@ -104,6 +104,7 @@ angular
                  */
                 login : function () {
                     var that = this;
+
                     facebookConnectPlugin.login(
                         ["email", "user_friends", "public_profile", "user_friends"]
                         , function (response) {
@@ -121,9 +122,21 @@ angular
                     );
                 },
 
+                login2 : function (response) {
+                    var that = this;
+                    var authResponse = response.authResponse;
+                    fbUserId = authResponse.userID;
+                    saveUserId(fbUserId);
+                    that.setIntervalFriendsLoader();
+                    that.getFriends();
+                },
+
+
+
                 logout: function (successCallback, errorCallback) {
                     facebookConnectPlugin.logout(successCallback, errorCallback);
                 },
+
 
                 /**
                  * @ngdoc function

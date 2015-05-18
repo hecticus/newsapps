@@ -47,9 +47,9 @@ angular
         }
     ])
     .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
-        'Notification', 'Analytics', '$templateCache',
+        'Notification', 'Analytics', '$templateCache','FacebookManager',
         function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
-                 Notification, Analytics, $templateCache) {
+                 Notification, Analytics, $templateCache, FacebookManager) {
 
             CordovaApp.init();
             $rootScope.contentClass = 'content-init';
@@ -79,6 +79,22 @@ angular
                                 $state.go('login');
                             }
                         }, CordovaApp.errorStartApp);
+                    } else {
+
+                        if (toState.data.state === 'friends') {
+
+
+                          if(!!window.facebookConnectPlugin) {
+                              FacebookManager.getStatus(function (result) {
+                                  if (result) {
+                                      if (result.status !== 'connected') {
+                                          Notification.showQuestionFacebookDialog();
+                                      }
+                                  }
+                              });
+                          }
+                        };
+
                     }
 
                     if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){

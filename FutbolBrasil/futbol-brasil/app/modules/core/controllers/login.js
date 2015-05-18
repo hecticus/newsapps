@@ -138,12 +138,12 @@ angular
                         message: strings['SET_USERNAME_MSG'],
                         type: 'success'
                     });
-                    console.log('new client. going to settings');
-                    $state.go('settings',{newClient:false});
+                    //console.log('new client. going to settings');
+                    $state.go('settings',{newClient:true});
                 } else {
-                    console.log('existing client. going to news');
-                    //$state.go('settings', {newClient:true});
-                    $state.go('prediction');
+                    //console.log('existing client. going to news');
+                    $state.go('tutorial');
+                    //$state.go('prediction');
                 }
             }
 
@@ -160,7 +160,7 @@ angular
                 } else {
                     Notification.showNetworkErrorAlert();
                 }
-                
+
                 Client.markClientAsNotOK();
 
                 $scope.$emit('unload');
@@ -250,12 +250,12 @@ angular
                 if($stateParams.msisdn){
                     $scope.msisdn = $stateParams.msisdn;
                 }
-                
+
                  if(!Client.getRegId()){
-                    console.log("Se Reinicia el PushManager"); 
+                    console.log("Se Reinicia el PushManager");
                     PushManager.init();
                  }
-                
+
             } init();
 
             function getUPSResponseCodeString(code){

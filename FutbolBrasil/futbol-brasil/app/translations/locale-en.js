@@ -138,6 +138,13 @@
 
     "ALERT": {
 
+          "FACEBOOK" : {
+            "TITLE" : "Facebook",
+            "MSG": "You want to connect with facebook?",
+            "CONFIRM" : "Yes",
+            "CANCEL" : "No"
+          },
+
           "NEWS_LIMIT" : {
             "TITLE" : "Daily News Limit Exceeded",
             "MSG": "You have exceeded your free daily news limit.pt",
@@ -168,37 +175,37 @@
             "SUBTITLE": "Network Error",
             "MSG": "Could not contact our servers. Please try again in a few moments"
           },
-          
+
         "LOGIN_ALREADY_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User already subscribed"
         },
-        
+
         "LOGIN_USER_NOT_IDENTIFIED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User cannot be identified"
         },
-        
+
         "LOGIN_USER_NOT_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User not subscribed"
         },
-        
+
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Invalid phone number"
         },
-        
+
         "LOGIN_INVALID_PASSWORD" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Invalid Password"
         },
-        
+
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
@@ -223,7 +230,7 @@
             "CONFIRM" : "Ok",
             "CANCEL" : "Cancel"
           },
-          
+
        "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
           "TITLE" : "User not eligible",
           "SUBTITLE": "User not eligible",

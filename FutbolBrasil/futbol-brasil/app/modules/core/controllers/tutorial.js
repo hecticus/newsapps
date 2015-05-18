@@ -50,6 +50,7 @@ angular
 
             function init(){
                 $scope.hScroll = iScroll.horizontal('wrapperH');
+                $scope.$emit('unload');
             } init();
         }
 ]);

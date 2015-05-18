@@ -140,6 +140,13 @@
 
     "ALERT": {
 
+        "FACEBOOK" : {
+          "TITLE" : "Facebook",
+          "MSG": "Você deseja se conectar com o Facebook?",
+          "CONFIRM" : "Sim",
+          "CANCEL" : "Não"
+        },
+
         "NEWS_LIMIT" : {
           "TITLE" : "Limite diário de notícias ultrapassado",
           "MSG": "Você excedeu seu limite diário gratuito de notícias",
@@ -170,37 +177,37 @@
           "SUBTITLE": "Erro de Rede",
           "MSG": "Não foi possível entrar em contato com nossos servidores. Por favor, tente novamente em alguns momentos"
         },
-        
+
         "LOGIN_ALREADY_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Usuário já subscrito"
         },
-        
+
         "LOGIN_USER_NOT_IDENTIFIED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Usuário não pode ser identificado"
         },
-        
+
         "LOGIN_USER_NOT_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Usuário não assinado"
         },
-        
+
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Número do celular inválido"
         },
-        
+
         "LOGIN_INVALID_PASSWORD" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Senha inválida"
         },
-        
+
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
@@ -225,7 +232,7 @@
           "CONFIRM" : "Ok",
           "CANCEL" : "Cancelar"
         },
-        
+
        "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
           "TITLE" : "User not eligible",
           "SUBTITLE": "User not eligible",
