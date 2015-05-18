@@ -891,8 +891,8 @@ h6.team-name {
     tr.h-match { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-match:last-child { border: 0 !important; }
     tr.h-match td { height:60px !important; vertical-align:middle;}
-    tr.h-match td .h-name-team {display:block; height:40px !important; }
-    tr.h-match td .h-goal-team {display:block;}
+    tr.h-match td .h-name-team {display:block; height: 60% !important; }
+    tr.h-match td .h-goal-team {display:block; height: 40%; vertical-align: middle; }
 
     tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
