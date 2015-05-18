@@ -448,6 +448,55 @@ public class OptasportsScraper extends HecticusThread {
                             }
                         }
 
+                        NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
+                        for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                            Node currentMatch = (Node) matches.item(k);
+                            //gameweek
+                            String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
+                                    matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
+                                    matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
+                                    statusName = xPath.compile("@status").evaluate(currentMatch),
+                                    teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
+                                    teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
+                                    teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
+                                    teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
+                                    teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
+                                    teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
+                                    teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
+                                    teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
+                                    venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
+                                    venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
+                                    venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
+
+                            Countries localCountry = new Countries(teamACountryName);
+                            localCountry.validateCountry();
+                            Team localTeam = new Team(teamAName, teamAId, localCountry);
+                            localTeam.validateTeam(c);
+                            Countries awayCountry = new Countries(teamBCountryName);
+                            awayCountry.validateCountry();
+                            Team awayTeam = new Team(teamBName, teamBId, awayCountry);
+                            awayTeam.validateTeam(c);
+
+                            GameMatchStatus status = new GameMatchStatus(statusName);
+                            status.validate(language);
+
+                            Venue gameVenue = null;
+                            long stadiumId = stringLongParser(venueId);
+                            if (stadiumId != 0){
+                                gameVenue = new Venue(stadiumId, venueName, venueCity, localCountry);
+                                gameVenue.validateVenue();
+                            }
+                            int localGoles = stringIntParser(teamAGoals),
+                                    awayGoles = stringIntParser(teamBGoals);
+
+                            String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
+
+                            GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, teamAName,
+                                    teamBName, localGoles, awayGoles, utcActualTime, status,
+                                    Long.parseLong(matchExternal), c);
+                            partidoFromFile.validateGame();
+                        }
+
                     }else {
                         //alarma
                     }
