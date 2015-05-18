@@ -79,7 +79,7 @@ public class ClientsCache {
         Map<Integer, ArrayList<Integer>> cl = new HashMap<>();
         List<Client> pushAlerts = null;
         if(k == -1){
-            pushAlerts = Client.finder.where().gt("status", 0).orderBy("idClient asc").findList();
+            pushAlerts = Client.finder.where().gt("status", 0).eq("pushAlerts.pushAlert.idPushAlert", Config.getInt("news-push-id")).orderBy("idClient asc").findList();
         } else {
             pushAlerts = Client.finder.where().eq("leaderboards.idTournament", k).orderBy("idClient asc").findList();
         }
