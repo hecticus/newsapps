@@ -174,31 +174,37 @@
         "LOGIN_ALREADY_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "User already subscribed"
+          "MSG": "Usuário já subscrito"
         },
         
         "LOGIN_USER_NOT_IDENTIFIED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "User cannot be identified"
+          "MSG": "Usuário não pode ser identificado"
         },
         
         "LOGIN_USER_NOT_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "User not subscribed"
+          "MSG": "Usuário não assinado"
         },
         
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Invalid MSISDN"
+          "MSG": "Número do celular inválido"
+        },
+        
+        "LOGIN_INVALID_PASSWORD" : {
+          "TITLE" : "Login",
+          "SUBTITLE": "Error",
+          "MSG": "Senha inválida"
         },
         
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
-          "MSG": "Generic Error"
+          "MSG": "Erro genérico"
         },
 
         "SET_MSISDN" : {
@@ -218,6 +224,12 @@
           "MSG": "Esta sessão está bloqueada para usuário convidados. Gostaria de registrar-se para desbloquear esta sessão?",
           "CONFIRM" : "Ok",
           "CANCEL" : "Cancelar"
+        },
+        
+       "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
+          "TITLE" : "User not eligible",
+          "SUBTITLE": "User not eligible",
+          "MSG": "Inelegível Usuário!"
         },
 
         "SET_BET" : {

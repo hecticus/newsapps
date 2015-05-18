@@ -47,9 +47,9 @@ angular
         }
     ])
     .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
-        'Notification', 'Analytics',
+        'Notification', 'Analytics', '$templateCache',
         function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
-                 Notification, Analytics) {
+                 Notification, Analytics, $templateCache) {
 
             CordovaApp.init();
             $rootScope.contentClass = 'content-init';
@@ -81,9 +81,22 @@ angular
                         }, CordovaApp.errorStartApp);
                     }
 
-                    if(Client.isGuest() && CordovaApp.isBlockedSection(toState.name)){
-                        Notification.showLockedSectionDialog();
+                    if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
+                        //console.log("Blocked: isGuest",Client.isGuest());
+                        if(Client.isGuest()){
+                            Notification.showLockedSectionDialog();
+                        } else {
+                            /*Notification.showInfoAlert({
+                                title: "Blocked",
+                                subtitle: "Blocked",
+                                message: "Blocked",
+                                type: 'warning'
+                            });*/
+                            Notification.showLockedSectionNotEligible();
+                        }
+
                         event.preventDefault();
+                        $rootScope.hideLoading();
                     }
 
                     $rootScope.isActiveButton = 'active';
@@ -94,6 +107,7 @@ angular
             });
 
             $rootScope.$on('$stateChangeSuccess',  function (event, toState, toParams, fromState, fromParams) {
+                $templateCache.removeAll();
                 var fromName = fromState.name;
                 var fromSection = fromState.data? fromState.data.section : null;
                 var toSection = !!toState.data.section? toState.data.section : '';
