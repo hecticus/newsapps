@@ -3,6 +3,8 @@ package models.clients;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.LeaderboardComparator;
+import comparators.LeaderboardGlobalComparator;
 import models.HecticusModel;
 import models.basic.Config;
 import models.basic.Country;
@@ -185,6 +187,7 @@ public class Client extends HecticusModel {
     }
 
     public List<Leaderboard> getLeaderboards() {
+        Collections.sort(leaderboards, new LeaderboardComparator());
         return leaderboards;
     }
 
@@ -193,6 +196,7 @@ public class Client extends HecticusModel {
     }
 
     public List<LeaderboardGlobal> getLeaderboardGlobal() {
+        Collections.sort(leaderboardGlobal, new LeaderboardGlobalComparator());
         return leaderboardGlobal;
     }
 
@@ -317,6 +321,7 @@ public class Client extends HecticusModel {
             };
             Collection<Leaderboard> result = Utils.filterCollection(leaderboards, validObjs);
             tr = (List<Leaderboard>) result;
+            Collections.sort(tr, new LeaderboardComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
