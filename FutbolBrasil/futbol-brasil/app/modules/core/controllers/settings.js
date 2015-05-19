@@ -33,9 +33,9 @@ angular
             $scope.favoriteTeams = [{isEmpty : true}, {isEmpty : true}, {isEmpty : true}];
 
             $scope.toggles = {
-                bets: false,
-                news: false,
-                mtm: false
+                bets: true,
+                news: true,
+                mtm: true
             };
 
             $scope.isEditing = false;

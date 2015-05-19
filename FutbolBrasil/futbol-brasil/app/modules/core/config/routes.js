@@ -137,7 +137,10 @@ angular
                 }
             })
             .state('mtm', {
-                url: '/mtm',
+                url: '/mtm/{matchId:int}',
+                params : {
+                  matchId : {value: null, squash: true}
+                },
                 controller:'MtmCtrl',
                 templateUrl:'modules/core/views/mtm.html',
                 data:{

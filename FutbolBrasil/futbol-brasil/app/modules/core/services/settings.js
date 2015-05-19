@@ -20,9 +20,9 @@ angular
                     settings = JSON.parse($localStorage[KEY_SETTINGS]);
                 } else {
                     settings = {};
-                    settings[KEY_BETS_PUSH] = false;
-                    settings[KEY_NEWS_PUSH] = false;
-                    settings[KEY_MTM_PUSH] = false;
+                    settings[KEY_BETS_PUSH] = true;
+                    settings[KEY_NEWS_PUSH] = true;
+                    settings[KEY_MTM_PUSH] = true;
                 }
             };
 

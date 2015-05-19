@@ -98,16 +98,10 @@ angular
                     }
 
                     if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
-                        //console.log("Blocked: isGuest",Client.isGuest());
+
                         if(Client.isGuest()){
                             Notification.showLockedSectionDialog();
                         } else {
-                            /*Notification.showInfoAlert({
-                                title: "Blocked",
-                                subtitle: "Blocked",
-                                message: "Blocked",
-                                type: 'warning'
-                            });*/
                             Notification.showLockedSectionNotEligible();
                         }
 
@@ -116,6 +110,7 @@ angular
                     }
 
                     $rootScope.isActiveButton = 'active';
+
                 } else {
                     $rootScope.isActiveButton = '';
                 }

@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$interval', 'WebManager',
+    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$interval',  '$stateParams', 'WebManager',
         'Domain', 'Moment', 'iScroll', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $interval, WebManager,
+        function($http, $rootScope, $scope, $state, $localStorage, $interval, $stateParams, WebManager,
                  Domain, Moment, iScroll, Notification) {
 
             $rootScope.refreshInterval = null;
@@ -93,6 +93,7 @@ angular
             };
 
             $scope.showContentEvents = function (_league, _match) {
+
                 if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
                   _event.reset();
                   $scope.item.mtm = [];
@@ -139,16 +140,31 @@ angular
 
                 $http.get(Domain.match(date), config).then(
                     function (data) {
+
                         var response = data.data.response;
                         if(response && response.leagues.length > 0){
                             $scope.hasGamesForToday = true;
                             mapLeagues(response.leagues);
                             $scope.item = response;
+
+                            if($stateParams.matchId){
+                              $scope.item.leagues.forEach(function(league){
+                                league.fixtures.forEach(function(match){
+                                      if ($stateParams.matchId ==match.id_game_matches) {
+                                        $scope.showContentEvents(league, match);
+                                      }
+                                });
+                              });
+                            }
+
+
                         } else {
                             $scope.hasGamesForToday = false;
                             console.log('No info on response');
                         }
+
                         $scope.$emit('unload');
+
                     }, function () {
                         $scope.hasGamesForToday = false;
                         Notification.showNetworkErrorAlert();
