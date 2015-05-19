@@ -5,7 +5,9 @@ import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlUpdate;
 import com.avaje.ebean.annotation.PrivateOwned;
+import com.hecticus.rackspacecloud.RackspaceDelete;
 import exceptions.NewsException;
+import models.Config;
 import models.HecticusModel;
 
 import play.db.ebean.Model;
@@ -455,6 +457,26 @@ public class News extends HecticusModel{
             throw ex;
         } finally {
             server.endTransaction();
+        }
+    }
+
+    public static List<News> getNewsForNewsCleaner(String date){
+        return finder.where().lt("insertedTime", date).findList();
+    }
+
+    public void deleteResources() {
+        ArrayList<String> files = new ArrayList<>();
+        for(Resource resource : resources){
+            System.out.println(" - " + "img/" + resource.getFilename());
+            files.add("img/" + resource.getFilename());
+        }
+        if(!files.isEmpty()){
+            String containerName = Config.getString("cdn-container");
+            String username = Config.getString("rackspace-username");
+            String apiKey = Config.getString("rackspace-apiKey");
+            String provider = Config.getString("rackspace-provider");
+            RackspaceDelete rackspaceDelete = new RackspaceDelete(username, apiKey, provider);
+            rackspaceDelete.deleteObjectsFromContainer(containerName, files);
         }
     }
 
