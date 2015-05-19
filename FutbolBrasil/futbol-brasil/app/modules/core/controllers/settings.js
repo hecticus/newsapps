@@ -109,30 +109,42 @@ angular
                 Settings.toggleMtmPush($scope.toggles.mtm);
             };
 
+
             $scope.onFbButtonClick = function(){
+
+
                 if(!window.facebookConnectPlugin){ return; }
                 if(Client.isGuest() || !Client.isActiveClient()){
                     Notification.showLockedSectionDialog();
                 } else {
 
+                    $scope.fbObject.class = 'btn-warning';
+                    $scope.fbObject.fbButtonMsg = strings['SET_LOADING'];
+
                     if($scope.fbObject.fbStatus === 'connected'){
-                        FacebookManager.logout();
+                       facebookConnectPlugin.logout(function(){
+                          $scope.fbObject.class = 'btn-info';
+                          getStatus();
+                       });
                     } else if($scope.fbObject.fbStatus !== 'connected') {
-                        FacebookManager.login();
+                      facebookConnectPlugin.login(
+                        ["email", "user_friends", "public_profile", "user_friends"]
+                        , function (response) {
+                            FacebookManager.login2(response);
+                            if (response.status === 'connected') {
+                              ClientManager.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
+                              $scope.fbObject.class = 'btn-success';
+                            };
+                            getStatus();
+                        }
+                      );
                     }
 
-                    getStatus();
-
-                    /*if($scope.fbObject.fbStatus === 'connected'){
-                        $scope.fbObject.class = 'btn-success';
-                    } else{
-                        $scope.fbObject.class = 'btn-info';
-                    }*/
 
 
-                    //$scope.setFbButtonMsg();
                 }
             };
+
 
             $scope.setFbButtonMsg = function(){
                 $translate(['SETTINGS.FACEBOOK.CONNECT', 'SETTINGS.FACEBOOK.CONNECTED'])
@@ -186,10 +198,10 @@ angular
                         }
                     });
                 } else {
-
+                    $scope.setFbButtonMsg();
                     //$timeout(function(){
-                        $scope.fbObject.fbStatus = 'connected';
-                        $scope.setFbButtonMsg();
+                        //$scope.fbObject.fbStatus = 'connected';
+                        //$scope.setFbButtonMsg();
                     //}, 1000);
                 }
             }
@@ -222,11 +234,12 @@ angular
             function getTranslationsSetUserName(){
               $translate(['ALERT.SET_USERNAME.TITLE',
                           'ALERT.SET_USERNAME.SUBTITLE',
-                          'ALERT.SET_USERNAME.MSG'])
+                          'ALERT.SET_USERNAME.MSG', 'LOADING'])
               .then(function(translation){
                   strings['SET_USERNAME_TITLE'] = translation['ALERT.SET_USERNAME.TITLE'];
                   strings['SET_USERNAME_SUBTITLE'] = translation['ALERT.SET_USERNAME.SUBTITLE'];
                   strings['SET_USERNAME_MSG'] = translation['ALERT.SET_USERNAME.MSG'];
+                  strings['SET_LOADING'] = translation['LOADING'];
               });
             }
 

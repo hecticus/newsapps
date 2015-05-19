@@ -138,6 +138,8 @@ table tbody tr td.active {
 
 .content-leaderboard table tbody tr,
 .content-leaderboard table tbody tr td,
+.content-friends table tbody tr,
+.content-friends table tbody tr td,
 .content-scorers table tbody tr,
 .content-scorers table tbody tr td,
 .content-standings table tbody tr,
@@ -856,8 +858,8 @@ h6.team-name {
       top: 50px;
     }
 
-
-    .content-leaderboard .wrapper {
+    .content-leaderboard .wrapper,
+    .content-friends .wrapper {
       top: 5px;
     }
 
@@ -964,7 +966,11 @@ h6.team-name {
     }
 
     .btn-facebook.btn-info {
-      background  : #dc3847 !important;
+      background  : rgb(227,114,34) !important;
+    }
+
+    .btn-facebook.btn-warning {
+      background  : rgb(254,209,0) !important;
     }
 
     .btn-facebook.btn-success {

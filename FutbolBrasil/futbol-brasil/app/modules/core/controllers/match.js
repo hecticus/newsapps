@@ -38,13 +38,7 @@ angular
             $scope.pagesAfter = [];
 
 
-            $scope.pages = [
-                {id: 1, name: Moment.date().subtract(2, 'days').format(_formatDate), date:Moment.date().subtract(2, 'days').format('YYYYMMDD')},
-                {id: 2, name: Moment.date().subtract(1, 'days').calendar(), date:Moment.date().subtract(1, 'days').format('YYYYMMDD')},
-                {id: 3, name: Moment.date().calendar(), date:Moment.date().format('YYYYMMDD')},
-                {id: 4, name: Moment.date().add(1, 'days').calendar(), date:Moment.date().add(1, 'days').format('YYYYMMDD')},
-                {id: 5, name: Moment.date().add(2, 'days').format(_formatDate), date:Moment.date().add(2, 'days').format('YYYYMMDD')}
-            ];
+
 
             $scope.getWidth = function(){
                 return { 'width': width + 'px'}
@@ -174,14 +168,25 @@ angular
             }
 
             function init(){
-                $scope.$emit('load');
-                $scope.pages.forEach(function(_item, _index) {
-                    getDayMatches(_item, _index);
-                });
 
-                width = $window.innerWidth;
-                widthTotal = ($window.innerWidth * $scope.pages.length);
-                setUpIScroll();
+              $scope.$emit('unload');
+              $scope.pages = [
+                {id: 1, name: Moment.date().subtract(2, 'days').format(_formatDate), date:Moment.date().subtract(2, 'days').format('YYYYMMDD')},
+                {id: 2, name: Moment.date().subtract(1, 'days').calendar(), date:Moment.date().subtract(1, 'days').format('YYYYMMDD')},
+                {id: 3, name: Moment.date().calendar(), date:Moment.date().format('YYYYMMDD')},
+                {id: 4, name: Moment.date().add(1, 'days').calendar(), date:Moment.date().add(1, 'days').format('YYYYMMDD')},
+                {id: 5, name: Moment.date().add(2, 'days').format(_formatDate), date:Moment.date().add(2, 'days').format('YYYYMMDD')}
+              ];
+
+
+              $scope.pages.forEach(function(_item, _index) {
+                getDayMatches(_item, _index);
+              });
+
+              width = $window.innerWidth;
+              widthTotal = ($window.innerWidth * $scope.pages.length);
+              setUpIScroll();
+
             } init();
 
         }

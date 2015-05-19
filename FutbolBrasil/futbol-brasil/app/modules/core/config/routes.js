@@ -179,7 +179,7 @@ angular
                 data:{
                     prev: 'leaderboard',
                     next: 'points',
-                    contentClass: 'content-leaderboard',
+                    contentClass: 'content-friends',
                     section: 'bets',
                     state: 'friends'
                 }
