@@ -9,7 +9,7 @@
             "LIVE": "Live"
         },
         "BETS" : {
-            "BETS": "Bets",
+            "BETS": "Predictions",
             "PREDICTIONS" : "Predictions",
             "LEADERBOARDS" : "Leaderboards",
             "FRIENDS" : "Friends",
@@ -109,7 +109,7 @@
         "LANGUAGES_TITLE": "Languages",
         "SOCIAL_ACCOUNTS_TITLE": "Social Accounts",
         "TOGGLE" : {
-            "BETS" : "Bets",
+            "BETS" : "Predictions",
             "MTM" : "MTM",
             "NEWS" : "News"
         },
