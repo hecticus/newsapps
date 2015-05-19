@@ -888,11 +888,11 @@ h6.team-name {
     }
 
     .content-prediction .wrapper { top: 70px; }
-    tr.h-match { border-bottom: 1pt rgb(44,156,211) solid !important; }
+    tr.h-match { border-bottom: 1.5px rgb(44,156,211) solid !important; }
     tr.h-match:last-child { border: 0 !important; }
-    tr.h-match td { height:60px !important; vertical-align:middle;}
-    tr.h-match td .h-name-team {display:block; height: 60% !important; }
-    tr.h-match td .h-goal-team {display:block; height: 40%; vertical-align: middle; }
+    tr.h-match td { height: auto; position: relative;} /*vertical-align:middle;*/
+    tr.h-match td .h-name-team {display:block; height: auto; }
+    tr.h-match td .h-goal-team {display:block; height: auto;}
 
     tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
@@ -1088,10 +1088,20 @@ h6.team-name {
     .h-name-team {
       font-size:1.6em !important;
       font-weight: bold;
+       padding-bottom: 35px;
+        text-align: center;
+        width: 100%;
+       /* background-color: #ff0000;*/
     }
 
     .h-goal-team {
       font-size:2em !important;
+      /*background-color: #00ff00;*/
+      height: 30px;
+      position: absolute;
+       width: 89%;
+      bottom: 5px;
+        text-align: center;
     }
 
     .h-time {
