@@ -1,10 +1,10 @@
 {
     "SECTIONS" : {
         "NOTISTATS" : {
-            "NOTISTATS" : "Estatística",
+            "NOTISTATS" : "Estatísticas",
             "MATCHES": "Partidas",
             "STANDINGS": "Tabela",
-            "NEWS": "Notícia",
+            "NEWS": "Notícias",
             "SCORERS": "Artilharia",
             "LIVE": "Ao Vivo"
         },
