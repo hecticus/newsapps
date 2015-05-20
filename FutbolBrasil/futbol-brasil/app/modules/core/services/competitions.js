@@ -10,9 +10,10 @@ angular
     .factory('Competitions',['$localStorage', '$http', '$q', 'Domain', 'WebManager', 'Client',
         function($localStorage, $http, $q, Domain, WebManager, Client) {
             var FILE_KEY_COMPETITIONS = "APPCOMPETITIONS";
-
+            var FILE_KEY_ALL_COMPETITIONS = "APPALLCOMPETITIONS";
             var localStorage = $localStorage;
             var competitions = [];
+            var allCompetitions = [];
 
             function saveCompetitions(comps) {
                 if(comps){
@@ -29,14 +30,43 @@ angular
                 return competitions;
             }
 
+
+            function saveAllCompetitions(comps) {
+                if(comps){
+                    allCompetitions = comps;
+                }
+                localStorage[FILE_KEY_ALL_COMPETITIONS] = allCompetitions;
+            }
+
+            function loadAllCompetitions() {
+                if(localStorage[FILE_KEY_ALL_COMPETITIONS]){
+                    allCompetitions = localStorage[FILE_KEY_ALL_COMPETITIONS];
+                }
+
+                return allCompetitions;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
             function getCompetitions(noConfig) {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 //console.log("getCompetitions-> " + Domain.competitions);
                 if (noConfig) config = false;
+                console.log('JSON.stringify -> ' + JSON.stringify(config));
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
+                    if (!config.params.teams) saveAllCompetitions(competitions);
                     return competitions;
                 },function(response){
                     return $q.reject(response);
@@ -94,6 +124,7 @@ angular
 
             function init(){
                 loadCompetitions();
+                loadAllCompetitions();
             }
 
             return {
@@ -128,7 +159,7 @@ angular
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
                                     leaderboard.map(function(score){
-                                        competitions.some(function(competition){
+                                        allCompetitions.some(function(competition){
                                             if(competition.id_competitions === score.id_tournament){
                                                 score.name = competition.name;
                                                 return true;
