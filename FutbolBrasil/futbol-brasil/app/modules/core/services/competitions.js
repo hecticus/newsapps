@@ -30,33 +30,6 @@ angular
                 return competitions;
             }
 
-
-            function saveAllCompetitions(comps) {
-                if(comps){
-                    allCompetitions = comps;
-                }
-                localStorage[FILE_KEY_ALL_COMPETITIONS] = allCompetitions;
-            }
-
-            function loadAllCompetitions() {
-                if(localStorage[FILE_KEY_ALL_COMPETITIONS]){
-                    allCompetitions = localStorage[FILE_KEY_ALL_COMPETITIONS];
-                }
-
-                return allCompetitions;
-            }
-
-
-
-
-
-
-
-
-
-
-
-
             function getCompetitions(noConfig) {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
@@ -66,7 +39,6 @@ angular
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
-                    if (!config.params.teams) saveAllCompetitions(competitions);
                     return competitions;
                 },function(response){
                     return $q.reject(response);
@@ -124,7 +96,6 @@ angular
 
             function init(){
                 loadCompetitions();
-                loadAllCompetitions();
             }
 
             return {
@@ -154,12 +125,11 @@ angular
                 leaderboard : {
                     personal : {
                         tournament: function(){
-                            //console.log('Competitions.leaderboard.personal.tournament');
                             return $http.get(Domain.leaderboard.personal.competition())
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
                                     leaderboard.map(function(score){
-                                        allCompetitions.some(function(competition){
+                                        competitions.some(function(competition){
                                             if(competition.id_competitions === score.id_tournament){
                                                 score.name = competition.name;
                                                 return true;

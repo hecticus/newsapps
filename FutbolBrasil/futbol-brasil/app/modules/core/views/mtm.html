@@ -99,25 +99,27 @@
     </div>
 
     <div class="row-scoreboard">
-      <div class="row text-center">
-        <div style="position: absolute;
-  top: 50%;
-  display: inline;
-  bottom: 0;
-  left: 0;
-  right: 0">
-           <span class="status _{{item.match.status.id}}">{{ item.match.status.name | translate}}
-                            </span>
-        </div>
+      <div style="position: absolute; top: 50%; display: inline; bottom: 0; left: 0; right: 0; text-align:center;">
+           <span class="status _{{item.match.status.id}}">
+             {{ item.match.status.name | translate}}
+           </span>
+      </div>
+
+      <div class="row">
+
+
+
+
         <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}" style="text-align:center;">
           <span ng-bind="item.match.home.name" class="h-name-team" ></span>
         </div>
         <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}" style="text-align:center;">
           <span ng-bind="item.match.away.name" class="h-name-team"></span>
         </div>
+
       </div>
 
-      <div class="row text-center">
+      <div class="row">
         <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}" style="text-align:center;">
           <span ng-bind="item.match.home.goals" class="h-goal-team"></span>
         </div>

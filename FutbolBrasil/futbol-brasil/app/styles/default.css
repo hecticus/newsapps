@@ -1104,7 +1104,7 @@ h6.team-name {
       font-size:2em !important;
       /*background-color: #00ff00;*/
       height: 30px;
-      position: absolute;
+     /* position: absolute;*/
        width: 89%;
       bottom: 5px;
         text-align: center;
@@ -1215,7 +1215,10 @@ h6.team-name {
 
     .badge {
       background: rgb(44,156,211);
-       color: #ffffff;
+      padding: 5px 15px;
+      font-size:
+      1em;
+      color: #ffffff;
     }
 
     .badge.disabled {
