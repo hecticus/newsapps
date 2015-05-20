@@ -27,7 +27,7 @@ angular
                         mouseWheel: false,
                         momentum: false,
                         snap: true,
-                        snapSpeed: 700,
+                        snapSpeed: 100,
                         probeType: 3,
                         bounce: false,
                         click: true,

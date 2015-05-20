@@ -9,14 +9,14 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
-        'Client', 'WebManager', '$window', 'Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
+        'Client', 'WebManager', '$window','$timeout','Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
+        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,$timeout,
                  Bets, Moment, iScroll, Competitions, Notification) {
 
             $rootScope.$storage.settings = true;
             var scrollH = null;
             var vScrolls = [];
-            var _currentPage = 0;
+            var _currentPage = -1;
             var _Match = -1;
             var _mBet = -1;
             var strings = {};
@@ -190,17 +190,24 @@ angular
 
                 scrollH.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        getBets();
+                        $timeout(function() {
+                            getBets();
+                        },0);
                         _currentPage = this.currentPage.pageX;
                     }
                 });
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
-                    $scope.$emit('unload');
+                    if(vScrolls != null && _currentPage >= 0) {
+                        vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                        $timeout(function(){
+                            $scope.$emit('unload');
+                        },0);
+                    }
                 });
 
                 $scope.$on('$destroy', function() {
+
                     scrollH.destroy();
                     scrollH = null;
 
@@ -243,7 +250,9 @@ angular
                 $scope.$emit('load');
                 getTranslations();
                 getCompetitions();
-            } init();
+            }
+
+            init();
 
         }
     ]);
