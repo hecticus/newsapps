@@ -19,13 +19,25 @@ angular
                 if(comps){
                     competitions = comps;
                 }
+
                 localStorage[FILE_KEY_COMPETITIONS] = competitions;
+
+                if(!localStorage[FILE_KEY_ALL_COMPETITIONS]){
+                    localStorage[FILE_KEY_ALL_COMPETITIONS] = competitions;
+                }
+
             }
 
             function loadCompetitions() {
+
                 if(localStorage[FILE_KEY_COMPETITIONS]){
                     competitions = localStorage[FILE_KEY_COMPETITIONS];
                 }
+
+                if(localStorage[FILE_KEY_ALL_COMPETITIONS]){
+                    allCompetitions = localStorage[FILE_KEY_ALL_COMPETITIONS];
+                }
+
 
                 return competitions;
             }
@@ -129,7 +141,7 @@ angular
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
                                     leaderboard.map(function(score){
-                                        competitions.some(function(competition){
+                                        allCompetitions.some(function(competition){
                                             if(competition.id_competitions === score.id_tournament){
                                                 score.name = competition.name;
                                                 return true;
