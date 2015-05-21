@@ -321,7 +321,7 @@ public class MatchesController extends HecticusController {
                 Calendar maximumDate = DateAndTime.getMaximumDate(today, timezoneName);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyMMddHHmmss");
-                sdf.setTimeZone(TimeZone.getDefault());
+                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
