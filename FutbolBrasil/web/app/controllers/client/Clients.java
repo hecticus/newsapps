@@ -409,7 +409,7 @@ public class Clients extends HecticusController {
 
                 if(clientData.has("receive_news")) {
                     boolean receiveNews = clientData.get("receive_news").asBoolean();
-                    int index = client.getPushAlertIndex(newsPushId);
+                    int index = client.getPushAlertIDIndex(newsPushId);
                     if(index > -1) {
                         client.getPushAlerts().get(index).setStatus(receiveNews);
                         update = true;
@@ -418,7 +418,7 @@ public class Clients extends HecticusController {
 
                 if(clientData.has("receive_bets")) {
                     boolean receiveBets = clientData.get("receive_bets").asBoolean();
-                    int index = client.getPushAlertIndex(betsPushId);
+                    int index = client.getPushAlertIDIndex(betsPushId);
                     if(index > -1) {
                         client.getPushAlerts().get(index).setStatus(receiveBets);
                         update = true;
@@ -428,7 +428,7 @@ public class Clients extends HecticusController {
                 if(clientData.has("receive_min")) {
                     boolean receiveMin = clientData.get("receive_min").asBoolean();
                     for(ClientHasPushAlerts clientHasPushAlerts : client.getPushAlerts()){
-                        if(clientHasPushAlerts.getIdClientHasPushAlert() != betsPushId && clientHasPushAlerts.getIdClientHasPushAlert() != newsPushId) {
+                        if(clientHasPushAlerts.getPushAlert().getIdPushAlert() != betsPushId && clientHasPushAlerts.getPushAlert().getIdPushAlert() != newsPushId) {
                             clientHasPushAlerts.setStatus(receiveMin);
                             update = true;
                         }

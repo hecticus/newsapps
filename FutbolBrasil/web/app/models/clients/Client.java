@@ -282,6 +282,27 @@ public class Client extends HecticusModel {
         return pushAlerts.indexOf(clientHasPushAlert);
     }
 
+    public int getPushAlertIDIndex(final int pushAlertId) {
+        final PushAlerts pushAlert = PushAlerts.finder.byId(pushAlertId);
+        if(pushAlert == null){
+            return -1;
+        }
+        ClientHasPushAlerts clientHasPushAlert = null;
+        try {
+            clientHasPushAlert = Iterables.find(pushAlerts, new Predicate<ClientHasPushAlerts>() {
+                public boolean apply(ClientHasPushAlerts obj) {
+                    return obj.getPushAlert().getIdPushAlert().intValue() == pushAlert.getIdPushAlert().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasPushAlert = null;
+        }
+        if(clientHasPushAlert == null){
+            return -1;
+        }
+        return pushAlerts.indexOf(clientHasPushAlert);
+    }
+
     public void addClientBet(ClientBets bet){
         if(bet.getIdClientBets() != null && clientBets.contains(bet)){
             clientBets.remove(bet);
