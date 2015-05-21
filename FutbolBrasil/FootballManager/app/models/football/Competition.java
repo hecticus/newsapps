@@ -4,6 +4,7 @@ import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.GameMatchDateComparator;
 import comparators.TeamHasCompetitionComparator;
 import models.Apps;
 import models.HecticusModel;
@@ -574,6 +575,7 @@ public class Competition  extends HecticusModel {
             };
             Collection<GameMatch> result = Utils.filterCollection(matches, validObjs);
             tr = (List<GameMatch>) result;
+            Collections.sort(tr, new GameMatchDateComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
