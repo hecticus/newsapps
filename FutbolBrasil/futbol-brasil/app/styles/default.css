@@ -882,7 +882,7 @@ h6.team-name {
     }
 
     .content-points .wrapper {
-      top: 50px;
+      top: 120px;
     }
 
     .content-match .wrapper {
@@ -1228,6 +1228,16 @@ h6.team-name {
         filter: alpha(opacity=70);
     }
 
+
+    .modal-dialog {font-family: TeutonNormal !important;}
+    .modal-dialog .mdi-alert-warning {font-size: 1.6em !important;}
+    .modal-dialog .modal-title {font-size: 2.2em !important;}
+    .modal-dialog .text-warning {font-size: 1.8em!important;}
+    .modal-dialog .text-muted {font-size: 1.4em!important;}
+    .footer .row.notistats,
+    .footer .row.bets {
+      margin: 0 !important;
+    }
     /*</v2>*/
 
 

@@ -62,7 +62,7 @@ angular
                 $scope.contentNewsImg = '';
 
                 if(_news) {
-                    if ((!$scope.isGuest() && $scope.isActiveClient()) || 
+                    if ((!$scope.isGuest() && $scope.isActiveClient()) ||
                         (($scope.isGuest() || !$scope.isActiveClient()) && News.canViewNews(_news))) {
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                         $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');

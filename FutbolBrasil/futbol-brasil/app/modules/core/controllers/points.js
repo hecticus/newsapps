@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('PointsCtrl', ['$rootScope', '$scope', '$window', '$translate', '$q', 'Competitions', 'Notification',
-        'Moment', 'iScroll',
-        function($rootScope, $scope, $window, $translate, $q, Competitions, Notification, Moment, iScroll) {
+        'Moment', 'iScroll', 'Client',
+        function($rootScope, $scope, $window, $translate, $q, Competitions, Notification, Moment, iScroll, Client) {
 
             $scope.tournaments = [];
             $scope.hasScore = true;
@@ -20,6 +20,9 @@ angular
             var width = $window.innerWidth;
             var widthTotal = ($window.innerWidth * 2);
             var height = ($window.innerHeight);
+
+            $scope.getNameClient = Client.getNickname();
+            $scope.getTotalPointsClient = 0;
 
             $scope.getHeight = function(){
                 return { 'height': (height-140) + 'px'}
@@ -37,9 +40,16 @@ angular
                 console.log('getPoints');
                 $scope.$emit('load');
                 Competitions.leaderboard.personal.tournament().then(function(response){
+
+
+                    response.forEach(function(competition){
+                      $scope.getTotalPointsClient += competition.score;
+                    });
+
                     $scope.tournaments = response;
                     $scope.hasScore = $scope.tournaments.length > 0;
                     $scope.$emit('unload');
+
                 }, function(){
                     Notification.showNetworkErrorAlert();
                     $scope.$emit('unload');
