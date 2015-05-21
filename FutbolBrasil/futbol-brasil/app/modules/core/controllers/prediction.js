@@ -9,8 +9,8 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
-        'Client', 'WebManager', '$window','$timeout','Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,$timeout,
+        'Client', 'WebManager', '$window','Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
+        function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
                  Bets, Moment, iScroll, Competitions, Notification) {
 
             $rootScope.$storage.settings = true;
@@ -190,9 +190,7 @@ angular
 
                 scrollH.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        $timeout(function() {
-                            getBets();
-                        },0);
+                         getBets();
                         _currentPage = this.currentPage.pageX;
                     }
                 });
@@ -200,9 +198,8 @@ angular
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     if(vScrolls != null && _currentPage >= 0) {
                         vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
-                        $timeout(function(){
-                            $scope.$emit('unload');
-                        },0);
+                        $scope.$emit('unload');
+
                     }
                 });
 
