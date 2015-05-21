@@ -198,7 +198,14 @@ angular
                 }
 
                 //return $http.post(eventUrl, data, config).then(success, error)
-                  return $http.post(Domain.upstream(), data, config).then(success, error);
+
+
+                console.log('<upstream>');
+                  console.log('config -> ' + JSON.stringify(config));
+                  console.log('sendEvent -> ' + JSON.stringify(data));
+                console.log('</upstream>');
+
+                return $http.post(Domain.upstream(), data, config).then(success, error);
 
                 return false;
             }

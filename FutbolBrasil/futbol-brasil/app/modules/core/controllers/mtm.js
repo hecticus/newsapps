@@ -94,6 +94,9 @@ angular
 
             $scope.showContentEvents = function (_league, _match) {
 
+                console.log('_league -> ' + JSON.stringify(_league));
+                console.log('_match -> ' + JSON.stringify(_match));
+
                 if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
                   _event.reset();
                   $scope.item.mtm = [];
