@@ -1,59 +1,28 @@
-<!--div class="row">
-  <div class="col-xs-12 h-header red" style="text-align:center;">
-    <i class="mdi-action-account-circle"
-       style="font-size:2em; height:35px; line-height:35px; vertical-align:middle;"></i>
-    <span ng-bind="getNameClient" ></span> /
-    <span ng-bind="getTotalPointsClient" ></span> <span translate>LEADERBOARD.POINTS</span>
-
-  </div>
-
-</div--->
-
-
-<div class="row">
-  <div class="col-xs-12" style="text-align:center;">
-    <h3 ng-bind="getNameClient" style="text-align:center;" ></h3>
-    <div id="element1" class="h-circle yellow">
-
-      <div style="position:relative; top:20%;">
-        <span ng-bind="getTotalPointsClient" style="font-size: 3em;" >1000</span>
-        <br />
-        <span translate style="font-size: 1.6em;">LEADERBOARD.POINTS</span>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
 <div class="row" ng-show="hasScore">
 
-  <!--div class="col-xs-12 h-header green" style="padding: 0 !important;" >
-    <table class="table h-table">
-      <thead>
-      <tr>
-        <th style="width:60%;">
-          <span translate>LEADERBOARD.TOURNAMENT</span>
-        </th>
-        <th style="width:20%;">
-          <span translate>LEADERBOARD.HITS</span>
-        </th>
-        <th style="width:20%;">
-          <span translate>LEADERBOARD.POINTS</span>
-        </th>
-      </tr>
-      </thead>
-    </table>
-
-  </div-->
 
     <div id="tournamentScroll" class="wrapper" ng-style="getHeight()">
         <div class="scroller" ng-style="getWidth()">
+
             <div class="row">
+              <div class="col-xs-12" style="text-align:center;">
+                <h3 ng-bind="getNameClient" style="text-align:center;" ></h3>
+                <div  class="h-circle yellow">
+                  <div style="height:30px;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                bottom: 0;
+                                right: 0;
+                                margin: auto;">
+                    <span ng-bind="getTotalPointsClient" style="font-size: 3em; display:block; margin-bottom:10px;" ></span>
+                    <span translate style="font-size: 1.6em;">LEADERBOARD.POINTS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:10px;">
                 <div class="col-xs-12">
                     <table class="table h-table">
                         <thead>
