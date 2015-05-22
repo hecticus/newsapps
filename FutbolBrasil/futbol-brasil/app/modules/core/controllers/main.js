@@ -16,9 +16,8 @@ angular
             $('body').flowtype({
                minFont   : 12,
                maxFont   : 15
-
             });
-
+            //$('body').flowtype();
             $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
