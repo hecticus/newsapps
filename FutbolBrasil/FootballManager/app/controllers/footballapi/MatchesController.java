@@ -394,8 +394,9 @@ public class MatchesController extends HecticusController {
                     }
 
                     Utils.printToLog(MatchesController.class, "", "ciclo:" + (System.currentTimeMillis() - ciclot), false, null, "support-level-1", Config.LOGGER_INFO);
-                    Utils.printToLog(MatchesController.class, "", "total:" + (System.currentTimeMillis() - start), false, null, "support-level-1", Config.LOGGER_INFO);
+
                 }
+                Utils.printToLog(MatchesController.class, "", "total:" + (System.currentTimeMillis() - start), false, null, "support-level-1", Config.LOGGER_INFO);
                 return ok(hecticusResponse(0, "ok", "leagues", responseData));
             } else {
                 return notFound(buildBasicResponse(2, "El app " + idApp + " no existe"));
