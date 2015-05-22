@@ -27,13 +27,13 @@
                     <table class="table h-table">
                         <thead>
                             <tr >
-                                <th class="h-header green" style="text-align:left;">
+                                <th class="h-header green" style="text-align:left; width:60%;">
                                     <span translate>LEADERBOARD.TOURNAMENT</span>
                                 </th >
-                                <th class="h-header green">
+                                <th class="h-header green" style="width:20%;">
                                     <span translate>LEADERBOARD.HITS</span>
                                 </th>
-                                <th class="h-header green">
+                                <th class="h-header green" style="width:20%;">
                                     <span translate>LEADERBOARD.POINTS</span>
                                 </th>
                             </tr>
@@ -43,7 +43,7 @@
 
                             <tr  ng-repeat="tournament in tournaments track by tournament.id_tournament" ng-class="{'active' : $odd}">
 
-                              <td class="h-ellipsis-truncate" style="text-align: left;" >
+                              <td class="h-ellipsis-truncate" style="text-align: left; width:60%;" >
                                 <span ng-bind="tournament.name" style="font-weight:bold;"></span>
                               </td>
 

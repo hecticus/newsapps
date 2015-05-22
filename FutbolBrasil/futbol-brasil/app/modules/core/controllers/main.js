@@ -13,11 +13,11 @@ angular
         function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
                Client, CordovaApp) {
 
-            $('body').flowtype({
+            /*$('body').flowtype({
                minFont   : 12,
                maxFont   : 15
-            });
-            //$('body').flowtype();
+            });*/
+            $('body').flowtype();
             $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
