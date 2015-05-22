@@ -365,7 +365,8 @@ public class MatchesController extends HecticusController {
                     }
                     ArrayList data = new ArrayList();
                     for (Competition competition : competitions) {
-                        List<GameMatch> fullList = competition.getMatchesByDate(minimumDate, maximumDate);
+                        List<GameMatch> fullList = competition.getMatchesByDateDB(sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
+//                        List<GameMatch> fullList = competition.getMatchesByDate(minimumDate, maximumDate);
                         if (fullList != null && !fullList.isEmpty()) {
                             ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
                             for (int i = 0; i < fullList.size(); i++) {
