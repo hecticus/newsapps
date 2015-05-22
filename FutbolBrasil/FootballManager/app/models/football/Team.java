@@ -29,6 +29,11 @@ public class Team extends HecticusModel {
     @Constraints.Required
     private String extId;
 
+    private String officialName;
+    private String shortName;
+    private String abbreviationName;
+    private String teamLogo;
+
     @OneToMany(mappedBy="team", cascade = CascadeType.ALL)
     private List<TeamHasCompetition> competitions;
 
@@ -38,6 +43,15 @@ public class Team extends HecticusModel {
         this.name = name;
         this.extId = extId;
         this.country = country;
+    }
+
+    public Team(String name, Countries country, String extId, String officialName, String shortName, String abbreviationName) {
+        this.name = name;
+        this.country = country;
+        this.extId = extId;
+        this.officialName = officialName;
+        this.shortName = shortName;
+        this.abbreviationName = abbreviationName;
     }
 
     public Long getIdTeams() {
@@ -72,6 +86,38 @@ public class Team extends HecticusModel {
         this.extId = extId;
     }
 
+    public String getOfficialName() {
+        return officialName;
+    }
+
+    public void setOfficialName(String officialName) {
+        this.officialName = officialName;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getAbbreviationName() {
+        return abbreviationName;
+    }
+
+    public void setAbbreviationName(String abbreviationName) {
+        this.abbreviationName = abbreviationName;
+    }
+
+    public String getTeamLogo() {
+        return teamLogo;
+    }
+
+    public void setTeamLogo(String teamLogo) {
+        this.teamLogo = teamLogo;
+    }
+
     public static  List<Team> getList(){
         return finder.all();
     }
@@ -94,6 +140,8 @@ public class Team extends HecticusModel {
         obj.put("id_teams",idTeams);
         obj.put("name",name);
         obj.put("ext_id",extId);
+        obj.put("short_name",shortName);
+        obj.put("abbreviation_name",abbreviationName);
         obj.put("country",country.toJson());
 
         return obj;
@@ -103,6 +151,8 @@ public class Team extends HecticusModel {
         ObjectNode obj = Json.newObject();
         obj.put("id_teams",idTeams);
         obj.put("name",name);
+        obj.put("short_name",shortName);
+        obj.put("abbreviation_name",abbreviationName);
         return obj;
     }
 
@@ -118,11 +168,11 @@ public class Team extends HecticusModel {
         if (toValidate != null){
             //exist
             this.idTeams = toValidate.idTeams;
-            this.name = toValidate.name;
-            this.extId = toValidate.extId;
-            this.country = toValidate.country;
-            this.competitions = toValidate.competitions;
-
+//            this.name = toValidate.name;
+//            this.extId = toValidate.extId;
+//            this.country = toValidate.country;
+//            this.competitions = toValidate.competitions;
+            this.update();
             TeamHasCompetition teamHasCompetition = null;
 
             try {

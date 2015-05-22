@@ -200,6 +200,8 @@ public class OptasportsScraper extends HecticusThread {
                         if(processCompetition) {
                             updateTimes.put(c.getIdCompetitions(), currentSeasonLastUptdated);
                             //get stuff
+                            //get teams
+                            getTeams(currentSeasonId, c);
                             //fixtures
                             getFixtures(currentSeasonId, c);
                             //posiciones
@@ -996,5 +998,58 @@ public class OptasportsScraper extends HecticusThread {
             lastGameWeek = currentGameWeek;
         }
     }
+
+    protected void getTeams(String seasonExternalId, Competition c) {
+        try {
+            String url = "http://api.core.optasports.com/soccer/get_teams?type=season&detailed=true&id=#ID#&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
+            url = url.replace(ID, seasonExternalId);
+            String xmlRespose = sendRequest(url,"");
+            if (xmlRespose == null){
+                throw new Exception("error procesando los equipos para la competencia:" + c.getName() + " respuesta vacia del ws");
+            }
+            InputSource source = new InputSource(new StringReader(xmlRespose));
+            XPath xPath =  XPathFactory.newInstance().newXPath();
+
+            NodeList teams = (NodeList) xPath.compile("gsmrs/team").evaluate(source, XPathConstants.NODESET);
+            for (int i = 0; i < teams.getLength(); i++) {
+                try {
+                    Node currentTeam = (Node) teams.item(i);
+
+                    String clubName = xPath.compile("@club_name").evaluate(currentTeam),
+                            officialName = xPath.compile("@official_name").evaluate(currentTeam),
+                            shortName = xPath.compile("@short_name").evaluate(currentTeam),
+                            abbreviationName = xPath.compile("@tla_name").evaluate(currentTeam),
+                            teamExtId = xPath.compile("@team_id").evaluate(currentTeam),
+                            countryName = xPath.compile("@country").evaluate(currentTeam);
+
+                    Countries country = new Countries(countryName);
+                    country.validateCountry();
+                    Team team = new Team(clubName, country, teamExtId, officialName, shortName, abbreviationName);
+                    team.validateTeam(c);
+
+                } catch (Exception ex) {
+                    Utils.printToLog(OptasportsScraper.class,
+                            "Error en OctaScraper",
+                            "",
+                            false,
+                            ex,
+                            "support-level-1",
+                            Config.LOGGER_ERROR);
+                }
+            }
+            //add not alarmException
+        } catch (Exception ex) {
+            Utils.printToLog(OptasportsScraper.class,
+                    "Error en OctaScraper",
+                    "",
+                    true,
+                    ex,
+                    "support-level-1",
+                    Config.LOGGER_ERROR);
+        }
+
+    }
+
+
 
 }
