@@ -8,6 +8,7 @@ import models.Apps;
 import models.Config;
 import models.Language;
 import models.football.*;
+import play.libs.F;
 import play.libs.Json;
 import play.mvc.Result;
 import utils.DateAndTime;
@@ -299,6 +300,24 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static F.Promise<Result> getFixturesDatePagedWrapper(final Integer idApp, final Integer idLanguage, final String date, final Integer pageSize, final Integer page, final String timezoneName) {
+        F.Promise<Result> promiseOfObjectNode = F.Promise.promise(
+            new F.Function0<Result>() {
+                public Result apply() {
+                    return getFixturesDatePaged(idApp, idLanguage, date, pageSize, page, timezoneName);
+                }
+            }
+        );
+
+        return promiseOfObjectNode.map(
+            new F.Function<Result, Result>() {
+                public Result apply(Result i) {
+                    return i;
+                }
+            }
+        );
+    }
+
     public static Result getFixturesDatePaged(Integer idApp, Integer idLanguage, String date, Integer pageSize,Integer page, String timezoneName){
         try {
             if(timezoneName.isEmpty()){
@@ -360,7 +379,7 @@ public class MatchesController extends HecticusController {
                 }
                 return ok(hecticusResponse(0, "ok", "leagues", responseData));
             } else {
-                return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
+                return notFound(buildBasicResponse(2, "El app " + idApp + " no existe"));
             }
         }catch (Exception ex){
             return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
