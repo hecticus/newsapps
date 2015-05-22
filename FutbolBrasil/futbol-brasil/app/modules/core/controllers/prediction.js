@@ -199,7 +199,6 @@ angular
                     if(vScrolls != null && _currentPage >= 0) {
                         vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
                         $scope.$emit('unload');
-
                     }
                 });
 
@@ -230,8 +229,11 @@ angular
                     $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();
-                    getBets();
+                    //getBets();
+                }).finally(function(){
+                  $scope.$emit('unload');
                 });
+
             }
 
 

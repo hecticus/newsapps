@@ -1,4 +1,4 @@
-<div class="row">
+<!--div class="row">
   <div class="col-xs-12 h-header red" style="text-align:center;">
     <i class="mdi-action-account-circle"
        style="font-size:2em; height:35px; line-height:35px; vertical-align:middle;"></i>
@@ -7,12 +7,32 @@
 
   </div>
 
+</div--->
+
+
+<div class="row">
+  <div class="col-xs-12" style="text-align:center;">
+    <h3 ng-bind="getNameClient" style="text-align:center;" ></h3>
+    <div id="element1" class="h-circle yellow">
+
+      <div style="position:relative; top:20%;">
+        <span ng-bind="getTotalPointsClient" style="font-size: 3em;" >1000</span>
+        <br />
+        <span translate style="font-size: 1.6em;">LEADERBOARD.POINTS</span>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 
 
+
+
+
 <div class="row" ng-show="hasScore">
-  <div class="col-xs-12 h-header green" style="padding: 0 !important;" >
+
+  <!--div class="col-xs-12 h-header green" style="padding: 0 !important;" >
     <table class="table h-table">
       <thead>
       <tr>
@@ -29,14 +49,14 @@
       </thead>
     </table>
 
-  </div>
+  </div-->
 
     <div id="tournamentScroll" class="wrapper" ng-style="getHeight()">
         <div class="scroller" ng-style="getWidth()">
             <div class="row">
                 <div class="col-xs-12">
                     <table class="table h-table">
-                        <!--thead>
+                        <thead>
                             <tr class="h-header green">
                                 <th>
                                     <span translate>LEADERBOARD.TOURNAMENT</span>
@@ -48,7 +68,7 @@
                                     <span translate>LEADERBOARD.POINTS</span>
                                 </th>
                             </tr>
-                        </thead-->
+                        </thead>
 
                         <tbody >
 

@@ -821,7 +821,6 @@ h6.team-name {
 
     .content-news .h-headline {
       font-size:1.8em;
-      font-weight:bold;
     }
     .content-news #wrapper2 .h-headline  {
       font-size:2em;
@@ -882,7 +881,7 @@ h6.team-name {
     }
 
     .content-points .wrapper {
-      top: 120px;
+      top: 225px;
     }
 
     .content-match .wrapper {
@@ -1241,3 +1240,16 @@ h6.team-name {
     /*</v2>*/
 
 
+  .h-circle.yellow {
+    border-radius: 50%;
+    display: inline-block;
+    background: rgb(254,209,0);
+    color: rgb(0,40,120);
+    width:100px;
+    height: 100px;
+    font-weight: bold;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: TeutonNormal !important;
+  }
