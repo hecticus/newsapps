@@ -582,6 +582,10 @@ public class Competition  extends HecticusModel {
         return tr;
     }
 
+    public List<GameMatch> getMatchesByDateDB(final String minDate, final String maxDate){
+        return GameMatch.findAllByCompetitionBetweenDate(this.getIdCompetitions(), minDate, maxDate);
+    }
+
     public List<GameMatch> getMatchesByDate(final String date, int page, int pageSize){
         List<GameMatch> tr;
         try {

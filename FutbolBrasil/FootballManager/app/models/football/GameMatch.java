@@ -307,6 +307,10 @@ public class GameMatch extends HecticusModel {
         return finder.where().eq("id_competition",idCompetition).ilike("date", date + "%").orderBy("date asc").findList();
     }
 
+    public static List<GameMatch> findAllByCompetitionBetweenDate(Long idCompetition, String minDate, String maxDate){
+        return finder.where().eq("id_competition",idCompetition).between("date", minDate, maxDate).orderBy("date asc").findList();
+    }
+
     public static List<GameMatch> findAllByIdCompetitionAndPhase(Long idCompetition, Long idPhase, String operator){
         if(operator.equalsIgnoreCase("gt")) {
             return finder.where().eq("id_competition",idCompetition).gt("id_phases", idPhase).orderBy("date asc, phase.idPhases asc").findList();
