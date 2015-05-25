@@ -413,9 +413,9 @@ public class MatchesController extends HecticusController {
                             fullList.clear();
                         }
 
-                        Utils.printToLog(MatchesController.class, "", "ite:" + (System.currentTimeMillis() - fort), false, null, "support-level-1", Config.LOGGER_INFO);
+                        //Utils.printToLog(MatchesController.class, "", "ite:" + (System.currentTimeMillis() - fort), false, null, "support-level-1", Config.LOGGER_INFO);
                     }
-                    }
+
                     competitions.clear();
                 }
                 ObjectNode response = hecticusResponse(0, "ok", "leagues", responseData);
