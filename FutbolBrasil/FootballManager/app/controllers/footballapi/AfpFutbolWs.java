@@ -37,9 +37,10 @@ public class AfpFutbolWs extends HecticusController {
             //build response
             ObjectNode response;
             response = hecticusResponse(0, "ok", "news", data);
+            data.clear();
             return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 

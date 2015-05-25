@@ -40,6 +40,7 @@ public class NewsCleaner extends HecticusThread {
                 n.deleteResources();
                 n.delete();
             }
+            news.clear();
         } catch(Exception ex) {
 
         }
