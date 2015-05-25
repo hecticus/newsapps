@@ -12,6 +12,7 @@ import play.libs.F;
 import play.libs.Json;
 import play.mvc.Result;
 import utils.DateAndTime;
+import utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -342,12 +343,15 @@ public class MatchesController extends HecticusController {
 
     public static Result getFixturesDatePaged(Integer idApp, Integer idLanguage, String date, Integer pageSize,Integer page, String timezoneName){
         try {
+            long start = System.currentTimeMillis();
             if(timezoneName.isEmpty()){
                 return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
             }
             timezoneName = timezoneName.replaceAll(" ", "").trim();
             Apps app = Apps.findId(idApp);
+            Utils.printToLog(MatchesController.class, "", "find id:" + (System.currentTimeMillis() - start), false, null, "support-level-1", Config.LOGGER_INFO);
             if(app != null) {
+                long time = System.currentTimeMillis();
                 TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
                 if(timeZone == null){
                     return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
@@ -364,12 +368,14 @@ public class MatchesController extends HecticusController {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyMMddHHmmss");
                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
+                Utils.printToLog(MatchesController.class, "", "time:"+(System.currentTimeMillis() - time), false, null, "support-level-1", Config.LOGGER_INFO);
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
                 String[] favorites = getFromQueryString("teams");
                 if (favorites != null && favorites.length > 0) {
                     teams = Team.finder.where().in("idTeams", favorites).findList();
                 }
+                long comt = System.currentTimeMillis();
                 List<Competition> competitions = null;
                 if (teams != null && !teams.isEmpty()) {
                     competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()), teams);
@@ -377,7 +383,10 @@ public class MatchesController extends HecticusController {
                 } else {
                     competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
                 }
+
+                Utils.printToLog(MatchesController.class, "", "query comp:" + (System.currentTimeMillis() - comt), false, null, "support-level-1", Config.LOGGER_INFO);
                 if (competitions != null && !competitions.isEmpty()) {
+                    long sort = System.currentTimeMillis();
                     Collections.sort(competitions, new CompetitionsSortComparator());
                     Language requestLanguage = null;
                     if(idLanguage > 0) {
@@ -386,6 +395,8 @@ public class MatchesController extends HecticusController {
                     if (idLanguage <= 0 || requestLanguage == null){
                         requestLanguage = app.getLanguage();
                     }
+
+                    Utils.printToLog(MatchesController.class, "", "sort:" + (System.currentTimeMillis() - sort), false, null, "support-level-1", Config.LOGGER_INFO);
                     ArrayList data = new ArrayList();
                     List<GameMatch> fullList = null;
                     for (Competition competition : competitions) {
@@ -401,6 +412,9 @@ public class MatchesController extends HecticusController {
                             responseData.add(competitionJson);
                             fullList.clear();
                         }
+
+                        Utils.printToLog(MatchesController.class, "", "ite:" + (System.currentTimeMillis() - fort), false, null, "support-level-1", Config.LOGGER_INFO);
+                    }
                     }
                     competitions.clear();
                 }
