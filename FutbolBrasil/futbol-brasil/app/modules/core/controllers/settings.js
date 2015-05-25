@@ -70,9 +70,16 @@ angular
                 }
             };
 
+
+            $scope.getTeamShield = function (team, index) {
+              return 'img/shield/shield-' + ((index%2) + 1) + '.svg';
+              /*if ((team.isEmpty) || (team.team_logo === null)) return 'img/shield/shield-' + ((index%2) + 1) + '.svg';
+              else return team.team_logo + '.svg';*/
+            };
+
             $scope.getTeamName = function(team){
-                if(team && typeof team.name != 'undefined'){
-                    return team.name !== '' ? team.name : $scope.strings.NOT_AVAILABLE;
+                if(team && typeof team.abbreviation_name != 'undefined'){
+                    return team.abbreviation_name !== '' ? team.abbreviation_name : $scope.strings.NOT_AVAILABLE;
                 }else{
                     return $scope.strings.ADD_TEAM;
                 }

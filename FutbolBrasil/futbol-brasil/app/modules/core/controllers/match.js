@@ -167,6 +167,11 @@ angular
                 });*/
             }
 
+            $scope.getTeamShield = function (logo, index) {
+              if (logo === null) return 'img/shield/shield-' + ((index%2) + 1) + '.svg';
+              else return logo + '.svg';
+            };
+
             function init(){
 
               $scope.$emit('unload');

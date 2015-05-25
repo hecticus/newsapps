@@ -389,15 +389,16 @@ body.content-mtm .row-back {
     right:0;
     width: 100%;
     height: 100px;
-    line-height: 40px;
     background-color: #FFFFFF;
     color: #000000;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
-
+    color: rgb(0,40,120);
 }
-
+.row-scoreboard figure {
+  margin-top : 10px;
+}
 
 
 .wrapper,
@@ -411,8 +412,9 @@ body.content-mtm .row-back {
 
 
 .status {
-    color:#000000; font-weight: bold;
-    font-size:1.6em;
+    color:#000000;
+    font-weight: bold;
+    font-size:1.4em;
 
  }
 
@@ -893,7 +895,7 @@ h6.team-name {
     tr.h-match:last-child { border: 0 !important; }
     tr.h-match td { height: auto; position: relative;} /*vertical-align:middle;*/
     tr.h-match td .h-name-team {display:block; height: auto; }
-    tr.h-match td .h-goal-team {display:block; height: auto;}
+    tr.h-match td .h-goal-team {height: auto;}
 
     tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
@@ -1091,26 +1093,23 @@ h6.team-name {
     }
 
     .h-name-team {
-      font-size:1.6em !important;
+      font-size:1.4em !important;
       font-weight: bold;
-       padding-bottom: 35px;
-        text-align: center;
-        width: 100%;
-       /* background-color: #ff0000;*/
+      text-align: center;
+      width: 100%;
     }
 
     .h-goal-team {
       font-size:2em !important;
-      /*background-color: #00ff00;*/
-      height: 30px;
-     /* position: absolute;*/
-       width: 89%;
-      bottom: 5px;
-        text-align: center;
+      text-align: center;
+    }
+
+    .content-mtm #wrapper2 .h-goal-team  {
+      font-size:3em !important;
     }
 
     .h-time {
-      font-size:2em !important;
+      font-size:1.6em !important;
     }
 
     .h-minute-match {
@@ -1128,7 +1127,7 @@ h6.team-name {
     }
 
     .h-table tbody tr td {
-        font-size:1.4em;
+        font-size:1.2em;
     }
 
     .control-label {
@@ -1253,4 +1252,20 @@ h6.team-name {
 
   h1,h2,h3,h4,h5,h6 {
     font-family: TeutonNormal !important;
+  }
+
+
+  img.h-shield {
+    width: 40px;
+    height: auto;
+  }
+
+  img.h-shield.h-tree {
+    width: 20px;
+    height: auto;
+  }
+
+  .row-scoreboard img.h-shield {
+      width: 60px;
+      height: auto;
   }
