@@ -142,6 +142,7 @@ public class Team extends HecticusModel {
         obj.put("ext_id",extId);
         obj.put("short_name",shortName);
         obj.put("abbreviation_name",abbreviationName);
+        obj.put("team_logo",teamLogo);
         obj.put("country",country.toJson());
 
         return obj;
@@ -153,6 +154,7 @@ public class Team extends HecticusModel {
         obj.put("name",name);
         obj.put("short_name",shortName);
         obj.put("abbreviation_name",abbreviationName);
+        obj.put("team_logo",teamLogo);
         return obj;
     }
 
