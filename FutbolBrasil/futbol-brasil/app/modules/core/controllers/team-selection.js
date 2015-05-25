@@ -75,7 +75,7 @@ angular
 
             $scope.getCompetitionShield = function (logo,index) {
               if (logo === null) return 'img/shield/shield-circular-' + ((index%2) + 1) + '.svg';
-              else return + logo + '.svg';
+              else return logo + '.svg';
             };
 
             $scope.getTeamShield = function (logo, index) {
