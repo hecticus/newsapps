@@ -34,7 +34,10 @@ public class TeamsController  extends HecticusController {
             for(Team team : teams){
                 responseData.add(team.toJsonSimple());
             }
-            return ok(hecticusResponse(0, "ok", "teams", responseData));
+            ObjectNode response = hecticusResponse(0, "ok", "teams", responseData);
+            teams.clear();
+            responseData.clear();
+            return ok(response);
         }catch (Exception ex){
             return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
@@ -49,7 +52,10 @@ public class TeamsController  extends HecticusController {
                 for(TeamHasCompetition teamHasCompetition : teams){
                     teamsList.add(teamHasCompetition.getTeam().toJsonSimple());
                 }
-                return ok(hecticusResponse(0, "ok", "teams", teamsList));
+                ObjectNode response = hecticusResponse(0, "ok", "teams", teamsList);
+                teams.clear();
+                teamsList.clear();
+                return ok(response);
             } else {
                 return notFound(buildBasicResponse(1, "La competition " + idCompetition + " no existe"));
             }
@@ -82,7 +88,10 @@ public class TeamsController  extends HecticusController {
                     teamsList.add(team.toJsonSimple());
                 }
             }
-            return ok(hecticusResponse(0, "ok", "teams", teamsList));
+            ObjectNode response = hecticusResponse(0, "ok", "teams", teamsList);
+            teams.clear();
+            teamsList.clear();
+            return ok(response);
         }catch(Exception ex){
             Utils.printToLog(TeamsController.class, "Error desconocido en Play", "Ocurrio un error en getTeam, con el parámetro " + idTeam, true, ex, "support-level-1", Config.LOGGER_ERROR);
             return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));

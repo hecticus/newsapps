@@ -47,22 +47,25 @@ public class MatchesController extends HecticusController {
         try {
             List<GameMatch> fullList = GameMatch.getGamematchByDate(idCompetition, date);
             ArrayList data = new ArrayList();
+            LinkedHashMap values = new LinkedHashMap();
+            String id = null;
+            String gameResult = null;
             if (fullList != null && !fullList.isEmpty()) {
-                //i got data
-                LinkedHashMap values = new LinkedHashMap();
                 for (int i = 0; i < fullList.size(); i++) {
-                    String id = fullList.get(i).fixtureJson().get("id_game_matches").asText();
-                    String gameResult = fullList.get(i).fixtureJson().get("game_result").asText();
+                    id = fullList.get(i).fixtureJson().get("id_game_matches").asText();
+                    gameResult = fullList.get(i).fixtureJson().get("game_result").asText();
                     values.put(id, gameResult);
                 }
                 data.add(values);
+                values.clear();
+                fullList.clear();
             }
             //build response
             ObjectNode response;
             response = hecticusResponse(0, "ok", "results", data);
             return ok(response);
         } catch (Exception ex) {
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -71,7 +74,6 @@ public class MatchesController extends HecticusController {
             List<GameMatch> fullList = GameMatch.findAllByIdCompetition(idCompetition);
             ArrayList data = new ArrayList();
             if (fullList != null && !fullList.isEmpty()) {
-                //i got data
                 for (int i = 0; i < fullList.size(); i++) {
                     data.add(fullList.get(i).fixtureJson());
                 }
@@ -79,6 +81,7 @@ public class MatchesController extends HecticusController {
             //build response
             ObjectNode response;
             response = hecticusResponse(0, "ok", "results", data);
+            data.clear();
             return ok(response);
         } catch (Exception ex) {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
@@ -122,22 +125,29 @@ public class MatchesController extends HecticusController {
                 List<Competition> competitionsByApp = null;
                 if (teams != null && !teams.isEmpty()) {
                     competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(app, teams);
+                    teams.clear();
                 } else {
                     competitionsByApp = app.getCompetitions();
                 }
+                ObjectNode competitionJson = null;
+                List<GameMatch> fullList = null;
                 for (Competition competition : competitionsByApp) {
-                    List<GameMatch> fullList = GameMatch.getGamematchBetweenDates(competition.getIdCompetitions(), minimumDate, maximumDate);
-                    ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
+                    fullList = GameMatch.getGamematchBetweenDates(competition.getIdCompetitions(), minimumDate, maximumDate);
+                    competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
                     if (fullList != null && !fullList.isEmpty()) {
                         for (GameMatch gameMatch : fullList) {
                             data.add(gameMatch.toJson());
                         }
+                        fullList.clear();
                     }
                     competitionJson.put("fixtures", Json.toJson(data));
                     data.clear();
                     responseData.add(competitionJson);
                 }
-                return ok(hecticusResponse(0, "ok", "leagues", responseData));
+                competitionsByApp.clear();
+                ObjectNode response = hecticusResponse(0, "ok", "leagues", responseData);
+                responseData.clear();
+                return ok(response);
             } else {
                 return notFound(buildBasicResponse(4, "La aplicacion  " + idApp + " no existe"));
             }
@@ -171,19 +181,23 @@ public class MatchesController extends HecticusController {
                 List<Competition> competitionsByApp = null;
                 if (teams != null && !teams.isEmpty()) {
                     competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(app, teams);
+                    teams.clear();
                 } else {
                     competitionsByApp = app.getCompetitions();
                 }
+                List<Phase> phases = null;
+                List<GameMatch> gameMatches = null;
+                String pivot = null;
+                ArrayList<ObjectNode> fixtures = new ArrayList<>();
                 for (Competition competition : competitionsByApp) {
-                    List<Phase> phases = Phase.getPhasesFromDate(competition, minimumDate);
+                    phases = Phase.getPhasesFromDate(competition, minimumDate);
                     if (phases == null || phases.isEmpty()) {
                         phases = Phase.getLatestPhasesPaged(competition, 0, 1);
                     }
                     if (phases != null & !phases.isEmpty()) {
-                        List<GameMatch> gameMatches = GameMatch.finder.where().eq("competition", competition).in("phase", phases).orderBy("date asc").findList();
+                        gameMatches = GameMatch.finder.where().eq("competition", competition).in("phase", phases).orderBy("date asc").findList();
                         if (gameMatches != null && !gameMatches.isEmpty()) {
-                            ArrayList<ObjectNode> fixtures = new ArrayList<>();
-                            String pivot = gameMatches.get(0).getDate().substring(0, 8);
+                            pivot = gameMatches.get(0).getDate().substring(0, 8);
                             for (GameMatch gameMatch : gameMatches) {
                                 if (gameMatch.getDate().startsWith(pivot)) {
                                     fixtures.add(gameMatch.toJsonSimple());
@@ -204,7 +218,9 @@ public class MatchesController extends HecticusController {
                                 data.add(round);
                                 fixtures.clear();
                             }
+                            gameMatches.clear();
                         }
+                        phases.clear();
                     }
                     if (!data.isEmpty()) {
                         ObjectNode competitionJson = competition.toJsonSimple();
@@ -213,7 +229,10 @@ public class MatchesController extends HecticusController {
                         responseData.add(competitionJson);
                     }
                 }
-                return ok(hecticusResponse(0, "OK", "leagues", responseData));
+                competitionsByApp.clear();
+                ObjectNode response = hecticusResponse(0, "OK", "leagues", responseData);
+                responseData.clear();
+                return ok(response);
             } else {
                 return notFound(buildBasicResponse(1, "El app " + idApp + " no existe"));
             }
@@ -258,8 +277,9 @@ public class MatchesController extends HecticusController {
                             Calendar pivotMaximumDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
                             pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
                             Calendar maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
+                            Calendar matchDate = null;
                             for (GameMatch gameMatch : gameMatches) {
-                                Calendar matchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                                matchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
                                 matchDate.setTime(DateAndTime.getDate(gameMatch.getDate(), "yyyyMMddHHmmss", TimeZone.getTimeZone("UTC")));
                                 if (matchDate.before(maximumDate)) {
                                     fixtures.add(gameMatch.toJsonSimple());
@@ -282,8 +302,10 @@ public class MatchesController extends HecticusController {
                                 data.add(round);
                                 fixtures.clear();
                             }
+                            gameMatches.clear();
                         }
                     }
+                    phases.clear();
                     ObjectNode competitionJson = competition.toJsonSimple();
                     competitionJson.put("fixtures", Json.toJson(data));
                     data.clear();
@@ -351,6 +373,7 @@ public class MatchesController extends HecticusController {
                 List<Competition> competitions = null;
                 if (teams != null && !teams.isEmpty()) {
                     competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()), teams);
+                    teams.clear();
                 } else {
                     competitions = Competition.getCompetitionsPage(app, page, pageSize, sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
                 }
@@ -364,9 +387,10 @@ public class MatchesController extends HecticusController {
                         requestLanguage = app.getLanguage();
                     }
                     ArrayList data = new ArrayList();
+                    List<GameMatch> fullList = null;
                     for (Competition competition : competitions) {
-                        List<GameMatch> fullList = competition.getMatchesByDateDB(sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
-//                        List<GameMatch> fullList = competition.getMatchesByDate(minimumDate, maximumDate);
+                        fullList = competition.getMatchesByDateDB(sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
+//                        fullList = competition.getMatchesByDate(minimumDate, maximumDate);
                         if (fullList != null && !fullList.isEmpty()) {
                             ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage());
                             for (int i = 0; i < fullList.size(); i++) {
@@ -375,10 +399,14 @@ public class MatchesController extends HecticusController {
                             competitionJson.put("fixtures", Json.toJson(data));
                             data.clear();
                             responseData.add(competitionJson);
+                            fullList.clear();
                         }
                     }
+                    competitions.clear();
                 }
-                return ok(hecticusResponse(0, "ok", "leagues", responseData));
+                ObjectNode response = hecticusResponse(0, "ok", "leagues", responseData);
+                responseData.clear();
+                return ok(response);
             } else {
                 return notFound(buildBasicResponse(2, "El app " + idApp + " no existe"));
             }
@@ -407,7 +435,7 @@ public class MatchesController extends HecticusController {
                 }
                 Calendar minimumDate = DateAndTime.getMinimumDate(today, timezoneName);
                 Calendar maximumDate = DateAndTime.getMaximumDate(today, timezoneName);
-                ArrayList responseData = new ArrayList();
+//                ArrayList responseData = new ArrayList();
                 Competition competition = app.getCompetition(idCompetition);
                 if(competition != null){
                     List<GameMatch> matchesByDate = competition.getMatchesByDate(minimumDate, maximumDate, page, pageSize);
@@ -421,7 +449,8 @@ public class MatchesController extends HecticusController {
                         matches.put("total", totalMatches);
                         matches.put("fixtures", Json.toJson(data));
                         data.clear();
-                        responseData.add(matches);
+//                        responseData.add(matches);
+                        matchesByDate.clear();
                         return ok(hecticusResponse(0, "ok", matches));
                     } else {
                         return ok(buildBasicResponse(3, "No hay partidos para la fecha " + date));
@@ -451,6 +480,9 @@ public class MatchesController extends HecticusController {
                 responseData.add(gameMatch.toJson());
             }
             response = hecticusResponse(0, "ok", "matches", responseData);
+            responseData.clear();
+            gameMatches.clear();
+            matchesIDs.clear();
             return ok(response);
         }catch (Exception ex){
             ex.printStackTrace();
@@ -500,6 +532,7 @@ public class MatchesController extends HecticusController {
                 List<Competition> competitionsByApp = null;
                 if (teams != null && !teams.isEmpty()) {
                     competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(app, teams);
+                    teams.clear();
                 } else {
                     competitionsByApp = app.getCompetitions();
                 }
@@ -514,13 +547,15 @@ public class MatchesController extends HecticusController {
                     competitions.add(ids ? competition.getIdCompetitions() : competition.toJsonNoPhases(requestLanguage, app.getLanguage()));
                 }
                 response = hecticusResponse(0, "ok", ids ? "ids" : "competitions", competitions);
+                competitions.clear();
+                return ok(response);
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(response);
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -549,8 +584,6 @@ public class MatchesController extends HecticusController {
                             requestLanguage = app.getLanguage();
                         }
                         if (competition.getType().getType() == 0) {
-                            List<Phase> latestPhases = competition.getLatestPhases(today, app.getTimezone().getTimezone());
-//                            responseData.add(latestPhases.get(latestPhases.size() - 1).toJson(requestLanguage, app.getLanguage()));
                             responseData.add(phases.get(0).toJson(requestLanguage, app.getLanguage()));
                         } else {
                             Phase pivot = phases.get(0);
@@ -563,9 +596,11 @@ public class MatchesController extends HecticusController {
                             }
                             ObjectNode pivotJson = pivot.toJson(requestLanguage, app.getLanguage());
                             responseData.add(pivotJson);
+                            phases.clear();
                         }
                         ObjectNode data = Json.newObject();
                         data.put("phases", Json.toJson(responseData));
+                        responseData.clear();
                         return ok(hecticusResponse(0, "ok", data));
                     } else {
                         return notFound(buildBasicResponse(2, "La competition " + idCompetition + " no tiene phases"));
@@ -610,17 +645,20 @@ public class MatchesController extends HecticusController {
                         Phase phase = latestPhases.get(latestPhases.size() - 1);
                         data.put("last_phase", phase.toJson(requestLanguage, app.getLanguage()));
                     }
+                    latestPhases.clear();
                     response = hecticusResponse(0, "ok", data);
+                    return ok(response);
                 } else {
                     response = buildBasicResponse(1, "La competition " + idCompetition + " no existe");
+                    return notFound(response);
                 }
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(response);
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -637,26 +675,31 @@ public class MatchesController extends HecticusController {
                 simpleDateFormat.setTimeZone(timeZone);
                 String date = simpleDateFormat.format(today.getTime());
                 Collections.sort(competitions, new CompetitionsSortComparator());
+                List<Phase> phases = null;
                 for(Competition competition : competitions) {
-                    List<Phase> phases = Phase.getPhasesToPush(competition, date);
+                    phases = Phase.getPhasesToPush(competition, date);
                     if (phases != null && !phases.isEmpty()) {
                         responseData.add(phases.get(0).toJsonToPush());
                         for(Phase phase : phases){
                             phase.setPushed(true);
                             phase.update();
                         }
+                        phases.clear();
                     }
                 }
+                competitions.clear();
                 ObjectNode data = Json.newObject();
                 data.put("phases", Json.toJson(responseData));
+                responseData.clear();
                 response = hecticusResponse(0, "ok", data);
+                return ok(response);
             } else {
                 response = buildBasicResponse(0, "La app " + idApp + " no tiene competencia");
+                return notFound(response);
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -690,24 +733,26 @@ public class MatchesController extends HecticusController {
                             }
                         }
                         calendar.add(Json.toJson(day));
+                        gameMatches.clear();
                     }
                     response = hecticusResponse(0, "ok", "days", calendar);
+                    return ok(response);
                 } else {
                     response = buildBasicResponse(1, "la competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp);
+                    return notFound(response);
                 }
             } else {
                 response = buildBasicResponse(0, "La app " + idApp + " no tiene competencia");
+                return notFound(response);
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
     public static Result getMinuteToMinuteForCompetition(Integer idApp, Integer idCompetition, Long idMatch, Integer idLanguage, Long idEvent, Boolean forward){
         try {
-            ObjectNode response = null;
             ArrayList<ObjectNode> responseData = new ArrayList();
             Apps app = Apps.findId(idApp);
             if(app != null) {
@@ -741,6 +786,7 @@ public class MatchesController extends HecticusController {
                                     responseData.add(period);
                                 }
                             }
+                            events.clear();
                             if (!periodData.isEmpty()) {
                                 ObjectNode period = Json.newObject();
                                 period.put("period", pivot.getPeriod().toJson());
@@ -749,23 +795,23 @@ public class MatchesController extends HecticusController {
                                 responseData.add(period);
                             }
                             resp.put("actions", Json.toJson(responseData));
-                            response = hecticusResponse(0, "ok", resp);
+                            responseData.clear();
+                            return ok(hecticusResponse(0, "ok", resp));
                         } else {
-                            response = buildBasicResponse(1, "No hay eventos para el partido " + idMatch);
+                            return notFound(buildBasicResponse(1, "No hay eventos para el partido " + idMatch));
                         }
                     } else {
-                        response = buildBasicResponse(2, "El partido " + idMatch + " no existe");
+                        return notFound(buildBasicResponse(2, "El partido " + idMatch + " no existe"));
                     }
                 } else {
-                    response = buildBasicResponse(3, "La competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp);
+                    return notFound(buildBasicResponse(3, "La competencia " + idCompetition + " no existe, o no esta activa, para el app " + idApp));
                 }
             } else {
-                response = buildBasicResponse(4, "La aplicacion  " + idApp + " no existe");
+                return notFound(buildBasicResponse(4, "La aplicacion  " + idApp + " no existe"));
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -784,10 +830,12 @@ public class MatchesController extends HecticusController {
                 ArrayList<GameMatch> matches = new ArrayList<>();
                 if (competitions != null && !competitions.isEmpty()) {
                     Collections.sort(competitions, new CompetitionsSortComparator());
+                    List<GameMatch> todayMatches = null;
                     for (Competition competition : competitions) {
-                        List<GameMatch> todayMatches = GameMatch.findAllByIdCompetitionAndDate(competition.getIdCompetitions(), todaysDate, "eq");
+                        todayMatches = GameMatch.findAllByIdCompetitionAndDate(competition.getIdCompetitions(), todaysDate, "eq");
                         if (todayMatches != null && !todayMatches.isEmpty()) {
                             matches.addAll(todayMatches);
+                            todayMatches.clear();
                         }
                     }
                     if (!matches.isEmpty()) {
@@ -821,11 +869,12 @@ public class MatchesController extends HecticusController {
                             if (!minToMin.isEmpty()) {
                                 responseData.put("min_to_min", Json.toJson(minToMin));
                             }
+                            eventsToPush.clear();
                         }
+                        matches.clear();
                     }
-
+                    competitions.clear();
                 }
-
                 List<News> ungeneratedNews = null;
                 if (Config.getInt("push-all-news") == 1) {
                     ungeneratedNews = News.finder.where().eq("id_app", idApp).eq("generated", false).ilike("publicationDate", todaysDate + "%").eq("featured", true).findList();
@@ -842,17 +891,20 @@ public class MatchesController extends HecticusController {
                     }
                     if (!newsToPush.isEmpty()) {
                         responseData.put("news", Json.toJson(newsToPush));
+                        newsToPush.clear();
                     }
+                    ungeneratedNews.clear();
                 }
 
                 response = hecticusResponse(0, "ok", responseData);
+                return ok(response);
             } else {
                 response = buildBasicResponse(4, "La aplicacion  " + idApp + " no existe");
+                return notFound(response);
             }
-            return ok(response);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
