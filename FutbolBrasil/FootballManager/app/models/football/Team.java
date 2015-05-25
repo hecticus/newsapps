@@ -164,38 +164,42 @@ public class Team extends HecticusModel {
      * funcion para validar los equipos
      */
     public void validateTeam(final Competition competition){
-        Team toValidate = findByExtId(this.extId);
-        if (toValidate != null){
-            //exist
-            this.idTeams = toValidate.idTeams;
-//            this.name = toValidate.name;
-//            this.extId = toValidate.extId;
-//            this.country = toValidate.country;
-//            this.competitions = toValidate.competitions;
-            this.update();
-            TeamHasCompetition teamHasCompetition = null;
-
-            try {
-                teamHasCompetition = Iterables.find(competitions, new Predicate<TeamHasCompetition>() {
-                    public boolean apply(TeamHasCompetition obj) {
-                        return obj.getCompetition().getIdCompetitions().longValue() == competition.getIdCompetitions().longValue();
-                    }
-                });
-            } catch (NoSuchElementException ex){
-                teamHasCompetition = null;
-            }
-
-            if(teamHasCompetition == null){
-                teamHasCompetition = new TeamHasCompetition(this, competition);
-                competitions.add(teamHasCompetition);
+        try {
+            Team toValidate = findByExtId(this.extId);
+            if (toValidate != null){
+                //exist
+                this.idTeams = toValidate.idTeams;
+//                this.name = toValidate.name;
+//                this.extId = toValidate.extId;
+//                this.country = toValidate.country;
+                this.competitions = toValidate.competitions;
                 this.update();
-            }
+                TeamHasCompetition teamHasCompetition = null;
 
-        }else {
-            TeamHasCompetition teamHasCompetition = new TeamHasCompetition(this, competition);
-            competitions.add(teamHasCompetition);
-            //insert in bd
-            this.save();
+                try {
+                    teamHasCompetition = Iterables.find(competitions, new Predicate<TeamHasCompetition>() {
+                        public boolean apply(TeamHasCompetition obj) {
+                            return obj.getCompetition().getIdCompetitions().longValue() == competition.getIdCompetitions().longValue();
+                        }
+                    });
+                } catch (NoSuchElementException ex){
+                    teamHasCompetition = null;
+                }
+
+                if(teamHasCompetition == null){
+                    teamHasCompetition = new TeamHasCompetition(this, competition);
+                    competitions.add(teamHasCompetition);
+                    this.update();
+                }
+
+            }else {
+                TeamHasCompetition teamHasCompetition = new TeamHasCompetition(this, competition);
+                competitions.add(teamHasCompetition);
+                //insert in bd
+                this.save();
+            }
+        }catch (Exception ex){
+           //do nothing
         }
     }
 }
