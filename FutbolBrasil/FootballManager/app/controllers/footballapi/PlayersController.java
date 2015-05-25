@@ -33,9 +33,10 @@ public class PlayersController extends HecticusController {
             //build response
             ObjectNode response;
             response = hecticusResponse(0, "ok", "news", data);
+            data.clear();
             return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -51,9 +52,10 @@ public class PlayersController extends HecticusController {
             //build response
             ObjectNode response;
             response = hecticusResponse(0, "ok", "news", data);
+            data.clear();
             return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -73,6 +75,7 @@ public class PlayersController extends HecticusController {
                 List<Competition> competitionsByApp = null;
                 if (teams != null && !teams.isEmpty()) {
                     competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(app, teams);
+                    teams.clear();
                 } else {
                     competitionsByApp = app.getCompetitions();//Competition.getActiveCompetitionsByApp(app);
                 }
@@ -94,13 +97,16 @@ public class PlayersController extends HecticusController {
                     }
                     responseData.add(competitionJson);
                 }
+                competitionsByApp.clear();
                 response = hecticusResponse(0, "ok", "leagues", responseData);
+                responseData.clear();
+                return ok(response);
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(response);
             }
-            return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -115,13 +121,16 @@ public class PlayersController extends HecticusController {
                 for(Scorer scorer : tournamentScorers) {
                     scorers.add(scorer.toJson());
                 }
+                tournamentScorers.clear();
                 response = hecticusResponse(0, "ok", "scorers", scorers);
+                scorers.clear();
+                return ok(response);
             } else {
                 response = buildBasicResponse(1, "La competencia " + idCompetition + " no esta disponible para el app " + idApp);
+                return notFound(response);
             }
-            return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 
@@ -157,30 +166,36 @@ public class PlayersController extends HecticusController {
                 for(Competition competition : otherCompetitions){
                     competitionsIDs.add(competition.getIdCompetitions());
                 }
+                otherCompetitions.clear();
             }
 
             if(competitionsIDs != null && !competitionsIDs.isEmpty()) {
                 ArrayList<ObjectNode> data = new ArrayList<>();
+                List<Scorer> tournamentScorers = null;
+                ArrayList<ObjectNode> scorers = new ArrayList<>();
                 for (long id : competitionsIDs) {
-                    List<Scorer> tournamentScorers = Scorer.getTournamentScorers(id, 0, scorersToDeliver);
+                    tournamentScorers = Scorer.getTournamentScorers(id, 0, scorersToDeliver);
                     ObjectNode comp = Json.newObject();
                     comp.put("id_competition", id);
-                    ArrayList<ObjectNode> scorers = new ArrayList<>();
                     for (Scorer scorer : tournamentScorers) {
                         scorers.add(scorer.toJson());
                     }
                     comp.put("scorers", Json.toJson(scorers));
                     data.add(comp);
+                    tournamentScorers.clear();
+                    scorers.clear();
                 }
+                competitionsIDs.clear();
                 response = hecticusResponse(0, "ok", "data", data);
+                data.clear();
+                return ok(response);
             } else {
                 response = buildBasicResponse(1, "no hay data disponible");
+                return notFound(response);
             }
-
-            return ok(response);
         }catch (Exception ex){
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
 }
