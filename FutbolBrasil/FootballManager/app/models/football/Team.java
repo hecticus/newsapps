@@ -3,6 +3,7 @@ package models.football;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import models.Config;
 import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -144,7 +145,7 @@ public class Team extends HecticusModel {
         obj.put("abbreviation_name",abbreviationName);
         obj.put("team_logo",teamLogo);
         obj.put("country",country.toJson());
-
+        obj.put("team_logo", Config.getString("team-logo-url") + extId + ".png");
         return obj;
     }
 
@@ -154,7 +155,7 @@ public class Team extends HecticusModel {
         obj.put("name",name);
         obj.put("short_name",shortName);
         obj.put("abbreviation_name",abbreviationName);
-        obj.put("team_logo",teamLogo);
+        obj.put("team_logo", Config.getString("team-logo-url") + extId + ".png");
         return obj;
     }
 
