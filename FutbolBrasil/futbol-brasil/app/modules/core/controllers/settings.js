@@ -184,6 +184,7 @@ angular
             }
 
             function loadSettings(){
+                Settings.init();
                 $scope.toggles.bets = Settings.isBetsPushActive();
                 $scope.toggles.news = Settings.isNewsPushActive();
                 $scope.toggles.mtm = Settings.isMtmPushActive();
