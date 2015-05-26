@@ -143,7 +143,8 @@ angular
                                     leaderboard.map(function(score){
                                         allCompetitions.some(function(competition){
                                             if(competition.id_competitions === score.id_tournament){
-                                                score.name = competition.name;
+                                                //alert(competition.competiton_type.name);
+                                                score.name = competition.competiton_type.name;
                                                 return true;
                                             }
                                         });
