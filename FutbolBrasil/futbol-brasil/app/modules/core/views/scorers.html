@@ -9,7 +9,7 @@
                       <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
                     </div>
                     <div class="col-xs-8 h-ellipsis-truncate">
-                      <span ng-bind="league.name" class="caption"></span>
+                      <span ng-bind="league.competiton_type.name" class="caption"></span>
                     </div>
                     <div class="col-xs-2" ng-click="nextPage($index)">
                       <span  class="mdi-navigation-arrow-forward" ng-hide="leagues[$index+1].name === undefined"></span>

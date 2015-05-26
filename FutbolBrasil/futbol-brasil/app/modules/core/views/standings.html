@@ -10,7 +10,7 @@
                  ng-click="showContentPhases(competition)"
                  data-news="{{ competition.id_competitions }}" on-last-repeat>
               <img class="h-shield" ng-src="{{getCompetitionShield(competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
-              <span class="h-headline ">{{competition.name}}</span>
+              <span class="h-headline ">{{competition.competiton_type.name}}</span>
             </div>
 
           </div>
@@ -38,7 +38,8 @@
 
           <div class="row">
             <div class="col-xs-12 h-header green h-ellipsis-truncate">
-              <span class="h-headline" ng-bind="item.competition.name"></span>
+              <img class="h-shield h-tree" ng-src="{{getCompetitionShield(item.competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+              <span class="h-headline" ng-bind="item.competition.competiton_type.name"></span>
             </div>
           </div>
 
@@ -73,6 +74,9 @@
 
           <div class="row">
             <div class="col-xs-12 h-header red h-ellipsis-truncate">
+              <img class="h-shield h-tree" ng-src="{{getCompetitionShield(item.competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+              <span class="h-headline" ng-bind="item.competition.competiton_type.name"></span>
+              <span>-</span>
               <span ng-bind="item.phase.global_name"></span>
             </div>
           </div>

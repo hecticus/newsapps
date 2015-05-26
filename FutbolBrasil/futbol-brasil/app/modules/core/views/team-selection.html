@@ -7,7 +7,7 @@
              ng-repeat="league in leagues track by league.id_competitions"
              ng-click="showContentTeams(league)" >
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
-          <span class="h-headline">{{league.name}}</span>
+          <span class="h-headline">{{league.competiton_type.name}}</span>
         </div>
       </div>
 

@@ -11,7 +11,8 @@
                         <span class="mdi-navigation-arrow-back" ng-hide="item.competitions[$index-1].name === undefined"></span>
                       </div>
                       <div class="col-xs-8 h-ellipsis-truncate">
-                        <span ng-bind="competition.name" class="caption"></span>
+                        <img class="h-shield h-tree" ng-src="{{getCompetitionShield(competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+                        <span ng-bind="competition.competiton_type.name" class="caption"></span>
                       </div>
                       <div class="col-xs-2" ng-click="nextPage($index)">
                         <span class="mdi-navigation-arrow-forward" ng-hide="item.competitions[$index+1].name === undefined"></span>
