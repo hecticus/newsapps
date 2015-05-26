@@ -44,6 +44,7 @@
                             <tr  ng-repeat="tournament in tournaments track by tournament.id_tournament" ng-class="{'active' : $odd}">
 
                               <td class="h-ellipsis-truncate" style="text-align: left; width:60%;" >
+                                <img class="h-shield  h-tree" ng-src="{{getCompetitionShield(tournament.logo)}}" onerror="this.src='img/shield-1.png'">
                                 <span ng-bind="tournament.name" style="font-weight:bold;"></span>
                               </td>
 

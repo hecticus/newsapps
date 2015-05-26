@@ -145,6 +145,7 @@ angular
                                             if(competition.id_competitions === score.id_tournament){
                                                 //alert(competition.competiton_type.name);
                                                 score.name = competition.competiton_type.name;
+                                                score.logo = competition.competiton_type.competition_logo;
                                                 return true;
                                             }
                                         });
