@@ -11,7 +11,7 @@
         "BETS" : {
             "BETS": "Palpites",
             "PREDICTIONS" : "Previsões",
-            "LEADERBOARDS" : "Placares",
+            "LEADERBOARDS" : "Resultados",
             "FRIENDS" : "Amigos",
             "POINTS" : "Pontos"
         },
