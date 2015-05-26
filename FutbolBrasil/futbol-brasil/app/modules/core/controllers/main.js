@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage', '$interval',
-        '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
+        '$timeout', '$window', '$translate', 'Client', 'CordovaApp','CordovaDevice',
         function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
-               Client, CordovaApp) {
+               Client, CordovaApp, CordovaDevice) {
 
             /*$('body').flowtype({
                minFont   : 12,
@@ -35,6 +35,7 @@ angular
             $rootScope.isPageContentLeft = false;
             $rootScope.hideLoading = hideLoading;
             $rootScope.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion));
+            $rootScope.isWebPlatform  = CordovaDevice.isWebPlatform;
 
             $rootScope.getCompetitionShield = function (logo) {
               var ext = (($rootScope.isBadAndroid) ? '.png' : '.svg');

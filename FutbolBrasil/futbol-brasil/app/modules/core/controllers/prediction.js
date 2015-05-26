@@ -230,7 +230,6 @@ angular
                     $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();
-                    //getBets();
                 }).finally(function(){
                   $scope.$emit('unload');
                 });

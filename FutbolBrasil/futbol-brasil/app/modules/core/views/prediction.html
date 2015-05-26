@@ -7,7 +7,7 @@
              ng-repeat="league in leagues track by league.id_competitions"
              ng-click="showContentPrediction($index)" >
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
-          <span class="h-headline">{{league.name}}</span>
+          <span class="h-headline">{{league.competiton_type.name}}</span>
         </div>
       </div>
 
@@ -28,7 +28,8 @@
               <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
             </div>
             <div class="col-xs-8 h-ellipsis-truncate">
-              <span ng-bind="league.name" class="caption"></span>
+              <img class="h-shield  h-tree" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+              <span ng-bind="league.competiton_type.name" class="caption"></span>
             </div>
             <div class="col-xs-2" ng-click="nextPage($index)">
               <span  class="mdi-navigation-arrow-forward" ng-hide="leagues[$index+1].name === undefined"></span>

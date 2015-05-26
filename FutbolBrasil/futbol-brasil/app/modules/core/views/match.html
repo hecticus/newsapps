@@ -25,7 +25,8 @@
                                             <thead>
                                             <tr>
                                                 <th colspan="3" class="h-header light-blue">
-                                                    <span ng-bind="league.name"></span>
+                                                    <img class="h-shield h-tree" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+                                                    <span ng-bind="league.competiton_type.name"></span>
                                                 </th>
                                             </tr>
                                             </thead>
