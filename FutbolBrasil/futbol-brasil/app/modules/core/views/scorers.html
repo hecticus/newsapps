@@ -34,16 +34,18 @@
                                             <tr ng-repeat="scorer in league.scorers"
                                                 ng-class="{'active' : $odd}" on-last-repeat>
                                                 <td class="text-left">
+
                                                     <span class="text-center-vertical"
                                                           ng-bind="scorer.name" ></span>
                                                 </td>
                                                 <td class="text-left">
+
                                                     <span class="text-center-vertical"
-                                                          ng-bind="scorer.team.name"></span>
+                                                          ng-bind="scorer.team.short_name"></span>
                                                 </td>
                                                 <td>
                                                     <span class="text-center-vertical"
-                                                          ng-bind="scorer.goals"></span>
+                                                          ng-bind="scorer.goals" style="font-weight:bold;"></span>
                                                 </td>
                                             </tr>
                                             </tbody>

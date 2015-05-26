@@ -9,7 +9,7 @@
                  ng-repeat="competition in item.competitions"
                  ng-click="showContentPhases(competition)"
                  data-news="{{ competition.id_competitions }}" on-last-repeat>
-              <i class="mdi-action-bookmark h-headline" ></i>
+              <img class="h-shield" ng-src="{{getCompetitionShield(competition.competiton_type.competition_logo, $index)}}" >
               <span class="h-headline ">{{competition.name}}</span>
             </div>
 
@@ -94,31 +94,30 @@
                       <tbody>
                       <tr class="h-match">
                         <td class="col-xs-4" style="width: 33% !important; vertical-align:middle;">
-                          <!--span ng-bind="ranking.homeTeam.name"></span>
-                          <br/>
-                          <span ng-bind="ranking.home_team_goals"></span-->
-
-                          <span ng-bind="ranking.homeTeam.name" class="h-name-team"></span>
-                          <span ng-bind="ranking.home_team_goals" class="h-goal-team"></span>
-
+                          <figure>
+                            <img class="h-shield" ng-src="{{getTeamShield(ranking.homeTeam.team_logo,1)}}" >
+                            <figcaption>
+                              <span ng-bind="ranking.homeTeam.name" class="h-name-team"></span>
+                            </figcaption>
+                          </figure>
+                        </td>
+                        <td class="col-xs-4" style="width: 33% !important; vertical-align:middle;">
+                            <span ng-bind="ranking.home_team_goals" class="h-goal-team"></span>
+                            <span class="h-goal-team">-</span>
+                            <span ng-bind="ranking.away_team_goals" class="h-goal-team"></span>
+                            <br />
+                            <span class="status _{{ranking.status.id_status}}" >
+                              {{ranking.status.name | translate}}
+                            </span>
 
                         </td>
                         <td class="col-xs-4" style="width: 33% !important; vertical-align:middle;">
-                          <!--span>VS</span>
-                          <br/>
-                          <span ng-bind="ranking.status.name"></span-->
-
-                                  <span class="status _{{ranking.status.id_status}}" >
-                                    {{ranking.status.name | translate}}
-                                  </span>
-
-                        </td>
-                        <td class="col-xs-4" style="width: 33% !important; vertical-align:middle;">
-                          <!--span ng-bind="ranking.awayTeam.name"></span>
-                          <br/>
-                          <span ng-bind="ranking.away_team_goals"></span-->
-                          <span ng-bind="ranking.awayTeam.name" class="h-name-team"></span>
-                          <span ng-bind="ranking.away_team_goals" class="h-goal-team"></span>
+                          <figure>
+                            <img class="h-shield" ng-src="{{getTeamShield(ranking.awayTeam.team_logo,2)}}" >
+                            <figcaption>
+                              <span ng-bind="ranking.awayTeam.name" class="h-name-team"></span>
+                            </figcaption>
+                          </figure>
                         </td>
                       </tr>
 
@@ -167,35 +166,36 @@
 
                       <tr ng-class="{'active' : $odd}"
                           ng-repeat="ranking in rankings.ranking">
-                        <td>
-                                                <span ng-bind="$index+1"
-                                                      class="text-center-vertical"></span>
+                        <td >
+                          <span ng-bind="$index+1"
+                                class="text-center-vertical" style="font-weight:bold;"></span>
                         </td>
-                        <td class="text-left">
-                                                <span ng-bind="ranking.team.name"
-                                                      class="text-center-vertical"></span>
+                        <td class="text-left" >
+                          <img class="h-shield h-tree" ng-src="{{getTeamShield(ranking.team.team_logo,$index)}}" >
+                          <span ng-bind="ranking.team.short_name"
+                                class="text-center-vertical"></span>
                         </td>
-                        <td>
-                                                <span ng-bind="ranking.points"
-                                                      class="text-center-vertical"></span>
+                        <td >
+                          <span ng-bind="ranking.points"
+                                class="text-center-vertical" style="font-weight:bold;"></span>
                         </td>
-                        <td>
+                        <td >
                                                 <span ng-bind="ranking.matches"
                                                       class="text-center-vertical"></span>
                         </td>
-                        <td>
+                        <td >
                                                 <span ng-bind="ranking.matches_won"
                                                       class="text-center-vertical"></span>
                         </td>
-                        <td>
+                        <td >
                                                 <span ng-bind="ranking.matches_drawn"
                                                       class="text-center-vertical"></span>
                         </td>
-                        <td>
+                        <td >
                                                 <span ng-bind="ranking.matches_lost"
                                                       class="text-center-vertical"></span>
                         </td>
-                        <td>
+                        <td >
                                                 <span ng-bind="ranking.goals_for"
                                                       class="text-center-vertical"></span>
                         </td>

@@ -38,6 +38,11 @@ angular
             $scope.matchId = 0;
 
 
+            $scope.getTeamShield = function (logo, index) {
+              if (logo === null) return 'img/shield/shield-' + ((index%2) + 1) + '.svg';
+              else return logo + '.svg';
+            };
+
             $scope.date = Moment.date().format('dddd Do YYYY');
 
             $scope.getTime = function (_date) {
@@ -102,8 +107,8 @@ angular
                   $scope.item.mtm = [];
                   $scope.item.league = _league;
                   $scope.item.match = {
-                      home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
-                      away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
+                      home: {name:_match.homeTeam.name, goals:_match.home_team_goals, logo:_match.homeTeam.team_logo},
+                      away: {name:_match.awayTeam.name, goals:_match.away_team_goals, logo:_match.awayTeam.team_logo},
                       status: {id:_match.id_status,name:_match.status}
                   };
 

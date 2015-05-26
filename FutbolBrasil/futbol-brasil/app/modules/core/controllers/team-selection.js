@@ -72,6 +72,17 @@ angular
                 });
             }*/
 
+
+            $scope.getCompetitionShield = function (logo,index) {
+              if (logo === null) return 'img/shield/shield-circular-' + ((index%2) + 1) + '.svg';
+              else return logo + '.svg';
+            };
+
+            $scope.getTeamShield = function (logo, index) {
+              if (logo === null) return 'img/shield/shield-' + ((index%2) + 1) + '.svg';
+              else return logo + '.svg';
+            };
+
             function getTeams(id_competition, offset, pageSize){
 
                 if(!offset){ offset = 0}
@@ -81,7 +92,6 @@ angular
 
                 TeamsManager.getTeamsIdCompetition(id_competition, offset, pageSize).then(function(pTeams){
 
-
                     $scope.hasTeams = true;
                     //processTeams(pTeams);
                     teams = pTeams;
@@ -89,14 +99,12 @@ angular
                     $scope.teams = teams.slice(page.first, page.last);
                     //getFavTeams();
 
-                    $scope.$emit('unload');
-
-
                 }, function(){
                     $scope.hasTeams = false;
                     teams = [];
                     $scope.teams = teams;
-                    $scope.$emit('unload');
+                }).finally(function(){
+                  $scope.$emit('unload');
                 });
 
             }
