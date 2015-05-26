@@ -34,6 +34,12 @@ angular
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
             $rootScope.hideLoading = hideLoading;
+            $rootScope.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion));
+
+            $rootScope.getCompetitionShield = function (logo) {
+              var ext = (($rootScope.isBadAndroid) ? '.png' : '.svg');
+              return logo + ext;
+            }
 
             $scope.toggles = {
                 favorites: true

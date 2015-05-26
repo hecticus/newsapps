@@ -1269,3 +1269,8 @@ h6.team-name {
       width: 60px;
       height: auto;
   }
+
+
+  .list-group-item-heading {
+    color:  rgb(0,40,120) !important;
+  }

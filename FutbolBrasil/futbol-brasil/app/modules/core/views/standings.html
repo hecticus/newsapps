@@ -9,7 +9,7 @@
                  ng-repeat="competition in item.competitions"
                  ng-click="showContentPhases(competition)"
                  data-news="{{ competition.id_competitions }}" on-last-repeat>
-              <img class="h-shield" ng-src="{{getCompetitionShield(competition.competiton_type.competition_logo, $index)}}" >
+              <img class="h-shield" ng-src="{{getCompetitionShield(competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
               <span class="h-headline ">{{competition.name}}</span>
             </div>
 
@@ -95,7 +95,7 @@
                       <tr class="h-match">
                         <td class="col-xs-4" style="width: 33% !important; vertical-align:middle;">
                           <figure>
-                            <img class="h-shield" ng-src="{{getTeamShield(ranking.homeTeam.team_logo,1)}}" >
+                            <img class="h-shield" ng-src="{{ranking.homeTeam.team_logo}}" onerror="this.src='img/shield-1.png'">
                             <figcaption>
                               <span ng-bind="ranking.homeTeam.name" class="h-name-team"></span>
                             </figcaption>
@@ -113,7 +113,7 @@
                         </td>
                         <td class="col-xs-4" style="width: 33% !important; vertical-align:middle;">
                           <figure>
-                            <img class="h-shield" ng-src="{{getTeamShield(ranking.awayTeam.team_logo,2)}}" >
+                            <img class="h-shield" ng-src="{{ranking.awayTeam.team_logo}}" onerror="this.src='img/shield-2.png'">
                             <figcaption>
                               <span ng-bind="ranking.awayTeam.name" class="h-name-team"></span>
                             </figcaption>
@@ -171,7 +171,7 @@
                                 class="text-center-vertical" style="font-weight:bold;"></span>
                         </td>
                         <td class="text-left" >
-                          <img class="h-shield h-tree" ng-src="{{getTeamShield(ranking.team.team_logo,$index)}}" >
+                          <img class="h-shield h-tree" ng-src="{{ranking.team.team_logo}}" onerror="this.src='img/shield-1.png'">
                           <span ng-bind="ranking.team.short_name"
                                 class="text-center-vertical"></span>
                         </td>

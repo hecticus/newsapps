@@ -36,7 +36,7 @@
                                                     ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
 
                                                   <figure>
-                                                    <img class="h-shield" ng-src="{{getTeamShield(match.homeTeam.team_logo,1)}}" >
+                                                    <img class="h-shield" ng-src="{{match.homeTeam.team_logo}}" onerror="this.src='img/shield-1.png'">
                                                     <figcaption><span ng-bind="match.homeTeam.short_name" class="h-name-team"></span></figcaption>
                                                   </figure>
 
@@ -60,7 +60,7 @@
                                                 <td  class="col-xs-4">
 
                                                   <figure>
-                                                    <img class="h-shield" ng-src="{{getTeamShield(match.awayTeam.team_logo,2)}}" >
+                                                    <img class="h-shield" ng-src="{{match.awayTeam.team_logo}}" onerror="this.src='img/shield-2.png'">
                                                     <figcaption>
                                                       <span ng-bind="match.awayTeam.short_name" class="h-name-team"></span>
                                                     </figcaption>

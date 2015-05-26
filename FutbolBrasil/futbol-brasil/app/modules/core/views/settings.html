@@ -41,9 +41,10 @@
                             <!--i class="btn btn-fab btn-raised text-center"
                                ng-class="getTeamClasses(team, $index)"
                                ng-click="teamSelected(team)" ></i-->
+
                             <img class="h-shield"
-                                 ng-src="{{getTeamShield(team,$index)}}"
-                                 ng-click="teamSelected(team)">
+                               ng-src="{{team.team_logo}}"
+                               ng-click="teamSelected(team)" onerror="this.src='img/shield-1.png'">
 
                             <i class="btn btn-delete-item btn-raised mdi-content-clear"
                                ng-click="removeTeam(team)"
@@ -52,6 +53,7 @@
                             <div class="team-name text-muted"
                                 ng-click="teamSelected(team)"
                                 ng-bind="getTeamName(team)"></div>
+
                         </div>
                     </div>
                 </div>

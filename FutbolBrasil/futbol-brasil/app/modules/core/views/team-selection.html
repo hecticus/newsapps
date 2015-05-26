@@ -6,7 +6,7 @@
         <div class="col-xs-12 h-ellipsis-truncate"
              ng-repeat="league in leagues track by league.id_competitions"
              ng-click="showContentTeams(league)" >
-          <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo, $index)}}" >
+          <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
           <span class="h-headline">{{league.name}}</span>
         </div>
       </div>
@@ -46,7 +46,7 @@
                  ng-repeat="team in teams | filter: searchQuery">
 
               <div class="row-content">
-                <img class="h-shield" ng-src="{{getTeamShield(team.team_logo,$index)}}" >
+                <img class="h-shield" ng-src="{{team.team_logo}}" onerror="this.src='img/shield-1.png'">
                 <h6 class="list-group-item-heading" ng-bind="team.name" style="display:inline; vertical-align:middle;"></h6>
               </div>
 

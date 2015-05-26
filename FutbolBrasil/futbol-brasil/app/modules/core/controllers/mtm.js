@@ -37,12 +37,6 @@ angular
             $scope.competitionId = 0;
             $scope.matchId = 0;
 
-
-            $scope.getTeamShield = function (logo, index) {
-              if (logo === null) return 'img/shield/shield-' + ((index%2) + 1) + '.svg';
-              else return logo + '.svg';
-            };
-
             $scope.date = Moment.date().format('dddd Do YYYY');
 
             $scope.getTime = function (_date) {

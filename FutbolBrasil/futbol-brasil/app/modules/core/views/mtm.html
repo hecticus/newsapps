@@ -23,7 +23,7 @@
                             <td style="width: 33% !important; vertical-align:middle;"
                                 ng-class="{winner: match.home_team_goals >= match.away_team_goals}">
                               <figure>
-                                <img class="h-shield" ng-src="{{getTeamShield(match.homeTeam.team_logo,1)}}" >
+                                <img class="h-shield" ng-src="{{match.homeTeam.team_logo}}" onerror="this.src='img/shield-1.png'">
                                 <figcaption>
                                   <span ng-bind="match.homeTeam.short_name" class="h-name-team"></span>
                                 </figcaption>
@@ -46,7 +46,7 @@
                             <td style="width: 33% !important;  vertical-align:middle;"
                                 ng-class="{winner: match.away_team_goals >= match.home_team_goals}">
                               <figure>
-                                <img class="h-shield" ng-src="{{getTeamShield(match.awayTeam.team_logo,2)}}" >
+                                <img class="h-shield" ng-src="{{match.awayTeam.team_logo}}" onerror="this.src='img/shield-2.png'">
                                 <figcaption>
                                   <span ng-bind="match.awayTeam.short_name" class="h-name-team"></span>
                                 </figcaption>
@@ -124,7 +124,7 @@
         <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}" style="text-align:center;">
 
           <figure>
-            <img class="h-shield" ng-src="{{getTeamShield(item.match.home.logo,1)}}" >
+            <img class="h-shield" ng-src="{{item.match.home.logo}}" onerror="this.src='img/shield-1.png'">
             <figcaption>
               <span ng-bind="item.match.home.name" class="h-name-team" ></span>
             </figcaption>
@@ -134,7 +134,7 @@
         <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}" style="text-align:center;">
 
           <figure>
-            <img class="h-shield" ng-src="{{getTeamShield(item.match.away.logo,2)}}" >
+            <img class="h-shield" ng-src="{{item.match.away.logo}}" onerror="this.src='img/shield-2.png'">
             <figcaption>
               <span ng-bind="item.match.away.name" class="h-name-team"></span>
             </figcaption>
@@ -143,17 +143,6 @@
         </div>
 
       </div>
-
-      <!--div class="row">
-        <div class="col-xs-6" ng-class="{winner:item.match.home.goals >= item.match.away.goals}" style="text-align:center;">
-          <span ng-bind="item.match.home.goals" class="h-goal-team"></span>
-        </div>
-        <div class="col-xs-6" ng-class="{winner:item.match.away.goals >= item.match.home.goals}" style="text-align:center;">
-          <span ng-bind="item.match.away.goals" class="h-goal-team"></span>
-        </div>
-      </div>
-    </div-->
-
 
 </div>
 
