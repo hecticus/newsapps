@@ -71,6 +71,8 @@ footer .option {
     text-align: center;
 }
 
+
+
 footer *[class *= 'glyphicon'],
 footer *[class *= 'icon-material'],
 footer *[class *= 'mdi-'],
@@ -1243,7 +1245,7 @@ h6.team-name {
     .footer .row.bets {
       margin: 0 !important;
     }
-    /*</v2>*/
+
 
 
   .h-circle.yellow {
@@ -1285,3 +1287,36 @@ h6.team-name {
   .btn {
     font-size: 16px !important;
   }
+
+
+  .content-dashboard {
+      background: green !important;
+      background-image: url('../img/grass.jpg') !important;
+      background-repeat: repeat-x;
+  }
+
+  .content-dashboard #wrapper {
+    background-image: url('../img/grass.jpg') !important;
+    background-repeat: repeat-x;
+    color: #ffffff !important
+  }
+
+  .content-dashboard #wrapper .scroller {
+      top: 100px;
+      background-image: url('../img/grass.jpg') !important;
+      background-repeat: repeat-x;
+      color: #ffffff !important;
+  }
+
+   .content-dashboard  img.h-shield {
+    width: 50px;
+    height: auto;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+  }
+
+  .content-dashboard  tr.h-match {border-bottom: 1.5px #ffffff solid !important;}
+  .content-dashboard  tr.h-match:last-child { border: 0 !important; }
+
+  /*</v2>*/

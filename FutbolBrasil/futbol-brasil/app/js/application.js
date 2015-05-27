@@ -52,6 +52,7 @@ angular
                  Notification, Analytics, $templateCache, FacebookManager) {
 
             CordovaApp.init();
+            $rootScope.defaultPage = 'dashboard';
             $rootScope.contentClass = 'content-init';
             $rootScope.$storage = $localStorage.$default({
                 news: false,
@@ -97,7 +98,7 @@ angular
 
                     }
 
-                    if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
+                    /*if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
 
                         if(Client.isGuest()){
                             Notification.showLockedSectionDialog();
@@ -107,7 +108,7 @@ angular
 
                         event.preventDefault();
                         $rootScope.hideLoading();
-                    }
+                    }*/
 
                     $rootScope.isActiveButton = 'active';
 

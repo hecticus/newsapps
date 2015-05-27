@@ -38,13 +38,17 @@
                     <div class="row">
                         <div class="col-xs-4 text-center" ng-repeat="team in favoriteTeams">
 
-                            <!--i class="btn btn-fab btn-raised text-center"
+                            <i class="btn btn-fab btn-raised text-center"
                                ng-class="getTeamClasses(team, $index)"
-                               ng-click="teamSelected(team)" ></i-->
+                               ng-click="teamSelected(team)"
+                               style="width:40px; height:40px; padding: 10px;"
+                               ng-show="isEmptySlot(team)"></i>
 
                             <img class="h-shield"
                                ng-src="{{team.team_logo}}"
-                               ng-click="teamSelected(team)" onerror="this.src='img/shield-1.png'">
+                               ng-click="teamSelected(team)"
+                               onerror="this.src='img/shield-1.png'"
+                               ng-show="!isEmptySlot(team)">
 
                             <i class="btn btn-delete-item btn-raised mdi-content-clear"
                                ng-click="removeTeam(team)"

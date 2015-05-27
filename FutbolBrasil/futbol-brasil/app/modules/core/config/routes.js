@@ -11,7 +11,7 @@ angular
     .module('core')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/prediction');
+        $urlRouterProvider.otherwise('/dashboard');
 
         /**
          * @ngdoc event
@@ -23,8 +23,31 @@ angular
          *
          * - When the path is `'/'`, route to home
          * */
-        $stateProvider
-            .state('login', {
+        /**
+       * @ngdoc event
+       * @name core.config.route
+       * @eventOf core.config
+       * @description
+       *
+       * Define routes and the associated paths
+       *
+       * - When the state is `'dashboard'`, route to dashboard
+       *
+      */
+      $stateProvider
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: 'modules/core/views/dashboard.html',
+                controller: 'DashboardController',
+                data:{
+                    prev: 'prediction',
+                    next: 'prediction',
+                    contentClass: 'content-dashboard',
+                    section: 'bets',
+                    state: 'dashboard'
+                }
+            }).
+            state('login', {
                 url: '/login',
                 templateUrl:'modules/core/views/login.html',
                 controller:'LoginCtrl as login',

@@ -1,0 +1,80 @@
+
+
+<div id="wrapper" class="page">
+  <div class="scroller" >
+
+
+      <div class="row">
+
+        <div class="col-xs-12"
+             ng-repeat="fixture in leagues.fixtures track by fixture.date"
+             on-last-repeat>
+
+          <table class="table" >
+            <thead>
+              <tr>
+                <th colspan="3" class="h-header light-blue">
+                  <span ng-bind="getDate(fixture.date)"></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="match in fixture.matches" class="h-match" >
+
+                <td class="col-xs-4"
+                    ng-click="setBet(match.status.id_status, 0, $parent.$parent.$index, $parent.$index, $index)"
+                    ng-class="{active: match.bet.client_bet === 0, winner: match.home_team_goals >= match.away_team_goals}">
+
+                  <figure>
+                    <img class="h-shield" ng-src="{{match.home_team.team_logo}}" onerror="this.src='img/shield-1.png'">
+                    <figcaption><span ng-bind="match.home_team.short_name" class="h-name-team"></span></figcaption>
+                  </figure>
+
+                </td>
+
+                <td class="col-xs-4"
+                    ng-click="setBet(match.status.id_status, 1, $parent.$parent.$index, $parent.$index, $index)"
+                    ng-class="{active: match.bet.client_bet == 1}">
+
+                  <span ng-bind="match.home_team_goals" class="h-goal-team" ng-if="match.status.id_status != 3"></span>
+                  <span  class="h-goal-team" ng-if="match.status.id_status != 3">-</span>
+                  <span ng-bind="match.away_team_goals" class="h-goal-team" ng-if="match.status.id_status != 3"></span>
+                  <br />
+
+                  <span ng-bind="getTime(match.date)" class="h-time"></span>
+                  <br/>
+                            <span class="status _{{match.status.id_status}}">
+                              {{ match.status.name | translate}}
+                            </span>
+                </td>
+
+                <td class="col-xs-4"
+                    ng-click="setBet(match.status.id_status, 2, $parent.$parent.$index,$parent.$index,$index)"
+                    ng-class="{active: match.bet.client_bet == 2, winner: match.away_team_goals >= match.home_team_goals}">
+
+
+                  <figure>
+                    <img class="h-shield" ng-src="{{match.away_team.team_logo}}" onerror="this.src='img/shield-2.png'">
+                    <figcaption>
+                      <span ng-bind="match.away_team.short_name" class="h-name-team"></span>
+                    </figcaption>
+                  </figure>
+
+
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+
+
+      </div> <!--row-->
+
+
+  </div>	<!--scroller-->
+</div> <!--wrapper-->

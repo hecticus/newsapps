@@ -22,7 +22,8 @@
         "TEAM-SELECTION" : "Language Selection",
         "TERMS": "Terms",
         "HOW": "How does it work",
-        "TUTORIAL": "Tutorial"
+        "TUTORIAL": "Tutorial",
+        "DASHBOARD": "Dashboard"
     },
     "NEWS" : {
         "TITLE" : "News"

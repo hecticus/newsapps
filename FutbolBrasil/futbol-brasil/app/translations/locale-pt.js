@@ -22,7 +22,8 @@
         "TEAM-SELECTION" : "Seleção de Equipe",
         "TERMS": "Condições",
         "HOW": "Como funciona",
-        "TUTORIAL": "Tutorial"
+        "TUTORIAL": "Tutorial",
+        "DASHBOARD": "Dashboard"
 
     },
     "NEWS" : {
