@@ -775,16 +775,17 @@ public class MatchesController extends HecticusController {
                     GameMatch gameMatch = competition.getMatch(idMatch);
                     if (gameMatch != null) {
                         List<GameMatchEvent> events = gameMatch.getEventsNoDB(idEvent, forward);
+                        ObjectNode resp = Json.newObject();
+                        Language requestLanguage = Language.getByID(idLanguage);
+                        if(requestLanguage == null){
+                            requestLanguage = app.getLanguage();
+                        }
+                        resp.put("home_team", gameMatch.getHomeTeam().toJsonSimple());
+                        resp.put("home_team_goals", gameMatch.getHomeTeamGoals());
+                        resp.put("away_team", gameMatch.getAwayTeam().toJsonSimple());
+                        resp.put("away_team_goals", gameMatch.getAwayTeamGoals());
+
                         if (events != null & !events.isEmpty()) {
-                            ObjectNode resp = Json.newObject();
-                            Language requestLanguage = Language.getByID(idLanguage);
-                            if(requestLanguage == null){
-                                requestLanguage = app.getLanguage();
-                            }
-                            resp.put("home_team", gameMatch.getHomeTeam().toJsonSimple());
-                            resp.put("home_team_goals", gameMatch.getHomeTeamGoals());
-                            resp.put("away_team", gameMatch.getAwayTeam().toJsonSimple());
-                            resp.put("away_team_goals", gameMatch.getAwayTeamGoals());
                             GameMatchEvent pivot = events.get(0);
                             ArrayList<ObjectNode> periodData = new ArrayList<>();
                             for (GameMatchEvent gameMatchEvent : events) {
@@ -808,12 +809,11 @@ public class MatchesController extends HecticusController {
                                 periodData.clear();
                                 responseData.add(period);
                             }
-                            resp.put("actions", Json.toJson(responseData));
-                            responseData.clear();
-                            return ok(hecticusResponse(0, "ok", resp));
-                        } else {
-                            return notFound(buildBasicResponse(1, "No hay eventos para el partido " + idMatch));
+
                         }
+                        resp.put("actions", Json.toJson(responseData));
+                        responseData.clear();
+                        return ok(hecticusResponse(0, "ok", resp));
                     } else {
                         return notFound(buildBasicResponse(2, "El partido " + idMatch + " no existe"));
                     }
