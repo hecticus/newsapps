@@ -9,9 +9,9 @@
 angular
     .module('core')
     .controller('DashboardController', ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
-        'Client', 'WebManager', '$window','Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
+        'Client', 'WebManager', '$window','Bets', 'Moment', 'iScroll', 'Competitions', 'Notification', 'Domain',
         function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
-                 Bets, Moment, iScroll, Competitions, Notification) {
+                 Bets, Moment, iScroll, Competitions, Notification, Domain) {
 
             $rootScope.$storage.settings = true;
             var listScroll = null;
@@ -22,6 +22,8 @@ angular
 
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
+
+            $scope.getNameClient = Client.getNickname();
 
             function getTranslations(){
 
@@ -53,7 +55,6 @@ angular
                 return { 'width': widthTotal + 'px'}
             };
 
-
             $scope.getDate = function (_date) {
                 return Moment.dateNoUTC(_date).format('ll');
             };
@@ -62,61 +63,52 @@ angular
                 return Moment.date(_date).format('HH:mm');
             };
 
+            $scope.setBet = function (_status, _bet, _iMatch) {
 
-            $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
+              if (_status == 3) {
 
-                if (_status == 3) {
+                var _jMatch = $scope.leagues.fixtures[_iMatch];
+                var diffHours = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').diff(Moment.date(), 'hours');
 
-                    var _jLeagues = $scope.leagues;
-                    var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
+                if (diffHours > 1) {
+                  if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
 
-                    var dateMatch = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').format('YYYY-MM-DD');
-                    var diffHours = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').diff(Moment.date(), 'hours');
+                    $scope.$emit('load');
 
-                    if (diffHours > 1) {
-                      if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
-                        $scope.$emit('load');
-                        if (_status == 3) {
-                            if (_jMatch.bet) {
-                                _jMatch.bet.client_bet = _bet;
-                            } else {
-                                _jMatch.bet = {client_bet: _bet};
-                                if (_jLeagues.bet.total_bets > _jLeagues.bet.client_bets){
-                                    _jLeagues.bet.client_bets = _jLeagues.bet.client_bets + 1;
-                                }
-                            }
-                        }
-
-                        _jLeagues.fixtures[_iFixture].matches[_iMatch] = _jMatch;
-                        $scope.leagues = _jLeagues;
-
-                        var _jBet = {
-                            'bet': {
-                                'id_tournament': $scope.leagues.id_competitions,
-                                'id_game_match': _jMatch.id_game_matches,
-                                'client_bet': _jMatch.bet.client_bet
-                            }
-                        };
-
-                        Bets.create(_jBet,function() {
-                            $scope.$emit('unload');
-                        }, function () {
-                            $scope.$emit('unload');
-                            //$scope.$emit('error');
-                        });
-
-                        _Match = _jMatch.id_game_matches;
-                        _mBet = _bet;
-                      }
+                    if (_jMatch.bet) {
+                        _jMatch.bet.client_bet = _bet;
                     } else {
-                      Notification.showInfoAlert({
-                          title: strings['SET_BET_TITLE'],
-                          subtitle: strings['SET_BET_SUBTITLE'],
-                          message: strings['SET_BET_MSG'],
-                          type: 'warning'
-                      });
+                        _jMatch.bet = {client_bet: _bet};
                     }
+
+
+                    $scope.leagues.fixtures[_iMatch] = _jMatch;
+
+                    var _jBet = {
+                        'bet': {
+                            'id_tournament': _jMatch.competition.id_competitions,
+                            'id_game_match': _jMatch.id_game_matches,
+                            'client_bet': _jMatch.bet.client_bet
+                        }
+                    };
+
+
+                    Bets.create(_jBet, function() {
+                        $scope.$emit('unload');
+                      },
+                      function () {
+                        $scope.$emit('unload');
+                    });
+
+                    _Match = _jMatch.id_game_matches;
+                    _mBet = _bet;
+
+                  }
+
                 }
+
+              }
+
             };
 
             function mapEmptyTeamNames(fixtures){
@@ -146,26 +138,13 @@ angular
             }
 
             function getBets() {
-
-              Bets.get(9, function(data) {
-                if (data.error == 0) {
-
-                  setGameStatus(data.response);
-                  mapEmptyTeamNames(data.response.fixtures);
-                  $scope.leagues.fixtures = data.response.fixtures;
-                  $scope.leagues.bet = {
-                      total_bets: data.total_bets,
-                      client_bets : data.client_bets
-                  };
-
-                  setEmptyLeagueFlag($scope.leagues);
-                }
-                $scope.$emit('unload');
-              }, function(){
+              $http.get(Domain.bets.getToday(Moment.date().format('YYYYMMDD')))
+                .then(function (data) {
+                    data = data.data.response;
+                    $scope.leagues = data;
+                }).finally(function(){
                   $scope.$emit('unload');
-                  //$scope.$emit('error');
-              });
-
+                });
             }
 
 

@@ -138,6 +138,14 @@ table tbody tr td.active {
   color: #002878 !important;
 }
 
+table tbody tr td span.active,
+table tbody tr td img.active{
+  background: rgb(254,209,0) !important;
+  color: #002878 !important;
+}
+
+
+
 .content-leaderboard table tbody tr,
 .content-leaderboard table tbody tr td,
 .content-friends table tbody tr,
@@ -898,7 +906,7 @@ h6.team-name {
     .content-prediction .wrapper { top: 70px; }
     tr.h-match { border-bottom: 1.5px rgb(44,156,211) solid !important; }
     tr.h-match:last-child { border: 0 !important; }
-    tr.h-match td { height: auto; position: relative;} /*vertical-align:middle;*/
+    tr.h-match td { height: auto;} /*vertical-align:middle;*/
     tr.h-match td .h-name-team {display:block; height: auto; }
     tr.h-match td .h-goal-team {height: auto;}
 
@@ -1289,34 +1297,48 @@ h6.team-name {
   }
 
 
-  .content-dashboard {
-      background: green !important;
-      background-image: url('../img/grass.jpg') !important;
-      background-repeat: repeat-x;
-  }
+
+      @media only screen and (min-width: 320px) and (max-width: 800px) {
+            .content-dashboard {
+                background: rgb(122,184,0); !important;
+                background-image: url('../img/grama-480x800.jpg') !important;
+                background-size: auto;
+            }
+
+      }
+
+			@media only screen and (min-width: 800px) and (max-width: 1280px) {
+			    .content-dashboard {
+               background:  background: rgb(122,184,0); !important;
+               background-image: url('../img/grama-720x1280.jpg') !important;
+               background-size: auto;
+           }
+			}
+
+			@media only screen and (min-width:1280px) {
+			    .content-dashboard {
+               background:  background: rgb(122,184,0); !important;
+               background-image: url('../img/grama-1080x1920.jpg') !important;
+               background-size: cover;
+           }
+			}
+
 
   .content-dashboard #wrapper {
-    background-image: url('../img/grass.jpg') !important;
-    background-repeat: repeat-x;
-    color: #ffffff !important
-  }
-
-  .content-dashboard #wrapper .scroller {
-      top: 100px;
-      background-image: url('../img/grass.jpg') !important;
-      background-repeat: repeat-x;
+      top: 225px;
       color: #ffffff !important;
+      background:transparent;
   }
 
-   .content-dashboard  img.h-shield {
-    width: 50px;
-    height: auto;
-    background-color: white;
-    border-radius: 50%;
-    padding: 5px;
-  }
+
+   .content-dashboard  img.h-shield.h-match {
+      width: 50px;
+      height: auto;
+      background-color: white;
+      border-radius: 50%;
+      padding: 5px;
+   }
 
   .content-dashboard  tr.h-match {border-bottom: 1.5px #ffffff solid !important;}
-  .content-dashboard  tr.h-match:last-child { border: 0 !important; }
 
   /*</v2>*/

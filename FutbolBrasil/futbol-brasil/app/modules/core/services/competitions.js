@@ -10,10 +10,8 @@ angular
     .factory('Competitions',['$localStorage', '$http', '$q', 'Domain', 'WebManager', 'Client',
         function($localStorage, $http, $q, Domain, WebManager, Client) {
             var FILE_KEY_COMPETITIONS = "APPCOMPETITIONS";
-            var FILE_KEY_ALL_COMPETITIONS = "APPALLCOMPETITIONS";
             var localStorage = $localStorage;
             var competitions = [];
-            var allCompetitions = [];
 
             function saveCompetitions(comps) {
                 if(comps){
@@ -22,10 +20,6 @@ angular
 
                 localStorage[FILE_KEY_COMPETITIONS] = competitions;
 
-                if(!localStorage[FILE_KEY_ALL_COMPETITIONS]){
-                    localStorage[FILE_KEY_ALL_COMPETITIONS] = competitions;
-                }
-
             }
 
             function loadCompetitions() {
@@ -33,11 +27,6 @@ angular
                 if(localStorage[FILE_KEY_COMPETITIONS]){
                     competitions = localStorage[FILE_KEY_COMPETITIONS];
                 }
-
-                if(localStorage[FILE_KEY_ALL_COMPETITIONS]){
-                    allCompetitions = localStorage[FILE_KEY_ALL_COMPETITIONS];
-                }
-
 
                 return competitions;
             }
@@ -136,12 +125,46 @@ angular
 
                 leaderboard : {
                     personal : {
+
+                        tournamentAll: function(){
+                            return $http.get(Domain.leaderboard.personal.competition())
+                                .then(function(response){
+                                    var leaderboard = response.data.response.leaderboard;
+                                    $http.get(Domain.competitions).then(function(response){
+
+                                        var allCompetitions = response.data.response.competitions;
+
+                                        leaderboard.map(function(score){
+                                            allCompetitions.some(function(competition){
+                                                if(competition.id_competitions === score.id_tournament){
+                                                    score.name = competition.competiton_type.name;
+                                                    score.logo = competition.competiton_type.competition_logo;
+                                                    return true;
+                                                }
+                                            });
+                                        });
+
+                                    },function(response){
+                                        return $q.reject(response);
+                                    });
+
+
+
+
+
+                                    return leaderboard;
+                                }, function(response){
+                                    return $q.reject(response.data);
+                                });
+                        },
+
+
                         tournament: function(){
                             return $http.get(Domain.leaderboard.personal.competition())
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
                                     leaderboard.map(function(score){
-                                        allCompetitions.some(function(competition){
+                                        competitions.some(function(competition){
                                             if(competition.id_competitions === score.id_tournament){
                                                 //alert(competition.competiton_type.name);
                                                 score.name = competition.competiton_type.name;
@@ -155,6 +178,7 @@ angular
                                     return $q.reject(response.data);
                                 });
                         },
+
                         phase : {
                             index : function(idTournament, phases){
                                 var config = {

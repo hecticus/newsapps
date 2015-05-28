@@ -156,6 +156,13 @@ angular
                             + apiVersion + '/clients/bets/get/'
                             + getClientId() + '/' + _competition + '?timezoneName=' + getGMT();
                     },
+
+                    getToday: function (_date) {
+                      return brazil_football_manager_url + 'futbolbrasil/'
+                          + apiVersion + '/clients/bets/get/date/'
+                          + getClientId() + '/' + _date + '?timezoneName=' + getGMT();
+                    },
+
                     create : function() {
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + 'v2' + '/client/' + getClientId() + '/bet';

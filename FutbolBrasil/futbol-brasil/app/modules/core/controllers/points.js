@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('PointsCtrl', ['$rootScope', '$scope', '$window', '$translate', '$q', 'Competitions', 'Notification',
-        'Moment', 'iScroll', 'Client',
-        function($rootScope, $scope, $window, $translate, $q, Competitions, Notification, Moment, iScroll, Client) {
+    .controller('PointsCtrl', ['$rootScope', '$scope', '$window', '$translate', 'Competitions', 'Notification',
+        'Moment', 'iScroll', 'Client', 'Domain',
+        function($rootScope, $scope, $window, $translate, Competitions, Notification, Moment, iScroll, Client, Domain) {
 
             $scope.tournaments = [];
             $scope.hasScore = true;
@@ -37,23 +37,16 @@ angular
             };
 
             function getPoints(){
-                console.log('getPoints');
-                $scope.$emit('load');
-                Competitions.leaderboard.personal.tournament().then(function(response){
-
-
-                    response.forEach(function(competition){
-                      $scope.getTotalPointsClient += competition.score;
-                    });
-
-                    $scope.tournaments = response;
-                    $scope.hasScore = $scope.tournaments.length > 0;
-                    $scope.$emit('unload');
-
-                }, function(){
-                    Notification.showNetworkErrorAlert();
-                    $scope.$emit('unload');
-                });
+              $scope.$emit('load');
+              Competitions.leaderboard.personal.tournamentAll().then(function(response){
+                  response.forEach(function(competition){ $scope.getTotalPointsClient += competition.score; });
+                  $scope.tournaments = response;
+                  $scope.hasScore = $scope.tournaments.length > 0;
+              }, function(){
+                  Notification.showNetworkErrorAlert();
+              }).finally(function(){
+                $scope.$emit('unload');
+              });
             }
 
             function setUpIScroll(){

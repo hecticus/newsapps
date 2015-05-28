@@ -185,7 +185,8 @@
             </div>
 
             <div data-section="bets" class="row bets"
-                 ng-class="{active: getSection() === 'bets', hide: getSection() !== 'bets'}">
+                 ng-class="{active: getSection() === 'dashboard' || getSection() === 'bets', hide: getSection() !== 'bets' &&  getSection() !== 'dashboard'}">
+
                 <div class="col-xs-3 option" ui-sref-active="active">
                     <a ui-sref="prediction" class="footer-section">
                         <span class="icon-balon"></span>

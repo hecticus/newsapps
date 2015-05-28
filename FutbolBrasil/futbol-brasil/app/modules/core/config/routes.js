@@ -43,7 +43,7 @@ angular
                     prev: 'prediction',
                     next: 'prediction',
                     contentClass: 'content-dashboard',
-                    section: 'bets',
+                    section: 'dashboard',
                     state: 'dashboard'
                 }
             }).

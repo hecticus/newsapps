@@ -23,7 +23,10 @@
         "TERMS": "Terms",
         "HOW": "How does it work",
         "TUTORIAL": "Tutorial",
-        "DASHBOARD": "Dashboard"
+        "DASHBOARD":  {
+          "DASHBOARD": "Dashboard",
+          "TITLE_GAMES_TODAY" : "Games today"
+        }
     },
     "NEWS" : {
         "TITLE" : "News"

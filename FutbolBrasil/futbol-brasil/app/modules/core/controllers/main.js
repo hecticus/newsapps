@@ -13,11 +13,11 @@ angular
         function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
                Client, CordovaApp, CordovaDevice) {
 
-            /*$('body').flowtype({
-               minFont   : 12,
-               maxFont   : 15
-            });*/
-            $('body').flowtype();
+            $('body').flowtype({
+                minimum : 320,
+                maximum : 1200
+            });
+            //$('body').flowtype();
             $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
@@ -77,6 +77,7 @@ angular
                   || (getSection() === 'tutorial')
                   || (getSection() === 'language-selection')
                   || (getSection() === 'team-selection')
+                  || (getSection() === 'dashboard')
                   || ($('.content-news #wrapper2').hasClass('left'))
                   || ($rootScope.hasFavorites === false)) {
 
@@ -98,6 +99,7 @@ angular
             function hideMenuIcon() {
               if (((getSection() === 'login') && !hasPreviousSubsection())
                   || (getSection() === 'tutorial')
+                  || (getSection() === 'dashboard')
                   || ((getSection() === 'settings') &&
                       (!$rootScope.$storage.settings))) {
                 return true;
