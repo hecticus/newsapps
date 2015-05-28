@@ -119,7 +119,7 @@ public class PushGenerator extends HecticusThread {
                 }
             }
         } catch (Exception e){
-            Utils.printToLog(PushGenerator.class, null, "Error manejando data a enviar", true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(PushGenerator.class, "Error en el PushGenerator", "Error manejando data a enviar", true, e, "support-level-1", Config.LOGGER_ERROR);
         }
 
         try {
@@ -148,7 +148,7 @@ public class PushGenerator extends HecticusThread {
                 }
             }
         } catch (Exception e){
-            Utils.printToLog(PushGenerator.class, null, "Error manejando data a enviar", true, e, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(PushGenerator.class, "Error en el PushGenerator", "Error manejando data a enviar", true, e, "support-level-1", Config.LOGGER_ERROR);
         }
     }
 
