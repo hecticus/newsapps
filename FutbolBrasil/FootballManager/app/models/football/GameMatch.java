@@ -350,6 +350,28 @@ public class GameMatch extends HecticusModel {
         return json;
     }
 
+    public ObjectNode toJsonWithCompetitions(final Language language, final Language defaultLanguage) {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        json.put("date",date);
+        if(phase != null) {
+            json.put("phase",phase.getIdPhases());
+        }
+        json.put("homeTeam",homeTeam.toJson());
+        json.put("awayTeam",awayTeam.toJson());
+        json.put("home_team_goals",homeTeamGoals);
+        json.put("away_team_goals",awayTeamGoals);
+        json.put("fifa_match_number",fifaMatchNumber);
+        json.put("status", status.getIdGameMatchStatus());
+        json.put("ext_id",extId);
+        if(result != null) {
+            json.put("results", result.toJson());
+        }
+        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage));
+
+        return json;
+    }
+
     public ObjectNode toJson(final Language language, final Language defaultLanguage) {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
@@ -417,6 +439,13 @@ public class GameMatch extends HecticusModel {
 
     public static List<GameMatch> getGamematchBetweenDates(Long idCompetition, String minDate, String maxDate){
         return finder.where().between("date", minDate, maxDate).eq("competition.idCompetitions", idCompetition).orderBy("date asc").findList();
+    }
+
+    public static List<GameMatch> getGamematchBetweenDatesForcompetitions(List<Competition> competitions, String minDate, String maxDate){
+        if(competitions != null && !competitions.isEmpty()){
+            return finder.where().between("date", minDate, maxDate).in("competition", competitions).orderBy("date asc").findList();
+        }
+        return finder.where().between("date", minDate, maxDate).orderBy("date asc").findList();
     }
 
     public ObjectNode fixtureJson(){

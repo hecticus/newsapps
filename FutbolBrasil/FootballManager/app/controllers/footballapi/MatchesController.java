@@ -158,6 +158,66 @@ public class MatchesController extends HecticusController {
         }
     }
 
+    public static Result getFixturesDateAll(Integer idApp, String date, Integer idLanguage, String timezoneName){
+        try {
+            if(timezoneName.isEmpty()){
+                return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+            }
+            timezoneName = timezoneName.replaceAll(" ", "").trim();
+            Apps app = Apps.findId(idApp);
+            if(app != null) {
+                TimeZone timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                if(timeZone == null){
+                    return badRequest(buildBasicResponse(1, "Es necesario pasar un timezone"));
+                }
+                Calendar today = new GregorianCalendar(timeZone);
+                if(date != null && !date.isEmpty() && !date.equalsIgnoreCase("today")){
+                    today.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+                    today.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)) - 1);
+                    today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(6)));
+                }
+                String minimumDate = DateAndTime.getMinimumDate(today, timezoneName, "yyyMMddHHmmss");
+                String maximumDate = DateAndTime.getMaximumDate(today, timezoneName, "yyyMMddHHmmss");
+                Language requestLanguage = null;
+                if(idLanguage > 0) {
+                    requestLanguage = Language.getByID(idLanguage);
+                }
+                if (idLanguage <= 0 || requestLanguage == null){
+                    requestLanguage = app.getLanguage();
+                }
+                ArrayList data = new ArrayList();
+                ArrayList responseData = new ArrayList();
+                List<Team> teams = null;
+                String[] favorites = getFromQueryString("teams");
+                if (favorites != null && favorites.length > 0) {
+                    teams = Team.finder.where().in("idTeams", favorites).findList();
+                }
+                List<Competition> competitionsByApp = null;
+                if (teams != null && !teams.isEmpty()) {
+                    competitionsByApp = Competition.getActiveCompetitionsByAppAndTeams(app, teams);
+                    teams.clear();
+                }
+                List<GameMatch> fullList = null;
+                fullList = GameMatch.getGamematchBetweenDatesForcompetitions(competitionsByApp, minimumDate, maximumDate);
+                for (GameMatch gameMatch : fullList) {
+                    data.add(gameMatch.toJsonWithCompetitions(requestLanguage, app.getLanguage()));
+                }
+                fullList.clear();
+                if(competitionsByApp != null) {
+                    competitionsByApp.clear();
+                }
+                ObjectNode response = hecticusResponse(0, "ok", "fixtures", data);
+                data.clear();
+                return ok(response);
+            } else {
+                return notFound(buildBasicResponse(4, "La aplicacion  " + idApp + " no existe"));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
+
     public static Result getFixturesGroupByDate(Integer idApp, String timezoneName){
         try {
             if(timezoneName.isEmpty()){
