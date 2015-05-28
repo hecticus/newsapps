@@ -914,6 +914,16 @@ public class Clients extends HecticusController {
                     modifiedFixtures.clear();
                     matchesIDs.clear();
                     matches.clear();
+                    int points = 0;
+                    int correct = 0;
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        points += leaderboardGlobal.getScore();
+                        correct += leaderboardGlobal.getCorrectBets();
+                    }
+                    response.put("points", points);
+                    response.put("correct_bets", correct);
+
                     return ok(buildBasicResponse(0, "OK", response));
                 } else {
                     return internalServerError(buildBasicResponse(3, "error llamando a footballmanager"));
