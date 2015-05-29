@@ -1,11 +1,10 @@
 package models.football;
 
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -19,7 +18,7 @@ import java.util.*;
 @Entity
 @Table(name="game_matches",
         uniqueConstraints = @UniqueConstraint(columnNames = {"id_competition, ext_id"}))
-public class GameMatch extends HecticusModel {
+public class GameMatch extends FootballModel {
 
     public static final short NONE = 0;
     public static final short STARTED = 1;

@@ -1,7 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="scorers")
-public class Scorer extends HecticusModel {
+public class Scorer extends FootballModel {
 
     @Id
     private Integer idScorer;

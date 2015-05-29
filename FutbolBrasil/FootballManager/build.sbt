@@ -1,8 +1,12 @@
+import play.PlayJava
+
 name := """FootballManager"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val JobCore = file("/home/plessmann/Development/projects/JobCore")
+
+lazy val root = (project in file(".")).enablePlugins(PlayJava).aggregate(JobCore).dependsOn(JobCore)
 
 scalaVersion := "2.10.1"
 

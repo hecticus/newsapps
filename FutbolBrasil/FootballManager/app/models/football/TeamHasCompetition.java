@@ -1,8 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
-import play.data.validation.Constraints;
+import models.FootballModel;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="team_has_competitions")
-public class TeamHasCompetition extends HecticusModel {
+public class TeamHasCompetition extends FootballModel {
 
     @Id
     private Long idTeamHasCompetition;

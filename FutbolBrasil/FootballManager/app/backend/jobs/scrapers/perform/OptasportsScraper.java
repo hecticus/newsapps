@@ -2,21 +2,23 @@ package backend.jobs.scrapers.perform;
 
 import backend.HecticusThread;
 import exceptions.BadConfigException;
+import models.Apps;
 import models.Config;
 import models.Language;
 import models.football.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import utils.DateAndTime;
 import utils.Utils;
 import utils.WebServicesManager;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by sorcerer on 4/6/15.
@@ -24,6 +26,7 @@ import java.util.*;
 public class OptasportsScraper extends HecticusThread {
 
     protected Language language;
+    protected Apps app;
     //variables para cargar la config de opta
     protected String optaUserName = "upstream",
             optaAuthKey ="8277e0910d750195b448797616e091ad";
@@ -51,6 +54,13 @@ public class OptasportsScraper extends HecticusThread {
             } else
                 throw new BadConfigException("es necesario configurar el parametro language");
 
+            if (args.containsKey("app")) {
+                app = Apps.findId(Integer.parseInt((String) args.get("app")));
+                if(app == null)
+                    throw new BadConfigException("el app configurado no existente");
+            } else
+                throw new BadConfigException("es necesario configurar el parametro app");
+
             //get perform configs optaUserName and opatAuthKey if not there use default
             if (args.containsKey("username")) {
                 optaUserName = (String) args.get("username");
@@ -61,7 +71,6 @@ public class OptasportsScraper extends HecticusThread {
             }
             //read data from ws
             initProcess();
-
         } catch (BadConfigException ex){
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OptasportsScraper",
@@ -187,7 +196,7 @@ public class OptasportsScraper extends HecticusThread {
                                 currentSeasonLastUptdated = xPath.compile("@last_updated").evaluate(currentSeason);
                         //String name = category.getName() + " " + currentSeasonName + " (" + areaIdName + ")" ;
                         String name = category.getName() + " " + currentSeasonName;
-                        Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
+                        Competition c = new Competition(name, Long.parseLong(currentSeasonId), app, category);
                         c.validate(language);
 
                         if(updateTimes.containsKey(c.getIdCompetitions())){

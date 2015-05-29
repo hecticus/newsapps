@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import models.Config;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
  */
 @Entity
 @Table(name="competition_type")
-public class CompetitionType extends HecticusModel {
+public class CompetitionType extends FootballModel {
 
     //constantes de type
 
