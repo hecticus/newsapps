@@ -11,7 +11,7 @@ angular
     .module('core')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/dashboard');
+        $urlRouterProvider.otherwise('/prediction');
 
         /**
          * @ngdoc event

@@ -24,19 +24,26 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
             $scope.getNameClient = Client.getNickname();
+
             $scope.getEndOfTime = function(date) {
-              return Moment.endOf(date);
+              if (date === undefined) {
+                return strings['NO_MATCH'];
+              } else {
+                return Moment.endOf(date);
+              }
             }
 
             function getTranslations(){
 
               $translate(['ALERT.SET_BET.TITLE',
                           'ALERT.SET_BET.SUBTITLE',
-                          'ALERT.SET_BET.MSG'])
+                          'ALERT.SET_BET.MSG',
+                          'NO_MATCH'])
               .then(function(translation){
                   strings['SET_BET_TITLE'] = translation['ALERT.SET_BET.TITLE'];
                   strings['SET_BET_SUBTITLE'] = translation['ALERT.SET_BET.SUBTITLE'];
                   strings['SET_BET_MSG'] = translation['ALERT.SET_BET.MSG'];
+                  strings['NO_MATCH'] = translation['NO_MATCH'];
               });
 
             };

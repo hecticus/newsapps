@@ -29,8 +29,8 @@
         }
     },
     "NEWS" : {
-        "TITLE" : "Noticias"
-
+        "TITLE" : "Noticias",
+        "SOURCE" : "Fuente"
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Jugador",
@@ -258,5 +258,6 @@
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible",
     "LOGOUT" : "Cerrar Sesión",
-    "READY" : "Saltar tutorial"
+    "READY" : "Saltar tutorial",
+    "NO_MATCH" : "No hay partidos"
 }

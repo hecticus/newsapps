@@ -29,8 +29,8 @@
         }
     },
     "NEWS" : {
-        "TITLE" : "Notícias"
-
+        "TITLE" : "Notícias",
+        "SOURCE" : "Fonte"
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Nome do jogador",
@@ -257,5 +257,7 @@
     "LOADING" : "Carregando",
     "NOT_AVAILABLE": "Não Disponível",
     "LOGOUT" : "Sair",
-    "READY" : "Pular tutorial"
+    "READY" : "Pular tutorial",
+    "NO_MATCH" : "Nenhum jogo"
+
 }

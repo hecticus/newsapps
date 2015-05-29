@@ -30,6 +30,7 @@
     },
     "NEWS" : {
         "TITLE" : "News"
+        "SOURCE" : "Source"
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Player",
@@ -256,6 +257,7 @@
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available",
     "LOGOUT" : "Log Out",
-    "READY" : "Skip tutorial"
+    "READY" : "Skip tutorial",
+    "NO_MATCH" : "No matches"
 
 }
