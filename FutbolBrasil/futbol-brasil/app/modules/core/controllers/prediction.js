@@ -23,6 +23,10 @@ angular
 
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
+            $scope.getNameClient = Client.getNickname();
+            $scope.getEndOfTime = function(date) {
+              return Moment.endOf(date);
+            }
 
             function getTranslations(){
 
@@ -222,11 +226,10 @@ angular
                   $rootScope.transitionPageBack('#wrapperH', 'left');
               };
 
-
-
             function getCompetitions(){
-                Competitions.get().then(function(data){
-                    $scope.leagues  = data;
+                Competitions.getPrediction().then(function(data){
+                    $scope.points = data.points;
+                    $scope.leagues  = data.competitions;
                     $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();

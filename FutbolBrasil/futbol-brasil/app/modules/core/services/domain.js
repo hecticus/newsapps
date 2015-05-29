@@ -71,6 +71,9 @@ angular
                 competitions: football_manager_url + 'footballapi/'
                     + apiVersion + '/competitions/list/' + appId + '/' + getLang(),
 
+                competitionsPrediction: brazil_football_manager_url + 'futbolbrasil/'
+                    + apiVersion + '/clients/dashboard/' +  getClientId() + '/' + getLang(),
+
                 news: {
                     index: function () {
                         return football_manager_url + 'newsapi/'

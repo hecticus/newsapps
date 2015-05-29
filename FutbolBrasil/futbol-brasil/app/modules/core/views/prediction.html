@@ -1,14 +1,60 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3 ng-bind="getNameClient"
+        style="text-align:center;
+            text-transform: uppercase;
+            color:#ffffff;" ></h3>
+  </div>
+  <div style="position:absolute; top: 150px; background: #ffffff; width: 100%; height:2px;"></div>
+
+
+  <div  style="position:absolute;
+              top: 100px;
+              left:0;
+              right: 0;
+              display:block;
+              width:100px;
+              height: 100px;
+              line-height: 25px;
+              background-color: rgb(122,184,0)  !important;
+              border-radius: 50%;
+              text-align:center;
+              color:   rgb(0,40,120);
+              font-size:1.8em;
+              margin: 0 auto  !important;
+              border-style: solid;
+              border-width: 2px;
+              border-color: #ffffff;">
+
+    <div style="height:35px; position: absolute; top: 0; left: 0; bottom: 0; right: 0; margin: auto; color:#ffffff; ">
+      <span ng-bind="points"  style="text-transform: uppercase; font-size:2em !important; display:block;" ></span>
+      <span translate style="font-size: 1em; ">LEADERBOARD.POINTS</span>
+    </div>
+
+  </div>
+
+
+</div>
+
+
 <div id="wrapper" class="page">
   <div class="scroller">
     <div class="container">
 
-      <div class="row h-list"  >
+      <div class="row h-list" style="background:#ffffff;"  >
         <div class="col-xs-12 h-ellipsis-truncate"
              ng-repeat="league in leagues track by league.id_competitions"
              ng-click="showContentPrediction($index)" >
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
           <span class="h-headline">{{league.competiton_type.name}}</span>
+
+          <div style="float:right; color: rgb(122,184,0) !important; ">
+            <span class="h-headline" ng-bind="getEndOfTime(league.match.date)" style="font-size:1.2em;"></span>
+            <i class=" mdi-navigation-chevron-right" style="font-size:1.4em; vertical-align:middle;"></i>
+          </div>
+
         </div>
+
       </div>
 
     </div>

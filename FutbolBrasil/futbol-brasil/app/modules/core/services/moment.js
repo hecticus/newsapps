@@ -36,7 +36,7 @@ angular
                date:function (_date) {
                    var _oMoment = moment().locale(getLang());
                    if (_date) {
-                     var leagueTime = moment(_date,'YYYYMMDDHHmmSS').format('YYYY-MM-DD HH:mm:ss');
+                     var leagueTime = moment(_date,'YYYYMMDDHHMMSS').format('YYYY-MM-DD HH:mm:ss');
                      var localTime  = moment.utc(leagueTime).toDate();
                      _oMoment = moment(localTime).locale(getLang());
                    }
@@ -46,12 +46,22 @@ angular
                fromNow : function(_date){
                    var _oMoment = moment().locale(getLang());
                    if (_date) {
-                       var leagueTime = moment(_date,'YYYYMMDDHHmmSS').format('YYYY-MM-DD HH:mm:ss');
+                       var leagueTime = moment(_date,'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss');
                        var localTime  = moment.utc(leagueTime).toDate();
                        _oMoment = moment(localTime).locale(getLang());
                    }
                    return _oMoment.fromNow();
                },
+
+                endOf : function(_date){
+                    var _oMoment = moment().locale(getLang());
+                    if (_date) {
+                        var leagueTime = moment(_date,'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss');
+                        var localTime  = moment.utc(leagueTime).toDate();
+                        _oMoment = moment(localTime).locale(getLang());
+                    }
+                    return _oMoment.endOf('day').fromNow();
+                },
 
                 /**
                  * @ngdoc function

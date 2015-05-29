@@ -896,7 +896,7 @@ h6.team-name {
     }
 
     .content-points .wrapper {
-      top: 35px;
+      top: 225px;
     }
 
     .content-match .wrapper {
@@ -1323,6 +1323,11 @@ h6.team-name {
            }
 			}
 
+      .content-points,
+			.content-prediction {
+			  background: rgb(122,184,0) !important;
+			}
+
 
   .content-dashboard #wrapper {
       top: 225px;
@@ -1330,6 +1335,13 @@ h6.team-name {
       background:transparent;
   }
 
+  .content-prediction #wrapper {
+    top: 225px;
+  }
+
+  content-prediction #wrapper *{
+    background: #ffffff !important;
+  }
 
    .content-dashboard  img.h-shield.h-match {
       width: 50px;

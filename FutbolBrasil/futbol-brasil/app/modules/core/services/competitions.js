@@ -46,6 +46,16 @@ angular
                 });
             }
 
+
+            function getCompetitionsPrediction() {
+                var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                return $http.get(Domain.competitionsPrediction, config).then(function(response){
+                    return response.data.response;
+                },function(response){
+                    return $q.reject(response);
+                });
+            }
+
             function getRanking(competition, phase){
             console.log("getRanking-> " + Domain.ranking(competition,phase));
                 return $http.get(Domain.ranking(competition,phase))
@@ -116,7 +126,7 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 get: getCompetitions,
-
+                getPrediction: getCompetitionsPrediction,
                 getRanking : getRanking,
 
                 getPhase : getPhase,
