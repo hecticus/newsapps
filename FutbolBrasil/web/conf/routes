@@ -81,6 +81,7 @@ GET            /futbolbrasil/v1/clients/bets/get/:id/:idCompetition             
 GET            /futbolbrasil/v1/clients/bets/get/date/:id/:date                           controllers.client.Clients.getBetsForDate(id : Integer, date : String)
 GET            /futbolbrasil/v1/clients/bets/get/:id                                      controllers.client.Clients.getBets(id : Integer)
 POST           /futbolbrasil/v1/clients/bets/create/:id                                   controllers.client.Clients.createBets(id : Integer)
+GET            /futbolbrasil/v1/clients/dashboard/:id/:idLanguage                         controllers.client.Clients.dashboard(id : Integer, idLanguage : Integer)
 
 
 GET            /futbolbrasil/v1/clients/leaderboard/get/:id/:idTournament/:idPhase        controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer)
