@@ -49,9 +49,7 @@ angular
 
             function getCompetitionsPrediction() {
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
-                console.log(Domain.competitionsPrediction);
-
-                return $http.get(Domain.competitionsPrediction, config).then(function(response){
+                return $http.get(Domain.competitionsPrediction(Client.getClientId()), config).then(function(response){
                     return response.data.response;
                 },function(response){
                     return $q.reject(response);

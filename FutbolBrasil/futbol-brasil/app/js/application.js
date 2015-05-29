@@ -52,7 +52,7 @@ angular
                  Notification, Analytics, $templateCache, FacebookManager) {
 
             CordovaApp.init();
-            $rootScope.defaultPage = 'dashboard';
+            $rootScope.defaultPage = 'prediction';
             $rootScope.contentClass = 'content-init';
             $rootScope.$storage = $localStorage.$default({
                 news: false,
