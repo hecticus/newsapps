@@ -31,53 +31,53 @@
 </div>
 
 <div class="row" ng-show="hasScore">
-
-
-
-
     <div id="tournamentScroll" class="wrapper">
         <div class="scroller" >
+          <div class="container">
 
             <div class="row" >
-                <div class="col-xs-12" >
-                    <table class="table h-table">
-                        <thead>
-                            <tr >
-                                <th class="h-header yellow" style="text-align:left; width:60%;">
-                                    <span translate>LEADERBOARD.TOURNAMENT</span>
-                                </th >
-                                <th class="h-header yellow" style="width:20%;">
-                                    <span translate>LEADERBOARD.HITS</span>
-                                </th>
-                                <th class="h-header yellow" style="width:20%;">
-                                    <span translate>LEADERBOARD.POINTS</span>
-                                </th>
-                            </tr>
-                        </thead>
+              <div class="col-xs-12" >
+                <table class="table h-table">
+                  <thead>
+                  <tr >
+                    <th class="h-header yellow" style="text-align:left; width:60%;">
+                      <span translate>LEADERBOARD.TOURNAMENT</span>
+                    </th >
+                    <th class="h-header yellow" style="width:20%;">
+                      <span translate>LEADERBOARD.HITS</span>
+                    </th>
+                    <th class="h-header yellow" style="width:20%;">
+                      <span translate>LEADERBOARD.POINTS</span>
+                    </th>
+                  </tr>
+                  </thead>
 
-                        <tbody >
+                  <tbody >
 
-                            <tr  ng-repeat="tournament in tournaments track by tournament.id_tournament" ng-class="{'active' : $odd}">
+                  <tr  ng-repeat="tournament in tournaments track by tournament.id_tournament" ng-class="{'active' : $odd}">
 
-                              <td class="h-ellipsis-truncate" style="text-align: left; width:60%;" >
-                                <img class="h-shield  h-tree" ng-src="{{getCompetitionShield(tournament.logo)}}" onerror="this.src='img/shield-1.png'">
-                                <span ng-bind="tournament.name" style="font-weight:bold;"></span>
-                              </td>
+                    <td class="h-ellipsis-truncate" style="text-align: left; width:60%;" >
+                      <img class="h-shield  h-tree" ng-src="{{getCompetitionShield(tournament.logo)}}" onerror="this.src='img/shield-1.png'">
+                      <span ng-bind="tournament.name" style="font-weight:bold;"></span>
+                    </td>
 
-                              <td style="text-center-vertical; width:20%;">
-                                <span ng-bind="tournament.hits"></span>
-                              </td>
+                    <td style="text-center-vertical; width:20%;">
+                      <span ng-bind="tournament.hits"></span>
+                    </td>
 
-                              <td style="text-center-vertical; width:20%;">
-                                <span ng-bind="tournament.score"></span>
-                              </td>
+                    <td style="text-center-vertical; width:20%;">
+                      <span ng-bind="tournament.score"></span>
+                    </td>
 
-                            </tr>
+                  </tr>
 
-                        </tbody>
-                    </table>
-                </div>
+                  </tbody>
+                </table>
+              </div>
             </div>
+
+          </div>
+
         </div>
     </div>
 </div>

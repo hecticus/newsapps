@@ -32,7 +32,6 @@ angular
             $scope.fromNow = fromNow;
             $scope.showContentNews = showContentNews;
             $scope.contentNewsImg = '';
-            $scope.getImageAlternative = "this.src='img/img-alternative.png'";
 
 
             /*---------------- Scope Functions ----------------*/
