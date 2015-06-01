@@ -901,8 +901,8 @@ h6.team-name {
       z-index: 1;
     }
 
-    .content-points .wrapper {
-      top: 250px;
+    .content-points #wrapper {
+      top: 225px;
     }
 
     .content-match .wrapper {

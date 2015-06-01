@@ -15,7 +15,6 @@ angular
             $scope.tournaments = [];
             $scope.hasScore = true;
             var tournamentScroll = null;
-            var tournamentScrollId = 'tournamentScroll';
 
             var width = $window.innerWidth;
             var widthTotal = ($window.innerWidth * 2);
@@ -50,7 +49,7 @@ angular
             }
 
             function setUpIScroll(){
-                tournamentScroll = iScroll.vertical(tournamentScrollId);
+                tournamentScroll = iScroll.vertical('wrapper');
                 $scope.$on('$destroy', function() {
                     tournamentScroll.destroy();
                     tournamentScroll = null;
