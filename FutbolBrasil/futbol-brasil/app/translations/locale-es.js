@@ -259,5 +259,6 @@
     "NOT_AVAILABLE": "No Disponible",
     "LOGOUT" : "Cerrar Sesión",
     "READY" : "Saltar tutorial",
-    "NO_MATCH" : "No hay partidos"
+    "NO_MATCH" : "Temporada finalizada",
+    "TITLE_NEXT_MATCH" : "Próximo Juego"
 }

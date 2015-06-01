@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row h-points" ng-show="hasCompetition">
   <div class="col-xs-12">
     <h3 ng-bind="getNameClient"
         style="text-align:center;
@@ -39,17 +39,28 @@
 
 <div id="wrapper" class="page">
   <div class="scroller">
-    <div class="container">
+    <div class="container"  ng-show="hasCompetition">
 
+      <div class="row h-header yellow"  >
+        <div class="col-xs-6" style="text-align:left;">
+          <span style="margin-left: 5px;" translate>LEADERBOARD.TOURNAMENT</span>
+        </div>
+        <div class="col-xs-6" style="text-align:center;">
+          <span  translate>TITLE_NEXT_MATCH</span>
+        </div>
+      </div>
       <div class="row h-list" style="background:#ffffff;"  >
+
+
         <div class="col-xs-12 h-ellipsis-truncate"
              ng-repeat="league in leagues track by league.id_competitions"
              ng-click="showContentPrediction($index)" >
+
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
           <span class="h-headline">{{league.competiton_type.name}}</span>
 
           <div style="float:right; color: rgb(122,184,0) !important; ">
-            <span class="h-headline" ng-bind="getEndOfTime(league.match.date)" style="font-size:1.2em;"></span>
+            <span class="h-headline" ng-bind="getEndOfTime(league.match.date)" style="font-size:1.2em; text-transform: capitalize; "></span>
             <i class=" mdi-navigation-chevron-right" style="font-size:1.4em; vertical-align:middle;"></i>
           </div>
 
@@ -181,5 +192,11 @@
 </div>
 
 
-
-
+<div class="row" ng-hide="hasCompetition">
+  <div class="col-xs-12 news">
+    <div class="no-content-panel" >
+      <i class="mdi-action-info-outline"></i>
+      <div class="no-content-panel-title" translate>EMPTY_STATES.POINTS</div>
+    </div>
+  </div>
+</div>

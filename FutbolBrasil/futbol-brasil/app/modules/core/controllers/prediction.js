@@ -14,6 +14,7 @@ angular
                  Bets, Moment, iScroll, Competitions, Notification) {
 
             $rootScope.$storage.settings = true;
+            $scope.hasCompetition = true;
             var scrollH = null;
             var vScrolls = [];
             var _currentPage = -1;
@@ -24,6 +25,7 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
             $scope.getNameClient = Client.getNickname();
+            $scope.points = 0;
 
             $scope.getEndOfTime = function(date) {
               if (date === undefined) {
@@ -172,6 +174,8 @@ angular
                     Bets.get(league.id_competitions, function(data){
                         if (data.error == 0) {
                             data = data.response;
+
+
                             setGameStatus(data);
                             mapEmptyTeamNames(data.fixtures);
                             league.fixtures = data.fixtures;
@@ -237,6 +241,7 @@ angular
                 Competitions.getPrediction().then(function(data){
                     $scope.points = data.points;
                     $scope.leagues  = data.competitions;
+                    $scope.hasCompetition = $scope.leagues.length > 0;
                     $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();

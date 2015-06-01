@@ -258,6 +258,7 @@
     "NOT_AVAILABLE": "Não Disponível",
     "LOGOUT" : "Sair",
     "READY" : "Pular tutorial",
-    "NO_MATCH" : "Nenhum jogo"
+    "NO_MATCH" : "época terminou",
+    "TITLE_NEXT_MATCH" : "Próximo"
 
 }

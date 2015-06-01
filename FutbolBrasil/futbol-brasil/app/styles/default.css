@@ -820,6 +820,12 @@ h6.team-name {
       padding: 0 20px !important;
     }
 
+    .content-prediction
+    .h-list {
+      padding: 0 5px !important;
+    }
+
+
     .h-list *[class *= 'col-'] {
       text-align: left;
       min-height:50px;
@@ -1323,10 +1329,8 @@ h6.team-name {
            }
 			}
 
-      .content-points,
-			.content-prediction {
-			  background: rgb(122,184,0) !important;
-			}
+
+
 
 
   .content-dashboard #wrapper {
@@ -1351,6 +1355,10 @@ h6.team-name {
       padding: 5px;
    }
 
+  .h-points  {
+    background: rgb(122,184,0) !important;
+    height: 225px;
+  }
   .content-dashboard  tr.h-match {border-bottom: 1.5px #ffffff solid !important;}
 
   /*</v2>*/

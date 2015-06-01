@@ -29,7 +29,7 @@
         }
     },
     "NEWS" : {
-        "TITLE" : "News"
+        "TITLE" : "News",
         "SOURCE" : "Source"
     },
     "SCORERS" : {
@@ -258,6 +258,6 @@
     "NOT_AVAILABLE": "Not Available",
     "LOGOUT" : "Log Out",
     "READY" : "Skip tutorial",
-    "NO_MATCH" : "No matches"
-
+    "NO_MATCH" : "season finished",
+    "TITLE_NEXT_MATCH" : "Next"
 }

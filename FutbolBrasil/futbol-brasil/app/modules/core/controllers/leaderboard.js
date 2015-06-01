@@ -84,9 +84,6 @@ angular
                 var competition = $scope.item.competitions[_page];
                 competition.leaderboard = [];
 
-                /*config.params.friends = ["10153550609477571","10152741945864621"];
-                console.log('_url' + _url);
-                console.log('config' + JSON.stringify(config));*/
 
                 $http.get(_url, config)
                     .then(function (data) {
@@ -143,32 +140,16 @@ angular
                     widthTotal = ($window.innerWidth * competitions.length);
                     $scope.item.competitions = competitions;
                     $scope.item.competitions.forEach(function(competition) {
-                            var date = Moment.date().format('YYYYMMDD');
-
-
-                            Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
-                            .then(function (phases) {
-                                if (phases.last_phase) {
-                                  competition.phase = phases.last_phase.id_phases;
-                                  if (competition.phase.type != 1) $scope.showTournament();
-                                }
-                            }, function(){
-                                //Notification.showNetworkErrorAlert();
-                                $scope.$emit('unload');
-                            });
-
-                            /*Competitions.getPhase(competition)
-                            .then(function (phases) {
-                                if (phases) {
-                                  competition.phase = phases[phases.length - 1].id_phases;
-                                  //if (competition.phase.type != 1) $scope.showTournament();
-                                  $scope.showTournament();
-                                }
-                            }, function(){
-                                //Notification.showNetworkErrorAlert();
-                                $scope.$emit('unload');
-                            });*/
-
+                        var date = Moment.date().format('YYYYMMDD');
+                        Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
+                        .then(function (phases) {
+                            if (phases.last_phase) {
+                              competition.phase = phases.last_phase.id_phases;
+                              if (competition.phase.type != 1) $scope.showTournament();
+                            }
+                        }, function(){
+                            $scope.$emit('unload');
+                        });
 
                     });
                 });

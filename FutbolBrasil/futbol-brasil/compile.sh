@@ -1,3 +1,3 @@
 #grunt build
 bower update
-cordova build android --release
+cordova build android
