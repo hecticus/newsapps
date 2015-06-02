@@ -9,7 +9,7 @@
             "LIVE": "Live"
         },
         "BETS" : {
-            "BETS": "Bets",
+            "BETS": "Predictions",
             "PREDICTIONS" : "Predictions",
             "LEADERBOARDS" : "Leaderboards",
             "FRIENDS" : "Friends",
@@ -22,10 +22,15 @@
         "TEAM-SELECTION" : "Language Selection",
         "TERMS": "Terms",
         "HOW": "How does it work",
-        "TUTORIAL": "Tutorial"
+        "TUTORIAL": "Tutorial",
+        "DASHBOARD":  {
+          "DASHBOARD": "Dashboard",
+          "TITLE_GAMES_TODAY" : "Games today"
+        }
     },
     "NEWS" : {
-        "TITLE" : "News"
+        "TITLE" : "News",
+        "SOURCE" : "Source"
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Player",
@@ -109,7 +114,7 @@
         "LANGUAGES_TITLE": "Languages",
         "SOCIAL_ACCOUNTS_TITLE": "Social Accounts",
         "TOGGLE" : {
-            "BETS" : "Bets",
+            "BETS" : "Predictions",
             "MTM" : "MTM",
             "NEWS" : "News"
         },
@@ -137,6 +142,13 @@
     },
 
     "ALERT": {
+
+          "FACEBOOK" : {
+            "TITLE" : "Facebook",
+            "MSG": "You want to connect with facebook?",
+            "CONFIRM" : "Yes",
+            "CANCEL" : "No"
+          },
 
           "NEWS_LIMIT" : {
             "TITLE" : "Daily News Limit Exceeded",
@@ -168,37 +180,37 @@
             "SUBTITLE": "Network Error",
             "MSG": "Could not contact our servers. Please try again in a few moments"
           },
-          
+
         "LOGIN_ALREADY_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User already subscribed"
         },
-        
+
         "LOGIN_USER_NOT_IDENTIFIED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User cannot be identified"
         },
-        
+
         "LOGIN_USER_NOT_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User not subscribed"
         },
-        
+
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Invalid phone number"
         },
-        
+
         "LOGIN_INVALID_PASSWORD" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Invalid Password"
         },
-        
+
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
@@ -223,7 +235,7 @@
             "CONFIRM" : "Ok",
             "CANCEL" : "Cancel"
           },
-          
+
        "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
           "TITLE" : "User not eligible",
           "SUBTITLE": "User not eligible",
@@ -245,6 +257,7 @@
     "LOADING" : "Loading",
     "NOT_AVAILABLE": "Not Available",
     "LOGOUT" : "Log Out",
-    "READY" : "Skip tutorial"
-
+    "READY" : "Skip tutorial",
+    "NO_MATCH" : "season finished",
+    "TITLE_NEXT_MATCH" : "Next"
 }

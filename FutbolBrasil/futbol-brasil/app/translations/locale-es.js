@@ -22,11 +22,15 @@
         "TEAM-SELECTION" : "Selección de Equipo",
         "TERMS": "Términos",
         "HOW": "Cómo funciona",
-        "TUTORIAL": "Tutorial"
+        "TUTORIAL": "Tutorial",
+        "DASHBOARD":  {
+          "DASHBOARD": "Dashboard",
+          "TITLE_GAMES_TODAY" : "Juegos de hoy"
+        }
     },
     "NEWS" : {
-        "TITLE" : "Noticias"
-
+        "TITLE" : "Noticias",
+        "SOURCE" : "Fuente"
     },
     "SCORERS" : {
         "PLAYER_NAME_LABEL" : "Jugador",
@@ -139,6 +143,13 @@
 
     "ALERT": {
 
+      "FACEBOOK" : {
+        "TITLE" : "Facebook",
+        "MSG": "¿Quieres conectarte con facebook?",
+        "CONFIRM" : "Sí",
+        "CANCEL" : "No"
+      },
+
       "NEWS_LIMIT" : {
         "TITLE" : "Límite de noticias diarias excedidas",
         "MSG": "Ha superado su limite de noticias diarias gratuitas",
@@ -169,37 +180,37 @@
         "SUBTITLE": "Error de red",
         "MSG": "No se pudo contactar a nuestros servidores. Vuelve a intentarlo en unos minutos"
       },
-      
+
        "LOGIN_ALREADY_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Usuario ya suscrito"
         },
-        
+
         "LOGIN_USER_NOT_IDENTIFIED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Usuario no puede ser identificado"
         },
-        
+
         "LOGIN_USER_NOT_SUBSCRIBED" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "User no suscrito"
         },
-        
+
         "LOGIN_INVALID_MSISDN" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Número de teléfono inválido"
         },
-        
+
         "LOGIN_INVALID_PASSWORD" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
           "MSG": "Contraseña inválida"
         },
-        
+
         "LOGIN_GENERIC_ERROR" : {
           "TITLE" : "Login",
           "SUBTITLE": "Error",
@@ -220,11 +231,11 @@
 
       "LOCKED_SECTION" : {
         "TITLE" : "Sección bloqueada",
-        "MSG": "¿Esta sección está bloqueado para los usuarios invitados. ¿Le gustaría registrarse para desbloquear esta sección?",
+        "MSG": "Esta sección está bloqueado para los usuarios invitados. ¿Le gustaría registrarse para desbloquear esta sección?",
         "CONFIRM" : "Ok",
         "CANCEL" : "Cancelar"
       },
-      
+
       "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
           "TITLE" : "User not eligible",
           "SUBTITLE": "User not eligible",
@@ -247,5 +258,7 @@
     "LOADING" : "Cargando",
     "NOT_AVAILABLE": "No Disponible",
     "LOGOUT" : "Cerrar Sesión",
-    "READY" : "Saltar tutorial"
+    "READY" : "Saltar tutorial",
+    "NO_MATCH" : "Temporada finalizada",
+    "TITLE_NEXT_MATCH" : "Próximo Juego"
 }

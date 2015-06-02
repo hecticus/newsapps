@@ -23,8 +23,31 @@ angular
          *
          * - When the path is `'/'`, route to home
          * */
-        $stateProvider
-            .state('login', {
+        /**
+       * @ngdoc event
+       * @name core.config.route
+       * @eventOf core.config
+       * @description
+       *
+       * Define routes and the associated paths
+       *
+       * - When the state is `'dashboard'`, route to dashboard
+       *
+      */
+      $stateProvider
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: 'modules/core/views/dashboard.html',
+                controller: 'DashboardController',
+                data:{
+                    prev: 'prediction',
+                    next: 'prediction',
+                    contentClass: 'content-dashboard',
+                    section: 'dashboard',
+                    state: 'dashboard'
+                }
+            }).
+            state('login', {
                 url: '/login',
                 templateUrl:'modules/core/views/login.html',
                 controller:'LoginCtrl as login',
@@ -137,7 +160,10 @@ angular
                 }
             })
             .state('mtm', {
-                url: '/mtm',
+                url: '/mtm/{matchId:int}',
+                params : {
+                  matchId : {value: null, squash: true}
+                },
                 controller:'MtmCtrl',
                 templateUrl:'modules/core/views/mtm.html',
                 data:{
@@ -179,7 +205,7 @@ angular
                 data:{
                     prev: 'leaderboard',
                     next: 'points',
-                    contentClass: 'content-leaderboard',
+                    contentClass: 'content-friends',
                     section: 'bets',
                     state: 'friends'
                 }

@@ -6,8 +6,8 @@
         <div class="col-xs-12 h-ellipsis-truncate"
              ng-repeat="league in leagues track by league.id_competitions"
              ng-click="showContentTeams(league)" >
-          <i class="mdi-action-bookmark h-headline" ></i>
-          <span class="h-headline">{{league.name}}</span>
+          <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+          <span class="h-headline">{{league.competiton_type.name}}</span>
         </div>
       </div>
 
@@ -45,17 +45,14 @@
             <div class="list-group-item" ng-click="teamSelected(team)"
                  ng-repeat="team in teams | filter: searchQuery">
 
-              <div class="row-action-primary">
-                <i ng-class="getTeamClass(team)"></i>
-              </div>
-
               <div class="row-content">
-                <h6 class="list-group-item-heading" ng-bind="team.name"></h6>
+                <img class="h-shield" ng-src="{{team.team_logo}}" onerror="this.src='img/shield-1.png'">
+                <h6 class="list-group-item-heading" ng-bind="team.name" style="display:inline; vertical-align:middle;"></h6>
               </div>
 
             </div>
 
-            <!--div class="list-group-separator"></div-->
+            <div class="list-group-separator"></div>
           </div>
         </div>
       </div>
