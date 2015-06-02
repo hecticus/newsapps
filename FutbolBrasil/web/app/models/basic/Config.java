@@ -74,6 +74,8 @@ public class Config extends Model{
     public static Model.Finder<Long, Config> finder = new
             Model.Finder<Long, Config>(Long.class, Config.class);
 
+
+
     public Long getIdConfig() {
         return idConfig;
     }
@@ -186,6 +188,16 @@ public class Config extends Model{
     public static String getiOSVersionURL() {
         Config c = finder.where().eq("configKey","ios-version-url").findUnique();
         return c.getValue();
+    }
+
+    public static boolean getIsSecured() {
+        try {
+            Config c = finder.where().eq("configKey", "secured").findUnique();
+            int intSecured = Integer.parseInt(c.getValue());
+            return intSecured == 0 ? false : true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
 
