@@ -7,6 +7,7 @@ node_modules/
 /app/lib
 .idea/
 /docs/
+plugins/
 
 ##########Platforms##########
 platforms/
