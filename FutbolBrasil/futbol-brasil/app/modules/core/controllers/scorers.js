@@ -19,6 +19,7 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
 
+            $scope.showSource = false;
             $scope.getWidth = function(){
                 return { 'width': width + 'px'}
             };
@@ -87,6 +88,7 @@ angular
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
                     vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                    $scope.showSource = true;
                 });
 
                 $scope.$on('$destroy', function() {

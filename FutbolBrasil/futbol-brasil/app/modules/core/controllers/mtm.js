@@ -25,6 +25,7 @@ angular
                 }
             };
 
+            $scope.showSource = false;
             $scope.item = {};
             $scope.item.mtm = [];
             $scope.item.mtm.actions = [];
@@ -145,10 +146,10 @@ angular
                 config.params.pageSize = 100;
                 config.params.page = 0;
 
-                /*
+
                 date = '20150531';
                 console.info(Domain.match(date));
-                */
+
 
                 $http.get(Domain.match(date), config).then(
                     function (data) {
@@ -197,6 +198,10 @@ angular
                     matchScroll = null;
                 });
             }
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              $scope.showSource = true;
+            });
 
             function init(){
 

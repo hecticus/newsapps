@@ -16,6 +16,7 @@ angular
             var phaseScroll = null;
             var rankingScroll = null;
 
+            $scope.showSource = false;
             $scope.item = {};
             $scope.hasCompetitions = true;
             $scope.hasPhases = true;
@@ -138,6 +139,8 @@ angular
                     $scope.hasCompetitions = false;
                     $scope.item.competitions = [];
                     Notification.showNetworkErrorAlert();
+                }).finally(function () {
+                  $scope.$emit('unload');
                 });
             }
 
@@ -148,7 +151,8 @@ angular
             } init();
 
             $scope.$on('onRepeatLast', function(scope, element, attrs) {
-              $scope.$emit('unload');
+              $scope.showSource = true;
             });
+
         }
     ]);
