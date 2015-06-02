@@ -39,7 +39,7 @@ public class News extends HecticusModel{
     private Boolean featured;
     private String firstVideo;
     //hit counter not used
-    private Integer externalId; //id de la noticia externo
+    private Long externalId; //id de la noticia externo
     private String image;
     private String image2;
     private String image3;
@@ -109,7 +109,7 @@ public class News extends HecticusModel{
         //hitCounter not used
 
         if (data.has("ID")) {
-            externalId = data.get("ID").asInt();
+            externalId = data.get("ID").asLong();
         } else {
             throw new NewsException("externalId faltante");
         }
@@ -522,11 +522,11 @@ public class News extends HecticusModel{
         this.firstVideo = firstVideo;
     }
 
-    public Integer getExternalId() {
+    public Long getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(Integer externalId) {
+    public void setExternalId(Long externalId) {
         this.externalId = externalId;
     }
 
