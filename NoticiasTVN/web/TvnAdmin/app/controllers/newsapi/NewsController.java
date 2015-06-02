@@ -147,7 +147,7 @@ public class NewsController extends HecticusController {
                     try {
                         //build obj
                         News received = new News();
-                        received.setExternalId(current.get("id").asInt());
+                        received.setExternalId(current.get("id").asLong());
                         received.setTitle(current.get("title").asText());
                         //crear crc del titulo
                         received.setCrc(Utils.createMd5(received.getTitle()));
