@@ -205,11 +205,11 @@ public class Apps extends HecticusModel {
             public int compare(News c1, News c2) {
                 try {
                     Calendar c1PublicationDateCalendar = new GregorianCalendar(timeZone);
-                    Date c1PublicationDate = DateAndTime.getDate(c1.getPublicationDate(), "yyyyMMddhhmmss");
+                    Date c1PublicationDate = DateAndTime.getDate(c1.getPublicationDate(), "yyyyMMddHHmmss");
                     c1PublicationDateCalendar.setTime(c1PublicationDate);
 
                     Calendar c2PublicationDateCalendar = new GregorianCalendar(timeZone);
-                    Date c2PublicationDate = DateAndTime.getDate(c2.getPublicationDate(), "yyyyMMddhhmmss");
+                    Date c2PublicationDate = DateAndTime.getDate(c2.getPublicationDate(), "yyyyMMddHHmmss");
                     c2PublicationDateCalendar.setTime(c2PublicationDate);
 
                     return c2PublicationDateCalendar.before(c1PublicationDateCalendar)?-1:(c1PublicationDateCalendar.before(c2PublicationDateCalendar)?1:0);
