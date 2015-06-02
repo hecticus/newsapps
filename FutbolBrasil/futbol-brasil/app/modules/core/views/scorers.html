@@ -9,7 +9,8 @@
                       <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
                     </div>
                     <div class="col-xs-8 h-ellipsis-truncate">
-                      <span ng-bind="league.name" class="caption"></span>
+                      <img class="h-shield h-tree" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+                      <span ng-bind="league.competiton_type.name" class="caption"></span>
                     </div>
                     <div class="col-xs-2" ng-click="nextPage($index)">
                       <span  class="mdi-navigation-arrow-forward" ng-hide="leagues[$index+1].name === undefined"></span>
@@ -34,16 +35,18 @@
                                             <tr ng-repeat="scorer in league.scorers"
                                                 ng-class="{'active' : $odd}" on-last-repeat>
                                                 <td class="text-left">
+
                                                     <span class="text-center-vertical"
                                                           ng-bind="scorer.name" ></span>
                                                 </td>
                                                 <td class="text-left">
+
                                                     <span class="text-center-vertical"
-                                                          ng-bind="scorer.team.name"></span>
+                                                          ng-bind="scorer.team.short_name"></span>
                                                 </td>
                                                 <td>
                                                     <span class="text-center-vertical"
-                                                          ng-bind="scorer.goals"></span>
+                                                          ng-bind="scorer.goals" style="font-weight:bold;"></span>
                                                 </td>
                                             </tr>
                                             </tbody>
