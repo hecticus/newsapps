@@ -3,7 +3,10 @@ package models.clients;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.LeaderboardComparator;
+import comparators.LeaderboardGlobalComparator;
 import models.HecticusModel;
+import models.basic.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.leaderboard.ClientBets;
@@ -184,6 +187,7 @@ public class Client extends HecticusModel {
     }
 
     public List<Leaderboard> getLeaderboards() {
+        Collections.sort(leaderboards, new LeaderboardComparator());
         return leaderboards;
     }
 
@@ -192,6 +196,7 @@ public class Client extends HecticusModel {
     }
 
     public List<LeaderboardGlobal> getLeaderboardGlobal() {
+        Collections.sort(leaderboardGlobal, new LeaderboardGlobalComparator());
         return leaderboardGlobal;
     }
 
@@ -277,6 +282,27 @@ public class Client extends HecticusModel {
         return pushAlerts.indexOf(clientHasPushAlert);
     }
 
+    public int getPushAlertIDIndex(final int pushAlertId) {
+        final PushAlerts pushAlert = PushAlerts.finder.byId(pushAlertId);
+        if(pushAlert == null){
+            return -1;
+        }
+        ClientHasPushAlerts clientHasPushAlert = null;
+        try {
+            clientHasPushAlert = Iterables.find(pushAlerts, new Predicate<ClientHasPushAlerts>() {
+                public boolean apply(ClientHasPushAlerts obj) {
+                    return obj.getPushAlert().getIdPushAlert().intValue() == pushAlert.getIdPushAlert().intValue();
+                }
+            });
+        } catch (NoSuchElementException ex){
+            clientHasPushAlert = null;
+        }
+        if(clientHasPushAlert == null){
+            return -1;
+        }
+        return pushAlerts.indexOf(clientHasPushAlert);
+    }
+
     public void addClientBet(ClientBets bet){
         if(bet.getIdClientBets() != null && clientBets.contains(bet)){
             clientBets.remove(bet);
@@ -316,6 +342,7 @@ public class Client extends HecticusModel {
             };
             Collection<Leaderboard> result = Utils.filterCollection(leaderboards, validObjs);
             tr = (List<Leaderboard>) result;
+            Collections.sort(tr, new LeaderboardComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
@@ -452,6 +479,7 @@ public class Client extends HecticusModel {
     public ObjectNode toPMCJson() {
         ObjectNode response = Json.newObject();
         response.put("idClient", idClient);
+        response.put("app", Config.getInt("pmc-id-app"));
         ArrayList<String> droid = new ArrayList<>();
         ArrayList<String> ios = new ArrayList<>();
         for(ClientHasDevices chd : devices){

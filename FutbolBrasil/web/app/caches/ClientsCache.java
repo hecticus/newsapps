@@ -64,7 +64,7 @@ public class ClientsCache {
 
     private Map<Integer, ArrayList<Integer>> getClientFromDB(Integer k) {
         Map<Integer, ArrayList<Integer>> cl = new HashMap<>();
-        List<Client> pushAlerts = Client.finder.where().eq("pushAlerts.pushAlert.idExt", k).orderBy("idClient asc").findList();
+        List<Client> pushAlerts = Client.finder.where().eq("pushAlerts.pushAlert.idExt", k).eq("pushAlerts.status", 1).orderBy("idClient asc").findList();
         for(Client client : pushAlerts){
             if(!cl.containsKey(client.getLanguage().getIdLanguage())){
                 cl.put(client.getLanguage().getIdLanguage(), new ArrayList<Integer>());
@@ -79,7 +79,7 @@ public class ClientsCache {
         Map<Integer, ArrayList<Integer>> cl = new HashMap<>();
         List<Client> pushAlerts = null;
         if(k == -1){
-            pushAlerts = Client.finder.where().gt("status", 0).orderBy("idClient asc").findList();
+            pushAlerts = Client.finder.where().gt("status", 0).eq("pushAlerts.pushAlert.idPushAlert", Config.getInt("news-push-id")).eq("pushAlerts.status", 1).orderBy("idClient asc").findList();
         } else {
             pushAlerts = Client.finder.where().eq("leaderboards.idTournament", k).orderBy("idClient asc").findList();
         }

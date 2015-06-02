@@ -1,9 +1,8 @@
-package backend.jobs.scrapers.perform;
+package job;
 
-import backend.HecticusThread;
 import exceptions.BadConfigException;
 import models.Config;
-import models.football.News;
+import models.news.News;
 import utils.Utils;
 
 import java.text.SimpleDateFormat;
@@ -37,13 +36,13 @@ public class NewsCleaner extends HecticusThread {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
             List<News> news = News.getNewsForNewsCleaner(simpleDateFormat.format(window.getTime()));
             for(News n : news){
+                System.out.println(n.getIdNews());
                 n.deleteResources();
                 n.delete();
             }
-            news.clear();
         } catch(Exception ex) {
 
         }
-        Utils.printToLog(NewsCleaner.class,null,"Finalizando NewsCleaner",false,null,"support-level-1",Config.LOGGER_INFO);
+        Utils.printToLog(NewsCleaner.class, null, "Finalizando NewsCleaner", false, null, "support-level-1", Config.LOGGER_INFO);
     }
 }

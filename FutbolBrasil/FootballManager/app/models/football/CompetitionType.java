@@ -3,6 +3,7 @@ package models.football;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import models.Config;
 import models.HecticusModel;
 import models.Language;
 import play.db.ebean.Model;
@@ -31,6 +32,7 @@ public class CompetitionType extends HecticusModel {
     private String name;
     private Integer type;
     private Long extId;
+    private String compLogo;
 
     private int sort;
 
@@ -105,6 +107,14 @@ public class CompetitionType extends HecticusModel {
         this.sort = sort;
     }
 
+    public String getCompLogo() {
+        return compLogo;
+    }
+
+    public void setCompLogo(String compLogo) {
+        this.compLogo = compLogo;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode obj = Json.newObject();
@@ -113,6 +123,7 @@ public class CompetitionType extends HecticusModel {
         obj.put("name",name);
         obj.put("type", type);
         obj.put("ext_id", extId);
+        obj.put("competition_logo", Config.getString("competition-logo-url") + compLogo);
         obj.put("sort", sort);
         return obj;
     }
@@ -142,6 +153,7 @@ public class CompetitionType extends HecticusModel {
         obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
         obj.put("type", type);
         obj.put("ext_id", extId);
+        obj.put("competition_logo", Config.getString("competition-logo-url") + compLogo);
         obj.put("sort", sort);
         return obj;
     }

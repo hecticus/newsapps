@@ -11,6 +11,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -298,6 +299,17 @@ public class GameMatch extends HecticusModel {
         return finder.where().eq("id_competition",idCompetition).findList();
     }
 
+    public static GameMatch getClosestMatch(Competition competition){
+        Calendar today = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyMMddHHmmss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        List<GameMatch> latestGameMatch = finder.where().eq("competition", competition).ge("date", sdf.format(today.getTime())).orderBy("date asc").setMaxRows(1).findList();
+        if(!latestGameMatch.isEmpty()){
+            return latestGameMatch.get(0);
+        }
+        return null;
+    }
+
     public static List<GameMatch> findAllByIdCompetitionAndDate(Long idCompetition, String date, String operator){
         if(operator.equalsIgnoreCase("gt")) {
             return finder.where().eq("id_competition",idCompetition).gt("date", date).orderBy("date asc").findList();
@@ -305,6 +317,10 @@ public class GameMatch extends HecticusModel {
             return finder.where().eq("id_competition",idCompetition).lt("date", date).orderBy("date asc").findList();
         }
         return finder.where().eq("id_competition",idCompetition).ilike("date", date + "%").orderBy("date asc").findList();
+    }
+
+    public static List<GameMatch> findAllByCompetitionBetweenDate(Long idCompetition, String minDate, String maxDate){
+        return finder.where().eq("id_competition",idCompetition).between("date", minDate, maxDate).orderBy("date asc").findList();
     }
 
     public static List<GameMatch> findAllByIdCompetitionAndPhase(Long idCompetition, Long idPhase, String operator){
@@ -346,6 +362,28 @@ public class GameMatch extends HecticusModel {
         return json;
     }
 
+    public ObjectNode toJsonWithCompetitions(final Language language, final Language defaultLanguage) {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        json.put("date",date);
+        if(phase != null) {
+            json.put("phase",phase.getIdPhases());
+        }
+        json.put("homeTeam",homeTeam.toJson());
+        json.put("awayTeam",awayTeam.toJson());
+        json.put("home_team_goals",homeTeamGoals);
+        json.put("away_team_goals",awayTeamGoals);
+        json.put("fifa_match_number",fifaMatchNumber);
+        json.put("status", status.getIdGameMatchStatus());
+        json.put("ext_id",extId);
+        if(result != null) {
+            json.put("results", result.toJson());
+        }
+        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage, false));
+
+        return json;
+    }
+
     public ObjectNode toJson(final Language language, final Language defaultLanguage) {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
@@ -370,6 +408,7 @@ public class GameMatch extends HecticusModel {
     public ObjectNode toJsonPush() {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
+        json.put("date",date);
         json.put("home_team",homeTeam.toJsonSimple());
         json.put("away_team",awayTeam.toJsonSimple());
         return json;
@@ -413,6 +452,13 @@ public class GameMatch extends HecticusModel {
 
     public static List<GameMatch> getGamematchBetweenDates(Long idCompetition, String minDate, String maxDate){
         return finder.where().between("date", minDate, maxDate).eq("competition.idCompetitions", idCompetition).orderBy("date asc").findList();
+    }
+
+    public static List<GameMatch> getGamematchBetweenDatesForcompetitions(List<Competition> competitions, String minDate, String maxDate){
+        if(competitions != null && !competitions.isEmpty()){
+            return finder.where().between("date", minDate, maxDate).in("competition", competitions).orderBy("date asc").findList();
+        }
+        return finder.where().between("date", minDate, maxDate).orderBy("date asc").findList();
     }
 
     public ObjectNode fixtureJson(){

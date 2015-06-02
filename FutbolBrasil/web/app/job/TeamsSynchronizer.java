@@ -68,7 +68,29 @@ public class TeamsSynchronizer extends HecticusThread {
                 Iterator<JsonNode> teams = data.get("teams").elements();
                 while (isAlive() && teams.hasNext()){
                     JsonNode next = teams.next();
-                    PushAlerts pushAlerts = new PushAlerts(URLEncoder.encode(next.get("name").asText(), "UTF-8"), next.get("id_teams").asInt(), true);
+                    String officialName = null,
+                            shortName = null,
+                            abbreviationName = null,
+                            teamLogo = null;
+                    try {
+                        if (next.hasNonNull("officialName"))
+                            officialName = next.get("officialName").asText();
+                        if (next.hasNonNull("short_name"))
+                            shortName = next.get("short_name").asText();
+                        if (next.hasNonNull("abbreviation_name"))
+                            abbreviationName = next.get("abbreviation_name").asText();
+                        if (next.hasNonNull("team_logo"))
+                            teamLogo = next.get("team_logo").asText();
+                    }catch (Exception ex){
+                        //failed do nothing
+                    }
+                    PushAlerts pushAlerts = new PushAlerts(URLEncoder.encode(next.get("name").asText(), "UTF-8"),
+                            next.get("id_teams").asInt(),
+                            true,
+                            officialName,
+                            shortName,
+                            abbreviationName,
+                            teamLogo);
                     pushAlerts.save();
                 }
             }

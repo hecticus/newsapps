@@ -4,6 +4,8 @@ import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import comparators.GameMatchDateComparator;
+import comparators.TeamHasCompetitionComparator;
 import models.Apps;
 import models.HecticusModel;
 import models.Language;
@@ -127,6 +129,7 @@ public class Competition  extends HecticusModel {
     }
 
     public List<TeamHasCompetition> getTeams() {
+        Collections.sort(teams, new TeamHasCompetitionComparator());
         return teams;
     }
 
@@ -351,7 +354,7 @@ public class Competition  extends HecticusModel {
         return obj;
     }
 
-    public ObjectNode toJsonNoPhases(final Language language, final Language defaultLanguage) {
+    public ObjectNode toJsonNoPhases(final Language language, final Language defaultLanguage, boolean closestMatch) {
         ObjectNode obj = Json.newObject();
         obj.put("id_competitions",idCompetitions);
         CompetitionHasLocalization clientLanguage = null;
@@ -375,6 +378,10 @@ public class Competition  extends HecticusModel {
         obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
         obj.put("ext_id",extId);
         obj.put("competiton_type", type.toJson(language, defaultLanguage));
+        if(closestMatch){
+            GameMatch match = GameMatch.getClosestMatch(this);
+            obj.put("match", match!=null?match.toJsonPush():null);
+        }
         return obj;
     }
 
@@ -572,10 +579,15 @@ public class Competition  extends HecticusModel {
             };
             Collection<GameMatch> result = Utils.filterCollection(matches, validObjs);
             tr = (List<GameMatch>) result;
+            Collections.sort(tr, new GameMatchDateComparator());
         } catch (NoSuchElementException e){
             tr = null;
         }
         return tr;
+    }
+
+    public List<GameMatch> getMatchesByDateDB(final String minDate, final String maxDate){
+        return GameMatch.findAllByCompetitionBetweenDate(this.getIdCompetitions(), minDate, maxDate);
     }
 
     public List<GameMatch> getMatchesByDate(final String date, int page, int pageSize){

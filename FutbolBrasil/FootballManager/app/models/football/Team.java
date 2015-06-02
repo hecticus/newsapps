@@ -3,6 +3,7 @@ package models.football;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import models.Config;
 import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -29,6 +30,11 @@ public class Team extends HecticusModel {
     @Constraints.Required
     private String extId;
 
+    private String officialName;
+    private String shortName;
+    private String abbreviationName;
+    private String teamLogo;
+
     @OneToMany(mappedBy="team", cascade = CascadeType.ALL)
     private List<TeamHasCompetition> competitions;
 
@@ -38,6 +44,15 @@ public class Team extends HecticusModel {
         this.name = name;
         this.extId = extId;
         this.country = country;
+    }
+
+    public Team(String name, Countries country, String extId, String officialName, String shortName, String abbreviationName) {
+        this.name = name;
+        this.country = country;
+        this.extId = extId;
+        this.officialName = officialName;
+        this.shortName = shortName;
+        this.abbreviationName = abbreviationName;
     }
 
     public Long getIdTeams() {
@@ -72,6 +87,38 @@ public class Team extends HecticusModel {
         this.extId = extId;
     }
 
+    public String getOfficialName() {
+        return officialName;
+    }
+
+    public void setOfficialName(String officialName) {
+        this.officialName = officialName;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getAbbreviationName() {
+        return abbreviationName;
+    }
+
+    public void setAbbreviationName(String abbreviationName) {
+        this.abbreviationName = abbreviationName;
+    }
+
+    public String getTeamLogo() {
+        return teamLogo;
+    }
+
+    public void setTeamLogo(String teamLogo) {
+        this.teamLogo = teamLogo;
+    }
+
     public static  List<Team> getList(){
         return finder.all();
     }
@@ -94,8 +141,11 @@ public class Team extends HecticusModel {
         obj.put("id_teams",idTeams);
         obj.put("name",name);
         obj.put("ext_id",extId);
+        obj.put("short_name",shortName);
+        obj.put("abbreviation_name",abbreviationName);
+        obj.put("team_logo",teamLogo);
         obj.put("country",country.toJson());
-
+        obj.put("team_logo", Config.getString("team-logo-url") + extId + ".png");
         return obj;
     }
 
@@ -103,6 +153,9 @@ public class Team extends HecticusModel {
         ObjectNode obj = Json.newObject();
         obj.put("id_teams",idTeams);
         obj.put("name",name);
+        obj.put("short_name",shortName);
+        obj.put("abbreviation_name",abbreviationName);
+        obj.put("team_logo", Config.getString("team-logo-url") + extId + ".png");
         return obj;
     }
 
@@ -114,38 +167,42 @@ public class Team extends HecticusModel {
      * funcion para validar los equipos
      */
     public void validateTeam(final Competition competition){
-        Team toValidate = findByExtId(this.extId);
-        if (toValidate != null){
-            //exist
-            this.idTeams = toValidate.idTeams;
-            this.name = toValidate.name;
-            this.extId = toValidate.extId;
-            this.country = toValidate.country;
-            this.competitions = toValidate.competitions;
-
-            TeamHasCompetition teamHasCompetition = null;
-
-            try {
-                teamHasCompetition = Iterables.find(competitions, new Predicate<TeamHasCompetition>() {
-                    public boolean apply(TeamHasCompetition obj) {
-                        return obj.getCompetition().getIdCompetitions().longValue() == competition.getIdCompetitions().longValue();
-                    }
-                });
-            } catch (NoSuchElementException ex){
-                teamHasCompetition = null;
-            }
-
-            if(teamHasCompetition == null){
-                teamHasCompetition = new TeamHasCompetition(this, competition);
-                competitions.add(teamHasCompetition);
+        try {
+            Team toValidate = findByExtId(this.extId);
+            if (toValidate != null){
+                //exist
+                this.idTeams = toValidate.idTeams;
+//                this.name = toValidate.name;
+//                this.extId = toValidate.extId;
+//                this.country = toValidate.country;
+                this.competitions = toValidate.competitions;
                 this.update();
-            }
+                TeamHasCompetition teamHasCompetition = null;
 
-        }else {
-            TeamHasCompetition teamHasCompetition = new TeamHasCompetition(this, competition);
-            competitions.add(teamHasCompetition);
-            //insert in bd
-            this.save();
+                try {
+                    teamHasCompetition = Iterables.find(competitions, new Predicate<TeamHasCompetition>() {
+                        public boolean apply(TeamHasCompetition obj) {
+                            return obj.getCompetition().getIdCompetitions().longValue() == competition.getIdCompetitions().longValue();
+                        }
+                    });
+                } catch (NoSuchElementException ex){
+                    teamHasCompetition = null;
+                }
+
+                if(teamHasCompetition == null){
+                    teamHasCompetition = new TeamHasCompetition(this, competition);
+                    competitions.add(teamHasCompetition);
+                    this.update();
+                }
+
+            }else {
+                TeamHasCompetition teamHasCompetition = new TeamHasCompetition(this, competition);
+                competitions.add(teamHasCompetition);
+                //insert in bd
+                this.save();
+            }
+        }catch (Exception ex){
+           //do nothing
         }
     }
 }

@@ -148,6 +148,7 @@ public class News extends HecticusModel {
         tr.put("keyword", decode(keyword));
         tr.put("author", author);
         tr.put("publicationDate", publicationDate);
+        tr.put("source",source);
         if (resources != null && !resources.isEmpty()){
             ObjectNode resourcesJson = Json.newObject();
             List<Resolution> resolutions = Resolution.all();

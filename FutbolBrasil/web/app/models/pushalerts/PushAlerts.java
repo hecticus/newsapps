@@ -27,12 +27,27 @@ public class PushAlerts extends HecticusModel {
     @Constraints.Required
     private Boolean pushable;
 
+    private String officialName;
+    private String shortName;
+    private String abbreviationName;
+    private String teamLogo;
+
     public static Model.Finder<Integer, PushAlerts> finder = new Model.Finder<Integer, PushAlerts>(Integer.class, PushAlerts.class);
 
     public PushAlerts(String name, Integer idExt, Boolean pushable) {
         this.name = name;
         this.idExt = idExt;
         this.pushable = pushable;
+    }
+
+    public PushAlerts(String name, Integer idExt, Boolean pushable, String officialName, String shortName, String abbreviationName, String teamLogo) {
+        this.name = name;
+        this.idExt = idExt;
+        this.pushable = pushable;
+        this.officialName = officialName;
+        this.shortName = shortName;
+        this.abbreviationName = abbreviationName;
+        this.teamLogo = teamLogo;
     }
 
     public Integer getIdPushAlert() {
@@ -67,12 +82,47 @@ public class PushAlerts extends HecticusModel {
         this.pushable = pushable;
     }
 
+    public String getOfficialName() {
+        return officialName;
+    }
+
+    public void setOfficialName(String officialName) {
+        this.officialName = officialName;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getAbbreviationName() {
+        return abbreviationName;
+    }
+
+    public void setAbbreviationName(String abbreviationName) {
+        this.abbreviationName = abbreviationName;
+    }
+
+    public String getTeamLogo() {
+        return teamLogo;
+    }
+
+    public void setTeamLogo(String teamLogo) {
+        this.teamLogo = teamLogo;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode objNode = Json.newObject();
         objNode.put("id_push_alert",idPushAlert);
         objNode.put("name", name);
         objNode.put("id_ext", idExt);
+        objNode.put("short_name",shortName);
+        objNode.put("abbreviation_name",abbreviationName);
+        objNode.put("team_logo",teamLogo);
         objNode.put("pushable", pushable);
         return objNode;
     }

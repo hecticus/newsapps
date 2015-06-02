@@ -116,6 +116,15 @@ public class Clients extends HecticusController {
                         client.setPassword(password);
                         getStatusFromUpstream(client, upstreamChannel);
                     }
+
+                    if(clientData.has("facebook_id")){
+                        client.setFacebookId(clientData.get("facebook_id").asText());
+                    }
+
+                    if(clientData.has("nickname")){
+                        client.setNickname(clientData.get("nickname").asText());
+                    }
+
                     client.setSession(session.toString());
                     client.update();
                     return ok(buildBasicResponse(0, "OK", client.toJson()));
@@ -400,7 +409,7 @@ public class Clients extends HecticusController {
 
                 if(clientData.has("receive_news")) {
                     boolean receiveNews = clientData.get("receive_news").asBoolean();
-                    int index = client.getPushAlertIndex(newsPushId);
+                    int index = client.getPushAlertIDIndex(newsPushId);
                     if(index > -1) {
                         client.getPushAlerts().get(index).setStatus(receiveNews);
                         update = true;
@@ -409,7 +418,7 @@ public class Clients extends HecticusController {
 
                 if(clientData.has("receive_bets")) {
                     boolean receiveBets = clientData.get("receive_bets").asBoolean();
-                    int index = client.getPushAlertIndex(betsPushId);
+                    int index = client.getPushAlertIDIndex(betsPushId);
                     if(index > -1) {
                         client.getPushAlerts().get(index).setStatus(receiveBets);
                         update = true;
@@ -419,7 +428,7 @@ public class Clients extends HecticusController {
                 if(clientData.has("receive_min")) {
                     boolean receiveMin = clientData.get("receive_min").asBoolean();
                     for(ClientHasPushAlerts clientHasPushAlerts : client.getPushAlerts()){
-                        if(clientHasPushAlerts.getIdClientHasPushAlert() != betsPushId && clientHasPushAlerts.getIdClientHasPushAlert() != newsPushId) {
+                        if(clientHasPushAlerts.getPushAlert().getIdPushAlert() != betsPushId && clientHasPushAlerts.getPushAlert().getIdPushAlert() != newsPushId) {
                             clientHasPushAlerts.setStatus(receiveMin);
                             update = true;
                         }
@@ -846,6 +855,88 @@ public class Clients extends HecticusController {
         }
     }
 
+
+    public static Result getBetsForDate(Integer id, String date) {
+        try {
+            String[] timezoneNames = getFromQueryString("timezoneName");
+            if(timezoneNames.length <= 0){
+                return badRequest(buildBasicResponse(1, "Falta el parametro timezonName"));
+            }
+            String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
+            Client client = Client.finder.byId(id);
+            if(client != null) {
+                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/all/date/get/" + Config.getInt("football-manager-id-app") + "/" + date + "?timezoneName=" + timezoneName;
+                F.Promise<WSResponse> result = WS.url(teams.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    ObjectNode response = Json.newObject();
+                    JsonNode data = footballResponse.get("response");
+                    ArrayList<ObjectNode> finalData = new ArrayList<>();
+                    ObjectNode responseData = Json.newObject();
+                    ArrayList<Integer> matchesIDs = new ArrayList<>();
+                    ArrayList<ObjectNode> modifiedFixtures = new ArrayList<>();
+                    Map<Integer, ObjectNode> matches = new HashMap<>();
+                    int maxBetsCount = 0;
+                    int clientBetsCount = 0;
+                    Iterator<JsonNode> fixtures = data.get("fixtures").elements();
+                    while (fixtures.hasNext()) {
+                        ObjectNode fixture = (ObjectNode) fixtures.next();
+                        int idGameMatches = fixture.get("id_game_matches").asInt();
+                        matchesIDs.add(idGameMatches);
+                        matches.put(idGameMatches, fixture);
+                    }
+                    maxBetsCount = matchesIDs.size();
+                    List<ClientBets> list = ClientBets.finder.where().eq("client", client).in("idGameMatch", matchesIDs).orderBy("idGameMatch asc").findList();
+                    if (list != null && !list.isEmpty()) {
+                        clientBetsCount = list.size();
+                        for (ClientBets clientBets : list) {
+                            ObjectNode fixture = matches.get(clientBets.getIdGameMatch());
+                            fixture.put("bet", clientBets.toJsonNoClient());
+                            modifiedFixtures.add(fixture);
+                            matches.remove(clientBets.getIdGameMatch());
+                        }
+                        Set<Integer> keys = matches.keySet();
+                        for (int key : keys) {
+                            ObjectNode fixture = matches.get(key);
+                            modifiedFixtures.add(fixture);
+                        }
+                        Collections.sort(modifiedFixtures, new FixturesComparator());
+                        response.put("fixtures", Json.toJson(modifiedFixtures));
+                        response.put("total_bets", maxBetsCount);
+                        response.put("client_bets", clientBetsCount);
+                    } else {
+                        response.put("fixtures", data.get("fixtures"));
+                        response.put("total_bets", maxBetsCount);
+                        response.put("client_bets", clientBetsCount);
+                    }
+
+                    modifiedFixtures.clear();
+                    matchesIDs.clear();
+                    matches.clear();
+                    int points = 0;
+                    int correct = 0;
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        points += leaderboardGlobal.getScore();
+                        correct += leaderboardGlobal.getCorrectBets();
+                    }
+                    response.put("points", points);
+                    response.put("correct_bets", correct);
+
+                    return ok(buildBasicResponse(0, "OK", response));
+                } else {
+                    return internalServerError(buildBasicResponse(3, "error llamando a footballmanager"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
     public static Result getBetsForCompetition(Integer id, Integer idCompetition) {
         try {
             String[] timezoneNames = getFromQueryString("timezoneName");
@@ -1217,6 +1308,61 @@ public class Clients extends HecticusController {
             return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
         }
     }
+
+
+
+
+    public static Result dashboard(Integer id, Integer idLanguage) {
+        try {
+            Client client = Client.finder.byId(id);
+            if(client != null) {
+                String[] favorites = getFromQueryString("teams");
+                StringBuilder teamsBuilder = new StringBuilder();
+                if (favorites != null && favorites.length > 0) {
+                    for(String team : favorites) {
+                        teamsBuilder.append("&teams=").append(team);
+                    }
+                }
+                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true" + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
+                F.Promise<WSResponse> result = WS.url(teams.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    ObjectNode response = Json.newObject();
+                    JsonNode data = footballResponse.get("response");
+
+                    int points = 0;
+                    int correct = 0;
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        points += leaderboardGlobal.getScore();
+                        correct += leaderboardGlobal.getCorrectBets();
+                    }
+                    response.put("points", points);
+                    response.put("correct_bets", correct);
+                    response.put("competitions", data.get("competitions"));
+
+                    return ok(buildBasicResponse(0, "OK", response));
+                } else {
+                    return internalServerError(buildBasicResponse(3, "error llamando a footballmanager"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
+
+
+
+
+    /**
+     * Territorio de upstream
+     *
+     */
 
 
 

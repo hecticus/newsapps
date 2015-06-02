@@ -106,22 +106,35 @@ public class PerformNews extends HecticusThread {
         Iterator<JsonNode> elements = news.get("articles").elements();
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
         List<Resolution> resolutions = Resolution.all();
+        String title = null;
+        String summary = null;
+        String category = null;
+        String keyword = null;
+        String author = null;
+        String story = null;
+        long publishedTime = 0;
+        Date publishedDate = null;
+        long lastUpdateTime = 0;
+        String source = null;
+        String id = null;
+        News toInsert = null;
+        JsonNode next = null;
         while(isAlive() && elements.hasNext()){
             try {
-                JsonNode next = elements.next();
-                String title = next.get("headline").asText();
-                String summary = next.get("teaser").asText();
-                String category = next.get("categories").toString();
-                String keyword = next.get("keywords").toString();
-                String author = "";//next.get("author").asText();
-                String story = cleanBody(next.get("body").asText());
-                long publishedTime = next.get("publishedTime").asLong();
-                Date publishedDate = new Date(publishedTime);
-                long lastUpdateTime = next.get("lastUpdateTime").asLong();
-                String source = next.get("externalUrl").asText();
+                next = elements.next();
+                title = next.get("headline").asText();
+                summary = next.get("teaser").asText();
+                category = next.get("categories").toString();
+                keyword = next.get("keywords").toString();
+                author = "";//next.get("author").asText();
+                story = cleanBody(next.get("body").asText());
+                publishedTime = next.get("publishedTime").asLong();
+                publishedDate = new Date(publishedTime);
+                lastUpdateTime = next.get("lastUpdateTime").asLong();
+                source = next.get("externalUrl").asText();
                 if (source.equalsIgnoreCase("null")) source = "";
-                String id = next.get("id").asText();
-                News toInsert = News.finder.where().eq("externalId", id).findUnique();
+                id = next.get("id").asText();
+                toInsert = News.finder.where().eq("externalId", id).findUnique();
                 if (toInsert == null) {
                     toInsert = new News(title, summary, category, keyword, author, story, sf.format(publishedDate), source, lastUpdateTime, id, getApp(), finalLanguage);
                     if(next.has("links")) {
@@ -155,35 +168,51 @@ public class PerformNews extends HecticusThread {
                         Config.LOGGER_ERROR);
             }
         }
+        resolutions.clear();
     }
 
     private void processMedia(Iterator<JsonNode> links, News news, List<Resolution> resolutions) {
         ArrayList<String> resourcesToDelete = new ArrayList<>();
+        String name = null;
+        String filename = null;
+        String genericName = null;
+        String description = null;
+        String res = null;
+        String externalId = null;
+        String rel = null;
+        String insertedTime = null;
+        JsonNode next = null;
+        int status = 0;
+        int type = 0;
+        File file = null;
+        File scaledImage = null;
+        String md5 = null;
+        Resource resource = null;
+        String remoteLocation = null;
         while(links.hasNext()){
-            JsonNode next = links.next();
-            File file = null;
+            next = links.next();
             try {
-                String name = next.get("altText").asText();
-                String filename = next.get("url").asText();
-                String genericName = next.get("altText").asText();
-                String description = next.get("caption").asText();
-                String res = next.get("href").asText();
-                String externalId = next.get("id").asText();
-                String rel =next.get("rel").asText();
-                int type = rel.equalsIgnoreCase("IMAGE_HEADER")?1:3;
-                int status = 1;
-                String insertedTime = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
+                name = next.get("altText").asText();
+                filename = next.get("url").asText();
+                genericName = next.get("altText").asText();
+                description = next.get("caption").asText();
+                res = next.get("href").asText();
+                externalId = next.get("id").asText();
+                rel =next.get("rel").asText();
+                type = rel.equalsIgnoreCase("IMAGE_HEADER")?1:3;
+                status = 1;
+                insertedTime = ""+Utils.currentTimeStamp(TimeZone.getTimeZone("America/Caracas"));
                 file = getFile("http://" + performImageHost + filename);
                 BufferedImage image = ImageIO.read(file);
                 for (Resolution resolution : resolutions) {
                     isAlive();
-                    File scaledImage = scaleImage(image, filename, resolution);
+                    scaledImage = scaleImage(image, filename, resolution);
                     if(scaledImage != null) {
                         try {
-                            String md5 = Utils.getMD5(scaledImage);
-                            Resource resource = news.getResource(externalId, resolution);
+                            md5 = Utils.getMD5(scaledImage);
+                            resource = news.getResource(externalId, resolution);
                             if (resource == null) {
-                                String remoteLocation = Utils.uploadResource(scaledImage);
+                                remoteLocation = Utils.uploadResource(scaledImage);
                                 if (remoteLocation == null) {
                                     continue;
                                 }
@@ -191,7 +220,7 @@ public class PerformNews extends HecticusThread {
                                 news.addResource(resource);
                             } else {
                                 if (!resource.getMd5().equalsIgnoreCase(md5)) {
-                                    String remoteLocation = Utils.uploadResource(scaledImage);
+                                    remoteLocation = Utils.uploadResource(scaledImage);
                                     if (remoteLocation == null) {
                                         continue;
                                     }
@@ -276,7 +305,6 @@ public class PerformNews extends HecticusThread {
         String queryParameters = "_fmt=json&_rt=b&_fld=hl,tsr,ctg,bd,kwd,pt,lut,uuid,exu,img&_lcl=" + finalLanguage.getShortName();
         StringBuilder url = new StringBuilder();
         url.append("http://").append(requestDomain).append("/").append(feedName).append("/").append(outletAuthToken).append("/?").append(queryParameters);
-//        System.out.println(url.toString());
         F.Promise<WSResponse> result = WS.url(url.toString()).get();
         ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
         return response;

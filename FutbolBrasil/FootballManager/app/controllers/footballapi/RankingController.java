@@ -37,20 +37,25 @@ public class RankingController extends HecticusController {
                 }
                 List<Competition> competitions = Competition.getCompetitionsByApp(app);
                 ArrayList data = new ArrayList();
+                List<Rank> ranks = null;
+                ObjectNode phase = null;
+                ArrayList rankingObjs = new ArrayList();
                 for (int i = 0; i < competitions.size(); ++i) {
                     List<Phase> phases = Phase.getPhaseByDate(competitions.get(i).getIdCompetitions(), formattedToday);
                     if (phases != null && !phases.isEmpty()) {
                         ArrayList phasesObjs = new ArrayList();
                         for (int j = 0; j < phases.size(); ++j) {
-                            List<Rank> ranks = Rank.finder.where().eq("id_phases", phases.get(j).getIdPhases()).orderBy("nivel asc, orden asc").findList();
+                            ranks = Rank.finder.where().eq("id_phases", phases.get(j).getIdPhases()).orderBy("nivel asc, orden asc").findList();
                             if (ranks != null && !ranks.isEmpty()) {
-                                ObjectNode phase = phases.get(j).toJson(requestLanguage, app.getLanguage());
-                                ArrayList rankingObjs = new ArrayList();
+                                phase = phases.get(j).toJson(requestLanguage, app.getLanguage());
+                                rankingObjs = new ArrayList();
                                 for (int z = 0; z < ranks.size(); ++z) {
                                     rankingObjs.add(ranks.get(z).toJsonPhaseID());
                                 }
                                 phase.put("ranks", Json.toJson(rankingObjs));
                                 phasesObjs.add(phase);
+                                ranks.clear();
+                                rankingObjs.clear();
                             }
                         }
                         ObjectNode competition = competitions.get(i).toJsonSimple(requestLanguage, app.getLanguage());
@@ -59,12 +64,14 @@ public class RankingController extends HecticusController {
                     }
                 }
                 response = hecticusResponse(0, "ok", "rankings", data);
+                data.clear();
+                return ok(response);
             } else {
                 response = buildBasicResponse(1, "El app " + idApp + " no existe");
+                return notFound(response);
             }
-            return ok(response);
         }catch (Exception ex){
-            return badRequest(buildBasicResponse(-1, "ocurrio un error al traer los rankings:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error al traer los rankings:" + ex.toString()));
         }
     }
 
@@ -110,6 +117,8 @@ public class RankingController extends HecticusController {
                                 data.put("phase", phase.toJsonSimple(requestLanguage, app.getLanguage()));
                                 data.put("ranking", Json.toJson(rankingObjs));
                                 response = hecticusResponse(0, "ok", data);
+                                ranks.clear();
+                                rankingObjs.clear();
                             } else {
                                 response = buildBasicResponse(3, "El ranking de la phase " + idPhase + " no existe o esta vacio");
                             }
@@ -162,9 +171,11 @@ public class RankingController extends HecticusController {
                                     rankingObjs.add(member);
                                     group.clear();
                                 }
+                                gameMatches.clear();
                                 data.put("tree", true);
                                 data.put("phase", phase.toJsonSimple(requestLanguage, app.getLanguage()));
                                 data.put("ranking", Json.toJson(rankingObjs));
+                                rankingObjs.clear();
                                 response = hecticusResponse(0, "ok", data);
                             } else {
                                 if (way != 0) {
@@ -246,6 +257,7 @@ public class RankingController extends HecticusController {
                                     data.put("tree", phase.getNivel() > 1);
                                     data.put("phase", phase.toJsonSimple(requestLanguage, app.getLanguage()));
                                     data.put("ranking", Json.toJson(rankingObjs));
+                                    rankingObjs.clear();
                                     response = hecticusResponse(0, "ok", data);
                                 } else {
                                     response = buildBasicResponse(3, "El ranking de la phase " + idPhase + " no existe o esta vacio");
@@ -280,11 +292,13 @@ public class RankingController extends HecticusController {
                                     data.put("tree", true);
                                     data.put("phase", phase.toJsonSimple(requestLanguage, app.getLanguage()));
                                     data.put("ranking", Json.toJson(rankingObjs));
+                                    rankingObjs.clear();
                                     response = hecticusResponse(0, "ok", data);
                                 } else {
                                     response = buildBasicResponse(5, "El ranking de la phase " + idPhase + " no existe o esta vacio");
                                 }
                             }
+                            phases.clear();
                         } else {
                             response = buildBasicResponse(4, "El ranking de la phase " + idPhase + " no existe o esta vacio");
                         }
@@ -298,7 +312,7 @@ public class RankingController extends HecticusController {
             return ok(response);
         }catch (Exception ex){
             ex.printStackTrace();
-            return badRequest(buildBasicResponse(-1, "ocurrio un error al traer los rankings:" + ex.toString()));
+            return internalServerError(buildBasicResponse(-1, "ocurrio un error al traer los rankings:" + ex.toString()));
         }
     }
 

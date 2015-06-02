@@ -1,6 +1,8 @@
 package utils;
 
+import job.ThreadSupervisor;
 import models.Config;
+import models.basic.Instance;
 import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
 
@@ -10,12 +12,17 @@ import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by sorcerer on 3/7/14.
  */
 public class Utils {
 
+    public static AtomicBoolean run;
+    public static ThreadSupervisor supervisor;
+    public static String serverIp;
+    public static Instance actual;
     public static final TimeZone APP_TIMEZONE = TimeZone.getTimeZone("America/Panama");
 
     /***
