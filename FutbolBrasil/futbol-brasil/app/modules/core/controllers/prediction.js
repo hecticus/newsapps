@@ -26,7 +26,7 @@ angular
             var widthTotal = $window.innerWidth;
             $scope.getNameClient = Client.getNickname();
             $scope.points = 0;
-
+            $scope.showSource = false;
             $scope.getEndOfTime = function(date) {
               if (date === undefined) {
                 return strings['NO_MATCH'];
@@ -208,10 +208,12 @@ angular
                     if (this.currentPage.pageX != _currentPage) {
                          getBets();
                         _currentPage = this.currentPage.pageX;
+                         $scope.showSource = false;
                     }
                 });
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    $scope.showSource = true;
                     if(vScrolls != null && _currentPage >= 0) {
                         vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
                         $scope.$emit('unload');
