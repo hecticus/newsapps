@@ -59,6 +59,8 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 isActiveClient : isActiveClient,
+                
+                markClientAsNotOK : markClientAsNotOK,
 
                 getClientId : function(){
                     return client.id_client;
@@ -160,6 +162,7 @@ angular
 
             function logout(){
                 $localStorage.$reset();
+                console.log("Client data:",client);
                 client = {};
             }
 
@@ -244,6 +247,12 @@ angular
             function markClientAsOk() {
                 clientDataSafe = true;
                 localStorage[FILE_KEY_CLIENT_DATASAFE] = 'true';
+                return clientDataSafe;
+            }
+            
+            function markClientAsNotOK() {
+                clientDataSafe = false;
+                localStorage[FILE_KEY_CLIENT_DATASAFE] = 'false';
                 return clientDataSafe;
             }
 

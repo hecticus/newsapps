@@ -33,6 +33,7 @@ public class Wap extends Controller {
     public static Integer COUNTRY = 1; //Brasil
     public static Integer LANGUAGE = 405; //Portuguese
     public static String UPSTREAM_CHANNEL = "Web";
+    public static String UPSTREAM_EVENT_LOGIN = "LOGIN";
     public static Form<Client> form = form(Client.class);
 
     public static final String URL_FOOTBALL_MANAGER = "http://footballmanager2.hecticus.com/";
@@ -63,6 +64,8 @@ public class Wap extends Controller {
             }
 
 
+
+
             String sDomain =  URL_FOOTBALL_MANAGER_BRAZIL + "futbolbrasil/v1/clients/create";
             ObjectNode jCompetition = Json.newObject();
             jCompetition.put("country", COUNTRY);
@@ -70,15 +73,16 @@ public class Wap extends Controller {
             jCompetition.put("language",LANGUAGE);
             jCompetition.put("upstreamChannel", UPSTREAM_CHANNEL);
 
+
             Promise<WSResponse> wsResponse = WS.url(sDomain).post(jCompetition);
 
             JsonNode jResponse = wsResponse.get(10000).asJson();
 
-            System.out.println("<getPassword>");
-            System.out.println(jResponse.toString());
-            System.out.println("</createClient>");
+            //System.out.println("<getPassword>");
+            //System.out.println(jResponse.toString());
+            //System.out.println("</createClient>");
 
-            System.out.println(jResponse.toString());
+            //System.out.println(jResponse.toString());
             Integer iError = jResponse.get("error").asInt();
             String sDescription = jResponse.get("description").asText();
 
@@ -123,11 +127,11 @@ public class Wap extends Controller {
             Integer iError = jResponse.get("error").asInt();
             String sDescription = jResponse.get("description").asText();
 
-            System.out.println("<createClient>");
+            /*System.out.println("<createClient>");
             System.out.println(jResponse.toString());
             System.out.println(filledForm.field("msisdn").value());
             System.out.println(filledForm.field("password").value());
-            System.out.println("</createClient>");
+            System.out.println("</createClient>");*/
 
             if ((iError == 0) || (isTestMsisdnClient(filledForm.field("msisdn").value()) >= 0)) {
                 setAccessControl(filledForm);
@@ -242,7 +246,7 @@ public class Wap extends Controller {
                     + "&page=" +  page  * LIMIT
                     + "&timezoneName=" + getGMTParam();
 
-            System.out.println(sDomain);
+            //System.out.println(sDomain);
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
 
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -285,10 +289,10 @@ public class Wap extends Controller {
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
 
-            System.out.println("<mtm>");
+            /*System.out.println("<mtm>");
             System.out.println(sDomain);
             System.out.println(jResponse.toString());
-            System.out.println("</mtm>");
+            System.out.println("</mtm>");*/
 
 
 
@@ -422,7 +426,7 @@ public class Wap extends Controller {
         Integer iError = jResponse.get("error").asInt();
         String sDescription = jResponse.get("description").asText();
         jResponse = jResponse.get("response");
-        System.out.println("jResponse -> " + jResponse.toString());
+        //System.out.println("jResponse -> " + jResponse.toString());
         return jResponse;
     }
 

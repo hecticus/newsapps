@@ -20,9 +20,9 @@ angular
                     settings = JSON.parse($localStorage[KEY_SETTINGS]);
                 } else {
                     settings = {};
-                    settings[KEY_BETS_PUSH] = false;
-                    settings[KEY_NEWS_PUSH] = false;
-                    settings[KEY_MTM_PUSH] = false;
+                    settings[KEY_BETS_PUSH] = true;
+                    settings[KEY_NEWS_PUSH] = true;
+                    settings[KEY_MTM_PUSH] = true;
                 }
             };
 
@@ -52,6 +52,28 @@ angular
                     .error (function(data, status) {
                     console.log("error save favorite");
                 });
+            };
+            
+            var loadSettings = function (pushAlerts){
+                try{
+                    console.log("loadSettings");
+                    loadPersistedSettings();
+                    
+                    pushAlerts.forEach( function(item) {                    
+                        switch(item.push_alert.name){
+                            case "news":
+                                settings[KEY_NEWS_PUSH] = item.status;
+                                break;
+                            case "bets":
+                                settings[KEY_BETS_PUSH] = item.status;
+                                break;                    
+                        }                    
+                    });
+                    
+                    persistSettings();
+                } catch(e){
+                   console.log("Error seteando pushAlerts settings");
+                }         
             };
 
             return {
@@ -93,7 +115,14 @@ angular
                     console.log('toggleMtmPush: ' + state);
                     settings[KEY_MTM_PUSH] = state;
                     saveSettingsToServer();
-                }
+                },
+                
+                setMtmStatus : function(state){
+                    settings[KEY_MTM_PUSH] = state;
+                    persistSettings();
+                },
+                
+                loadSettings: loadSettings
             };
         }
     ]);

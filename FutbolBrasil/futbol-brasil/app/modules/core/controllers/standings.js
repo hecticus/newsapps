@@ -25,7 +25,6 @@ angular
                 return Moment.date(_date).format('MMMM Do YYYY');
             };
 
-
             $scope.showContentPhases = function(competition) {
                 $scope.$emit('load');
                 $scope.item.ranking = [];

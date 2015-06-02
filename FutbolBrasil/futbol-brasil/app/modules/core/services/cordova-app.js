@@ -120,6 +120,11 @@ angular
                 } else if(hasPreviousSubsection){
                     angular.element('.page.back.left:last').attr('class', ' page transition right');
                     $rootScope.isPageContentLeft = false;
+
+                    if (!angular.element('.page.back.left:last').hasClass('left'))
+                        angular.element('#menuIcon').attr('class', 'icon mdi-navigation-menu');
+
+
                 } else {
                       $translate(['APP.EXIT_APP_TITLE', 'APP.EXIT_APP_MSG', 'OK', 'CANCEL'])
                       .then(function(translation){

@@ -7,10 +7,10 @@
  */
 angular
     .module('core')
-    .factory('ClientManager',['$http', '$translate', '$q',  'CordovaDevice', 'WebManager', 'FacebookManager',
-        'TeamsManager', 'Client', 'Domain', 'i18n',
-        function($http, $translate, $q, CordovaDevice, WebManager, FacebookManager,
-                 TeamsManager, Client, Domain, i18n) {
+    .factory('ClientManager',['$http', '$translate', '$q', '$localStorage',  'CordovaDevice', 'WebManager', 'FacebookManager',
+        'TeamsManager', 'Client', 'Domain', 'i18n', 'Settings',
+        function($http, $translate, $q, $localStorage, CordovaDevice, WebManager, FacebookManager,
+                 TeamsManager, Client, Domain, i18n, Settings) {
 
             var arrMsisdnTestClient = ['40766666611','40766666612', '40766666613',
             '40766666614', '40766666615', '40766666616',
@@ -149,6 +149,8 @@ angular
                         var errorCode = data.error;
                         var response = data.response;
                         if(errorCode == 0 && response != null){
+                            //console.log("data:",response);
+                            setClientPushAlerts(response.push_alerts_info);
                             TeamsManager.setFavoriteTeams(response.push_alerts_teams);
                             if(Client.updateClient(response)){
                                 typeof successCallback == "function" && successCallback(isNewClient);
@@ -190,6 +192,7 @@ angular
                     var errorCode = data.error;
                     var response = data.response;
                     if(response && errorCode === 0){
+                        //setClientPushAlerts(response.push_alerts_info);
                         TeamsManager.setFavoriteTeams(response.push_alerts_teams);
                         Client.updateClient(response, null)
                         .then(
@@ -242,6 +245,10 @@ angular
                     lang = i18n.getDefaultLanguage();
                 }
                 return lang;
+            }
+            
+            function setClientPushAlerts(pushAlerts){ 
+                Settings.loadSettings(pushAlerts);                        
             }
 
             return service;

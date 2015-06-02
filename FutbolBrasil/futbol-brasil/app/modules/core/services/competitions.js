@@ -10,7 +10,6 @@ angular
     .factory('Competitions',['$localStorage', '$http', '$q', 'Domain', 'WebManager', 'Client',
         function($localStorage, $http, $q, Domain, WebManager, Client) {
             var FILE_KEY_COMPETITIONS = "APPCOMPETITIONS";
-
             var localStorage = $localStorage;
             var competitions = [];
 
@@ -18,10 +17,13 @@ angular
                 if(comps){
                     competitions = comps;
                 }
+
                 localStorage[FILE_KEY_COMPETITIONS] = competitions;
+
             }
 
             function loadCompetitions() {
+
                 if(localStorage[FILE_KEY_COMPETITIONS]){
                     competitions = localStorage[FILE_KEY_COMPETITIONS];
                 }
@@ -34,10 +36,21 @@ angular
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
                 //console.log("getCompetitions-> " + Domain.competitions);
                 if (noConfig) config = false;
+                console.log('JSON.stringify -> ' + JSON.stringify(config));
                 return $http.get(Domain.competitions, config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
                     return competitions;
+                },function(response){
+                    return $q.reject(response);
+                });
+            }
+
+
+            function getCompetitionsPrediction() {
+                var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
+                return $http.get(Domain.competitionsPrediction(Client.getClientId()), config).then(function(response){
+                    return response.data.response;
                 },function(response){
                     return $q.reject(response);
                 });
@@ -113,7 +126,7 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 get: getCompetitions,
-
+                getPrediction: getCompetitionsPrediction,
                 getRanking : getRanking,
 
                 getPhase : getPhase,
@@ -122,15 +135,50 @@ angular
 
                 leaderboard : {
                     personal : {
+
+                        tournamentAll: function(){
+                            return $http.get(Domain.leaderboard.personal.competition())
+                                .then(function(response){
+                                    var leaderboard = response.data.response.leaderboard;
+                                    $http.get(Domain.competitions).then(function(response){
+
+                                        var allCompetitions = response.data.response.competitions;
+
+                                        leaderboard.map(function(score){
+                                            allCompetitions.some(function(competition){
+                                                if(competition.id_competitions === score.id_tournament){
+                                                    score.name = competition.competiton_type.name;
+                                                    score.logo = competition.competiton_type.competition_logo;
+                                                    return true;
+                                                }
+                                            });
+                                        });
+
+                                    },function(response){
+                                        return $q.reject(response);
+                                    });
+
+
+
+
+
+                                    return leaderboard;
+                                }, function(response){
+                                    return $q.reject(response.data);
+                                });
+                        },
+
+
                         tournament: function(){
-                            //console.log('Competitions.leaderboard.personal.tournament');
                             return $http.get(Domain.leaderboard.personal.competition())
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
                                     leaderboard.map(function(score){
                                         competitions.some(function(competition){
                                             if(competition.id_competitions === score.id_tournament){
-                                                score.name = competition.name;
+                                                //alert(competition.competiton_type.name);
+                                                score.name = competition.competiton_type.name;
+                                                score.logo = competition.competiton_type.competition_logo;
                                                 return true;
                                             }
                                         });
@@ -140,6 +188,7 @@ angular
                                     return $q.reject(response.data);
                                 });
                         },
+
                         phase : {
                             index : function(idTournament, phases){
                                 var config = {
