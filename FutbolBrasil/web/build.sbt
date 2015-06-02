@@ -1,19 +1,25 @@
+import play.PlayJava
+
 name := "futbolBrasil"
 
 version := "1.0-SNAPSHOT"
 
+lazy val JobCore = file("/home/plessmann/Development/projects/JobCore")
+
+lazy val root = project.in(file(".")).enablePlugins(PlayJava).aggregate(JobCore).dependsOn(JobCore)
+
 scalaVersion := "2.10.1"
 
-val appDependencies = Seq(	
-	"be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
-  	"com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
+libraryDependencies ++= Seq(
  	javaCore,
-  	javaJdbc,
-  	javaEbean,
-  	cache,
-  	javaWs,  
-  	"mysql" % "mysql-connector-java" % "5.1.26",
-  	"com.google.guava" % "guava" % "15.0",
+  javaJdbc,
+  javaEbean,
+  cache,
+  javaWs,
+  "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
+  "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
+  "mysql" % "mysql-connector-java" % "5.1.26",
+  "com.google.guava" % "guava" % "15.0",
 	"net.vz.mongodb.jackson" %% "play-mongo-jackson-mapper" % "1.1.0",
 	"org.apache.commons" % "commons-io" % "1.3.2",
 	"org.apache.jclouds.driver" % "jclouds-slf4j" % "1.8.0",
@@ -38,8 +44,6 @@ val appDependencies = Seq(
 	"com.typesafe.akka" %% "akka-remote" % "2.3.4"
 )
 
-//lazy val root = (project in file(".")).enablePlugins(PlayJava)
-
 resolvers ++= Seq(
   "Maven1 Repository" at "http://repo1.maven.org/maven2/net/vz/mongodb/jackson/play-mongo-jackson-mapper_2.10/1.1.0/",
   "Apache" at "http://repo1.maven.org/maven2/",
@@ -51,8 +55,3 @@ resolvers ++= Seq(
   "play-authenticate (snapshot)" at "http://joscha.github.io/play-authenticate/repo/snapshots/"
 )
 
-lazy val root = project.in(file("."))
-  .enablePlugins(PlayJava)
-  .settings(
-    libraryDependencies ++= appDependencies
-  )

@@ -1,7 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.basic.Config;
+import models.Config;
 import models.basic.LocalResource;
 import play.mvc.Result;
 import utils.ImageManager;
@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * Created by sorcerer on 2/18/15.
  */
-public class ImageProcessing extends HecticusController {
+public class ImageProcessing extends FootballController {
 
     public static Result getLocalResourceBySize(String file, String size){
         try {

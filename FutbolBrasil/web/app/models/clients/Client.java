@@ -6,7 +6,7 @@ import com.google.common.collect.Iterables;
 import comparators.LeaderboardComparator;
 import comparators.LeaderboardGlobalComparator;
 import models.HecticusModel;
-import models.basic.Config;
+import models.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.leaderboard.ClientBets;

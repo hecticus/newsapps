@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import controllers.FootballController;
 import controllers.HecticusController;
 import exceptions.UpstreamAuthenticationFailureException;
 import exceptions.UpstreamException;
-import models.basic.Config;
+import models.Config;
 import models.basic.Country;
 import models.basic.Language;
 import models.clients.Client;
@@ -44,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  * Created by plesse on 9/30/14.
  */
 //@Security.Authenticated(Secured.class)
-public class Clients extends HecticusController {
+public class Clients extends FootballController {
 
     //private static final String upstreamUserIDSubscriptionResponseTag = "user_id"; //segun documentacion
     private static final String upstreamUserIDSubscriptionResponseTag = "userId"; //segun pruebas
@@ -634,7 +635,7 @@ public class Clients extends HecticusController {
                 Iterator<JsonNode> bets = betsData.get("bets").elements();
                 Map<Integer, ObjectNode> betsMap = new HashMap<>();
                 StringBuilder matchesRequest = new StringBuilder();
-                matchesRequest.append("http://").append(Config.getFootballManagerHost()).append("/footballapi/v1/matches/get/ids/").append(Config.getInt("football-manager-id-app")).append("?");
+                matchesRequest.append("http://").append(Utils.getFootballManagerHost()).append("/footballapi/v1/matches/get/ids/").append(Config.getInt("football-manager-id-app")).append("?");
                 int idTournament = -1, idPhase = -1, idGameMatch = -1, clientBet = -1;
                 ClientBets clientBets = null;
                 while(bets.hasNext()){
@@ -709,7 +710,7 @@ public class Clients extends HecticusController {
                 ClientBets clientBets = null;
                 idGameMatch = bet.get("id_game_match").asInt();
                 StringBuilder matchesRequest = new StringBuilder();
-                matchesRequest.append("http://").append(Config.getFootballManagerHost()).append("/footballapi/v2/").append(Config.getInt("football-manager-id-app")).append("/match/").append(idGameMatch);
+                matchesRequest.append("http://").append(Utils.getFootballManagerHost()).append("/footballapi/v2/").append(Config.getInt("football-manager-id-app")).append("/match/").append(idGameMatch);
 
                 F.Promise<WSResponse> result = WS.url(matchesRequest.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
@@ -761,7 +762,7 @@ public class Clients extends HecticusController {
             String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
             Client client = Client.finder.byId(id);
             if(client != null) {
-                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/date/grouped/" + Config.getInt("football-manager-id-app") + "?timezoneName=" + timezoneName;
+                String teams = "http://" + Utils.getFootballManagerHost() + "/footballapi/v1/matches/date/grouped/" + Config.getInt("football-manager-id-app") + "?timezoneName=" + timezoneName;
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
                 int error = footballResponse.get("error").asInt();
@@ -865,7 +866,7 @@ public class Clients extends HecticusController {
             String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
             Client client = Client.finder.byId(id);
             if(client != null) {
-                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/all/date/get/" + Config.getInt("football-manager-id-app") + "/" + date + "?timezoneName=" + timezoneName;
+                String teams = "http://" + Utils.getFootballManagerHost() + "/footballapi/v1/matches/all/date/get/" + Config.getInt("football-manager-id-app") + "/" + date + "?timezoneName=" + timezoneName;
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
                 int error = footballResponse.get("error").asInt();
@@ -946,7 +947,7 @@ public class Clients extends HecticusController {
             String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
             Client client = Client.finder.byId(id);
             if(client != null) {
-                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/matches/competition/date/grouped/" + Config.getInt("football-manager-id-app") + "/" + idCompetition + "?timezoneName=" + timezoneName;
+                String teams = "http://" + Utils.getFootballManagerHost() + "/footballapi/v1/matches/competition/date/grouped/" + Config.getInt("football-manager-id-app") + "/" + idCompetition + "?timezoneName=" + timezoneName;
                 System.out.println(teams);
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();

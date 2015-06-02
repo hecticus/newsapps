@@ -3,8 +3,7 @@ package caches;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import models.basic.Config;
-import models.basic.Language;
+import models.Config;
 import models.clients.Client;
 
 import javax.xml.ws.http.HTTPException;

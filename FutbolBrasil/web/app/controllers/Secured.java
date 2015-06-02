@@ -1,7 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.basic.Config;
+import models.Config;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
