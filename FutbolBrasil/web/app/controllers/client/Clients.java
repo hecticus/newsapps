@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import controllers.HecticusController;
+import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
 import exceptions.UpstreamException;
 import models.basic.Config;
@@ -27,6 +28,7 @@ import play.libs.ws.WSResponse;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.DateAndTime;
 import utils.Utils;
 
@@ -43,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by plesse on 9/30/14.
  */
-//@Security.Authenticated(Secured.class)
+@Security.Authenticated(Secured.class)
 public class Clients extends HecticusController {
 
     //private static final String upstreamUserIDSubscriptionResponseTag = "user_id"; //segun documentacion
