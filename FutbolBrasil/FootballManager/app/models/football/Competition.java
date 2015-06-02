@@ -354,7 +354,7 @@ public class Competition  extends HecticusModel {
         return obj;
     }
 
-    public ObjectNode toJsonNoPhases(final Language language, final Language defaultLanguage) {
+    public ObjectNode toJsonNoPhases(final Language language, final Language defaultLanguage, boolean closestMatch) {
         ObjectNode obj = Json.newObject();
         obj.put("id_competitions",idCompetitions);
         CompetitionHasLocalization clientLanguage = null;
@@ -378,6 +378,10 @@ public class Competition  extends HecticusModel {
         obj.put("name",clientLanguage!=null?clientLanguage.getName():name);
         obj.put("ext_id",extId);
         obj.put("competiton_type", type.toJson(language, defaultLanguage));
+        if(closestMatch){
+            GameMatch match = GameMatch.getClosestMatch(this);
+            obj.put("match", match!=null?match.toJsonPush():null);
+        }
         return obj;
     }
 

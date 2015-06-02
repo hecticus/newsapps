@@ -914,6 +914,16 @@ public class Clients extends HecticusController {
                     modifiedFixtures.clear();
                     matchesIDs.clear();
                     matches.clear();
+                    int points = 0;
+                    int correct = 0;
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        points += leaderboardGlobal.getScore();
+                        correct += leaderboardGlobal.getCorrectBets();
+                    }
+                    response.put("points", points);
+                    response.put("correct_bets", correct);
+
                     return ok(buildBasicResponse(0, "OK", response));
                 } else {
                     return internalServerError(buildBasicResponse(3, "error llamando a footballmanager"));
@@ -1298,6 +1308,61 @@ public class Clients extends HecticusController {
             return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
         }
     }
+
+
+
+
+    public static Result dashboard(Integer id, Integer idLanguage) {
+        try {
+            Client client = Client.finder.byId(id);
+            if(client != null) {
+                String[] favorites = getFromQueryString("teams");
+                StringBuilder teamsBuilder = new StringBuilder();
+                if (favorites != null && favorites.length > 0) {
+                    for(String team : favorites) {
+                        teamsBuilder.append("&teams=").append(team);
+                    }
+                }
+                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true" + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
+                F.Promise<WSResponse> result = WS.url(teams.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    ObjectNode response = Json.newObject();
+                    JsonNode data = footballResponse.get("response");
+
+                    int points = 0;
+                    int correct = 0;
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        points += leaderboardGlobal.getScore();
+                        correct += leaderboardGlobal.getCorrectBets();
+                    }
+                    response.put("points", points);
+                    response.put("correct_bets", correct);
+                    response.put("competitions", data.get("competitions"));
+
+                    return ok(buildBasicResponse(0, "OK", response));
+                } else {
+                    return internalServerError(buildBasicResponse(3, "error llamando a footballmanager"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
+
+
+
+
+    /**
+     * Territorio de upstream
+     *
+     */
 
 
 
