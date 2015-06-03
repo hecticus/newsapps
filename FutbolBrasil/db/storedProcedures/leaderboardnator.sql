@@ -110,6 +110,15 @@ BEGIN
 		ON DUPLICATE KEY UPDATE
 			score     = score + points,
 			correct_bets = correct_bets + 1;
+
+		#Update Leaderboard Total
+		INSERT INTO leaderboard_total
+			(id_client, score, correct_bets)
+		VALUES
+			(idClient, points, 1)
+		ON DUPLICATE KEY UPDATE
+			score = score + points,
+			correct_bets = correct_bets + 1;	
 			
 		#Insert event for PMC
 		INSERT INTO leaderboard_push
