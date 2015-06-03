@@ -88,6 +88,7 @@ GET            /futbolbrasil/v1/clients/leaderboard/get/:id/:idTournament/:idPha
 GET            /futbolbrasil/v1/clients/leaderboard/global/get/:id/:idTournament          controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
 GET            /futbolbrasil/v1/clients/leaderboard/personal/tournament/:id               controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
 GET            /futbolbrasil/v1/clients/leaderboard/personal/phase/:id                    controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
+GET            /futbolbrasil/v1/clients/leaderboard/total/:id                             controllers.client.Clients.getLeaderboardTotalForClient(id: Integer)
 
 #Clients PMC
 GET            /futbolbrasil/v1/clients/pmc/get/:id                                       controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)

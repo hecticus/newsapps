@@ -22,7 +22,7 @@ angular
             };
 
             $scope.getTotalWidth = function(){
-                return { 'width': (widthTotal * 6) + 'px'}
+                return { 'width': (widthTotal * 5) + 'px'}
             };
 
             $scope.goToIndex = function(){

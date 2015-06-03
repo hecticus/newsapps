@@ -23,6 +23,7 @@ angular
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
 
+            $scope.showSource = false;
             $scope.wrapper = {
                 name:'wrapperV',
                 getName : function(_index) {
@@ -125,6 +126,7 @@ angular
                 };
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
+                    $scope.showSource = true;
                     if (_start) {
                         hScroll.refresh();
                         hScroll.goToPage(2,0);
@@ -153,6 +155,7 @@ angular
 
                     if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
                         addNewPage();
+                        $scope.showSource = false;
                     }
                 });
 
