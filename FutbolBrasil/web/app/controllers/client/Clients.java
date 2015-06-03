@@ -1383,7 +1383,7 @@ public class Clients extends FootballController {
                         teamsBuilder.append("&teams=").append(team);
                     }
                 }
-                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true" + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
+                String teams = "http://" + Utils.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true" + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
                 int error = footballResponse.get("error").asInt();

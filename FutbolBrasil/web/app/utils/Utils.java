@@ -275,4 +275,13 @@ public class Utils extends JobCoreUtils{
     public static String getiOSVersionURL() {
         return Config.getString("ios-version-url");
     }
+
+    public static boolean getIsSecured() {
+        try {
+            int intSecured = Config.getInt("secured");
+            return intSecured == 0 ? false : true;
+        } catch (Exception e){
+            return false;
+        }
+    }
 }

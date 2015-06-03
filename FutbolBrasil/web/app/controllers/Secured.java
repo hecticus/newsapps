@@ -23,7 +23,7 @@ public class Secured extends Security.Authenticator {
      */
     @Override
     public String getUsername(Http.Context ctx) {
-        boolean isSecured = Config.getIsSecured();
+        boolean isSecured = Utils.getIsSecured();
         if(isSecured) {
             Http.Request request = ctx.request();
             String realOrigin = null;
