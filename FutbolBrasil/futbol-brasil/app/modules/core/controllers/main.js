@@ -133,7 +133,7 @@ angular
             }
 
             function onMenuButtonPressed(){
-
+                alert('onMenuButtonPressed');
                 $scope.$emit('load');
                 $interval.cancel($rootScope.refreshInterval);
                 $rootScope.refreshInterval = null;
