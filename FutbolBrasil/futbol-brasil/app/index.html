@@ -63,7 +63,7 @@
             <div class="navbar-header">
                 <header>
                     <div class="col-xs-2 text-left" style="height:50px; line-height:50px; ">
-                        <i class="drawer-title" ng-hide="(hideMenuIcon() === true)"
+                        <i id="menuIcon" class="drawer-title" ng-hide="(hideMenuIcon() === true)"
                           ng-class="getDrawerIcon()"
                           ng-click="onMenuButtonPressed()"></i>
                     </div>
@@ -78,6 +78,9 @@
                          ng-class="getFavoritesClass()"
                          ng-hide="(hideMenuFavorites() === true)"
                          ng-click="toggleFavorites()" ></i>
+
+
+
 
                       <i class="mdi-navigation-arrow-forward"
                        ng-show="(showMenuForward() === true)"
@@ -148,35 +151,35 @@
     <ng-include src="'modules/core/views/templates/share-modal.html'"></ng-include>
     <ng-include src="'modules/core/views/templates/info-modal.html'"></ng-include>
 
-    <div class="row">
+
         <footer class="footer" ng-hide="isOnUtilitySection()">
-            <div data-section="notistats" class="row"
+            <div data-section="notistats" class="row notistats"
                  ng-class="{active: getSection() === 'notistats', hide: getSection() !== 'notistats'}">
-                <div class="col-xs-2 col-xs-offset-1 option" ui-sref-active="active">
+                <div class="col-xs-15 option" ui-sref-active="active">
                     <a ui-sref="match" class="footer-section">
                         <span class="icon-balon"></span>
                         <span translate>SECTIONS.NOTISTATS.MATCHES</span>
                     </a>
                 </div>
-                <div class="col-xs-2 option" ui-sref-active="active">
+                <div class="col-xs-15 option" ui-sref-active="active">
                     <a ui-sref="standings" class="footer-section">
                         <span class="icon-tabela"></span>
                         <span translate>SECTIONS.NOTISTATS.STANDINGS</span>
                     </a>
                 </div>
-                <div class="col-xs-2 option" ui-sref-active="active" >
+                <div class="col-xs-15 option" ui-sref-active="active" >
                     <a ui-sref="news" class="footer-section">
                         <span class="icon-noticias"></span>
                         <span translate>SECTIONS.NOTISTATS.NEWS</span>
                     </a>
                 </div>
-                <div class="col-xs-2 option" ui-sref-active="active" >
+                <div class="col-xs-15 option" ui-sref-active="active" >
                     <a ui-sref="scorers" class="footer-section">
                         <span class="icon-artilharia"></span>
                         <span translate>SECTIONS.NOTISTATS.SCORERS</span>
                     </a>
                 </div>
-                <div class="col-xs-2 option" ui-sref-active="active" >
+                <div class="col-xs-15 option" ui-sref-active="active" >
                     <a ui-sref="mtm" class="footer-section">
                         <span class="icon-envivo"></span>
                         <span translate>SECTIONS.NOTISTATS.LIVE</span>
@@ -184,8 +187,9 @@
                 </div>
             </div>
 
-            <div data-section="bets" class="row"
-                 ng-class="{active: getSection() === 'bets', hide: getSection() !== 'bets'}">
+            <div data-section="bets" class="row bets"
+                 ng-class="{active: getSection() === 'dashboard' || getSection() === 'bets', hide: getSection() !== 'bets' &&  getSection() !== 'dashboard'}">
+
                 <div class="col-xs-3 option" ui-sref-active="active">
                     <a ui-sref="prediction" class="footer-section">
                         <span class="icon-balon"></span>
@@ -212,7 +216,7 @@
                 </div>
             </div>
         </footer>
-    </div>
+
 </div>
 
 <!-- build:js scripts/vendor.js -->
@@ -246,6 +250,7 @@
 <!-- injector:js -->
 <script src="js/pt.js"></script>
 <script src="js/es.js"></script>
+<script src="js/en.js"></script>
 <script src="js/config.js"></script>
 <script src="js/application.js"></script>
 <script src="modules/core/core.js"></script>
@@ -280,6 +285,7 @@
 <script src="modules/core/directives/menu.js"></script>
 <script src="modules/core/directives/my-scroll.js"></script>
 <script src="modules/core/directives/on-last-repeat.js"></script>
+<script src="modules/core/controllers/dashboard.js"></script>
 <script src="modules/core/controllers/how-does-it-work.js"></script>
 <script src="modules/core/controllers/language-selection.js"></script>
 <script src="modules/core/controllers/leaderboard.js"></script>

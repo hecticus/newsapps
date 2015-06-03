@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('TeamsManager', ['$http', '$localStorage', '$q', 'Domain', 'Client',
-        function($http, $localStorage, $q, Domain, Client) {
+    .factory('TeamsManager', ['$http', '$localStorage', '$q', 'Domain', 'Client', 'Settings',
+        function($http, $localStorage, $q, Domain, Client, Settings) {
             var KEY_TEAMS_LIST = 'TEAMS_LIST';
             var KEY_FAVORITE_TEAMS_LIST = 'FAVORITE_TEAMS_LIST';
             var teams = [];
@@ -128,12 +128,18 @@ angular
             function setFavoriteTeams(pushAlerts){
 
                 var arrTeams = [];
+                var status = false;
 
                 pushAlerts.forEach(function(pushAlert){
+                    console.log("setFavoriteTeams:",pushAlert);
                     pushAlert.push_alert.id_teams =  pushAlert.push_alert.id_ext;
                     arrTeams.push(pushAlert.push_alert);
+                    status = status || pushAlert.status;
                });
+               
+               //console.log("vivo status:",status);
 
+                Settings.setMtmStatus(status);
                 persistFavoriteTeams(arrTeams);
             }
 
@@ -195,6 +201,8 @@ angular
                     persistFavoriteTeams(favTeams);
                     saveFavoriteTeamToServer({'add_push_alert' : [team.id_teams]}, callback);
                 }
+                
+                Settings.setMtmStatus(true);
             }
 
             function removeFavoriteTeam(team, callback){
@@ -212,6 +220,10 @@ angular
                     saveFavoriteTeamToServer({'remove_push_alert' : [team.id_teams]}, callback);
                 } else {
                     console.log('removeFavoriteTeam. Team to remove not found');
+                }
+                
+               if(favTeams.length == 0){
+                    Settings.setMtmStatus(false);
                 }
             }
 

@@ -23,52 +23,61 @@ public class Secured extends Security.Authenticator {
      */
     @Override
     public String getUsername(Http.Context ctx) {
-        Http.Request request = ctx.request();
-        String realOrigin = null;
-        if(request.headers().containsKey("X-Forwarded-For")) {
-            realOrigin = request.headers().get("X-Forwarded-For")[0];
-        }
-        String ipString = request.remoteAddress();
-        boolean secured = true;
-
-        if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10.0.3"))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.0.3") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.0.3")))) {
-            secured = false;
-        }
-
-        if(secured) {
-            String[] authTokenHeaderValues = request.headers().get(AUTH_TOKEN_HEADER);
-            if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
-                boolean valid = validateAuthToken(authTokenHeaderValues[0]);
-                if (valid) {
-                    Utils.printToLog(Secured.class, null, "Valid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
-                    return "OK";
-                }
-                Utils.printToLog(Secured.class, null, "Invalid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
-            } else {
-                Utils.printToLog(Secured.class, null, "Missing Header " + AUTH_TOKEN_HEADER, false, null, "support-level-1", Config.LOGGER_INFO);
+        boolean isSecured = Config.getIsSecured();
+        if(isSecured) {
+            Http.Request request = ctx.request();
+            String realOrigin = null;
+            if (request.headers().containsKey("X-Forwarded-For")) {
+                realOrigin = request.headers().get("X-Forwarded-For")[0];
             }
-            return null;
+            String ipString = request.remoteAddress();
+            boolean secured = true;
+
+            if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10.0.3"))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.0.3") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.0.3")))) {
+                secured = false;
+            }
+
+            if (secured) {
+                String[] authTokenHeaderValues = request.headers().get(AUTH_TOKEN_HEADER);
+                if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
+                    boolean valid = validateAuthToken(authTokenHeaderValues[0]);
+                    if (valid) {
+                        Utils.printToLog(Secured.class, null, "Valid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
+                        return "OK";
+                    }
+                    Utils.printToLog(Secured.class, null, "Invalid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
+                } else {
+                    Utils.printToLog(Secured.class, null, "Missing Header " + AUTH_TOKEN_HEADER, false, null, "support-level-1", Config.LOGGER_INFO);
+                }
+                return null;
+            } else {
+                return "OK";
+            }
         } else {
             return "OK";
         }
     }
 
     private boolean validateAuthToken(String authTokenHeaderValue) {
-        String companyName = Config.getString("company-name");
-        String buildVersion = Config.getString("build-version");
-        String serverVersion = Config.getString("server-version");
-        String keyCompanyName = authTokenHeaderValue.substring(0, companyName.length());
-        char first = authTokenHeaderValue.charAt(companyName.length());
-        String keyBuildVersion = authTokenHeaderValue.substring(companyName.length() + 1, companyName.length() + 1 + buildVersion.length());
-        char second = authTokenHeaderValue.charAt(companyName.length() + 1 + buildVersion.length());
-        String keyServerVersion = authTokenHeaderValue.substring(companyName.length() + 1 + keyBuildVersion.length() + 1);
-        boolean valid = companyName.contentEquals(keyCompanyName) && buildVersion.contentEquals(keyBuildVersion) && serverVersion.contentEquals(keyServerVersion);
-        int indexFirst = buildVersion.charAt(0) - 48;
-        int indexSecond = serverVersion.charAt(0) - 48;
-        valid &= validChar(indexFirst, first);
-        valid &= validChar(indexSecond, second);
-//        System.out.println(keyCompanyName + " " + first + " " + keyBuildVersion  + " " + second + " " + keyServerVersion + " " + indexFirst + " " + indexSecond + " " + valid);
-        return valid;
+        try {
+            String companyName = Config.getString("company-name");//1234
+            String buildVersion = Config.getString("build-version");//9
+            String serverVersion = Config.getString("server-version");//1
+            String keyCompanyName = authTokenHeaderValue.substring(0, companyName.length());//1234
+            char first = authTokenHeaderValue.charAt(companyName.length());//)
+            String keyBuildVersion = authTokenHeaderValue.substring(companyName.length() + 1, companyName.length() + 1 + buildVersion.length());//
+            char second = authTokenHeaderValue.charAt(companyName.length() + 1 + buildVersion.length());
+            String keyServerVersion = authTokenHeaderValue.substring(companyName.length() + 1 + keyBuildVersion.length() + 1);
+            boolean valid = companyName.contentEquals(keyCompanyName) && buildVersion.contentEquals(keyBuildVersion) && serverVersion.contentEquals(keyServerVersion);
+            int indexFirst = buildVersion.charAt(0) - 48;
+            int indexSecond = serverVersion.charAt(0) - 48;
+            valid &= validChar(indexFirst, first);
+            valid &= validChar(indexSecond, second);
+            System.out.println(keyCompanyName + " " + first + " " + keyBuildVersion + " " + second + " " + keyServerVersion + " " + indexFirst + " " + indexSecond + " " + valid);
+            return valid;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean validChar(int caseToValidate, char charToValidate){

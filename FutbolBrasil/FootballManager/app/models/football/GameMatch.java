@@ -10,6 +10,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -297,6 +298,17 @@ public class GameMatch extends FootballModel {
         return finder.where().eq("id_competition",idCompetition).findList();
     }
 
+    public static GameMatch getClosestMatch(Competition competition){
+        Calendar today = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyMMddHHmmss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        List<GameMatch> latestGameMatch = finder.where().eq("competition", competition).ge("date", sdf.format(today.getTime())).orderBy("date asc").setMaxRows(1).findList();
+        if(!latestGameMatch.isEmpty()){
+            return latestGameMatch.get(0);
+        }
+        return null;
+    }
+
     public static List<GameMatch> findAllByIdCompetitionAndDate(Long idCompetition, String date, String operator){
         if(operator.equalsIgnoreCase("gt")) {
             return finder.where().eq("id_competition",idCompetition).gt("date", date).orderBy("date asc").findList();
@@ -366,7 +378,7 @@ public class GameMatch extends FootballModel {
         if(result != null) {
             json.put("results", result.toJson());
         }
-        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage));
+        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage, false));
 
         return json;
     }
@@ -395,6 +407,7 @@ public class GameMatch extends FootballModel {
     public ObjectNode toJsonPush() {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
+        json.put("date",date);
         json.put("home_team",homeTeam.toJsonSimple());
         json.put("away_team",awayTeam.toJsonSimple());
         return json;

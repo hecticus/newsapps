@@ -8,9 +8,9 @@
 */
 angular
     .module('core')
-    .controller('TutorialController', [
+    .controller('TutorialController', ['$rootScope',
         '$scope', '$localStorage', '$state', '$window', 'iScroll', 'Client',
-        function($scope, $localStorage, $state, $window, iScroll, Client) {
+        function($rootScope, $scope, $localStorage, $state, $window, iScroll, Client) {
 
 
             $scope.language = Client.getLanguage().short_name;
@@ -22,11 +22,11 @@ angular
             };
 
             $scope.getTotalWidth = function(){
-                return { 'width': (widthTotal * 6) + 'px'}
+                return { 'width': (widthTotal * 5) + 'px'}
             };
 
             $scope.goToIndex = function(){
-                $state.go('prediction');
+                $state.go($rootScope.defaultPage);
             };
 
 
@@ -50,6 +50,7 @@ angular
 
             function init(){
                 $scope.hScroll = iScroll.horizontal('wrapperH');
+                $scope.$emit('unload');
             } init();
         }
 ]);

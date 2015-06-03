@@ -6,6 +6,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import controllers.FootballController;
 import controllers.HecticusController;
+import controllers.Secured;
 import exceptions.UpstreamAuthenticationFailureException;
 import exceptions.UpstreamException;
 import models.Config;
@@ -17,6 +18,7 @@ import models.clients.Device;
 import models.leaderboard.ClientBets;
 import models.leaderboard.Leaderboard;
 import models.leaderboard.LeaderboardGlobal;
+import models.leaderboard.LeaderboardTotal;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
@@ -28,6 +30,7 @@ import play.libs.ws.WSResponse;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.Security;
 import utils.DateAndTime;
 import utils.Utils;
 
@@ -44,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by plesse on 9/30/14.
  */
-//@Security.Authenticated(Secured.class)
+@Security.Authenticated(Secured.class)
 public class Clients extends FootballController {
 
     //private static final String upstreamUserIDSubscriptionResponseTag = "user_id"; //segun documentacion
@@ -1228,6 +1231,62 @@ public class Clients extends FootballController {
         }
     }
 
+    public static Result getLeaderboardTotalForClient(Integer id){
+        try {
+            ObjectNode responseData = Json.newObject();
+            Client client = Client.finder.byId(id);
+            if(client != null){
+                int leaderboardSize = Config.getInt("leaderboard-size");
+
+                List<Client> friends = null;
+                String[] friendsArray = getFromQueryString("friends");
+                if (friendsArray != null && friendsArray.length > 0) {
+                    friends = Client.finder.where().in("facebookId", friendsArray).findList();
+                }
+                LeaderboardTotal clientLeaderboardTotal = null;
+                List<LeaderboardTotal> totalLeaderboards = null;
+                if(friends != null && !friends.isEmpty()){
+                    friends.add(client);
+                    totalLeaderboards = LeaderboardTotal.finder.where().in("client", friends).orderBy("score desc").findList();
+                } else {
+                    totalLeaderboards = LeaderboardTotal.finder.where().orderBy("score desc").findList();
+                }
+                clientLeaderboardTotal = client.getLeaderboardTotal();
+                if(totalLeaderboards != null && !totalLeaderboards.isEmpty()) {
+                    int index = totalLeaderboards.indexOf(clientLeaderboardTotal);
+                    ArrayList<ObjectNode> leaderboardsJson = new ArrayList<>();
+                    leaderboardSize = leaderboardSize>totalLeaderboards.size()?totalLeaderboards.size():leaderboardSize;
+                    for(int i = 0; i < leaderboardSize; ++i){
+                        leaderboardsJson.add(totalLeaderboards.get(i).toJsonSimple());
+                    }
+                    ObjectNode clientLeaderboardJson = null;
+                    if(clientLeaderboardTotal != null) {
+                        clientLeaderboardJson = clientLeaderboardTotal.toJsonSimple();
+                        clientLeaderboardJson.put("index", index);
+                    } else {
+                        String nickname = client.getNickname();
+                        clientLeaderboardJson = Json.newObject();
+                        clientLeaderboardJson.put("id_client", client.getIdClient());
+                        clientLeaderboardJson.put("client", nickname==null?"Anônimo":nickname);
+                        clientLeaderboardJson.put("score", 0);
+                        clientLeaderboardJson.put("hits", 0);
+                        clientLeaderboardJson.put("index", totalLeaderboards.size());
+                    }
+                    responseData.put("leaderboard", Json.toJson(leaderboardsJson));
+                    responseData.put("client", clientLeaderboardJson);
+                    return ok(buildBasicResponse(0, "OK", responseData));
+                } else {
+                    return ok(buildBasicResponse(3, "leaderboard vacio"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error obteniendo los idiomas activos ", true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1,"Error buscando el registro",e));
+        }
+    }
+
     public static Result getPersonalLeaderboardForClient(Integer id, Integer idTournament, final Integer idPhase, Boolean global){
         try {
             Client client = Client.finder.byId(id);
@@ -1309,6 +1368,61 @@ public class Clients extends FootballController {
             return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
         }
     }
+
+
+
+
+    public static Result dashboard(Integer id, Integer idLanguage) {
+        try {
+            Client client = Client.finder.byId(id);
+            if(client != null) {
+                String[] favorites = getFromQueryString("teams");
+                StringBuilder teamsBuilder = new StringBuilder();
+                if (favorites != null && favorites.length > 0) {
+                    for(String team : favorites) {
+                        teamsBuilder.append("&teams=").append(team);
+                    }
+                }
+                String teams = "http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true" + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
+                F.Promise<WSResponse> result = WS.url(teams.toString()).get();
+                ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
+                int error = footballResponse.get("error").asInt();
+                if(error == 0) {
+                    ObjectNode response = Json.newObject();
+                    JsonNode data = footballResponse.get("response");
+
+                    int points = 0;
+                    int correct = 0;
+                    List<LeaderboardGlobal> leaderboardGlobalList = client.getLeaderboardGlobal();
+                    for(LeaderboardGlobal leaderboardGlobal : leaderboardGlobalList){
+                        points += leaderboardGlobal.getScore();
+                        correct += leaderboardGlobal.getCorrectBets();
+                    }
+                    response.put("points", points);
+                    response.put("correct_bets", correct);
+                    response.put("competitions", data.get("competitions"));
+
+                    return ok(buildBasicResponse(0, "OK", response));
+                } else {
+                    return internalServerError(buildBasicResponse(3, "error llamando a footballmanager"));
+                }
+            } else {
+                return notFound(buildBasicResponse(2, "no existe el cliente " + id));
+            }
+        }catch (Exception e) {
+            Utils.printToLog(Clients.class, "Error manejando clients", "error creando clientbets para el client " + id, true, e, "support-level-1", Config.LOGGER_ERROR);
+            return internalServerError(buildBasicResponse(1, "Error buscando el registro", e));
+        }
+    }
+
+
+
+
+
+    /**
+     * Territorio de upstream
+     *
+     */
 
 
 

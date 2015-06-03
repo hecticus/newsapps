@@ -9,30 +9,43 @@
 angular
     .module('core')
     .controller('PredictionCtrl',  ['$http', '$rootScope', '$scope', '$state', '$localStorage', '$translate',
-        'Client', 'WebManager', '$window', 'Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
+        'Client', 'WebManager', '$window','Bets', 'Moment', 'iScroll', 'Competitions', 'Notification',
         function($http, $rootScope, $scope, $state, $localStorage, $translate, Client, WebManager, $window,
                  Bets, Moment, iScroll, Competitions, Notification) {
 
             $rootScope.$storage.settings = true;
+            $scope.hasCompetition = true;
             var scrollH = null;
             var vScrolls = [];
-            var _currentPage = 0;
+            var _currentPage = -1;
             var _Match = -1;
             var _mBet = -1;
             var strings = {};
 
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
+            $scope.getNameClient = Client.getNickname();
+            $scope.points = 0;
+            $scope.showSource = false;
+            $scope.getEndOfTime = function(date) {
+              if (date === undefined) {
+                return strings['NO_MATCH'];
+              } else {
+                return Moment.endOf(date);
+              }
+            }
 
             function getTranslations(){
 
               $translate(['ALERT.SET_BET.TITLE',
                           'ALERT.SET_BET.SUBTITLE',
-                          'ALERT.SET_BET.MSG'])
+                          'ALERT.SET_BET.MSG',
+                          'NO_MATCH'])
               .then(function(translation){
                   strings['SET_BET_TITLE'] = translation['ALERT.SET_BET.TITLE'];
                   strings['SET_BET_SUBTITLE'] = translation['ALERT.SET_BET.SUBTITLE'];
                   strings['SET_BET_MSG'] = translation['ALERT.SET_BET.MSG'];
+                  strings['NO_MATCH'] = translation['NO_MATCH'];
               });
 
             };
@@ -69,6 +82,7 @@ angular
             $scope.getTime = function (_date) {
                 return Moment.date(_date).format('HH:mm');
             };
+
 
             $scope.setBet = function (_status, _bet, _iLeague ,_iFixture, _iMatch) {
 
@@ -160,6 +174,8 @@ angular
                     Bets.get(league.id_competitions, function(data){
                         if (data.error == 0) {
                             data = data.response;
+
+
                             setGameStatus(data);
                             mapEmptyTeamNames(data.fixtures);
                             league.fixtures = data.fixtures;
@@ -190,17 +206,22 @@ angular
 
                 scrollH.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        getBets();
+                         getBets();
                         _currentPage = this.currentPage.pageX;
+                         $scope.showSource = false;
                     }
                 });
 
                 $scope.$on('onRepeatLast', function(scope, element, attrs) {
-                    vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
-                    $scope.$emit('unload');
+                    $scope.showSource = true;
+                    if(vScrolls != null && _currentPage >= 0) {
+                        vScrolls[_currentPage] = iScroll.vertical($scope.vWrapper.getName(_currentPage));
+                        $scope.$emit('unload');
+                    }
                 });
 
                 $scope.$on('$destroy', function() {
+
                     scrollH.destroy();
                     scrollH = null;
 
@@ -218,16 +239,18 @@ angular
                   $rootScope.transitionPageBack('#wrapperH', 'left');
               };
 
-
-
             function getCompetitions(){
-                Competitions.get().then(function(data){
-                    $scope.leagues  = data;
+                Competitions.getPrediction().then(function(data){
+                    $scope.points = data.points;
+                    $scope.leagues  = data.competitions;
+                    $scope.hasCompetition = $scope.leagues.length > 0;
                     $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();
-                    getBets();
+                }).finally(function(){
+                  $scope.$emit('unload');
                 });
+
             }
 
 
@@ -243,7 +266,9 @@ angular
                 $scope.$emit('load');
                 getTranslations();
                 getCompetitions();
-            } init();
+            }
+
+            init();
 
         }
     ]);

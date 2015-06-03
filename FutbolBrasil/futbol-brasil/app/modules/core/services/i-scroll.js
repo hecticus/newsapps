@@ -24,7 +24,7 @@ angular
                     $window[_wrapper] = new IScroll('#' + _wrapper, {
                         scrollX: true,
                         scrollY: false,
-                        mouseWheel: false,
+                        mouseWheel: true,
                         momentum: false,
                         snap: true,
                         snapSpeed: 700,

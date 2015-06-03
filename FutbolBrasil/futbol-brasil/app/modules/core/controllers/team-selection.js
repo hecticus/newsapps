@@ -81,26 +81,37 @@ angular
 
                 TeamsManager.getTeamsIdCompetition(id_competition, offset, pageSize).then(function(pTeams){
 
-
                     $scope.hasTeams = true;
                     //processTeams(pTeams);
                     teams = pTeams;
+                    getFilterFavoriteTeams();
                     $scope.teams = teams.slice(page.first, page.last);
-                    getFavTeams();
-
-                    $scope.$emit('unload');
-
+                    //getFavTeams();
 
                 }, function(){
                     $scope.hasTeams = false;
                     teams = [];
                     $scope.teams = teams;
-                    $scope.$emit('unload');
+                }).finally(function(){
+                  $scope.$emit('unload');
                 });
 
             }
 
-            function getFavTeams(){
+            function getFilterFavoriteTeams(){
+                var favTeams = TeamsManager.getFavoriteTeams();
+                favTeams.forEach(function(fTeams){
+                  teams.forEach(function(lTeams,index){
+                    if (fTeams.id_teams == lTeams.id_teams) {
+                      teams.splice(index, 1);
+                      console.log(JSON.stringify(lTeams) + ' -> index -> ' + index);
+                    }
+                  });
+                });
+            }
+
+
+            /*function getFavTeams(){
                 var favTeams = TeamsManager.getFavoriteTeams();
                 favTeams.forEach(function(elem){
                     var index = $scope.teams.indexOf(elem);
@@ -108,7 +119,7 @@ angular
                         $scope.teams.splice(index, 1);
                     }
                 });
-            }
+            }*/
 
             function showPrevPage(){
                 if(!$scope.searchQuery){
