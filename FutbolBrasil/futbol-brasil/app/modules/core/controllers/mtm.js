@@ -45,14 +45,15 @@ angular
             };
 
             function refreshSuccess(data){
-                console.log('$scope.item: ');
-                console.log($scope.item);
+
                 data = data.data;
                 var response = data.response;
                 if (data.error === 0) {
                     if (!!$scope.item.mtm && $scope.item.mtm.length == 0) {
                         $scope.item.mtm = response;
                     } else {
+
+                        console.warn('response.actions.length -> ' + response.actions.length);
 
                         if (response.actions.length >= 1) {
                           response.actions[0].events.forEach(function(_event) {
@@ -81,29 +82,31 @@ angular
 
             $scope.refreshEvents = function (competitionId, matchId) {
 
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = null;
+
                 $scope.refreshIconClass = ' icon-refresh-animate';
-                //if ($http.pendingRequests.length === 0) {
-                    $scope.$emit('load');
-                    var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-                    console.log(Domain.mtm(competitionId, matchId, _event.first));
-                    $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
-                        .then(refreshSuccess, refreshError);
 
-                   //if (angular.element('#wrapperM').hasClass('left')) {
-                     $rootScope.refreshInterval = $interval(function () {
-                         //console.log('$interval refreshEvents triggered.');
-                         $scope.refreshEvents(competitionId, matchId);
-                         $interval.cancel($rootScope.refreshInterval);
-                     },50000);
-                   //};
+                $scope.$emit('load');
+                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
+                console.log(Domain.mtm(competitionId, matchId, _event.first));
+                $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
+                    .then(refreshSuccess, refreshError);
 
-               // }
+
+                 $rootScope.refreshInterval = $interval(function () {
+                     console.warn('$interval refreshEvents triggered.');
+                     $scope.refreshEvents(competitionId, matchId);
+                     $interval.cancel($rootScope.refreshInterval);
+                 },20000);
+
+
             };
 
             $scope.showContentEvents = function (_league, _match) {
 
                 if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
-                  _event.reset();
+
                   $scope.item.mtm = [];
                   $scope.item.league = _league;
                   $scope.item.match = {
@@ -120,7 +123,7 @@ angular
                   var matchId = _match.id_game_matches;
                   $scope.competitionId = competitionId;
                   $scope.matchId = matchId;
-
+                  _event.reset();
                   $scope.refreshEvents(competitionId, matchId);
                 }
             };

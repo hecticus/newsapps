@@ -115,7 +115,8 @@
 
     <div class="row row-header h-header red">
       <div class="col-xs-12">
-        <span ng-bind="item.league.name"></span>
+        <img class="h-shield h-tree" ng-src="{{getCompetitionShield(item.league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
+        <span ng-bind="item.league.competiton_type.name"></span>
           <span ng-class="refreshIconClass" ng-click="refreshEvents(competitionId, matchId)" style="position: absolute; right: 10px;">
               <i class="icon mdi-navigation-refresh" style="vertical-align: middle;"></i>
           </span>
