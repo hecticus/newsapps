@@ -36,6 +36,7 @@ angular
             $rootScope.hideLoading = hideLoading;
             $rootScope.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion));
             $rootScope.isWebPlatform  = CordovaDevice.isWebPlatform;
+            $rootScope.getDeviceId  = CordovaDevice.getDeviceId;
 
             $rootScope.getCompetitionShield = function (logo) {
               var ext = (($rootScope.isBadAndroid) ? '.png' : '.svg');
