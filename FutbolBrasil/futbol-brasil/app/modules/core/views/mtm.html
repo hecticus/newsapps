@@ -90,7 +90,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="event in action.events  track by event.id_game_match_events" class="h-event" >
+                        <!--tr ng-repeat="event in action.events  track by event.id_game_match_events" class="h-event" -->
+                        <tr ng-repeat="event in action.events" class="h-event">
                             <td style="width: 20% !important;" >
                                 <span class="h-minute-match" >{{event.action_minute}}'</span>
                             </td>
