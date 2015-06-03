@@ -25,11 +25,13 @@
 
                         <span class="badge disabled"
                               ng-class="{'disabled': isActive('competition{{$index}}')}"
-                              ng-click="showTournament()">{{'LEADERBOARD.TOURNAMENT' | translate}}</span>
+                              ng-click="showTournament()"
+                              ng-hide="$index === 0">{{'LEADERBOARD.TOURNAMENT' | translate}}</span>
 
                         <span class="badge"
                               ng-class="{'disabled': isActive('phase{{$index}}')}"
-                              ng-click="showPhase()" translate>{{'LEADERBOARD.PHASE' | translate}}</span>
+                              ng-click="showPhase()"
+                              ng-hide="$index === 0">{{'LEADERBOARD.PHASE' | translate}}</span>
 
                       </div>
 
