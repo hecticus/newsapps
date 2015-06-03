@@ -68,7 +68,8 @@
         "POINTS" : "Puntos",
         "HITS" : "Aciertos",
         "MY_POINTS" : "Mis Puntos",
-        "SCORE" : "Puntuación"
+        "SCORE" : "Puntuación",
+        "GENERAL" : "General"
     },
     "EMPTY_STATES" : {
         "LIVE" : "No hay juegos programados para hoy",

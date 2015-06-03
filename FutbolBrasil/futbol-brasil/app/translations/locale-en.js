@@ -68,7 +68,8 @@
         "POINTS" : "Points",
         "HITS" : "Hits",
         "MY_POINTS" : "My Points",
-        "SCORE" : "Score"
+        "SCORE" : "Score",
+        "GENERAL" : "General"
     },
     "EMPTY_STATES" : {
         "LIVE" : "There are no games for today",
@@ -259,5 +260,6 @@
     "LOGOUT" : "Log Out",
     "READY" : "Skip tutorial",
     "NO_MATCH" : "season finished",
+    "TITLE_NEXT_MATCH" : "Next",
     "TITLE_NEXT_MATCH" : "Next"
 }
