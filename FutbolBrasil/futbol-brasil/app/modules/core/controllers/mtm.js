@@ -97,7 +97,6 @@ angular
                  $rootScope.refreshInterval = $interval(function () {
                      console.warn('$interval refreshEvents triggered.');
                      $scope.refreshEvents(competitionId, matchId);
-                     $interval.cancel($rootScope.refreshInterval);
                  },20000);
 
 
