@@ -27,8 +27,8 @@ angular
             $scope.hasFriends = true;
             $scope.hasLeaderboard = true;
 
+            $scope.isContentLeader = true;
 
-            $rootScope.$storage.leaderboard = false;
 
 
             function setActive(type) {
@@ -205,6 +205,7 @@ angular
                 $scope.$emit('load');
 
                 if(viewFriends){
+                    $scope.isContentLeader = false;
                     friendsMode = true;
                     getFbFriends();
                 }

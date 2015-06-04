@@ -12,9 +12,10 @@
                       </div>
                       <div class="col-xs-8 h-ellipsis-truncate">
                         <img class="h-shield h-tree" ng-src="{{getCompetitionShield(competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
-                        <span ng-hide="$index===0" ng-bind="competition.competiton_type.name" class="caption"></span>
-                        <span ng-show="$index===0" class="caption" translate>LEADERBOARD.GENERAL</span>
+                        <span ng-hide="($index===0 && isContentLeader)" ng-bind="competition.competiton_type.name" class="caption"></span>
+                        <span ng-show="($index===0 && isContentLeader)" class="caption" translate>LEADERBOARD.GENERAL</span>
                       </div>
+
                       <div class="col-xs-2" ng-click="nextPage($index)">
                         <span class="mdi-navigation-arrow-forward" ng-hide="item.competitions[$index+1].name === undefined"></span>
                       </div>
@@ -22,17 +23,17 @@
 
 
                     <div class="row " style="margin: 0 !important;">
-                      <div class="col-xs-12 h-header red" style="text-align:right;" ng-hide="$index===0">
+                      <div class="col-xs-12 h-header red" style="text-align:right;" ng-hide="($index===0 && isContentLeader)">
 
                         <span class="badge disabled"
                               ng-class="{'disabled': isActive('competition{{$index}}')}"
                               ng-click="showTournament()"
-                              ng-hide="$index === 0">{{'LEADERBOARD.TOURNAMENT' | translate}}</span>
+                              ng-hide="($index===0 && isContentLeader)">{{'LEADERBOARD.TOURNAMENT' | translate}}</span>
 
                         <span class="badge"
                               ng-class="{'disabled': isActive('phase{{$index}}')}"
                               ng-click="showPhase()"
-                              ng-hide="$index === 0">{{'LEADERBOARD.PHASE' | translate}}</span>
+                              ng-hide="($index===0 && isContentLeader)">{{'LEADERBOARD.PHASE' | translate}}</span>
 
                       </div>
 
@@ -48,7 +49,7 @@
                           <div class="row">
                             <div class="col-xs-12" >
                               <table class="table h-table">
-                                <thead>
+                                  <thead>
                                   <tr>
                                     <th class="h-header yellow" style="width:20%"  >##</th>
                                     <th class="h-header yellow left" style="width:60%" translate>LEADERBOARD.PLAYER</th>
