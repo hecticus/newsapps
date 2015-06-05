@@ -63,7 +63,7 @@ angular
             }
 
             function getHeaders() {
-                var jLoading = JSON.parse($localStorage['LOADING']);
+                //var jLoading = JSON.parse($localStorage['LOADING']);
                 var companyName = App.getCompanyName();
                 var buildVersion = App.getBuildVersion();
                 var serverVersion = App.getServerVersion();
@@ -71,11 +71,11 @@ angular
                 var auth = "";
                 try {
 
-                    if ($localStorage['LOADING']) {
+                    /*if ($localStorage['LOADING']) {
                        companyName = jLoading.company_name;
                        buildVersion = jLoading.build_version;
                        serverVersion = jLoading.server_version;
-                    }
+                    }*/
 
                     auth = companyName + getAppender(buildVersion.charAt(0))
                         + buildVersion + getAppender(serverVersion.charAt(0))
