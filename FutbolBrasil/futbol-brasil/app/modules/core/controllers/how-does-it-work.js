@@ -12,8 +12,6 @@ angular
        '$scope', '$localStorage', '$timeout', 'iScroll',
        function($scope, $localStorage, $timeout, iScroll) {
 
-               //var jLoading = JSON.parse($localStorage['LOADING']);
-
                function init(){
 
                   //$scope.$emit('load');

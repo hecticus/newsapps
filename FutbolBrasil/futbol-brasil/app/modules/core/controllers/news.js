@@ -61,14 +61,14 @@ angular
 
             function showContentNews(_news) {
 
-                $scope.contentNewsImg = '';
+                $scope.contentNewsImg = null;
 
                 if(_news) {
                     if ((!$scope.isGuest() && $scope.isActiveClient()) ||
                         (($scope.isGuest() || !$scope.isActiveClient()) && News.canViewNews(_news))) {
                         $scope.contentNews = $scope.news[$scope.news.indexOf(_news)];
                         $scope.contentNews.body = $scope.contentNews.body.replace(/\n/g, '<br/><br/>');
-                        $scope.contentNewsImg = '';
+                        $scope.contentNewsImg = null;
                         if (_news.resources != undefined) $scope.contentNewsImg = _news.resources.mid[0];
                         $rootScope.transitionPageBack('#wrapper2', 'left');
                         $rootScope.isPageContentLeft = angular.element('#wrapper2').hasClass('left');

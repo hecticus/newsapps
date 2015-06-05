@@ -174,6 +174,11 @@ angular
                 },
 
                 leaderboard:  {
+
+                    total: function() {
+                        return 'http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/clients/leaderboard/total/8';
+                    },
+
                     phase: function (_competition, _phase) {
                         return brazil_football_manager_url+ 'futbolbrasil/'
                             + apiVersion + '/clients/leaderboard/get/'
@@ -187,6 +192,7 @@ angular
                     },
 
                     personal : {
+
                         competition: function() {
                             return brazil_football_manager_url
                                 + 'futbolbrasil/'
