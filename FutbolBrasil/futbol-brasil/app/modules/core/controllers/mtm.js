@@ -49,11 +49,11 @@ angular
                 data = data.data;
                 var response = data.response;
                 if (data.error === 0) {
+
                     if (!!$scope.item.mtm && $scope.item.mtm.length == 0) {
                         $scope.item.mtm = response;
                     } else {
 
-                        console.warn('response.actions.length -> ' + response.actions.length);
 
                         if (response.actions.length >= 1) {
                           response.actions[0].events.forEach(function(_event) {
@@ -69,9 +69,12 @@ angular
 
                     $scope.item.match.home.goals = response.home_team_goals;
                     $scope.item.match.away.goals = response.away_team_goals;
+                    $scope.item.match.status = {id_status:response.status.id_status,name: 'MATCH.STATUS.' + response.status.id_status};
                 }
+
                 $scope.$emit('unload');
                 $scope.refreshIconClass = '';
+
             }
 
             function refreshError(){
@@ -85,20 +88,22 @@ angular
                 $interval.cancel($rootScope.refreshInterval);
                 $rootScope.refreshInterval = null;
 
-                $scope.refreshIconClass = ' icon-refresh-animate';
-
-                $scope.$emit('load');
-                var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-                console.log(Domain.mtm(competitionId, matchId, _event.first));
-                $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
-                    .then(refreshSuccess, refreshError);
 
 
-                 $rootScope.refreshInterval = $interval(function () {
-                     console.warn('$interval refreshEvents triggered.');
-                     $scope.refreshEvents(competitionId, matchId);
-                 },20000);
+                  $scope.refreshIconClass = ' icon-refresh-animate';
+                  $scope.$emit('load');
 
+                  var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
+
+                  $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
+                      .then(refreshSuccess, refreshError);
+
+                  if ($scope.item.match.status.id_status === 2) {
+                     $rootScope.refreshInterval = $interval(function () {
+                         console.warn('$interval refreshEvents triggered.');
+                         $scope.refreshEvents(competitionId, matchId);
+                     },20000);
+                  }
 
             };
 
@@ -108,10 +113,11 @@ angular
 
                   $scope.item.mtm = [];
                   $scope.item.league = _league;
+
                   $scope.item.match = {
                       home: {name:_match.homeTeam.name, goals:_match.home_team_goals, logo:_match.homeTeam.team_logo},
                       away: {name:_match.awayTeam.name, goals:_match.away_team_goals, logo:_match.awayTeam.team_logo},
-                      status: {id:_match.id_status,name:_match.status}
+                      status: {id_status:_match.id_status,name:_match.status}
                   };
 
                   $rootScope.transitionPageBack('#wrapper2','left');
@@ -149,7 +155,7 @@ angular
                 config.params.page = 0;
 
 
-                //date = '20150531';
+                date = '20150531';
 
                 $http.get(Domain.match(date), config).then(
                     function (data) {

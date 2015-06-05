@@ -22,7 +22,6 @@ angular
             var widthTotal = $window.innerWidth;
             var scroll = null;
             var vScrolls = [];
-            var viewFriends = ($state.current.data.contentClass === 'content-friends');
             $scope.item = {};
             $scope.hasFriends = true;
             $scope.hasLeaderboard = true;
@@ -75,8 +74,7 @@ angular
                 setActive('competition' + scroll.currentPage.pageX);
                 var idCompetition = $scope.item.competitions[scroll.currentPage.pageX].id_competitions;
 
-                if ((idCompetition === 0) &&
-                   (!viewFriends)) {
+                if (idCompetition === 0) {
                    getLeaderboardIndex(Domain.leaderboard.total());
                 } else {
                   getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
@@ -92,7 +90,6 @@ angular
                 var competition = $scope.item.competitions[_page];
                 competition.leaderboard = [];
 
-                console.log('_url -> ' + _url);
                 $http.get(_url, config)
                     .then(function (data) {
                        if(data.data.error === 0){
@@ -147,10 +144,10 @@ angular
 
                 Competitions.get().then(function(competitions){
 
-                      if(!viewFriends){
-                        var arrTotal = {'id_competitions' : 0, 'name': 'General', 'competiton_type': {'name': 'General','competition_logo':'img/shield-2.png'}};
-                        competitions.unshift(arrTotal);
-                      }
+
+                      var arrTotal = {'id_competitions' : 0, 'name': 'General', 'competiton_type': {'name': 'General','competition_logo':'img/shield-2.png'}};
+                      competitions.unshift(arrTotal);
+
 
                       $scope.item.competitions = competitions;
                       widthTotal = ($window.innerWidth * competitions.length);
@@ -202,9 +199,7 @@ angular
 
             function init(){
 
-                $scope.$emit('load');
-
-                if(viewFriends){
+                if($state.current.data.contentClass === 'content-friends'){
                     $scope.isContentLeader = false;
                     friendsMode = true;
                     getFbFriends();
