@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import controllers.HecticusController;
-import exceptions.UpstreamAuthenticationFailureException;
 import exceptions.UpstreamException;
 import models.basic.Config;
 import models.basic.Country;
@@ -19,6 +18,7 @@ import models.leaderboard.LeaderboardGlobal;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
+import play.Logger;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -2023,11 +2023,17 @@ public class Clients extends HecticusController {
             fields.put("event_type", event_type); //agregamos el evento
             fields.put("timestamp", formatDateUpstream()); //agregamos el time
 
-            System.out.println("STATUS FIELDS " + fields.toString());
+           //audit log for points
+            upstreamRequestLogger(client, metadata, event_type);
 
             //realizamos la llamada al WS
             F.Promise<play.libs.ws.WSResponse> resultWS = urlCall.post(fields);
             WSResponse wsResponse = resultWS.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS);
+
+            //audit log for responses
+            upstreamResponseLogger(client, wsResponse, event_type);
+
+            //check response
             checkUpstreamResponseStatus(wsResponse, client, fields.toString());
             ObjectNode fResponse = Json.newObject();
             fResponse = (ObjectNode)wsResponse.asJson();
@@ -2230,5 +2236,28 @@ public class Clients extends HecticusController {
         ObjectNode response = Json.newObject();
         response.put("result",0);
         return ok(response);
+    }
+
+    private static void upstreamRequestLogger(Client client, ObjectNode metadata, String eventType) {
+        try {
+            if (eventType.equalsIgnoreCase("UPD_POINTS")){
+                //log event
+                Logger.of("upstream").trace("id_client:" + client.getIdClient() + " metadata: "+metadata.toString());
+            }//else skip
+        }catch (Exception ex){
+            //do nothing catch to avoid interruptions
+        }
+    }
+
+    private static void upstreamResponseLogger(Client client, WSResponse wsResponse, String eventType){
+        try {
+            if (eventType.equalsIgnoreCase("UPD_POINTS")){
+                int httpResponse = wsResponse.getStatus();
+                //log event
+                Logger.of("upstream").trace("id_client:" + client.getIdClient() + " status:"+httpResponse);
+            }//else skip
+        }catch (Exception ex){
+            //do nothing catch to avoid interruptions
+        }
     }
 }
