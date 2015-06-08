@@ -126,6 +126,8 @@ angular
                         } else {
                             Notification.showNetworkErrorAlert();
                         }
+                    }).finally(function() {
+                        $scope.$emit('unload');
                     });
             }
 
@@ -164,7 +166,7 @@ angular
                       });
 
                 }).finally(function() {
-                  $scope.$emit('unload');
+
                 });
             }
 
@@ -198,7 +200,7 @@ angular
             }
 
             function init(){
-
+                $scope.$emit('load');
                 if($state.current.data.contentClass === 'content-friends'){
                     $scope.isContentLeader = false;
                     friendsMode = true;
