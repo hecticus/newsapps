@@ -22,12 +22,12 @@ angular
             var widthTotal = $window.innerWidth;
             var scroll = null;
             var vScrolls = [];
-
             $scope.item = {};
             $scope.hasFriends = true;
             $scope.hasLeaderboard = true;
 
-            $rootScope.$storage.leaderboard = false;
+            $scope.isContentLeader = true;
+
 
 
             function setActive(type) {
@@ -70,17 +70,26 @@ angular
             };
 
             $scope.showTournament = function(){
+
                 setActive('competition' + scroll.currentPage.pageX);
                 var idCompetition = $scope.item.competitions[scroll.currentPage.pageX].id_competitions;
-                getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+
+                if (idCompetition === 0) {
+                   getLeaderboardIndex(Domain.leaderboard.total());
+                } else {
+                  getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+                }
+
             };
 
             function getLeaderboardIndex(_url){
+
                 $scope.$emit('load');
                 $scope.hasLeaderboard = true;
                 var _page =  scroll.currentPage.pageX;
                 var competition = $scope.item.competitions[_page];
                 competition.leaderboard = [];
+
                 $http.get(_url, config)
                     .then(function (data) {
                        if(data.data.error === 0){
@@ -88,17 +97,22 @@ angular
                          $scope.hasLeaderboard = true;
                          data = data.data;
                          competition.leaderboard = data.response.leaderboard;
-                         competition.leaderboard.forEach(function(_item, _index) {
-                             _item.index = (_index + 1);
+                         competition.leaderboard.forEach(function(item, index) {
+                            item.index = (index + 1);
                          });
 
                          competition.client = data.response.client;
-                         competition.client.index = competition.client.index + 1;
-
-                         if(competition.client.index >= competition.leaderboard.length){
-                             competition.leaderboard.push({client:'...',score:'...', index: '...'});
-                             competition.leaderboard.push(competition.client)
+                         if (competition.leaderboard.length === 1) {
+                            if (competition.leaderboard[0].id_client !== competition.client.id_client) {
+                              competition.client.index = competition.client.index + 1;
+                              competition.leaderboard.push(competition.client);
+                            }
+                         } else if(competition.leaderboard.length <= competition.client.index) {
+                            competition.client.index = competition.client.index + 1;
+                            competition.leaderboard.push({client:'...',score:'...', index: '...'});
+                            competition.leaderboard.push(competition.client);
                          }
+
 
                        } else {
                           $scope.hasLeaderboard = false;
@@ -118,15 +132,7 @@ angular
             function getFbFriends(){
                 if(!!$window.facebookConnectPlugin){
                     FacebookManager.getFriends(function(friends){
-//                            console.log('getFriends Callback. friends: ');
-//                            console.log(friends);
-//                            console.log('getFriends Callback. Client.getFriends(): ');
-//                            console.log(Client.getFriends());
-//                            console.log('getFriends Callback. Client.friendsIds: ');
-//                            console.log(Client.getFriendsIds());
                         $scope.hasFriends = friends && (Client.getFriendsIds().length > 0);
-//                            console.log('friendsMode && !hasFriends');
-//                            console.log(friendsMode && !$scope.hasFriends);
                     });
                     config.params.friends = Client.getFriendsIds();
                 } else {
@@ -135,38 +141,30 @@ angular
             }
 
             function getCompetitions(){
+
                 Competitions.get().then(function(competitions){
-                    widthTotal = ($window.innerWidth * competitions.length);
-                    $scope.item.competitions = competitions;
-                    $scope.item.competitions.forEach(function(competition) {
-                            var date = Moment.date().format('YYYYMMDD');
 
 
-                            Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
-                            .then(function (phases) {
-                                if (phases.last_phase) {
-                                  competition.phase = phases.last_phase.id_phases;
-                                  if (competition.phase.type != 1) $scope.showTournament();
-                                }
-                            }, function(){
-                                //Notification.showNetworkErrorAlert();
-                                $scope.$emit('unload');
-                            });
-
-                            /*Competitions.getPhase(competition)
-                            .then(function (phases) {
-                                if (phases) {
-                                  competition.phase = phases[phases.length - 1].id_phases;
-                                  //if (competition.phase.type != 1) $scope.showTournament();
-                                  $scope.showTournament();
-                                }
-                            }, function(){
-                                //Notification.showNetworkErrorAlert();
-                                $scope.$emit('unload');
-                            });*/
+                      var arrTotal = {'id_competitions' : 0, 'name': 'General', 'competiton_type': {'name': 'General','competition_logo':'img/shield-2.png'}};
+                      competitions.unshift(arrTotal);
 
 
-                    });
+                      $scope.item.competitions = competitions;
+                      widthTotal = ($window.innerWidth * competitions.length);
+
+                     $scope.item.competitions.forEach(function(competition) {
+                          var date = Moment.date().format('YYYYMMDD');
+                          Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
+                          .then(function (phases) {
+                              if (phases.last_phase) {
+                                competition.phase = phases.last_phase.id_phases;
+                                if (competition.phase.type != 1) $scope.showTournament();
+                              }
+                          });
+                      });
+
+                }).finally(function() {
+                  $scope.$emit('unload');
                 });
             }
 
@@ -183,8 +181,8 @@ angular
 
                 scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        $scope.showTournament(this.currentPage.pageX);
-                        _currentPage = this.currentPage.pageX;
+                      $scope.showTournament(this.currentPage.pageX);
+                      _currentPage = this.currentPage.pageX;
                     }
                 });
 
@@ -200,8 +198,9 @@ angular
             }
 
             function init(){
-                $scope.$emit('load');
+
                 if($state.current.data.contentClass === 'content-friends'){
+                    $scope.isContentLeader = false;
                     friendsMode = true;
                     getFbFriends();
                 }

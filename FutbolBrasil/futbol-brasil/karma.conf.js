@@ -30,11 +30,12 @@ module.exports = function(config) {
             'app/lib/moment/moment.js',
             'app/lib/bootstrap-material-design/dist/js/material.js',
             'app/lib/bootstrap-material-design/dist/js/ripples.js',
-            'app/lib/iscrolltest/build/iscroll-probe.js',
             'app/lib/angular-translate/angular-translate.js',
             'app/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'app/lib/angular-socialsharing/dist/angular-socialsharing.js',
             'app/lib/angular-translate-loader-url/angular-translate-loader-url.js',
+            'app/lib/iscroll/build/iscroll-probe.js',
+            'app/lib/Flowtype.js/flowtype.js',
             <!-- endinjector -->
 
             'app/js/iscroll-probe.js',

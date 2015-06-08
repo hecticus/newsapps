@@ -1,3 +1,3 @@
 #grunt build
-bower update
+#bower update
 cordova build android

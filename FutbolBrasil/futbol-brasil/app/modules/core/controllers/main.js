@@ -9,12 +9,15 @@
 angular
     .module('core')
     .controller('MainCtrl', ['$rootScope', '$scope', '$state', '$localStorage', '$interval',
-        '$timeout', '$window', '$translate', 'Client', 'CordovaApp',
+        '$timeout', '$window', '$translate', 'Client', 'CordovaApp','CordovaDevice',
         function($rootScope, $scope, $state, $localStorage, $interval, $timeout, $window, $translate,
-               Client, CordovaApp) {
+               Client, CordovaApp, CordovaDevice) {
 
-            $('body').flowtype();
-
+            $('body').flowtype({
+                minimum : 320,
+                maximum : 1200
+            });
+            //$('body').flowtype();
             $rootScope.refreshInterval = null;
             $rootScope.$storage = $localStorage;
             $rootScope.hasFavorites = false;
@@ -31,6 +34,14 @@ angular
             $rootScope.clickPage = clickPage;
             $rootScope.isPageContentLeft = false;
             $rootScope.hideLoading = hideLoading;
+            $rootScope.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion));
+            $rootScope.isWebPlatform  = CordovaDevice.isWebPlatform;
+            $rootScope.getDeviceId  = CordovaDevice.getDeviceId;
+
+            $rootScope.getCompetitionShield = function (logo) {
+              var ext = (($rootScope.isBadAndroid) ? '.png' : '.svg');
+              return logo + ext;
+            }
 
             $scope.toggles = {
                 favorites: true
@@ -67,8 +78,10 @@ angular
                   || (getSection() === 'tutorial')
                   || (getSection() === 'language-selection')
                   || (getSection() === 'team-selection')
+                  || (getSection() === 'dashboard')
                   || ($('.content-news #wrapper2').hasClass('left'))
                   || ($rootScope.hasFavorites === false)) {
+
                 return true;
               } else {
                 return false;
@@ -87,6 +100,7 @@ angular
             function hideMenuIcon() {
               if (((getSection() === 'login') && !hasPreviousSubsection())
                   || (getSection() === 'tutorial')
+                  || (getSection() === 'dashboard')
                   || ((getSection() === 'settings') &&
                       (!$rootScope.$storage.settings))) {
                 return true;
@@ -121,6 +135,9 @@ angular
             function onMenuButtonPressed(){
 
                 $scope.$emit('load');
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = null;
+
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 
@@ -131,10 +148,11 @@ angular
                 //if(hasPreviousSubsection || CordovaApp.isOnUtilitySection()) {
                 if(hasPreviousSubsection) {
                      angular.element('.page.back.left:last').attr('class', ' page transition right');
+                     $rootScope.isPageContentLeft = false;
                      $scope.$emit('unload');
                 } else if (CordovaApp.isOnUtilitySection()) {
-                  CordovaApp.onBackButtonPressed();
-                  $scope.$emit('unload');
+                    CordovaApp.onBackButtonPressed();
+                    $scope.$emit('unload');
                 } else if (menuWrapper.hasClass('leftShort')) {
                     $scope.showMenu();
                 } else if (menuWrapper.hasClass('rightShort')) {
@@ -149,6 +167,7 @@ angular
             function showSection(_section) {
                 if (_section == $state.current.name) {
                   if ($('#wrapperM').hasClass('rightShort')) {
+                    $scope.$emit('unload');
                     $scope.hideMenu();
                   }
                 } else {

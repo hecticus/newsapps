@@ -8,9 +8,9 @@
  */
 angular
     .module('core')
-    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$interval', 'WebManager',
+    .controller('MtmCtrl', ['$http','$rootScope','$scope','$state','$localStorage', '$interval',  '$stateParams', 'WebManager',
         'Domain', 'Moment', 'iScroll', 'Notification',
-        function($http, $rootScope, $scope, $state, $localStorage, $interval, WebManager,
+        function($http, $rootScope, $scope, $state, $localStorage, $interval, $stateParams, WebManager,
                  Domain, Moment, iScroll, Notification) {
 
             $rootScope.refreshInterval = null;
@@ -25,6 +25,7 @@ angular
                 }
             };
 
+            $scope.showSource = false;
             $scope.item = {};
             $scope.item.mtm = [];
             $scope.item.mtm.actions = [];
@@ -37,7 +38,6 @@ angular
             $scope.competitionId = 0;
             $scope.matchId = 0;
 
-
             $scope.date = Moment.date().format('dddd Do YYYY');
 
             $scope.getTime = function (_date) {
@@ -45,24 +45,36 @@ angular
             };
 
             function refreshSuccess(data){
-                console.log('$scope.item: ');
-                console.log($scope.item);
+
                 data = data.data;
                 var response = data.response;
                 if (data.error === 0) {
+
                     if (!!$scope.item.mtm && $scope.item.mtm.length == 0) {
                         $scope.item.mtm = response;
                     } else {
-                        response.actions[0].events.forEach(function(_event) {
-                            $scope.item.mtm.actions[0].events.unshift(_event);
-                        });
+
+
+                        if (response.actions.length >= 1) {
+                          response.actions[0].events.forEach(function(_event) {
+                              $scope.item.mtm.actions[0].events.unshift(_event);
+                          });
+                        }
+
                     }
-                    _event.first = response.actions[0].events[0].id_game_match_events;
+
+                    if (response.actions.length >= 1) {
+                      _event.first = response.actions[0].events[0].id_game_match_events;
+                    }
+
                     $scope.item.match.home.goals = response.home_team_goals;
                     $scope.item.match.away.goals = response.away_team_goals;
+                    $scope.item.match.status = {id_status:response.status.id_status,name: 'MATCH.STATUS.' + response.status.id_status};
                 }
+
                 $scope.$emit('unload');
                 $scope.refreshIconClass = '';
+
             }
 
             function refreshError(){
@@ -73,34 +85,39 @@ angular
 
             $scope.refreshEvents = function (competitionId, matchId) {
 
-                $scope.refreshIconClass = ' icon-refresh-animate';
-                //if ($http.pendingRequests.length === 0) {
-                    $scope.$emit('load');
-                    var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-                    console.log(Domain.mtm(competitionId, matchId, _event.first));
-                    $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
-                        .then(refreshSuccess, refreshError);
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = null;
 
-                   if (angular.element('#wrapperM').hasClass('left')) {
+
+
+                  $scope.refreshIconClass = ' icon-refresh-animate';
+                  $scope.$emit('load');
+
+                  var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
+
+                  $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
+                      .then(refreshSuccess, refreshError);
+
+                  if ($scope.item.match.status.id_status === 2) {
                      $rootScope.refreshInterval = $interval(function () {
-                         //console.log('$interval refreshEvents triggered.');
+                         console.warn('$interval refreshEvents triggered.');
                          $scope.refreshEvents(competitionId, matchId);
-                         $interval.cancel($rootScope.refreshInterval);
-                     },50000);
-                   };
+                     },20000);
+                  }
 
-               // }
             };
 
             $scope.showContentEvents = function (_league, _match) {
+
                 if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
-                  _event.reset();
+
                   $scope.item.mtm = [];
                   $scope.item.league = _league;
+
                   $scope.item.match = {
-                      home: {name:_match.homeTeam.name, goals:_match.home_team_goals},
-                      away: {name:_match.awayTeam.name, goals:_match.away_team_goals},
-                      status: {id:_match.id_status,name:_match.status}
+                      home: {name:_match.homeTeam.name, goals:_match.home_team_goals, logo:_match.homeTeam.team_logo},
+                      away: {name:_match.awayTeam.name, goals:_match.away_team_goals, logo:_match.awayTeam.team_logo},
+                      status: {id_status:_match.id_status,name:_match.status}
                   };
 
                   $rootScope.transitionPageBack('#wrapper2','left');
@@ -111,7 +128,7 @@ angular
                   var matchId = _match.id_game_matches;
                   $scope.competitionId = competitionId;
                   $scope.matchId = matchId;
-
+                  _event.reset();
                   $scope.refreshEvents(competitionId, matchId);
                 }
             };
@@ -137,18 +154,36 @@ angular
                 config.params.pageSize = 100;
                 config.params.page = 0;
 
+
+                //date = '20150531';
+
                 $http.get(Domain.match(date), config).then(
                     function (data) {
+
                         var response = data.data.response;
                         if(response && response.leagues.length > 0){
                             $scope.hasGamesForToday = true;
                             mapLeagues(response.leagues);
                             $scope.item = response;
+
+                            if($stateParams.matchId){
+                              $scope.item.leagues.forEach(function(league){
+                                league.fixtures.forEach(function(match){
+                                      if ($stateParams.matchId ==match.id_game_matches) {
+                                        $scope.showContentEvents(league, match);
+                                      }
+                                });
+                              });
+                            }
+
+
                         } else {
                             $scope.hasGamesForToday = false;
                             console.log('No info on response');
                         }
+
                         $scope.$emit('unload');
+
                     }, function () {
                         $scope.hasGamesForToday = false;
                         Notification.showNetworkErrorAlert();
@@ -169,6 +204,10 @@ angular
                     matchScroll = null;
                 });
             }
+
+            $scope.$on('onRepeatLast', function(scope, element, attrs) {
+              $scope.showSource = true;
+            });
 
             function init(){
 

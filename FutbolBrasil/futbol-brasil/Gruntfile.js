@@ -210,6 +210,7 @@ module.exports = function(grunt) {
                         'app/managers/*/*.js',
                         'app/js/pt.js',
                         'app/js/es.js',
+                        'app/js/en.js',
                         'app/js/config.js',
                         'app/js/application.js',
                         'app/modules/*/*.js',

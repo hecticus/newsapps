@@ -47,11 +47,12 @@ angular
         }
     ])
     .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
-        'Notification', 'Analytics', '$templateCache',
+        'Notification', 'Analytics', '$templateCache','FacebookManager',
         function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
-                 Notification, Analytics, $templateCache) {
+                 Notification, Analytics, $templateCache, FacebookManager) {
 
             CordovaApp.init();
+            $rootScope.defaultPage = 'prediction';
             $rootScope.contentClass = 'content-init';
             $rootScope.$storage = $localStorage.$default({
                 news: false,
@@ -79,27 +80,38 @@ angular
                                 $state.go('login');
                             }
                         }, CordovaApp.errorStartApp);
+                    } else {
+
+                        if (toState.data.state === 'friends') {
+
+
+                          if(!!window.facebookConnectPlugin) {
+                              FacebookManager.getStatus(function (result) {
+                                  if (result) {
+                                      if (result.status !== 'connected') {
+                                          Notification.showQuestionFacebookDialog();
+                                      }
+                                  }
+                              });
+                          }
+                        };
+
                     }
 
-                    if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
-                        //console.log("Blocked: isGuest",Client.isGuest());
+                    /*if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
+
                         if(Client.isGuest()){
                             Notification.showLockedSectionDialog();
                         } else {
-                            /*Notification.showInfoAlert({
-                                title: "Blocked",
-                                subtitle: "Blocked",
-                                message: "Blocked",
-                                type: 'warning'
-                            });*/
                             Notification.showLockedSectionNotEligible();
                         }
 
                         event.preventDefault();
                         $rootScope.hideLoading();
-                    }
+                    }*/
 
                     $rootScope.isActiveButton = 'active';
+
                 } else {
                     $rootScope.isActiveButton = '';
                 }

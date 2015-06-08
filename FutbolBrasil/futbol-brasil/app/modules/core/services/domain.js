@@ -71,6 +71,10 @@ angular
                 competitions: football_manager_url + 'footballapi/'
                     + apiVersion + '/competitions/list/' + appId + '/' + getLang(),
 
+                competitionsPrediction:  function (clientId) {
+                    return brazil_football_manager_url + 'futbolbrasil/' + apiVersion + '/clients/dashboard/' +  clientId + '/' + getLang()
+                },
+
                 news: {
                     index: function () {
                         return football_manager_url + 'newsapi/'
@@ -156,6 +160,13 @@ angular
                             + apiVersion + '/clients/bets/get/'
                             + getClientId() + '/' + _competition + '?timezoneName=' + getGMT();
                     },
+
+                    getToday: function (_date) {
+                      return brazil_football_manager_url + 'futbolbrasil/'
+                          + apiVersion + '/clients/bets/get/date/'
+                          + getClientId() + '/' + _date + '?timezoneName=' + getGMT();
+                    },
+
                     create : function() {
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + 'v2' + '/client/' + getClientId() + '/bet';
@@ -163,6 +174,11 @@ angular
                 },
 
                 leaderboard:  {
+
+                    total: function() {
+                        return 'http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/clients/leaderboard/total/8';
+                    },
+
                     phase: function (_competition, _phase) {
                         return brazil_football_manager_url+ 'futbolbrasil/'
                             + apiVersion + '/clients/leaderboard/get/'
@@ -176,6 +192,7 @@ angular
                     },
 
                     personal : {
+
                         competition: function() {
                             return brazil_football_manager_url
                                 + 'futbolbrasil/'

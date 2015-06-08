@@ -36,7 +36,21 @@ angular
                     strings['LOCKED_SECTION_CANCEL'] = translation['ALERT.LOCKED_SECTION.CANCEL'];
                 });
             }
-            
+
+            function getTranslationsFacebook(){
+                $translate(['ALERT.FACEBOOK.TITLE',
+                            'ALERT.FACEBOOK.MSG',
+                            'ALERT.FACEBOOK.CONFIRM',
+                            'ALERT.FACEBOOK.CANCEL'])
+                .then(function(translation){
+                    strings['FACEBOOK_SECTION_TITLE'] = translation['ALERT.FACEBOOK.TITLE'];
+                    strings['FACEBOOK_SECTION_MSG'] = translation['ALERT.FACEBOOK.MSG'];
+                    strings['FACEBOOK_SECTION_OK'] = translation['ALERT.FACEBOOK.CONFIRM'];
+                    strings['FACEBOOK_SECTION_CANCEL'] = translation['ALERT.FACEBOOK.CANCEL'];
+                });
+            }
+
+            getTranslationsFacebook();
             getTranslationsNetError();
             getTranslationsLocked();
 
@@ -83,7 +97,35 @@ angular
                 }
 
             }
-            
+
+
+            //TODO i18n-alizar
+            function showQuestionFacebookDialog() {
+                getTranslationsFacebook();
+
+                  $translate(['ALERT.FACEBOOK.TITLE',
+                              'ALERT.FACEBOOK.MSG',
+                              'ALERT.FACEBOOK.CONFIRM',
+                              'ALERT.FACEBOOK.CANCEL'])
+                  .then(function(translation){
+                      showNotificationDialog(
+                            {
+                                title : translation['ALERT.FACEBOOK.TITLE'],
+                                message :  translation['ALERT.FACEBOOK.MSG'],
+                                confirm: translation['ALERT.FACEBOOK.CONFIRM'],
+                                cancel: translation['ALERT.FACEBOOK.CANCEL']
+                            }, settingsUserCallback
+                        );
+                  });
+
+
+
+                function settingsUserCallback(){
+                    $state.go('settings');
+                }
+            }
+
+
             function showLockedSectionNotEligible(){
                 $translate(['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.TITLE',
                             'ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.MSG',
@@ -92,7 +134,7 @@ angular
                     strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_TITLE'] = translation['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.TITLE'];
                     strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_MSG'] = translation['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.MSG'];
                     strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_SUBTITLE'] = translation['ALERT.LOCKED_SECTION_USER_NOT_ELIGIBLE.SUBTITLE'];
-                    
+
                     showInfoAlert({
                         title : strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_TITLE'],
                         subtitle :  strings['LOCKED_SECTION_USER_NOT_ELIGIBLE_SUBTITLE'],
@@ -160,7 +202,7 @@ angular
                  * @return {boolean} Returns a boolean value
                  */
                 showLockedSectionDialog: showLockedSectionDialog,
-
+                showQuestionFacebookDialog: showQuestionFacebookDialog,
                 /**
                  * @ngdoc function
                  * @name core.Services.Notification#showInfoAlert
@@ -175,7 +217,7 @@ angular
                 showInfoAlert : showInfoAlert,
 
                 showNetworkErrorAlert : showNetworkErrorAlert,
-                
+
                 showLockedSectionNotEligible : showLockedSectionNotEligible
             };
 

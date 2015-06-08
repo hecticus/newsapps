@@ -56,6 +56,8 @@ angular
 
                         if (e.payload["extra_params"].is_news) {
                           $state.go('news',{newsId:e.payload["extra_params"].id_news});
+                        } else if (e.payload["extra_params"].id_game_match) {
+                          $state.go('mtm',{matchId:e.payload["extra_params"].id_game_match});
                         }
 
                         break;

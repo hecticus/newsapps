@@ -71,6 +71,8 @@ footer .option {
     text-align: center;
 }
 
+
+
 footer *[class *= 'glyphicon'],
 footer *[class *= 'icon-material'],
 footer *[class *= 'mdi-'],
@@ -136,12 +138,25 @@ table tbody tr td.active {
   color: #002878 !important;
 }
 
+table tbody tr td span.active,
+table tbody tr td img.active{
+  background: rgb(254,209,0) !important;
+  color: #002878 !important;
+}
+
+
+
 .content-leaderboard table tbody tr,
 .content-leaderboard table tbody tr td,
+.content-friends table tbody tr,
+.content-friends table tbody tr td,
 .content-scorers table tbody tr,
 .content-scorers table tbody tr td,
 .content-standings table tbody tr,
-.content-standings table tbody tr td {
+.content-standings table tbody tr td,
+.content-points table tbody tr,
+.content-points table tbody tr td,
+ {
   height: 25px;
   border:0 !important;
   padding: 0 !important;
@@ -297,7 +312,7 @@ div.header .right {
     left: 0;
     width: 100%;
     background:  #FFFFFF;
-    overflow: hidden;
+   overflow: hidden;
 }
 
 #wrapperM {
@@ -310,7 +325,7 @@ div.header .right {
 
 #wrapperH #scroller {
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     height: 100%;
     background-color: #FFFFFF;
@@ -384,15 +399,16 @@ body.content-mtm .row-back {
     right:0;
     width: 100%;
     height: 100px;
-    line-height: 40px;
     background-color: #FFFFFF;
     color: #000000;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
-
+    color: rgb(0,40,120);
 }
-
+.row-scoreboard figure {
+  margin-top : 10px;
+}
 
 
 .wrapper,
@@ -406,8 +422,9 @@ body.content-mtm .row-back {
 
 
 .status {
-    color:#000000; font-weight: bold;
-    font-size:1.6em;
+    color:#000000;
+    font-weight: bold;
+    font-size:1.4em;
 
  }
 
@@ -765,11 +782,13 @@ h6.team-name {
     .h-header {
       position:relative;
       text-align: center;
-      height:35px;
-      line-height: 35px;
-      font-weight:bold;
+      height:35px !important;
+      line-height: 35px !important;
+      font-weight:normal !important;
       z-index: 10;
       font-size: 1.6em;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
     }
 
     .h-header.green {
@@ -801,12 +820,18 @@ h6.team-name {
       padding: 0 20px !important;
     }
 
+    .content-prediction
+    .h-list {
+      padding: 0 5px !important;
+    }
+
+
     .h-list *[class *= 'col-'] {
       text-align: left;
       min-height:50px;
       line-height: 50px;
       border-bottom: solid 1pt rgb(254,209,0);
-      font-weight:bold;
+      /*font-weight:bold;*/
     }
 
     .h-list.news *[class *= 'col-'] {
@@ -815,23 +840,23 @@ h6.team-name {
     }
 
     .content-news .h-headline {
-      font-size:1.8em;
-      font-weight:bold;
+      font-size:1.6em;
+      font-weight: bold;
     }
     .content-news #wrapper2 .h-headline  {
-      font-size:2em;
+      font-size:1.6em;
     }
 
 
     .content-news .h-moment {
       font-size:1.2em;
-      font-weight:bold;
+      /*font-weight:bold;*/
       color: rgb(44,156,211);
     }
 
     .content-news .h-body {
       margin-top: 10px !important;
-      font-size: 1.4em;
+      font-size: 1.3em;
     }
 
     /*@media(max-width: 720px) {
@@ -853,8 +878,8 @@ h6.team-name {
       top: 50px;
     }
 
-
-    .content-leaderboard .wrapper {
+    .content-leaderboard .wrapper,
+    .content-friends .wrapper {
       top: 5px;
     }
 
@@ -876,8 +901,8 @@ h6.team-name {
       z-index: 1;
     }
 
-    .content-points .wrapper {
-      top: 50px;
+    .content-points #wrapper {
+      top: 225px;
     }
 
     .content-match .wrapper {
@@ -885,11 +910,11 @@ h6.team-name {
     }
 
     .content-prediction .wrapper { top: 70px; }
-    tr.h-match { border-bottom: 1pt rgb(44,156,211) solid !important; }
+    tr.h-match { border-bottom: 1.5px rgb(44,156,211) solid !important; }
     tr.h-match:last-child { border: 0 !important; }
-    tr.h-match td { height:60px !important; vertical-align:middle;}
-    tr.h-match td .h-name-team {display:block; height:40px !important; }
-    tr.h-match td .h-goal-team {display:block;}
+    tr.h-match td { height: auto;} /*vertical-align:middle;*/
+    tr.h-match td .h-name-team {display:block; height: auto; }
+    tr.h-match td .h-goal-team {height: auto;}
 
     tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
     tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
@@ -954,6 +979,22 @@ h6.team-name {
     .btn-primary:not(.btn-link):not(.btn-flat),
     .btn-success:not(.btn-link):not(.btn-flat) {
       background  : rgb(44,156,211);
+    }
+
+    .btn-facebook {
+      background  : #dc3847 !important;
+    }
+
+    .btn-facebook.btn-info {
+      background  : rgb(59,89,152) !important;
+    }
+
+    .btn-facebook.btn-warning {
+      background  : rgb(254,209,0) !important;
+    }
+
+    .btn-facebook.btn-success {
+       background  : rgb(227,114,34) !important;
     }
 
     .h-ellipsis {
@@ -1071,16 +1112,23 @@ h6.team-name {
     }
 
     .h-name-team {
-      font-size:1.6em !important;
-      font-weight: bold;
+      font-size:1.4em !important;
+      /*font-weight: bold;*/
+      text-align: center;
+      width: 100%;
     }
 
     .h-goal-team {
       font-size:2em !important;
+      text-align: center;
+    }
+
+    .content-mtm #wrapper2 .h-goal-team  {
+      font-size:3em !important;
     }
 
     .h-time {
-      font-size:2em !important;
+      font-size:1.6em !important;
     }
 
     .h-minute-match {
@@ -1094,11 +1142,15 @@ h6.team-name {
     .content-standings .h-list .h-headline,
     .content-prediction .h-list .h-headline,
     .content-team-selection .h-list .h-headline {
-      font-size:1.8em;
+      font-size:1.5em;
     }
 
     .h-table tbody tr td {
         font-size:1.4em;
+    }
+
+    .h-header.left {
+        text-align:left !important;
     }
 
     .control-label {
@@ -1182,6 +1234,136 @@ h6.team-name {
       top: 150px;
     }
 
-    /*</v2>*/
+    .badge {
+      background: rgb(44,156,211);
+      padding: 5px 15px;
+      font-size:
+      1em;
+      color: #ffffff;
+    }
+
+    .badge.disabled {
+       background: rgb(44,156,211);
+       color: #ffffff;
+        opacity: 0.7;
+        filter: alpha(opacity=70);
+    }
 
 
+    .modal-dialog {font-family: TeutonNormal !important;}
+    .modal-dialog .mdi-alert-warning {font-size: 1.6em !important;}
+    .modal-dialog .modal-title {font-size: 2.2em !important;}
+    .modal-dialog .text-warning {font-size: 1.8em!important; vertical-align:middle;}
+    .modal-dialog .text-muted {font-size: 1.4em!important;}
+    .footer .row.notistats,
+    .footer .row.bets {
+      margin: 0 !important;
+    }
+
+
+
+  .h-circle.yellow {
+    border-radius: 50%;
+    display: inline-block;
+    background: rgb(254,209,0);
+    color: rgb(0,40,120);
+    width:100px;
+    height: 100px;
+    position: relative;
+    line-height: 20px;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: TeutonNormal !important;
+  }
+
+
+  img.h-shield {
+    width: 40px;
+    height: auto;
+  }
+
+  img.h-shield.h-tree {
+    width: 20px;
+    height: auto;
+  }
+
+  .row-scoreboard img.h-shield {
+      width: 60px;
+      height: auto;
+  }
+
+
+  .list-group-item-heading {
+    color:  rgb(0,40,120) !important;
+  }
+
+  .btn {
+    font-size: 16px !important;
+  }
+
+
+
+      @media only screen and (min-width: 320px) and (max-width: 800px) {
+            .content-dashboard {
+                background: rgb(122,184,0); !important;
+                background-image: url('../img/grama-480x800.jpg') !important;
+                background-size: auto;
+            }
+
+      }
+
+			@media only screen and (min-width: 800px) and (max-width: 1280px) {
+			    .content-dashboard {
+               background:  background: rgb(122,184,0); !important;
+               background-image: url('../img/grama-720x1280.jpg') !important;
+               background-size: auto;
+           }
+			}
+
+			@media only screen and (min-width:1280px) {
+			    .content-dashboard {
+               background:  background: rgb(122,184,0); !important;
+               background-image: url('../img/grama-1080x1920.jpg') !important;
+               background-size: cover;
+           }
+			}
+
+
+
+
+
+  .content-dashboard #wrapper {
+      top: 225px;
+      color: #ffffff !important;
+      background:transparent;
+  }
+
+  .content-prediction #wrapper {
+    top: 225px;
+  }
+
+  content-prediction #wrapper *{
+    background: #ffffff !important;
+  }
+
+   .content-dashboard  img.h-shield.h-match {
+      width: 50px;
+      height: auto;
+      background-color: white;
+      border-radius: 50%;
+      padding: 5px;
+   }
+
+  .h-points  {
+    background: rgb(122,184,0) !important;
+    height: 225px;
+  }
+  .content-dashboard  tr.h-match {border-bottom: 1.5px #ffffff solid !important;}
+
+  .content-friends li:first-child .wrapper,
+  .content-leaderboard li:first-child .wrapper {
+    top: -30px;
+  }
+
+  /*</v2>*/
