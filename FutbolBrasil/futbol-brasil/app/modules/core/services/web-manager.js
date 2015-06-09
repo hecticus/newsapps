@@ -63,15 +63,26 @@ angular
             }
 
             function getHeaders() {
+
+
                 var companyName = App.getCompanyName();
                 var buildVersion = App.getBuildVersion();
                 var serverVersion = App.getServerVersion();
                 var headers = { "Content-Type": "application/json; charset=utf-8" };
                 var auth = "";
                 try {
+
+                    if ($localStorage['LOADING']) {
+                      var jLoading = JSON.parse($localStorage['LOADING']);
+                      companyName = jLoading.company_name;
+                      buildVersion = jLoading.build_version;
+                      serverVersion = jLoading.server_version;
+                    }
+
                     auth = companyName + getAppender(buildVersion.charAt(0))
                         + buildVersion + getAppender(serverVersion.charAt(0))
                         + serverVersion;
+
                     headers['HECTICUS-X-AUTH-TOKEN'] = auth;
                 } catch (e) {
                     console.log('Error setting HECTICUS-X-AUTH-TOKEN');
@@ -86,11 +97,12 @@ angular
             }
 
             function loadServerConfigs(){
+
                 var platform = CordovaDevice.getPlatform();
                 var version = App.getBundleVersion();
                 var width = CordovaDevice.getRealWidth();
                 var height = CordovaDevice.getRealHeight();
-//                    enableCerts(true);
+
                 return $http.get(Domain.loading(width , height, version, platform))
                     .success(function(data) {
                         $localStorage['LOADING'] = JSON.stringify(data.response);

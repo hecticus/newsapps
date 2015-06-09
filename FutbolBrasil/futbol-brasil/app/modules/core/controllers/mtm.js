@@ -45,14 +45,15 @@ angular
             };
 
             function refreshSuccess(data){
-                console.log('$scope.item: ');
-                console.log($scope.item);
+
                 data = data.data;
                 var response = data.response;
                 if (data.error === 0) {
+
                     if (!!$scope.item.mtm && $scope.item.mtm.length == 0) {
                         $scope.item.mtm = response;
                     } else {
+
 
                         if (response.actions.length >= 1) {
                           response.actions[0].events.forEach(function(_event) {
@@ -68,9 +69,12 @@ angular
 
                     $scope.item.match.home.goals = response.home_team_goals;
                     $scope.item.match.away.goals = response.away_team_goals;
+                    $scope.item.match.status = {id_status:response.status.id_status,name: 'MATCH.STATUS.' + response.status.id_status};
                 }
+
                 $scope.$emit('unload');
                 $scope.refreshIconClass = '';
+
             }
 
             function refreshError(){
@@ -81,35 +85,39 @@ angular
 
             $scope.refreshEvents = function (competitionId, matchId) {
 
-                $scope.refreshIconClass = ' icon-refresh-animate';
-                //if ($http.pendingRequests.length === 0) {
-                    $scope.$emit('load');
-                    var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
-                    console.log(Domain.mtm(competitionId, matchId, _event.first));
-                    $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
-                        .then(refreshSuccess, refreshError);
+                $interval.cancel($rootScope.refreshInterval);
+                $rootScope.refreshInterval = null;
 
-                   //if (angular.element('#wrapperM').hasClass('left')) {
+
+
+                  $scope.refreshIconClass = ' icon-refresh-animate';
+                  $scope.$emit('load');
+
+                  var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
+
+                  $http.get(Domain.mtm(competitionId, matchId, _event.first), config)
+                      .then(refreshSuccess, refreshError);
+
+                  if ($scope.item.match.status.id_status === 2) {
                      $rootScope.refreshInterval = $interval(function () {
-                         //console.log('$interval refreshEvents triggered.');
+                         console.warn('$interval refreshEvents triggered.');
                          $scope.refreshEvents(competitionId, matchId);
-                         $interval.cancel($rootScope.refreshInterval);
-                     },50000);
-                   //};
+                     },20000);
+                  }
 
-               // }
             };
 
             $scope.showContentEvents = function (_league, _match) {
 
                 if ((_match.id_status === 1) ||  (_match.id_status === 2)) {
-                  _event.reset();
+
                   $scope.item.mtm = [];
                   $scope.item.league = _league;
+
                   $scope.item.match = {
                       home: {name:_match.homeTeam.name, goals:_match.home_team_goals, logo:_match.homeTeam.team_logo},
                       away: {name:_match.awayTeam.name, goals:_match.away_team_goals, logo:_match.awayTeam.team_logo},
-                      status: {id:_match.id_status,name:_match.status}
+                      status: {id_status:_match.id_status,name:_match.status}
                   };
 
                   $rootScope.transitionPageBack('#wrapper2','left');
@@ -120,7 +128,7 @@ angular
                   var matchId = _match.id_game_matches;
                   $scope.competitionId = competitionId;
                   $scope.matchId = matchId;
-
+                  _event.reset();
                   $scope.refreshEvents(competitionId, matchId);
                 }
             };
@@ -147,9 +155,7 @@ angular
                 config.params.page = 0;
 
 
-                date = '20150531';
-                console.info(Domain.match(date));
-
+                //date = '20150531';
 
                 $http.get(Domain.match(date), config).then(
                     function (data) {

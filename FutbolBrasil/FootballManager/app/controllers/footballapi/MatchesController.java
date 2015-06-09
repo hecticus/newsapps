@@ -845,6 +845,8 @@ public class MatchesController extends HecticusController {
                         resp.put("away_team", gameMatch.getAwayTeam().toJsonSimple());
                         resp.put("away_team_goals", gameMatch.getAwayTeamGoals());
 
+                        resp.put("status", gameMatch.getStatus().toJson(requestLanguage, app.getLanguage()));
+
                         if (events != null & !events.isEmpty()) {
                             GameMatchEvent pivot = events.get(0);
                             ArrayList<ObjectNode> periodData = new ArrayList<>();

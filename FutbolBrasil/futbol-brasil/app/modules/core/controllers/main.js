@@ -135,7 +135,9 @@ angular
             function onMenuButtonPressed(){
 
                 $scope.$emit('load');
+                $interval.cancel($rootScope.refreshInterval);
                 $rootScope.refreshInterval = null;
+
                 var menuWrapper = $('#wrapperM');
                 var hasPreviousSubsection = angular.element('.page.back.left:last').hasClass('left');
 

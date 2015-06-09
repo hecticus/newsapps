@@ -241,7 +241,7 @@ public class OptasportsScraper extends HecticusThread {
             //alarm
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OctaScraper",
-                    "error inesperado procesando los torneos disponibles, no se pudieron procesar los torneos es necesario tomar acciones.",
+                    "error inesperado procesando los torneos disponibles, no se pudieron procesar los torneos, se continua.",
                     true,
                     ex,
                     "support-level-1",
@@ -250,268 +250,92 @@ public class OptasportsScraper extends HecticusThread {
         Utils.printToLog(OptasportsScraper.class,null,"finalizando el OptasportsScraper",false,null,"support-level-1",Config.LOGGER_INFO);
     }
 
-    private void getFixtures(String seasonExternalId, Competition c){
-        try{
+    private void getFixtures(String seasonExternalId, Competition c) {
+        try {
             //generate url from constant and id
             String url = "http://api.core.optasports.com/soccer/get_matches?id=#ID#&type=season&detailed=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             url = url.replace(ID, seasonExternalId);
-            String xmlRespose = sendRequest(url,"");
-            if (xmlRespose == null){
+            String xmlRespose = sendRequest(url, "");
+            if (xmlRespose == null) {
                 throw new Exception("no se pudo procesar los partidos para la competicion:" + c.getName() + " respuesta vacia del ws");
             }
             InputSource source = new InputSource(new StringReader(xmlRespose));
-            XPath xPath =  XPathFactory.newInstance().newXPath();
+            XPath xPath = XPathFactory.newInstance().newXPath();
 
             NodeList rounds = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; isAlive() && i < rounds.getLength(); i++){
+            for (int i = 0; isAlive() && i < rounds.getLength(); i++) {
                 try {
                     Node currentRound = rounds.item(i);
                     Phase gamePhase = null;
 
                     String currentRoundType = xPath.compile("@type").evaluate(currentRound),
-                        currentRoundName = xPath.compile("@name").evaluate(currentRound),
-                        currentRoundId = xPath.compile("@round_id").evaluate(currentRound),
-                        currentRoundStartDate = cleanDate(xPath.compile("@start_date").evaluate(currentRound)),
-                        currentRoundEndDate = cleanDate(xPath.compile("@end_date").evaluate(currentRound));
+                            currentRoundName = xPath.compile("@name").evaluate(currentRound),
+                            currentRoundId = xPath.compile("@round_id").evaluate(currentRound),
+                            currentRoundStartDate = cleanDate(xPath.compile("@start_date").evaluate(currentRound)),
+                            currentRoundEndDate = cleanDate(xPath.compile("@end_date").evaluate(currentRound));
 
                     int groupCant = Integer.parseInt(xPath.compile("@groups").evaluate(currentRound));
-                    if (currentRoundType.equalsIgnoreCase("table")){
-                        if (groupCant > 0){
+                    if (currentRoundType.equalsIgnoreCase("table")) {
+                        if (groupCant > 0) {
                             gamePhase = new Phase(c, currentRoundName, currentRoundName,
                                     currentRoundStartDate, currentRoundEndDate, currentRoundId,
                                     0, i, i);
+                            gamePhase.validate(language);
                             //get groups then matches
                             NodeList groups = (NodeList) xPath.compile("group").evaluate(currentRound, XPathConstants.NODESET);
-                            for (int j = 0; isAlive() && j < groups.getLength(); j++){
+                            for (int j = 0; isAlive() && j < groups.getLength(); j++) {
                                 Node currentGroup = (Node) groups.item(j);
                                 NodeList matches = (NodeList) xPath.compile("match").evaluate(currentGroup, XPathConstants.NODESET);
-                                for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                                for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                     Node currentMatch = (Node) matches.item(k);
-                                    //gameweek
-                                    String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                            matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                            matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                            statusName = xPath.compile("@status").evaluate(currentMatch),
-                                            teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                            teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                            teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                            teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                            teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                            teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                            teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                            teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                            venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                            venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                            venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
-
-                                    Countries localCountry = new Countries(teamACountryName);
-                                    localCountry.validateCountry();
-                                    Team localTeam = new Team(teamAName, teamAId, localCountry);
-                                    localTeam.validateTeam(c);
-                                    Countries awayCountry = new Countries(teamBCountryName);
-                                    awayCountry.validateCountry();
-                                    Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                    awayTeam.validateTeam(c);
-
-                                    GameMatchStatus status = new GameMatchStatus(statusName);
-                                    status.validate(language);
-
-                                    Venue gameVenue = null;
-                                    long stadiumId = stringLongParser(venueId);
-                                    if (stadiumId != 0){
-                                        gameVenue = new Venue(stadiumId, venueName, venueCity, localCountry);
-                                        gameVenue.validateVenue();
-                                    }
-                                    int localGoles = stringIntParser(teamAGoals),
-                                            awayGoles = stringIntParser(teamBGoals);
-
-                                    String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                                    GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, teamAName,
-                                            teamBName, localGoles, awayGoles, utcActualTime, status,
-                                            Long.parseLong(matchExternal), c);
-                                    partidoFromFile.validateGame();
+                                    parseFixtureMatch(xPath, currentMatch, c, gamePhase);
                                 }
                             }
-                        }else {
+                        } else {
                             //get matches
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
-                            gamePhase = new Phase(c, currentRoundName,currentRoundName,
+                            gamePhase = new Phase(c, currentRoundName, currentRoundName,
                                     currentRoundStartDate, currentRoundEndDate, currentRoundId,
                                     0, 0, i, 1);
                             gamePhase.validate(language);
                             //maximos valores para la fecha de las "subfases"
                             int currentRoundMinDate = Integer.parseInt(currentRoundStartDate),
                                     currentRoundMaxDate = Integer.parseInt(currentRoundEndDate);
-                            generateRounds(matches,c,xPath,currentRoundName,currentRoundId,currentRoundMinDate, currentRoundMaxDate);
+                            generateRounds(matches, c, xPath, currentRoundName, currentRoundId, currentRoundMinDate, currentRoundMaxDate);
                             for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
                                 //gameweek
                                 int currentGameWeek = stringIntParser(xPath.compile("@gameweek").evaluate(currentMatch));
-
-                                String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                        matchDate = cleanDate(xPath.compile("@date_utc").evaluate(currentMatch)),
-                                        matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                        statusName = xPath.compile("@status").evaluate(currentMatch),
-                                        teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                        teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                        teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                        teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                        teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                        teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                        teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                        teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                        venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                        venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                        venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
-
                                 gamePhase = new Phase(c, currentRoundName, "Rodada " + currentGameWeek,
-                                        ""+currentRoundMinDate, ""+currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
+                                        "" + currentRoundMinDate, "" + currentRoundMaxDate, currentRoundId + "0000" + currentGameWeek,
                                         0, 0, currentGameWeek);
                                 gamePhase.validate(language);
-
-                                Countries localCountry = new Countries(teamACountryName);
-                                localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName, teamAId, localCountry);
-                                localTeam.validateTeam(c);
-                                Countries awayCountry = new Countries(teamBCountryName);
-                                awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                awayTeam.validateTeam(c);
-
-                                GameMatchStatus status = new GameMatchStatus(statusName);
-                                status.validate(language);
-
-                                Venue gameVenue = null;
-                                long stadiumId = stringLongParser(venueId);
-                                if (stadiumId != 0) {
-                                    gameVenue = new Venue(stadiumId, venueName, venueCity, localCountry);
-                                    gameVenue.validateVenue();
-                                }
-                                int localGoles = stringIntParser(teamAGoals),
-                                        awayGoles = stringIntParser(teamBGoals);
-
-                                String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                                GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, teamAName,
-                                        teamBName, localGoles, awayGoles, utcActualTime, status,
-                                        Long.parseLong(matchExternal), c);
-                                partidoFromFile.validateGame();
-
+                                parseFixtureMatch(xPath, currentMatch, c, gamePhase);
                             }
                         }
 
-                    }else if (currentRoundType.equalsIgnoreCase("cup")){
+                    } else if (currentRoundType.equalsIgnoreCase("cup")) {
                         gamePhase = new Phase(c, currentRoundName, currentRoundName,
                                 currentRoundStartDate, currentRoundEndDate, currentRoundId,
                                 0, i, i);
                         gamePhase.validate(language);
                         NodeList aggregate = (NodeList) xPath.compile("aggr").evaluate(currentRound, XPathConstants.NODESET);
-                        for (int j = 0; isAlive() && j < aggregate.getLength(); j++){
+                        for (int j = 0; isAlive() && j < aggregate.getLength(); j++) {
                             Node currentAggre = (Node) aggregate.item(j);
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentAggre, XPathConstants.NODESET);
-                            for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                            for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
-
-                                String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                        matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                        matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                        statusName = xPath.compile("@status").evaluate(currentMatch),
-                                        teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                        teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                        teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                        teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                        teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                        teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                        teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                        teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                        venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                        venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                        venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
-
-                                Countries localCountry = new Countries(teamACountryName);
-                                localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName,teamAId, localCountry);
-                                localTeam.validateTeam(c);
-                                Countries awayCountry = new Countries(teamBCountryName);
-                                awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                awayTeam.validateTeam(c);
-
-                                GameMatchStatus status = new GameMatchStatus(statusName);
-                                status.validate(language);
-
-                                Venue gameVenue = null;
-                                long stadiumId = stringLongParser(venueId);
-                                if (stadiumId != 0){
-                                    gameVenue = new Venue(stadiumId, venueName, venueCity, localCountry);
-                                    gameVenue.validateVenue();
-                                }
-                                int localGoles = stringIntParser(teamAGoals),
-                                        awayGoles = stringIntParser(teamBGoals);
-
-                                String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                                GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, teamAName,
-                                        teamBName, localGoles, awayGoles, utcActualTime, status,
-                                        Long.parseLong(matchExternal), c);
-                                partidoFromFile.validateGame();
+                                parseFixtureMatch(xPath, currentMatch, c, gamePhase);
                             }
                         }
-
+                        //fix para partidos de la final
                         NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
-                        for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                        for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                             Node currentMatch = (Node) matches.item(k);
-                            //gameweek
-                            String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                    matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                    matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                    statusName = xPath.compile("@status").evaluate(currentMatch),
-                                    teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                    teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                    teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                    teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                    teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                    teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                    teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                    teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                    venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                    venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                    venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
-
-                            Countries localCountry = new Countries(teamACountryName);
-                            localCountry.validateCountry();
-                            Team localTeam = new Team(teamAName, teamAId, localCountry);
-                            localTeam.validateTeam(c);
-                            Countries awayCountry = new Countries(teamBCountryName);
-                            awayCountry.validateCountry();
-                            Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                            awayTeam.validateTeam(c);
-
-                            GameMatchStatus status = new GameMatchStatus(statusName);
-                            status.validate(language);
-
-                            Venue gameVenue = null;
-                            long stadiumId = stringLongParser(venueId);
-                            if (stadiumId != 0){
-                                gameVenue = new Venue(stadiumId, venueName, venueCity, localCountry);
-                                gameVenue.validateVenue();
-                            }
-                            int localGoles = stringIntParser(teamAGoals),
-                                    awayGoles = stringIntParser(teamBGoals);
-
-                            String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                            GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, teamAName,
-                                    teamBName, localGoles, awayGoles, utcActualTime, status,
-                                    Long.parseLong(matchExternal), c);
-                            partidoFromFile.validateGame();
+                            parseFixtureMatch(xPath, currentMatch, c, gamePhase);
                         }
-
-                    }else {
-                        //alarma
                     }
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     //dont break the cycle
                     Utils.printToLog(OptasportsScraper.class,
                             "Error en OctaScraper",
@@ -521,14 +345,13 @@ public class OptasportsScraper extends HecticusThread {
                             "support-level-1",
                             Config.LOGGER_ERROR);
                 }
-
             }
 
-        //add not alarmException
-        }catch (Exception ex){
+            //add not alarmException
+        } catch (Exception ex) {
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OctaScraper",
-                    "error inesperado procesando los fixtures, no se pudo procesar es necesario tomar acciones.",
+                    "error inesperado procesando los fixtures, no se pudo procesar el proceso continua.",
                     true,
                     ex,
                     "support-level-1",
@@ -536,18 +359,18 @@ public class OptasportsScraper extends HecticusThread {
         }
     }
 
-    private void getPositions(String seasonExternalId, Competition c){
+    private void getPositions(String seasonExternalId, Competition c) {
         try {
-            String url = "http://api.core.optasports.com/soccer/get_tables?type=season&id=#ID#&tabletype=total&username="+optaUserName+"&authkey="+optaAuthKey+"&lang="+language.getShortName();
+            String url = "http://api.core.optasports.com/soccer/get_tables?type=season&id=#ID#&tabletype=total&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             url = url.replace(ID, seasonExternalId);
-            String xmlRespose = sendRequest(url,"");
-            if (xmlRespose == null){
+            String xmlRespose = sendRequest(url, "");
+            if (xmlRespose == null) {
                 throw new Exception("no se pudo procesar el ranking para la competicion:" + c.getName() + " respuesta vacia del ws");
             }
             InputSource source = new InputSource(new StringReader(xmlRespose));
-            XPath xPath =  XPathFactory.newInstance().newXPath();
+            XPath xPath = XPathFactory.newInstance().newXPath();
             NodeList round = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; isAlive() && i < round.getLength(); i++){
+            for (int i = 0; isAlive() && i < round.getLength(); i++) {
                 try {
                     Node currentRound = round.item(i);
 
@@ -558,25 +381,25 @@ public class OptasportsScraper extends HecticusThread {
                             currentRoundEndDate = cleanDate(xPath.compile("@end_date").evaluate(currentRound));
 
                     int groupCant = Integer.parseInt(xPath.compile("@groups").evaluate(currentRound));
-                    if (groupCant > 0){ //GROUP TOURNAMENT
+                    if (groupCant > 0) { //GROUP TOURNAMENT
                         //champions style
                         NodeList groups = (NodeList) xPath.compile("group").evaluate(currentRound, XPathConstants.NODESET);
                         Phase phaseToInsert = Phase.getPhaseByFn(c.getIdCompetitions(), 0);
-                        if (phaseToInsert == null){
+                        if (phaseToInsert == null) {
                             phaseToInsert = new Phase(c, currentRoundName, currentRoundName,
                                     currentRoundStartDate, currentRoundEndDate, currentRoundId, i, i, i);
                             phaseToInsert.validate(language);
                         }
-                        for (int j = 0; isAlive() && j < groups.getLength();j++){
+                        for (int j = 0; isAlive() && j < groups.getLength(); j++) {
                             Node currentGroup = (Node) groups.item(j);
                             String groupName = xPath.compile("@title").evaluate(currentGroup),
                                     groupExternalId = xPath.compile("@group_id").evaluate(currentGroup);
                             //create group
-                            Group groupFromWs = new Group(c,groupName);
+                            Group groupFromWs = new Group(c, groupName);
                             groupFromWs.validate(language);
                             NodeList rankings = (NodeList) xPath.compile("resultstable/ranking").evaluate(currentGroup, XPathConstants.NODESET);
 
-                            for (int k = 0; isAlive() && k < rankings.getLength(); k++){
+                            for (int k = 0; isAlive() && k < rankings.getLength(); k++) {
                                 Node currentRanking = (Node) rankings.item(k);
                                 String rank = xPath.compile("@rank").evaluate(currentRanking),
                                         lastRank = xPath.compile("@last_rank").evaluate(currentRanking),
@@ -594,14 +417,14 @@ public class OptasportsScraper extends HecticusThread {
 
                                 Countries localCountry = new Countries(teamCountryName);
                                 localCountry.validateCountry();
-                                Team currentTeam =  new Team(teamName,teamExtId, localCountry);
+                                Team currentTeam = new Team(teamName, teamExtId, localCountry);
                                 currentTeam.validateTeam(c);
-                                Rank currentRank = new Rank(phaseToInsert,currentTeam,groupFromWs,matches,matchesWon,
+                                Rank currentRank = new Rank(phaseToInsert, currentTeam, groupFromWs, matches, matchesWon,
                                         matchesDraw, matchesLost, points, goals, goalsAgainst);
                                 currentRank.validateRank();
                             }
                         }
-                    }else {
+                    } else {
                         //regular season
                         NodeList rankings = (NodeList) xPath.compile("resultstable/ranking").evaluate(currentRound, XPathConstants.NODESET);
                         Phase phaseToInsert = Phase.getPhaseByFn(c.getIdCompetitions(), 0);
@@ -610,7 +433,7 @@ public class OptasportsScraper extends HecticusThread {
                                     currentRoundStartDate, currentRoundEndDate, currentRoundId, i, i, i, 1);
                             phaseToInsert.validate(language);
                         }
-                        for (int j = 0; isAlive() && j < rankings.getLength(); j++){
+                        for (int j = 0; isAlive() && j < rankings.getLength(); j++) {
                             Node currentRanking = (Node) rankings.item(j);
                             String rank = xPath.compile("@rank").evaluate(currentRanking),
                                     lastRank = xPath.compile("@last_rank").evaluate(currentRanking),
@@ -630,15 +453,15 @@ public class OptasportsScraper extends HecticusThread {
                             fixedGroup.validate(language);
                             Countries localCountry = new Countries(teamCountryName);
                             localCountry.validateCountry();
-                            Team currentTeam =  new Team(teamName, teamExtId, localCountry);
+                            Team currentTeam = new Team(teamName, teamExtId, localCountry);
                             currentTeam.validateTeam(c);
-                            Rank currentRank = new Rank(phaseToInsert,currentTeam,fixedGroup,matches,matchesWon,
+                            Rank currentRank = new Rank(phaseToInsert, currentTeam, fixedGroup, matches, matchesWon,
                                     matchesDraw, matchesLost, points, goals, goalsAgainst);
                             currentRank.validateRank();
                         }
                     }
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Utils.printToLog(OptasportsScraper.class,
                             "Error en OctaScraper",
                             "error inesperado procesando los rankings, el proceso continua",
@@ -647,13 +470,12 @@ public class OptasportsScraper extends HecticusThread {
                             "support-level-1",
                             Config.LOGGER_ERROR);
                 }
-
             }
-        //add nonAlarmException
-        }catch (Exception ex){
+            //add nonAlarmException
+        } catch (Exception ex) {
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OctaScraper",
-                    "error inesperado procesando los rankings, no se pudo procesar es necesario tomar acciones.",
+                    "error inesperado procesando los rankings, no se pudo procesar el proceso continua",
                     true,
                     ex,
                     "support-level-1",
@@ -661,35 +483,34 @@ public class OptasportsScraper extends HecticusThread {
         }
     }
 
-    private void getStrikers(String seasonExternalId, Competition c){
+    private void getStrikers(String seasonExternalId, Competition c) {
         try {
             String url = "http://api.core.optasports.com/soccer/get_player_statistics?id=#ID#&type=season&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             url = url.replace(ID, seasonExternalId);
-            String xmlRespose = sendRequest(url,"");
-            if (xmlRespose == null){
+            String xmlRespose = sendRequest(url, "");
+            if (xmlRespose == null) {
                 throw new Exception("no se pudo procesar el ranking para la competicion:" + c.getName() + " respuesta vacia del ws");
             }
             InputSource source = new InputSource(new StringReader(xmlRespose));
-            XPath xPath =  XPathFactory.newInstance().newXPath();
+            XPath xPath = XPathFactory.newInstance().newXPath();
             NodeList strikers = (NodeList) xPath.compile("gsmrs/competition/season/goals/person").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; isAlive() && i < strikers.getLength(); i++){
+            for (int i = 0; isAlive() && i < strikers.getLength(); i++) {
                 Node currentStriker = (Node) strikers.item(i);
                 String strikerExternalId = xPath.compile("@person_id").evaluate(currentStriker),
                         strikerName = xPath.compile("@name").evaluate(currentStriker),
                         strikerTeamId = xPath.compile("@team_id").evaluate(currentStriker);
                 int count = stringIntParser(xPath.compile("@count").evaluate(currentStriker));
                 Team currentTeam = Team.findByExtId(strikerTeamId);
-                if (currentTeam != null){
+                if (currentTeam != null) {
                     Scorer ti = new Scorer(strikerName, "", "", currentTeam, count,
-                            0, 0, 0,0, null, strikerExternalId, c, "");
+                            0, 0, 0, 0, null, strikerExternalId, c, "");
                     ti.validateScorer();
                 }
             }
-
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OctaScraper",
-                    "error inesperado procesando los goleadores, no se pudo procesar es necesario tomar acciones. competencia:" + c.getName(),
+                    "error inesperado procesando los goleadores, no se pudo procesar competencia:" + c.getName(),
                     true,
                     ex,
                     "support-level-1",
@@ -698,17 +519,17 @@ public class OptasportsScraper extends HecticusThread {
 
     }
 
-    protected void getMinuteByMinute(String seasonExternalId){
+    protected void getMinuteByMinute(String seasonExternalId) {
         try {
             String url = "http://api.core.optasports.com/soccer/get_matches_live?now_playing=no&minutes=yes&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
-            String xmlRespose = sendRequest(url,"");
-            if (xmlRespose == null){
+            String xmlRespose = sendRequest(url, "");
+            if (xmlRespose == null) {
                 throw new Exception("no se pudo procesar el minuto a minuto, respuesta vacia del ws");
             }
             InputSource source = new InputSource(new StringReader(xmlRespose));
-            XPath xPath =  XPathFactory.newInstance().newXPath();
+            XPath xPath = XPathFactory.newInstance().newXPath();
             NodeList rounds = (NodeList) xPath.compile("gsmrs/competition/season/round").evaluate(source, XPathConstants.NODESET);
-            for (int i = 0; isAlive() && i < rounds.getLength(); i++){
+            for (int i = 0; isAlive() && i < rounds.getLength(); i++) {
                 try {
                     Node currentRound = rounds.item(i);
 
@@ -719,268 +540,48 @@ public class OptasportsScraper extends HecticusThread {
                             currentRoundEndDate = cleanDate(xPath.compile("@end_date").evaluate(currentRound));
 
                     int groupCant = Integer.parseInt(xPath.compile("@groups").evaluate(currentRound));
-                    if (currentRoundType.equalsIgnoreCase("table")){
-                        if (groupCant > 0){
+                    if (currentRoundType.equalsIgnoreCase("table")) {
+                        if (groupCant > 0) {
                             //get groups then matches
                             NodeList groups = (NodeList) xPath.compile("group").evaluate(currentRound, XPathConstants.NODESET);
-                            for (int j = 0; isAlive() && j < groups.getLength(); j++){
+                            for (int j = 0; isAlive() && j < groups.getLength(); j++) {
                                 Node currentGroup = (Node) groups.item(j);
                                 NodeList matches = (NodeList) xPath.compile("match").evaluate(currentGroup, XPathConstants.NODESET);
-                                for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                                for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                     Node currentMatch = (Node) matches.item(k);
-                                    //gameweek
-                                    String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                            matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                            matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                            statusName = xPath.compile("@status").evaluate(currentMatch),
-                                            teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                            teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                            teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                            teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                            teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                            teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                            teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                            teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                            venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                            venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                            venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
-                                            matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
-
-                                    String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                                    //get match from bd
-                                    GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
-                                    if (currentGameMatch != null) {
-                                        //validate data del equipo
-                                        Countries localCountry = new Countries(teamACountryName);
-                                        localCountry.validateCountry();
-                                        Team localTeam = new Team(teamAName, teamAId, localCountry);
-                                        localTeam.validateTeam(currentGameMatch.getCompetition());
-                                        Countries awayCountry = new Countries(teamBCountryName);
-                                        awayCountry.validateCountry();
-                                        Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                        awayTeam.validateTeam(currentGameMatch.getCompetition());
-
-                                        //update game data
-                                        GameMatchStatus status = new GameMatchStatus(statusName);
-                                        status.validate(language);
-                                        int localGoals = stringIntParser(teamAGoals),
-                                                awayGoals = stringIntParser(teamBGoals);
-                                        currentGameMatch.updateGameData(status, localGoals, awayGoals);
-
-                                        //get substitutions
-                                        NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                        for (int l = 0; isAlive() && l < subs.getLength(); l++) {
-                                            processEvent(xPath, currentGameMatch, localTeam, awayTeam, utcActualTime, 0, matchPeriod, (Node) subs.item(l));
-                                        }
-                                        //get goals
-                                        NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                        for (int l = 0; isAlive() && l < goals.getLength(); l++) {
-                                            processEvent(xPath, currentGameMatch, localTeam, awayTeam, utcActualTime, 0, matchPeriod, (Node) goals.item(l));
-                                        }
-                                        //get bookings
-                                        NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                        for (int l = 0; isAlive() && l < bookings.getLength(); l++) {
-                                            processEvent(xPath, currentGameMatch, localTeam, awayTeam, utcActualTime, 0, matchPeriod, (Node) bookings.item(l));
-                                        }
-                                    }
+                                    parseMaMMatch(xPath, currentMatch);
                                 }
                             }
 
-                        }else {
+                        } else {
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
                             for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
-                                String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                        matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                        matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                        statusName = xPath.compile("@status").evaluate(currentMatch),
-                                        teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                        teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                        teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                        teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                        teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                        teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                        teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                        teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                        venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                        venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                        venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
-                                        matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
-
-
-
-                                String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                                //get match from bd
-                                GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
-                                if (currentGameMatch != null) {
-
-                                    Countries localCountry = new Countries(teamACountryName);
-                                    localCountry.validateCountry();
-                                    Team localTeam = new Team(teamAName, teamAId, localCountry);
-                                    localTeam.validateTeam(currentGameMatch.getCompetition());
-                                    Countries awayCountry = new Countries(teamBCountryName);
-                                    awayCountry.validateCountry();
-                                    Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                    awayTeam.validateTeam(currentGameMatch.getCompetition());
-
-                                    //update game data
-                                    GameMatchStatus status = new GameMatchStatus(statusName);
-                                    status.validate(language);
-                                    int localGoals = stringIntParser(teamAGoals),
-                                            awayGoals = stringIntParser(teamBGoals);
-                                    currentGameMatch.updateGameData(status, localGoals, awayGoals);
-
-                                    ///get substitutions
-                                    NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; isAlive() && l < subs.getLength(); l++){
-                                        processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
-                                    }
-                                    //get goals
-                                    NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; isAlive() && l < goals.getLength(); l++){
-                                        processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)goals.item(l));
-                                    }
-                                    //get bookings
-                                    NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; isAlive() && l < bookings.getLength(); l++){
-                                        processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)bookings.item(l));
-                                    }
-                                }
+                                parseMaMMatch(xPath, currentMatch);
                             }
-
                         }
-                    }else if (currentRoundType.equalsIgnoreCase("cup")){
+                    } else if (currentRoundType.equalsIgnoreCase("cup")) {
                         NodeList aggregate = (NodeList) xPath.compile("aggr").evaluate(currentRound, XPathConstants.NODESET);
-                        for (int j = 0; isAlive() && j < aggregate.getLength(); j++){
+                        for (int j = 0; isAlive() && j < aggregate.getLength(); j++) {
                             Node currentAggre = (Node) aggregate.item(j);
                             NodeList matches = (NodeList) xPath.compile("match").evaluate(currentAggre, XPathConstants.NODESET);
-                            for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                            for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                                 Node currentMatch = (Node) matches.item(k);
-                                String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                        matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                        matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                        statusName = xPath.compile("@status").evaluate(currentMatch),
-                                        teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                        teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                        teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                        teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                        teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                        teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                        teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                        teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                        venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                        venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                        venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
-                                        matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
-
-                                String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                                //get match from bd
-                                GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
-                                if (currentGameMatch != null) {
-
-                                    Countries localCountry = new Countries(teamACountryName);
-                                    localCountry.validateCountry();
-                                    Team localTeam = new Team(teamAName, teamAId, localCountry);
-                                    localTeam.validateTeam(currentGameMatch.getCompetition());
-                                    Countries awayCountry = new Countries(teamBCountryName);
-                                    awayCountry.validateCountry();
-                                    Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                    awayTeam.validateTeam(currentGameMatch.getCompetition());
-
-                                    //update game data
-                                    GameMatchStatus status = new GameMatchStatus(statusName);
-                                    status.validate(language);
-                                    int localGoals = stringIntParser(teamAGoals),
-                                            awayGoals = stringIntParser(teamBGoals);
-                                    currentGameMatch.updateGameData(status, localGoals, awayGoals);
-
-                                    //get substitutions
-                                    NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; isAlive() && l < subs.getLength(); l++){
-                                        processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
-                                    }
-                                    //get goals
-                                    NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; isAlive() && l < goals.getLength(); l++){
-                                        processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)goals.item(l));
-                                    }
-                                    //get bookings
-                                    NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                    for (int l = 0; isAlive() && l < bookings.getLength(); l++){
-                                        processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)bookings.item(l));
-                                    }
-                                }
+                                parseMaMMatch(xPath, currentMatch);
                             }
                         }
-
+                        //fix para las finales de los torneos
                         NodeList matches = (NodeList) xPath.compile("match").evaluate(currentRound, XPathConstants.NODESET);
-                        for (int k = 0; isAlive() && k < matches.getLength(); k++){
+                        for (int k = 0; isAlive() && k < matches.getLength(); k++) {
                             Node currentMatch = (Node) matches.item(k);
-                            String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
-                                    matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
-                                    matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
-                                    statusName = xPath.compile("@status").evaluate(currentMatch),
-                                    teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
-                                    teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
-                                    teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
-                                    teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
-                                    teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
-                                    teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
-                                    teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
-                                    teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
-                                    venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
-                                    venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
-                                    venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
-                                    matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
-
-                            String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
-
-                            //get match from bd
-                            GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
-                            if (currentGameMatch != null) {
-
-                                Countries localCountry = new Countries(teamACountryName);
-                                localCountry.validateCountry();
-                                Team localTeam = new Team(teamAName, teamAId, localCountry);
-                                localTeam.validateTeam(currentGameMatch.getCompetition());
-                                Countries awayCountry = new Countries(teamBCountryName);
-                                awayCountry.validateCountry();
-                                Team awayTeam = new Team(teamBName, teamBId, awayCountry);
-                                awayTeam.validateTeam(currentGameMatch.getCompetition());
-
-                                //update game data
-                                GameMatchStatus status = new GameMatchStatus(statusName);
-                                status.validate(language);
-                                int localGoals = stringIntParser(teamAGoals),
-                                        awayGoals = stringIntParser(teamBGoals);
-                                currentGameMatch.updateGameData(status, localGoals, awayGoals);
-
-                                //get substitutions
-                                NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                for (int l = 0; isAlive() && l < subs.getLength(); l++){
-                                    processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)subs.item(l));
-                                }
-                                //get goals
-                                NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                for (int l = 0; isAlive() && l < goals.getLength(); l++){
-                                    processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)goals.item(l));
-                                }
-                                //get bookings
-                                NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
-                                for (int l = 0; isAlive() && l < bookings.getLength(); l++){
-                                    processEvent(xPath, currentGameMatch,localTeam,awayTeam, utcActualTime,0, matchPeriod ,(Node)bookings.item(l));
-                                }
-                            }
+                            parseMaMMatch(xPath, currentMatch);
                         }
 
-                    }else {
+                    } else {
                         //unknown
                     }
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Utils.printToLog(OptasportsScraper.class,
                             "Error en OctaScraper",
                             "error inesperado procesando el minuto a minuto, el proceso continua, ext_id:" + seasonExternalId,
@@ -990,10 +591,10 @@ public class OptasportsScraper extends HecticusThread {
                             Config.LOGGER_ERROR);
                 }
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OctaScraper",
-                    "error inesperado procesando el minuto a minuto, no se pudo procesar es necesario tomar acciones.",
+                    "error inesperado procesando el minuto a minuto, no se pudo procesar, se continua",
                     true,
                     ex,
                     "support-level-1",
@@ -1006,7 +607,7 @@ public class OptasportsScraper extends HecticusThread {
         String eventExternalId = xPath.compile("@event_id").evaluate(event),
                 eventPlayerName = xPath.compile("@person").evaluate(event),
                 eventMin = xPath.compile("@minute").evaluate(event),
-                eventMinExtra= xPath.compile("@minute_extra").evaluate(event),
+                eventMinExtra = xPath.compile("@minute_extra").evaluate(event),
                 eventType = xPath.compile("@code").evaluate(event),
                 eventName = xPath.compile("@name").evaluate(event),
                 eventTeamId = xPath.compile("@team_id").evaluate(event);
@@ -1019,12 +620,12 @@ public class OptasportsScraper extends HecticusThread {
 
         GameMatchEvent gameMatchEvent = new GameMatchEvent(currentGameMatch, incidentPeriod, ac,
                 localTeam.getExtId().equals(eventTeamId) ? localTeam : awayTeam, eventPlayerName, null,
-                Integer.parseInt(eventMin), matchDate,  Integer.parseInt(eventExternalId), Long.parseLong(eventExternalId));
+                Integer.parseInt(eventMin), matchDate, Integer.parseInt(eventExternalId), Long.parseLong(eventExternalId));
         gameMatchEvent.validate();
     }
 
-    private void generateRounds(NodeList matches, Competition c,XPath xPath ,String currentRoundName, String currentRoundId,
-                                int currentRoundMinDate, int currentRoundMaxDate) throws Exception{
+    private void generateRounds(NodeList matches, Competition c, XPath xPath, String currentRoundName, String currentRoundId,
+                                int currentRoundMinDate, int currentRoundMaxDate) throws Exception {
 
         int currentGameWeek = 0, lastGameWeek = 0;
         Phase gamePhase = null;
@@ -1072,12 +673,12 @@ public class OptasportsScraper extends HecticusThread {
         try {
             String url = "http://api.core.optasports.com/soccer/get_teams?type=season&detailed=true&id=#ID#&username=" + optaUserName + "&authkey=" + optaAuthKey + "&lang=" + language.getShortName();
             url = url.replace(ID, seasonExternalId);
-            String xmlRespose = sendRequest(url,"");
-            if (xmlRespose == null){
+            String xmlRespose = sendRequest(url, "");
+            if (xmlRespose == null) {
                 throw new Exception("error procesando los equipos para la competencia:" + c.getName() + " respuesta vacia del ws");
             }
             InputSource source = new InputSource(new StringReader(xmlRespose));
-            XPath xPath =  XPathFactory.newInstance().newXPath();
+            XPath xPath = XPathFactory.newInstance().newXPath();
 
             NodeList teams = (NodeList) xPath.compile("gsmrs/team").evaluate(source, XPathConstants.NODESET);
             for (int i = 0; i < teams.getLength(); i++) {
@@ -1099,7 +700,7 @@ public class OptasportsScraper extends HecticusThread {
                 } catch (Exception ex) {
                     Utils.printToLog(OptasportsScraper.class,
                             "Error en OctaScraper",
-                            "",
+                            "error procesando la data del equipo",
                             false,
                             ex,
                             "support-level-1",
@@ -1110,7 +711,7 @@ public class OptasportsScraper extends HecticusThread {
         } catch (Exception ex) {
             Utils.printToLog(OptasportsScraper.class,
                     "Error en OctaScraper",
-                    "",
+                    "error procesando la data del equipo",
                     true,
                     ex,
                     "support-level-1",
@@ -1119,6 +720,110 @@ public class OptasportsScraper extends HecticusThread {
 
     }
 
+    private void parseMaMMatch(XPath xPath, Node currentMatch) throws Exception {
+        String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
+                matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
+                matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
+                statusName = xPath.compile("@status").evaluate(currentMatch),
+                teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
+                teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
+                teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
+                teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
+                teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
+                teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
+                teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
+                teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
+                venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
+                venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
+                venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch),
+                matchPeriod = xPath.compile("@match_period").evaluate(currentMatch); //do i need this??
 
+        String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
+
+        //get match from bd
+        GameMatch currentGameMatch = GameMatch.findByIdExternal(matchExternal);
+        if (currentGameMatch != null) {
+
+            Countries localCountry = new Countries(teamACountryName);
+            localCountry.validateCountry();
+            Team localTeam = new Team(teamAName, teamAId, localCountry);
+            localTeam.validateTeam(currentGameMatch.getCompetition());
+            Countries awayCountry = new Countries(teamBCountryName);
+            awayCountry.validateCountry();
+            Team awayTeam = new Team(teamBName, teamBId, awayCountry);
+            awayTeam.validateTeam(currentGameMatch.getCompetition());
+
+            //update game data
+            GameMatchStatus status = new GameMatchStatus(statusName);
+            status.validate(language);
+            int localGoals = stringIntParser(teamAGoals),
+                    awayGoals = stringIntParser(teamBGoals);
+            currentGameMatch.updateGameData(status, localGoals, awayGoals);
+
+            //get substitutions
+            NodeList subs = (NodeList) xPath.compile("substitutions/sub/event").evaluate(currentMatch, XPathConstants.NODESET);
+            for (int l = 0; isAlive() && l < subs.getLength(); l++) {
+                processEvent(xPath, currentGameMatch, localTeam, awayTeam, utcActualTime, 0, matchPeriod, (Node) subs.item(l));
+            }
+            //get goals
+            NodeList goals = (NodeList) xPath.compile("goals/goal/event").evaluate(currentMatch, XPathConstants.NODESET);
+            for (int l = 0; isAlive() && l < goals.getLength(); l++) {
+                processEvent(xPath, currentGameMatch, localTeam, awayTeam, utcActualTime, 0, matchPeriod, (Node) goals.item(l));
+            }
+            //get bookings
+            NodeList bookings = (NodeList) xPath.compile("bookings/event").evaluate(currentMatch, XPathConstants.NODESET);
+            for (int l = 0; isAlive() && l < bookings.getLength(); l++) {
+                processEvent(xPath, currentGameMatch, localTeam, awayTeam, utcActualTime, 0, matchPeriod, (Node) bookings.item(l));
+            }
+        }
+
+    }
+
+    private void parseFixtureMatch(XPath xPath, Node currentMatch, Competition c, Phase gamePhase) throws Exception {
+        String matchExternal = xPath.compile("@match_id").evaluate(currentMatch),
+                matchDate = xPath.compile("@date_utc").evaluate(currentMatch),
+                matchHour = xPath.compile("@time_utc").evaluate(currentMatch),
+                statusName = xPath.compile("@status").evaluate(currentMatch),
+                teamAId = xPath.compile("@team_A_id").evaluate(currentMatch),
+                teamAName = xPath.compile("@team_A_name").evaluate(currentMatch),
+                teamAGoals = xPath.compile("@fs_A").evaluate(currentMatch),
+                teamACountryName = xPath.compile("@team_A_country").evaluate(currentMatch),
+                teamBId = xPath.compile("@team_B_id").evaluate(currentMatch),
+                teamBName = xPath.compile("@team_B_name").evaluate(currentMatch),
+                teamBGoals = xPath.compile("@fs_B").evaluate(currentMatch),
+                teamBCountryName = xPath.compile("@team_B_country").evaluate(currentMatch),
+                venueId = xPath.compile("matchinfo/venue/@venue_id").evaluate(currentMatch),
+                venueName = xPath.compile("matchinfo/venue/@name").evaluate(currentMatch),
+                venueCity = xPath.compile("matchinfo/venue/@city").evaluate(currentMatch);
+
+        Countries localCountry = new Countries(teamACountryName);
+        localCountry.validateCountry();
+        Team localTeam = new Team(teamAName, teamAId, localCountry);
+        localTeam.validateTeam(c);
+        Countries awayCountry = new Countries(teamBCountryName);
+        awayCountry.validateCountry();
+        Team awayTeam = new Team(teamBName, teamBId, awayCountry);
+        awayTeam.validateTeam(c);
+
+        GameMatchStatus status = new GameMatchStatus(statusName);
+        status.validate(language);
+
+        Venue gameVenue = null;
+        long stadiumId = stringLongParser(venueId);
+        if (stadiumId != 0) {
+            gameVenue = new Venue(stadiumId, venueName, venueCity, localCountry);
+            gameVenue.validateVenue();
+        }
+        int localGoles = stringIntParser(teamAGoals),
+                awayGoles = stringIntParser(teamBGoals);
+
+        String utcActualTime = cleanDate(matchDate) + cleanHour(matchHour);
+
+        GameMatch partidoFromFile = new GameMatch(gamePhase, localTeam, awayTeam, gameVenue, teamAName,
+                teamBName, localGoles, awayGoles, utcActualTime, status,
+                Long.parseLong(matchExternal), c);
+        partidoFromFile.validateGame();
+
+    }
 
 }

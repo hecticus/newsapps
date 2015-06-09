@@ -155,7 +155,7 @@ angular
 
                     if (this.currentPage.pageX  == ($scope.pages.length - 1)) {
                         addNewPage();
-                        $scope.showSource = false;
+                        $scope.showSource = true;
                     }
                 });
 

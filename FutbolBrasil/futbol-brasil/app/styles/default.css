@@ -1361,4 +1361,9 @@ h6.team-name {
   }
   .content-dashboard  tr.h-match {border-bottom: 1.5px #ffffff solid !important;}
 
+  .content-friends li:first-child .wrapper,
+  .content-leaderboard li:first-child .wrapper {
+    top: -30px;
+  }
+
   /*</v2>*/

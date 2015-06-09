@@ -22,13 +22,12 @@ angular
             var widthTotal = $window.innerWidth;
             var scroll = null;
             var vScrolls = [];
-
             $scope.item = {};
             $scope.hasFriends = true;
             $scope.hasLeaderboard = true;
 
+            $scope.isContentLeader = true;
 
-            $rootScope.$storage.leaderboard = false;
 
 
             function setActive(type) {
@@ -71,9 +70,16 @@ angular
             };
 
             $scope.showTournament = function(){
+
                 setActive('competition' + scroll.currentPage.pageX);
                 var idCompetition = $scope.item.competitions[scroll.currentPage.pageX].id_competitions;
-                getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+
+                if (idCompetition === 0) {
+                   getLeaderboardIndex(Domain.leaderboard.total());
+                } else {
+                  getLeaderboardIndex(Domain.leaderboard.competition(idCompetition));
+                }
+
             };
 
             function getLeaderboardIndex(_url){
@@ -83,7 +89,6 @@ angular
                 var _page =  scroll.currentPage.pageX;
                 var competition = $scope.item.competitions[_page];
                 competition.leaderboard = [];
-
 
                 $http.get(_url, config)
                     .then(function (data) {
@@ -136,22 +141,30 @@ angular
             }
 
             function getCompetitions(){
-                Competitions.get().then(function(competitions){
-                    widthTotal = ($window.innerWidth * competitions.length);
-                    $scope.item.competitions = competitions;
-                    $scope.item.competitions.forEach(function(competition) {
-                        var date = Moment.date().format('YYYYMMDD');
-                        Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
-                        .then(function (phases) {
-                            if (phases.last_phase) {
-                              competition.phase = phases.last_phase.id_phases;
-                              if (competition.phase.type != 1) $scope.showTournament();
-                            }
-                        }, function(){
-                            $scope.$emit('unload');
-                        });
 
-                    });
+                Competitions.get().then(function(competitions){
+
+
+                      var arrTotal = {'id_competitions' : 0, 'name': 'General', 'competiton_type': {'name': 'General','competition_logo':'img/shield-2.png'}};
+                      competitions.unshift(arrTotal);
+
+
+                      $scope.item.competitions = competitions;
+                      widthTotal = ($window.innerWidth * competitions.length);
+
+                     $scope.item.competitions.forEach(function(competition) {
+                          var date = Moment.date().format('YYYYMMDD');
+                          Competitions.leaderboard.personal.phase.latest(competition.id_competitions,date)
+                          .then(function (phases) {
+                              if (phases.last_phase) {
+                                competition.phase = phases.last_phase.id_phases;
+                                if (competition.phase.type != 1) $scope.showTournament();
+                              }
+                          });
+                      });
+
+                }).finally(function() {
+                  $scope.$emit('unload');
                 });
             }
 
@@ -168,8 +181,8 @@ angular
 
                 scroll.on('scroll', function () {
                     if (this.currentPage.pageX != _currentPage) {
-                        $scope.showTournament(this.currentPage.pageX);
-                        _currentPage = this.currentPage.pageX;
+                      $scope.showTournament(this.currentPage.pageX);
+                      _currentPage = this.currentPage.pageX;
                     }
                 });
 
@@ -186,9 +199,8 @@ angular
 
             function init(){
 
-                $scope.$emit('load');
-
                 if($state.current.data.contentClass === 'content-friends'){
+                    $scope.isContentLeader = false;
                     friendsMode = true;
                     getFbFriends();
                 }

@@ -137,6 +137,9 @@ angular
                     personal : {
 
                         tournamentAll: function(){
+
+                            console.info('Domain.leaderboard.personal.competition -> ' + Domain.leaderboard.personal.competition());
+
                             return $http.get(Domain.leaderboard.personal.competition())
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
