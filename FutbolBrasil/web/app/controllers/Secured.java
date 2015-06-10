@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Config;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -33,7 +34,7 @@ public class Secured extends Security.Authenticator {
             String ipString = request.remoteAddress();
             boolean secured = true;
 
-            if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10.0.3"))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.0.3") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.0.3")))) {
+            if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10."))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.")))) {
                 secured = false;
             }
 
@@ -42,12 +43,15 @@ public class Secured extends Security.Authenticator {
                 if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
                     boolean valid = validateAuthToken(authTokenHeaderValues[0]);
                     if (valid) {
-                        Utils.printToLog(Secured.class, null, "Valid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
+                        Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin + " Status: ACCEPTED, Valid Token " + authTokenHeaderValues[0]);
+//                        Utils.printToLog(Secured.class, null, "Valid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
                         return "OK";
                     }
-                    Utils.printToLog(Secured.class, null, "Invalid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
+                    Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin + " Status: DENIED, Invalid token = " + authTokenHeaderValues[0]);
+//                    Utils.printToLog(Secured.class, null, "Invalid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
                 } else {
-                    Utils.printToLog(Secured.class, null, "Missing Header " + AUTH_TOKEN_HEADER, false, null, "support-level-1", Config.LOGGER_INFO);
+                    Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin + " Status: DENIED, Missing Header. " + AUTH_TOKEN_HEADER);
+//                    Utils.printToLog(Secured.class, null, "Missing Header " + AUTH_TOKEN_HEADER, false, null, "support-level-1", Config.LOGGER_INFO);
                 }
                 return null;
             } else {
