@@ -34,8 +34,6 @@ public class Secured extends Security.Authenticator {
             String ipString = request.remoteAddress();
             boolean secured = true;
 
-            Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin);
-
             if (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10."))) {
                 secured = false;
             }
