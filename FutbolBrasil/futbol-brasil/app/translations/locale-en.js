@@ -22,11 +22,7 @@
         "TEAM-SELECTION" : "Language Selection",
         "TERMS": "Terms",
         "HOW": "How does it work",
-        "TUTORIAL": "Tutorial",
-        "DASHBOARD":  {
-          "DASHBOARD": "Dashboard",
-          "TITLE_GAMES_TODAY" : "Games today"
-        }
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
         "TITLE" : "News",
