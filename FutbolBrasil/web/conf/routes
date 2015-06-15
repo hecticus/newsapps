@@ -2,9 +2,20 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-->      /                                                                                 JobCore.Routes
+
 
 OPTIONS        /*url                                                                      controllers.Application.options(url: String)
+
+GET            /                                                                          controllers.Wap.index()
+GET            /index                                                                     controllers.Wap.index()
+GET            /news/:id                                                                  controllers.Wap.news(id:Integer)
+GET            /matches                                                                   controllers.Wap.matches(id:Integer, page: Integer)
+GET            /competitions                                                              controllers.Wap.competitions(route:String)
+GET            /scorers                                                                   controllers.Wap.scorers(id:Integer)
+GET            /mtm                                                                       controllers.Wap.mtm(id:Integer, match:Integer, event: Integer)
+GET            /login                                                                     controllers.Wap.getLogin()
+POST           /login/password                                                            controllers.Wap.getPassword()
+POST           /login/create                                                              controllers.Wap.createClient()
 
 GET            /check/*name                                                               controllers.Application.checkFile(name: String)
 GET            /api/loading/:width/:height/:version/:so                                   controllers.Application.getAppSettings(width: Integer, height: Integer, version : String, so : String)
@@ -137,13 +148,7 @@ GET            /futbolbrasil/v2/clients                                         
 GET            /futbolbrasil/v2/locale.json                                               controllers.client.Clients.getLocale(lang : String)
 POST           /futbolbrasil/v2/locale.json                                               controllers.client.Clients.setLocale(lang : String)
 
-GET            /                                                                          controllers.Wap.index()
-GET            /index                                                                     controllers.Wap.index()
-GET            /news/:id                                                                  controllers.Wap.news(id:Integer)
-GET            /matches                                                                   controllers.Wap.matches(id:Integer, page: Integer)
-GET            /competitions                                                              controllers.Wap.competitions(route:String)
-GET            /scorers                                                                   controllers.Wap.scorers(id:Integer)
-GET            /mtm                                                                       controllers.Wap.mtm(id:Integer, match:Integer, event: Integer)
-GET            /login                                                                     controllers.Wap.getLogin()
-POST           /login/password                                                            controllers.Wap.getPassword()
-POST           /login/create                                                              controllers.Wap.createClient()
+
+
+
+->             /jobcore                                                                   JobCore.Routes

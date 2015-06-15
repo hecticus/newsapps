@@ -1,19 +1,22 @@
 import play.PlayJava
+import com.typesafe.sbt.SbtNativePackager._
+import NativePackagerKeys._
 
 name := "futbolBrasil"
 
 version := "1.0-SNAPSHOT"
 
-lazy val JobCore = file("/var/lib/jenkins/jobs/job_core_test/workspace/jobcore")
-//lazy val JobCore = file("/home/plessmann/Development/projects/JobCore")
+//lazy val JobCore = file("/var/lib/jenkins/jobs/job_core_test/workspace/jobcore")
+lazy val JobCore = file("/home/plessmann/Development/projects/JobCore")
 
-lazy val root = project.in(file(".")).enablePlugins(PlayJava).aggregate(JobCore).dependsOn(JobCore)
+lazy val root = (project.in(file("."))).enablePlugins(PlayJava)
+                .aggregate(JobCore)
+                .dependsOn(JobCore)
 
 scalaVersion := "2.10.1"
 
 libraryDependencies ++= Seq(
- 	javaCore,
-  javaJdbc,
+ 	javaJdbc,
   javaEbean,
   cache,
   javaWs,
