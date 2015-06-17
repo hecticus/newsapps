@@ -1,19 +1,15 @@
 import play.PlayJava
-import com.typesafe.sbt.SbtNativePackager._
-import NativePackagerKeys._
 
 name := "futbolBrasil"
 
 version := "1.0-SNAPSHOT"
 
-//lazy val JobCore = file("/var/lib/jenkins/jobs/job_core_test/workspace/jobcore")
-lazy val JobCore = file("/home/plessmann/Development/projects/JobCore")
-
-lazy val root = (project.in(file("."))).enablePlugins(PlayJava)
-                .aggregate(JobCore)
-                .dependsOn(JobCore)
-
 scalaVersion := "2.10.1"
+
+lazy val root = project.in(file(".")).enablePlugins(PlayJava).aggregate(jobCore).dependsOn(jobCore)
+
+lazy val jobCore = project.in(file("modules/JobCore")).enablePlugins(PlayJava)
+
 
 libraryDependencies ++= Seq(
  	javaJdbc,
@@ -37,6 +33,8 @@ libraryDependencies ++= Seq(
 	"org.apache.jclouds.provider" % "rackspace-cloudloadbalancers-uk" % "1.8.0",
 	"org.apache.jclouds" % "jclouds-compute" % "1.8.0"
 )
+
+
 
 resolvers ++= Seq(
   "Maven1 Repository" at "http://repo1.maven.org/maven2/net/vz/mongodb/jackson/play-mongo-jackson-mapper_2.10/1.1.0/",
