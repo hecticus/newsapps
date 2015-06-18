@@ -4,8 +4,8 @@ row:not(input):not(textarea) {
 }
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
-html { -ms-touch-action: none; font-family: Helvetica; }
-body,ul,li { padding: 0 !important; margin: 0 !important; border: 0 !important; width: 100%; height: 100%; color:#002878; background:#ffffff !important; font-size: 62.5% important;}
+html { -ms-touch-action: none; font-family: "Roboto Condensed",Helvetica,Arial,sans-serif; }
+body,ul,li {font-family: "Roboto Condensed",Helvetica,Arial,sans-serif;  padding: 0 !important; margin: 0 !important; border: 0 !important; width: 100%; height: 100%; color:#000000; background:#ffffff !important; font-size: 62.5% important;}
 
 
 .footer-section{color: #FFFFFF !important; text-decoration: none  !important; }
@@ -48,21 +48,20 @@ header, footer {
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background: rgb(0,40,120);
     padding: 0 !important;
     margin:0 !important;
     border: 0;
 }
 
 header {
-    background: rgb(44,156,211);
+    background: #000000;
 }
 
 footer {
     line-height: 25px;
-    color:#002878;
+    color:#ffffff;
     bottom: 0;
-    background: rgb(0,40,120);
+    background: #000000;
     z-index: 10;
 }
 
@@ -89,11 +88,11 @@ footer .glyphicon-class {
 }
 
 footer .option.active {
-    background-color: rgb(254,209,0);
+    background-color: #FFFB4C;
 }
 
 footer .option.active span {
-  color:#002878 !important;
+  color:#000000 !important;
 }
 
 header .section {
@@ -466,13 +465,13 @@ body.content-mtm .row-back {
 /*menu*/
 
 .content-menu,
-.content-sub-menu {background:#ffffff; height: 50px; line-height:50px; color:#134985; margin-left: 32px;}
+.content-sub-menu {background:#ffffff; height: 50px; line-height:50px; color:#000000; margin-left: 32px;}
 .content-menu div.col-xs-8,
 .content-sub-menu div.col-xs-8{border-bottom: solid 1pt #ffca00; padding-left:0 !important;}
 .content-menu span:last-child {text-transform:uppercase;}
 
 .content-sub-menu div.col-xs-8 {
-  border-bottom: solid 1pt #134985;
+  border-bottom: solid 1pt #000000;
   padding-left:0 !important;
 }
 
@@ -797,22 +796,22 @@ h6.team-name {
     }
 
     .h-header.yellow {
-      background: rgb(254,209,0);
-      color: rgb(0,40,120);
+      background: #FFFB4C;
+      color: #000000;
     }
 
     .h-header.blue {
-      background: rgb(0,40,120);
+      background: #002878;
       color: #ffffff;
     }
 
     .h-header.light-blue {
-      background: rgb(44,156,211);
+      background: #0054B2;
       color: #ffffff;
     }
 
     .h-header.red {
-      background: rgb(227,114,34);
+      background: #fc6c00;
       color: #ffffff;
     }
 
@@ -830,7 +829,7 @@ h6.team-name {
       text-align: left;
       min-height:50px;
       line-height: 50px;
-      border-bottom: solid 1pt rgb(254,209,0);
+      border-bottom: solid 1pt #fffb4c;
       /*font-weight:bold;*/
     }
 
@@ -850,20 +849,13 @@ h6.team-name {
 
     .content-news .h-moment {
       font-size:1.2em;
-      /*font-weight:bold;*/
-      color: rgb(44,156,211);
+      color: #000000;
     }
 
     .content-news .h-body {
       margin-top: 10px !important;
       font-size: 1.3em;
     }
-
-    /*@media(max-width: 720px) {
-      .content-standings .h-headline {font-weight:bold;}
-      .content-news .h-headline {font-weight:bold;}
-      .content-news #wrapper2 .h-headline {}
-    }*/
 
 
     .h-list *[class *= 'col-']:last-child {
@@ -1034,10 +1026,10 @@ h6.team-name {
       height: auto;
     }
 
-  .status._1 { color: rgb(227,114,34); }     /*Played*/
-  .status._2 { color: rgb(122,184,0);  }     /*Playing*/
+  .status._1 { color: rgb(252,108,0); }     /*Played*/
+  .status._2 { color: rgb(255,251,76);  }     /*Playing*/
   .status._3 { color: rgb(0,40,120); }       /*Fixture*/
-  .status._4 { color: rgb(227,114,34);  }    /*Cancelled*/
+  .status._4 { color: rgb(252,108,0);  }    /*Cancelled*/
   .status._5 { color: rgb(254,209,0);  }     /*Postponed*/
   .status._6 { color: rgb(254,209,0);  }     /*Suspended*/
 
@@ -1088,14 +1080,14 @@ h6.team-name {
     .content-news #wrapper2 *[class *= 'mdi-']{
       font-size:1.2em;
       font-weight:bold;
-      color: rgb(44,156,211);
+      color:  #000000;
     }
 
     .content-menu *[class *= 'mdi-'],
     .content-menu *[class *= 'icon-'] {
       font-size:2em;
       vertical-align: middle;
-      color:  rgb(0,40,120);
+      color:  #000000;
     }
 
     .content-menu *[class *= 'icon-'] {

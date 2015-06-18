@@ -4,7 +4,7 @@
             <li ng-style="getWidth()" ng-repeat="league in leagues" >
                 <div class="container">
 
-                  <div class="row h-header green">
+                  <div class="row h-header blue">
                     <div class="col-xs-2" ng-click="prevPage($index)">
                       <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
                     </div>
@@ -56,7 +56,7 @@
 
                                   </div>
 
-                                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt rgb(254,209,0);">
+                                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt #fffb4c;">
                                     <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
                                       {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                                     </div>

@@ -37,7 +37,7 @@
         <div class="container">
 
           <div class="row">
-            <div class="col-xs-12 h-header green h-ellipsis-truncate">
+            <div class="col-xs-12 h-header yellow h-ellipsis-truncate">
               <img class="h-shield h-tree" ng-src="{{getCompetitionShield(item.competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
               <span class="h-headline" ng-bind="item.competition.competiton_type.name"></span>
             </div>
@@ -131,7 +131,7 @@
                 </div>
 
 
-                <div class="row h-source" style="border-top: solid 1pt rgb(254,209,0);">
+                <div class="row h-source" style="border-top: solid 1pt #fffb4c;">
                   <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
                     {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                   </div>
@@ -145,7 +145,7 @@
                     <table class="table h-table">
                       <thead>
                       <tr>
-                        <th colspan="8" class="h-header green">
+                        <th colspan="8" class="h-header yellow">
                           <span ng-bind="rankings.group_name"></span>
                         </th>
                       </tr>
@@ -218,7 +218,7 @@
                 </div>
 
 
-                <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt rgb(254,209,0);">
+                <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt #fffb4c;">
                   <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
                     {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                   </div>

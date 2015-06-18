@@ -59,7 +59,7 @@
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
           <span class="h-headline">{{league.competiton_type.name}}</span>
 
-          <div style="float:right; color: rgb(122,184,0) !important; ">
+          <div style="float:right; color: #000000 !important; ">
             <span class="h-headline" ng-bind="getEndOfTime(league.match.date)" style="font-size:1.2em; text-transform: capitalize; "></span>
             <i class=" mdi-navigation-chevron-right" style="font-size:1.4em; vertical-align:middle;"></i>
           </div>
@@ -80,7 +80,7 @@
       <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions"  >
         <div class="container">
 
-          <div class="row h-header green">
+          <div class="row h-header yellow">
             <div class="col-xs-2" ng-click="prevPage($index)">
               <span class="mdi-navigation-arrow-back" ng-hide="leagues[$index-1].name === undefined"></span>
             </div>
@@ -177,7 +177,7 @@
                   </div>
                 </div>
 
-                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt rgb(254,209,0);">
+                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt #fffb4c;">
                     <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
                       {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                     </div>
