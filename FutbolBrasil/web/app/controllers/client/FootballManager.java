@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.FootballController;
 import models.Config;
 import models.clients.Client;
+import models.clients.FootballClient;
 import models.pushalerts.ClientHasPushAlerts;
 import play.libs.F;
 import play.libs.ws.WS;
@@ -21,7 +22,7 @@ public class FootballManager extends FootballController {
 
     public static Result getScorers(Integer idClient) {
 
-        Client client = Client.finder.byId(idClient);
+        FootballClient client = (FootballClient) Client.getByID(idClient);
         StringBuilder teams = new StringBuilder();
         teams.append("http://" + Utils.getFootballManagerHost() + "/footballapi/v1/players/topScorers/" + Config.getInt("football-manager-id-app") + "?");
         for(ClientHasPushAlerts clientHasPushAlerts :client.getPushAlerts()){

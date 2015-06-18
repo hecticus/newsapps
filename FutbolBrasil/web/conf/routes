@@ -27,13 +27,6 @@ GET            /api/loading/:width/:height/:version/:so                         
 #GET     /news/list         			                                                                    controllers.news.NewsController.getNews()
 #GET     /news/:id         			                                                                        controllers.Application.getNewsById(id:Long)
 
-#FAKE UPSTREAM URL
-POST           /api/v1/clients/upstream/game/user/subscribe                               controllers.client.Clients.upstreamFakeCreate()
-POST           /api/v1/clients/upstream/game/user/login                                   controllers.client.Clients.upstreamFakeLogin()
-POST           /api/v1/clients/upstream/game/user/status                                  controllers.client.Clients.upstreamFakeStatus()
-POST           /api/v1/clients/upstream/game/user/password                                controllers.client.Clients.upstreamFakeResetPass()
-POST           /api/v1/clients/upstream/game/user/event                                   controllers.client.Clients.upstreamFakeEventSend()
-
 # Authenticate
 GET            /restricted                                                                controllers.Application.restricted
 GET            /assets/javascript/routes.js                                               controllers.Application.jsRoutes
@@ -83,37 +76,24 @@ GET            /resource/list                                                   
 POST           /resource/update                                                           controllers.news.NewsController.upResource()
 
 #Clients
-POST           /futbolbrasil/v1/clients/create                                            controllers.client.Clients.create()
-POST           /futbolbrasil/v1/clients/update/:id                                        controllers.client.Clients.update(id : Integer)
+POST           /futbolbrasil/v1/clients/create                                            controllers.client.FootballClients.create()
+POST           /futbolbrasil/v1/clients/update/:id                                        controllers.client.FootballClients.update(id : Integer)
 POST           /futbolbrasil/v1/clients/delete/:id                                        controllers.client.Clients.delete(id : Integer)
-POST           /futbolbrasil/v1/clients/upstream/resetpass                                controllers.client.Clients.resetUpstreamPass()
-GET            /futbolbrasil/v1/clients/get/:id/:upstreamChannel                          controllers.client.Clients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
+GET            /futbolbrasil/v1/clients/get/:id/:upstreamChannel                          controllers.client.FootballClients.get(id : Integer, upstreamChannel : String, pmc : Boolean?=false)
 GET            /futbolbrasil/v1/clients/list                                              controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
-GET            /futbolbrasil/v1/clients/alerts/:id                                        controllers.client.Clients.getPushAlertsForClient(id : Integer)
-GET            /futbolbrasil/v1/clients/bets/get/:id/:idCompetition                       controllers.client.Clients.getBetsForCompetition(id : Integer, idCompetition : Integer)
-GET            /futbolbrasil/v1/clients/bets/get/date/:id/:date                           controllers.client.Clients.getBetsForDate(id : Integer, date : String)
-GET            /futbolbrasil/v1/clients/bets/get/:id                                      controllers.client.Clients.getBets(id : Integer)
-POST           /futbolbrasil/v1/clients/bets/create/:id                                   controllers.client.Clients.createBets(id : Integer)
-GET            /futbolbrasil/v1/clients/dashboard/:id/:idLanguage                         controllers.client.Clients.dashboard(id : Integer, idLanguage : Integer)
+GET            /futbolbrasil/v1/clients/alerts/:id                                        controllers.client.FootballClients.getPushAlertsForClient(id : Integer)
+GET            /futbolbrasil/v1/clients/bets/get/:id/:idCompetition                       controllers.client.FootballClients.getBetsForCompetition(id : Integer, idCompetition : Integer)
+GET            /futbolbrasil/v1/clients/bets/get/date/:id/:date                           controllers.client.FootballClients.getBetsForDate(id : Integer, date : String)
+GET            /futbolbrasil/v1/clients/bets/get/:id                                      controllers.client.FootballClients.getBets(id : Integer)
+POST           /futbolbrasil/v1/clients/bets/create/:id                                   controllers.client.FootballClients.createBets(id : Integer)
+GET            /futbolbrasil/v1/clients/dashboard/:id/:idLanguage                         controllers.client.FootballClients.dashboard(id : Integer, idLanguage : Integer)
 
 
-GET            /futbolbrasil/v1/clients/leaderboard/get/:id/:idTournament/:idPhase        controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer)
-GET            /futbolbrasil/v1/clients/leaderboard/global/get/:id/:idTournament          controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
-GET            /futbolbrasil/v1/clients/leaderboard/personal/tournament/:id               controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
-GET            /futbolbrasil/v1/clients/leaderboard/personal/phase/:id                    controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
-GET            /futbolbrasil/v1/clients/leaderboard/total/:id                             controllers.client.Clients.getLeaderboardTotalForClient(id: Integer)
-
-#Clients PMC
-GET            /futbolbrasil/v1/clients/pmc/get/:id                                       controllers.client.Clients.get(id : Integer, upstreamChannel : String?="Android", pmc : Boolean?=true)
-GET            /futbolbrasil/v1/clients/pmc/list/:page/:pageSize                          controllers.client.Clients.list(pageSize: Integer, page: Integer, pmc : Boolean?=true)
-POST           /futbolbrasil/v1/clients/pmc/clean                                         controllers.client.Clients.cleanDevices()
-
-#FAKE UPSTREAM URL
-POST           /futbolbrasil/v1/clients/upstream/game/user/subscribe                      controllers.client.Clients.upstreamFakeCreate()
-POST           /futbolbrasil/v1/clients/upstream/game/user/login                          controllers.client.Clients.upstreamFakeLogin()
-POST           /futbolbrasil/v1/clients/upstream/game/user/status                         controllers.client.Clients.upstreamFakeStatus()
-POST           /futbolbrasil/v1/clients/upstream/game/user/password                       controllers.client.Clients.upstreamFakeResetPass()
-POST           /futbolbrasil/v1/clients/upstream/game/user/event                          controllers.client.Clients.upstreamFakeEventSend()
+GET            /futbolbrasil/v1/clients/leaderboard/get/:id/:idTournament/:idPhase        controllers.client.FootballClients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer)
+GET            /futbolbrasil/v1/clients/leaderboard/global/get/:id/:idTournament          controllers.client.FootballClients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
+GET            /futbolbrasil/v1/clients/leaderboard/personal/tournament/:id               controllers.client.FootballClients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
+GET            /futbolbrasil/v1/clients/leaderboard/personal/phase/:id                    controllers.client.FootballClients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
+GET            /futbolbrasil/v1/clients/leaderboard/total/:id                             controllers.client.FootballClients.getLeaderboardTotalForClient(id: Integer)
 
 
 GET            /futbolbrasil/v1/clients/scorers/:idClient                                 controllers.client.FootballManager.getScorers(idClient : Integer)
@@ -130,25 +110,26 @@ GET            /futbolbrasil/v1/localimages/:file/:width                        
 #V2 RESTify routes
 
 #Clients
-POST           /futbolbrasil/v2/client                                                    controllers.client.Clients.create()
-GET            /futbolbrasil/v2/client/:id                                                controllers.client.Clients.get(id : Integer, upstreamChannel : String ?= "Android", pmc : Boolean ?= false)
-PUT            /futbolbrasil/v2/client/:id                                                controllers.client.Clients.update(id : Integer)
+POST           /futbolbrasil/v2/client                                                    controllers.client.FootballClients.create()
+GET            /futbolbrasil/v2/client/:id                                                controllers.client.FootballClients.get(id : Integer, upstreamChannel : String ?= "Android", pmc : Boolean ?= false)
+PUT            /futbolbrasil/v2/client/:id                                                controllers.client.FootballClients.update(id : Integer)
 DELETE         /futbolbrasil/v2/client/:id                                                controllers.client.Clients.delete(id : Integer)
-GET            /futbolbrasil/v2/client/:id/alerts                                         controllers.client.Clients.getPushAlertsForClient(id : Integer)
-POST           /futbolbrasil/v2/client/:id/bet                                            controllers.client.Clients.createBet(id : Integer)
-POST           /futbolbrasil/v2/client/:id/bets                                           controllers.client.Clients.createBets(id : Integer)
-GET            /futbolbrasil/v2/client/:id/bets                                           controllers.client.Clients.getBets(id : Integer)
-GET            /futbolbrasil/v2/client/:id/bets/:idCompetition                            controllers.client.Clients.getBetsForCompetition(id : Integer, idCompetition : Integer)
-GET            /futbolbrasil/v2/client/:id/leaderboard/global/:idTournament               controllers.client.Clients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
-GET            /futbolbrasil/v2/client/:id/leaderboard/personal/tournament                controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
-GET            /futbolbrasil/v2/client/:id/leaderboard/personal/phase                     controllers.client.Clients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
-POST           /futbolbrasil/v2/client/:id/upstream                                       controllers.client.Clients.sendClientEvent(id : Integer)
+GET            /futbolbrasil/v2/client/:id/alerts                                         controllers.client.FootballClients.getPushAlertsForClient(id : Integer)
+POST           /futbolbrasil/v2/client/:id/bet                                            controllers.client.FootballClients.createBet(id : Integer)
+POST           /futbolbrasil/v2/client/:id/bets                                           controllers.client.FootballClients.createBets(id : Integer)
+GET            /futbolbrasil/v2/client/:id/bets                                           controllers.client.FootballClients.getBets(id : Integer)
+GET            /futbolbrasil/v2/client/:id/bets/:idCompetition                            controllers.client.FootballClients.getBetsForCompetition(id : Integer, idCompetition : Integer)
+GET            /futbolbrasil/v2/client/:id/leaderboard/global/:idTournament               controllers.client.FootballClients.getLeaderboardForClient(id : Integer, idTournament : Integer, idPhase : Integer?=0)
+GET            /futbolbrasil/v2/client/:id/leaderboard/personal/tournament                controllers.client.FootballClients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=true)
+GET            /futbolbrasil/v2/client/:id/leaderboard/personal/phase                     controllers.client.FootballClients.getPersonalLeaderboardForClient(id: Integer, idTournament: Integer?=0, idPhase: Integer?=0, global : Boolean?=false)
+POST           /futbolbrasil/v2/client/:id/upstream                                       controllers.Upstream.sendClientEvent(id : Integer)
 GET            /futbolbrasil/v2/clients                                                   controllers.client.Clients.list(pageSize: Integer?=0, page: Integer?=0, pmc : Boolean?=false)
 
-GET            /futbolbrasil/v2/locale.json                                               controllers.client.Clients.getLocale(lang : String)
-POST           /futbolbrasil/v2/locale.json                                               controllers.client.Clients.setLocale(lang : String)
+GET            /futbolbrasil/v2/locale.json                                               controllers.client.FootballClients.getLocale(lang : String)
+POST           /futbolbrasil/v2/locale.json                                               controllers.client.FootballClients.setLocale(lang : String)
 
 
 
 
-->             /jobcore                                                                   JobCore.Routes
+->              /jobcore                                                                   JobCore.Routes
+->              /upstream                                                                  UpstreamAPIConnector.Routes

@@ -6,9 +6,11 @@ version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.10.1"
 
-lazy val root = project.in(file(".")).enablePlugins(PlayJava).aggregate(jobCore).dependsOn(jobCore)
+lazy val root = project.in(file(".")).enablePlugins(PlayJava).aggregate(jobCore, upstreamAPIConnector).dependsOn(jobCore, upstreamAPIConnector)
 
 lazy val jobCore = project.in(file("modules/JobCore")).enablePlugins(PlayJava)
+
+lazy val upstreamAPIConnector = project.in(file("modules/UpstreamAPIConnector")).enablePlugins(PlayJava)
 
 
 libraryDependencies ++= Seq(
