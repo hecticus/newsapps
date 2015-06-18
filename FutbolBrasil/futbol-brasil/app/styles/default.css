@@ -133,14 +133,14 @@ table tr th {
 }
 
 table tbody tr td.active {
-  background: #fed100 !important;
-  color: #002878 !important;
+  background: #FFFB4C !important;
+  color: #000000 !important;
 }
 
 table tbody tr td span.active,
 table tbody tr td img.active{
-  background: rgb(254,209,0) !important;
-  color: #002878 !important;
+  background: #FFFB4C !important;
+  color: #000000 !important;
 }
 
 
@@ -467,7 +467,7 @@ body.content-mtm .row-back {
 .content-menu,
 .content-sub-menu {background:#ffffff; height: 50px; line-height:50px; color:#000000; margin-left: 32px;}
 .content-menu div.col-xs-8,
-.content-sub-menu div.col-xs-8{border-bottom: solid 1pt #ffca00; padding-left:0 !important;}
+.content-sub-menu div.col-xs-8{border-bottom: solid 1pt #FFFB4C; padding-left:0 !important;}
 .content-menu span:last-child {text-transform:uppercase;}
 
 .content-sub-menu div.col-xs-8 {
@@ -550,7 +550,7 @@ body.content-mtm .row-back {
 }
 
 .btn-orange {
-    background-color: rgb(44,156,211) !important;
+    background-color: #000000 !important;
     color: #FFF !important;
 }
 
@@ -902,7 +902,7 @@ h6.team-name {
     }
 
     .content-prediction .wrapper { top: 70px; }
-    tr.h-match { border-bottom: 1.5px rgb(44,156,211) solid !important; }
+    tr.h-match { border-bottom: 1.5px #002878 solid !important; }
     tr.h-match:last-child { border: 0 !important; }
     tr.h-match td { height: auto;} /*vertical-align:middle;*/
     tr.h-match td .h-name-team {display:block; height: auto; }
@@ -965,12 +965,12 @@ h6.team-name {
     .panel-primary  > .panel-heading,
     .panel-success  > .panel-heading,
     .panel-info > .panel-heading {
-      background  : rgb(44,156,211);
+      background  : #000000;
     }
 
     .btn-primary:not(.btn-link):not(.btn-flat),
     .btn-success:not(.btn-link):not(.btn-flat) {
-      background  : rgb(44,156,211);
+      background  : #000000;
     }
 
     .btn-facebook {
@@ -1287,13 +1287,12 @@ h6.team-name {
 
 
   .list-group-item-heading {
-    color:  rgb(0,40,120) !important;
+    color:  #000000 !important;
   }
 
   .btn {
     font-size: 16px !important;
   }
-
 
 
       @media only screen and (min-width: 320px) and (max-width: 800px) {
