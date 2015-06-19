@@ -20,7 +20,7 @@ import java.util.*;
  * Created by karina on 5/13/14.
  */
 @Entity
-@Table(name="phases")
+@Table(name="phases", uniqueConstraints = @UniqueConstraint(columnNames = {"id_competitions, ext_id"}))
 public class Phase extends HecticusModel {
 
     @Id
