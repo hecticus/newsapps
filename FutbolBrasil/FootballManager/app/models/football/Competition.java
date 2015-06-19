@@ -23,7 +23,7 @@ import java.util.*;
  * Created by karina on 5/13/14.
  */
 @Entity
-@Table(name="competitions")
+@Table(name="competitions", uniqueConstraints = @UniqueConstraint(columnNames = {"id_comp_type, id_app, ext_id"}))
 public class Competition  extends HecticusModel {
     @Id
     private Long idCompetitions;
