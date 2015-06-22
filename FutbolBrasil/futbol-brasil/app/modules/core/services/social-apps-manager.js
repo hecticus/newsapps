@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice',
-        function($rootScope, $window, $fb, $twt, CordovaDevice) {
+    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice', 'Utilities',
+        function($rootScope, $window, $fb, $twt, CordovaDevice, Utilities) {
 
             init();
 
@@ -30,10 +30,18 @@ angular
 
             };
 
-            function share(info){
+            function share(info){              
+                              
                 if(CordovaDevice.isWebPlatform()){
                     showShareModal(info);
                 } else {
+                    console.log("MAjor version:",Utilities.getMajorVersion(CordovaDevice.getOsVersion()));
+                    console.log("Share info:",info);
+                      
+                    if( CordovaDevice.isAndroidPlatform()){
+                        delete info.image;
+                    }                    
+                                      
                     if ($window.plugins && $window.plugins.socialsharing) {
                         $window.plugins.socialsharing.share(info.message, info.subject, info.image, info.link);
                     } else {
