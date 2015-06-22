@@ -4,7 +4,7 @@
             <li ng-style="getWidth()" ng-repeat="page in pages track by page.id" >
                 <div class="container">
 
-                    <div class="row h-header green">
+                    <div class="row h-header red">
                         <div class="col-xs-4 text-left" ng-click="prevPage()">
                             <span ng-bind="pages[$index-1].name" ></span>
                         </div>
@@ -27,7 +27,7 @@
                                         <table class="table" ng-repeat="league in page.matches.leagues" on-last-repeat>
                                             <thead>
                                             <tr>
-                                                <th colspan="3" class="h-header light-blue">
+                                                <th colspan="3" class="h-header gray">
                                                     <img class="h-shield h-tree" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
                                                     <span ng-bind="league.competiton_type.name"></span>
                                                 </th>
@@ -80,7 +80,7 @@
                                   </div>
 
 
-                                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt rgb(254,209,0);">
+                                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt #e5e5e5;">
                                     <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
                                       {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                                     </div>

@@ -155,7 +155,7 @@ angular
                 config.params.page = 0;
 
 
-                //date = '20150531';
+                date = '20150621';
 
                 $http.get(Domain.match(date), config).then(
                     function (data) {
