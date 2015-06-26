@@ -16,10 +16,10 @@
               width:100px;
               height: 100px;
               line-height: 25px;
-              background-color: rgb(122,184,0)  !important;
+              background: #79b700  !important;
               border-radius: 50%;
               text-align:center;
-              color:   rgb(0,40,120);
+              color:   #ffffff;
               font-size:1.8em;
               margin: 0 auto  !important;
               border-style: solid;
@@ -59,7 +59,7 @@
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
           <span class="h-headline">{{league.competiton_type.name}}</span>
 
-          <div style="float:right; color: rgb(122,184,0) !important; ">
+          <div style="float:right; color: #005b83 !important; ">
             <span class="h-headline" ng-bind="getEndOfTime(league.match.date)" style="font-size:1.2em; text-transform: capitalize; "></span>
             <i class=" mdi-navigation-chevron-right" style="font-size:1.4em; vertical-align:middle;"></i>
           </div>
@@ -93,7 +93,7 @@
             </div>
           </div>
 
-          <div class="row h-header red">
+          <div class="row h-header yellow">
             <div ng-show="league.bet" class="col-xs-12 text-center"
                  ng-click="saveBet($index, league.id_competitions)">
 
@@ -177,7 +177,7 @@
                   </div>
                 </div>
 
-                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt rgb(254,209,0);">
+                  <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt #fdb613;">
                     <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
                       {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                     </div>
