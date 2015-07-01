@@ -5,7 +5,7 @@ row:not(input):not(textarea) {
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 html { -ms-touch-action: none; font-family: Helvetica; }
-body,ul,li { padding: 0 !important; margin: 0 !important; border: 0 !important; width: 100%; height: 100%; color:#002878; background:#ffffff !important; font-size: 62.5% important;}
+body,ul,li { padding: 0 !important; margin: 0 !important; border: 0 !important; width: 100%; height: 100%; color:#00326b; background:#ffffff !important; font-size: 62.5% important;}
 
 
 .footer-section{color: #FFFFFF !important; text-decoration: none  !important; }
@@ -48,25 +48,26 @@ header, footer {
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background: rgb(0,40,120);
+    background: #00326b;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
 }
 
 header {
-    background: rgb(44,156,211);
+    background: #00326b;
 }
 
 footer {
     line-height: 25px;
-    color:#002878;
+    color:#ffffff;
     bottom: 0;
-    background: rgb(0,40,120);
+    background: #00326b;
     z-index: 10;
 }
 
 footer .option {
+
     padding: 5px !important;
     text-align: center;
 }
@@ -89,11 +90,11 @@ footer .glyphicon-class {
 }
 
 footer .option.active {
-    background-color: rgb(254,209,0);
+    background-color: #00bddc;
 }
 
 footer .option.active span {
-  color:#002878 !important;
+  color:##00326b !important;
 }
 
 header .section {
@@ -103,7 +104,6 @@ header .section {
 
 header .section.active {
     text-shadow: -1px 1px 1px rgba(0,0,0,0.5);
-    color: #FFDE00;
 }
 
 footer .section {
@@ -135,13 +135,13 @@ table tr th {
 
 table tbody tr td.active {
   background: #fed100 !important;
-  color: #002878 !important;
+  color: #00326b !important;
 }
 
 table tbody tr td span.active,
 table tbody tr td img.active{
-  background: rgb(254,209,0) !important;
-  color: #002878 !important;
+  background: #fcb736 !important;
+  color: #00326b !important;
 }
 
 
@@ -174,7 +174,7 @@ div.header {
     width: 100%;
     height: 35px;
     line-height: 35px;
-    background-color: rgb(122,184,0);
+    background-color: #61bb45;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
@@ -249,7 +249,7 @@ div.header {
     width: 100%;
     height: 35px;
     line-height: 35px;
-    background-color: rgb(122,184,0);
+    background-color: #61bb45;
     padding: 0 !important;
     margin:0 !important;
     border: 0;
@@ -382,7 +382,7 @@ div.header .right {
 }
 
 body.content-mtm .row-back {
-    background-color: rgb(227,114,34);
+    background-color: #ec1848;
     color: #ffffff !important;
 }
 
@@ -551,7 +551,7 @@ body.content-mtm .row-back {
 }
 
 .btn-orange {
-    background-color: rgb(44,156,211) !important;
+    background-color: #00bddc !important;
     color: #FFF !important;
 }
 
@@ -567,7 +567,7 @@ body.content-mtm .row-back {
 
 .section-header {
     line-height: 35px;
-    background-color: rgb(122,184,0);
+    background-color: #61bb45;
     color: #FFF;
 }
 
@@ -644,7 +644,7 @@ body.content-mtm .row-back {
     padding: 0 !important;
     margin: 0 !important;
     border: 0;
-    color: #002878 !important;
+    color: #00326b !important;
     font-weight: bold;
 }
 
@@ -721,7 +721,7 @@ body.content-mtm .row-back {
 
 
   .row-header-live {
-      background-color: rgb(227,114,34);
+      background-color: #ec1848;
   }
 
   .row-header .title {
@@ -764,7 +764,7 @@ body.content-mtm .row-back {
     display: none !important;
 }
 .client {
-  color:#ff5722 !important;
+  color:#ec1848 !important;
   font-weight: bold;
 }
 
@@ -792,12 +792,12 @@ h6.team-name {
     }
 
     .h-header.green {
-      background: rgb(122,184,0);
+      background: #61bb45;
       color: #ffffff;
     }
 
     .h-header.yellow {
-      background: rgb(254,209,0);
+      background: #fcb736;
       color: rgb(0,40,120);
     }
 
@@ -807,12 +807,12 @@ h6.team-name {
     }
 
     .h-header.light-blue {
-      background: rgb(44,156,211);
+      background: #00bddc;
       color: #ffffff;
     }
 
     .h-header.red {
-      background: rgb(227,114,34);
+      background: #ec1848;
       color: #ffffff;
     }
 
@@ -830,7 +830,7 @@ h6.team-name {
       text-align: left;
       min-height:50px;
       line-height: 50px;
-      border-bottom: solid 1pt rgb(254,209,0);
+      border-bottom: solid 1pt #fcb736;
       /*font-weight:bold;*/
     }
 
@@ -851,7 +851,7 @@ h6.team-name {
     .content-news .h-moment {
       font-size:1.2em;
       /*font-weight:bold;*/
-      color: rgb(44,156,211);
+      color: #00bddc;
     }
 
     .content-news .h-body {
@@ -910,14 +910,14 @@ h6.team-name {
     }
 
     .content-prediction .wrapper { top: 70px; }
-    tr.h-match { border-bottom: 1.5px rgb(44,156,211) solid !important; }
+    tr.h-match { border-bottom: 1.5px #00bddc solid !important; }
     tr.h-match:last-child { border: 0 !important; }
     tr.h-match td { height: auto;} /*vertical-align:middle;*/
     tr.h-match td .h-name-team {display:block; height: auto; }
     tr.h-match td .h-goal-team {height: auto;}
 
-    tr.h-points { border-bottom: 1pt rgb(44,156,211) solid !important; }
-    tr.h-points:last-child { border: 0 !important; color: rgb(227,114,34);}
+    tr.h-points { border-bottom: 1pt #00bddc solid !important; }
+    tr.h-points:last-child { border: 0 !important; color: #ec1848;}
 
     .content-mtm #wrapper2 {
       top: 185px;
@@ -973,12 +973,12 @@ h6.team-name {
     .panel-primary  > .panel-heading,
     .panel-success  > .panel-heading,
     .panel-info > .panel-heading {
-      background  : rgb(44,156,211);
+      background  : #00bddc;
     }
 
     .btn-primary:not(.btn-link):not(.btn-flat),
     .btn-success:not(.btn-link):not(.btn-flat) {
-      background  : rgb(44,156,211);
+      background  : #00bddc;
     }
 
     .btn-facebook {
@@ -990,11 +990,11 @@ h6.team-name {
     }
 
     .btn-facebook.btn-warning {
-      background  : rgb(254,209,0) !important;
+      background  : #fcb736 !important;
     }
 
     .btn-facebook.btn-success {
-       background  : rgb(227,114,34) !important;
+       background  : #ec1848 !important;
     }
 
     .h-ellipsis {
@@ -1034,26 +1034,26 @@ h6.team-name {
       height: auto;
     }
 
-  .status._1 { color: rgb(227,114,34); }     /*Played*/
-  .status._2 { color: rgb(122,184,0);  }     /*Playing*/
+  .status._1 { color: #ec1848; }     /*Played*/
+  .status._2 { color: #61bb45;  }     /*Playing*/
   .status._3 { color: rgb(0,40,120); }       /*Fixture*/
-  .status._4 { color: rgb(227,114,34);  }    /*Cancelled*/
-  .status._5 { color: rgb(254,209,0);  }     /*Postponed*/
-  .status._6 { color: rgb(254,209,0);  }     /*Suspended*/
+  .status._4 { color: #ec1848;  }    /*Cancelled*/
+  .status._5 { color: #fcb736;  }     /*Postponed*/
+  .status._6 { color: #fcb736;  }     /*Suspended*/
 
 
   .status.period { background: rgb(0,40,120);
                          color: #ffffff;}
 
-  .status.period._9 {background: rgb(122,184,0);
+  .status.period._9 {background: #61bb45;
                           color: #ffffff; }
 
-  .status.period._8 {   background: rgb(254,209,0);
+  .status.period._8 {   background: #fcb736;
                            color: rgb(0,40,120); }
 
 
     .h-event{
-      border-bottom: solid 1pt  rgb(44,156,211) !important;
+      border-bottom: solid 1pt  #00bddc !important;
     }
 
     .h-event:last-child {
@@ -1088,7 +1088,7 @@ h6.team-name {
     .content-news #wrapper2 *[class *= 'mdi-']{
       font-size:1.2em;
       font-weight:bold;
-      color: rgb(44,156,211);
+      color: #00bddc;
     }
 
     .content-menu *[class *= 'mdi-'],
@@ -1235,20 +1235,16 @@ h6.team-name {
     }
 
     .badge {
-      background: rgb(44,156,211);
+      background: #00bddc;
       padding: 5px 15px;
-      font-size:
-      1em;
+      font-size:1em;
       color: #ffffff;
     }
 
     .badge.disabled {
-       background: rgb(44,156,211);
-       color: #ffffff;
         opacity: 0.7;
         filter: alpha(opacity=70);
     }
-
 
     .modal-dialog {font-family: TeutonNormal !important;}
     .modal-dialog .mdi-alert-warning {font-size: 1.6em !important;}
@@ -1265,7 +1261,7 @@ h6.team-name {
   .h-circle.yellow {
     border-radius: 50%;
     display: inline-block;
-    background: rgb(254,209,0);
+    background: #fcb736;
     color: rgb(0,40,120);
     width:100px;
     height: 100px;
@@ -1295,42 +1291,12 @@ h6.team-name {
 
 
   .list-group-item-heading {
-    color:  rgb(0,40,120) !important;
+    color:  #00326b !important;
   }
 
   .btn {
     font-size: 16px !important;
   }
-
-
-
-      @media only screen and (min-width: 320px) and (max-width: 800px) {
-            .content-dashboard {
-                background: rgb(122,184,0); !important;
-                background-image: url('../img/grama-480x800.jpg') !important;
-                background-size: auto;
-            }
-
-      }
-
-			@media only screen and (min-width: 800px) and (max-width: 1280px) {
-			    .content-dashboard {
-               background:  background: rgb(122,184,0); !important;
-               background-image: url('../img/grama-720x1280.jpg') !important;
-               background-size: auto;
-           }
-			}
-
-			@media only screen and (min-width:1280px) {
-			    .content-dashboard {
-               background:  background: rgb(122,184,0); !important;
-               background-image: url('../img/grama-1080x1920.jpg') !important;
-               background-size: cover;
-           }
-			}
-
-
-
 
 
   .content-dashboard #wrapper {
@@ -1356,7 +1322,7 @@ h6.team-name {
    }
 
   .h-points  {
-    background: rgb(122,184,0) !important;
+    background: #61bb45 !important;
     height: 225px;
   }
   .content-dashboard  tr.h-match {border-bottom: 1.5px #ffffff solid !important;}
