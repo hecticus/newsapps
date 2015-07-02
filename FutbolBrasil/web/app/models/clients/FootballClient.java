@@ -28,40 +28,10 @@ import java.util.*;
  * Created by plesse on 9/30/14.
  */
 @Entity
-@Table(name="clients")
-public class Client extends HecticusModel {
+@DiscriminatorValue("football")
+public class FootballClient extends Client {
 
-
-    @Id
-    private Integer idClient;
-    @Constraints.Required
-    private String userId;
-    @Constraints.Required
-    private Integer status;
-    @Constraints.Required
-    private String login;
-    @Constraints.Required
-    private String password;
-    @Constraints.Required
-    @Constraints.MaxLength(value = 10)
-    private String lastCheckDate;
-
-    private String nickname;
-
-    private String facebookId;
-
-    private String session;
-
-    @OneToOne
-    @JoinColumn(name = "id_country")
-    private Country country;
-
-    @OneToOne
-    @JoinColumn(name = "id_language")
-    private Language language;
-
-    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    private List<ClientHasDevices> devices;
+    protected String clientType;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientHasPushAlerts> pushAlerts;
@@ -80,82 +50,22 @@ public class Client extends HecticusModel {
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientBets> clientBets;
 
-    public static Model.Finder<Integer, Client> finder = new Model.Finder<Integer, Client>(Integer.class, Client.class);
+    public static Model.Finder<Integer, FootballClient> finder = new Model.Finder<>(Integer.class, FootballClient.class);
 
-    public Client(Integer status, String login, String password, Country country, Language language) {
-        this.status = status;
-        this.login = login;
-        this.password = password;
-        this.country = country;
-        this.language = language;
+    public FootballClient(Integer status, String login, String password, Country country, Language language) {
+        super(status, login, password, country, language);
     }
 
-    public Client(String userId, Integer status, String login, String password, Country country, Language language) {
-        this.userId = userId;
-        this.status = status;
-        this.login = login;
-        this.password = password;
-        this.country = country;
-        this.language = language;
+    public FootballClient(String userId, Integer status, String login, String password, Country country, Language language) {
+        super(userId, status, login, password, country, language);
     }
 
-    public Client(Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
-        this.status = status;
-        this.login = login;
-        this.password = password;
-        this.country = country;
-        this.lastCheckDate = lastCheckDate;
-        this.language = language;
+    public FootballClient(Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
+        super(status, login, password, country, lastCheckDate, language);
     }
 
-    public Client(String userId, Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
-        this.userId = userId;
-        this.status = status;
-        this.login = login;
-        this.password = password;
-        this.country = country;
-        this.lastCheckDate = lastCheckDate;
-        this.language = language;
-    }
-
-    public Integer getIdClient() {
-        return idClient;
-    }
-
-    public void setIdClient(Integer idClient) {
-        this.idClient = idClient;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public List<ClientHasDevices> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(List<ClientHasDevices> devices) {
-        this.devices = devices;
+    public FootballClient(String userId, Integer status, String login, String password, Country country, String lastCheckDate, Language language) {
+        super(userId, status, login, password, country, lastCheckDate, language);
     }
 
     public List<ClientHasPushAlerts> getPushAlerts() {
@@ -164,30 +74,6 @@ public class Client extends HecticusModel {
 
     public void setPushAlerts(List<ClientHasPushAlerts> pushAlerts) {
         this.pushAlerts = pushAlerts;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLastCheckDate() {
-        return lastCheckDate;
-    }
-
-    public void setLastCheckDate(String lastCheckDate) {
-        this.lastCheckDate = lastCheckDate;
     }
 
     public List<Leaderboard> getLeaderboards() {
@@ -208,14 +94,6 @@ public class Client extends HecticusModel {
         this.leaderboardGlobal = leaderboardGlobal;
     }
 
-    public Language getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
     public List<ClientBets> getClientBets() {
         return clientBets;
     }
@@ -224,53 +102,12 @@ public class Client extends HecticusModel {
         this.clientBets = clientBets;
     }
 
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getSession() {
-        return session;
-    }
-
-    public void setSession(String session) {
-        this.session = session;
-    }
-
     public LeaderboardTotal getLeaderboardTotal() {
         return leaderboardTotal;
     }
 
     public void setLeaderboardTotal(LeaderboardTotal leaderboardTotal) {
         this.leaderboardTotal = leaderboardTotal;
-    }
-
-    public int getDeviceIndex(final String registrationId, final int deviceId) {
-        ClientHasDevices clientHasDevice = null;
-        try {
-            clientHasDevice = Iterables.find(devices, new Predicate<ClientHasDevices>() {
-                public boolean apply(ClientHasDevices obj) {
-                    return obj.getRegistrationId().equalsIgnoreCase(registrationId) && obj.getDevice().getIdDevice().intValue() == deviceId;
-                }
-            });
-        } catch (NoSuchElementException ex){
-            clientHasDevice = null;
-        }
-        if(clientHasDevice == null){
-            return -1;
-        }
-        return devices.indexOf(clientHasDevice);
     }
 
     public int getPushAlertIndex(final int pushAlertId) {
@@ -411,12 +248,6 @@ public class Client extends HecticusModel {
         leaderboardGlobal.add(newLeaderboardGlobal);
     }
 
-    public String getAuthToken(){
-        String authString = login+":"+password;
-        byte[] encodedBytes = Base64.encodeBase64(authString.getBytes());
-        return new String(encodedBytes);
-    }
-
     @Override
     public ObjectNode toJson() {
         ObjectNode response = Json.newObject();
@@ -469,45 +300,12 @@ public class Client extends HecticusModel {
         }
         response.put("leaderboard_global", Json.toJson(leaderBoardGlobal));
 
-        response.put("leaderboard_total", leaderboardTotal.toJsonClean());
-
-        return response;
-    }
-
-    public ObjectNode toJsonWithoutRelations() {
-        ObjectNode response = Json.newObject();
-        response.put("id_client", idClient);
-        response.put("facebook_id", facebookId);
-        response.put("nickname", nickname);
-        response.put("user_id", userId);
-        response.put("login", login);
-        response.put("status", status);
-        response.put("session", session);
-        response.put("last_check_date", lastCheckDate);
-        response.put("auth_token", getAuthToken());
-        response.put("country", country.toJsonSimple());
-        response.put("language", language.toJson());
-        return response;
-    }
-
-    public ObjectNode toPMCJson() {
-        ObjectNode response = Json.newObject();
-        response.put("idClient", idClient);
-        response.put("app", Config.getInt("pmc-id-app"));
-        ArrayList<String> droid = new ArrayList<>();
-        ArrayList<String> ios = new ArrayList<>();
-        for(ClientHasDevices chd : devices){
-            if(chd.getDevice().getName().endsWith("droid")){
-                droid.add(chd.getRegistrationId());
-            } else if(chd.getDevice().getName().endsWith("ios")){
-                ios.add(chd.getRegistrationId());
-            }
+        if(leaderboardTotal != null) {
+            response.put("leaderboard_total", leaderboardTotal.toJsonClean());
         }
-        response.put("droid", Json.toJson(droid));
-        response.put("ios", Json.toJson(ios));
+
         return response;
     }
-
 
 }
 

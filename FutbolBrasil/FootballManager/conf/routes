@@ -2,8 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-->      /jobcore                                                                                           JobCore.Routes
-
 OPTIONS /*url                                                                                       controllers.Application.options(url: String)
 
 GET     /check/*name                                                                                controllers.Application.checkFile(name: String)
@@ -215,4 +213,4 @@ POST    /login/password/forgot                                                  
 
 
 
-
+->      /jobcore                                                                                    JobCore.Routes
