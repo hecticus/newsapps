@@ -1,1 +1,15 @@
 *.bat
+*.DS_Store
+*.orig
+.metadata/
+FutbolBrasil/temp/
+NoticiasTVN/NoticiasTVN/platforms/android/bin/
+TVMaxPolla/TVMaxPolla/platforms/android/bin/
+TVMaxPolla/TVMaxPolla/platforms/ios/CordovaLib/CordovaLib.xcodeproj/
+TVMaxPolla/TVMaxPolla/platforms/ios/TVMaxPolla.xcodeproj/
+NoticiasTVN/NoticiasTVN/platforms/ios/CordovaLib/CordovaLib.xcodeproj/
+NoticiasTVN/NoticiasTVN/platforms/ios/NoticiasTVN.xcodeproj/
+NoticiasTVN/NoticiasTVN/platforms/iphone/CordovaLib/CordovaLib.xcodeproj/
+NoticiasTVN/NoticiasTVN/platforms/iphone/NoticiasTVN_iPhone.xcodeproj/
+Memepedia/Memepedia/Memepedia/platforms/ios/CordovaLib/CordovaLib.xcodeproj/
+Memepedia/Memepedia/Memepedia/platforms/ios/Memeteca.xcodeproj/
