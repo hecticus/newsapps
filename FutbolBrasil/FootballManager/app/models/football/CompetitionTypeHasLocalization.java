@@ -1,7 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -13,7 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="competition_type_has_localization")
-public class CompetitionTypeHasLocalization extends HecticusModel {
+public class CompetitionTypeHasLocalization extends FootballModel {
 
     @Id
     private Integer idCompetitionTypeHasLocalization;

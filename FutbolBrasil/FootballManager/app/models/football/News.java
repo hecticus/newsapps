@@ -19,7 +19,7 @@ import java.util.*;
 
 @Entity
 @Table(name="news")
-public class News extends HecticusModel {
+public class News extends FootballModel {
 
     @Id
     private Long idNews;

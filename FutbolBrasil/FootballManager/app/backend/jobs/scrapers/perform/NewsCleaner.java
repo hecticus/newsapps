@@ -1,5 +1,6 @@
 package backend.jobs.scrapers.perform;
 
+
 import backend.HecticusThread;
 import exceptions.BadConfigException;
 import models.Config;

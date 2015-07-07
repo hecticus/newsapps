@@ -21,7 +21,7 @@ import java.util.*;
 
 @Entity
 @Table(name="apps")
-public class Apps extends HecticusModel {
+public class Apps extends FootballModel {
 
     @Id
     private Integer idApp;
@@ -41,9 +41,6 @@ public class Apps extends HecticusModel {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
     private List<Competition> competitions;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
-    private List<Job> jobs;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="app", cascade = CascadeType.ALL)
     @OrderBy("publicationDate desc")
@@ -151,14 +148,6 @@ public class Apps extends HecticusModel {
 
     public void setCompetitions(List<Competition> competitions) {
         this.competitions = competitions;
-    }
-
-    public List<Job> getJobs() {
-        return jobs;
-    }
-
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
     }
 
     public List<News> getNews() {

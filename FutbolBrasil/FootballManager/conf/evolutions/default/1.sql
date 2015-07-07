@@ -7,8 +7,17 @@ create table actions (
   id_actions                integer auto_increment not null,
   mnemonic                  varchar(255),
   description               varchar(255),
-  constraint uq_actions_1 unique (mnemonic),
+  ext_id                    varchar(255),
   constraint pk_actions primary key (id_actions))
+;
+
+create table action_has_localization (
+  id_action_has_localization integer auto_increment not null,
+  id_action                 integer,
+  id_language               integer,
+  mnemonic                  varchar(255),
+  description               varchar(255),
+  constraint pk_action_has_localization primary key (id_action_has_localization))
 ;
 
 create table apps (
@@ -32,13 +41,31 @@ create table competitions (
   constraint pk_competitions primary key (id_competitions))
 ;
 
+create table competition_has_localization (
+  id_competition_has_localization integer auto_increment not null,
+  id_competition            bigint,
+  id_language               integer,
+  name                      varchar(255),
+  constraint pk_competition_has_localization primary key (id_competition_has_localization))
+;
+
 create table competition_type (
   id_comp_type              integer auto_increment not null,
   status                    integer,
   name                      varchar(255),
   type                      integer,
   ext_id                    bigint,
+  comp_logo                 varchar(255),
+  sort                      integer,
   constraint pk_competition_type primary key (id_comp_type))
+;
+
+create table competition_type_has_localization (
+  id_competition_type_has_localization integer auto_increment not null,
+  id_competition_type       integer,
+  id_language               integer,
+  name                      varchar(255),
+  constraint pk_competition_type_has_localization primary key (id_competition_type_has_localization))
 ;
 
 create table configs (
@@ -52,8 +79,25 @@ create table configs (
 create table countries (
   id_countries              bigint auto_increment not null,
   name                      varchar(255),
-  ext_id                    bigint,
+  ext_id                    varchar(255),
   constraint pk_countries primary key (id_countries))
+;
+
+create table jobs (
+  id                        bigint auto_increment not null,
+  status                    integer,
+  class_name                varchar(255),
+  name                      varchar(255),
+  params                    varchar(255),
+  next_timestamp            bigint,
+  time                      varchar(255),
+  time_params               varchar(255),
+  frequency                 integer,
+  daemon                    tinyint(1) default 0,
+  running                   tinyint(1) default 0,
+  id_instance               bigint,
+  id_app                    integer,
+  constraint pk_jobs primary key (id))
 ;
 
 create table game_matches (
@@ -68,7 +112,7 @@ create table game_matches (
   home_team_goals           integer,
   away_team_goals           integer,
   date                      varchar(14),
-  status                    varchar(255),
+  id_game_match_status      integer,
   started                   integer,
   live                      integer,
   finished                  integer,
@@ -92,6 +136,7 @@ create table game_match_events (
   date                      varchar(255),
   _sort                     integer,
   ext_id                    bigint,
+  generated                 tinyint(1) default 0,
   constraint uq_game_match_events_1 unique (ext_id),
   constraint pk_game_match_events primary key (id_game_match_events))
 ;
@@ -113,6 +158,37 @@ create table game_match_results (
   constraint pk_game_match_results primary key (id_game_match_results))
 ;
 
+create table game_match_status (
+  id_game_match_status      integer auto_increment not null,
+  name                      varchar(255),
+  ext_id                    integer,
+  constraint uq_game_match_status_1 unique (extId),
+  constraint pk_game_match_status primary key (id_game_match_status))
+;
+
+create table game_match_status_has_localization (
+  id_game_match_status_has_localization integer auto_increment not null,
+  id_game_match_status      integer,
+  id_language               integer,
+  name                      varchar(255),
+  constraint pk_game_match_status_has_localization primary key (id_game_match_status_has_localization))
+;
+
+create table groups (
+  id_group                  bigint auto_increment not null,
+  id_competition            bigint,
+  name                      varchar(255),
+  constraint pk_groups primary key (id_group))
+;
+
+create table group_has_localization (
+  id_group_has_localization integer auto_increment not null,
+  id_group                  bigint,
+  id_language               integer,
+  name                      varchar(255),
+  constraint pk_group_has_localization primary key (id_group_has_localization))
+;
+
 create table instances (
   id_instance               bigint auto_increment not null,
   ip                        varchar(255),
@@ -129,13 +205,22 @@ create table jobs (
   class_name                varchar(255),
   name                      varchar(255),
   params                    varchar(255),
-  id_app                    integer,
   next_timestamp            bigint,
   time                      varchar(255),
   time_params               varchar(255),
   frequency                 integer,
   daemon                    tinyint(1) default 0,
+  running                   tinyint(1) default 0,
+  id_instance               bigint,
   constraint pk_jobs primary key (id))
+;
+
+create table languages (
+  id_language               integer auto_increment not null,
+  name                      varchar(255),
+  short_name                varchar(255),
+  active                    integer,
+  constraint pk_languages primary key (id_language))
 ;
 
 create table linked_account (
@@ -152,22 +237,22 @@ create table news (
   title                     varchar(255),
   summary                   TEXT,
   categories                varchar(255),
-  keyword                   varchar(255),
+  keyword                   TEXT,
   author                    varchar(255),
   news_body                 TEXT,
   publication_date          varchar(14),
   inserted_date             varchar(14),
-  updated_date              varchar(14),
-  language                  integer,
+  updated_date              bigint(14),
   source                    varchar(255),
   featured                  tinyint(1) default 0,
-  external_id               integer,
+  external_id               varchar(255),
   push_status               integer,
   push_date                 bigint,
   id_category               bigint,
   id_app                    integer,
   id_language               integer,
   crc                       varchar(32),
+  generated                 tinyint(1) default 0,
   constraint pk_news primary key (id_news))
 ;
 
@@ -180,6 +265,15 @@ create table periods (
   constraint pk_periods primary key (id_periods))
 ;
 
+create table period_has_localization (
+  id_period_has_localization integer auto_increment not null,
+  id_period                 integer,
+  id_language               integer,
+  name                      varchar(255),
+  short_name                varchar(255),
+  constraint pk_period_has_localization primary key (id_period_has_localization))
+;
+
 create table phases (
   id_phases                 bigint auto_increment not null,
   id_competitions           bigint,
@@ -187,17 +281,29 @@ create table phases (
   name                      varchar(255),
   start_date                varchar(255),
   end_date                  varchar(255),
-  ext_id                    bigint,
+  ext_id                    varchar(255),
   orden                     integer,
   nivel                     integer,
   fn                        integer,
+  pushed                    tinyint(1) default 0,
+  type                      integer,
   constraint pk_phases primary key (id_phases))
+;
+
+create table phase_has_localization (
+  id_phase_has_localization integer auto_increment not null,
+  id_phase                  bigint,
+  id_language               integer,
+  global_name               varchar(255),
+  name                      varchar(255),
+  constraint pk_phase_has_localization primary key (id_phase_has_localization))
 ;
 
 create table ranking (
   id_ranking                bigint auto_increment not null,
   id_phases                 bigint,
   id_teams                  bigint,
+  id_group                  bigint,
   matches                   bigint,
   matches_won               bigint,
   matches_draw              bigint,
@@ -237,6 +343,14 @@ create table ranking (
   constraint pk_ranking primary key (id_ranking))
 ;
 
+create table resolutions (
+  id_resolution             integer auto_increment not null,
+  name                      varchar(255),
+  width                     integer,
+  height                    integer,
+  constraint pk_resolutions primary key (id_resolution))
+;
+
 create table resources (
   id_resource               bigint auto_increment not null,
   name                      varchar(255),
@@ -249,9 +363,11 @@ create table resources (
   status                    integer,
   inserted_time             varchar(255),
   creation_time             varchar(255),
-  metadata                  TEXT,
+  external_id               varchar(255),
+  md5                       varchar(255),
   id_app                    integer,
   news_id_news              bigint,
+  id_resolution             integer,
   constraint pk_resources primary key (id_resource))
 ;
 
@@ -283,8 +399,19 @@ create table teams (
   id_teams                  bigint auto_increment not null,
   name                      varchar(255),
   id_countries              bigint,
-  ext_id                    bigint,
+  ext_id                    varchar(255),
+  official_name             varchar(255),
+  short_name                varchar(255),
+  abbreviation_name         varchar(255),
+  team_logo                 varchar(255),
   constraint pk_teams primary key (id_teams))
+;
+
+create table team_has_competitions (
+  id_team_has_competition   bigint auto_increment not null,
+  id_team                   bigint,
+  id_competitions           bigint,
+  constraint pk_team_has_competitions primary key (id_team_has_competition))
 ;
 
 create table timezones (
@@ -346,50 +473,108 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
-alter table apps add constraint fk_apps_timezone_1 foreign key (id_timezone) references timezones (id_timezone) on delete restrict on update restrict;
-create index ix_apps_timezone_1 on apps (id_timezone);
-alter table competitions add constraint fk_competitions_type_2 foreign key (id_comp_type) references competition_type (id_comp_type) on delete restrict on update restrict;
-create index ix_competitions_type_2 on competitions (id_comp_type);
-alter table game_matches add constraint fk_game_matches_phase_3 foreign key (id_phases) references phases (id_phases) on delete restrict on update restrict;
-create index ix_game_matches_phase_3 on game_matches (id_phases);
-alter table game_matches add constraint fk_game_matches_homeTeam_4 foreign key (id_home_team) references teams (id_teams) on delete restrict on update restrict;
-create index ix_game_matches_homeTeam_4 on game_matches (id_home_team);
-alter table game_matches add constraint fk_game_matches_awayTeam_5 foreign key (id_away_team) references teams (id_teams) on delete restrict on update restrict;
-create index ix_game_matches_awayTeam_5 on game_matches (id_away_team);
-alter table game_matches add constraint fk_game_matches_venue_6 foreign key (id_venue) references venues (id_venues) on delete restrict on update restrict;
-create index ix_game_matches_venue_6 on game_matches (id_venue);
-alter table game_matches add constraint fk_game_matches_competition_7 foreign key (id_competition) references competitions (id_competitions) on delete restrict on update restrict;
-create index ix_game_matches_competition_7 on game_matches (id_competition);
-alter table game_match_events add constraint fk_game_match_events_gameMatch_8 foreign key (id_game_matches) references game_matches (id_game_matches) on delete restrict on update restrict;
-create index ix_game_match_events_gameMatch_8 on game_match_events (id_game_matches);
-alter table game_match_events add constraint fk_game_match_events_period_9 foreign key (id_periods) references periods (id_periods) on delete restrict on update restrict;
-create index ix_game_match_events_period_9 on game_match_events (id_periods);
-alter table game_match_events add constraint fk_game_match_events_action_10 foreign key (id_actions) references actions (id_actions) on delete restrict on update restrict;
-create index ix_game_match_events_action_10 on game_match_events (id_actions);
-alter table game_match_events add constraint fk_game_match_events_team_11 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
-create index ix_game_match_events_team_11 on game_match_events (id_teams);
-alter table game_match_results add constraint fk_game_match_results_gameMatch_12 foreign key (id_game_matches) references game_matches (id_game_matches) on delete restrict on update restrict;
-create index ix_game_match_results_gameMatch_12 on game_match_results (id_game_matches);
-alter table linked_account add constraint fk_linked_account_user_13 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_linked_account_user_13 on linked_account (user_id);
-alter table phases add constraint fk_phases_comp_14 foreign key (id_competitions) references competitions (id_competitions) on delete restrict on update restrict;
-create index ix_phases_comp_14 on phases (id_competitions);
-alter table ranking add constraint fk_ranking_phase_15 foreign key (id_phases) references phases (id_phases) on delete restrict on update restrict;
-create index ix_ranking_phase_15 on ranking (id_phases);
-alter table ranking add constraint fk_ranking_team_16 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
-create index ix_ranking_team_16 on ranking (id_teams);
-alter table resources add constraint fk_resources_parent_17 foreign key (news_id_news) references news (id_news) on delete restrict on update restrict;
-create index ix_resources_parent_17 on resources (news_id_news);
-alter table scorers add constraint fk_scorers_team_18 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
-create index ix_scorers_team_18 on scorers (id_teams);
-alter table scorers add constraint fk_scorers_country_19 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
-create index ix_scorers_country_19 on scorers (id_country);
-alter table teams add constraint fk_teams_country_20 foreign key (id_countries) references countries (id_countries) on delete restrict on update restrict;
-create index ix_teams_country_20 on teams (id_countries);
-alter table token_action add constraint fk_token_action_targetUser_21 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_21 on token_action (target_user_id);
-alter table venues add constraint fk_venues_country_22 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
-create index ix_venues_country_22 on venues (id_country);
+alter table action_has_localization add constraint fk_action_has_localization_action_1 foreign key (id_action) references actions (id_actions) on delete restrict on update restrict;
+create index ix_action_has_localization_action_1 on action_has_localization (id_action);
+alter table action_has_localization add constraint fk_action_has_localization_language_2 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_action_has_localization_language_2 on action_has_localization (id_language);
+alter table apps add constraint fk_apps_language_3 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_apps_language_3 on apps (id_language);
+alter table apps add constraint fk_apps_timezone_4 foreign key (id_timezone) references timezones (id_timezone) on delete restrict on update restrict;
+create index ix_apps_timezone_4 on apps (id_timezone);
+alter table competitions add constraint fk_competitions_app_5 foreign key (id_app) references apps (id_app) on delete restrict on update restrict;
+create index ix_competitions_app_5 on competitions (id_app);
+alter table competitions add constraint fk_competitions_type_6 foreign key (id_comp_type) references competition_type (id_comp_type) on delete restrict on update restrict;
+create index ix_competitions_type_6 on competitions (id_comp_type);
+alter table competition_has_localization add constraint fk_competition_has_localization_competition_7 foreign key (id_competition) references competitions (id_competitions) on delete restrict on update restrict;
+create index ix_competition_has_localization_competition_7 on competition_has_localization (id_competition);
+alter table competition_has_localization add constraint fk_competition_has_localization_language_8 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_competition_has_localization_language_8 on competition_has_localization (id_language);
+alter table competition_type_has_localization add constraint fk_competition_type_has_localization_competitionType_9 foreign key (id_competition_type) references competition_type (id_comp_type) on delete restrict on update restrict;
+create index ix_competition_type_has_localization_competitionType_9 on competition_type_has_localization (id_competition_type);
+alter table competition_type_has_localization add constraint fk_competition_type_has_localization_language_10 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_competition_type_has_localization_language_10 on competition_type_has_localization (id_language);
+alter table jobs add constraint fk_jobs_instance_11 foreign key (id_instance) references instances (id_instance) on delete restrict on update restrict;
+create index ix_jobs_instance_11 on jobs (id_instance);
+alter table jobs add constraint fk_jobs_app_12 foreign key (id_app) references apps (id_app) on delete restrict on update restrict;
+create index ix_jobs_app_12 on jobs (id_app);
+alter table game_matches add constraint fk_game_matches_phase_13 foreign key (id_phases) references phases (id_phases) on delete restrict on update restrict;
+create index ix_game_matches_phase_13 on game_matches (id_phases);
+alter table game_matches add constraint fk_game_matches_homeTeam_14 foreign key (id_home_team) references teams (id_teams) on delete restrict on update restrict;
+create index ix_game_matches_homeTeam_14 on game_matches (id_home_team);
+alter table game_matches add constraint fk_game_matches_awayTeam_15 foreign key (id_away_team) references teams (id_teams) on delete restrict on update restrict;
+create index ix_game_matches_awayTeam_15 on game_matches (id_away_team);
+alter table game_matches add constraint fk_game_matches_venue_16 foreign key (id_venue) references venues (id_venues) on delete restrict on update restrict;
+create index ix_game_matches_venue_16 on game_matches (id_venue);
+alter table game_matches add constraint fk_game_matches_status_17 foreign key (id_game_match_status) references game_match_status (id_game_match_status) on delete restrict on update restrict;
+create index ix_game_matches_status_17 on game_matches (id_game_match_status);
+alter table game_matches add constraint fk_game_matches_competition_18 foreign key (id_competition) references competitions (id_competitions) on delete restrict on update restrict;
+create index ix_game_matches_competition_18 on game_matches (id_competition);
+alter table game_match_events add constraint fk_game_match_events_gameMatch_19 foreign key (id_game_matches) references game_matches (id_game_matches) on delete restrict on update restrict;
+create index ix_game_match_events_gameMatch_19 on game_match_events (id_game_matches);
+alter table game_match_events add constraint fk_game_match_events_period_20 foreign key (id_periods) references periods (id_periods) on delete restrict on update restrict;
+create index ix_game_match_events_period_20 on game_match_events (id_periods);
+alter table game_match_events add constraint fk_game_match_events_action_21 foreign key (id_actions) references actions (id_actions) on delete restrict on update restrict;
+create index ix_game_match_events_action_21 on game_match_events (id_actions);
+alter table game_match_events add constraint fk_game_match_events_team_22 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
+create index ix_game_match_events_team_22 on game_match_events (id_teams);
+alter table game_match_results add constraint fk_game_match_results_gameMatch_23 foreign key (id_game_matches) references game_matches (id_game_matches) on delete restrict on update restrict;
+create index ix_game_match_results_gameMatch_23 on game_match_results (id_game_matches);
+alter table game_match_status_has_localization add constraint fk_game_match_status_has_localization_status_24 foreign key (id_game_match_status) references game_match_status (id_game_match_status) on delete restrict on update restrict;
+create index ix_game_match_status_has_localization_status_24 on game_match_status_has_localization (id_game_match_status);
+alter table game_match_status_has_localization add constraint fk_game_match_status_has_localization_language_25 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_game_match_status_has_localization_language_25 on game_match_status_has_localization (id_language);
+alter table groups add constraint fk_groups_competition_26 foreign key (id_competition) references competitions (id_competitions) on delete restrict on update restrict;
+create index ix_groups_competition_26 on groups (id_competition);
+alter table group_has_localization add constraint fk_group_has_localization_group_27 foreign key (id_group) references groups (id_group) on delete restrict on update restrict;
+create index ix_group_has_localization_group_27 on group_has_localization (id_group);
+alter table group_has_localization add constraint fk_group_has_localization_language_28 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_group_has_localization_language_28 on group_has_localization (id_language);
+alter table jobs add constraint fk_jobs_instance_29 foreign key (id_instance) references instances (id_instance) on delete restrict on update restrict;
+create index ix_jobs_instance_29 on jobs (id_instance);
+alter table linked_account add constraint fk_linked_account_user_30 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_linked_account_user_30 on linked_account (user_id);
+alter table news add constraint fk_news_app_31 foreign key (id_app) references apps (id_app) on delete restrict on update restrict;
+create index ix_news_app_31 on news (id_app);
+alter table news add constraint fk_news_language_32 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_news_language_32 on news (id_language);
+alter table period_has_localization add constraint fk_period_has_localization_period_33 foreign key (id_period) references periods (id_periods) on delete restrict on update restrict;
+create index ix_period_has_localization_period_33 on period_has_localization (id_period);
+alter table period_has_localization add constraint fk_period_has_localization_language_34 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_period_has_localization_language_34 on period_has_localization (id_language);
+alter table phases add constraint fk_phases_comp_35 foreign key (id_competitions) references competitions (id_competitions) on delete restrict on update restrict;
+create index ix_phases_comp_35 on phases (id_competitions);
+alter table phase_has_localization add constraint fk_phase_has_localization_phase_36 foreign key (id_phase) references phases (id_phases) on delete restrict on update restrict;
+create index ix_phase_has_localization_phase_36 on phase_has_localization (id_phase);
+alter table phase_has_localization add constraint fk_phase_has_localization_language_37 foreign key (id_language) references languages (id_language) on delete restrict on update restrict;
+create index ix_phase_has_localization_language_37 on phase_has_localization (id_language);
+alter table ranking add constraint fk_ranking_phase_38 foreign key (id_phases) references phases (id_phases) on delete restrict on update restrict;
+create index ix_ranking_phase_38 on ranking (id_phases);
+alter table ranking add constraint fk_ranking_team_39 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
+create index ix_ranking_team_39 on ranking (id_teams);
+alter table ranking add constraint fk_ranking_group_40 foreign key (id_group) references groups (id_group) on delete restrict on update restrict;
+create index ix_ranking_group_40 on ranking (id_group);
+alter table resources add constraint fk_resources_app_41 foreign key (id_app) references apps (id_app) on delete restrict on update restrict;
+create index ix_resources_app_41 on resources (id_app);
+alter table resources add constraint fk_resources_parent_42 foreign key (news_id_news) references news (id_news) on delete restrict on update restrict;
+create index ix_resources_parent_42 on resources (news_id_news);
+alter table resources add constraint fk_resources_resolution_43 foreign key (id_resolution) references resolutions (id_resolution) on delete restrict on update restrict;
+create index ix_resources_resolution_43 on resources (id_resolution);
+alter table scorers add constraint fk_scorers_team_44 foreign key (id_teams) references teams (id_teams) on delete restrict on update restrict;
+create index ix_scorers_team_44 on scorers (id_teams);
+alter table scorers add constraint fk_scorers_country_45 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
+create index ix_scorers_country_45 on scorers (id_country);
+alter table scorers add constraint fk_scorers_comp_46 foreign key (id_competition) references competitions (id_competitions) on delete restrict on update restrict;
+create index ix_scorers_comp_46 on scorers (id_competition);
+alter table teams add constraint fk_teams_country_47 foreign key (id_countries) references countries (id_countries) on delete restrict on update restrict;
+create index ix_teams_country_47 on teams (id_countries);
+alter table team_has_competitions add constraint fk_team_has_competitions_team_48 foreign key (id_team) references teams (id_teams) on delete restrict on update restrict;
+create index ix_team_has_competitions_team_48 on team_has_competitions (id_team);
+alter table team_has_competitions add constraint fk_team_has_competitions_competition_49 foreign key (id_competitions) references competitions (id_competitions) on delete restrict on update restrict;
+create index ix_team_has_competitions_competition_49 on team_has_competitions (id_competitions);
+alter table token_action add constraint fk_token_action_targetUser_50 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_50 on token_action (target_user_id);
+alter table venues add constraint fk_venues_country_51 foreign key (id_country) references countries (id_countries) on delete restrict on update restrict;
+create index ix_venues_country_51 on venues (id_country);
 
 
 
@@ -407,15 +592,23 @@ SET FOREIGN_KEY_CHECKS=0;
 
 drop table actions;
 
+drop table action_has_localization;
+
 drop table apps;
 
 drop table competitions;
 
+drop table competition_has_localization;
+
 drop table competition_type;
+
+drop table competition_type_has_localization;
 
 drop table configs;
 
 drop table countries;
+
+drop table jobs;
 
 drop table game_matches;
 
@@ -423,9 +616,19 @@ drop table game_match_events;
 
 drop table game_match_results;
 
+drop table game_match_status;
+
+drop table game_match_status_has_localization;
+
+drop table groups;
+
+drop table group_has_localization;
+
 drop table instances;
 
 drop table jobs;
+
+drop table languages;
 
 drop table linked_account;
 
@@ -433,9 +636,15 @@ drop table news;
 
 drop table periods;
 
+drop table period_has_localization;
+
 drop table phases;
 
+drop table phase_has_localization;
+
 drop table ranking;
+
+drop table resolutions;
 
 drop table resources;
 
@@ -444,6 +653,8 @@ drop table scorers;
 drop table security_role;
 
 drop table teams;
+
+drop table team_has_competitions;
 
 drop table timezones;
 

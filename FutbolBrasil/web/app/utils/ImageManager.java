@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import javax.imageio.ImageIO;
 
-import models.basic.Config;
+import models.Config;
 import org.apache.commons.io.FileUtils;
 
 /**

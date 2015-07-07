@@ -7,7 +7,7 @@ import com.google.common.collect.Iterables;
 import comparators.GameMatchDateComparator;
 import comparators.TeamHasCompetitionComparator;
 import models.Apps;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -23,8 +23,8 @@ import java.util.*;
  * Created by karina on 5/13/14.
  */
 @Entity
-@Table(name="competitions")
-public class Competition  extends HecticusModel {
+@Table(name="competitions", uniqueConstraints = @UniqueConstraint(columnNames = {"id_comp_type, id_app, ext_id"}))
+public class Competition  extends FootballModel {
     @Id
     private Long idCompetitions;
     @Constraints.Required

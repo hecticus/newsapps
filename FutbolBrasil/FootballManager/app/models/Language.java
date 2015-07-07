@@ -18,7 +18,7 @@ import java.util.*;
  */
 @Entity
 @Table(name="languages")
-public class Language extends HecticusModel {
+public class Language extends FootballModel {
 
     @Id
     private Integer idLanguage;

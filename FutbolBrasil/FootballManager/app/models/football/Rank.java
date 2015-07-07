@@ -1,7 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="ranking", uniqueConstraints = @UniqueConstraint(columnNames = {"id_phases, id_teams"}))
-public class Rank  extends HecticusModel {
+public class Rank  extends FootballModel {
 
     @Id
     private long idRanking;

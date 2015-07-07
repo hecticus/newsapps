@@ -20,7 +20,6 @@ public class CompetitionDeactivator  extends HecticusThread {
 
 
     public CompetitionDeactivator() {
-        setRun(Utils.run);
         long start = System.currentTimeMillis();
         setName("CompetitionDeactivator-"+start);
         setInitTime(start);
