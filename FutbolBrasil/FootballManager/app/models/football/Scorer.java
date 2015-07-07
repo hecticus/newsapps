@@ -12,7 +12,7 @@ import java.util.List;
  * Created by sorcerer on 10/27/14.
  */
 @Entity
-@Table(name="scorers")
+@Table(name="scorers", uniqueConstraints = @UniqueConstraint(columnNames = {"id_competition, external_id"}))
 public class Scorer extends FootballModel {
 
     @Id

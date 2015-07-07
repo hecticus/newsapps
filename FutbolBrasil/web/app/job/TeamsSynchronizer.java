@@ -23,6 +23,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class TeamsSynchronizer extends HecticusThread {
 
+    public static final String ENCODING = "UTF-8";
+
     public TeamsSynchronizer() {
         long start = System.currentTimeMillis();
         setName("TeamsSynchronizer-"+start);
@@ -50,7 +52,7 @@ public class TeamsSynchronizer extends HecticusThread {
             int id = lastTeamAlert != null ? lastTeamAlert.getIdExt() : 0;
             synchTeams(id);
         } catch (Exception ex) {
-            Utils.printToLog(TeamsSynchronizer.class, null, "Error sincronizando equipos", true, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(TeamsSynchronizer.class, "Error sincronizando equipos", "Error sincronizando equipos", true, ex, "support-level-1", Config.LOGGER_ERROR);
         }
     }
 
@@ -71,11 +73,11 @@ public class TeamsSynchronizer extends HecticusThread {
                             teamLogo = null;
                     try {
                         if (next.hasNonNull("officialName"))
-                            officialName = next.get("officialName").asText();
+                            officialName = URLEncoder.encode(next.get("officialName").asText(), ENCODING);
                         if (next.hasNonNull("short_name"))
-                            shortName = next.get("short_name").asText();
+                            shortName = URLEncoder.encode(next.get("short_name").asText(), ENCODING);
                         if (next.hasNonNull("abbreviation_name"))
-                            abbreviationName = next.get("abbreviation_name").asText();
+                            abbreviationName = URLEncoder.encode(next.get("abbreviation_name").asText(), ENCODING);
                         if (next.hasNonNull("team_logo"))
                             teamLogo = next.get("team_logo").asText();
                     }catch (Exception ex){

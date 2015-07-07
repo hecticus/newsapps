@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
  * Created by sorcerer on 12/1/14.
  */
 @Entity
-@Table(name="competition_type")
+@Table(name="competition_type", uniqueConstraints = @UniqueConstraint(columnNames = {"ext_id"}))
 public class CompetitionType extends FootballModel {
 
     //constantes de type

@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
  * Created by karina on 5/13/14.
  */
 @Entity
-@Table(name="teams")
+@Table(name="teams", uniqueConstraints = @UniqueConstraint(columnNames = {"ext_id"}))
 public class Team extends FootballModel {
 
     @Id

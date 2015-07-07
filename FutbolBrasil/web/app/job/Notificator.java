@@ -54,7 +54,7 @@ public class Notificator  extends HecticusThread {
             processPushEvents(pmcIdApp, pageSize, idAction);
             Utils.printToLog(Notificator.class, null, "Terminando Notificator", false, null, "support-level-1", Config.LOGGER_INFO);
         } catch (Exception ex) {
-            Utils.printToLog(Notificator.class, null, "Error calculando leadeboards", true, ex, "support-level-1", Config.LOGGER_ERROR);
+            Utils.printToLog(Notificator.class, "Error calculando leadeboards", "Error calculando leadeboards", true, ex, "support-level-1", Config.LOGGER_ERROR);
         }
     }
 
@@ -101,7 +101,7 @@ public class Notificator  extends HecticusThread {
                         event.put("extra_params", extraParams);
                         sendPush(event);
                     } catch (Exception e){
-                        Utils.printToLog(Notificator.class, null, "Error creando push de finalizacion de phase", false, e, "support-level-1", Config.LOGGER_ERROR);
+                        Utils.printToLog(Notificator.class, "Error creando push de finalizacion de phase", "Error creando push de finalizacion de phase", false, e, "support-level-1", Config.LOGGER_ERROR);
                     } finally {
                         event.removeAll();
                         extraParams.removeAll();
