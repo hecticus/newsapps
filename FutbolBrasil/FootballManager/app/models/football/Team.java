@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import models.Config;
-import models.HecticusModel;
+import models.FootballModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
  */
 @Entity
 @Table(name="teams", uniqueConstraints = @UniqueConstraint(columnNames = {"ext_id"}))
-public class Team extends HecticusModel {
+public class Team extends FootballModel {
 
     @Id
     private Long idTeams;

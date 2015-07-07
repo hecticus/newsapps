@@ -1,7 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.basic.Config;
+import models.Config;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
@@ -24,7 +24,7 @@ public class Secured extends Security.Authenticator {
      */
     @Override
     public String getUsername(Http.Context ctx) {
-        boolean isSecured = Config.getIsSecured();
+        boolean isSecured = Utils.getIsSecured();
         if(isSecured) {
             Http.Request request = ctx.request();
             String realOrigin = null;

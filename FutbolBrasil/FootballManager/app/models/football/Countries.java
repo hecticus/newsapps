@@ -1,7 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by karina on 5/13/14.
  */
 @Entity
-public class Countries extends HecticusModel {
+public class Countries extends FootballModel {
 
     @Id
     private Long idCountries;

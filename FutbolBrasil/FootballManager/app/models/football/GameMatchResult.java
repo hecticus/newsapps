@@ -1,7 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import play.libs.Json;
 
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="game_match_results")
-public class GameMatchResult extends HecticusModel {
+public class GameMatchResult extends FootballModel {
 
     @Id
     private Long idGameMatchResults;

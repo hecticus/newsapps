@@ -3,9 +3,9 @@ package caches;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import models.basic.Config;
-import models.basic.Language;
+import models.Config;
 import models.clients.Client;
+import models.clients.FootballClient;
 
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
@@ -64,8 +64,8 @@ public class ClientsCache {
 
     private Map<Integer, ArrayList<Integer>> getClientFromDB(Integer k) {
         Map<Integer, ArrayList<Integer>> cl = new HashMap<>();
-        List<Client> pushAlerts = Client.finder.where().eq("pushAlerts.pushAlert.idExt", k).eq("pushAlerts.status", 1).orderBy("idClient asc").findList();
-        for(Client client : pushAlerts){
+        List<FootballClient> pushAlerts = FootballClient.finder.where().eq("pushAlerts.pushAlert.idExt", k).eq("pushAlerts.status", 1).orderBy("idClient asc").findList();
+        for(FootballClient client : pushAlerts){
             if(!cl.containsKey(client.getLanguage().getIdLanguage())){
                 cl.put(client.getLanguage().getIdLanguage(), new ArrayList<Integer>());
             }
@@ -77,13 +77,13 @@ public class ClientsCache {
 
     private Map<Integer, ArrayList<Integer>> getTournamentClientFromDB(Integer k) {
         Map<Integer, ArrayList<Integer>> cl = new HashMap<>();
-        List<Client> pushAlerts = null;
+        List<FootballClient> pushAlerts = null;
         if(k == -1){
-            pushAlerts = Client.finder.where().gt("status", 0).eq("pushAlerts.pushAlert.idPushAlert", Config.getInt("news-push-id")).eq("pushAlerts.status", 1).orderBy("idClient asc").findList();
+            pushAlerts = FootballClient.finder.where().gt("status", 0).eq("pushAlerts.pushAlert.idPushAlert", Config.getInt("news-push-id")).eq("pushAlerts.status", 1).orderBy("idClient asc").findList();
         } else {
-            pushAlerts = Client.finder.where().eq("leaderboards.idTournament", k).orderBy("idClient asc").findList();
+            pushAlerts = FootballClient.finder.where().eq("leaderboards.idTournament", k).orderBy("idClient asc").findList();
         }
-        for(Client client : pushAlerts){
+        for(FootballClient client : pushAlerts){
             if(!cl.containsKey(client.getLanguage().getIdLanguage())){
                 cl.put(client.getLanguage().getIdLanguage(), new ArrayList<Integer>());
             }

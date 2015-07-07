@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="resources")
-public class Resource extends HecticusModel {
+public class Resource extends FootballModel {
 
     //definir constantes de type
 

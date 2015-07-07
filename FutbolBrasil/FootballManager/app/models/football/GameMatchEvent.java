@@ -2,7 +2,7 @@ package models.football;
 
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="game_match_events",uniqueConstraints = @UniqueConstraint(columnNames = {"ext_id"}))
-public class GameMatchEvent extends HecticusModel {
+public class GameMatchEvent extends FootballModel {
 
     @Id
     private Long idGameMatchEvents;
