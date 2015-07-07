@@ -1,13 +1,13 @@
 package job;
 
 import akka.actor.Cancellable;
+import backend.HecticusThread;
 import caches.ClientsCache;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Config;
 import models.basic.Action;
-import models.basic.Config;
 import models.basic.Language;
-import models.clients.Client;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -15,7 +15,9 @@ import play.libs.ws.WSResponse;
 import utils.Utils;
 
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,7 +31,6 @@ public class PushGenerator extends HecticusThread {
     private int defaultLanguage;
 
     public PushGenerator() {
-        setRun(Utils.run);
         long start = System.currentTimeMillis();
         setName("PushGenerator-"+start);
         setInitTime(start);
@@ -76,7 +77,7 @@ public class PushGenerator extends HecticusThread {
         JsonNode data = null;
         Language language = null;
         try {
-            F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/pushable/get/" + Config.getInt("football-manager-id-app")).get();
+            F.Promise<WSResponse> result = WS.url("http://" + Utils.getFootballManagerHost() + "/footballapi/v1/pushable/get/" + Config.getInt("football-manager-id-app")).get();
             ObjectNode response = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
 
             int error = response.get("error").asInt();
@@ -123,7 +124,7 @@ public class PushGenerator extends HecticusThread {
         }
 
         try {
-            F.Promise<WSResponse> result = WS.url("http://" + Config.getFootballManagerHost() + "/footballapi/v1/competitions/phases/notify/" + Config.getInt("football-manager-id-app")).get();
+            F.Promise<WSResponse> result = WS.url("http://" + Utils.getFootballManagerHost() + "/footballapi/v1/competitions/phases/notify/" + Config.getInt("football-manager-id-app")).get();
             ObjectNode response = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
 
             int error = response.get("error").asInt();

@@ -1,10 +1,11 @@
 package job;
 
 import akka.actor.Cancellable;
+import backend.HecticusThread;
 import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.basic.Action;
-import models.basic.Config;
+import models.Config;
 import models.clients.Client;
 import models.leaderboard.LeaderboardPush;
 import play.libs.F;
@@ -24,7 +25,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Notificator  extends HecticusThread {
 
     public Notificator() {
-        setRun(Utils.run);
         long start = System.currentTimeMillis();
         setName("Notificator-"+start);
         setInitTime(start);

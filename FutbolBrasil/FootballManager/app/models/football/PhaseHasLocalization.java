@@ -1,7 +1,7 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="phase_has_localization")
-public class PhaseHasLocalization extends HecticusModel {
+public class PhaseHasLocalization extends FootballModel {
 
     @Id
     private Integer idPhaseHasLocalization;
