@@ -329,7 +329,7 @@ div.header .right {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     height: 100%;
     background-color: #FFFFFF;
-    -webkit-transform: translateZ(0);
+   /*-webkit-transform: translateZ(0);
     -moz-transform: translateZ(0);
     -ms-transform: translateZ(0);
     -o-transform: translateZ(0);
@@ -343,7 +343,7 @@ div.header .right {
     -moz-text-size-adjust: none;
     -ms-text-size-adjust: none;
     -o-text-size-adjust: none;
-    text-size-adjust: none;
+    text-size-adjust: none;*/
 }
 
 #wrapperH #scroller ul {

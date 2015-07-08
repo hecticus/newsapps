@@ -44,14 +44,11 @@ angular
                             $rootScope.transitionPageBack('#wrapper2', 'left');
                             phaseScroll.scrollTo(0,0,0);
                         }
-                        $timeout(function(){
-                            $scope.$emit('unload');
-                        }, 500);
-                    },function () {
+                    },function (data) {
                         $scope.hasPhases = false;
-                        console.log('showContentPhases. error');
-                        Notification.showNetworkErrorAlert();
-                        $scope.$emit('unload');
+                        if (!data) Notification.showNetworkErrorAlert();
+                    }).finally(function (){
+                      $scope.$emit('unload');
                     });
 
             };
