@@ -22,11 +22,7 @@
         "TEAM-SELECTION" : "Seleção de Equipe",
         "TERMS": "Condições",
         "HOW": "Como funciona",
-        "TUTORIAL": "Tutorial",
-        "DASHBOARD":  {
-          "DASHBOARD": "Dashboard",
-          "TITLE_GAMES_TODAY" : "Jogos de hoje"
-        }
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
         "TITLE" : "Notícias",
@@ -238,9 +234,9 @@
         },
 
        "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
-          "TITLE" : "User not eligible",
-          "SUBTITLE": "User not eligible",
-          "MSG": "Inelegível Usuário!"
+          "TITLE" : "Usuário não elegíveis",
+          "SUBTITLE": "Usuário não elegíveis",
+          "MSG": "Usuário não elegíveis, deve ser um cliente TIM Brasil"
         },
 
         "SET_BET" : {

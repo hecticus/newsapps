@@ -176,7 +176,7 @@ angular
                 leaderboard:  {
 
                     total: function() {
-                        return 'http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/clients/leaderboard/total/8';
+                        return 'http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/clients/leaderboard/total/' + getClientId();
                     },
 
                     phase: function (_competition, _phase) {
