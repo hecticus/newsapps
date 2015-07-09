@@ -16,19 +16,30 @@
   </appender>
   
   <appender name="FILEUPS" class="ch.qos.logback.core.FileAppender">
-     <file>${application.home}/logs/upstream.log</file>
+     <file>/var/log/footballbrazil/upstream.log</file>
      <encoder>
        <pattern>%date - [%level] - %message%n%xException</pattern>
      </encoder>
    </appender>
+
+    <appender name="FILESECURED" class="ch.qos.logback.core.FileAppender">
+        <file>/var/log/footballbrazil/secured.log</file>
+        <encoder>
+            <pattern>%date - [%level] - %message%n%xException</pattern>
+        </encoder>
+    </appender>
   
   <logger name="play" level="INFO" />
   <logger name="application" level="DEBUG" />
   <logger name="upstream" level="TRACE">
   	<appender-ref ref="FILEUPS" />
-  </logger>  
-  
-  <!-- Off these ones as they are annoying, and anyway we manage configuration ourself -->
+  </logger>
+
+    <logger name="secured" level="TRACE">
+        <appender-ref ref="FILESECURED" />
+    </logger>
+
+    <!-- Off these ones as they are annoying, and anyway we manage configuration ourself -->
   <logger name="com.avaje.ebean.config.PropertyMapLoader" level="OFF" />
   <logger name="com.avaje.ebeaninternal.server.core.XmlConfigLoader" level="OFF" />
   <logger name="com.avaje.ebeaninternal.server.lib.BackgroundThread" level="OFF" />

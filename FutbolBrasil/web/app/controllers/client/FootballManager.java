@@ -2,29 +2,29 @@ package controllers.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.HecticusController;
-import models.basic.Config;
+import controllers.FootballController;
+import models.Config;
 import models.clients.Client;
+import models.clients.FootballClient;
 import models.pushalerts.ClientHasPushAlerts;
 import play.libs.F;
-import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.Result;
+import utils.Utils;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by plesse on 12/18/14.
  */
-public class FootballManager extends HecticusController {
+public class FootballManager extends FootballController {
 
     public static Result getScorers(Integer idClient) {
 
-        Client client = Client.finder.byId(idClient);
+        FootballClient client = (FootballClient) Client.getByID(idClient);
         StringBuilder teams = new StringBuilder();
-        teams.append("http://" + Config.getFootballManagerHost() + "/footballapi/v1/players/topScorers/" + Config.getInt("football-manager-id-app") + "?");
+        teams.append("http://" + Utils.getFootballManagerHost() + "/footballapi/v1/players/topScorers/" + Config.getInt("football-manager-id-app") + "?");
         for(ClientHasPushAlerts clientHasPushAlerts :client.getPushAlerts()){
             Integer idExt = clientHasPushAlerts.getPushAlert().getIdExt();
             if(idExt != null && idExt > 0){

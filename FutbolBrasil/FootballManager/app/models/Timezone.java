@@ -13,7 +13,7 @@ import java.util.TimeZone;
  */
 @Entity
 @Table(name="timezones")
-public class Timezone extends HecticusModel {
+public class Timezone extends FootballModel {
 
     @Id
     private Integer idTimezone;

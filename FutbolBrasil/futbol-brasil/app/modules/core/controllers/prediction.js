@@ -188,7 +188,7 @@ angular
                         $scope.$emit('unload');
                     }, function(){
                         $scope.$emit('unload');
-                        //$scope.$emit('error');
+                        league.empty = true;
                     });
                 }
             }

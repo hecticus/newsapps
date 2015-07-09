@@ -36,7 +36,7 @@ public class Wap extends Controller {
     public static String UPSTREAM_EVENT_LOGIN = "LOGIN";
     public static Form<Client> form = form(Client.class);
 
-    public static final String URL_FOOTBALL_MANAGER = "http://footballmanager2.hecticus.com/";
+    public static final String URL_FOOTBALL_MANAGER = "http://footballmanager.hecticus.com/";
     public static final String URL_FOOTBALL_MANAGER_BRAZIL = "http://brazil.footballmanager.hecticus.com/";
     public static final String VERSION = "v1";
 

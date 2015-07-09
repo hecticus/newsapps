@@ -65,7 +65,7 @@ angular
                 setActive('phase'+ scroll.currentPage.pageX);
                 var idCompetitions = $scope.item.competitions[ scroll.currentPage.pageX].id_competitions;
                 var phase = $scope.item.competitions[scroll.currentPage.pageX].phase;
-                //if (phase && phase.type == 0) getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
+                if (!phase) phase = 0;
                  getLeaderboardIndex(Domain.leaderboard.phase(idCompetitions, phase));
             };
 
@@ -122,10 +122,14 @@ angular
                     }, function (data){
                         $scope.hasLeaderboard = false;
                         $scope.$emit('unload');
+
+                        console.log('data.data -> ' + JSON.stringify(data.data));
                         if(data.data.error === 3){
                         } else {
                             Notification.showNetworkErrorAlert();
                         }
+                    }).finally(function() {
+                        $scope.$emit('unload');
                     });
             }
 
@@ -164,7 +168,7 @@ angular
                       });
 
                 }).finally(function() {
-                  $scope.$emit('unload');
+
                 });
             }
 
@@ -198,7 +202,7 @@ angular
             }
 
             function init(){
-
+                $scope.$emit('load');
                 if($state.current.data.contentClass === 'content-friends'){
                     $scope.isContentLeader = false;
                     friendsMode = true;

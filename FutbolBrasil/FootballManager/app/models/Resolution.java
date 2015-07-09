@@ -17,7 +17,7 @@ import java.util.*;
  */
 @Entity
 @Table(name="resolutions")
-public class Resolution extends HecticusModel {
+public class Resolution extends FootballModel {
 
     @Id
     private Integer idResolution;

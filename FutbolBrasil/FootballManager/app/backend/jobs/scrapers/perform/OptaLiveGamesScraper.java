@@ -52,7 +52,7 @@ public class OptaLiveGamesScraper extends OptasportsScraper {
                                 currentSeasonLastUptdated = xPath.compile("@last_updated").evaluate(currentSeason);
                         //String name = category.getName() + " " + currentSeasonName + " (" + areaIdName + ")" ;
                         String name = category.getName() + " " + currentSeasonName;
-                        Competition c = new Competition(name, Long.parseLong(currentSeasonId), getApp(), category);
+                        Competition c = new Competition(name, Long.parseLong(currentSeasonId), app, category);
                         c.validate(language);
                         //get stuff
                         getMinuteByMinute(currentSeasonId);

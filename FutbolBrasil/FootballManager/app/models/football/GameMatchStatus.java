@@ -3,7 +3,7 @@ package models.football;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
  */
 @Entity
 @Table(name="game_match_status", uniqueConstraints = @UniqueConstraint(columnNames = {"extId"}))
-public class GameMatchStatus extends HecticusModel {
+public class GameMatchStatus extends FootballModel {
 
     @Id
     private Integer idGameMatchStatus;

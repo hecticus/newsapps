@@ -22,11 +22,7 @@
         "TEAM-SELECTION" : "Selección de Equipo",
         "TERMS": "Términos",
         "HOW": "Cómo funciona",
-        "TUTORIAL": "Tutorial",
-        "DASHBOARD":  {
-          "DASHBOARD": "Dashboard",
-          "TITLE_GAMES_TODAY" : "Juegos de hoy"
-        }
+        "TUTORIAL": "Tutorial"
     },
     "NEWS" : {
         "TITLE" : "Noticias",
