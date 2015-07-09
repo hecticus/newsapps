@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.upstreamsystems.timpalpites" version="0.12" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
-    <name>TIM Palpites</name>
-    <description>
-      TIM Palpites App.
-	  </description>
-    <author email="contact@hecticus.com" href="http://www.hecticus.com">
-		Hecticus Software Inc
-	</author>
+<widget id="entel.upstreamsystems.guru" version="0.12" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
+  <name>Gurú del Fútbol</name>
+  <description>
+    Gurú del Fútbol App.
+  </description>
+  <author email="contact@hecticus.com" href="http://www.hecticus.com">
+    Hecticus Software Inc
+  </author>
     <content src="index.html" />
     <access origin="*" />
     <platform name="android">
