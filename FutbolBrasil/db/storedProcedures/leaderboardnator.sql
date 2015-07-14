@@ -48,9 +48,11 @@ BEGIN
 								1 
 						END
 				END AS result
-			FROM football_brazil.client_bets AS cb, football_manager.game_matches AS gm, football_manager.game_match_status AS gms 
+			FROM football_brazil.clients AS c, football_brazil.client_bets AS cb, football_manager.game_matches AS gm, football_manager.game_match_status AS gms 
 			WHERE 
 				cb.game_match_date <= today AND
+				c.id_client = cb.id_client AND
+				c.status = 1 AND
 				cb.status = 1 AND
 				gm.id_game_match_status = gms.id_game_match_status AND
 				gms.id_game_match_status = 1 AND

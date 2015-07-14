@@ -9,10 +9,7 @@ import models.HecticusModel;
 import models.Config;
 import models.basic.Country;
 import models.basic.Language;
-import models.leaderboard.ClientBets;
-import models.leaderboard.Leaderboard;
-import models.leaderboard.LeaderboardGlobal;
-import models.leaderboard.LeaderboardTotal;
+import models.leaderboard.*;
 import models.pushalerts.ClientHasPushAlerts;
 import models.pushalerts.PushAlerts;
 import org.apache.commons.codec.binary.Base64;
@@ -46,6 +43,10 @@ public class FootballClient extends Client {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
     private LeaderboardTotal leaderboardTotal;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="client", cascade = CascadeType.ALL)
+    @OrderBy("idTournament asc, score desc")
+    private List<LeaderboardPush> leaderboardPushs;
 
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<ClientBets> clientBets;
@@ -108,6 +109,14 @@ public class FootballClient extends Client {
 
     public void setLeaderboardTotal(LeaderboardTotal leaderboardTotal) {
         this.leaderboardTotal = leaderboardTotal;
+    }
+
+    public List<LeaderboardPush> getLeaderboardPushs() {
+        return leaderboardPushs;
+    }
+
+    public void setLeaderboardPushs(List<LeaderboardPush> leaderboardPushs) {
+        this.leaderboardPushs = leaderboardPushs;
     }
 
     public int getPushAlertIndex(final int pushAlertId) {
