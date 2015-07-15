@@ -953,9 +953,9 @@ public class MatchesController extends HecticusController {
                 }
                 List<News> ungeneratedNews = null;
                 if (Config.getInt("push-all-news") == 1) {
-                    ungeneratedNews = News.finder.where().eq("id_app", idApp).eq("generated", false).ilike("publicationDate", todaysDate + "%").eq("featured", true).findList();
-                } else {
                     ungeneratedNews = News.finder.where().eq("id_app", idApp).eq("generated", false).ilike("publicationDate", todaysDate + "%").findList();
+                } else {
+                    ungeneratedNews = News.finder.where().eq("id_app", idApp).eq("generated", false).ilike("publicationDate", todaysDate + "%").eq("featured", true).findList();
                 }
 
                 if (ungeneratedNews != null && !ungeneratedNews.isEmpty()) {
