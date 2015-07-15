@@ -41,13 +41,14 @@ public class Wap extends Controller {
     public static final String VERSION = "v1";
 
     public static Result getLogin() {
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
         return ok(login.render(form,HD,0));
     }
 
     public static Result getPassword() {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
@@ -100,7 +101,7 @@ public class Wap extends Controller {
     }
 
     public static Result createClient() {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
@@ -149,7 +150,7 @@ public class Wap extends Controller {
 
 
     public static Result index() {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
@@ -178,7 +179,7 @@ public class Wap extends Controller {
     }
 
     public static Result news(Integer idNews) {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
@@ -208,7 +209,7 @@ public class Wap extends Controller {
     }
 
     public static Result competitions(String route) {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
@@ -226,7 +227,7 @@ public class Wap extends Controller {
     }
 
     public static Result matches(Integer idCompetition, Integer page) {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
@@ -270,7 +271,7 @@ public class Wap extends Controller {
     }
 
     public static Result mtm(Integer idCompetition, Integer idMatch, Integer idEvent) {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
@@ -313,7 +314,7 @@ public class Wap extends Controller {
 
 
     public static Result scorers(Integer idCompetition) {
-
+        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
