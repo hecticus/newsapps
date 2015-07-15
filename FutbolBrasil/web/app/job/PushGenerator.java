@@ -34,6 +34,8 @@ public class PushGenerator extends HecticusThread {
     private int defaultCountry;
     private int lowerTime;
     private int upperTime;
+    private int lowerMinutes;
+    private int upperMinutes;
     private int newsSendCounter;
     private int newsSendLimit;
     private long newsCounterRestartTimer;
@@ -72,6 +74,8 @@ public class PushGenerator extends HecticusThread {
             newsSendTime = Long.parseLong("" + args.get("news_send_time"));
             lowerTime = Integer.parseInt("" + args.get("lower_time"));
             upperTime = Integer.parseInt("" + args.get("upper_time"));
+            lowerMinutes = Integer.parseInt("" + args.get("lower_minutes"));
+            upperMinutes = Integer.parseInt("" + args.get("upper_minutes"));
             Country country = Country.getByID(defaultCountry);
             Timezone activeTimezone = country.getActiveTimezone();
             TimeZone timeZone = TimeZone.getTimeZone(activeTimezone.getName());
@@ -84,8 +88,10 @@ public class PushGenerator extends HecticusThread {
             Calendar today = new GregorianCalendar(timeZone);
             Calendar lowerLimit = new GregorianCalendar(timeZone);
             lowerLimit.set(Calendar.HOUR_OF_DAY, lowerTime);
+            lowerLimit.set(Calendar.MINUTE, lowerMinutes);
             Calendar upperLimit = new GregorianCalendar(timeZone);
             upperLimit.set(Calendar.HOUR_OF_DAY, upperTime);
+            upperLimit.set(Calendar.MINUTE, upperMinutes);
 
             if(lowerLimit.before(today) && upperLimit.after(today)) {
                 getEventsToGenerate();
