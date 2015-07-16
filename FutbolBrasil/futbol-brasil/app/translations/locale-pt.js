@@ -256,6 +256,7 @@
     "LOGOUT" : "Sair",
     "READY" : "Pular tutorial",
     "NO_MATCH" : "época terminou",
-    "TITLE_NEXT_MATCH" : "Próximo"
+    "TITLE_NEXT_MATCH" : "Próximo",
+    "MSG_UNAVAILABLE_ORIENTATION" : "A orientação da vista não está disponível"
 
 }
