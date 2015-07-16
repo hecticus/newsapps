@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Config;
 import models.basic.Action;
+import models.basic.Country;
 import models.basic.Language;
+import models.basic.Timezone;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -15,11 +17,11 @@ import play.libs.ws.WSResponse;
 import utils.Utils;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.zip.CheckedOutputStream;
 
 /**
  * Created by plesse on 10/6/14.
@@ -29,6 +31,15 @@ public class PushGenerator extends HecticusThread {
     private int pmcIdApp;
     private int idActionPhaseFinished;
     private int defaultLanguage;
+    private int defaultCountry;
+    private int lowerTime;
+    private int upperTime;
+    private int lowerMinutes;
+    private int upperMinutes;
+    private int newsSendCounter;
+    private int newsSendLimit;
+    private long newsCounterRestartTimer;
+    private long newsSendTime;
 
     public PushGenerator() {
         long start = System.currentTimeMillis();
@@ -36,6 +47,8 @@ public class PushGenerator extends HecticusThread {
         setInitTime(start);
         setActTime(start);
         setPrevTime(start);
+        newsSendCounter = 0;
+        newsCounterRestartTimer = System.currentTimeMillis();
     }
 
     public PushGenerator(String name, AtomicBoolean run, Cancellable cancellable) {
@@ -56,7 +69,34 @@ public class PushGenerator extends HecticusThread {
             pmcIdApp = Config.getInt("pmc-id-app");
             idActionPhaseFinished = Integer.parseInt(""+args.get("id_action"));
             defaultLanguage = Integer.parseInt(""+args.get("default_language"));
-            getEventsToGenerate();
+            defaultCountry = Integer.parseInt(""+args.get("default_country"));
+            newsSendLimit = Integer.parseInt(""+args.get("news_send_limit"));
+            newsSendTime = Long.parseLong("" + args.get("news_send_time"));
+            lowerTime = Integer.parseInt("" + args.get("lower_time"));
+            upperTime = Integer.parseInt("" + args.get("upper_time"));
+            lowerMinutes = Integer.parseInt("" + args.get("lower_minutes"));
+            upperMinutes = Integer.parseInt("" + args.get("upper_minutes"));
+            Country country = Country.getByID(defaultCountry);
+            Timezone activeTimezone = country.getActiveTimezone();
+            TimeZone timeZone = TimeZone.getTimeZone(activeTimezone.getName());
+
+            if(System.currentTimeMillis() - newsCounterRestartTimer > newsSendTime){
+                newsSendCounter = 0;
+                newsCounterRestartTimer = System.currentTimeMillis();
+            }
+
+            Calendar today = new GregorianCalendar(timeZone);
+            Calendar lowerLimit = new GregorianCalendar(timeZone);
+            lowerLimit.set(Calendar.HOUR_OF_DAY, lowerTime);
+            lowerLimit.set(Calendar.MINUTE, lowerMinutes);
+            Calendar upperLimit = new GregorianCalendar(timeZone);
+            upperLimit.set(Calendar.HOUR_OF_DAY, upperTime);
+            upperLimit.set(Calendar.MINUTE, upperMinutes);
+
+            if(lowerLimit.before(today) && upperLimit.after(today)) {
+                getEventsToGenerate();
+            }
+
         } catch (Exception ex) {
             Utils.printToLog(PushGenerator.class, null, "Error generado push", true, ex, "support-level-1", Config.LOGGER_ERROR);
         }
@@ -107,7 +147,6 @@ public class PushGenerator extends HecticusThread {
                         }
                     }
                 }
-
                 if(data.has("news")){
                     Iterator<JsonNode> news = data.get("news").elements();
                     clientsForEvent = getClientsForEvent(null, false);
@@ -130,21 +169,22 @@ public class PushGenerator extends HecticusThread {
             int error = response.get("error").asInt();
             if(error == 0) {
                 data = response.get("response");
-                Iterator<JsonNode> phasesIterator = data.get("phases").elements();
-
-                while (isAlive() && phasesIterator.hasNext()){
-                    JsonNode next = phasesIterator.next();
-                    try {
-                        clientsForEvent = getClientsForEvent(next, false);
-                        if(clientsForEvent != null && !clientsForEvent.isEmpty()) {
-                            for(int i : clientsForEvent.keySet()) {
-                                isAlive();
-                                language = Language.finder.byId(i);
-                                sendEvents(-1, clientsForEvent.get(i), next, null, null, language);
+                if(response.has("phases")) {
+                    Iterator<JsonNode> phasesIterator = data.get("phases").elements();
+                    while (isAlive() && phasesIterator.hasNext()) {
+                        JsonNode next = phasesIterator.next();
+                        try {
+                            clientsForEvent = getClientsForEvent(next, false);
+                            if (clientsForEvent != null && !clientsForEvent.isEmpty()) {
+                                for (int i : clientsForEvent.keySet()) {
+                                    isAlive();
+                                    language = Language.finder.byId(i);
+                                    sendEvents(-1, clientsForEvent.get(i), next, null, null, language);
+                                }
                             }
+                        } catch (Exception e) {
+                            Utils.printToLog(PushGenerator.class, null, "Error procesando final de phase", false, e, "support-level-1", Config.LOGGER_ERROR);
                         }
-                    } catch (Exception e){
-                        Utils.printToLog(PushGenerator.class, null, "Error procesando final de phase", false, e, "support-level-1", Config.LOGGER_ERROR);
                     }
                 }
             }
@@ -154,6 +194,7 @@ public class PushGenerator extends HecticusThread {
     }
 
     private void sendEvents(int idGameMatch, ArrayList<Integer> clientsForEvent, Object events, String home, String away, Language language) {
+        boolean sendNews = true;
         ObjectNode event = Json.newObject();
         ObjectNode extraParams = Json.newObject();
         event.put("clients", Json.toJson(clientsForEvent));
@@ -180,9 +221,13 @@ public class PushGenerator extends HecticusThread {
                         extraParams.put("is_news", true);
                         extraParams.put("id_news", next.get("id_news").asInt());
                         extraParams.put("is_info", false);
+                        if(newsSendCounter >= newsSendLimit) sendNews = false;
+                        ++newsSendCounter;
                     }
                     event.put("extra_params", extraParams);
-                    sendEventToPmc(event);
+                    if(sendNews) {
+                        sendEventToPmc(event);
+                    }
                 } catch (Exception e) {
                     Utils.printToLog(PushGenerator.class, null, "Error enviando eventos", false, e, "support-level-1", Config.LOGGER_ERROR);
                 }

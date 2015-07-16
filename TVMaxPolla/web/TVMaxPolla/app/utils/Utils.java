@@ -209,9 +209,9 @@ public class Utils {
 
         }
         int MMint = Integer.parseInt(MM);
-        if ( MMint < 10) MM = '0' + MM;
+        //if ( MMint < 10) MM = '0' + MM;
         int DDint = Integer.parseInt(DD);
-        if ( DDint < 10) DD = '0' + DD;
+        //if ( DDint < 10) DD = '0' + DD;
 
         //console.log("Date: "+ds+" -- "+YYYY+MM+DD+hh+mm+ss);
         return Long.parseLong(YYYY+MM+DD+hh+mm+ss);
