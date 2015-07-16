@@ -37,7 +37,7 @@ public class HandsetDetection extends Controller {
     public HandsetDetection()  {
 
         try {
-            
+            ctx().changeLang("pt");
             ObjectNode dataJson = Json.newObject();
             dataJson.put("user-agent", request().getHeader("User-Agent"));
             dataJson.put("options", "legacy, markup, xhtml_ui, hd_specs, display");

@@ -41,7 +41,6 @@ public class Wap extends Controller {
     public static final String VERSION = "v1";
 
     public static Result getLogin() {
-        
         HandsetDetection HD = new HandsetDetection();
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
         return ok(login.render(form,HD,0));
