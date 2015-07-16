@@ -257,5 +257,5 @@
     "READY" : "Skip tutorial",
     "NO_MATCH" : "season finished",
     "TITLE_NEXT_MATCH" : "Next",
-    "TITLE_NEXT_MATCH" : "Next"
+    "MSG_UNAVAILABLE_ORIENTATION" : "The view orientation is unavailable"
 }
