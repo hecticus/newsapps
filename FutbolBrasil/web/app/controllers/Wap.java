@@ -38,11 +38,16 @@ public class Wap extends Controller {
 
     public static final String URL_FOOTBALL_MANAGER = "http://footballmanager.hecticus.com/";
     public static final String URL_FOOTBALL_MANAGER_BRAZIL = "http://brazil.footballmanager.hecticus.com/";
+    public static final String URL_HTML5 = "http://timfutebol.hecticus.com/";
     public static final String VERSION = "v1";
 
     public static Result getLogin() {
-        
+
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
+
+
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
         return ok(login.render(form,HD,0));
     }
@@ -50,6 +55,8 @@ public class Wap extends Controller {
     public static Result getPassword() {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -103,6 +110,8 @@ public class Wap extends Controller {
     public static Result createClient() {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -152,6 +161,8 @@ public class Wap extends Controller {
     public static Result index() {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -181,6 +192,8 @@ public class Wap extends Controller {
     public static Result news(Integer idNews) {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -211,6 +224,8 @@ public class Wap extends Controller {
     public static Result competitions(String route) {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -229,6 +244,8 @@ public class Wap extends Controller {
     public static Result matches(Integer idCompetition, Integer page) {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -273,6 +290,8 @@ public class Wap extends Controller {
     public static Result mtm(Integer idCompetition, Integer idMatch, Integer idEvent) {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -316,6 +335,8 @@ public class Wap extends Controller {
     public static Result scorers(Integer idCompetition) {
         
         HandsetDetection HD = new HandsetDetection();
+        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
+            return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
