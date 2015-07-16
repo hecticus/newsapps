@@ -1341,18 +1341,7 @@ h6.team-name {
     top: -30px;
   }
 
-  /** (landscape) **/
-  @media only screen and (orientation : landscape) {
-    #screen-block-landscape {
-      display:block;
-    }
-  }
 
-  @media only screen and (orientation : portrait) {
-    #screen-block-landscape {
-      display:none;
-    }
-  }
   /*</v2>*/
 
 
