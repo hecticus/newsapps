@@ -11,7 +11,7 @@ import play.libs.Json;
 /**
  * Created by alidaniel on 02/12/2015.
  */
-public class HandsetDetection extends Controller {
+public class HandsetDetection  extends Controller {
 
     public static final Integer HTML4_AJAX = 4;
     public static final Integer HTML = 3;
@@ -37,7 +37,7 @@ public class HandsetDetection extends Controller {
     public HandsetDetection()  {
 
         try {
-            ctx().changeLang("pt");
+
             ObjectNode dataJson = Json.newObject();
             dataJson.put("user-agent", request().getHeader("User-Agent"));
             dataJson.put("options", "legacy, markup, xhtml_ui, hd_specs, display");
