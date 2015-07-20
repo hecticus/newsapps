@@ -100,7 +100,8 @@
                 "TITLE" : "Forgot your Username and password?",
                 "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
                 "SMALL_PRINT" : "*The service is only available for subscribers of the specific operator"
-            }
+            },
+            "SUCCESS" : "Remind Success."
         }
     },
     "SETTINGS": {

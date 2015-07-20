@@ -60,7 +60,7 @@ angular
                         var localTime  = moment.utc(leagueTime).toDate();
                         _oMoment = moment(localTime).locale(getLang());
                     }
-                    return _oMoment.endOf('day').fromNow();
+                    return _oMoment.endOf('hour').fromNow();
                 },
 
                 /**

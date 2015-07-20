@@ -27,6 +27,7 @@ angular
             $scope.getNameClient = Client.getNickname();
             $scope.points = 0;
             $scope.showSource = false;
+
             $scope.getEndOfTime = function(date) {
               if (date === undefined) {
                 return strings['NO_MATCH'];
