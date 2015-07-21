@@ -92,8 +92,12 @@ angular
                     var _jLeagues = $scope.leagues[_iLeague];
                     var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
 
-                    var dateMatch = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').format('YYYY-MM-DD');
-                    var diffHours = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').diff(Moment.date(), 'hours');
+                    var diffHours = Moment.date(_jMatch.date,'YYYYMMDDhhmmss').diff(Moment.date(), 'h');
+
+
+
+
+
 
                     if (diffHours > 1) {
                       if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
