@@ -150,77 +150,40 @@ playauthenticate.restricted.secrets=Secrets, everywhere!
 ### --- play-authenticate END
 
 ### -- <wap> --- ###
-
 APP_TITLE=TIM Palpites
-MATCH_LABEL=Partidas
-SCORERS_LABEL=Artilharia
-NEWS_LABEL=Notícias
+MATCH_LABEL=Matches
+SCORERS_LABEL=Scorers
+NEWS_LABEL=News
 
-PLAYER_LABEL=Jogador
-TEAM_LABEL=Equipe
-GOALS_LABEL=Gols
-MTM_LABEL=Ao Vivo
-MTM_REFRESH_LINK=Atualizar
-LOGIN_TITLE=Registrar-se para acessar a notícia de futebol do dia, todos os dias.
-LOGIN_TITLE_MSISDN=Digite seu número de celular.
-LOGIN_TITLE_PASSWORD=Digite a senha recebida por SMS.
-BUTTON_NEXT=Próximo
-BUTTON_CONFIRM=Confirmar
-BUTTON_AGAIN_PASSWORD=Enviar novamente a senha
+PLAYER_LABEL=Player
+TEAM_LABEL=Team
+GOALS_LABEL=Goals
+MTM_LABEL=Live
+MTM_REFRESH_LINK=Refresh
 
-ERROR_DEFAULT=Neste momento, não podemos processar sua solicitação
-ERROR_MSISDN=O número de telefone é inválido
-ERROR_PASSWORD=A senha não é válida
-ERROR_SEND_PASSWORD=Neste momento, não podemos processar sua solicitação
-ERROR_CREATE_CLIENTE=Neste momento, não podemos processar sua solicitação
+LOGIN_TITLE=Register to access the football news of the day, every day.
+LOGIN_TITLE_MSISDN=Enter your mobile number.
+LOGIN_TITLE_PASSWORD=Enter the password received by SMS.
+BUTTON_NEXT=Next
+BUTTON_CONFIRM=Confirm
+BUTTON_AGAIN_PASSWORD=Request password again
 
-INFO_NEWS=Conteúdo não disponível
-INFO_MTM=Conteúdo não disponível
-INFO_MATCH=Não há jogos disponíveis para o dia %DATE%
-INFO_SCORERS=Conteúdo não disponível
+ERROR_DEFAULT=At this time we can not process your request
+ERROR_MSISDN=The phone number is invalid
+ERROR_PASSWORD=The password is invalid
+ERROR_SEND_PASSWORD=At this time we can not process your request
+ERROR_CREATE_CLIENTE=At this time we can not process your request
 
-MATCH-STATUS-0=Sem Jogar
-MATCH-STATUS-1=Jogado
-MATCH-STATUS-2=Jogar
-MATCH-STATUS-3=Fixação
-MATCH-STATUS-4=Cancelado
-MATCH-STATUS-5=Adiado
-MATCH-STATUS-6=Suspenso
+INFO_NEWS=Content not available
+INFO_MTM=Content not available
+INFO_MATCH=No games available for the day %DATE%
+INFO_SCORERS=Content not available
 
-#APP_TITLE=TIM Palpites
-#MATCH_LABEL=Matches
-#SCORERS_LABEL=Scorers
-#NEWS_LABEL=News
-
-#PLAYER_LABEL=Player
-#TEAM_LABEL=Team
-#GOALS_LABEL=Goals
-#MTM_LABEL=Live
-#MTM_REFRESH_LINK=Refresh
-
-#LOGIN_TITLE=Register to access the football news of the day, every day.
-#LOGIN_TITLE_MSISDN=Enter your mobile number.
-#LOGIN_TITLE_PASSWORD=Enter the password received by SMS.
-#BUTTON_NEXT=Next
-#BUTTON_CONFIRM=Confirm
-#BUTTON_AGAIN_PASSWORD=Request password again
-
-#ERROR_DEFAULT=At this time we can not process your request
-#ERROR_MSISDN=The phone number is invalid
-#ERROR_PASSWORD=The password is invalid
-#ERROR_SEND_PASSWORD=At this time we can not process your request
-#ERROR_CREATE_CLIENTE=At this time we can not process your request
-
-#INFO_NEWS=Content not available
-#INFO_MTM=Content not available
-#INFO_MATCH=No games available for the day %DATE%
-#INFO_SCORERS=Content not available
-
-#MATCH-STATUS-0=Not Yet Played
-#MATCH-STATUS-1=Played
-#MATCH-STATUS-2=Playing
-#MATCH-STATUS-3=Fixture
-#MATCH-STATUS-4=Cancelled
-#MATCH-STATUS-5=Postponed
-#MATCH-STATUS-6=Suspended
+MATCH-STATUS-0=Not Yet Played
+MATCH-STATUS-1=Played
+MATCH-STATUS-2=Playing
+MATCH-STATUS-3=Fixture
+MATCH-STATUS-4=Cancelled
+MATCH-STATUS-5=Postponed
+MATCH-STATUS-6=Suspended
 ### -- </wap> --- ###
