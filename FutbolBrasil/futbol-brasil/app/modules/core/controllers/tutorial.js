@@ -16,6 +16,7 @@ angular
             $scope.language = Client.getLanguage().short_name;
             var width = $window.innerWidth;
             var widthTotal = $window.innerWidth;
+            var hScroll = null;
 
             $scope.getWidth = function(){
                 return { 'width': width + 'px'}
@@ -31,25 +32,26 @@ angular
 
 
             $scope.nextPage = function(){
-                 $scope.hScroll.next();
+                 hScroll.next();
             };
 
             $scope.prevPage = function(){
-                 $scope.hScroll.prev();
+                 hScroll.prev();
             };
 
             $scope.getToggleOnClass = function(page) {
-                if (page === $scope.hScroll.currentPage.pageX)
+                if (page === hScroll.currentPage.pageX)
                   return 'mdi-toggle-radio-button-on';
             }
 
             $scope.getHiddenClass = function(page) {
-                if (page === $scope.hScroll.currentPage.pageX)
+                if (page === hScroll.currentPage.pageX)
                   return 'hidden';
             }
 
             function init(){
-                $scope.hScroll = iScroll.horizontal('wrapperH');
+                hScroll = iScroll.horizontal('wrapperH');
+                hScroll.refresh();
                 $scope.$emit('unload');
             } init();
         }
