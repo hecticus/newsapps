@@ -341,7 +341,7 @@ public class MatchesController extends HecticusController {
                             Calendar matchDate = null;
                             for (GameMatch gameMatch : gameMatches) {
                                 matchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-                                matchDate.setTime(DateAndTime.getDate(gameMatch.getDate(), "yyyyMMddHHmmss", TimeZone.getTimeZone("UTC")));
+                                matchDate.setTime(DateAndTime.getDate(gameMatch.getDate(), gameMatch.getDate().length() == 8 ? "yyyyMMdd":"yyyyMMddHHmmss", TimeZone.getTimeZone("UTC")));
                                 if (matchDate.before(maximumDate)) {
                                     fixtures.add(gameMatch.toJsonSimple());
                                 } else {

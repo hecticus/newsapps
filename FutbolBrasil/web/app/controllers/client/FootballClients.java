@@ -410,7 +410,7 @@ public class FootballClients extends Clients {
     public static Result getBets(Integer id) {
         try {
             String[] timezoneNames = getFromQueryString("timezoneName");
-            if(timezoneNames.length <= 0){
+            if(timezoneNames == null || timezoneNames.length <= 0){
                 return badRequest(buildBasicResponse(1, "Falta el parametro timezonName"));
             }
             String timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
