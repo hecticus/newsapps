@@ -23,20 +23,11 @@ angular
             };
 
             $scope.getTotalWidth = function(){
-                return { 'width': (widthTotal * 4) + 'px'}
+                return { 'width': widthTotal + 'px'}
             };
 
             $scope.goToIndex = function(){
                 $state.go($rootScope.defaultPage);
-            };
-
-
-            $scope.nextPage = function(){
-                 hScroll.next();
-            };
-
-            $scope.prevPage = function(){
-                 hScroll.prev();
             };
 
             $scope.getToggleOnClass = function(page) {
@@ -49,10 +40,32 @@ angular
                   return 'hidden';
             }
 
-            function init(){
+
+
+            function setScroll() {
                 hScroll = iScroll.horizontal('wrapperH');
-                hScroll.refresh();
+
+                $scope.nextPage = function(){
+                    hScroll.next();
+                };
+                $scope.prevPage = function(){
+                    hScroll.prev();
+                };
+
+                $scope.$on('$destroy', function() {
+                    hScroll.destroy();
+                    hScroll = null;
+                });
+            }
+
+
+
+            function init(){
+
+                setScroll();
+                 widthTotal = ($window.innerWidth * 4);
                 $scope.$emit('unload');
+
             } init();
         }
 ]);

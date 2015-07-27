@@ -94,11 +94,6 @@ angular
 
                     var diffHours = Moment.date(_jMatch.date,'YYYYMMDDhhmmss').diff(Moment.date(), 'h');
 
-
-
-
-
-
                     if (diffHours > 1) {
                       if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
                         $scope.$emit('load');
