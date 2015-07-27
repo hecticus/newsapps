@@ -137,7 +137,7 @@ public class MatchesController extends HecticusController {
                     competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage(), false);
                     if (fullList != null && !fullList.isEmpty()) {
                         for (GameMatch gameMatch : fullList) {
-                            data.add(gameMatch.toJson());
+                            data.add(gameMatch.toJson(requestLanguage, app.getLanguage(), timeZone));
                         }
                         fullList.clear();
                     }
@@ -200,7 +200,7 @@ public class MatchesController extends HecticusController {
                 List<GameMatch> fullList = null;
                 fullList = GameMatch.getGamematchBetweenDatesForcompetitions(competitionsByApp, minimumDate, maximumDate);
                 for (GameMatch gameMatch : fullList) {
-                    data.add(gameMatch.toJsonWithCompetitions(requestLanguage, app.getLanguage()));
+                    data.add(gameMatch.toJsonWithCompetitions(requestLanguage, app.getLanguage(), timeZone));
                 }
                 fullList.clear();
                 if(competitionsByApp != null) {
@@ -261,14 +261,14 @@ public class MatchesController extends HecticusController {
                             pivot = gameMatches.get(0).getDate().substring(0, 8);
                             for (GameMatch gameMatch : gameMatches) {
                                 if (gameMatch.getDate().startsWith(pivot)) {
-                                    fixtures.add(gameMatch.toJsonSimple());
+                                    fixtures.add(gameMatch.toJsonSimple(timeZone));
                                 } else {
                                     ObjectNode round = Json.newObject();
                                     round.put("date", pivot);
                                     round.put("matches", Json.toJson(fixtures));
                                     data.add(round);
                                     fixtures.clear();
-                                    fixtures.add(gameMatch.toJsonSimple());
+                                    fixtures.add(gameMatch.toJsonSimple(timeZone));
                                     pivot = gameMatch.getDate().substring(0, 8);
                                 }
                             }
@@ -339,26 +339,31 @@ public class MatchesController extends HecticusController {
                             pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
                             Calendar maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
                             Calendar matchDate = null;
+                            Calendar pivotDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+                            pivotDate.setTime(DateAndTime.getDate(gameMatches.get(0).getDate(), gameMatches.get(0).getDate().length()==8?"yyyyMMdd":"yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
+                            SimpleDateFormat tzFormatter = new SimpleDateFormat("yyyyMMdd");
+                            tzFormatter.setTimeZone(timeZone);
                             for (GameMatch gameMatch : gameMatches) {
                                 matchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
                                 matchDate.setTime(DateAndTime.getDate(gameMatch.getDate(), gameMatch.getDate().length() == 8 ? "yyyyMMdd":"yyyyMMddHHmmss", TimeZone.getTimeZone("UTC")));
                                 if (matchDate.before(maximumDate)) {
-                                    fixtures.add(gameMatch.toJsonSimple());
+                                    fixtures.add(gameMatch.toJsonSimple(timeZone));
                                 } else {
                                     ObjectNode round = Json.newObject();
-                                    round.put("date", pivot);
+                                    round.put("date", tzFormatter.format(pivotDate.getTime()));
                                     round.put("matches", Json.toJson(fixtures));
                                     data.add(round);
                                     fixtures.clear();
-                                    fixtures.add(gameMatch.toJsonSimple());
+                                    fixtures.add(gameMatch.toJsonSimple(timeZone));
                                     pivot = gameMatch.getDate().substring(0, 8);
+                                    pivotDate.setTime(DateAndTime.getDate(gameMatch.getDate(), gameMatch.getDate().length()==8?"yyyyMMdd":"yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
                                     pivotMaximumDate.setTime(DateAndTime.getDate(pivot, "yyyyMMdd", TimeZone.getTimeZone("UTC")));
                                     maximumDate = DateAndTime.getMaximumDate(pivotMaximumDate, timezoneName);
                                 }
                             }
                             if (!fixtures.isEmpty()) {
                                 ObjectNode round = Json.newObject();
-                                round.put("date", pivot);
+                                round.put("date", tzFormatter.format(pivotDate.getTime()));
                                 round.put("matches", Json.toJson(fixtures));
                                 data.add(round);
                                 fixtures.clear();
@@ -465,7 +470,7 @@ public class MatchesController extends HecticusController {
                         if (fullList != null && !fullList.isEmpty()) {
                             ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage(), false);
                             for (int i = 0; i < fullList.size(); i++) {
-                                data.add(fullList.get(i).toJson(requestLanguage, app.getLanguage()));
+                                data.add(fullList.get(i).toJson(requestLanguage, app.getLanguage(), timeZone));
                             }
                             competitionJson.put("fixtures", Json.toJson(data));
                             data.clear();
