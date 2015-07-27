@@ -384,7 +384,7 @@ public class GameMatch extends FootballModel {
         if(result != null) {
             json.put("results", result.toJson());
         }
-        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage, false));
+        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage, false, null));
 
         return json;
     }
@@ -418,6 +418,19 @@ public class GameMatch extends FootballModel {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
         json.put("date",date);
+        json.put("home_team",homeTeam.toJsonSimple());
+        json.put("away_team",awayTeam.toJsonSimple());
+        return json;
+    }
+
+    public ObjectNode toJsonPush(TimeZone timeZone) throws ParseException {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        df.setTimeZone(timeZone);
+        Calendar gameMatchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        gameMatchDate.setTime(DateAndTime.getDate(date, date.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
+        json.put("date",df.format(gameMatchDate.getTime()));
         json.put("home_team",homeTeam.toJsonSimple());
         json.put("away_team",awayTeam.toJsonSimple());
         return json;
