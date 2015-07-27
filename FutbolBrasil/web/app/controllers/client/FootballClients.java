@@ -1024,7 +1024,7 @@ public class FootballClients extends Clients {
         try {
             String[] timezoneNames = getFromQueryString("timezoneName");
             String timezoneName = null;
-            if(timezoneNames.length <= 0){
+            if(timezoneNames == null || timezoneNames.length <= 0){
                 //resturar cuando se cambie la version que no manda el timezone (HOY ES 27/07/2015, avisenle a iñaki cuando quiten esto. mi apuesta es que nadie se dara cuenta)
 //                return badRequest(buildBasicResponse(1, "Falta el parametro timezonName"));
             } else {
