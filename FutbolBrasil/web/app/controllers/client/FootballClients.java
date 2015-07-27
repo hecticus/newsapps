@@ -1022,6 +1022,14 @@ public class FootballClients extends Clients {
 
     public static Result dashboard(Integer id, Integer idLanguage) {
         try {
+            String[] timezoneNames = getFromQueryString("timezoneName");
+            String timezoneName = null;
+            if(timezoneNames.length <= 0){
+                //resturar cuando se cambie la version que no manda el timezone (HOY ES 27/07/2015, avisenle a iñaki cuando quiten esto. mi apuesta es que nadie se dara cuenta)
+//                return badRequest(buildBasicResponse(1, "Falta el parametro timezonName"));
+            } else {
+                timezoneName = timezoneNames[0].replaceAll(" ", "").trim();
+            }
             FootballClient client = (FootballClient) Client.getByID(id);
             if(client != null) {
                 String[] favorites = getFromQueryString("teams");
@@ -1031,7 +1039,7 @@ public class FootballClients extends Clients {
                         teamsBuilder.append("&teams=").append(team);
                     }
                 }
-                String teams = "http://" + Utils.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true" + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
+                String teams = "http://" + Utils.getFootballManagerHost() + "/footballapi/v1/competitions/list/" + Config.getInt("football-manager-id-app") + "/" + idLanguage + "?closestMatch=true"  + (timezoneName!=null?"&timezoneName=" + timezoneName:"") + (teamsBuilder.length() > 0? teamsBuilder.toString() : "");
                 F.Promise<WSResponse> result = WS.url(teams.toString()).get();
                 ObjectNode footballResponse = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
                 int error = footballResponse.get("error").asInt();

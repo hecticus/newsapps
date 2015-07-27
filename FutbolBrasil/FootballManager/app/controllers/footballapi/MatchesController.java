@@ -134,7 +134,7 @@ public class MatchesController extends HecticusController {
                 List<GameMatch> fullList = null;
                 for (Competition competition : competitionsByApp) {
                     fullList = GameMatch.getGamematchBetweenDates(competition.getIdCompetitions(), minimumDate, maximumDate);
-                    competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage(), false);
+                    competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage(), false, timeZone);
                     if (fullList != null && !fullList.isEmpty()) {
                         for (GameMatch gameMatch : fullList) {
                             data.add(gameMatch.toJson(requestLanguage, app.getLanguage(), timeZone));
@@ -468,7 +468,7 @@ public class MatchesController extends HecticusController {
                         fullList = competition.getMatchesByDateDB(sdf.format(minimumDate.getTime()), sdf.format(maximumDate.getTime()));
 //                        fullList = competition.getMatchesByDate(minimumDate, maximumDate);
                         if (fullList != null && !fullList.isEmpty()) {
-                            ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage(), false);
+                            ObjectNode competitionJson = competition.toJsonNoPhases(requestLanguage, app.getLanguage(), false, timeZone);
                             for (int i = 0; i < fullList.size(); i++) {
                                 data.add(fullList.get(i).toJson(requestLanguage, app.getLanguage(), timeZone));
                             }
@@ -589,11 +589,15 @@ public class MatchesController extends HecticusController {
     }
 
 
-    public static Result getActiveCompetitions(Integer idApp, Integer idLanguage, Boolean ids, Boolean closestMatch){
+    public static Result getActiveCompetitions(Integer idApp, Integer idLanguage, Boolean ids, Boolean closestMatch, String timezoneName){
         try {
             Apps app = Apps.findId(idApp);
             ObjectNode response = null;
             if(app != null) {
+                TimeZone timeZone = null;
+                if(!timezoneName.isEmpty()){
+                    timeZone = DateAndTime.getTimezoneFromID(timezoneName);
+                }
                 ArrayList data = new ArrayList();
                 ArrayList responseData = new ArrayList();
                 List<Team> teams = null;
@@ -623,7 +627,7 @@ public class MatchesController extends HecticusController {
                     competitions = new ArrayList<ObjectNode>(competitionsByApp.size());
                 }
                 for (Competition competition : competitionsByApp) {
-                    competitions.add(ids ? competition.getIdCompetitions() : (competition.toJsonNoPhases(requestLanguage, app.getLanguage(), closestMatch)));
+                    competitions.add(ids ? competition.getIdCompetitions() : (competition.toJsonNoPhases(requestLanguage, app.getLanguage(), closestMatch, timeZone)));
                 }
                 response = hecticusResponse(0, "ok", ids ? "ids" : "competitions", competitions);
                 competitions.clear();
