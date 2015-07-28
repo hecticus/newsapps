@@ -46,9 +46,11 @@ angular
                 hScroll = iScroll.horizontal('wrapperH');
 
                 $scope.nextPage = function(){
-                    hScroll.next();
+                  hScroll.refresh();
+                  hScroll.next();
                 };
                 $scope.prevPage = function(){
+                    hScroll.refresh();
                     hScroll.prev();
                 };
 
@@ -59,13 +61,11 @@ angular
             }
 
 
-
             function init(){
-
+                widthTotal = ($window.innerWidth * 4);
                 setScroll();
-                 widthTotal = ($window.innerWidth * 4);
                 $scope.$emit('unload');
-
             } init();
+
         }
 ]);
