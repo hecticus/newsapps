@@ -27,6 +27,7 @@ angular
             $scope.getNameClient = Client.getNickname();
             $scope.points = 0;
             $scope.showSource = false;
+
             $scope.getEndOfTime = function(date) {
               if (date === undefined) {
                 return strings['NO_MATCH'];
@@ -91,8 +92,7 @@ angular
                     var _jLeagues = $scope.leagues[_iLeague];
                     var _jMatch = _jLeagues.fixtures[_iFixture].matches[_iMatch];
 
-                    var dateMatch = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').format('YYYY-MM-DD');
-                    var diffHours = Moment.date(_jMatch.date,'YYYYMMDDHHmmss').diff(Moment.date(), 'hours');
+                    var diffHours = Moment.date(_jMatch.date,'YYYYMMDDhhmmss').diff(Moment.date(), 'h');
 
                     if (diffHours > 1) {
                       if (( _jMatch.id_game_matches != _Match) || (_bet != _mBet)) {
@@ -247,6 +247,8 @@ angular
                     $scope.scroll = iScroll.vertical('wrapper');
                     widthTotal = ($window.innerWidth * $scope.leagues.length);
                     setUpIScroll();
+                }, function(){
+                  Notification.showNetworkErrorAlert();
                 }).finally(function(){
                   $scope.$emit('unload');
                 });

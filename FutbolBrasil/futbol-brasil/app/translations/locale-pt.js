@@ -100,7 +100,8 @@
                 "TITLE" : "Esqueceu o seu nome de usuário e senha?",
                 "MESSAGE" : "Para obter as suas credenciais, por favor digite seu número de celular e clique em 'Lembrar / Obter Credenciais'",
                 "SMALL_PRINT" : "*O serviço está disponível apenas para assinantes de operadora específica"
-            }
+            },
+            "SUCCESS" : "Lembre Sucesso."
         }
     },
     "SETTINGS": {

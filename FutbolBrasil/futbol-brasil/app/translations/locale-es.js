@@ -100,7 +100,8 @@
                 "TITLE" : "¿Olvidó su Usuario y Contraseña?",
                 "MESSAGE" : "Para obtener sus credenciales por favor escriba su NÚMERO DE TELÉFONO y presione 'Recordar / Obtener Credenciales'",
                 "SMALL_PRINT" : "*El servicio está disponible solo para suscriptores de la operadora especificada"
-            }
+            },
+            "SUCCESS" : "Recordatorio exitoso."
         }
     },
     "SETTINGS": {

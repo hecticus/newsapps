@@ -16,8 +16,8 @@ angular
             var apiVersion = 'v1';
             var provisionalLang = null;
 
-           function getGMT(){
-              return moment().format('[GMT]ZZ').replace(/\s/g, '');
+           function getGMT(prefix){
+              return prefix + 'timezoneName=' + moment().format('[GMT]ZZ').replace(/\s/g, '');
            }
 
             function getLang(){
@@ -79,7 +79,8 @@ angular
 
                 competitionsPrediction:  function (clientId) {
                     return brazil_football_manager_url + 'futbolbrasil/'
-                    + apiVersion + '/clients/dashboard/' +  clientId + '/' + getLang() + getSecurityToken('?');
+                    + apiVersion + '/clients/dashboard/' +  clientId + '/' + getLang()
+                    +  getGMT('?') + getSecurityToken('&') ;
                 },
 
                 news: {
@@ -87,21 +88,21 @@ angular
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/'
                             + appId + '/' + getLang()
-                            + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                            +  getGMT('?')  + getSecurityToken('&');
                     },
 
                     up: function (_news) {
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/up/rest/'
                             + appId + '/' + getLang() + '/' + _news
-                            + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                            +  getGMT('?') + getSecurityToken('&');
                     },
 
                     down: function (_news) {
                         return football_manager_url + 'newsapi/'
                             + apiVersion + '/news/scroll/down/rest/'
                             + appId + '/' + getLang() + '/' + _news
-                            + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                            +  getGMT('?')  + getSecurityToken('&');
                     }
                 },
 
@@ -122,19 +123,21 @@ angular
 
                     return football_manager_url + 'api/'
                         + apiVersion + '/rankings/get/'
-                        + appId + getLang() + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                        + appId + getLang() +  getGMT('?')  + getSecurityToken('&');
                 },
 
                 phases: function (_competition) {
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/competitions/phases/'
-                        + appId + '/' + _competition + '/' + getLang() + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                        + appId + '/' + _competition + '/' + getLang()
+                        +  getGMT('?')  + getSecurityToken('&');
                 },
 
                 ranking: function (_competition, _phase) {
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/competitions/ranking/'
-                        + appId + '/' + _competition + '/' + getLang() + '/' + _phase + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                        + appId + '/' + _competition + '/' + getLang() + '/' + _phase
+                        + getGMT('?')  + getSecurityToken('&');
                 },
 
                 scorers: function (_competition) {
@@ -144,14 +147,15 @@ angular
                         + _competition
                         + '?pageSize=15'
                         + '&page=0'
-                        + '&timezoneName=' + getGMT()
+                        + getGMT('&')
                         + getSecurityToken('&');
                 },
 
                 match: function (_date) {
                     return football_manager_url + 'footballapi/'
                         + apiVersion + '/matches/date/paged/' + appId + '/'
-                        + getLang() + '/' + _date + '?timezoneName=' + getGMT()
+                        + getLang() + '/' + _date
+                        + getGMT('?')
                         + getSecurityToken('&');
                 },
 
@@ -160,7 +164,7 @@ angular
                         + apiVersion + '/matches/mam/next/'
                         + appId + '/' + _competition + '/' + _match
                         + '/' + getLang() + '/' + _event
-                        + '?timezoneName=' + getGMT()
+                        + getGMT('?')
                         + getSecurityToken('&');
                 },
 
@@ -169,7 +173,7 @@ angular
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/bets/get/'
                             + getClientId() + '/' + _competition
-                            + '?timezoneName=' + getGMT()
+                            + getGMT('?')
                             + getSecurityToken('&');
                     },
 
@@ -177,7 +181,7 @@ angular
                       return brazil_football_manager_url + 'futbolbrasil/'
                           + apiVersion + '/clients/bets/get/date/'
                           + getClientId() + '/' + _date
-                          + '?timezoneName=' + getGMT()
+                          + getGMT('?')
                           + getSecurityToken('&');
                     },
 
@@ -198,14 +202,16 @@ angular
                         return brazil_football_manager_url+ 'futbolbrasil/'
                             + apiVersion + '/clients/leaderboard/get/'
                             + getClientId() + '/' + _competition + '/' + _phase
-                            + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                            + getGMT('?')
+                            + getSecurityToken('&');
                     },
 
                     competition: function (_competition) {
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/leaderboard/global/get/'
                             + getClientId() + '/' + _competition
-                            + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                            + getGMT('?')
+                            + getSecurityToken('&');
                     },
 
                     personal : {
@@ -214,20 +220,24 @@ angular
                             return brazil_football_manager_url
                                 + 'futbolbrasil/'
                                 + apiVersion + '/clients/leaderboard/personal/tournament/'
-                                + getClientId() + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                                + getClientId()
+                                + getGMT('?')
+                                + getSecurityToken('&');
                         },
                         phase: {
                             index : function(){
                                 return brazil_football_manager_url
                                     + 'futbolbrasil/'
                                     + apiVersion + '/clients/leaderboard/personal/phase/'
-                                    + getClientId() + '?timezoneName=' + getGMT() + getSecurityToken('&');
+                                    + getClientId()
+                                    + getGMT('?')
+                                    + getSecurityToken('&');
                             },
                             latest: function(idCompetition, date){
                                 return football_manager_url + 'footballapi/'
                                     + apiVersion + '/competitions/phases/latest/'
                                     + appId + '/' + idCompetition + '/' + date + '/' + getLang()
-                                    + '?timezoneName=' + getGMT()  + getSecurityToken('&');
+                                    + getGMT('?') + getSecurityToken('&');
                             }
                         }
                     }
