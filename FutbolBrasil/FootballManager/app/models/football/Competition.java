@@ -354,7 +354,7 @@ public class Competition  extends FootballModel {
         return obj;
     }
 
-    public ObjectNode toJsonNoPhases(final Language language, final Language defaultLanguage, boolean closestMatch) {
+    public ObjectNode toJsonNoPhases(final Language language, final Language defaultLanguage, boolean closestMatch, TimeZone timeZone) throws ParseException {
         ObjectNode obj = Json.newObject();
         obj.put("id_competitions",idCompetitions);
         CompetitionHasLocalization clientLanguage = null;
@@ -380,7 +380,7 @@ public class Competition  extends FootballModel {
         obj.put("competiton_type", type.toJson(language, defaultLanguage));
         if(closestMatch){
             GameMatch match = GameMatch.getClosestMatch(this);
-            obj.put("match", match!=null?match.toJsonPush():null);
+            obj.put("match", match!=null?(timeZone != null?match.toJsonPush(timeZone):match.toJsonPush()):null);
         }
         return obj;
     }
