@@ -15,7 +15,7 @@ GET            /assets/*file                                                    
 
 #ConfigsView
 # ConfigsView list (look at the default values for pagination parameters)
-GET            /configurations/list                                                                            controllers.ConfigsView.list(p:Int ?= 0, s ?= "keyName", o ?= "asc", f ?= "")
+GET            /configurations/list                                                                            controllers.ConfigsView.list(p:Int ?= 0, s ?= "configKey", o ?= "asc", f ?= "")
 GET            /configurations/lsort                                                                           controllers.ConfigsView.lsort()
 # Add ConfigsView
 GET            /configurations/blank                                                                           controllers.ConfigsView.blank()
