@@ -254,3 +254,98 @@ users.submit.delete=Eliminar este usuario
 users.java.created= El usuario {0} ha sido creado!
 users.java.updated= El usuario {0} ha sido creado!
 users.java.deleted= El usuario {0} ha sido creado!
+
+jobs.list.head=Tareas
+jobs.list.title={0,choice,0#No hay Tareas|1#Una Tarea encontrada|1<{0,number,integer} Tareas encontradas}
+jobs.list.filter.name=Filtrar por nombre de la Tarea...
+jobs.list.new=Agregar nueva Tarea
+
+jobs.create=Crear Tarea
+jobs.edit=Editar Tarea
+jobs.info=Informacion de la Tarea
+
+jobs.status=Estatus
+jobs.status.help=0 -> Apagado, 1 -> Agendado, 2 -> Corriendo
+
+jobs.status.on=Prendido
+jobs.status.off=Apagado
+jobs.status.running=Corriendo
+
+jobs.name=Nombre
+jobs.name.help=Nombre de la tarea
+
+jobs.className=Nombre de la Clase
+jobs.className.help=Clase a ser instanciada
+
+jobs.params=Parametros
+jobs.params.help=JSON con los parametrosde la tarea
+
+jobs.daemon=Demonio
+jobs.daemon.help=Esta tarea es demonio
+jobs.daemon.frequency=Tiempo de sleep del demonio
+jobs.daemon.frequency.help=Tiempo entre ejecuciones del demonio
+
+jobs.scheduled=Agendado
+
+jobs.timeParams=Momento de ejecucion
+
+jobs.nextTimestamp=Proximo Timestamp
+jobs.nextTimestamp.help=Epoch de la proxima ejecucion
+
+jobs.frequency=Frequencia
+jobs.frequency.help=Frequencia de la ejecucion
+jobs.frequency.once=Una Vez
+jobs.frequency.year=Anual
+jobs.frequency.month=Mensual
+jobs.frequency.week=Semanal
+jobs.frequency.day=DIARIO
+
+jobs.submit.create=Crear esta tarea
+jobs.submit.update=Actualizar esta tarea
+jobs.submit.delete=Eliminar esta tarea
+
+jobs.java.created= La tarea {0} ha sido creada!
+jobs.java.updated= La tarea {0} ha sido actualizada!
+jobs.java.deleted= La tarea {0} ha sido eliminada!
+
+jobs.multiinstance=Multi Instancia
+jobs.multiinstance.help=esta tarea corre multiples instancias en un servidor
+jobs.multiinstance.quantity=Cantidad
+jobs.multiinstance.quantity.help=numero de instancias
+
+instances.list.head=Instancias
+instances.list.title={0,choice,0#No hay instancias|1#Una instancia encontrada|1<{0,number,integer} instancias encontradas}
+instances.list.filter.name=Filtrar por nombre de la instancia...
+instances.list.new=Agregar nueva instancia
+
+instances.create=Crear instancia
+instances.edit=Editar instancia
+instances.info=Informacion de la instancia
+
+instances.ip=Direccion IP
+instances.ip.help=IP del servidor
+
+instances.name=Nombre
+instances.name.help=Nombre de la instancia
+
+instances.running=Activa
+instances.running.help=estado de la instancia
+
+instances.test=Prueba
+instances.test.help=mode de prueba
+
+instances.submit.create=Crear esta instancia
+instances.submit.update=Actualizar esta instancia
+instances.submit.delete=Eliminar esta instancia
+
+instances.java.created= La instancia {0} ha sido creada!
+instances.java.updated= La instancia {0} ha sido actualizada!
+instances.java.deleted= La instancia {0} ha sido eliminada!
+
+instances.master=Maestro
+instances.ping=Ping
+
+main.instances=Instancias
+main.jobs=Tareas Programadas
+main.servers=Servidor
+main.basic=Basico
