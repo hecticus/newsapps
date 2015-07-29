@@ -99,10 +99,14 @@ public class MyUsernamePasswordAuthProvider
 		public String name;
 
 		public String validate() {
-			if (password == null || !password.equals(repeatPassword)) {
+            if (password == null || !password.equals(repeatPassword)) {
 				return Messages
 						.get("playauthenticate.password.signup.error.passwords_not_same");
 			}
+            if (!getEmail().endsWith("@hecticus.com")) {
+                return Messages
+                        .get("playauthenticate.email.signup.error.not_valid");
+            }
 			return null;
 		}
 	}
@@ -124,7 +128,7 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
-		final User u = User.findByUsernamePasswordIdentity(user);
+        final User u = User.findByUsernamePasswordIdentity(user);
 		if (u != null) {
 			if (u.emailValidated) {
 				// This user exists, has its email validated and is active
@@ -315,10 +319,10 @@ public class MyUsernamePasswordAuthProvider
 			cls = Class.forName(template + "_" + langCode);
 		} catch (ClassNotFoundException e) {
 			Logger.warn("Template: '"
-					+ template
-					+ "_"
-					+ langCode
-					+ "' was not found! Trying to use English fallback template instead.");
+                    + template
+                    + "_"
+                    + langCode
+                    + "' was not found! Trying to use English fallback template instead.");
 		}
 		if (cls == null) {
 			try {
@@ -326,8 +330,8 @@ public class MyUsernamePasswordAuthProvider
 						+ EMAIL_TEMPLATE_FALLBACK_LANGUAGE);
 			} catch (ClassNotFoundException e) {
 				Logger.error("Fallback template: '" + template + "_"
-						+ EMAIL_TEMPLATE_FALLBACK_LANGUAGE
-						+ "' was not found either!");
+                        + EMAIL_TEMPLATE_FALLBACK_LANGUAGE
+                        + "' was not found either!");
 			}
 		}
 		if (cls != null) {

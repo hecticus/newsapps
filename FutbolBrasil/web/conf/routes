@@ -27,45 +27,6 @@ GET            /api/loading/:width/:height/:version/:so                         
 #GET     /news/list         			                                                                    controllers.news.NewsController.getNews()
 #GET     /news/:id         			                                                                        controllers.Application.getNewsById(id:Long)
 
-# Authenticate
-GET            /restricted                                                                controllers.Application.restricted
-GET            /assets/javascript/routes.js                                               controllers.Application.jsRoutes
-
-GET            /profile                                                                   controllers.Application.profile
-
-#GET     /login                                                                                              controllers.Application.login
-#POST    /login                                                                                              controllers.Application.doLogin
-
-GET            /logout                                                                    com.feth.play.module.pa.controllers.Authenticate.logout
-GET            /authenticate/:provider                                                    com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
-
-GET            /signup                                                                    controllers.Application.signup
-POST           /signup                                                                    controllers.Application.doSignup
-
-GET            /accounts/unverified                                                       controllers.Signup.unverified
-GET            /authenticate/:provider/denied                                             controllers.Signup.oAuthDenied(provider: String)
-
-GET            /accounts/verify/:token                                                    controllers.Signup.verify(token: String)
-GET            /accounts/exists                                                           controllers.Signup.exists
-
-GET            /accounts/password/reset/:token                                            controllers.Signup.resetPassword(token: String)
-POST           /accounts/password/reset                                                   controllers.Signup.doResetPassword
-
-GET            /accounts/password/change                                                  controllers.Account.changePassword
-POST           /accounts/password/change                                                  controllers.Account.doChangePassword
-
-GET            /accounts/verify                                                           controllers.Account.verifyEmail
-
-GET            /accounts/add                                                              controllers.Account.link
-
-GET            /accounts/link                                                             controllers.Account.askLink
-POST           /accounts/link                                                             controllers.Account.doLink
-
-GET            /accounts/merge                                                            controllers.Account.askMerge
-POST           /accounts/merge                                                            controllers.Account.doMerge
-
-GET            /login/password/forgot                                                     controllers.Signup.forgotPassword(email: String ?= "")
-POST           /login/password/forgot                                                     controllers.Signup.doForgotPassword
 
 # Map static resources from the /public folder to the /assets URL path
 GET            /assets/*file                                                              controllers.Assets.at(path="/public", file)
@@ -128,8 +89,102 @@ GET            /futbolbrasil/v2/clients                                         
 GET            /futbolbrasil/v2/locale.json                                               controllers.client.FootballClients.getLocale(lang : String)
 POST           /futbolbrasil/v2/locale.json                                               controllers.client.FootballClients.setLocale(lang : String)
 
+# Home page
+GET            /admin                                                                                               controllers.Application.index()
+# Authenticate
+GET            /admin/restricted                                                          controllers.Application.restricted
+GET            /admin/assets/javascript/routes.js                                         controllers.Application.jsRoutes
+
+GET            /admin/profile                                                             controllers.Application.profile
+
+GET            /admin/login                                                               controllers.Application.login
+POST           /admin/login                                                               controllers.Application.doLogin
+
+GET            /admin/logout                                                              com.feth.play.module.pa.controllers.Authenticate.logout
+GET            /admin/authenticate/:provider                                              com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+
+GET            /admin/signup                                                              controllers.Application.signup
+POST           /admin/signup                                                              controllers.Application.doSignup
+
+GET            /admin/accounts/unverified                                                 controllers.Signup.unverified
+GET            /admin/authenticate/:provider/denied                                       controllers.Signup.oAuthDenied(provider: String)
+
+GET            /admin/accounts/verify/:token                                              controllers.Signup.verify(token: String)
+GET            /admin/accounts/exists                                                     controllers.Signup.exists
+
+GET            /admin/accounts/password/reset/:token                                      controllers.Signup.resetPassword(token: String)
+POST           /admin/accounts/password/reset                                             controllers.Signup.doResetPassword
+
+GET            /admin/accounts/password/change                                            controllers.Account.changePassword
+POST           /admin/accounts/password/change                                            controllers.Account.doChangePassword
+
+GET            /admin/accounts/verify                                                     controllers.Account.verifyEmail
+
+GET            /admin/accounts/add                                                        controllers.Account.link
+
+GET            /admin/accounts/link                                                       controllers.Account.askLink
+POST           /accounts/link                                                             controllers.Account.doLink
+
+GET            /admin/accounts/merge                                                      controllers.Account.askMerge
+POST           /admin/accounts/merge                                                      controllers.Account.doMerge
+
+GET            /admin/login/password/forgot                                               controllers.Signup.forgotPassword(email: String ?= "")
+POST           /admin/login/password/forgot                                               controllers.Signup.doForgotPassword
+
+#InstancesView
+# InstancesView list (look at the default values for pagination parameters)
+GET            /admin/instances/list                                                      controllers.InstancesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET            /admin/instances/lsort                                                     controllers.InstancesView.lsort()
+# Add InstancesView
+GET            /admin/instances/blank                                                     controllers.InstancesView.blank()
+POST           /admin/instances                                                           controllers.InstancesView.submit()
+# Edit existing InstancesView
+GET            /admin/instances/sort/:ids                                                 controllers.InstancesView.sort(ids:String)
+GET            /admin/instances/:id                                                       controllers.InstancesView.edit(id:Integer)
+POST           /admin/instances/:id                                                       controllers.InstancesView.update(id:Integer)
+# Delete a InstancesView
+POST           /admin/instances/:id/delete                                                controllers.InstancesView.delete(id:Integer)
+
+#JobsView
+# JobsView list (look at the default values for pagination parameters)
+GET            /admin/jobs/list                                                           controllers.JobsView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET            /admin/jobs/lsort                                                          controllers.JobsView.lsort()
+# Add JobsView
+GET            /admin/jobs/blank                                                          controllers.JobsView.blank()
+POST           /admin/jobs                                                                controllers.JobsView.submit()
+# Edit existing JobsView
+GET            /admin/jobs/sort/:ids                                                      controllers.JobsView.sort(ids:String)
+GET            /admin/jobs/:id                                                            controllers.JobsView.edit(id:Long)
+POST           /admin/jobs/:id                                                            controllers.JobsView.update(id:Long)
+# Delete a JobsView
+POST           /admin/jobs/:id/delete                                                           controllers.JobsView.delete(id:Long)
+
+#ConfigsView
+# ConfigsView list (look at the default values for pagination parameters)
+GET            /admin/configurations/list                                                                            controllers.ConfigsView.list(p:Int ?= 0, s ?= "configKey", o ?= "asc", f ?= "")
+GET            /admin/configurations/lsort                                                                           controllers.ConfigsView.lsort()
+# Add ConfigsView
+GET            /admin/configurations/blank                                                                           controllers.ConfigsView.blank()
+POST           /admin/configurations                                                                                 controllers.ConfigsView.submit()
+# Edit existing ConfigsView
+GET            /admin/configurations/sort/:ids                                                                       controllers.ConfigsView.sort(ids:String)
+GET            /admin/configurations/:id                                                                             controllers.ConfigsView.edit(id:Long)
+POST           /admin/configurations/:id                                                                             controllers.ConfigsView.update(id:Long)
+# Delete a ConfigsView
+POST           /admin/configurations/:id/delete                                                                      controllers.ConfigsView.delete(id:Long)
+
+#UsersView
+# UsersView list (look at the default values for pagination parameters)
+GET            /admin/users/list                                                                                     controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+#GET     /admin/users/lsort		                                                                        controllers.UsersView.lsort()
+# Add UsersView
+# Edit existing UsersView
+#GET     /admin/users/sort/:ids	                                                                        controllers.UsersView.sort(ids:String)
+GET            /admin/users/:id                                                                                      controllers.UsersView.edit(id:Long)
+POST           /admin/users/:id                                                                                      controllers.UsersView.update(id:Long)
+# Delete a UsersView
+POST           /admin/users/:id/delete                                                                               controllers.UsersView.delete(id:Long)
 
 
-
-->              /jobcore                                                                   JobCore.Routes
-->              /upstream                                                                  UpstreamAPIConnector.Routes
+->             /jobcore                                                                   JobCore.Routes
+->             /upstream                                                                  UpstreamAPIConnector.Routes

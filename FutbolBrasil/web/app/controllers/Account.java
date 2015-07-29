@@ -18,6 +18,7 @@ import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthUser;
 import views.html.account.*;
+
 import static play.data.Form.form;
 
 public class Account extends Controller {
@@ -73,7 +74,7 @@ public class Account extends Controller {
 	}
 
 	private static final Form<Accept> ACCEPT_FORM = form(Accept.class);
-	private static final Form<Account.PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
+	private static final Form<PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
 
 	@SubjectPresent
 	public static Result link() {
@@ -91,14 +92,14 @@ public class Account extends Controller {
 					Messages.get("playauthenticate.verify_email.error.already_validated"));
 		} else if (user.email != null && !user.email.trim().isEmpty()) {
 			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
-					"playauthenticate.verify_email.message.instructions_sent",
-					user.email));
+                    "playauthenticate.verify_email.message.instructions_sent",
+                    user.email));
 			MyUsernamePasswordAuthProvider.getProvider()
 					.sendVerifyEmailMailingAfterSignup(user, ctx());
 		} else {
 			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
-					"playauthenticate.verify_email.error.set_email_first",
-					user.email));
+                    "playauthenticate.verify_email.error.set_email_first",
+                    user.email));
 		}
 		return redirect(routes.Application.profile());
 	}
@@ -118,7 +119,7 @@ public class Account extends Controller {
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result doChangePassword() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
+		final Form<PasswordChange> filledForm = PASSWORD_CHANGE_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not select whether to link or not link
@@ -140,8 +141,7 @@ public class Account extends Controller {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
-			//return redirect(routes.Application.index(0,"","",""));
-			return ok("index");
+			return redirect(routes.Application.index());
 		}
 		return ok(ask_link.render(ACCEPT_FORM, u));
 	}
@@ -152,8 +152,7 @@ public class Account extends Controller {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
-			//return redirect(routes.Application.index(0,"","",""));
-			return ok("index");
+			return redirect(routes.Application.index());
 		}
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
@@ -181,8 +180,7 @@ public class Account extends Controller {
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
-			//return redirect(routes.Application.index(0,"","",""));
-			return ok("index");
+			return redirect(routes.Application.index());
 		}
 
 		// You could also get the local user object here via
@@ -200,8 +198,7 @@ public class Account extends Controller {
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
-			//return redirect(routes.Application.index(0,"","",""));
-			return ok("index");
+			return redirect(routes.Application.index());
 		}
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
