@@ -90,7 +90,7 @@ GET            /futbolbrasil/v2/locale.json                                     
 POST           /futbolbrasil/v2/locale.json                                               controllers.client.FootballClients.setLocale(lang : String)
 
 # Home page
-GET            /admin                                                                                               controllers.Application.index()
+GET            /admin                                                                     controllers.Application.index()
 # Authenticate
 GET            /admin/restricted                                                          controllers.Application.restricted
 GET            /admin/assets/javascript/routes.js                                         controllers.Application.jsRoutes
@@ -131,6 +131,63 @@ POST           /admin/accounts/merge                                            
 GET            /admin/login/password/forgot                                               controllers.Signup.forgotPassword(email: String ?= "")
 POST           /admin/login/password/forgot                                               controllers.Signup.doForgotPassword
 
+#CountriesView
+# CountriesView list (look at the default values for pagination parameters)
+GET             /admin/countries/list                                                                 controllers.CountriesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET             /admin/countries/lsort                                                                controllers.CountriesView.lsort()
+# Add CountriesView
+GET             /admin/countries/blank                                                                controllers.CountriesView.blank()
+POST            /admin/countries                                                                      controllers.CountriesView.submit()
+# Edit existing CountriesView
+GET             /admin/countries/sort/:ids                                                            controllers.CountriesView.sort(ids:String)
+GET             /admin/countries/:id                                                                  controllers.CountriesView.edit(id:Integer)
+POST            /admin/countries/:id                                                                  controllers.CountriesView.update(id:Integer)
+# Delete a CountriesView
+POST            /admin/countries/:id/delete                                                           controllers.CountriesView.delete(id:Integer)
+
+#LanguagesView
+# LanguagesView list (look at the default values for pagination parameters)
+GET             /admin/languages/list                                                                 controllers.LanguagesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET             /admin/languages/lsort                                                                controllers.LanguagesView.lsort()
+# Add LanguagesView
+GET             /admin/languages/blank                                                                controllers.LanguagesView.blank()
+POST            /admin/languages                                                                      controllers.LanguagesView.submit()
+# Edit existing LanguagesView
+GET             /admin/languages/sort/:ids                                                            controllers.LanguagesView.sort(ids:String)
+GET             /admin/languages/:id                                                                  controllers.LanguagesView.edit(id:Integer)
+POST            /admin/languages/:id                                                                  controllers.LanguagesView.update(id:Integer)
+# Delete a LanguagesView
+POST            /admin/languages/:id/delete                                                           controllers.LanguagesView.delete(id:Integer)
+
+#TimezonesView
+# TimezonesView list (look at the default values for pagination parameters)
+GET             /admin/timezones/list                                                                 controllers.TimezonesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET             /admin/timezones/lsort                                                                controllers.TimezonesView.lsort()
+# Add TimezonesView
+GET             /admin/timezones/blank                                                                controllers.TimezonesView.blank()
+POST            /admin/timezones                                                                      controllers.TimezonesView.submit()
+# Edit existing TimezonesView
+GET             /admin/timezones/sort/:ids                                                            controllers.TimezonesView.sort(ids:String)
+GET             /admin/timezones/:id                                                                  controllers.TimezonesView.edit(id:Integer)
+POST            /admin/timezones/:id                                                                  controllers.TimezonesView.update(id:Integer)
+# Delete a TimezonesView
+POST            /admin/timezones/:id/delete                                                           controllers.TimezonesView.delete(id:Integer)
+
+#DevicesView
+# DevicesView list (look at the default values for pagination parameters)
+GET             /admin/devices/list                                                                 controllers.DevicesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET             /admin/devices/lsort                                                                controllers.DevicesView.lsort()
+# Add DevicesView
+GET             /admin/devices/blank                                                                controllers.DevicesView.blank()
+POST            /admin/devices                                                                      controllers.DevicesView.submit()
+# Edit existing DevicesView
+GET             /admin/devices/sort/:ids                                                            controllers.DevicesView.sort(ids:String)
+GET             /admin/devices/:id                                                                  controllers.DevicesView.edit(id:Integer)
+POST            /admin/devices/:id                                                                  controllers.DevicesView.update(id:Integer)
+# Delete a DevicesView
+POST            /admin/devices/:id/delete                                                           controllers.DevicesView.delete(id:Integer)
+
+
 #InstancesView
 # InstancesView list (look at the default values for pagination parameters)
 GET            /admin/instances/list                                                      controllers.InstancesView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
@@ -157,33 +214,33 @@ GET            /admin/jobs/sort/:ids                                            
 GET            /admin/jobs/:id                                                            controllers.JobsView.edit(id:Long)
 POST           /admin/jobs/:id                                                            controllers.JobsView.update(id:Long)
 # Delete a JobsView
-POST           /admin/jobs/:id/delete                                                           controllers.JobsView.delete(id:Long)
+POST           /admin/jobs/:id/delete                                                     controllers.JobsView.delete(id:Long)
 
 #ConfigsView
 # ConfigsView list (look at the default values for pagination parameters)
-GET            /admin/configurations/list                                                                            controllers.ConfigsView.list(p:Int ?= 0, s ?= "configKey", o ?= "asc", f ?= "")
-GET            /admin/configurations/lsort                                                                           controllers.ConfigsView.lsort()
+GET            /admin/configurations/list                                                 controllers.ConfigsView.list(p:Int ?= 0, s ?= "configKey", o ?= "asc", f ?= "")
+GET            /admin/configurations/lsort                                                controllers.ConfigsView.lsort()
 # Add ConfigsView
-GET            /admin/configurations/blank                                                                           controllers.ConfigsView.blank()
-POST           /admin/configurations                                                                                 controllers.ConfigsView.submit()
+GET            /admin/configurations/blank                                                controllers.ConfigsView.blank()
+POST           /admin/configurations                                                      controllers.ConfigsView.submit()
 # Edit existing ConfigsView
-GET            /admin/configurations/sort/:ids                                                                       controllers.ConfigsView.sort(ids:String)
-GET            /admin/configurations/:id                                                                             controllers.ConfigsView.edit(id:Long)
-POST           /admin/configurations/:id                                                                             controllers.ConfigsView.update(id:Long)
+GET            /admin/configurations/sort/:ids                                            controllers.ConfigsView.sort(ids:String)
+GET            /admin/configurations/:id                                                  controllers.ConfigsView.edit(id:Long)
+POST           /admin/configurations/:id                                                  controllers.ConfigsView.update(id:Long)
 # Delete a ConfigsView
-POST           /admin/configurations/:id/delete                                                                      controllers.ConfigsView.delete(id:Long)
+POST           /admin/configurations/:id/delete                                           controllers.ConfigsView.delete(id:Long)
 
 #UsersView
 # UsersView list (look at the default values for pagination parameters)
-GET            /admin/users/list                                                                                     controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+GET            /admin/users/list                                                          controllers.UsersView.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
 #GET     /admin/users/lsort		                                                                        controllers.UsersView.lsort()
 # Add UsersView
 # Edit existing UsersView
 #GET     /admin/users/sort/:ids	                                                                        controllers.UsersView.sort(ids:String)
-GET            /admin/users/:id                                                                                      controllers.UsersView.edit(id:Long)
-POST           /admin/users/:id                                                                                      controllers.UsersView.update(id:Long)
+GET            /admin/users/:id                                                           controllers.UsersView.edit(id:Long)
+POST           /admin/users/:id                                                           controllers.UsersView.update(id:Long)
 # Delete a UsersView
-POST           /admin/users/:id/delete                                                                               controllers.UsersView.delete(id:Long)
+POST           /admin/users/:id/delete                                                    controllers.UsersView.delete(id:Long)
 
 
 ->             /jobcore                                                                   JobCore.Routes
