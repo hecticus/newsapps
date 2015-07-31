@@ -7,14 +7,60 @@
  */
 angular
     .module('core')
-    .factory('Domain', ['Client','CordovaDevice',
-        function(Client,CordovaDevice){
+    .factory('Domain', ['$localStorage', 'App','Client','CordovaDevice',
+        function($localStorage, App, Client,CordovaDevice){
 
             var football_manager_url = 'http://footballmanager.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
             var appId = '1';
             var apiVersion = 'v1';
             var provisionalLang = null;
+
+
+            function getAppender(index) {
+                switch (index) {
+                    case '1': return '|';
+                    case '2': return '@';
+                    case '3': return '#';
+                    case '4': return '$';
+                    case '5': return '%';
+                    case '6': return '&';
+                    case '7': return '/';
+                    case '8': return '(';
+                    case '9': return ')';
+                    case '0': return '=';
+                    default: return '-';
+                }
+            }
+
+            function getHeadersAuth() {
+
+                var companyName = App.getCompanyName();
+                var buildVersion = App.getBuildVersion();
+                var serverVersion = App.getServerVersion();
+                var auth = "";
+
+                try {
+
+                    if ($localStorage['LOADING']) {
+                      var jLoading = JSON.parse($localStorage['LOADING']);
+                      companyName = jLoading.company_name;
+                      buildVersion = jLoading.build_version;
+                      serverVersion = jLoading.server_version;
+                    }
+
+                    auth = companyName + getAppender(buildVersion.charAt(0))
+                        + buildVersion + getAppender(serverVersion.charAt(0))
+                        + serverVersion;
+
+                    console.warn('HECTICUS-X-AUTH-TOKEN -> ' + auth);
+
+                } catch (e) {
+                    console.log('Error setting HECTICUS-X-AUTH-TOKEN');
+                }
+
+                return auth;
+            }
 
            function getGMT(prefix){
               return prefix + 'timezoneName=' + moment().format('[GMT]ZZ').replace(/\s/g, '');
@@ -40,7 +86,7 @@ angular
 
             function getSecurityToken(prefix){
                 return prefix + 'upstreamChannel=' + CordovaDevice.getUpstreamChannel()
-                + '&api_password=' + Client.getUpstreamAuthToken();
+                + '&api_password=' + getHeadersAuth();
             }
 
             return {
