@@ -5,23 +5,23 @@
       <pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern>
     </encoder>
   </appender>
-  
+
   <appender name="FILEUPS" class="ch.qos.logback.core.FileAppender">
-     <file>/var/log/footballbrazil/upstream.log</file>
+     <file>/var/log/footballmanager/upstream.log</file>
      <encoder>
        <pattern>%date - [%level] - %message%n%xException</pattern>
      </encoder>
    </appender>
 
     <appender name="FILESECURED" class="ch.qos.logback.core.FileAppender">
-        <file>/var/log/footballbrazil/secured.log</file>
+        <file>/var/log/footballmanager/secured.log</file>
         <encoder>
             <pattern>%date - [%level] - %message%n%xException</pattern>
         </encoder>
     </appender>
 
     <appender name="FILEREQUESTS" class="ch.qos.logback.core.FileAppender">
-        <file>/var/log/footballbrazil/requests.log</file>
+        <file>/var/log/footballmanager/requests.log</file>
         <encoder>
             <pattern>%date - [%level] - %message%n%xException</pattern>
         </encoder>
