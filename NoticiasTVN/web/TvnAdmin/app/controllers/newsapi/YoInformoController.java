@@ -9,6 +9,7 @@ import org.apache.commons.codec.binary.Base64;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import org.apache.commons.io.FileUtils;
 import play.api.Play;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -46,7 +47,7 @@ public class YoInformoController extends HecticusController {
                 sdf.setTimeZone(TimeZone.getDefault());
                 UUID idFile = UUID.randomUUID();
                 File dest = new File(Config.getString("img-Folder-Route")+sdf.format(today.getTime())+"_"+idFile+".jpeg");
-                file.renameTo(dest);
+                FileUtils.copyFile(file, dest);
                 boolean useCDN = Config.getInt("use-cdn")==1;
                 if(useCDN && !uploadAndPublish(dest)){
                     Utils.printToLog(YoInformoController.class, "", "no se pudo subir la imagen " + dest.getAbsolutePath(), false, null, "", Config.LOGGER_ERROR);
