@@ -6,7 +6,9 @@ version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.10.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava).aggregate(jobCore).dependsOn(jobCore)
+
+lazy val jobCore = project.in(file("modules/JobCore")).enablePlugins(PlayJava)
 
 libraryDependencies ++= Seq(
   	javaJdbc,

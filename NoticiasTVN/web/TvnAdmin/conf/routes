@@ -129,3 +129,5 @@ GET     /logout         controllers.User.logout()
 
 
 #</User>
+
+->             /jobcore                                                                                        JobCore.Routes

@@ -1,5 +1,6 @@
 package job;
 
+import backend.HecticusThread;
 import exceptions.BadConfigException;
 import models.Config;
 import models.news.News;
