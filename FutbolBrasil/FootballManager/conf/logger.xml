@@ -27,11 +27,11 @@
         </encoder>
     </appender>
 
-    <logger name="secured" level="TRACE">
+    <logger name="secured" level="TRACE" additivity="false">
         <appender-ref ref="FILESECURED" />
     </logger>
 
-    <logger name="request" level="TRACE">
+    <logger name="request" level="TRACE" additivity="false">
         <appender-ref ref="FILEREQUESTS" />
     </logger>
 
