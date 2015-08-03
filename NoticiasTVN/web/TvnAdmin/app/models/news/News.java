@@ -22,6 +22,7 @@ import utils.Utils;
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -318,6 +319,13 @@ public class News extends HecticusModel{
     public ObjectNode idToJson(){
         ObjectNode tr = Json.newObject();
         tr.put("id", externalId);
+        return tr;
+    }
+
+    public ObjectNode toJsonKraken() throws UnsupportedEncodingException {
+        ObjectNode tr = Json.newObject();
+        tr.put("id", externalId);
+        tr.put("title", URLEncoder.encode(title, "UTF-8"));
         return tr;
     }
 

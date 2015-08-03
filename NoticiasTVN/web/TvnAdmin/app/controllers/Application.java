@@ -25,5 +25,10 @@ public class Application extends Controller {
             return badRequest("file not found");
         }
     }
+
+    public static Result options(String url){
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        return ok("OK");
+    }
   
 }
