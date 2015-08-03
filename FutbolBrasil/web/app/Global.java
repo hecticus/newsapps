@@ -148,6 +148,7 @@ public class Global extends GlobalSettings {
         String ipString = request.remoteAddress();
         String invoker = actionMethod.getDeclaringClass().getName();
         String[] octetos = ipString.split("\\.");
+        Logger.of("request").trace("ipString = " + ipString  + " request.path() = " + request.path() + " invoker = " + invoker);
         if(invoker.startsWith("controllers")){
             if(ipString.equals("127.0.0.1") || ipString.startsWith("10.0.3")
                     || (ipString.startsWith("10.182.") && Integer.parseInt(octetos[2]) <= 127 )

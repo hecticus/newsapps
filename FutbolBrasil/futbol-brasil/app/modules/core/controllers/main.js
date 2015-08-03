@@ -46,6 +46,7 @@ angular
             $scope.toggles = {
                 favorites: true
             };
+
             $scope.strings = {};
             $scope.updateInfo = {};
             $scope.displayInfo = {};
@@ -58,6 +59,7 @@ angular
             $scope.isActiveClient = isActiveClient;
             $scope.getDrawerIcon = getDrawerIcon;
             $scope.goToStore = goToStore;
+
 
             init();
 
@@ -280,6 +282,10 @@ angular
                 });
 
                 getTranslations();
+
+                /*$rootScope.$on('$stateChangeStart',  function (event, toState, toParams, fromState, fromParams){
+                  alert(CordovaDevice.phonegapIsOnline());
+                });*/
 
                 $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
                   if (from.data) {

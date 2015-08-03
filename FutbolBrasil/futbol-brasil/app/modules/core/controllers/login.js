@@ -9,11 +9,12 @@
 angular
     .module('core')
     .controller('LoginCtrl', ['$rootScope', '$scope', '$localStorage', '$state', '$stateParams', '$translate', 'ClientManager', 'iScroll','Client',
-        'Upstream', 'Notification', 'CordovaDevice', 'PushManager',
-        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice, PushManager) {
+        'Upstream', 'Notification', 'CordovaDevice', 'PushManager', 'flash',
+        function($rootScope, $scope, $localStorage, $state, $stateParams, $translate, ClientManager, iScroll, Client, Upstream, Notification, CordovaDevice, PushManager, flash) {
 
             var scroll = null;
             var strings = {};
+            $scope.flash = flash;
 
             $scope.msisdn = '';
             $scope.password = '';
@@ -54,7 +55,8 @@ angular
                           'ALERT.LOGIN_INVALID_PASSWORD.MSG',
                           'ALERT.LOGIN_GENERIC_ERROR.TITLE',
                           'ALERT.LOGIN_GENERIC_ERROR.SUBTITLE',
-                          'ALERT.LOGIN_GENERIC_ERROR.MSG'])
+                          'ALERT.LOGIN_GENERIC_ERROR.MSG',
+                          'LOGIN.REMIND.SUCCESS'])
               .then(function(translation){
 
                   strings['SET_USERNAME_TITLE'] = translation['ALERT.SET_USERNAME.TITLE'];
@@ -100,6 +102,7 @@ angular
                   strings['LOGIN_GENERIC_ERROR_TITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.TITLE'];
                   strings['LOGIN_GENERIC_ERROR_SUBTITLE'] = translation['ALERT.LOGIN_GENERIC_ERROR.SUBTITLE'];
                   strings['LOGIN_GENERIC_ERROR_MSG'] = translation['ALERT.LOGIN_GENERIC_ERROR.MSG'];
+                  strings['LOGIN_REMIND_SUCCESS'] = translation['LOGIN.REMIND.SUCCESS'];
 
               });
 
@@ -109,7 +112,7 @@ angular
 
 
             function remindSuccess(){
-                console.log('Remind Success! Going to Login');
+                flash.setMessage(strings['LOGIN_REMIND_SUCCESS']);
                 $state.go('login', {'msisdn': $scope.msisdn});
             }
 
@@ -281,4 +284,20 @@ angular
                 }
             }
         }
-    ]);
+    ]).factory('flash', function($rootScope) {
+        var queue = [];
+        var currentMessage = '';
+
+        $rootScope.$on('$stateChangeSuccess', function() {
+          currentMessage = queue.shift() || '';
+        });
+
+        return {
+          setMessage: function(message) {
+            queue.push(message);
+          },
+          getMessage: function() {
+            return currentMessage;
+          }
+        };
+    });
