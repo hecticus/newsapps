@@ -51,7 +51,7 @@
             "0" : "Sem Jogar",
             "1" : "Jogado",
             "2" : "Jogar",
-            "3" : "Fixação",
+            "3" : " ",
             "4" : "Cancelado",
             "5" : "Adiado",
             "6" : "Suspenso"
