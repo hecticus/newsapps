@@ -38,26 +38,20 @@ angular
                 var companyName = App.getCompanyName();
                 var buildVersion = App.getBuildVersion();
                 var serverVersion = App.getServerVersion();
-                var auth = "";
 
-                try {
-
-                    if ($localStorage['LOADING']) {
-                      var jLoading = JSON.parse($localStorage['LOADING']);
-                      companyName = jLoading.company_name;
-                      buildVersion = jLoading.build_version;
-                      serverVersion = jLoading.server_version;
-                    }
-
-                    auth = companyName + getAppender(buildVersion.charAt(0))
-                        + buildVersion + getAppender(serverVersion.charAt(0))
-                        + serverVersion;
-
-                    console.warn('HECTICUS-X-AUTH-TOKEN -> ' + auth);
-
-                } catch (e) {
-                    console.log('Error setting HECTICUS-X-AUTH-TOKEN');
+                if ($localStorage['LOADING']) {
+                  var jLoading = JSON.parse($localStorage['LOADING']);
+                  companyName = jLoading.company_name;
+                  buildVersion = jLoading.build_version;
+                  serverVersion = jLoading.server_version;
                 }
+
+
+                var auth = companyName;
+                auth += getAppender(buildVersion.charAt(0));
+                auth += buildVersion;
+                auth += getAppender(serverVersion.charAt(0));
+                auth += serverVersion;
 
                 return auth;
             }
@@ -94,39 +88,56 @@ angular
                 setProvisionalLanguage : setProvisionalLanguage,
 
                 loading: function (width, height, appVersion, platform) {
+                    //console.log('client->loading');
                     return brazil_football_manager_url + 'api/loading/'
-                        + width + '/' + height + '/' + appVersion + '/' + platform + getSecurityToken('?');
-
+                        + width + '/' + height + '/' + appVersion + '/' + platform;
                 },
 
                 upstream: function () {
-                  return brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/upstream' + getSecurityToken('?');
+                  var ClientId = getClientId();
+                  if (ClientId) return brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/upstream' + getSecurityToken('?');
+                  return false;
                 },
 
-                languages: brazil_football_manager_url + 'futbolbrasil/'
-                    + apiVersion + '/languages' + getSecurityToken('?'),
+                languages:  function () {
+                  return brazil_football_manager_url + 'futbolbrasil/' + apiVersion + '/languages'  + getSecurityToken('?');
+                },
 
                 client: {
-                    create: brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/create' + getSecurityToken('?'),
+                    create: function () {
+                      //console.log('client->create');
+                      return brazil_football_manager_url + 'futbolbrasil/' + apiVersion + '/clients/create' + getSecurityToken('?');
+                    },
                     update: function () {
+                        //console.log('client->update');
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/update/' + getClientId() + getSecurityToken('?');
                     },
                     get: function (clientId, upstreamChannel) {
+                          //console.log('client->get');
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/get/'
                             + clientId + '/' + upstreamChannel + getSecurityToken('?');
                     }
                 },
 
-                competitions: football_manager_url + 'footballapi/'
-                    + apiVersion + '/competitions/list/' + appId + '/' + getLang() + getSecurityToken('?'),
+                competitions: function () {
+                 return football_manager_url + 'footballapi/'
+                        + apiVersion + '/competitions/list/'
+                        + appId + '/'
+                        + getLang()
+                        + getSecurityToken('?');
+                },
 
                 competitionsPrediction:  function (clientId) {
+
+                    //console.log('domain -> competitionsPrediction');
+
                     return brazil_football_manager_url + 'futbolbrasil/'
                     + apiVersion + '/clients/dashboard/' +  clientId + '/' + getLang()
                     +  getGMT('?') + getSecurityToken('&') ;
+
+
                 },
 
                 news: {

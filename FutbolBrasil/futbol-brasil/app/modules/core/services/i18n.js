@@ -70,7 +70,7 @@ angular
             }
 
             function getAvailableLanguagesFromServer(){
-                $http.get(Domain.languages).then(
+                $http.get(Domain.languages()).then(
                     function(response){
                         response = response.data;
                         if(response.error) {
@@ -104,6 +104,7 @@ angular
             }
 
             function init(lang){
+                Domain.setProvisionalLanguage(lang);
                 setDefaultLanguage(lang);
                 getAvailableLanguagesFromServer();
             }

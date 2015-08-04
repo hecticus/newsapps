@@ -47,11 +47,28 @@ angular
         }
     ])
     .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
-        'Notification', 'Analytics', '$templateCache','FacebookManager',
+        'Notification', 'Analytics', '$templateCache','FacebookManager', 'WebManager','App','i18n','Upstream', 'News',
         function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
-                 Notification, Analytics, $templateCache, FacebookManager) {
+                 Notification, Analytics, $templateCache, FacebookManager, WebManager,App,i18n,Upstream,News) {
 
-            CordovaApp.init();
+
+            WebManager.loadServerConfigs().then(
+            function(data){
+                data = data.data.response;
+                App.setCompanyName(data.company_name);
+                App.setBuildVersion(data.build_version);
+                App.setServerVersion(data.server_version);
+                App.setUpdateInfo(data.version);
+
+                i18n.init(data.default_language);
+                News.setMaxNews(data.max_news);
+                Upstream.setUp(data).then(Upstream.appLaunchEvent);
+                CordovaApp.init();
+            });
+
+
+
+
             $rootScope.defaultPage = 'prediction';
             $rootScope.contentClass = 'content-init';
             $rootScope.$storage = $localStorage.$default({
@@ -71,11 +88,11 @@ angular
                 if(CordovaApp.requiresAuthSection(toState.name)){
 
                     if(!Client.isClientOk()){
-                        console.log('client data not loaded. Loading client data again.');
+                        //console.log('client data not loaded. Loading client data again.');
                         ClientManager.init()
                         .then(function(){
                             if(!Client.isClientOk()){
-                                console.log('User not Authenticated');
+                                //console.log('User not Authenticated');
                                 event.preventDefault();
                                 $state.go('login');
                             }
@@ -129,7 +146,7 @@ angular
                     CordovaApp.setPreviousSection('login');
                 } else if(fromName && fromSection !== 'settings' && !CordovaApp.isSettingsSubSection(toSection)
                     && !CordovaApp.isSettingsSubSection(fromSection)){
-                    console.log('setting previous section name: '+ fromName);
+                    //console.log('setting previous section name: '+ fromName);
                     CordovaApp.setPreviousSection(fromName);
                 } else if(fromName && fromSection === 'settings'){
                     CordovaApp.setIsOnSettingsSection(true);
