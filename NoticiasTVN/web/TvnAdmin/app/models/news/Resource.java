@@ -39,6 +39,13 @@ public class Resource extends HecticusModel {
         status = 1;
     }
 
+    public Resource(String filename, Integer type, News parent) {
+        this.filename = filename;
+        this.type = type;
+        this.parent = parent;
+        this.status = 1;
+    }
+
     public String generateUrl(){
         //config url + filename
         return CDN_URL + filename;

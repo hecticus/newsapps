@@ -51,7 +51,7 @@ public class Category extends HecticusModel{
 
 
     @Transient
-    public String idTrending;
+    public Long idTrending;
 
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);

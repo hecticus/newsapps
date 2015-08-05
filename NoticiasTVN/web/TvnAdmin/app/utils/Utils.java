@@ -267,4 +267,14 @@ public class Utils extends JobCoreUtils{
         return sb.toString();
     }
 
+    /**
+     * Funcion que devuelve la hora segun el timezone
+     * @param tz	timezone a consultar
+     * @return		valor int con la hora
+     */
+    public static int getCurrentHour(TimeZone tz) {
+        Calendar actualDate = new GregorianCalendar(tz);
+        return actualDate.get(Calendar.HOUR_OF_DAY);
+    }
+
 }

@@ -57,7 +57,7 @@ public class TrendingTopics extends HecticusModel{
 	}
 
     /**
-     * Why? for the glory of Satan, of coures
+     * Why? for the glory of Satan, of course
      * @param data  Trending Topic Info
      * @param uselessParamThatIHate for the lols
      * @throws TrendingTopicException
